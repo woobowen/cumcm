@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://cumcm.local/contracts/review_finding/v1", "title": "Review Finding", "version": "1.0.0",
+  "type": "object", "required": ["finding_id", "reviewer_role", "severity", "claim", "evidence", "affected_files", "requested_test", "recommended_action", "confidence", "status"],
+  "properties": {"finding_id": {"type": "string"}, "reviewer_role": {"type": "string"}, "severity": {"enum": ["BLOCKER", "HIGH", "MEDIUM", "LOW", "INFO", "UNKNOWN"]}, "claim": {"type": "string"}, "evidence": {"type": "array", "items": {"type": "string"}}, "affected_files": {"type": "array", "items": {"type": "string"}}, "requested_test": {"type": "string"}, "recommended_action": {"type": "string"}, "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"]}, "status": {"enum": ["OPEN", "MITIGATED", "ACCEPTED", "CLOSED"]}},
+  "additionalProperties": false
+}

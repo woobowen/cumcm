@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/upstream_candidate/v1",
+  "title": "Upstream Candidate",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["id", "url", "expected_role", "fetch_status", "fetched_at", "default_branch", "resolved_commit", "repository_size_if_known", "latest_commit_date_if_known", "detected_license", "license_files", "notice_files", "third_party_license_files", "skill_directories", "skill_names", "claimed_harnesses", "has_codex_package", "has_agents_md", "has_scripts", "has_tests", "has_ci", "has_security_policy", "network_dependencies", "external_services", "dangerous_or_privileged_instructions", "state_management", "workflow_model", "evidence_management", "experiment_management", "multi_agent_strategy", "answer_leakage_risk", "integration_conflict_risk", "preliminary_reuse_mode", "unresolved_questions", "evidence_paths"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9-]+$"}, "url": {"type": "string", "pattern": "^https://github\\.com/"},
+    "expected_role": {"enum": ["BASE_CANDIDATE", "COMPONENT_CANDIDATE", "SPECIALIZED_SKILL_POOL", "REVIEW_AND_EXPERIMENT_REFERENCE"]},
+    "fetch_status": {"enum": ["FETCHED", "NOT_FETCHED"]}, "fetched_at": {"type": ["string", "null"]},
+    "default_branch": {"type": ["string", "null"]}, "resolved_commit": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+    "repository_size_if_known": {"type": ["integer", "null"], "minimum": 0}, "latest_commit_date_if_known": {"type": ["string", "null"]},
+    "detected_license": {"type": "string"}, "license_files": {"$ref": "#/$defs/strings"}, "notice_files": {"$ref": "#/$defs/strings"},
+    "third_party_license_files": {"$ref": "#/$defs/strings"}, "skill_directories": {"$ref": "#/$defs/strings"}, "skill_names": {"$ref": "#/$defs/strings"},
+    "claimed_harnesses": {"$ref": "#/$defs/strings"}, "has_codex_package": {"type": ["boolean", "string"]}, "has_agents_md": {"type": ["boolean", "string"]},
+    "has_scripts": {"type": ["boolean", "string"]}, "has_tests": {"type": ["boolean", "string"]}, "has_ci": {"type": ["boolean", "string"]}, "has_security_policy": {"type": ["boolean", "string"]},
+    "network_dependencies": {"$ref": "#/$defs/strings"}, "external_services": {"$ref": "#/$defs/strings"}, "dangerous_or_privileged_instructions": {"$ref": "#/$defs/strings"},
+    "state_management": {"type": "string"}, "workflow_model": {"type": "string"}, "evidence_management": {"type": "string"}, "experiment_management": {"type": "string"}, "multi_agent_strategy": {"type": "string"},
+    "answer_leakage_risk": {"type": "string"}, "integration_conflict_risk": {"type": "string"},
+    "preliminary_reuse_mode": {"enum": ["EVALUATE", "ADOPT_AS_IS_CANDIDATE", "FORK_AND_ADAPT_CANDIDATE", "PORT_COMPONENTS_CANDIDATE", "REIMPLEMENT_MECHANISM_CANDIDATE", "REFERENCE_ONLY_CANDIDATE", "REJECT_CANDIDATE"]},
+    "unresolved_questions": {"$ref": "#/$defs/strings"}, "evidence_paths": {"$ref": "#/$defs/strings"}
+  },
+  "$defs": {"strings": {"type": "array", "items": {"type": "string"}}},
+  "additionalProperties": false
+}

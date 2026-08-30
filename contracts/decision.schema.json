@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/decision/v1",
+  "title": "Decision Record",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["decision_id", "timestamp", "context", "options", "evidence", "decision", "rejected_options", "consequences", "revisit_conditions", "approved_by"],
+  "properties": {
+    "decision_id": {"type": "string"}, "timestamp": {"type": "string"}, "context": {"type": "string"},
+    "options": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "evidence": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "decision": {"type": "string"}, "rejected_options": {"type": "array", "items": {"type": "string"}},
+    "consequences": {"type": "array", "items": {"type": "string"}},
+    "revisit_conditions": {"type": "array", "items": {"type": "string"}},
+    "approved_by": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+  },
+  "additionalProperties": false
+}

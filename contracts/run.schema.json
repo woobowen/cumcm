@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://cumcm.local/contracts/run/v1", "title": "Run Record", "version": "1.0.0",
+  "type": "object", "required": ["run_id", "problem_id", "question_id", "method_id", "git_commit", "input_files", "input_hashes", "config", "random_seed", "environment", "command", "exit_code", "solver_status", "metrics", "outputs", "is_final", "supersedes", "reviewed_by"],
+  "properties": {"run_id": {"type": "string"}, "problem_id": {"type": "string"}, "question_id": {"type": "string"}, "method_id": {"type": "string"}, "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "input_files": {"type": "array", "items": {"type": "string"}}, "input_hashes": {"type": "object", "additionalProperties": {"type": "string"}}, "config": {"type": "object"}, "random_seed": {"type": ["integer", "null"]}, "environment": {"type": "object"}, "command": {"type": "array", "items": {"type": "string"}}, "exit_code": {"type": "integer"}, "solver_status": {"type": "string"}, "metrics": {"type": "object"}, "outputs": {"type": "array", "items": {"type": "string"}}, "is_final": {"type": "boolean"}, "supersedes": {"type": ["string", "null"]}, "reviewed_by": {"type": "array", "items": {"type": "string"}}},
+  "additionalProperties": false
+}

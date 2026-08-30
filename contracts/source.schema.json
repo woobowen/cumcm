@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://cumcm.local/contracts/source/v1", "title": "External Source", "version": "1.0.0",
+  "type": "object", "required": ["source_id", "title", "url", "authority", "accessed_at", "status", "supports_claims"],
+  "properties": {"source_id": {"type": "string"}, "title": {"type": "string"}, "url": {"type": "string"}, "authority": {"type": "string"}, "accessed_at": {"type": "string"}, "status": {"enum": ["REGISTERED", "VERIFIED", "SUPERSEDED", "UNAVAILABLE", "NEEDS_EXTRACTION"]}, "content_hash": {"type": ["string", "null"]}, "supports_claims": {"type": "array", "items": {"type": "string"}}},
+  "additionalProperties": false
+}

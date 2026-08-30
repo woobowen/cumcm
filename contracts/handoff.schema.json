@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://cumcm.local/contracts/handoff/v1", "title": "Generic Handoff", "version": "1.0.0",
+  "type": "object", "required": ["handoff_id", "contract_version", "producer", "consumer", "artifacts", "evidence", "generated_at", "approved_by"],
+  "properties": {"handoff_id": {"type": "string"}, "contract_version": {"type": "string"}, "producer": {"type": "string"}, "consumer": {"type": "string"}, "artifacts": {"type": "array", "items": {"type": "string"}}, "evidence": {"type": "array", "items": {"type": "string"}}, "generated_at": {"type": "string"}, "approved_by": {"type": "array", "items": {"type": "string"}, "minItems": 1}},
+  "additionalProperties": false
+}

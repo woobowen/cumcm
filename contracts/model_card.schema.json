@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://cumcm.local/contracts/model_card/v1", "title": "Model Card", "version": "1.0.0",
+  "type": "object", "required": ["method_id", "name", "requirements", "assumptions", "inputs", "outputs", "metrics", "status", "evidence"],
+  "properties": {"method_id": {"type": "string"}, "name": {"type": "string"}, "requirements": {"type": "array", "items": {"type": "string"}}, "assumptions": {"type": "array", "items": {"type": "string"}}, "inputs": {"type": "array", "items": {"type": "string"}}, "outputs": {"type": "array", "items": {"type": "string"}}, "metrics": {"type": "array", "items": {"type": "string"}}, "status": {"enum": ["DRAFT", "BASELINE", "CANDIDATE", "SELECTED", "VALIDATED", "FINAL", "STALE", "REJECTED"]}, "evidence": {"type": "array", "items": {"type": "string"}}},
+  "additionalProperties": false
+}

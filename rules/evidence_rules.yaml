@@ -1,0 +1,10 @@
+version: "1.0.0"
+run_identity_required: true
+run_input_hashes_required: true
+run_git_commit_required: true
+external_fact_source_required: true
+final_requires_validation: true
+handoff_schema: contracts/modeling_to_paper.schema.json
+paper_team_may_change_experimental_facts: false
+agent_vote_is_evidence: false
+derived_reports_editable: false

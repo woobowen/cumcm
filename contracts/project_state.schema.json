@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/project_state/v1",
+  "title": "Project State",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["project_id", "schema_version", "phase", "status", "current_plan", "active_skill_version", "current_branch", "last_verified_commit", "blockers", "risks", "updated_at", "updated_by"],
+  "properties": {
+    "project_id": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "1.0.0"},
+    "phase": {"type": "string", "minLength": 1},
+    "status": {"enum": ["IN_PROGRESS", "FOUNDATION_READY", "FOUNDATION_INCOMPLETE", "STALE"]},
+    "current_plan": {"type": "string", "minLength": 1},
+    "active_skill_version": {"type": "string", "minLength": 1},
+    "current_branch": {"type": "string", "minLength": 1},
+    "last_verified_commit": {"type": ["string", "null"]},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "base_selected": {"type": "boolean"},
+    "third_party_integrated": {"type": "boolean"},
+    "skill_capability_status": {"const": "SCAFFOLD_ONLY"},
+    "updated_at": {"type": "string", "minLength": 1},
+    "updated_by": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

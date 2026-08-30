@@ -1,0 +1,30 @@
+version: "1.0.0"
+cache_root: .cache/upstream
+execution_allowed: false
+dependency_install_allowed: false
+patterns:
+  - sudo
+  - "curl | sh"
+  - "wget | sh"
+  - "rm -rf"
+  - "reset --hard"
+  - "clean -fd"
+  - dangerously
+  - yolo
+  - skip-permissions
+  - subprocess
+  - os.system
+  - shell=True
+  - requests
+  - httpx
+  - telemetry
+  - upload
+  - token
+  - api_key
+  - ~/.codex
+  - ~/.agents
+  - hooks
+  - MCP server
+  - browser automation
+risk_levels: [BLOCKER, HIGH, MEDIUM, LOW, INFO, UNKNOWN]
+finding_policy: A keyword hit requires contextual review and is not itself proof of danger.

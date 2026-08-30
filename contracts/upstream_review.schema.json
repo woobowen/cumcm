@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/upstream_review/v1",
+  "title": "Upstream Static Review",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["candidate_id", "resolved_commit", "review_status", "claimed_capabilities", "observed_capabilities", "risks", "unknowns", "candidate_components", "preliminary_reuse_mode", "dynamic_tests_required", "evidence_paths", "reviewed_at"],
+  "properties": {
+    "candidate_id": {"type": "string"}, "resolved_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "review_status": {"const": "PROVISIONAL"}, "claimed_capabilities": {"$ref": "#/$defs/strings"}, "observed_capabilities": {"$ref": "#/$defs/strings"},
+    "risks": {"type": "array", "items": {"type": "object", "required": ["severity", "summary", "evidence"], "properties": {"severity": {"enum": ["BLOCKER", "HIGH", "MEDIUM", "LOW", "INFO", "UNKNOWN"]}, "summary": {"type": "string"}, "evidence": {"type": "string"}}, "additionalProperties": false}},
+    "unknowns": {"$ref": "#/$defs/strings"}, "candidate_components": {"$ref": "#/$defs/strings"}, "preliminary_reuse_mode": {"const": "EVALUATE"},
+    "dynamic_tests_required": {"$ref": "#/$defs/strings"}, "evidence_paths": {"$ref": "#/$defs/strings"}, "reviewed_at": {"type": "string"}
+  },
+  "$defs": {"strings": {"type": "array", "items": {"type": "string"}}, "reviewed_at": {"type": "string"}},
+  "additionalProperties": false
+}

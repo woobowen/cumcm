@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://cumcm.local/contracts/modeling-to-paper/v1", "title": "Modeling to Paper Evidence Package", "version": "1.0.0",
+  "type": "object",
+  "required": ["contract_version", "problem_requirements", "requirement_traceability", "data_dictionary", "data_quality_report", "assumptions", "symbols", "formulas", "sources", "selected_models", "final_runs", "final_metrics", "result_tables", "figure_ready_data", "validation_results", "robustness_results", "uncertainty", "failure_cases", "limitations", "claim_evidence", "reproduction", "generated_at", "approved_by"],
+  "properties": {
+    "contract_version": {"const": "modeling-to-paper/v1"},
+    "problem_requirements": {"$ref": "#/$defs/array"}, "requirement_traceability": {"$ref": "#/$defs/object"}, "data_dictionary": {"$ref": "#/$defs/object"}, "data_quality_report": {"$ref": "#/$defs/object"},
+    "assumptions": {"$ref": "#/$defs/array"}, "symbols": {"$ref": "#/$defs/object"}, "formulas": {"$ref": "#/$defs/array"}, "sources": {"$ref": "#/$defs/array"}, "selected_models": {"$ref": "#/$defs/array"},
+    "final_runs": {"$ref": "#/$defs/array"}, "final_metrics": {"$ref": "#/$defs/object"}, "result_tables": {"$ref": "#/$defs/array"}, "figure_ready_data": {"$ref": "#/$defs/array"},
+    "validation_results": {"$ref": "#/$defs/object"}, "robustness_results": {"$ref": "#/$defs/object"}, "uncertainty": {"$ref": "#/$defs/object"}, "failure_cases": {"$ref": "#/$defs/array"},
+    "limitations": {"$ref": "#/$defs/array"}, "claim_evidence": {"$ref": "#/$defs/object"}, "reproduction": {"$ref": "#/$defs/object"}, "generated_at": {"type": "string"}, "approved_by": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+  },
+  "$defs": {"array": {"type": "array"}, "object": {"type": "object"}},
+  "additionalProperties": false
+}

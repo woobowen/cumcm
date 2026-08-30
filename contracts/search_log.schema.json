@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://cumcm.local/contracts/search_log/v1", "title": "Search Log", "version": "1.0.0",
+  "type": "object", "required": ["search_id", "timestamp", "mode", "query", "purpose", "sources_opened", "compliance_status", "performed_by"],
+  "properties": {"search_id": {"type": "string"}, "timestamp": {"type": "string"}, "mode": {"enum": ["PREPARATION_MODE", "BLIND_BENCHMARK_MODE", "LIVE_CONTEST_MODE"]}, "query": {"type": "string"}, "purpose": {"type": "string"}, "sources_opened": {"type": "array", "items": {"type": "string"}}, "compliance_status": {"enum": ["COMPLIANT", "STOPPED", "NEEDS_REVIEW"]}, "performed_by": {"type": "string"}},
+  "additionalProperties": false
+}

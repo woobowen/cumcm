@@ -1,0 +1,18 @@
+version: "1.0.0"
+default_mode: PREPARATION_MODE
+modes:
+  PREPARATION_MODE:
+    allowed: [public_skills, generic_methods, historical_material, primary_research, official_data, software_docs]
+    forbidden: [unlogged_adoption]
+    logging: source_required_for_adoption
+  BLIND_BENCHMARK_MODE:
+    allowed: [generic_methods, primary_research, software_docs, official_data, textbooks, standards]
+    forbidden: [year_plus_problem_number, full_problem_title, distinctive_sentence, attachment_filename, answer_or_solution_query, solution_blog, answer_repository, solution_video, discussion_platform]
+    logging: all_searches_and_interventions
+    skill_freeze: true
+  LIVE_CONTEST_MODE:
+    allowed: [general_theory, primary_research, official_data, software_docs]
+    forbidden: [current_problem_discussion, current_problem_solution, uncertain_compliance_search]
+    logging: all_searches_and_ai_use
+    prefer_local: true
+contamination_rule: Answer exposure permanently demotes validation or held-out cases to development.
