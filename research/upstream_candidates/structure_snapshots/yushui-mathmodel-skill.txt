@@ -1,0 +1,10 @@
+commit: 51054497f052197c3afe434e502e38edb85b2870
+default_branch: master
+top_level: .github GETTING_STARTED.md README.md VERSION assets dist docs examples packages requirements.txt scripts tests
+skill_paths: packages/codex/skills/*/SKILL.md; packages/claude; packages/trae
+scripts: scripts/sync_platform_packages.py; scripts/build_release_packages.py; scripts/check_workflow_contracts.py; generated run_modeling.py and workflow guards under packages
+tests: tests/run_tests.py; tests/setup_sandbox.py; tests/REVIEW_REPORT.md
+licenses_notices: NONE OBSERVED
+packages: requirements.txt; dist/MathModel-Skill-*.zip
+ci: .github/workflows/*
+instructions: packages/codex/AGENTS.md

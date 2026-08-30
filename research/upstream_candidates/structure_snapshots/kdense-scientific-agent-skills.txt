@@ -1,0 +1,10 @@
+commit: f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f
+default_branch: main
+top_level: .github AGENTS.md LICENSE.md README.md SECURITY.md docs plugin.json pyproject.toml scan_skills.py scan_pr_skills.py skills tests
+skill_paths: skills/*/SKILL.md (README claims 163; selected EDA hypothesis experimental-design uncertainty statistical-analysis peer-review)
+scripts: many per-Skill Python CLIs; scan_skills.py; scan_pr_skills.py
+tests: tests/<skill>/ plus tests/_contract and tests/_meta
+licenses_notices: LICENSE.md; skills/docx/LICENSE.txt; no root NOTICE observed
+packages: pyproject.toml; plugin.json; no dependency lock observed
+ci: .github/workflows/pr-skill-scan.yml; release.yml; security-scan.yml; skill-spec-validation.yml; skill-tests.yml
+instructions: AGENTS.md

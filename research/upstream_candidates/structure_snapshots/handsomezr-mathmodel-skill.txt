@@ -1,0 +1,10 @@
+commit: d3941e14d8693fb4a79948e59afff3098734127e
+default_branch: main
+top_level: .codex-plugin .github AGENTS.md LICENSE README.md SKILL.md THIRD_PARTY_NOTICES.md agents competitions config references scripts skills state templates tests
+skill_paths: SKILL.md; skills/mathmodel-skill/SKILL.md
+scripts: scripts/doctor.py; scripts/score_artifact.py; scripts/extract_diff.py; scripts/render_paper.py; scripts/render_ai_usage.py; scripts/download_cumcm_papers.py; scripts/ingest_papers.py
+tests: tests/test_core.py; tests/test_safety.py; tests/test_code_starters.py; tests/test_ai_usage.py; tests/test_render_guard.py
+licenses_notices: LICENSE; THIRD_PARTY_NOTICES.md
+packages: .codex-plugin/plugin.json; templates/shared/requirements.txt; scripts/requirements-maintenance.txt
+ci: .github/workflows/ci.yml
+instructions: AGENTS.md

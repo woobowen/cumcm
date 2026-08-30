@@ -1,0 +1,283 @@
+schema_version: "1.0.0"
+repository_size_unit: KiB of isolated no-checkout shallow clone at fetch time
+candidates:
+  - id: handsomezr-mathmodel-skill
+    url: https://github.com/handsomeZR-netizen/mathmodel-skill
+    expected_role: BASE_CANDIDATE
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: main
+    resolved_commit: d3941e14d8693fb4a79948e59afff3098734127e
+    repository_size_if_known: 200
+    latest_commit_date_if_known: "2026-07-22T21:45:53+08:00"
+    detected_license: MIT_ROOT_WITH_EXTERNAL_EXCLUSIONS
+    license_files: [LICENSE]
+    notice_files: [THIRD_PARTY_NOTICES.md]
+    third_party_license_files: []
+    skill_directories: [SKILL.md, skills/mathmodel-skill]
+    skill_names: [mathmodel-skill]
+    claimed_harnesses: [ten-stage contest workflow, multi-layer feedback, three competition profiles]
+    has_codex_package: true
+    has_agents_md: true
+    has_scripts: true
+    has_tests: true
+    has_ci: true
+    has_security_policy: false
+    network_dependencies: [Playwright and requests in maintenance downloader]
+    external_services: [dxs.moe.gov.cn maintenance source]
+    dangerous_or_privileged_instructions: [maintenance downloader fetches remote images without pinned content hashes]
+    state_management: "OBSERVED JSON decision log with stages, issues, scores, and atomic replacement; lacks required Run/Git/Source chain."
+    workflow_model: "OBSERVED staged per-question gates and feedback layers; includes paper/submission responsibilities outside scope."
+    evidence_management: "OBSERVED fail-closed markers and AI ledger; Source/Claim/Run linkage incomplete."
+    experiment_management: "OBSERVED validation guidance; no unified experiment registry."
+    multi_agent_strategy: "CLAIMED independent views at selected gates; orchestration isolation UNVERIFIED."
+    answer_leakage_risk: "HIGH: distilled patterns and phrases derived from dozens of contest papers."
+    integration_conflict_risk: "HIGH: root AGENTS/SKILL, parallel state, and paper workflow conflict."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [actual CI status UNVERIFIED, corpus rights NEEDS_REVIEW, official-link freshness UNVERIFIED]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/handsomezr-mathmodel-skill.txt, docs/upstream_reviews/handsomezr-mathmodel-skill.md]
+  - id: yushui-mathmodel-skill
+    url: https://github.com/yushui2022/MathModel-Skill
+    expected_role: BASE_CANDIDATE
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: master
+    resolved_commit: 51054497f052197c3afe434e502e38edb85b2870
+    repository_size_if_known: 208
+    latest_commit_date_if_known: "2026-08-04T12:41:46+08:00"
+    detected_license: UNKNOWN_NO_LICENSE
+    license_files: []
+    notice_files: []
+    third_party_license_files: []
+    skill_directories: [packages/codex/skills]
+    skill_names: [orchestrator, problem-parser-model-selector, rubric-model-selector, data-cleaning-viz, model-result-generator, qa-auditor, formal-writer, micro-unit, context-memory, data-harvester]
+    claimed_harnesses: [S0-S8 workflow, Claude Codex Trae distributions]
+    has_codex_package: true
+    has_agents_md: true
+    has_scripts: true
+    has_tests: true
+    has_ci: true
+    has_security_policy: false
+    network_dependencies: [requests, pandas HTML reader, LibreOffice and generated model subprocesses]
+    external_services: [user-configured URLs]
+    dangerous_or_privileged_instructions: [unbounded URL fetch, generated model subprocess, absolute artifact paths, destructive build cleanup within configured output]
+    state_management: "OBSERVED workflow memory and freshness guard with hashes; no Git-bound formal Run contract."
+    workflow_model: "OBSERVED S0-S8 sequential Skill router; not independent multi-agent review."
+    evidence_management: "OBSERVED input/script/output SHA-256 and freshness gates; source/license ledger incomplete."
+    experiment_management: "OBSERVED generated scaffold runner; scientific validity remains NEEDS_REVIEW."
+    multi_agent_strategy: "UNVERIFIED; ten sequential Skills are not observable independent agents."
+    answer_leakage_risk: "BLOCKER: complete CUMCM 2024-B demo paper, code, metrics, tables, and figures are tracked."
+    integration_conflict_risk: "BLOCKER: no license; root AGENTS install behavior and paper workflow conflict."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [all redistribution rights UNKNOWN, CI result UNVERIFIED, dist archive contents NEEDS_REVIEW]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/yushui-mathmodel-skill.txt, docs/upstream_reviews/yushui-mathmodel-skill.md]
+  - id: xiaoma-math-modeling-skill
+    url: https://github.com/XiaoMaColtAI/math-modeling-skill
+    expected_role: COMPONENT_CANDIDATE
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: main
+    resolved_commit: 5a85fe34ca1d075872e95556b122c8979984d322
+    repository_size_if_known: 204
+    latest_commit_date_if_known: "2026-08-29T19:17:17+00:00"
+    detected_license: UNKNOWN_ROOT_WITH_RESTRICTED_VENDOR_SUBTREES
+    license_files: [tools/docx/LICENSE.txt, tools/pdf/LICENSE.txt, tools/xlsx/LICENSE.txt]
+    notice_files: []
+    third_party_license_files: [tools/docx/LICENSE.txt, tools/pdf/LICENSE.txt, tools/xlsx/LICENSE.txt]
+    skill_directories: [math-modeling, references/roles]
+    skill_names: [math-modeling]
+    claimed_harnesses: [modeler coder writer roles, M1 P1 P2 W1 W2 gates]
+    has_codex_package: false
+    has_agents_md: false
+    has_scripts: true
+    has_tests: true
+    has_ci: false
+    has_security_policy: false
+    network_dependencies: [OpenAlex, AnySearch, Pandoc, LibreOffice, TeX, MATLAB]
+    external_services: [AnySearch, OpenAlex]
+    dangerous_or_privileged_instructions: [network paper search, document compilers, dependency suggestion scripts]
+    state_management: "OBSERVED gated artifacts; no formal project state contract."
+    workflow_model: "OBSERVED role separation and read-only reviewers."
+    evidence_management: "OBSERVED input hashes seed runtime command manifest and claim-evidence table; no Git/output/Source binding."
+    experiment_management: "OBSERVED pilot then full-result gate pattern."
+    multi_agent_strategy: "OBSERVED optional read-only reviewers with main-agent authoritative writes."
+    answer_leakage_risk: "HIGH: 2025 contest example SVG assets require isolation."
+    integration_conflict_risk: "BLOCKER: root unlicensed and vendored tools prohibit copying/derivatives/distribution."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [root license UNKNOWN, asset provenance UNKNOWN, tests UNVERIFIED]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/xiaoma-math-modeling-skill.txt, docs/upstream_reviews/xiaoma-math-modeling-skill.md]
+  - id: gatecraft
+    url: https://github.com/Crayonnan/dsh-math-modeling-skills-Gatecraft-
+    expected_role: COMPONENT_CANDIDATE
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: main
+    resolved_commit: 54d2742032f3337f9ecb07457b196b7607f5f7a7
+    repository_size_if_known: 196
+    latest_commit_date_if_known: "2026-08-25T21:39:50+08:00"
+    detected_license: MIT_ROOT_SUBRESOURCE_RIGHTS_UNKNOWN
+    license_files: [LICENSE]
+    notice_files: []
+    third_party_license_files: []
+    skill_directories: [skills]
+    skill_names: [competition-workflow, paper-gate, sensitivity-analysis, statistical-diagnosis, OCR, document-conversion]
+    claimed_harnesses: [five-stage workflow, parameterized DocGate]
+    has_codex_package: false
+    has_agents_md: false
+    has_scripts: true
+    has_tests: true
+    has_ci: false
+    has_security_policy: false
+    network_dependencies: [SiliconFlow OCR, OpenAI-compatible OCR, document parsers]
+    external_services: [SiliconFlow or configured compatible endpoint]
+    dangerous_or_privileged_instructions: [image upload to external OCR, untrusted DOCX ZIP XML parsing, output path not root-confined]
+    state_management: "OBSERVED staged report handoffs; no Run/Git/hash state."
+    workflow_model: "OBSERVED five-stage workflow and final document linter."
+    evidence_management: "CLAIMED results-only numbers; marker checks are syntactic and partially fail-open."
+    experiment_management: "OBSERVED multi-seed and exact-check guidance, not an executable registry."
+    multi_agent_strategy: "UNVERIFIED independent reviewers; primarily one-agent orchestration."
+    answer_leakage_risk: "HIGH: creation history and playbooks reference real contest cases/results."
+    integration_conflict_risk: "HIGH: document/paper scope and WARN/SKIP gates conflict with fail-closed evidence policy."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [document asset rights UNKNOWN, DocGate behavior UNVERIFIED, dependency parser security NEEDS_REVIEW]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/gatecraft.txt, docs/upstream_reviews/gatecraft.md]
+  - id: lupynow-math-modeling-skills
+    url: https://github.com/Lupynow/math-modeling-skills
+    expected_role: COMPONENT_CANDIDATE
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: main
+    resolved_commit: 3a9428c006cc1b977c6a72a531b739a62868a4bc
+    repository_size_if_known: 196
+    latest_commit_date_if_known: "2026-07-31T15:00:31+08:00"
+    detected_license: MIT_CODE_WITH_CORPUS_RIGHTS_UNKNOWN
+    license_files: [LICENSE, skills/math-modeling-solver/LICENSE, skills/math-modeling-paper/LICENSE]
+    notice_files: []
+    third_party_license_files: []
+    skill_directories: [skills/math-modeling-solver, skills/math-modeling-paper]
+    skill_names: [math-modeling-solver, math-modeling-paper]
+    claimed_harnesses: [five-stage solver, four-pass paper review, 150-plus winning-paper knowledge]
+    has_codex_package: false
+    has_agents_md: false
+    has_scripts: true
+    has_tests: false
+    has_ci: false
+    has_security_policy: false
+    network_dependencies: [host web search, Scholar and Chinese literature platforms]
+    external_services: [Google Scholar, Semantic Scholar, CNKI, Wanfang, VIP]
+    dangerous_or_privileged_instructions: [installation examples include recursive temporary cleanup and global user Skill moves]
+    state_management: "OBSERVED user-confirmed stages; no machine state or recovery contract."
+    workflow_model: "OBSERVED candidate-model comparison and paper review checklists."
+    evidence_management: "OBSERVED manual claim-evidence table; no Source/Run/hash freshness."
+    experiment_management: "CLAIMED templates and validation suggestions; runtime evidence absent."
+    multi_agent_strategy: "UNKNOWN; no independent reviewer orchestration observed."
+    answer_leakage_risk: "BLOCKER: real winning-paper excerpts, team IDs, results, and historical playbooks are tracked."
+    integration_conflict_risk: "BLOCKER for benchmark context; corpus provenance/license incomplete."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [corpus licenses UNKNOWN, template correctness UNVERIFIED, no tests or CI]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/lupynow-math-modeling-skills.txt, docs/upstream_reviews/lupynow-math-modeling-skills.md]
+  - id: mathodology
+    url: https://github.com/sweetcornna/mathodology
+    expected_role: COMPONENT_CANDIDATE
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: main
+    resolved_commit: 11cdfd7cca666c276b8de04d3a2fb76c418695c6
+    repository_size_if_known: 204
+    latest_commit_date_if_known: "2026-08-29T23:54:22-07:00"
+    detected_license: MIT_ROOT_EXTERNAL_MCP_UNKNOWN
+    license_files: [LICENSE]
+    notice_files: []
+    third_party_license_files: []
+    skill_directories: [.claude/skills]
+    skill_names: [mathodology-whole-project, mathodology-award-gates, mathodology-agent-pipeline]
+    claimed_harnesses: [nine-phase workflow, structured handoff gate scorecard decision memo]
+    has_codex_package: false
+    has_agents_md: true
+    has_scripts: true
+    has_tests: false
+    has_ci: false
+    has_security_policy: false
+    network_dependencies: [floating uvx free-search-mcp, remote updater, npx installer]
+    external_services: [free-search-mcp and its search backends]
+    dangerous_or_privileged_instructions: [remote updater execution, global Skill and MCP mutation, floating package execution, recursive uninstall]
+    state_management: "OBSERVED structured run handoff/gate/memo files and path confinement; lacks Git/input/output hash chain."
+    workflow_model: "OBSERVED nine roles and critic gates; judge score is subjective and not evidence."
+    evidence_management: "OBSERVED accepted/rejected source handoff and stable issues; external search verification UNVERIFIED."
+    experiment_management: "OBSERVED baseline ablation sensitivity robustness requirements; no model runtime in current branch."
+    multi_agent_strategy: "OBSERVED role panel and critic; human gates weaker than project policy."
+    answer_leakage_risk: "MEDIUM: no direct answers observed, but award-oriented adapters and examples require isolation."
+    integration_conflict_risk: "HIGH: subjective judge gates, updater/MCP, and parallel workflow state."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [free-search-mcp license and behavior UNKNOWN, test status UNVERIFIED, score calibration UNKNOWN]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/mathodology.txt, docs/upstream_reviews/mathodology.md]
+  - id: kdense-scientific-agent-skills
+    url: https://github.com/K-Dense-AI/scientific-agent-skills
+    expected_role: SPECIALIZED_SKILL_POOL
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: main
+    resolved_commit: f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f
+    repository_size_if_known: 328
+    latest_commit_date_if_known: "2026-08-29T15:54:53-07:00"
+    detected_license: MIT_ROOT_WITH_PER_SKILL_METADATA_GAPS
+    license_files: [LICENSE.md]
+    notice_files: []
+    third_party_license_files: [skills/docx/LICENSE.txt]
+    skill_directories: [skills]
+    skill_names: [exploratory-data-analysis, hypothesis-generation, experimental-design, uncertainty-and-units, statistical-analysis, peer-review]
+    claimed_harnesses: [163 scientific Skills, security scanner, Skill contract tests]
+    has_codex_package: true
+    has_agents_md: true
+    has_scripts: true
+    has_tests: true
+    has_ci: true
+    has_security_policy: true
+    network_dependencies: [many optional database cloud API Skills, floating Python and Git dependencies]
+    external_services: [OpenRouter and many domain-specific services outside selected local subset]
+    dangerous_or_privileged_instructions: [broad Bash Write capabilities, direct install commands, unpinned dependencies]
+    state_management: "UNKNOWN unified lifecycle; independent Skills and templates only."
+    workflow_model: "OBSERVED local safety-oriented EDA and scientific method components; broad orchestrator explicitly excluded."
+    evidence_management: "OBSERVED hypothesis competing-explanation and peer-review evidence matrices; lacks project IDs/hashes."
+    experiment_management: "OBSERVED DOE statistics uncertainty and negative tests; scientific correctness UNVERIFIED."
+    multi_agent_strategy: "No independent orchestration observed."
+    answer_leakage_risk: "LOW by text search; binary and full corpus review incomplete."
+    integration_conflict_risk: "HIGH if installed as 163 Skills; routing, dependencies, licenses, and state mismatch."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [988 self-reported security findings need independent triage, per-Skill licenses NEEDS_REVIEW, tests UNVERIFIED]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/kdense-scientific-agent-skills.txt, docs/upstream_reviews/kdense-scientific-agent-skills.md]
+  - id: aris
+    url: https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep
+    expected_role: REVIEW_AND_EXPERIMENT_REFERENCE
+    fetch_status: FETCHED
+    fetched_at: "2026-08-31T00:36:02+08:00"
+    default_branch: main
+    resolved_commit: 94d8093ed21d20a790830318190095b9f5036ce8
+    repository_size_if_known: 232
+    latest_commit_date_if_known: "2026-08-26T17:30:38+08:00"
+    detected_license: MIT_ROOT_WITH_SUBRESOURCE_GAPS
+    license_files: [LICENSE, skills/paper-poster-html/LICENSES/posterly-MIT.txt]
+    notice_files: [skills/paper-poster-html/NOTICE.md, skills/proof-orchestrator/NOTICE.md]
+    third_party_license_files: [skills/paper-poster-html/LICENSES/posterly-MIT.txt]
+    skill_directories: [skills]
+    skill_names: [experiment-audit, result-to-claim, experiment-plan, experiment-queue, research-pipeline]
+    claimed_harnesses: [82 Skills, resumable runs, cross-family review, evidence precheck]
+    has_codex_package: true
+    has_agents_md: false
+    has_scripts: true
+    has_tests: true
+    has_ci: true
+    has_security_policy: false
+    network_dependencies: [LLM MCPs, Exa, Semantic Scholar, OpenAlex, arXiv, Feishu, SSH, W&B, Modal, Vast, Overleaf]
+    external_services: [Codex, Claude, Gemini, MiniMax, Feishu, research and compute providers]
+    dangerous_or_privileged_instructions: [shell=True experiment queue, git push, forced checkout/reset, global installers and updaters]
+    state_management: "OBSERVED done versus accepted resume state and trace; writes parallel .aris truth sources."
+    workflow_model: "OBSERVED executor/reviewer separation and blind path-only review; default AUTO_PROCEED conflicts."
+    evidence_management: "OBSERVED existence precheck separated from support judgment; path containment and full provenance incomplete."
+    experiment_management: "OBSERVED claim-driven plan baseline ablation queue and integrity checklist; remote execution is high risk."
+    multi_agent_strategy: "OBSERVED cross-family independent review; cannot replace required human gates."
+    answer_leakage_risk: "MEDIUM: no CUMCM text hit, but binary community paper and examples must be excluded."
+    integration_conflict_risk: "BLOCKER for whole package due to parallel state, auto-proceed, FAIL-continue, Git/shell/install behavior."
+    preliminary_reuse_mode: EVALUATE
+    unresolved_questions: [subresource licenses NEEDS_REVIEW, tests UNVERIFIED, binary paper content NOT_FETCHED]
+    evidence_paths: [research/upstream_candidates/structure_snapshots/aris.txt, docs/upstream_reviews/aris.md]

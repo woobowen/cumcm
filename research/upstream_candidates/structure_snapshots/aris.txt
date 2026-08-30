@@ -1,0 +1,10 @@
+commit: 94d8093ed21d20a790830318190095b9f5036ce8
+default_branch: main
+top_level: .github .env.example AGENT_GUIDE.md LICENSE aris-monitor community_papers docs mcp-servers skills templates tests tools
+skill_paths: skills/*/SKILL.md plus codex/claude/gemini overlays (README claims 82)
+scripts: tools/run_state.py; tools/provenance.py; tools/evidence_check.py; skills/experiment-queue/scripts/*; installers and updaters
+tests: tests/test_run_state.py; tests/test_evidence_check.py and broader suite
+licenses_notices: LICENSE; skills/paper-poster-html/NOTICE.md; skills/paper-poster-html/LICENSES/posterly-MIT.txt; skills/proof-orchestrator/NOTICE.md
+packages: mcp-servers/*/requirements.txt; no root package manifest or lock observed
+ci: .github/workflows/check-skills-inventory.yml; lint-skills-helpers.yml; test-install-aris-ps1.yml; test-suite.yml
+instructions: AGENT_GUIDE.md; no AGENTS.md observed
