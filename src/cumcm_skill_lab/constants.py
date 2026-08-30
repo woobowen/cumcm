@@ -22,4 +22,5 @@ REQUIRED_PATHS = (
     "research/upstream_candidates/manifest.yaml",
     "state/project_state.json",
     "reports/current_state.md",
+    "reports/foundation_acceptance.md",
 )

@@ -1,6 +1,6 @@
 # PLAN-0001 — Foundation and Upstream Evaluation
 
-Status: `IN_PROGRESS`
+Status: `COMPLETE`
 Phase: `PHASE-FOUNDATION-001`
 Owner: main agent
 Started: `2026-08-31T00:29:31+08:00`
@@ -122,20 +122,22 @@ git log --oneline --decorate -10
 - [x] Read the `skill-creator` and `openai-docs` Skill instructions and relevant metadata reference.
 - [x] Open current official OpenAI pages for Skills, AGENTS.md, Subagents, project configuration, and long-running work.
 - [x] Run preflight and initialize the isolated repository/branch.
-- [ ] Build governance and Skill scaffold.
-- [ ] Fetch and review upstream candidates.
-- [ ] Build rules, contracts, state, validators, and tests.
-- [ ] Run acceptance and create commits.
+- [x] Build governance and Skill scaffold.
+- [x] Fetch and review upstream candidates.
+- [x] Build rules, contracts, state, validators, and tests.
+- [x] Run acceptance and create commits.
 
 ## 10. Findings
 
 - The workspace was initially empty but inherited an unrelated dirty parent Git repository; it is now safely isolated.
 - System pytest and GitHub CLI are absent; neither is required globally.
 - Official current Codex documentation confirms repository Skills under `.agents/skills`, layered AGENTS discovery, project-local config for trusted projects, and default availability of subagents.
+- All eight candidates were fetched as no-checkout shallow clones and kept `EVALUATE`; no candidate code or dependency was executed.
+- Readiness validation collected 20 tests and passed all required commands with zero warnings.
 
 ## 11. Next step
 
-Create the governance/source-of-truth documents and exactly one explicit-only scaffold Skill, then commit the first two atomic boundaries while upstream acquisition starts in the ignored cache.
+Begin `PHASE-UPSTREAM-DYNAMIC-EVAL-002` only after a new approved plan defines a no-Skill baseline, sandbox/permission boundary, development rubric, and license gates. Do not start it as part of this plan.
 
 ## 12. Rollback
 

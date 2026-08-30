@@ -1,0 +1,153 @@
+# FOUNDATION_READY
+
+## 1. Executive summary
+
+`PHASE-FOUNDATION-001` established a standalone Git project, durable governance and source-of-truth layers, exactly one explicit-only `SCAFFOLD_ONLY` Skill, eight isolated/pinned upstream candidates with provisional static reviews, machine rules and JSON contracts, runtime/derived-state separation, offline validators, fault-injection tests, and a single local CI entrypoint. No final upstream base was selected.
+
+## 2. Environment
+
+- Workspace: `/home/addaswsw/project/cumcm`
+- Host: WSL2 Linux 6.18.33.2 x86_64
+- Active branch: `feat/foundation-scaffold`
+- Current commit: the `HEAD` commit containing this report; its exact hash is emitted by the final Git verification instead of being embedded self-referentially.
+- Validated implementation commit: `dde9215d4830f26218472634625ffc338c3b162b`
+- System Python: 3.12.3; project `.venv`: Python 3.11.14
+- Codex: `codex-cli 0.147.0`
+- Package manager: `uv 0.10.0`
+- Subagents: yes; four read-only audit workstreams were used sequentially/concurrently within four total slots.
+- Remote: none
+
+## 3. Established tree
+
+The host has no `tree` executable and system installation was prohibited. Equivalent `find` output was captured with depth 4 and exclusions `.git`, `.venv`, `.cache`, and `__pycache__`. The tracked project contains 177 files including this report, organized as:
+
+```text
+.
+├── .agents/skills/cumcm-modeling-evidence/{SKILL.md,AGENTS.md,agents,assets,references,reviewers,scripts,workflows}
+├── .codex/{README.md,config.example.toml}
+├── benchmarks/{development,validation,held_out,stress}
+├── contracts/ (11 JSON Schemas)
+├── docs/{adr,integration,upstream_reviews} and 13 governance/policy documents
+├── evals/{cases,rubrics,results}
+├── plans/{active,completed,archived}
+├── reports/{preflight.md,current_state.md,foundation_acceptance.md}
+├── research/upstream_candidates/{manifest.yaml,skill_inventory.csv,static_evaluation.csv,license_evidence,source_snapshots,structure_snapshots}
+├── rules/ (six YAML rule/source files)
+├── scripts/ (bootstrap, eight validators/renderers, CI)
+├── src/cumcm_skill_lab/ (validation library)
+├── state/ (project state and six ledgers)
+├── state_templates/ (seven templates)
+├── tests/{unit,integration,fixtures,fault_injection}
+└── root governance, version, notices, license ledger, and Python project files
+```
+
+## 4. Key documents
+
+`AGENTS.md`, `GOALS.md`, `WORKFLOW.md`, `PLANS.md`, `docs/SOURCE_OF_TRUTH.md`, `docs/ARCHITECTURE.md`, `docs/RUNBOOK.md`, `docs/RECOVERY.md`, five ADRs, security/search/benchmark/eval/release/review/upstream policies, and `docs/MODELING_TO_PAPER_INTERFACE.md` are present. Normative rules, runtime state, and generated reports have separate owners.
+
+## 5. Formal Skill discovery
+
+- Path: `.agents/skills/cumcm-modeling-evidence/`
+- Frontmatter name: `cumcm-modeling-evidence`
+- Description has positive and negative activation boundaries.
+- `policy.allow_implicit_invocation`: `false`
+- Capability status: `SCAFFOLD_ONLY`
+- Discoverable repository Skill count: 1
+- Duplicate names: 0
+- Candidate Skills in discovery: 0
+
+## 6. Upstream candidates
+
+| Candidate | Commit | License observation | Fetch/static status | Strongest observed mechanism | Largest risk | Reuse | Dynamic test |
+|---|---|---|---|---|---|---|---|
+| handsomezr | `d3941e1` | MIT + external exclusions | FETCHED/PROVISIONAL | high-issue gate + atomic state/fail-closed render | contest-paper-derived contamination | EVALUATE | yes |
+| yushui | `5105449` | UNKNOWN; no license | FETCHED/PROVISIONAL | input/script/output freshness hashes | no license + complete 2024-B demo | EVALUATE | yes, after license |
+| xiaoma | `5a85fe3` | no root license; restricted vendors | FETCHED/PROVISIONAL | read-only gates + repro manifest | copying/derivative restrictions | EVALUATE | clean-room only |
+| gatecraft | `54d2742` | MIT; assets unknown | FETCHED/PROVISIONAL | parameterized DocGate | partial fail-open and parser/upload surface | EVALUATE | yes |
+| lupynow | `3a9428c` | MIT code; corpus unknown | FETCHED/PROVISIONAL | candidate comparison + claim table | direct historical result contamination | EVALUATE | only after corpus exclusion |
+| mathodology | `11cdfd7` | MIT; MCP unknown | FETCHED/PROVISIONAL | structured handoff/gate linter | remote updater/MCP and subjective judge gate | EVALUATE | yes, offline rewrite |
+| K-Dense | `f6fcafe` | MIT root; per-Skill gaps | FETCHED/PROVISIONAL | safe EDA + falsifiable hypothesis/DOE patterns | large dependency/license/security surface | EVALUATE | selected components only |
+| ARIS | `94d8093` | MIT root; subresource gaps | FETCHED/PROVISIONAL | done-vs-accepted + blind review/precheck | shell/Git/install/auto-proceed parallel state | EVALUATE | clean-room only |
+
+All candidates were fetched. `UNKNOWN` and `UNVERIFIED` items remain in the manifest/reviews/license ledger. Static scores are provisional and did not select a base.
+
+## 7. Files and user content
+
+All tracked files in this standalone repository are new foundation artifacts. No pre-existing file existed in the workspace. The unrelated dirty parent repository and all its files were untouched. Ignored `.venv/` and `.cache/upstream/` are local-only and untracked.
+
+## 8. Validation record
+
+Readiness gate executed against implementation commit `dde9215d4830f26218472634625ffc338c3b162b`:
+
+| Command | Exit | Result |
+|---|---:|---|
+| `.venv/bin/python -m ruff check .` | 0 | all checks passed |
+| `.venv/bin/python -m ruff format --check .` | 0 | 114 files formatted |
+| `.venv/bin/python -m pytest -q` | 0 | 20 passed |
+| `.venv/bin/python scripts/check_instruction_budget.py` | 0 | 5 files; 4601 total bytes |
+| `.venv/bin/python scripts/check_skill_discovery.py --expected-name cumcm-modeling-evidence --expected-count 1` | 0 | one expected Skill |
+| `.venv/bin/python scripts/check_contracts.py` | 0 | 11 schemas/11 valid/1 invalid rejected |
+| `.venv/bin/python scripts/check_upstream_manifest.py` | 0 | 8 candidates; cache ignored |
+| `.venv/bin/python scripts/check_answer_leakage.py` | 0 | 0 findings |
+| `.venv/bin/python scripts/check_secrets.py` | 0 | 0 findings |
+| `.venv/bin/python scripts/render_status.py` | 0 | generated |
+| `.venv/bin/python scripts/render_status.py --check` | 0 | current |
+| `.venv/bin/python scripts/validate_repo.py --strict` | 0 | PASS; 0 errors/0 warnings |
+| `bash scripts/ci.sh` | 0 | all CI stages passed |
+| `git diff --check` | 0 | clean whitespace |
+| `git status --short --branch` | 0 | clean at readiness gate |
+| `git log --oneline --decorate -10` | 0 | five atomic implementation commits |
+
+Test result: collected 20; passed 20; failed 0; skipped 0; warnings 0.
+
+## 9. Acceptance matrix
+
+- A Project governance: PASS — concise root instructions, goals/state machine/plan/truth map, five ADRs, runbook/recovery.
+- B Skill isolation: PASS — one expected explicit-only scaffold; no candidate/duplicate.
+- C Upstreams: PASS — eight pinned reviews/license rows; claims separated from observations; no execution/dependency install/base decision.
+- D Rules/contracts: PASS — required rules/search modes, 11 parseable schemas, positive/negative fixtures, handoff v1.
+- E State consistency: PASS — valid state/decisions, generated report and stale detection, separated truth layers.
+- F Automation: PASS — Ruff, 20 tests, all individual checks, strict validator, CI and whitespace.
+- G Security: PASS — no secrets/answers/tracked caches/unaudited hooks/global config changes/candidate execution.
+- H Git: PASS — isolated branch, five implementation commits plus final report commit, no remote/push/force/user-file mixing.
+
+## 10. BLOCKER
+
+None for `PHASE-FOUNDATION-001`.
+
+## 11. WARNING and known limitations
+
+- `PROJECT_LICENSE_UNDECIDED` blocks future integration.
+- Every upstream's dynamic effectiveness is `UNVERIFIED`; several have license or answer-contamination blockers.
+- The formal Skill is not a complete modeling system.
+- Official CUMCM 2026 sources are registered but detailed rule extraction is `NEEDS_EXTRACTION`.
+- `tree` is not installed; equivalent `find` output is used instead of installing a prohibited system package.
+- No Git remote/provider CI wrapper exists; `scripts/ci.sh` is the only CI truth.
+
+## 12. Current project status
+
+`FOUNDATION_READY`. Base selected: false. Third-party code integrated: false. Skill capability: `SCAFFOLD_ONLY`. Final documentation commit will contain this report and the ready-state transition; the validated implementation commit remains recorded in state for reproducibility.
+
+## 13. Git commits
+
+- `454d68e` `chore(foundation): initialize project governance and plans`
+- `98afbcc` `feat(skill): add single modeling-evidence skill scaffold`
+- `d9c4c9c` `feat(contracts): add rules schemas and state foundations`
+- `388d475` `research(upstream): add isolated inventory and static reviews`
+- `dde9215` `test(foundation): add validators fault injection and CI`
+- Final report/state commit: the commit containing this report, with message `docs(foundation): add acceptance report and finalize status`; its exact hash is recorded by the final Git verification.
+
+No uncommitted implementation files remained at the readiness gate. This report, plan completion, state transition, and regenerated status form the final documentation boundary.
+
+## 14. Declarations
+
+- No third-party candidate code, script, hook, Makefile, binary, MCP, or installer was executed.
+- No third-party candidate dependency was installed.
+- No dynamic Skill or historical-problem evaluation was completed.
+- No historical answer or excellent paper was downloaded into the project.
+- No final base or component portfolio was selected.
+- No global Codex/agent configuration was changed.
+
+## 15. Next recommended phase
+
+`PHASE-UPSTREAM-DYNAMIC-EVAL-002`: define a no-Skill baseline, two base-candidate controlled tests, selected component clean-room tests, development-case benchmark, common rubric, security/license gates, and a final base decision. This phase has not started.
