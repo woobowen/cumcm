@@ -1,6 +1,6 @@
 # PLAN-0001 — Foundation and Upstream Evaluation
 
-Status: `DELIVERY_IN_PROGRESS`
+Status: `DELIVERY_BLOCKED`
 Phase: `PHASE-FOUNDATION-001`
 Owner: main agent
 Started: `2026-08-31T00:29:31+08:00`
@@ -134,9 +134,9 @@ git log --oneline --decorate -10
 - [x] Build rules, contracts, state, validators, and tests.
 - [x] Run acceptance and create commits.
 - [x] Receive explicit authorization for remote delivery and confirm the remote is empty.
-- [ ] Persist and validate delivery policy and tracked-path redaction.
+- [x] Persist and validate delivery policy and tracked-path redaction.
 - [ ] Push the task branch and verify remote SHA equality.
-- [ ] Record remote evidence and close the delivery increment.
+- [x] Record the failed push evidence and authentication blocker.
 
 ## 10. Findings
 
@@ -146,10 +146,12 @@ git log --oneline --decorate -10
 - All eight candidates were fetched as no-checkout shallow clones and kept `EVALUATE`; no candidate code or dependency was executed.
 - Readiness validation collected 20 tests and passed all required commands with zero warnings.
 - The designated remote had no heads when queried; the current non-`main` task branch will be published without creating a synthetic `main`.
+- Full validation at `3426a17` passed 23 tests with zero warnings, secrets, private paths, leakage findings, or forbidden tracked paths.
+- `git push -u origin HEAD` exited 128 because no GitHub HTTPS credential was available; no remote branch was created and no alternate credential mechanism was attempted.
 
 ## 11. Next step
 
-Begin `PHASE-UPSTREAM-DYNAMIC-EVAL-002` only after a new approved plan defines a no-Skill baseline, sandbox/permission boundary, development rubric, and license gates. Do not start it as part of this plan.
+Resolve `PUSH_BLOCKED_AUTH`, rerun `git push -u origin HEAD`, and verify remote SHA equality before closing M7. Only afterward may a separately approved plan begin `PHASE-UPSTREAM-DYNAMIC-EVAL-002`; do not start it as part of this plan.
 
 ## 12. Rollback
 

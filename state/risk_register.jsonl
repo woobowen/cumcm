@@ -1,2 +1,3 @@
 {"risk_id":"RISK-0001","severity":"HIGH","status":"OPEN","summary":"Dynamic effectiveness of every upstream is UNVERIFIED.","mitigation":"Run phase 002 controlled evaluation before adoption."}
 {"risk_id":"RISK-0002","severity":"HIGH","status":"OPEN","summary":"PROJECT_LICENSE_UNDECIDED blocks future third-party integration but not the foundation harness.","mitigation":"Team selects a project license before integration."}
+{"risk_id":"RISK-0003","severity":"BLOCKER","status":"OPEN","summary":"PUSH_BLOCKED_AUTH prevents remote delivery of the verified foundation branch.","mitigation":"Authenticate GitHub using an existing approved credential flow, rerun git push -u origin HEAD, and verify remote SHA equality."}

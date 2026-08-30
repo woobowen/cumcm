@@ -1,8 +1,8 @@
-# FOUNDATION_READY
+# FOUNDATION_INCOMPLETE
 
 ## 1. Executive summary
 
-`PHASE-FOUNDATION-001` established a standalone Git project, durable governance and source-of-truth layers, exactly one explicit-only `SCAFFOLD_ONLY` Skill, eight isolated/pinned upstream candidates with provisional static reviews, machine rules and JSON contracts, runtime/derived-state separation, offline validators, fault-injection tests, and a single local CI entrypoint. No final upstream base was selected.
+`PHASE-FOUNDATION-001` established and locally validated a standalone Git project, durable governance and source-of-truth layers, exactly one explicit-only `SCAFFOLD_ONLY` Skill, eight isolated/pinned upstream candidates with provisional static reviews, machine rules and JSON contracts, runtime/derived-state separation, offline validators, fault-injection tests, and a single local CI entrypoint. Remote delivery remains incomplete because GitHub HTTPS authentication was unavailable. No final upstream base was selected.
 
 ## 2. Environment
 
@@ -15,7 +15,7 @@
 - Codex: `codex-cli 0.147.0`
 - Package manager: `uv 0.10.0`
 - Subagents: yes; four read-only audit workstreams were used sequentially/concurrently within four total slots.
-- Remote delivery: policy increment in progress; the designated target is referenced from `rules/workflow_rules.yaml`.
+- Remote delivery: `PUSH_BLOCKED_AUTH`; the designated target is referenced from `rules/workflow_rules.yaml`.
 
 ## 3. Established tree
 
@@ -100,6 +100,31 @@ Readiness gate executed against implementation commit `dde9215d4830f262184726346
 
 Test result: collected 20; passed 20; failed 0; skipped 0; warnings 0.
 
+Incremental remote-policy gate executed against `3426a17dfed9c976306ea451b343091c87cb6352`:
+
+| Command | Exit | Result |
+|---|---:|---|
+| `.venv/bin/python -m ruff check .` | 0 | all checks passed |
+| `.venv/bin/python -m ruff format --check .` | 0 | 115 files formatted |
+| `.venv/bin/python -m pytest -q` | 0 | 23 passed |
+| `.venv/bin/python scripts/check_instruction_budget.py` | 0 | 5 files; 5675 total bytes |
+| `.venv/bin/python scripts/check_skill_discovery.py --expected-name cumcm-modeling-evidence --expected-count 1` | 0 | one expected Skill |
+| `.venv/bin/python scripts/check_contracts.py` | 0 | 11 schemas/11 valid/1 invalid rejected |
+| `.venv/bin/python scripts/check_upstream_manifest.py` | 0 | 8 candidates; cache ignored |
+| `.venv/bin/python scripts/check_answer_leakage.py` | 0 | 0 findings |
+| `.venv/bin/python scripts/check_secrets.py` | 0 | 0 secrets/0 private paths |
+| `.venv/bin/python scripts/render_status.py` | 0 | generated |
+| `.venv/bin/python scripts/render_status.py --check` | 0 | current |
+| `.venv/bin/python scripts/validate_repo.py --strict` | 0 | PASS; 0 errors/0 warnings |
+| `bash scripts/ci.sh` | 0 | all local CI stages passed |
+| `git diff --check` | 0 | clean whitespace |
+| `git status --short --branch` | 0 | clean before push |
+| `git ls-remote --heads origin` | 0 | remote had no branches |
+| forbidden tracked-path check | 0 | 0 forbidden tracked paths |
+| `git push -u origin HEAD` | 128 | `PUSH_BLOCKED_AUTH`; no branch created |
+
+Incremental test result: collected 23; passed 23; failed 0; skipped 0; warnings 0. Local validation passed, but the remote-delivery gate failed.
+
 ## 9. Acceptance matrix
 
 - A Project governance: PASS — concise root instructions, goals/state machine/plan/truth map, five ADRs, runbook/recovery.
@@ -107,13 +132,13 @@ Test result: collected 20; passed 20; failed 0; skipped 0; warnings 0.
 - C Upstreams: PASS — eight pinned reviews/license rows; claims separated from observations; no execution/dependency install/base decision.
 - D Rules/contracts: PASS — required rules/search modes, 11 parseable schemas, positive/negative fixtures, handoff v1.
 - E State consistency: PASS — valid state/decisions, generated report and stale detection, separated truth layers.
-- F Automation: PASS — Ruff, 20 tests, all individual checks, strict validator, CI and whitespace.
+- F Automation: PASS — Ruff, 23 tests, all individual checks, strict validator, CI and whitespace.
 - G Security: PASS — no secrets/answers/tracked caches/unaudited hooks/global config changes/candidate execution.
-- H Git: PASS — isolated task branch, six foundation commits, no force/history rewrite/user-file mixing; remote delivery is tracked by the incremental M7 evidence.
+- H Git: FAIL — isolated task branch and local history are safe, but the remote branch was not created because push authentication failed.
 
 ## 10. BLOCKER
 
-None for `PHASE-FOUNDATION-001`.
+`PUSH_BLOCKED_AUTH`: `git push -u origin HEAD` exited 128 before any remote branch was created. Local commits remain intact; remote delivery is not complete.
 
 ## 11. WARNING and known limitations
 
@@ -126,7 +151,7 @@ None for `PHASE-FOUNDATION-001`.
 
 ## 12. Current project status
 
-`FOUNDATION_READY`. Base selected: false. Third-party code integrated: false. Skill capability: `SCAFFOLD_ONLY`. Final documentation commit will contain this report and the ready-state transition; the validated implementation commit remains recorded in state for reproducibility.
+`FOUNDATION_INCOMPLETE` because remote delivery is blocked by authentication. The local foundation gates pass. Base selected: false. Third-party code integrated: false. Skill capability: `SCAFFOLD_ONLY`.
 
 ## 13. Git commits
 
@@ -136,8 +161,9 @@ None for `PHASE-FOUNDATION-001`.
 - `388d475` `research(upstream): add isolated inventory and static reviews`
 - `dde9215` `test(foundation): add validators fault injection and CI`
 - `bd0948d` `docs(foundation): add acceptance report and finalize status`
+- `3426a17` `docs(delivery): persist safe remote publication policy`
 
-Incremental remote-policy and delivery-evidence commits are recorded after remote verification.
+The commit containing this blocked-delivery evidence is also unpushed; its exact hash is emitted by final local verification rather than embedded self-referentially.
 
 No uncommitted implementation files remained at the readiness gate. This report, plan completion, state transition, and regenerated status form the final documentation boundary.
 
@@ -150,6 +176,24 @@ No uncommitted implementation files remained at the readiness gate. This report,
 - No final base or component portfolio was selected.
 - No global Codex/agent configuration was changed.
 
-## 15. Next recommended phase
+## 15. Remote delivery
+
+- Repository: `woobowen/cumcm`
+- Remote source: `rules/workflow_rules.yaml` → `git_delivery.remote_url`
+- Verification status: `PUSH_BLOCKED_AUTH`
+- Local branch: `feat/foundation-scaffold`
+- Last successfully validated commit before push: `3426a17dfed9c976306ea451b343091c87cb6352`
+- Remote branch: not created
+- Remote HEAD: absent
+- Base branch: remote `main` absent
+- Push command: `git push -u origin HEAD`
+- Push exit code: 128
+- Commits pushed: none
+- Draft PR: not created; remote `main` is absent and GitHub CLI is not installed
+- Remote CI: `NOT_CONFIGURED`
+- Ignored local-only files: `.venv/`, `.cache/`, `.pytest_cache/`, `.ruff_cache/`, and `__pycache__/`
+- Remaining blocker: authenticate through an approved existing GitHub credential flow, push the branch, and verify remote SHA equality
+
+## 16. Next recommended phase
 
 `PHASE-UPSTREAM-DYNAMIC-EVAL-002`: define a no-Skill baseline, two base-candidate controlled tests, selected component clean-room tests, development-case benchmark, common rubric, security/license gates, and a final base decision. This phase has not started.
