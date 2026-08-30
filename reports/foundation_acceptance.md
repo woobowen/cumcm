@@ -6,7 +6,7 @@
 
 ## 2. Environment
 
-- Workspace: `/home/addaswsw/project/cumcm`
+- Workspace: `<REPO_ROOT>`
 - Host: WSL2 Linux 6.18.33.2 x86_64
 - Active branch: `feat/foundation-scaffold`
 - Current commit: the `HEAD` commit containing this report; its exact hash is emitted by the final Git verification instead of being embedded self-referentially.
@@ -15,7 +15,7 @@
 - Codex: `codex-cli 0.147.0`
 - Package manager: `uv 0.10.0`
 - Subagents: yes; four read-only audit workstreams were used sequentially/concurrently within four total slots.
-- Remote: none
+- Remote delivery: policy increment in progress; the designated target is referenced from `rules/workflow_rules.yaml`.
 
 ## 3. Established tree
 
@@ -109,7 +109,7 @@ Test result: collected 20; passed 20; failed 0; skipped 0; warnings 0.
 - E State consistency: PASS — valid state/decisions, generated report and stale detection, separated truth layers.
 - F Automation: PASS — Ruff, 20 tests, all individual checks, strict validator, CI and whitespace.
 - G Security: PASS — no secrets/answers/tracked caches/unaudited hooks/global config changes/candidate execution.
-- H Git: PASS — isolated branch, five implementation commits plus final report commit, no remote/push/force/user-file mixing.
+- H Git: PASS — isolated task branch, six foundation commits, no force/history rewrite/user-file mixing; remote delivery is tracked by the incremental M7 evidence.
 
 ## 10. BLOCKER
 
@@ -122,7 +122,7 @@ None for `PHASE-FOUNDATION-001`.
 - The formal Skill is not a complete modeling system.
 - Official CUMCM 2026 sources are registered but detailed rule extraction is `NEEDS_EXTRACTION`.
 - `tree` is not installed; equivalent `find` output is used instead of installing a prohibited system package.
-- No Git remote/provider CI wrapper exists; `scripts/ci.sh` is the only CI truth.
+- No provider CI wrapper exists; `scripts/ci.sh` is the local CI truth and remote CI is `NOT_CONFIGURED`.
 
 ## 12. Current project status
 
@@ -135,7 +135,9 @@ None for `PHASE-FOUNDATION-001`.
 - `d9c4c9c` `feat(contracts): add rules schemas and state foundations`
 - `388d475` `research(upstream): add isolated inventory and static reviews`
 - `dde9215` `test(foundation): add validators fault injection and CI`
-- Final report/state commit: the commit containing this report, with message `docs(foundation): add acceptance report and finalize status`; its exact hash is recorded by the final Git verification.
+- `bd0948d` `docs(foundation): add acceptance report and finalize status`
+
+Incremental remote-policy and delivery-evidence commits are recorded after remote verification.
 
 No uncommitted implementation files remained at the readiness gate. This report, plan completion, state transition, and regenerated status form the final documentation boundary.
 

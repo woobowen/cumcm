@@ -10,6 +10,7 @@
 | Current execution plan | `plans/active/` | status/report |
 | Runtime state/ledgers | `state/` | `reports/current_state.md` |
 | Upstream candidate facts | `research/upstream_candidates/manifest.yaml` | CSV/reviews/notices |
+| Designated Git delivery target | `rules/workflow_rules.yaml` → `git_delivery` | local Git config, runbook, release/report evidence |
 | Human status summary | generated `reports/current_state.md` | read-only |
 | Paper handoff | `contracts/modeling_to_paper.schema.json` | packages/paper team |
 

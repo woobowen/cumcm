@@ -4,6 +4,7 @@ import subprocess
 from pathlib import Path
 
 import pytest
+import yaml
 
 from cumcm_skill_lab.repo_validation import validate_repo
 from cumcm_skill_lab.report_generation import generate_status
@@ -95,3 +96,10 @@ def test_tracked_candidate_cache_fails(project_copy: Path):
         check=True,
     )
     assert "UPSTREAM_CACHE_TRACKED" in _ids(validate_repo(project_copy, strict=True))
+
+
+def test_duplicate_remote_truth_fails(project_copy: Path):
+    workflow = project_copy / "rules/workflow_rules.yaml"
+    remote_url = yaml.safe_load(workflow.read_text(encoding="utf-8"))["git_delivery"]["remote_url"]
+    (project_copy / "README.md").write_text(remote_url, encoding="utf-8")
+    assert "GIT_DELIVERY_REMOTE_TRUTH_COUNT" in _ids(validate_repo(project_copy, strict=True))

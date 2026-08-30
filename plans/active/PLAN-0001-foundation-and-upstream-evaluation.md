@@ -1,6 +1,6 @@
 # PLAN-0001 — Foundation and Upstream Evaluation
 
-Status: `COMPLETE`
+Status: `DELIVERY_IN_PROGRESS`
 Phase: `PHASE-FOUNDATION-001`
 Owner: main agent
 Started: `2026-08-31T00:29:31+08:00`
@@ -11,8 +11,8 @@ Build a recoverable foundation for one CUMCM modeling-and-evidence Skill, with i
 
 ## 2. Current environment
 
-- Independent Git repository at `/home/addaswsw/project/cumcm`.
-- Active branch `feat/foundation-scaffold`; no remote.
+- Independent Git repository at `<REPO_ROOT>`.
+- Active branch `feat/foundation-scaffold`; the designated remote is owned by `rules/workflow_rules.yaml`.
 - Python 3.12.3 and uv 0.10.0 are available.
 - pytest is not installed in the system interpreter and will be installed only into `.venv`.
 - Web and GitHub shell network access are available.
@@ -26,7 +26,7 @@ Build a recoverable foundation for one CUMCM modeling-and-evidence Skill, with i
 3. Eight isolated upstream candidates with resolved commits when fetchable, structure evidence, license ledger entries, and provisional static reviews.
 4. Machine-readable rules, JSON Schemas, state ledgers, fixtures, derived status reporting, and a modeling-to-paper contract.
 5. Python validators, unit/integration/fault-injection tests, local CI entrypoint, and complete acceptance evidence.
-6. Four to six atomic local Git commits; no push.
+6. Six atomic foundation commits, followed by separately auditable remote-policy and remote-evidence commits authorized by the incremental delivery instruction.
 
 ## 4. Non-goals
 
@@ -73,7 +73,14 @@ Build a recoverable foundation for one CUMCM modeling-and-evidence Skill, with i
 
 - Every mandated validation command is executed and recorded with exit code and result counts.
 - All BLOCKER checks pass before status changes to `FOUNDATION_READY`; otherwise status is `FOUNDATION_INCOMPLETE` with evidence.
-- Four to six accurate commits exist, `.venv` and upstream caches remain ignored, and no push occurs.
+- Six accurate foundation commits exist; incremental delivery commits preserve their boundaries, `.venv` and upstream caches remain ignored, and the verified task branch is pushed without rewriting history.
+
+### M7 — Incremental remote delivery
+
+- The remote URL has one tracked machine-readable source; root and detailed policies enforce safe delivery.
+- Tracked environment evidence contains no private absolute path or unnecessary host identity.
+- The task branch is pushed only after full validation, and remote SHA equality is recorded.
+- No force push, automatic merge, credential mutation, or fabricated `main` occurs.
 
 ## 6. Validation commands
 
@@ -126,6 +133,10 @@ git log --oneline --decorate -10
 - [x] Fetch and review upstream candidates.
 - [x] Build rules, contracts, state, validators, and tests.
 - [x] Run acceptance and create commits.
+- [x] Receive explicit authorization for remote delivery and confirm the remote is empty.
+- [ ] Persist and validate delivery policy and tracked-path redaction.
+- [ ] Push the task branch and verify remote SHA equality.
+- [ ] Record remote evidence and close the delivery increment.
 
 ## 10. Findings
 
@@ -134,6 +145,7 @@ git log --oneline --decorate -10
 - Official current Codex documentation confirms repository Skills under `.agents/skills`, layered AGENTS discovery, project-local config for trusted projects, and default availability of subagents.
 - All eight candidates were fetched as no-checkout shallow clones and kept `EVALUATE`; no candidate code or dependency was executed.
 - Readiness validation collected 20 tests and passed all required commands with zero warnings.
+- The designated remote had no heads when queried; the current non-`main` task branch will be published without creating a synthetic `main`.
 
 ## 11. Next step
 

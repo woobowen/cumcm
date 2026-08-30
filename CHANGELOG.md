@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Added persistent, machine-readable Git remote-delivery policy, tracked-path redaction, and remote SHA verification requirements.
+
 ## 0.1.0-foundation — 2026-08-31
 
 ### Added

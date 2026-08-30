@@ -1,8 +1,8 @@
 # PHASE-FOUNDATION-001 Preflight
 
 - Captured at: `2026-08-31T00:29:31+08:00`
-- Workspace: `/home/addaswsw/project/cumcm`
-- Host: `Linux LAPTOP-KI0GT6AJ 6.18.33.2-microsoft-standard-WSL2 x86_64 GNU/Linux`
+- Workspace: `<REPO_ROOT>`
+- Host: `WSL2 Linux x86_64` (hostname redacted)
 - Git: `git version 2.43.0`
 - Python: `Python 3.12.3`
 - Codex: `codex-cli 0.147.0`
@@ -21,19 +21,19 @@
 
 Before initialization, the empty workspace was nested under an unrelated parent Git repository:
 
-- Parent root: `/home/addaswsw/project`
+- Parent root: `<PARENT_REPOSITORY_ROOT>`
 - Parent branch: `master`
-- Parent remote: `github https://github.com/woobowen/oscompetition.git`
+- Parent remote: `<PARENT_REPOSITORY_REMOTE_REDACTED>`
 - Parent worktree: dirty, with many unrelated untracked files outside `cumcm/`
 
-To prevent branch changes or commits from affecting the parent repository, this empty directory was initialized as an independent nested repository using `git init -b main`, then switched to `feat/foundation-scaffold`. No parent file was edited, removed, staged, or committed. The new repository has no remote.
+To prevent branch changes or commits from affecting the parent repository, this empty directory was initialized as an independent nested repository using `git init -b main`, then switched to `feat/foundation-scaffold`. No parent file was edited, removed, staged, or committed. At preflight capture, the new repository had no remote.
 
 ## Current repository after initialization
 
-- Repository root: `/home/addaswsw/project/cumcm`
+- Repository root: `<REPO_ROOT>`
 - Default branch created: `main`
 - Active branch: `feat/foundation-scaffold`
-- Remote: none
+- Remote at preflight capture: none
 - Initial commit: none
 - User changes inside the new repository before work: none
 

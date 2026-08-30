@@ -26,6 +26,11 @@ SECRET_PATTERNS = {
     ),
 }
 
+PRIVATE_PATH_PATTERNS = {
+    "PRIVATE_UNIX_HOME_PATH": re.compile(r"(?<![A-Za-z0-9_<])/(?:home|Users)/[^/\s`]+/"),
+    "PRIVATE_WINDOWS_HOME_PATH": re.compile(r"(?i)\b[A-Z]:\\Users\\[^\\\s`]+\\"),
+}
+
 
 def scan_secrets(root: Path):
     errors: list[dict] = []
@@ -37,6 +42,93 @@ def scan_secrets(root: Path):
         for finding_id, pattern in SECRET_PATTERNS.items():
             if pattern.search(text):
                 errors.append({"id": finding_id, "path": rel})
+    return {"errors": errors}
+
+
+def scan_private_paths(root: Path):
+    """Reject tracked-delivery text that exposes a user's home path."""
+    errors: list[dict] = []
+    for path in tracked_text_files(root):
+        rel = relative(path, root)
+        text = path.read_text(encoding="utf-8")
+        for finding_id, pattern in PRIVATE_PATH_PATTERNS.items():
+            if pattern.search(text):
+                errors.append({"id": finding_id, "path": rel})
+    return {"errors": errors}
+
+
+def validate_delivery_policy(root: Path):
+    """Validate the sole tracked remote truth and mandatory delivery rule."""
+    rel = "rules/workflow_rules.yaml"
+    path = root / rel
+    errors: list[dict] = []
+    if not path.is_file():
+        return {"errors": [{"id": "GIT_DELIVERY_CONFIG_MISSING", "path": rel}]}
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except yaml.YAMLError as exc:
+        return {"errors": [{"id": "GIT_DELIVERY_CONFIG_INVALID", "path": rel, "message": str(exc)}]}
+    delivery = data.get("git_delivery")
+    required = {
+        "remote_name": str,
+        "repository": str,
+        "remote_url": str,
+        "protected_base_branch": str,
+        "preferred_task_branch": str,
+        "allow_force_push": bool,
+        "allow_agent_merge": bool,
+    }
+    if not isinstance(delivery, dict):
+        errors.append({"id": "GIT_DELIVERY_CONFIG_INVALID", "path": rel})
+        return {"errors": errors}
+    for key, expected_type in required.items():
+        value = delivery.get(key)
+        if not isinstance(value, expected_type) or isinstance(value, str) and not value:
+            errors.append(
+                {
+                    "id": "GIT_DELIVERY_FIELD_INVALID",
+                    "path": rel,
+                    "message": key,
+                }
+            )
+    if delivery.get("allow_force_push") is not False:
+        errors.append({"id": "GIT_DELIVERY_FORCE_PUSH", "path": rel})
+    if delivery.get("allow_agent_merge") is not False:
+        errors.append({"id": "GIT_DELIVERY_AGENT_MERGE", "path": rel})
+
+    remote_url = delivery.get("remote_url")
+    if isinstance(remote_url, str) and remote_url:
+        occurrences: list[dict] = []
+        for candidate in tracked_text_files(root):
+            count = candidate.read_text(encoding="utf-8").count(remote_url)
+            if count:
+                occurrences.append({"path": relative(candidate, root), "count": count})
+        if occurrences != [{"path": rel, "count": 1}]:
+            errors.append(
+                {
+                    "id": "GIT_DELIVERY_REMOTE_TRUTH_COUNT",
+                    "path": rel,
+                    "message": str(occurrences),
+                }
+            )
+
+    rule = next(
+        (
+            item
+            for item in data.get("rules", [])
+            if isinstance(item, dict) and item.get("id") == "GIT-DELIVERY-001"
+        ),
+        None,
+    )
+    if not rule:
+        errors.append({"id": "GIT_DELIVERY_RULE_MISSING", "path": rel})
+    elif (
+        rule.get("level") != "MUST"
+        or rule.get("failure_severity") != "BLOCKER"
+        or rule.get("status") != "ACTIVE"
+        or (rule.get("enforcement") or {}).get("type") != "manual_and_git_verification"
+    ):
+        errors.append({"id": "GIT_DELIVERY_RULE_INVALID", "path": rel})
     return {"errors": errors}
 
 
@@ -168,6 +260,8 @@ def validate_repo(root: Path, strict: bool = False):
     upstreams = validate_upstreams(root)
     leakage = scan_leakage(root)
     secrets = scan_secrets(root)
+    privacy = scan_private_paths(root)
+    delivery = validate_delivery_policy(root)
     yaml_count, yaml_errors = _validate_yaml(root)
     sections.update(
         instructions=instructions,
@@ -176,8 +270,19 @@ def validate_repo(root: Path, strict: bool = False):
         upstreams=upstreams,
         leakage=leakage,
         secrets=secrets,
+        privacy=privacy,
+        delivery=delivery,
     )
-    for section in (instructions, skills, contracts, upstreams, leakage, secrets):
+    for section in (
+        instructions,
+        skills,
+        contracts,
+        upstreams,
+        leakage,
+        secrets,
+        privacy,
+        delivery,
+    ):
         errors.extend(section.get("errors", []))
         warnings.extend(section.get("warnings", []))
     errors.extend(yaml_errors)

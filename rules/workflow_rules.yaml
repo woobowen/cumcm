@@ -5,3 +5,24 @@ required_run_states: [PROBLEM_INGESTED, PROBLEM_ANALYZED, DATA_VALIDATED, BASELI
 formal_state_writer: MAIN_AGENT_ONLY
 human_gates: [problem_interpretation, model_selection, final_run_freeze, evidence_package_approval]
 stale_source: WORKFLOW.md
+git_delivery:
+  remote_name: origin
+  repository: woobowen/cumcm
+  remote_url: https://github.com/woobowen/cumcm.git
+  protected_base_branch: main
+  preferred_task_branch: feat/foundation-scaffold
+  allow_force_push: false
+  allow_agent_merge: false
+rules:
+  - id: GIT-DELIVERY-001
+    title: Verified deterministic changes must be remotely delivered
+    level: MUST
+    scope: repository
+    statement: Completed deterministic project changes must be validated, committed atomically, and pushed to the designated remote task branch before the task is reported as remotely delivered.
+    failure_severity: BLOCKER
+    enforcement:
+      type: manual_and_git_verification
+    repair:
+      action: Validate, commit, push, and report the remote commit SHA.
+    owner: project-foundation
+    status: ACTIVE

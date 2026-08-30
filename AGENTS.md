@@ -44,6 +44,14 @@ bash scripts/ci.sh
 git diff --check
 ```
 
+## Git and remote delivery
+
+- `rules/workflow_rules.yaml` is the sole tracked source for the designated remote and task branch. Completed deterministic changes are not done until they are validated, committed atomically, pushed to that task branch, and verified at the remote SHA.
+- Report `REMOTE_DELIVERED` only for commits confirmed on the remote; otherwise report the exact `PUSH_BLOCKED_*`, mismatch, or unverified status. Final reports include branch, HEAD, commits, and validation evidence.
+- Except for first initialization of an empty repository, never push feature work directly to `main`. Never force-push or rewrite history already published or used by others.
+- Never push secrets, credentials, private paths, full upstream clones, caches, virtual environments, benchmark vaults, answers, restricted third-party content, or machine-only artifacts.
+- Pull requests and merges require human review. Agents may create an eligible Draft PR but must not mark it ready or merge it.
+
 ## Definition of Done
 
-A change is done only when required artifacts exist, machine contracts validate, relevant offline tests pass, generated reports are current, evidence and approval gates are recorded, the active plan reflects reality, and no BLOCKER remains. Code or prose without executed validation is incomplete.
+A change is done only when required artifacts exist, machine contracts validate, relevant offline tests pass, generated reports are current, evidence and approval gates are recorded, the active plan reflects reality, no BLOCKER remains, and the verified commit is remotely delivered when a designated remote exists. Code or prose retained only in the local workspace is incomplete.
