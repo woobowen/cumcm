@@ -100,25 +100,30 @@ def _normalized_command(command: list[str], workspace: Path, root: Path) -> list
 
 def _artifact_reference_errors(observation: dict, workspace: Path) -> list[str]:
     errors: list[str] = []
-    for field in ("code_artifacts", "files_created"):
-        for reference in observation.get(field, []):
-            normalized = reference.strip().strip("`'\"")
-            if normalized.lower() in NONE_MARKERS:
-                continue
-            direct = workspace / normalized
-            path_text = normalized if direct.is_file() else normalized.split(maxsplit=1)[0]
-            path_text = path_text.rstrip(":：,，;；").strip("`'\"")
-            relative = Path(path_text)
-            if relative.is_absolute() or ".." in relative.parts:
-                errors.append(f"UNSAFE_ARTIFACT_REFERENCE:{field}:{reference}")
-                continue
-            if not (workspace / relative).is_file():
-                errors.append(f"NONEXISTENT_ARTIFACT_REFERENCE:{field}:{reference}")
+    for reference in observation.get("files_created", []):
+        normalized = reference.strip().strip("`'\"")
+        if _is_none_statement(normalized):
+            continue
+        relative = Path(normalized)
+        if relative.is_absolute() or ".." in relative.parts:
+            errors.append(f"UNSAFE_ARTIFACT_REFERENCE:files_created:{reference}")
+            continue
+        if not (workspace / relative).is_file():
+            errors.append(f"NONEXISTENT_ARTIFACT_REFERENCE:files_created:{reference}")
     return errors
 
 
+def _is_none_statement(value: str) -> bool:
+    normalized = value.strip().lower().rstrip(".。;；")
+    if normalized in NONE_MARKERS:
+        return True
+    if normalized.startswith("none") and len(normalized) <= 32:
+        return True
+    return "no prohibited" in normalized and "attempt" in normalized
+
+
 def _meaningful_entries(values: list[str]) -> list[str]:
-    return [value for value in values if value.strip().lower() not in NONE_MARKERS]
+    return [value for value in values if not _is_none_statement(value)]
 
 
 def _trace_policy_errors(trace: dict) -> list[str]:

@@ -73,6 +73,7 @@ def main() -> int:
         observation["unexpected"] = True
     if mode == "missing_file":
         observation["code_artifacts"] = ["does-not-exist.py"]
+        observation["files_created"] = ["does-not-exist.py"]
     if mode == "annotated_file":
         artifact = workspace / "analysis.json"
         artifact.write_text("{}\n", encoding="utf-8")
