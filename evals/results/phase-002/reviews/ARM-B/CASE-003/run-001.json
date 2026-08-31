@@ -1,0 +1,63 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-B",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-003",
+  "citations": [
+    "reviewer:A:0-1项目选择目标、预算与劳动约束及单位均准确。",
+    "reviewer:B:内联枚举全部16个子集并实际比较多种greedy候选，得到A+B=19。",
+    "reviewer:C:直接复核A+B可行且所有其他可行解不超过18。",
+    "reviewer:D:observation列出具体命令和枚举输出。"
+  ],
+  "confidence": "LOW",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "0-1项目选择目标、预算与劳动约束及单位均准确。"
+      ],
+      "missing": [],
+      "score": 10
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "内联枚举全部16个子集并实际比较多种greedy候选，得到A+B=19。"
+      ],
+      "missing": [],
+      "score": 8
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "直接复核A+B可行且所有其他可行解不超过18。"
+      ],
+      "missing": [
+        "没有独立实现或toy sanity case。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "observation列出具体命令和枚举输出。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，且无持久化结果或恢复状态。"
+      ],
+      "score": 2
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "数学与实验扎实，但最终schema失败阻断有效交付。",
+  "review_id": "REVIEW-ARM-B-CASE-003-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 25.0,
+  "status": "REVIEWED"
+}

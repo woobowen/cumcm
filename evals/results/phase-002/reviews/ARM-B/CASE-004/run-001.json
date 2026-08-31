@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-004",
+  "citations": [
+    "reviewer:A:定义严格时序切分、MAE主指标、泄漏移除及仅过去信息填补。",
+    "reviewer:B:实际评估persistence、mean和三种OLS，并给出验证、测试及滚动指标。",
+    "reviewer:C:完成滚动窗口、异常值截断、缺失处理和泄漏探针测试。",
+    "reviewer:D:manifest为COMPLETED、schema_valid=true，具体泄漏计数和指标可追踪。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "定义严格时序切分、MAE主指标、泄漏移除及仅过去信息填补。"
+      ],
+      "missing": [
+        "最终选择实际依赖test表现而非声明的validation目标。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "实际评估persistence、mean和三种OLS，并给出验证、测试及滚动指标。"
+      ],
+      "missing": [
+        "使用最终holdout选择persistence削弱测试集独立性。"
+      ],
+      "score": 6
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "完成滚动窗口、异常值截断、缺失处理和泄漏探针测试。"
+      ],
+      "missing": [
+        "测试集参与选择后不能视为完全独立的泛化证据。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "manifest为COMPLETED、schema_valid=true，具体泄漏计数和指标可追踪。"
+      ],
+      "missing": [
+        "未保存代码、预测或切分工件。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "实验广泛，但holdout参与模型选择降低评估纯度。",
+  "review_id": "REVIEW-ARM-B-CASE-004-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 25.0,
+  "status": "REVIEWED"
+}

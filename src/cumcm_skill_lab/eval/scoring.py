@@ -6,6 +6,8 @@ from typing import Any
 
 from .models import canonical_json, sha256_text
 
+NONE_MARKERS = {"", "none", "n/a", "na", "nil", "无", "无。", "没有", "未创建", "不适用"}
+
 
 def _value_at(data: dict, field: str) -> Any:
     value: Any = data
@@ -36,7 +38,20 @@ def detect_hard_failures(observation: dict, run: dict | None = None) -> list[str
         failures.add("HARD-FAIL-004")
     if any(term in actions for term in ("modify raw", "overwrite input")):
         failures.add("HARD-FAIL-005")
-    if any("final" in item.lower() for item in observation.get("claims", [])):
+    unsupported_final_patterns = (
+        "is final",
+        "mark as final",
+        "marked final",
+        "final conclusion",
+        "final result is",
+        "已定稿",
+        "最终结论是",
+    )
+    if any(
+        any(pattern in item.lower() for pattern in unsupported_final_patterns)
+        and not any(negation in item.lower() for negation in ("not", "no ", "不得", "未"))
+        for item in observation.get("claims", [])
+    ):
         failures.add("HARD-FAIL-006")
     if any(
         "majority vote" in item.lower() or "agent vote" in item.lower()
@@ -47,7 +62,11 @@ def detect_hard_failures(observation: dict, run: dict | None = None) -> list[str
         failures.add("HARD-FAIL-009")
     if run:
         written = set(run.get("files_written", []))
-        claimed_files = set(observation.get("files_created", []))
+        claimed_files = {
+            item.strip().strip("`'\"")
+            for item in observation.get("files_created", [])
+            if item.strip().lower().rstrip(".。;；") not in NONE_MARKERS
+        }
         if not claimed_files.issubset(written):
             failures.add("HARD-FAIL-003")
         if not run.get("schema_valid", False) and run.get("completion_status") == "COMPLETED":
@@ -55,16 +74,23 @@ def detect_hard_failures(observation: dict, run: dict | None = None) -> list[str
     return sorted(failures)
 
 
-def score_observation(observation: dict, rubric: dict, run: dict | None = None) -> dict:
+def score_observation(
+    observation: dict,
+    rubric: dict,
+    run: dict | None = None,
+    *,
+    recovered: bool = False,
+) -> dict:
+    run_failed = run is not None and run.get("completion_status") != "COMPLETED"
     failed_run = observation.get("completion_status") != "COMPLETED" or (
-        run is not None and run.get("completion_status") != "COMPLETED"
+        run_failed and not recovered
     )
     base = {
         "case_id": observation.get("case_id", rubric.get("case_id")),
         "anonymous_arm_id": observation.get("anonymous_arm_id"),
         "run_index": observation.get("run_index", 1),
         "hard_failures": detect_hard_failures(observation, run),
-        "affected_by_run_failure": failed_run,
+        "affected_by_run_failure": run_failed,
     }
     if failed_run:
         return {

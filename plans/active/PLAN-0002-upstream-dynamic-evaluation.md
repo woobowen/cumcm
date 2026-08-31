@@ -189,7 +189,11 @@ evaluation if allowlists fail; qualitative review can introduce bias.
 - [x] M6 executed the remaining 15 fixed arm/case cells exactly once. Ten completed and five
   publication failures were retained. All 20 allowed real runs and both calibration runs are now
   exhausted; no further dynamic retry is permitted.
-- [ ] M7–M10.
+- [ ] M7 blind scoring is frozen and committed before reveal: five eligible observations were
+  recovered through hash-bound append-only records without changing FAILED manifests; one
+  read-only anonymous Reviewer completed 18 structured reviews; 18 deterministic/reviewer scores
+  are frozen. Reveal and post-reveal bias check remain.
+- [ ] M8–M10.
 
 ### Validation evidence
 
@@ -237,6 +241,15 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   private path, frozen-input mutation, network command, or MCP event was detected. With run and
   calibration budgets exhausted, no retry is allowed; M7 may only perform hash-bound append-only
   offline recovery while preserving the failed manifests and marking affected scores.
+- `2026-08-31` M7 pre-reveal: append-only recovery generated and rechecked five records at
+  implementation commit `8c636743730c68bb1ddf3987e010239713ae65d4`; all original FAILED
+  manifests remain unchanged. Independent read-only Reviewer `READONLY-ANON-MODELING-001` saw only
+  anonymous observations and allowed run fields, not identity, candidate metadata, or deterministic
+  scores, and produced 18 Schema-valid 30-point reviews. The 70-point deterministic scorer then
+  froze 18 initial scores at `2026-08-31T10:05:21.949273Z`. Anonymous medians were ARM-A 60.0,
+  ARM-B 62.5, ARM-C 60.5; min/max were 32/79, 35/82, and 23/83. No hard failure was detected.
+  Five recovered scores are `affected_by_run_failure=true` with LOW confidence. `score --check`,
+  review check, recovery check, full CI (75 passed), and strict validation all passed before reveal.
 
 ## 24. Interruption recovery
 

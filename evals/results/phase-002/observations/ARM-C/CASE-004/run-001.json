@@ -1,0 +1,162 @@
+{
+  "anonymous_arm_id": "ARM-C",
+  "assumptions": [
+    "Row order is the only reliable temporal ordering because 20 time strings are invalid calendar dates.",
+    "The prediction target is the current-row `target` and only fields marked available at prediction time are admissible predictors.",
+    "Feature and target share compatible units because the strongest non-leaky baseline is direct use of `feature` to predict `target`.",
+    "Median imputation for missing `feature` values is acceptable for this small deterministic experiment."
+  ],
+  "baseline": {
+    "description": "Naive temporal baseline: after training-only median imputation and IQR clipping of `feature`, predict `target` as the cleaned `feature` itself.",
+    "evidence": [
+      "Train/validation/test split by row order: 28/10/10.",
+      "Baseline validation MAE/RMSE = 5.6658/6.599643.",
+      "Baseline test MAE/RMSE = 11.1582/11.318721.",
+      "This baseline materially outperforms the train-mean baseline test MAE/RMSE = 28.226843/28.290682."
+    ],
+    "result": 11.1582
+  },
+  "candidate_models": [
+    "Candidate 1: train-mean baseline. Fit cost negligible; rejected because test MAE 28.226843 is far worse than any feature-based model.",
+    "Candidate 2: cleaned one-feature OLS using only admissible `feature`. Assumptions: approximately linear mapping and stable slope. Fit cost low. Validation MAE/RMSE = 6.00111/6.89605 and test MAE/RMSE = 11.947973/12.098019; rejected because it underperforms the simpler identity baseline on both validation and test.",
+    "Candidate 3: leaky proxy model using `target_proxy`. Fit cost negligible. Rejected structurally because it achieves impossible test MAE/RMSE = 0/0 by directly copying the label.",
+    "Candidate 4: leaky look-ahead model using `future_target`. Fit cost negligible. Rejected structurally because the field notes define it as the next-row target created after outcomes; despite test MAE/RMSE = 3.760364/9.761482, it is not deployable.",
+    "Candidate 5: noise-only OLS on `noise_feature`. Randomness-controlled perturbation candidate with seed 20260831; rejected because test MAE/RMSE = 28.2042/28.267179 shows no predictive value."
+  ],
+  "case_id": "CASE-004",
+  "claims": [
+    "The strongest admissible and validated choice in this repository is the cleaned-feature identity baseline, not a fitted regression.",
+    "The dataset contains multiple deliberate leakage channels and a sensor/outlier hazard, so protocol quality matters more than model sophistication.",
+    "Held-out performance degrades from validation to test, which suggests temporal shift near the later rows."
+  ],
+  "code_artifacts": [
+    "No persistent code artifacts were created.",
+    "All computations were executed via inline `python3` from the shell inside the repository."
+  ],
+  "commands_executed": [
+    "ls -la",
+    "sed -n '1,220p' TASK.json",
+    "sed -n '1,220p' runtime_metadata.json",
+    "sed -n '1,220p' ARM_INSTRUCTION.md",
+    "sed -n '1,260p' observation.schema.json",
+    "sed -n '1,260p' case/input/timeseries.csv",
+    "sed -n '1,260p' case/input/field_notes.json",
+    "python - <<'PY' ... PY",
+    "python3 - <<'PY' ... PY"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "The table has 48 sequential rows with columns time, feature, future_target, target_proxy, noise_feature, regime, and target.",
+    "Verified leakage: `target_proxy` equals `target` on 48 of 48 rows.",
+    "Verified leakage: `future_target` equals the next row `target` on 47 of 47 aligned comparisons.",
+    "Field notes state `regime` is known only after period close, so it is excluded despite matching the visible regime shift.",
+    "`feature` is missing at row indices 8 and 30 and has one saturation outlier of 180.0 at row index 39.",
+    "Strict `%Y-%m-%d` parsing fails for 20 time strings from `2026-02-29` through `2026-02-48`, so the experiment uses row order instead of calendar arithmetic."
+  ],
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "experiment_design": [
+    "Predefined metrics: MAE as primary, RMSE as secondary.",
+    "Temporal holdout: train rows 0-27, validation rows 28-37, test rows 38-47.",
+    "Repeated evidence: three rolling-origin folds [(0,24)->(24,32), (0,28)->(28,38), (0,38)->(38,48)].",
+    "Leakage removal: exclude `future_target`, `target_proxy`, and `regime` before any fitting or scoring.",
+    "Preprocessing per fold: compute median imputation and IQR clipping from training rows only.",
+    "Model-selection rule: prefer the simplest non-leaky model unless a more complex admissible model beats it on validation and survives falsification checks."
+  ],
+  "falsification_tests": [
+    "Leakage falsification: any near-perfect score from `target_proxy` or `future_target` is treated as evidence of invalid design, not model quality.",
+    "Noise falsification: noise-only OLS test MAE/RMSE 28.2042/28.267179 fails to beat the baseline, so spurious correlation is not accepted as signal.",
+    "Complexity falsification: cleaned OLS was eligible only if it beat the identity baseline on validation and test; it did not, so it was rejected.",
+    "Temporal-index falsification: strict calendar parsing failure prevented date-based feature engineering and forced ordinal indexing."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "No predictor may use post-outcome or post-period information.",
+      "All preprocessing statistics must be fit on the training portion of each fold only.",
+      "Temporal order must be preserved; no random shuffling across rows.",
+      "Inputs must remain unchanged and only local repository files may be used."
+    ],
+    "notes": [
+      "Minimal executable sanity checks were performed before model comparison: leakage equality tests, date-parse test, and split-size verification.",
+      "The decision record is fail-closed on leakage: any model depending on excluded columns is rejected regardless of score."
+    ],
+    "objective": "Minimize held-out MAE with RMSE as a secondary error metric under a leakage-free temporal protocol.",
+    "parameters": [
+      "Primary split: rows 0-27 train, 28-37 validation, 38-47 test.",
+      "Imputation parameter: train median feature = 60.17.",
+      "Clipping bounds from train IQR rule: [40.62, 77.276].",
+      "Random seed for perturbation involving shuffled noise = 20260831."
+    ],
+    "units": [
+      "Target and feature appear to share the same numeric scale; explicit physical units are not provided.",
+      "MAE and RMSE are reported in target units.",
+      "Time is treated as ordinal row position rather than validated calendar dates."
+    ],
+    "variables": [
+      "Index t = 0..47 denotes temporal row order.",
+      "Target y_t is the current-row `target`.",
+      "Admissible predictor x_t is current-row `feature` after training-only preprocessing.",
+      "Excluded predictors are `future_target`, `target_proxy`, and `regime`; `noise_feature` is admissible only for falsification."
+    ]
+  },
+  "human_gates": [],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "Sample size is 48 rows, so variance of held-out estimates is high.",
+    "`future_target`, `target_proxy`, and `regime` are unusable for causal prediction because the field notes mark them as post-outcome or post-period information.",
+    "`feature` can be missing and can saturate at 180 during a sensor interval, so preprocessing must handle both issues without using future rows.",
+    "No external data, labels, or domain calibration are available."
+  ],
+  "requirements": [
+    "Read TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, observation.schema.json, and the listed local case inputs only.",
+    "Work only inside the isolated repository, preserve all inputs unchanged, and avoid network, MCP, remotes, parent directories, credentials, and historical material.",
+    "Design and execute a temporal train/validation/test experiment with a naive baseline, predefined metrics, leakage removal, repeated evidence, perturbation tests, randomness control, and retained failures.",
+    "Return exactly one JSON object matching observation.schema.json and distinguish claims from verified evidence."
+  ],
+  "robustness_tests": [
+    "Missing-data perturbation: refitting OLS after dropping missing-feature train rows gives test MAE/RMSE 11.743134/11.895764, still worse than the selected baseline.",
+    "Outlier perturbation: OLS without clipping gives test MAE/RMSE 11.054709/26.952625, showing large RMSE sensitivity to the saturated value even when MAE changes little.",
+    "Repeated temporal evidence: identity baseline and cleaned OLS were compared across three rolling-origin folds rather than a single split.",
+    "Randomness control: the only randomized perturbation, shuffled-noise testing, used fixed seed 20260831."
+  ],
+  "run_index": 1,
+  "selected_model": "Selected model is the naive cleaned-feature identity baseline because it is non-leaky, deterministic, cheaper than OLS, and beats cleaned OLS on both validation and test.",
+  "self_reported_limitations": [
+    "No external libraries, external data, or persistent scripts were introduced; this limits model variety but preserves isolation.",
+    "The experiment used simple one-feature models because all other informative columns were verified as leaky or post-period.",
+    "No schema validator package was invoked; schema conformance was checked manually against observation.schema.json while constructing this object."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/timeseries.csv",
+    "case/input/field_notes.json"
+  ],
+  "tests_claimed": [
+    "Schema-required fields populated with local task metadata.",
+    "Temporal split and rolling-origin repeated-evidence evaluation were executed.",
+    "Leakage checks, date parsing, perturbation tests, and candidate-versus-baseline comparisons were executed.",
+    "Retained failures were recorded instead of overwritten."
+  ],
+  "tests_verified": [
+    "The `python` command failed with `/bin/bash: line 1: python: command not found`; execution switched to `python3` and the failure is retained as evidence.",
+    "Leakage verification passed: `target_proxy` == `target` for 48/48 rows and `future_target` == next `target` for 47/47 aligned rows.",
+    "Strict date parsing verified 20 invalid calendar-like strings, so row order was used as the temporal index.",
+    "Primary split sizes verified as train=28, validation=10, test=10.",
+    "Rolling-origin evidence verified on three folds: fold1 identity MAE/RMSE 3.71325/5.556193 vs OLS 3.477532/5.242674; fold2 identity 5.6658/6.599643 vs OLS 6.00111/6.89605; fold3 identity 2.0141/2.385056 vs OLS 1.744588/2.352677.",
+    "Held-out test verified identity baseline MAE/RMSE 11.1582/11.318721 vs cleaned OLS 11.947973/12.098019."
+  ],
+  "uncertainties": [
+    "The exact operational meaning and physical units of `feature` and `target` are not provided.",
+    "Only 10 test rows are available, so ranking between close non-leaky models may change with more data.",
+    "Because `regime` is unavailable at prediction time, adaptation to the visible shift cannot be validated with the provided inputs alone."
+  ],
+  "validation": [
+    "Identity baseline beats cleaned OLS on the primary validation split and final test, so complexity is not justified.",
+    "Identity baseline also beats the train-mean baseline by a wide margin, confirming that the admissible feature carries signal.",
+    "The discrepancy between rolling folds indicates nonstationarity around the early/late regime change, which is consistent with the field notes but cannot be used directly because `regime` is post-period.",
+    "A no-clipping OLS perturbation inflates test RMSE to 26.952625 because the saturated feature value at row 39 destabilizes the fit, validating the outlier-handling choice."
+  ]
+}

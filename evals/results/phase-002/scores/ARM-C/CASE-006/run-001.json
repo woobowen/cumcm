@@ -1,0 +1,187 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-C",
+  "case_id": "CASE-006",
+  "confidence": "HIGH",
+  "deterministic_score": 35.0,
+  "dimensions": {
+    "ASSUMPTION": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in assumptions"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FACTS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "LEVELS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "LIMIT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched claims"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "MODIFY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in formalization"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOCAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOFAKE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched self_reported_limitations"
+      ],
+      "missing": [],
+      "score": 3.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOWIN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched claims"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "REMOVE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "RETAIN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in formalization"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "定义直接支持阈值、冲突规则和适配动作，并绑定全部source_id。"
+      ],
+      "missing": [
+        "来源等级顺序仍依赖标签语义假设。"
+      ],
+      "score": 9,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "baseline给出1/4支持，selected_model增加冲突与无关证据处理。"
+      ],
+      "missing": [
+        "没有经验实验或定量方法再验证。"
+      ],
+      "score": 6,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "逐claim falsification并检查来源顺序、弱来源剔除和严格支持规则的稳健性。"
+      ],
+      "missing": [],
+      "score": 6,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "来源精确到source_id并完成Python结构自检；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "没有输入哈希或持久化claim map。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "LEVELS",
+    "LIMIT",
+    "NOWIN",
+    "REMOVE",
+    "NOFAKE",
+    "reviewer:A:定义直接支持阈值、冲突规则和适配动作，并绑定全部source_id。",
+    "reviewer:B:baseline给出1/4支持，selected_model增加冲突与无关证据处理。",
+    "reviewer:C:逐claim falsification并检查来源顺序、弱来源剔除和严格支持规则的稳健性。",
+    "reviewer:D:来源精确到source_id并完成Python结构自检；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "719d01bcbf7cad8c8d5e2afefb9b496f0009c6382f84f358c07564d6ad5f45fd",
+  "missing": [
+    "NOCAUSAL",
+    "ASSUMPTION",
+    "RETAIN",
+    "MODIFY",
+    "FACTS",
+    "来源等级顺序仍依赖标签语义假设。",
+    "没有经验实验或定量方法再验证。",
+    "没有输入哈希或持久化claim map。"
+  ],
+  "reviewer_score": 26.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-C-CASE-006-RUN-001",
+  "status": "SCORED",
+  "total_score": 61.0
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/eval-review/v1",
+  "title": "Anonymous Qualitative Evaluation Review",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "review_id", "evaluation_id", "case_id", "anonymous_arm_id", "run_index", "reviewer_id", "reviewer_source", "status", "score", "dimensions", "overall_assessment", "citations", "confidence", "affected_by_run_failure", "identity_visible", "deterministic_score_visible", "candidate_metadata_visible", "reviewed_at"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "review_id": {"type": "string", "pattern": "^REVIEW-ARM-[ABC]-CASE-[0-9]{3}-RUN-[0-9]{3}$"},
+    "evaluation_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "pattern": "^CASE-[0-9]{3}$"},
+    "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+    "run_index": {"type": "integer", "minimum": 1},
+    "reviewer_id": {"type": "string", "minLength": 1},
+    "reviewer_source": {"enum": ["READ_ONLY_SUBAGENT", "MAIN_AGENT_BLIND_REVIEW"]},
+    "status": {"const": "REVIEWED"},
+    "score": {"type": "number", "minimum": 0, "maximum": 30},
+    "dimensions": {
+      "type": "object",
+      "required": ["A", "B", "C", "D"],
+      "properties": {
+        "A": {"$ref": "#/$defs/dimension"},
+        "B": {"$ref": "#/$defs/dimension"},
+        "C": {"$ref": "#/$defs/dimension"},
+        "D": {"$ref": "#/$defs/dimension"}
+      },
+      "additionalProperties": false
+    },
+    "overall_assessment": {"type": "string", "minLength": 1},
+    "citations": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"]},
+    "affected_by_run_failure": {"type": "boolean"},
+    "identity_visible": {"const": false},
+    "deterministic_score_visible": {"const": false},
+    "candidate_metadata_visible": {"const": false},
+    "reviewed_at": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "required": ["score", "evidence", "missing", "confidence"],
+      "properties": {
+        "score": {"type": "number", "minimum": 0, "maximum": 10},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "missing": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

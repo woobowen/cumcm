@@ -1,0 +1,223 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "case_id": "CASE-002",
+  "confidence": "HIGH",
+  "deterministic_score": 55.0,
+  "dimensions": {
+    "CATEGORY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "DATE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "DUP": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "ENTITY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched experiment_design"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "EXTREME": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FUTURE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "IMBALANCE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "IMMUTABLE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in reality_constraints"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "IMPOSSIBLE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "MISSING": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOISE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 4.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "formalization明确原始保存、泄漏排除、sentinel保留及实体时间切分。"
+      ],
+      "missing": [
+        "下游预测用途未知，切分仍是通用保守方案。"
+      ],
+      "score": 9,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "python3逐行验证11行数据、两类泄漏及异常位置。"
+      ],
+      "missing": [
+        "没有实际预测性能证据。"
+      ],
+      "score": 7,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "falsification与robustness同时利用字典、单位归一化和脚本复核避免过度清洗。"
+      ],
+      "missing": [
+        "切分策略未由模型结果验证。"
+      ],
+      "score": 6,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "证据链完整；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "无持久化审计表或恢复工件。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "TARGET": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "UNITS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "MISSING",
+    "DUP",
+    "IMPOSSIBLE",
+    "UNITS",
+    "DATE",
+    "CATEGORY",
+    "FUTURE",
+    "ENTITY",
+    "TARGET",
+    "NOISE",
+    "reviewer:A:formalization明确原始保存、泄漏排除、sentinel保留及实体时间切分。",
+    "reviewer:B:python3逐行验证11行数据、两类泄漏及异常位置。",
+    "reviewer:C:falsification与robustness同时利用字典、单位归一化和脚本复核避免过度清洗。",
+    "reviewer:D:证据链完整；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "e875773cb23243b0753815039ac55252ade24e119093befcdcac5d4317f239a8",
+  "missing": [
+    "IMBALANCE",
+    "EXTREME",
+    "IMMUTABLE",
+    "下游预测用途未知，切分仍是通用保守方案。",
+    "没有实际预测性能证据。",
+    "切分策略未由模型结果验证。",
+    "无持久化审计表或恢复工件。"
+  ],
+  "reviewer_score": 27.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-B-CASE-002-RUN-001",
+  "status": "SCORED",
+  "total_score": 82.0
+}

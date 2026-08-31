@@ -1,0 +1,63 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-A",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-006",
+  "citations": [
+    "reviewer:A:建立来源优先级、直接支持关系和assumption mismatch门控，并逐项映射四个claims。",
+    "reviewer:B:baseline量化1/4支持，并形成retain/modify/remove contract。",
+    "reviewer:C:分别搜索本地假设冲突、可比研究和权威普适性证据。",
+    "reviewer:D:记录preflight哈希和source_id；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "建立来源优先级、直接支持关系和assumption mismatch门控，并逐项映射四个claims。"
+      ],
+      "missing": [],
+      "score": 10
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "baseline量化1/4支持，并形成retain/modify/remove contract。"
+      ],
+      "missing": [
+        "没有可执行统计实验或性能再验证。"
+      ],
+      "score": 6
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "分别搜索本地假设冲突、可比研究和权威普适性证据。"
+      ],
+      "missing": [
+        "除schema外没有机器化claim-map一致性测试。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "记录preflight哈希和source_id；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [],
+      "score": 6
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "证据分级和方法适配边界清晰，没有将缺失实验升级为结论。",
+  "review_id": "REVIEW-ARM-A-CASE-006-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 27.0,
+  "status": "REVIEWED"
+}

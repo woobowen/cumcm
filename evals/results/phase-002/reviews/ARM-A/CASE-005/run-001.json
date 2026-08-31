@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-A",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-005",
+  "citations": [
+    "reviewer:A:传递后代定义和三个restart label判断正确，完整列出STALE集合。",
+    "reviewer:B:python3传递闭包检查证明三个expected_stale均精确匹配。",
+    "reviewer:C:验证闭包、restart和policy，并覆盖config汇入run-1分支。",
+    "reviewer:D:记录输入哈希；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "传递后代定义和三个restart label判断正确，完整列出STALE集合。"
+      ],
+      "missing": [
+        "未逐情景明确列出unaffected valid节点。"
+      ],
+      "score": 8
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "python3传递闭包检查证明三个expected_stale均精确匹配。"
+      ],
+      "missing": [
+        "restart stage只能做语义一致性判断。"
+      ],
+      "score": 7
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "验证闭包、restart和policy，并覆盖config汇入run-1分支。"
+      ],
+      "missing": [
+        "缺少异常图或错误边sanity case。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "记录输入哈希；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "无持久化workflow state或闭包结果。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "STALE与restart判断可靠，但valid节点和恢复工件不完整。",
+  "review_id": "REVIEW-ARM-A-CASE-005-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 25.0,
+  "status": "REVIEWED"
+}

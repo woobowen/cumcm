@@ -1,0 +1,190 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "case_id": "CASE-006",
+  "confidence": "HIGH",
+  "deterministic_score": 40.0,
+  "dimensions": {
+    "ASSUMPTION": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in assumptions"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FACTS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched claims"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "LEVELS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "LIMIT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched claims"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "MODIFY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOCAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOFAKE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched self_reported_limitations"
+      ],
+      "missing": [],
+      "score": 3.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOWIN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REMOVE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "RETAIN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in formalization"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "准确识别权威来源、方法条件、共享漂移和缺少可比研究。"
+      ],
+      "missing": [
+        "support/conflict判定规则形式化较粗。"
+      ],
+      "score": 9,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "完成四项claim mapping和retain/modify/remove建议。"
+      ],
+      "missing": [
+        "baseline.result为null，且无可执行映射或实验。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "对自动有效、县域因果和always wins分别检查反证。"
+      ],
+      "missing": [
+        "无结构化一致性或顺序敏感性测试。"
+      ],
+      "score": 4,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "来源和claims可追溯；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "未记录输入哈希或持久化claim-map。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "LEVELS",
+    "LIMIT",
+    "MODIFY",
+    "REMOVE",
+    "FACTS",
+    "NOFAKE",
+    "reviewer:A:准确识别权威来源、方法条件、共享漂移和缺少可比研究。",
+    "reviewer:B:完成四项claim mapping和retain/modify/remove建议。",
+    "reviewer:C:对自动有效、县域因果和always wins分别检查反证。",
+    "reviewer:D:来源和claims可追溯；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "2282677689863bef1dae86f94ba49ffe3ad6c99663b08cb4bf76419b5028d40d",
+  "missing": [
+    "NOCAUSAL",
+    "NOWIN",
+    "ASSUMPTION",
+    "RETAIN",
+    "support/conflict判定规则形式化较粗。",
+    "baseline.result为null，且无可执行映射或实验。",
+    "无结构化一致性或顺序敏感性测试。",
+    "未记录输入哈希或持久化claim-map。"
+  ],
+  "reviewer_score": 23.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-B-CASE-006-RUN-001",
+  "status": "SCORED",
+  "total_score": 63.0
+}

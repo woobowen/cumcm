@@ -1,0 +1,170 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-C",
+  "case_id": "CASE-003",
+  "confidence": "LOW",
+  "deterministic_score": 57.0,
+  "dimensions": {
+    "BASELINE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in baseline"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "BUDGET": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "DIMENSION": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in validation"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FALSIFY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched falsification_tests"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "LABOR": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "OBJECTIVE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "OPTIMUM": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched validation"
+      ],
+      "missing": [],
+      "score": 12.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "完整形式化四项目双约束0-1选择并区分候选方法。"
+      ],
+      "missing": [],
+      "score": 10,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "创建并运行枚举脚本，输出16个记录和A+B=19，且含独立toy self-test。"
+      ],
+      "missing": [],
+      "score": 8,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "完整覆盖、次优值18、手工复核和sanity case共同支持最优性。"
+      ],
+      "missing": [],
+      "score": 6,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "manifest确认enumerate_projects.py落盘。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，无结果或恢复状态工件。"
+      ],
+      "score": 2,
+      "source": "REVIEWER"
+    },
+    "RUN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched commands_executed"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "VARS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "VARS",
+    "OBJECTIVE",
+    "BUDGET",
+    "LABOR",
+    "OPTIMUM",
+    "RUN",
+    "FALSIFY",
+    "reviewer:A:完整形式化四项目双约束0-1选择并区分候选方法。",
+    "reviewer:B:创建并运行枚举脚本，输出16个记录和A+B=19，且含独立toy self-test。",
+    "reviewer:C:完整覆盖、次优值18、手工复核和sanity case共同支持最优性。",
+    "reviewer:D:manifest确认enumerate_projects.py落盘。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "04af0a91246f278ec78637be4a199a5a5077e30a047dd9491c6b24b86a4457cb",
+  "missing": [
+    "DIMENSION",
+    "BASELINE",
+    "manifest为FAILED且schema_valid=false，无结果或恢复状态工件。"
+  ],
+  "reviewer_score": 26.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-C-CASE-003-RUN-001",
+  "status": "SCORED",
+  "total_score": 83.0
+}

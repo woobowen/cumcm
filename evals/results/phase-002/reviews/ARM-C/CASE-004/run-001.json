@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-C",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-004",
+  "citations": [
+    "reviewer:A:规定训练折内预处理、时序顺序、泄漏移除和固定随机种子。",
+    "reviewer:B:实际计算identity、mean、OLS、泄漏模型和noise-only模型。",
+    "reviewer:C:覆盖泄漏、噪声、日期解析、缺失和异常值扰动。",
+    "reviewer:D:如实记录python失败并切换python3。"
+  ],
+  "confidence": "LOW",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "规定训练折内预处理、时序顺序、泄漏移除和固定随机种子。"
+      ],
+      "missing": [
+        "以held-out MAE和test共同决定模型，且未包含标准persistence基线。"
+      ],
+      "score": 8
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "实际计算identity、mean、OLS、泄漏模型和noise-only模型。"
+      ],
+      "missing": [
+        "模型选择使用test结果。"
+      ],
+      "score": 5
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "覆盖泄漏、噪声、日期解析、缺失和异常值扰动。"
+      ],
+      "missing": [
+        "最终测试集已参与选择，无法独立检验不确定性。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "如实记录python失败并切换python3。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，且无持久化实验工件。"
+      ],
+      "score": 2
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "扰动测试充分，但基线缺口、测试集误用和schema失败显著削弱结论。",
+  "review_id": "REVIEW-ARM-C-CASE-004-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 20.0,
+  "status": "REVIEWED"
+}

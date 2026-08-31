@@ -1,0 +1,61 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-C",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-003",
+  "citations": [
+    "reviewer:A:完整形式化四项目双约束0-1选择并区分候选方法。",
+    "reviewer:B:创建并运行枚举脚本，输出16个记录和A+B=19，且含独立toy self-test。",
+    "reviewer:C:完整覆盖、次优值18、手工复核和sanity case共同支持最优性。",
+    "reviewer:D:manifest确认enumerate_projects.py落盘。"
+  ],
+  "confidence": "LOW",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "完整形式化四项目双约束0-1选择并区分候选方法。"
+      ],
+      "missing": [],
+      "score": 10
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "创建并运行枚举脚本，输出16个记录和A+B=19，且含独立toy self-test。"
+      ],
+      "missing": [],
+      "score": 8
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "完整覆盖、次优值18、手工复核和sanity case共同支持最优性。"
+      ],
+      "missing": [],
+      "score": 6
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "manifest确认enumerate_projects.py落盘。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，无结果或恢复状态工件。"
+      ],
+      "score": 2
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "建模与求解验证完整，但运行级schema失败使结果不可交付。",
+  "review_id": "REVIEW-ARM-C-CASE-003-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 26.0,
+  "status": "REVIEWED"
+}

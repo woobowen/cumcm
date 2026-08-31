@@ -1,0 +1,182 @@
+{
+  "anonymous_arm_id": "ARM-A",
+  "assumptions": [
+    "The task asks for an audit/design observation, not for cleaning the source data in place.",
+    "'Leakage-safe split' can be proposed as a dataset handling design without creating new derived data files.",
+    "A manual schema cross-check against observation.schema.json is acceptable because no local JSON Schema validator was provided."
+  ],
+  "baseline": {
+    "description": "Audit-only baseline: local preflight, hashing, row inspection, dictionary comparison, and leakage review without fitting a predictive model.",
+    "evidence": [
+      "Input hashes captured for all required files before analysis.",
+      "A minimal recoverable workflow state was written to `.harness/state/workflow_state.json` with stage, prerequisites, handoff locations, and hashes.",
+      "No model training, feature engineering, or metric computation was performed."
+    ],
+    "result": null
+  },
+  "candidate_models": [
+    "No predictive model was executed; the task was satisfied with a data-audit and split-design workflow.",
+    "If modeling were later required, any candidate would need to exclude `future_score` and `target_copy`, normalize `category`, standardize mass units, and handle duplicate/impossible rows under a time-based split."
+  ],
+  "case_id": "CASE-002",
+  "claims": [
+    "Verified claim: the dataset contains explicit target leakage through both `target_copy` and `future_score`.",
+    "Verified claim: at least one row is erroneous (`mass_value=-5` kg).",
+    "Verified claim: some suspicious-looking values are actually plausible under the provided dictionary (`feature=99`, `mass_value=250` kg, `0.012 tonne`).",
+    "Verified claim: raw category labels are inconsistent and require normalization in any derived dataset.",
+    "Inference from the observed dates and repeated entity A: a forward-in-time split is safer than a random split for downstream modeling on this sample."
+  ],
+  "code_artifacts": [
+    "Created `.harness/state/workflow_state.json` to satisfy the arm policy requirement for a minimal recoverable workflow state."
+  ],
+  "commands_executed": [
+    "`ls -la`",
+    "`pwd`",
+    "`sed -n '1,220p' TASK.json`",
+    "`sed -n '1,220p' runtime_metadata.json`",
+    "`sed -n '1,240p' ARM_INSTRUCTION.md`",
+    "`sed -n '1,260p' observation.schema.json`",
+    "`find case -maxdepth 3 -type f | sort`",
+    "`sha256sum TASK.json runtime_metadata.json ARM_INSTRUCTION.md observation.schema.json case/input/data.csv case/input/data_dictionary.json`",
+    "`sed -n '1,220p' case/input/data_dictionary.json`",
+    "`sed -n '1,120p' case/input/data.csv`",
+    "`awk -F, 'NR==1{for(i=1;i<=NF;i++)h[i]=$i; next} {rows++; if($1 in id) dup_rows++; id[$1]++; ent[$2]++; cat[$4]++; mu[$6]++; if($5+0<0) neg_mass++; if($7==\"\") missing_feature++; if($7==99) sentinel_99++; if($9==$10) copy_eq_target++; if($8!=\"\" && $10!=\"\" && ($8+0)>($10+0)) future_gt_target++; print > \"/tmp/all_rows_case002.tmp\"} END{print \"rows=\" rows; print \"dup_row_id_values=\" dup_rows; print \"neg_mass=\" neg_mass; print \"missing_feature=\" missing_feature; print \"sentinel_99=\" sentinel_99; print \"target_copy_equals_target=\" copy_eq_target; print \"future_score_gt_target=\" future_gt_target; for(k in cat) print \"category[\" k \"]=\" cat[k]; for(k in mu) print \"mass_unit[\" k \"]=\" mu[k]; for(k in ent) print \"entity[\" k \"]=\" ent[k]; }' case/input/data.csv`",
+    "`awk -F, 'NR>1 {kg = ($6==\"tonne\" ? $5*1000 : $5); print $1\",\"$2\",\"$3\",\"$4\",\"kg\",\"$7\",\"$8\",\"$9\",\"$10}' case/input/data.csv`",
+    "`mkdir -p .harness/state`",
+    "`awk -F, 'NR>1 {kg = ($6==\"tonne\" ? $5*1000 : $5); cat=tolower($4); if(cat==\"r\") cat=\"red\"; print $3\",\"$2\",\"$1\",\"kg\",\"cat\",\"$7\",\"$10}' case/input/data.csv | sort`",
+    "`python - <<'PY' ... PY` (failed: `python` not installed)",
+    "`sha256sum .harness/state/workflow_state.json`",
+    "`sed -n '1,220p' .harness/state/workflow_state.json`",
+    "`git status --short`",
+    "`jq --version`",
+    "`node --version`"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "Verified definite leakage: `target_copy` equals `target` on all 11 data rows.",
+    "Verified definite leakage: `future_score` is described as recorded one day after target and is numerically downstream of target on all 11 rows.",
+    "Verified data error: `mass_value=-5` kg at row_id 4 is not plausible under the provided dictionary.",
+    "Verified duplicate record: row_id 5 appears twice with identical full-row contents.",
+    "Verified representation inconsistency: `category` mixes `red`, `Red`, `R`, `blue`, `BLUE`, and `green`; this is a normalization issue and may create spurious categories if untreated.",
+    "Verified missing value: row_id 3 has blank `feature`.",
+    "Verified plausible extreme, not an error by itself: row_id 9 has `mass_value=250` kg, and the dictionary explicitly allows values up to 300 kg.",
+    "Verified plausible encoded value, not an error by itself: row_id 8 has `feature=99`, and the dictionary states 99 is a known sentinel from a device mode.",
+    "Verified unit-convertible value, not an error by itself: row_id 3 has `0.012 tonne`, equivalent to 12 kg.",
+    "Recommended leakage-safe handling: drop `future_score` and `target_copy` before any modeling or split, deduplicate exact duplicate rows, normalize category labels, preserve raw inputs, and quarantine impossible negative mass values for audit review.",
+    "Recommended leakage-safe split: use a forward-in-time split by `date` after leakage-column removal, with training on 2026-01-01 rows, validation on 2026-01-02 rows, and test on 2026-01-03 rows; do not random-split this dataset because temporal ordering and same-entity recurrence would understate leakage risk."
+  ],
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "experiment_design": [
+    "This was an audit-only run with no model fitting.",
+    "Evidence collection sequence followed the arm policy: preflight classification and hashes, input presence check, dictionary review, raw row inspection, issue classification, workflow-state persistence, then observation synthesis.",
+    "Leakage-safe downstream design is: preserve raw data, remove `future_score` and `target_copy` from modeling features, deduplicate exact duplicates, normalize `category`, convert mass to a common unit for derived datasets, and keep impossible negative mass rows quarantined for remediation review.",
+    "Recommended split is chronological: train on 2026-01-01, validate on 2026-01-02, test on 2026-01-03."
+  ],
+  "falsification_tests": [
+    "Checked whether `target_copy` might differ from `target`; it did not on any row, falsifying the possibility that it was an independent feature in this sample.",
+    "Checked whether `future_score` might be contemporaneous with target; the dictionary explicitly states it is recorded one day after target, falsifying safe feature use.",
+    "Checked whether 250 kg should be treated as an outlier error; the dictionary allows up to 300 kg, so 'extreme implies error' was falsified.",
+    "Checked whether `feature=99` should be treated as corruption; the dictionary defines it as a known sentinel mode, so that interpretation was falsified."
+  ],
+  "files_created": [
+    ".harness/state/workflow_state.json"
+  ],
+  "formalization": {
+    "constraints": [
+      "Preserve raw input files unchanged.",
+      "Do not repair validity by editing the report after the fact; record evidence instead.",
+      "Fail closed on unsupported claims: only state findings directly supported by the local files.",
+      "Do not claim tests, metrics, approvals, or external sources that were not actually used."
+    ],
+    "notes": [
+      "Entity A is temporally recurrent across three dates, which makes random splitting especially unsafe.",
+      "The recommended split leaves the final date represented only by entity A, so it is leakage-safe but statistically weak due to sample size.",
+      "Workflow state hash after creation: `99b1aed36ca488bb1b6948310ca2c92ddb667a532a2837d0ecfd93eb38c80264`."
+    ],
+    "objective": "Produce an evidence-backed audit record that separates definite data errors from plausible extremes and defines a leakage-safe downstream split.",
+    "parameters": [
+      "Hash algorithm: SHA-256 for preflight freshness capture.",
+      "Audit rule: treat dictionary-backed values (`feature=99`, mass up to 300 kg) as plausible unless contradicted by other evidence.",
+      "Leakage rule: any feature derived from or recorded after target is excluded from downstream modeling.",
+      "Split rule: forward-in-time partition by `date` after leakage-column removal and duplicate review."
+    ],
+    "units": [
+      "`mass_value` is in `kg` or `tonne`; 0.012 tonne = 12 kg.",
+      "`future_score`, `target_copy`, and `target` are numeric score fields with no additional unit specified in the inputs.",
+      "`date` values are ISO-like calendar dates in 2026-01-01 through 2026-01-03."
+    ],
+    "variables": [
+      "Primary identifiers/structure: `row_id`, `entity`, `date`, `category`.",
+      "Mass fields: `mass_value`, `mass_unit`.",
+      "Other features: `feature`, `future_score`, `target_copy`.",
+      "Label: `target`."
+    ]
+  },
+  "human_gates": [
+    "None required for this audit-only observation within the isolated repository."
+  ],
+  "prohibited_actions_attempted": [
+    "None."
+  ],
+  "reality_constraints": [
+    "Network, web, MCP, remotes, parent directories, credentials, and historical materials were not used.",
+    "The repository is isolated; only local shell inspection was available.",
+    "`python` was unavailable in the shell, so workflow state was created with a direct file patch instead of a Python script.",
+    "The dataset is very small (11 rows including one exact duplicate), so any split design has high variance and should be treated as procedural guidance, not a reliable benchmark."
+  ],
+  "requirements": [
+    "Read TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, case/input/data.csv, case/input/data_dictionary.json, and observation.schema.json locally.",
+    "Work only inside the isolated repository and preserve all provided inputs unchanged.",
+    "Follow ARM-A workflow policy: preflight input-role classification, hash capture, minimal recoverable workflow state, and evidence-based handoff.",
+    "Audit injected data issues, distinguish definite errors from plausible extremes, preserve raw data, and design a leakage-safe split and audit record.",
+    "Return exactly one JSON object matching observation.schema.json."
+  ],
+  "robustness_tests": [
+    "Cross-checked issues using both direct file reads and aggregated `awk` counts.",
+    "Normalized mass units conceptually before judging row 3, avoiding a false positive caused by mixed units.",
+    "Separated dictionary-supported edge cases from genuine errors to reduce over-cleaning risk.",
+    "Used a time-based split recommendation that remains safe even if entity recurrence continues in future appended data."
+  ],
+  "run_index": 1,
+  "selected_model": null,
+  "self_reported_limitations": [
+    "No automated JSON Schema validator was available locally, so schema conformance was checked manually against `observation.schema.json`.",
+    "No predictive modeling, cross-validation, or metric estimation was performed because the task scope was data audit and leakage-safe design.",
+    "The audit used only provided local files; unresolved domain semantics remain unresolved rather than guessed."
+  ],
+  "sources_used": [
+    "Local file `TASK.json`.",
+    "Local file `runtime_metadata.json`.",
+    "Local file `ARM_INSTRUCTION.md`.",
+    "Local file `observation.schema.json`.",
+    "Local file `case/input/data.csv`.",
+    "Local file `case/input/data_dictionary.json`.",
+    "Local file `.harness/state/workflow_state.json` created during this run."
+  ],
+  "tests_claimed": [
+    "Verified required input presence by listing case files and reading each required file.",
+    "Verified preflight hashes with `sha256sum` for all required inputs and for the workflow state file.",
+    "Verified row-level audit facts by direct CSV inspection plus local `awk` summaries.",
+    "Verified that the created workflow state file exists and contains the expected stage/evidence fields.",
+    "Verified command availability for `jq` and `node`; no full JSON Schema validator was run."
+  ],
+  "tests_verified": [
+    "Required inputs were present: `case/input/data.csv` and `case/input/data_dictionary.json`.",
+    "SHA-256 hashes were recorded for TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, observation.schema.json, and both case input files.",
+    "CSV inspection confirmed 11 data rows, one duplicated `row_id` value, one negative mass row, one missing `feature`, one `feature=99` row, and full leakage alignment for `target_copy` and `future_score`.",
+    "Workflow state file creation was verified by reading it back and hashing it.",
+    "Syntactic tooling availability was checked (`jq-1.7`, `node v22.22.0`), but no standalone schema-validation package was invoked."
+  ],
+  "uncertainties": [
+    "The semantic intent of category label `R` is inferred to mean `red` based on local patterning, but no explicit dictionary entry confirms it.",
+    "The correct remediation for the negative mass row is unknown from local evidence alone; quarantine/drop is safer than imputation.",
+    "The exact business meaning of `target` and `future_score` is unspecified beyond timing, so no domain-specific monotonicity claims were made.",
+    "Because the dataset is tiny, the recommended split is leakage-safe but not robust for performance estimation."
+  ],
+  "validation": [
+    "Every substantive finding in this observation is grounded in either the raw CSV content or the data dictionary text.",
+    "Claims about plausible extremes were only made where the dictionary explicitly supported them.",
+    "No external facts, historical data, or unstated business rules were introduced.",
+    "The final JSON was manually aligned to the required top-level schema fields and allowed value domains."
+  ]
+}

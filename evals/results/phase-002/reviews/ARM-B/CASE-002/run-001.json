@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-002",
+  "citations": [
+    "reviewer:A:formalization明确原始保存、泄漏排除、sentinel保留及实体时间切分。",
+    "reviewer:B:python3逐行验证11行数据、两类泄漏及异常位置。",
+    "reviewer:C:falsification与robustness同时利用字典、单位归一化和脚本复核避免过度清洗。",
+    "reviewer:D:证据链完整；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "formalization明确原始保存、泄漏排除、sentinel保留及实体时间切分。"
+      ],
+      "missing": [
+        "下游预测用途未知，切分仍是通用保守方案。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "python3逐行验证11行数据、两类泄漏及异常位置。"
+      ],
+      "missing": [
+        "没有实际预测性能证据。"
+      ],
+      "score": 7
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "falsification与robustness同时利用字典、单位归一化和脚本复核避免过度清洗。"
+      ],
+      "missing": [
+        "切分策略未由模型结果验证。"
+      ],
+      "score": 6
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "证据链完整；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "无持久化审计表或恢复工件。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "泄漏与异常审计严谨，欠缺持久化产物和下游实验。",
+  "review_id": "REVIEW-ARM-B-CASE-002-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 27.0,
+  "status": "REVIEWED"
+}

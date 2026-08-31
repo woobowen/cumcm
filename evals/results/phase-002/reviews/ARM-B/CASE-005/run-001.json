@@ -1,0 +1,63 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-005",
+  "citations": [
+    "reviewer:A:明确定义STALE、VALID和restart，并逐情景列出stale与unaffected valid节点。",
+    "reviewer:B:python3有向图可达性验证三个情景精确匹配。",
+    "reviewer:C:分别检查遗漏、误纳和config错误传播，并覆盖链、分支及终端变化。",
+    "reviewer:D:claims完整追踪三种变化；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "明确定义STALE、VALID和restart，并逐情景列出stale与unaffected valid节点。"
+      ],
+      "missing": [],
+      "score": 10
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "python3有向图可达性验证三个情景精确匹配。"
+      ],
+      "missing": [
+        "没有保存遍历程序或结果。"
+      ],
+      "score": 7
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "分别检查遗漏、误纳和config错误传播，并覆盖链、分支及终端变化。"
+      ],
+      "missing": [],
+      "score": 6
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "claims完整追踪三种变化；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "没有持久化恢复状态。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "STALE、VALID、restart和handoff覆盖完整，仅缺可复用工件。",
+  "review_id": "REVIEW-ARM-B-CASE-005-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 28.0,
+  "status": "REVIEWED"
+}

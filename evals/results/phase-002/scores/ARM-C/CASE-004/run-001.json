@@ -1,0 +1,179 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-C",
+  "case_id": "CASE-004",
+  "confidence": "LOW",
+  "deterministic_score": 27.0,
+  "dimensions": {
+    "BASE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in baseline"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "DRIFT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FAILRUN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in experiment_design"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "LEAK": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "METRIC": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched experiment_design"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOCAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "RANDOM": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in uncertainties"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "规定训练折内预处理、时序顺序、泄漏移除和固定随机种子。"
+      ],
+      "missing": [
+        "以held-out MAE和test共同决定模型，且未包含标准persistence基线。"
+      ],
+      "score": 8,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "实际计算identity、mean、OLS、泄漏模型和noise-only模型。"
+      ],
+      "missing": [
+        "模型选择使用test结果。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "覆盖泄漏、噪声、日期解析、缺失和异常值扰动。"
+      ],
+      "missing": [
+        "最终测试集已参与选择，无法独立检验不确定性。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "如实记录python失败并切换python3。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，且无持久化实验工件。"
+      ],
+      "score": 2,
+      "source": "REVIEWER"
+    },
+    "ROBUST": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in robustness_tests"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "SPLIT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched experiment_design"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "SPLIT",
+    "LEAK",
+    "METRIC",
+    "reviewer:A:规定训练折内预处理、时序顺序、泄漏移除和固定随机种子。",
+    "reviewer:B:实际计算identity、mean、OLS、泄漏模型和noise-only模型。",
+    "reviewer:C:覆盖泄漏、噪声、日期解析、缺失和异常值扰动。",
+    "reviewer:D:如实记录python失败并切换python3。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "37d49c4027f647f14fdb8675d17aa91e1b447d4aecce8d7aab5aba79f7d90e17",
+  "missing": [
+    "BASE",
+    "DRIFT",
+    "ROBUST",
+    "RANDOM",
+    "FAILRUN",
+    "NOCAUSAL",
+    "以held-out MAE和test共同决定模型，且未包含标准persistence基线。",
+    "模型选择使用test结果。",
+    "最终测试集已参与选择，无法独立检验不确定性。",
+    "manifest为FAILED且schema_valid=false，且无持久化实验工件。"
+  ],
+  "reviewer_score": 20.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-C-CASE-004-RUN-001",
+  "status": "SCORED",
+  "total_score": 47.0
+}

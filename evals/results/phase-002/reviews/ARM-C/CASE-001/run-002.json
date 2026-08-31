@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-C",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-001",
+  "citations": [
+    "reviewer:A:requirements与formalization覆盖全部任务，并明确拒绝无因果依据的降雨调整和6行程方案。",
+    "reviewer:B:已执行sanity calculation得到3000 kg、5次行程和3/2分配，并比较候选模型。",
+    "reviewer:C:falsification_tests和robustness_tests覆盖单位、工时、包装、因果证据与零容量余量。",
+    "reviewer:D:如实保留python失败并改用python3；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "requirements与formalization覆盖全部任务，并明确拒绝无因果依据的降雨调整和6行程方案。"
+      ],
+      "missing": [
+        "装载粒度、行程时序和卸货工时未确定。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "已执行sanity calculation得到3000 kg、5次行程和3/2分配，并比较候选模型。"
+      ],
+      "missing": [
+        "模型证据仍限于单实例算术。"
+      ],
+      "score": 7
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "falsification_tests和robustness_tests覆盖单位、工时、包装、因果证据与零容量余量。"
+      ],
+      "missing": [
+        "没有真实需求偏差数据。"
+      ],
+      "score": 6
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "如实保留python失败并改用python3；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "没有恢复状态或结果工件落盘。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "候选比较与可否证边界完整，主要受限于单实例和无持久化证据。",
+  "review_id": "REVIEW-ARM-C-CASE-001-RUN-002",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 2,
+  "schema_version": "1.0.0",
+  "score": 27.0,
+  "status": "REVIEWED"
+}
