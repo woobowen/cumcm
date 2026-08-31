@@ -1,293 +1,581 @@
 {
-  "content_hash": "ab85c9805d122060c98a91c9dbda2b364c77d4b6b784f2fdcf053c4f43dc7312",
+  "content_hash": "2ff646180aa568ca44bdf73114716ab565ab2a276359f7432f636b4839e33836",
   "findings": [
     {
+      "attack": "Keyword and negation salad can receive high legacy coverage without correctness.",
+      "claim_attacked": "The current coverage_gaming control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-001 fails.",
+      "evidence": [
+        "review:scoring:1"
+      ],
       "evidence_refs": [
         "review:scoring:1"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-001",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-001 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-001",
       "role": "SCORING_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Keyword and negation salad can receive high legacy coverage without correctness.",
       "status": "TEST_REQUESTED",
       "target": "coverage_gaming",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Legacy hard-failure coverage is incomplete and hard-failed cells can aggregate.",
+      "claim_attacked": "The current hard_gate_lexicographic control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-002 fails.",
+      "evidence": [
+        "review:scoring:2"
+      ],
       "evidence_refs": [
         "review:scoring:2"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-002",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-002 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-002",
       "role": "SCORING_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Legacy hard-failure coverage is incomplete and hard-failed cells can aggregate.",
       "status": "TEST_REQUESTED",
       "target": "hard_gate_lexicographic",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Observation, run, rubric, and review identity tuples require binding.",
+      "claim_attacked": "The current identity_tuple control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-003 fails.",
+      "evidence": [
+        "review:scoring:3"
+      ],
       "evidence_refs": [
         "review:scoring:3"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-003",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-003 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-003",
       "role": "SCORING_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Observation, run, rubric, and review identity tuples require binding.",
       "status": "TEST_REQUESTED",
       "target": "identity_tuple",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Blind scans must reject aliases and candidate metadata, not only full IDs.",
+      "claim_attacked": "The current blind_identity control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-004 fails.",
+      "evidence": [
+        "review:scoring:4"
+      ],
       "evidence_refs": [
         "review:scoring:4"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-004",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-004 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-004",
       "role": "SCORING_AUDITOR",
       "severity": "ERROR",
       "statement": "Blind scans must reject aliases and candidate metadata, not only full IDs.",
       "status": "TEST_REQUESTED",
       "target": "blind_identity",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Raw outputs and recovered observations require a pre-adjudication hash anchor.",
+      "claim_attacked": "The current freeze_anchor control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-005 fails.",
+      "evidence": [
+        "review:recovery:5"
+      ],
       "evidence_refs": [
         "review:recovery:5"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-005",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-005 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-005",
       "role": "RECOVERY_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Raw outputs and recovered observations require a pre-adjudication hash anchor.",
       "status": "TEST_REQUESTED",
       "target": "freeze_anchor",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Recovery validity requires hashes and source links rather than file presence.",
+      "claim_attacked": "The current recovery_links control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-006 fails.",
+      "evidence": [
+        "review:recovery:6"
+      ],
       "evidence_refs": [
         "review:recovery:6"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-006",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-006 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-006",
       "role": "RECOVERY_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Recovery validity requires hashes and source links rather than file presence.",
       "status": "TEST_REQUESTED",
       "target": "recovery_links",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Only two balanced non-recovery cases and one repeat are available.",
+      "claim_attacked": "The current balanced_subset control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-007 fails.",
+      "evidence": [
+        "review:recovery:7"
+      ],
       "evidence_refs": [
         "review:recovery:7"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-007",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-007 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-007",
       "role": "RECOVERY_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Only two balanced non-recovery cases and one repeat are available.",
       "status": "TEST_REQUESTED",
       "target": "balanced_subset",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Report loading must verify frozen membership and hashes.",
+      "claim_attacked": "The current freeze_membership control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-008 fails.",
+      "evidence": [
+        "review:report:8"
+      ],
       "evidence_refs": [
         "review:report:8"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-008",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-008 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-008",
       "role": "REPORT_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Report loading must verify frozen membership and hashes.",
       "status": "TEST_REQUESTED",
       "target": "freeze_membership",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Legacy proposal generation hardcodes recommendation and scores.",
+      "claim_attacked": "The current dynamic_reporting control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-009 fails.",
+      "evidence": [
+        "review:report:9"
+      ],
       "evidence_refs": [
         "review:report:9"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-009",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-009 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-009",
       "role": "REPORT_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Legacy proposal generation hardcodes recommendation and scores.",
       "status": "TEST_REQUESTED",
       "target": "dynamic_reporting",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "NOT_RUN must remain missing rather than numeric zero.",
+      "claim_attacked": "The current not_run_semantics control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-010 fails.",
+      "evidence": [
+        "review:report:10"
+      ],
       "evidence_refs": [
         "review:report:10"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-010",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-010 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-010",
       "role": "REPORT_AUDITOR",
       "severity": "ERROR",
       "statement": "NOT_RUN must remain missing rather than numeric zero.",
       "status": "TEST_REQUESTED",
       "target": "not_run_semantics",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Component decisions need structured evidence references.",
+      "claim_attacked": "The current component_evidence_refs control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-011 fails.",
+      "evidence": [
+        "review:report:11"
+      ],
       "evidence_refs": [
         "review:report:11"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-011",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-011 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-011",
       "role": "REPORT_AUDITOR",
       "severity": "ERROR",
       "statement": "Component decisions need structured evidence references.",
       "status": "TEST_REQUESTED",
       "target": "component_evidence_refs",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Current gap views require generated-input checks.",
+      "claim_attacked": "The current gap_generation control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-012 fails.",
+      "evidence": [
+        "review:report:12"
+      ],
       "evidence_refs": [
         "review:report:12"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-012",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-012 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-012",
       "role": "REPORT_AUDITOR",
       "severity": "ERROR",
       "statement": "Current gap views require generated-input checks.",
       "status": "TEST_REQUESTED",
       "target": "gap_generation",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Trace-audited policy is not OS-level network denial.",
+      "claim_attacked": "The current network_claim control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-013 fails.",
+      "evidence": [
+        "review:sandbox:13"
+      ],
       "evidence_refs": [
         "review:sandbox:13"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-013",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-013 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-013",
       "role": "SANDBOX_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Trace-audited policy is not OS-level network denial.",
       "status": "TEST_REQUESTED",
       "target": "network_claim",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Host environment and Git configuration can leak into isolated workspaces.",
+      "claim_attacked": "The current environment_sanitization control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-014 fails.",
+      "evidence": [
+        "review:sandbox:14"
+      ],
       "evidence_refs": [
         "review:sandbox:14"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-014",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-014 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-014",
       "role": "SANDBOX_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Host environment and Git configuration can leak into isolated workspaces.",
       "status": "TEST_REQUESTED",
       "target": "environment_sanitization",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Tracked command summaries can leak sensitive argument text.",
+      "claim_attacked": "The current trace_redaction control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-015 fails.",
+      "evidence": [
+        "review:sandbox:15"
+      ],
       "evidence_refs": [
         "review:sandbox:15"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-015",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-015 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-015",
       "role": "SANDBOX_AUDITOR",
       "severity": "ERROR",
       "statement": "Tracked command summaries can leak sensitive argument text.",
       "status": "TEST_REQUESTED",
       "target": "trace_redaction",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Timeout handling lacks independently verified process-tree containment.",
+      "claim_attacked": "The current process_tree control is sufficient.",
+      "confidence": 0.65,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-016 fails.",
+      "evidence": [
+        "review:sandbox:16"
+      ],
       "evidence_refs": [
         "review:sandbox:16"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-016",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-016 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-016",
       "role": "SANDBOX_AUDITOR",
       "severity": "ERROR",
       "statement": "Timeout handling lacks independently verified process-tree containment.",
       "status": "UNCERTAINTY",
       "target": "process_tree",
-      "testability": "NON_TESTABLE_CLAIM"
+      "testability": "NON_TESTABLE_CLAIM",
+      "unresolved": true
     },
     {
+      "attack": "Workflow, rule, and state schema vocabularies conflict.",
+      "claim_attacked": "The current state_vocabulary control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-017 fails.",
+      "evidence": [
+        "review:state:17"
+      ],
       "evidence_refs": [
         "review:state:17"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-017",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-017 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-017",
       "role": "STATE_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Workflow, rule, and state schema vocabularies conflict.",
       "status": "TEST_REQUESTED",
       "target": "state_vocabulary",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "last_verified_commit is ambiguous and can become self-referential.",
+      "claim_attacked": "The current verification_semantics control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-018 fails.",
+      "evidence": [
+        "review:state:18"
+      ],
       "evidence_refs": [
         "review:state:18"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-018",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-018 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-018",
       "role": "STATE_AUDITOR",
       "severity": "ERROR",
       "statement": "last_verified_commit is ambiguous and can become self-referential.",
       "status": "TEST_REQUESTED",
       "target": "verification_semantics",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Dependency STALE propagation is not machine-enforced for all formal artifacts.",
+      "claim_attacked": "The current stale_propagation control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-019 fails.",
+      "evidence": [
+        "review:state:19"
+      ],
       "evidence_refs": [
         "review:state:19"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-019",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-019 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-019",
       "role": "STATE_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Dependency STALE propagation is not machine-enforced for all formal artifacts.",
       "status": "TEST_REQUESTED",
       "target": "stale_propagation",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Acceptance facts are duplicated across normative and derived files.",
+      "claim_attacked": "The current single_truth control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-020 fails.",
+      "evidence": [
+        "review:state:20"
+      ],
       "evidence_refs": [
         "review:state:20"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-020",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-020 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-020",
       "role": "STATE_AUDITOR",
       "severity": "ERROR",
       "statement": "Acceptance facts are duplicated across normative and derived files.",
       "status": "TEST_REQUESTED",
       "target": "single_truth",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Clean-room architecture benefit is not measured against the simpler scaffold baseline.",
+      "claim_attacked": "The current architecture_benefit control is sufficient.",
+      "confidence": 0.65,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-021 fails.",
+      "evidence": [
+        "review:dissent:21"
+      ],
       "evidence_refs": [
         "review:dissent:21"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-021",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-021 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-021",
       "role": "DISSENT_AUDITOR",
       "severity": "BLOCKER",
       "statement": "Clean-room architecture benefit is not measured against the simpler scaffold baseline.",
       "status": "UNCERTAINTY",
       "target": "architecture_benefit",
-      "testability": "NON_TESTABLE_CLAIM"
+      "testability": "NON_TESTABLE_CLAIM",
+      "unresolved": true
     },
     {
+      "attack": "Four mechanisms may cost more than a unified evidence ledger.",
+      "claim_attacked": "The current portfolio_complexity control is sufficient.",
+      "confidence": 0.65,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-022 fails.",
+      "evidence": [
+        "review:dissent:22"
+      ],
       "evidence_refs": [
         "review:dissent:22"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-022",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-022 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-022",
       "role": "DISSENT_AUDITOR",
       "severity": "ERROR",
       "statement": "Four mechanisms may cost more than a unified evidence ledger.",
       "status": "UNCERTAINTY",
       "target": "portfolio_complexity",
-      "testability": "NON_TESTABLE_CLAIM"
+      "testability": "NON_TESTABLE_CLAIM",
+      "unresolved": true
     },
     {
+      "attack": "The native arm is not a proven safe fallback because CASE-004 exposed leakage risk.",
+      "claim_attacked": "The current native_fallback control is sufficient.",
+      "confidence": 0.9,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-023 fails.",
+      "evidence": [
+        "review:dissent:23"
+      ],
       "evidence_refs": [
         "review:dissent:23"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-023",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-023 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-023",
       "role": "DISSENT_AUDITOR",
       "severity": "ERROR",
       "statement": "The native arm is not a proven safe fallback because CASE-004 exposed leakage risk.",
       "status": "TEST_REQUESTED",
       "target": "native_fallback",
-      "testability": "TESTABLE"
+      "testability": "TESTABLE",
+      "unresolved": false
     },
     {
+      "attack": "Semantic automation reliability is not established beyond mechanical gates.",
+      "claim_attacked": "The current semantic_reliability control is sufficient.",
+      "confidence": 0.65,
+      "counterexample": "A non-compliant implementation is exposed when TEST-ADV-024 fails.",
+      "evidence": [
+        "review:dissent:24"
+      ],
       "evidence_refs": [
         "review:dissent:24"
       ],
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
       "finding_id": "ADV-024",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "recommended_action": "Execute TEST-ADV-024 and retain the finding as uncertainty if no deterministic oracle exists.",
+      "required_test": "TEST-ADV-024",
       "role": "DISSENT_AUDITOR",
       "severity": "ERROR",
       "statement": "Semantic automation reliability is not established beyond mechanical gates.",
       "status": "UNCERTAINTY",
       "target": "semantic_reliability",
-      "testability": "NON_TESTABLE_CLAIM"
+      "testability": "NON_TESTABLE_CLAIM",
+      "unresolved": true
     }
   ],
   "schema_version": "1.0.0"

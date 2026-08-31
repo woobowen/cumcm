@@ -1,1 +1,20 @@
-{"finding_id":"F-1","role":"DISSENT_JUDGE","severity":"ERROR","target":"reporting","statement":"Derived output may be stale.","evidence_refs":["artifact:a"],"testability":"TESTABLE","status":"TEST_REQUESTED"}
+{
+  "finding_id": "F-1",
+  "role": "DISSENT_JUDGE",
+  "target": "reporting",
+  "severity": "ERROR",
+  "claim_attacked": "The report is current.",
+  "attack": "Derived output may be stale.",
+  "counterexample": "A mutated input leaves the report unchanged.",
+  "evidence": ["artifact:a"],
+  "required_test": "TEST-F-1",
+  "pass_condition": "The report changes with its input.",
+  "fail_condition": "The report remains unchanged.",
+  "confidence": 0.9,
+  "unresolved": false,
+  "recommended_action": "Run TEST-F-1.",
+  "statement": "Derived output may be stale.",
+  "evidence_refs": ["artifact:a"],
+  "testability": "TESTABLE",
+  "status": "TEST_REQUESTED"
+}

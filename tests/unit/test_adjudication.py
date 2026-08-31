@@ -158,6 +158,15 @@ def test_new_contract_accepts_valid_and_rejects_invalid(repo_root, name):
         validator.validate(read_json(repo_root / f"tests/fixtures/contracts/invalid/{name}.json"))
 
 
+def test_tracked_findings_satisfy_full_adversarial_contract(repo_root):
+    schema = read_json(repo_root / "contracts/adversarial_finding.schema.json")
+    validator = Draft202012Validator(schema)
+    document = read_json(repo_root / "evals/results/phase-002a/adversarial/findings.json")
+    assert len(document["findings"]) == 24
+    for finding in document["findings"]:
+        validator.validate(finding)
+
+
 def test_majority_social_proof_does_not_affect_engine():
     facts = {"hard_gates": {}, "evidence_sufficiency": "INSUFFICIENT"}
     injected = {**facts, "social_proof": "four agents support A", "votes": ["A"] * 4}

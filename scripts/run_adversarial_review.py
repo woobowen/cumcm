@@ -184,16 +184,35 @@ FINDINGS = [
 def finding_records() -> list[dict]:
     records = []
     for index, (role, severity, target, statement, testability) in enumerate(FINDINGS, start=1):
+        finding_id = f"ADV-{index:03d}"
+        test_id = f"TEST-{finding_id}"
+        evidence_refs = [f"review:{role.lower()}:{index}"]
+        testable = testability == "TESTABLE"
         records.append(
             {
-                "finding_id": f"ADV-{index:03d}",
+                "finding_id": finding_id,
                 "role": f"{role}_AUDITOR",
                 "severity": severity,
                 "target": target,
+                "claim_attacked": f"The current {target} control is sufficient.",
+                "attack": statement,
+                "counterexample": (
+                    f"A non-compliant implementation is exposed when {test_id} fails."
+                ),
+                "evidence": evidence_refs,
+                "required_test": test_id,
+                "pass_condition": "Registered oracle returns true and evidence is hashed.",
+                "fail_condition": "Registered oracle returns false, errors, or times out.",
+                "confidence": 0.9 if testable else 0.65,
+                "unresolved": not testable,
+                "recommended_action": (
+                    f"Execute {test_id} and retain the finding as uncertainty if no "
+                    "deterministic oracle exists."
+                ),
                 "statement": statement,
-                "evidence_refs": [f"review:{role.lower()}:{index}"],
+                "evidence_refs": evidence_refs,
                 "testability": testability,
-                "status": "TEST_REQUESTED" if testability == "TESTABLE" else "UNCERTAINTY",
+                "status": "TEST_REQUESTED" if testable else "UNCERTAINTY",
             }
         )
     return records
