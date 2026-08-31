@@ -45,7 +45,9 @@ def summarize_event_records(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
             session_id = _nested_string(event, "params", "thread", "id") or _nested_string(
                 event, "params", "threadId"
             )
-        if event_type in {"turn/started", "turn/completed"}:
+        if event_type in {"turn.started", "turn.completed"}:
+            turn_id = _string_or_none(event.get("turn_id"))
+        elif event_type in {"turn/started", "turn/completed"}:
             turn_id = _nested_string(event, "params", "turn", "id") or _nested_string(
                 event, "params", "turnId"
             )

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
+import threading
 import time
 from datetime import UTC, datetime
 from typing import Any
@@ -124,14 +126,45 @@ class ExecAdapter(TransportAdapter):
         request.output_path.parent.mkdir(parents=True, exist_ok=True)
         stderr_path = request.raw_event_path.with_suffix(".stderr")
         timed_out = False
+        reader_errors: list[BaseException] = []
+        session_state: dict[str, str | None] = {
+            "session_id": expected_session_id,
+            "turn_id": None,
+        }
         with request.raw_event_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
             self._process = subprocess.Popen(
                 command,
                 cwd=request.workspace,
                 env=safe_codex_environment(),
-                stdout=stdout,
-                stderr=stderr,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
             )
+            if expected_session_id is not None:
+                self._write_running_checkpoint(
+                    request,
+                    started_at,
+                    session_id=expected_session_id,
+                    turn_id=None,
+                )
+            stdout_thread = threading.Thread(
+                target=self._copy_stdout,
+                args=(
+                    request,
+                    self._process,
+                    stdout,
+                    started_at,
+                    session_state,
+                    reader_errors,
+                ),
+                daemon=True,
+            )
+            stderr_thread = threading.Thread(
+                target=self._copy_stream,
+                args=(self._process.stderr, stderr, reader_errors),
+                daemon=True,
+            )
+            stdout_thread.start()
+            stderr_thread.start()
             try:
                 return_code = self._process.wait(timeout=request.timeout_seconds)
             except subprocess.TimeoutExpired:
@@ -142,6 +175,12 @@ class ExecAdapter(TransportAdapter):
                 except subprocess.TimeoutExpired:
                     self._process.kill()
                     return_code = self._process.wait(timeout=10)
+            stdout_thread.join(timeout=10)
+            stderr_thread.join(timeout=10)
+            if stdout_thread.is_alive() or stderr_thread.is_alive():
+                reader_errors.append(RuntimeError("TRANSPORT_READER_DID_NOT_STOP"))
+        if reader_errors:
+            raise RuntimeError("TRANSPORT_STREAM_CAPTURE_FAILED") from reader_errors[0]
         duration = round(time.monotonic() - started, 6)
         raw_stderr = stderr_path.read_bytes()
         raw_events = request.raw_event_path.read_bytes()
@@ -211,6 +250,103 @@ class ExecAdapter(TransportAdapter):
         self._process = None
         return result
 
+    def _copy_stdout(
+        self,
+        request: RoleRunRequest,
+        process: subprocess.Popen[bytes],
+        destination: Any,
+        started_at: str,
+        session_state: dict[str, str | None],
+        errors: list[BaseException],
+    ) -> None:
+        try:
+            if process.stdout is None:
+                raise RuntimeError("TRANSPORT_STDOUT_MISSING")
+            for line in iter(process.stdout.readline, b""):
+                destination.write(line)
+                destination.flush()
+                try:
+                    event = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if not isinstance(event, dict):
+                    continue
+                event_type = event.get("type") or event.get("method")
+                if event_type == "thread.started":
+                    session_id = event.get("thread_id")
+                    if isinstance(session_id, str) and session_id:
+                        session_state["session_id"] = session_id
+                        self._write_running_checkpoint(
+                            request,
+                            started_at,
+                            session_id=session_id,
+                            turn_id=session_state["turn_id"],
+                        )
+                elif event_type in {"turn.started", "turn.completed"}:
+                    turn_id = event.get("turn_id")
+                    if isinstance(turn_id, str) and turn_id:
+                        session_state["turn_id"] = turn_id
+                        if session_state["session_id"] is not None:
+                            self._write_running_checkpoint(
+                                request,
+                                started_at,
+                                session_id=session_state["session_id"],
+                                turn_id=turn_id,
+                            )
+        except BaseException as exc:  # pragma: no cover - defensive thread boundary
+            errors.append(exc)
+
+    @staticmethod
+    def _copy_stream(source: Any, destination: Any, errors: list[BaseException]) -> None:
+        try:
+            if source is None:
+                raise RuntimeError("TRANSPORT_STDERR_MISSING")
+            while chunk := source.read(65536):
+                destination.write(chunk)
+                destination.flush()
+        except BaseException as exc:  # pragma: no cover - defensive thread boundary
+            errors.append(exc)
+
+    def _write_running_checkpoint(
+        self,
+        request: RoleRunRequest,
+        started_at: str,
+        *,
+        session_id: str,
+        turn_id: str | None,
+    ) -> None:
+        checkpoint = {
+            "schema_version": "1.0.0",
+            "role_id": request.role_id,
+            "adapter": self.name,
+            "attempt": request.attempt,
+            "model": request.model,
+            "reasoning_setting": request.reasoning_setting,
+            "input_bundle_hash": request.input_bundle_hash,
+            "policy_hash": request.policy_hash,
+            "evidence_hash": request.evidence_hash,
+            "output_schema_hash": sha256_json(read_json(request.output_schema_path)),
+            "started_at": started_at,
+            "last_event_at": datetime.now(UTC).isoformat(),
+            "completion_status": TransportStatus.RUNNING.value,
+            "failure_class": None,
+            "observable_code": None,
+            "raw_event_hash": None,
+            "stderr_hash": None,
+            "output_hash": None,
+            "resume_allowed": request.attempt < 2,
+            "supersedes": request.supersedes,
+            "notes": [
+                "exact session persisted before terminal transport state",
+                "raw events and stderr are ignored",
+                "identifier fields are irreversible hashes",
+                "hidden reasoning is not retained in tracked output",
+            ],
+            "event_summary": {},
+            "token_usage": {},
+        }
+        request.checkpoint_store.write(checkpoint, session_id=session_id, turn_id=turn_id)
+
     def _missing_session_result(self, request: RoleRunRequest) -> TransportResult:
         failure = classify_failure("SESSION_ID_MISSING", session_id=None, resume=True)
         result = TransportResult(
@@ -261,6 +397,7 @@ class ExecAdapter(TransportAdapter):
             ],
             "event_summary": result.event_summary,
             "token_usage": result.token_usage,
+            "duration_seconds": result.duration_seconds,
         }
         request.checkpoint_store.write(
             checkpoint, session_id=result.session_id, turn_id=result.turn_id

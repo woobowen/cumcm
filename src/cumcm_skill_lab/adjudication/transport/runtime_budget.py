@@ -57,7 +57,16 @@ class RunBudget:
         _atomic_json_write(self.path, ledger)
         return ledger["starts"][-1]
 
-    def record_result(self, role_id: str, attempt: int, result: str) -> None:
+    def record_result(
+        self,
+        role_id: str,
+        attempt: int,
+        result: str,
+        *,
+        duration_seconds: float | None = None,
+        token_usage: dict[str, int] | None = None,
+        failure_class: str | None = None,
+    ) -> None:
         ledger = self.load()
         matches = [
             item
@@ -68,6 +77,9 @@ class RunBudget:
             raise ValueError("RUN_BUDGET_RECORD_NOT_FOUND")
         matches[0]["completion_status"] = result
         matches[0]["completed_at"] = datetime.now(UTC).isoformat()
+        matches[0]["duration_seconds"] = duration_seconds
+        matches[0]["token_usage"] = token_usage or {}
+        matches[0]["failure_class"] = failure_class
         _atomic_json_write(self.path, ledger)
 
     def remaining(self) -> int:

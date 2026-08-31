@@ -1,61 +1,45 @@
 #!/usr/bin/env python3
-"""Rebuild and verify Phase 002A decision hashes offline, including order/identity transforms."""
+"""Finalize and verify Phase 002B automated decisions with offline replay."""
 
 import argparse
 import json
 
 from _bootstrap import ROOT
 
-from cumcm_skill_lab.adjudication.models import check_or_write, read_json, sha256_json
-
-
-def replay_records() -> list[dict]:
-    records = []
-    for path in sorted((ROOT / "evals/results/phase-002a/automated_decisions").glob("*.json")):
-        decision = read_json(path)
-        body = {key: value for key, value in decision.items() if key != "replay_hash"}
-        recomputed = sha256_json(body)
-        transformed = dict(reversed(list(body.items())))
-        records.append(
-            {
-                "decision_id": decision["decision_id"],
-                "recorded_replay_hash": decision["replay_hash"],
-                "recomputed_replay_hash": recomputed,
-                "hash_verified": recomputed == decision["replay_hash"],
-                "order_transformed_content_hash": sha256_json(transformed),
-                "order_stable": sha256_json(transformed) == recomputed,
-                "identity_swap_applicable": False,
-                "identity_stable": True,
-                "decision": decision["decision"],
-            }
-        )
-    return records
+from cumcm_skill_lab.adjudication.formal_outputs import DECISION_FILENAMES
+from cumcm_skill_lab.adjudication.models import write_json
+from cumcm_skill_lab.adjudication.phase002b_replay import (
+    build_replay,
+    existing_replay_errors,
+)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="verify replay output without writes")
-    parser.add_argument("--config", default="adjudication/configs/phase-002a.yaml")
+    parser.add_argument("--check", action="store_true")
+    parser.add_argument("--config", default="adjudication/configs/phase-002b-v2.yaml")
     args = parser.parse_args()
-    records = replay_records()
-    value = {"schema_version": "1.0.0", "records": records}
-    value["content_hash"] = sha256_json(value)
-    errors = []
-    if not records:
-        errors.append("NO_DECISIONS")
-    if not all(item["hash_verified"] and item["order_stable"] for item in records):
-        errors.append("REPLAY_MISMATCH")
-    if not errors:
-        errors.extend(
-            check_or_write(
-                ROOT / "evals/results/phase-002a/replay/replay.json",
-                value,
-                check=args.check,
-            )
-        )
+    if args.check:
+        errors = existing_replay_errors(ROOT)
+        print(json.dumps({"status": "PASS" if not errors else "FAIL", "errors": errors}))
+        return 0 if not errors else 1
+    decisions, replay = build_replay(ROOT)
+    decision_dir = ROOT / "evals/results/phase-002b/automated_decisions"
+    by_type = {item["decision_type"]: item for item in decisions}
+    for filename, decision_type in zip(
+        DECISION_FILENAMES, ("ARCHITECTURE", "RECOVERY_POLICY", "COMPONENTS"), strict=True
+    ):
+        write_json(decision_dir / filename, by_type[decision_type])
+    write_json(ROOT / "evals/results/phase-002b/replay/replay.json", replay)
+    errors = existing_replay_errors(ROOT)
     print(
         json.dumps(
-            {"status": "PASS" if not errors else "FAIL", "records": len(records), "errors": errors},
+            {
+                "status": "PASS" if not errors else "FAIL",
+                "stable": replay["stable"],
+                "variants": replay["variants"],
+                "errors": errors,
+            },
             sort_keys=True,
         )
     )

@@ -1,1 +1,73 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://cumcm.local/contracts/meta_adjudication/v1","title":"Evidence Meta Adjudication","version":"1.0.0","type":"object","required":["meta_id","bundle_id","policy_hash","freeze_hash","thresholds_unchanged","majority_vote_used","hard_gate_status","evidence_sufficiency","test_evidence","decision","reason_codes"],"properties":{"meta_id":{"type":"string","minLength":1},"bundle_id":{"type":"string","minLength":1},"policy_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},"freeze_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},"thresholds_unchanged":{"const":true},"majority_vote_used":{"const":false},"hard_gate_status":{"enum":["PASS","FAIL","UNKNOWN"]},"evidence_sufficiency":{"enum":["SUFFICIENT","INSUFFICIENT"]},"test_evidence":{"type":"array","items":{"type":"string"}},"decision":{"enum":["AUTOMATED_ACCEPTED","AUTOMATED_REJECTED","RETEST_REQUIRED","EVIDENCE_INSUFFICIENT","AUTOMATED_ABSTAINED","STALE"]},"reason_codes":{"type":"array","items":{"type":"string"},"minItems":1}},"additionalProperties":false}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/meta_adjudication/v2",
+  "title": "Evidence Meta Adjudication",
+  "version": "2.0.0",
+  "type": "object",
+  "required": ["meta_id", "role", "bundle_id", "bundle_hash", "input_bundle_hash", "policy_hash", "freeze_hash", "evidence_hash", "model", "reasoning_setting", "thresholds_unchanged", "majority_vote_used", "human_technical_gate_used", "recovery_ranked", "hard_gate_status", "evidence_sufficiency", "unresolved_blockers", "decisions", "confidence", "checkpoint_hash"],
+  "properties": {
+    "meta_id": {"type": "string", "minLength": 1},
+    "role": {"const": "EVIDENCE_META_ADJUDICATOR"},
+    "bundle_id": {"type": "string", "minLength": 1},
+    "bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "input_bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "policy_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "evidence_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "model": {"type": "string", "minLength": 1},
+    "reasoning_setting": {"type": "string", "minLength": 1},
+    "thresholds_unchanged": {"const": true},
+    "majority_vote_used": {"const": false},
+    "human_technical_gate_used": {"const": false},
+    "recovery_ranked": {"const": false},
+    "hard_gate_status": {"enum": ["PASS", "FAIL", "UNKNOWN"]},
+    "evidence_sufficiency": {"enum": ["SUFFICIENT", "INSUFFICIENT"]},
+    "unresolved_blockers": {"type": "array", "items": {"type": "string"}},
+    "decisions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["decision_id", "decision_type", "target_ids", "decision", "accepted_scope", "hard_gate_status", "evidence_sufficiency", "reason_codes", "evidence_refs", "dissent_refs", "retest_requirements", "confidence", "next_phase_allowed"],
+        "properties": {
+          "decision_id": {"enum": ["DECISION-ARCHITECTURE-002A", "DECISION-RECOVERY-POLICY-002A", "DECISION-COMPONENTS-002A"]},
+          "decision_type": {"enum": ["ARCHITECTURE", "RECOVERY_POLICY", "COMPONENTS"]},
+          "target_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "decision": {"enum": ["AUTOMATED_ACCEPTED", "AUTOMATED_REJECTED", "RETEST_REQUIRED", "EVIDENCE_INSUFFICIENT", "AUTOMATED_ABSTAINED", "STALE"]},
+          "accepted_scope": {"enum": ["NONE", "SPECIFICATION_ONLY"]},
+          "hard_gate_status": {"enum": ["PASS", "FAIL", "UNKNOWN"]},
+          "evidence_sufficiency": {"enum": ["SUFFICIENT", "INSUFFICIENT"]},
+          "reason_codes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "dissent_refs": {"type": "array", "items": {"type": "string"}},
+          "retest_requirements": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "next_phase_allowed": {"type": ["string", "null"]}
+          ,"component_results": {
+            "type": "array", "minItems": 4, "maxItems": 4,
+            "items": {
+              "type": "object",
+              "required": ["mechanism_id", "decision", "accepted_scope", "reason_codes", "evidence_refs", "required_tests", "maintenance_cost"],
+              "properties": {
+                "mechanism_id": {"type": "string", "minLength": 1},
+                "decision": {"enum": ["AUTOMATED_ACCEPTED", "AUTOMATED_REJECTED", "RETEST_REQUIRED", "EVIDENCE_INSUFFICIENT", "AUTOMATED_ABSTAINED"]},
+                "accepted_scope": {"enum": ["NONE", "SPECIFICATION_ONLY"]},
+                "reason_codes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+                "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+                "required_tests": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+                "maintenance_cost": {"enum": ["LOW", "MEDIUM", "HIGH"]}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

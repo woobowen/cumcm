@@ -1,162 +1,84 @@
 #!/usr/bin/env python3
-"""Run independent Decision Auditors and mechanically audit each automated decision."""
+"""Run or verify the independent Phase 002B Decision Auditor."""
 
 import argparse
 import json
 
 from _bootstrap import ROOT
 
-from cumcm_skill_lab.adjudication.decision_auditor import audit_decision_record, audit_payload
-from cumcm_skill_lab.adjudication.judge_runner import run_structured_role
-from cumcm_skill_lab.adjudication.models import check_or_write, read_json, read_yaml, sha256_json
+from cumcm_skill_lab.adjudication.bundles.builder import build_all
+from cumcm_skill_lab.adjudication.bundles.role_views import ROLE_ORDER
+from cumcm_skill_lab.adjudication.formal_outputs import (
+    formal_output_path,
+    is_formal_output_valid,
+    proposal_decision_paths,
+)
+from cumcm_skill_lab.adjudication.models import read_json
+from cumcm_skill_lab.adjudication.role_orchestrator import RoleOrchestrator
+from cumcm_skill_lab.adjudication.transport.runtime_budget import RunBudget
 
-AUDIT_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "role": {"type": "string", "enum": ["DECISION_AUDITOR"]},
-        "result": {"type": "string", "enum": ["PASS", "FAIL"]},
-        "checks": {"type": "object", "additionalProperties": {"type": "boolean"}},
-        "failures": {"type": "array", "items": {"type": "string"}},
-        "uncertainties": {"type": "array", "items": {"type": "string"}},
-    },
-    "required": ["role", "result", "checks", "failures", "uncertainties"],
-    "additionalProperties": False,
-}
+ROLE = "DECISION_AUDITOR"
 
 
-def _decision_paths():
-    return sorted((ROOT / "evals/results/phase-002a/automated_decisions").glob("*.json"))
-
-
-def _check_outputs() -> list[str]:
-    errors = []
-    paths = _decision_paths()
-    if not paths:
-        return ["NO_AUTOMATED_DECISIONS"]
-    for path in paths:
-        audit_path = ROOT / "evals/results/phase-002a/decision_audit" / f"audit-{path.stem}.json"
-        if not audit_path.is_file():
-            errors.append(f"MISSING:{audit_path.relative_to(ROOT)}")
-        elif read_json(audit_path).get("result") not in {"PASS", "FAIL"}:
-            errors.append(f"INVALID:{audit_path.relative_to(ROOT)}")
+def _check() -> list[str]:
+    errors = [
+        f"ROLE_OUTPUT_INVALID:{role}"
+        for role in ROLE_ORDER
+        if not is_formal_output_valid(ROOT, role)
+    ]
+    if len(proposal_decision_paths(ROOT)) != 3:
+        errors.append("PRE_AUDIT_DECISIONS_INCOMPLETE")
+    if not errors:
+        audit = read_json(formal_output_path(ROOT, ROLE))
+        if audit["result"] not in {"PASS", "FAIL", "RETEST_REQUIRED"}:
+            errors.append("AUDIT_RESULT_INVALID")
     return errors
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="verify tracked audit records")
-    parser.add_argument("--smoke", action="store_true", help="exercise mechanical audit only")
-    parser.add_argument("--config", default="adjudication/configs/phase-002a.yaml")
+    parser.add_argument("--check", action="store_true")
+    parser.add_argument("--config", default="adjudication/configs/phase-002b-v2.yaml")
+    parser.add_argument("--transport", choices=("auto",), default="auto")
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
-    policy = read_yaml(ROOT / "adjudication/policies/phase-002a.yaml")
-    if args.smoke:
-        result = audit_payload(
-            {}, policy_hash=policy["policy_hash"], expected_policy_hash=policy["policy_hash"]
-        )
-        print(
-            json.dumps(
-                {"status": "PASS" if result["result"] == "PASS" else "FAIL", **result},
-                sort_keys=True,
-            )
-        )
-        return 0 if result["result"] == "PASS" else 1
     if args.check:
-        errors = _check_outputs()
-        print(
-            json.dumps(
-                {"status": "PASS" if not errors else "FAIL", "errors": errors}, sort_keys=True
-            )
-        )
+        errors = _check()
+        print(json.dumps({"status": "PASS" if not errors else "FAIL", "errors": errors}))
         return 0 if not errors else 1
-    decisions = [read_json(path) for path in _decision_paths()]
-    inputs = {
-        "policy": policy,
-        "decisions": decisions,
-        "freeze": read_json(ROOT / "evals/results/phase-002a/evidence_freeze_manifest.json"),
-        "eligibility": read_json(ROOT / "evals/results/phase-002a/eligibility/classification.json"),
-        "blind_judges": [
-            read_json(path)
-            for path in sorted((ROOT / "evals/results/phase-002a/blind_judges").glob("*.json"))
-        ],
-        "dissent": read_json(ROOT / "evals/results/phase-002a/dissent/dissent-blind-real-002.json"),
-        "meta": [
-            read_json(path)
-            for path in sorted(
-                (ROOT / "evals/results/phase-002a/meta_adjudication").glob("meta-*.json")
-            )
-        ],
-    }
-    prompt = (
-        "你是 DECISION_AUDITOR。只审查 inputs.json 中已冻结规则、证据链、Judge 独立性、"
-        "Dissent、Meta 和自动决定的程序一致性。检查身份泄漏、recovery 排名、硬编码推荐、"
-        "多数票、阈值改变、unsupported conclusion、规则或证据变更、重放以及网络措辞。"
-        "技术结果可以是拒绝、弃权或证据不足；不得因其未接受而判 FAIL。"
-        "只输出 output.schema.json 的 JSON。"
+    missing = [role for role in ROLE_ORDER[:5] if not is_formal_output_valid(ROOT, role)]
+    if missing or len(proposal_decision_paths(ROOT)) != 3:
+        errors = [f"ROLE_INCOMPLETE:{role}" for role in missing]
+        if len(proposal_decision_paths(ROOT)) != 3:
+            errors.append("PRE_AUDIT_DECISIONS_INCOMPLETE")
+        print(json.dumps({"status": "FAIL", "errors": errors}))
+        return 1
+    bundle_result = build_all(ROOT, check=False, config_path=args.config)
+    if bundle_result["errors"]:
+        print(json.dumps({"status": "FAIL", "errors": bundle_result["errors"]}))
+        return 1
+    outcome = RoleOrchestrator(ROOT, config_path=args.config).execute(
+        ROLE, allow_recovery=args.resume
     )
-    base = ROOT / "evals/results/phase-002a"
-    ledgers = []
-    agent_outputs = []
-    for suffix in ("first", "swap"):
-        current = inputs if suffix == "first" else {key: inputs[key] for key in reversed(inputs)}
-        output, ledger = run_structured_role(
-            ROOT,
-            role="DECISION_AUDITOR",
-            prompt=prompt,
-            inputs=current,
-            output_schema=AUDIT_SCHEMA,
-            attempt_id=f"audit-{suffix}",
-        )
-        check_or_write(base / "decision_audit" / f"audit-agent-{suffix}.json", output, check=False)
-        ledgers.append(ledger)
-        agent_outputs.append(output)
-    agent_pass = all(item["result"] == "PASS" for item in agent_outputs)
-    errors = []
-    audit_results = []
-    for path, decision in zip(_decision_paths(), decisions, strict=True):
-        audit = audit_decision_record(
-            decision,
-            policy_hash=policy["policy_hash"],
-            expected_policy_hash=policy["policy_hash"],
-            recovery_ranked=False,
-            identity_leaked=False,
-            replay_hash_verified=sha256_json(
-                {key: value for key, value in decision.items() if key != "replay_hash"}
-            )
-            == decision["replay_hash"],
-            raw_trace_tracked=False,
-        )
-        if not agent_pass:
-            audit["checks"]["independent_agent_audits_pass"] = False
-            audit["failures"].append("independent_agent_audits_pass")
-            audit["result"] = "FAIL"
-        else:
-            audit["checks"]["independent_agent_audits_pass"] = True
-        errors.extend(
-            check_or_write(base / "decision_audit" / f"audit-{path.stem}.json", audit, check=False)
-        )
-        audit_results.append(audit)
-    runtime = {
-        "schema_version": "1.0.0",
-        "real_agent_runs": ledgers,
-        "real_agent_run_count": len(ledgers),
-    }
-    runtime["content_hash"] = sha256_json(runtime)
-    errors.extend(check_or_write(base / "runtime/audit_agent_runs.json", runtime, check=False))
-    overall = (
-        "PASS" if not errors and all(item["result"] == "PASS" for item in audit_results) else "FAIL"
+    errors = _check()
+    audit_result = (
+        read_json(formal_output_path(ROOT, ROLE))["result"]
+        if is_formal_output_valid(ROOT, ROLE)
+        else None
     )
     print(
         json.dumps(
             {
-                "status": overall,
-                "real_agent_runs": len(ledgers),
+                "status": "PASS" if not errors else "FAIL",
+                "audit_result": audit_result,
+                "outcome": outcome.__dict__,
+                "remaining_real_run_budget": RunBudget(ROOT).remaining(),
                 "errors": errors,
-                "agent_results": [item["result"] for item in agent_outputs],
             },
             sort_keys=True,
         )
     )
-    return 0 if overall == "PASS" else 1
+    return 0 if not errors else 1
 
 
 if __name__ == "__main__":

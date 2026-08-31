@@ -90,6 +90,12 @@ class AppServerAdapter(TransportAdapter):
             if observed_model != request.model:
                 raise AppServerError("MODEL_COMPARABILITY_BROKEN")
             self._thread_id = thread_id
+            self._write_running_checkpoint(
+                request,
+                started_at,
+                session_id=thread_id,
+                turn_id=None,
+            )
             prompt = request.prompt
             if resume:
                 prompt = (
@@ -102,6 +108,9 @@ class AppServerAdapter(TransportAdapter):
                 output_schema=read_json(request.output_schema_path),
                 model=request.model,
                 reasoning_setting=request.reasoning_setting,
+                on_turn_started=lambda turn_id: self._record_turn_started(
+                    request, started_at, thread_id, turn_id
+                ),
             )
             self._turn_id = turn_id
             parsed = json.loads(text)
@@ -184,6 +193,61 @@ class AppServerAdapter(TransportAdapter):
         self._last_result = result
         return result
 
+    def _record_turn_started(
+        self,
+        request: RoleRunRequest,
+        started_at: str,
+        thread_id: str,
+        turn_id: str,
+    ) -> None:
+        self._turn_id = turn_id
+        self._write_running_checkpoint(
+            request,
+            started_at,
+            session_id=thread_id,
+            turn_id=turn_id,
+        )
+
+    def _write_running_checkpoint(
+        self,
+        request: RoleRunRequest,
+        started_at: str,
+        *,
+        session_id: str,
+        turn_id: str | None,
+    ) -> None:
+        checkpoint = {
+            "schema_version": "1.0.0",
+            "role_id": request.role_id,
+            "adapter": self.name,
+            "attempt": request.attempt,
+            "model": request.model,
+            "reasoning_setting": request.reasoning_setting,
+            "input_bundle_hash": request.input_bundle_hash,
+            "policy_hash": request.policy_hash,
+            "evidence_hash": request.evidence_hash,
+            "output_schema_hash": sha256_json(read_json(request.output_schema_path)),
+            "started_at": started_at,
+            "last_event_at": datetime.now(UTC).isoformat(),
+            "completion_status": TransportStatus.RUNNING.value,
+            "failure_class": None,
+            "observable_code": None,
+            "raw_event_hash": None,
+            "stderr_hash": None,
+            "output_hash": None,
+            "resume_allowed": request.attempt < 2,
+            "supersedes": request.supersedes,
+            "notes": [
+                "exact App Server thread persisted before turn completion",
+                "raw JSON-RPC events and stderr are ignored",
+                "identifier fields are irreversible hashes",
+                "hidden reasoning is not retained in tracked output",
+            ],
+            "event_summary": {},
+            "token_usage": {},
+        }
+        request.checkpoint_store.write(checkpoint, session_id=session_id, turn_id=turn_id)
+
     def _write_checkpoint(
         self, request: RoleRunRequest, result: TransportResult, started_at: str
     ) -> None:
@@ -217,6 +281,7 @@ class AppServerAdapter(TransportAdapter):
             ],
             "event_summary": result.event_summary,
             "token_usage": result.token_usage,
+            "duration_seconds": result.duration_seconds,
         }
         request.checkpoint_store.write(
             checkpoint, session_id=result.session_id, turn_id=result.turn_id

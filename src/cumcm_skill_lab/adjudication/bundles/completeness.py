@@ -14,6 +14,7 @@ REQUIRED_FILES = {
     "hard_gates.json",
     "findings.json",
     "test_evidence.json",
+    "evidence_catalog.json",
     "role_task.json",
     "output_schema.json",
 }

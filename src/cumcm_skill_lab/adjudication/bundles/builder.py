@@ -76,7 +76,7 @@ def _dependencies(root: Path, role: str) -> dict[str, Any]:
             }
         )
     if role == "DECISION_AUDITOR":
-        decision_dir = root / RESULT_ROOT / "automated_decisions"
+        decision_dir = root / RESULT_ROOT / "automated_decisions/proposals"
         decision_paths = sorted(decision_dir.glob("*.json")) if decision_dir.is_dir() else []
         records.append(
             {
@@ -158,13 +158,13 @@ def _role_task(role: str, dependencies: dict[str, Any]) -> dict:
             "hard_gates.json",
             "findings.json",
             "test_evidence.json",
+            "evidence_catalog.json",
             "output_schema.json",
         ],
         "dependencies_ready": dependencies["ready"],
         "prohibitions": prohibitions,
         "evidence_reference_rule": (
-            "Every technical assertion must cite an evidence ID, test ID, finding ID, or frozen "
-            "numeric field present in this bundle."
+            "Every technical assertion must cite an exact identifier from evidence_catalog.json."
         ),
         "output_rule": "Return JSON only and satisfy output_schema.json exactly.",
     }
@@ -228,6 +228,9 @@ def build_role(
             "findings": selected_findings,
         },
         "test_evidence.json": {"evidence": selected_evidence},
+        "evidence_catalog.json": _evidence_catalog(
+            role, sources, selected_findings, selected_evidence, dependencies, policy
+        ),
         "dependencies.json": dependencies,
         "role_task.json": _role_task(role, dependencies),
     }
@@ -267,6 +270,9 @@ def build_role(
         "input_freeze_hash": freeze["freeze_hash"],
         "policy_hash": freeze["policy_hash"],
         "evidence_hash": freeze["evidence_hash"],
+        "model": config["model"],
+        "reasoning_setting": config["reasoning_setting"],
+        "config_path": config_path,
         "output_schema_hash": sha256_json(files["output_schema.json"]),
         "dependencies_ready": dependencies["ready"],
         "blocker_ids": sorted(all_blockers),
@@ -276,6 +282,50 @@ def build_role(
     }
     manifest["manifest_hash"] = sha256_json(manifest)
     return files, manifest
+
+
+def _evidence_catalog(
+    role: str,
+    sources: dict[str, Any],
+    selected_findings: list[dict],
+    selected_evidence: list[dict],
+    dependencies: dict[str, Any],
+    policy: dict,
+) -> dict[str, Any]:
+    identifiers = {
+        "eligibility:summary",
+        "input-freeze:manifest",
+        "phase-002a:freeze-manifest",
+        "policy:frozen",
+    }
+    for section in ROLE_EVIDENCE_SECTIONS[role]:
+        for cell in sources[section].get("cells", []):
+            identifiers.add(
+                f"{section}:{cell['anonymous_arm_id']}:{cell['case_id']}:"
+                f"run-{cell['run_index']:03d}"
+            )
+    for record in sources["recovery"].get("records", []):
+        identifiers.add(f"recovery:{record['anonymous_arm_id']}:{record['case_id']}")
+    identifiers.update(item["finding_id"] for item in selected_findings)
+    identifiers.update(item["test_id"] for item in selected_evidence)
+    for record in dependencies["records"]:
+        content = record.get("content")
+        values = content if isinstance(content, list) else [content]
+        for value in values:
+            if not isinstance(value, dict):
+                continue
+            for key in ("judge_id", "dissent_id", "meta_id", "audit_id", "decision_id"):
+                identifier = value.get(key)
+                if isinstance(identifier, str):
+                    identifiers.add(identifier)
+            for finding in value.get("findings", []):
+                if isinstance(finding, dict) and isinstance(finding.get("finding_id"), str):
+                    identifiers.add(finding["finding_id"])
+    return {
+        "reference_rule": "Use exact identifiers only; do not cite paths or invent evidence IDs.",
+        "policy_hash": policy["policy_hash"],
+        "identifiers": sorted(identifiers),
+    }
 
 
 def build_all(

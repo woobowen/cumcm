@@ -22,11 +22,20 @@ def select_recovery(
     status: TransportStatus,
     exact_session_available: bool,
     attempts_used: int,
+    previous_adapter: str | None = "EXEC_RESUMABLE",
 ) -> AdapterAction:
     if attempts_used >= 2:
         return AdapterAction("NONE", "EXHAUSTED")
-    if status == TransportStatus.TRANSPORT_FAILED_RESUMABLE and exact_session_available:
-        return AdapterAction("EXEC_RESUMABLE", "RESUME")
+    if (
+        status
+        in {
+            TransportStatus.STARTING,
+            TransportStatus.RUNNING,
+            TransportStatus.TRANSPORT_FAILED_RESUMABLE,
+        }
+        and exact_session_available
+    ):
+        return AdapterAction(previous_adapter or "EXEC_RESUMABLE", "RESUME")
     if status == TransportStatus.TRANSPORT_FAILED_NONRESUMABLE or not exact_session_available:
         return AdapterAction("APP_SERVER_RESUMABLE", "START")
     return AdapterAction("NONE", "STOP")

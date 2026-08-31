@@ -1,1 +1,34 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://cumcm.local/contracts/decision_audit/v1","title":"Automated Decision Audit","version":"1.0.0","type":"object","required":["audit_id","decision_id","independent","checks","result","failures","replay_hash_verified","created_at"],"properties":{"audit_id":{"type":"string","minLength":1},"decision_id":{"type":"string","minLength":1},"independent":{"const":true},"checks":{"type":"object","additionalProperties":{"type":"boolean"},"minProperties":1},"result":{"enum":["PASS","FAIL"]},"failures":{"type":"array","items":{"type":"string"}},"replay_hash_verified":{"type":"boolean"},"created_at":{"type":"string","format":"date-time"}},"additionalProperties":false}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/decision_audit/v2",
+  "title": "Automated Decision Audit",
+  "version": "2.0.0",
+  "type": "object",
+  "required": ["audit_id", "role", "bundle_id", "bundle_hash", "input_bundle_hash", "policy_hash", "evidence_hash", "model", "reasoning_setting", "decision_ids", "independent", "majority_vote_used", "human_technical_gate_used", "recovery_ranked", "checks", "result", "failures", "blockers", "replayable", "audit_evidence_refs", "confidence", "checkpoint_hash", "created_at"],
+  "properties": {
+    "audit_id": {"type": "string", "minLength": 1},
+    "role": {"const": "DECISION_AUDITOR"},
+    "bundle_id": {"type": "string", "minLength": 1},
+    "bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "input_bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "policy_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "evidence_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "model": {"type": "string", "minLength": 1},
+    "reasoning_setting": {"type": "string", "minLength": 1},
+    "decision_ids": {"type": "array", "items": {"type": "string"}, "minItems": 3, "uniqueItems": true},
+    "independent": {"const": true},
+    "majority_vote_used": {"const": false},
+    "human_technical_gate_used": {"const": false},
+    "recovery_ranked": {"const": false},
+    "checks": {"type": "object", "additionalProperties": {"type": "boolean"}, "minProperties": 18},
+    "result": {"enum": ["PASS", "FAIL", "RETEST_REQUIRED"]},
+    "failures": {"type": "array", "items": {"type": "string"}},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "replayable": {"type": "boolean"},
+    "audit_evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

@@ -14,14 +14,15 @@
     "ADV-019",
     "ADV-021"
   ],
-  "bundle_hash": "b51084374cbb5389d1a5f49aae1f2e35b84356f47cac249251597a79690ef317",
+  "bundle_hash": "67f76a20332cbb5ccfbe7ba82365ecd0d0dc77bcefb00c97cab93d5ac0fd5b18",
   "bundle_id": "PHASE-002B-ENGINEERING_REPRODUCIBILITY_JUDGE",
+  "config_path": "adjudication/configs/phase-002b-v2.yaml",
   "dependencies_ready": true,
   "evidence_hash": "b64923cdfe656a743a61455cffc8cc99bc853c79f4c10c20a96a4ab8f2de8c8d",
   "files": {
     "bundle_index.json": {
       "normalized_bytes": 936,
-      "sha256": "1ac163715ef0f92d9d43dc3c828a8e191d492a0e58069fc91b87527b7a82cb15"
+      "sha256": "4c7d34e2fbcadb05603524a8359a7c32870aa5806c1ec348598500bdec88f0a2"
     },
     "dependencies.json": {
       "normalized_bytes": 41,
@@ -30,6 +31,10 @@
     "eligible_evidence.json": {
       "normalized_bytes": 10821,
       "sha256": "79c7125135b17b9daafabf9f5910c81d73657c23292e579ad59ad80fb319807d"
+    },
+    "evidence_catalog.json": {
+      "normalized_bytes": 2243,
+      "sha256": "be94f259349c70ebf011ecd248c4e57e1eeb830cfe87b00705029a5118bca677"
     },
     "excluded_evidence.json": {
       "normalized_bytes": 2449,
@@ -44,16 +49,16 @@
       "sha256": "a7d721d93bc8505f800da5b4ac323852da1d97d3a4efc5eccebf97f8b61f42a6"
     },
     "output_schema.json": {
-      "normalized_bytes": 1559,
-      "sha256": "3347d73513a1aa1eefa97aff8886a82250df4d59d14a477dae9744f2847a271b"
+      "normalized_bytes": 1795,
+      "sha256": "8f9fbeecf07a66ae75ff4a4a300dee0fac7e0c715efbbbff5960bf16aaf9bf2e"
     },
     "policy_summary.json": {
       "normalized_bytes": 923,
       "sha256": "8ea27cc167e470d744eb4ec38d82e9e10bf698da9a454536dee1b1cf28d64cf2"
     },
     "role_task.json": {
-      "normalized_bytes": 957,
-      "sha256": "672db0e7ffa3e6d370f840ae93c3f41b9b4d527081eead5810f2f7c8b0f2c7fa"
+      "normalized_bytes": 944,
+      "sha256": "75ccc8c22a01348fd585a92a1fd7d1e372c0020630618e9b19a10c6a4f830387"
     },
     "test_evidence.json": {
       "normalized_bytes": 7842,
@@ -61,16 +66,18 @@
     }
   },
   "input_freeze_hash": "9b664b353fcbe2f48aa1c7aebbb88af90b5bac7a849cda5053e5854b78ca6338",
-  "manifest_hash": "299814fc4d677ab45123135176b34923884979b53d5fb91e653c1a0c71b6ce4d",
+  "manifest_hash": "90ea1f02819ed082c479673f4e47a584549f0e15de91579c97bd8193a8240e4d",
   "measurement": {
-    "estimated_tokens": 11754,
+    "estimated_tokens": 12370,
     "maximum_estimated_tokens": 30000,
     "maximum_normalized_bytes": 131072,
-    "normalized_bytes": 47014
+    "normalized_bytes": 49480
   },
-  "output_schema_hash": "3347d73513a1aa1eefa97aff8886a82250df4d59d14a477dae9744f2847a271b",
-  "payload_hash": "09cd21699a9e28020000098b2f178dea5af68986eaf7f83fece2cd3ffdccc2c7",
+  "model": "gpt-5.6-sol",
+  "output_schema_hash": "8f9fbeecf07a66ae75ff4a4a300dee0fac7e0c715efbbbff5960bf16aaf9bf2e",
+  "payload_hash": "fdac1c3afcd07c5a311ea0fbf1dfcc1c753dfe43b843d6a599604f22b2ad56bb",
   "policy_hash": "e7296f8aabcf0b4891a4f67c6a50c3cc7437562fcb1ce8072746aac664743eb0",
+  "reasoning_setting": "medium",
   "recovery_excluded_count": 5,
   "role": "ENGINEERING_REPRODUCIBILITY_JUDGE",
   "schema_version": "1.0.0",

@@ -143,6 +143,11 @@ def runtime_output_schema(
         properties = {
             **common,
             "recommendation": {"enum": ["ACCEPT", "REJECT", "RETEST", "INSUFFICIENT", "ABSTAIN"]},
+            "recommendation_evidence_refs": {
+                "type": "array",
+                "items": {"type": "string"},
+                "minItems": 1,
+            },
             "evidence_sufficiency": {"enum": ["SUFFICIENT", "INSUFFICIENT"]},
             "findings": {"type": "array", "items": _finding_schema()},
             "unresolved_blockers": {"type": "array", "items": {"type": "string"}},
@@ -159,6 +164,11 @@ def runtime_output_schema(
             "findings": {"type": "array", "items": _finding_schema()},
             "unresolved_blockers": {"type": "array", "items": {"type": "string"}},
             "strongest_dissent": {"type": "string", "minLength": 1},
+            "strongest_dissent_evidence_refs": {
+                "type": "array",
+                "items": {"type": "string"},
+                "minItems": 1,
+            },
             "test_evidence_refs": {"type": "array", "items": {"type": "string"}},
             "uncertainties": {"type": "array", "items": {"type": "string"}},
         }
@@ -214,6 +224,11 @@ def runtime_output_schema(
             "failures": {"type": "array", "items": {"type": "string"}},
             "blockers": {"type": "array", "items": {"type": "string"}},
             "replayable": {"type": "boolean"},
+            "audit_evidence_refs": {
+                "type": "array",
+                "items": {"type": "string"},
+                "minItems": 1,
+            },
         }
         required = list(properties)
     return {
@@ -227,6 +242,7 @@ def runtime_output_schema(
 
 def _finding_schema() -> dict[str, Any]:
     properties = {
+        "finding_id": {"type": "string", "minLength": 1},
         "severity": {"enum": ["BLOCKER", "ERROR", "WARNING", "INFO"]},
         "target": {"type": "string", "minLength": 1},
         "statement": {"type": "string", "minLength": 1},
@@ -236,6 +252,7 @@ def _finding_schema() -> dict[str, Any]:
             "minItems": 1,
         },
         "testability": {"enum": ["TESTABLE", "NON_TESTABLE_CLAIM"]},
+        "status": {"enum": ["OPEN", "RESOLVED", "UNRESOLVED"]},
     }
     return {
         "type": "object",
@@ -275,10 +292,63 @@ def _meta_decision_schema() -> dict[str, Any]:
         "retest_requirements": {"type": "array", "items": {"type": "string"}},
         "confidence": {"type": "number", "minimum": 0, "maximum": 1},
         "next_phase_allowed": {"type": ["string", "null"]},
+        "component_results": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "mechanism_id": {"type": "string", "minLength": 1},
+                    "decision": {
+                        "enum": [
+                            "AUTOMATED_ACCEPTED",
+                            "AUTOMATED_REJECTED",
+                            "RETEST_REQUIRED",
+                            "EVIDENCE_INSUFFICIENT",
+                            "AUTOMATED_ABSTAINED",
+                        ]
+                    },
+                    "accepted_scope": {"enum": ["NONE", "SPECIFICATION_ONLY"]},
+                    "reason_codes": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "minItems": 1,
+                    },
+                    "evidence_refs": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "minItems": 1,
+                    },
+                    "required_tests": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "minItems": 1,
+                    },
+                    "maintenance_cost": {"enum": ["LOW", "MEDIUM", "HIGH"]},
+                },
+                "required": [
+                    "mechanism_id",
+                    "decision",
+                    "accepted_scope",
+                    "reason_codes",
+                    "evidence_refs",
+                    "required_tests",
+                    "maintenance_cost",
+                ],
+                "additionalProperties": False,
+            },
+        },
     }
     return {
         "type": "object",
         "properties": properties,
-        "required": list(properties),
+        "required": [key for key in properties if key != "component_results"],
+        "allOf": [
+            {
+                "if": {"properties": {"decision_type": {"const": "COMPONENTS"}}},
+                "then": {"required": ["component_results"]},
+            }
+        ],
         "additionalProperties": False,
     }

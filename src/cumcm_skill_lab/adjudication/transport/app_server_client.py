@@ -7,6 +7,7 @@ import os
 import selectors
 import subprocess
 import time
+from collections.abc import Callable
 from contextlib import suppress
 from pathlib import Path
 from typing import Any
@@ -145,6 +146,7 @@ class AppServerClient:
         output_schema: dict[str, Any],
         model: str,
         reasoning_setting: str,
+        on_turn_started: Callable[[str], None] | None = None,
     ) -> tuple[str, str, dict[str, Any]]:
         response = self.request(
             "turn/start",
@@ -162,6 +164,8 @@ class AppServerClient:
         turn_id = turn.get("id")
         if not isinstance(turn_id, str) or not turn_id:
             raise AppServerError("TURN_ID_MISSING")
+        if on_turn_started is not None:
+            on_turn_started(turn_id)
         text, completed = self.wait_for_turn(thread_id=thread_id, turn_id=turn_id)
         return turn_id, text, completed
 

@@ -151,9 +151,7 @@ def verify_manifest(root: Path, manifest: dict | None = None) -> list[str]:
         errors.append("POLICY_HASH_MISMATCH")
     if manifest.get("role_schema_hashes") != _subject_hashes(root, ROLE_SCHEMAS):
         errors.append("ROLE_SCHEMA_HASH_MISMATCH")
-    if manifest.get("previous_failed_attempt_hashes") != _subject_hashes(
-        root, PREVIOUS_FAILURES
-    ):
+    if manifest.get("previous_failed_attempt_hashes") != _subject_hashes(root, PREVIOUS_FAILURES):
         errors.append("PREVIOUS_FAILURE_HASH_MISMATCH")
     return errors
 
