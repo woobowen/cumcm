@@ -12,6 +12,12 @@ from cumcm_skill_lab.adjudication.judge_runner import assert_blind, build_anonym
 from cumcm_skill_lab.adjudication.models import read_json, sha256_json
 from cumcm_skill_lab.adjudication.oracle_scoring import oracle_correctness
 from cumcm_skill_lab.adjudication.recovery_policy import recovery_gap_evidence
+from cumcm_skill_lab.adjudication.recovery_freeze import (
+    build_manifest as build_recovery_manifest,
+)
+from cumcm_skill_lab.adjudication.recovery_freeze import (
+    verify_manifest as verify_recovery_manifest,
+)
 from cumcm_skill_lab.adjudication.replay import identity_stable, order_stable
 from cumcm_skill_lab.adjudication.reporting import load_report_inputs, render_all
 from cumcm_skill_lab.adjudication.state_transition import (
@@ -38,6 +44,28 @@ def test_evidence_freeze_detects_manifest_mutation(repo_root):
     errors = verify_manifest(repo_root, manifest)
     assert "FREEZE_HASH_MISMATCH" in errors
     assert "PHASE_002_COUNT_MISMATCH" in errors
+
+
+def test_phase002b_input_freeze_binds_current_subject(repo_root):
+    manifest = build_recovery_manifest(repo_root)
+    assert verify_recovery_manifest(repo_root, manifest) == []
+    assert manifest["subject_commit"] == "e7438da1d48a6c76c5859e3b8c232e344f35f364"
+    assert manifest["immutable_file_count"] == len(manifest["immutable_files"])
+    assert manifest["model_config"] == {
+        "model": "gpt-5.4",
+        "reasoning_setting": "medium",
+        "sandbox": "workspace-write",
+        "network_isolation_level": "NETWORK_POLICY_PROHIBITED_TRACE_AUDITED",
+    }
+
+
+def test_phase002b_input_freeze_detects_hash_mutation(repo_root):
+    manifest = build_recovery_manifest(repo_root)
+    path = next(iter(manifest["immutable_files"]))
+    manifest["immutable_files"][path]["sha256"] = "0" * 64
+    errors = verify_recovery_manifest(repo_root, manifest)
+    assert f"INPUT_FREEZE_BROKEN:{path}" in errors
+    assert "FREEZE_HASH_MISMATCH" in errors
 
 
 def test_coverage_is_explicitly_not_correctness():

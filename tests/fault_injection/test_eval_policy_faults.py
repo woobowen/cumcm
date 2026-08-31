@@ -53,8 +53,12 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         "BLIND_ADJUDICATION_NOT_COMPLETE",
         "META_ADJUDICATION_NOT_RUN",
         "DECISION_AUDIT_NOT_RUN",
+        "FORMAL_ADJUDICATION_RECOVERY_PENDING",
     ]
-    assert state["technical_adjudication_status"] == "AUTOMATED_ADJUDICATION_INCOMPLETE"
+    assert (
+        state["technical_adjudication_status"]
+        == "AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS"
+    )
     assert state["automated_decision_ids"] == []
     assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False

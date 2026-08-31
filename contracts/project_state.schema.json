@@ -21,7 +21,7 @@
     "current_plan": {"type": "string", "minLength": 1},
     "active_skill_version": {"type": "string", "minLength": 1},
     "current_branch": {"type": "string", "minLength": 1},
-    "technical_adjudication_status": {"enum": ["AUTOMATED_ADJUDICATION_PENDING", "AUTOMATED_ADJUDICATION_INCOMPLETE", "AUTOMATED_ACCEPTED", "AUTOMATED_REJECTED", "RETEST_REQUIRED", "EVIDENCE_INSUFFICIENT", "AUTOMATED_ABSTAINED", "STALE"]},
+    "technical_adjudication_status": {"enum": ["AUTOMATED_ADJUDICATION_PENDING", "AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS", "AUTOMATED_ADJUDICATION_INCOMPLETE", "AUTOMATED_ADJUDICATION_COMPLETE", "AUTOMATED_ACCEPTED", "AUTOMATED_REJECTED", "RETEST_REQUIRED", "EVIDENCE_INSUFFICIENT", "AUTOMATED_ABSTAINED", "STALE"]},
     "automated_decision_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "selected_architecture": {"type": ["string", "null"]},
     "accepted_component_specifications": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
