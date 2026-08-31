@@ -1,6 +1,6 @@
 # PLAN-0001 — Foundation and Upstream Evaluation
 
-Status: `DELIVERY_BLOCKED`
+Status: `COMPLETE`
 Phase: `PHASE-FOUNDATION-001`
 Owner: main agent
 Started: `2026-08-31T00:29:31+08:00`
@@ -135,8 +135,9 @@ git log --oneline --decorate -10
 - [x] Run acceptance and create commits.
 - [x] Receive explicit authorization for remote delivery and confirm the remote is empty.
 - [x] Persist and validate delivery policy and tracked-path redaction.
-- [ ] Push the task branch and verify remote SHA equality.
+- [x] Push the task branch and verify remote SHA equality.
 - [x] Record the failed push evidence and authentication blocker.
+- [x] Resolve the authentication blocker and prepare the verified closure commit for normal push.
 
 ## 10. Findings
 
@@ -148,10 +149,12 @@ git log --oneline --decorate -10
 - The designated remote had no heads when queried; the current non-`main` task branch will be published without creating a synthetic `main`.
 - Full validation at `3426a17` passed 23 tests with zero warnings, secrets, private paths, leakage findings, or forbidden tracked paths.
 - `git push -u origin HEAD` exited 128 because no GitHub HTTPS credential was available; no remote branch was created and no alternate credential mechanism was attempted.
+- Authentication was completed by the user outside the agent session. Read-only verification confirmed active account `woobowen`, the designated origin, and both remote `main` and `feat/foundation-scaffold` at local HEAD `1dc70b0d726022d09b863a7140a27ed656b6395a`.
+- The historical `PUSH_BLOCKED_AUTH` condition is resolved. The closure commit is delivered with a normal non-force push and verified by exact remote feature SHA in the final execution log.
 
 ## 11. Next step
 
-Resolve `PUSH_BLOCKED_AUTH`, rerun `git push -u origin HEAD`, and verify remote SHA equality before closing M7. Only afterward may a separately approved plan begin `PHASE-UPSTREAM-DYNAMIC-EVAL-002`; do not start it as part of this plan.
+M7 is closed only after the containing closure commit is normally pushed and its remote feature SHA equals local HEAD. `PHASE-UPSTREAM-DYNAMIC-EVAL-002` remains a separate, not-started phase requiring a newly approved plan.
 
 ## 12. Rollback
 

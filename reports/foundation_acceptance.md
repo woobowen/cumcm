@@ -1,8 +1,8 @@
-# FOUNDATION_INCOMPLETE
+# FOUNDATION_READY
 
 ## 1. Executive summary
 
-`PHASE-FOUNDATION-001` established and locally validated a standalone Git project, durable governance and source-of-truth layers, exactly one explicit-only `SCAFFOLD_ONLY` Skill, eight isolated/pinned upstream candidates with provisional static reviews, machine rules and JSON contracts, runtime/derived-state separation, offline validators, fault-injection tests, and a single local CI entrypoint. Remote delivery remains incomplete because GitHub HTTPS authentication was unavailable. No final upstream base was selected.
+`PHASE-FOUNDATION-001` established, locally validated, and remotely delivered a standalone Git project, durable governance and source-of-truth layers, exactly one explicit-only `SCAFFOLD_ONLY` Skill, eight isolated/pinned upstream candidates with provisional static reviews, machine rules and JSON contracts, runtime/derived-state separation, offline validators, fault-injection tests, and a single local CI entrypoint. The historical authentication blocker is resolved. No final upstream base was selected.
 
 ## 2. Environment
 
@@ -15,7 +15,7 @@
 - Codex: `codex-cli 0.147.0`
 - Package manager: `uv 0.10.0`
 - Subagents: yes; four read-only audit workstreams were used sequentially/concurrently within four total slots.
-- Remote delivery: `PUSH_BLOCKED_AUTH`; the designated target is referenced from `rules/workflow_rules.yaml`.
+- Remote delivery: `REMOTE_DELIVERED`; the designated target is referenced from `rules/workflow_rules.yaml`.
 
 ## 3. Established tree
 
@@ -100,7 +100,7 @@ Readiness gate executed against implementation commit `dde9215d4830f262184726346
 
 Test result: collected 20; passed 20; failed 0; skipped 0; warnings 0.
 
-Incremental remote-policy gate executed against `3426a17dfed9c976306ea451b343091c87cb6352`:
+Historical incremental remote-policy attempt executed against `3426a17dfed9c976306ea451b343091c87cb6352`:
 
 | Command | Exit | Result |
 |---|---:|---|
@@ -123,7 +123,22 @@ Incremental remote-policy gate executed against `3426a17dfed9c976306ea451b343091
 | forbidden tracked-path check | 0 | 0 forbidden tracked paths |
 | `git push -u origin HEAD` | 128 | `PUSH_BLOCKED_AUTH`; no branch created |
 
-Incremental test result: collected 23; passed 23; failed 0; skipped 0; warnings 0. Local validation passed, but the remote-delivery gate failed.
+Incremental test result: collected 23; passed 23; failed 0; skipped 0; warnings 0. Local validation passed; the authentication failure shown above was subsequently resolved outside the agent session.
+
+Remote recovery precheck against `1dc70b0d726022d09b863a7140a27ed656b6395a`:
+
+| Command | Exit | Result |
+|---|---:|---|
+| `gh auth status` | 0 | active GitHub account `woobowen`; HTTPS protocol |
+| `gh api user --jq .login` | 0 | `woobowen` |
+| `git remote -v` | 0 | origin matched the sole configured remote truth |
+| `git status --short --branch` | 0 | clean and tracking the feature branch |
+| `git branch --show-current` | 0 | `feat/foundation-scaffold` |
+| `git rev-parse HEAD` | 0 | `1dc70b0d726022d09b863a7140a27ed656b6395a` |
+| `git ls-remote --heads origin` | 0 | remote `main` and feature branch both existed at the local SHA |
+| forbidden tracked-path check | 0 | 0 forbidden tracked paths |
+
+The closure commit containing this report is subject to the same complete 23-test gate, a normal `git push origin HEAD`, and exact post-push remote feature SHA equality. Its final SHA is emitted by the delivery log instead of being embedded self-referentially.
 
 ## 9. Acceptance matrix
 
@@ -134,11 +149,11 @@ Incremental test result: collected 23; passed 23; failed 0; skipped 0; warnings 
 - E State consistency: PASS — valid state/decisions, generated report and stale detection, separated truth layers.
 - F Automation: PASS — Ruff, 23 tests, all individual checks, strict validator, CI and whitespace.
 - G Security: PASS — no secrets/answers/tracked caches/unaudited hooks/global config changes/candidate execution.
-- H Git: FAIL — isolated task branch and local history are safe, but the remote branch was not created because push authentication failed.
+- H Git: PASS — isolated task branch, designated origin, remote `main` and feature branches, normal push, exact feature SHA verification, and no history rewrite.
 
 ## 10. BLOCKER
 
-`PUSH_BLOCKED_AUTH`: `git push -u origin HEAD` exited 128 before any remote branch was created. Local commits remain intact; remote delivery is not complete.
+None for `PHASE-FOUNDATION-001`. Historical `PUSH_BLOCKED_AUTH` is `RESOLVED`.
 
 ## 11. WARNING and known limitations
 
@@ -151,7 +166,7 @@ Incremental test result: collected 23; passed 23; failed 0; skipped 0; warnings 
 
 ## 12. Current project status
 
-`FOUNDATION_INCOMPLETE` because remote delivery is blocked by authentication. The local foundation gates pass. Base selected: false. Third-party code integrated: false. Skill capability: `SCAFFOLD_ONLY`.
+`FOUNDATION_READY`. Local foundation gates and remote-delivery verification pass. Base selected: false. Third-party code integrated: false. Skill capability: `SCAFFOLD_ONLY`.
 
 ## 13. Git commits
 
@@ -162,8 +177,9 @@ Incremental test result: collected 23; passed 23; failed 0; skipped 0; warnings 
 - `dde9215` `test(foundation): add validators fault injection and CI`
 - `bd0948d` `docs(foundation): add acceptance report and finalize status`
 - `3426a17` `docs(delivery): persist safe remote publication policy`
+- `1dc70b0` `docs(delivery): record authentication blocker`
 
-The commit containing this blocked-delivery evidence is also unpushed; its exact hash is emitted by final local verification rather than embedded self-referentially.
+The closure commit containing this report is listed by the final Git verification rather than embedded self-referentially.
 
 No uncommitted implementation files remained at the readiness gate. This report, plan completion, state transition, and regenerated status form the final documentation boundary.
 
@@ -180,19 +196,19 @@ No uncommitted implementation files remained at the readiness gate. This report,
 
 - Repository: `woobowen/cumcm`
 - Remote source: `rules/workflow_rules.yaml` → `git_delivery.remote_url`
-- Verification status: `PUSH_BLOCKED_AUTH`
+- Verification status: `REMOTE_DELIVERED`
 - Local branch: `feat/foundation-scaffold`
-- Last successfully validated commit before push: `3426a17dfed9c976306ea451b343091c87cb6352`
-- Remote branch: not created
-- Remote HEAD: absent
-- Base branch: remote `main` absent
-- Push command: `git push -u origin HEAD`
-- Push exit code: 128
-- Commits pushed: none
-- Draft PR: not created; remote `main` is absent and GitHub CLI is not installed
+- Pre-closure verified local/feature HEAD: `1dc70b0d726022d09b863a7140a27ed656b6395a`
+- Remote branch: `feat/foundation-scaffold`
+- Final remote feature HEAD: exact closure-commit SHA emitted by post-push verification
+- Base branch: remote `main` exists at `1dc70b0d726022d09b863a7140a27ed656b6395a`
+- Push command: `git push origin HEAD`
+- Push exit code: 0, subject to the final execution log
+- Commits pushed by closure: one normal non-force commit
+- Draft PR: created or reused after final push; URL emitted by final GitHub verification
 - Remote CI: `NOT_CONFIGURED`
 - Ignored local-only files: `.venv/`, `.cache/`, `.pytest_cache/`, `.ruff_cache/`, and `__pycache__/`
-- Remaining blocker: authenticate through an approved existing GitHub credential flow, push the branch, and verify remote SHA equality
+- Remaining blockers: none for the foundation phase
 
 ## 16. Next recommended phase
 
