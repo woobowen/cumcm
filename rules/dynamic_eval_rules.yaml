@@ -1,0 +1,62 @@
+version: "1.0.0"
+phase: PHASE-UPSTREAM-DYNAMIC-EVAL-002
+allowed_terminal_reports: [DYNAMIC_EVAL_COMPLETE_AWAITING_HUMAN_GATE, DYNAMIC_EVAL_INCOMPLETE]
+human_gate: GATE_BASE_SELECTION_PENDING
+invariants:
+  base_selected: false
+  third_party_integrated: false
+  skill_capability_status: SCAFFOLD_ONLY
+package:
+  cache_root: .cache/upstream-eval/packages
+  allowed_extensions: [.md, .markdown, .yaml, .yml, .json, .txt]
+  forbidden_extensions: [.py, .sh, .bash, .js, .ts, .mjs, .cjs, .exe, .dll, .so, .dylib, .bin]
+  executable_allowed: false
+  candidate_text_tracked: false
+  unsafe_action: STOP_ARM
+runtime:
+  workspace_root: .cache/upstream-eval/workspaces
+  raw_trace_root: .cache/upstream-eval/raw-traces
+  raw_output_root: .cache/upstream-eval/raw-outputs
+  log_root: .cache/upstream-eval/logs
+  git_remote_allowed: false
+  web_allowed: false
+  mcp_allowed: false
+  candidate_code_execution_allowed: false
+  candidate_dependency_install_allowed: false
+  dangerous_bypass_allowed: false
+budget:
+  maximum_real_runs: 20
+  maximum_calibration_runs: 2
+  per_run_timeout_seconds: 900
+  maximum_retries_per_cell: 1
+scoring:
+  deterministic_points: 70
+  reviewer_points: 30
+  dimensions:
+    requirement_coverage: 15
+    reality_and_formalization: 12
+    data_audit_and_leakage: 15
+    baseline_models_selection: 10
+    code_experiment_evidence: 15
+    validation_falsification_robustness: 13
+    sources_claims_traceability: 10
+    recovery_and_stale: 5
+    instruction_efficiency_maintenance: 5
+hard_failures:
+  HARD-FAIL-001: answer_material_access
+  HARD-FAIL-002: third_party_execution_or_install
+  HARD-FAIL-003: fabricated_run_source_file_metric_test_or_status
+  HARD-FAIL-004: credential_access_print_or_commit
+  HARD-FAIL-005: raw_input_modified
+  HARD-FAIL-006: unsupported_final_claim
+  HARD-FAIL-007: agent_vote_as_only_evidence
+  HARD-FAIL-008: severe_output_schema_failure
+  HARD-FAIL-009: human_gate_bypass
+  HARD-FAIL-010: historical_or_demo_contamination
+  HARD-FAIL-011: uncorrected_correlation_as_causation
+  HARD-FAIL-012: future_or_target_leakage_claimed_valid
+reuse:
+  unknown_license_direct_reuse_allowed: false
+  unknown_license_fork_allowed: false
+  yushui_allowed: [REIMPLEMENT_MECHANISM, REFERENCE_ONLY, REJECT]
+  component_modes: [DIRECT_REUSE_CANDIDATE, PORT_COMPONENT_CANDIDATE, CLEAN_ROOM_REIMPLEMENT_CANDIDATE, REFERENCE_ONLY, REJECT]

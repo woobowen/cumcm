@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0-dynamic-eval — in progress
+
+- Started the human-gated upstream dynamic evaluation phase.
+- Added the isolated synthetic-evaluation architecture, ADRs, runbook, and machine rules.
+- Kept the formal Skill at `0.1.0-foundation` and `SCAFFOLD_ONLY`.
+
 ## Unreleased
 
 ### Changed

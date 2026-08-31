@@ -2,16 +2,16 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-FOUNDATION-001`
-- Status: `FOUNDATION_READY`
-- Active plan: `plans/active/PLAN-0001-foundation-and-upstream-evaluation.md`
-- Branch: `feat/foundation-scaffold`
+- Phase: `PHASE-UPSTREAM-DYNAMIC-EVAL-002`
+- Status: `IN_PROGRESS`
+- Active plan: `plans/active/PLAN-0002-upstream-dynamic-evaluation.md`
+- Branch: `feat/upstream-dynamic-eval`
 - Skill version: `0.1.0-foundation`
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Last verified commit: `1dc70b0d726022d09b863a7140a27ed656b6395a`
-- Updated: `2026-08-31T12:01:25+08:00` by `main-agent`
+- Last verified commit: `d31363438e73b9f227999975a5c068cabbaa0aea`
+- Updated: `2026-08-31T16:00:59+08:00` by `main-agent`
 
 ## Blockers
 
@@ -19,5 +19,6 @@
 
 ## Risks
 
-- Upstream effectiveness is UNVERIFIED until dynamic phase 002.
+- Dynamic evaluation is IN_PROGRESS; no base recommendation is approved.
 - Project license is PROJECT_LICENSE_UNDECIDED.
+- Sanitized instruction-only evaluation cannot prove full upstream behavior.
