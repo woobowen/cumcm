@@ -14,9 +14,12 @@ def main() -> int:
     if args.config != "evals/configs/phase-002.yaml":
         print("CONFIG_PATH_NOT_SUPPORTED")
         return 1
-    result = freeze_scores(ROOT, check=args.check)
+    freeze_exists = (ROOT / "evals/results/phase-002/score_freeze.json").is_file()
+    verify_existing = args.check or freeze_exists
+    result = freeze_scores(ROOT, check=verify_existing)
     print(
-        f"scoring={result['status']} scores={result['score_count']} errors={len(result['errors'])}"
+        f"scoring={result['status']} scores={result['score_count']} errors={len(result['errors'])} "
+        f"mode={'VERIFY_EXISTING_FREEZE' if verify_existing else 'CREATE_FREEZE'}"
     )
     for error in result["errors"]:
         print(error)
