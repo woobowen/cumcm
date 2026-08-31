@@ -48,7 +48,7 @@ def test_candidate_label_cannot_change_grade_or_original_output(repo_root):
 
 def test_human_gate_and_integration_flags_remain_false(repo_root):
     state = json.loads((repo_root / "state/project_state.json").read_text())
-    assert state["blockers"] == ["GATE_BASE_SELECTION_PENDING"]
+    assert state["blockers"] == ["AUTOMATED_ADJUDICATION_PENDING"]
     assert state["base_selected"] is False
     assert state["third_party_integrated"] is False
     assert state["skill_capability_status"] == "SCAFFOLD_ONLY"
