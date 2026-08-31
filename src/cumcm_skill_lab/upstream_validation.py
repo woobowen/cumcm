@@ -1,5 +1,6 @@
-"""Validate the pinned upstream candidate manifest without executing candidates."""
+"""Validate pinned upstream evidence and component cards without executing candidates."""
 
+import json
 import subprocess
 from pathlib import Path
 
@@ -27,7 +28,7 @@ def validate_upstreams(root: Path):
                 "message": f"expected {EXPECTED_CANDIDATES}, found {len(candidates)}",
             }
         )
-    schema = __import__("json").loads(
+    schema = json.loads(
         (root / "contracts/upstream_candidate.schema.json").read_text(encoding="utf-8")
     )
     validator = Draft202012Validator(schema)
@@ -66,4 +67,39 @@ def validate_upstreams(root: Path):
         errors.append({"id": "UPSTREAM_CACHE_NOT_IGNORED", "message": ".cache/upstream"})
     if tracked:
         errors.append({"id": "UPSTREAM_CACHE_TRACKED", "message": tracked})
-    return {"candidate_count": len(candidates), "cache_ignored": ignored, "errors": errors}
+    card_paths = sorted((root / "research/upstream_candidates/component_cards").glob("*.yaml"))
+    if len(card_paths) > 5:
+        errors.append({"id": "COMPONENT_CARD_LIMIT", "message": str(len(card_paths))})
+    card_schema_path = root / "contracts/component_card.schema.json"
+    if card_paths and not card_schema_path.is_file():
+        errors.append({"id": "COMPONENT_CARD_SCHEMA_MISSING"})
+    elif card_paths:
+        card_validator = Draft202012Validator(
+            json.loads(card_schema_path.read_text(encoding="utf-8"))
+        )
+        candidates_by_id = {candidate["id"]: candidate for candidate in candidates}
+        for path in card_paths:
+            try:
+                card = yaml.safe_load(path.read_text(encoding="utf-8"))
+                card_validator.validate(card)
+            except (OSError, yaml.YAMLError, ValidationError) as exc:
+                errors.append({"id": "COMPONENT_CARD_SCHEMA", "message": f"{path.name}: {exc}"})
+                continue
+            if path.stem != card["mechanism_id"]:
+                errors.append({"id": "COMPONENT_CARD_FILENAME", "message": path.name})
+            source = candidates_by_id.get(card["source_candidate"])
+            if source is None or source["resolved_commit"] != card["source_commit"]:
+                errors.append({"id": "COMPONENT_CARD_SOURCE_PIN", "message": card["mechanism_id"]})
+            license_status = card["license_status"]
+            if card["reuse_mode"] == "DIRECT_REUSE_CANDIDATE" and any(
+                marker in license_status for marker in ("UNKNOWN", "RESTRICTED", "NO_LICENSE")
+            ):
+                errors.append(
+                    {"id": "COMPONENT_CARD_DIRECT_REUSE_BLOCKED", "message": card["mechanism_id"]}
+                )
+    return {
+        "candidate_count": len(candidates),
+        "component_card_count": len(card_paths),
+        "cache_ignored": ignored,
+        "errors": errors,
+    }

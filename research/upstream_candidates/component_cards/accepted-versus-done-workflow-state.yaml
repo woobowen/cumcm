@@ -1,0 +1,34 @@
+mechanism_id: accepted-versus-done-workflow-state
+source_candidate: aris
+source_commit: 94d8093ed21d20a790830318190095b9f5036ce8
+source_files:
+  - tools/run_state.py
+  - tests/test_run_state.py
+mechanism_summary: Separate task execution from evidence acceptance so restart skips only accepted work and invalidated dependencies reopen downstream work.
+actual_gap_addressed: Every arm failed most CASE-005 dependency-freshness checks, with deterministic scores of 7, 7, and 0 and no persisted workflow state or closure artifact.
+baseline_failure: The neutral baseline described propagation but did not persist valid, STALE, or restart state and did not produce an executable traversal artifact.
+candidate_behavior: Static review observed a done-versus-accepted distinction and resume behavior, but its parallel state tree, AUTO_PROCEED behavior, and fail-continue paths conflict with project policy.
+proposed_behavior: Add accepted status and dependency-hash validity to the existing project state machine; only human-accepted and hash-current nodes may be skipped on resume.
+observable_metric: For every CASE-005 mutation scenario, generated valid and STALE node sets exactly match the oracle, restart begins at the earliest invalid stage, and no downstream node remains accepted after dependency change.
+measured_or_expected_benefit: Expected to raise the uniformly weak CASE-005 state result by making freshness and recovery mechanically observable rather than narrative.
+security_risk: The upstream contains shell, Git, remote execution, installer, and updater paths that are prohibited; source execution and wholesale adoption are excluded.
+license_status: MIT_ROOT_WITH_SUBRESOURCE_GAPS
+contamination_risk: MEDIUM because examples and a binary community paper were not fully reviewed; exclude all example content.
+integration_conflict: The upstream .aris state is a competing truth and must not be ported; only a clean-room transition rule may extend state/project_state.json ownership.
+reuse_mode: CLEAN_ROOM_REIMPLEMENT_CANDIDATE
+clean_room_requirements:
+  - Specify state transitions from CASE-005 oracle behavior and project WORKFLOW.md.
+  - Use only the existing formal state and ledgers; do not create .aris or another controller.
+  - Preserve human approval gates and fail closed on missing hashes or evidence.
+required_tests:
+  - Exact valid/STALE closure for input, config, code, final-run, paper, and unrelated-branch mutations.
+  - Crash and resume before done, after done, and after accepted.
+  - Reject AUTO_PROCEED, FAIL-continue, and skip-on-done behavior.
+  - Ensure upstream changes transitively mark dependent artifacts STALE.
+maintenance_cost: MEDIUM
+rejected_alternatives:
+  - Porting tools/run_state.py is rejected because it would add a second state truth.
+  - Treating done as accepted is rejected because evidence review can still fail.
+  - A narrative restart checklist is rejected because CASE-005 showed that prose is insufficient.
+confidence: MEDIUM
+human_review_required: true

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/component-card/v1",
+  "title": "Evidence-backed Upstream Mechanism Card",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["mechanism_id", "source_candidate", "source_commit", "source_files", "mechanism_summary", "actual_gap_addressed", "baseline_failure", "candidate_behavior", "proposed_behavior", "observable_metric", "measured_or_expected_benefit", "security_risk", "license_status", "contamination_risk", "integration_conflict", "reuse_mode", "clean_room_requirements", "required_tests", "maintenance_cost", "rejected_alternatives", "confidence", "human_review_required"],
+  "properties": {
+    "mechanism_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "source_candidate": {"enum": ["xiaoma-math-modeling-skill", "gatecraft", "lupynow-math-modeling-skills", "mathodology", "kdense-scientific-agent-skills", "aris"]},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "source_files": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "mechanism_summary": {"type": "string", "minLength": 1},
+    "actual_gap_addressed": {"type": "string", "minLength": 1},
+    "baseline_failure": {"type": "string", "minLength": 1},
+    "candidate_behavior": {"type": "string", "minLength": 1},
+    "proposed_behavior": {"type": "string", "minLength": 1},
+    "observable_metric": {"type": "string", "minLength": 1},
+    "measured_or_expected_benefit": {"type": "string", "minLength": 1},
+    "security_risk": {"type": "string", "minLength": 1},
+    "license_status": {"type": "string", "minLength": 1},
+    "contamination_risk": {"type": "string", "minLength": 1},
+    "integration_conflict": {"type": "string", "minLength": 1},
+    "reuse_mode": {"enum": ["DIRECT_REUSE_CANDIDATE", "PORT_COMPONENT_CANDIDATE", "CLEAN_ROOM_REIMPLEMENT_CANDIDATE", "REFERENCE_ONLY", "REJECT"]},
+    "clean_room_requirements": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "required_tests": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "maintenance_cost": {"enum": ["LOW", "MEDIUM", "HIGH"]},
+    "rejected_alternatives": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "confidence": {"enum": ["LOW", "MEDIUM", "HIGH"]},
+    "human_review_required": {"const": true}
+  },
+  "additionalProperties": false
+}

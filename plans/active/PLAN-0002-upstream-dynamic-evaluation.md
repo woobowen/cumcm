@@ -194,7 +194,10 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   Reviewer completed 18 structured reviews; 18 deterministic/reviewer scores were frozen before
   reveal. The post-freeze mapping is ARM-A=YUSHUI, ARM-B=NO_PROJECT_MODELING_SKILL, and
   ARM-C=HANDSOMEZR. Score hashes were preserved and no post-reveal score change was detected.
-- [ ] M8–M10.
+- [x] M8 derived six observed gaps and four mechanism cards. Every proposed mechanism is bounded by
+  a measurable next-phase metric and is `CLEAN_ROOM_REIMPLEMENT_CANDIDATE`; no component was copied,
+  ported, integrated, or approved for direct reuse.
+- [ ] M9–M10.
 
 ### Validation evidence
 
@@ -256,6 +259,12 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   ARM-C=HANDSOMEZR. The reveal record binds 18 frozen scores and reports
   `NO_POST_REVEAL_SCORE_CHANGE_DETECTED`; reveal/score checks and strict validation passed. The
   observed medians remain evidence for proposals only and do not select a base.
+- `2026-08-31` M8: the gap matrix ties four proposed mechanisms to observed CASE-004 model-selection
+  leakage/inconsistency, CASE-005 state/freshness failure, repeated missing reproducibility artifacts,
+  and CASE-006 claim-support gaps. A 21st Schema and positive/negative fixtures validate all four
+  cards; strict validation reports four cards, eight pinned candidates, and zero errors/warnings.
+  Unknown or incomplete licensing, contamination, broad tool permissions, and state conflicts force
+  clean-room-only reuse modes. Two lower-severity gaps are covered or deferred without adding steps.
 
 ## 24. Interruption recovery
 

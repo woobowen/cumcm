@@ -1,0 +1,34 @@
+mechanism_id: hash-bound-reproducibility-manifest
+source_candidate: xiaoma-math-modeling-skill
+source_commit: 5a85fe34ca1d075872e95556b122c8979984d322
+source_files:
+  - references/roles/编程手/scripts/repro_manifest.py
+  - tests/test_reproducibility.py
+mechanism_summary: Persist one native manifest binding input, script, output, seed, runtime, command, and Git hashes for every formal Run.
+actual_gap_addressed: Across CASE-001, CASE-002, CASE-003, CASE-004, and CASE-006, Reviewer findings repeatedly reported missing code, result, audit, claim-map, hash, or recovery artifacts.
+baseline_failure: The neutral baseline created no hash ledger in CASE-001, no persistent audit artifact in CASE-002, no durable result in CASE-003 or CASE-004, and no input hash or persistent claim map in CASE-006.
+candidate_behavior: Static review observed an input-hash, seed, runtime, and command manifest helper plus reproducibility tests; output, Source, and Git bindings remain incomplete and runtime behavior is unverified.
+proposed_behavior: Extend the project's existing Run contract with a single generated manifest that binds frozen inputs, executable artifact hashes, outputs, seed, environment, command, and Git commit without creating another state source.
+observable_metric: Every formal Run has one Schema-valid manifest; deliberate input, script, output, or Git mutation fails verification or propagates STALE with zero silent reuse.
+measured_or_expected_benefit: Expected to eliminate the repeated missing-artifact and missing-hash findings; benefit must be remeasured on CASE-001/002/003/004/006 in Phase 003.
+security_risk: Upstream root is unlicensed and includes network/compiler/vendor surfaces; no source or tool may be executed or copied.
+license_status: UNKNOWN_ROOT_WITH_RESTRICTED_VENDOR_SUBTREES
+contamination_risk: HIGH because contest example assets exist; only the abstract field contract may inform a clean-room specification.
+integration_conflict: A parallel manifest would duplicate project Run and state truth; fields must be added to native contracts and generated reports only.
+reuse_mode: CLEAN_ROOM_REIMPLEMENT_CANDIDATE
+clean_room_requirements:
+  - Derive requirements only from the pinned static review and observed evaluation gap, not source text.
+  - Implement in project-native contracts with new names, tests, and provenance.
+  - Exclude all vendored tools, assets, templates, and contest examples.
+required_tests:
+  - Reject a missing input, script, output, seed, command, environment, or Git binding.
+  - Detect content mutation and propagate STALE transitively.
+  - Rebuild the same manifest deterministically from the same Run.
+  - Prove no private paths, credentials, raw traces, or third-party text enter the manifest.
+maintenance_cost: MEDIUM
+rejected_alternatives:
+  - Direct reuse is rejected because the root license is unknown.
+  - A second manifest/state tree is rejected because it would create competing truth.
+  - Free-form reproducibility notes are rejected because they are not machine-verifiable.
+confidence: MEDIUM
+human_review_required: true
