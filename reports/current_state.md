@@ -18,7 +18,7 @@
 - Content-verified commit: `fee8aeb157607629e86bbfe5d8cb41e60d12f34f`
 - Delivery receipt commit: `fee8aeb157607629e86bbfe5d8cb41e60d12f34f`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-01T00:45:37+08:00` by `main-agent`
+- Updated: `2026-09-01T01:22:55+08:00` by `main-agent`
 
 ## Blockers
 
@@ -37,3 +37,4 @@
 - YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete.
 - Three consecutive real Blind Judge attempts failed at the Codex Responses transport before structured output.
 - Phase 002B has only eight remaining model starts for six mandatory independent formal roles.
+- The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.

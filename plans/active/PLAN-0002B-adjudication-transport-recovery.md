@@ -115,10 +115,12 @@ missing Judge. Total start eight or model mismatch also stops. No mock output be
 
 ## 10. Model and authentication boundary
 
-All six roles use frozen `gpt-5.4` with `medium` reasoning. Intermittent transport errors do not
-authorize a model switch. If the model is unavailable, stop with `MODEL_UNAVAILABLE`; a future
-uniform replacement requires a new config version, ADR, removal of incomplete Phase 002B role
-outputs and a full same-model restart within separately approved budget. Use only the existing
+The pre-run App Server catalog check established `MODEL_UNAVAILABLE` for frozen `gpt-5.4` before
+any Phase 002B formal output existed. Per the recovery rule, `phase-002b-v2.yaml` and ADR-0019 bind
+all six roles uniformly to the locally supported flagship `gpt-5.6-sol` while preserving `medium`
+reasoning. No output required clearing, the eight-start budget is unchanged, and the cross-phase
+model comparability limitation remains explicit. Intermittent transport errors do not authorize a
+second switch. Any role or resume on another model is terminal. Use only the existing
 ChatGPT-managed Codex login. Never read `OPENAI_API_KEY`, request credentials, use API-key login,
 print/copy auth state, switch to API billing, create a Platform project or modify global Codex
 configuration. Authentication and quota failures remain distinct blockers with minimal local login

@@ -170,11 +170,16 @@ def _role_task(role: str, dependencies: dict[str, Any]) -> dict:
     }
 
 
-def build_role(root: Path, role: str) -> tuple[dict[str, Any], dict[str, Any]]:
+def build_role(
+    root: Path,
+    role: str,
+    *,
+    config_path: str = "adjudication/configs/phase-002b-v2.yaml",
+) -> tuple[dict[str, Any], dict[str, Any]]:
     if role not in ROLE_ORDER:
         raise ValueError(f"UNSUPPORTED_ROLE:{role}")
     sources = _sources(root)
-    config = read_yaml(root / "adjudication/configs/phase-002a.yaml")
+    config = read_yaml(root / config_path)
     policy = read_yaml(root / "adjudication/policies/phase-002a.yaml")
     freeze = sources["input_freeze"]
     selected_findings = select_findings(role, sources["findings"]["findings"])
@@ -194,6 +199,8 @@ def build_role(root: Path, role: str) -> tuple[dict[str, Any], dict[str, Any]]:
         "evidence_hash": freeze["evidence_hash"],
         "model": config["model"],
         "reasoning_setting": config["reasoning_setting"],
+        "config_path": config_path,
+        "model_comparability_limitation": config.get("comparability_limitation"),
         "identity_blind": True,
         "peer_outputs_visible": role in ROLE_ORDER[4:],
         "dependency_status": {item["role"]: item["status"] for item in dependencies["records"]},
@@ -271,11 +278,16 @@ def build_role(root: Path, role: str) -> tuple[dict[str, Any], dict[str, Any]]:
     return files, manifest
 
 
-def build_all(root: Path, *, check: bool) -> dict[str, Any]:
+def build_all(
+    root: Path,
+    *,
+    check: bool,
+    config_path: str = "adjudication/configs/phase-002b-v2.yaml",
+) -> dict[str, Any]:
     errors: list[str] = []
     manifests: dict[str, dict[str, Any]] = {}
     for role in ROLE_ORDER:
-        files, manifest = build_role(root, role)
+        files, manifest = build_role(root, role, config_path=config_path)
         slug = ROLE_SLUGS[role]
         manifest_path = root / RESULT_ROOT / "bundle_manifests" / f"{slug}.json"
         errors.extend(check_or_write(manifest_path, manifest, check=check))
