@@ -10,8 +10,8 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Last verified commit: `d679c10900f92dd78911ef773f867eaa7f4a098b`
-- Updated: `2026-08-31T18:33:58+08:00` by `main-agent`
+- Last verified commit: `09a760cb9b22f467163253953134b31d0d99e909`
+- Updated: `2026-08-31T18:49:05+08:00` by `main-agent`
 
 ## Blockers
 

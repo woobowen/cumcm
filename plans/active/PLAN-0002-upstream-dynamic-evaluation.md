@@ -201,7 +201,10 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   proposals, and precise human Gate questions. The recommendation is
   `RECOMMEND_CLEAN_ROOM_ARCHITECTURE`, with the native baseline as fallback; it remains
   `PROPOSAL_ONLY` and changes neither base nor integration state.
-- [ ] M10.
+- [x] M10 completed local deterministic validation, retained-failure readback, acceptance reporting,
+  normal push with SHA equality, and Draft PR creation. Formal state deliberately remains
+  `IN_PROGRESS` at `GATE_BASE_SELECTION_PENDING`; no merge, approval, base selection, integration,
+  or Phase 003 action occurred.
 
 ### Validation evidence
 
@@ -274,6 +277,13 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   human Gate questions. Both machine proposals validate against their existing Schemas. Formal state
   remains `IN_PROGRESS` with blocker `GATE_BASE_SELECTION_PENDING`, `base_selected=false`,
   `third_party_integrated=false`, and the formal Skill `SCAFFOLD_ONLY`.
+- `2026-08-31` M10: final local collection passed 93/93 with Ruff, 21 Schemas/fixtures, 29
+  dedicated/Runner fault-policy test nodes, strict validation, and CI all clean. A real capability
+  smoke remained AVAILABLE. The required real-run command performed readback only, created zero new
+  records, and truthfully returned exit 1 for 13 COMPLETED plus five retained FAILED current runs;
+  offline score/report rebuilds passed. Commit `09a760cb9b22f467163253953134b31d0d99e909`
+  was pushed and SHA-equal, and Draft PR #2 was created against main. The acceptance-closing commit
+  still requires normal push and post-commit SHA verification.
 
 ## 24. Interruption recovery
 
