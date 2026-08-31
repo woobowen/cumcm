@@ -183,7 +183,11 @@ evaluation if allowlists fail; qualitative review can introduce bias.
 - [x] M4 added the isolated nested-Git Codex runner, ignored arm map/raw traces, structured run and
   observation records, fail-closed publication checks, mock integration, and fault injection.
   A real capability smoke passed with the fixed model/settings and no workspace remote.
-- [ ] M5–M10.
+- [ ] M5 equal-arm smoke executed once for all three anonymous arms: one completed and two were
+  retained as failures caused by an over-strict harness interpretation of descriptive/no-artifact
+  strings. Repair and at most one append-only retry per affected cell remain within the two-run
+  calibration allowance; no record will be overwritten.
+- [ ] M6–M10.
 
 ### Validation evidence
 
@@ -208,6 +212,14 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   missing JSON Schema `type` in the smoke fixture. The Schema was corrected without changing model
   or execution policy. The first full CI correctly rejected key-like and private-path fault literals;
   fixtures were changed to runtime construction without weakening the repository scanners.
+- `2026-08-31` M5 first attempt: three real CASE-001 records used one common task hash; durations
+  were 116.062575/185.829731/48.930851 s, every process exited 0, one record completed, and two
+  failed publication. Anonymous review of only the affected fields showed false positives: a real
+  `.harness/workflow_state.json` reference included descriptive suffix text, while Chinese `无。`
+  values were treated as paths/actions. Original run-001 records are retained. No identity map was
+  read and no score was assigned. The repair must accept explicit none markers and validate the
+  leading path token without weakening nonexistent-file, secret, input mutation, network, or MCP
+  controls; the two affected cells may use the predeclared one-retry/two-calibration budget.
 
 ## 24. Interruption recovery
 
