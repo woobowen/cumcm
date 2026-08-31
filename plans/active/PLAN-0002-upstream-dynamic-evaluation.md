@@ -178,7 +178,9 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   atomic M1 commit.
 - [x] M2 generated and froze six cases/oracles/rubrics (29 artifacts), added six Schemas with valid
   and invalid fixtures, and validated the identity-independent deterministic grader.
-- [ ] M3–M10.
+- [x] M3 built three deterministic cache-only packages at pinned commits; code/executable,
+  contamination, license, and normalized-instruction tests passed. No raw candidate text was copied.
+- [ ] M4–M10.
 
 ### Validation evidence
 
@@ -190,6 +192,10 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   pytest exit 0 with 11 passed; Ruff and `git diff --check` exit 0. The first focused run failed
   because the positive test did not contain oracle evidence and Ruff found long literals; both root
   causes were corrected without weakening the grader, then the full focused rerun passed.
+- `2026-08-31` M3: focused package/safety pytest exit 0 with 8 passed; package builder and
+  `--check` exit 0 with three `PACKAGE_SAFE` manifests and zero mismatches; tracked cache check is
+  empty. The first focused run found an incomplete `requests` text pattern and two Ruff line-length
+  errors; scanner coverage and formatting were corrected before acceptance.
 
 ## 24. Interruption recovery
 
