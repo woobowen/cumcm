@@ -1,4 +1,7 @@
-# Dynamic evaluation runbook
+# Dynamic evaluation runbook (historical Phase 002)
+
+Status: superseded by `AUTOMATED_ADJUDICATION_RUNBOOK.md`. Human technical gate instructions below
+are preserved only to reproduce Phase 002 and have no active authority.
 
 ## Resume
 

@@ -1,3 +1,8 @@
 # Evaluation policy
 
-Dynamic phase 002 will compare a no-Skill baseline, both base candidates, and selected component variants on the same development tasks and rubric. Measure correctness, traceability, reproducibility, reviewer catches, leakage compliance, recovery, latency, and resource cost. Validation/held-out results are not direct tuning data. Static ratings remain `PROVISIONAL` until observable behavior supports them.
+Historical Phase 002 compared a no-Skill baseline and two sanitized candidates on six synthetic
+development tasks. Its lexical score is `STRUCTURED_COVERAGE_ONLY`, never correctness. Phase 002A
+separately computes deterministic oracle correctness and process evidence. Only primary complete
+cells enter comparison; failed and recovery-affected cells remain visible but cannot affect rank.
+Balanced-case and repeat minima are computed from data. The engine may report insufficient evidence
+or abstain, and validation/held-out results remain unavailable for direct tuning.

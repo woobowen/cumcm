@@ -1,8 +1,20 @@
 # Changelog
 
-## 0.2.0-dynamic-eval — in progress
+## 0.2.1-automated-adjudication — 2026-08-31
 
-- Started the human-gated upstream dynamic evaluation phase.
+- Replaced the active human technical gate with frozen, lexicographic automated adjudication and a
+  separate non-overriding team compliance/challenge contract.
+- Froze all Phase 002 evidence; separated structured coverage, deterministic correctness, and process
+  evidence; excluded five recovery-affected cells from rank.
+- Added Blind Judge, Dissent, test synthesis, Meta, Auditor, replay, generated reports, 18 protocol
+  cases, and more than 30 offline regression nodes.
+- Recorded `AUTOMATED_ADJUDICATION_INCOMPLETE` after three consecutive Codex transport failures;
+  no machine decision, Phase 003 transition, or third-party integration was fabricated.
+
+## 0.2.0-dynamic-eval — 2026-08-31
+
+- Completed the historical, then-human-gated upstream dynamic evaluation evidence phase; its
+  proposals are now archived/superseded by Phase 002A.
 - Added the isolated synthetic-evaluation architecture, ADRs, runbook, and machine rules.
 - Kept the formal Skill at `0.1.0-foundation` and `SCAFFOLD_ONLY`.
 

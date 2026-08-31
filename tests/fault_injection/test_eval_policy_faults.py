@@ -48,7 +48,15 @@ def test_candidate_label_cannot_change_grade_or_original_output(repo_root):
 
 def test_human_gate_and_integration_flags_remain_false(repo_root):
     state = json.loads((repo_root / "state/project_state.json").read_text())
-    assert state["blockers"] == ["AUTOMATED_ADJUDICATION_PENDING"]
+    assert state["blockers"] == [
+        "CODEX_TRANSPORT_BLOCKED_AFTER_THREE_ATTEMPTS",
+        "BLIND_ADJUDICATION_NOT_COMPLETE",
+        "META_ADJUDICATION_NOT_RUN",
+        "DECISION_AUDIT_NOT_RUN",
+    ]
+    assert state["technical_adjudication_status"] == "AUTOMATED_ADJUDICATION_INCOMPLETE"
+    assert state["automated_decision_ids"] == []
+    assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False
     assert state["third_party_integrated"] is False
     assert state["skill_capability_status"] == "SCAFFOLD_ONLY"

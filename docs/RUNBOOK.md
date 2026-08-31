@@ -21,7 +21,10 @@ Create synthetic/development fixtures first. Keep validation and held-out manife
 
 ## Release/freeze
 
-Require all gates in `WORKFLOW.md`, a clean strict CI run, versioned contracts, exact input/output hashes, Git commit, environment/config/seed, reviewers, and human approval. Generate status/acceptance reports from state, then create atomic commits and follow the remote-delivery procedure below.
+Require all automated gates in `WORKFLOW.md`, a clean strict CI run, versioned contracts, exact
+input/output hashes, Git commit, environment/config/seed, independent evidence, Meta-Adjudication,
+and Decision Auditor `PASS`. Record `TEAM_COMPLIANCE_REVIEW` separately before external submission;
+it cannot override technical decisions. Generate reports from state, then follow remote delivery.
 
 ## Remote delivery procedure
 

@@ -1,7 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://cumcm.local/contracts/base-selection-proposal/v1",
-  "title": "Human-Gated Base Selection Proposal",
+  "title": "Historical Base Selection Proposal (Deprecated)",
+  "deprecated": true,
   "version": "1.0.0",
   "type": "object",
   "required": ["schema_version", "proposal_id", "status", "recommendation", "fallback", "evidence", "counter_evidence", "dynamic_quality", "legal_reusability", "technical_integrability", "security_acceptability", "maintenance_feasibility", "unresolved_questions", "human_gate", "base_selected"],

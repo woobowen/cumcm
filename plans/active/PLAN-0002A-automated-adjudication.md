@@ -45,8 +45,9 @@ otherwise the result is `EVIDENCE_INSUFFICIENT` or `AUTOMATED_ABSTAINED`.
 
 ## 6. Evidence order and decisions
 
-Apply lexicographically: hard Gates; E1/E2 scientific correctness; robustness/reproducibility;
-relative utility. E4 reviews cannot replace E1/E2 and E5 confidence/consensus never passes a Gate.
+Apply lexicographically: hard Gates; E1/E2/E3 scientific correctness and reproducibility;
+relative utility. E0 Agent assertions cannot replace executable evidence, and confidence/consensus
+never passes a Gate.
 Allowed decisions are `AUTOMATED_ACCEPTED`, `AUTOMATED_REJECTED`, `RETEST_REQUIRED`,
 `EVIDENCE_INSUFFICIENT`, `AUTOMATED_ABSTAINED`, and `STALE`. Hard failures are non-compensable.
 
@@ -110,9 +111,14 @@ hash. GitHub CI remains offline and never launches real Codex.
 - [x] Preconditions verified; Draft PR #2 is OPEN/DRAFT and local/remote HEAD are equal.
 - [x] Unmodified baseline CI passed with 93/93 tests and strict PASS.
 - [x] Six independent read-only attack roles completed; no result was shared before completion.
-- [ ] Phase 002 evidence freeze generated and rechecked.
-- [ ] Rules/contracts/engine/tests implemented.
-- [ ] Real adjudication, replay, reports, final state and delivery completed.
+- [x] Phase 002 evidence freeze generated and rechecked: 20 attempts, 13 complete, 7 failed,
+  five recovery-affected; freeze hash valid.
+- [x] Rules/contracts/engine and 79 new test nodes implemented; full pre-runtime suite reached
+  172 passing tests.
+- [x] Incomplete reports and v2 formal-state migration generated without fabricating decisions.
+- [ ] Real adjudication/replay/decision completion is blocked: three consecutive Correctness Judge
+  attempts failed in Codex Responses transport before structured output; Meta and Auditor not run.
+- [x] Content commit `fee8aeb157607629e86bbfe5d8cb41e60d12f34f` pushed and remote SHA verified.
 
 ## 13. Update, recovery, and rollback
 

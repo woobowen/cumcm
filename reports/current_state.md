@@ -10,12 +10,22 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Last verified commit: `09a760cb9b22f467163253953134b31d0d99e909`
-- Updated: `2026-08-31T21:57:10+08:00` by `main-agent`
+- Technical adjudication: `AUTOMATED_ADJUDICATION_INCOMPLETE`
+- Automated decisions: `None`
+- Selected architecture: `None`
+- Accepted component specifications: `None`
+- Next phase allowed: `None`
+- Content-verified commit: `fee8aeb157607629e86bbfe5d8cb41e60d12f34f`
+- Delivery receipt commit: `fee8aeb157607629e86bbfe5d8cb41e60d12f34f`
+- Team compliance review: `NOT_RUN`
+- Updated: `2026-08-31T23:27:01+08:00` by `main-agent`
 
 ## Blockers
 
-- AUTOMATED_ADJUDICATION_PENDING
+- CODEX_TRANSPORT_BLOCKED_AFTER_THREE_ATTEMPTS
+- BLIND_ADJUDICATION_NOT_COMPLETE
+- META_ADJUDICATION_NOT_RUN
+- DECISION_AUDIT_NOT_RUN
 
 ## Risks
 
@@ -24,3 +34,4 @@
 - Sanitized instruction-only evaluation cannot prove full upstream behavior.
 - Six synthetic cases, one primary run per cell, and five excluded recovery-affected cells may force abstention.
 - YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete.
+- Three consecutive real Blind Judge attempts failed at the Codex Responses transport before structured output.

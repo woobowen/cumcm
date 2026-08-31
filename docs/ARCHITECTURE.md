@@ -17,6 +17,14 @@ immutable problem/data -> requirement trace -> registered sources/data audit
 
 Every formal edge carries identifiers/hashes. A changed upstream dependency propagates `STALE` to descendants according to `WORKFLOW.md`.
 
+## Automated adjudication plane
+
+Phase 002A freezes evidence and policy, classifies eligibility, separates coverage from oracle and
+process evidence, runs identity-blind Judges plus independent Dissent, converts serious claims to
+tests, applies lexicographic Meta-Adjudication, and requires a Decision Auditor. Only the main
+orchestrator writes formal state from an audited record. Human compliance review is separate and
+cannot change the technical outcome.
+
 ## Evaluation isolation
 
 Development cases may inform changes. Validation freezes the Skill during a run. Held-out cases and answers live in an excluded vault; viewing an answer permanently demotes that case to development. Live contest mode forbids current-problem discussion searches. Static scores are provisional and never choose a base without dynamic evidence.

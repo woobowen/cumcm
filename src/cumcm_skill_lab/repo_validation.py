@@ -1,12 +1,14 @@
 """Composite repository validation with stable finding identifiers."""
 
 import csv
+import hashlib
 import json
 import re
 import subprocess
 from pathlib import Path
 
 import yaml
+from jsonschema import Draft202012Validator
 
 from .constants import REQUIRED_PATHS
 from .instruction_validation import validate_instructions
@@ -268,6 +270,58 @@ def _active_plan_errors(root: Path) -> list[dict]:
     except (OSError, json.JSONDecodeError) as exc:
         errors.append({"id": "PROJECT_STATE_INVALID", "message": str(exc)})
         return errors
+    schema = json.loads((root / "contracts/project_state.schema.json").read_text(encoding="utf-8"))
+    state_errors = sorted(
+        Draft202012Validator(schema).iter_errors(state), key=lambda item: list(item.path)
+    )
+    errors.extend(
+        {
+            "id": "PROJECT_STATE_SCHEMA",
+            "path": "state/project_state.json",
+            "message": item.message,
+        }
+        for item in state_errors
+    )
+    content_commit = state.get("content_verified_commit")
+    if content_commit:
+        head_result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=root,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if head_result.returncode == 0 and content_commit == head_result.stdout.strip():
+            errors.append(
+                {
+                    "id": "PROJECT_STATE_SELF_REFERENCE",
+                    "path": "state/project_state.json",
+                    "message": "content_verified_commit must name a prior content commit",
+                }
+            )
+    manifest = state.get("verification_manifest")
+    if manifest:
+        manifest_path = root / manifest["path"]
+        actual_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+        if actual_hash != manifest["sha256"]:
+            errors.append(
+                {
+                    "id": "VERIFICATION_MANIFEST_HASH",
+                    "path": manifest["path"],
+                    "message": actual_hash,
+                }
+            )
+    receipt = state.get("delivery_receipt_for_commit")
+    if receipt and (
+        receipt["commit"] != content_commit or receipt["remote_sha"] != receipt["commit"]
+    ):
+        errors.append(
+            {
+                "id": "DELIVERY_RECEIPT_MISMATCH",
+                "path": "state/project_state.json",
+                "message": "receipt must bind the content-verified commit",
+            }
+        )
     current = active[0].relative_to(root).as_posix()
     if state.get("current_plan") != current:
         errors.append(

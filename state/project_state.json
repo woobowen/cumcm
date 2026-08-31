@@ -1,25 +1,46 @@
 {
   "project_id": "cumcm-skill-lab",
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "phase": "PHASE-AUTOMATED-ADJUDICATION-002A",
   "status": "IN_PROGRESS",
   "current_plan": "plans/active/PLAN-0002A-automated-adjudication.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/upstream-dynamic-eval",
-  "last_verified_commit": "09a760cb9b22f467163253953134b31d0d99e909",
+  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_INCOMPLETE",
+  "automated_decision_ids": [],
+  "selected_architecture": null,
+  "accepted_component_specifications": [],
+  "next_phase_allowed": null,
+  "content_verified_commit": "fee8aeb157607629e86bbfe5d8cb41e60d12f34f",
+  "verification_manifest": {
+    "path": "evals/results/phase-002a/evidence_freeze_manifest.json",
+    "sha256": "ee32717149707931bcfe6c7d513c4c04262877d64b4b8c10c808bd8d7e76a852",
+    "subject_commit": "6a046822c33bcdf8a6821a96333bc92720e764c0"
+  },
+  "delivery_receipt_for_commit": {
+    "commit": "fee8aeb157607629e86bbfe5d8cb41e60d12f34f",
+    "remote": "origin",
+    "remote_sha": "fee8aeb157607629e86bbfe5d8cb41e60d12f34f",
+    "verified_at": "2026-08-31T23:27:01+08:00"
+  },
+  "team_compliance_review_status": "NOT_RUN",
   "blockers": [
-    "AUTOMATED_ADJUDICATION_PENDING"
+    "CODEX_TRANSPORT_BLOCKED_AFTER_THREE_ATTEMPTS",
+    "BLIND_ADJUDICATION_NOT_COMPLETE",
+    "META_ADJUDICATION_NOT_RUN",
+    "DECISION_AUDIT_NOT_RUN"
   ],
   "risks": [
     "Phase 002 technical proposals are historical evidence pending automated re-adjudication.",
     "Project license is PROJECT_LICENSE_UNDECIDED.",
     "Sanitized instruction-only evaluation cannot prove full upstream behavior.",
     "Six synthetic cases, one primary run per cell, and five excluded recovery-affected cells may force abstention.",
-    "YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete."
+    "YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete.",
+    "Three consecutive real Blind Judge attempts failed at the Codex Responses transport before structured output."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-08-31T21:57:10+08:00",
+  "updated_at": "2026-08-31T23:27:01+08:00",
   "updated_by": "main-agent"
 }

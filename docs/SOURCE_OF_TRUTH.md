@@ -9,9 +9,12 @@
 | Architecture decisions | `docs/adr/` | architecture summary |
 | Current execution plan | `plans/active/` | status/report |
 | Runtime state/ledgers | `state/` | `reports/current_state.md` |
+| Automated decision policy | `rules/automated_adjudication_rules.yaml` and `adjudication/policies/phase-002a.yaml` | Judge prompts, Meta, reports |
+| Automated technical decisions | `evals/results/phase-002a/automated_decisions/` | state transitions and reports |
+| Team compliance/challenge | `contracts/team_compliance_challenge.schema.json` records | STALE trigger only |
 | Upstream candidate facts | `research/upstream_candidates/manifest.yaml` | CSV/reviews/notices |
 | Designated Git delivery target | `rules/workflow_rules.yaml` → `git_delivery` | local Git config, runbook, release/report evidence |
 | Human status summary | generated `reports/current_state.md` | read-only |
 | Paper handoff | `contracts/modeling_to_paper.schema.json` | packages/paper team |
 
-Normative text is referenced, not copied into a second authority. When summaries disagree, the listed source wins and the summary is stale. Schema versions are never forked outside `contracts/`; generated reports are never edited manually.
+Normative text is referenced, not copied into a second authority. When summaries disagree, the listed source wins and the summary is stale. Schema versions are never forked outside `contracts/`; generated reports are never edited manually. `content_verified_commit` names a prior content subject; `delivery_receipt_for_commit` verifies delivery of that existing commit, so neither is self-referential.

@@ -9,6 +9,8 @@ Create a durable, evidence-first modeling system for a three-person CUMCM team. 
 - One formal Skill routes every stage and can recover from repository state without chat memory.
 - Raw inputs, sources, decisions, models, runs, metrics, and handoff claims are traceable and reproducible.
 - Deterministic checks enforce invariants; judgmental reviews produce explicit findings and evidence.
+- Technical selections use frozen lexicographic evidence rules, Blind Judges, Dissent,
+  Meta-Adjudication, and Decision Audit; neither humans nor agent votes select a result.
 - Development, validation, held-out, and live-contest modes prevent answer leakage.
 - Upstream mechanisms are evaluated in isolation before adoption and remain license/security traceable.
 - A versioned modeling-to-paper contract prevents prose edits from rewriting experimental facts.
@@ -31,7 +33,8 @@ This repository supplies facts, formulas, tables, figure-ready data, validation,
 
 ## Undecided
 
-- Final upstream base and component portfolio: `UNVERIFIED` pending phase 002 dynamic evaluation.
+- Upstream architecture and component specifications: `UNVERIFIED`; Phase 002A transport failed
+  before valid Blind Judge, Meta-Adjudicator, or Decision Auditor output.
 - Project license: `PROJECT_LICENSE_UNDECIDED`.
 - Production modeling methods, reviewer thresholds, and benchmark cases: `NEEDS_REVIEW`.
 - Official 2026 rule extraction: registered but `NEEDS_EXTRACTION`.

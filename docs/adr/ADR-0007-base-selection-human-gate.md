@@ -1,6 +1,6 @@
 # ADR-0007 — Base selection requires a human Gate
 
-Status: Accepted for Phase 002
+Status: Superseded by ADR-0010; retained as historical Phase 002 evidence only.
 
 ## Context
 
