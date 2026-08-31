@@ -1,3 +1,7 @@
+import json
+
+from jsonschema import Draft202012Validator
+
 from cumcm_skill_lab.eval.reporting import build_outputs, summarize_evaluation
 
 
@@ -9,6 +13,16 @@ def test_reporting_builds_required_offline_outputs(repo_root):
     assert "GATE_BASE_SELECTION_PENDING" in outputs["reports/human_gate_base_selection.md"]
     assert "RECOMMEND_CLEAN_ROOM_ARCHITECTURE" in outputs["reports/base_selection_proposal.md"]
     assert outputs["research/upstream_candidates/dynamic_evaluation.csv"].count("\n") == 19
+    base = json.loads(
+        outputs["research/upstream_candidates/dynamic_reviews/base_selection_proposal.json"]
+    )
+    components = json.loads(
+        outputs["research/upstream_candidates/dynamic_reviews/component_selection_proposal.json"]
+    )
+    assert base["status"] == "PROPOSAL_ONLY"
+    assert base["human_gate"] == "GATE_BASE_SELECTION_PENDING"
+    assert base["base_selected"] is False
+    assert components["third_party_integrated"] is False
 
 
 def test_reporting_check_detects_and_recovers_stale_file(repo_root, tmp_path):
@@ -35,3 +49,21 @@ def test_reporting_check_detects_and_recovers_stale_file(repo_root, tmp_path):
             target.unlink(missing_ok=True)
         else:
             target.write_text(original, encoding="utf-8")
+
+
+def test_not_run_score_is_missing_not_zero(repo_root):
+    fixture = json.loads((repo_root / "tests/fixtures/contracts/valid/eval_score.json").read_text())
+    fixture.update(
+        {
+            "status": "NOT_RUN",
+            "deterministic_score": None,
+            "reviewer_score": None,
+            "total_score": None,
+            "dimensions": {},
+            "evidence": [],
+            "missing": ["run not attempted"],
+            "confidence": "UNKNOWN",
+        }
+    )
+    schema = json.loads((repo_root / "contracts/eval_score.schema.json").read_text())
+    Draft202012Validator(schema).validate(fixture)

@@ -55,6 +55,13 @@ def test_hard_failure_is_retained_despite_positive_score(repo_root):
     assert "HARD-FAIL-006" in score["hard_failures"]
 
 
+def test_scorer_does_not_modify_original_observation(repo_root):
+    observation = _observation(repo_root)
+    before = copy.deepcopy(observation)
+    score_observation(observation, _rubric(repo_root))
+    assert observation == before
+
+
 def test_grader_is_independent_of_anonymous_arm(repo_root):
     first = _observation(repo_root)
     second = copy.deepcopy(first)
@@ -63,6 +70,17 @@ def test_grader_is_independent_of_anonymous_arm(repo_root):
     second_score = score_observation(second, _rubric(repo_root))
     assert first_score["deterministic_score"] == second_score["deterministic_score"]
     assert first_score["evidence"] == second_score["evidence"]
+
+
+def test_grader_is_independent_of_non_rubric_candidate_labels(repo_root):
+    first = _observation(repo_root)
+    second = copy.deepcopy(first)
+    first["self_reported_limitations"].append("candidate alpha")
+    second["self_reported_limitations"].append("candidate beta")
+    first_score = score_observation(first, _rubric(repo_root))
+    second_score = score_observation(second, _rubric(repo_root))
+    assert first_score["deterministic_score"] == second_score["deterministic_score"]
+    assert first_score["hard_failures"] == second_score["hard_failures"]
 
 
 def test_claimed_and_verified_tests_are_not_equated(repo_root):

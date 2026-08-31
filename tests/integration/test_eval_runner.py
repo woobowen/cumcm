@@ -83,6 +83,11 @@ def test_mock_runner_isolates_three_arms_and_preserves_equal_task_hash(repo_root
     assert all(item["completion_status"] == "COMPLETED" for item in results)
     assert all(item["schema_valid"] for item in results)
     assert all(item["workspace_has_remote"] is False for item in results)
+    assert {item["command"][-1] for item in results}.__len__() == 1
+    assert {item["timeout_seconds"] for item in results} == {20}
+    assert {item["network_policy"] for item in results} == {"DISABLED_REQUIRED"}
+    assert {item["mcp_policy"] for item in results} == {"DISABLED_REQUIRED"}
+    assert not any("--enable" in part for item in results for part in item["command"])
     assert len(list((root / "evals/results/phase-002/observations").rglob("*.json"))) == 3
     assert len(list((root / ".cache/upstream-eval/raw-traces").rglob("*.jsonl"))) == 3
     assert not list((root / "evals/results/phase-002").rglob("*CANDIDATE*"))
@@ -159,6 +164,8 @@ def test_artifact_annotations_and_explicit_none_markers_are_valid(
         ("network_trace", "FORBIDDEN_NETWORK_COMMAND"),
         ("mcp_trace", "FORBIDDEN_MCP_EVENT"),
         ("reported_prohibition", "PROHIBITED_ACTION_REPORTED"),
+        ("fabricated_source", "UNVERIFIED_SOURCE_REFERENCE"),
+        ("fabricated_tests", "UNVERIFIED_TEST_CLAIM"),
     ],
 )
 def test_publication_and_policy_faults_fail_closed(
@@ -232,3 +239,37 @@ def test_failed_cell_gets_one_append_only_retry(repo_root, tmp_path, monkeypatch
     assert retried["run_index"] == 2
     run_paths = sorted((root / "evals/results/phase-002/runs").rglob("*.json"))
     assert [path.name for path in run_paths] == ["run-001.json", "run-002.json"]
+
+    current = run_evaluation(
+        root,
+        config_path,
+        execution_kind="MOCK",
+        command_prefix=mock,
+        arm_filter=["BASE"],
+    )[0]
+    assert current["run_index"] == 2
+    assert current == retried
+
+
+def test_real_run_budget_fails_closed(repo_root, tmp_path):
+    root, config_path = _runner_project(repo_root, tmp_path)
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    config["maximum_runs"] = 1
+    config_path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    mock = [sys.executable, str(repo_root / "tests/fixtures/mock_codex.py")]
+    first = run_evaluation(
+        root,
+        config_path,
+        execution_kind="REAL",
+        command_prefix=mock,
+        arm_filter=["BASE"],
+    )
+    assert len(first) == 1
+    with pytest.raises(RuntimeError, match="REAL_RUN_BUDGET_EXCEEDED"):
+        run_evaluation(
+            root,
+            config_path,
+            execution_kind="REAL",
+            command_prefix=mock,
+            arm_filter=["CANDIDATE-ONE"],
+        )

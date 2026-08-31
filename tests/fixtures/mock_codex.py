@@ -96,6 +96,11 @@ def main() -> int:
         print(json.dumps({"type": "mcp_tool_call"}))
     if mode == "reported_prohibition":
         observation["prohibited_actions_attempted"] = ["network"]
+    if mode == "fabricated_source":
+        observation["sources_used"] = ["Journal of Fabricated Results, 2026"]
+    if mode == "fabricated_tests":
+        observation["tests_claimed"] = ["all tests passed"]
+        observation["tests_verified"] = []
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(observation), encoding="utf-8")
     print(json.dumps({"type": "thread.started", "thread_id": "mock"}))
