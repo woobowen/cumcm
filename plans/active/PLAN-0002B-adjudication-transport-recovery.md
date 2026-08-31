@@ -18,13 +18,13 @@ required and `EVIDENCE_INSUFFICIENT` or `AUTOMATED_ABSTAINED` is a valid complet
 
 - Attempt 1 ran for 303.218787 seconds and ended in a Responses stream timeout/platform endpoint
   failure; sanitized raw-event SHA-256 is
-  `e682128242235dce4e8a0384a54103ace7f88d67ef6b85a7d8bf5c655d3a9f66`.
+  `e682bdf8b565601ba1b51afb0148c7ddfc31a39a0ba1a60bd2ec720dba729f66`.
 - Attempt 2 ran for 54.952198 seconds and ended after WebSocket reset plus HTTPS fallback;
   sanitized raw-event SHA-256 is
-  `1104355b050859bc008835b1277457084743417d2c52ca3bac8e3bf9fd1543a`.
+  `110437a55a27b4dd469527e9ce6eb40cf1ce6e67e18b8956daa084dac8c2b43a`.
 - Attempt 3 ran for 53.006485 seconds and ended after WebSocket/HTTPS transport failure with
   optional features disabled; sanitized raw-event SHA-256 is
-  `7dc68c3ae5f352e458321680017d32f444fb4a3c79003689de74b79b4ee672b`.
+  `7dc6c93a5a535d9d9697bdf4986765bc76d9c1f82f25083c854782f1e80fa72b`.
 - The original twelve-start budget has consumed four starts: one excluded unblinded Dissent and
   the three failed Correctness attempts. Phase 002B may start at most eight more model runs.
 - Every initial turn, exact-session continuation, alternate Adapter turn, Judge, Dissent, Meta,
