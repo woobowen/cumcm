@@ -46,6 +46,20 @@ REAL_OUTPUT_SCHEMA = {
     "additionalProperties": False,
 }
 IDENTITY_MARKERS = ("YUSHUI", "HANDSOMEZR", "NO_PROJECT_MODELING_SKILL", "woobowen")
+DISABLED_FEATURES = (
+    "apps",
+    "plugins",
+    "remote_plugin",
+    "browser_use",
+    "browser_use_external",
+    "computer_use",
+    "standalone_web_search",
+    "skill_mcp_dependency_install",
+    "tool_call_mcp_elicitation",
+    "enable_mcp_apps",
+    "responses_websockets",
+    "responses_websockets_v2",
+)
 
 
 def assert_blind(bundle: dict) -> None:
@@ -104,6 +118,22 @@ def _safe_env() -> dict[str, str]:
     return env
 
 
+def _isolation_args() -> list[str]:
+    args = ["--config", "mcp_servers={}", "--config", 'shell_environment_policy.inherit="none"']
+    for feature in DISABLED_FEATURES:
+        args.extend(["--disable", feature])
+    return args
+
+
+def _unique_attempt_id(raw_dir: Path, base: str) -> str:
+    if not (raw_dir / f"{base}.jsonl").exists():
+        return base
+    index = 2
+    while (raw_dir / f"{base}-retry-{index}.jsonl").exists():
+        index += 1
+    return f"{base}-retry-{index}"
+
+
 def run_role(
     root: Path,
     *,
@@ -119,7 +149,7 @@ def run_role(
     workspace = Path(tempfile.mkdtemp(prefix="cumcm-adjudication-", dir="/tmp"))
     raw_dir = root / ".cache/upstream-eval/phase-002a/raw-agent-events"
     raw_dir.mkdir(parents=True, exist_ok=True)
-    attempt_id = f"{role.lower()}-{'swap' if transformed else 'first'}"
+    attempt_id = _unique_attempt_id(raw_dir, f"{role.lower()}-{'swap' if transformed else 'first'}")
     raw_trace = raw_dir / f"{attempt_id}.jsonl"
     try:
         write_json(workspace / "evidence_bundle.json", bundle)
@@ -160,6 +190,7 @@ def run_role(
             "workspace-write",
             "--config",
             'model_reasoning_effort="medium"',
+            *_isolation_args(),
             "--json",
             "--output-schema",
             str(workspace / "output.schema.json"),
@@ -295,6 +326,7 @@ def run_structured_role(
             "workspace-write",
             "--config",
             'model_reasoning_effort="medium"',
+            *_isolation_args(),
             "--json",
             "--output-schema",
             str(workspace / "output.schema.json"),

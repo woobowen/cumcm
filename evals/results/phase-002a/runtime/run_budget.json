@@ -1,0 +1,53 @@
+{
+  "capability_prechecks": [
+    {
+      "attempt_id": "dissent-schema-precheck-001",
+      "failure": "OUTPUT_SCHEMA_CONST_MISSING_TYPE",
+      "model_started": false
+    },
+    {
+      "attempt_id": "dissent-schema-precheck-002",
+      "failure": "TOP_LEVEL_ARRAY_SCHEMA_REJECTED",
+      "model_started": false
+    }
+  ],
+  "formal_blind_outputs_completed": 0,
+  "maximum_real_agent_runs": 12,
+  "real_agent_run_count": 4,
+  "real_agent_runs": [
+    {
+      "attempt_id": "dissent-real-001",
+      "eligible_for_formal_blind_adjudication": false,
+      "result": "COMPLETED_EXCLUDED_UNBLINDED",
+      "role": "DISSENT_JUDGE",
+      "token_usage": {
+        "cached_input_tokens": 88064,
+        "input_tokens": 118709,
+        "output_tokens": 3279,
+        "reasoning_tokens": 655
+      }
+    },
+    {
+      "attempt_id": "correctness_judge-first-failed-001",
+      "result": "FAILED_TRANSPORT",
+      "role": "CORRECTNESS_JUDGE",
+      "token_usage": null
+    },
+    {
+      "attempt_id": "correctness_judge-first-retry-2",
+      "result": "FAILED_TRANSPORT",
+      "role": "CORRECTNESS_JUDGE",
+      "token_usage": null
+    },
+    {
+      "attempt_id": "correctness_judge-first-retry-3",
+      "result": "FAILED_TRANSPORT",
+      "role": "CORRECTNESS_JUDGE",
+      "token_usage": null
+    }
+  ],
+  "remaining_budget_not_used": 8,
+  "schema_version": "1.0.0",
+  "stop_reason": "THREE_CONSECUTIVE_AUTONOMOUS_REPAIR_FAILURES",
+  "technical_status": "AUTOMATED_ADJUDICATION_INCOMPLETE"
+}

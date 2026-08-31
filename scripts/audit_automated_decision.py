@@ -30,7 +30,10 @@ def _decision_paths():
 
 def _check_outputs() -> list[str]:
     errors = []
-    for path in _decision_paths():
+    paths = _decision_paths()
+    if not paths:
+        return ["NO_AUTOMATED_DECISIONS"]
+    for path in paths:
         audit_path = ROOT / "evals/results/phase-002a/decision_audit" / f"audit-{path.stem}.json"
         if not audit_path.is_file():
             errors.append(f"MISSING:{audit_path.relative_to(ROOT)}")
