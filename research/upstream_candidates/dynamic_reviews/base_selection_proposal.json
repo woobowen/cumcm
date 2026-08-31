@@ -1,0 +1,33 @@
+{
+  "base_selected": false,
+  "counter_evidence": [
+    "Only six project-authored synthetic cases and one current observation per arm/case were used.",
+    "Five current cells were recovered from retained harness false-positive failures and have LOW confidence.",
+    "Sanitized instruction-only packages do not establish full upstream repository behavior.",
+    "The median spread is only 2.5 points and neither candidate shows a consistent advantage over the native baseline."
+  ],
+  "dynamic_quality": "The neutral baseline has the highest median total, but all arms show complementary strengths and material shared failures; comparative confidence is insufficient for winner-takes-all adoption.",
+  "evidence": [
+    "Frozen median totals: native baseline 62.5, HANDSOMEZR 60.5, YUSHUI 60.0.",
+    "All 18 arm/case cells are scored and no hard failure was detected.",
+    "All three arms exposed shared measurable gaps in model selection, freshness, reproducibility artifacts, and claim support.",
+    "Four clean-room mechanism cards bind those gaps to observable next-phase tests."
+  ],
+  "fallback": "Retain NO_PROJECT_MODELING_SKILL as the neutral starting point and keep the single formal Skill SCAFFOLD_ONLY until human-approved clean-room mechanisms pass fresh tests.",
+  "human_gate": "GATE_BASE_SELECTION_PENDING",
+  "legal_reusability": "YUSHUI is UNKNOWN_NO_LICENSE; HANDSOMEZR has external/corpus exclusions; selected component sources have root or subresource gaps. Direct copy or fork is not proposed.",
+  "maintenance_feasibility": "Four bounded native mechanisms are maintainable only with deterministic Schemas and negative tests; a wholesale upstream fork or large Skill pool is not maintainable in current scope.",
+  "proposal_id": "BASE-PROP-PHASE-002",
+  "recommendation": "RECOMMEND_CLEAN_ROOM_ARCHITECTURE",
+  "schema_version": "1.0.0",
+  "security_acceptability": "Evaluation packages were text-only and isolated, but upstream repositories contain network, installer, MCP, subprocess, Git, or broad-tool surfaces. Those surfaces remain excluded.",
+  "status": "PROPOSAL_ONLY",
+  "technical_integrability": "Whole-package adoption would conflict with the single-Skill, single-state, Source/Claim/Run, and human-gate architecture. Native clean-room contracts can avoid those conflicts.",
+  "unresolved_questions": [
+    "Which, if any, clean-room mechanisms may enter a Phase 003 design?",
+    "What project license will govern future integration?",
+    "What per-resource license evidence is required before any non-clean-room reuse?",
+    "What frozen validation set and success thresholds will test Phase 003 without answer exposure?",
+    "How should recovery-affected evidence be weighted in the human decision?"
+  ]
+}

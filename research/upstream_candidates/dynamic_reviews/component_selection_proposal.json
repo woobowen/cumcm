@@ -1,0 +1,76 @@
+{
+  "components": [
+    {
+      "actual_gap": "Every arm failed most CASE-005 dependency-freshness checks, with deterministic scores of 7, 7, and 0 and no persisted workflow state or closure artifact.",
+      "benefit": "Expected to raise the uniformly weak CASE-005 state result by making freshness and recovery mechanically observable rather than narrative.",
+      "clean_room_work": "Specify state transitions from CASE-005 oracle behavior and project WORKFLOW.md. Use only the existing formal state and ledgers; do not create .aris or another controller. Preserve human approval gates and fail closed on missing hashes or evidence.",
+      "contamination_status": "MEDIUM because examples and a binary community paper were not fully reviewed; exclude all example content.",
+      "license_status": "MIT_ROOT_WITH_SUBRESOURCE_GAPS",
+      "mechanism_id": "accepted-versus-done-workflow-state",
+      "required_tests": [
+        "Exact valid/STALE closure for input, config, code, final-run, paper, and unrelated-branch mutations.",
+        "Crash and resume before done, after done, and after accepted.",
+        "Reject AUTO_PROCEED, FAIL-continue, and skip-on-done behavior.",
+        "Ensure upstream changes transitively mark dependent artifacts STALE."
+      ],
+      "reuse_mode": "CLEAN_ROOM_REIMPLEMENT_CANDIDATE"
+    },
+    {
+      "actual_gap": "CASE-006 deterministic scores ranged from 13 to 40; every arm missed multiple source-limit, assumption, retain/modify/remove, fact, or non-causal checks and none persisted a hash-bound claim map.",
+      "benefit": "Expected to close the persistent claim-map gap and make the CASE-006 evidence failures machine-detectable without treating reviewer votes as proof.",
+      "clean_room_work": "Use project-authored terminology, Schema, fixtures, and synthetic claims. Keep mechanical existence/hash validation separate from read-only semantic review. Preserve main-agent ownership and required human approval for evidence-package acceptance.",
+      "contamination_status": "MEDIUM because examples and binary resources were not fully reviewed; no upstream examples or prose may enter tests or prompts.",
+      "license_status": "MIT_ROOT_WITH_SUBRESOURCE_GAPS",
+      "mechanism_id": "claim-evidence-support-gate",
+      "required_tests": [
+        "Reject missing, stale, hash-mismatched, and path-escaping evidence references.",
+        "Reject unsupported causal/final claims and preserve conflicting sources.",
+        "Verify CASE-006 retain, modify, remove, assumptions, limits, and non-causal outcomes.",
+        "Prove reviewer output cannot mutate claims or approve the human Gate."
+      ],
+      "reuse_mode": "CLEAN_ROOM_REIMPLEMENT_CANDIDATE"
+    },
+    {
+      "actual_gap": "Across CASE-001, CASE-002, CASE-003, CASE-004, and CASE-006, Reviewer findings repeatedly reported missing code, result, audit, claim-map, hash, or recovery artifacts.",
+      "benefit": "Expected to eliminate the repeated missing-artifact and missing-hash findings; benefit must be remeasured on CASE-001/002/003/004/006 in Phase 003.",
+      "clean_room_work": "Derive requirements only from the pinned static review and observed evaluation gap, not source text. Implement in project-native contracts with new names, tests, and provenance. Exclude all vendored tools, assets, templates, and contest examples.",
+      "contamination_status": "HIGH because contest example assets exist; only the abstract field contract may inform a clean-room specification.",
+      "license_status": "UNKNOWN_ROOT_WITH_RESTRICTED_VENDOR_SUBTREES",
+      "mechanism_id": "hash-bound-reproducibility-manifest",
+      "required_tests": [
+        "Reject a missing input, script, output, seed, command, environment, or Git binding.",
+        "Detect content mutation and propagate STALE transitively.",
+        "Rebuild the same manifest deterministically from the same Run.",
+        "Prove no private paths, credentials, raw traces, or third-party text enter the manifest."
+      ],
+      "reuse_mode": "CLEAN_ROOM_REIMPLEMENT_CANDIDATE"
+    },
+    {
+      "actual_gap": "In CASE-004 all three arms omitted required robustness evidence and either used the test set in selection or selected a model inconsistent with their stated validation objective; deterministic scores were only 25 to 28.",
+      "benefit": "Expected to prevent the test leakage observed in two arms and the validation-rule mismatch in the third while closing the six robustness checks missed by every arm in CASE-004.",
+      "clean_room_work": "Derive acceptance behavior from the CASE-004 oracle and project experiment contracts. Reimplement only deterministic gate semantics; do not copy scripts, prose, assets, or dependencies. Bind all split and selection decisions to Run IDs and immutable hashes.",
+      "contamination_status": "LOW by static text search for the selected concepts, but binary and corpus review is incomplete.",
+      "license_status": "MIT_ROOT_WITH_PER_SKILL_METADATA_GAPS",
+      "mechanism_id": "leakage-safe-model-comparison-gate",
+      "required_tests": [
+        "Fail when test metrics influence selection or appear before model freeze.",
+        "Fail when the selected model violates the declared validation objective.",
+        "Require naive and domain baselines, temporal split, drift, robustness, randomization, failed-run retention, and uncertainty evidence.",
+        "Verify deterministic tie handling and append-only correction behavior."
+      ],
+      "reuse_mode": "CLEAN_ROOM_REIMPLEMENT_CANDIDATE"
+    }
+  ],
+  "human_gate": "GATE_BASE_SELECTION_PENDING",
+  "proposal_id": "COMP-PROP-PHASE-002",
+  "rejected_components": [
+    "Whole upstream base or Skill-pool adoption: scope, state, security, license, and contamination conflicts.",
+    "Network OCR/search, MCPs, installers, updaters, remote queues, or Git automation: outside the offline evaluation and safety boundary.",
+    "Paper-writing and document-lint workflow: outside modeling scope and not tied to a measured Phase 002 gap.",
+    "Subjective judge panels or agent votes: cannot constitute mathematical or experimental evidence.",
+    "A second total controller, state tree, or evidence ledger: violates the single source-of-truth architecture."
+  ],
+  "schema_version": "1.0.0",
+  "status": "PROPOSAL_ONLY",
+  "third_party_integrated": false
+}

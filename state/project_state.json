@@ -6,16 +6,20 @@
   "current_plan": "plans/active/PLAN-0002-upstream-dynamic-evaluation.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/upstream-dynamic-eval",
-  "last_verified_commit": "d31363438e73b9f227999975a5c068cabbaa0aea",
-  "blockers": [],
+  "last_verified_commit": "d679c10900f92dd78911ef773f867eaa7f4a098b",
+  "blockers": [
+    "GATE_BASE_SELECTION_PENDING"
+  ],
   "risks": [
-    "Dynamic evaluation is IN_PROGRESS; no base recommendation is approved.",
+    "The clean-room architecture recommendation is PROPOSAL_ONLY; no base is approved.",
     "Project license is PROJECT_LICENSE_UNDECIDED.",
-    "Sanitized instruction-only evaluation cannot prove full upstream behavior."
+    "Sanitized instruction-only evaluation cannot prove full upstream behavior.",
+    "Six synthetic cases and five recovery-affected cells limit comparative confidence.",
+    "YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-08-31T16:00:59+08:00",
+  "updated_at": "2026-08-31T18:33:58+08:00",
   "updated_by": "main-agent"
 }

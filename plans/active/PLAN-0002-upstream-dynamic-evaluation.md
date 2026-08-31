@@ -197,7 +197,11 @@ evaluation if allowlists fail; qualitative review can introduce bias.
 - [x] M8 derived six observed gaps and four mechanism cards. Every proposed mechanism is bounded by
   a measurable next-phase metric and is `CLEAN_ROOM_REIMPLEMENT_CANDIDATE`; no component was copied,
   ported, integrated, or approved for direct reuse.
-- [ ] M9–M10.
+- [x] M9 generated the offline-rebuildable score CSV, dynamic report, Schema-valid base/component
+  proposals, and precise human Gate questions. The recommendation is
+  `RECOMMEND_CLEAN_ROOM_ARCHITECTURE`, with the native baseline as fallback; it remains
+  `PROPOSAL_ONLY` and changes neither base nor integration state.
+- [ ] M10.
 
 ### Validation evidence
 
@@ -265,6 +269,11 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   cards; strict validation reports four cards, eight pinned candidates, and zero errors/warnings.
   Unknown or incomplete licensing, contamination, broad tool permissions, and state conflicts force
   clean-room-only reuse modes. Two lower-severity gaps are covered or deferred without adding steps.
+- `2026-08-31` M9: `summarize_upstream_dynamic_eval.py` generated and rechecked seven outputs,
+  including an 18-row score CSV, 18-factor base assessment, four-card portfolio, and seven exact
+  human Gate questions. Both machine proposals validate against their existing Schemas. Formal state
+  remains `IN_PROGRESS` with blocker `GATE_BASE_SELECTION_PENDING`, `base_selected=false`,
+  `third_party_integrated=false`, and the formal Skill `SCAFFOLD_ONLY`.
 
 ## 24. Interruption recovery
 

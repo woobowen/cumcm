@@ -10,15 +10,17 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Last verified commit: `d31363438e73b9f227999975a5c068cabbaa0aea`
-- Updated: `2026-08-31T16:00:59+08:00` by `main-agent`
+- Last verified commit: `d679c10900f92dd78911ef773f867eaa7f4a098b`
+- Updated: `2026-08-31T18:33:58+08:00` by `main-agent`
 
 ## Blockers
 
-- None
+- GATE_BASE_SELECTION_PENDING
 
 ## Risks
 
-- Dynamic evaluation is IN_PROGRESS; no base recommendation is approved.
+- The clean-room architecture recommendation is PROPOSAL_ONLY; no base is approved.
 - Project license is PROJECT_LICENSE_UNDECIDED.
 - Sanitized instruction-only evaluation cannot prove full upstream behavior.
+- Six synthetic cases and five recovery-affected cells limit comparative confidence.
+- YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete.
