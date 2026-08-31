@@ -1,3 +1,10 @@
+SUPERSEDED_BY_PHASE_002A_AUTOMATED_ADJUDICATION
+
+# Human Gate — Base Selection (Historical Archive)
+
+Original source: `reports/human_gate_base_selection.md` at Phase 002 subject commit.
+Original SHA-256: `09c0592901c4fd94b4e0f2800f2b74a054a72d42b2685ea308a1d2beb2e508a5`.
+
 # Human Gate — Base Selection
 
 Gate: `GATE_BASE_SELECTION_PENDING`
@@ -38,3 +45,5 @@ differ by at most 2.5 points, and sanitized packages cannot prove full repositor
 
 Until all required approvals are recorded, `base_selected=false`, `third_party_integrated=false`, and
 `PHASE-SKILL-INTEGRATION-003` must not start.
+
+This archived checklist cannot accept, reject, select, or override a Phase 002A technical decision.

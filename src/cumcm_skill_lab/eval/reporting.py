@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import subprocess
 from collections import defaultdict
 from pathlib import Path
 from statistics import median
@@ -22,7 +23,7 @@ OUTPUT_PATHS = (
     "reports/upstream_dynamic_eval.md",
     "reports/base_selection_proposal.md",
     "reports/component_portfolio_proposal.md",
-    "reports/human_gate_base_selection.md",
+    "reports/archive/phase-002-human-gate-base-selection.md",
 )
 
 
@@ -106,18 +107,27 @@ def _aggregate(evidence: dict) -> dict[str, dict]:
 
 
 def _base_proposal(aggregate: dict[str, dict]) -> dict:
+    medians = {item["actual"]: item["total_median"] for item in aggregate.values()}
+    median_text = ", ".join(
+        f"{candidate} {value:.1f}" for candidate, value in sorted(medians.items())
+    )
+    eligible_cases = {
+        arm: {item["case_id"] for item in values["scores"] if not item["affected_by_run_failure"]}
+        for arm, values in aggregate.items()
+    }
+    balanced_cases = sorted(set.intersection(*eligible_cases.values()))
     return {
         "schema_version": "1.0.0",
         "proposal_id": "BASE-PROP-PHASE-002",
         "status": "PROPOSAL_ONLY",
-        "recommendation": "RECOMMEND_CLEAN_ROOM_ARCHITECTURE",
+        "recommendation": "INSUFFICIENT_EVIDENCE",
         "fallback": (
             "Retain NO_PROJECT_MODELING_SKILL as the neutral starting point and keep the single "
             "formal Skill SCAFFOLD_ONLY until human-approved clean-room mechanisms pass fresh tests."
         ),
         "evidence": [
-            "Frozen median totals: native baseline 62.5, HANDSOMEZR 60.5, YUSHUI 60.0.",
-            "All 18 arm/case cells are scored and no hard failure was detected.",
+            f"Historical frozen median totals computed from inputs: {median_text}.",
+            f"Balanced non-recovery cases computed from inputs: {', '.join(balanced_cases)}.",
             "All three arms exposed shared measurable gaps in model selection, freshness, reproducibility artifacts, and claim support.",
             "Four clean-room mechanism cards bind those gaps to observable next-phase tests.",
         ],
@@ -125,29 +135,29 @@ def _base_proposal(aggregate: dict[str, dict]) -> dict:
             "Only six project-authored synthetic cases and one current observation per arm/case were used.",
             "Five current cells were recovered from retained harness false-positive failures and have LOW confidence.",
             "Sanitized instruction-only packages do not establish full upstream repository behavior.",
-            "The median spread is only 2.5 points and neither candidate shows a consistent advantage over the native baseline.",
+            "The balanced non-recovery subset and repeat count are below the Phase 002A frozen minimum.",
         ],
         "dynamic_quality": (
-            "The neutral baseline has the highest median total, but all arms show complementary strengths and material shared failures; comparative confidence is insufficient for winner-takes-all adoption."
+            "Historical coverage/reviewer totals are descriptive only; Phase 002A determines comparative eligibility and technical decisions."
         ),
         "legal_reusability": (
             "YUSHUI is UNKNOWN_NO_LICENSE; HANDSOMEZR has external/corpus exclusions; selected component sources have root or subresource gaps. Direct copy or fork is not proposed."
         ),
         "technical_integrability": (
-            "Whole-package adoption would conflict with the single-Skill, single-state, Source/Claim/Run, and human-gate architecture. Native clean-room contracts can avoid those conflicts."
+            "Whole-package adoption conflicts with the single-Skill, single-state, and Source/Claim/Run architecture."
         ),
         "security_acceptability": (
             "Evaluation packages were text-only and isolated, but upstream repositories contain network, installer, MCP, subprocess, Git, or broad-tool surfaces. Those surfaces remain excluded."
         ),
         "maintenance_feasibility": (
-            "Four bounded native mechanisms are maintainable only with deterministic Schemas and negative tests; a wholesale upstream fork or large Skill pool is not maintainable in current scope."
+            "Maintenance claims remain hypotheses until bounded mechanisms pass deterministic acceptance tests."
         ),
         "unresolved_questions": [
             "Which, if any, clean-room mechanisms may enter a Phase 003 design?",
             "What project license will govern future integration?",
             "What per-resource license evidence is required before any non-clean-room reuse?",
             "What frozen validation set and success thresholds will test Phase 003 without answer exposure?",
-            "How should recovery-affected evidence be weighted in the human decision?",
+            "Which additional balanced non-recovery cases and repeats can meet the frozen sufficiency rule?",
         ],
         "human_gate": "GATE_BASE_SELECTION_PENDING",
         "base_selected": False,
@@ -286,11 +296,17 @@ def _dynamic_report(evidence: dict, aggregate: dict[str, dict]) -> str:
     total_duration = sum(item["duration"] for item in aggregate.values())
     total_input = sum(item["input_tokens"] for item in aggregate.values())
     total_output = sum(item["output_tokens"] for item in aggregate.values())
+    ordered = sorted(
+        ((item["actual"], item["total_median"]) for item in aggregate.values()),
+        key=lambda item: (-item[1], item[0]),
+    )
+    historical_medians = ", ".join(f"{name} {value:.1f}" for name, value in ordered)
+    spread = max(value for _, value in ordered) - min(value for _, value in ordered)
     return "\n".join(
         [
             "# Upstream Dynamic Evaluation",
             "",
-            "Status: `PROPOSAL_ONLY`; `GATE_BASE_SELECTION_PENDING` is open.",
+            "Status: `HISTORICAL_PHASE_002_EVIDENCE`; superseded by Phase 002A adjudication.",
             "",
             "## Method and integrity",
             "",
@@ -326,11 +342,10 @@ def _dynamic_report(evidence: dict, aggregate: dict[str, dict]) -> str:
             "",
             "## Result interpretation",
             "",
-            "The native baseline has the highest median total (62.5), followed by HANDSOMEZR (60.5)",
-            "and YUSHUI (60.0). The small spread, single current observation per cell, and uneven",
-            "recovery effects do not justify automatic selection. CASE-004 and CASE-005 expose shared",
-            "critical gaps, so the proposal is a native clean-room architecture with the neutral baseline",
-            "as fallback—not adoption of a score winner.",
+            f"Historical coverage/reviewer medians computed from frozen inputs: {historical_medians}.",
+            f"The computed spread is {spread:.1f}; these totals are not correctness and are not a current",
+            "technical recommendation. Phase 002A excludes recovery-affected cells, applies deterministic",
+            "oracles and process evidence, and may reject or abstain.",
             "",
             "## Limitations",
             "",
@@ -349,14 +364,14 @@ def _base_report(proposal: dict) -> str:
     evidence = "\n".join(f"- {item}" for item in proposal["evidence"])
     counter = "\n".join(f"- {item}" for item in proposal["counter_evidence"])
     unresolved = "\n".join(f"- {item}" for item in proposal["unresolved_questions"])
-    return f"""# Base Selection Proposal
+    return f"""# Base Selection Proposal — Historical Evidence
 
-`PROPOSAL_ONLY — HUMAN GATE REQUIRED`
+`HISTORICAL_PROPOSAL_ONLY — SUPERSEDED_BY_PHASE_002A_AUTOMATED_ADJUDICATION`
 
-## Recommended option
+## Historical result
 
-`{proposal["recommendation"]}`: preserve the native single-Skill and single-state architecture and,
-only after approval, clean-room reimplement the bounded mechanisms in the component portfolio.
+`{proposal["recommendation"]}`. This proposal has no current decision authority. Current technical
+status is read only from Phase 002A automated decision records after Decision Auditor verification.
 
 ## Fallback option
 
@@ -370,7 +385,7 @@ only after approval, clean-room reimplement the bounded mechanisms in the compon
 
 {counter}
 
-## Separate rulings
+## Historical separate assessments
 
 - Dynamic quality: {proposal["dynamic_quality"]}
 - Legal reusability: {proposal["legal_reusability"]}
@@ -380,35 +395,11 @@ only after approval, clean-room reimplement the bounded mechanisms in the compon
 - Integration cost: high for whole candidates; medium-to-high for four native clean-room contracts and negative-test suites.
 - Competition-time burden: must be measured; fail-closed gates need concise paths and cannot become unconditional token-heavy ceremony.
 
-## Eighteen-factor assessment
-
-| Factor | Evidence-based assessment |
-|---|---|
-| 1. Hard failures | Zero across 18 frozen scores; this does not cancel five retained/recovered harness failures. |
-| 2. Relative baseline gain | Candidate median totals are 2.0 and 2.5 points below the native baseline; no positive aggregate gain is established. |
-| 3. Problem interpretation | CASE-001 scores are moderate and all arms leave operational assumptions or validation incomplete. |
-| 4. Data audit | CASE-002 is comparatively strong, but every arm lacks downstream empirical confirmation and some edge diagnostics. |
-| 5. Actual run evidence | 20 real attempts are retained; 13 completed and seven failed, with 18 scoreable current cells after bounded recovery. |
-| 6. Validation and robustness | CASE-004 exposes test leakage or selection inconsistency in every arm and missing robustness evidence. |
-| 7. State recovery | CASE-005 deterministic scores are 7/7/0; no arm persists exact freshness closure or restart state. |
-| 8. Evidence chain | CASE-006 and cross-case Reviewer findings show missing hash-bound claim/result artifacts. |
-| 9. Runtime variation | Per-run duration and token use vary widely; one current observation per cell cannot estimate stable variance. |
-| 10. Token and time | Retained runs are expensive; any new gate must show measurable benefit and bounded contest-time overhead. |
-| 11. Scope fit | Whole candidate workflows include paper, service, or orchestration scope outside the modeling Skill. |
-| 12. License | YUSHUI has no detected license; other candidates/components have external, corpus, or subresource gaps. |
-| 13. Security | Text-only evaluation was safe, but whole upstreams include prohibited network, MCP, installer, subprocess, Git, or broad-tool behavior. |
-| 14. Answer contamination | Historical/demo/corpus content was excluded and remains a blocker to copying or benchmark exposure. |
-| 15. Integration conflict | Whole candidates would compete with the one-Skill, one-state, Source/Claim/Run architecture. |
-| 16. Adaptation cost | Four clean-room native mechanisms require medium-to-high design, Schema, migration, and negative-test work. |
-| 17. Long-term maintenance | A bounded native portfolio is feasible; forks or large Skill pools are not supported by current evidence. |
-| 18. Competition-time burden | Not yet measured; human approval must require latency/token budgets and a fail-fast path. |
-
 ## Unresolved questions
 
 {unresolved}
 
-No base is selected, no third-party content is integrated, and the next phase remains prohibited
-until `GATE_BASE_SELECTION_PENDING` is explicitly decided by a human.
+No base was selected and no third-party content was integrated by this historical proposal.
 """
 
 
@@ -444,7 +435,7 @@ def _component_report(cards: list[dict], proposal: dict) -> str:
         [
             "# Component Portfolio Proposal",
             "",
-            "Status: `PROPOSAL_ONLY — HUMAN GATE REQUIRED`. No component is integrated.",
+            "Status: `HISTORICAL_PROPOSAL_ONLY`; superseded by Phase 002A machine decisions.",
             "",
             "| Mechanism | Source | Commit | Actual observed gap | Measured or expected benefit | Reuse mode | License | Contamination |",
             "|---|---|---|---|---|---|---|---|",
@@ -463,48 +454,24 @@ def _component_report(cards: list[dict], proposal: dict) -> str:
     )
 
 
-def _gate_report(proposal: dict, cards: list[dict]) -> str:
-    mechanisms = ", ".join(f"`{card['mechanism_id']}`" for card in cards)
-    return f"""# Human Gate — Base Selection
+def _gate_report(root: Path, subject_commit: str, historical_hash: str) -> str:
+    original = subprocess.run(
+        ["git", "show", f"{subject_commit}:reports/human_gate_base_selection.md"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.rstrip()
+    return f"""SUPERSEDED_BY_PHASE_002A_AUTOMATED_ADJUDICATION
 
-Gate: `GATE_BASE_SELECTION_PENDING`
+# Human Gate — Base Selection (Historical Archive)
 
-## Recommended方案
+Original source: `reports/human_gate_base_selection.md` at Phase 002 subject commit.
+Original SHA-256: `{historical_hash}`.
 
-`RECOMMEND_CLEAN_ROOM_ARCHITECTURE`: keep the native architecture and consider only these four
-clean-room mechanisms: {mechanisms}.
+{original}
 
-## 备选方案
-
-{proposal["fallback"]}
-
-## 支持与反对证据
-
-支持：18/18 cells have frozen scores; no hard failure occurred; four repeated gaps have observable
-tests. 反对：only six synthetic cases were used, five cells are recovery-affected, score medians
-differ by at most 2.5 points, and sanitized packages cannot prove full repository behavior.
-
-## 许可证、污染、安全和运行限制
-
-- YUSHUI is `UNKNOWN_NO_LICENSE`; no direct copy or fork is legal-evidence-supported.
-- HANDSOMEZR and every selected component source have external, corpus, per-Skill, or subresource gaps.
-- Historical/demo/corpus content remains excluded; no candidate example may enter future validation.
-- Network, MCP, installers, updaters, subprocess queues, broad tool declarations, and Git automation remain excluded.
-- Real-run budget is exhausted at 20/20; Phase 002 evidence cannot be improved by another retry.
-- Clean-room gates may not reduce current fail-closed security, evidence, state, or human-approval rules.
-
-## Human must answer exactly
-
-1. Approve or reject `RECOMMEND_CLEAN_ROOM_ARCHITECTURE` as the Phase 003 design direction; this is not approval of any upstream base.
-2. Approve or reject retaining `NO_PROJECT_MODELING_SKILL` as the neutral fallback while the formal Skill remains `SCAFFOLD_ONLY`.
-3. For each of the four cards, approve, reject, or defer clean-room specification work; no direct reuse option is offered.
-4. Decide the project license and the minimum per-resource license evidence required before any future port/direct reuse.
-5. Approve or reject the proposed frozen Phase 003 validation design and success thresholds before any implementation sees validation answers.
-6. Decide whether recovery-affected cells may inform qualitative gap discovery but not comparative rank.
-7. Confirm that Phase 003 must preserve one formal Skill, one authoritative state, no benchmark-answer access, and human approval for high-risk gates.
-
-Until all required approvals are recorded, `base_selected=false`, `third_party_integrated=false`, and
-`PHASE-SKILL-INTEGRATION-003` must not start.
+This archived checklist cannot accept, reject, select, or override a Phase 002A technical decision.
 """
 
 
@@ -514,6 +481,15 @@ def build_outputs(root: Path) -> tuple[dict[str, str], list[str]]:
     aggregate = _aggregate(evidence)
     base = _base_proposal(aggregate)
     components = _component_proposal(evidence["cards"])
+    freeze_manifest = root / "evals/results/phase-002a/evidence_freeze_manifest.json"
+    historical_hash = "UNAVAILABLE"
+    subject_commit = "UNKNOWN"
+    if freeze_manifest.is_file():
+        freeze = load_json(freeze_manifest)
+        subject_commit = freeze["subject_commit"]
+        historical_hash = freeze["historical_references"]["reports/human_gate_base_selection.md"][
+            "subject_sha256"
+        ]
     errors = [
         f"BASE_PROPOSAL_SCHEMA:{item}"
         for item in validate_json(base, root / "contracts/base_selection_proposal.schema.json")
@@ -537,7 +513,9 @@ def build_outputs(root: Path) -> tuple[dict[str, str], list[str]]:
         "reports/upstream_dynamic_eval.md": _dynamic_report(evidence, aggregate),
         "reports/base_selection_proposal.md": _base_report(base),
         "reports/component_portfolio_proposal.md": _component_report(evidence["cards"], components),
-        "reports/human_gate_base_selection.md": _gate_report(base, evidence["cards"]),
+        "reports/archive/phase-002-human-gate-base-selection.md": _gate_report(
+            root, subject_commit, historical_hash
+        ),
     }
     return outputs, errors
 

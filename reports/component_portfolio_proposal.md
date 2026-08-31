@@ -1,6 +1,6 @@
 # Component Portfolio Proposal
 
-Status: `PROPOSAL_ONLY — HUMAN GATE REQUIRED`. No component is integrated.
+Status: `HISTORICAL_PROPOSAL_ONLY`; superseded by Phase 002A machine decisions.
 
 | Mechanism | Source | Commit | Actual observed gap | Measured or expected benefit | Reuse mode | License | Contamination |
 |---|---|---|---|---|---|---|---|

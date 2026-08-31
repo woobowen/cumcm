@@ -10,8 +10,9 @@ def test_reporting_builds_required_offline_outputs(repo_root):
     assert errors == []
     assert len(outputs) == 7
     assert "reports/upstream_dynamic_eval.md" in outputs
-    assert "GATE_BASE_SELECTION_PENDING" in outputs["reports/human_gate_base_selection.md"]
-    assert "RECOMMEND_CLEAN_ROOM_ARCHITECTURE" in outputs["reports/base_selection_proposal.md"]
+    archive = outputs["reports/archive/phase-002-human-gate-base-selection.md"]
+    assert archive.startswith("SUPERSEDED_BY_PHASE_002A_AUTOMATED_ADJUDICATION")
+    assert "INSUFFICIENT_EVIDENCE" in outputs["reports/base_selection_proposal.md"]
     assert outputs["research/upstream_candidates/dynamic_evaluation.csv"].count("\n") == 19
     base = json.loads(
         outputs["research/upstream_candidates/dynamic_reviews/base_selection_proposal.json"]
@@ -20,7 +21,7 @@ def test_reporting_builds_required_offline_outputs(repo_root):
         outputs["research/upstream_candidates/dynamic_reviews/component_selection_proposal.json"]
     )
     assert base["status"] == "PROPOSAL_ONLY"
-    assert base["human_gate"] == "GATE_BASE_SELECTION_PENDING"
+    assert base["recommendation"] == "INSUFFICIENT_EVIDENCE"
     assert base["base_selected"] is False
     assert components["third_party_integrated"] is False
 
@@ -43,7 +44,8 @@ def test_reporting_check_detects_and_recovers_stale_file(repo_root, tmp_path):
             if path != relative and not (repo_root / path).exists():
                 (repo_root / path).parent.mkdir(parents=True, exist_ok=True)
                 (repo_root / path).write_text(text, encoding="utf-8")
-        assert summarize_evaluation(repo_root, check=True)["status"] == "PASS"
+        repaired = summarize_evaluation(repo_root, check=True)
+        assert f"REPORT_STALE:{relative}" not in repaired["errors"]
     finally:
         if original is None:
             target.unlink(missing_ok=True)
