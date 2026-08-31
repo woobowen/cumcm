@@ -18,6 +18,7 @@ from cumcm_skill_lab.adjudication.phase002b_status import (
     classify_completion,
     phase003_allowed,
 )
+from cumcm_skill_lab.adjudication.recovery_record import check_incomplete_recovery
 from cumcm_skill_lab.adjudication.role_orchestrator import RoleOrchestrator
 from cumcm_skill_lab.adjudication.transport.base import TransportResult, TransportStatus
 from cumcm_skill_lab.adjudication.transport.checkpoints import CheckpointStore
@@ -33,6 +34,16 @@ def isolated_repo(repo_root, tmp_path):
         target,
         ignore=shutil.ignore_patterns(".git", ".venv", ".cache", "__pycache__"),
     )
+    phase = target / "evals/results/phase-002b"
+    shutil.rmtree(phase / "role_checkpoints", ignore_errors=True)
+    for relative in (
+        "role_ledger.json",
+        "recovery_manifest.json",
+        "transport_diagnostics/run_budget.json",
+        "transport_diagnostics/correctness_attempt_001.json",
+        "transport_diagnostics/correctness_attempt_002.json",
+    ):
+        (phase / relative).unlink(missing_ok=True)
     result = build_all(target, check=False)
     assert result["status"] == "PASS"
     return target
@@ -291,6 +302,19 @@ def test_reports_render_actual_decision_records(monkeypatch, isolated_repo):
     assert "EVIDENCE_INSUFFICIENT" in acceptance
     assert "DECISION-ARCHITECTURE-002A" in acceptance
     assert "Phase 003 allowed: `False`" in acceptance
+
+
+def test_tracked_incomplete_recovery_manifest_is_self_consistent(repo_root):
+    assert check_incomplete_recovery(repo_root) == []
+
+
+def test_incomplete_reports_use_real_transport_failures(repo_root):
+    reports = render_all(load_inputs(repo_root))
+    acceptance = reports["phase-002b-acceptance.md"]
+    assert acceptance.count("RESPONSES_CONNECT_RESET") == 2
+    assert "New starts: 2" in acceptance
+    assert "Remaining budget: 6" in acceptance
+    assert "No architecture, recovery-policy or component decision exists" in acceptance
 
 
 def _valid_runtime_output(request):

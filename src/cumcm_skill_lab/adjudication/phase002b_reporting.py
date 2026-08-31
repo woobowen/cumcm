@@ -30,7 +30,7 @@ def load_inputs(root: Path) -> dict[str, Any]:
     phase = root / "evals/results/phase-002b"
     role_ledger = read_json(phase / "role_ledger.json")
     decisions = [read_json(path) for path in final_decision_paths(root)]
-    return {
+    common = {
         "freeze": read_json(phase / "input_freeze_manifest.json"),
         "eligibility": read_json(root / "evals/results/phase-002a/eligibility/classification.json"),
         "recovery": read_json(
@@ -44,6 +44,27 @@ def load_inputs(root: Path) -> dict[str, Any]:
         ],
         "budget": read_json(phase / "transport_diagnostics/run_budget.json"),
         "roles": role_ledger["roles"],
+    }
+    replay_path = phase / "replay/replay.json"
+    meta_path = formal_output_path(root, "EVIDENCE_META_ADJUDICATOR")
+    audit_path = formal_output_path(root, "DECISION_AUDITOR")
+    if len(decisions) != 3 or not all(
+        path.is_file() for path in (replay_path, meta_path, audit_path)
+    ):
+        recovery_manifest = phase / "recovery_manifest.json"
+        return {
+            **common,
+            "incomplete": True,
+            "recovery_manifest": read_json(recovery_manifest),
+            "diagnostics": [
+                read_json(root / relative)
+                for relative in read_json(recovery_manifest)["diagnostics"]
+            ],
+            "decisions": [],
+        }
+    return {
+        **common,
+        "incomplete": False,
         "judges": [
             read_json(formal_output_path(root, role))
             for role in (
@@ -53,14 +74,16 @@ def load_inputs(root: Path) -> dict[str, Any]:
             )
         ],
         "dissent": read_json(formal_output_path(root, "BLIND_DISSENT_JUDGE")),
-        "meta": read_json(formal_output_path(root, "EVIDENCE_META_ADJUDICATOR")),
-        "audit": read_json(formal_output_path(root, "DECISION_AUDITOR")),
+        "meta": read_json(meta_path),
+        "audit": read_json(audit_path),
         "decisions": decisions,
-        "replay": read_json(phase / "replay/replay.json"),
+        "replay": read_json(replay_path),
     }
 
 
 def render_all(inputs: dict[str, Any]) -> dict[str, str]:
+    if inputs["incomplete"]:
+        return _render_incomplete(inputs)
     status = classify_completion(
         inputs["roles"], inputs["decisions"], inputs["audit"], inputs["replay"]
     )
@@ -255,6 +278,191 @@ def write_reports(root: Path, *, check: bool) -> list[str]:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(expected, encoding="utf-8")
     return errors
+
+
+def _render_incomplete(inputs: dict[str, Any]) -> dict[str, str]:
+    recovery = inputs["recovery_manifest"]
+    role_rows = [
+        [
+            row["role_id"],
+            row["adapter"],
+            row["attempt"],
+            row["status"],
+            row["thread_id_hash"],
+            row["schema_valid"],
+        ]
+        for row in inputs["roles"]
+    ]
+    failure_rows = [
+        [
+            item["attempt"],
+            item["start_kind"],
+            item["adapter"],
+            item["duration_seconds"],
+            item["failure_class"],
+            item["session_id_hash"],
+            item["raw_event_hash"],
+            item["next_adapter"],
+        ]
+        for item in inputs["diagnostics"]
+    ]
+    summary = inputs["eligibility"]["summary"]
+    role_table = _table(
+        role_rows,
+        ["Role", "Adapter", "Attempt", "Status", "Session hash", "Schema"],
+    )
+    failure_table = _table(
+        failure_rows,
+        [
+            "Attempt",
+            "Kind",
+            "Adapter",
+            "Seconds",
+            "Failure",
+            "Session hash",
+            "Raw hash",
+            "Next",
+        ],
+    )
+    transport = [
+        "# Phase 002B Transport Recovery",
+        "",
+        "Status: `AUTOMATED_ADJUDICATION_INCOMPLETE`.",
+        "",
+        "Correctness used the primary persistent exec session and the one permitted exact-session "
+        "resume. Both ended in `RESPONSES_CONNECT_RESET`; the two-attempt role limit then stopped "
+        "the formal chain. App Server was not started because a third attempt is prohibited.",
+        "",
+        *failure_table,
+        "",
+        f"Phase 002B starts: {recovery['phase002b_model_starts']}/8; remaining: "
+        f"{recovery['phase002b_remaining_budget']}. Token usage was not emitted by the failed "
+        "turns.",
+        "Raw events, stderr, exact session IDs and hidden reasoning remain ignored; only hashes "
+        "and sanitized event counts are tracked.",
+    ]
+    blind = [
+        "# Formal Blind Judges",
+        "",
+        "No Schema-valid formal Judge output exists. Correctness exhausted its two allowed "
+        "transport attempts before structured output; later roles were not started.",
+        "",
+        *role_table,
+    ]
+    dissent = [
+        "# Formal Blind Dissent",
+        "",
+        "`BLIND_DISSENT_JUDGE` was not run because Correctness did not complete. The earlier "
+        "unblinded Phase 002A Dissent remains preserved and excluded from formal evidence.",
+    ]
+    meta = [
+        "# Formal Meta-Adjudication",
+        "",
+        "Not run. Four valid blind role outputs are mandatory; zero were completed. Meta did not "
+        "infer or synthesize missing Judge results.",
+    ]
+    audit = [
+        "# Formal Decision Audit",
+        "",
+        "Not run. No Meta output or automated decision proposal exists.",
+    ]
+    decisions = [
+        "# Formal Automated Decisions",
+        "",
+        "No automated technical decision was emitted. `automated_decision_ids=[]`, "
+        "`selected_architecture=null`, `accepted_component_specifications=[]`, and "
+        "`next_phase_allowed=null`.",
+    ]
+    acceptance = [
+        "# Phase 002B Acceptance",
+        "",
+        "Status: `AUTOMATED_ADJUDICATION_INCOMPLETE`.",
+        "",
+        "## Frozen evidence and scope",
+        "",
+        f"Phase 002B input freeze `{inputs['freeze']['freeze_hash']}` and evidence hash "
+        f"`{inputs['freeze']['evidence_hash']}` remain valid. Phase 002 candidate runs and the "
+        "Phase 002A freeze were not modified or rerun.",
+        f"Balanced complete cases remain {summary['balanced_case_count']}/"
+        f"{summary['minimum_balanced_cases']}; repeats remain {summary['repeats']}/"
+        f"{summary['minimum_repeats']}; frozen comparative sufficiency is "
+        f"`{summary['comparative_sufficiency']}`.",
+        f"All {len(inputs['recovery']['records'])} recovery-affected records remain gap-only and "
+        "ranking-ineligible.",
+        "",
+        "## Transport attempts",
+        "",
+        *failure_table,
+        "",
+        f"Previous model starts: 4. New maximum: 8. New starts: "
+        f"{recovery['phase002b_model_starts']}. Completed formal roles: 0. Failed role: "
+        f"`CORRECTNESS_JUDGE`. Resume starts: 1. Remaining budget: "
+        f"{recovery['phase002b_remaining_budget']}. Observed token usage: unavailable/empty.",
+        "",
+        "## Formal chain",
+        "",
+        *role_table,
+        "",
+        "Scientific Validity, Engineering/Reproducibility, Blind Dissent, Meta and Auditor were "
+        "not started. Deterministic replay was not run because no decisions exist.",
+        "",
+        "## Automated decisions",
+        "",
+        "No architecture, recovery-policy or component decision exists. No candidate, "
+        "architecture, base or component specification was accepted or rejected by a completed "
+        "adjudication.",
+        "",
+        "## API and authentication",
+        "",
+        "Used the existing ChatGPT-managed Codex login. No API key was read, requested, printed or "
+        "used. API billing and login mode were not changed. No credential or auth cache is "
+        "tracked.",
+        "",
+        "## Boundary",
+        "",
+        "`base_selected=false`; `third_party_integrated=false`; formal Skill capability remains "
+        "`SCAFFOLD_ONLY`; `next_phase_allowed=null`. `PHASE-SKILL-INTEGRATION-003` is prohibited "
+        "and was not entered.",
+        "",
+        "## Unknown and unverified",
+        "",
+        "Formal correctness, scientific validity, engineering reproducibility, blind dissent, "
+        "Meta conclusions, Audit result, replay stability, technical acceptance and implementation "
+        "readiness remain unknown. Transport recovery did not yield a structured formal output, so "
+        "none of these facts are inferred.",
+    ]
+    architecture = [
+        "# Automated Architecture Decision",
+        "",
+        "No valid automated architecture decision exists. `selected_architecture=null`; "
+        "`next_phase_allowed=null`.",
+    ]
+    components = [
+        "# Automated Component Decisions",
+        "",
+        "No component decision exists and no specification is accepted.",
+    ]
+    return {
+        "transport_recovery.md": _body(transport),
+        "formal_blind_judges.md": _body(blind),
+        "formal_blind_dissent.md": _body(dissent),
+        "formal_meta_adjudication.md": _body(meta),
+        "formal_decision_audit.md": _body(audit),
+        "formal_automated_decisions.md": _body(decisions),
+        "phase-002b-acceptance.md": _body(acceptance),
+        "automated_adjudication_dossier.md": _body(
+            ["# Automated Adjudication Dossier", "", *acceptance[2:]]
+        ),
+        "blind_judge_results.md": _body(blind).replace(
+            "# Formal Blind Judges", "# Blind Judge Results", 1
+        ),
+        "meta_adjudication_record.md": _body(meta).replace(
+            "# Formal Meta-Adjudication", "# Meta-Adjudication Record", 1
+        ),
+        "decision_audit.md": _body(audit).replace("# Formal Decision Audit", "# Decision Audit", 1),
+        "automated_architecture_decision.md": _body(architecture),
+        "automated_component_decisions.md": _body(components),
+    }
 
 
 def _acceptance(

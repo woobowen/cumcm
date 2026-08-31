@@ -36,20 +36,26 @@ REQUIRED = {
 
 
 def main() -> int:
-    errors = validate_role_ledger(ROOT, require_complete=True)
+    recovery_path = ROOT / "evals/results/phase-002b/recovery_manifest.json"
+    recovery = read_json(recovery_path) if recovery_path.is_file() else None
+    terminal_incomplete = bool(
+        recovery and recovery.get("status") == "AUTOMATED_ADJUDICATION_INCOMPLETE"
+    )
+    errors = validate_role_ledger(ROOT, require_complete=not terminal_incomplete)
     store = CheckpointStore(ROOT)
     session_hashes: list[str] = []
     for role in ROLE_ORDER:
         checkpoint = store.load_checkpoint(role)
         if checkpoint is None:
-            errors.append(f"CHECKPOINT_MISSING:{role}")
+            if not terminal_incomplete:
+                errors.append(f"CHECKPOINT_MISSING:{role}")
             continue
         missing = sorted(REQUIRED - checkpoint.keys())
         if missing:
             errors.append(f"CHECKPOINT_FIELDS_MISSING:{role}:{','.join(missing)}")
         if checkpoint.get("role_id") != role:
             errors.append(f"CHECKPOINT_ROLE_MISMATCH:{role}")
-        if checkpoint.get("completion_status") != "COMPLETED":
+        if not terminal_incomplete and checkpoint.get("completion_status") != "COMPLETED":
             errors.append(f"CHECKPOINT_INCOMPLETE:{role}")
         if checkpoint.get("model") != "gpt-5.6-sol":
             errors.append(f"CHECKPOINT_MODEL_MISMATCH:{role}")
@@ -83,6 +89,7 @@ def main() -> int:
                 "roles": len(ROLE_ORDER),
                 "phase002b_model_starts": len(budget["starts"]),
                 "remaining": RunBudget(ROOT).remaining(),
+                "terminal_incomplete": terminal_incomplete,
                 "errors": errors,
             },
             sort_keys=True,

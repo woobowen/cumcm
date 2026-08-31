@@ -1,0 +1,43 @@
+{
+  "adapter": "EXEC_RESUMABLE",
+  "attempt": 1,
+  "completed_at": "2026-08-31T18:36:11.562564+00:00",
+  "completion_status": "TRANSPORT_FAILED_RESUMABLE",
+  "content_hash": "f344513169e89857cb09b79290a25445d13fb06e620c60d902337c9aaca866fd",
+  "credentials_tracked": false,
+  "diagnostic_id": "PHASE-002B-CORRECTNESS-ATTEMPT-001",
+  "duration_seconds": 338.529427,
+  "event_summary": {
+    "event_counts": {
+      "error": 10,
+      "item.completed": 1,
+      "thread.started": 1,
+      "turn.failed": 1,
+      "turn.started": 1
+    },
+    "message_content_retained": false,
+    "reasoning_content_retained": false,
+    "session_id_hash": "fab843b8795cfd19db7db516559b8a2c89b2fc88f7cfd824ba54d5c766a1a7c6",
+    "terminal_event": "turn.failed",
+    "turn_id_hash": null
+  },
+  "failure_class": "RESPONSES_CONNECT_RESET",
+  "hidden_reasoning_tracked": false,
+  "model": "gpt-5.6-sol",
+  "next_adapter": "EXEC_RESUMABLE",
+  "observable_code": "RESPONSES_CONNECTION_RESET",
+  "raw_content_tracked": false,
+  "raw_event_hash": "a6759d53415beda690702242f122e6efec14f68c1fa63d0269b7e710356d5464",
+  "reasoning_setting": "medium",
+  "resume_allowed": true,
+  "role_id": "CORRECTNESS_JUDGE",
+  "schema_version": "1.0.0",
+  "session_id_hash": "fab843b8795cfd19db7db516559b8a2c89b2fc88f7cfd824ba54d5c766a1a7c6",
+  "start_kind": "INITIAL",
+  "started_at": "2026-08-31T18:30:33.014808+00:00",
+  "stderr_hash": "0154c8e0dbc844f648e99387147c39b5fe7cc3934af523170737b050bb54b01e",
+  "terminal": false,
+  "token_usage": {},
+  "turn_id_hash": null,
+  "user_action_required": false
+}

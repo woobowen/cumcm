@@ -10,7 +10,7 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS`
+- Technical adjudication: `AUTOMATED_ADJUDICATION_INCOMPLETE`
 - Automated decisions: `None`
 - Selected architecture: `None`
 - Accepted component specifications: `None`
@@ -18,15 +18,16 @@
 - Content-verified commit: `fee8aeb157607629e86bbfe5d8cb41e60d12f34f`
 - Delivery receipt commit: `fee8aeb157607629e86bbfe5d8cb41e60d12f34f`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-01T01:22:55+08:00` by `main-agent`
+- Updated: `2026-09-01T02:42:09+08:00` by `main-agent`
 
 ## Blockers
 
 - CODEX_TRANSPORT_BLOCKED_AFTER_THREE_ATTEMPTS
+- CORRECTNESS_JUDGE_TRANSPORT_EXHAUSTED_RESPONSES_CONNECT_RESET
 - BLIND_ADJUDICATION_NOT_COMPLETE
 - META_ADJUDICATION_NOT_RUN
 - DECISION_AUDIT_NOT_RUN
-- FORMAL_ADJUDICATION_RECOVERY_PENDING
+- FORMAL_ADJUDICATION_RECOVERY_FAILED
 
 ## Risks
 
@@ -38,3 +39,4 @@
 - Three consecutive real Blind Judge attempts failed at the Codex Responses transport before structured output.
 - Phase 002B has only eight remaining model starts for six mandatory independent formal roles.
 - The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.
+- Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.

@@ -50,12 +50,13 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
     state = json.loads((repo_root / "state/project_state.json").read_text())
     assert state["blockers"] == [
         "CODEX_TRANSPORT_BLOCKED_AFTER_THREE_ATTEMPTS",
+        "CORRECTNESS_JUDGE_TRANSPORT_EXHAUSTED_RESPONSES_CONNECT_RESET",
         "BLIND_ADJUDICATION_NOT_COMPLETE",
         "META_ADJUDICATION_NOT_RUN",
         "DECISION_AUDIT_NOT_RUN",
-        "FORMAL_ADJUDICATION_RECOVERY_PENDING",
+        "FORMAL_ADJUDICATION_RECOVERY_FAILED",
     ]
-    assert state["technical_adjudication_status"] == "AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS"
+    assert state["technical_adjudication_status"] == "AUTOMATED_ADJUDICATION_INCOMPLETE"
     assert state["automated_decision_ids"] == []
     assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False

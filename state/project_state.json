@@ -6,7 +6,7 @@
   "current_plan": "plans/active/PLAN-0002B-adjudication-transport-recovery.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/upstream-dynamic-eval",
-  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS",
+  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_INCOMPLETE",
   "automated_decision_ids": [],
   "selected_architecture": null,
   "accepted_component_specifications": [],
@@ -26,10 +26,11 @@
   "team_compliance_review_status": "NOT_RUN",
   "blockers": [
     "CODEX_TRANSPORT_BLOCKED_AFTER_THREE_ATTEMPTS",
+    "CORRECTNESS_JUDGE_TRANSPORT_EXHAUSTED_RESPONSES_CONNECT_RESET",
     "BLIND_ADJUDICATION_NOT_COMPLETE",
     "META_ADJUDICATION_NOT_RUN",
     "DECISION_AUDIT_NOT_RUN",
-    "FORMAL_ADJUDICATION_RECOVERY_PENDING"
+    "FORMAL_ADJUDICATION_RECOVERY_FAILED"
   ],
   "risks": [
     "Phase 002 technical proposals are historical evidence pending automated re-adjudication.",
@@ -39,11 +40,12 @@
     "YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete.",
     "Three consecutive real Blind Judge attempts failed at the Codex Responses transport before structured output.",
     "Phase 002B has only eight remaining model starts for six mandatory independent formal roles.",
-    "The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation."
+    "The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.",
+    "Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T01:22:55+08:00",
+  "updated_at": "2026-09-01T02:42:09+08:00",
   "updated_by": "main-agent"
 }

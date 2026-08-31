@@ -1,0 +1,57 @@
+{
+  "api_billing_used": false,
+  "api_key_used": false,
+  "authentication": "CHATGPT_MANAGED_CODEX_LOGIN",
+  "automated_decision_ids": [],
+  "base_selected": false,
+  "completed_roles": [],
+  "content_hash": "ec983b706d360a05227ca59cbf49779c12c61f029d8f57cc548fb21d0b01c2cd",
+  "decision_audit": "NOT_RUN",
+  "deterministic_replay": "NOT_RUN",
+  "diagnostics": {
+    "evals/results/phase-002b/transport_diagnostics/correctness_attempt_001.json": "f880b616dc6bf78bd3f790a78f644b8e193ca2773c50e86ed1a5483794d6efa5",
+    "evals/results/phase-002b/transport_diagnostics/correctness_attempt_002.json": "d2aa50241b5d9993b3c542799f11806f9994d8c296f5e9aef48e42bbd89584bb"
+  },
+  "evidence_hash": "b64923cdfe656a743a61455cffc8cc99bc853c79f4c10c20a96a4ab8f2de8c8d",
+  "failed_roles": [
+    "CORRECTNESS_JUDGE"
+  ],
+  "input_freeze_hash": "9b664b353fcbe2f48aa1c7aebbb88af90b5bac7a849cda5053e5854b78ca6338",
+  "meta_adjudication": "NOT_RUN",
+  "model": "gpt-5.6-sol",
+  "next_phase_allowed": null,
+  "pending_roles": [
+    "SCIENTIFIC_VALIDITY_JUDGE",
+    "ENGINEERING_REPRODUCIBILITY_JUDGE",
+    "BLIND_DISSENT_JUDGE",
+    "EVIDENCE_META_ADJUDICATOR",
+    "DECISION_AUDITOR"
+  ],
+  "phase002_rerun": false,
+  "phase002b_maximum_starts": 8,
+  "phase002b_model_starts": 2,
+  "phase002b_remaining_budget": 6,
+  "policy_hash": "e7296f8aabcf0b4891a4f67c6a50c3cc7437562fcb1ce8072746aac664743eb0",
+  "previous_failure_hashes": {
+    "evals/results/phase-002a/runtime/blind_failure_001.json": "2bef3f0185169934c77504648aaa9bd99087b39312280ee79ffe6c03855f7d14",
+    "evals/results/phase-002a/runtime/blind_failure_002.json": "e6ce6ba6f5aae7a825832f504a272305157f77d2608fd1c312ad05d78373bce0",
+    "evals/results/phase-002a/runtime/blind_failure_003.json": "e9520bdf28da0d69ce3b5f46fc4b40c6922dc8b0c2f9fb04e429fd1488ba2ffd"
+  },
+  "previous_model_starts": 4,
+  "reasoning_setting": "medium",
+  "recovery_id": "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B",
+  "role_statuses": {
+    "BLIND_DISSENT_JUDGE": "PENDING",
+    "CORRECTNESS_JUDGE": "TRANSPORT_FAILED_RESUMABLE",
+    "DECISION_AUDITOR": "PENDING",
+    "ENGINEERING_REPRODUCIBILITY_JUDGE": "PENDING",
+    "EVIDENCE_META_ADJUDICATOR": "PENDING",
+    "SCIENTIFIC_VALIDITY_JUDGE": "PENDING"
+  },
+  "schema_version": "1.0.0",
+  "skill_capability_status": "SCAFFOLD_ONLY",
+  "status": "AUTOMATED_ADJUDICATION_INCOMPLETE",
+  "terminal_failure_class": "RESPONSES_CONNECT_RESET",
+  "terminal_reason": "PER_ROLE_TWO_ATTEMPT_LIMIT_REACHED",
+  "third_party_integrated": false
+}

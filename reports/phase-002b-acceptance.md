@@ -1,4 +1,4 @@
-# Automated Adjudication Dossier
+# Phase 002B Acceptance
 
 Status: `AUTOMATED_ADJUDICATION_INCOMPLETE`.
 

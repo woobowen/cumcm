@@ -1,6 +1,6 @@
 # PLAN-0002B — Formal Adjudication Transport Recovery
 
-Status: `IN_PROGRESS`
+Status: `INCOMPLETE — CORRECTNESS TRANSPORT EXHAUSTED`
 Phase: `PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B`
 Owner: main agent
 Started: `2026-09-01T00:45:37+08:00`
@@ -48,7 +48,9 @@ One interface exposes `start_role`, `resume_role`, `poll_role`, `cancel_role`, `
 `validate_output`, `classify_failure` and `summarize_events`. `EXEC_RESUMABLE` is primary and uses
 the installed CLI with a persistent exact session, fixed `gpt-5.4`/`medium`, strict ignored user
 configuration, output Schema, JSON events, output-last-message, isolated role workspace, no remote,
-no MCP, no dynamic tools, workspace-write sandbox and policy-prohibited network. Raw events and the
+no MCP, no dynamic tools, workspace-write sandbox and policy-prohibited network. The frozen default
+was unavailable before any formal output, so ADR-0019 uniformly migrated all roles to versioned
+`gpt-5.6-sol`/`medium`. Raw events and the
 exact session identifier stay ignored; tracked records contain only irreversible identifier hashes,
 event counts, status, timestamps and content hashes.
 
@@ -189,3 +191,19 @@ delivery. The technical decision may still be insufficient, abstained, retest or
 any role, Meta, Auditor or replay; a broken freeze; exhausted per-role/global budget; model mismatch;
 or unrecovered transport leaves `AUTOMATED_ADJUDICATION_INCOMPLETE` with exact blockers and
 `next_phase_allowed=null`.
+
+## 16. Executed recovery result
+
+Pre-runtime validation passed with 260 offline tests, strict validation, intact Phase 002/002A/002B
+freezes, six deterministic role bundles and zero Phase 002B model starts. Correctness then started
+through `EXEC_RESUMABLE` on `gpt-5.6-sol`/`medium`. Attempt 1 ran 338.529427 seconds and ended in
+`RESPONSES_CONNECT_RESET` after producing an exact session checkpoint. The sole permitted resume
+continued that same session, ran 55.671046 seconds and ended in the same failure class. Both turns
+emitted no usable token accounting and no Schema-valid final output.
+
+The Correctness role therefore exhausted its two-start limit. Phase 002B consumed 2 of 8 available
+starts and retains 6 unused, but those starts cannot authorize a third Correctness attempt or a
+later role without the mandatory predecessor. App Server was not started because it would have
+been a prohibited third attempt. Scientific, Engineering, blind Dissent, Meta, Auditor and replay
+were not run. No automated decision exists, Phase 003 remains prohibited, and this plan terminates
+as `AUTOMATED_ADJUDICATION_INCOMPLETE` with exact tracked hashes and ignored raw/session material.

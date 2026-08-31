@@ -1,4 +1,4 @@
-# Blind Judge Results
+# Formal Blind Judges
 
 No Schema-valid formal Judge output exists. Correctness exhausted its two allowed transport attempts before structured output; later roles were not started.
 
