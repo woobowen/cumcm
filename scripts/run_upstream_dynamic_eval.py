@@ -16,6 +16,7 @@ def main() -> int:
     parser.add_argument("--arms", nargs="*")
     parser.add_argument("--cases", nargs="*")
     parser.add_argument("--max-new-runs", type=int)
+    parser.add_argument("--retry-failed-once", action="store_true")
     args = parser.parse_args()
     config_path = ROOT / args.config
     if args.smoke:
@@ -35,6 +36,7 @@ def main() -> int:
             arm_filter=args.arms,
             case_filter=args.cases,
             max_new_runs=args.max_new_runs,
+            retry_failed_once=args.retry_failed_once,
         )
     except (OSError, RuntimeError, ValueError) as exc:
         print(str(exc))

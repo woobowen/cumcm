@@ -30,6 +30,7 @@ SECRET_TEXT = re.compile(
     r"(?:-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|"
     r"\bsk-[A-Za-z0-9_-]{20,}\b|\bgh[pousr]_[A-Za-z0-9]{20,}\b)"
 )
+NONE_MARKERS = {"", "none", "n/a", "na", "nil", "无", "无。", "没有", "未创建", "不适用"}
 
 
 def _now() -> str:
@@ -101,13 +102,23 @@ def _artifact_reference_errors(observation: dict, workspace: Path) -> list[str]:
     errors: list[str] = []
     for field in ("code_artifacts", "files_created"):
         for reference in observation.get(field, []):
-            relative = Path(reference)
+            normalized = reference.strip().strip("`'\"")
+            if normalized.lower() in NONE_MARKERS:
+                continue
+            direct = workspace / normalized
+            path_text = normalized if direct.is_file() else normalized.split(maxsplit=1)[0]
+            path_text = path_text.rstrip(":：,，;；").strip("`'\"")
+            relative = Path(path_text)
             if relative.is_absolute() or ".." in relative.parts:
                 errors.append(f"UNSAFE_ARTIFACT_REFERENCE:{field}:{reference}")
                 continue
             if not (workspace / relative).is_file():
                 errors.append(f"NONEXISTENT_ARTIFACT_REFERENCE:{field}:{reference}")
     return errors
+
+
+def _meaningful_entries(values: list[str]) -> list[str]:
+    return [value for value in values if value.strip().lower() not in NONE_MARKERS]
 
 
 def _trace_policy_errors(trace: dict) -> list[str]:
@@ -379,7 +390,7 @@ def run_cell(
     publication_errors.extend(_trace_policy_errors(trace))
     if observation is not None:
         publication_errors.extend(_artifact_reference_errors(observation, workspace))
-        if observation.get("prohibited_actions_attempted"):
+        if _meaningful_entries(observation.get("prohibited_actions_attempted", [])):
             publication_errors.append("PROHIBITED_ACTION_REPORTED")
     schema_valid = not schema_errors and not publication_errors
     if completion == "COMPLETED" and not schema_valid:
@@ -457,6 +468,7 @@ def run_evaluation(
     arm_filter: Iterable[str] | None = None,
     case_filter: Iterable[str] | None = None,
     max_new_runs: int | None = None,
+    retry_failed_once: bool = False,
     evaluation_id: str = "PHASE-002-FIRST-ROUND",
 ) -> list[dict]:
     config = load_yaml(config_path)
@@ -488,10 +500,40 @@ def run_evaluation(
         if (root / "evals/results/phase-002/runs").exists()
         else 0
     )
+    existing_retries = (
+        len(
+            [
+                path
+                for path in (root / "evals/results/phase-002/runs").rglob("run-002.json")
+                if load_json(path).get("execution_kind") == "REAL"
+            ]
+        )
+        if (root / "evals/results/phase-002/runs").exists()
+        else 0
+    )
     results: list[dict] = []
     new_runs = 0
     for anonymous, actual, case_id in ordered:
-        run_path = root / "evals/results/phase-002/runs" / anonymous / case_id / "run-001.json"
+        run_index = 1
+        first_path = root / "evals/results/phase-002/runs" / anonymous / case_id / "run-001.json"
+        if retry_failed_once:
+            if not first_path.is_file():
+                continue
+            first = load_json(first_path)
+            if first["completion_status"] == "COMPLETED":
+                results.append(first)
+                continue
+            if first["completion_status"] in {"AUTH_BLOCKED", "QUOTA_BLOCKED"}:
+                results.append(first)
+                continue
+            run_index = 2
+        run_path = (
+            root
+            / "evals/results/phase-002/runs"
+            / anonymous
+            / case_id
+            / f"run-{run_index:03d}.json"
+        )
         already_exists = run_path.is_file()
         if max_new_runs is not None and new_runs >= max_new_runs and not already_exists:
             continue
@@ -501,6 +543,13 @@ def run_evaluation(
             and existing_real + new_runs >= int(config["maximum_runs"])
         ):
             raise RuntimeError("REAL_RUN_BUDGET_EXCEEDED")
+        if (
+            execution_kind == "REAL"
+            and run_index > 1
+            and not already_exists
+            and existing_retries + new_runs >= int(config.get("maximum_calibration_runs", 0))
+        ):
+            raise RuntimeError("CALIBRATION_RUN_BUDGET_EXCEEDED")
         result = run_cell(
             root,
             config,
@@ -510,6 +559,7 @@ def run_evaluation(
             execution_kind=execution_kind,
             command_prefix=command_prefix,
             evaluation_id=evaluation_id,
+            run_index=run_index,
         )
         results.append(result)
         if not already_exists:

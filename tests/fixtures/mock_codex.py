@@ -73,6 +73,15 @@ def main() -> int:
         observation["unexpected"] = True
     if mode == "missing_file":
         observation["code_artifacts"] = ["does-not-exist.py"]
+    if mode == "annotated_file":
+        artifact = workspace / "analysis.json"
+        artifact.write_text("{}\n", encoding="utf-8")
+        observation["code_artifacts"] = ["analysis.json contains the analysis state."]
+        observation["files_created"] = ["analysis.json"]
+    if mode == "none_markers":
+        observation["code_artifacts"] = ["无。"]
+        observation["files_created"] = ["none"]
+        observation["prohibited_actions_attempted"] = ["N/A"]
     if mode == "secret_output":
         observation["claims"] = ["s" + "k-" + "abcdefghijklmnopqrstuvwxyz123456"]
     if mode == "private_path":

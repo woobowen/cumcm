@@ -139,6 +139,15 @@ def test_sensitive_environment_is_removed(repo_root, tmp_path, monkeypatch):
     assert "synthetic-secret" not in json.dumps(result)
 
 
+@pytest.mark.parametrize("mode", ["annotated_file", "none_markers"])
+def test_artifact_annotations_and_explicit_none_markers_are_valid(
+    repo_root, tmp_path, monkeypatch, mode
+):
+    _, result = _run_fault(repo_root, tmp_path, monkeypatch, mode)
+    assert result["completion_status"] == "COMPLETED"
+    assert result["schema_valid"] is True
+
+
 @pytest.mark.parametrize(
     ("mode", "expected_error"),
     [
@@ -196,3 +205,30 @@ def test_raw_trace_cache_is_ignored_and_untracked(repo_root):
         text=True,
     )
     assert tracked.stdout == ""
+
+
+def test_failed_cell_gets_one_append_only_retry(repo_root, tmp_path, monkeypatch):
+    root, config_path = _runner_project(repo_root, tmp_path)
+    mock = [sys.executable, str(repo_root / "tests/fixtures/mock_codex.py")]
+    monkeypatch.setenv("MOCK_CODEX_MODE", "invalid_schema")
+    first = run_evaluation(
+        root,
+        config_path,
+        execution_kind="MOCK",
+        command_prefix=mock,
+        arm_filter=["BASE"],
+    )[0]
+    monkeypatch.setenv("MOCK_CODEX_MODE", "normal")
+    retried = run_evaluation(
+        root,
+        config_path,
+        execution_kind="MOCK",
+        command_prefix=mock,
+        arm_filter=["BASE"],
+        retry_failed_once=True,
+    )[0]
+    assert first["completion_status"] == "FAILED"
+    assert retried["completion_status"] == "COMPLETED"
+    assert retried["run_index"] == 2
+    run_paths = sorted((root / "evals/results/phase-002/runs").rglob("*.json"))
+    assert [path.name for path in run_paths] == ["run-001.json", "run-002.json"]
