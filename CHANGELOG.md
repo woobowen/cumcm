@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2-adjudication-recovery — 2026-09-01
+
+- Added deterministic role-specific evidence bundles, exact-session checkpoints, resumable Codex
+  exec, a budget-controlled App Server fallback, failure classification, and sanitized diagnostics.
+- Added six-role orchestration, strict output/reference validation, incomplete-chain report
+  generation, and offline unit/integration/fault coverage without model starts.
+- Uniformly migrated the Phase 002B formal roles to locally available `gpt-5.6-sol`/`medium` before
+  formal output, retaining the frozen Phase 002A model/config as historical evidence.
+- Recorded two real Correctness `RESPONSES_CONNECT_RESET` failures, including the sole exact-session
+  resume. The two-start role budget is exhausted; the other five roles, Meta, Audit, replay, and all
+  decisions remain not run. Phase 003 remains prohibited.
+
 ## 0.2.1-automated-adjudication — 2026-08-31
 
 - Replaced the active human technical gate with frozen, lexicographic automated adjudication and a

@@ -46,7 +46,7 @@ runner hashes and the three prior failure hashes. Any mismatch is terminal `INPU
 
 One interface exposes `start_role`, `resume_role`, `poll_role`, `cancel_role`, `load_checkpoint`,
 `validate_output`, `classify_failure` and `summarize_events`. `EXEC_RESUMABLE` is primary and uses
-the installed CLI with a persistent exact session, fixed `gpt-5.4`/`medium`, strict ignored user
+the installed CLI with a persistent exact session, fixed configured model/reasoning, strict ignored user
 configuration, output Schema, JSON events, output-last-message, isolated role workspace, no remote,
 no MCP, no dynamic tools, workspace-write sandbox and policy-prohibited network. The frozen default
 was unavailable before any formal output, so ADR-0019 uniformly migrated all roles to versioned

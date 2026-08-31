@@ -10,7 +10,10 @@
 | Current execution plan | `plans/active/` | status/report |
 | Runtime state/ledgers | `state/` | `reports/current_state.md` |
 | Automated decision policy | `rules/automated_adjudication_rules.yaml` and `adjudication/policies/phase-002a.yaml` | Judge prompts, Meta, reports |
-| Automated technical decisions | `evals/results/phase-002a/automated_decisions/` | state transitions and reports |
+| Versioned formal execution config | `adjudication/configs/` | transport, role prompts, checkpoints |
+| Transport recovery policy | `docs/TRANSPORT_RECOVERY_POLICY.md` | recovery implementation and runbook |
+| Formal execution records | `evals/results/phase-002b/` | state transitions and reports |
+| Automated technical decisions | versioned `evals/results/*/automated_decisions/` | state transitions and reports |
 | Team compliance/challenge | `contracts/team_compliance_challenge.schema.json` records | STALE trigger only |
 | Upstream candidate facts | `research/upstream_candidates/manifest.yaml` | CSV/reviews/notices |
 | Designated Git delivery target | `rules/workflow_rules.yaml` → `git_delivery` | local Git config, runbook, release/report evidence |

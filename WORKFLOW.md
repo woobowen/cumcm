@@ -26,6 +26,12 @@ The nominal success path is:
 
 `CANDIDATES_FROZEN → ADVERSARIAL_REVIEW_COMPLETE → TESTS_SYNTHESIZED → EVIDENCE_EXECUTED → BLIND_ADJUDICATION_COMPLETE → META_ADJUDICATION_COMPLETE → DECISION_AUDIT_COMPLETE → AUTOMATED_ACCEPTED`.
 
+Transport recovery does not create a lifecycle shortcut. Resume uses the exact recorded
+session/thread and unchanged role inputs; an eligible fallback Adapter still consumes the same
+versioned per-role/global budget. Exhausted budget, missing role output, or broken checkpoint yields
+`AUTOMATED_ADJUDICATION_INCOMPLETE` and locks all dependent roles. Remaining global starts do not
+override a per-role limit. See `docs/TRANSPORT_RECOVERY_POLICY.md`.
+
 Phase 003 additionally requires an accepted architecture, Auditor `PASS`, at least one accepted
 `SPECIFICATION_ONLY` component, no unresolved hard gate/BLOCKER, stable replay, and clean CI. This
 phase never starts merely because a plan or report recommends it.

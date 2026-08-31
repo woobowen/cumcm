@@ -10,3 +10,10 @@ the Codex service endpoint, so the strongest supported claim is
 `NETWORK_POLICY_PROHIBITED_TRACE_AUDITED` unless separate OS evidence exists. Raw JSONL is ignored;
 tracked records retain hashes, bounded risk summaries, role, duration, and outcome. Process-tree
 containment is not claimed without independent evidence.
+
+Persistent recovery identifiers are secrets-by-capability even when they are not account
+credentials: exact session/thread/turn IDs, raw events, stderr, and role scratch files remain under
+ignored recovery paths. Tracked checkpoints use irreversible hashes only. Formal role workspaces
+have no Git remote, candidate checkout, MCP server, browser tool, API-key environment, or peer-role
+output. Existing ChatGPT-managed Codex authentication may be used without reading or exporting its
+cache; API-key login, API billing changes, and global Codex configuration changes are prohibited.
