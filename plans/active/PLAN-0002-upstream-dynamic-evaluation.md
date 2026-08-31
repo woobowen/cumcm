@@ -180,7 +180,10 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   and invalid fixtures, and validated the identity-independent deterministic grader.
 - [x] M3 built three deterministic cache-only packages at pinned commits; code/executable,
   contamination, license, and normalized-instruction tests passed. No raw candidate text was copied.
-- [ ] M4–M10.
+- [x] M4 added the isolated nested-Git Codex runner, ignored arm map/raw traces, structured run and
+  observation records, fail-closed publication checks, mock integration, and fault injection.
+  A real capability smoke passed with the fixed model/settings and no workspace remote.
+- [ ] M5–M10.
 
 ### Validation evidence
 
@@ -196,6 +199,15 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   `--check` exit 0 with three `PACKAGE_SAFE` manifests and zero mismatches; tracked cache check is
   empty. The first focused run found an incomplete `requests` text pattern and two Ruff line-length
   errors; scanner coverage and formatting were corrected before acceptance.
+- `2026-08-31` M4: real Codex capability smoke exit 0 in 9.730414 s with `gpt-5.4`, `medium`,
+  `workspace-write`, Structured Output, no tool command, and no Git remote. Focused Runner tests
+  passed 24/24, including timeout, nonzero, auth, quota, environment scrub, secret/path/Schema/file
+  reference, input mutation, network/MCP trace, prompt fairness, no overwrite, and ignored raw
+  traces. Full CI passed with Ruff clean, 65 pytest tests, strict repository PASS, zero warnings.
+  The first smoke exposed a transient model-cache parse warning; the decisive diagnostic exposed a
+  missing JSON Schema `type` in the smoke fixture. The Schema was corrected without changing model
+  or execution policy. The first full CI correctly rejected key-like and private-path fault literals;
+  fixtures were changed to runtime construction without weakening the repository scanners.
 
 ## 24. Interruption recovery
 
