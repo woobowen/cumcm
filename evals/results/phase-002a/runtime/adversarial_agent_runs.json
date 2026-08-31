@@ -1,0 +1,44 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "dissent-schema-precheck-001",
+      "failure": "OUTPUT_SCHEMA_CONST_MISSING_TYPE",
+      "real_agent_run": false,
+      "result": "MODEL_NOT_STARTED",
+      "token_usage": null
+    },
+    {
+      "attempt_id": "dissent-schema-precheck-002",
+      "failure": "TOP_LEVEL_ARRAY_SCHEMA_REJECTED",
+      "real_agent_run": false,
+      "result": "MODEL_NOT_STARTED",
+      "token_usage": null
+    },
+    {
+      "attempt_id": "dissent-real-001",
+      "blocker": null,
+      "exit_code": 0,
+      "failure": "OUTPUT_LAST_MESSAGE_PATH_MISSING_AFTER_STDOUT_SUCCESS",
+      "identity_blind": false,
+      "model": "gpt-5.4",
+      "network_isolation_level": "NETWORK_POLICY_PROHIBITED_TRACE_AUDITED",
+      "other_judges_visible": false,
+      "raw_trace_tracked": false,
+      "real_agent_run": true,
+      "reasoning_setting": "medium",
+      "result": "COMPLETED",
+      "role": "DISSENT_JUDGE",
+      "sandbox": "workspace-write",
+      "token_usage": {
+        "cached_input_tokens": 88064,
+        "input_tokens": 118709,
+        "output_tokens": 3279,
+        "reasoning_tokens": 655
+      },
+      "workspace_remote_count": 0
+    }
+  ],
+  "content_hash": "81c69e0f50c3761d3ea3e48f7fc45adef8ddbf740bc366c6acaad83f1fe9a221",
+  "real_agent_run_count": 1,
+  "schema_version": "1.0.0"
+}

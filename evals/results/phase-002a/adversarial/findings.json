@@ -1,0 +1,294 @@
+{
+  "content_hash": "ab85c9805d122060c98a91c9dbda2b364c77d4b6b784f2fdcf053c4f43dc7312",
+  "findings": [
+    {
+      "evidence_refs": [
+        "review:scoring:1"
+      ],
+      "finding_id": "ADV-001",
+      "role": "SCORING_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Keyword and negation salad can receive high legacy coverage without correctness.",
+      "status": "TEST_REQUESTED",
+      "target": "coverage_gaming",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:scoring:2"
+      ],
+      "finding_id": "ADV-002",
+      "role": "SCORING_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Legacy hard-failure coverage is incomplete and hard-failed cells can aggregate.",
+      "status": "TEST_REQUESTED",
+      "target": "hard_gate_lexicographic",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:scoring:3"
+      ],
+      "finding_id": "ADV-003",
+      "role": "SCORING_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Observation, run, rubric, and review identity tuples require binding.",
+      "status": "TEST_REQUESTED",
+      "target": "identity_tuple",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:scoring:4"
+      ],
+      "finding_id": "ADV-004",
+      "role": "SCORING_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Blind scans must reject aliases and candidate metadata, not only full IDs.",
+      "status": "TEST_REQUESTED",
+      "target": "blind_identity",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:recovery:5"
+      ],
+      "finding_id": "ADV-005",
+      "role": "RECOVERY_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Raw outputs and recovered observations require a pre-adjudication hash anchor.",
+      "status": "TEST_REQUESTED",
+      "target": "freeze_anchor",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:recovery:6"
+      ],
+      "finding_id": "ADV-006",
+      "role": "RECOVERY_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Recovery validity requires hashes and source links rather than file presence.",
+      "status": "TEST_REQUESTED",
+      "target": "recovery_links",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:recovery:7"
+      ],
+      "finding_id": "ADV-007",
+      "role": "RECOVERY_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Only two balanced non-recovery cases and one repeat are available.",
+      "status": "TEST_REQUESTED",
+      "target": "balanced_subset",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:report:8"
+      ],
+      "finding_id": "ADV-008",
+      "role": "REPORT_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Report loading must verify frozen membership and hashes.",
+      "status": "TEST_REQUESTED",
+      "target": "freeze_membership",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:report:9"
+      ],
+      "finding_id": "ADV-009",
+      "role": "REPORT_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Legacy proposal generation hardcodes recommendation and scores.",
+      "status": "TEST_REQUESTED",
+      "target": "dynamic_reporting",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:report:10"
+      ],
+      "finding_id": "ADV-010",
+      "role": "REPORT_AUDITOR",
+      "severity": "ERROR",
+      "statement": "NOT_RUN must remain missing rather than numeric zero.",
+      "status": "TEST_REQUESTED",
+      "target": "not_run_semantics",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:report:11"
+      ],
+      "finding_id": "ADV-011",
+      "role": "REPORT_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Component decisions need structured evidence references.",
+      "status": "TEST_REQUESTED",
+      "target": "component_evidence_refs",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:report:12"
+      ],
+      "finding_id": "ADV-012",
+      "role": "REPORT_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Current gap views require generated-input checks.",
+      "status": "TEST_REQUESTED",
+      "target": "gap_generation",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:sandbox:13"
+      ],
+      "finding_id": "ADV-013",
+      "role": "SANDBOX_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Trace-audited policy is not OS-level network denial.",
+      "status": "TEST_REQUESTED",
+      "target": "network_claim",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:sandbox:14"
+      ],
+      "finding_id": "ADV-014",
+      "role": "SANDBOX_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Host environment and Git configuration can leak into isolated workspaces.",
+      "status": "TEST_REQUESTED",
+      "target": "environment_sanitization",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:sandbox:15"
+      ],
+      "finding_id": "ADV-015",
+      "role": "SANDBOX_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Tracked command summaries can leak sensitive argument text.",
+      "status": "TEST_REQUESTED",
+      "target": "trace_redaction",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:sandbox:16"
+      ],
+      "finding_id": "ADV-016",
+      "role": "SANDBOX_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Timeout handling lacks independently verified process-tree containment.",
+      "status": "UNCERTAINTY",
+      "target": "process_tree",
+      "testability": "NON_TESTABLE_CLAIM"
+    },
+    {
+      "evidence_refs": [
+        "review:state:17"
+      ],
+      "finding_id": "ADV-017",
+      "role": "STATE_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Workflow, rule, and state schema vocabularies conflict.",
+      "status": "TEST_REQUESTED",
+      "target": "state_vocabulary",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:state:18"
+      ],
+      "finding_id": "ADV-018",
+      "role": "STATE_AUDITOR",
+      "severity": "ERROR",
+      "statement": "last_verified_commit is ambiguous and can become self-referential.",
+      "status": "TEST_REQUESTED",
+      "target": "verification_semantics",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:state:19"
+      ],
+      "finding_id": "ADV-019",
+      "role": "STATE_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Dependency STALE propagation is not machine-enforced for all formal artifacts.",
+      "status": "TEST_REQUESTED",
+      "target": "stale_propagation",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:state:20"
+      ],
+      "finding_id": "ADV-020",
+      "role": "STATE_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Acceptance facts are duplicated across normative and derived files.",
+      "status": "TEST_REQUESTED",
+      "target": "single_truth",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:dissent:21"
+      ],
+      "finding_id": "ADV-021",
+      "role": "DISSENT_AUDITOR",
+      "severity": "BLOCKER",
+      "statement": "Clean-room architecture benefit is not measured against the simpler scaffold baseline.",
+      "status": "UNCERTAINTY",
+      "target": "architecture_benefit",
+      "testability": "NON_TESTABLE_CLAIM"
+    },
+    {
+      "evidence_refs": [
+        "review:dissent:22"
+      ],
+      "finding_id": "ADV-022",
+      "role": "DISSENT_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Four mechanisms may cost more than a unified evidence ledger.",
+      "status": "UNCERTAINTY",
+      "target": "portfolio_complexity",
+      "testability": "NON_TESTABLE_CLAIM"
+    },
+    {
+      "evidence_refs": [
+        "review:dissent:23"
+      ],
+      "finding_id": "ADV-023",
+      "role": "DISSENT_AUDITOR",
+      "severity": "ERROR",
+      "statement": "The native arm is not a proven safe fallback because CASE-004 exposed leakage risk.",
+      "status": "TEST_REQUESTED",
+      "target": "native_fallback",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "review:dissent:24"
+      ],
+      "finding_id": "ADV-024",
+      "role": "DISSENT_AUDITOR",
+      "severity": "ERROR",
+      "statement": "Semantic automation reliability is not established beyond mechanical gates.",
+      "status": "UNCERTAINTY",
+      "target": "semantic_reliability",
+      "testability": "NON_TESTABLE_CLAIM"
+    }
+  ],
+  "schema_version": "1.0.0"
+}
