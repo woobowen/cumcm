@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/component-selection-proposal/v1",
+  "title": "Human-Gated Component Portfolio Proposal",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "proposal_id", "status", "components", "rejected_components", "human_gate", "third_party_integrated"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "proposal_id": {"type": "string"},
+    "status": {"const": "PROPOSAL_ONLY"},
+    "components": {"type": "array", "maxItems": 5, "items": {"type": "object", "required": ["mechanism_id", "actual_gap", "benefit", "reuse_mode", "license_status", "contamination_status", "clean_room_work", "required_tests"], "properties": {"mechanism_id": {"type": "string"}, "actual_gap": {"type": "string"}, "benefit": {"type": "string"}, "reuse_mode": {"enum": ["DIRECT_REUSE_CANDIDATE", "PORT_COMPONENT_CANDIDATE", "CLEAN_ROOM_REIMPLEMENT_CANDIDATE", "REFERENCE_ONLY", "REJECT"]}, "license_status": {"type": "string"}, "contamination_status": {"type": "string"}, "clean_room_work": {"type": "string"}, "required_tests": {"type": "array", "items": {"type": "string"}}}, "additionalProperties": false}},
+    "rejected_components": {"type": "array", "items": {"type": "string"}},
+    "human_gate": {"const": "GATE_BASE_SELECTION_PENDING"},
+    "third_party_integrated": {"const": false}
+  },
+  "additionalProperties": false
+}

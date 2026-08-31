@@ -1,0 +1,29 @@
+{
+  "baseline": "one-step persistence",
+  "case_id": "CASE-004",
+  "drift_start": 33,
+  "extreme_step": 40,
+  "irrelevant_field": "noise_feature",
+  "leakage_fields": [
+    "future_target",
+    "target_proxy"
+  ],
+  "missing_steps": [
+    9,
+    31
+  ],
+  "split": {
+    "test": [
+      39,
+      48
+    ],
+    "train": [
+      1,
+      28
+    ],
+    "validation": [
+      29,
+      38
+    ]
+  }
+}

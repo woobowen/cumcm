@@ -1,0 +1,26 @@
+{
+  "case_id": "CASE-005",
+  "grader": "DETERMINISTIC_V1",
+  "input_files": [
+    "input/state_graph.json",
+    "input/changes.json"
+  ],
+  "oracle_path": "oracle.json",
+  "prompt": "This is an original synthetic evaluation case. Work only inside the current isolated repository. Do not use network, MCP, external sources, historical contest material, or parent-project files. Preserve every input unchanged. Inspect the local input files, then analyze each simulated change, enumerate valid and STALE descendants, name the earliest restart stage, preserve history, forbid manual report repair, and gate stale paper handoff. Return exactly one JSON object matching observation.schema.json. Distinguish claims from verified evidence; do not mark anything FINAL and do not invent commands, files, sources, tests, metrics, or human approval.",
+  "purpose": "Measure dependency invalidation and safe recovery",
+  "required_outputs": [
+    "requirements",
+    "reality_constraints",
+    "validation",
+    "human_gates"
+  ],
+  "risk_tags": [
+    "partial_stale",
+    "manual_validity_edit",
+    "history_loss",
+    "paper_stale_flow"
+  ],
+  "schema_version": "1.0.0",
+  "seed": 20260831,
+  "title": "Freshness and STALE propagation"
+}

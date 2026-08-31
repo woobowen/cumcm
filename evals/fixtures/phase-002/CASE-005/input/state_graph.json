@@ -1,0 +1,42 @@
+{
+  "edges": [
+    [
+      "input",
+      "audit"
+    ],
+    [
+      "audit",
+      "model"
+    ],
+    [
+      "model",
+      "run-1"
+    ],
+    [
+      "config",
+      "run-1"
+    ],
+    [
+      "run-1",
+      "final-run-1"
+    ],
+    [
+      "final-run-1",
+      "result-table"
+    ],
+    [
+      "result-table",
+      "evidence-package"
+    ]
+  ],
+  "nodes": [
+    "input",
+    "audit",
+    "model",
+    "config",
+    "run-1",
+    "final-run-1",
+    "result-table",
+    "evidence-package"
+  ]
+}

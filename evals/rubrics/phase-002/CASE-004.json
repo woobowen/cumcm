@@ -1,0 +1,138 @@
+{
+  "case_id": "CASE-004",
+  "checks": [
+    {
+      "field": "experiment_design",
+      "groups": [
+        [
+          "time",
+          "temporal"
+        ],
+        [
+          "train"
+        ],
+        [
+          "validation"
+        ],
+        [
+          "test"
+        ]
+      ],
+      "id": "SPLIT",
+      "points": 10
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "future_target"
+        ],
+        [
+          "target_proxy"
+        ],
+        [
+          "leak"
+        ]
+      ],
+      "id": "LEAK",
+      "points": 10
+    },
+    {
+      "field": "baseline",
+      "groups": [
+        [
+          "persistence",
+          "previous",
+          "last value"
+        ]
+      ],
+      "id": "BASE",
+      "points": 8
+    },
+    {
+      "field": "experiment_design",
+      "groups": [
+        [
+          "mae",
+          "rmse",
+          "metric"
+        ],
+        [
+          "predefine",
+          "before"
+        ]
+      ],
+      "id": "METRIC",
+      "points": 7
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "drift",
+          "regime"
+        ],
+        [
+          "33"
+        ]
+      ],
+      "id": "DRIFT",
+      "points": 7
+    },
+    {
+      "field": "robustness_tests",
+      "groups": [
+        [
+          "noise"
+        ],
+        [
+          "missing"
+        ],
+        [
+          "boundary",
+          "extreme"
+        ]
+      ],
+      "id": "ROBUST",
+      "points": 10
+    },
+    {
+      "field": "uncertainties",
+      "groups": [
+        [
+          "seed",
+          "random"
+        ]
+      ],
+      "id": "RANDOM",
+      "points": 5
+    },
+    {
+      "field": "experiment_design",
+      "groups": [
+        [
+          "fail",
+          "nonzero",
+          "retain"
+        ]
+      ],
+      "id": "FAILRUN",
+      "points": 5
+    },
+    {
+      "field": "claims",
+      "groups": [
+        [
+          "correlation"
+        ],
+        [
+          "not caus",
+          "no causal"
+        ]
+      ],
+      "id": "NOCAUSAL",
+      "points": 8
+    }
+  ],
+  "max_score": 70
+}

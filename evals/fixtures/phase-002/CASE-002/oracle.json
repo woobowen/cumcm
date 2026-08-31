@@ -1,0 +1,19 @@
+{
+  "case_id": "CASE-002",
+  "injected": [
+    "missing feature",
+    "duplicate record",
+    "negative impossible mass",
+    "mixed kg/tonne units",
+    "date disorder",
+    "category encoding inconsistency",
+    "future information leakage",
+    "entity overlap leakage risk",
+    "target-derived target_copy",
+    "irrelevant/noisy feature",
+    "class imbalance",
+    "realistic extreme mass_value=250"
+  ],
+  "reasonable_extreme": "row_id 9 mass_value 250 kg is a bulk shipment and must be investigated, not automatically deleted",
+  "split": "entity-grouped temporal split"
+}

@@ -1,0 +1,124 @@
+{
+  "case_id": "CASE-003",
+  "checks": [
+    {
+      "field": "formalization",
+      "groups": [
+        [
+          "binary",
+          "x_i",
+          "0-1"
+        ]
+      ],
+      "id": "VARS",
+      "points": 8
+    },
+    {
+      "field": "formalization",
+      "groups": [
+        [
+          "max"
+        ],
+        [
+          "value",
+          "benefit"
+        ]
+      ],
+      "id": "OBJECTIVE",
+      "points": 8
+    },
+    {
+      "field": "formalization",
+      "groups": [
+        [
+          "budget",
+          "cost"
+        ],
+        [
+          "10"
+        ]
+      ],
+      "id": "BUDGET",
+      "points": 7
+    },
+    {
+      "field": "formalization",
+      "groups": [
+        [
+          "labor"
+        ],
+        [
+          "7"
+        ]
+      ],
+      "id": "LABOR",
+      "points": 7
+    },
+    {
+      "field": "validation",
+      "groups": [
+        [
+          "unit",
+          "dimension"
+        ]
+      ],
+      "id": "DIMENSION",
+      "points": 5
+    },
+    {
+      "field": "baseline",
+      "groups": [
+        [
+          "14"
+        ],
+        [
+          "greedy",
+          "D",
+          "B"
+        ]
+      ],
+      "id": "BASELINE",
+      "points": 8
+    },
+    {
+      "field": "validation",
+      "groups": [
+        [
+          "19"
+        ],
+        [
+          "A",
+          "B"
+        ]
+      ],
+      "id": "OPTIMUM",
+      "points": 12
+    },
+    {
+      "field": "commands_executed",
+      "groups": [
+        [
+          "python",
+          "enumer",
+          "brute"
+        ]
+      ],
+      "id": "RUN",
+      "points": 7
+    },
+    {
+      "field": "falsification_tests",
+      "groups": [
+        [
+          "infeasible",
+          "counterexample",
+          "better",
+          "violat"
+        ]
+      ],
+      "id": "FALSIFY",
+      "points": 8
+    }
+  ],
+  "max_score": 70
+}

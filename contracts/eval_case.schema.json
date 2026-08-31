@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/eval-case/v1",
+  "title": "Synthetic Evaluation Case",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "case_id", "title", "purpose", "prompt", "input_files", "oracle_path", "risk_tags", "required_outputs", "grader", "seed"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "case_id": {"type": "string", "pattern": "^CASE-[0-9]{3}$"},
+    "title": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "prompt": {"type": "string", "minLength": 1},
+    "input_files": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "oracle_path": {"type": "string", "minLength": 1},
+    "risk_tags": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "required_outputs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "grader": {"const": "DETERMINISTIC_V1"},
+    "seed": {"type": "integer"}
+  },
+  "additionalProperties": false
+}

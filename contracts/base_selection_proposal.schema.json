@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/base-selection-proposal/v1",
+  "title": "Human-Gated Base Selection Proposal",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "proposal_id", "status", "recommendation", "fallback", "evidence", "counter_evidence", "dynamic_quality", "legal_reusability", "technical_integrability", "security_acceptability", "maintenance_feasibility", "unresolved_questions", "human_gate", "base_selected"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "proposal_id": {"type": "string"},
+    "status": {"const": "PROPOSAL_ONLY"},
+    "recommendation": {"enum": ["RECOMMEND_BASE_CANDIDATE", "RECOMMEND_CLEAN_ROOM_ARCHITECTURE", "INSUFFICIENT_EVIDENCE", "REJECT_AS_BASE", "DYNAMIC_TEST_BLOCKED"]},
+    "fallback": {"type": "string"},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "counter_evidence": {"type": "array", "items": {"type": "string"}},
+    "dynamic_quality": {"type": "string"},
+    "legal_reusability": {"type": "string"},
+    "technical_integrability": {"type": "string"},
+    "security_acceptability": {"type": "string"},
+    "maintenance_feasibility": {"type": "string"},
+    "unresolved_questions": {"type": "array", "items": {"type": "string"}},
+    "human_gate": {"const": "GATE_BASE_SELECTION_PENDING"},
+    "base_selected": {"const": false}
+  },
+  "additionalProperties": false
+}

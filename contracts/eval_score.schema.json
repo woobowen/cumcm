@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/eval-score/v1",
+  "title": "Frozen Anonymous Evaluation Score",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "score_id", "evaluation_id", "case_id", "anonymous_arm_id", "run_index", "status", "deterministic_score", "reviewer_score", "total_score", "dimensions", "hard_failures", "evidence", "missing", "confidence", "affected_by_run_failure", "identity_revealed", "initial_score_hash", "frozen_at"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "score_id": {"type": "string", "minLength": 1},
+    "evaluation_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "pattern": "^CASE-[0-9]{3}$"},
+    "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+    "run_index": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["SCORED", "FAILED", "NOT_RUN", "STALE"]},
+    "deterministic_score": {"type": ["number", "null"], "minimum": 0, "maximum": 70},
+    "reviewer_score": {"type": ["number", "null"], "minimum": 0, "maximum": 30},
+    "total_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+    "dimensions": {"type": "object", "additionalProperties": {"type": "object", "required": ["score", "evidence", "missing", "confidence", "source", "affected_by_run_failure"], "properties": {"score": {"type": "number", "minimum": 0}, "evidence": {"type": "array", "items": {"type": "string"}}, "missing": {"type": "array", "items": {"type": "string"}}, "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"]}, "source": {"enum": ["DETERMINISTIC", "REVIEWER"]}, "affected_by_run_failure": {"type": "boolean"}}, "additionalProperties": false}},
+    "hard_failures": {"type": "array", "items": {"type": "string", "pattern": "^HARD-FAIL-[0-9]{3}$"}, "uniqueItems": true},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "missing": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"]},
+    "affected_by_run_failure": {"type": "boolean"},
+    "identity_revealed": {"const": false},
+    "initial_score_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "frozen_at": {"type": "string"}
+  },
+  "additionalProperties": false
+}

@@ -176,13 +176,20 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   read in prescribed order.
 - [x] M1 phase start prepared; Foundation regression passed (`23 passed`, strict PASS) before the
   atomic M1 commit.
-- [ ] M2–M10.
+- [x] M2 generated and froze six cases/oracles/rubrics (29 artifacts), added six Schemas with valid
+  and invalid fixtures, and validated the identity-independent deterministic grader.
+- [ ] M3–M10.
 
 ### Validation evidence
 
 - `2026-08-31` M1: `scripts/render_status.py` exit 0; `--check` exit 0; `git diff --check`
   exit 0; `bash scripts/ci.sh` exit 0 in 4.11 s with Ruff clean, 23 pytest tests passed,
   repository strict validation PASS, zero warnings.
+- `2026-08-31` M2: fixture generation exit 0 and `--check` current with 0 mismatches;
+  contract check reports 17 Schemas, 17 valid fixtures, and 7 invalid fixtures rejected; focused
+  pytest exit 0 with 11 passed; Ruff and `git diff --check` exit 0. The first focused run failed
+  because the positive test did not contain oracle evidence and Ruff found long literals; both root
+  causes were corrected without weakening the grader, then the full focused rerun passed.
 
 ## 24. Interruption recovery
 
