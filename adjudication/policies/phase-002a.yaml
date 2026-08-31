@@ -1,0 +1,10 @@
+policy_id: POLICY-PHASE-002A
+version: "1.0.0"
+frozen_at: "2026-08-31T21:57:10+08:00"
+evidence_hierarchy: [E3, E2, E1, E0]
+decision_order: [freeze_integrity, hard_gates, evidence_eligibility, evidence_sufficiency, deterministic_tests, dissent_resolution, stability, audit]
+hard_gates: [license, answer_contamination, security, second_state_source, second_orchestrator, scope_conflict]
+balanced_case_minimum: 4
+minimum_repeats: 2
+decision_statuses: [AUTOMATED_ACCEPTED, AUTOMATED_REJECTED, RETEST_REQUIRED, EVIDENCE_INSUFFICIENT, AUTOMATED_ABSTAINED, STALE]
+policy_hash: e7296f8aabcf0b4891a4f67c6a50c3cc7437562fcb1ce8072746aac664743eb0

@@ -1,0 +1,19 @@
+version: "1.0.0"
+levels:
+  E3:
+    rank: 4
+    description: Independently repeatable deterministic execution with frozen inputs and oracle.
+  E2:
+    rank: 3
+    description: Direct machine-observed artifact with bound command, hashes, and provenance.
+  E1:
+    rank: 2
+    description: Structured observation or reproducible static inspection tied to an artifact.
+  E0:
+    rank: 1
+    description: Agent assertion, prose impression, or unsupported claim.
+rules:
+  - Higher evidence dominates conflicting lower evidence.
+  - E0 cannot independently accept or reject a technical target.
+  - Conflicts remain recorded and unresolved conflicts lower confidence.
+  - Recovery evidence is gap evidence and never comparative ranking evidence.
