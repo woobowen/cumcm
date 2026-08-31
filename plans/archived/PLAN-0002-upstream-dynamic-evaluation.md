@@ -1,6 +1,6 @@
 # PLAN-0002 — Upstream Dynamic Evaluation
 
-Status: `IN_PROGRESS`
+Status: `SUPERSEDED_BY_PHASE-AUTOMATED-ADJUDICATION-002A`
 Phase: `PHASE-UPSTREAM-DYNAMIC-EVAL-002`
 Owner: main agent
 Started: `2026-08-31T16:00:59+08:00`

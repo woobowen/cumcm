@@ -103,3 +103,16 @@ def test_duplicate_remote_truth_fails(project_copy: Path):
     remote_url = yaml.safe_load(workflow.read_text(encoding="utf-8"))["git_delivery"]["remote_url"]
     (project_copy / "README.md").write_text(remote_url, encoding="utf-8")
     assert "GIT_DELIVERY_REMOTE_TRUTH_COUNT" in _ids(validate_repo(project_copy, strict=True))
+
+
+def test_current_plan_must_be_the_only_active_plan(project_copy: Path):
+    active = next((project_copy / "plans/active").glob("*.md"))
+    duplicate = project_copy / "plans/active/duplicate.md"
+    duplicate.write_text(active.read_text(encoding="utf-8"), encoding="utf-8")
+    assert "ACTIVE_PLAN_COUNT" in _ids(validate_repo(project_copy, strict=True))
+    duplicate.unlink()
+    state_path = project_copy / "state/project_state.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    state["current_plan"] = "plans/active/not-real.md"
+    state_path.write_text(json.dumps(state), encoding="utf-8")
+    assert "CURRENT_PLAN_MISMATCH" in _ids(validate_repo(project_copy, strict=True))
