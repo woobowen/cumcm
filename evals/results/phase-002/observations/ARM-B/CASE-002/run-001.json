@@ -1,0 +1,176 @@
+{
+  "anonymous_arm_id": "ARM-B",
+  "assumptions": [
+    "This was treated as a one-off local audit task because interactive clarification was unavailable.",
+    "No model training was required; the deliverable is an audit observation plus a leakage-safe split design.",
+    "Raw source values should be preserved, so recommended fixes are represented as audit flags and derived fields rather than overwriting original inputs.",
+    "`R` in `category` may mean `red`, but that mapping is not explicitly verified by the local dictionary and is therefore only a hypothesis."
+  ],
+  "baseline": {
+    "description": "Leakage-free audit baseline: drop `future_score` and `target_copy` from features, preserve raw rows, flag duplicates/missing/sentinel/impossible values, normalize comparable derived fields only in an audit layer, and evaluate only with entity-aware chronological splits after deduplication.",
+    "evidence": [
+      "`target_copy` matches `target` for every row inspected.",
+      "`future_score` is documented as one day after target and equals `target + 1` for every row inspected.",
+      "The dataset is small and contains a duplicate row plus at least one impossible mass entry, so unguarded metrics would be misleading."
+    ],
+    "result": "High leakage risk identified; safe baseline uses no trained model until leakage columns are excluded and duplicate/impossible records are audited."
+  },
+  "candidate_models": [
+    "No predictive model should be selected before the leakage audit is applied.",
+    "If modeling were attempted after audit, candidates would need to exclude `future_score` and `target_copy`, deduplicate exact repeats, use normalized mass units, and respect entity-time splits."
+  ],
+  "case_id": "CASE-002",
+  "claims": [
+    "The dataset contains two verified leakage fields: `future_score` and `target_copy`.",
+    "The dataset contains one exact duplicate record and one duplicated `row_id`.",
+    "The negative mass record is an error candidate; the 250 kg record is a plausible extreme.",
+    "A leakage-safe evaluation must avoid random row-level splitting and instead use entity-aware chronological partitioning after exact deduplication.",
+    "The raw inputs were preserved unchanged during this task."
+  ],
+  "code_artifacts": [],
+  "commands_executed": [
+    "`ls -la`",
+    "`sed -n '1,220p' TASK.json`",
+    "`sed -n '1,220p' runtime_metadata.json`",
+    "`sed -n '1,220p' ARM_INSTRUCTION.md`",
+    "`sed -n '1,260p' observation.schema.json`",
+    "`rg --files case`",
+    "`sed -n '1,240p' case/input/data_dictionary.json`",
+    "`sed -n '1,80p' case/input/data.csv`",
+    "`wc -l case/input/data.csv`",
+    "`python - <<'PY' ... PY` failed because `python` was not installed in the environment.",
+    "`python3 - <<'PY' ... PY` to count duplicates, inspect categories, check missing/sentinel values, convert units conceptually, and compare leakage columns against target."
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "Verified leakage: `target_copy` equals `target` on all 11 rows inspected.",
+    "Verified leakage: `future_score` is documented as post-target and numerically equals `target + 1` on all 11 rows inspected.",
+    "Verified exact duplicate: row with `row_id=5` appears twice with identical contents.",
+    "Verified key duplication: `row_id=5` is duplicated, and `(entity=B, date=2026-01-02)` is duplicated because of that repeated row.",
+    "Verified missing value: `feature` is blank on `row_id=3`.",
+    "Verified sentinel, not an error by itself: `feature=99` on `row_id=8` matches the documented device-mode sentinel.",
+    "Verified impossible/error candidate: `mass_value=-5` kg on `row_id=4` is physically invalid for a shipment mass.",
+    "Verified plausible extreme, not an error by itself: `mass_value=250` kg on `row_id=9` is within the documented possible range up to 300 kg.",
+    "Verified unit heterogeneity: `row_id=3` uses `0.012 tonne`, which converts to 12 kg and is plausible after normalization.",
+    "Verified categorical inconsistency: `category` mixes `red`, `Red`, `R`, `blue`, `BLUE`, and `green`; case normalization is supported by evidence, but mapping `R` to `red` is only plausible, not proven.",
+    "Verified temporal structure: entity `A` has dates `2026-01-01`, `2026-01-02`, `2026-01-03`; entity `B` has `2026-01-01` and duplicated `2026-01-02`; entity `C` has `2026-01-01` and `2026-01-02`. This creates time-order leakage risk if rows are randomly split across train and evaluation sets.",
+    "No evidence was found that target values must be monotonic over time; the `A` sequence 70, 72, 71 is plausible and should not be auto-corrected."
+  ],
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "experiment_design": [
+    "Audit stage 1: preserve raw input and create only conceptual audit flags for leakage, duplicates, missing values, sentinels, impossible values, and unit normalization.",
+    "Audit stage 2: exclude `future_score` and `target_copy` from any modeling dataset.",
+    "Audit stage 3: exact-deduplicate repeated rows for evaluation accounting while retaining the original duplicate in the raw audit log.",
+    "Audit stage 4: normalize mass to kg in derived analysis; case-fold category labels; treat any code remapping such as `R -> red` as a separately flagged human-reviewed transformation.",
+    "Leakage-safe split design: use entity-aware chronological splitting on deduplicated data, never random row-level splitting across the same entity.",
+    "Concrete split recommendation for this tiny sample: train on earliest dates per multi-date entities, validate/test only on later dates of those same entities, and keep singleton entities out of reported temporal generalization metrics because they cannot support within-entity chronology.",
+    "Because only entity `A` has three unique dates, any train/validation/test division will be fragile; a stronger recommendation is train/validation only for demonstration and no claim of stable generalization."
+  ],
+  "falsification_tests": [
+    "Checked whether 250 kg should be treated as an outlier error; falsified by the dictionary statement that values up to 300 kg are possible.",
+    "Checked whether `feature=99` should be treated as a bad numeric outlier; falsified by the dictionary statement that 99 is a known sentinel.",
+    "Checked whether `target_copy` might differ from `target`; falsified by row-wise equality on all records inspected.",
+    "Checked whether `future_score` might be contemporaneous with target; falsified by the dictionary statement and the consistent `+1` relationship to target."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "Do not modify or overwrite any input files.",
+      "Do not use post-target or target-derived columns in modeling or evaluation.",
+      "Do not treat documented sentinel `99` as a numeric outlier requiring deletion.",
+      "Do not label 250 kg as erroneous because the local dictionary explicitly permits values up to 300 kg.",
+      "Do not silently coerce ambiguous category code `R` into `red` without marking that step as an inference.",
+      "Avoid random row-level splits across repeated entities and dates because that would leak temporal/entity information."
+    ],
+    "notes": [
+      "A leakage-safe audit record should preserve raw data and add flags rather than perform destructive cleaning.",
+      "Given the tiny sample size, the split design is a policy recommendation rather than a statistically strong benchmark.",
+      "Because interactive mode was unavailable, no human approval step was possible for ambiguous semantic recodes."
+    ],
+    "objective": "Produce a leakage-safe audit record and a defensible evaluation split without modifying source data.",
+    "parameters": [
+      "Leakage exclusion set: `{future_score, target_copy}`.",
+      "Mass normalization rule: convert `tonne` to kg by multiplying by 1000; leave raw source untouched.",
+      "Duplicate handling rule: preserve raw rows, but mark exact duplicates and exclude repeated copies from evaluation counts.",
+      "Category normalization rule supported by evidence: case-fold labels; optional code mapping such as `R -> red` remains unverified and should require human review.",
+      "Chronological split rule: for entities with at least 3 unique dates, reserve latest date for test and previous date for validation; for entities with 2 unique dates, use earlier for train and later for validation/test only if the evaluation goal tolerates tiny folds; singleton entities should remain train-only or be excluded from temporal evaluation."
+    ],
+    "units": [
+      "`mass_value` is in `kg` or `tonne` per row and should be compared in normalized kg only in derived analysis.",
+      "`future_score`, `target_copy`, and `target` appear numeric but only `target` is a legitimate label at prediction time.",
+      "`date` is ISO-like calendar date text and supports chronological ordering."
+    ],
+    "variables": [
+      "Row fields from `data.csv`: `row_id`, `entity`, `date`, `category`, `mass_value`, `mass_unit`, `feature`, `future_score`, `target_copy`, `target`.",
+      "Derived audit fields proposed conceptually: `mass_kg`, `category_normalized`, `is_exact_duplicate`, `is_missing_feature`, `is_feature_sentinel_99`, `is_invalid_negative_mass`, `is_leakage_column`.",
+      "Split units: entity-level chronological partitions based on unique `(entity, date)` order after exact deduplication."
+    ]
+  },
+  "human_gates": [
+    "Human review is required before applying any semantic category recode beyond case normalization, especially `R -> red`.",
+    "Human review is required to decide whether the negative mass row should be corrected, excluded, or traced back to source instrumentation.",
+    "Human review is required before claiming any predictive performance from this dataset because the evaluation sample after leakage controls is extremely small."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "The repository contains only 11 data rows including one exact duplicate, so any validation design is capacity-limited.",
+    "Only four local sources provided substantive evidence: TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, case/input/data.csv, and case/input/data_dictionary.json.",
+    "`future_score` is documented as recorded one day after target, so it is unavailable at prediction time.",
+    "`target_copy` is documented as derived from target during export, so it is direct target leakage.",
+    "The data dictionary explicitly states that `99` in `feature` is a sentinel from a known device mode and that `mass_value` up to 300 kg can be valid for bulk shipments."
+  ],
+  "requirements": [
+    "Read only local repository inputs: TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, case/input/data.csv, case/input/data_dictionary.json, observation.schema.json.",
+    "Work only inside the isolated repository; preserve all inputs unchanged.",
+    "Do not use network, web search, MCP, remotes, parent directories, credentials, or historical material.",
+    "Audit injected data issues, distinguish errors from plausible extremes, preserve raw data, and design a leakage-safe split and audit record.",
+    "Return exactly one JSON object matching observation.schema.json."
+  ],
+  "robustness_tests": [
+    "Compared raw `mass_value` under mixed units with conceptual normalized kg to avoid misclassifying `0.012 tonne` as a tiny anomaly.",
+    "Separated exact verified findings from inferred possibilities so ambiguous recodes do not contaminate the audit.",
+    "Used both direct file inspection and scripted row-wise checks to reduce single-method error.",
+    "Kept recommendations conservative because the sample is too small for robust statistical validation."
+  ],
+  "run_index": 1,
+  "selected_model": null,
+  "self_reported_limitations": [
+    "Interactive clarification was unavailable, so task type was inferred rather than confirmed with the user.",
+    "No external validation, domain lookup, or historical reference was used by instruction, so conclusions are limited to local evidence.",
+    "No model was trained, and no statistical performance metric was produced, because the task evidence supported an audit-only outcome.",
+    "Schema conformance was checked manually against the local schema fields rather than with an external validator package."
+  ],
+  "sources_used": [
+    "Local file: `TASK.json`.",
+    "Local file: `runtime_metadata.json`.",
+    "Local file: `ARM_INSTRUCTION.md`.",
+    "Local file: `case/input/data.csv`.",
+    "Local file: `case/input/data_dictionary.json`.",
+    "Local file: `observation.schema.json`."
+  ],
+  "tests_claimed": [
+    "Verified repository-local inputs were read and no external sources were used.",
+    "Verified the output content was prepared against the required observation schema fields.",
+    "Verified duplicate detection, leakage checks, and basic value audits by direct inspection of the local CSV.",
+    "Verified that one attempted command failed (`python` missing) and that the successful analysis used `python3` instead."
+  ],
+  "tests_verified": [
+    "`wc -l case/input/data.csv` returned 12 lines including header, implying 11 data rows.",
+    "Direct CSV inspection showed exact duplication of the `row_id=5` record.",
+    "`python3` audit confirmed `target_copy - target = 0` for all 11 rows.",
+    "`python3` audit confirmed `future_score - target = 1` for all 11 rows.",
+    "`python3` audit confirmed `feature` missing on row 3, sentinel `99` on row 8, negative mass on row 4, and 250 kg extreme on row 9.",
+    "Schema-required top-level fields and nested required fields were included in this JSON object."
+  ],
+  "uncertainties": [
+    "Whether `R` should be normalized to `red` is not explicitly documented in the local dictionary.",
+    "Because the dataset is extremely small, any proposed validation/test split has high variance and limited evidentiary value.",
+    "The intended downstream prediction use case is not specified, so the split policy is a conservative generic temporal/entity-safe recommendation rather than task-optimized design."
+  ],
+  "validation": [
+    "The audit conclusions are directly grounded in local file contents and computed row-wise checks.",
+    "The distinction between plausible extremes and errors was validated against the local data dictionary: 250 kg is plausible; sentinel 99 is documented; negative mass is invalid.",
+    "The leakage conclusion is validated by both metadata semantics and exact numeric relationships to target.",
+    "No claim was made that ambiguous category code `R` is definitively `red`; that remains intentionally unvalidated."
+  ]
+}

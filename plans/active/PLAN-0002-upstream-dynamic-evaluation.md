@@ -186,7 +186,10 @@ evaluation if allowlists fail; qualitative review can introduce bias.
 - [x] M5 equal-arm smoke completed. The initial three records are retained; two harness-induced
   failures each received exactly one append-only run-002 calibration after the tested repair. The
   current three anonymous observations are Schema-valid and all five records remain auditable.
-- [ ] M6–M10.
+- [x] M6 executed the remaining 15 fixed arm/case cells exactly once. Ten completed and five
+  publication failures were retained. All 20 allowed real runs and both calibration runs are now
+  exhausted; no further dynamic retry is permitted.
+- [ ] M7–M10.
 
 ### Validation evidence
 
@@ -225,6 +228,15 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   `72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b`; three current
   observations exist. Calibration usage is 2/2, total real execution usage is 5/20, original
   failures remain intact, and the arm map remains unrevealed.
+- `2026-08-31` M6: remaining 15 real executions produced 10 completed and five failed records;
+  total retained evidence is 20 real runs (13 completed, seven failed including the two superseded
+  CASE-001 run-001 records) and 13 published observations. Every arm shares one task hash per case,
+  every workspace reports no remote, and all processes exited 0. Anonymous inspection found the
+  five new failures were harness semantic false positives only: narrative artifact descriptions,
+  explicit `None.`, and a sentence explicitly stating no prohibited external action. No secret,
+  private path, frozen-input mutation, network command, or MCP event was detected. With run and
+  calibration budgets exhausted, no retry is allowed; M7 may only perform hash-bound append-only
+  offline recovery while preserving the failed manifests and marking affected scores.
 
 ## 24. Interruption recovery
 

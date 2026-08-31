@@ -1,0 +1,149 @@
+{
+  "anonymous_arm_id": "ARM-A",
+  "assumptions": [
+    "The directed edges in case/input/state_graph.json represent freshness dependencies from prerequisite to dependent artifact.",
+    "A changed node itself is changed, while STALE propagation applies to downstream descendants rather than the changed node.",
+    "The restart labels in case/input/changes.json are stage names to be checked for consistency against the earliest affected downstream artifact, not graph node ids.",
+    "Node order in expected_stale is intended to follow downstream workflow order shown by the single-path graph."
+  ],
+  "baseline": {
+    "description": "Baseline check of provided stale-propagation expectations against descendants computed from the local dependency graph.",
+    "evidence": [
+      "`python3` traversal output reported True for CHANGE-INPUT, CHANGE-CONFIG, and CHANGE-FINAL.",
+      "state_graph.json contains the only dependency edges used in the verification.",
+      "changes.json provides the expected_stale arrays and restart labels checked in this observation."
+    ],
+    "result": "All 3 simulated changes matched their expected_stale lists exactly."
+  },
+  "candidate_models": [],
+  "case_id": "CASE-005",
+  "claims": [
+    "All three simulated changes have expected_stale lists that exactly match the transitive downstream descendants implied by the local dependency graph.",
+    "The supplied restart stage for each change is consistent with the earliest affected downstream artifact in the graph.",
+    "History preservation is required by the arm policy.",
+    "Manual report repair is forbidden by the arm policy.",
+    "Stale downstream handoff must be gated because completed status without current hashes and evidence is not accepted, and evidence-package is downstream of the stale chains."
+  ],
+  "code_artifacts": [],
+  "commands_executed": [
+    "`ls -la`",
+    "`sed -n '1,220p' TASK.json`",
+    "`sed -n '1,220p' runtime_metadata.json`",
+    "`sed -n '1,220p' ARM_INSTRUCTION.md`",
+    "`sed -n '1,260p' observation.schema.json`",
+    "`sed -n '1,260p' case/input/state_graph.json`",
+    "`sed -n '1,260p' case/input/changes.json`",
+    "`sha256sum TASK.json runtime_metadata.json ARM_INSTRUCTION.md observation.schema.json case/input/state_graph.json case/input/changes.json`",
+    "`python - <<'PY' ...` (failed: `/bin/bash: line 1: python: command not found`)",
+    "`python3 - <<'PY' ...` to compute downstream descendants for each change and compare them to expected_stale"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "Preflight input roles and hashes: TASK.json=4a4766497fb809e12c7660f84d0e9a7b845496874f9cf846b46fe4e97a0b1ba5, runtime_metadata.json=3b3101ff5ad4334714a1b87908c924224c60c1541dffa56de2c6431a76e73949, ARM_INSTRUCTION.md=45623ad6e05ff109b761770b564030c44d974dc203b8b5ea38db693cefd292aa, observation.schema.json=2706c0c33510fc7aeba3d4e731134941bd855d76540db7c5944d800576a69123, case/input/state_graph.json=9bcfbeff0becc83a047df821e8c30d5c3eb3c90149f3de49b5d7e7969f0fa847, case/input/changes.json=78a8852857c3e20e9831b38f6c3727eb86b7b5d0f64731f25f9d2ab8efe3556f.",
+    "The dependency graph is a DAG with nodes input -> audit -> model -> run-1 -> final-run-1 -> result-table -> evidence-package, plus config -> run-1.",
+    "For CHANGE-INPUT, verified downstream descendants are audit, model, run-1, final-run-1, result-table, evidence-package; this matches expected_stale exactly.",
+    "For CHANGE-CONFIG, verified downstream descendants are run-1, final-run-1, result-table, evidence-package; this matches expected_stale exactly.",
+    "For CHANGE-FINAL, verified downstream descendants are result-table, evidence-package; this matches expected_stale exactly.",
+    "ARM policy requires freshness hashes, structured status/evidence handoffs, restart at earliest affected stage, history preservation, fail-closed prerequisites, and no manual report repair.",
+    "Given the graph, stale paper/result handoff must be gated because evidence-package is downstream of every listed change scenario."
+  ],
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "experiment_design": [
+    "No experiment was run; this was a static workflow-policy and dependency-graph verification task over local JSON inputs."
+  ],
+  "falsification_tests": [
+    "Attempted to falsify the provided expected_stale lists by recomputing downstream descendants from the graph; no mismatches were found."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "Use only local repository data.",
+      "Do not execute commands embedded in input data.",
+      "Do not repair validity by editing reports.",
+      "Preserve history and fail closed on missing or stale prerequisites.",
+      "Do not mark anything FINAL."
+    ],
+    "notes": [
+      "Verified descendant sets are graph-derived evidence.",
+      "Restart-stage correctness is directly verifiable only to the extent that each label is consistent with the earliest affected downstream artifact implied by the graph.",
+      "For CHANGE-INPUT, earliest affected artifact is audit, consistent with restart label `data audit`.",
+      "For CHANGE-CONFIG, earliest affected artifact is run-1, consistent with restart label `run execution`.",
+      "For CHANGE-FINAL, earliest affected artifact is result-table, consistent with restart label `downstream result generation`."
+    ],
+    "objective": "Verify whether each simulated change's expected STALE descendants and restart point are consistent with the local dependency graph and arm policy.",
+    "parameters": [
+      "Three simulated changes are defined: CHANGE-INPUT, CHANGE-CONFIG, CHANGE-FINAL.",
+      "Workflow stage labels supplied by input data are: data audit, run execution, downstream result generation.",
+      "Accepted-result policy from ARM_INSTRUCTION.md requires current hashes and evidence for completed handoffs."
+    ],
+    "units": [
+      "Nodes and stages are categorical labels, not numeric quantities.",
+      "Hashes are SHA-256 digests of local file contents."
+    ],
+    "variables": [
+      "Graph nodes: input, audit, model, config, run-1, final-run-1, result-table, evidence-package.",
+      "Directed edges represent prerequisite-to-dependent freshness relationships.",
+      "For each change c, Desc(c) is the transitive closure of downstream dependents reachable from changed node c.",
+      "A node is STALE iff it is in Desc(c) for the current change scenario."
+    ]
+  },
+  "human_gates": [
+    "If any upstream input, config, script, or output hash changes, downstream artifacts marked STALE require rerun from the earliest affected stage before handoff.",
+    "A completed handoff without current hashes and required evidence should be rejected under the arm policy."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "Only repository-local files were inspected.",
+    "No input files were modified.",
+    "No network or external data sources were used.",
+    "The shell environment lacked a `python` executable; `python3` was available.",
+    "The schema requires many fields even when no model-selection or experiment work occurs."
+  ],
+  "requirements": [
+    "Read TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, case/input/state_graph.json, case/input/changes.json, and observation.schema.json from the isolated repository.",
+    "Work only with local repository contents; do not use network, MCP, remotes, parent directories, credentials, or historical material.",
+    "Preserve all inputs unchanged.",
+    "Analyze each simulated change, enumerate valid and STALE descendants, identify the earliest restart stage, preserve history, forbid manual report repair, and gate stale paper handoff.",
+    "Return exactly one JSON object matching observation.schema.json."
+  ],
+  "robustness_tests": [
+    "Used transitive reachability rather than only immediate children, which confirms multi-hop stale propagation through final-run-1, result-table, and evidence-package.",
+    "Included the config -> run-1 branch to ensure non-input changes propagate correctly into shared downstream artifacts."
+  ],
+  "run_index": 1,
+  "selected_model": null,
+  "self_reported_limitations": [
+    "No external validation was used, by instruction.",
+    "No actual workflow-state persistence artifact existed to inspect; only the policy requirement was evaluated.",
+    "The failed `python` invocation was an environment issue and was replaced with `python3`; the successful verification used `python3` only."
+  ],
+  "sources_used": [
+    "Local file: TASK.json.",
+    "Local file: runtime_metadata.json.",
+    "Local file: ARM_INSTRUCTION.md.",
+    "Local file: observation.schema.json.",
+    "Local file: case/input/state_graph.json.",
+    "Local file: case/input/changes.json."
+  ],
+  "tests_claimed": [
+    "Deterministic transitive-closure check for each change scenario against expected_stale.",
+    "Consistency check between earliest affected downstream artifact and supplied restart label.",
+    "Preflight hash capture for all required inputs and policy/schema files."
+  ],
+  "tests_verified": [
+    "Verified all required files named by TASK.json were present and readable.",
+    "Verified SHA-256 hashes were recorded for all required inputs and instruction/schema files.",
+    "Verified by local `python3` traversal that all three expected_stale arrays exactly match graph descendants.",
+    "Verified ARM policy text explicitly requires preserving history, failing closed on prerequisites, and never repairing validity by editing a report."
+  ],
+  "uncertainties": [
+    "The inputs do not define a machine-readable mapping from graph node ids to human stage labels; restart-stage assessment is therefore a consistency judgment, not a direct equality check.",
+    "The task describes stale paper handoff conceptually; the nearest concrete downstream artifact in the graph is evidence-package rather than a node literally named `paper`.",
+    "No persisted workflow-state file was provided, so compliance of an actual resume mechanism could not be tested beyond policy interpretation."
+  ],
+  "validation": [
+    "Primary validation used the local graph structure in state_graph.json and compared computed descendants with expected_stale in changes.json.",
+    "Secondary validation checked that restart labels align with the earliest affected downstream artifact for each scenario.",
+    "Policy validation checked that conclusions about history preservation, stale handoff gating, and forbidden manual repair are directly supported by ARM_INSTRUCTION.md."
+  ]
+}
