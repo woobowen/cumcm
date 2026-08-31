@@ -189,10 +189,11 @@ evaluation if allowlists fail; qualitative review can introduce bias.
 - [x] M6 executed the remaining 15 fixed arm/case cells exactly once. Ten completed and five
   publication failures were retained. All 20 allowed real runs and both calibration runs are now
   exhausted; no further dynamic retry is permitted.
-- [ ] M7 blind scoring is frozen and committed before reveal: five eligible observations were
-  recovered through hash-bound append-only records without changing FAILED manifests; one
-  read-only anonymous Reviewer completed 18 structured reviews; 18 deterministic/reviewer scores
-  are frozen. Reveal and post-reveal bias check remain.
+- [x] M7 blind scoring and reveal are complete: five eligible observations were recovered through
+  hash-bound append-only records without changing FAILED manifests; one read-only anonymous
+  Reviewer completed 18 structured reviews; 18 deterministic/reviewer scores were frozen before
+  reveal. The post-freeze mapping is ARM-A=YUSHUI, ARM-B=NO_PROJECT_MODELING_SKILL, and
+  ARM-C=HANDSOMEZR. Score hashes were preserved and no post-reveal score change was detected.
 - [ ] M8–M10.
 
 ### Validation evidence
@@ -250,6 +251,11 @@ evaluation if allowlists fail; qualitative review can introduce bias.
   ARM-B 62.5, ARM-C 60.5; min/max were 32/79, 35/82, and 23/83. No hard failure was detected.
   Five recovered scores are `affected_by_run_failure=true` with LOW confidence. `score --check`,
   review check, recovery check, full CI (75 passed), and strict validation all passed before reveal.
+- `2026-08-31` M7 reveal: `score_freeze.json` remained hash-bound and unchanged while a separate
+  Schema-valid `reveal_record.json` disclosed ARM-A=YUSHUI, ARM-B=NO_PROJECT_MODELING_SKILL, and
+  ARM-C=HANDSOMEZR. The reveal record binds 18 frozen scores and reports
+  `NO_POST_REVEAL_SCORE_CHANGE_DETECTED`; reveal/score checks and strict validation passed. The
+  observed medians remain evidence for proposals only and do not select a base.
 
 ## 24. Interruption recovery
 

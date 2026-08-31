@@ -1,0 +1,42 @@
+{
+  "actual_arm_details": [
+    {
+      "actual_arm_id": "YUSHUI",
+      "anonymous_arm_id": "ARM-A",
+      "candidate_id": "yushui-mathmodel-skill",
+      "evaluation_mode": "SANITIZED_INSTRUCTION_ONLY_WITH_LICENSE_BLOCKER"
+    },
+    {
+      "actual_arm_id": "NO_PROJECT_MODELING_SKILL",
+      "anonymous_arm_id": "ARM-B",
+      "candidate_id": null,
+      "evaluation_mode": "NEUTRAL_BASELINE"
+    },
+    {
+      "actual_arm_id": "HANDSOMEZR",
+      "anonymous_arm_id": "ARM-C",
+      "candidate_id": "handsomezr-mathmodel-skill",
+      "evaluation_mode": "SANITIZED_INSTRUCTION_ONLY"
+    }
+  ],
+  "anonymous_to_actual": {
+    "ARM-A": "YUSHUI",
+    "ARM-B": "NO_PROJECT_MODELING_SKILL",
+    "ARM-C": "HANDSOMEZR"
+  },
+  "correction_records": [],
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "identity_bias_check": "NO_POST_REVEAL_SCORE_CHANGE_DETECTED",
+  "initial_scores_modified": false,
+  "mapping_hash": "78b3784f5a826df0399b1472500e07dde101ea8bb26686adab6a2940df0aa310",
+  "reveal_id": "REVEAL-PHASE-002-FIRST-ROUND",
+  "revealed_after_freeze": true,
+  "revealed_at": "2026-08-31T10:10:33.283763Z",
+  "schema_version": "1.0.0",
+  "score_count": 18,
+  "score_freeze_hash": "c0bf09d9fa118953813e27f234c6f36be87e18205fc5948ca3dd9c2f800c6582",
+  "score_freeze_path": "evals/results/phase-002/score_freeze.json",
+  "score_hashes_preserved": true,
+  "status": "IDENTITIES_REVEALED_AFTER_SCORE_FREEZE"
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/eval-reveal/v1",
+  "title": "Post-freeze Evaluation Identity Reveal",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "reveal_id", "evaluation_id", "status", "score_freeze_path", "score_freeze_hash", "score_count", "mapping_hash", "anonymous_to_actual", "actual_arm_details", "frozen_at", "revealed_at", "revealed_after_freeze", "score_hashes_preserved", "initial_scores_modified", "identity_bias_check", "correction_records"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "reveal_id": {"const": "REVEAL-PHASE-002-FIRST-ROUND"},
+    "evaluation_id": {"const": "PHASE-002-FIRST-ROUND"},
+    "status": {"const": "IDENTITIES_REVEALED_AFTER_SCORE_FREEZE"},
+    "score_freeze_path": {"const": "evals/results/phase-002/score_freeze.json"},
+    "score_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "score_count": {"const": 18},
+    "mapping_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "anonymous_to_actual": {
+      "type": "object",
+      "required": ["ARM-A", "ARM-B", "ARM-C"],
+      "properties": {
+        "ARM-A": {"enum": ["NO_PROJECT_MODELING_SKILL", "HANDSOMEZR", "YUSHUI"]},
+        "ARM-B": {"enum": ["NO_PROJECT_MODELING_SKILL", "HANDSOMEZR", "YUSHUI"]},
+        "ARM-C": {"enum": ["NO_PROJECT_MODELING_SKILL", "HANDSOMEZR", "YUSHUI"]}
+      },
+      "additionalProperties": false
+    },
+    "actual_arm_details": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["anonymous_arm_id", "actual_arm_id", "candidate_id", "evaluation_mode"],
+        "properties": {
+          "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+          "actual_arm_id": {"enum": ["NO_PROJECT_MODELING_SKILL", "HANDSOMEZR", "YUSHUI"]},
+          "candidate_id": {"type": ["string", "null"]},
+          "evaluation_mode": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "frozen_at": {"type": "string", "minLength": 1},
+    "revealed_at": {"type": "string", "minLength": 1},
+    "revealed_after_freeze": {"const": true},
+    "score_hashes_preserved": {"const": true},
+    "initial_scores_modified": {"const": false},
+    "identity_bias_check": {"const": "NO_POST_REVEAL_SCORE_CHANGE_DETECTED"},
+    "correction_records": {"type": "array", "maxItems": 0}
+  },
+  "additionalProperties": false
+}
