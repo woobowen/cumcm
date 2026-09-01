@@ -244,9 +244,9 @@ the Skill stays scaffold-only until a later implementation phase.
 5. **M5 Batch 1 — COMPLETE** — one complete block was attempted in frozen order; all three records
    are primary eligible and retained; checkpoint/cost/score-audit/status passed; business commit
    `dcff679` is remotely delivered and verified.
-6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
-   condition with exact status. Batches 2 through 6 are remotely delivered; the final A03 attempt
-   is next.
+6. **M6 later batches — TERMINAL LOCALLY** — each bounded batch is verified/committed/pushed; the
+   final A03 is excluded by HARD-FAIL-003 and cumulative elapsed crosses the frozen limit. Runner
+   is STOPPED with `ELAPSED_BUDGET_REACHED`; Batch 7 awaits delivery.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
    hard Gates.
 8. **M8 audits/decisions** — four independent first-round audits; all BLOCKER tests executed; five
@@ -372,7 +372,13 @@ affected hashes and acceptance changes before further scored work.
 - `2026-09-01T21:11:44+08:00`: Retry Batch 6 business commit
   `8efe3f2fa790a27861094d944484ded0f4fc2f24` was pushed normally and verified byte-for-byte at the
   task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
+- `2026-09-01T21:16:58+08:00`: M6 terminal Batch 7 ran the final CASE-001/ARM-A/R2/A03. It
+  completed Schema-valid with process PASS but is excluded by authoritative HARD-FAIL-003 because
+  no publishable files were written. Cumulative attempts/eligible are 28/18; balanced cases remain
+  three and repeat depth zero. Elapsed reached 6,228.480778 seconds, so runner status is STOPPED
+  with `ELAPSED_BUDGET_REACHED`. Cost `a9b97f47...` and score audit `5b84b5a2...` pass. No further
+  model start or native Subagent audit is allowed.
 
 ## 24. Current next step
 
-Dry-run and execute the final A03 attempt; retain the frozen hard-stop result without further starts.
+Validate and deliver terminal Batch 7, then generate the formal M7 insufficiency record offline.
