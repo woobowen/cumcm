@@ -1,6 +1,6 @@
 # PLAN-0002C — Deterministic Evidence Sufficiency Adjudication
 
-Status: `TECHNICAL_COMPLETE_DELIVERY_PENDING`
+Status: `COMPLETE`
 Phase: `PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C`
 Owner: main agent
 Started: `2026-09-01T11:57:13+08:00`
@@ -195,12 +195,15 @@ result, blocker, and available evidence hash.
 - Transport remains historically unresolved. This does not block the audited insufficiency result,
   because no semantic role or transport output is needed after the frozen pre-adjudication Gate
   short-circuits candidate comparison.
+- `2026-09-01T14:30:11+08:00`: M8 completed for acceptance commit
+  `f9aea6b47de57ed0dba9b84670d95d34ee3f65dc`: normal push succeeded, local and remote SHA matched,
+  Draft PR #2 remained open and Draft, and remote `offline-validation` passed in 34 seconds. No
+  force-push, merge, `main` mutation, Phase 002D execution, or Phase 003 transition occurred.
 
 ## 11. Next step
 
-Generate the state-derived reports, run and record the full validation command ledger, finalize the
-acceptance report, then complete M8 through atomic commits, normal push, remote-SHA verification,
-Draft PR #2 update, and remote CI observation. Do not start Phase 002D or Phase 003.
+Wait for explicit authorization to start `PHASE-EVIDENCE-EXPANSION-002D`. The phase is allowed but
+not started; Phase 003 remains prohibited.
 
 ## 12. Rollback and update rule
 
