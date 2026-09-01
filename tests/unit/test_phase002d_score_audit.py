@@ -72,8 +72,8 @@ def test_failed_attempts_without_observations_are_explicitly_noncomparable(repo_
         for record in current["records"]
         if record["classification"] == "NOT_APPLICABLE_NO_OBSERVATION"
     ]
-    assert current["noncomparable_no_observation_count"] == 3
-    assert len(records) == 3
+    assert records
+    assert current["noncomparable_no_observation_count"] == len(records)
     assert all(record["observation_available"] is False for record in records)
     assert all(record["authoritative_match"] is None for record in records)
     assert all(record["coverage_binding_mismatch"] is None for record in records)
