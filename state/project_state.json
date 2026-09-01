@@ -1,12 +1,12 @@
 {
   "project_id": "cumcm-skill-lab",
   "schema_version": "2.0.0",
-  "phase": "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B",
+  "phase": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C",
   "status": "IN_PROGRESS",
-  "current_plan": "plans/active/PLAN-0002B-adjudication-transport-recovery.md",
+  "current_plan": "plans/active/PLAN-0002C-evidence-sufficiency.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/upstream-dynamic-eval",
-  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_INCOMPLETE",
+  "technical_adjudication_status": "AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS",
   "automated_decision_ids": [],
   "selected_architecture": null,
   "accepted_component_specifications": [],
@@ -25,12 +25,10 @@
   },
   "team_compliance_review_status": "NOT_RUN",
   "blockers": [
-    "CODEX_TRANSPORT_BLOCKED_AFTER_THREE_ATTEMPTS",
-    "CORRECTNESS_JUDGE_TRANSPORT_EXHAUSTED_RESPONSES_CONNECT_RESET",
-    "BLIND_ADJUDICATION_NOT_COMPLETE",
-    "META_ADJUDICATION_NOT_RUN",
-    "DECISION_AUDIT_NOT_RUN",
-    "FORMAL_ADJUDICATION_RECOVERY_FAILED"
+    "PHASE_002C_INPUT_FREEZE_PENDING",
+    "NATIVE_SUBAGENT_AUDITS_PENDING",
+    "PHASE_002C_DECISION_AUDIT_PENDING",
+    "PHASE_002C_REPLAY_PENDING"
   ],
   "risks": [
     "Phase 002 technical proposals are historical evidence pending automated re-adjudication.",
@@ -46,6 +44,6 @@
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T02:51:25+08:00",
+  "updated_at": "2026-09-01T11:57:13+08:00",
   "updated_by": "main-agent"
 }

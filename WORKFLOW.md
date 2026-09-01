@@ -8,7 +8,8 @@ cannot select a model, architecture, or component and cannot override technical 
 
 | State | Required evidence/check | Allowed next | Failure/uncertainty |
 |---|---|---|---|
-| `CANDIDATES_FROZEN` | candidate set, policy hash, evidence freeze | `ADVERSARIAL_REVIEW_COMPLETE` | `STALE` |
+| `CANDIDATES_FROZEN` | candidate set, policy hash, evidence freeze | `PRE_ADJUDICATION_EVIDENCE_GATE` | `STALE` |
+| `PRE_ADJUDICATION_EVIDENCE_GATE` | freeze integrity, target hard Gates, primary eligibility, balanced complete cases, independent repeats | `ADVERSARIAL_REVIEW_COMPLETE` only when comparison is sufficient; otherwise audited terminal decision | `EVIDENCE_INSUFFICIENT`, `AUTOMATED_REJECTED`, or `STALE` |
 | `ADVERSARIAL_REVIEW_COMPLETE` | six independent attack roles; no result sharing | `TESTS_SYNTHESIZED` | `AUTOMATED_ADJUDICATION_INCOMPLETE` |
 | `TESTS_SYNTHESIZED` | each BLOCKER/ERROR has test request or non-testable marker | `EVIDENCE_EXECUTED` | `RETEST_REQUIRED` |
 | `EVIDENCE_EXECUTED` | deterministic test evidence; recovery excluded from rank | `BLIND_ADJUDICATION_COMPLETE` | `EVIDENCE_INSUFFICIENT` |
@@ -22,9 +23,16 @@ cannot select a model, architecture, or component and cannot override technical 
 | `AUTOMATED_ABSTAINED` | conflict, instability, or unresolved blocker prevents decision | new frozen evidence plan | `STALE` |
 | `STALE` | dependency or supported challenge changed | earliest valid predecessor | remain `STALE` |
 
-The nominal success path is:
+The nominal acceptance path is:
 
-`CANDIDATES_FROZEN → ADVERSARIAL_REVIEW_COMPLETE → TESTS_SYNTHESIZED → EVIDENCE_EXECUTED → BLIND_ADJUDICATION_COMPLETE → META_ADJUDICATION_COMPLETE → DECISION_AUDIT_COMPLETE → AUTOMATED_ACCEPTED`.
+`CANDIDATES_FROZEN → PRE_ADJUDICATION_EVIDENCE_GATE → ADVERSARIAL_REVIEW_COMPLETE → TESTS_SYNTHESIZED → EVIDENCE_EXECUTED → BLIND_ADJUDICATION_COMPLETE → META_ADJUDICATION_COMPLETE → DECISION_AUDIT_COMPLETE → AUTOMATED_ACCEPTED`.
+
+The pre-adjudication Gate is deterministic and non-voting. It does not change thresholds. When a
+frozen balanced-case or repeat minimum fails, candidate-quality semantic Judges and ranking are
+skipped; independent attacks and Decision Audit validate the deterministic
+`EVIDENCE_INSUFFICIENT` record, which may route only to a new frozen evidence-expansion plan. A
+target-specific mandatory hard Gate may similarly produce `AUTOMATED_REJECTED` without asking a
+semantic Judge to average it away.
 
 Transport recovery does not create a lifecycle shortcut. Resume uses the exact recorded
 session/thread and unchanged role inputs; an eligible fallback Adapter still consumes the same

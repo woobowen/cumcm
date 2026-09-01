@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.3-evidence-sufficiency — 2026-09-01
+
+- Started Phase 002C to place deterministic evidence sufficiency and target-specific hard Gates
+  before candidate-quality semantic Judges without changing the frozen thresholds.
+- Archived the incomplete Phase 002B plan while preserving its two connect-reset failures and all
+  transport recovery assets as historical engineering evidence.
+- Kept the formal Skill at `0.1.0-foundation`/`SCAFFOLD_ONLY`, with no base selection, third-party
+  integration, Phase 003 entry, or Phase 002D experiment execution.
+
 ## 0.2.2-adjudication-recovery — 2026-09-01
 
 - Added deterministic role-specific evidence bundles, exact-session checkpoints, resumable Codex
