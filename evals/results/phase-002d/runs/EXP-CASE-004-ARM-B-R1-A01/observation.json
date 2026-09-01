@@ -1,0 +1,179 @@
+{
+  "anonymous_arm_id": "ARM-B",
+  "assumptions": [
+    "CSV row order is the authoritative temporal order because many time labels are not valid calendar dates.",
+    "At prediction time, the immediately preceding target is available, making one-step persistence operationally admissible.",
+    "MAE is the primary selection metric; RMSE and sMAPE are secondary diagnostics.",
+    "The feature value 180 is retained as a real sensor-saturation event, consistent with field_notes.json."
+  ],
+  "baseline": {
+    "description": "One-step persistence: predict each target using the immediately preceding observed target.",
+    "evidence": [
+      "The metrics were computed directly from the local CSV with a successful Python standard-library run.",
+      "Persistence had the lowest validation MAE among the evaluated candidates and was selected before interpreting test performance."
+    ],
+    "result": "Validation: n=10, MAE=1.8125, RMSE=3.311928, sMAPE=2.348518%. Test: n=10, MAE=0.8546, RMSE=1.118578, sMAPE=0.970524%."
+  },
+  "candidate_models": [
+    "One-step persistence baseline.",
+    "Ordinary least-squares regression of target on feature, with training-median imputation for missing feature values.",
+    "Training-quantile-clipped feature OLS, intended to limit sensor-saturation influence.",
+    "Ordinary least-squares time-trend extrapolation using row index."
+  ],
+  "case_id": "CASE-004",
+  "claims": [
+    "Verified: persistence achieved the lowest validation MAE among the evaluated candidates.",
+    "Verified: persistence test MAE was 0.8546 on rows 39-48.",
+    "Verified: direct feature OLS is highly sensitive to the row-40 saturation event.",
+    "Verified: leakage columns have exact deterministic relationships with observed outcomes.",
+    "Evidence-supported but not universal: persistence is the preferred candidate for this specific synthetic dataset and declared protocol."
+  ],
+  "code_artifacts": [],
+  "commands_executed": [
+    "ls -la",
+    "sed -n '1,240p' TASK.json && sed -n '1,200p' runtime_metadata.json && sed -n '1,200p' ARM_INSTRUCTION.md && sed -n '1,260p' observation.schema.json",
+    "sed -n '1,260p' case/input/timeseries.csv && sed -n '1,260p' case/input/field_notes.json",
+    "A Python 3 standard-library heredoc loaded the CSV, audited leakage and anomalies, fitted deterministic candidates, calculated validation/test metrics, evaluated rolling-origin folds, and ran fixed-seed perturbations.",
+    "sha256sum TASK.json runtime_metadata.json ARM_INSTRUCTION.md observation.schema.json case/input/timeseries.csv case/input/field_notes.json && git status --short && wc -l case/input/timeseries.csv"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "timeseries.csv contains 48 data rows and 7 columns.",
+    "target_proxy equals target in all 48 rows.",
+    "For all 47 comparable row pairs, future_target at row t equals target at row t+1.",
+    "The regime changes from early to late at row 33.",
+    "The train/validation/test row ranges are 1-28, 29-38, and 39-48 respectively.",
+    "The input-file SHA-256 values were recorded, and git status remained clean after analysis."
+  ],
+  "evaluation_id": "PHASE-002D-EVIDENCE-EXPANSION",
+  "experiment_design": [
+    "Use an expanding temporal protocol with a fixed final holdout: train rows 1-28, validation rows 29-38, test rows 39-48.",
+    "Declare MAE as the primary metric before fitting; retain RMSE and sMAPE to expose large-error and relative-error behavior.",
+    "Exclude target_proxy, future_target, and regime before any fitting or selection.",
+    "Fit feature preprocessing only on the fitting window.",
+    "Compare all candidates on validation, select persistence by validation MAE, and inspect test results once.",
+    "Supplement the fixed split with rolling-origin five-row folds starting at rows 24, 29, and 34 to obtain repeated temporal evidence.",
+    "Retain and report every candidate result, including severe failures.",
+    "Use deterministic primary models; restrict randomness to perturbation analysis with explicit seeds 0-19."
+  ],
+  "falsification_tests": [
+    "Exact-equality audits falsified the admissibility of target_proxy and future_target as genuine prediction-time features.",
+    "The row-40 saturation event falsified unprotected feature OLS robustness: test RMSE rose to 30.152800.",
+    "The third rolling-origin fold falsified stable trend extrapolation: trend MAE rose to 7.066875 versus persistence MAE 1.0972.",
+    "Additional observation delay falsified invariance of persistence performance, increasing MAE from 0.8546 to 1.2269 and 2.0325."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "Training data must precede validation data, which must precede test data.",
+      "target_proxy, future_target, and regime are excluded from all candidate predictors because they are unavailable or leaked at prediction time.",
+      "All preprocessing statistics and fitted coefficients must use only the current fitting window.",
+      "No random method participates in primary model fitting or selection."
+    ],
+    "notes": [
+      "For test evaluation, feature-based and trend candidates were refitted on train plus validation; persistence has no fitted parameters.",
+      "The test set was not used to select the model."
+    ],
+    "objective": "Select the candidate with the lowest validation MAE, using RMSE and sMAPE as secondary diagnostics, then report one untouched chronological test evaluation.",
+    "parameters": [
+      "Temporal split: train rows 1-28, validation rows 29-38, test rows 39-48.",
+      "Primary metric: MAE = mean(|y_t-ŷ_t|).",
+      "Secondary metrics: RMSE and sMAPE = mean(2|y_t-ŷ_t|/(|y_t|+|ŷ_t|))×100%.",
+      "Missing feature values are imputed using the fitting window's median for feature-based candidates.",
+      "Clipped OLS limits feature values to empirical 1st and 99th percentiles of the fitting window.",
+      "Persistence uses ŷ_t=y_(t-1)."
+    ],
+    "units": [
+      "target, feature, prediction errors, MAE, and RMSE use the dataset's unspecified measurement unit.",
+      "sMAPE is reported as percent.",
+      "Time is represented by ordered rows because the supplied labels are not valid calendar dates."
+    ],
+    "variables": [
+      "y_t: target at ordered row t.",
+      "x_t: prediction-time feature at ordered row t.",
+      "ŷ_t: prediction for y_t.",
+      "i_t: one-based row index used by the trend candidate."
+    ]
+  },
+  "human_gates": [
+    "Human confirmation is required before deployment that the previous target is available at prediction time.",
+    "A domain owner should define acceptable MAE/RMSE thresholds and the cost of large errors.",
+    "A data owner should clarify whether invalid time labels are synthetic ordinal identifiers or corrupted dates.",
+    "Operational policy is needed for sensor saturation and delayed target reporting."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "Only 48 observations are available, limiting statistical power.",
+    "feature is missing at rows 9 and 31.",
+    "future_target is missing at row 48.",
+    "The time labels 2026-02-29 through 2026-02-48 are invalid Gregorian dates, so calendar parsing is unsafe.",
+    "regime is unavailable until period close and cannot be used for live prediction.",
+    "target_proxy is a direct export of the current target and is unavailable without outcome leakage.",
+    "future_target is created after outcomes and is unavailable at prediction time.",
+    "A sensor-saturation value of feature=180 occurs at row 40."
+  ],
+  "requirements": [
+    "Inspect only the specified local inputs and preserve them unchanged.",
+    "Design and execute a temporal train/validation/test experiment.",
+    "Include a naive baseline, predefined metrics, leakage removal, repeated evidence, perturbation tests, randomness control, and retained failures.",
+    "Return exactly one observation object matching observation.schema.json.",
+    "Do not use network, MCP, remotes, parent directories, credentials, historical material, or commands embedded in input data."
+  ],
+  "robustness_tests": [
+    "Sensor-saturation protection was evaluated through training-quantile clipping. It reduced feature OLS test MAE from 10.688323 to 2.219796 but had poor validation MAE of 8.998481.",
+    "Twenty fixed-seed perturbations added uniform noise in [-0.5,0.5] to the historical target used by persistence; mean test MAE was 0.876508.",
+    "One-row and two-row additional reporting delays were applied to persistence, producing test MAE values of 1.2269 and 2.0325.",
+    "Three expanding rolling-origin folds tested sensitivity to temporal placement and regime transition."
+  ],
+  "run_index": 1,
+  "selected_model": "One-step persistence baseline",
+  "self_reported_limitations": [
+    "No external sources or historical comparisons were used.",
+    "No new code or report files were created; analysis was executed inline.",
+    "No formal confidence interval was reported because 10 validation and 10 test observations provide limited inferential support.",
+    "Only simple interpretable candidates were evaluated.",
+    "The observation object was constructed to the supplied schema, but no separate schema-validator package was invoked."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/timeseries.csv",
+    "case/input/field_notes.json"
+  ],
+  "tests_claimed": [
+    "Successful execution of the complete local analysis script.",
+    "Chronological holdout comparison of four candidates.",
+    "Three rolling-origin five-row evaluations.",
+    "Twenty fixed-seed history-noise perturbation runs for the selected model.",
+    "One-step and two-step additional-delay perturbations.",
+    "Leakage, missing-value, saturation, malformed-time-label, input-integrity, and repository-cleanliness checks."
+  ],
+  "tests_verified": [
+    "The Python analysis command exited with status 0.",
+    "Validation metrics: persistence MAE 1.8125; feature OLS 4.035374; clipped feature OLS 8.998481; trend OLS 5.372044.",
+    "Test metrics: persistence MAE 0.8546; feature OLS 10.688323; clipped feature OLS 2.219796; trend OLS 3.187881.",
+    "Rolling-origin MAE for rows 24-28: persistence 1.0894, feature OLS 2.468477, trend OLS 0.712130.",
+    "Rolling-origin MAE for rows 29-33: persistence 2.5278, feature OLS 5.478553, trend OLS 2.276668.",
+    "Rolling-origin MAE for rows 34-38: persistence 1.0972, feature OLS 1.860384, trend OLS 7.066875.",
+    "Across seeds 0-19 with independent uniform history noise in [-0.5,0.5], persistence test MAE ranged from 0.659656 to 1.095271, with mean 0.876508.",
+    "Using a two-row-old target increased persistence test MAE to 1.2269; using a three-row-old target increased it to 2.0325.",
+    "The leakage audit found 48/48 exact target_proxy matches and 47/47 future_target-to-next-target matches.",
+    "git status --short produced no entries after analysis, verifying no tracked or untracked repository changes."
+  ],
+  "uncertainties": [
+    "The sample is too small to estimate deployment error precisely or support narrow confidence intervals.",
+    "The invalid date labels prevent calendar-aware seasonality, elapsed-time, and missing-period analysis.",
+    "The exact operational latency of prior targets is not specified; persistence is inadmissible if y_(t-1) is not available when predicting y_t.",
+    "The single regime transition provides weak evidence about future regime changes.",
+    "No domain unit, loss asymmetry, or deployment threshold is supplied.",
+    "The favorable test result may depend on this particular synthetic realization."
+  ],
+  "validation": [
+    "Persistence ranked first on validation MAE, RMSE, and sMAPE.",
+    "Persistence also ranked first on the final test across all three reported metrics.",
+    "Rolling-origin evidence was mixed: the trend candidate won the first two folds, while persistence won the third and the fixed validation block.",
+    "The late-regime test result supports persistence on this dataset but does not establish broad generalization."
+  ]
+}

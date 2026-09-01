@@ -245,7 +245,8 @@ the Skill stays scaffold-only until a later implementation phase.
    are primary eligible and retained; checkpoint/cost/score-audit/status passed; business commit
    `dcff679` is remotely delivered and verified.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
-   condition with exact status. Batch 2 is remotely delivered; Batch 3 is next.
+   condition with exact status. Batch 2 is remotely delivered; Batch 3 is validated locally and
+   awaiting delivery.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
    hard Gates.
 8. **M8 audits/decisions** — four independent first-round audits; all BLOCKER tests executed; five
@@ -335,7 +336,13 @@ affected hashes and acceptance changes before further scored work.
   isolated coverage-binding limitations. No retry ran and no later block started.
 - `2026-09-01T19:42:09+08:00`: Batch 2 business commit
   `81b6b798bc95e7087ef3ccae4931e6bb1c70b47b` was pushed and verified at the task-branch ref.
+- `2026-09-01T20:07:47+08:00`: M6 Batch 3 completed CASE-002/R2 and CASE-004/R1 in frozen order.
+  All six new records are primary eligible; CASE-002 now has two complete repeats and CASE-004 has
+  one. Cumulative attempts/eligible are 15/14, balanced cases are CASE-001/002/004, observed
+  input/output are 2,739,660/147,675, and elapsed is 3,192.763951 seconds. Cost `37657847...` and
+  authoritative score audit `1be00ad2...` pass; original oracle outcomes include three CASE-004
+  failures and remain retained.
 
 ## 24. Current next step
 
-Run M6 Batch 3 with the next six frozen primary attempts, then stop for validation, commit and push.
+Validate, commit and remotely deliver M6 Batch 3 before starting Batch 4.
