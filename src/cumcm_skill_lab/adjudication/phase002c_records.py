@@ -223,24 +223,32 @@ def evaluate_direct_adoption_gates(
     leakage = str(candidate.get("answer_leakage_risk", "UNKNOWN")).upper()
     integration = str(candidate.get("integration_conflict_risk", "UNKNOWN")).upper()
     state = str(candidate.get("state_management", "UNKNOWN")).upper()
+    skills = candidate.get("skill_names")
+    dangerous = candidate.get("dangerous_or_privileged_instructions")
+    network = candidate.get("network_dependencies")
+    recognized_permissive_licenses = {
+        "APACHE-2.0",
+        "BSD-2-CLAUSE",
+        "BSD-3-CLAUSE",
+        "ISC",
+        "MIT",
+    }
     return {
-        "license": not any(term in license_status for term in ("UNKNOWN", "EXCLUSION")),
-        "answer_contamination": not any(
-            term in leakage for term in ("HIGH", "BLOCKER", "ANSWER", "PAPER")
-        ),
-        "scope_conflict": review_status != "COMPLETE_FOR_EVALUATION_ONLY",
-        "second_state_source": not any(
-            term in state for term in ("STATE", "DECISION LOG", "WORKFLOW MEMORY")
-        ),
-        "second_orchestrator": not any(
-            term in integration for term in ("HIGH", "BLOCKER", "ORCHESTR")
-        )
-        and len(candidate.get("skill_names", [])) <= 1,
-        "security": not candidate.get("dangerous_or_privileged_instructions")
-        and not candidate.get("network_dependencies"),
-        "full_runtime_verification": bool(
-            third_party_code_executed and candidate_dependencies_installed
-        ),
+        "license": license_status in recognized_permissive_licenses,
+        "answer_contamination": leakage.startswith("LOW"),
+        "scope_conflict": review_status == "FULL_RUNTIME_VERIFIED",
+        "second_state_source": state == "NONE",
+        "second_orchestrator": integration.startswith("LOW")
+        and isinstance(skills, list)
+        and len(skills) == 1
+        and isinstance(skills[0], str)
+        and bool(skills[0]),
+        "security": isinstance(dangerous, list)
+        and not dangerous
+        and isinstance(network, list)
+        and not network,
+        "full_runtime_verification": third_party_code_executed is True
+        and candidate_dependencies_installed is True,
     }
 
 

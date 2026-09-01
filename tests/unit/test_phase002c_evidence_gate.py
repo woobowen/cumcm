@@ -24,6 +24,7 @@ from cumcm_skill_lab.adjudication.phase002c_reporting import (
 )
 from cumcm_skill_lab.adjudication.phase_routing import build_phase_route
 from cumcm_skill_lab.adjudication.pre_adjudication import (
+    build_comparative_hard_gates,
     evaluate_comparative_hard_gates,
     recovery_exclusion_passed,
     verify_input_freeze,
@@ -256,6 +257,42 @@ def test_each_inherited_hard_gate_is_explicit_and_fail_closed(gate):
 
 
 @pytest.mark.parametrize(
+    "arms",
+    [
+        [],
+        [{"candidate_id": None}],
+        [
+            {
+                "candidate_id": "candidate-h",
+                "direct_adoption_eligible": False,
+                "contamination_status": "PASS_AFTER_NORMALIZATION",
+            }
+        ],
+    ],
+)
+def test_comparative_hard_gates_require_complete_candidate_coverage(monkeypatch, arms, repo_root):
+    import cumcm_skill_lab.adjudication.pre_adjudication as pre
+
+    review = {
+        "arms": arms,
+        "third_party_code_executed": False,
+        "candidate_dependencies_installed": False,
+        "review_status": "COMPLETE_FOR_EVALUATION_ONLY",
+    }
+    monkeypatch.setattr(pre, "read_json", lambda _path: review)
+    monkeypatch.setattr(
+        pre,
+        "resolve_config",
+        lambda _root: {
+            "direct_adoption_targets": {"HANDSOMEZR": "candidate-h", "YUSHUI": "candidate-y"}
+        },
+    )
+    gates = build_comparative_hard_gates(repo_root)
+    assert gates
+    assert all(item["passed"] is False for item in gates)
+
+
+@pytest.mark.parametrize(
     ("items", "expected"),
     [([], True), ([{"ranking_eligible": False}], True), ([{"ranking_eligible": True}], False)],
 )
@@ -465,7 +502,9 @@ def _gates(candidate: dict, arm: dict, **kwargs) -> dict[str, bool]:
     )
 
 
-@pytest.mark.parametrize("license_status", ["UNKNOWN_NO_LICENSE", "MIT_WITH_EXCLUSIONS"])
+@pytest.mark.parametrize(
+    "license_status", ["", "UNKNOWN_NO_LICENSE", "MIT_WITH_EXCLUSIONS", "UNRECOGNIZED"]
+)
 def test_license_hard_gate_rejects_unknown_or_excluded(license_status):
     candidate, arm = _safe_candidate()
     arm["license_status"] = license_status
@@ -522,6 +561,48 @@ def test_full_runtime_gate_requires_execution_and_dependencies(executed, install
         )["full_runtime_verification"]
         is False
     )
+
+
+def test_direct_adoption_known_safe_evidence_passes_all_gates():
+    candidate, arm = _safe_candidate()
+    assert all(_gates(candidate, arm).values())
+
+
+@pytest.mark.parametrize(
+    ("field", "gate"),
+    [
+        ("answer_leakage_risk", "answer_contamination"),
+        ("integration_conflict_risk", "second_orchestrator"),
+        ("state_management", "second_state_source"),
+        ("skill_names", "second_orchestrator"),
+        ("dangerous_or_privileged_instructions", "security"),
+        ("network_dependencies", "security"),
+    ],
+)
+def test_direct_adoption_missing_evidence_fails_closed(field, gate):
+    candidate, arm = _safe_candidate()
+    candidate.pop(field)
+    assert _gates(candidate, arm)[gate] is False
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "gate"),
+    [
+        ("answer_leakage_risk", "UNKNOWN", "answer_contamination"),
+        ("integration_conflict_risk", "UNKNOWN", "second_orchestrator"),
+        ("state_management", "UNKNOWN", "second_state_source"),
+    ],
+)
+def test_direct_adoption_unknown_evidence_fails_closed(field, value, gate):
+    candidate, arm = _safe_candidate()
+    candidate[field] = value
+    assert _gates(candidate, arm)[gate] is False
+
+
+@pytest.mark.parametrize("review_status", ["", "UNKNOWN", "COMPLETE_FOR_EVALUATION_ONLY"])
+def test_direct_adoption_unverified_scope_fails_closed(review_status):
+    candidate, arm = _safe_candidate()
+    assert _gates(candidate, arm, review_status=review_status)["scope_conflict"] is False
 
 
 def test_component_value_is_not_an_input_to_whole_package_gates():

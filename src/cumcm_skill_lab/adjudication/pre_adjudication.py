@@ -277,17 +277,27 @@ def build_comparative_hard_gates(root: Path) -> list[dict[str, Any]]:
     review = read_json(
         root / "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
     )
+    config = resolve_config(root)
     candidate_arms = [item for item in review["arms"] if item.get("candidate_id")]
+    expected_candidate_ids = set(config["direct_adoption_targets"].values())
+    observed_candidate_ids = [item["candidate_id"] for item in candidate_arms]
+    candidate_coverage_complete = (
+        bool(candidate_arms)
+        and len(observed_candidate_ids) == len(set(observed_candidate_ids))
+        and set(observed_candidate_ids) == expected_candidate_ids
+    )
     values = evaluate_comparative_hard_gates(
-        no_direct_adoption=all(
-            item.get("direct_adoption_eligible") is False for item in candidate_arms
-        ),
-        normalized_contamination_safe=all(
+        no_direct_adoption=candidate_coverage_complete
+        and all(item.get("direct_adoption_eligible") is False for item in candidate_arms),
+        normalized_contamination_safe=candidate_coverage_complete
+        and all(
             str(item.get("contamination_status", "")).startswith("PASS") for item in candidate_arms
         ),
-        no_third_party_execution=review["third_party_code_executed"] is False
-        and review["candidate_dependencies_installed"] is False,
-        evaluation_scope_only=review["review_status"] == "COMPLETE_FOR_EVALUATION_ONLY",
+        no_third_party_execution=candidate_coverage_complete
+        and review.get("third_party_code_executed") is False
+        and review.get("candidate_dependencies_installed") is False,
+        evaluation_scope_only=candidate_coverage_complete
+        and review.get("review_status") == "COMPLETE_FOR_EVALUATION_ONLY",
     )
     return [
         {
