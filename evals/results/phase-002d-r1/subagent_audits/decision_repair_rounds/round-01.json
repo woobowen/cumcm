@@ -1,0 +1,99 @@
+{
+  "round_id": "PHASE-002D-R1-DECISION-AUDIT-REPAIR-ROUND-01",
+  "audit_id": "AUDIT-PHASE-002D-R1-FAILURE-AWARE-DECISION-POST-DECISION",
+  "bundle_id": "PHASE-002D-R1-NATIVE-FAILURE_AWARE_DECISION_AUDITOR",
+  "bundle_hash": "aa72638ae5cae237a7e44beed52cd8e2bb2b035c4c267140670a84585a256557",
+  "verdict": "RETEST_REQUIRED",
+  "blockers": [
+    "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+    "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY"
+  ],
+  "findings": [
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-001-FAILURE-ATTRIBUTION",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "All 28 attempts are classified once; runner policy labels, harness censoring, and the mixed transport attempt remain distinct, and the three challenged attribution controls have passing frozen adversarial-test receipts."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-002-RETRY-BIAS",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "Four retries and both retry-after-terminal deviations remain explicit in reliability and cost; no retry yields an oracle-PASS quality selection, earliest eligible selection is enforced, and mutation tests reject terminal erasure and best-of-N behavior."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-003-RECOVERY-CONTAMINATION",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "Recovery-affected material is excluded from component gaps and comparative ranking; every frozen classification records recovery_used=false, while the unresolved harness-censored slot is denied supplemental authorization."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-004-BUDGET-MUTATION",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "The input freeze forbids original-budget mutation, retry accounting reports no post-hoc expansion, and the separate supplemental budget is immutable, source-budget-preserving, not authorized, and capped at zero starts."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-005-IDENTITY-BIAS",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "The attribution summary and every automated decision record identity_used=false, arm identity is explicitly excluded evidence, and only anonymous arm IDs occur in the audited records."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-006-VOTE-HUMAN-GATE",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "All decision wrappers record majority_vote_used=false and human_technical_gate_used=false; embedded judge_decisions are empty and predecessor outputs are retained as evidence rather than votes."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-007-HARDCODING",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "Favorable retry and protocol booleans are not accepted on assertion alone: the frozen receipt records passing deletion, best-of-N, zero-imputation, cost-preserving, protocol-drift, and missing-precondition adversarial tests."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-008-QUALITY-RELIABILITY-SEPARATION",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "Quality remains insufficient at two balanced cases and quality repeat depth one, whereas reliability is accepted only as descriptive observed-cohort evidence; quality and performance-superiority claims remain prohibited."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-009-POSTHOC-POSITIVE-CLAIMS",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "No post-hoc performance or architecture-superiority claim is allowed; architecture and base selection are rejected, while repeated gaps support only specification-level component work."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-010-SUPPLEMENTAL-SCOPE",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "Supplemental authorization rejects generic and terminal-slot retries, authorizes no slots, freezes a zero-start budget, and records a launch-locked zero-start receipt because harness equivalence is not established."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-011-NEXT-PHASE-ROUTE",
+      "severity": "INFO",
+      "status": "RESOLVED",
+      "statement": "Every automated decision routes only to PHASE-EVIDENCE-EXPANSION-002D; architecture and quality decisions reject PHASE_003 and require a newly frozen acquisition design to close the balanced-case and quality-repeat gaps."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "severity": "BLOCKER",
+      "status": "UNRESOLVED",
+      "statement": "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1 is internally inconsistent: the wrapper accepted_scope is RELIABILITY_ONLY while automated_decision.accepted_scope is NONE; all other decision wrappers agree with their embedded value."
+    },
+    {
+      "finding_id": "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "severity": "BLOCKER",
+      "status": "UNRESOLVED",
+      "statement": "The frozen decisions are hash-bound, but five-variant replay readiness is not established while the reliability decision exposes two different accepted scopes; variant consumers can branch differently before any evidence changes."
+    }
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "api_key_used": false,
+  "created_at": "2026-09-02T03:22:43+08:00",
+  "normalization": "Verbatim finding statements and verdict projection retained by the main agent; full native schema output is superseded only after a hash-bound repair audit."
+}

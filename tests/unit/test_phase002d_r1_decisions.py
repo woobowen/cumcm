@@ -95,6 +95,13 @@ def test_decisions_use_canonical_automated_contract_and_validate(repo_root):
         assert item["automated_decision_contract"] == "contracts/automated_decision.schema.json"
 
 
+def test_all_decisions_have_one_canonical_accepted_scope(repo_root):
+    decisions = build_decisions(repo_root)
+    assert all(
+        item["accepted_scope"] == item["automated_decision"]["accepted_scope"] for item in decisions
+    )
+
+
 def test_no_vote_human_gate_recovery_or_identity_enters_decisions(repo_root):
     for item in build_decisions(repo_root):
         assert item["majority_vote_used"] is False

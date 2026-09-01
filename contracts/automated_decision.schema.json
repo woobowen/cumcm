@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://cumcm.local/contracts/automated_decision/v1",
   "title": "Automated Technical Decision",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "object",
   "required": [
     "decision_id",
@@ -65,7 +65,9 @@
       ]
     },
     "reason_codes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
-    "accepted_scope": {"enum": ["NONE", "SPECIFICATION_ONLY", "POLICY_ONLY"]},
+    "accepted_scope": {
+      "enum": ["NONE", "SPECIFICATION_ONLY", "POLICY_ONLY", "RELIABILITY_ONLY"]
+    },
     "adoption_results": {
       "type": "array",
       "items": {

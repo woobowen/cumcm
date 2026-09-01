@@ -6,6 +6,8 @@ from cumcm_skill_lab.failure_aware.models import read_json, sha256_json
 from cumcm_skill_lab.failure_aware.native_audits import (
     BUNDLE_ROOT,
     FIRST_ROUND_ROLES,
+    POST_DECISION_ROLE,
+    build_decision_auditor_bundle,
     build_first_round_bundles,
     check_or_write_first_round_bundles,
     validate_audit,
@@ -152,3 +154,24 @@ def test_native_audit_pass_with_blocker_fails_closed(repo_root):
     errors = validate_audit(repo_root, audit, role=role)
     assert f"SUBAGENT_BLOCKER_REF_INVALID:{role}" in errors
     assert f"SUBAGENT_PASS_WITH_BLOCKER:{role}" in errors
+
+
+def test_post_decision_bundle_exposes_only_frozen_predecessors(repo_root):
+    bundle = build_decision_auditor_bundle(repo_root)
+    assert bundle["role"] == POST_DECISION_ROLE
+    assert bundle["round"] == "POST_DECISION"
+    assert bundle["peer_output_access"] == "FROZEN_PREDECESSORS_ONLY"
+    assert bundle["expected_conclusion_visible"] is False
+    assert (
+        len([path for path in bundle["allowed_file_references"] if "/automated_decisions/" in path])
+        == 7
+    )
+    assert all("state/" not in path for path in bundle["allowed_file_references"])
+    assert all("reports/" not in path for path in bundle["allowed_file_references"])
+
+
+def test_post_decision_bundle_hash_is_replayable(repo_root):
+    bundle = build_decision_auditor_bundle(repo_root)
+    body = dict(bundle)
+    recorded = body.pop("bundle_hash")
+    assert sha256_json(body) == recorded

@@ -261,6 +261,137 @@ def validate_frozen_first_round_bundles(root: Path) -> dict[str, Any]:
     }
 
 
+def build_decision_auditor_bundle(root: Path) -> dict[str, Any]:
+    freeze = read_json(root / RESULT_ROOT / "input_freeze_manifest.json")
+    generated_paths = [
+        path.relative_to(root).as_posix()
+        for relative in (
+            RESULT_ROOT / "attempt_classification",
+            RESULT_ROOT / "slot_outcomes/records",
+            RESULT_ROOT / "automated_decisions",
+        )
+        for path in sorted((root / relative).glob("*.json"))
+    ]
+    allowed_paths = sorted(
+        {
+            (RESULT_ROOT / "input_freeze_manifest.json").as_posix(),
+            (RESULT_ROOT / "failure_attribution_summary.json").as_posix(),
+            (RESULT_ROOT / "slot_outcomes/slot_outcome_matrix.json").as_posix(),
+            (RESULT_ROOT / "evidence_scopes/evidence_scope_summary.json").as_posix(),
+            (RESULT_ROOT / "evidence_scopes/quality_sufficiency.json").as_posix(),
+            (RESULT_ROOT / "evidence_scopes/reliability_sufficiency.json").as_posix(),
+            (RESULT_ROOT / "retry_bias/retry_bias_audit.json").as_posix(),
+            (RESULT_ROOT / "adversarial_tests/test_evidence.json").as_posix(),
+            (RESULT_ROOT / "adversarial_tests/finding_closure.json").as_posix(),
+            (RESULT_ROOT / "supplemental/authorization.json").as_posix(),
+            (RESULT_ROOT / "supplemental/authorization_pre_audit.json").as_posix(),
+            (RESULT_ROOT / "supplemental/budget.json").as_posix(),
+            (RESULT_ROOT / "supplemental/status.json").as_posix(),
+            (RESULT_ROOT / "replay/replay.json").as_posix(),
+            (
+                RESULT_ROOT / "subagent_audits/decision_repair_rounds/finding_closure.json"
+            ).as_posix(),
+            (RESULT_ROOT / "subagent_audits/decision_repair_rounds/test_evidence.json").as_posix(),
+            AUDIT_CONTRACT,
+            "src/cumcm_skill_lab/failure_aware/replay.py",
+            "tests/unit/test_phase002d_r1_replay.py",
+            *generated_paths,
+            *[
+                (RESULT_ROOT / f"subagent_audits/{role}.json").as_posix()
+                for role in FIRST_ROUND_ROLES
+            ],
+        }
+    )
+    decisions = [
+        read_json(path)
+        for path in sorted((root / RESULT_ROOT / "automated_decisions").glob("*.json"))
+    ]
+    audits = [
+        read_json(root / RESULT_ROOT / f"subagent_audits/{role}.json") for role in FIRST_ROUND_ROLES
+    ]
+    evidence = read_json(root / RESULT_ROOT / "adversarial_tests/test_evidence.json")
+    quality = read_json(root / RESULT_ROOT / "evidence_scopes/quality_sufficiency.json")
+    reliability = read_json(root / RESULT_ROOT / "evidence_scopes/reliability_sufficiency.json")
+    replay = read_json(root / RESULT_ROOT / "replay/replay.json")
+    repair_evidence = read_json(
+        root / RESULT_ROOT / "subagent_audits/decision_repair_rounds/test_evidence.json"
+    )
+    repair_closure = read_json(
+        root / RESULT_ROOT / "subagent_audits/decision_repair_rounds/finding_closure.json"
+    )
+    catalog = sorted(
+        {
+            freeze["freeze_id"],
+            "PHASE-002D-R1-FAILURE-ATTRIBUTION-001",
+            "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+            "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+            "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+            "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1",
+            quality["record_id"],
+            reliability["record_id"],
+            replay["replay_id"],
+            repair_closure["closure_id"],
+            *[item["audit_id"] for item in audits],
+            *[item["test_id"] for item in evidence["evidence"]],
+            *[item["test_id"] for item in repair_evidence["evidence"]],
+            *[item["automated_decision"]["decision_id"] for item in decisions],
+        }
+    )
+    body = {
+        "schema_version": "1.0.0",
+        "bundle_id": "PHASE-002D-R1-NATIVE-FAILURE_AWARE_DECISION_AUDITOR",
+        "role": POST_DECISION_ROLE,
+        "round": "POST_DECISION",
+        "independent": True,
+        "read_only": True,
+        "identity_blind": True,
+        "peer_output_access": "FROZEN_PREDECESSORS_ONLY",
+        "peer_outputs_visible": True,
+        "expected_conclusion_visible": False,
+        "input_freeze_id": freeze["freeze_id"],
+        "input_freeze_hash": freeze["manifest_hash"],
+        "task": ROLE_TASKS[POST_DECISION_ROLE],
+        "required_checks": [
+            "failure misattribution",
+            "retry bias",
+            "recovery contamination",
+            "budget mutation",
+            "identity bias",
+            "majority vote",
+            "hardcoding",
+            "quality/reliability scope confusion",
+            "post-hoc positive claim",
+            "supplemental overreach",
+            "next-phase route",
+            "accepted scope",
+            "replay readiness",
+        ],
+        "evidence_catalog": catalog,
+        "allowed_file_references": allowed_paths,
+        "source_hashes": {path: file_sha256(root / path) for path in allowed_paths},
+        "output_contract": AUDIT_CONTRACT,
+        "prohibitions": [
+            "no file writes, commits, pushes, or formal-state changes",
+            "no expected main-agent conclusion",
+            "no web, MCP, nested Codex, API key, or global configuration",
+            "no arm-identity lookup, candidate ranking, majority vote, or human technical Gate",
+            "no fabricated evidence and no inference beyond cited observable records",
+        ],
+    }
+    return {**body, "bundle_hash": sha256_json(body)}
+
+
+def check_or_write_decision_auditor_bundle(root: Path, *, check: bool) -> dict[str, Any]:
+    bundle = build_decision_auditor_bundle(root)
+    errors = check_or_write(root / BUNDLE_ROOT / f"{POST_DECISION_ROLE}.json", bundle, check=check)
+    return {
+        "status": "PASS" if not errors else "FAIL",
+        "errors": errors,
+        "role": POST_DECISION_ROLE,
+        "bundle_hash": bundle["bundle_hash"],
+    }
+
+
 def audit_path(root: Path, role: str) -> Path:
     return root / AUDIT_ROOT / f"{role}.json"
 
@@ -337,4 +468,30 @@ def check_or_seal_first_round_audits(root: Path, *, check: bool) -> dict[str, An
         "errors": sorted(set(errors)),
         "audit_count": len(audit_hashes),
         "audit_hashes": audit_hashes,
+    }
+
+
+def check_or_seal_decision_auditor(root: Path, *, check: bool) -> dict[str, Any]:
+    """Seal and validate the single post-decision native audit output."""
+    role = POST_DECISION_ROLE
+    path = audit_path(root, role)
+    if not path.is_file():
+        return {
+            "status": "FAIL",
+            "errors": [f"SUBAGENT_OUTPUT_MISSING:{role}"],
+            "role": role,
+            "audit_hash": None,
+        }
+    audit = read_json(path)
+    body = dict(audit)
+    body.pop("output_hash", None)
+    sealed = {**body, "output_hash": sha256_json(body)}
+    errors = check_or_write(path, sealed, check=check)
+    errors.extend(validate_audit(root, sealed, role=role))
+    return {
+        "status": "PASS" if not errors else "FAIL",
+        "errors": sorted(set(errors)),
+        "role": role,
+        "verdict": sealed.get("verdict"),
+        "audit_hash": sealed["output_hash"],
     }

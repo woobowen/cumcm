@@ -1,0 +1,766 @@
+{
+  "api_billing_used": false,
+  "api_key_used": false,
+  "canonical_scope_projection": "WRAPPER_EQUALS_AUTOMATED_DECISION",
+  "created_at": "2026-09-01T23:12:32+08:00",
+  "decision_ids": [
+    "DECISION-ARCHITECTURE-002D-R1",
+    "DECISION-COMPONENT-READINESS-002D-R1",
+    "DECISION-FAILURE-SEMANTICS-002D-R1",
+    "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1",
+    "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1",
+    "DECISION-SLOT-RESOLUTION-002D-R1",
+    "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1"
+  ],
+  "mode": "OFFLINE_NO_MODEL_NO_NETWORK",
+  "model_starts": 0,
+  "network_used": false,
+  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+  "replay_hash": "3ef8f6df426379167eeae22e39aa06384e83695e33b4d0a7b37c1dad7f5f713b",
+  "replay_id": "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001",
+  "schema_version": "1.0.0",
+  "stable": true,
+  "variant_count": 5,
+  "variants": {
+    "ANONYMOUS_ARM_LABEL_PERMUTATION": {
+      "decision_replay_hashes": {
+        "DECISION-ARCHITECTURE-002D-R1": "cfdb030e341ce39d4bf0c368c50d3acb6ac8e3fdbf5c1982ac89a713e72e883c",
+        "DECISION-COMPONENT-READINESS-002D-R1": "a386c18601aae38549914c79738ec45609ee43d1d29e7b624c0eedc69950c643",
+        "DECISION-FAILURE-SEMANTICS-002D-R1": "e95e681bbc53ebe45d10fd7fdc40531926551ce2b7d9ca554ef162ad6b6617c0",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": "76dd4a6e2a4d87bf696f653680ea714127644df2df32c8681f9c86029018b12e",
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": "85517aeb8b5a7b0ff5db9070b8805e086173a50e5d5e32bc2d5e2079cefb97fa",
+        "DECISION-SLOT-RESOLUTION-002D-R1": "7af36571a1fa55b4a40b60e39001e96639b56a10a33e1f654a36037dd7d1a23f",
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": "55a03d5fc033651860e3621e2478f1a46a81066656c7d227c159d48803cc94b0"
+      },
+      "matches_recorded_decisions": true,
+      "projection": {
+        "DECISION-ARCHITECTURE-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-COMPONENT-READINESS-002D-R1": {
+          "accepted_scope": "SPECIFICATION_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-FAILURE-SEMANTICS-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "RELIABILITY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SLOT-RESOLUTION-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "AUTOMATED_REJECTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        }
+      },
+      "projection_hash": "cc042b4d3e8f6900a076978806da9e300024f0e9950a93182b6fb08416653703"
+    },
+    "ATTEMPT_ORDER_PERMUTATION": {
+      "decision_replay_hashes": {
+        "DECISION-ARCHITECTURE-002D-R1": "cfdb030e341ce39d4bf0c368c50d3acb6ac8e3fdbf5c1982ac89a713e72e883c",
+        "DECISION-COMPONENT-READINESS-002D-R1": "a386c18601aae38549914c79738ec45609ee43d1d29e7b624c0eedc69950c643",
+        "DECISION-FAILURE-SEMANTICS-002D-R1": "e95e681bbc53ebe45d10fd7fdc40531926551ce2b7d9ca554ef162ad6b6617c0",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": "76dd4a6e2a4d87bf696f653680ea714127644df2df32c8681f9c86029018b12e",
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": "85517aeb8b5a7b0ff5db9070b8805e086173a50e5d5e32bc2d5e2079cefb97fa",
+        "DECISION-SLOT-RESOLUTION-002D-R1": "7af36571a1fa55b4a40b60e39001e96639b56a10a33e1f654a36037dd7d1a23f",
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": "55a03d5fc033651860e3621e2478f1a46a81066656c7d227c159d48803cc94b0"
+      },
+      "matches_recorded_decisions": true,
+      "projection": {
+        "DECISION-ARCHITECTURE-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-COMPONENT-READINESS-002D-R1": {
+          "accepted_scope": "SPECIFICATION_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-FAILURE-SEMANTICS-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "RELIABILITY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SLOT-RESOLUTION-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "AUTOMATED_REJECTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        }
+      },
+      "projection_hash": "cc042b4d3e8f6900a076978806da9e300024f0e9950a93182b6fb08416653703"
+    },
+    "EVIDENCE_ITEM_ORDER_PERMUTATION": {
+      "decision_replay_hashes": {
+        "DECISION-ARCHITECTURE-002D-R1": "cfdb030e341ce39d4bf0c368c50d3acb6ac8e3fdbf5c1982ac89a713e72e883c",
+        "DECISION-COMPONENT-READINESS-002D-R1": "a386c18601aae38549914c79738ec45609ee43d1d29e7b624c0eedc69950c643",
+        "DECISION-FAILURE-SEMANTICS-002D-R1": "e95e681bbc53ebe45d10fd7fdc40531926551ce2b7d9ca554ef162ad6b6617c0",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": "76dd4a6e2a4d87bf696f653680ea714127644df2df32c8681f9c86029018b12e",
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": "85517aeb8b5a7b0ff5db9070b8805e086173a50e5d5e32bc2d5e2079cefb97fa",
+        "DECISION-SLOT-RESOLUTION-002D-R1": "7af36571a1fa55b4a40b60e39001e96639b56a10a33e1f654a36037dd7d1a23f",
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": "55a03d5fc033651860e3621e2478f1a46a81066656c7d227c159d48803cc94b0"
+      },
+      "matches_recorded_decisions": true,
+      "projection": {
+        "DECISION-ARCHITECTURE-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-COMPONENT-READINESS-002D-R1": {
+          "accepted_scope": "SPECIFICATION_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-FAILURE-SEMANTICS-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "RELIABILITY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SLOT-RESOLUTION-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "AUTOMATED_REJECTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        }
+      },
+      "projection_hash": "cc042b4d3e8f6900a076978806da9e300024f0e9950a93182b6fb08416653703"
+    },
+    "FAILURE_FLAG_ORDER_PERMUTATION": {
+      "decision_replay_hashes": {
+        "DECISION-ARCHITECTURE-002D-R1": "cfdb030e341ce39d4bf0c368c50d3acb6ac8e3fdbf5c1982ac89a713e72e883c",
+        "DECISION-COMPONENT-READINESS-002D-R1": "a386c18601aae38549914c79738ec45609ee43d1d29e7b624c0eedc69950c643",
+        "DECISION-FAILURE-SEMANTICS-002D-R1": "e95e681bbc53ebe45d10fd7fdc40531926551ce2b7d9ca554ef162ad6b6617c0",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": "76dd4a6e2a4d87bf696f653680ea714127644df2df32c8681f9c86029018b12e",
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": "85517aeb8b5a7b0ff5db9070b8805e086173a50e5d5e32bc2d5e2079cefb97fa",
+        "DECISION-SLOT-RESOLUTION-002D-R1": "7af36571a1fa55b4a40b60e39001e96639b56a10a33e1f654a36037dd7d1a23f",
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": "55a03d5fc033651860e3621e2478f1a46a81066656c7d227c159d48803cc94b0"
+      },
+      "matches_recorded_decisions": true,
+      "projection": {
+        "DECISION-ARCHITECTURE-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-COMPONENT-READINESS-002D-R1": {
+          "accepted_scope": "SPECIFICATION_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-FAILURE-SEMANTICS-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "RELIABILITY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SLOT-RESOLUTION-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "AUTOMATED_REJECTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        }
+      },
+      "projection_hash": "cc042b4d3e8f6900a076978806da9e300024f0e9950a93182b6fb08416653703"
+    },
+    "ORIGINAL": {
+      "decision_replay_hashes": {
+        "DECISION-ARCHITECTURE-002D-R1": "cfdb030e341ce39d4bf0c368c50d3acb6ac8e3fdbf5c1982ac89a713e72e883c",
+        "DECISION-COMPONENT-READINESS-002D-R1": "a386c18601aae38549914c79738ec45609ee43d1d29e7b624c0eedc69950c643",
+        "DECISION-FAILURE-SEMANTICS-002D-R1": "e95e681bbc53ebe45d10fd7fdc40531926551ce2b7d9ca554ef162ad6b6617c0",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": "76dd4a6e2a4d87bf696f653680ea714127644df2df32c8681f9c86029018b12e",
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": "85517aeb8b5a7b0ff5db9070b8805e086173a50e5d5e32bc2d5e2079cefb97fa",
+        "DECISION-SLOT-RESOLUTION-002D-R1": "7af36571a1fa55b4a40b60e39001e96639b56a10a33e1f654a36037dd7d1a23f",
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": "55a03d5fc033651860e3621e2478f1a46a81066656c7d227c159d48803cc94b0"
+      },
+      "matches_recorded_decisions": true,
+      "projection": {
+        "DECISION-ARCHITECTURE-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-COMPONENT-READINESS-002D-R1": {
+          "accepted_scope": "SPECIFICATION_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-FAILURE-SEMANTICS-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "EVIDENCE_INSUFFICIENT",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1": {
+          "accepted_scope": "RELIABILITY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SLOT-RESOLUTION-002D-R1": {
+          "accepted_scope": "POLICY_ONLY",
+          "decision": "AUTOMATED_ACCEPTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        },
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1": {
+          "accepted_scope": "NONE",
+          "decision": "AUTOMATED_REJECTED",
+          "excluded_evidence": [
+            "AGENT_VOTES",
+            "ARM_IDENTITY",
+            "HUMAN_TECHNICAL_GATE",
+            "RECOVERY_AFFECTED_EVIDENCE"
+          ],
+          "human_technical_gate_used": false,
+          "identity_used": false,
+          "majority_vote_used": false,
+          "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+          "positive_performance_superiority_claim_allowed": false,
+          "posthoc_observation_policy": true,
+          "quality_reliability_conflated": false,
+          "recovery_ranked": false,
+          "terminal_negative_zero_imputed": false
+        }
+      },
+      "projection_hash": "cc042b4d3e8f6900a076978806da9e300024f0e9950a93182b6fb08416653703"
+    }
+  }
+}

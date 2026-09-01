@@ -301,7 +301,7 @@ def build_decisions(root: Path) -> list[dict[str, Any]]:
             "eligible_evidence": [reliability["record_id"], retry["audit_id"]],
             "decision": "AUTOMATED_ACCEPTED",
             "reason_codes": reliability["reason_codes"],
-            "accepted_scope": "NONE",
+            "accepted_scope": "RELIABILITY_ONLY",
             "rejected_scope": ["QUALITY_INFERENCE", "PERFORMANCE_SUPERIORITY"],
             "confidence": 0.9,
         }
@@ -417,6 +417,8 @@ def validate_decisions(root: Path, decisions: list[dict[str, Any]]) -> list[str]
     for envelope in decisions:
         core = envelope["automated_decision"]
         ids.append(core["decision_id"])
+        if core.get("accepted_scope") != envelope.get("accepted_scope"):
+            errors.append(f"FAILURE_AWARE_ACCEPTED_SCOPE_MISMATCH:{core['decision_id']}")
         errors.extend(
             f"AUTOMATED_DECISION:{item.message}" for item in core_validator.iter_errors(core)
         )

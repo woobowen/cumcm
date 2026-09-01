@@ -1,0 +1,51 @@
+{
+  "requests": [
+    {
+      "artifacts": [
+        "tests/unit/test_phase002d_r1_decisions.py"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_decisions.py::test_all_decisions_have_one_canonical_accepted_scope",
+      "expected_result": "pytest exits 0 and the stated invariant holds",
+      "fail_condition": "The requested deterministic node exits nonzero.",
+      "finding_id": "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "inputs": [
+        "AUDIT-PHASE-002D-R1-FAILURE-AWARE-DECISION-POST-DECISION",
+        "PHASE-002D-R1-NATIVE-FAILURE_AWARE_DECISION_AUDITOR"
+      ],
+      "oracle": "The repaired canonical scope and five replay variants agree.",
+      "pass_condition": "The requested deterministic node exits zero.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/unit/test_phase002d_r1_decisions.py::test_all_decisions_have_one_canonical_accepted_scope"
+      ],
+      "status": "PASSED",
+      "target": "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "test_id": "TEST-FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "tests/unit/test_phase002d_r1_replay.py"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_replay.py::test_replay_projection_is_order_and_label_stable",
+      "expected_result": "pytest exits 0 and the stated invariant holds",
+      "fail_condition": "The requested deterministic node exits nonzero.",
+      "finding_id": "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "inputs": [
+        "AUDIT-PHASE-002D-R1-FAILURE-AWARE-DECISION-POST-DECISION",
+        "PHASE-002D-R1-NATIVE-FAILURE_AWARE_DECISION_AUDITOR"
+      ],
+      "oracle": "The repaired canonical scope and five replay variants agree.",
+      "pass_condition": "The requested deterministic node exits zero.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/unit/test_phase002d_r1_replay.py::test_replay_projection_is_order_and_label_stable"
+      ],
+      "status": "PASSED",
+      "target": "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "test_id": "TEST-FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "timeout": 120
+    }
+  ],
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,32 @@
+{
+  "all_serious_findings_closed": true,
+  "changes": [
+    "Canonical automated-decision scope extended with RELIABILITY_ONLY.",
+    "Wrapper and embedded accepted_scope equality is now mandatory.",
+    "Five variants compare decision, scope, route, exclusions, negative-claim controls, and replay hashes."
+  ],
+  "closed_serious_finding_count": 2,
+  "closure_hash": "b50febc2ecc78bc54ba1da3715195ea8e148475c51f0915623d08b9f5eaa31bf",
+  "closure_id": "PHASE-002D-R1-DECISION-AUDIT-REPAIR-CLOSURE-001",
+  "closures": [
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "original_severity": "BLOCKER",
+      "original_status": "UNRESOLVED",
+      "test_id": "TEST-FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "original_severity": "BLOCKER",
+      "original_status": "UNRESOLVED",
+      "test_id": "TEST-FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "test_status": "PASSED"
+    }
+  ],
+  "repair_loop": 1,
+  "schema_version": "1.0.0",
+  "serious_finding_count": 2
+}

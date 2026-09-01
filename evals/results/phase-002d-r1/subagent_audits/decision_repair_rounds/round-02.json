@@ -1,0 +1,22 @@
+{
+  "round_id": "PHASE-002D-R1-DECISION-AUDIT-REPAIR-ROUND-02",
+  "audit_id": "AUDIT-PHASE-002D-R1-FAILURE-AWARE-DECISION-POST-DECISION-R2",
+  "bundle_id": "PHASE-002D-R1-NATIVE-FAILURE_AWARE_DECISION_AUDITOR",
+  "bundle_hash": "daa68bf0e13a11a0e3e6bfda277bd69a75d6ab52c28e3d027387aad7c07d157c",
+  "verdict": "PASS",
+  "finding_count": 13,
+  "blockers": [],
+  "prior_blocker_dispositions": {
+    "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY": "RESOLVED",
+    "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY": "RESOLVED"
+  },
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "api_key_used": false,
+  "created_at": "2026-09-02T03:34:29+08:00",
+  "admissibility": "RETEST_REQUIRED_BUNDLE_EVIDENCE_CATALOG_INCOMPLETE",
+  "normalization": "PASS conclusion retained but not promoted because cited replay and repair IDs were absent from the bundle evidence_catalog; allowed files and decision conclusions were unchanged."
+}
