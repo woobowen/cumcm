@@ -18,6 +18,7 @@ from cumcm_skill_lab.adjudication.phase002c_records import (
     evaluate_direct_adoption_gates,
 )
 from cumcm_skill_lab.adjudication.phase002c_reporting import (
+    _render_expansion,
     decision_rows_as_markdown,
     runtime_facts,
 )
@@ -331,6 +332,11 @@ def test_current_pre_record_names_every_inherited_hard_gate(repo_root):
 def test_report_runtime_claims_follow_machine_inputs():
     data = {
         "route": {"phase002d_started": False},
+        "pre": {
+            "decision": "EVIDENCE_INSUFFICIENT",
+            "short_circuit": True,
+            "semantic_judges_status": "SKIPPED",
+        },
         "state": {
             "selected_architecture": None,
             "third_party_integrated": False,
@@ -345,15 +351,67 @@ def test_report_runtime_claims_follow_machine_inputs():
     }
     before = runtime_facts(data)
     data["route"]["phase002d_started"] = True
+    data["pre"]["short_circuit"] = False
     data["state"]["third_party_integrated"] = True
     data["transport"]["status"] = "RECOVERED"
     data["audits"][0]["nested_codex_used"] = True
     after = runtime_facts(data)
     assert before != after
+    assert before["phase002d_report_status"] == "Draft; Not Executed"
+    assert "through an evidence-sufficiency short circuit" in before["phase002c_outcome_summary"]
     assert after["phase002d_started"] is True
+    assert after["phase002d_report_status"] == "Execution Recorded"
+    assert "without an evidence-sufficiency short circuit" in after["phase002c_outcome_summary"]
     assert after["third_party_integrated"] is True
     assert after["transport_repaired"] is True
     assert after["nested_codex_used"] is True
+
+
+def test_reports_derive_phase002d_execution_and_short_circuit_from_machine_inputs():
+    data = {
+        "sufficiency": {
+            "required_arms": ["ARM-A", "ARM-B", "ARM-C"],
+            "thresholds": {"balanced_case_minimum": 1, "minimum_repeats": 1},
+            "actual": {
+                "cell_repeat_counts": {"CASE-001": {"ARM-A": 1, "ARM-B": 1, "ARM-C": 1}},
+                "balanced_cases": ["CASE-001"],
+            },
+        },
+        "route": {"phase002d_started": False},
+        "pre": {
+            "decision": "EVIDENCE_INSUFFICIENT",
+            "short_circuit": True,
+            "semantic_judges_status": "SKIPPED",
+        },
+        "state": {
+            "selected_architecture": None,
+            "third_party_integrated": False,
+            "skill_capability_status": "SCAFFOLD_ONLY",
+        },
+        "transport": {
+            "status": "AUTOMATED_ADJUDICATION_INCOMPLETE",
+            "diagnostics": {},
+            "terminal_failure_class": "RESPONSES_CONNECT_RESET",
+        },
+        "audits": [
+            {
+                "role": "dissent_and_cost_auditor",
+                "nested_codex_used": False,
+                "api_key_used": False,
+                "writes_observed": False,
+                "cost_assessment": {"token_cost": "TOKEN-FACT", "time_cost": "TIME-FACT"},
+            }
+        ],
+    }
+    before = _render_expansion(data)
+    data["route"]["phase002d_started"] = True
+    data["pre"]["short_circuit"] = False
+    after = _render_expansion(data)
+    assert "(Draft; Not Executed)" in before
+    assert "(Execution Recorded)" in after
+    assert "TOKEN-FACT" in after
+    assert "TIME-FACT" in after
+    assert runtime_facts(data)["phase002c_outcome_summary"] not in before
 
 
 @pytest.mark.parametrize(

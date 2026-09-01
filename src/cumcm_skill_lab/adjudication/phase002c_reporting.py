@@ -185,7 +185,7 @@ def render_all(data: dict[str, Any]) -> dict[str, str]:
         [
             "# Automated Adjudication Dossier",
             "",
-            f"Phase 002 produced candidate dynamic runs; Phase 002A rebuilt deterministic evidence classification; Phase 002B preserved {runtime['transport_attempt_count']} `{runtime['transport_failure_class']}` recovery failures and transport-repaired is `{runtime['transport_repaired']}`; Phase 002C made the evidence-sufficiency short-circuit decision.",
+            f"Phase 002 produced candidate dynamic runs; Phase 002A rebuilt deterministic evidence classification; Phase 002B preserved {runtime['transport_attempt_count']} `{runtime['transport_failure_class']}` recovery failures and transport-repaired is `{runtime['transport_repaired']}`; {runtime['phase002c_outcome_summary']}",
             "",
             *acceptance_lines,
         ]
@@ -220,10 +220,26 @@ def decision_rows_as_markdown(decisions: list[dict[str, Any]]) -> list[str]:
 
 def runtime_facts(data: dict[str, Any]) -> dict[str, Any]:
     audits = data["audits"]
+    pre = data["pre"]
     state = data["state"]
     transport = data["transport"]
+    phase002d_started = data["route"]["phase002d_started"]
+    if pre["short_circuit"]:
+        phase002c_outcome_summary = (
+            f"Phase 002C recorded `{pre['decision']}` through an evidence-sufficiency "
+            f"short circuit; semantic Judges are `{pre['semantic_judges_status']}`."
+        )
+    else:
+        phase002c_outcome_summary = (
+            f"Phase 002C recorded `{pre['decision']}` without an evidence-sufficiency "
+            f"short circuit; semantic Judges are `{pre['semantic_judges_status']}`."
+        )
     return {
-        "phase002d_started": data["route"]["phase002d_started"],
+        "phase002d_started": phase002d_started,
+        "phase002d_report_status": "Execution Recorded"
+        if phase002d_started
+        else "Draft; Not Executed",
+        "phase002c_outcome_summary": phase002c_outcome_summary,
         "selected_architecture": state["selected_architecture"],
         "third_party_integrated": state["third_party_integrated"],
         "skill_capability_status": state["skill_capability_status"],
@@ -238,6 +254,9 @@ def runtime_facts(data: dict[str, Any]) -> dict[str, Any]:
 
 def _render_expansion(data: dict[str, Any]) -> str:
     suff = data["sufficiency"]
+    runtime = runtime_facts(data)
+    cost_audit = next(item for item in data["audits"] if item["role"] == "dissent_and_cost_auditor")
+    cost = cost_audit["cost_assessment"]
     arms = suff["required_arms"]
     minimum_cases = suff["thresholds"]["balanced_case_minimum"]
     minimum_repeats = suff["thresholds"]["minimum_repeats"]
@@ -259,14 +278,16 @@ def _render_expansion(data: dict[str, Any]) -> str:
     minimum_new_runs = sum(costs[case] for case in selected_cases)
     return _body(
         [
-            "# Phase 002D Evidence Expansion Plan (Draft; Not Executed)",
+            f"# Phase 002D Evidence Expansion Plan ({runtime['phase002d_report_status']})",
             "",
             f"Goal: at least {minimum_cases} balanced cases with at least {minimum_repeats} independent primary repeats for every required arm.",
             f"Currently balanced: `{suff['actual']['balanced_cases']}`; all balanced cells and newly completed cells require repeat depth {minimum_repeats}.",
             f"Minimum frozen completion batch: {minimum_new_runs} successful new primary runs across cases `{selected_cases}`; arm × case shortfalls: `{missing}`. Recovery-affected cells remain missing for ranking purposes.",
             "Add numerical-ground-truth synthetic cases only where they enlarge model classes without exposing held-out answers. Prefer deterministic oracles and compact, case-scoped inputs; never resend the full repository or historical transcripts.",
             "Run ordinary Codex and the formal Skill against identical hash-bound prompts, seeds, limits, and oracle checks. Candidate labels remain anonymous. Any revealed validation answer permanently demotes that case to development.",
-            "Semantic Subagents are conditional on deterministic eligibility and hard gates passing. Suggested ceilings: 16k input/output tokens per arm-case repeat and 20 minutes wall time per case; lower limits should be used where deterministic oracles suffice.",
+            f"Token-cost evidence: {cost['token_cost']}",
+            f"Time-cost evidence: {cost['time_cost']}",
+            "Before any expansion batch, run one compact hash-bound deterministic-oracle pilot with the intended model. Freeze separate successful-run, retry, token, elapsed-time, and total-spend limits from that pilot; do not reuse an unsupported fixed per-run ceiling.",
             "Stop when minima pass, any mandatory hard gate fails, the frozen run budget is exhausted, input hashes diverge, leakage is detected, or two consecutive infrastructure failures make the planned cell non-comparable.",
             "Reassess only after expansion: accepted-versus-done workflow state, claim-evidence support gate, hash-bound reproducibility manifest, and leakage-safe model comparison gate. Do not integrate in Phase 002D.",
         ]
