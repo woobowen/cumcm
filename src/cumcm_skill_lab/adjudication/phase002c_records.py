@@ -39,6 +39,28 @@ DECISION_FILES = {
     "COMPONENT_READINESS": "component_readiness.json",
 }
 
+DIRECT_ADOPTION_RISK_LEVELS = frozenset(
+    {
+        "LOW_CONFIRMED",
+        "LOW_REVIEWED",
+        "MEDIUM",
+        "HIGH",
+        "BLOCKER",
+        "UNKNOWN",
+        "UNVERIFIED",
+    }
+)
+SAFE_DIRECT_ADOPTION_RISK_LEVELS = frozenset({"LOW_CONFIRMED", "LOW_REVIEWED"})
+
+
+def is_registered_safe_risk(value: Any) -> bool:
+    """Accept only an exact registered safe value; unknown/mixed-case/prefix values fail closed."""
+    return (
+        isinstance(value, str)
+        and value in DIRECT_ADOPTION_RISK_LEVELS
+        and value in SAFE_DIRECT_ADOPTION_RISK_LEVELS
+    )
+
 
 def decision_created_at(root: Path) -> str:
     """Use the governing policy freeze timestamp for every derived decision."""
@@ -225,8 +247,8 @@ def evaluate_direct_adoption_gates(
 ) -> dict[str, bool]:
     """Apply whole-package hard gates without considering component value or scores."""
     license_status = str(arm.get("license_status", "UNKNOWN")).upper()
-    leakage = str(candidate.get("answer_leakage_risk", "UNKNOWN")).upper()
-    integration = str(candidate.get("integration_conflict_risk", "UNKNOWN")).upper()
+    leakage = candidate.get("answer_leakage_risk", "UNKNOWN")
+    integration = candidate.get("integration_conflict_risk", "UNKNOWN")
     state = str(candidate.get("state_management", "UNKNOWN")).upper()
     skills = candidate.get("skill_names")
     dangerous = candidate.get("dangerous_or_privileged_instructions")
@@ -240,10 +262,10 @@ def evaluate_direct_adoption_gates(
     }
     return {
         "license": license_status in recognized_permissive_licenses,
-        "answer_contamination": leakage.startswith("LOW"),
+        "answer_contamination": is_registered_safe_risk(leakage),
         "scope_conflict": review_status == "FULL_RUNTIME_VERIFIED",
         "second_state_source": state == "NONE",
-        "second_orchestrator": integration.startswith("LOW")
+        "second_orchestrator": is_registered_safe_risk(integration)
         and isinstance(skills, list)
         and len(skills) == 1
         and isinstance(skills[0], str)

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/direct_adoption_risk/v1",
+  "title": "Direct Adoption Registered Risk Evidence",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["answer_contamination_risk", "integration_conflict_risk"],
+  "properties": {
+    "answer_contamination_risk": {"$ref": "#/$defs/risk_level"},
+    "integration_conflict_risk": {"$ref": "#/$defs/risk_level"}
+  },
+  "$defs": {
+    "risk_level": {
+      "enum": [
+        "LOW_CONFIRMED",
+        "LOW_REVIEWED",
+        "MEDIUM",
+        "HIGH",
+        "BLOCKER",
+        "UNKNOWN",
+        "UNVERIFIED"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

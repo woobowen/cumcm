@@ -20,6 +20,7 @@ from cumcm_skill_lab.adjudication.native_subagent_audits import (
 from cumcm_skill_lab.adjudication.phase002c_records import (
     decision_created_at,
     evaluate_direct_adoption_gates,
+    is_registered_safe_risk,
 )
 from cumcm_skill_lab.adjudication.phase002c_replay import decision_sets_equal
 from cumcm_skill_lab.adjudication.phase002c_reporting import (
@@ -486,8 +487,8 @@ def test_phase003_requires_explicit_prerequisites():
 def _safe_candidate() -> tuple[dict, dict]:
     return (
         {
-            "answer_leakage_risk": "LOW",
-            "integration_conflict_risk": "LOW",
+            "answer_leakage_risk": "LOW_CONFIRMED",
+            "integration_conflict_risk": "LOW_REVIEWED",
             "state_management": "NONE",
             "skill_names": ["single-skill"],
             "dangerous_or_privileged_instructions": [],
@@ -571,6 +572,30 @@ def test_full_runtime_gate_requires_execution_and_dependencies(executed, install
 def test_direct_adoption_known_safe_evidence_passes_all_gates():
     candidate, arm = _safe_candidate()
     assert all(_gates(candidate, arm).values())
+
+
+@pytest.mark.parametrize("risk", ["LOW_CONFIRMED", "LOW_REVIEWED"])
+def test_registered_low_risk_values_are_safe(risk):
+    assert is_registered_safe_risk(risk) is True
+
+
+@pytest.mark.parametrize(
+    "risk",
+    [
+        "LOW_UNKNOWN",
+        "LOW_NOT_REVIEWED",
+        "LOW_BUT_UNSAFE",
+        "LOW_",
+        "low_confirmed",
+        "LOW_CONFIRMED_EXTRA",
+        "",
+        None,
+        "UNKNOWN",
+        "UNVERIFIED",
+    ],
+)
+def test_unregistered_low_prefix_and_unknown_values_fail_closed(risk):
+    assert is_registered_safe_risk(risk) is False
 
 
 @pytest.mark.parametrize(
