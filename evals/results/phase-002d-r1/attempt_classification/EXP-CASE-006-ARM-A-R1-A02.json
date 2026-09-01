@@ -1,0 +1,40 @@
+{
+  "anonymous_arm_id": "ARM-A",
+  "attempt_id": "EXP-CASE-006-ARM-A-R1-A02",
+  "attribution_basis": "RUNNER_POLICY_TERMINAL",
+  "case_id": "CASE-006",
+  "classification_hash": "12d70cd8ab4208e69464154577d6c5618aa24bf28f19b2bbb1f153acfe236046",
+  "classification_id": "CLASSIFICATION:EXP-CASE-006-ARM-A-R1-A02",
+  "confidence": "HIGH",
+  "evidence_refs": [
+    "evals/results/phase-002d/attempts/EXP-CASE-006-ARM-A-R1-A02.json",
+    "evals/results/phase-002d/eligibility/EXP-CASE-006-ARM-A-R1-A02.json",
+    "evals/results/phase-002d/oracle/EXP-CASE-006-ARM-A-R1-A02.json",
+    "evals/results/phase-002d/process_evidence/EXP-CASE-006-ARM-A-R1-A02.json",
+    "rules/dynamic_eval_rules.yaml#hard_failures.HARD-FAIL-003"
+  ],
+  "identity_used": false,
+  "observed": {
+    "completion_status": "FAILED",
+    "failure_class": "POLICY_VIOLATION",
+    "hard_failures": [],
+    "oracle_status": "NOT_RUN",
+    "primary_eligible": false,
+    "process_evidence_status": "FAIL",
+    "retry_of": "EXP-CASE-006-ARM-A-R1-A01",
+    "schema_valid": false
+  },
+  "primary_classification": "TERMINAL_POLICY_FAILURE",
+  "recovery_used": false,
+  "repeat_id": 1,
+  "schema_version": "1.0.0",
+  "secondary_flags": [
+    "OBSERVATION_UNAVAILABLE",
+    "ORACLE_NOT_RUN",
+    "POLICY_VIOLATION_RECORDED",
+    "PROCESS_EVIDENCE_FAIL",
+    "RETRY_ATTEMPT",
+    "SCHEMA_INVALID_RECORDED"
+  ],
+  "slot_id": "CASE-006-ARM-A-R1"
+}

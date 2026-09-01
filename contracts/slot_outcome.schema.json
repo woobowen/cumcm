@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/slot-outcome/v1",
+  "title": "Phase 002D-R1 Slot Outcome",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "slot_id", "case_id", "anonymous_arm_id", "repeat_id",
+    "scheduled_order", "all_attempt_ids", "attempt_count", "first_attempt_id",
+    "first_completion_id", "first_eligible_success_id", "selected_quality_record_id",
+    "terminal_failure_ids", "infrastructure_failure_ids", "harness_failure_ids",
+    "outcome_resolution", "outcome_subtype", "quality_eligible", "reliability_eligible",
+    "censored", "retry_count", "policy_violation_count", "hard_failure_count",
+    "oracle_pass_count", "oracle_fail_count", "input_tokens", "output_tokens",
+    "elapsed_seconds", "evidence_ids", "confidence", "unresolved_reason", "slot_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "slot_id": {"type": "string", "pattern": "^CASE-[0-9]{3}-ARM-[ABC]-R[12]$"},
+    "case_id": {"enum": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+    "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+    "repeat_id": {"type": "integer", "minimum": 1, "maximum": 2},
+    "scheduled_order": {"type": "integer", "minimum": 1, "maximum": 3},
+    "all_attempt_ids": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "string"}, "uniqueItems": true},
+    "attempt_count": {"type": "integer", "minimum": 1, "maximum": 3},
+    "first_attempt_id": {"type": "string"},
+    "first_completion_id": {"type": ["string", "null"]},
+    "first_eligible_success_id": {"type": ["string", "null"]},
+    "selected_quality_record_id": {"type": ["string", "null"]},
+    "terminal_failure_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "infrastructure_failure_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "harness_failure_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "outcome_resolution": {
+      "enum": [
+        "RESOLVED_ELIGIBLE_SUCCESS", "RESOLVED_TERMINAL_NEGATIVE",
+        "CENSORED_INFRASTRUCTURE", "CENSORED_HARNESS", "UNRESOLVED_UNKNOWN", "STALE"
+      ]
+    },
+    "outcome_subtype": {"type": "string", "minLength": 1},
+    "quality_eligible": {"type": "boolean"},
+    "reliability_eligible": {"const": true},
+    "censored": {"type": "boolean"},
+    "retry_count": {"type": "integer", "minimum": 0, "maximum": 2},
+    "policy_violation_count": {"type": "integer", "minimum": 0},
+    "hard_failure_count": {"type": "integer", "minimum": 0},
+    "oracle_pass_count": {"type": "integer", "minimum": 0},
+    "oracle_fail_count": {"type": "integer", "minimum": 0},
+    "input_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "elapsed_seconds": {"type": "number", "minimum": 0},
+    "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true},
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "unresolved_reason": {"type": ["string", "null"]},
+    "slot_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

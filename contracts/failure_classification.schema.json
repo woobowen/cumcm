@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/failure-classification/v1",
+  "title": "Phase 002D-R1 Attempt Failure Classification",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "classification_id", "attempt_id", "slot_id", "case_id",
+    "anonymous_arm_id", "repeat_id", "primary_classification", "secondary_flags",
+    "observed", "evidence_refs", "attribution_basis", "confidence", "identity_used",
+    "recovery_used", "classification_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "classification_id": {"type": "string", "pattern": "^CLASSIFICATION:EXP-CASE-"},
+    "attempt_id": {"type": "string", "pattern": "^EXP-CASE-[0-9]{3}-ARM-[ABC]-R[12]-A0[123]$"},
+    "slot_id": {"type": "string", "pattern": "^CASE-[0-9]{3}-ARM-[ABC]-R[12]$"},
+    "case_id": {"enum": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+    "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+    "repeat_id": {"type": "integer", "minimum": 1, "maximum": 2},
+    "primary_classification": {
+      "enum": [
+        "ELIGIBLE_SUCCESS", "VALID_OUTPUT_ORACLE_FAIL", "TERMINAL_POLICY_FAILURE",
+        "TERMINAL_MODEL_SCHEMA_FAILURE", "TERMINAL_UNSUPPORTED_CLAIM_FAILURE",
+        "INFRASTRUCTURE_CENSORED", "HARNESS_CENSORED", "UNKNOWN_CENSORED", "SUPERSEDED"
+      ]
+    },
+    "secondary_flags": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "ORACLE_PASS", "ORACLE_FAIL", "ORACLE_NOT_RUN", "POLICY_VIOLATION_RECORDED",
+          "HARD_FAIL_003_RECORDED", "SCHEMA_INVALID_RECORDED", "PROCESS_EVIDENCE_FAIL",
+          "TRANSPORT_FAILURE_RECORDED", "COMPLETED_OUTPUT_RETAINED", "RETRY_ATTEMPT",
+          "HARNESS_PATH_CLAIM_MISMATCH", "OBSERVATION_UNAVAILABLE"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "observed": {
+      "type": "object",
+      "required": [
+        "completion_status", "failure_class", "schema_valid", "oracle_status",
+        "process_evidence_status", "primary_eligible", "hard_failures", "retry_of"
+      ],
+      "properties": {
+        "completion_status": {"enum": ["COMPLETED", "FAILED"]},
+        "failure_class": {"type": ["string", "null"]},
+        "schema_valid": {"type": "boolean"},
+        "oracle_status": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
+        "process_evidence_status": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
+        "primary_eligible": {"type": "boolean"},
+        "hard_failures": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "retry_of": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "evidence_refs": {"type": "array", "minItems": 4, "items": {"type": "string"}, "uniqueItems": true},
+    "attribution_basis": {
+      "enum": [
+        "PRIMARY_ELIGIBILITY_AND_ORACLE", "RUNNER_POLICY_TERMINAL",
+        "RUNNER_SCHEMA_TERMINAL", "AUTHORITATIVE_UNSUPPORTED_CLAIM",
+        "TRANSPORT_OBSERVATION_WITH_HARNESS_SECONDARY",
+        "HARNESS_FILE_BINDING_MISMATCH", "UNKNOWN_FAIL_CLOSED", "SUPERSESSION_RECORD"
+      ]
+    },
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "identity_used": {"const": false},
+    "recovery_used": {"const": false},
+    "classification_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

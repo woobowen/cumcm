@@ -24,6 +24,13 @@ ANONYMOUS_ARMS = ("ARM-A", "ARM-B", "ARM-C")
 REPEAT_IDS = (1, 2)
 
 
+def hashed_body(body: dict, key: str) -> dict:
+    """Append a canonical SHA-256 without hashing the hash field itself."""
+    value = dict(body)
+    value[key] = sha256_json(body)
+    return value
+
+
 def file_hashes(root: Path, relative: Path) -> dict[str, str]:
     """Return a stable relative-path to SHA-256 mapping for one tree."""
     return {
@@ -43,6 +50,7 @@ __all__ = [
     "check_or_write",
     "file_hashes",
     "file_sha256",
+    "hashed_body",
     "read_json",
     "read_yaml",
     "sha256_json",

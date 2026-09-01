@@ -1,0 +1,37 @@
+{
+  "anonymous_arm_id": "ARM-A",
+  "attempt_id": "EXP-CASE-002-ARM-A-R2-A01",
+  "attribution_basis": "PRIMARY_ELIGIBILITY_AND_ORACLE",
+  "case_id": "CASE-002",
+  "classification_hash": "d92ed8b426831b8f994b5c9f528812f2e3bb96c46cd733e4ad0afcdc507f4c21",
+  "classification_id": "CLASSIFICATION:EXP-CASE-002-ARM-A-R2-A01",
+  "confidence": "HIGH",
+  "evidence_refs": [
+    "evals/results/phase-002d/attempts/EXP-CASE-002-ARM-A-R2-A01.json",
+    "evals/results/phase-002d/eligibility/EXP-CASE-002-ARM-A-R2-A01.json",
+    "evals/results/phase-002d/oracle/EXP-CASE-002-ARM-A-R2-A01.json",
+    "evals/results/phase-002d/process_evidence/EXP-CASE-002-ARM-A-R2-A01.json",
+    "rules/dynamic_eval_rules.yaml#hard_failures.HARD-FAIL-003",
+    "evals/results/phase-002d/runs/EXP-CASE-002-ARM-A-R2-A01/observation.json"
+  ],
+  "identity_used": false,
+  "observed": {
+    "completion_status": "COMPLETED",
+    "failure_class": null,
+    "hard_failures": [],
+    "oracle_status": "PASS",
+    "primary_eligible": true,
+    "process_evidence_status": "PASS",
+    "retry_of": null,
+    "schema_valid": true
+  },
+  "primary_classification": "ELIGIBLE_SUCCESS",
+  "recovery_used": false,
+  "repeat_id": 2,
+  "schema_version": "1.0.0",
+  "secondary_flags": [
+    "COMPLETED_OUTPUT_RETAINED",
+    "ORACLE_PASS"
+  ],
+  "slot_id": "CASE-002-ARM-A-R2"
+}

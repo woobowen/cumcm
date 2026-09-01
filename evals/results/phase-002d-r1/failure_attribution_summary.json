@@ -1,0 +1,51 @@
+{
+  "all_attempts_accounted": true,
+  "classification_counts": {
+    "ELIGIBLE_SUCCESS": 9,
+    "HARNESS_CENSORED": 2,
+    "INFRASTRUCTURE_CENSORED": 1,
+    "SUPERSEDED": 0,
+    "TERMINAL_MODEL_SCHEMA_FAILURE": 0,
+    "TERMINAL_POLICY_FAILURE": 7,
+    "TERMINAL_UNSUPPORTED_CLAIM_FAILURE": 0,
+    "UNKNOWN_CENSORED": 0,
+    "VALID_OUTPUT_ORACLE_FAIL": 9
+  },
+  "classified_attempt_count": 28,
+  "completed_but_excluded_attempt_ids": [
+    "EXP-CASE-001-ARM-A-R2-A01",
+    "EXP-CASE-001-ARM-A-R2-A03"
+  ],
+  "hard_fail_003_attempt_ids": [
+    "EXP-CASE-001-ARM-A-R2-A01",
+    "EXP-CASE-004-ARM-A-R2-A01",
+    "EXP-CASE-006-ARM-C-R1-A01",
+    "EXP-CASE-006-ARM-A-R2-A01",
+    "EXP-CASE-001-ARM-A-R2-A02",
+    "EXP-CASE-001-ARM-A-R2-A03"
+  ],
+  "hard_fail_003_definition": "fabricated_run_source_file_metric_test_or_status",
+  "identity_used": false,
+  "infrastructure_attempt_ids": [
+    "EXP-CASE-001-ARM-A-R2-A02"
+  ],
+  "policy_violation_attempt_ids": [
+    "EXP-CASE-004-ARM-A-R2-A01",
+    "EXP-CASE-006-ARM-A-R1-A01",
+    "EXP-CASE-006-ARM-C-R1-A01",
+    "EXP-CASE-006-ARM-A-R2-A01",
+    "EXP-CASE-006-ARM-B-R2-A01",
+    "EXP-CASE-006-ARM-C-R2-A01",
+    "EXP-CASE-006-ARM-A-R1-A02"
+  ],
+  "retry_attempt_ids": [
+    "EXP-CASE-001-ARM-A-R2-A02",
+    "EXP-CASE-004-ARM-A-R2-A02",
+    "EXP-CASE-006-ARM-A-R1-A02",
+    "EXP-CASE-001-ARM-A-R2-A03"
+  ],
+  "schema_version": "1.0.0",
+  "source_attempt_count": 28,
+  "summary_hash": "69d05bab169998348136c7961812d1d74bd98ea95c4407598acd12123ffac532",
+  "summary_id": "PHASE-002D-R1-FAILURE-ATTRIBUTION-001"
+}
