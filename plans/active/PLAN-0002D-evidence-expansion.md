@@ -256,9 +256,10 @@ the Skill stays scaffold-only until a later implementation phase.
 9. **M9 replay/route — PARTIAL ROUTE ONLY** — decision replay and label/order variants are not
    applicable without M8 decisions; deterministic state route is `EVIDENCE_EXPANSION_INCOMPLETE`
    with only the same Phase 002D allowed next.
-10. **M10 acceptance/delivery** — all required reports/contracts/ledgers current; ≥60 new meaningful
-    tests; full offline CI/strict/status pass; atomic commits delivered; Draft PR #3 stays Draft;
-    local/remote SHA and remote CI verified.
+10. **M10 acceptance/delivery — LOCAL PASS/AWAITING DELIVERY** — required documents, reports,
+    contracts and ledgers are current; 535 tests pass with one expected skip; strict has zero
+    errors/warnings. Draft PR #3 is OPEN/DRAFT and its previous head CI passed. Final business
+    commit, remote SHA and new remote CI still require verification.
 
 ## 20. Validation commands
 
@@ -393,7 +394,13 @@ affected hashes and acceptance changes before further scored work.
 - `2026-09-01T21:27:22+08:00`: M7 business commit
   `9762cf547e07675a5c16acc9e223d1c1b448d010` was pushed normally and verified byte-for-byte at the
   task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
+- `2026-09-01T21:37:46+08:00`: M10 local acceptance added the Phase 002D precondition-lock
+  contract, deterministic closure/route checks, five required policy documents, version
+  `0.2.4-evidence-expansion`, all required final reports and a 30-start command ledger. The generated
+  reports explicitly record zero native Subagents and zero Phase 002D decisions. Full CI passes 535
+  tests with one expected skip; 45 valid Schemas pass and 35 invalid fixtures are rejected; strict
+  reports zero errors/warnings. PR #3 is OPEN/DRAFT and its previous remote head CI was SUCCESS.
 
 ## 24. Current next step
 
-Close M10 documentation, deterministic incomplete-route record, reports, CI and remote acceptance.
+Commit and push M10 business content, verify remote CI/SHA, then record the final delivery receipt.

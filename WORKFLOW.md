@@ -44,6 +44,14 @@ Phase 003 additionally requires an accepted architecture, Auditor `PASS`, at lea
 `SPECIFICATION_ONLY` component, no unresolved hard gate/BLOCKER, stable replay, and clean CI. This
 phase never starts merely because a plan or report recommends it.
 
+## Phase 002D evidence-expansion route
+
+`PILOT_PASS → COHORT/BUDGET/SCHEDULE_FROZEN → BATCHED_PRIMARY/RETRY_EVIDENCE →
+PRE_ADJUDICATION_EVIDENCE_GATE`. Meeting four balanced cases and two independent repeats unlocks
+native semantic audits. Budget exhaustion before those minima yields
+`EVIDENCE_EXPANSION_INCOMPLETE`, permits only a newly frozen continuation of the same Phase 002D and
+keeps Phase 003 locked. It does not create automated decisions or a Decision Auditor output.
+
 ## Project lifecycle
 
 `INIT → FOUNDATION_READY → UPSTREAMS_INVENTORIED → UPSTREAMS_STATIC_REVIEWED → CANDIDATES_FROZEN`

@@ -31,3 +31,13 @@ Phase 002B transport repaired: `False`. Preserved recovery attempts: 2 with `RES
 ## Integrity
 
 Input freeze: `cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9`; evidence: `19f5bf98cd1337763a415e086121bdf73b4d92ffa1f6d0ac74ba49d1c058029c`; report inputs are machine records only.
+
+<!-- PHASE002D:START -->
+## Phase 002D terminal addendum
+
+Phase 002D ran 28 scored starts in one new cohort and retained 18 eligible records. Its formal
+sufficiency is `INSUFFICIENT` at 3/4 balanced cases and
+1/2 repeats. Elapsed budget stopped the runner. Native
+Subagents, Phase 002D decisions, Decision Auditor and decision replay were not run. The deterministic
+route permits only `PHASE-EVIDENCE-EXPANSION-002D`; Phase 003 remains false.
+<!-- PHASE002D:END -->

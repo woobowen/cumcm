@@ -29,6 +29,13 @@ cannot change the technical outcome.
 
 Development cases may inform changes. Validation freezes the Skill during a run. Held-out cases and answers live in an excluded vault; viewing an answer permanently demotes that case to development. Live contest mode forbids current-problem discussion searches. Static scores are provisional and never choose a base without dynamic evidence.
 
+## Evidence-expansion execution plane
+
+Phase 002D uses a frozen cohort, blocked randomized schedule and fresh ephemeral no-remote Git
+workspaces. Append-only attempt/run/eligibility/oracle/process records feed a deterministic
+sufficiency Gate. Semantic Subagents and automated decisions are downstream consumers only when
+that Gate is sufficient; the terminal insufficient route writes no substitute opinion.
+
 ## Why not concatenate full Skills
 
 Full-Skill concatenation creates duplicate state machines, contradictory gates, discovery collisions, instruction-budget pressure, uncertain license boundaries, and untraceable behavior. The project instead evaluates mechanisms, then adopts/ports/reimplements only evidence-backed components through explicit ADRs, license review, and tests.

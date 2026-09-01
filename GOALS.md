@@ -33,8 +33,11 @@ This repository supplies facts, formulas, tables, figure-ready data, validation,
 
 ## Undecided
 
-- Upstream architecture and component specifications: `UNVERIFIED`; Phase 002A transport failed
-  before valid Blind Judge, Meta-Adjudicator, or Decision Auditor output.
+- Upstream architecture and component specifications: `UNVERIFIED`; Phase 002D stopped at 18
+  eligible records, three balanced cases and repeat depth one before semantic audit or decisions.
 - Project license: `PROJECT_LICENSE_UNDECIDED`.
 - Production modeling methods, reviewer thresholds, and benchmark cases: `NEEDS_REVIEW`.
 - Official 2026 rule extraction: registered but `NEEDS_EXTRACTION`.
+
+Phase 002D remains evidence acquisition only. Its next legal route is a redesigned and newly frozen
+Phase 002D continuation; it cannot integrate a candidate, select a base, or start Phase 003.

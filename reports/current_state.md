@@ -18,13 +18,12 @@
 - Content-verified commit: `9762cf547e07675a5c16acc9e223d1c1b448d010`
 - Delivery receipt commit: `9762cf547e07675a5c16acc9e223d1c1b448d010`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-01T21:27:22+08:00` by `main-agent`
+- Updated: `2026-09-01T21:37:46+08:00` by `main-agent`
 
 ## Blockers
 
 - EVIDENCE_MINIMA_NOT_MET
 - ELAPSED_BUDGET_REACHED
-- M10_ACCEPTANCE_PENDING
 
 ## Risks
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.4-evidence-expansion — 2026-09-01
+
+- Froze a new `gpt-5.6-sol`/`medium` cohort, compact pilot, formula budget, blocked randomized
+  schedule and append-only fresh-session runner without API-key billing or third-party execution.
+- Recorded 28 real scored starts, 18 primary-eligible records, eight completion failures and one
+  infrastructure failure; the elapsed hard limit stopped acquisition at three balanced cases and
+  one independent repeat.
+- Added deterministic sufficiency and adjudication-precondition contracts, cost/score audits,
+  closure route, reports and offline tests. The result is `EVIDENCE_EXPANSION_INCOMPLETE`; semantic
+  Subagents and Phase 002D decisions were not run, and Phase 003 remains prohibited.
+
 ## 0.2.3-evidence-sufficiency — 2026-09-01
 
 - Started Phase 002C to place deterministic evidence sufficiency and target-specific hard Gates

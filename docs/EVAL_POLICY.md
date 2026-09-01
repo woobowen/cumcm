@@ -6,3 +6,7 @@ separately computes deterministic oracle correctness and process evidence. Only 
 cells enter comparison; failed and recovery-affected cells remain visible but cannot affect rank.
 Balanced-case and repeat minima are computed from data. The engine may report insufficient evidence
 or abstain, and validation/held-out results remain unavailable for direct tuning.
+
+Phase 002D uses only its selected new cohort for primary minima. Fresh retries may fill missing
+cells but do not add repeat depth for the same repeat ID. Oracle outcome is separate from eligibility;
+failed, hard-failed, recovered, cross-model and `NOT_RUN` records stay visible but cannot fill.

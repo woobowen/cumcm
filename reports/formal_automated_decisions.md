@@ -6,3 +6,11 @@
 | DECISION-DIRECT-UPSTREAM-ADOPTION-002C | DIRECT_UPSTREAM_ADOPTION | AUTOMATED_REJECTED | NONE | DECISION-AUDIT-002C | None |
 | DECISION-EVIDENCE-SUFFICIENCY-002C | EVIDENCE_SUFFICIENCY | EVIDENCE_INSUFFICIENT | NONE | DECISION-AUDIT-002C | PHASE-EVIDENCE-EXPANSION-002D |
 | DECISION-RECOVERY-POLICY-002C | RECOVERY_POLICY | AUTOMATED_ACCEPTED | POLICY_ONLY | DECISION-AUDIT-002C | None |
+
+<!-- PHASE002D:START -->
+## Phase 002D
+
+No Phase 002D automated decision exists. Evidence insufficiency locked the semantic-audit and
+decision chain before decision generation. Historical Phase 002C decision IDs above remain the
+only formal automated decisions and are not superseded by this absence record.
+<!-- PHASE002D:END -->

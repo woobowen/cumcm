@@ -44,6 +44,7 @@ TOKEN_FIELDS = (
 POST_EXPERIMENT_DERIVED_DIRS = frozenset(
     {
         "automated_decisions",
+        "closure",
         "decision_audit",
         "subagent_audits",
         "sufficiency",

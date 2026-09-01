@@ -17,3 +17,6 @@
   without valid prerequisites. See `TRANSPORT_RECOVERY_POLICY.md`.
 - **Team challenge:** validate the separate challenge record, mark the decision and descendants
   `STALE`, and replay automated adjudication. Team review cannot reverse the technical record.
+- **Phase 002D budget stop:** preserve every attempt and the terminal checkpoint, forbid further
+  starts, generate insufficiency/route records, and require a new reviewed freeze before same-phase
+  continuation. See `EXPANSION_RECOVERY.md`.

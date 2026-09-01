@@ -6,3 +6,7 @@ Development cases are visible and may drive iteration. Validation cases evaluate
 accept/reject/abstain, minority counterexamples, identity/order changes, social proof, recovery
 contamination, keyword gaming, report mutation, replay, license, and duplicate state sources. CI runs
 only mocks and deterministic cases; it never starts a real Codex Agent.
+
+Real Phase 002D runs are local, manually invoked evaluation evidence and are never CI jobs. CI may
+replay hashes, Schemas, schedules, oracle/process logic, sufficiency and the locked incomplete route
+without network, model starts, native semantic Subagents or hidden-answer access.
