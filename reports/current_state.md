@@ -10,19 +10,21 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `EVIDENCE_EXPANSION_IN_PROGRESS`
+- Technical adjudication: `EVIDENCE_EXPANSION_INCOMPLETE`
 - Automated decisions: `DECISION-EVIDENCE-SUFFICIENCY-002C, DECISION-DIRECT-UPSTREAM-ADOPTION-002C, DECISION-RECOVERY-POLICY-002C, DECISION-COMPONENT-READINESS-002C`
 - Selected architecture: `None`
 - Accepted component specifications: `None`
-- Next phase allowed: `None`
+- Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`
 - Content-verified commit: `e935da9fd18c0567c99214c36c1658a8d05e0508`
 - Delivery receipt commit: `e935da9fd18c0567c99214c36c1658a8d05e0508`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-01T21:18:32+08:00` by `main-agent`
+- Updated: `2026-09-01T21:24:08+08:00` by `main-agent`
 
 ## Blockers
 
-- None
+- EVIDENCE_MINIMA_NOT_MET
+- ELAPSED_BUDGET_REACHED
+- M10_ACCEPTANCE_PENDING
 
 ## Risks
 
@@ -38,3 +40,4 @@
 - Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.
 - Direct-adoption risks now use a closed fail-closed enum; the Phase 002C compatibility replay preserves both historical whole-package rejections.
 - Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.
+- Phase 002D stopped at 18 eligible records, 3 balanced cases and sufficiency repeat depth 1 after crossing the frozen elapsed budget; semantic Subagents and automated decisions remain locked.

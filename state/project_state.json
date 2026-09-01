@@ -6,7 +6,7 @@
   "current_plan": "plans/active/PLAN-0002D-evidence-expansion.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/evidence-expansion-002d",
-  "technical_adjudication_status": "EVIDENCE_EXPANSION_IN_PROGRESS",
+  "technical_adjudication_status": "EVIDENCE_EXPANSION_INCOMPLETE",
   "automated_decision_ids": [
     "DECISION-EVIDENCE-SUFFICIENCY-002C",
     "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
@@ -15,7 +15,7 @@
   ],
   "selected_architecture": null,
   "accepted_component_specifications": [],
-  "next_phase_allowed": null,
+  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
   "evidence_expansion": {
     "cohort_mode": "NEW_MODEL_COHORT",
     "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
@@ -59,7 +59,11 @@
     "verified_at": "2026-09-01T21:18:32+08:00"
   },
   "team_compliance_review_status": "NOT_RUN",
-  "blockers": [],
+  "blockers": [
+    "EVIDENCE_MINIMA_NOT_MET",
+    "ELAPSED_BUDGET_REACHED",
+    "M10_ACCEPTANCE_PENDING"
+  ],
   "risks": [
     "Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.",
     "Project license is PROJECT_LICENSE_UNDECIDED.",
@@ -72,11 +76,12 @@
     "Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.",
     "Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.",
     "Direct-adoption risks now use a closed fail-closed enum; the Phase 002C compatibility replay preserves both historical whole-package rejections.",
-    "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark."
+    "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.",
+    "Phase 002D stopped at 18 eligible records, 3 balanced cases and sufficiency repeat depth 1 after crossing the frozen elapsed budget; semantic Subagents and automated decisions remain locked."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T21:18:32+08:00",
+  "updated_at": "2026-09-01T21:24:08+08:00",
   "updated_by": "main-agent"
 }

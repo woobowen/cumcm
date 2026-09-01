@@ -55,6 +55,7 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         "AUTOMATED_ADJUDICATION_COMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
         "EVIDENCE_EXPANSION_IN_PROGRESS",
+        "EVIDENCE_EXPANSION_INCOMPLETE",
     }
     if state["technical_adjudication_status"] == "AUTOMATED_ADJUDICATION_COMPLETE":
         assert state["automated_decision_ids"]
@@ -62,6 +63,8 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
             "PHASE-EVIDENCE-EXPANSION-002D",
             "PHASE-SKILL-INTEGRATION-003",
         }
+    elif state["technical_adjudication_status"] == "EVIDENCE_EXPANSION_INCOMPLETE":
+        assert state["next_phase_allowed"] == "PHASE-EVIDENCE-EXPANSION-002D"
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False

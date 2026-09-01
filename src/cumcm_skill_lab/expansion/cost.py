@@ -41,6 +41,14 @@ TOKEN_FIELDS = (
     "output_tokens",
     "reasoning_tokens",
 )
+POST_EXPERIMENT_DERIVED_DIRS = frozenset(
+    {
+        "automated_decisions",
+        "decision_audit",
+        "subagent_audits",
+        "sufficiency",
+    }
+)
 
 
 def _now() -> str:
@@ -90,7 +98,11 @@ def _evidence_storage(root: Path) -> dict[str, int]:
     paths = [
         path
         for path in (root / RESULT_ROOT).rglob("*")
-        if path.is_file() and "cost" not in path.relative_to(root / RESULT_ROOT).parts
+        if path.is_file()
+        and "cost" not in path.relative_to(root / RESULT_ROOT).parts
+        and not POST_EXPERIMENT_DERIVED_DIRS.intersection(
+            path.relative_to(root / RESULT_ROOT).parts
+        )
     ]
     return {
         "tracked_evidence_file_count": len(paths),

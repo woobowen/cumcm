@@ -247,12 +247,14 @@ the Skill stays scaffold-only until a later implementation phase.
 6. **M6 later batches — COMPLETE/REMOTE TERMINAL** — each bounded batch is verified/committed/pushed; the
    final A03 is excluded by HARD-FAIL-003 and cumulative elapsed crosses the frozen limit. Runner
    is STOPPED with `ELAPSED_BUDGET_REACHED`; Batch 7 is remotely delivered.
-7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
-   hard Gates.
-8. **M8 audits/decisions** — four independent first-round audits; all BLOCKER tests executed; five
-   automated decision types generated; separate Decision Auditor PASS.
-9. **M9 replay/route** — offline rebuild, label/order variants and phase route stable; formal state
-   agrees with audited records.
+7. **M7 sufficiency — COMPLETE/INSUFFICIENT** — formal machine record reports 18 eligible records,
+   three balanced cases, one independent repeat, intact cohort/input/hard Gates and `INSUFFICIENT`.
+8. **M8 audits/decisions — LOCKED/NOT RUN** — quantitative minima did not pass, so native semantic
+   Subagents, derived BLOCKER tests, Phase 002D automated decisions and Decision Auditor are
+   prohibited by the frozen ordering.
+9. **M9 replay/route — PARTIAL ROUTE ONLY** — decision replay and label/order variants are not
+   applicable without M8 decisions; deterministic state route is `EVIDENCE_EXPANSION_INCOMPLETE`
+   with only the same Phase 002D allowed next.
 10. **M10 acceptance/delivery** — all required reports/contracts/ledgers current; ≥60 new meaningful
     tests; full offline CI/strict/status pass; atomic commits delivered; Draft PR #3 stays Draft;
     local/remote SHA and remote CI verified.
@@ -381,7 +383,13 @@ affected hashes and acceptance changes before further scored work.
 - `2026-09-01T21:18:32+08:00`: Terminal Batch 7 business commit
   `e935da9fd18c0567c99214c36c1658a8d05e0508` was pushed normally and verified byte-for-byte at the
   task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
+- `2026-09-01T21:24:08+08:00`: M7 deterministic sufficiency record passes the reused Schema and
+  hash checks with result `INSUFFICIENT`: 18 eligible primary records, three balanced cases and one
+  independent repeat among balanced cells against frozen minima four/two. Task-input hashes,
+  cohort, input freeze and eligible hard Gates pass. Semantic Subagents and ranking remain locked;
+  record hash is `cf9c9c98...`. M10 audit also identified five required Phase 002D policy documents
+  and the `0.2.4-evidence-expansion` version bump as outstanding acceptance work.
 
 ## 24. Current next step
 
-Generate and validate the formal M7 insufficiency record offline; keep Subagent audits locked.
+Deliver M7, then close M10 documentation, deterministic incomplete-route replay, reports and CI.

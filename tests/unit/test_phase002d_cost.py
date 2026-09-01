@@ -87,3 +87,14 @@ def test_current_cost_rebuilds_from_all_append_only_attempts(repo_root):
         calculated_at=current["calculated_at"],
     )
     assert rebuilt == current
+
+
+def test_post_experiment_sufficiency_is_not_charged_to_runtime_storage(repo_root):
+    current = read_json(repo_root / "evals/results/phase-002d/cost/cost.json")
+    assert (repo_root / "evals/results/phase-002d/sufficiency/evidence_sufficiency.json").is_file()
+    rebuilt = build_cost(
+        repo_root,
+        batch_id=current["batch_id"],
+        calculated_at=current["calculated_at"],
+    )
+    assert rebuilt["storage"] == current["storage"]
