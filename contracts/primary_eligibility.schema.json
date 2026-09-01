@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/primary-eligibility/v1",
+  "title": "Phase 002D Primary Eligibility",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "attempt_id", "cohort_id", "case_id", "anonymous_arm_id",
+    "repeat_id", "classification", "primary_eligible", "checks", "exclusion_reasons",
+    "oracle_outcome_used_for_selection", "oracle_status", "recovery_evidence",
+    "eligibility_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "attempt_id": {"type": "string", "minLength": 1},
+    "cohort_id": {"type": "string", "minLength": 1},
+    "case_id": {"enum": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+    "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+    "repeat_id": {"type": "integer", "minimum": 1, "maximum": 2},
+    "classification": {"enum": ["PRIMARY_ELIGIBLE", "EXCLUDED"]},
+    "primary_eligible": {"type": "boolean"},
+    "checks": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "boolean"}},
+    "exclusion_reasons": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "oracle_outcome_used_for_selection": {"const": false},
+    "oracle_status": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
+    "recovery_evidence": {"const": false},
+    "eligibility_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

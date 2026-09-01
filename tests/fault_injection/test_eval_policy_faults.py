@@ -54,6 +54,7 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         "AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS",
         "AUTOMATED_ADJUDICATION_COMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
+        "EVIDENCE_EXPANSION_IN_PROGRESS",
     }
     if state["technical_adjudication_status"] == "AUTOMATED_ADJUDICATION_COMPLETE":
         assert state["automated_decision_ids"]

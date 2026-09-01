@@ -3,15 +3,9 @@
   "bound_code_hashes": {
     "src/cumcm_skill_lab/eval/case_generation.py": "e3230aa4fa56eab9b90e46ddba700d8092eb77789bbd32847af293da88d469b7",
     "src/cumcm_skill_lab/eval/runner.py": "bf64b61b6dafb2c264ec53d144c6a05cef7d3467fd24c65c37b9f5f90d8fac0f",
-    "src/cumcm_skill_lab/eval/scoring.py": "ab53e17ac12bbf305654e63e646b1aafe4e34a700962ee6f1ad0140ba9531419",
-    "src/cumcm_skill_lab/expansion/attempt_ledger.py": "c29e536e8583b7cdb0ac2f613decbfcfd213783e7ec72387d52083fb750ba3d0",
-    "src/cumcm_skill_lab/expansion/eligibility.py": "093d73dfe7f51cbea3a499d66fbd943b8a9c0391694ec654740b0e4f65332c8a",
-    "src/cumcm_skill_lab/expansion/oracle.py": "d33ba9e3172641d3c87d8a182f7208ec7e8d8d101ecb91b6e81bc4f7d7631703",
-    "src/cumcm_skill_lab/expansion/runner.py": "fa648d5c7dc47e9bbe0d9af6ac0e660fa54548909b18818d9f9bbb5bb3c78c99",
-    "src/cumcm_skill_lab/expansion/schedule.py": "4a1d53a71a912483fb1e3cc9f2d8ba4c98c7c51d9cd7cc828c0103484147255d",
-    "src/cumcm_skill_lab/expansion/scoring.py": "f45957211d64b482bf321c1a9715292b6f4f8c33eae059306ce1975422272585"
+    "src/cumcm_skill_lab/eval/score_pipeline.py": "d1030c6f4db0346aa37c4bf802c75fd26b5ce5912f3a9396d9351cfddd34abef",
+    "src/cumcm_skill_lab/eval/scoring.py": "ab53e17ac12bbf305654e63e646b1aafe4e34a700962ee6f1ad0140ba9531419"
   },
-  "budget_hash": "389c24e9155da753a389b50cf073481cd3dfd2649f4d2de4c740f715c6fe6c51",
   "candidate_package_hashes": {
     "HANDSOMEZR": "7a9cb6c6850991f9d708a83c762ffd6f066c024153f39b3c0e7a123f50d68194",
     "NO_PROJECT_MODELING_SKILL": "908d89f00e4bbab7260c84d5b698171c87ea8c12f86f08ea437289ec8385b26c",
@@ -50,7 +44,7 @@
   "codex_cli_version": "0.147.0",
   "created_at": "2026-09-01T18:09:59+08:00",
   "fixture_content_set_hash": "9aa9f4813e8bcdea383f86d7db88825f341fe3a2cfbcc07ff26fea51ca73ba97",
-  "freeze_hash": "ddcb409eaadf69d965acc1b29992a5f83aa242508f1f3c38b19a0cf1b33f2bfa",
+  "freeze_hash": "fb0c1122264c174f19c4a7a2024c38c9fc4f52e69d0de704a39abbd4ceab3daf",
   "freeze_id": "PHASE-002D-INPUT-FREEZE",
   "historical_evidence_immutable": true,
   "historical_git_integrity": {
@@ -76,14 +70,12 @@
     "reasoning_setting": "HARD_EXACT",
     "sandbox_network_mcp": "HARD_EXACT"
   },
-  "oracle_hash": "d33ba9e3172641d3c87d8a182f7208ec7e8d8d101ecb91b6e81bc4f7d7631703",
+  "oracle_hash": "e3230aa4fa56eab9b90e46ddba700d8092eb77789bbd32847af293da88d469b7",
   "output_schema_hashes": {
     "contracts/eval_observation.schema.json": "2706c0c33510fc7aeba3d4e731134941bd855d76540db7c5944d800576a69123",
-    "contracts/expansion_attempt.schema.json": "76296e673638b6db540e78e858d55c48debd8a58599fdeec3002b71a55a75060",
-    "contracts/expansion_run.schema.json": "0bbbf95a0a17e46f016e23aaa112e62e3ec24f44872d71c4baf75ec645957337",
-    "contracts/expansion_schedule.schema.json": "80f6ba8a675cdfbaa35c066fc69ba5dd43a83c1f450535c63bf8f538d17b004c",
-    "contracts/experiment_cohort.schema.json": "50d84413a2d61628da8d25694ac9d76d2a234b38c3bac0ca72147c7f506800ad",
-    "contracts/primary_eligibility.schema.json": "e2cb33b7eb6d384c891991fbe324672e3ba4463a9eacc24494a0a7026b74f223"
+    "contracts/eval_run.schema.json": "9313f6f6cd28cb05fa53e9efe6704a66263df0962d6346b012794230b1ae6a80",
+    "contracts/eval_score.schema.json": "cf449787e3853ce4acdd1c113e415681c2de1c4a8ca2a762511d4c4d582e7110",
+    "contracts/experiment_cohort.schema.json": "50d84413a2d61628da8d25694ac9d76d2a234b38c3bac0ca72147c7f506800ad"
   },
   "phase": "PHASE-EVIDENCE-EXPANSION-002D",
   "phase002_freeze_hash": "c0bf09d9fa118953813e27f234c6f36be87e18205fc5948ca3dd9c2f800c6582",
@@ -107,11 +99,10 @@
     "rules/workflow_rules.yaml": "a2271121eb659f50155699c2cd3ccff2771b0fd5bb90bf3710b022d4bbb33864"
   },
   "proxy_transport_profile": "PROXY_INHERITED",
-  "runner_hash": "fa648d5c7dc47e9bbe0d9af6ac0e660fa54548909b18818d9f9bbb5bb3c78c99",
-  "schedule_hash": "5d0351aa4e00885131aedfefdbaa8e311cf2c299652a38f42f6ecad762c045aa",
+  "runner_hash": "bf64b61b6dafb2c264ec53d144c6a05cef7d3467fd24c65c37b9f5f90d8fac0f",
   "schema_version": "1.0.0",
   "scored_runs_started": false,
-  "scorer_hash": "f45957211d64b482bf321c1a9715292b6f4f8c33eae059306ce1975422272585",
+  "scorer_hash": "d1030c6f4db0346aa37c4bf802c75fd26b5ce5912f3a9396d9351cfddd34abef",
   "selected_cohort_hash": "db663586c8d86c12e72da19872a34ab9cdd5070b050d8ebd4a9a56b949bc2058",
   "selected_primary_cases": [
     "CASE-001",
@@ -119,5 +110,5 @@
     "CASE-004",
     "CASE-006"
   ],
-  "subject_commit": "21a3047156f2aae7324bd04757b19593f22941a0"
+  "subject_commit": "cea20d8af62aca8a1e6fb931846351f8214a437d"
 }

@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from .budget import BUDGET_PATH
 from .cohort import COHORT_PATH
 from .models import (
     CONFIG_PATH,
@@ -25,15 +26,22 @@ from .models import (
 FREEZE_PATH = RESULT_ROOT / "input_freeze_manifest.json"
 BASE_COMMIT = "8dd43cad3bac58ac25fdbb0d412d894d428472ae"
 BOUND_CODE_PATHS = (
+    "src/cumcm_skill_lab/expansion/runner.py",
+    "src/cumcm_skill_lab/expansion/attempt_ledger.py",
+    "src/cumcm_skill_lab/expansion/eligibility.py",
+    "src/cumcm_skill_lab/expansion/oracle.py",
+    "src/cumcm_skill_lab/expansion/scoring.py",
+    "src/cumcm_skill_lab/expansion/schedule.py",
     "src/cumcm_skill_lab/eval/runner.py",
-    "src/cumcm_skill_lab/eval/score_pipeline.py",
     "src/cumcm_skill_lab/eval/scoring.py",
     "src/cumcm_skill_lab/eval/case_generation.py",
 )
 BOUND_CONTRACT_PATHS = (
+    "contracts/expansion_attempt.schema.json",
+    "contracts/expansion_run.schema.json",
+    "contracts/primary_eligibility.schema.json",
+    "contracts/expansion_schedule.schema.json",
     "contracts/eval_observation.schema.json",
-    "contracts/eval_run.schema.json",
-    "contracts/eval_score.schema.json",
     "contracts/experiment_cohort.schema.json",
 )
 
@@ -75,6 +83,8 @@ def build_input_freeze(root: Path) -> dict[str, Any]:
     policy = read_yaml(root / POLICY_PATH)
     fixture_manifest = read_json(root / "evals/fixtures/phase-002/manifest.json")
     cohort = read_json(root / COHORT_PATH)
+    budget = read_json(root / BUDGET_PATH)
+    schedule = read_json(root / f"{RESULT_ROOT.as_posix()}/schedule/schedule.json")
     pilot_path = root / RESULT_ROOT / "pilot/pilot.json"
     pilot = read_json(pilot_path) if pilot_path.is_file() else None
     policy_paths = (
@@ -110,9 +120,9 @@ def build_input_freeze(root: Path) -> dict[str, Any]:
         "candidate_package_hashes": _package_hashes(root),
         "policy_hashes": {path: file_sha256(root / path) for path in policy_paths},
         "output_schema_hashes": {path: file_sha256(root / path) for path in BOUND_CONTRACT_PATHS},
-        "runner_hash": file_sha256(root / "src/cumcm_skill_lab/eval/runner.py"),
-        "scorer_hash": file_sha256(root / "src/cumcm_skill_lab/eval/score_pipeline.py"),
-        "oracle_hash": file_sha256(root / "src/cumcm_skill_lab/eval/case_generation.py"),
+        "runner_hash": file_sha256(root / "src/cumcm_skill_lab/expansion/runner.py"),
+        "scorer_hash": file_sha256(root / "src/cumcm_skill_lab/expansion/scoring.py"),
+        "oracle_hash": file_sha256(root / "src/cumcm_skill_lab/expansion/oracle.py"),
         "bound_code_hashes": {path: file_sha256(root / path) for path in BOUND_CODE_PATHS},
         "codex_cli_version": config["codex_cli_version"],
         "auth_mode": config["auth_mode"],
@@ -120,6 +130,8 @@ def build_input_freeze(root: Path) -> dict[str, Any]:
         "model_cohort_policy": policy["model_cohort_policy"],
         "selected_cohort_hash": cohort["cohort_hash"],
         "pilot_result_hash": pilot["result_hash"] if pilot else None,
+        "budget_hash": budget["budget_hash"],
+        "schedule_hash": schedule["schedule_hash"],
         "selected_primary_cases": config["primary_cases"],
         "minimum_repeats": config["minimum_repeats"],
         "historical_evidence_immutable": True,

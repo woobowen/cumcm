@@ -119,7 +119,9 @@ records use anonymous labels; first-round semantic reviewers do not receive iden
 
 A repeat is a new non-resumed Codex session started from the frozen input. It must complete with a
 legal exit, valid Schema, matching cohort/content/policy hashes, no recovery, no hard/safety/input
-failure, passing oracle and verifiable process evidence. Exact-session resume, transport
+failure, an executed deterministic oracle and verifiable process evidence. Oracle PASS/FAIL remains
+outcome evidence and is never used to select observations into or out of the primary sample.
+Exact-session resume, transport
 continuation, publication/parser/raw-output recovery, hand-repaired JSON, partial/failed output,
 different cohort/profile, manual fill and old cross-model evidence are excluded. A fresh retry can
 be primary if it independently passes; its predecessor failure remains immutable.
@@ -236,8 +238,9 @@ the Skill stays scaffold-only until a later implementation phase.
    atomic commit and push.
 3. **M3 pilot/budget — COMPLETE** — fresh pilot succeeds within two starts; one profile and replayable formula
    budget freeze before scored work; ADR-0027; focused checks; atomic commit and push.
-4. **M4 schedule/runner** — fixed schedule, runner, append-only attempts, checkpoint/status, mocks and
-   fault injection pass without a real scored start; ADR-0026; atomic commit and push.
+4. **M4 schedule/runner — VALIDATED, DELIVERY PENDING** — fixed schedule, runner, append-only attempts,
+   checkpoint/status, mocks and fault injection pass without a real scored start; ADR-0026; atomic
+   commit is ready for push.
 5. **M5 Batch 1** — one complete block is attempted in frozen order; every record is verified and
    retained; checkpoint/cost/status/tests pass; atomic commit and push.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
@@ -305,9 +308,13 @@ affected hashes and acceptance changes before further scored work.
   `PROXY_INHERITED`, observing 41,092 input and 397 output tokens. The final input freeze is
   `fb0c1122...`, cohort `db663586...`, and formula budget `389c24e9...`; expected input is 4,762,659
   tokens and expected elapsed time 4,590 seconds, below absolute hard limits.
+- `2026-09-01T18:51:53+08:00`: M4 deterministic implementation passed 49 focused tests and all
+  43 Schema positive/33 negative fixtures. Schedule `5d0351aa...` freezes eight blocks, 24 primary
+  attempts and 48 retry slots. Input freeze `ddcb409e...` binds the independent runner, ledger,
+  eligibility, oracle, coverage scorer and contracts. Runner `--check`, `--status` and dry-run pass
+  with zero scored attempts; the first block is CASE-001/R1 in ARM-C, ARM-A, ARM-B order.
 
 ## 24. Current next step
 
-Commit and remotely deliver M3, then generate the fixed-seed blocked schedule and complete runner,
-append-only attempt/checkpoint, mock and fault-injection machinery. Do not start a scored run until
-M4 is delivered and every schedule/runner `--check` passes.
+Commit and remotely deliver M4. Do not start Batch 1 until the remote SHA equals the local business
+commit and every freeze/schedule/runner check still passes from that commit.
