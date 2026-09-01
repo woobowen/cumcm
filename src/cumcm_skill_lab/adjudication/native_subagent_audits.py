@@ -75,6 +75,8 @@ def build_first_round_bundles(root: Path) -> dict[str, dict[str, Any]]:
         "src/cumcm_skill_lab/adjudication/short_circuit.py",
         "src/cumcm_skill_lab/adjudication/phase_routing.py",
         "src/cumcm_skill_lab/adjudication/phase002c_records.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_audit.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py",
         "src/cumcm_skill_lab/adjudication/phase002c_reporting.py",
         "src/cumcm_skill_lab/report_generation.py",
         "state/project_state.json",
@@ -172,6 +174,8 @@ def build_decision_auditor_bundle(root: Path) -> dict[str, Any]:
         "rules/pre_adjudication_rules.yaml",
         "rules/native_subagent_audit_rules.yaml",
         "src/cumcm_skill_lab/adjudication/phase002c_records.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_audit.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py",
         "src/cumcm_skill_lab/adjudication/phase_routing.py",
     ]
     catalog = sorted(

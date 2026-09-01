@@ -32,7 +32,7 @@ def decision_sets_equal(left: list[dict[str, Any]], right: list[dict[str, Any]])
 
     left_by_id = by_id(left)
     right_by_id = by_id(right)
-    return left_by_id is not None and right_by_id is not None and left_by_id == right_by_id
+    return bool(left_by_id) and bool(right_by_id) and left_by_id == right_by_id
 
 
 def build_replay(root: Path) -> dict[str, Any]:

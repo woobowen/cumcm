@@ -13,7 +13,10 @@ from cumcm_skill_lab.adjudication.evidence_sufficiency import (
     compute_evidence_sufficiency,
 )
 from cumcm_skill_lab.adjudication.models import sha256_json
-from cumcm_skill_lab.adjudication.native_subagent_audits import blocker_test_record
+from cumcm_skill_lab.adjudication.native_subagent_audits import (
+    blocker_test_record,
+    build_first_round_bundles,
+)
 from cumcm_skill_lab.adjudication.phase002c_records import (
     decision_created_at,
     evaluate_direct_adoption_gates,
@@ -622,6 +625,32 @@ def test_final_replay_compares_decision_sets_independent_of_file_order():
 def test_final_replay_rejects_duplicate_decision_ids():
     decision = {"decision_id": "DECISION-A", "decision": "EVIDENCE_INSUFFICIENT"}
     assert decision_sets_equal([decision], [decision, dict(decision)]) is False
+
+
+@pytest.mark.parametrize(
+    ("left", "right"),
+    [
+        ([], []),
+        ([{"decision_id": "DECISION-A", "decision": "X"}], []),
+        (
+            [{"decision_id": "DECISION-A", "decision": "X"}],
+            [{"decision_id": "DECISION-A", "decision": "Y"}],
+        ),
+        ([{"decision_id": "", "decision": "X"}], [{"decision_id": "", "decision": "X"}]),
+        ([{"decision_id": 1, "decision": "X"}], [{"decision_id": 1, "decision": "X"}]),
+    ],
+)
+def test_final_replay_rejects_incomplete_or_invalid_decision_sets(left, right):
+    assert decision_sets_equal(left, right) is False
+
+
+def test_first_round_bundles_expose_hash_bound_replay_implementation(repo_root):
+    bundles = build_first_round_bundles(repo_root)
+    for bundle in bundles.values():
+        assert (
+            "src/cumcm_skill_lab/adjudication/phase002c_replay.py"
+            in bundle["allowed_file_references"]
+        )
 
 
 def test_component_value_is_not_an_input_to_whole_package_gates():
