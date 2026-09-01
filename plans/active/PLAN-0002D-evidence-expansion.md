@@ -245,8 +245,8 @@ the Skill stays scaffold-only until a later implementation phase.
    are primary eligible and retained; checkpoint/cost/score-audit/status passed; business commit
    `dcff679` is remotely delivered and verified.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
-   condition with exact status. Batches 2 through 5 are remotely delivered; retry Batch 6 is
-   validated locally with one eligible record and awaits delivery.
+   condition with exact status. Batches 2 through 6 are remotely delivered; the final A03 attempt
+   is next.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
    hard Gates.
 8. **M8 audits/decisions** — four independent first-round audits; all BLOCKER tests executed; five
@@ -369,7 +369,10 @@ affected hashes and acceptance changes before further scored work.
   HARD-FAIL-003; CASE-006/ARM-A/R1 is a Schema-invalid policy exclusion. Cumulative attempts/eligible
   are 27/18; elapsed is 5,988.297082 seconds with 208.702918 remaining. Cost `4ac9dfc5...`, score
   audit `86b47288...`, and runner check pass. Minima still miss six eligible records.
+- `2026-09-01T21:11:44+08:00`: Retry Batch 6 business commit
+  `8efe3f2fa790a27861094d944484ded0f4fc2f24` was pushed normally and verified byte-for-byte at the
+  task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
 
 ## 24. Current next step
 
-Validate, commit and remotely deliver retry Batch 6 before the final A03 attempt.
+Dry-run and execute the final A03 attempt; retain the frozen hard-stop result without further starts.
