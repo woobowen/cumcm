@@ -16,10 +16,10 @@
 - Selected architecture: `None`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`
-- Content-verified commit: `fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235`
-- Delivery receipt commit: `fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235`
+- Content-verified commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
+- Delivery receipt commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-02T03:49:25+08:00` by `main-agent`
+- Updated: `2026-09-02T03:58:21+08:00` by `main-agent`
 
 ## Blockers
 

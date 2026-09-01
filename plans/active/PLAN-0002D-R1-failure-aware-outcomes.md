@@ -1,6 +1,6 @@
 # PLAN-0002D-R1 — Failure-Aware Outcome Adjudication
 
-Status: `IN_PROGRESS`
+Status: `COMPLETE`
 Phase: `PHASE-EVIDENCE-EXPANSION-002D`
 Subphase: `PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION`
 Owner: main agent
@@ -275,6 +275,10 @@ reset/clean/rebase/force-push/merge. PR #3 remains OPEN/DRAFT and is updated onl
   immutable freezes, all R1 checks, strict validation with zero errors/warnings and full offline
   CI. A preliminary self-reference failure was fixed by retaining the previous delivery receipt
   until the new content commit exists; no test or contract was relaxed.
+- `2026-09-02T03:58:21+08:00`: M9 content commit
+  `62dc0b443782e93a246ab510c383cc2a13071e2f` was pushed and matched the remote task branch. Draft
+  PR #3 was updated from the generated acceptance report and remained `OPEN`/`DRAFT`; remote
+  `CI/offline-validation` run `33552483994` succeeded. The delivery receipt now binds that prior
+  content commit. Phase 002D-R1 is complete without architecture selection or Phase 003 execution.
 
-Next: deliver the M9 content commit, bind it through a separate prior-commit delivery receipt,
-update Draft PR #3 and verify its remote SHA and CI without entering Phase 003.
+Next allowed route only: `PHASE-EVIDENCE-EXPANSION-002D`. This plan does not execute that route.
