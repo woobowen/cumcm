@@ -250,6 +250,13 @@ reset/clean/rebase/force-push/merge. PR #3 remains OPEN/DRAFT and is updated onl
   harness-censored and semantic equivalence is `NOT_ESTABLISHED`; authorization, budget and actual
   starts are all zero. Pre-audit passes, the original budget is unchanged, and every frozen
   protocol-field mutation requires `NEW_PROTOCOL_COHORT_REQUIRED`.
+- `2026-09-02T03:15:16+08:00`: M7 generated all seven hash-bound decisions through the canonical
+  automated-decision contract plus the R1 scope envelope. Failure semantics and slot resolution are
+  `POLICY_ONLY`; supplemental runs are rejected; quality and architecture remain
+  `EVIDENCE_INSUFFICIENT`; observed reliability is accepted as `RELIABILITY_ONLY`; four mechanisms
+  are accepted as `SPECIFICATION_ONLY`. No architecture, implementation, integration or Phase 003
+  claim is made. The formal state remains in progress until the independent Decision Auditor and
+  five-variant replay pass.
 
-Next: create and remotely verify the M4 and M5/M6 atomic commits, then generate the seven formal
-failure-aware decisions before the independent Decision Auditor is started.
+Next: commit and remotely verify the seven formal decisions, then run the independent native
+failure-aware Decision Auditor against the frozen post-decision bundle.

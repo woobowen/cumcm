@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
-"""Verify the all-attempt reliability evidence projection."""
+"""Create or verify Phase 002D-R1 reliability-evidence sufficiency."""
 
 import argparse
 import json
 
 from _bootstrap import ROOT
 
-from cumcm_skill_lab.failure_aware.evidence_scopes import check_or_write_evidence_scopes
+from cumcm_skill_lab.failure_aware.decisions import check_or_write_sufficiency
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    result = check_or_write_evidence_scopes(ROOT, check=args.check)
-    output = {"status": result["status"], **result["reliability"], "errors": result["errors"]}
-    print(json.dumps(output, ensure_ascii=False, sort_keys=True))
+    result = check_or_write_sufficiency(ROOT, scope="reliability", check=args.check)
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
     return 0 if result["status"] == "PASS" else 1
 
 
