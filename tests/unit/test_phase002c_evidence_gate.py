@@ -18,6 +18,7 @@ from cumcm_skill_lab.adjudication.phase002c_records import (
     decision_created_at,
     evaluate_direct_adoption_gates,
 )
+from cumcm_skill_lab.adjudication.phase002c_replay import decision_sets_equal
 from cumcm_skill_lab.adjudication.phase002c_reporting import (
     _render_expansion,
     decision_rows_as_markdown,
@@ -608,6 +609,19 @@ def test_direct_adoption_unverified_scope_fails_closed(review_status):
 
 def test_decision_timestamp_comes_from_frozen_policy(repo_root):
     assert decision_created_at(repo_root) == "2026-09-01T11:57:13+08:00"
+
+
+def test_final_replay_compares_decision_sets_independent_of_file_order():
+    decisions = [
+        {"decision_id": "DECISION-A", "decision": "EVIDENCE_INSUFFICIENT"},
+        {"decision_id": "DECISION-B", "decision": "AUTOMATED_REJECTED"},
+    ]
+    assert decision_sets_equal(decisions, list(reversed(decisions)))
+
+
+def test_final_replay_rejects_duplicate_decision_ids():
+    decision = {"decision_id": "DECISION-A", "decision": "EVIDENCE_INSUFFICIENT"}
+    assert decision_sets_equal([decision], [decision, dict(decision)]) is False
 
 
 def test_component_value_is_not_an_input_to_whole_package_gates():

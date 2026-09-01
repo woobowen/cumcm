@@ -18,6 +18,23 @@ from .pre_adjudication import FREEZE_PATH, SUFFICIENCY_PATH, verify_input_freeze
 REPLAY_PATH = Path("evals/results/phase-002c/replay/replay.json")
 
 
+def decision_sets_equal(left: list[dict[str, Any]], right: list[dict[str, Any]]) -> bool:
+    """Compare complete decision sets by stable identity, independent of file ordering."""
+
+    def by_id(items: list[dict[str, Any]]) -> dict[str, dict[str, Any]] | None:
+        result: dict[str, dict[str, Any]] = {}
+        for item in items:
+            decision_id = item.get("decision_id")
+            if not isinstance(decision_id, str) or not decision_id or decision_id in result:
+                return None
+            result[decision_id] = item
+        return result
+
+    left_by_id = by_id(left)
+    right_by_id = by_id(right)
+    return left_by_id is not None and right_by_id is not None and left_by_id == right_by_id
+
+
 def build_replay(root: Path) -> dict[str, Any]:
     freeze_errors = verify_input_freeze(root)
     if freeze_errors:
@@ -40,7 +57,7 @@ def build_replay(root: Path) -> dict[str, Any]:
         for name, variant_hash in rebuilt_pre_replay["variants"].items()
     }
     rebuild_checks = {
-        "automated_decisions": rebuilt_decisions == decisions,
+        "automated_decisions": decision_sets_equal(rebuilt_decisions, decisions),
         "pre_audit_replay": rebuilt_pre_replay == recorded_pre_replay,
         "decision_audit": expected_audit == read_json(root / AUDIT_PATH),
         "phase_route": expected_route == read_json(root / ROUTE_PATH),
