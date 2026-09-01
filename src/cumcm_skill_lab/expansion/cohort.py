@@ -66,6 +66,9 @@ def _efforts(model: dict[str, Any]) -> set[str]:
 def build_cohort(root: Path, availability: dict[str, Any]) -> dict[str, Any]:
     config = read_yaml(root / CONFIG_PATH)
     historical = read_yaml(root / "evals/configs/phase-002.yaml")
+    pilot_path = root / RESULT_ROOT / "pilot/pilot.json"
+    pilot = read_json(pilot_path) if pilot_path.is_file() else None
+    pilot_pass = bool(pilot and pilot["status"] == "PASS")
     models = {item["id"]: item for item in availability["models"]}
     historical_model = historical["model"]
     reasoning = config["reasoning_setting"]
@@ -81,8 +84,8 @@ def build_cohort(root: Path, availability: dict[str, Any]) -> dict[str, Any]:
                 historical["mcp_policy"] == config["mcp_policy"],
             )
         ),
-        "compatibility_pilot_pass": False,
-        "transport_profile_frozen": False,
+        "compatibility_pilot_pass": pilot_pass,
+        "transport_profile_frozen": bool(pilot_pass and pilot["selected_transport_profile"]),
     }
     mode = "CONTINUATION_COHORT" if all(continuation_checks.values()) else "NEW_MODEL_COHORT"
     if mode == "CONTINUATION_COHORT":
@@ -111,7 +114,9 @@ def build_cohort(root: Path, availability: dict[str, Any]) -> dict[str, Any]:
         "model": selected_model,
         "reasoning_setting": reasoning,
         "auth_mode": "CHATGPT_MANAGED_CODEX",
-        "transport_profile": "PENDING_PILOT",
+        "transport_profile": (
+            pilot["selected_transport_profile"] if pilot_pass else "PENDING_PILOT"
+        ),
         "codex_cli_version": availability["codex_cli_version"],
         "sandbox": config["sandbox"],
         "network_policy": config["network_policy"],
@@ -134,7 +139,8 @@ def build_cohort(root: Path, availability: dict[str, Any]) -> dict[str, Any]:
             ]
         ),
         "candidate_model_ids": sorted(models),
-        "pilot_status": "PENDING",
+        "pilot_status": "PASS" if pilot_pass else "PENDING",
+        "prepilot_cohort_hash": pilot["cohort_hash"] if pilot_pass else None,
         "scored_runs_started": False,
         "model_switch_allowed": False,
     }

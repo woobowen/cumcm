@@ -52,12 +52,14 @@
     "selection_reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
     "candidate_model_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
     "pilot_status": {"enum": ["PENDING", "PASS", "INFRASTRUCTURE_BLOCKED"]},
+    "prepilot_cohort_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
     "scored_runs_started": {"type": "boolean"},
     "model_switch_allowed": {"const": false},
     "cohort_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
   },
   "allOf": [
-    {"if": {"properties": {"mode": {"const": "NEW_MODEL_COHORT"}}}, "then": {"properties": {"target_successes": {"const": 24}, "historical_phase002_use": {"const": "CROSS_MODEL_EXPLORATORY_GAP_EVIDENCE_ONLY"}}}}
+    {"if": {"properties": {"mode": {"const": "NEW_MODEL_COHORT"}}}, "then": {"properties": {"target_successes": {"const": 24}, "historical_phase002_use": {"const": "CROSS_MODEL_EXPLORATORY_GAP_EVIDENCE_ONLY"}}}},
+    {"if": {"properties": {"pilot_status": {"const": "PASS"}}}, "then": {"required": ["prepilot_cohort_hash"], "properties": {"transport_profile": {"enum": ["PROXY_INHERITED", "NO_PROXY_PROCESS_ONLY"]}}}}
   ],
   "additionalProperties": false
 }

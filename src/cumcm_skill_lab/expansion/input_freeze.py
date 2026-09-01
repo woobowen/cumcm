@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from .cohort import COHORT_PATH
 from .models import (
     CONFIG_PATH,
     HISTORICAL_PHASES,
@@ -18,6 +19,7 @@ from .models import (
     read_yaml,
     sha256_json,
     tree_file_hashes,
+    write_json,
 )
 
 FREEZE_PATH = RESULT_ROOT / "input_freeze_manifest.json"
@@ -72,6 +74,9 @@ def build_input_freeze(root: Path) -> dict[str, Any]:
     config = read_yaml(root / CONFIG_PATH)
     policy = read_yaml(root / POLICY_PATH)
     fixture_manifest = read_json(root / "evals/fixtures/phase-002/manifest.json")
+    cohort = read_json(root / COHORT_PATH)
+    pilot_path = root / RESULT_ROOT / "pilot/pilot.json"
+    pilot = read_json(pilot_path) if pilot_path.is_file() else None
     policy_paths = (
         CONFIG_PATH.as_posix(),
         POLICY_PATH.as_posix(),
@@ -111,8 +116,10 @@ def build_input_freeze(root: Path) -> dict[str, Any]:
         "bound_code_hashes": {path: file_sha256(root / path) for path in BOUND_CODE_PATHS},
         "codex_cli_version": config["codex_cli_version"],
         "auth_mode": config["auth_mode"],
-        "proxy_transport_profile": "PENDING_CALIBRATION_PILOT",
+        "proxy_transport_profile": cohort["transport_profile"],
         "model_cohort_policy": policy["model_cohort_policy"],
+        "selected_cohort_hash": cohort["cohort_hash"],
+        "pilot_result_hash": pilot["result_hash"] if pilot else None,
         "selected_primary_cases": config["primary_cases"],
         "minimum_repeats": config["minimum_repeats"],
         "historical_evidence_immutable": True,
@@ -155,6 +162,14 @@ def check_or_write_input_freeze(root: Path, *, check: bool) -> dict[str, Any]:
         manifest = read_json(root / FREEZE_PATH) if (root / FREEZE_PATH).is_file() else {}
     else:
         manifest = build_input_freeze(root)
+        previous = read_json(root / FREEZE_PATH) if (root / FREEZE_PATH).is_file() else None
+        if previous is not None and previous != manifest:
+            write_json(
+                root
+                / RESULT_ROOT
+                / f"input_freeze_superseded/phase002d-{previous['freeze_hash']}.json",
+                previous,
+            )
         errors = check_or_write(root / FREEZE_PATH, manifest, check=False)
         errors.extend(verify_input_freeze(root, manifest))
     return {

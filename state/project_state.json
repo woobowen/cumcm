@@ -21,22 +21,32 @@
     "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
     "model": "gpt-5.6-sol",
     "reasoning_setting": "medium",
-    "transport_profile": "PENDING_PILOT",
+    "transport_profile": "PROXY_INHERITED",
     "target_successes": 24,
     "attempts": 0,
     "successes": 0,
     "failures": 0,
     "balanced_cases": [],
     "repeat_depth": 0,
-    "budget_remaining": null,
+    "budget_remaining": {
+      "maximum_total_attempts": 40,
+      "remaining_attempts": 40,
+      "maximum_total_input_tokens": 10000000,
+      "remaining_input_tokens": 10000000,
+      "maximum_total_output_tokens": 334443,
+      "remaining_output_tokens": 334443,
+      "maximum_total_elapsed_seconds": 6197,
+      "remaining_elapsed_seconds": 6197,
+      "monetary_cost": "UNKNOWN"
+    },
     "current_batch": 0,
-    "infrastructure_status": "PENDING_PILOT"
+    "infrastructure_status": "PILOT_PASS"
   },
   "content_verified_commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
   "verification_manifest": {
     "path": "evals/results/phase-002d/input_freeze_manifest.json",
-    "sha256": "5982276016f6e8a275a8d67de763571b3855a32005148af42499786c6bc79c3c",
-    "subject_commit": "a27e10f2ef8f730d45f08c0224cf0f1ac5348042"
+    "sha256": "99a50c9f11e3013245f08a7cf35b425a1260596a8cd7b8bdd8f2a5c5b4a03510",
+    "subject_commit": "cea20d8af62aca8a1e6fb931846351f8214a437d"
   },
   "delivery_receipt_for_commit": {
     "commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
@@ -63,6 +73,6 @@
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T18:14:55+08:00",
+  "updated_at": "2026-09-01T18:29:38+08:00",
   "updated_by": "main-agent"
 }

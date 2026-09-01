@@ -234,7 +234,7 @@ the Skill stays scaffold-only until a later implementation phase.
 2. **M2 freeze/cohort — COMPLETE** — Phase 002D input freeze verifies; local model availability and compatibility
    Gate select a mode/model without a scored start; ADR-0024/25/28/29 and target calculator pass;
    atomic commit and push.
-3. **M3 pilot/budget** — fresh pilot succeeds within two starts; one profile and replayable formula
+3. **M3 pilot/budget — COMPLETE** — fresh pilot succeeds within two starts; one profile and replayable formula
    budget freeze before scored work; ADR-0027; focused checks; atomic commit and push.
 4. **M4 schedule/runner** — fixed schedule, runner, append-only attempts, checkpoint/status, mocks and
    fault injection pass without a real scored start; ADR-0026; atomic commit and push.
@@ -298,9 +298,16 @@ affected hashes and acceptance changes before further scored work.
   selected `NEW_MODEL_COHORT`, prohibited old-primary reuse, recomputed the inactive MODE A
   shortfall as 14 and set the active target to 24. Input freeze `4846e25e...` and cohort hash
   `f1ad3696...` passed. Official web documentation was not used as local-account evidence.
+- `2026-09-01T18:29:38+08:00`: the compact real pilot used two fresh starts and no resume. Attempt
+  1 was rejected before model output because the runner Schema lacked explicit property types; its
+  original attempt hash was preserved and an evidence-hash correction recorded. Attempt 2 passed
+  Schema, deterministic oracle and input-integrity checks in 21.204297 seconds on
+  `PROXY_INHERITED`, observing 41,092 input and 397 output tokens. The final input freeze is
+  `fb0c1122...`, cohort `db663586...`, and formula budget `389c24e9...`; expected input is 4,762,659
+  tokens and expected elapsed time 4,590 seconds, below absolute hard limits.
 
 ## 24. Current next step
 
-Commit and remotely deliver M2, then execute only the compact non-scored calibration pilot. Freeze
-the winning transport profile and the formula budget after pilot success. Do not start any scored
-run before the M3 budget record exists and passes `--check`.
+Commit and remotely deliver M3, then generate the fixed-seed blocked schedule and complete runner,
+append-only attempt/checkpoint, mock and fault-injection machinery. Do not start a scored run until
+M4 is delivered and every schedule/runner `--check` passes.

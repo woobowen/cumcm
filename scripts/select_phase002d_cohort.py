@@ -74,11 +74,12 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--probe", action="store_true")
+    parser.add_argument("--from-record", action="store_true")
     args = parser.parse_args()
-    if args.check and args.probe:
-        parser.error("--check and --probe are mutually exclusive")
+    if sum((args.check, args.probe, args.from_record)) > 1:
+        parser.error("--check, --probe, and --from-record are mutually exclusive")
     root = Path.cwd()
-    if not args.check:
+    if args.probe or (not args.check and not args.from_record):
         _probe(root)
     result = check_or_write_cohort(root, check=args.check)
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))

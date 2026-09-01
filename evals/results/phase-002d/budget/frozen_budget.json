@@ -1,0 +1,96 @@
+{
+  "absolute_attempt_cap": 48,
+  "api_billing_used": false,
+  "api_key_used": false,
+  "batch_size": 3,
+  "budget_hash": "389c24e9155da753a389b50cf073481cd3dfd2649f4d2de4c740f715c6fe6c51",
+  "budget_id": "PHASE-002D-FROZEN-BUDGET-001",
+  "budget_may_expand_after_results": false,
+  "cohort_hash": "db663586c8d86c12e72da19872a34ab9cdd5070b050d8ebd4a9a56b949bc2058",
+  "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
+  "cohort_mode": "NEW_MODEL_COHORT",
+  "concurrency": 1,
+  "formula": {
+    "base_attempts": "ceil(target_successes / historical_observed_success_rate)",
+    "expected_total_elapsed_seconds": "historical_median_elapsed_seconds * base_attempts",
+    "expected_total_input_tokens": "historical_median_input_tokens * base_attempts",
+    "expected_total_output_tokens": "historical_median_output_tokens * base_attempts",
+    "maximum_total_attempts": "min(mode_absolute_cap, base_attempts + 3)"
+  },
+  "formula_values": {
+    "base_attempts": 37,
+    "expected_total_elapsed_seconds": 4590,
+    "expected_total_input_tokens": 4762659,
+    "expected_total_output_tokens": 222962
+  },
+  "historical_metrics": {
+    "attempts": 20,
+    "elapsed_seconds": {
+      "maximum": 349.207864,
+      "median": 124.038419,
+      "minimum": 48.930851
+    },
+    "input_tokens": {
+      "maximum": 602054.0,
+      "median": 128720.5,
+      "minimum": 72611.0
+    },
+    "observed_success_rate": 0.65,
+    "output_tokens": {
+      "maximum": 18285.0,
+      "median": 6026.0,
+      "minimum": 1861.0
+    },
+    "run_record_set_hash": "e54f865217cb743dd802b8081b6f06f2395dfe7b2a99334a4dc38370566ff21d",
+    "successful_primary_records": 13
+  },
+  "maximum_attempts_per_cell": 3,
+  "maximum_consecutive_infrastructure_failures": 3,
+  "maximum_consecutive_infrastructure_failures_per_cell": 2,
+  "maximum_failed_cells": 8,
+  "maximum_fresh_retries_per_cell": 2,
+  "maximum_later_batch_size": 6,
+  "maximum_total_attempts": 40,
+  "maximum_total_elapsed_seconds": 6197,
+  "maximum_total_input_tokens": 10000000,
+  "maximum_total_output_tokens": 334443,
+  "model": "gpt-5.6-sol",
+  "monetary_cost": "UNKNOWN",
+  "monetary_cost_reason": "CHATGPT_MANAGED_CODEX_NOT_API_BILLING",
+  "pilot_metrics": {
+    "attempts": 2,
+    "cached_input_tokens": "UNKNOWN",
+    "input_tokens": 41092,
+    "output_tokens": 397,
+    "reasoning_tokens": "UNKNOWN",
+    "successful_attempt_duration_seconds": 21.204297
+  },
+  "pilot_result_hash": "ad16ca3686bdc66610f49492b36a51a31dc3774f402f8bb0fd32db97c0a50700",
+  "reasoning_setting": "medium",
+  "schema_version": "1.0.0",
+  "scored_runs_started_at_freeze": false,
+  "stop_conditions": [
+    "MINIMA_SATISFIED",
+    "INPUT_FREEZE_BROKEN",
+    "COHORT_MISMATCH",
+    "MODEL_OR_REASONING_CHANGED",
+    "TRANSPORT_PROFILE_CHANGED",
+    "SCHEDULE_OR_POLICY_HASH_MISMATCH",
+    "NETWORK_OR_MCP_VIOLATION",
+    "INPUT_MUTATION_OR_CONTAMINATION",
+    "SCHEMA_OR_ORACLE_INVARIANT_BROKEN",
+    "MAXIMUM_TOTAL_ATTEMPTS_REACHED",
+    "MAXIMUM_CELL_ATTEMPTS_REACHED",
+    "THREE_CONSECUTIVE_INFRASTRUCTURE_FAILURES",
+    "TOKEN_OR_ELAPSED_BUDGET_REACHED",
+    "AUTH_QUOTA_OR_MODEL_UNAVAILABLE"
+  ],
+  "target_successes": 24,
+  "token_observability": {
+    "cached_input_tokens": "UNKNOWN",
+    "input_tokens": "OBSERVED",
+    "output_tokens": "OBSERVED",
+    "reasoning_tokens": "UNKNOWN"
+  },
+  "transport_profile": "PROXY_INHERITED"
+}

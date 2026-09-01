@@ -13,16 +13,16 @@
     "gpt-5.6-terra"
   ],
   "codex_cli_version": "0.147.0",
-  "cohort_hash": "f1ad3696f3d86a23d38c6c21fd6a977561b547b831a94f554531d91df971cc16",
+  "cohort_hash": "db663586c8d86c12e72da19872a34ab9cdd5070b050d8ebd4a9a56b949bc2058",
   "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
   "continuation_checks": {
-    "compatibility_pilot_pass": false,
+    "compatibility_pilot_pass": true,
     "frozen_prompt_schema_fixture_package_scorer_oracle": true,
     "historical_model_visible": false,
     "model_id_exact": true,
     "reasoning_exact": true,
     "sandbox_network_mcp_exact": true,
-    "transport_profile_frozen": false
+    "transport_profile_frozen": true
   },
   "continuation_shortfall": {
     "cells": [
@@ -111,7 +111,8 @@
   "model": "gpt-5.6-sol",
   "model_switch_allowed": false,
   "network_policy": "DISABLED_REQUIRED",
-  "pilot_status": "PENDING",
+  "pilot_status": "PASS",
+  "prepilot_cohort_hash": "f1ad3696f3d86a23d38c6c21fd6a977561b547b831a94f554531d91df971cc16",
   "primary_cases": [
     "CASE-001",
     "CASE-002",
@@ -124,10 +125,8 @@
   "scored_runs_started": false,
   "selected_model_supports_reasoning": true,
   "selection_reason_codes": [
-    "HISTORICAL_MODEL_VISIBLE_FAILED",
-    "COMPATIBILITY_PILOT_PASS_FAILED",
-    "TRANSPORT_PROFILE_FROZEN_FAILED"
+    "HISTORICAL_MODEL_VISIBLE_FAILED"
   ],
   "target_successes": 24,
-  "transport_profile": "PENDING_PILOT"
+  "transport_profile": "PROXY_INHERITED"
 }
