@@ -6,32 +6,27 @@
   "current_plan": "plans/active/PLAN-0002C-evidence-sufficiency.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/upstream-dynamic-eval",
-  "technical_adjudication_status": "AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS",
-  "automated_decision_ids": [],
+  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_COMPLETE",
+  "automated_decision_ids": [
+    "DECISION-EVIDENCE-SUFFICIENCY-002C",
+    "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
+    "DECISION-RECOVERY-POLICY-002C",
+    "DECISION-COMPONENT-READINESS-002C"
+  ],
   "selected_architecture": null,
   "accepted_component_specifications": [],
-  "next_phase_allowed": null,
-  "content_verified_commit": "5a1f6e49b7a718c8a6bae68e203e33bb7a85b6ef",
+  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+  "content_verified_commit": "7f3a785f628a1db73a689ba3bd99a71b027306b4",
   "verification_manifest": {
-    "path": "evals/results/phase-002b/recovery_manifest.json",
-    "sha256": "b2587bdecaf7b9fb969b861132163e6e156865c31a92913f8d45eb3639f6abeb",
-    "subject_commit": "e7438da39fb6bf75d489b0f5ac54e00ed680a91e"
+    "path": "evals/results/phase-002c/input_freeze_manifest.json",
+    "sha256": "35c2c37019f3f024c90b71ff572a6f23608c12bf758efb1b666f5c3d08aa655f",
+    "subject_commit": "2c272a359a8b7197ce65bcefe2736007895dc9b6"
   },
-  "delivery_receipt_for_commit": {
-    "commit": "5a1f6e49b7a718c8a6bae68e203e33bb7a85b6ef",
-    "remote": "origin",
-    "remote_sha": "5a1f6e49b7a718c8a6bae68e203e33bb7a85b6ef",
-    "verified_at": "2026-09-01T02:51:25+08:00"
-  },
+  "delivery_receipt_for_commit": null,
   "team_compliance_review_status": "NOT_RUN",
-  "blockers": [
-    "PHASE_002C_INPUT_FREEZE_PENDING",
-    "NATIVE_SUBAGENT_AUDITS_PENDING",
-    "PHASE_002C_DECISION_AUDIT_PENDING",
-    "PHASE_002C_REPLAY_PENDING"
-  ],
+  "blockers": [],
   "risks": [
-    "Phase 002 technical proposals are historical evidence pending automated re-adjudication.",
+    "Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.",
     "Project license is PROJECT_LICENSE_UNDECIDED.",
     "Sanitized instruction-only evaluation cannot prove full upstream behavior.",
     "Six synthetic cases, one primary run per cell, and five excluded recovery-affected cells may force abstention.",
@@ -39,11 +34,14 @@
     "Three consecutive real Blind Judge attempts failed at the Codex Responses transport before structured output.",
     "Phase 002B has only eight remaining model starts for six mandatory independent formal roles.",
     "The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.",
-    "Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused."
+    "Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.",
+    "Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.",
+    "Direct-adoption leakage and integration risk predicates accept arbitrary LOW-prefixed strings; this is non-blocking for the two currently rejected targets but must be closed before any future positive adoption decision.",
+    "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T11:57:13+08:00",
+  "updated_at": "2026-09-01T14:23:31+08:00",
   "updated_by": "main-agent"
 }

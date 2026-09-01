@@ -1,6 +1,6 @@
 # PLAN-0002C — Deterministic Evidence Sufficiency Adjudication
 
-Status: `IN_PROGRESS`
+Status: `TECHNICAL_COMPLETE_DELIVERY_PENDING`
 Phase: `PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C`
 Owner: main agent
 Started: `2026-09-01T11:57:13+08:00`
@@ -180,14 +180,27 @@ result, blocker, and available evidence hash.
   audit wave exposed closed-world freeze, missing-hash, explicit hard-Gate, report-provenance, and
   replay-rebuild defects; each testable finding was converted into an offline regression test and
   the deterministic implementation was repaired before formal decisions.
-- Current finding: transport is historically unresolved but is not a prerequisite for a
-  deterministic insufficiency decision when the frozen sufficiency Gate fails.
+- `2026-09-01T14:23:31+08:00`: M5-M7 completed on freeze
+  `cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9`. Four independent
+  first-round native Subagents returned `PASS`; all 24 testable BLOCKER findings map to passing
+  adversarial tests; the post-decision Auditor returned `PASS`; the mechanical Decision Audit
+  passed; and the offline final replay was stable.
+- The formal result is `AUTOMATED_ADJUDICATION_COMPLETE`: comparison and components are
+  `EVIDENCE_INSUFFICIENT`, both direct whole-package targets are `AUTOMATED_REJECTED`, recovery is
+  accepted only as `POLICY_ONLY`, no architecture/component is selected, and only
+  `PHASE-EVIDENCE-EXPANSION-002D` is allowed. Phase 002D has not started.
+- Open non-blocking finding: direct-adoption risk fields currently accept arbitrary strings with a
+  `LOW` prefix. Both actual packages still have all seven hard Gates false, so the current rejection
+  is invariant; no future positive adoption may pass until explicit safe enums are enforced.
+- Transport remains historically unresolved. This does not block the audited insufficiency result,
+  because no semantic role or transport output is needed after the frozen pre-adjudication Gate
+  short-circuits candidate comparison.
 
 ## 11. Next step
 
-Commit the validated implementation baseline, bind the final input freeze to that Git commit, then
-rerun all four independent first-round Subagents against the repaired bundles before generating any
-formal decision.
+Generate the state-derived reports, run and record the full validation command ledger, finalize the
+acceptance report, then complete M8 through atomic commits, normal push, remote-SHA verification,
+Draft PR #2 update, and remote CI observation. Do not start Phase 002D or Phase 003.
 
 ## 12. Rollback and update rule
 
