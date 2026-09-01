@@ -1,0 +1,168 @@
+{
+  "accepted_scope": "NONE",
+  "component_results": [
+    {
+      "accepted_scope": "NONE",
+      "decision": "EVIDENCE_INSUFFICIENT",
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "maintenance_cost": "MEDIUM",
+      "mechanism_id": "accepted-versus-done-workflow-state",
+      "reason_codes": [
+        "COMPARATIVE_EVIDENCE_INSUFFICIENT_FOR_SPECIFICATION_READINESS"
+      ],
+      "required_tests": [
+        "PHASE-002D-RETEST:accepted-versus-done-workflow-state"
+      ]
+    },
+    {
+      "accepted_scope": "NONE",
+      "decision": "EVIDENCE_INSUFFICIENT",
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "maintenance_cost": "MEDIUM",
+      "mechanism_id": "claim-evidence-support-gate",
+      "reason_codes": [
+        "COMPARATIVE_EVIDENCE_INSUFFICIENT_FOR_SPECIFICATION_READINESS"
+      ],
+      "required_tests": [
+        "PHASE-002D-RETEST:claim-evidence-support-gate"
+      ]
+    },
+    {
+      "accepted_scope": "NONE",
+      "decision": "EVIDENCE_INSUFFICIENT",
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "maintenance_cost": "MEDIUM",
+      "mechanism_id": "hash-bound-reproducibility-manifest",
+      "reason_codes": [
+        "COMPARATIVE_EVIDENCE_INSUFFICIENT_FOR_SPECIFICATION_READINESS"
+      ],
+      "required_tests": [
+        "PHASE-002D-RETEST:hash-bound-reproducibility-manifest"
+      ]
+    },
+    {
+      "accepted_scope": "NONE",
+      "decision": "EVIDENCE_INSUFFICIENT",
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "maintenance_cost": "MEDIUM",
+      "mechanism_id": "leakage-safe-model-comparison-gate",
+      "reason_codes": [
+        "COMPARATIVE_EVIDENCE_INSUFFICIENT_FOR_SPECIFICATION_READINESS"
+      ],
+      "required_tests": [
+        "PHASE-002D-RETEST:leakage-safe-model-comparison-gate"
+      ]
+    }
+  ],
+  "confidence": 1.0,
+  "created_at": "2026-09-01T11:57:13+08:00",
+  "decision": "EVIDENCE_INSUFFICIENT",
+  "decision_audit": "DECISION-AUDIT-002C",
+  "decision_id": "DECISION-COMPONENT-READINESS-002C",
+  "decision_type": "COMPONENT_READINESS",
+  "dissent_findings": [
+    "AP-PROSECUTOR-001",
+    "AP-PROSECUTOR-002",
+    "AP-PROSECUTOR-003",
+    "AP-PROSECUTOR-004",
+    "AP-PROSECUTOR-005",
+    "AP-PROSECUTOR-006",
+    "AP-PROSECUTOR-007",
+    "AP-PROSECUTOR-008",
+    "AP-PROSECUTOR-009",
+    "DCA-HR-001",
+    "DCA-HR-002",
+    "DCA-HR-003",
+    "DCA-HR-004",
+    "DCA-HR-005",
+    "ESA-002C-001",
+    "ESA-002C-002",
+    "ESA-002C-003",
+    "ESA-002C-004",
+    "ESA-002C-005",
+    "ESA-002C-006",
+    "ESA-002C-007",
+    "ESA-002C-008",
+    "RPA5-001-REPLAY-DECISION-SET-SOURCE-OMITTED",
+    "RPA5-002-REPLAY-DECISION-IDENTITY-VALIDATION-OMITTED",
+    "RPA6-002-REPLAY-ORDER-AND-CONTENT",
+    "RPA6-004-BOUND-HASH-GROUPS",
+    "RPA6-005-CLOSED-WORLD-RUN-INVENTORY",
+    "RPA6-006-OFFLINE-REBUILD-REPLAY",
+    "RPA6-007-REPORT-RUNTIME-PROVENANCE",
+    "RPA6-008-HARD-GATES-FAIL-CLOSED",
+    "RPA6-009-DECISION-FROZEN-TIMESTAMP",
+    "RPA6-010-RECOVERY-TRANSPORT-NONRANKING"
+  ],
+  "eligible_evidence": [
+    "EVIDENCE-SUFFICIENCY-PHASE-002C",
+    "ELIGIBILITY-PHASE-002A"
+  ],
+  "evidence_freeze_id": "PHASE-002C-INPUT-FREEZE",
+  "evidence_sufficiency": "INSUFFICIENT",
+  "excluded_evidence": [
+    "recovery:ARM-A:CASE-002",
+    "recovery:ARM-B:CASE-003",
+    "recovery:ARM-C:CASE-003",
+    "recovery:ARM-C:CASE-004",
+    "recovery:ARM-C:CASE-005"
+  ],
+  "hard_gate_status": "PASS",
+  "judge_decisions": [],
+  "meta_adjudication": "PRE-ADJUDICATION-PHASE-002C",
+  "next_phase_allowed": null,
+  "policy_version": "1.1.0",
+  "reason_codes": [
+    "FROZEN_COMPARATIVE_EVIDENCE_INSUFFICIENT"
+  ],
+  "rejected_scope": [
+    "DIRECT_REUSE",
+    "IMPLEMENTATION_READY",
+    "PRODUCTION_READY"
+  ],
+  "replay_hash": "00ee0dfa25a30746353289ea7d50a07432b41a87b5f0dcde8cafef46df7530ee",
+  "retest_requirements": [
+    "Re-evaluate each mechanism after the frozen Phase 002D evidence minima pass."
+  ],
+  "stale_dependencies": [],
+  "target_ids": [
+    "accepted-versus-done-workflow-state",
+    "claim-evidence-support-gate",
+    "hash-bound-reproducibility-manifest",
+    "leakage-safe-model-comparison-gate"
+  ],
+  "tests": [
+    "tests/integration/test_adjudication_pipeline.py::test_case_replay_is_order_stable",
+    "tests/unit/test_phase002c_evidence_gate.py::test_comparative_hard_gates_require_complete_candidate_coverage",
+    "tests/unit/test_phase002c_evidence_gate.py::test_comparative_hard_gates_require_complete_candidate_coverage",
+    "tests/unit/test_phase002c_evidence_gate.py::test_comparative_hard_gates_require_complete_candidate_coverage",
+    "tests/unit/test_phase002c_evidence_gate.py::test_decision_timestamp_comes_from_frozen_policy",
+    "tests/unit/test_phase002c_evidence_gate.py::test_decision_timestamp_comes_from_frozen_policy",
+    "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_compares_decision_sets_independent_of_file_order",
+    "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_compares_decision_sets_independent_of_file_order",
+    "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_compares_decision_sets_independent_of_file_order",
+    "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_duplicate_decision_ids",
+    "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_duplicate_decision_ids",
+    "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_duplicate_decision_ids",
+    "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_incomplete_or_invalid_decision_sets",
+    "tests/unit/test_phase002c_evidence_gate.py::test_first_round_bundles_expose_hash_bound_replay_implementation",
+    "tests/unit/test_phase002c_evidence_gate.py::test_first_round_bundles_expose_hash_bound_replay_implementation",
+    "tests/unit/test_phase002c_evidence_gate.py::test_first_round_bundles_expose_hash_bound_replay_implementation",
+    "tests/unit/test_phase002c_evidence_gate.py::test_freeze_verification_rejects_added_evidence_file",
+    "tests/unit/test_phase002c_evidence_gate.py::test_freeze_verification_rejects_added_evidence_file",
+    "tests/unit/test_phase002c_evidence_gate.py::test_invalid_freeze_returns_formal_stale_signal",
+    "tests/unit/test_phase002c_evidence_gate.py::test_missing_task_hash_blocks_comparison",
+    "tests/unit/test_phase002c_evidence_gate.py::test_recovery_exclusion_has_vacuous_safe_semantics",
+    "tests/unit/test_phase002c_evidence_gate.py::test_reports_derive_phase002d_execution_and_short_circuit_from_machine_inputs",
+    "tests/unit/test_phase002c_evidence_gate.py::test_reports_derive_phase002d_execution_and_short_circuit_from_machine_inputs",
+    "tests/unit/test_phase002c_evidence_gate.py::test_rules_contracts_and_agent_configs_are_frozen"
+  ]
+}

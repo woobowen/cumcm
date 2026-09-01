@@ -1,0 +1,99 @@
+{
+  "config_hash": "50ce0b03b889f26a55717e172b24ee837b132158f2bb06aa9998ee0a0435022a",
+  "created_at": "2026-09-01T11:57:13+08:00",
+  "decision": "EVIDENCE_INSUFFICIENT",
+  "evidence_sufficiency_id": "EVIDENCE-SUFFICIENCY-PHASE-002C",
+  "evidence_sufficiency_result": "INSUFFICIENT",
+  "hard_gates": [
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "gate": "freeze_integrity",
+      "passed": true,
+      "target": "COMPARATIVE_SELECTION"
+    },
+    {
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "gate": "task_input_hash_consistency",
+      "passed": true,
+      "target": "COMPARATIVE_SELECTION"
+    },
+    {
+      "evidence_refs": [
+        "RECOVERY-EXCLUSION-PHASE-002A"
+      ],
+      "gate": "recovery_exclusion",
+      "passed": true,
+      "target": "COMPARATIVE_SELECTION"
+    },
+    {
+      "evidence_refs": [
+        "ELIGIBILITY-PHASE-002A"
+      ],
+      "gate": "not_run_not_zero",
+      "passed": true,
+      "target": "COMPARATIVE_SELECTION"
+    },
+    {
+      "evidence_refs": [
+        "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+      ],
+      "gate": "license",
+      "passed": true,
+      "target": "SANITIZED_COMPARATIVE_EVALUATION"
+    },
+    {
+      "evidence_refs": [
+        "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+      ],
+      "gate": "answer_contamination",
+      "passed": true,
+      "target": "SANITIZED_COMPARATIVE_EVALUATION"
+    },
+    {
+      "evidence_refs": [
+        "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+      ],
+      "gate": "security",
+      "passed": true,
+      "target": "SANITIZED_COMPARATIVE_EVALUATION"
+    },
+    {
+      "evidence_refs": [
+        "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+      ],
+      "gate": "second_state_source",
+      "passed": true,
+      "target": "SANITIZED_COMPARATIVE_EVALUATION"
+    },
+    {
+      "evidence_refs": [
+        "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+      ],
+      "gate": "second_orchestrator",
+      "passed": true,
+      "target": "SANITIZED_COMPARATIVE_EVALUATION"
+    },
+    {
+      "evidence_refs": [
+        "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+      ],
+      "gate": "scope_conflict",
+      "passed": true,
+      "target": "SANITIZED_COMPARATIVE_EVALUATION"
+    }
+  ],
+  "input_freeze_hash": "cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9",
+  "input_freeze_id": "PHASE-002C-INPUT-FREEZE",
+  "next_phase_candidate": "PHASE-EVIDENCE-EXPANSION-002D",
+  "phase": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C",
+  "policy_hash": "937ee1fd4d169d2e7806d83fdb8b9c7e41424d680cbb3ba8df868154ee4ec1ca",
+  "ranking_status": "PROHIBITED",
+  "record_hash": "3fb5a1fca104eea2a8cc782e15be0f8902e84e81b0599270c605a2383163b64c",
+  "record_id": "PRE-ADJUDICATION-PHASE-002C",
+  "semantic_judges_status": "SKIPPED",
+  "short_circuit": true
+}

@@ -1,0 +1,190 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002C-DISSENT-COST-HARDENED-REPLAY",
+  "blockers": [],
+  "bundle_hash": "28a1ec1df89aef73c8339499e19e81ef8a32464c6b2f4fb8d28cef9f002f22bc",
+  "bundle_id": "PHASE-002C-NATIVE-DISSENT_AND_COST_AUDITOR",
+  "cost_assessment": {
+    "benefit_metrics": [
+      "Increase balanced cases from 2 to 4 and make all 12 cells in an optimal four-case set reach eligible independent repeat depth 2.",
+      "Add exactly 14 successful primary observations to the selected-case baseline of 10, yielding 24 eligible observations across four cases and three arms.",
+      "Keep all 5 recovery-affected records and both failed transport attempts at zero contribution to comparative ranking.",
+      "Use offline replay to verify four rebuilt artifacts by stable decision identity without model or network use; actual final stability remains UNVERIFIED in this first-round bundle.",
+      "After sufficiency only, obtain one targeted retest result for each of the four specification-only mechanisms before integration."
+    ],
+    "maintenance_cost": "Measured lower bound: 1,918 lines across nine in-scope adjudication/reporting modules (207+433+40+49+496+146+102+391+54). Hardened audit/replay account for 248 lines. This excludes configs, policies, contracts, tests, generated artifacts, and Phase 002D implementation. The four mechanisms retain specification/retest maintenance; exact engineer-hours and version-drift cost are UNKNOWN.",
+    "simplest_alternative": "Keep the frozen manifest and hash-bound ledgers, the cell-deficit counter, deterministic EVIDENCE_INSUFFICIENT short-circuit/router, a thin offline identity/rebuild replay, and a reporter that reads token/time from this cost_assessment. Defer clean-room architecture work, direct upstream reuse, and implementation of the four mechanisms until 14 successful additions pass sufficiency and targeted retests establish incremental value.",
+    "stop_conditions": [
+      "Run one compact hash-bound deterministic-oracle pilot first and freeze separate successful-run, retry, token, elapsed-time, and total-spend limits.",
+      "Stop successfully when any one of the three optimal four-case sets has every required arm at two eligible independent primary repeats; do not buy surplus repeats for this gate.",
+      "Stop immediately on mandatory hard-gate failure, input-hash divergence, answer leakage, case demotion, or any recovery/transport evidence entering comparative ranking.",
+      "Stop when any frozen attempt, retry, token, elapsed-time, or spend budget is exhausted; 14 successes must never be interpreted as 14 launches.",
+      "Stop an affected cell after two consecutive infrastructure failures make it non-comparable; retain those attempts only as gap evidence and recompute the remaining deficits.",
+      "If hardened replay reports instability, stop at RETEST_REQUIRED; do not claim a final stable replay until the post-decision artifact is available and verified.",
+      "After sufficiency, run only the four targeted mechanism retests and one deterministic replay; do not extend upstream evaluation or build a clean-room architecture unless a result can change the next technical gate."
+    ],
+    "time_cost": "Historical basis: 2,847.841679 seconds over 20 attempts and 1,963.986270 over 13 valid completions. Per-valid-completion min/median/mean/max is 59.238140/161.606911/151.075867/349.207864 seconds; 14-success extrapolation is 829.333960/2,262.496754/2,115.062137/4,888.910096 seconds. Retry-adjusted expectation is 3,066.906424 seconds (51.115107 minutes) over 21.538 attempts. Hardened replay CPU/wall time and operator/queue time are UNKNOWN because the allowed evidence contains no benchmark.",
+    "token_cost": "Historical basis: 3,605,071 tokens over 20 attempts and 2,364,115 over 13 valid completions. Per-valid-completion min/median/mean/max is 75,364/131,579/181,855/620,339; 14-success extrapolation is 1,055,096/1,842,106/2,545,970/8,684,746 tokens. At observed 0.65 success, 21.538 expected attempts including 7.538 retries cost about 3,882,384 tokens using the all-attempt mean of 180,253.55. Hardened replay inference-token cost is zero by declared offline/no-model mode; monetary cost is UNKNOWN without frozen pricing."
+  },
+  "created_at": "2026-09-01T11:57:13+08:00",
+  "findings": [
+    {
+      "counterexample": "Fourteen launches fail the gate if any launch is invalid, recovery-affected, failed, or superseded; the frozen evidence records only 13 eligible completions from 20 attempts.",
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "file_references": [
+        "evals/results/phase-002c/pre_adjudication/evidence_sufficiency.json",
+        "src/cumcm_skill_lab/adjudication/phase002c_reporting.py"
+      ],
+      "finding_id": "DCA-HR-001",
+      "pass_condition": "Exhaustive enumeration of all four-case subsets yields minimum deficit 14 and exactly the three stated optimal sets; the deterministic reporter set has the stated arm deficits.",
+      "required_test": ".venv/bin/python -c \"import itertools,json; from pathlib import Path; s=json.loads(Path('evals/results/phase-002c/pre_adjudication/evidence_sufficiency.json').read_text()); c=s['actual']['cell_repeat_counts']; a=s['required_arms']; r=s['thresholds']['minimum_repeats']; k=s['thresholds']['balanced_case_minimum']; d={x:{y:max(0,r-c[x].get(y,0)) for y in a} for x in c}; q={x:sum(d[x].values()) for x in c}; u=list(itertools.combinations(sorted(c),k)); z=[v for v in u if sum(q[x] for x in v)==14]; assert min(sum(q[x] for x in v) for v in u)==14 and z==[('CASE-001','CASE-002','CASE-004','CASE-006'),('CASE-001','CASE-002','CASE-005','CASE-006'),('CASE-001','CASE-004','CASE-005','CASE-006')] and d['CASE-002']=={'ARM-A':2,'ARM-B':1,'ARM-C':1}\"",
+      "severity": "WARNING",
+      "statement": "The exact mathematical minimum is 14 new eligible successful primary runs. The reporter-deterministic allocation is CASE-001 A/B/C +1 each; CASE-006 A/B/C +1 each; CASE-002 A/B/C +2/+1/+1; CASE-004 A/B/C +1/+1/+2. All optimal four-case sets are {001,002,004,006}, {001,002,005,006}, and {001,004,005,006}; CASE-005 has the same +1/+1/+2 deficit as CASE-004. Fourteen is a success requirement, not a launch limit.",
+      "status": "OPEN",
+      "target": "minimum-successful-expansion",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A changed model, case mix, prompt, or failure regime can exceed the observed extrapolations; the small historical sample does not establish a tail bound.",
+      "evidence_refs": [
+        "RUN:ARM-A:CASE-001:run-001",
+        "RUN:ARM-A:CASE-001:run-002",
+        "RUN:ARM-A:CASE-002:run-001",
+        "RUN:ARM-A:CASE-003:run-001",
+        "RUN:ARM-A:CASE-004:run-001",
+        "RUN:ARM-A:CASE-005:run-001",
+        "RUN:ARM-A:CASE-006:run-001",
+        "RUN:ARM-B:CASE-001:run-001",
+        "RUN:ARM-B:CASE-002:run-001",
+        "RUN:ARM-B:CASE-003:run-001",
+        "RUN:ARM-B:CASE-004:run-001",
+        "RUN:ARM-B:CASE-005:run-001",
+        "RUN:ARM-B:CASE-006:run-001",
+        "RUN:ARM-C:CASE-001:run-001",
+        "RUN:ARM-C:CASE-001:run-002",
+        "RUN:ARM-C:CASE-002:run-001",
+        "RUN:ARM-C:CASE-003:run-001",
+        "RUN:ARM-C:CASE-004:run-001",
+        "RUN:ARM-C:CASE-005:run-001",
+        "RUN:ARM-C:CASE-006:run-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002/runs/ARM-A/CASE-001/run-001.json",
+        "evals/results/phase-002/runs/ARM-A/CASE-001/run-002.json",
+        "evals/results/phase-002/runs/ARM-A/CASE-002/run-001.json",
+        "evals/results/phase-002/runs/ARM-A/CASE-003/run-001.json",
+        "evals/results/phase-002/runs/ARM-A/CASE-004/run-001.json",
+        "evals/results/phase-002/runs/ARM-A/CASE-005/run-001.json",
+        "evals/results/phase-002/runs/ARM-A/CASE-006/run-001.json",
+        "evals/results/phase-002/runs/ARM-B/CASE-001/run-001.json",
+        "evals/results/phase-002/runs/ARM-B/CASE-002/run-001.json",
+        "evals/results/phase-002/runs/ARM-B/CASE-003/run-001.json",
+        "evals/results/phase-002/runs/ARM-B/CASE-004/run-001.json",
+        "evals/results/phase-002/runs/ARM-B/CASE-005/run-001.json",
+        "evals/results/phase-002/runs/ARM-B/CASE-006/run-001.json",
+        "evals/results/phase-002/runs/ARM-C/CASE-001/run-001.json",
+        "evals/results/phase-002/runs/ARM-C/CASE-001/run-002.json",
+        "evals/results/phase-002/runs/ARM-C/CASE-002/run-001.json",
+        "evals/results/phase-002/runs/ARM-C/CASE-003/run-001.json",
+        "evals/results/phase-002/runs/ARM-C/CASE-004/run-001.json",
+        "evals/results/phase-002/runs/ARM-C/CASE-005/run-001.json",
+        "evals/results/phase-002/runs/ARM-C/CASE-006/run-001.json"
+      ],
+      "finding_id": "DCA-HR-002",
+      "pass_condition": "The 20 ledgers reproduce 13 valid completions, 3,605,071 total tokens, 2,364,115 valid-completion tokens, 2,847.841679 total seconds, and 1,963.986270 valid-completion seconds.",
+      "required_test": ".venv/bin/python -c \"import json; from pathlib import Path; p=sorted(Path('evals/results/phase-002/runs').glob('ARM-*/CASE-*/run-*.json')); d=[json.loads(x.read_text()) for x in p]; ok=[x for x in d if x['completion_status']=='COMPLETED' and x['schema_valid']]; tok=lambda x:x['token_usage']['input_tokens']+x['token_usage']['output_tokens']; assert len(d)==20 and len(ok)==13 and sum(map(tok,d))==3605071 and sum(map(tok,ok))==2364115 and abs(sum(x['duration_seconds'] for x in d)-2847.841679)<1e-9 and abs(sum(x['duration_seconds'] for x in ok)-1963.98627)<1e-9\"",
+      "severity": "WARNING",
+      "statement": "Historical evidence is 20 attempts, 13 valid completions, and a 0.65 success rate. Valid-completion token min/median/mean/max is 75,364/131,579/181,855/620,339; for 14 successes it extrapolates to 1,055,096/1,842,106/2,545,970/8,684,746 tokens. Valid-completion duration min/median/mean/max is 59.238140/161.606911/151.075867/349.207864 seconds; the 14-success extrapolation is 829.333960/2,262.496754/2,115.062137/4,888.910096 seconds. Using the all-attempt means gives 21.538 expected attempts, including 7.538 retries, 3,882,384 tokens, and 3,066.906424 seconds (51.115107 minutes). These are estimates, not ceilings; monetary cost is UNKNOWN because no frozen model price is supplied.",
+      "status": "OPEN",
+      "target": "token-time-retry-and-money",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A reporter-side constant or independent estimate would break cost provenance and could silently treat the 14-success requirement as 14 attempts.",
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/adjudication/phase002c_reporting.py",
+        "evals/results/phase-002c/pre_adjudication/evidence_sufficiency.json",
+        "evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json"
+      ],
+      "finding_id": "DCA-HR-003",
+      "pass_condition": "The expansion function references cell_repeat_counts and cost_assessment token/time fields and contains none of the fixed-ceiling literals.",
+      "required_test": ".venv/bin/python -c \"from pathlib import Path; t=Path('src/cumcm_skill_lab/adjudication/phase002c_reporting.py').read_text(); b=t[t.index('def _render_expansion'):t.index('def _acceptance_lines')]; assert all(x not in t.lower() for x in ['16k','16000','20 minutes']) and 'cost_assessment' in b and 'token_cost' in b and 'time_cost' in b and 'cell_repeat_counts' in b\"",
+      "severity": "INFO",
+      "statement": "The expansion reporter derives the run minimum from frozen cell_repeat_counts and renders token/time text directly from this audit cost_assessment. It has no fixed 16k, 16,000-token, or 20-minute ceiling and requires a pilot to freeze distinct success, retry, token, elapsed-time, and spend limits.",
+      "status": "RESOLVED",
+      "target": "reporter-cost-provenance",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A hash-consistent pre-record can still be paired with a missing, duplicate, reordered, or stale final decision artifact; the hardened identity and rebuild checks can detect this, but each future schema or decision-shape change increases replay maintenance.",
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "file_references": [
+        "evals/results/phase-002c/input_freeze_manifest.json",
+        "src/cumcm_skill_lab/adjudication/phase002c_audit.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py",
+        "src/cumcm_skill_lab/adjudication/evidence_sufficiency.py",
+        "src/cumcm_skill_lab/adjudication/pre_adjudication.py",
+        "src/cumcm_skill_lab/adjudication/short_circuit.py",
+        "src/cumcm_skill_lab/adjudication/phase_routing.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_records.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_audit.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_reporting.py",
+        "src/cumcm_skill_lab/report_generation.py"
+      ],
+      "finding_id": "DCA-HR-004",
+      "pass_condition": "The two hardened modules total 248 lines, all nine modules total 1,918, and replay source declares offline mode plus all four rebuild checks and RETEST_REQUIRED failure action; no runtime or final stability claim is inferred.",
+      "required_test": ".venv/bin/python -c \"from pathlib import Path; fs=['src/cumcm_skill_lab/adjudication/evidence_sufficiency.py','src/cumcm_skill_lab/adjudication/pre_adjudication.py','src/cumcm_skill_lab/adjudication/short_circuit.py','src/cumcm_skill_lab/adjudication/phase_routing.py','src/cumcm_skill_lab/adjudication/phase002c_records.py','src/cumcm_skill_lab/adjudication/phase002c_audit.py','src/cumcm_skill_lab/adjudication/phase002c_replay.py','src/cumcm_skill_lab/adjudication/phase002c_reporting.py','src/cumcm_skill_lab/report_generation.py']; r=Path('src/cumcm_skill_lab/adjudication/phase002c_replay.py').read_text(); assert sum(len(Path(x).read_text().splitlines()) for x in fs)==1918 and len(Path(fs[5]).read_text().splitlines())+len(Path(fs[6]).read_text().splitlines())==248 and all(x in r for x in ['OFFLINE_NO_MODEL_NO_NETWORK','decision_sets_equal','automated_decisions','pre_audit_replay','decision_audit','phase_route','RETEST_REQUIRED'])\"",
+      "severity": "WARNING",
+      "statement": "Replay hardening is evidence-budget and inference-token neutral, not maintenance-neutral: its declared mode is OFFLINE_NO_MODEL_NO_NETWORK and it does not alter cell deficits or run ledgers, but phase002c_audit.py plus phase002c_replay.py add 248 source lines; the nine audited modules total 1,918 lines. The hardening compares complete decision sets by stable identity and rebuilds decisions, pre-audit replay, decision audit, and route, returning RETEST_REQUIRED on instability. Actual replay CPU/wall time and final stable outcome are UNKNOWN/UNVERIFIED because no timing or final replay artifact is in this first-round identity-blind bundle.",
+      "status": "OPEN",
+      "target": "hardened-replay-cost-neutrality",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Counting recovered outputs or transport attempts as primary repeats could appear to reduce cost while violating comparability; building all four mechanisms now can incur integration cost for an architecture that remains unselectable.",
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C",
+        "RECOVERY-EXCLUSION-PHASE-002A",
+        "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B"
+      ],
+      "file_references": [
+        "evals/results/phase-002c/pre_adjudication/evidence_sufficiency.json",
+        "evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json",
+        "evals/results/phase-002a/recovery_gap_evidence/recovery.json",
+        "evals/results/phase-002b/recovery_manifest.json",
+        "adjudication/configs/phase-002c.yaml",
+        "adjudication/policies/phase-002c.yaml"
+      ],
+      "finding_id": "DCA-HR-005",
+      "pass_condition": "All five recovery records remain ranking-ineligible gap evidence, transport remains incomplete with two diagnostics, and pre-adjudication keeps ranking prohibited and semantic judges skipped.",
+      "required_test": ".venv/bin/python -c \"import json; from pathlib import Path; r=json.loads(Path('evals/results/phase-002a/recovery_gap_evidence/recovery.json').read_text()); t=json.loads(Path('evals/results/phase-002b/recovery_manifest.json').read_text()); p=json.loads(Path('evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json').read_text()); assert len(r['records'])==5 and all(x['ranking_eligible'] is False and x['allowed_use']=='GAP_EVIDENCE_ONLY' for x in r['records']) and t['status']=='AUTOMATED_ADJUDICATION_INCOMPLETE' and len(t['diagnostics'])==2 and p['ranking_status']=='PROHIBITED' and p['semantic_judges_status']=='SKIPPED'\"",
+      "severity": "WARNING",
+      "statement": "Further upstream evaluation is worth measurable cost only if it moves balanced cases from 2 to 4 at depth 2 and enables the next gate. Current EVIDENCE_INSUFFICIENT status does not justify direct upstream adoption, clean-room architecture construction, or implementation of the four specification-only mechanisms. Five recovery records are GAP_EVIDENCE_ONLY with ranking_eligible=false; the two-attempt transport recovery completed no roles and is diagnostic only. Neither can reduce the 14-success requirement or enter ranking. Retain the minimum deterministic scaffold and defer architecture/mechanism work until sufficiency and targeted retests demonstrate incremental value.",
+      "status": "OPEN",
+      "target": "upstream-clean-room-mechanisms-and-gap-evidence",
+      "testability": "TESTABLE"
+    }
+  ],
+  "independent": true,
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "nested_codex_used": false,
+  "output_hash": "df3347aa5a338e6067161b53d423b7a54b90bee5a17977992d7d3e14565d9e71",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "dissent_and_cost_auditor",
+  "round": "FIRST_ROUND",
+  "verdict": "PASS",
+  "writes_observed": false
+}

@@ -1,0 +1,36 @@
+{
+  "audit_result": "PENDING",
+  "content_hash": "25834ac090623a33963a6382dc6d4788a4fbc1ae12b107b528d6b94e50bf9821",
+  "decision_ids": [
+    "DECISION-EVIDENCE-SUFFICIENCY-002C",
+    "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
+    "DECISION-RECOVERY-POLICY-002C",
+    "DECISION-COMPONENT-READINESS-002C"
+  ],
+  "mode": "OFFLINE_NO_MODEL",
+  "rebuild_checks": {
+    "automated_decisions": true,
+    "evidence_sufficiency": true,
+    "input_freeze": true,
+    "pre_adjudication": true,
+    "recovery_contamination_rejected": true
+  },
+  "rebuilt_record_hashes": {
+    "DECISION-COMPONENT-READINESS-002C": "00ee0dfa25a30746353289ea7d50a07432b41a87b5f0dcde8cafef46df7530ee",
+    "DECISION-DIRECT-UPSTREAM-ADOPTION-002C": "5336bfda8702f0fc4461fd958de6667db7681605623058d357d2a656d83300c7",
+    "DECISION-EVIDENCE-SUFFICIENCY-002C": "bc815aebaf179e3997ba72e6941f1ffac065479fd34f1a95ffb7b9a7e4fbe3ea",
+    "DECISION-RECOVERY-POLICY-002C": "ca7e66512c9fa45cc92ced24e132893f2e44da8ebd8303faea4b65550793a551",
+    "freeze": "cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9",
+    "pre_adjudication": "3fb5a1fca104eea2a8cc782e15be0f8902e84e81b0599270c605a2383163b64c",
+    "sufficiency": "0155c76ac262d0b015305a9526192ba50e4f46e60d708362442ce159dc0758be"
+  },
+  "replay_id": "PHASE-002C-PRE-AUDIT-REPLAY",
+  "schema_version": "1.0.0",
+  "stable": true,
+  "variants": {
+    "anonymous_arm_label_swapped": "e91196192d122fb7b062309c66f7e977560fbc738f8963e9644a73043b1c2486",
+    "evidence_item_order_permuted": "e91196192d122fb7b062309c66f7e977560fbc738f8963e9644a73043b1c2486",
+    "original_recomputed": "e91196192d122fb7b062309c66f7e977560fbc738f8963e9644a73043b1c2486",
+    "recovery_present_but_excluded": "e91196192d122fb7b062309c66f7e977560fbc738f8963e9644a73043b1c2486"
+  }
+}

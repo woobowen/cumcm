@@ -1,0 +1,234 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+  "blockers": [],
+  "bundle_hash": "1eea3fd1bce3d771b57b357f8125767785b9379cc7f05c8adcf01918559af70a",
+  "bundle_id": "PHASE-002C-NATIVE-REPRODUCIBILITY_AUDITOR",
+  "cost_assessment": null,
+  "created_at": "2026-09-01T11:57:13+08:00",
+  "findings": [
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "file_references": [
+        "evals/results/phase-002c/input_freeze_manifest.json",
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py"
+      ],
+      "finding_id": "RPA5-001-REPLAY-DECISION-SET-SOURCE-OMITTED",
+      "pass_condition": "Every first-round bundle requiring replay review exposes the exact replay source and that source matches its frozen hash.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_first_round_bundles_expose_hash_bound_replay_implementation",
+      "severity": "BLOCKER",
+      "statement": "Resolved: the identity-blind bundle now exposes the final replay implementation, and its bytes match the adjudication-code hash frozen in the input manifest.",
+      "status": "RESOLVED",
+      "target": "replay_implementation_provenance",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_records.py"
+      ],
+      "finding_id": "RPA6-002-REPLAY-ORDER-AND-CONTENT",
+      "pass_condition": "Permuting decision-file order preserves equality, but any decision payload or ID-set difference returns false.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_compares_decision_sets_independent_of_file_order",
+      "severity": "BLOCKER",
+      "statement": "Resolved: decision_sets_equal indexes complete decision objects by stable ID, so file order is ignored while ID-set or payload differences remain unequal; isolated execution confirmed both properties.",
+      "status": "RESOLVED",
+      "target": "final_replay_order_independence",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py"
+      ],
+      "finding_id": "RPA5-002-REPLAY-DECISION-IDENTITY-VALIDATION-OMITTED",
+      "pass_condition": "Empty sets and missing, empty, non-string, or duplicate IDs cannot pass final replay comparison.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_duplicate_decision_ids",
+      "severity": "BLOCKER",
+      "statement": "Resolved: the comparator rejects empty decision sets and any missing, empty, non-string, or duplicate decision_id before equality; isolated cases all failed closed.",
+      "status": "RESOLVED",
+      "target": "final_replay_decision_identity",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "file_references": [
+        "evals/results/phase-002c/input_freeze_manifest.json",
+        "evals/results/phase-002c/pre_adjudication/evidence_sufficiency.json",
+        "evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json",
+        "src/cumcm_skill_lab/adjudication/pre_adjudication.py",
+        "adjudication/configs/phase-002c.yaml",
+        "adjudication/policies/phase-002c.yaml",
+        "rules/pre_adjudication_rules.yaml",
+        "rules/native_subagent_audit_rules.yaml",
+        "contracts/subagent_audit.schema.json"
+      ],
+      "finding_id": "RPA6-004-BOUND-HASH-GROUPS",
+      "pass_condition": "Mutation or absence of any declared bound path produces a freeze error before downstream records are accepted.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_rules_contracts_and_agent_configs_are_frozen",
+      "severity": "BLOCKER",
+      "statement": "Resolved: bundle, freeze, sufficiency, pre-adjudication, policy, raw config, and raw policy hashes recompute exactly; all 37 accessible bound files match and every declared group is verified fail closed.",
+      "status": "RESOLVED",
+      "target": "freeze_hash_enforcement",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "file_references": [
+        "evals/results/phase-002c/input_freeze_manifest.json",
+        "src/cumcm_skill_lab/adjudication/pre_adjudication.py",
+        "src/cumcm_skill_lab/adjudication/evidence_sufficiency.py",
+        "evals/results/phase-002a/eligibility/classification.json",
+        "evals/results/phase-002c/pre_adjudication/evidence_sufficiency.json"
+      ],
+      "finding_id": "RPA6-005-CLOSED-WORLD-RUN-INVENTORY",
+      "pass_condition": "Added evidence produces an inventory mismatch and duplicate run identity cannot enter the frozen projection.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_freeze_verification_rejects_added_evidence_file",
+      "severity": "BLOCKER",
+      "statement": "Resolved: freeze verification compares the complete 111-file evidence inventory and count; independent reconstruction of the 20 allowed runs yields 20 unique identities and exactly the frozen evidence projection/hash.",
+      "status": "RESOLVED",
+      "target": "freeze_integrity",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/adjudication/phase002c_records.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_replay.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_audit.py",
+        "src/cumcm_skill_lab/adjudication/pre_adjudication.py",
+        "src/cumcm_skill_lab/adjudication/evidence_sufficiency.py"
+      ],
+      "finding_id": "RPA6-006-OFFLINE-REBUILD-REPLAY",
+      "pass_condition": "All rebuilt records equal frozen records, benign variants are stable, and any failed rebuild yields RETEST_REQUIRED or an exception.",
+      "required_test": "tests/integration/test_adjudication_pipeline.py::test_case_replay_is_order_stable",
+      "severity": "BLOCKER",
+      "statement": "Resolved: pre-audit replay rebuilds freeze, sufficiency, pre-adjudication, and decisions; final replay rebuilds decisions, pre-audit replay, decision audit, and route, then requires every check and normalized variant to pass offline.",
+      "status": "RESOLVED",
+      "target": "deterministic_replay",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PRE-ADJUDICATION-PHASE-002C",
+        "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/adjudication/phase002c_reporting.py",
+        "src/cumcm_skill_lab/report_generation.py",
+        "evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json",
+        "state/project_state.json",
+        "evals/results/phase-002b/recovery_manifest.json"
+      ],
+      "finding_id": "RPA6-007-REPORT-RUNTIME-PROVENANCE",
+      "pass_condition": "Machine-field mutations alter corresponding report claims and source mutations alter provenance hashes.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_reports_derive_phase002d_execution_and_short_circuit_from_machine_inputs",
+      "severity": "BLOCKER",
+      "statement": "Resolved: lifecycle claims are derived from route, pre-adjudication, state, audit, replay, and transport machine fields, and the report manifest hashes every machine record consumed by rendering.",
+      "status": "RESOLVED",
+      "target": "report_generation",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/adjudication/pre_adjudication.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_records.py",
+        "adjudication/configs/phase-002c.yaml",
+        "evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json"
+      ],
+      "finding_id": "RPA6-008-HARD-GATES-FAIL-CLOSED",
+      "pass_condition": "Incomplete comparative coverage or unknown/incomplete direct-adoption evidence cannot yield passing affected gates.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_comparative_hard_gates_require_complete_candidate_coverage",
+      "severity": "BLOCKER",
+      "statement": "Resolved: comparative gates require complete unique configured candidate coverage, while unknown or incomplete direct-adoption license, contamination, integration, state, security, network, scope, or runtime evidence cannot satisfy affected gates.",
+      "status": "RESOLVED",
+      "target": "hard_gate_semantics",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/adjudication/phase002c_records.py",
+        "adjudication/policies/phase-002c.yaml",
+        "evals/results/phase-002c/input_freeze_manifest.json",
+        "evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json"
+      ],
+      "finding_id": "RPA6-009-DECISION-FROZEN-TIMESTAMP",
+      "pass_condition": "Changing policy frozen_at changes derived decision timestamps without wall-clock or hardcoded substitution.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_decision_timestamp_comes_from_frozen_policy",
+      "severity": "BLOCKER",
+      "statement": "Resolved: derived decisions obtain created_at from resolved policy frozen_at; policy, freeze, pre-adjudication, and bundle timestamps consistently equal 2026-09-01T11:57:13+08:00.",
+      "status": "RESOLVED",
+      "target": "decision_provenance_timestamp",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "RECOVERY-EXCLUSION-PHASE-002A",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B"
+      ],
+      "file_references": [
+        "evals/results/phase-002c/input_freeze_manifest.json",
+        "evals/results/phase-002a/recovery_gap_evidence/recovery.json",
+        "evals/results/phase-002b/recovery_manifest.json",
+        "src/cumcm_skill_lab/adjudication/evidence_sufficiency.py",
+        "src/cumcm_skill_lab/adjudication/phase002c_reporting.py"
+      ],
+      "finding_id": "RPA6-010-RECOVERY-TRANSPORT-NONRANKING",
+      "pass_condition": "Recovery evidence remains preserved for gap analysis but never becomes ranking eligible.",
+      "required_test": "tests/unit/test_phase002c_evidence_gate.py::test_recovery_exclusion_has_vacuous_safe_semantics",
+      "severity": "BLOCKER",
+      "statement": "Resolved: historical transport hashes remain frozen and reported, while all five recovery-affected records remain GAP_EVIDENCE_ONLY and ranking_eligible false.",
+      "status": "RESOLVED",
+      "target": "historical_recovery_and_transport_preservation",
+      "testability": "TESTABLE"
+    }
+  ],
+  "independent": true,
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "nested_codex_used": false,
+  "output_hash": "447a38914de3bea6a0d3e6c711a5dce6af865c3c7203ab0bc91fd37aaea3c8ca",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "reproducibility_auditor",
+  "round": "FIRST_ROUND",
+  "verdict": "PASS",
+  "writes_observed": false
+}
