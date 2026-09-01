@@ -1,6 +1,4 @@
-# Automated Adjudication Dossier
-
-Phase 002 produced candidate dynamic runs; Phase 002A rebuilt deterministic evidence classification; Phase 002B preserved 2 `RESPONSES_CONNECT_RESET` recovery failures and transport-repaired is `False`; Phase 002C recorded `EVIDENCE_INSUFFICIENT` through an evidence-sufficiency short circuit; semantic Judges are `SKIPPED`.
+# Phase 002C Acceptance
 
 Technical status: `AUTOMATED_ADJUDICATION_COMPLETE`.
 Evidence sufficiency: `INSUFFICIENT`; balanced cases 2/4; repeats 1/2.

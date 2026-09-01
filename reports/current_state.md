@@ -10,26 +10,23 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS`
-- Automated decisions: `None`
+- Technical adjudication: `AUTOMATED_ADJUDICATION_COMPLETE`
+- Automated decisions: `DECISION-EVIDENCE-SUFFICIENCY-002C, DECISION-DIRECT-UPSTREAM-ADOPTION-002C, DECISION-RECOVERY-POLICY-002C, DECISION-COMPONENT-READINESS-002C`
 - Selected architecture: `None`
 - Accepted component specifications: `None`
-- Next phase allowed: `None`
-- Content-verified commit: `5a1f6e49b7a718c8a6bae68e203e33bb7a85b6ef`
-- Delivery receipt commit: `5a1f6e49b7a718c8a6bae68e203e33bb7a85b6ef`
+- Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`
+- Content-verified commit: `7f3a785f628a1db73a689ba3bd99a71b027306b4`
+- Delivery receipt commit: `UNVERIFIED`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-01T11:57:13+08:00` by `main-agent`
+- Updated: `2026-09-01T14:23:31+08:00` by `main-agent`
 
 ## Blockers
 
-- PHASE_002C_INPUT_FREEZE_PENDING
-- NATIVE_SUBAGENT_AUDITS_PENDING
-- PHASE_002C_DECISION_AUDIT_PENDING
-- PHASE_002C_REPLAY_PENDING
+- None
 
 ## Risks
 
-- Phase 002 technical proposals are historical evidence pending automated re-adjudication.
+- Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.
 - Project license is PROJECT_LICENSE_UNDECIDED.
 - Sanitized instruction-only evaluation cannot prove full upstream behavior.
 - Six synthetic cases, one primary run per cell, and five excluded recovery-affected cells may force abstention.
@@ -38,3 +35,6 @@
 - Phase 002B has only eight remaining model starts for six mandatory independent formal roles.
 - The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.
 - Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.
+- Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.
+- Direct-adoption leakage and integration risk predicates accept arbitrary LOW-prefixed strings; this is non-blocking for the two currently rejected targets but must be closed before any future positive adoption decision.
+- Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.

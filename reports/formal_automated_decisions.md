@@ -1,3 +1,8 @@
 # Formal Automated Decisions
 
-No automated technical decision was emitted. `automated_decision_ids=[]`, `selected_architecture=null`, `accepted_component_specifications=[]`, and `next_phase_allowed=null`.
+| Decision ID | Type | Decision | Scope | Audit | Next phase |
+| --- | --- | --- | --- | --- | --- |
+| DECISION-COMPONENT-READINESS-002C | COMPONENT_READINESS | EVIDENCE_INSUFFICIENT | NONE | DECISION-AUDIT-002C | None |
+| DECISION-DIRECT-UPSTREAM-ADOPTION-002C | DIRECT_UPSTREAM_ADOPTION | AUTOMATED_REJECTED | NONE | DECISION-AUDIT-002C | None |
+| DECISION-EVIDENCE-SUFFICIENCY-002C | EVIDENCE_SUFFICIENCY | EVIDENCE_INSUFFICIENT | NONE | DECISION-AUDIT-002C | PHASE-EVIDENCE-EXPANSION-002D |
+| DECISION-RECOVERY-POLICY-002C | RECOVERY_POLICY | AUTOMATED_ACCEPTED | POLICY_ONLY | DECISION-AUDIT-002C | None |
