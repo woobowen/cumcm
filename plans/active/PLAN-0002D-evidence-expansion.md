@@ -245,8 +245,8 @@ the Skill stays scaffold-only until a later implementation phase.
    are primary eligible and retained; checkpoint/cost/score-audit/status passed; business commit
    `dcff679` is remotely delivered and verified.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
-   condition with exact status. Batches 2 through 5 are remotely delivered; the frozen retry queue
-   is next.
+   condition with exact status. Batches 2 through 5 are remotely delivered; retry Batch 6 is
+   validated locally with one eligible record and awaits delivery.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
    hard Gates.
 8. **M8 audits/decisions** — four independent first-round audits; all BLOCKER tests executed; five
@@ -364,7 +364,12 @@ affected hashes and acceptance changes before further scored work.
 - `2026-09-01T20:57:01+08:00`: Batch 5 business commit
   `bb5b48a1b016242bc421ee38d4e613dcb35dc55f` was pushed normally and verified byte-for-byte at the
   task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
+- `2026-09-01T21:09:59+08:00`: M6 retry Batch 6 ran three frozen A02 slots. CASE-004/ARM-A/R2 is
+  eligible with oracle FAIL; CASE-001/ARM-A/R2 has an HTTPS fallback disconnect and authoritative
+  HARD-FAIL-003; CASE-006/ARM-A/R1 is a Schema-invalid policy exclusion. Cumulative attempts/eligible
+  are 27/18; elapsed is 5,988.297082 seconds with 208.702918 remaining. Cost `4ac9dfc5...`, score
+  audit `86b47288...`, and runner check pass. Minima still miss six eligible records.
 
 ## 24. Current next step
 
-Dry-run and execute the next bounded frozen retry batch, stopping at minima or a hard budget Gate.
+Validate, commit and remotely deliver retry Batch 6 before the final A03 attempt.
