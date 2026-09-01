@@ -241,9 +241,9 @@ the Skill stays scaffold-only until a later implementation phase.
 4. **M4 schedule/runner — COMPLETE** — fixed schedule, runner, append-only attempts,
    checkpoint/status, mocks and fault injection passed without a real scored start; ADR-0026;
    business commit `fe90c32` is remotely delivered and verified.
-5. **M5 Batch 1 — VALIDATED, DELIVERY PENDING** — one complete block was attempted in frozen order;
-   all three records are primary eligible and retained; checkpoint/cost/score-audit/status pass;
-   atomic commit is ready for push.
+5. **M5 Batch 1 — COMPLETE** — one complete block was attempted in frozen order; all three records
+   are primary eligible and retained; checkpoint/cost/score-audit/status passed; business commit
+   `dcff679` is remotely delivered and verified.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
    condition with exact status.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
@@ -324,8 +324,11 @@ affected hashes and acceptance changes before further scored work.
   532,989/27,845 and elapsed time was 633.072039 seconds. Cost hash is `2afad1f7...`; the append-only
   coverage-binding audit `1c24743d...` preserves one non-authoritative ARM-A coverage false positive
   and excludes coverage hard-failure fields from formal Gates.
+- `2026-09-01T19:18:12+08:00`: M5 business commit
+  `dcff6790cfc140ebf40a13e0094e08e59fbcba1c` was pushed normally and verified at the task-branch
+  remote ref. Draft PR #3 remains OPEN/DRAFT.
 
 ## 24. Current next step
 
-Commit and remotely deliver M5 Batch 1. Do not start Batch 2 until the remote SHA equals the local
-business commit and freeze/runner/score/cost checks still pass.
+Run M6 Batch 2 with at most six new primary attempts in frozen order, then stop for the complete
+checkpoint/score/cost/test/commit/push cycle before Batch 3.
