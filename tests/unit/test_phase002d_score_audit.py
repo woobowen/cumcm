@@ -63,3 +63,18 @@ def test_current_score_audit_rebuilds_from_all_append_only_attempts(repo_root):
         audited_at=current["audited_at"],
     )
     assert rebuilt == current
+
+
+def test_failed_attempts_without_observations_are_explicitly_noncomparable(repo_root):
+    current = read_json(repo_root / "evals/results/phase-002d/score_audit/audit.json")
+    records = [
+        record
+        for record in current["records"]
+        if record["classification"] == "NOT_APPLICABLE_NO_OBSERVATION"
+    ]
+    assert current["noncomparable_no_observation_count"] == 3
+    assert len(records) == 3
+    assert all(record["observation_available"] is False for record in records)
+    assert all(record["authoritative_match"] is None for record in records)
+    assert all(record["coverage_binding_mismatch"] is None for record in records)
+    assert all(record["coverage_is_hard_gate_source"] is False for record in records)

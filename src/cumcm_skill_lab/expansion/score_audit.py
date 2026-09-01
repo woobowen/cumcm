@@ -24,18 +24,25 @@ def build_score_audit(
     records = []
     for attempt in load_attempts(root):
         attempt_id = attempt["attempt_id"]
-        observation = read_json(root / RESULT_ROOT / "runs" / attempt_id / "observation.json")
+        observation_path = root / RESULT_ROOT / "runs" / attempt_id / "observation.json"
+        observation = read_json(observation_path) if observation_path.is_file() else None
         coverage = read_json(root / RESULT_ROOT / "scores" / f"{attempt_id}.json")
-        recomputed = detect_hard_failures(
-            observation,
-            {
-                "completion_status": attempt["completion_status"],
-                "schema_valid": attempt["schema_valid"],
-                "files_written": attempt["files_written"],
-            },
+        recomputed = (
+            detect_hard_failures(
+                observation,
+                {
+                    "completion_status": attempt["completion_status"],
+                    "schema_valid": attempt["schema_valid"],
+                    "files_written": attempt["files_written"],
+                },
+            )
+            if observation is not None
+            else None
         )
         coverage_only = coverage["hard_failures"]
         authoritative = attempt["hard_failures"]
+        authoritative_match = authoritative == recomputed if recomputed is not None else None
+        coverage_binding_mismatch = coverage_only != recomputed if recomputed is not None else None
         records.append(
             {
                 "attempt_id": attempt_id,
@@ -45,10 +52,15 @@ def build_score_audit(
                 "attempt_hard_failures": authoritative,
                 "recomputed_hard_failures": recomputed,
                 "coverage_hard_failures": coverage_only,
-                "authoritative_match": authoritative == recomputed,
-                "coverage_binding_mismatch": coverage_only != recomputed,
+                "observation_available": observation is not None,
+                "authoritative_match": authoritative_match,
+                "coverage_binding_mismatch": coverage_binding_mismatch,
                 "classification": (
-                    "COVERAGE_BINDING_MISMATCH" if coverage_only != recomputed else "CONSISTENT"
+                    "NOT_APPLICABLE_NO_OBSERVATION"
+                    if observation is None
+                    else (
+                        "COVERAGE_BINDING_MISMATCH" if coverage_binding_mismatch else "CONSISTENT"
+                    )
                 ),
                 "coverage_proves_correctness": False,
                 "coverage_is_hard_gate_source": False,
@@ -61,16 +73,19 @@ def build_score_audit(
         "audited_at": audited_at or _now(),
         "records": records,
         "authoritative_attempt_binding_pass": all(
-            record["authoritative_match"] for record in records
+            record["authoritative_match"] is not False for record in records
         ),
         "coverage_binding_mismatch_count": sum(
-            record["coverage_binding_mismatch"] for record in records
+            record["coverage_binding_mismatch"] is True for record in records
+        ),
+        "noncomparable_no_observation_count": sum(
+            not record["observation_available"] for record in records
         ),
         "coverage_excluded_from_hard_gates": True,
         "original_scores_modified": False,
         "status": (
             "PASS_WITH_COVERAGE_LIMITATION"
-            if any(record["coverage_binding_mismatch"] for record in records)
+            if any(record["coverage_binding_mismatch"] is True for record in records)
             else "PASS"
         ),
     }

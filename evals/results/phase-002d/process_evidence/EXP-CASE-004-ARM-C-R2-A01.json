@@ -1,0 +1,27 @@
+{
+  "attempt_id": "EXP-CASE-004-ARM-C-R2-A01",
+  "checks": {
+    "command_events_observed": true,
+    "identity_tuple_bound": true,
+    "input_hashes_bound": true,
+    "output_hash_recorded": true,
+    "prohibited_action_clear": true,
+    "run_completed": true,
+    "schema_valid": true
+  },
+  "event_summary": {
+    "item.completed": 14,
+    "item.started": 13,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "evidence_level": "E2",
+  "observable_commands": [
+    "bash shell_text_sha_redacted"
+  ],
+  "passed": true,
+  "process_hash": "5395499fa003e6eecfc10a800ab9aa191b9b123c87f59df198f22f8301b2356d",
+  "role": "PROCESS_EVIDENCE",
+  "schema_version": "1.0.0"
+}
