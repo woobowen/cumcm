@@ -1,6 +1,6 @@
 # PLAN-0002D — Controlled Evidence Expansion
 
-Status: `IN_PROGRESS`
+Status: `REMOTE_DELIVERED_INCOMPLETE`
 Phase: `PHASE-EVIDENCE-EXPANSION-002D`
 Owner: main agent
 Started: `2026-09-01T17:58:44+08:00`
@@ -256,10 +256,12 @@ the Skill stays scaffold-only until a later implementation phase.
 9. **M9 replay/route — PARTIAL ROUTE ONLY** — decision replay and label/order variants are not
    applicable without M8 decisions; deterministic state route is `EVIDENCE_EXPANSION_INCOMPLETE`
    with only the same Phase 002D allowed next.
-10. **M10 acceptance/delivery — LOCAL PASS/AWAITING DELIVERY** — required documents, reports,
+10. **M10 acceptance/delivery — REMOTE DELIVERED/INCOMPLETE** — required documents, reports,
     contracts and ledgers are current; 535 tests pass with one expected skip; strict has zero
-    errors/warnings. Draft PR #3 is OPEN/DRAFT and its previous head CI passed. Final business
-    commit, remote SHA and new remote CI still require verification.
+    errors/warnings. Business commit `fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235` matches the
+    remote task branch and its `CI/offline-validation` completed successfully. Draft PR #3 remains
+    OPEN/DRAFT. The task delivery is complete while the technical route remains fail-closed as
+    `EVIDENCE_EXPANSION_INCOMPLETE`.
 
 ## 20. Validation commands
 
