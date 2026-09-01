@@ -2,11 +2,12 @@
   "project_id": "cumcm-skill-lab",
   "schema_version": "2.1.0",
   "phase": "PHASE-EVIDENCE-EXPANSION-002D",
+  "subphase": "PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION",
   "status": "IN_PROGRESS",
-  "current_plan": "plans/active/PLAN-0002D-evidence-expansion.md",
+  "current_plan": "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/evidence-expansion-002d",
-  "technical_adjudication_status": "EVIDENCE_EXPANSION_INCOMPLETE",
+  "technical_adjudication_status": "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS",
   "automated_decision_ids": [
     "DECISION-EVIDENCE-SUFFICIENCY-002C",
     "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
@@ -15,7 +16,7 @@
   ],
   "selected_architecture": null,
   "accepted_component_specifications": [],
-  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+  "next_phase_allowed": null,
   "evidence_expansion": {
     "cohort_mode": "NEW_MODEL_COHORT",
     "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
@@ -44,13 +45,27 @@
       "monetary_cost": "UNKNOWN"
     },
     "current_batch": 7,
-    "infrastructure_status": "STOPPED_ELAPSED_BUDGET_REACHED"
+    "infrastructure_status": "STOPPED_ELAPSED_BUDGET_REACHED",
+    "repeat_depth_deprecated": true,
+    "quality_balanced_case_count": 3,
+    "quality_minimum_repeat_depth": 1,
+    "outcome_resolved_case_count": null,
+    "outcome_minimum_repeat_depth": null,
+    "schedule_attempted_repeat_depth": 2,
+    "reliability_observed_repeat_depth": null,
+    "resolved_success_slots": null,
+    "resolved_terminal_negative_slots": null,
+    "infrastructure_censored_slots": null,
+    "harness_censored_slots": null,
+    "unknown_slots": null,
+    "supplemental_run_authorized": null,
+    "supplemental_budget_id": null
   },
   "content_verified_commit": "fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235",
   "verification_manifest": {
-    "path": "evals/results/phase-002d/input_freeze_manifest.json",
-    "sha256": "4c24b2b6c1e5e3845b88a4bd96790d7c5481ce593d86cee434e59a7138f675bc",
-    "subject_commit": "21a3047156f2aae7324bd04757b19593f22941a0"
+    "path": "evals/results/phase-002d-r1/input_freeze_manifest.json",
+    "sha256": "50b18b674a3ea2ca770e4ed60328b214f2c1eda9a3e9856b7410cd7095192218",
+    "subject_commit": "d59f4b8a36fa3c15e06ec0aceb948cd2bafd2abc"
   },
   "delivery_receipt_for_commit": {
     "commit": "fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235",
@@ -60,8 +75,8 @@
   },
   "team_compliance_review_status": "NOT_RUN",
   "blockers": [
-    "EVIDENCE_MINIMA_NOT_MET",
-    "ELAPSED_BUDGET_REACHED"
+    "FAILURE_AWARE_ADJUDICATION_PENDING",
+    "DECISION_AUDIT_PENDING"
   ],
   "risks": [
     "Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.",
@@ -81,6 +96,6 @@
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T21:43:14+08:00",
+  "updated_at": "2026-09-02T02:08:52+08:00",
   "updated_by": "main-agent"
 }

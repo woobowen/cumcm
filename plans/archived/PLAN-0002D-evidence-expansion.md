@@ -1,6 +1,6 @@
 # PLAN-0002D — Controlled Evidence Expansion
 
-Status: `REMOTE_DELIVERED_INCOMPLETE`
+Status: `SUPERSEDED_BY_FAILURE_AWARE_CONTINUATION`
 Phase: `PHASE-EVIDENCE-EXPANSION-002D`
 Owner: main agent
 Started: `2026-09-01T17:58:44+08:00`
@@ -405,4 +405,6 @@ affected hashes and acceptance changes before further scored work.
 
 ## 24. Current next step
 
-Commit and push M10 business content, verify remote CI/SHA, then record the final delivery receipt.
+The terminal success-only experiment is preserved unchanged. Continue only through
+`plans/active/PLAN-0002D-R1-failure-aware-outcomes.md`, which freezes this plan's results and adds
+failure-aware outcome adjudication without reopening or expanding the original budget.

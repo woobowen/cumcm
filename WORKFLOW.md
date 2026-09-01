@@ -52,6 +52,24 @@ native semantic audits. Budget exhaustion before those minima yields
 `EVIDENCE_EXPANSION_INCOMPLETE`, permits only a newly frozen continuation of the same Phase 002D and
 keeps Phase 003 locked. It does not create automated decisions or a Decision Auditor output.
 
+## Phase 002D-R1 failure-aware outcome-adjudication route
+
+`EVIDENCE_EXPANSION_INCOMPLETE → FAILURE_AWARE_ADJUDICATION_IN_PROGRESS` is a registered
+continuation inside Phase 002D, not a new formal Phase and not renewed generic acquisition. It
+freezes the completed Phase 002D attempts and resolves eligible success, terminal negative,
+infrastructure censoring, harness censoring, and unknown outcomes under separate quality,
+reliability, outcome-completeness, and component-gap scopes. While this status is active,
+`subphase` is `PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION`, `next_phase_allowed` is null,
+architecture and accepted components remain unset, base selection and third-party integration are
+false, and the Skill remains `SCAFFOLD_ONLY`.
+
+The legal `technical_adjudication_status` enum and its state invariants are machine-owned by
+`contracts/project_state.schema.json`; the versioned
+`rules/phase002d_r1_workflow_rules.yaml` owns R1 transition edges without mutating the Phase 002D
+freeze-bound global workflow policy. Only a passing failure-aware Decision Auditor and stable
+replay may establish a terminal R1 status. Neither an in-progress label nor completion of
+deterministic preprocessing is an automated technical decision.
+
 ## Project lifecycle
 
 `INIT → FOUNDATION_READY → UPSTREAMS_INVENTORIED → UPSTREAMS_STATIC_REVIEWED → CANDIDATES_FROZEN`

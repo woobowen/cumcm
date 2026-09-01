@@ -3,27 +3,28 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-EVIDENCE-EXPANSION-002D`
+- Subphase: `PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0002D-evidence-expansion.md`
+- Active plan: `plans/active/PLAN-0002D-R1-failure-aware-outcomes.md`
 - Branch: `feat/evidence-expansion-002d`
 - Skill version: `0.1.0-foundation`
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `EVIDENCE_EXPANSION_INCOMPLETE`
+- Technical adjudication: `FAILURE_AWARE_ADJUDICATION_IN_PROGRESS`
 - Automated decisions: `DECISION-EVIDENCE-SUFFICIENCY-002C, DECISION-DIRECT-UPSTREAM-ADOPTION-002C, DECISION-RECOVERY-POLICY-002C, DECISION-COMPONENT-READINESS-002C`
 - Selected architecture: `None`
 - Accepted component specifications: `None`
-- Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`
+- Next phase allowed: `None`
 - Content-verified commit: `fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235`
 - Delivery receipt commit: `fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-01T21:43:14+08:00` by `main-agent`
+- Updated: `2026-09-02T02:08:52+08:00` by `main-agent`
 
 ## Blockers
 
-- EVIDENCE_MINIMA_NOT_MET
-- ELAPSED_BUDGET_REACHED
+- FAILURE_AWARE_ADJUDICATION_PENDING
+- DECISION_AUDIT_PENDING
 
 ## Risks
 
