@@ -247,8 +247,9 @@ the Skill stays scaffold-only until a later implementation phase.
 6. **M6 later batches — COMPLETE/REMOTE TERMINAL** — each bounded batch is verified/committed/pushed; the
    final A03 is excluded by HARD-FAIL-003 and cumulative elapsed crosses the frozen limit. Runner
    is STOPPED with `ELAPSED_BUDGET_REACHED`; Batch 7 is remotely delivered.
-7. **M7 sufficiency — COMPLETE/INSUFFICIENT** — formal machine record reports 18 eligible records,
-   three balanced cases, one independent repeat, intact cohort/input/hard Gates and `INSUFFICIENT`.
+7. **M7 sufficiency — COMPLETE/REMOTE INSUFFICIENT** — formal machine record reports 18 eligible
+   records, three balanced cases, one independent repeat, intact cohort/input/hard Gates and
+   `INSUFFICIENT`; it is remotely delivered.
 8. **M8 audits/decisions — LOCKED/NOT RUN** — quantitative minima did not pass, so native semantic
    Subagents, derived BLOCKER tests, Phase 002D automated decisions and Decision Auditor are
    prohibited by the frozen ordering.
@@ -389,7 +390,10 @@ affected hashes and acceptance changes before further scored work.
   cohort, input freeze and eligible hard Gates pass. Semantic Subagents and ranking remain locked;
   record hash is `cf9c9c98...`. M10 audit also identified five required Phase 002D policy documents
   and the `0.2.4-evidence-expansion` version bump as outstanding acceptance work.
+- `2026-09-01T21:27:22+08:00`: M7 business commit
+  `9762cf547e07675a5c16acc9e223d1c1b448d010` was pushed normally and verified byte-for-byte at the
+  task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
 
 ## 24. Current next step
 
-Deliver M7, then close M10 documentation, deterministic incomplete-route replay, reports and CI.
+Close M10 documentation, deterministic incomplete-route record, reports, CI and remote acceptance.
