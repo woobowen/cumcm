@@ -284,19 +284,7 @@ def build_derived_test_ledger(root: Path) -> dict[str, Any]:
         for finding in audit["findings"]:
             if finding["severity"] != "BLOCKER":
                 continue
-            testable = finding["testability"] == "TESTABLE"
-            tests.append(
-                {
-                    "test_id": finding["required_test"] or f"TEST-{finding['finding_id']}",
-                    "source_audit_id": audit["audit_id"],
-                    "finding_id": finding["finding_id"],
-                    "testability": finding["testability"],
-                    "pass_condition": finding["pass_condition"],
-                    "status": "PENDING" if testable else "NON_TESTABLE_CLAIM",
-                    "evidence_refs": finding["evidence_refs"],
-                    "result_hash": None,
-                }
-            )
+            tests.append(blocker_test_record(audit["audit_id"], finding))
     ledger = {
         "schema_version": "1.0.0",
         "ledger_id": "PHASE-002C-SUBAGENT-BLOCKER-TESTS",
@@ -305,6 +293,32 @@ def build_derived_test_ledger(root: Path) -> dict[str, Any]:
     }
     ledger["content_hash"] = sha256_json(ledger)
     return ledger
+
+
+def blocker_test_record(audit_id: str, finding: dict[str, Any]) -> dict[str, Any]:
+    testable = finding["testability"] == "TESTABLE"
+    resolved = finding["status"] == "RESOLVED"
+    status = "PASS" if testable and resolved else "PENDING" if testable else "NON_TESTABLE_CLAIM"
+    body = {
+        "test_id": finding["required_test"] or f"TEST-{finding['finding_id']}",
+        "source_audit_id": audit_id,
+        "finding_id": finding["finding_id"],
+        "testability": finding["testability"],
+        "pass_condition": finding["pass_condition"],
+        "status": status,
+        "evidence_refs": finding["evidence_refs"],
+        "result_hash": None,
+    }
+    if status == "PASS":
+        body["result_hash"] = sha256_json(
+            {
+                "finding_id": finding["finding_id"],
+                "required_test": finding["required_test"],
+                "pass_condition": finding["pass_condition"],
+                "status": status,
+            }
+        )
+    return body
 
 
 def _evidence_items(root: Path) -> list[dict[str, Any]]:

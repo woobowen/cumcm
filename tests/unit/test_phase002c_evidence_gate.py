@@ -13,6 +13,7 @@ from cumcm_skill_lab.adjudication.evidence_sufficiency import (
     compute_evidence_sufficiency,
 )
 from cumcm_skill_lab.adjudication.models import sha256_json
+from cumcm_skill_lab.adjudication.native_subagent_audits import blocker_test_record
 from cumcm_skill_lab.adjudication.phase002c_records import (
     evaluate_direct_adoption_gates,
 )
@@ -538,6 +539,40 @@ def test_subagent_output_without_schema_fields_is_invalid(repo_root):
     schema = json.loads((repo_root / "contracts/subagent_audit.schema.json").read_text())
     with pytest.raises(ValidationError):
         Draft202012Validator(schema).validate({"verdict": "PASS"})
+
+
+@pytest.mark.parametrize(
+    ("finding_status", "expected"),
+    [("OPEN", "PENDING"), ("UNRESOLVED", "PENDING"), ("RESOLVED", "PASS")],
+)
+def test_dissent_blocker_becomes_executable_test(finding_status, expected):
+    finding = {
+        "finding_id": "F-BLOCKER",
+        "severity": "BLOCKER",
+        "testability": "TESTABLE",
+        "required_test": (
+            "tests/unit/test_phase002c_evidence_gate.py::test_missing_task_hash_blocks_comparison"
+        ),
+        "pass_condition": "missing hash is rejected",
+        "status": finding_status,
+        "evidence_refs": ["EVIDENCE-SUFFICIENCY-PHASE-002C"],
+    }
+    record = blocker_test_record("AUDIT-X", finding)
+    assert record["status"] == expected
+    assert (record["result_hash"] is not None) is (expected == "PASS")
+
+
+def test_non_testable_claim_cannot_become_a_failing_test():
+    finding = {
+        "finding_id": "F-CLAIM",
+        "severity": "BLOCKER",
+        "testability": "NON_TESTABLE_CLAIM",
+        "required_test": None,
+        "pass_condition": None,
+        "status": "UNRESOLVED",
+        "evidence_refs": ["EVIDENCE-SUFFICIENCY-PHASE-002C"],
+    }
+    assert blocker_test_record("AUDIT-X", finding)["status"] == "NON_TESTABLE_CLAIM"
 
 
 @pytest.mark.parametrize(
