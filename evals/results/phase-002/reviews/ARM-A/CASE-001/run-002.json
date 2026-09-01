@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-A",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-001",
+  "citations": [
+    "reviewer:A:requirements、reality_constraints和formalization完整覆盖单位换算、5次行程约束及3/2分配。",
+    "reviewer:B:baseline以逐项算术证明3000 kg需求可由5次行程、7.5 crew-hours精确满足。",
+    "reviewer:C:validation与robustness_tests检查6次行程需9小时、单位变化和零容量余量。",
+    "reviewer:D:记录输入哈希与来源；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "requirements、reality_constraints和formalization完整覆盖单位换算、5次行程约束及3/2分配。"
+      ],
+      "missing": [
+        "包装粒度、部分装载和超供规则未确定。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "baseline以逐项算术证明3000 kg需求可由5次行程、7.5 crew-hours精确满足。"
+      ],
+      "missing": [
+        "code_artifacts为空，未运行代码化验证或模拟。"
+      ],
+      "score": 7
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "validation与robustness_tests检查6次行程需9小时、单位变化和零容量余量。"
+      ],
+      "missing": [
+        "没有现场装载或需求扰动的量化验证。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "记录输入哈希与来源；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "未持久化恢复状态或handoff工件。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "约束算术严密，但证据限于确定性计算而非实际运营。",
+  "review_id": "REVIEW-ARM-A-CASE-001-RUN-002",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 2,
+  "schema_version": "1.0.0",
+  "score": 26.0,
+  "status": "REVIEWED"
+}

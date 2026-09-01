@@ -1,0 +1,155 @@
+{
+  "case_id": "CASE-006",
+  "checks": [
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "primary",
+          "authority"
+        ],
+        [
+          "method"
+        ],
+        [
+          "unsourced",
+          "rumor"
+        ],
+        [
+          "mismatch"
+        ]
+      ],
+      "id": "LEVELS",
+      "points": 10
+    },
+    {
+      "field": "claims",
+      "groups": [
+        [
+          "40"
+        ],
+        [
+          "SRC-AUTH"
+        ]
+      ],
+      "id": "LIMIT",
+      "points": 10
+    },
+    {
+      "field": "claims",
+      "groups": [
+        [
+          "sensor"
+        ],
+        [
+          "cannot",
+          "not support",
+          "no causal"
+        ]
+      ],
+      "id": "NOCAUSAL",
+      "points": 8
+    },
+    {
+      "field": "claims",
+      "groups": [
+        [
+          "always wins"
+        ],
+        [
+          "unsupported",
+          "cannot"
+        ]
+      ],
+      "id": "NOWIN",
+      "points": 7
+    },
+    {
+      "field": "assumptions",
+      "groups": [
+        [
+          "independent"
+        ],
+        [
+          "calibration drift",
+          "shared"
+        ]
+      ],
+      "id": "ASSUMPTION",
+      "points": 8
+    },
+    {
+      "field": "formalization",
+      "groups": [
+        [
+          "retain"
+        ],
+        [
+          "robust loss"
+        ]
+      ],
+      "id": "RETAIN",
+      "points": 7
+    },
+    {
+      "field": "formalization",
+      "groups": [
+        [
+          "modify"
+        ],
+        [
+          "dependence",
+          "grouped error",
+          "correlated"
+        ]
+      ],
+      "id": "MODIFY",
+      "points": 7
+    },
+    {
+      "field": "formalization",
+      "groups": [
+        [
+          "remove"
+        ],
+        [
+          "independence guarantee",
+          "independent"
+        ]
+      ],
+      "id": "REMOVE",
+      "points": 5
+    },
+    {
+      "field": "claims",
+      "groups": [
+        [
+          "fact"
+        ],
+        [
+          "assumption"
+        ],
+        [
+          "experiment result",
+          "result"
+        ]
+      ],
+      "id": "FACTS",
+      "points": 5
+    },
+    {
+      "field": "self_reported_limitations",
+      "groups": [
+        [
+          "doi",
+          "external",
+          "local only",
+          "no network"
+        ]
+      ],
+      "id": "NOFAKE",
+      "points": 3
+    }
+  ],
+  "max_score": 70
+}

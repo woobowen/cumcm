@@ -9,3 +9,11 @@
 - **Third-party files entered tracked tree:** stop; identify exact paths, remove only those project additions through a reviewed patch, verify Git index/cache ignore, and record the incident. Never use broad clean/reset commands.
 - **Candidate Skill entered discovery:** stop Codex use in that tree, move the candidate only to its exact ignored cache through a reviewed operation, run discovery checks, and inspect for copied text.
 - **Upstream/result changed:** record dependency change, propagate `STALE` from the earliest affected artifact, rerun validation/review, and require approval before clearing.
+- **Adjudication transport fails:** atomically checkpoint the exact session/thread in ignored local
+  state, retain raw trace only in ignored cache, and track hashes plus a bounded risk summary.
+  Resume or fall back only as allowed by the active versioned role/global budget. A role whose
+  budget is exhausted stops the chain as `AUTOMATED_ADJUDICATION_INCOMPLETE`; unused global starts
+  cannot override it. Never run a dependent role, Meta, Auditor, replay, or decision generation
+  without valid prerequisites. See `TRANSPORT_RECOVERY_POLICY.md`.
+- **Team challenge:** validate the separate challenge record, mark the decision and descendants
+  `STALE`, and replay automated adjudication. Team review cannot reverse the technical record.

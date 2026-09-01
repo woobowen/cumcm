@@ -1,0 +1,23 @@
+policy_id: POLICY-PHASE-002C
+version: "1.1.0"
+frozen_at: "2026-09-01T11:57:13+08:00"
+extends: adjudication/policies/phase-002a.yaml
+thresholds_unchanged: true
+execution_order:
+  - freeze_integrity
+  - hard_gates
+  - evidence_eligibility
+  - evidence_sufficiency
+  - conditional_semantic_adjudication
+  - decision_audit
+  - replay
+short_circuit:
+  evidence_insufficient: EVIDENCE_INSUFFICIENT
+  mandatory_hard_gate_failed: AUTOMATED_REJECTED
+  frozen_evidence_invalid: STALE
+semantic_judges_conditional: true
+recovery_policy: GAP_EVIDENCE_ONLY
+accepted_scope_limits:
+  recovery_policy: POLICY_ONLY
+  component_readiness: SPECIFICATION_ONLY
+policy_hash: 937ee1fd4d169d2e7806d83fdb8b9c7e41424d680cbb3ba8df868154ee4ec1ca

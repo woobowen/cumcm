@@ -1,0 +1,20 @@
+{
+  "attempt_id": "correctness_judge-first-retry-3",
+  "blocker": "TRANSIENT_CODEX_TRANSPORT_FAILURE",
+  "duration_seconds": 53.006485,
+  "execution_kind": "REAL",
+  "exit_code": 1,
+  "failure": "After explicit MCP/app/browser isolation and WebSocket feature disable requests, Codex still attempted WebSocket transport; both it and the HTTPS fallback disconnected before structured output.",
+  "model": "gpt-5.4",
+  "network_isolation_level": "NETWORK_POLICY_PROHIBITED_TRACE_AUDITED",
+  "output_hash": null,
+  "raw_trace_sha256": "7dc6c93a5a535d9d9697bdf4986765bc76d9c1f82f25083c854782f1e80fa72b",
+  "raw_trace_tracked": false,
+  "reasoning_setting": "medium",
+  "real_agent_run": true,
+  "result": "FAILED",
+  "role": "CORRECTNESS_JUDGE",
+  "sandbox": "workspace-write",
+  "token_usage": null,
+  "workspace_remote_count": 0
+}

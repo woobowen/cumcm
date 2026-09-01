@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-C",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-002",
+  "citations": [
+    "reviewer:A:formalization准确界定泄漏列、负质量阻断、sentinel保留和实体留出。",
+    "reviewer:B:tests_verified实际检查重复、泄漏关系、单位换算和split overlap。",
+    "reviewer:C:去重后复核泄漏，并比较三种结构不同的切分策略。",
+    "reviewer:D:提供明确计数；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "formalization准确界定泄漏列、负质量阻断、sentinel保留和实体留出。"
+      ],
+      "missing": [
+        "实体留出选择依赖未说明的泛化目标。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "tests_verified实际检查重复、泄漏关系、单位换算和split overlap。"
+      ],
+      "missing": [
+        "未运行预测模型。"
+      ],
+      "score": 7
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "去重后复核泄漏，并比较三种结构不同的切分策略。"
+      ],
+      "missing": [
+        "未做不同实体组合或滚动窗口敏感性分析。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "提供明确计数；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "没有落盘审计记录或恢复状态。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "审计和切分泄漏检查可执行，但泛化目标仍不明确。",
+  "review_id": "REVIEW-ARM-C-CASE-002-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 26.0,
+  "status": "REVIEWED"
+}

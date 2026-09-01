@@ -1,0 +1,59 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-A",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-003",
+  "citations": [
+    "reviewer:A:完整定义四个二元变量、双资源约束、目标函数和单位。",
+    "reviewer:B:实际枚举16个子集、10个可行子集，得到A+B价值19，并保存枚举结果。",
+    "reviewer:C:完整枚举、次优值18及双约束绑定共同验证唯一最优。",
+    "reviewer:D:枚举器、结果、workflow_state和observation均落盘；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "完整定义四个二元变量、双资源约束、目标函数和单位。"
+      ],
+      "missing": [],
+      "score": 10
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "实际枚举16个子集、10个可行子集，得到A+B价值19，并保存枚举结果。"
+      ],
+      "missing": [],
+      "score": 8
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "完整枚举、次优值18及双约束绑定共同验证唯一最优。"
+      ],
+      "missing": [],
+      "score": 6
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "枚举器、结果、workflow_state和observation均落盘；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [],
+      "score": 6
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "形式化、精确求解、验证和恢复证据形成完整闭环。",
+  "review_id": "REVIEW-ARM-A-CASE-003-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 30.0,
+  "status": "REVIEWED"
+}

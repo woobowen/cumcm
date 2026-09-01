@@ -1,0 +1,179 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "case_id": "CASE-004",
+  "confidence": "HIGH",
+  "deterministic_score": 25.0,
+  "dimensions": {
+    "BASE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched baseline"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "DRIFT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FAILRUN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in experiment_design"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "LEAK": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched data_findings"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "METRIC": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched experiment_design"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOCAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "RANDOM": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in uncertainties"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "定义严格时序切分、MAE主指标、泄漏移除及仅过去信息填补。"
+      ],
+      "missing": [
+        "最终选择实际依赖test表现而非声明的validation目标。"
+      ],
+      "score": 9,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "实际评估persistence、mean和三种OLS，并给出验证、测试及滚动指标。"
+      ],
+      "missing": [
+        "使用最终holdout选择persistence削弱测试集独立性。"
+      ],
+      "score": 6,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "完成滚动窗口、异常值截断、缺失处理和泄漏探针测试。"
+      ],
+      "missing": [
+        "测试集参与选择后不能视为完全独立的泛化证据。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "manifest为COMPLETED、schema_valid=true，具体泄漏计数和指标可追踪。"
+      ],
+      "missing": [
+        "未保存代码、预测或切分工件。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "ROBUST": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in robustness_tests"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "SPLIT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in experiment_design"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "LEAK",
+    "BASE",
+    "METRIC",
+    "reviewer:A:定义严格时序切分、MAE主指标、泄漏移除及仅过去信息填补。",
+    "reviewer:B:实际评估persistence、mean和三种OLS，并给出验证、测试及滚动指标。",
+    "reviewer:C:完成滚动窗口、异常值截断、缺失处理和泄漏探针测试。",
+    "reviewer:D:manifest为COMPLETED、schema_valid=true，具体泄漏计数和指标可追踪。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "f5991aefd9a2277e8e69d3813440a6868fa4a1919441736f9c995c3ca41c1ade",
+  "missing": [
+    "SPLIT",
+    "DRIFT",
+    "ROBUST",
+    "RANDOM",
+    "FAILRUN",
+    "NOCAUSAL",
+    "最终选择实际依赖test表现而非声明的validation目标。",
+    "使用最终holdout选择persistence削弱测试集独立性。",
+    "测试集参与选择后不能视为完全独立的泛化证据。",
+    "未保存代码、预测或切分工件。"
+  ],
+  "reviewer_score": 25.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-B-CASE-004-RUN-001",
+  "status": "SCORED",
+  "total_score": 50.0
+}

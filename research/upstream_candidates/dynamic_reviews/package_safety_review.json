@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "review_status": "COMPLETE_FOR_EVALUATION_ONLY",
+  "third_party_code_executed": false,
+  "candidate_dependencies_installed": false,
+  "raw_candidate_text_tracked": false,
+  "arms": [
+    {
+      "arm_id": "NO_PROJECT_MODELING_SKILL",
+      "candidate_id": null,
+      "mode": "NEUTRAL_BASELINE",
+      "package_hash": "908d89f00e4bbab7260c84d5b698171c87ea8c12f86f08ea437289ec8385b26c",
+      "status": "PACKAGE_SAFE",
+      "license_status": "NOT_APPLICABLE",
+      "contamination_status": "PASS",
+      "source_files": {}
+    },
+    {
+      "arm_id": "HANDSOMEZR",
+      "candidate_id": "handsomezr-mathmodel-skill",
+      "resolved_commit": "d3941e14d8693fb4a79948e59afff3098734127e",
+      "mode": "SANITIZED_INSTRUCTION_ONLY",
+      "package_hash": "7a9cb6c6850991f9d708a83c762ffd6f066c024153f39b3c0e7a123f50d68194",
+      "status": "PACKAGE_SAFE",
+      "license_status": "MIT_ROOT_WITH_EXTERNAL_EXCLUSIONS",
+      "contamination_status": "PASS_AFTER_NORMALIZATION",
+      "direct_adoption_eligible": false,
+      "source_files": {
+        "references/feedback_layer2_backtrack.md": "c3922c30d855c3c12e44f8fb5e66a6c68e160d270c2af5d8e55229c664ce977b",
+        "references/stage_02_analysis.md": "f329577b6bd08d4abb2a682e6e6f6b9bb50aca0e50702f92197c2d66a8edf905",
+        "references/stage_03_model_selection.md": "a2826d5728c94613228c62576ed14bbffb34a1f78cbdcb508494782dccfb208c",
+        "references/stage_05_subproblem_loop.md": "dd0487a1c3bab99806d0cb8898d3feed1e867495b5fb8fe106eae0e81a53651f",
+        "templates/shared/decision_log.json": "d0388c73afde06c0c06a7eb4a3e73095805ce8dd62fe50e7aae1e6c3f50feef7"
+      },
+      "limitations": ["Raw source files were consulted, hashed, and scanned but not copied.", "Only the project-authored normalized mechanism summary is evaluated."]
+    },
+    {
+      "arm_id": "YUSHUI",
+      "candidate_id": "yushui-mathmodel-skill",
+      "resolved_commit": "51054497f052197c3afe434e502e38edb85b2870",
+      "mode": "SANITIZED_INSTRUCTION_ONLY_WITH_LICENSE_BLOCKER",
+      "package_hash": "ab7a9611c67b4f14c50feb338c5c027737e0fc4936d046604f4a6c34fef807d5",
+      "status": "PACKAGE_SAFE",
+      "license_status": "UNKNOWN_NO_LICENSE",
+      "contamination_status": "PASS_AFTER_NORMALIZATION_WITH_SOURCE_FINDINGS",
+      "direct_adoption_eligible": false,
+      "fork_and_adapt_eligible": false,
+      "source_files": {
+        "docs/workflow-contracts.md": "b6900b144a0704c60d31b065b985e8ec2cb52c8d55c5481752048584b4fb9a90",
+        "packages/codex/skills/context-memory-keeper/SKILL.md": "8a3eeaa88ba7db80a26e40b2e698b215129113a71bc52b2ead5600e89e10c8fa",
+        "packages/codex/skills/paper-workflow-orchestrator/SKILL.md": "03e62a64adae6369340c9013e369ff30a0831052023438eea64ead6834aebd93",
+        "packages/codex/skills/quality-assurance-auditor/SKILL.md": "570db4bf5b6e8cf09546079f453ddfbfbf680f83548fdb704b3ebb68edcfe71f"
+      },
+      "source_findings": ["Historical/demo/result and paper-scope indicators exist in consulted source documents.", "All such material is absent from normalized_instruction.txt."],
+      "limitations": ["License remains UNKNOWN_NO_LICENSE regardless of dynamic score.", "Raw source files were consulted, hashed, and scanned but not copied."]
+    }
+  ]
+}

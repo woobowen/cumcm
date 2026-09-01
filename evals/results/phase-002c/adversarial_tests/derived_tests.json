@@ -1,0 +1,315 @@
+{
+  "all_testable_blockers_resolved": true,
+  "content_hash": "67ef163884b7edf22a772b0b66c20792cf8c1849584600cfc932e68e27de0a40",
+  "ledger_id": "PHASE-002C-SUBAGENT-BLOCKER-TESTS",
+  "schema_version": "1.0.0",
+  "tests": [
+    {
+      "evidence_refs": [
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "finding_id": "ESA-002C-002",
+      "pass_condition": "Missing or conflicting eligible task hashes prohibit ranking and duplicate identities are rejected before counting.",
+      "result_hash": "ab36ece9aeaa8f8b3b5dfcd495125b7d16e4f15195247fc2b5de114bca3d3076",
+      "source_audit_id": "AUDIT-PHASE-002C-EVIDENCE-SUFFICIENCY-FIRST-ROUND",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_missing_task_hash_blocks_comparison",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PRE-ADJUDICATION-PHASE-002C",
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "ESA-002C-003",
+      "pass_condition": "All six gates remain explicit and incomplete, missing, or duplicate candidate coverage fails closed.",
+      "result_hash": "599f4347e3fbe026239cf016cbb5395d7f5a62e604d1c55bd6b8d02b327f3ebd",
+      "source_audit_id": "AUDIT-PHASE-002C-EVIDENCE-SUFFICIENCY-FIRST-ROUND",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_comparative_hard_gates_require_complete_candidate_coverage",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "finding_id": "ESA-002C-004",
+      "pass_condition": "All bindings reproduce and every decision timestamp equals the resolved policy frozen_at value.",
+      "result_hash": "44d8d20934c2dbaca3a8767ddd60e69c6a422e00261f729dc14ad8785ccae4ed",
+      "source_audit_id": "AUDIT-PHASE-002C-EVIDENCE-SUFFICIENCY-FIRST-ROUND",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_decision_timestamp_comes_from_frozen_policy",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "finding_id": "ESA-002C-005",
+      "pass_condition": "Every first-round bundle exposes the replay source, its hash matches the freeze, and evidence conclusions remain invariant.",
+      "result_hash": "18b84030d829ce61f504adbf1ca96d4ee509f651283ad6d53f5f80b0d4bc4c9a",
+      "source_audit_id": "AUDIT-PHASE-002C-EVIDENCE-SUFFICIENCY-FIRST-ROUND",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_first_round_bundles_expose_hash_bound_replay_implementation",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "ESA-002C-006",
+      "pass_condition": "Empty, incomplete, content-different, or invalid-ID decision sets make replay unstable and fail closed.",
+      "result_hash": "1b289b309f271bc2086bb7c965077e9646d3c331cc3cef467a8cc6d09c1fcd76",
+      "source_audit_id": "AUDIT-PHASE-002C-EVIDENCE-SUFFICIENCY-FIRST-ROUND",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_incomplete_or_invalid_decision_sets",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "ESA-002C-007",
+      "pass_condition": "Permuting decision-file order preserves equality only when the full ID-keyed decision content is equal.",
+      "result_hash": "ac741cf7ae680acaa3a2b35f24a1b4bd4ab75404917d5e0b8c7f1e8009edea09",
+      "source_audit_id": "AUDIT-PHASE-002C-EVIDENCE-SUFFICIENCY-FIRST-ROUND",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_compares_decision_sets_independent_of_file_order",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "ESA-002C-008",
+      "pass_condition": "Any duplicate decision ID on either side deterministically fails final replay before an accepted stable result.",
+      "result_hash": "6b10be7c4db743a406b8f5a2d0370581e15c05d8a79dd919fc2f1c034f738524",
+      "source_audit_id": "AUDIT-PHASE-002C-EVIDENCE-SUFFICIENCY-FIRST-ROUND",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_duplicate_decision_ids",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PRE-ADJUDICATION-PHASE-002C",
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "AP-PROSECUTOR-001",
+      "pass_condition": "Empty, missing, partial, duplicate, or unexpected candidate coverage fails closed; the six inherited gate names remain exact; STALE precedes hard-gate rejection, which precedes insufficiency and semantic adjudication.",
+      "result_hash": "e062aab19bf2f620e9503faf37578bfa9d4b54c9d8a3ed0a396c3e13852c3c47",
+      "source_audit_id": "AUDIT-PHASE-002C-ADJUDICATION-POLICY-PROSECUTOR",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_comparative_hard_gates_require_complete_candidate_coverage",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "finding_id": "AP-PROSECUTOR-002",
+      "pass_condition": "Any added, removed, or mutated tracked evidence file, any bound raw or resolved input change, or any duplicate evidence identity is deterministically rejected before adjudication.",
+      "result_hash": "bdc397e0514f2680e6e32e57d3841296521a9b1c43f4a5bfcae80d768398cd9f",
+      "source_audit_id": "AUDIT-PHASE-002C-ADJUDICATION-POLICY-PROSECUTOR",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_freeze_verification_rejects_added_evidence_file",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "finding_id": "AP-PROSECUTOR-003",
+      "pass_condition": "A broken freeze produces STALE, BLOCKED semantic Judges, PROHIBITED ranking, and no route while leaving prior evidence artifacts untouched.",
+      "result_hash": "01974ea53309609673f831015661190db8e4d4ad79246c437fea448c24bcaaae",
+      "source_audit_id": "AUDIT-PHASE-002C-ADJUDICATION-POLICY-PROSECUTOR",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_invalid_freeze_returns_formal_stale_signal",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PRE-ADJUDICATION-PHASE-002C",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "finding_id": "AP-PROSECUTOR-004",
+      "pass_condition": "Rendered lifecycle and outcome prose changes solely with the authoritative route and pre-adjudication machine inputs and contains no stale hardcoded execution claim.",
+      "result_hash": "3c8cd1c3f8d0dc8428d01b0059e5e74ac797000b57826995fa3e752dcab2c4a3",
+      "source_audit_id": "AUDIT-PHASE-002C-ADJUDICATION-POLICY-PROSECUTOR",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_reports_derive_phase002d_execution_and_short_circuit_from_machine_inputs",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "AP-PROSECUTOR-007",
+      "pass_condition": "Only identical nonempty sets of valid uniquely identified decisions compare equal, regardless of file order; missing, changed, empty, or invalid-ID sets fail.",
+      "result_hash": "78c28093dbd7dca93b603145f56780205554139c17ce09d2e352ece7bc064272",
+      "source_audit_id": "AUDIT-PHASE-002C-ADJUDICATION-POLICY-PROSECUTOR",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_compares_decision_sets_independent_of_file_order",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "AP-PROSECUTOR-008",
+      "pass_condition": "Any duplicate decision_id on either side fails comparison before equality is evaluated.",
+      "result_hash": "b4e7ea334ea9fd7bed213e11f3fa0543e8c8b3180eb4d97ef9a9452395661ab8",
+      "source_audit_id": "AUDIT-PHASE-002C-ADJUDICATION-POLICY-PROSECUTOR",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_duplicate_decision_ids",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "AP-PROSECUTOR-009",
+      "pass_condition": "Every first-round role bundle permits reading the exact final-replay implementation bound by the current freeze.",
+      "result_hash": "538f0e62f2144f63a6b6112608f90e453e34096326cbda33e24b1851dd602c5d",
+      "source_audit_id": "AUDIT-PHASE-002C-ADJUDICATION-POLICY-PROSECUTOR",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_first_round_bundles_expose_hash_bound_replay_implementation",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "RPA5-001-REPLAY-DECISION-SET-SOURCE-OMITTED",
+      "pass_condition": "Every first-round bundle requiring replay review exposes the exact replay source and that source matches its frozen hash.",
+      "result_hash": "653831f0d6ba6ea6b8d0b1a6da55ce75747b97de041e14923cf14320355e9f1f",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_first_round_bundles_expose_hash_bound_replay_implementation",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "RPA6-002-REPLAY-ORDER-AND-CONTENT",
+      "pass_condition": "Permuting decision-file order preserves equality, but any decision payload or ID-set difference returns false.",
+      "result_hash": "19430fc55547b7d5bfd7246e53444a36be84ac4d0b502563510ecabbf9b7a6fd",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_compares_decision_sets_independent_of_file_order",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE"
+      ],
+      "finding_id": "RPA5-002-REPLAY-DECISION-IDENTITY-VALIDATION-OMITTED",
+      "pass_condition": "Empty sets and missing, empty, non-string, or duplicate IDs cannot pass final replay comparison.",
+      "result_hash": "2e87f68f7e9afa2130ae750859d69201339a4d23b826cd947fb8ea9f33e22dfa",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_final_replay_rejects_duplicate_decision_ids",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "finding_id": "RPA6-004-BOUND-HASH-GROUPS",
+      "pass_condition": "Mutation or absence of any declared bound path produces a freeze error before downstream records are accepted.",
+      "result_hash": "0c0dca9f21d240fae9dea729d630d01a4b3b4c201e2b68385338f18f37e5ac73",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_rules_contracts_and_agent_configs_are_frozen",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C"
+      ],
+      "finding_id": "RPA6-005-CLOSED-WORLD-RUN-INVENTORY",
+      "pass_condition": "Added evidence produces an inventory mismatch and duplicate run identity cannot enter the frozen projection.",
+      "result_hash": "3902725871468791f713e06e06afd506a5bcabf114ef24227449606e6e0fb6dc",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_freeze_verification_rejects_added_evidence_file",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "finding_id": "RPA6-006-OFFLINE-REBUILD-REPLAY",
+      "pass_condition": "All rebuilt records equal frozen records, benign variants are stable, and any failed rebuild yields RETEST_REQUIRED or an exception.",
+      "result_hash": "fe4abaacfcf6a3e449b1f0aa15c9097e5d96810d68235a4247d0eea32d45f931",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/integration/test_adjudication_pipeline.py::test_case_replay_is_order_stable",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PRE-ADJUDICATION-PHASE-002C",
+        "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B"
+      ],
+      "finding_id": "RPA6-007-REPORT-RUNTIME-PROVENANCE",
+      "pass_condition": "Machine-field mutations alter corresponding report claims and source mutations alter provenance hashes.",
+      "result_hash": "f5d9f1443d6a5c10afe3ea17eedbb1150d559ed65cd988034ea236bdac0285c4",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_reports_derive_phase002d_execution_and_short_circuit_from_machine_inputs",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "finding_id": "RPA6-008-HARD-GATES-FAIL-CLOSED",
+      "pass_condition": "Incomplete comparative coverage or unknown/incomplete direct-adoption evidence cannot yield passing affected gates.",
+      "result_hash": "6ea9de828385e018d289d086d394074ab8afa6568288c63ff46b95085ebdc6b6",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_comparative_hard_gates_require_complete_candidate_coverage",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "PHASE-002C-INPUT-FREEZE",
+        "PRE-ADJUDICATION-PHASE-002C"
+      ],
+      "finding_id": "RPA6-009-DECISION-FROZEN-TIMESTAMP",
+      "pass_condition": "Changing policy frozen_at changes derived decision timestamps without wall-clock or hardcoded substitution.",
+      "result_hash": "04f8de99956083010b6320fe518d01f2d5b0e16a7af0fc19f83044462b67ad2d",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_decision_timestamp_comes_from_frozen_policy",
+      "testability": "TESTABLE"
+    },
+    {
+      "evidence_refs": [
+        "RECOVERY-EXCLUSION-PHASE-002A",
+        "EVIDENCE-SUFFICIENCY-PHASE-002C",
+        "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B"
+      ],
+      "finding_id": "RPA6-010-RECOVERY-TRANSPORT-NONRANKING",
+      "pass_condition": "Recovery evidence remains preserved for gap analysis but never becomes ranking eligible.",
+      "result_hash": "3e93f8fe4f401b81d9b5439966a8682515d7753ab1a4c64f5b7485910afac2e5",
+      "source_audit_id": "AUDIT-PHASE-002C-REPRODUCIBILITY-FIRST-ROUND-FINAL-6",
+      "status": "PASS",
+      "test_id": "tests/unit/test_phase002c_evidence_gate.py::test_recovery_exclusion_has_vacuous_safe_semantics",
+      "testability": "TESTABLE"
+    }
+  ]
+}

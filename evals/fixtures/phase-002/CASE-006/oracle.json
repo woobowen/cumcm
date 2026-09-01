@@ -1,0 +1,21 @@
+{
+  "case_id": "CASE-006",
+  "method_adaptation": {
+    "modify": "dependence-aware uncertainty or grouped errors",
+    "remove": "independence guarantee",
+    "retain": "robust loss concept"
+  },
+  "supported_claims": {
+    "assumption_mismatch": [
+      "SRC-MISMATCH"
+    ],
+    "limit_40": [
+      "SRC-AUTH"
+    ]
+  },
+  "unsupported": [
+    "automatic method validity",
+    "sensor causation",
+    "always wins"
+  ]
+}

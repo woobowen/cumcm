@@ -1,0 +1,10 @@
+version: "1.0.0"
+rules:
+  - id: TEAM-001
+    statement: TEAM_COMPLIANCE_REVIEW checks competition rules, attribution, submission readiness, and operational constraints only.
+  - id: TEAM-002
+    statement: TEAM_COMPLIANCE_REVIEW cannot accept, reject, select, or override a technical target.
+  - id: TEAM-003
+    statement: A supported challenge creates new evidence, marks the dependent decision STALE, and requests automated readjudication.
+  - id: TEAM-004
+    statement: A review record is separate from automated_decision and uses team_compliance_challenge.schema.json.

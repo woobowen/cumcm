@@ -1,0 +1,10 @@
+version: "1.0.0"
+rules:
+  - {id: NSA-001, level: MUST, statement: Native Subagents are project-scoped and read-only., enforcement: agent_config_and_diff_audit, failure_severity: BLOCKER}
+  - {id: NSA-002, level: MUST_NOT, statement: First-round Subagents must not receive peer outputs., enforcement: bundle_hash_and_reference_scan, failure_severity: BLOCKER}
+  - {id: NSA-003, level: MUST_NOT, statement: Subagent recommendations must not be counted as votes., enforcement: decision_audit, failure_severity: BLOCKER}
+  - {id: NSA-004, level: MUST, statement: Every Subagent output must validate against the frozen Schema and cite registered evidence., enforcement: schema_and_reference_validation, failure_severity: BLOCKER}
+  - {id: NSA-005, level: MUST, statement: Every testable BLOCKER becomes an executed registered test before decisions., enforcement: blocker_test_ledger, failure_severity: BLOCKER}
+  - {id: NSA-006, level: MUST_NOT, statement: A non-testable assertion must not independently accept or reject a technical target., enforcement: decision_audit, failure_severity: ERROR}
+  - {id: NSA-007, level: MUST, statement: The post-decision Auditor must return PASS before technical completion., enforcement: state_transition, failure_severity: BLOCKER}
+  - {id: NSA-008, level: MUST_NOT, statement: Subagents must not run nested Codex use API keys modify global configuration or write formal state., enforcement: output_and_diff_audit, failure_severity: BLOCKER}

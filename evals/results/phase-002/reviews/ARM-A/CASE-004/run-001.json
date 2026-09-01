@@ -1,0 +1,63 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-A",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-004",
+  "citations": [
+    "reviewer:A:严格排除泄漏列，并定义时序切分、rolling-origin、指标及训练折内预处理。",
+    "reviewer:B:实际运行多个安全、噪声和泄漏候选并报告validation/test指标。",
+    "reviewer:C:保留leaky oracle失败，并完成异常值、噪声扰动和滚动窗口测试。",
+    "reviewer:D:manifest为COMPLETED、schema_valid=true，并记录脚本及五类实验工件。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "严格排除泄漏列，并定义时序切分、rolling-origin、指标及训练折内预处理。"
+      ],
+      "missing": [
+        "selected_model与声明的validation MAE选择目标不一致。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "实际运行多个安全、噪声和泄漏候选并报告validation/test指标。"
+      ],
+      "missing": [
+        "safe_linear_clipped验证MAE差于naive和safe_plus_noise，却仍被选中。"
+      ],
+      "score": 5
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "保留leaky oracle失败，并完成异常值、噪声扰动和滚动窗口测试。"
+      ],
+      "missing": [],
+      "score": 6
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "manifest为COMPLETED、schema_valid=true，并记录脚本及五类实验工件。"
+      ],
+      "missing": [],
+      "score": 6
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "实验闭环完整，但最终模型选择未严格服从预设验证指标。",
+  "review_id": "REVIEW-ARM-A-CASE-004-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 26.0,
+  "status": "REVIEWED"
+}

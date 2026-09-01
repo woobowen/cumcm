@@ -1,0 +1,279 @@
+{
+  "cells": [
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-001",
+      "checks": {
+        "crew_constraint": true,
+        "exact_allocation": true,
+        "run_bound": true,
+        "schema_valid": true,
+        "unit_total": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 2
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-002",
+      "checks": {
+        "duplicate": true,
+        "leakage_fields": true,
+        "plausible_extreme_preserved": true,
+        "run_bound": true,
+        "schema_valid": false
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-003",
+      "checks": {
+        "exact_optimum": true,
+        "executed": true,
+        "run_bound": true,
+        "schema_valid": true,
+        "selected_pair": false
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-004",
+      "checks": {
+        "baseline_selected_by_validation": false,
+        "leakage_excluded": true,
+        "no_test_selection_claim": true,
+        "run_bound": true,
+        "schema_valid": true,
+        "temporal_split": true
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-005",
+      "checks": {
+        "descendant_closure": true,
+        "executable_check": true,
+        "restart_stage": true,
+        "run_bound": true,
+        "schema_valid": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-006",
+      "checks": {
+        "run_bound": true,
+        "schema_valid": true,
+        "source_binding": true,
+        "supported_count": true,
+        "unsupported_separated": false
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-001",
+      "checks": {
+        "crew_constraint": true,
+        "exact_allocation": true,
+        "run_bound": true,
+        "schema_valid": true,
+        "unit_total": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-002",
+      "checks": {
+        "duplicate": true,
+        "leakage_fields": true,
+        "plausible_extreme_preserved": true,
+        "run_bound": true,
+        "schema_valid": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-003",
+      "checks": {
+        "exact_optimum": true,
+        "executed": true,
+        "run_bound": true,
+        "schema_valid": false,
+        "selected_pair": false
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-004",
+      "checks": {
+        "baseline_selected_by_validation": false,
+        "leakage_excluded": true,
+        "no_test_selection_claim": true,
+        "run_bound": true,
+        "schema_valid": true,
+        "temporal_split": true
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-005",
+      "checks": {
+        "descendant_closure": true,
+        "executable_check": true,
+        "restart_stage": true,
+        "run_bound": true,
+        "schema_valid": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-006",
+      "checks": {
+        "run_bound": true,
+        "schema_valid": true,
+        "source_binding": true,
+        "supported_count": false,
+        "unsupported_separated": false
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-001",
+      "checks": {
+        "crew_constraint": true,
+        "exact_allocation": true,
+        "run_bound": true,
+        "schema_valid": true,
+        "unit_total": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 2
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-002",
+      "checks": {
+        "duplicate": true,
+        "leakage_fields": true,
+        "plausible_extreme_preserved": true,
+        "run_bound": true,
+        "schema_valid": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-003",
+      "checks": {
+        "exact_optimum": true,
+        "executed": true,
+        "run_bound": true,
+        "schema_valid": false,
+        "selected_pair": true
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-004",
+      "checks": {
+        "baseline_selected_by_validation": true,
+        "leakage_excluded": true,
+        "no_test_selection_claim": true,
+        "run_bound": true,
+        "schema_valid": false,
+        "temporal_split": true
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-005",
+      "checks": {
+        "descendant_closure": true,
+        "executable_check": true,
+        "restart_stage": true,
+        "run_bound": true,
+        "schema_valid": false
+      },
+      "is_coverage": false,
+      "passed": false,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-006",
+      "checks": {
+        "run_bound": true,
+        "schema_valid": true,
+        "source_binding": true,
+        "supported_count": true,
+        "unsupported_separated": true
+      },
+      "is_coverage": false,
+      "passed": true,
+      "role": "DETERMINISTIC_ORACLE_CORRECTNESS",
+      "run_index": 1
+    }
+  ],
+  "content_hash": "fbc10673c99644df3822623915c46704052050bd568ba56cc83a9d10729ec2c6",
+  "schema_version": "1.0.0"
+}

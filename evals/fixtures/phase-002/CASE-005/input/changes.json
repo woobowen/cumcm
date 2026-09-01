@@ -1,0 +1,35 @@
+[
+  {
+    "change_id": "CHANGE-INPUT",
+    "changed": "input",
+    "expected_stale": [
+      "audit",
+      "model",
+      "run-1",
+      "final-run-1",
+      "result-table",
+      "evidence-package"
+    ],
+    "restart": "data audit"
+  },
+  {
+    "change_id": "CHANGE-CONFIG",
+    "changed": "config",
+    "expected_stale": [
+      "run-1",
+      "final-run-1",
+      "result-table",
+      "evidence-package"
+    ],
+    "restart": "run execution"
+  },
+  {
+    "change_id": "CHANGE-FINAL",
+    "changed": "final-run-1",
+    "expected_stale": [
+      "result-table",
+      "evidence-package"
+    ],
+    "restart": "downstream result generation"
+  }
+]

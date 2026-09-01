@@ -1,0 +1,13 @@
+version: "1.0.0"
+rules:
+  - {id: PRE-001, level: MUST, statement: Evidence sufficiency is computed before candidate-quality semantic Judges., enforcement: pre_adjudication_record, failure_severity: BLOCKER}
+  - {id: PRE-002, level: MUST_NOT, statement: Frozen balanced-case and repeat thresholds must not change after results are visible., enforcement: policy_hash, failure_severity: BLOCKER}
+  - {id: PRE-003, level: MUST_NOT, statement: Recovery-affected evidence must not enter primary comparison or ranking., enforcement: eligibility_projection, failure_severity: BLOCKER}
+  - {id: PRE-004, level: MUST, statement: Evidence insufficiency is a complete non-accepting automated decision after Decision Audit PASS., enforcement: decision_audit, failure_severity: BLOCKER}
+  - {id: PRE-005, level: MUST, statement: Candidate-quality semantic Judges run only when sufficiency passes and no hard Gate blocks comparison., enforcement: short_circuit, failure_severity: BLOCKER}
+  - {id: PRE-006, level: MUST_NOT, statement: NOT_RUN failed or superseded runs must not be converted to zero scores or primary evidence., enforcement: eligibility_projection, failure_severity: BLOCKER}
+  - {id: PRE-007, level: MUST_NOT, statement: Agent votes or candidate total scores must not override sufficiency., enforcement: decision_audit, failure_severity: BLOCKER}
+  - {id: PRE-008, level: MUST, statement: Evidence insufficiency may route only to Phase 002D and never Phase 003., enforcement: phase_route, failure_severity: BLOCKER}
+  - {id: PRE-009, level: MUST_NOT, statement: Phase 002C must not invoke nested Codex App Server SDK Responses API OpenAI API or API keys., enforcement: static_and_runtime_audit, failure_severity: BLOCKER}
+  - {id: PRE-010, level: MUST, statement: Historical Phase 002B transport failures and assets remain preserved., enforcement: input_freeze, failure_severity: BLOCKER}
+  - {id: PRE-011, level: MUST_NOT, statement: Reports must not decide or hardcode runtime decision values., enforcement: mutation_test, failure_severity: BLOCKER}

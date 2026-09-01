@@ -1,0 +1,36 @@
+mechanism_id: claim-evidence-support-gate
+source_candidate: aris
+source_commit: 94d8093ed21d20a790830318190095b9f5036ce8
+source_files:
+  - tools/evidence_check.py
+  - tests/test_evidence_check.py
+  - skills/result-to-claim/SKILL.md
+  - skills/shared-references/review-scope-limits.md
+mechanism_summary: Separate evidence-file existence from semantic claim support and block evidence-package approval when either linkage or support is missing.
+actual_gap_addressed: CASE-006 deterministic scores ranged from 13 to 40; every arm missed multiple source-limit, assumption, retain/modify/remove, fact, or non-causal checks and none persisted a hash-bound claim map.
+baseline_failure: The neutral baseline had the best deterministic CASE-006 result at 40 but still lacked a persistent claim map, input hash, executable consistency check, and robust support/conflict rule.
+candidate_behavior: Static review observed an existence precheck separated from semantic support judgment and result-to-claim review, but full Source/Run/hash provenance is incomplete.
+proposed_behavior: "Extend native Source and Claim contracts with a fail-closed two-stage gate: mechanical reference/hash existence first, then scoped semantic support, contradiction, assumption, and transformation review by a read-only reviewer."
+observable_metric: One hundred percent of promoted claims bind current Sources and Runs; missing, stale, conflicting, over-broad, or non-supporting evidence blocks handoff; CASE-006 retain/modify/remove decisions match the oracle.
+measured_or_expected_benefit: Expected to close the persistent claim-map gap and make the CASE-006 evidence failures machine-detectable without treating reviewer votes as proof.
+security_risk: The upstream whole package contains shell, Git, MCP, network, and remote execution behavior; only the abstract separation of checks is admissible.
+license_status: MIT_ROOT_WITH_SUBRESOURCE_GAPS
+contamination_risk: MEDIUM because examples and binary resources were not fully reviewed; no upstream examples or prose may enter tests or prompts.
+integration_conflict: Porting the upstream review pipeline would duplicate evidence and state truth; the mechanism must extend existing Source/Claim/Run contracts and human gates.
+reuse_mode: CLEAN_ROOM_REIMPLEMENT_CANDIDATE
+clean_room_requirements:
+  - Use project-authored terminology, Schema, fixtures, and synthetic claims.
+  - Keep mechanical existence/hash validation separate from read-only semantic review.
+  - Preserve main-agent ownership and required human approval for evidence-package acceptance.
+required_tests:
+  - Reject missing, stale, hash-mismatched, and path-escaping evidence references.
+  - Reject unsupported causal/final claims and preserve conflicting sources.
+  - Verify CASE-006 retain, modify, remove, assumptions, limits, and non-causal outcomes.
+  - Prove reviewer output cannot mutate claims or approve the human Gate.
+maintenance_cost: MEDIUM
+rejected_alternatives:
+  - File-exists-only validation is rejected because existence does not establish support.
+  - Reviewer majority vote is rejected because agents are not experimental evidence.
+  - Direct porting is rejected because it would duplicate project evidence/state contracts.
+confidence: MEDIUM
+human_review_required: true

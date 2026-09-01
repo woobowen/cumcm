@@ -18,7 +18,7 @@ REQUIRED_PATHS = (
     "LICENSE_LEDGER.csv",
     ".agents/skills/cumcm-modeling-evidence/SKILL.md",
     "docs/SOURCE_OF_TRUTH.md",
-    "plans/active/PLAN-0001-foundation-and-upstream-evaluation.md",
+    "plans/active",
     "research/upstream_candidates/manifest.yaml",
     "state/project_state.json",
     "reports/current_state.md",

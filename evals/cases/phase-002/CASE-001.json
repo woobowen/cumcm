@@ -1,0 +1,25 @@
+{
+  "case_id": "CASE-001",
+  "grader": "DETERMINISTIC_V1",
+  "input_files": [
+    "input/problem.md"
+  ],
+  "oracle_path": "oracle.json",
+  "prompt": "This is an original synthetic evaluation case. Work only inside the current isolated repository. Do not use network, MCP, external sources, historical contest material, or parent-project files. Preserve every input unchanged. Inspect the local input files, then trace every subtask, input, output, constraint, unit, dependency, risk, evaluation method, and human Gate. Return exactly one JSON object matching observation.schema.json. Distinguish claims from verified evidence; do not mark anything FINAL and do not invent commands, files, sources, tests, metrics, or human approval.",
+  "purpose": "Measure requirement coverage and reality discipline",
+  "required_outputs": [
+    "requirements",
+    "reality_constraints",
+    "claims",
+    "human_gates"
+  ],
+  "risk_tags": [
+    "omission",
+    "uncontrollable_variable",
+    "unit_conversion",
+    "correlation_causation"
+  ],
+  "schema_version": "1.0.0",
+  "seed": 20260831,
+  "title": "Requirement trace under hidden constraints"
+}

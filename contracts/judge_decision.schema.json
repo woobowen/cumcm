@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/judge_decision/v2",
+  "title": "Blind Judge Decision",
+  "version": "2.0.0",
+  "type": "object",
+  "required": ["judge_id", "role", "bundle_id", "bundle_hash", "input_bundle_hash", "policy_hash", "evidence_hash", "model", "reasoning_setting", "identity_blind", "other_judges_visible", "majority_vote_used", "human_technical_gate_used", "recovery_ranked", "findings", "recommendation", "recommendation_evidence_refs", "evidence_sufficiency", "unresolved_blockers", "evidence_refs", "confidence", "uncertainties", "checkpoint_hash"],
+  "properties": {
+    "judge_id": {"type": "string", "minLength": 1},
+    "role": {"enum": ["CORRECTNESS_JUDGE", "SCIENTIFIC_VALIDITY_JUDGE", "ENGINEERING_REPRODUCIBILITY_JUDGE"]},
+    "bundle_id": {"type": "string", "minLength": 1},
+    "bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "input_bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "policy_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "evidence_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "model": {"type": "string", "minLength": 1},
+    "reasoning_setting": {"type": "string", "minLength": 1},
+    "identity_blind": {"const": true},
+    "other_judges_visible": {"const": false},
+    "majority_vote_used": {"const": false},
+    "human_technical_gate_used": {"const": false},
+    "recovery_ranked": {"const": false},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["finding_id", "severity", "target", "statement", "evidence_refs", "testability", "status"],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["BLOCKER", "ERROR", "WARNING", "INFO"]},
+          "target": {"type": "string", "minLength": 1},
+          "statement": {"type": "string", "minLength": 1},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "testability": {"enum": ["TESTABLE", "NON_TESTABLE_CLAIM"]},
+          "status": {"enum": ["OPEN", "RESOLVED", "UNRESOLVED"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "recommendation": {"enum": ["ACCEPT", "REJECT", "RETEST", "INSUFFICIENT", "ABSTAIN"]},
+    "recommendation_evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "evidence_sufficiency": {"enum": ["SUFFICIENT", "INSUFFICIENT"]},
+    "unresolved_blockers": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "uncertainties": {"type": "array", "items": {"type": "string"}},
+    "checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

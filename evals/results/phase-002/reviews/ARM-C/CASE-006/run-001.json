@@ -1,0 +1,65 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-C",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-006",
+  "citations": [
+    "reviewer:A:定义直接支持阈值、冲突规则和适配动作，并绑定全部source_id。",
+    "reviewer:B:baseline给出1/4支持，selected_model增加冲突与无关证据处理。",
+    "reviewer:C:逐claim falsification并检查来源顺序、弱来源剔除和严格支持规则的稳健性。",
+    "reviewer:D:来源精确到source_id并完成Python结构自检；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "定义直接支持阈值、冲突规则和适配动作，并绑定全部source_id。"
+      ],
+      "missing": [
+        "来源等级顺序仍依赖标签语义假设。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "baseline给出1/4支持，selected_model增加冲突与无关证据处理。"
+      ],
+      "missing": [
+        "没有经验实验或定量方法再验证。"
+      ],
+      "score": 6
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "逐claim falsification并检查来源顺序、弱来源剔除和严格支持规则的稳健性。"
+      ],
+      "missing": [],
+      "score": 6
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "来源精确到source_id并完成Python结构自检；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "没有输入哈希或持久化claim map。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "证据映射与冲突门控完整，限制来自纯文本输入和无持久化工件。",
+  "review_id": "REVIEW-ARM-C-CASE-006-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 26.0,
+  "status": "REVIEWED"
+}

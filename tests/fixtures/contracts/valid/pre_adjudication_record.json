@@ -1,0 +1,20 @@
+{
+  "record_id": "PRE-TEST",
+  "phase": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C",
+  "input_freeze_id": "FREEZE-TEST",
+  "input_freeze_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "config_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+  "policy_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+  "hard_gates": [
+    {"target": "COMPARISON", "gate": "freeze_integrity", "passed": true, "evidence_refs": ["FREEZE-TEST"]}
+  ],
+  "evidence_sufficiency_id": "SUFFICIENCY-TEST",
+  "evidence_sufficiency_result": "INSUFFICIENT",
+  "short_circuit": true,
+  "decision": "EVIDENCE_INSUFFICIENT",
+  "semantic_judges_status": "SKIPPED",
+  "ranking_status": "PROHIBITED",
+  "next_phase_candidate": "PHASE-EVIDENCE-EXPANSION-002D",
+  "created_at": "2026-09-01T00:00:00Z",
+  "record_hash": "3333333333333333333333333333333333333333333333333333333333333333"
+}

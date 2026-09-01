@@ -1,0 +1,157 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-C",
+  "case_id": "CASE-005",
+  "confidence": "LOW",
+  "deterministic_score": 0.0,
+  "dimensions": {
+    "CONFIG": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in validation"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FINAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in validation"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "HISTORY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in requirements"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "INPUT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in validation"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOEDIT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in reality_constraints"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "PAPER": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in human_gates"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "RESTART": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in requirements"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "Desc(c)形式化、历史保留和handoff阻断清晰，三个STALE集合正确。"
+      ],
+      "missing": [
+        "未逐情景枚举unaffected valid节点。"
+      ],
+      "score": 9,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "手工baseline与可执行BFS交叉验证三个change。"
+      ],
+      "missing": [
+        "BFS仅内联执行。"
+      ],
+      "score": 7,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "覆盖漏后代、过晚restart、备用路径及三种变化。"
+      ],
+      "missing": [
+        "未测试异常图结构。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "保留python不可用并改用python3的执行事实。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，且无持久化结果。"
+      ],
+      "score": 2,
+      "source": "REVIEWER"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "reviewer:A:Desc(c)形式化、历史保留和handoff阻断清晰，三个STALE集合正确。",
+    "reviewer:B:手工baseline与可执行BFS交叉验证三个change。",
+    "reviewer:C:覆盖漏后代、过晚restart、备用路径及三种变化。",
+    "reviewer:D:保留python不可用并改用python3的执行事实。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "2e20fd65a1f3fee960fbef285cf6af176d92c3b9ea664f97944636fd6c3d43f3",
+  "missing": [
+    "INPUT",
+    "CONFIG",
+    "FINAL",
+    "RESTART",
+    "NOEDIT",
+    "HISTORY",
+    "PAPER",
+    "未逐情景枚举unaffected valid节点。",
+    "BFS仅内联执行。",
+    "未测试异常图结构。",
+    "manifest为FAILED且schema_valid=false，且无持久化结果。"
+  ],
+  "reviewer_score": 23.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-C-CASE-005-RUN-001",
+  "status": "SCORED",
+  "total_score": 23.0
+}

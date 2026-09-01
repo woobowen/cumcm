@@ -1,0 +1,176 @@
+{
+  "case_id": "CASE-002",
+  "checks": [
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "missing",
+          "null"
+        ]
+      ],
+      "id": "MISSING",
+      "points": 5
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "duplicate"
+        ]
+      ],
+      "id": "DUP",
+      "points": 5
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "negative",
+          "impossible"
+        ]
+      ],
+      "id": "IMPOSSIBLE",
+      "points": 5
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "kg"
+        ],
+        [
+          "tonne",
+          "unit"
+        ]
+      ],
+      "id": "UNITS",
+      "points": 5
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "date"
+        ],
+        [
+          "order",
+          "sequence"
+        ]
+      ],
+      "id": "DATE",
+      "points": 5
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "category"
+        ],
+        [
+          "inconsisten",
+          "encoding",
+          "normalize"
+        ]
+      ],
+      "id": "CATEGORY",
+      "points": 5
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "future"
+        ],
+        [
+          "leak"
+        ]
+      ],
+      "id": "FUTURE",
+      "points": 7
+    },
+    {
+      "field": "experiment_design",
+      "groups": [
+        [
+          "entity"
+        ],
+        [
+          "group",
+          "overlap",
+          "leak"
+        ]
+      ],
+      "id": "ENTITY",
+      "points": 7
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "target_copy",
+          "target-derived"
+        ],
+        [
+          "leak"
+        ]
+      ],
+      "id": "TARGET",
+      "points": 7
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "noise",
+          "irrelevant",
+          "feature"
+        ]
+      ],
+      "id": "NOISE",
+      "points": 4
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "imbalance"
+        ]
+      ],
+      "id": "IMBALANCE",
+      "points": 4
+    },
+    {
+      "field": "data_findings",
+      "groups": [
+        [
+          "250"
+        ],
+        [
+          "not automatically",
+          "investigate",
+          "reasonable"
+        ]
+      ],
+      "id": "EXTREME",
+      "points": 6
+    },
+    {
+      "field": "reality_constraints",
+      "groups": [
+        [
+          "raw",
+          "input"
+        ],
+        [
+          "immutable",
+          "do not modify",
+          "preserve"
+        ]
+      ],
+      "id": "IMMUTABLE",
+      "points": 5
+    }
+  ],
+  "max_score": 70
+}

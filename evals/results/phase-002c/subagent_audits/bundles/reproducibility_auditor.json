@@ -1,0 +1,699 @@
+{
+  "allowed_file_references": [
+    "evals/results/phase-002c/input_freeze_manifest.json",
+    "evals/results/phase-002c/pre_adjudication/evidence_sufficiency.json",
+    "evals/results/phase-002c/pre_adjudication/pre_adjudication_record.json",
+    "adjudication/configs/phase-002c.yaml",
+    "adjudication/policies/phase-002c.yaml",
+    "adjudication/policies/phase-002a.yaml",
+    "rules/pre_adjudication_rules.yaml",
+    "rules/native_subagent_audit_rules.yaml",
+    "contracts/subagent_audit.schema.json",
+    "evals/results/phase-002a/eligibility/classification.json",
+    "evals/results/phase-002a/recovery_gap_evidence/recovery.json",
+    "evals/results/phase-002b/recovery_manifest.json",
+    "src/cumcm_skill_lab/adjudication/evidence_sufficiency.py",
+    "src/cumcm_skill_lab/adjudication/pre_adjudication.py",
+    "src/cumcm_skill_lab/adjudication/short_circuit.py",
+    "src/cumcm_skill_lab/adjudication/phase_routing.py",
+    "src/cumcm_skill_lab/adjudication/phase002c_records.py",
+    "src/cumcm_skill_lab/adjudication/phase002c_audit.py",
+    "src/cumcm_skill_lab/adjudication/phase002c_replay.py",
+    "src/cumcm_skill_lab/adjudication/phase002c_reporting.py",
+    "src/cumcm_skill_lab/report_generation.py",
+    "state/project_state.json",
+    "WORKFLOW.md",
+    "evals/results/phase-002/runs/ARM-A/CASE-001/run-001.json",
+    "evals/results/phase-002/runs/ARM-A/CASE-001/run-002.json",
+    "evals/results/phase-002/runs/ARM-A/CASE-002/run-001.json",
+    "evals/results/phase-002/runs/ARM-A/CASE-003/run-001.json",
+    "evals/results/phase-002/runs/ARM-A/CASE-004/run-001.json",
+    "evals/results/phase-002/runs/ARM-A/CASE-005/run-001.json",
+    "evals/results/phase-002/runs/ARM-A/CASE-006/run-001.json",
+    "evals/results/phase-002/runs/ARM-B/CASE-001/run-001.json",
+    "evals/results/phase-002/runs/ARM-B/CASE-002/run-001.json",
+    "evals/results/phase-002/runs/ARM-B/CASE-003/run-001.json",
+    "evals/results/phase-002/runs/ARM-B/CASE-004/run-001.json",
+    "evals/results/phase-002/runs/ARM-B/CASE-005/run-001.json",
+    "evals/results/phase-002/runs/ARM-B/CASE-006/run-001.json",
+    "evals/results/phase-002/runs/ARM-C/CASE-001/run-001.json",
+    "evals/results/phase-002/runs/ARM-C/CASE-001/run-002.json",
+    "evals/results/phase-002/runs/ARM-C/CASE-002/run-001.json",
+    "evals/results/phase-002/runs/ARM-C/CASE-003/run-001.json",
+    "evals/results/phase-002/runs/ARM-C/CASE-004/run-001.json",
+    "evals/results/phase-002/runs/ARM-C/CASE-005/run-001.json",
+    "evals/results/phase-002/runs/ARM-C/CASE-006/run-001.json"
+  ],
+  "bundle_hash": "1eea3fd1bce3d771b57b357f8125767785b9379cc7f05c8adcf01918559af70a",
+  "bundle_id": "PHASE-002C-NATIVE-REPRODUCIBILITY_AUDITOR",
+  "evidence_catalog": [
+    "ELIGIBILITY-PHASE-002A",
+    "EVIDENCE-SUFFICIENCY-PHASE-002C",
+    "PHASE-002C-INPUT-FREEZE",
+    "PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B",
+    "PRE-ADJUDICATION-PHASE-002C",
+    "RECOVERY-EXCLUSION-PHASE-002A",
+    "RUN:ARM-A:CASE-001:run-001",
+    "RUN:ARM-A:CASE-001:run-002",
+    "RUN:ARM-A:CASE-002:run-001",
+    "RUN:ARM-A:CASE-003:run-001",
+    "RUN:ARM-A:CASE-004:run-001",
+    "RUN:ARM-A:CASE-005:run-001",
+    "RUN:ARM-A:CASE-006:run-001",
+    "RUN:ARM-B:CASE-001:run-001",
+    "RUN:ARM-B:CASE-002:run-001",
+    "RUN:ARM-B:CASE-003:run-001",
+    "RUN:ARM-B:CASE-004:run-001",
+    "RUN:ARM-B:CASE-005:run-001",
+    "RUN:ARM-B:CASE-006:run-001",
+    "RUN:ARM-C:CASE-001:run-001",
+    "RUN:ARM-C:CASE-001:run-002",
+    "RUN:ARM-C:CASE-002:run-001",
+    "RUN:ARM-C:CASE-003:run-001",
+    "RUN:ARM-C:CASE-004:run-001",
+    "RUN:ARM-C:CASE-005:run-001",
+    "RUN:ARM-C:CASE-006:run-001"
+  ],
+  "evidence_items": [
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-001",
+      "classification": "SUPERSEDED",
+      "completion_status": "FAILED",
+      "evidence_id": "RUN:ARM-A:CASE-001:run-001",
+      "exclusion_reasons": [
+        "FAILED",
+        "SUPERSEDED"
+      ],
+      "ranking_eligible": false,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-A/CASE-001/run-001.json",
+      "schema_valid": false,
+      "task_input_hash": "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-001",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-A:CASE-001:run-002",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 2,
+      "run_path": "evals/results/phase-002/runs/ARM-A/CASE-001/run-002.json",
+      "schema_valid": true,
+      "task_input_hash": "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-002",
+      "classification": "RECOVERY_AFFECTED",
+      "completion_status": "FAILED",
+      "evidence_id": "RUN:ARM-A:CASE-002:run-001",
+      "exclusion_reasons": [
+        "FAILED",
+        "RECOVERY_AFFECTED"
+      ],
+      "ranking_eligible": false,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-A/CASE-002/run-001.json",
+      "schema_valid": false,
+      "task_input_hash": "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-003",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-A:CASE-003:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-A/CASE-003/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "1eb5293a872d12e055f29ba6f0e708b710b60295017ced28074d41e597719cb6"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-004",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-A:CASE-004:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-A/CASE-004/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-005",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-A:CASE-005:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-A/CASE-005/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "case_id": "CASE-006",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-A:CASE-006:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-A/CASE-006/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-001",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-B:CASE-001:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-B/CASE-001/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-002",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-B:CASE-002:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-B/CASE-002/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-003",
+      "classification": "RECOVERY_AFFECTED",
+      "completion_status": "FAILED",
+      "evidence_id": "RUN:ARM-B:CASE-003:run-001",
+      "exclusion_reasons": [
+        "FAILED",
+        "RECOVERY_AFFECTED"
+      ],
+      "ranking_eligible": false,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-B/CASE-003/run-001.json",
+      "schema_valid": false,
+      "task_input_hash": "1eb5293a872d12e055f29ba6f0e708b710b60295017ced28074d41e597719cb6"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-004",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-B:CASE-004:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-B/CASE-004/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-005",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-B:CASE-005:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-B/CASE-005/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "case_id": "CASE-006",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-B:CASE-006:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-B/CASE-006/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-001",
+      "classification": "SUPERSEDED",
+      "completion_status": "FAILED",
+      "evidence_id": "RUN:ARM-C:CASE-001:run-001",
+      "exclusion_reasons": [
+        "FAILED",
+        "SUPERSEDED"
+      ],
+      "ranking_eligible": false,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-C/CASE-001/run-001.json",
+      "schema_valid": false,
+      "task_input_hash": "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-001",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-C:CASE-001:run-002",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 2,
+      "run_path": "evals/results/phase-002/runs/ARM-C/CASE-001/run-002.json",
+      "schema_valid": true,
+      "task_input_hash": "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-002",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-C:CASE-002:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-C/CASE-002/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-003",
+      "classification": "RECOVERY_AFFECTED",
+      "completion_status": "FAILED",
+      "evidence_id": "RUN:ARM-C:CASE-003:run-001",
+      "exclusion_reasons": [
+        "FAILED",
+        "RECOVERY_AFFECTED"
+      ],
+      "ranking_eligible": false,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-C/CASE-003/run-001.json",
+      "schema_valid": false,
+      "task_input_hash": "1eb5293a872d12e055f29ba6f0e708b710b60295017ced28074d41e597719cb6"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-004",
+      "classification": "RECOVERY_AFFECTED",
+      "completion_status": "FAILED",
+      "evidence_id": "RUN:ARM-C:CASE-004:run-001",
+      "exclusion_reasons": [
+        "FAILED",
+        "RECOVERY_AFFECTED"
+      ],
+      "ranking_eligible": false,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-C/CASE-004/run-001.json",
+      "schema_valid": false,
+      "task_input_hash": "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-005",
+      "classification": "RECOVERY_AFFECTED",
+      "completion_status": "FAILED",
+      "evidence_id": "RUN:ARM-C:CASE-005:run-001",
+      "exclusion_reasons": [
+        "FAILED",
+        "RECOVERY_AFFECTED"
+      ],
+      "ranking_eligible": false,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-C/CASE-005/run-001.json",
+      "schema_valid": false,
+      "task_input_hash": "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "case_id": "CASE-006",
+      "classification": "PRIMARY_COMPLETE",
+      "completion_status": "COMPLETED",
+      "evidence_id": "RUN:ARM-C:CASE-006:run-001",
+      "exclusion_reasons": [],
+      "ranking_eligible": true,
+      "run_index": 1,
+      "run_path": "evals/results/phase-002/runs/ARM-C/CASE-006/run-001.json",
+      "schema_valid": true,
+      "task_input_hash": "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+    }
+  ],
+  "historical_transport": {
+    "completed_roles": [],
+    "phase002b_model_starts": 2,
+    "status": "AUTOMATED_ADJUDICATION_INCOMPLETE",
+    "terminal_failure_class": "RESPONSES_CONNECT_RESET"
+  },
+  "input_freeze_hash": "cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9",
+  "input_freeze_id": "PHASE-002C-INPUT-FREEZE",
+  "output_contract": "contracts/subagent_audit.schema.json",
+  "peer_output_access": "NONE",
+  "policy": {
+    "accepted_scope_limits": {
+      "component_readiness": "SPECIFICATION_ONLY",
+      "recovery_policy": "POLICY_ONLY"
+    },
+    "balanced_case_minimum": 4,
+    "decision_order": [
+      "freeze_integrity",
+      "hard_gates",
+      "evidence_eligibility",
+      "evidence_sufficiency",
+      "conditional_semantic_adjudication",
+      "decision_audit",
+      "replay"
+    ],
+    "decision_statuses": [
+      "AUTOMATED_ACCEPTED",
+      "AUTOMATED_REJECTED",
+      "RETEST_REQUIRED",
+      "EVIDENCE_INSUFFICIENT",
+      "AUTOMATED_ABSTAINED",
+      "STALE"
+    ],
+    "evidence_hierarchy": [
+      "E3",
+      "E2",
+      "E1",
+      "E0"
+    ],
+    "extends": "adjudication/policies/phase-002a.yaml",
+    "frozen_at": "2026-09-01T11:57:13+08:00",
+    "hard_gates": [
+      "license",
+      "answer_contamination",
+      "security",
+      "second_state_source",
+      "second_orchestrator",
+      "scope_conflict"
+    ],
+    "minimum_repeats": 2,
+    "parent_policy_hash": "e7296f8aabcf0b4891a4f67c6a50c3cc7437562fcb1ce8072746aac664743eb0",
+    "parent_policy_id": "POLICY-PHASE-002A",
+    "parent_policy_version": "1.0.0",
+    "policy_hash": "937ee1fd4d169d2e7806d83fdb8b9c7e41424d680cbb3ba8df868154ee4ec1ca",
+    "policy_id": "POLICY-PHASE-002C",
+    "recovery_policy": "GAP_EVIDENCE_ONLY",
+    "semantic_judges_conditional": true,
+    "short_circuit": {
+      "evidence_insufficient": "EVIDENCE_INSUFFICIENT",
+      "frozen_evidence_invalid": "STALE",
+      "mandatory_hard_gate_failed": "AUTOMATED_REJECTED"
+    },
+    "thresholds_unchanged": true,
+    "version": "1.1.0"
+  },
+  "pre_adjudication": {
+    "config_hash": "50ce0b03b889f26a55717e172b24ee837b132158f2bb06aa9998ee0a0435022a",
+    "created_at": "2026-09-01T11:57:13+08:00",
+    "decision": "EVIDENCE_INSUFFICIENT",
+    "evidence_sufficiency_id": "EVIDENCE-SUFFICIENCY-PHASE-002C",
+    "evidence_sufficiency_result": "INSUFFICIENT",
+    "hard_gates": [
+      {
+        "evidence_refs": [
+          "PHASE-002C-INPUT-FREEZE"
+        ],
+        "gate": "freeze_integrity",
+        "passed": true,
+        "target": "COMPARATIVE_SELECTION"
+      },
+      {
+        "evidence_refs": [
+          "EVIDENCE-SUFFICIENCY-PHASE-002C"
+        ],
+        "gate": "task_input_hash_consistency",
+        "passed": true,
+        "target": "COMPARATIVE_SELECTION"
+      },
+      {
+        "evidence_refs": [
+          "RECOVERY-EXCLUSION-PHASE-002A"
+        ],
+        "gate": "recovery_exclusion",
+        "passed": true,
+        "target": "COMPARATIVE_SELECTION"
+      },
+      {
+        "evidence_refs": [
+          "ELIGIBILITY-PHASE-002A"
+        ],
+        "gate": "not_run_not_zero",
+        "passed": true,
+        "target": "COMPARATIVE_SELECTION"
+      },
+      {
+        "evidence_refs": [
+          "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+        ],
+        "gate": "license",
+        "passed": true,
+        "target": "SANITIZED_COMPARATIVE_EVALUATION"
+      },
+      {
+        "evidence_refs": [
+          "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+        ],
+        "gate": "answer_contamination",
+        "passed": true,
+        "target": "SANITIZED_COMPARATIVE_EVALUATION"
+      },
+      {
+        "evidence_refs": [
+          "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+        ],
+        "gate": "security",
+        "passed": true,
+        "target": "SANITIZED_COMPARATIVE_EVALUATION"
+      },
+      {
+        "evidence_refs": [
+          "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+        ],
+        "gate": "second_state_source",
+        "passed": true,
+        "target": "SANITIZED_COMPARATIVE_EVALUATION"
+      },
+      {
+        "evidence_refs": [
+          "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+        ],
+        "gate": "second_orchestrator",
+        "passed": true,
+        "target": "SANITIZED_COMPARATIVE_EVALUATION"
+      },
+      {
+        "evidence_refs": [
+          "research/upstream_candidates/dynamic_reviews/package_safety_review.json"
+        ],
+        "gate": "scope_conflict",
+        "passed": true,
+        "target": "SANITIZED_COMPARATIVE_EVALUATION"
+      }
+    ],
+    "input_freeze_hash": "cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9",
+    "input_freeze_id": "PHASE-002C-INPUT-FREEZE",
+    "next_phase_candidate": "PHASE-EVIDENCE-EXPANSION-002D",
+    "phase": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C",
+    "policy_hash": "937ee1fd4d169d2e7806d83fdb8b9c7e41424d680cbb3ba8df868154ee4ec1ca",
+    "ranking_status": "PROHIBITED",
+    "record_hash": "3fb5a1fca104eea2a8cc782e15be0f8902e84e81b0599270c605a2383163b64c",
+    "record_id": "PRE-ADJUDICATION-PHASE-002C",
+    "semantic_judges_status": "SKIPPED",
+    "short_circuit": true
+  },
+  "prohibitions": [
+    "no file writes",
+    "no peer outputs",
+    "no candidate ranking or majority vote",
+    "no nested Codex App Server SDK API or API key",
+    "no global configuration changes",
+    "no formal state transition"
+  ],
+  "read_only": true,
+  "recovery_summary": {
+    "count": 5,
+    "policy": "RECOVERY_EXCLUDED_FROM_COMPARATIVE_RANKING",
+    "ranking_eligible_count": 0
+  },
+  "role": "reproducibility_auditor",
+  "round": "FIRST_ROUND",
+  "schema_version": "1.0.0",
+  "sufficiency": {
+    "actual": {
+      "balanced_case_count": 2,
+      "balanced_cases": [
+        "CASE-001",
+        "CASE-006"
+      ],
+      "cell_repeat_counts": {
+        "CASE-001": {
+          "ARM-A": 1,
+          "ARM-B": 1,
+          "ARM-C": 1
+        },
+        "CASE-002": {
+          "ARM-A": 0,
+          "ARM-B": 1,
+          "ARM-C": 1
+        },
+        "CASE-003": {
+          "ARM-A": 1,
+          "ARM-B": 0,
+          "ARM-C": 0
+        },
+        "CASE-004": {
+          "ARM-A": 1,
+          "ARM-B": 1,
+          "ARM-C": 0
+        },
+        "CASE-005": {
+          "ARM-A": 1,
+          "ARM-B": 1,
+          "ARM-C": 0
+        },
+        "CASE-006": {
+          "ARM-A": 1,
+          "ARM-B": 1,
+          "ARM-C": 1
+        }
+      },
+      "eligible_primary_count": 13,
+      "failed_excluded_count": 7,
+      "independent_repeats": 1,
+      "not_run_excluded_count": 0,
+      "recovery_excluded_count": 5,
+      "superseded_excluded_count": 2
+    },
+    "conditions": {
+      "balanced_case_minimum_met": false,
+      "frozen_evidence_valid": true,
+      "mandatory_hard_gates_passed": true,
+      "minimum_repeats_met": false
+    },
+    "evidence_items_hash": "0e7e0a93a9ca85fa4a11265e7d562fe5cce808dfa0b98e5e81ba628e1e7942f1",
+    "input_freeze_hash": "cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9",
+    "input_freeze_id": "PHASE-002C-INPUT-FREEZE",
+    "policy_hash": "937ee1fd4d169d2e7806d83fdb8b9c7e41424d680cbb3ba8df868154ee4ec1ca",
+    "policy_id": "POLICY-PHASE-002C",
+    "ranking_allowed": false,
+    "reason_codes": [
+      "BALANCED_CASE_MINIMUM_NOT_MET",
+      "MINIMUM_REPEATS_NOT_MET"
+    ],
+    "record_hash": "0155c76ac262d0b015305a9526192ba50e4f46e60d708362442ce159dc0758be",
+    "required_arms": [
+      "ARM-A",
+      "ARM-B",
+      "ARM-C"
+    ],
+    "result": "INSUFFICIENT",
+    "semantic_judges_required": false,
+    "sufficiency_id": "EVIDENCE-SUFFICIENCY-PHASE-002C",
+    "task_hash_consistency": {
+      "arm_hashes": {
+        "CASE-001": {
+          "ARM-A": [
+            "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+          ],
+          "ARM-B": [
+            "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+          ],
+          "ARM-C": [
+            "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+          ]
+        },
+        "CASE-002": {
+          "ARM-B": [
+            "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+          ],
+          "ARM-C": [
+            "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+          ]
+        },
+        "CASE-003": {
+          "ARM-A": [
+            "1eb5293a872d12e055f29ba6f0e708b710b60295017ced28074d41e597719cb6"
+          ]
+        },
+        "CASE-004": {
+          "ARM-A": [
+            "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+          ],
+          "ARM-B": [
+            "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+          ]
+        },
+        "CASE-005": {
+          "ARM-A": [
+            "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+          ],
+          "ARM-B": [
+            "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+          ]
+        },
+        "CASE-006": {
+          "ARM-A": [
+            "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+          ],
+          "ARM-B": [
+            "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+          ],
+          "ARM-C": [
+            "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+          ]
+        }
+      },
+      "case_hashes": {
+        "CASE-001": [
+          "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+        ],
+        "CASE-002": [
+          "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+        ],
+        "CASE-003": [
+          "1eb5293a872d12e055f29ba6f0e708b710b60295017ced28074d41e597719cb6"
+        ],
+        "CASE-004": [
+          "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+        ],
+        "CASE-005": [
+          "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+        ],
+        "CASE-006": [
+          "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+        ]
+      },
+      "mismatched_cases": [],
+      "passed": true
+    },
+    "thresholds": {
+      "balanced_case_minimum": 4,
+      "minimum_repeats": 2
+    }
+  },
+  "task": [
+    "audit freeze policy evidence code report and transport hashes",
+    "detect hardcoded results self-reference or non-replayable state",
+    "verify historical transport evidence is preserved but not ranked"
+  ]
+}

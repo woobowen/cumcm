@@ -1,0 +1,85 @@
+{
+  "blocker_ids": [
+    "ADV-001",
+    "ADV-002",
+    "ADV-003",
+    "ADV-005",
+    "ADV-006",
+    "ADV-007",
+    "ADV-008",
+    "ADV-009",
+    "ADV-013",
+    "ADV-014",
+    "ADV-017",
+    "ADV-019",
+    "ADV-021"
+  ],
+  "bundle_hash": "355dc5571cce25a3590d70b4b63a07ee24a378d384466f46c7f632438a66b653",
+  "bundle_id": "PHASE-002B-BLIND_DISSENT_JUDGE",
+  "config_path": "adjudication/configs/phase-002b-v2.yaml",
+  "dependencies_ready": true,
+  "evidence_hash": "b64923cdfe656a743a61455cffc8cc99bc853c79f4c10c20a96a4ab8f2de8c8d",
+  "files": {
+    "bundle_index.json": {
+      "normalized_bytes": 894,
+      "sha256": "5b00953fe1833fb95c2808c296f72b5e1b4eebf76d350ca59d84b6101693b752"
+    },
+    "dependencies.json": {
+      "normalized_bytes": 41,
+      "sha256": "b75897f52bfabcdf963ce4b09438c2adcd871273e35dfd9d3dcd8148a88b4442"
+    },
+    "eligible_evidence.json": {
+      "normalized_bytes": 21276,
+      "sha256": "62fec1da6d6a24480888a07c24277dac42d6ac71bf2aac90df9b092a15ea0575"
+    },
+    "evidence_catalog.json": {
+      "normalized_bytes": 3474,
+      "sha256": "9ad10ec5cb72d7b72af2c5349ca2d6a68d608a493f75e905a439acb1305a1f63"
+    },
+    "excluded_evidence.json": {
+      "normalized_bytes": 2449,
+      "sha256": "fa52634cdc368b84ccb3e9c2a656548bbf6db7a4cdd960ceee3fd31b2ac1b900"
+    },
+    "findings.json": {
+      "normalized_bytes": 21008,
+      "sha256": "2059e9c81ba56f21d019d2d26681c6f195c785ff49c1cb7fbce10f2f814bf609"
+    },
+    "hard_gates.json": {
+      "normalized_bytes": 1355,
+      "sha256": "a7d721d93bc8505f800da5b4ac323852da1d97d3a4efc5eccebf97f8b61f42a6"
+    },
+    "output_schema.json": {
+      "normalized_bytes": 1948,
+      "sha256": "45477584946d3553fa403117969fe3d36001486b5b8dcd0038901a562d502173"
+    },
+    "policy_summary.json": {
+      "normalized_bytes": 923,
+      "sha256": "8ea27cc167e470d744eb4ec38d82e9e10bf698da9a454536dee1b1cf28d64cf2"
+    },
+    "role_task.json": {
+      "normalized_bytes": 957,
+      "sha256": "36eb95e9d3740942dff616db1db3511e940cf5bcd1a1bffcea5248eb8f475ee2"
+    },
+    "test_evidence.json": {
+      "normalized_bytes": 8180,
+      "sha256": "49285a86b8a5361f91252e9d7aba7f98e58802bff656946884cba91d27375d2b"
+    }
+  },
+  "input_freeze_hash": "9b664b353fcbe2f48aa1c7aebbb88af90b5bac7a849cda5053e5854b78ca6338",
+  "manifest_hash": "732c713aef4b4a1096630067da021bab3627a9b33f5262564b4d0d3a4afbf45b",
+  "measurement": {
+    "estimated_tokens": 15627,
+    "maximum_estimated_tokens": 30000,
+    "maximum_normalized_bytes": 131072,
+    "normalized_bytes": 62505
+  },
+  "model": "gpt-5.6-sol",
+  "output_schema_hash": "45477584946d3553fa403117969fe3d36001486b5b8dcd0038901a562d502173",
+  "payload_hash": "d668e73fa72bbdb7c5f85f7875dba22bbb709a388cbd393f961cf980e0b6d75e",
+  "policy_hash": "e7296f8aabcf0b4891a4f67c6a50c3cc7437562fcb1ce8072746aac664743eb0",
+  "reasoning_setting": "medium",
+  "recovery_excluded_count": 5,
+  "role": "BLIND_DISSENT_JUDGE",
+  "schema_version": "1.0.0",
+  "slug": "blind_dissent"
+}

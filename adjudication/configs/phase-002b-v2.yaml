@@ -1,0 +1,46 @@
+schema_version: "1.1.0"
+config_id: CONFIG-PHASE-002B-MODEL-REPLACEMENT-V2
+phase: PHASE-AUTOMATED-ADJUDICATION-RECOVERY-002B
+supersedes_config: adjudication/configs/phase-002a.yaml
+replacement_reason: MODEL_UNAVAILABLE_IN_CODEX_APP_SERVER_CATALOG
+original_model: gpt-5.4
+evidence_freeze:
+  id: PHASE-002-EVIDENCE-FREEZE-002A
+  subject_commit: 6a046822c33bcdf8a6821a96333bc92720e764c0
+  manifest: evals/results/phase-002a/evidence_freeze_manifest.json
+phase002b_input_freeze: evals/results/phase-002b/input_freeze_manifest.json
+policy: adjudication/policies/phase-002a.yaml
+evidence_hierarchy: [E3, E2, E1, E0]
+decision_types: [ARCHITECTURE, RECOVERY_POLICY, COMPONENTS]
+hard_gates: [license, answer_contamination, security, second_state_source, second_orchestrator, scope_conflict]
+eligibility_rules:
+  allowed: [PRIMARY_COMPLETE]
+  excluded: [FAILED, RECOVERY_AFFECTED, SUPERSEDED, INELIGIBLE]
+recovery_policy: GAP_EVIDENCE_ONLY
+balanced_case_minimum: 4
+minimum_repeats: 2
+coverage_role: STRUCTURED_COVERAGE_ONLY
+oracle_role: DETERMINISTIC_CORRECTNESS
+judge_roles: [CORRECTNESS_JUDGE, SCIENTIFIC_VALIDITY_JUDGE, ENGINEERING_REPRODUCIBILITY_JUDGE]
+dissent_role: BLIND_DISSENT_JUDGE
+meta_role: EVIDENCE_META_ADJUDICATOR
+audit_role: DECISION_AUDITOR
+model: gpt-5.6-sol
+reasoning_setting: medium
+model_consistency: ALL_SIX_ROLES_SAME_MODEL_AND_REASONING
+comparability_limitation: MODEL_DIFFERS_FROM_PHASE_002A_FROZEN_DEFAULT_BEFORE_ANY_PHASE_002B_FORMAL_OUTPUT
+sandbox: workspace-write
+network_isolation_level: NETWORK_POLICY_PROHIBITED_TRACE_AUDITED
+previous_real_agent_runs: 4
+maximum_additional_real_agent_runs: 8
+maximum_attempts_per_role: 2
+timeout_seconds: 1200
+anonymization: REQUIRED
+identity_swap_test: REQUIRED
+order_swap_test: REQUIRED
+decision_statuses: [AUTOMATED_ACCEPTED, AUTOMATED_REJECTED, RETEST_REQUIRED, EVIDENCE_INSUFFICIENT, AUTOMATED_ABSTAINED, STALE]
+phase_transition_policy:
+  required_architecture_decision: AUTOMATED_ACCEPTED
+  required_audit: PASS
+  required_component_scope: SPECIFICATION_ONLY
+  next_phase: PHASE-SKILL-INTEGRATION-003

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/evidence_sufficiency/v1",
+  "title": "Deterministic Evidence Sufficiency",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "sufficiency_id",
+    "input_freeze_id",
+    "input_freeze_hash",
+    "policy_id",
+    "policy_hash",
+    "thresholds",
+    "actual",
+    "required_arms",
+    "task_hash_consistency",
+    "conditions",
+    "result",
+    "reason_codes",
+    "semantic_judges_required",
+    "ranking_allowed",
+    "evidence_items_hash",
+    "record_hash"
+  ],
+  "properties": {
+    "sufficiency_id": {"type": "string", "minLength": 1},
+    "input_freeze_id": {"type": "string", "minLength": 1},
+    "input_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "policy_id": {"type": "string", "minLength": 1},
+    "policy_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "thresholds": {
+      "type": "object",
+      "required": ["balanced_case_minimum", "minimum_repeats"],
+      "properties": {
+        "balanced_case_minimum": {"type": "integer", "minimum": 1},
+        "minimum_repeats": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "actual": {
+      "type": "object",
+      "required": [
+        "eligible_primary_count",
+        "balanced_cases",
+        "balanced_case_count",
+        "independent_repeats",
+        "cell_repeat_counts",
+        "recovery_excluded_count",
+        "failed_excluded_count",
+        "superseded_excluded_count",
+        "not_run_excluded_count"
+      ],
+      "properties": {
+        "eligible_primary_count": {"type": "integer", "minimum": 0},
+        "balanced_cases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "balanced_case_count": {"type": "integer", "minimum": 0},
+        "independent_repeats": {"type": "integer", "minimum": 0},
+        "cell_repeat_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {"type": "integer", "minimum": 0}
+          }
+        },
+        "recovery_excluded_count": {"type": "integer", "minimum": 0},
+        "failed_excluded_count": {"type": "integer", "minimum": 0},
+        "superseded_excluded_count": {"type": "integer", "minimum": 0},
+        "not_run_excluded_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "required_arms": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "task_hash_consistency": {
+      "type": "object",
+      "required": ["passed", "mismatched_cases", "case_hashes", "arm_hashes"],
+      "properties": {
+        "passed": {"type": "boolean"},
+        "mismatched_cases": {"type": "array", "items": {"type": "string"}},
+        "case_hashes": {
+          "type": "object",
+          "additionalProperties": {"type": "array", "items": {"type": "string"}}
+        },
+        "arm_hashes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "conditions": {
+      "type": "object",
+      "required": [
+        "balanced_case_minimum_met",
+        "minimum_repeats_met",
+        "frozen_evidence_valid",
+        "mandatory_hard_gates_passed"
+      ],
+      "properties": {
+        "balanced_case_minimum_met": {"type": "boolean"},
+        "minimum_repeats_met": {"type": "boolean"},
+        "frozen_evidence_valid": {"type": "boolean"},
+        "mandatory_hard_gates_passed": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "result": {"enum": ["SUFFICIENT", "INSUFFICIENT", "STALE"]},
+    "reason_codes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "semantic_judges_required": {"type": "boolean"},
+    "ranking_allowed": {"type": "boolean"},
+    "evidence_items_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "record_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

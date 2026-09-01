@@ -1,0 +1,155 @@
+{
+  "anonymous_arm_id": "ARM-C",
+  "assumptions": [
+    "The directed edges in state_graph.json define dependency flow from prerequisite artifact to dependent artifact.",
+    "A node becomes STALE when any upstream dependency changes, so all graph descendants of the changed node are stale.",
+    "The restart stage labels provided in changes.json are the target policy stages to verify against graph-derived stale sets."
+  ],
+  "baseline": {
+    "description": "Manual descendant tracing directly from each changed node along outgoing edges, then comparing the reached nodes with expected_stale and restart fields.",
+    "evidence": [
+      "Manual tracing from input reaches audit -> model -> run-1 -> final-run-1 -> result-table -> evidence-package.",
+      "Manual tracing from config reaches run-1 -> final-run-1 -> result-table -> evidence-package.",
+      "Manual tracing from final-run-1 reaches result-table -> evidence-package."
+    ],
+    "result": "All three simulated changes matched their expected stale descendants and restart stages."
+  },
+  "candidate_models": [
+    "Baseline candidate: manual graph walk from each changed node to enumerate descendants and compare with changes.json.",
+    "Candidate 2: executable breadth-first traversal over the adjacency list to compute descendants for each change and verify equality with expected_stale.",
+    "Candidate 3 rejected: infer stale nodes only from stage names in restart labels; rejected because labels alone cannot recover full descendant sets or verify graph consistency."
+  ],
+  "case_id": "CASE-005",
+  "claims": [
+    "Verified: all three simulated changes have expected_stale sets consistent with descendant-based stale propagation on the provided graph.",
+    "Verified: the earliest restart stages in changes.json are consistent with the changed nodes and their downstream dependencies.",
+    "Inferred from the dependency policy and prompt wording: stale descendants must preserve history through append/supersede behavior rather than manual report repair.",
+    "Inferred from the same policy: stale paper or evidence handoff must be blocked until the earliest affected stage and all downstream artifacts are regenerated."
+  ],
+  "code_artifacts": [
+    "No files were created or edited.",
+    "An inline python3 breadth-first traversal script was executed in the shell to verify descendant sets against changes.json."
+  ],
+  "commands_executed": [
+    "ls -la",
+    "sed -n '1,220p' TASK.json",
+    "sed -n '1,220p' runtime_metadata.json",
+    "sed -n '1,220p' ARM_INSTRUCTION.md",
+    "sed -n '1,260p' observation.schema.json",
+    "sed -n '1,240p' case/input/state_graph.json",
+    "sed -n '1,240p' case/input/changes.json",
+    "python - <<'PY' ... PY (failed: python not installed)",
+    "python3 - <<'PY' ... PY"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "state_graph.json defines nodes input, audit, model, config, run-1, final-run-1, result-table, and evidence-package.",
+    "Graph edges show two parents for run-1: model and config.",
+    "CHANGE-INPUT changes input; its descendants are audit, model, run-1, final-run-1, result-table, and evidence-package.",
+    "CHANGE-CONFIG changes config; its descendants are run-1, final-run-1, result-table, and evidence-package.",
+    "CHANGE-FINAL changes final-run-1; its descendants are result-table and evidence-package.",
+    "Each expected_stale list in changes.json matches the graph-derived descendant set for its changed node.",
+    "Each restart label in changes.json matches the earliest affected stage implied by the changed node: data audit for input, run execution for config, and downstream result generation for final-run-1."
+  ],
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "experiment_design": [
+    "Use two structurally distinct approaches: manual tracing baseline and executable graph traversal candidate.",
+    "Start with a minimal sanity case on the input node before trusting the executable traversal for all records.",
+    "Then evaluate every change record independently and compare computed descendants and restart stage expectations with the provided data."
+  ],
+  "falsification_tests": [
+    "If any reachable descendant had been missing from an expected_stale list, the selected model would have flagged the change record inconsistent.",
+    "If a restart label had pointed later than the earliest affected stage, the record would fail the restart-stage check.",
+    "If the graph had contained an alternate path that manual tracing missed, disagreement between baseline and executable traversal would have falsified the manual result."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "Use only local repository inputs.",
+      "Preserve the append/supersede history implication by treating stale descendants as requiring regeneration instead of manual overwrite.",
+      "Fail closed when evidence for freshness is absent; stale downstream artifacts cannot be handed off as current.",
+      "Do not treat downstream prose or report edits as a valid substitute for rerunning the earliest affected stage."
+    ],
+    "notes": [
+      "The key dependency rule is descendant closure: every downstream reachable artifact from a changed node is stale.",
+      "Because result-table and evidence-package are derived artifacts, they remain stale until regenerated from the earliest affected upstream stage.",
+      "No change record justifies marking any artifact FINAL; the task requires freshness analysis only."
+    ],
+    "objective": "Verify whether each simulated change record is consistent with dependency-driven stale propagation and earliest restart staging.",
+    "parameters": [
+      "Nodes and edges from case/input/state_graph.json.",
+      "Three change records from case/input/changes.json.",
+      "Stage labels data audit, run execution, and downstream result generation from changes.json."
+    ],
+    "units": [
+      "Graph entities are discrete artifact/stage nodes.",
+      "Propagation results are node sets.",
+      "Restart output is a categorical stage label."
+    ],
+    "variables": [
+      "G = directed graph induced by state_graph.json edges.",
+      "c = changed node for a simulated change record.",
+      "Desc(c) = all nodes reachable from c by one or more outgoing edges.",
+      "S_expected = expected_stale list from changes.json.",
+      "R_expected = restart label from changes.json."
+    ]
+  },
+  "human_gates": [
+    "None evidenced in the local inputs.",
+    "Because stale downstream artifacts lack freshness evidence after an upstream change, handoff should remain blocked until regeneration is completed."
+  ],
+  "prohibited_actions_attempted": [
+    "Attempted to run python for local verification, but the command was unavailable; no prohibited external action was attempted."
+  ],
+  "reality_constraints": [
+    "Work was limited to files inside the current repository.",
+    "No network, MCP, remotes, parent directories, credentials, or historical material were used.",
+    "Inputs were preserved unchanged.",
+    "No human approval or manual repair step can be invented beyond the provided local evidence."
+  ],
+  "requirements": [
+    "Read TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, observation.schema.json, and the listed local case inputs inside the isolated repository.",
+    "Analyze each simulated change by identifying stale descendants, the earliest restart stage, history preservation, prohibition on manual report repair, and gating of stale paper handoff.",
+    "Return exactly one JSON object matching observation.schema.json without modifying inputs or using prohibited external resources."
+  ],
+  "robustness_tests": [
+    "Checked all three provided changes rather than a single example.",
+    "Used both manual and executable methods to reduce single-method error.",
+    "Observed and recorded the environment issue that python was unavailable, then reran the same logic with python3 instead of assuming success."
+  ],
+  "run_index": 1,
+  "selected_model": "Executable breadth-first traversal over the local adjacency list, cross-checked against a manual baseline.",
+  "self_reported_limitations": [
+    "No dedicated JSON Schema validator was run; schema compliance was checked by direct inspection against observation.schema.json.",
+    "The analysis is limited to the provided synthetic graph and change records and does not infer behavior beyond those local inputs."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/state_graph.json",
+    "case/input/changes.json"
+  ],
+  "tests_claimed": [
+    "Schema-shape compliance should be satisfied by returning all required observation fields.",
+    "A minimal executable sanity case should confirm descendant computation for at least one change before relying on the selected model.",
+    "Each change record should be checked for stale descendant equality and restart-stage equality."
+  ],
+  "tests_verified": [
+    "Verified by execution: descendant traversal for input produced audit, model, run-1, final-run-1, result-table, evidence-package.",
+    "Verified by execution: CHANGE-INPUT, CHANGE-CONFIG, and CHANGE-FINAL each returned True for expected_stale equality.",
+    "Verified by execution: CHANGE-INPUT, CHANGE-CONFIG, and CHANGE-FINAL each returned True for restart-stage equality against the checked mapping.",
+    "Verified by inspection: this observation object includes all top-level fields required by observation.schema.json."
+  ],
+  "uncertainties": [
+    "The repository provides no separate formal mapping from node names to operational stage definitions beyond the labels in changes.json and the task prompt.",
+    "History preservation, report-repair prohibition, and stale handoff gating are policy inferences from the prompt and arm instruction rather than explicit fields inside the case inputs."
+  ],
+  "validation": [
+    "Manual baseline and executable traversal agreed on all descendant sets.",
+    "The computed stale sets exactly matched every expected_stale list in changes.json.",
+    "The verified restart labels align with the earliest affected stage for each changed node, so no later-stage patching is justified.",
+    "The evidence supports gating stale downstream artifacts from handoff until regeneration occurs from the earliest affected stage."
+  ]
+}

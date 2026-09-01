@@ -1,0 +1,173 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-B",
+  "case_id": "CASE-003",
+  "confidence": "LOW",
+  "deterministic_score": 37.0,
+  "dimensions": {
+    "BASELINE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in baseline"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "BUDGET": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "DIMENSION": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in validation"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FALSIFY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in falsification_tests"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "LABOR": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "OBJECTIVE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "OPTIMUM": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in validation"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "0-1项目选择目标、预算与劳动约束及单位均准确。"
+      ],
+      "missing": [],
+      "score": 10,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "内联枚举全部16个子集并实际比较多种greedy候选，得到A+B=19。"
+      ],
+      "missing": [],
+      "score": 8,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "直接复核A+B可行且所有其他可行解不超过18。"
+      ],
+      "missing": [
+        "没有独立实现或toy sanity case。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": true,
+      "confidence": "HIGH",
+      "evidence": [
+        "observation列出具体命令和枚举输出。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，且无持久化结果或恢复状态。"
+      ],
+      "score": 2,
+      "source": "REVIEWER"
+    },
+    "RUN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched commands_executed"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "VARS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched formalization"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "VARS",
+    "OBJECTIVE",
+    "BUDGET",
+    "LABOR",
+    "RUN",
+    "reviewer:A:0-1项目选择目标、预算与劳动约束及单位均准确。",
+    "reviewer:B:内联枚举全部16个子集并实际比较多种greedy候选，得到A+B=19。",
+    "reviewer:C:直接复核A+B可行且所有其他可行解不超过18。",
+    "reviewer:D:observation列出具体命令和枚举输出。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "3cd2fa2c0993d6f31ab49ddadaf03ec0b0fa5d0121376e9c90e3bb6879931415",
+  "missing": [
+    "DIMENSION",
+    "BASELINE",
+    "OPTIMUM",
+    "FALSIFY",
+    "没有独立实现或toy sanity case。",
+    "manifest为FAILED且schema_valid=false，且无持久化结果或恢复状态。"
+  ],
+  "reviewer_score": 25.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-B-CASE-003-RUN-001",
+  "status": "SCORED",
+  "total_score": 62.0
+}

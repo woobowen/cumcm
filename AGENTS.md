@@ -26,7 +26,14 @@ See `docs/SOURCE_OF_TRUTH.md` for ownership and `docs/INDEX.md` for the full map
 - Every formal result binds a Run ID; every Run binds input hashes and a Git commit.
 - Every external fact binds a registered Source. Claims, results, and handoffs preserve evidence links.
 - Validation or held-out answers that become visible permanently demote that case to development.
-- High-risk gates—problem interpretation, model selection, Final Run freeze, and evidence-package approval—require recorded human approval.
+- Technical gates use automated evidence adjudication and require a passing Decision Auditor; agent majority votes cannot pass a gate.
+- Humans perform only `TEAM_COMPLIANCE_REVIEW` and evidence-backed challenge; they cannot override a technical rejection.
+- The main agent remains the sole formal-state writer; the system may reject every option or abstain.
+- Recovery-affected evidence is gap evidence only and never enters comparative ranking.
+- Formal roles execute serially with role-specific identity-blind bundles; Meta and Auditor remain
+  locked until their validated predecessors exist.
+- Transport recovery uses exact-session checkpoints and versioned start budgets. Raw events and
+  exact identifiers remain ignored; exhausted role budget terminates the chain without inference.
 - Upstream changes, input changes, or superseded Final Runs propagate `STALE` to dependent artifacts.
 
 ## Prohibitions

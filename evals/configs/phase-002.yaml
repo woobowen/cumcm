@@ -1,0 +1,62 @@
+schema_version: "1.0.0"
+phase: PHASE-UPSTREAM-DYNAMIC-EVAL-002
+mode: BLIND_SYNTHETIC_DYNAMIC_EVAL
+seed: 20260831
+cases: [CASE-001, CASE-002, CASE-003, CASE-004, CASE-005, CASE-006]
+arms:
+  - arm_id: NO_PROJECT_MODELING_SKILL
+    candidate_id: null
+    evaluation_mode: NEUTRAL_BASELINE
+  - arm_id: HANDSOMEZR
+    candidate_id: handsomezr-mathmodel-skill
+    evaluation_mode: SANITIZED_INSTRUCTION_ONLY
+  - arm_id: YUSHUI
+    candidate_id: yushui-mathmodel-skill
+    evaluation_mode: SANITIZED_INSTRUCTION_ONLY_WITH_LICENSE_BLOCKER
+model: gpt-5.4
+reasoning_setting: medium
+sandbox: workspace-write
+timeout_seconds: 900
+maximum_runs: 20
+maximum_calibration_runs: 2
+repeat_policy:
+  first_round_per_arm_case: 1
+  maximum_retries_per_cell: 1
+  favorable_arm_extra_repeats_allowed: false
+network_policy: DISABLED_REQUIRED
+mcp_policy: DISABLED_REQUIRED
+output_schema: contracts/eval_observation.schema.json
+scoring_weights:
+  deterministic: 70
+  reviewer: 30
+hard_failures:
+  - HARD-FAIL-001
+  - HARD-FAIL-002
+  - HARD-FAIL-003
+  - HARD-FAIL-004
+  - HARD-FAIL-005
+  - HARD-FAIL-006
+  - HARD-FAIL-007
+  - HARD-FAIL-008
+  - HARD-FAIL-009
+  - HARD-FAIL-010
+  - HARD-FAIL-011
+  - HARD-FAIL-012
+cache_paths:
+  packages: .cache/upstream-eval/packages
+  workspaces: .cache/upstream-eval/workspaces
+  raw_traces: .cache/upstream-eval/raw-traces
+  raw_outputs: .cache/upstream-eval/raw-outputs
+  logs: .cache/upstream-eval/logs
+tracked_result_paths:
+  results: evals/results/phase-002
+  reviews: research/upstream_candidates/dynamic_reviews
+anonymization_policy:
+  labels: [ARM-A, ARM-B, ARM-C]
+  map_path: .cache/upstream-eval/arm-map.json
+  freeze_before_reveal: true
+  corrections_append_only: true
+human_gate_policy:
+  gate: GATE_BASE_SELECTION_PENDING
+  automatic_selection_allowed: false
+  phase_003_allowed: false

@@ -1,20 +1,52 @@
 {
   "project_id": "cumcm-skill-lab",
-  "schema_version": "1.0.0",
-  "phase": "PHASE-FOUNDATION-001",
-  "status": "FOUNDATION_READY",
-  "current_plan": "plans/active/PLAN-0001-foundation-and-upstream-evaluation.md",
+  "schema_version": "2.0.0",
+  "phase": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C",
+  "status": "IN_PROGRESS",
+  "current_plan": "plans/active/PLAN-0002C-evidence-sufficiency.md",
   "active_skill_version": "0.1.0-foundation",
-  "current_branch": "feat/foundation-scaffold",
-  "last_verified_commit": "1dc70b0d726022d09b863a7140a27ed656b6395a",
+  "current_branch": "feat/upstream-dynamic-eval",
+  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_COMPLETE",
+  "automated_decision_ids": [
+    "DECISION-EVIDENCE-SUFFICIENCY-002C",
+    "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
+    "DECISION-RECOVERY-POLICY-002C",
+    "DECISION-COMPONENT-READINESS-002C"
+  ],
+  "selected_architecture": null,
+  "accepted_component_specifications": [],
+  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+  "content_verified_commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
+  "verification_manifest": {
+    "path": "evals/results/phase-002c/input_freeze_manifest.json",
+    "sha256": "35c2c37019f3f024c90b71ff572a6f23608c12bf758efb1b666f5c3d08aa655f",
+    "subject_commit": "2c272a359a8b7197ce65bcefe2736007895dc9b6"
+  },
+  "delivery_receipt_for_commit": {
+    "commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
+    "remote": "origin",
+    "remote_sha": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
+    "verified_at": "2026-09-01T14:30:11+08:00"
+  },
+  "team_compliance_review_status": "NOT_RUN",
   "blockers": [],
   "risks": [
-    "Upstream effectiveness is UNVERIFIED until dynamic phase 002.",
-    "Project license is PROJECT_LICENSE_UNDECIDED."
+    "Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.",
+    "Project license is PROJECT_LICENSE_UNDECIDED.",
+    "Sanitized instruction-only evaluation cannot prove full upstream behavior.",
+    "Six synthetic cases, one primary run per cell, and five excluded recovery-affected cells may force abstention.",
+    "YUSHUI is UNKNOWN_NO_LICENSE and candidate/component subresource rights remain incomplete.",
+    "Three consecutive real Blind Judge attempts failed at the Codex Responses transport before structured output.",
+    "Phase 002B has only eight remaining model starts for six mandatory independent formal roles.",
+    "The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.",
+    "Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.",
+    "Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.",
+    "Direct-adoption leakage and integration risk predicates accept arbitrary LOW-prefixed strings; this is non-blocking for the two currently rejected targets but must be closed before any future positive adoption decision.",
+    "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-08-31T12:01:25+08:00",
+  "updated_at": "2026-09-01T14:30:11+08:00",
   "updated_by": "main-agent"
 }

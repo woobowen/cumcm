@@ -1,0 +1,41 @@
+{
+  "case_id": "CASE-005",
+  "changes": [
+    {
+      "change_id": "CHANGE-INPUT",
+      "changed": "input",
+      "expected_stale": [
+        "audit",
+        "model",
+        "run-1",
+        "final-run-1",
+        "result-table",
+        "evidence-package"
+      ],
+      "restart": "data audit"
+    },
+    {
+      "change_id": "CHANGE-CONFIG",
+      "changed": "config",
+      "expected_stale": [
+        "run-1",
+        "final-run-1",
+        "result-table",
+        "evidence-package"
+      ],
+      "restart": "run execution"
+    },
+    {
+      "change_id": "CHANGE-FINAL",
+      "changed": "final-run-1",
+      "expected_stale": [
+        "result-table",
+        "evidence-package"
+      ],
+      "restart": "downstream result generation"
+    }
+  ],
+  "history_policy": "append/supersede; never overwrite",
+  "manual_report_edit_clears_stale": false,
+  "paper_guard": "block stale evidence package"
+}

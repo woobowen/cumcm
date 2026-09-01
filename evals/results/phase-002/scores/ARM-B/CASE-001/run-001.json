@@ -1,0 +1,168 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "case_id": "CASE-001",
+  "confidence": "HIGH",
+  "deterministic_score": 38.0,
+  "dimensions": {
+    "CAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "DEPENDENCY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched requirements"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "GATE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched human_gates"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "REAL-CREW": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched reality_constraints"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "REAL-RAIN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched reality_constraints"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "REQ-SUBTASKS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in requirements"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REQ-UNIT-SUMMARY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched requirements"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "formalization准确联结公斤分配、整数行程、总工时和需求上限。"
+      ],
+      "missing": [
+        "包装不可分性及部分装载规则没有本地证据。"
+      ],
+      "score": 9,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "baseline和tests_verified支持3次North、2次South、7.5小时的精确分配。"
+      ],
+      "missing": [
+        "候选优化模型未实际求解比较。"
+      ],
+      "score": 7,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "robustness_tests覆盖需求增加、少一次行程及工时下降。"
+      ],
+      "missing": [
+        "没有概率化不确定性或实测排班结果。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "区分verified claim与inference；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "没有哈希台账或可恢复工件。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "UNIT-CONVERT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in requirements"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "REQ-UNIT-SUMMARY",
+    "REAL-CREW",
+    "REAL-RAIN",
+    "DEPENDENCY",
+    "GATE",
+    "reviewer:A:formalization准确联结公斤分配、整数行程、总工时和需求上限。",
+    "reviewer:B:baseline和tests_verified支持3次North、2次South、7.5小时的精确分配。",
+    "reviewer:C:robustness_tests覆盖需求增加、少一次行程及工时下降。",
+    "reviewer:D:区分verified claim与inference；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "7b13c4c1dfe3c95dbe79dc76d6ac172060433c0450597c021106905b5f8db191",
+  "missing": [
+    "REQ-SUBTASKS",
+    "UNIT-CONVERT",
+    "CAUSAL",
+    "包装不可分性及部分装载规则没有本地证据。",
+    "候选优化模型未实际求解比较。",
+    "没有概率化不确定性或实测排班结果。",
+    "没有哈希台账或可恢复工件。"
+  ],
+  "reviewer_score": 26.0,
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-B-CASE-001-RUN-001",
+  "status": "SCORED",
+  "total_score": 64.0
+}

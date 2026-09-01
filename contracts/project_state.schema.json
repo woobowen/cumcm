@@ -1,23 +1,111 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cumcm.local/contracts/project_state/v1",
+  "$id": "https://cumcm.local/contracts/project_state/v2",
   "title": "Project State",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "object",
-  "required": ["project_id", "schema_version", "phase", "status", "current_plan", "active_skill_version", "current_branch", "last_verified_commit", "blockers", "risks", "updated_at", "updated_by"],
+  "required": [
+    "project_id",
+    "schema_version",
+    "phase",
+    "status",
+    "current_plan",
+    "active_skill_version",
+    "current_branch",
+    "technical_adjudication_status",
+    "automated_decision_ids",
+    "selected_architecture",
+    "accepted_component_specifications",
+    "next_phase_allowed",
+    "content_verified_commit",
+    "verification_manifest",
+    "delivery_receipt_for_commit",
+    "team_compliance_review_status",
+    "blockers",
+    "risks",
+    "base_selected",
+    "third_party_integrated",
+    "skill_capability_status",
+    "updated_at",
+    "updated_by"
+  ],
   "properties": {
     "project_id": {"type": "string", "minLength": 1},
-    "schema_version": {"const": "1.0.0"},
+    "schema_version": {"const": "2.0.0"},
     "phase": {"type": "string", "minLength": 1},
     "status": {"enum": ["IN_PROGRESS", "FOUNDATION_READY", "FOUNDATION_INCOMPLETE", "STALE"]},
     "current_plan": {"type": "string", "minLength": 1},
     "active_skill_version": {"type": "string", "minLength": 1},
     "current_branch": {"type": "string", "minLength": 1},
-    "last_verified_commit": {"type": ["string", "null"]},
+    "technical_adjudication_status": {
+      "enum": [
+        "AUTOMATED_ADJUDICATION_PENDING",
+        "AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS",
+        "AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS",
+        "AUTOMATED_ADJUDICATION_INCOMPLETE",
+        "AUTOMATED_ADJUDICATION_COMPLETE",
+        "AUTOMATED_ACCEPTED",
+        "AUTOMATED_REJECTED",
+        "RETEST_REQUIRED",
+        "EVIDENCE_INSUFFICIENT",
+        "AUTOMATED_ABSTAINED",
+        "STALE"
+      ]
+    },
+    "automated_decision_ids": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "selected_architecture": {"type": ["string", "null"]},
+    "accepted_component_specifications": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "next_phase_allowed": {"type": ["string", "null"]},
+    "content_verified_commit": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "verification_manifest": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["path", "sha256", "subject_commit"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "subject_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "delivery_receipt_for_commit": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["commit", "remote", "remote_sha", "verified_at"],
+          "properties": {
+            "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "remote": {"type": "string", "minLength": 1},
+            "remote_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "verified_at": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "team_compliance_review_status": {
+      "enum": ["NOT_RUN", "RECORDED", "CHALLENGED", "CLOSED"]
+    },
     "blockers": {"type": "array", "items": {"type": "string"}},
     "risks": {"type": "array", "items": {"type": "string"}},
     "base_selected": {"type": "boolean"},
-    "third_party_integrated": {"type": "boolean"},
+    "third_party_integrated": {"const": false},
     "skill_capability_status": {"const": "SCAFFOLD_ONLY"},
     "updated_at": {"type": "string", "minLength": 1},
     "updated_by": {"type": "string", "minLength": 1}

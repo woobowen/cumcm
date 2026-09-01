@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-B",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-006",
+  "citations": [
+    "reviewer:A:准确识别权威来源、方法条件、共享漂移和缺少可比研究。",
+    "reviewer:B:完成四项claim mapping和retain/modify/remove建议。",
+    "reviewer:C:对自动有效、县域因果和always wins分别检查反证。",
+    "reviewer:D:来源和claims可追溯；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "confidence": "HIGH",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "准确识别权威来源、方法条件、共享漂移和缺少可比研究。"
+      ],
+      "missing": [
+        "support/conflict判定规则形式化较粗。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "完成四项claim mapping和retain/modify/remove建议。"
+      ],
+      "missing": [
+        "baseline.result为null，且无可执行映射或实验。"
+      ],
+      "score": 5
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "对自动有效、县域因果和always wins分别检查反证。"
+      ],
+      "missing": [
+        "无结构化一致性或顺序敏感性测试。"
+      ],
+      "score": 4
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "来源和claims可追溯；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "未记录输入哈希或持久化claim-map。"
+      ],
+      "score": 5
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "结论保守可追溯，但自动验证和适配规则深度有限。",
+  "review_id": "REVIEW-ARM-B-CASE-006-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 23.0,
+  "status": "REVIEWED"
+}

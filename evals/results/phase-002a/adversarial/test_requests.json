@@ -1,0 +1,510 @@
+{
+  "content_hash": "65aebe5474e585c9aabe152302969bf8504eba223ce6af87df5648b85a06a885",
+  "requests": [
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:coverage_gaming",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-001",
+      "inputs": [
+        "review:scoring:1"
+      ],
+      "oracle": "Deterministically falsify or confirm: Keyword and negation salad can receive high legacy coverage without correctness.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "coverage_gaming",
+      "test_id": "TEST-ADV-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:hard_gate_lexicographic",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-002",
+      "inputs": [
+        "review:scoring:2"
+      ],
+      "oracle": "Deterministically falsify or confirm: Legacy hard-failure coverage is incomplete and hard-failed cells can aggregate.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "hard_gate_lexicographic",
+      "test_id": "TEST-ADV-002",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:identity_tuple",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-003",
+      "inputs": [
+        "review:scoring:3"
+      ],
+      "oracle": "Deterministically falsify or confirm: Observation, run, rubric, and review identity tuples require binding.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "identity_tuple",
+      "test_id": "TEST-ADV-003",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:blind_identity",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-004",
+      "inputs": [
+        "review:scoring:4"
+      ],
+      "oracle": "Deterministically falsify or confirm: Blind scans must reject aliases and candidate metadata, not only full IDs.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "blind_identity",
+      "test_id": "TEST-ADV-004",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:freeze_anchor",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-005",
+      "inputs": [
+        "review:recovery:5"
+      ],
+      "oracle": "Deterministically falsify or confirm: Raw outputs and recovered observations require a pre-adjudication hash anchor.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "freeze_anchor",
+      "test_id": "TEST-ADV-005",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:recovery_links",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-006",
+      "inputs": [
+        "review:recovery:6"
+      ],
+      "oracle": "Deterministically falsify or confirm: Recovery validity requires hashes and source links rather than file presence.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "recovery_links",
+      "test_id": "TEST-ADV-006",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:balanced_subset",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-007",
+      "inputs": [
+        "review:recovery:7"
+      ],
+      "oracle": "Deterministically falsify or confirm: Only two balanced non-recovery cases and one repeat are available.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "balanced_subset",
+      "test_id": "TEST-ADV-007",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:freeze_membership",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-008",
+      "inputs": [
+        "review:report:8"
+      ],
+      "oracle": "Deterministically falsify or confirm: Report loading must verify frozen membership and hashes.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "freeze_membership",
+      "test_id": "TEST-ADV-008",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:dynamic_reporting",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-009",
+      "inputs": [
+        "review:report:9"
+      ],
+      "oracle": "Deterministically falsify or confirm: Legacy proposal generation hardcodes recommendation and scores.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "dynamic_reporting",
+      "test_id": "TEST-ADV-009",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:not_run_semantics",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-010",
+      "inputs": [
+        "review:report:10"
+      ],
+      "oracle": "Deterministically falsify or confirm: NOT_RUN must remain missing rather than numeric zero.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "not_run_semantics",
+      "test_id": "TEST-ADV-010",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:component_evidence_refs",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-011",
+      "inputs": [
+        "review:report:11"
+      ],
+      "oracle": "Deterministically falsify or confirm: Component decisions need structured evidence references.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "component_evidence_refs",
+      "test_id": "TEST-ADV-011",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:gap_generation",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-012",
+      "inputs": [
+        "review:report:12"
+      ],
+      "oracle": "Deterministically falsify or confirm: Current gap views require generated-input checks.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "gap_generation",
+      "test_id": "TEST-ADV-012",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:network_claim",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-013",
+      "inputs": [
+        "review:sandbox:13"
+      ],
+      "oracle": "Deterministically falsify or confirm: Trace-audited policy is not OS-level network denial.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "network_claim",
+      "test_id": "TEST-ADV-013",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:environment_sanitization",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-014",
+      "inputs": [
+        "review:sandbox:14"
+      ],
+      "oracle": "Deterministically falsify or confirm: Host environment and Git configuration can leak into isolated workspaces.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "environment_sanitization",
+      "test_id": "TEST-ADV-014",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:trace_redaction",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-015",
+      "inputs": [
+        "review:sandbox:15"
+      ],
+      "oracle": "Deterministically falsify or confirm: Tracked command summaries can leak sensitive argument text.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "trace_redaction",
+      "test_id": "TEST-ADV-015",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:process_tree",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-016",
+      "inputs": [
+        "review:sandbox:16"
+      ],
+      "oracle": "Deterministically falsify or confirm: Timeout handling lacks independently verified process-tree containment.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "NON_TESTABLE_CLAIM",
+      "target": "process_tree",
+      "test_id": "TEST-ADV-016",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:state_vocabulary",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-017",
+      "inputs": [
+        "review:state:17"
+      ],
+      "oracle": "Deterministically falsify or confirm: Workflow, rule, and state schema vocabularies conflict.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "state_vocabulary",
+      "test_id": "TEST-ADV-017",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:verification_semantics",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-018",
+      "inputs": [
+        "review:state:18"
+      ],
+      "oracle": "Deterministically falsify or confirm: last_verified_commit is ambiguous and can become self-referential.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "verification_semantics",
+      "test_id": "TEST-ADV-018",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:stale_propagation",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-019",
+      "inputs": [
+        "review:state:19"
+      ],
+      "oracle": "Deterministically falsify or confirm: Dependency STALE propagation is not machine-enforced for all formal artifacts.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "stale_propagation",
+      "test_id": "TEST-ADV-019",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:single_truth",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-020",
+      "inputs": [
+        "review:state:20"
+      ],
+      "oracle": "Deterministically falsify or confirm: Acceptance facts are duplicated across normative and derived files.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "single_truth",
+      "test_id": "TEST-ADV-020",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:architecture_benefit",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-021",
+      "inputs": [
+        "review:dissent:21"
+      ],
+      "oracle": "Deterministically falsify or confirm: Clean-room architecture benefit is not measured against the simpler scaffold baseline.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "NON_TESTABLE_CLAIM",
+      "target": "architecture_benefit",
+      "test_id": "TEST-ADV-021",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:portfolio_complexity",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-022",
+      "inputs": [
+        "review:dissent:22"
+      ],
+      "oracle": "Deterministically falsify or confirm: Four mechanisms may cost more than a unified evidence ledger.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "NON_TESTABLE_CLAIM",
+      "target": "portfolio_complexity",
+      "test_id": "TEST-ADV-022",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:native_fallback",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-023",
+      "inputs": [
+        "review:dissent:23"
+      ],
+      "oracle": "Deterministically falsify or confirm: The native arm is not a proven safe fallback because CASE-004 exposed leakage risk.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "PENDING",
+      "target": "native_fallback",
+      "test_id": "TEST-ADV-023",
+      "timeout": 60
+    },
+    {
+      "artifacts": [],
+      "command_or_procedure": "registered:semantic_reliability",
+      "expected_result": "Oracle returns true for compliant implementation.",
+      "fail_condition": "Registered oracle returns false, errors, or times out.",
+      "finding_id": "ADV-024",
+      "inputs": [
+        "review:dissent:24"
+      ],
+      "oracle": "Deterministically falsify or confirm: Semantic automation reliability is not established beyond mechanical gates.",
+      "pass_condition": "Registered oracle returns true and evidence is hashed.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "oracle_result",
+        "artifact_hashes"
+      ],
+      "status": "NON_TESTABLE_CLAIM",
+      "target": "semantic_reliability",
+      "test_id": "TEST-ADV-024",
+      "timeout": 60
+    }
+  ],
+  "schema_version": "1.0.0"
+}

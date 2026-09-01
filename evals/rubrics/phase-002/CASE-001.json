@@ -1,0 +1,117 @@
+{
+  "case_id": "CASE-001",
+  "checks": [
+    {
+      "field": "requirements",
+      "groups": [
+        [
+          "task 1",
+          "subtask 1"
+        ],
+        [
+          "task 2",
+          "subtask 2"
+        ],
+        [
+          "task 3",
+          "subtask 3"
+        ]
+      ],
+      "id": "REQ-SUBTASKS",
+      "points": 12
+    },
+    {
+      "field": "requirements",
+      "groups": [
+        [
+          "unit summary",
+          "one-row unit"
+        ]
+      ],
+      "id": "REQ-UNIT-SUMMARY",
+      "points": 8
+    },
+    {
+      "field": "reality_constraints",
+      "groups": [
+        [
+          "8 crew-hours",
+          "8 crew hours"
+        ]
+      ],
+      "id": "REAL-CREW",
+      "points": 10
+    },
+    {
+      "field": "reality_constraints",
+      "groups": [
+        [
+          "rainfall"
+        ],
+        [
+          "uncontrollable",
+          "not controllable",
+          "uncertain"
+        ]
+      ],
+      "id": "REAL-RAIN",
+      "points": 10
+    },
+    {
+      "field": "requirements",
+      "groups": [
+        [
+          "1200 kg",
+          "1,200 kg"
+        ]
+      ],
+      "id": "UNIT-CONVERT",
+      "points": 10
+    },
+    {
+      "field": "claims",
+      "groups": [
+        [
+          "correlation"
+        ],
+        [
+          "not caus",
+          "cannot infer caus",
+          "no causal"
+        ]
+      ],
+      "id": "CAUSAL",
+      "points": 10
+    },
+    {
+      "field": "requirements",
+      "groups": [
+        [
+          "task 2"
+        ],
+        [
+          "task 1"
+        ],
+        [
+          "depend",
+          "uses the accepted"
+        ]
+      ],
+      "id": "DEPENDENCY",
+      "points": 5
+    },
+    {
+      "field": "human_gates",
+      "groups": [
+        [
+          "interpret",
+          "requirement",
+          "dispatch"
+        ]
+      ],
+      "id": "GATE",
+      "points": 5
+    }
+  ],
+  "max_score": 70
+}

@@ -1,0 +1,135 @@
+{
+  "case_id": "CASE-005",
+  "checks": [
+    {
+      "field": "validation",
+      "groups": [
+        [
+          "input"
+        ],
+        [
+          "audit"
+        ],
+        [
+          "model"
+        ],
+        [
+          "run-1",
+          "run"
+        ],
+        [
+          "evidence-package",
+          "evidence package"
+        ]
+      ],
+      "id": "INPUT",
+      "points": 15
+    },
+    {
+      "field": "validation",
+      "groups": [
+        [
+          "config"
+        ],
+        [
+          "run"
+        ],
+        [
+          "result"
+        ],
+        [
+          "evidence"
+        ]
+      ],
+      "id": "CONFIG",
+      "points": 12
+    },
+    {
+      "field": "validation",
+      "groups": [
+        [
+          "final-run",
+          "final run"
+        ],
+        [
+          "result-table",
+          "result table"
+        ],
+        [
+          "evidence-package",
+          "evidence package"
+        ]
+      ],
+      "id": "FINAL",
+      "points": 10
+    },
+    {
+      "field": "requirements",
+      "groups": [
+        [
+          "data audit"
+        ],
+        [
+          "run execution",
+          "rerun"
+        ],
+        [
+          "downstream"
+        ]
+      ],
+      "id": "RESTART",
+      "points": 10
+    },
+    {
+      "field": "reality_constraints",
+      "groups": [
+        [
+          "report"
+        ],
+        [
+          "cannot",
+          "must not",
+          "not clear"
+        ],
+        [
+          "stale"
+        ]
+      ],
+      "id": "NOEDIT",
+      "points": 8
+    },
+    {
+      "field": "requirements",
+      "groups": [
+        [
+          "history"
+        ],
+        [
+          "append",
+          "supersede",
+          "preserve"
+        ]
+      ],
+      "id": "HISTORY",
+      "points": 7
+    },
+    {
+      "field": "human_gates",
+      "groups": [
+        [
+          "paper"
+        ],
+        [
+          "block",
+          "gate"
+        ],
+        [
+          "stale"
+        ]
+      ],
+      "id": "PAPER",
+      "points": 8
+    }
+  ],
+  "max_score": 70
+}

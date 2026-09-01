@@ -1,0 +1,47 @@
+schema_version: "1.0.0"
+config_id: CONFIG-PHASE-002C-EVIDENCE-SUFFICIENCY
+phase: PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C
+extends: adjudication/configs/phase-002b-v2.yaml
+policy: adjudication/policies/phase-002c.yaml
+input_freeze: evals/results/phase-002c/input_freeze_manifest.json
+state_subject_commit: 2c272a359a8b7197ce65bcefe2736007895dc9b6
+pre_adjudication_short_circuit:
+  enabled: true
+  conditions:
+    - balanced_case_minimum_not_met
+    - minimum_repeats_not_met
+    - frozen_evidence_invalid
+    - mandatory_hard_gate_failed
+semantic_judges_required_when:
+  - evidence_sufficiency_passed
+  - no_mandatory_hard_gate_blocks_comparison
+semantic_judges_skipped_when:
+  - evidence_sufficiency_failed
+  - direct_adoption_already_blocked_by_hard_gate
+allowed_short_circuit_decisions:
+  - EVIDENCE_INSUFFICIENT
+  - AUTOMATED_REJECTED
+  - STALE
+next_phase_routes:
+  evidence_insufficient: PHASE-EVIDENCE-EXPANSION-002D
+  automated_rejected_all: PHASE-EVIDENCE-EXPANSION-002D
+  accepted: PHASE-SKILL-INTEGRATION-003
+native_subagents:
+  first_round:
+    - evidence_sufficiency_auditor
+    - adjudication_policy_prosecutor
+    - dissent_and_cost_auditor
+    - reproducibility_auditor
+  post_decision: automated_decision_auditor
+  model: INHERIT_PARENT
+  reasoning_setting: INHERIT_PARENT
+  sandbox_mode: read-only
+  peer_output_access: NONE_FIRST_ROUND
+direct_adoption_targets:
+  HANDSOMEZR: handsomezr-mathmodel-skill
+  YUSHUI: yushui-mathmodel-skill
+component_targets:
+  - accepted-versus-done-workflow-state
+  - claim-evidence-support-gate
+  - hash-bound-reproducibility-manifest
+  - leakage-safe-model-comparison-gate

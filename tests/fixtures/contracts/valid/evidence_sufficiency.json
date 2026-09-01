@@ -1,0 +1,44 @@
+{
+  "sufficiency_id": "SUFFICIENCY-TEST",
+  "input_freeze_id": "FREEZE-TEST",
+  "input_freeze_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "policy_id": "POLICY-TEST",
+  "policy_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+  "thresholds": {"balanced_case_minimum": 4, "minimum_repeats": 2},
+  "actual": {
+    "eligible_primary_count": 12,
+    "balanced_cases": ["CASE-1", "CASE-2", "CASE-3", "CASE-4"],
+    "balanced_case_count": 4,
+    "independent_repeats": 2,
+    "cell_repeat_counts": {"CASE-1": {"ARM-A": 2, "ARM-B": 2, "ARM-C": 2}},
+    "recovery_excluded_count": 1,
+    "failed_excluded_count": 1,
+    "superseded_excluded_count": 0,
+    "not_run_excluded_count": 0
+  },
+  "required_arms": ["ARM-A", "ARM-B", "ARM-C"],
+  "task_hash_consistency": {
+    "passed": true,
+    "mismatched_cases": [],
+    "case_hashes": {"CASE-1": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]},
+    "arm_hashes": {
+      "CASE-1": {
+        "ARM-A": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+        "ARM-B": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+        "ARM-C": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+      }
+    }
+  },
+  "conditions": {
+    "balanced_case_minimum_met": true,
+    "minimum_repeats_met": true,
+    "frozen_evidence_valid": true,
+    "mandatory_hard_gates_passed": true
+  },
+  "result": "SUFFICIENT",
+  "reason_codes": ["FROZEN_MINIMA_MET"],
+  "semantic_judges_required": true,
+  "ranking_allowed": true,
+  "evidence_items_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+  "record_hash": "3333333333333333333333333333333333333333333333333333333333333333"
+}

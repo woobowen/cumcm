@@ -1,0 +1,153 @@
+{
+  "actual": {
+    "balanced_case_count": 2,
+    "balanced_cases": [
+      "CASE-001",
+      "CASE-006"
+    ],
+    "cell_repeat_counts": {
+      "CASE-001": {
+        "ARM-A": 1,
+        "ARM-B": 1,
+        "ARM-C": 1
+      },
+      "CASE-002": {
+        "ARM-A": 0,
+        "ARM-B": 1,
+        "ARM-C": 1
+      },
+      "CASE-003": {
+        "ARM-A": 1,
+        "ARM-B": 0,
+        "ARM-C": 0
+      },
+      "CASE-004": {
+        "ARM-A": 1,
+        "ARM-B": 1,
+        "ARM-C": 0
+      },
+      "CASE-005": {
+        "ARM-A": 1,
+        "ARM-B": 1,
+        "ARM-C": 0
+      },
+      "CASE-006": {
+        "ARM-A": 1,
+        "ARM-B": 1,
+        "ARM-C": 1
+      }
+    },
+    "eligible_primary_count": 13,
+    "failed_excluded_count": 7,
+    "independent_repeats": 1,
+    "not_run_excluded_count": 0,
+    "recovery_excluded_count": 5,
+    "superseded_excluded_count": 2
+  },
+  "conditions": {
+    "balanced_case_minimum_met": false,
+    "frozen_evidence_valid": true,
+    "mandatory_hard_gates_passed": true,
+    "minimum_repeats_met": false
+  },
+  "evidence_items_hash": "0e7e0a93a9ca85fa4a11265e7d562fe5cce808dfa0b98e5e81ba628e1e7942f1",
+  "input_freeze_hash": "cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9",
+  "input_freeze_id": "PHASE-002C-INPUT-FREEZE",
+  "policy_hash": "937ee1fd4d169d2e7806d83fdb8b9c7e41424d680cbb3ba8df868154ee4ec1ca",
+  "policy_id": "POLICY-PHASE-002C",
+  "ranking_allowed": false,
+  "reason_codes": [
+    "BALANCED_CASE_MINIMUM_NOT_MET",
+    "MINIMUM_REPEATS_NOT_MET"
+  ],
+  "record_hash": "0155c76ac262d0b015305a9526192ba50e4f46e60d708362442ce159dc0758be",
+  "required_arms": [
+    "ARM-A",
+    "ARM-B",
+    "ARM-C"
+  ],
+  "result": "INSUFFICIENT",
+  "semantic_judges_required": false,
+  "sufficiency_id": "EVIDENCE-SUFFICIENCY-PHASE-002C",
+  "task_hash_consistency": {
+    "arm_hashes": {
+      "CASE-001": {
+        "ARM-A": [
+          "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+        ],
+        "ARM-B": [
+          "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+        ],
+        "ARM-C": [
+          "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+        ]
+      },
+      "CASE-002": {
+        "ARM-B": [
+          "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+        ],
+        "ARM-C": [
+          "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+        ]
+      },
+      "CASE-003": {
+        "ARM-A": [
+          "1eb5293a872d12e055f29ba6f0e708b710b60295017ced28074d41e597719cb6"
+        ]
+      },
+      "CASE-004": {
+        "ARM-A": [
+          "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+        ],
+        "ARM-B": [
+          "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+        ]
+      },
+      "CASE-005": {
+        "ARM-A": [
+          "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+        ],
+        "ARM-B": [
+          "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+        ]
+      },
+      "CASE-006": {
+        "ARM-A": [
+          "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+        ],
+        "ARM-B": [
+          "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+        ],
+        "ARM-C": [
+          "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+        ]
+      }
+    },
+    "case_hashes": {
+      "CASE-001": [
+        "72ce9e44dbfa2426765d5d7703892d29a626886d9ca82a8d7ddbf78e68c3e59b"
+      ],
+      "CASE-002": [
+        "48420bcc8b6f1e229d2b7b65530f69f485c680225a5b2b54f427370ae94b2d63"
+      ],
+      "CASE-003": [
+        "1eb5293a872d12e055f29ba6f0e708b710b60295017ced28074d41e597719cb6"
+      ],
+      "CASE-004": [
+        "5f4e2945c0a40ab4f506364a1799543dfec2dee352caedccfacbd3f87d90020a"
+      ],
+      "CASE-005": [
+        "d4cc231b9fb74297e2304f31bfb33341d275e894967e8828b2fa23d9a15e9cf1"
+      ],
+      "CASE-006": [
+        "ac49c572f1e10a753a9871e5a21623f79cb744c9c63f36083034e6d9461b1325"
+      ]
+    },
+    "mismatched_cases": [],
+    "passed": true
+  },
+  "thresholds": {
+    "balanced_case_minimum": 4,
+    "minimum_repeats": 2
+  }
+}

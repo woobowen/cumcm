@@ -1,0 +1,37 @@
+mechanism_id: leakage-safe-model-comparison-gate
+source_candidate: kdense-scientific-agent-skills
+source_commit: f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f
+source_files:
+  - skills/experimental-design/SKILL.md
+  - skills/experimental-design/references/randomization_and_blocking.md
+  - skills/statistical-analysis/references/assumptions_and_diagnostics.md
+  - tests/experimental-design/test_scripts.py
+  - tests/statistical-analysis/test_scripts.py
+mechanism_summary: Enforce baseline comparison, validation-only model selection, locked final test data, and declared sensitivity and robustness checks before a model result can be accepted.
+actual_gap_addressed: In CASE-004 all three arms omitted required robustness evidence and either used the test set in selection or selected a model inconsistent with their stated validation objective; deterministic scores were only 25 to 28.
+baseline_failure: The neutral baseline selected persistence using final holdout performance, so the test set could no longer provide independent generalization evidence.
+candidate_behavior: Static review observed detailed experimental-design, randomization, diagnostics, and negative-test components, but scientific correctness and pinned runtime behavior remain unverified.
+proposed_behavior: Implement a native fail-closed experiment gate that freezes splits, forbids test access before model freeze, requires declared baselines and validation objectives, and records sensitivity, drift, randomization, failure-run, and uncertainty evidence.
+observable_metric: Zero test-set reads before freeze; selected model equals the declared validation-rule argmin or an approved tie rule; all required baseline, split, drift, robustness, randomization, and failed-run artifacts are present and hash-bound.
+measured_or_expected_benefit: Expected to prevent the test leakage observed in two arms and the validation-rule mismatch in the third while closing the six robustness checks missed by every arm in CASE-004.
+security_risk: The upstream pool has broad tool permissions, install instructions, optional network Skills, and unresolved security findings; no code, dependencies, or tool declarations may be imported.
+license_status: MIT_ROOT_WITH_PER_SKILL_METADATA_GAPS
+contamination_risk: LOW by static text search for the selected concepts, but binary and corpus review is incomplete.
+integration_conflict: Installing the 163-Skill pool would create routing, dependency, and state conflicts; the gate must be a native contract, not another Skill.
+reuse_mode: CLEAN_ROOM_REIMPLEMENT_CANDIDATE
+clean_room_requirements:
+  - Derive acceptance behavior from the CASE-004 oracle and project experiment contracts.
+  - Reimplement only deterministic gate semantics; do not copy scripts, prose, assets, or dependencies.
+  - Bind all split and selection decisions to Run IDs and immutable hashes.
+required_tests:
+  - Fail when test metrics influence selection or appear before model freeze.
+  - Fail when the selected model violates the declared validation objective.
+  - Require naive and domain baselines, temporal split, drift, robustness, randomization, failed-run retention, and uncertainty evidence.
+  - Verify deterministic tie handling and append-only correction behavior.
+maintenance_cost: HIGH
+rejected_alternatives:
+  - A checklist-only gate is rejected because it cannot detect held-out leakage.
+  - Direct component reuse is rejected until per-Skill licensing and security are resolved.
+  - Subjective agent votes are rejected as model-selection evidence.
+confidence: HIGH
+human_review_required: true

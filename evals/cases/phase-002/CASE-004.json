@@ -1,0 +1,30 @@
+{
+  "case_id": "CASE-004",
+  "grader": "DETERMINISTIC_V1",
+  "input_files": [
+    "input/timeseries.csv",
+    "input/field_notes.json"
+  ],
+  "oracle_path": "oracle.json",
+  "prompt": "This is an original synthetic evaluation case. Work only inside the current isolated repository. Do not use network, MCP, external sources, historical contest material, or parent-project files. Preserve every input unchanged. Inspect the local input files, then design a temporal train/validation/test experiment with a naive baseline, predefined metrics, leakage removal, repeated evidence, perturbation tests, randomness control, and retained failures. Return exactly one JSON object matching observation.schema.json. Distinguish claims from verified evidence; do not mark anything FINAL and do not invent commands, files, sources, tests, metrics, or human approval.",
+  "purpose": "Measure temporal validation, leakage avoidance, and robustness",
+  "required_outputs": [
+    "data_findings",
+    "baseline",
+    "experiment_design",
+    "robustness_tests",
+    "uncertainties",
+    "claims"
+  ],
+  "risk_tags": [
+    "future_leakage",
+    "target_leakage",
+    "concept_drift",
+    "missing",
+    "extreme",
+    "causal_overclaim"
+  ],
+  "schema_version": "1.0.0",
+  "seed": 20260831,
+  "title": "Temporal experiment and robustness"
+}

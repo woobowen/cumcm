@@ -1,0 +1,155 @@
+{
+  "anonymous_arm_id": "ARM-B",
+  "assumptions": [
+    "The directed edges in case/input/state_graph.json define freshness dependency flow from prerequisite to dependent artifact.",
+    "A node is STALE after a change if it is a downstream descendant of the changed node by one or more directed edges.",
+    "Nodes not equal to the changed node and not reachable downstream remain valid.",
+    "The changed node itself is changed in place rather than labeled STALE; restart begins at the named workflow stage in case/input/changes.json.",
+    "'evidence-package' is the downstream handoff artifact that must be blocked while stale."
+  ],
+  "baseline": {
+    "description": "Deterministic graph-reachability analysis of downstream freshness propagation, compared against the provided expected_stale sets.",
+    "evidence": [
+      "A local python3 reachability check reported exact matches for all three change cases.",
+      "The restart stages listed in case/input/changes.json align with the first workflow stage affected by each changed node: data audit for input, run execution for config, downstream result generation for final-run-1."
+    ],
+    "result": 3
+  },
+  "candidate_models": [
+    "Directed-graph reachability for stale-descendant propagation.",
+    "Case-by-case manual traversal of each dependency chain.",
+    "Topological workflow reasoning with restart-stage mapping."
+  ],
+  "case_id": "CASE-005",
+  "claims": [
+    "CHANGE-INPUT requires restarting at data audit; stale descendants are audit, model, run-1, final-run-1, result-table, evidence-package; valid unaffected node is config.",
+    "CHANGE-CONFIG requires restarting at run execution; stale descendants are run-1, final-run-1, result-table, evidence-package; valid unaffected nodes are input, audit, model.",
+    "CHANGE-FINAL requires restarting at downstream result generation; stale descendants are result-table, evidence-package; valid unaffected nodes are input, audit, model, config, run-1.",
+    "Stale report artifacts must not be manually repaired; they must be regenerated from the earliest restart stage for the triggering change.",
+    "History should be preserved by retaining superseded artifacts, but stale evidence-package must be gated from handoff until regenerated."
+  ],
+  "code_artifacts": [],
+  "commands_executed": [
+    "ls -la",
+    "sed -n '1,220p' TASK.json",
+    "sed -n '1,220p' runtime_metadata.json",
+    "sed -n '1,220p' ARM_INSTRUCTION.md",
+    "sed -n '1,260p' observation.schema.json",
+    "rg --files case",
+    "sed -n '1,260p' case/input/state_graph.json",
+    "sed -n '1,260p' case/input/changes.json",
+    "python3 local reachability check over case/input/state_graph.json and case/input/changes.json"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "The workflow graph has 8 nodes and 7 directed edges: input -> audit -> model -> run-1 -> final-run-1 -> result-table -> evidence-package, plus config -> run-1.",
+    "CHANGE-INPUT changes 'input'; downstream descendants are audit, model, run-1, final-run-1, result-table, evidence-package; unaffected valid node is config.",
+    "CHANGE-CONFIG changes 'config'; downstream descendants are run-1, final-run-1, result-table, evidence-package; unaffected valid nodes are input, audit, model.",
+    "CHANGE-FINAL changes 'final-run-1'; downstream descendants are result-table, evidence-package; unaffected valid nodes are input, audit, model, config, run-1.",
+    "For all three changes, the computed descendant sets exactly match expected_stale in case/input/changes.json.",
+    "Any stale result-table or evidence-package must be regenerated from the earliest restart stage rather than manually patched.",
+    "History can be preserved by retaining prior artifacts as superseded records, but stale evidence-package must not be handed off as current output."
+  ],
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "experiment_design": [
+    "Single-pass deterministic analysis of the supplied dependency graph.",
+    "For each change, traverse all downstream reachable nodes and compare the resulting stale set with the provided expectation.",
+    "Derive unaffected valid nodes as the remaining nodes other than the changed source.",
+    "Interpret restart stage from the supplied change metadata and check that it is consistent with the first affected workflow segment."
+  ],
+  "falsification_tests": [
+    "Checked whether any expected_stale entry omitted a reachable descendant; none did.",
+    "Checked whether any expected_stale entry included a node not reachable from the changed node; none did.",
+    "Checked whether config incorrectly propagated to audit or model; it did not in the supplied graph."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "Treat freshness propagation as strictly downstream along directed edges.",
+      "Do not mark any result as FINAL.",
+      "Do not invent files, commands, tests, metrics, sources, or approvals beyond what was actually observed.",
+      "Preserve prior artifacts as history rather than deleting them.",
+      "Do not manually repair stale downstream report artifacts; regenerate them from the restart stage.",
+      "Block stale downstream handoff until every stale descendant has been regenerated."
+    ],
+    "notes": [
+      "The provided graph is acyclic in the observed data.",
+      "The changed node is treated as the source of rework; descendants are the stale set requiring regeneration.",
+      "The handoff gate applies most directly to evidence-package because it is the terminal downstream artifact."
+    ],
+    "objective": "For each simulated change, identify stale descendants, unaffected valid nodes, the earliest restart stage, and the operational implications for history preservation and stale handoff control.",
+    "parameters": [
+      "Nodes: input, audit, model, config, run-1, final-run-1, result-table, evidence-package.",
+      "Edges: [input,audit], [audit,model], [model,run-1], [config,run-1], [run-1,final-run-1], [final-run-1,result-table], [result-table,evidence-package].",
+      "Changes analyzed: CHANGE-INPUT, CHANGE-CONFIG, CHANGE-FINAL."
+    ],
+    "units": [
+      "Graph relationships are categorical, not numeric.",
+      "Restart stages are workflow-stage labels.",
+      "Validation outcome is exact-match / not-exact-match against expected_stale lists."
+    ],
+    "variables": [
+      "G = directed workflow graph from state_graph.json.",
+      "change node c for each entry in changes.json.",
+      "STALE(c) = all nodes reachable from c by directed paths of length >= 1.",
+      "VALID(c) = nodes in G excluding c and excluding STALE(c).",
+      "restart(c) = earliest restart stage named for change c in changes.json."
+    ]
+  },
+  "human_gates": [
+    "Do not hand off evidence-package while it is stale or derived from any stale ancestor.",
+    "If a stale downstream artifact exists, require regeneration from the mapped restart stage rather than manual correction."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "No network or external sources were used.",
+    "No input files were modified.",
+    "Only local shell inspection and local computation were used.",
+    "The repository does not provide executable project code beyond the supplied JSON inputs, so verification is limited to graph-consistency checks against the provided expectations."
+  ],
+  "requirements": [
+    "Read TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, case/input/state_graph.json, case/input/changes.json, and observation.schema.json from the isolated repository.",
+    "Work only with local repository contents; do not use network, MCP, remotes, parent directories, credentials, or historical material.",
+    "Preserve all inputs unchanged.",
+    "Analyze each simulated change by identifying stale descendants, unaffected valid nodes, and the earliest restart stage.",
+    "Preserve history, forbid manual repair of stale report artifacts, and gate stale downstream handoff.",
+    "Return exactly one JSON object matching observation.schema.json."
+  ],
+  "robustness_tests": [
+    "Verified propagation across both linear dependencies and the branch where config and model converge at run-1.",
+    "Verified terminal-change behavior with CHANGE-FINAL, where only downstream reporting artifacts become stale.",
+    "Verified that unaffected upstream nodes remain valid when a downstream node changes."
+  ],
+  "run_index": 1,
+  "selected_model": "Directed-graph reachability for stale-descendant propagation.",
+  "self_reported_limitations": [
+    "No external schema validator or project test harness was available or used; validation was limited to local parsing and graph-reachability checks.",
+    "The observation is constrained to the supplied synthetic graph and change metadata and does not infer workflow rules beyond those inputs."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/state_graph.json",
+    "case/input/changes.json"
+  ],
+  "tests_claimed": [
+    "Exact-match verification that computed downstream descendants equal expected_stale for each listed change."
+  ],
+  "tests_verified": [
+    "Verified by local python3 reachability computation: CHANGE-INPUT matched expected_stale exactly.",
+    "Verified by local python3 reachability computation: CHANGE-CONFIG matched expected_stale exactly.",
+    "Verified by local python3 reachability computation: CHANGE-FINAL matched expected_stale exactly."
+  ],
+  "uncertainties": [
+    "The inputs do not define a richer lifecycle state model beyond dependency freshness, so 'preserve history' is interpreted operationally rather than as a concrete storage mechanism.",
+    "The inputs do not name a separate 'paper' artifact; the stale handoff gate is therefore applied to the terminal downstream package, evidence-package.",
+    "The dataset does not specify whether the changed node itself should be tagged stale or merely treated as the rework source, so this observation treats descendants as the stale set and the changed node as the restart trigger."
+  ],
+  "validation": [
+    "The graph-derived stale sets matched the provided expected_stale lists for all 3 changes.",
+    "The unaffected valid-node sets are the complements of changed node plus stale descendants within the provided node list.",
+    "The restart-stage interpretations are consistent with where each changed node enters the workflow."
+  ]
+}

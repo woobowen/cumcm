@@ -1,0 +1,168 @@
+{
+  "affected_by_run_failure": false,
+  "anonymous_arm_id": "ARM-A",
+  "case_id": "CASE-001",
+  "confidence": "HIGH",
+  "deterministic_score": 40.0,
+  "dimensions": {
+    "CAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "DEPENDENCY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched requirements"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "GATE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched human_gates"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "REAL-CREW": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in reality_constraints"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "REAL-RAIN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched reality_constraints"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "REQ-SUBTASKS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched requirements"
+      ],
+      "missing": [],
+      "score": 12.0,
+      "source": "DETERMINISTIC"
+    },
+    "REQ-UNIT-SUMMARY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched requirements"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "REVIEWER-A": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "requirements、reality_constraints和formalization完整覆盖单位换算、5次行程约束及3/2分配。"
+      ],
+      "missing": [
+        "包装粒度、部分装载和超供规则未确定。"
+      ],
+      "score": 9,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-B": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "baseline以逐项算术证明3000 kg需求可由5次行程、7.5 crew-hours精确满足。"
+      ],
+      "missing": [
+        "code_artifacts为空，未运行代码化验证或模拟。"
+      ],
+      "score": 7,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-C": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "validation与robustness_tests检查6次行程需9小时、单位变化和零容量余量。"
+      ],
+      "missing": [
+        "没有现场装载或需求扰动的量化验证。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "REVIEWER-D": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "记录输入哈希与来源；manifest为COMPLETED、schema_valid=true。"
+      ],
+      "missing": [
+        "未持久化恢复状态或handoff工件。"
+      ],
+      "score": 5,
+      "source": "REVIEWER"
+    },
+    "UNIT-CONVERT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing oracle terms in requirements"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "evidence": [
+    "REQ-SUBTASKS",
+    "REQ-UNIT-SUMMARY",
+    "REAL-RAIN",
+    "DEPENDENCY",
+    "GATE",
+    "reviewer:A:requirements、reality_constraints和formalization完整覆盖单位换算、5次行程约束及3/2分配。",
+    "reviewer:B:baseline以逐项算术证明3000 kg需求可由5次行程、7.5 crew-hours精确满足。",
+    "reviewer:C:validation与robustness_tests检查6次行程需9小时、单位变化和零容量余量。",
+    "reviewer:D:记录输入哈希与来源；manifest为COMPLETED、schema_valid=true。"
+  ],
+  "frozen_at": "2026-08-31T10:05:21.949273Z",
+  "hard_failures": [],
+  "identity_revealed": false,
+  "initial_score_hash": "99b8e5d2f53bf80d8427011c92862398af5cf5bd35d248a86bfd7b42a19f0073",
+  "missing": [
+    "REAL-CREW",
+    "UNIT-CONVERT",
+    "CAUSAL",
+    "包装粒度、部分装载和超供规则未确定。",
+    "code_artifacts为空，未运行代码化验证或模拟。",
+    "没有现场装载或需求扰动的量化验证。",
+    "未持久化恢复状态或handoff工件。"
+  ],
+  "reviewer_score": 26.0,
+  "run_index": 2,
+  "schema_version": "1.0.0",
+  "score_id": "SCORE-ARM-A-CASE-001-RUN-002",
+  "status": "SCORED",
+  "total_score": 66.0
+}

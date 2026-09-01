@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/eval-recovery/v1",
+  "title": "Append-only Evaluation Observation Recovery",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "recovery_id", "evaluation_id", "case_id", "anonymous_arm_id", "run_index", "source_run_path", "source_run_hash", "raw_output_hash", "observation_path", "observation_hash", "original_completion_status", "original_schema_valid", "recovery_status", "recovery_reasons", "recovery_implementation_commit", "recovered_at", "original_run_preserved", "affected_by_run_failure", "identity_revealed"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "recovery_id": {"type": "string", "pattern": "^RECOVERY-ARM-[ABC]-CASE-[0-9]{3}-RUN-[0-9]{3}$"},
+    "evaluation_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "pattern": "^CASE-[0-9]{3}$"},
+    "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+    "run_index": {"type": "integer", "minimum": 1},
+    "source_run_path": {"type": "string", "pattern": "^evals/results/phase-002/runs/ARM-[ABC]/CASE-[0-9]{3}/run-[0-9]{3}\\.json$"},
+    "source_run_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "raw_output_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "observation_path": {"type": "string", "pattern": "^evals/results/phase-002/observations/ARM-[ABC]/CASE-[0-9]{3}/run-[0-9]{3}\\.json$"},
+    "observation_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "original_completion_status": {"const": "FAILED"},
+    "original_schema_valid": {"const": false},
+    "recovery_status": {"const": "RECOVERED_FOR_SCORING"},
+    "recovery_reasons": {"type": "array", "items": {"enum": ["ARTIFACT_DESCRIPTION_FALSE_POSITIVE", "NEGATED_PROHIBITED_ACTION_FALSE_POSITIVE"]}, "minItems": 1, "uniqueItems": true},
+    "recovery_implementation_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "recovered_at": {"type": "string", "minLength": 1},
+    "original_run_preserved": {"const": true},
+    "affected_by_run_failure": {"const": true},
+    "identity_revealed": {"const": false}
+  },
+  "additionalProperties": false
+}

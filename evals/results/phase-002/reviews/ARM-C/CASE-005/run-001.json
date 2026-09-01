@@ -1,0 +1,67 @@
+{
+  "affected_by_run_failure": true,
+  "anonymous_arm_id": "ARM-C",
+  "candidate_metadata_visible": false,
+  "case_id": "CASE-005",
+  "citations": [
+    "reviewer:A:Desc(c)形式化、历史保留和handoff阻断清晰，三个STALE集合正确。",
+    "reviewer:B:手工baseline与可执行BFS交叉验证三个change。",
+    "reviewer:C:覆盖漏后代、过晚restart、备用路径及三种变化。",
+    "reviewer:D:保留python不可用并改用python3的执行事实。"
+  ],
+  "confidence": "LOW",
+  "deterministic_score_visible": false,
+  "dimensions": {
+    "A": {
+      "confidence": "HIGH",
+      "evidence": [
+        "Desc(c)形式化、历史保留和handoff阻断清晰，三个STALE集合正确。"
+      ],
+      "missing": [
+        "未逐情景枚举unaffected valid节点。"
+      ],
+      "score": 9
+    },
+    "B": {
+      "confidence": "HIGH",
+      "evidence": [
+        "手工baseline与可执行BFS交叉验证三个change。"
+      ],
+      "missing": [
+        "BFS仅内联执行。"
+      ],
+      "score": 7
+    },
+    "C": {
+      "confidence": "HIGH",
+      "evidence": [
+        "覆盖漏后代、过晚restart、备用路径及三种变化。"
+      ],
+      "missing": [
+        "未测试异常图结构。"
+      ],
+      "score": 5
+    },
+    "D": {
+      "confidence": "HIGH",
+      "evidence": [
+        "保留python不可用并改用python3的执行事实。"
+      ],
+      "missing": [
+        "manifest为FAILED且schema_valid=false，且无持久化结果。"
+      ],
+      "score": 2
+    }
+  },
+  "evaluation_id": "PHASE-002-FIRST-ROUND",
+  "identity_visible": false,
+  "overall_assessment": "图传播验证充分，但valid节点缺失且schema失败阻断交付。",
+  "review_id": "REVIEW-ARM-C-CASE-005-RUN-001",
+  "reviewed_at": "2026-08-31T10:05:21.746376Z",
+  "reviewer_id": "READONLY-ANON-MODELING-001",
+  "reviewer_source": "READ_ONLY_SUBAGENT",
+  "run_index": 1,
+  "schema_version": "1.0.0",
+  "score": 23.0,
+  "status": "REVIEWED"
+}
