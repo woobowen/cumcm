@@ -1,12 +1,12 @@
 {
   "project_id": "cumcm-skill-lab",
-  "schema_version": "2.0.0",
-  "phase": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C",
+  "schema_version": "2.1.0",
+  "phase": "PHASE-EVIDENCE-EXPANSION-002D",
   "status": "IN_PROGRESS",
-  "current_plan": "plans/active/PLAN-0002C-evidence-sufficiency.md",
+  "current_plan": "plans/active/PLAN-0002D-evidence-expansion.md",
   "active_skill_version": "0.1.0-foundation",
-  "current_branch": "feat/upstream-dynamic-eval",
-  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_COMPLETE",
+  "current_branch": "feat/evidence-expansion-002d",
+  "technical_adjudication_status": "EVIDENCE_EXPANSION_IN_PROGRESS",
   "automated_decision_ids": [
     "DECISION-EVIDENCE-SUFFICIENCY-002C",
     "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
@@ -15,7 +15,23 @@
   ],
   "selected_architecture": null,
   "accepted_component_specifications": [],
-  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+  "next_phase_allowed": null,
+  "evidence_expansion": {
+    "cohort_mode": null,
+    "cohort_id": null,
+    "model": null,
+    "reasoning_setting": null,
+    "transport_profile": null,
+    "target_successes": null,
+    "attempts": 0,
+    "successes": 0,
+    "failures": 0,
+    "balanced_cases": [],
+    "repeat_depth": 0,
+    "budget_remaining": null,
+    "current_batch": 0,
+    "infrastructure_status": "NOT_CHECKED"
+  },
   "content_verified_commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
   "verification_manifest": {
     "path": "evals/results/phase-002c/input_freeze_manifest.json",
@@ -47,6 +63,6 @@
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T14:30:11+08:00",
+  "updated_at": "2026-09-01T17:58:44+08:00",
   "updated_by": "main-agent"
 }

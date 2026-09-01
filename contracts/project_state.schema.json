@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cumcm.local/contracts/project_state/v2",
+  "$id": "https://cumcm.local/contracts/project_state/v2.1",
   "title": "Project State",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "object",
   "required": [
     "project_id",
@@ -31,7 +31,7 @@
   ],
   "properties": {
     "project_id": {"type": "string", "minLength": 1},
-    "schema_version": {"const": "2.0.0"},
+    "schema_version": {"const": "2.1.0"},
     "phase": {"type": "string", "minLength": 1},
     "status": {"enum": ["IN_PROGRESS", "FOUNDATION_READY", "FOUNDATION_INCOMPLETE", "STALE"]},
     "current_plan": {"type": "string", "minLength": 1},
@@ -42,6 +42,7 @@
         "AUTOMATED_ADJUDICATION_PENDING",
         "AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS",
         "AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS",
+        "EVIDENCE_EXPANSION_IN_PROGRESS",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_COMPLETE",
         "AUTOMATED_ACCEPTED",
@@ -67,6 +68,42 @@
     "content_verified_commit": {
       "type": ["string", "null"],
       "pattern": "^[0-9a-f]{40}$"
+    },
+    "evidence_expansion": {
+      "type": "object",
+      "required": [
+        "cohort_mode",
+        "cohort_id",
+        "model",
+        "reasoning_setting",
+        "transport_profile",
+        "target_successes",
+        "attempts",
+        "successes",
+        "failures",
+        "balanced_cases",
+        "repeat_depth",
+        "budget_remaining",
+        "current_batch",
+        "infrastructure_status"
+      ],
+      "properties": {
+        "cohort_mode": {"type": ["string", "null"]},
+        "cohort_id": {"type": ["string", "null"]},
+        "model": {"type": ["string", "null"]},
+        "reasoning_setting": {"type": ["string", "null"]},
+        "transport_profile": {"type": ["string", "null"]},
+        "target_successes": {"type": ["integer", "null"], "minimum": 0},
+        "attempts": {"type": "integer", "minimum": 0},
+        "successes": {"type": "integer", "minimum": 0},
+        "failures": {"type": "integer", "minimum": 0},
+        "balanced_cases": {"type": "array", "items": {"type": "string"}},
+        "repeat_depth": {"type": "integer", "minimum": 0},
+        "budget_remaining": {"type": ["object", "null"]},
+        "current_batch": {"type": "integer", "minimum": 0},
+        "infrastructure_status": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
     },
     "verification_manifest": {
       "oneOf": [
@@ -110,5 +147,11 @@
     "updated_at": {"type": "string", "minLength": 1},
     "updated_by": {"type": "string", "minLength": 1}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"}}},
+      "then": {"required": ["evidence_expansion"]}
+    }
+  ],
   "additionalProperties": false
 }
