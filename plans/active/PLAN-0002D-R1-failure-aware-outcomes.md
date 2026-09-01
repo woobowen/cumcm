@@ -235,6 +235,21 @@ reset/clean/rebase/force-push/merge. PR #3 remains OPEN/DRAFT and is updated onl
   loop 2 corrected a test expectation that had confused the 9 oracle failures with the frozen set
   of 6 `HARD-FAIL-003` attempts; the rerun passed 132 tests. Contracts now validate 50 positive
   fixtures and reject 40 negative fixtures; both historical and R1 freezes pass.
+- `2026-09-02T03:06:39+08:00`: M4 completed five independent native, read-only first-round audits.
+  Two returned `PASS`; three returned `RETEST_REQUIRED` with 10 serious findings. All 10 were
+  converted to the existing test-request/test-evidence contracts and closed by 25 passing
+  deterministic nodes. The frozen audit bundles and original verdicts remain immutable; seven
+  remediated paths are explicitly test-bound rather than silently regenerated.
+- M4 repair loop 1 found that exact cost reconciliation had used all-attempt oracle counts while
+  the frozen cost contract uses primary-eligible oracle counts. The derivation was corrected and
+  now exactly reconciles 28 attempts, 6228.480778 seconds, 5,726,854 input tokens, 272,461 output
+  tokens, four retries, eight failed completions, one infrastructure failure and 9/9 eligible
+  oracle PASS/FAIL records. Historical queue order `7,35,37,8` and two post-terminal retries remain
+  explicit deviations; terminal-first slot resolution is fail-closed.
+- `2026-09-02T03:06:39+08:00`: M5/M6 rejected generic supplemental runs. The sole censored slot is
+  harness-censored and semantic equivalence is `NOT_ESTABLISHED`; authorization, budget and actual
+  starts are all zero. Pre-audit passes, the original budget is unchanged, and every frozen
+  protocol-field mutation requires `NEW_PROTOCOL_COHORT_REQUIRED`.
 
-Next: create and remotely verify the M2 and M3 atomic commits, then prepare five isolated native
-read-only first-round audit bundles.
+Next: create and remotely verify the M4 and M5/M6 atomic commits, then generate the seven formal
+failure-aware decisions before the independent Decision Auditor is started.

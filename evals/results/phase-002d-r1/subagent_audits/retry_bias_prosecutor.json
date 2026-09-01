@@ -1,0 +1,170 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002D-R1-RETRY-BIAS-FIRST-ROUND",
+  "blockers": [
+    "RETRY-PROSECUTOR-BLOCKER-001",
+    "RETRY-PROSECUTOR-BLOCKER-002"
+  ],
+  "bundle_hash": "8abbbcf5ec213d67a5fa96e12ca25752aa82f088a0e233c31fb8f5bf0b1c1965",
+  "bundle_id": "PHASE-002D-R1-NATIVE-RETRY_BIAS_PROSECUTOR",
+  "created_at": "2026-09-01T23:12:32+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": "Mutating CASE-004-ARM-A-R2-A02 to ELIGIBLE_SUCCESS would currently select it after terminal A01.",
+      "evidence_refs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "CASE-004-ARM-A-R2",
+        "CLASSIFICATION:EXP-CASE-004-ARM-A-R2-A01"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/failure_aware/slot_matrix.py",
+        "src/cumcm_skill_lab/failure_aware/retry_bias.py",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-004-ARM-A-R2.json"
+      ],
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-001",
+      "pass_condition": "The terminal outcome remains terminal and the later success is recorded as a forbidden retry, never quality evidence.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_terminal_before_success_cannot_be_quality_selected",
+      "severity": "BLOCKER",
+      "statement": "The resolver gives any later ELIGIBLE_SUCCESS precedence over an earlier terminal classification and could erase a terminal stop.",
+      "status": "UNRESOLVED",
+      "target": "terminal-before-success precedence",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Deleting a failed attempt, selecting a later higher-scoring success or zero-imputing a terminal failure can leave hardcoded booleans favorable.",
+      "evidence_refs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/failure_aware/retry_bias.py",
+        "src/cumcm_skill_lab/failure_aware/slot_matrix.py",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json"
+      ],
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-002",
+      "pass_condition": "Independent derivations reject every deletion, best-of-N, erasure and zero-imputation mutation.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_retry_control_mutations_fail_closed",
+      "severity": "BLOCKER",
+      "statement": "best_of_n_prohibited, later_success_erases_failure and failure_zero_imputation are asserted as constants rather than derived controls.",
+      "status": "UNRESOLVED",
+      "target": "mutation-resistant retry controls",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A deletion-and-replacement preserving cost.attempts=28 evades the current check.",
+      "evidence_refs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "EXP-CASE-001-ARM-A-R2-A02"
+      ],
+      "file_references": [
+        "src/cumcm_skill_lab/failure_aware/retry_bias.py",
+        "evals/results/phase-002d/cost/cost.json",
+        "evals/results/phase-002d/attempt_ledger.json"
+      ],
+      "finding_id": "RETRY-PROSECUTOR-ERROR-003",
+      "pass_condition": "Exact ledger IDs and all observable aggregate cost fields must reconcile.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_exact_cost_reconciliation_rejects_count_preserving_mutation",
+      "severity": "ERROR",
+      "statement": "all_attempts_in_cost compares scalar count only and does not reconcile IDs, tokens, duration or failure membership.",
+      "status": "UNRESOLVED",
+      "target": "exact cost reconciliation",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Treating 6197 as a hard consumption cap would make the last attempt a violation.",
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "EXP-CASE-001-ARM-A-R2-A03"
+      ],
+      "file_references": [
+        "evals/results/phase-002d/budget/frozen_budget.json",
+        "evals/results/phase-002d/cost/cost.json",
+        "evals/results/phase-002d/attempts/EXP-CASE-001-ARM-A-R2-A03.json"
+      ],
+      "finding_id": "RETRY-PROSECUTOR-WARNING-004",
+      "pass_condition": "A below-cap admitted attempt may finish, but no subsequent start occurs at or above the cap.",
+      "required_test": "tests/unit/test_phase002d_r1_protocol.py::test_elapsed_cap_is_checked_before_start",
+      "severity": "WARNING",
+      "statement": "The last admitted attempt crossed 6197 seconds; the audit needs an explicit in-flight completion versus start-admission rule.",
+      "status": "UNRESOLVED",
+      "target": "elapsed-cap semantics",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "CASE-004-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/slot_outcomes/slot_outcome_matrix.json",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json"
+      ],
+      "finding_id": "RETRY-PROSECUTOR-INFO-005",
+      "pass_condition": "Every selected ID is the first allowed ELIGIBLE_SUCCESS.",
+      "required_test": "tests/unit/test_phase002d_r1_slot_matrix.py::test_earliest_eligible_is_the_only_quality_selection",
+      "severity": "INFO",
+      "statement": "All nine selected quality records are their slot's first eligible success; no observed retry produces an oracle-PASS success.",
+      "status": "RESOLVED",
+      "target": "current earliest eligible selection",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/slot_outcomes/slot_outcome_matrix.json",
+        "evals/results/phase-002d/cost/cost.json",
+        "evals/results/phase-002d/budget/frozen_budget.json"
+      ],
+      "finding_id": "RETRY-PROSECUTOR-INFO-006",
+      "pass_condition": "Exact IDs, aggregates, caps and immutable budget hashes reconcile.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_retry_audit_preserves_failure_and_budget_semantics",
+      "severity": "INFO",
+      "statement": "The current corpus reconciles 28 attempts, 5726854 input tokens, 272461 output tokens and 6228.480778 seconds; the maximum cell count is three.",
+      "status": "RESOLVED",
+      "target": "current cost and cap accounting",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-FAILURE-ATTRIBUTION-001",
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json"
+      ],
+      "finding_id": "RETRY-PROSECUTOR-INFO-007",
+      "pass_condition": "No failed or censored attempt becomes a zero score or selected quality record.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_failures_are_never_imputed_as_zero_scores",
+      "severity": "INFO",
+      "statement": "Failures are categorical, excluded from quality and retained in reliability; no numeric zero replacement appears in current R1 artifacts.",
+      "status": "RESOLVED",
+      "target": "current failure categorical treatment",
+      "testability": "TESTABLE"
+    }
+  ],
+  "identity_blind": true,
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_NATIVE_SUBAGENT",
+  "nested_codex_used": false,
+  "output_hash": "7bc3102c348462029896bd99f364ddf43ba2b242351273f12aa6f65ee3e3f0d5",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "retry_bias_prosecutor",
+  "round": "FIRST_ROUND",
+  "verdict": "RETEST_REQUIRED",
+  "web_used": false,
+  "writes_observed": false
+}

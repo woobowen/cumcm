@@ -1,0 +1,129 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002D-R1-EXPERIMENT-PROTOCOL-FIRST-ROUND",
+  "blockers": [
+    "EXPERIMENT-PROTOCOL-001",
+    "EXPERIMENT-PROTOCOL-002",
+    "EXPERIMENT-PROTOCOL-004",
+    "EXPERIMENT-PROTOCOL-005"
+  ],
+  "bundle_hash": "4ff78d1b8a1734409f925cdea0a515ffae14861050e1b48fe44d955aff234776",
+  "bundle_id": "PHASE-002D-R1-NATIVE-EXPERIMENT_PROTOCOL_AUDITOR",
+  "created_at": "2026-09-01T23:12:32+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": "Frozen positions 7, 8, 35, 37 execute as 7, 35, 37, 8; CASE-004-A-R2 and CASE-006-A-R1 retry after terminal predecessors.",
+      "evidence_refs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "EXP-CASE-004-ARM-A-R2-A02",
+        "EXP-CASE-006-ARM-A-R1-A02"
+      ],
+      "file_references": [
+        "evals/results/phase-002d/schedule/schedule.json",
+        "evals/results/phase-002d/attempt_ledger.json",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json"
+      ],
+      "finding_id": "EXPERIMENT-PROTOCOL-001",
+      "pass_condition": "The exact traversal and both post-terminal retries are detected, retained in cost/reliability and excluded from clean conformance claims.",
+      "required_test": "tests/unit/test_phase002d_r1_protocol.py::test_historical_retry_protocol_deviations_are_explicit",
+      "severity": "BLOCKER",
+      "statement": "Executed retry_queue positions are non-monotonic and two retries follow predecessors R1 classifies terminal; both deviations need explicit retention.",
+      "status": "UNRESOLVED",
+      "target": "historical retry protocol",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "An unexposed Phase 002B or Phase 002D file could mutate without direct bundle inspection.",
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/input_freeze_manifest.json",
+        "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md"
+      ],
+      "finding_id": "EXPERIMENT-PROTOCOL-002",
+      "pass_condition": "All five historical roots and all Phase 002D file hashes exactly replay with no missing or unexpected member.",
+      "required_test": "tests/unit/test_phase002d_r1_protocol.py::test_all_historical_tree_hashes_replay",
+      "severity": "BLOCKER",
+      "statement": "The identity-blind bundle cannot expose every historical member, so a separately registered full freeze replay receipt is required.",
+      "status": "UNRESOLVED",
+      "target": "historical immutability receipt",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Authorizing from the one infrastructure attempt would ignore slot-level harness censoring.",
+      "evidence_refs": [
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/slot_outcomes/slot_outcome_matrix.json",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-001-ARM-A-R2.json"
+      ],
+      "finding_id": "EXPERIMENT-PROTOCOL-003",
+      "pass_condition": "Current allowlist is empty; only infrastructure or equivalence-passing harness slots can be eligible.",
+      "required_test": "tests/unit/test_phase002d_r1_supplemental.py::test_current_matrix_authorizes_zero_slots",
+      "severity": "INFO",
+      "statement": "No slot is currently eligible: the sole censored slot is harness-censored without semantic-equivalence PASS.",
+      "status": "OPEN",
+      "target": "supplemental eligibility",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A transport-profile mutation could otherwise retain the original cohort ID.",
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "EXP-CASE-001-ARM-A-R1-A01"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/input_freeze_manifest.json",
+        "evals/results/phase-002d/budget/frozen_budget.json",
+        "evals/results/phase-002d/schedule/schedule.json"
+      ],
+      "finding_id": "EXPERIMENT-PROTOCOL-004",
+      "pass_condition": "Every frozen-protocol mutation produces NEW_PROTOCOL_COHORT_REQUIRED and zero pooled starts.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_protocol_mutations_require_new_cohort",
+      "severity": "BLOCKER",
+      "statement": "One-field mutations to prompt, schema, fixture, scorer, oracle, model, reasoning or transport need executable NEW_PROTOCOL_COHORT_REQUIRED evidence.",
+      "status": "UNRESOLVED",
+      "target": "new protocol cohort boundary",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A launcher could start before prerequisites while leaving the original attempt ledger unchanged.",
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md",
+        "evals/results/phase-002d-r1/input_freeze_manifest.json",
+        "rules/phase002d_r1_workflow_rules.yaml"
+      ],
+      "finding_id": "EXPERIMENT-PROTOCOL-005",
+      "pass_condition": "Every missing prerequisite yields zero starts and the current state has a hash-bound zero-start receipt.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_every_missing_precondition_yields_zero_starts",
+      "severity": "BLOCKER",
+      "statement": "No authorization, pre-audit, supplemental budget or allowlist exists yet; launcher enforcement and a zero-start receipt are required.",
+      "status": "UNRESOLVED",
+      "target": "real-start precondition Gate",
+      "testability": "TESTABLE"
+    }
+  ],
+  "identity_blind": true,
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_NATIVE_SUBAGENT",
+  "nested_codex_used": false,
+  "output_hash": "eaab071562bce4f8531daac7a19082fcfdc0b19a2066674af123b82e065ef528",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "experiment_protocol_auditor",
+  "round": "FIRST_ROUND",
+  "verdict": "RETEST_REQUIRED",
+  "web_used": false,
+  "writes_observed": false
+}

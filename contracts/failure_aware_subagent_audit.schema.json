@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/failure-aware-subagent-audit/v1",
+  "title": "Phase 002D-R1 Native Subagent Audit",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "audit_id", "role", "round", "independent", "read_only", "identity_blind",
+    "peer_output_access", "expected_conclusion_visible", "model", "reasoning_setting",
+    "bundle_id", "bundle_hash", "verdict", "findings", "blockers", "writes_observed",
+    "nested_codex_used", "web_used", "mcp_used", "majority_vote_used", "api_key_used",
+    "created_at", "output_hash"
+  ],
+  "properties": {
+    "audit_id": {"type": "string", "pattern": "^AUDIT-PHASE-002D-R1-"},
+    "role": {
+      "enum": [
+        "failure_attribution_auditor", "retry_bias_prosecutor",
+        "evidence_scope_statistician", "experiment_protocol_auditor",
+        "cost_and_stop_auditor", "failure_aware_decision_auditor"
+      ]
+    },
+    "round": {"enum": ["FIRST_ROUND", "POST_DECISION"]},
+    "independent": {"const": true},
+    "read_only": {"const": true},
+    "identity_blind": {"const": true},
+    "peer_output_access": {"enum": ["NONE", "FROZEN_PREDECESSORS_ONLY"]},
+    "expected_conclusion_visible": {"const": false},
+    "model": {"type": "string", "minLength": 1},
+    "reasoning_setting": {"type": "string", "minLength": 1},
+    "bundle_id": {"type": "string", "minLength": 1},
+    "bundle_hash": {"$ref": "#/$defs/hash"},
+    "verdict": {"enum": ["PASS", "FAIL", "RETEST_REQUIRED", "ABSTAIN"]},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "finding_id", "severity", "target", "statement", "counterexample",
+          "evidence_refs", "file_references", "testability", "required_test",
+          "pass_condition", "status"
+        ],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["BLOCKER", "ERROR", "WARNING", "INFO"]},
+          "target": {"type": "string", "minLength": 1},
+          "statement": {"type": "string", "minLength": 1},
+          "counterexample": {"type": ["string", "null"]},
+          "evidence_refs": {
+            "type": "array", "minItems": 1, "items": {"type": "string"},
+            "uniqueItems": true
+          },
+          "file_references": {
+            "type": "array", "minItems": 1, "items": {"type": "string"},
+            "uniqueItems": true
+          },
+          "testability": {"enum": ["TESTABLE", "NON_TESTABLE_CLAIM"]},
+          "required_test": {"type": ["string", "null"]},
+          "pass_condition": {"type": ["string", "null"]},
+          "status": {"enum": ["OPEN", "RESOLVED", "UNRESOLVED"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "blockers": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "cost_assessment": {
+      "type": ["object", "null"],
+      "properties": {
+        "benefit_metrics": {"type": "array", "items": {"type": "string"}},
+        "token_cost": {"type": "string"},
+        "time_cost": {"type": "string"},
+        "maintenance_cost": {"type": "string"},
+        "stop_conditions": {"type": "array", "items": {"type": "string"}},
+        "simplest_alternative": {"type": "string"}
+      },
+      "required": [
+        "benefit_metrics", "token_cost", "time_cost", "maintenance_cost",
+        "stop_conditions", "simplest_alternative"
+      ],
+      "additionalProperties": false
+    },
+    "writes_observed": {"const": false},
+    "nested_codex_used": {"const": false},
+    "web_used": {"const": false},
+    "mcp_used": {"const": false},
+    "majority_vote_used": {"const": false},
+    "api_key_used": {"const": false},
+    "created_at": {"type": "string", "format": "date-time"},
+    "output_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

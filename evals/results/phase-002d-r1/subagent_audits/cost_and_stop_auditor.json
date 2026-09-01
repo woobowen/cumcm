@@ -1,0 +1,187 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002D-R1-COST-STOP-FIRST-ROUND",
+  "blockers": [],
+  "bundle_hash": "526592af7c44b7b1518682d90c55453525947c59a648c3b62504088f7a0675ed",
+  "bundle_id": "PHASE-002D-R1-NATIVE-COST_AND_STOP_AUDITOR",
+  "cost_assessment": {
+    "benefit_metrics": [
+      "9/28 quality-success slots per attempt",
+      "18/28 primary-eligible slots per attempt",
+      "23/28 resolved slots per attempt",
+      "at most one additional resolved slot",
+      "no path from the sole censored slot to four balanced quality cases"
+    ],
+    "maintenance_cost": "Original expansion reports 1545 lines, 12 files, 763511 evidence bytes and 213 evidence files; incremental engineering costs are UNKNOWN.",
+    "simplest_alternative": "Run only the offline harness semantic-equivalence test and otherwise record zero supplemental starts.",
+    "stop_conditions": [
+      "zero starts without all prerequisites",
+      "first resolved outcome",
+      "two starts per slot",
+      "four starts globally",
+      "frozen elapsed or input cap",
+      "infrastructure recurrence",
+      "protocol/hash drift",
+      "any hard Gate"
+    ],
+    "time_cost": "Known: 6228.480778 seconds; future supplemental elapsed cost is uninstantiated.",
+    "token_cost": "Known: 5726854 input and 272461 output tokens; cached, reasoning and monetary totals are UNKNOWN; no supplemental cost is authorized."
+  },
+  "created_at": "2026-09-01T23:12:32+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": "Any omitted ledger attempt or changed aggregate would break the reconciliation.",
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d/attempt_ledger.json",
+        "evals/results/phase-002d/cost/cost.json",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json"
+      ],
+      "finding_id": "COST-STOP-001",
+      "pass_condition": "Every unique attempt joins once and all exact totals match.",
+      "required_test": "tests/unit/test_phase002d_r1_protocol.py::test_exact_cost_totals_reconcile",
+      "severity": "INFO",
+      "statement": "The frozen evidence reconciles 28 attempts, 4 retries, 6228.480778 seconds, 5726854 input tokens and 272461 output tokens.",
+      "status": "RESOLVED",
+      "target": "all-attempt accounting",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Any attempt with pre-start elapsed at or above the cap would violate admission.",
+      "evidence_refs": [
+        "EXP-CASE-001-ARM-A-R2-A03"
+      ],
+      "file_references": [
+        "evals/results/phase-002d/budget/frozen_budget.json",
+        "evals/results/phase-002d/cost/cost.json",
+        "evals/results/phase-002d/attempts/EXP-CASE-001-ARM-A-R2-A03.json"
+      ],
+      "finding_id": "COST-STOP-002",
+      "pass_condition": "Only the final in-flight attempt crosses and zero attempts follow it.",
+      "required_test": "tests/unit/test_phase002d_r1_protocol.py::test_elapsed_cap_is_checked_before_start",
+      "severity": "INFO",
+      "statement": "The final attempt starts below 6197 seconds, crosses the cap in flight and no later attempt starts.",
+      "status": "RESOLVED",
+      "target": "elapsed start-admission stop",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Any earlier limit or protocol drift would require an earlier stop.",
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d/budget/frozen_budget.json",
+        "evals/results/phase-002d/attempt_ledger.json",
+        "evals/results/phase-002d-r1/input_freeze_manifest.json"
+      ],
+      "finding_id": "COST-STOP-003",
+      "pass_condition": "No start occurs after any global or cell stop and every invariant remains frozen.",
+      "required_test": "tests/unit/test_phase002d_r1_protocol.py::test_original_budget_boundaries_replay",
+      "severity": "INFO",
+      "statement": "Attempt, token, infrastructure and per-cell limits were not exceeded before the final elapsed crossing; protocol hashes remain uniform.",
+      "status": "RESOLVED",
+      "target": "other original stops",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Substituting zero would fabricate a complete cost total.",
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d/cost/cost.json",
+        "evals/results/phase-002d/budget/frozen_budget.json"
+      ],
+      "finding_id": "COST-STOP-004",
+      "pass_condition": "Observed costs are exact and unobserved costs remain explicitly unknown.",
+      "required_test": "tests/unit/test_phase002d_r1_protocol.py::test_unobserved_costs_remain_unknown",
+      "severity": "INFO",
+      "statement": "Cached/reasoning tokens, monetary, CPU, queue and engineering costs remain UNKNOWN or NOT_ESTIMATED rather than zero.",
+      "status": "RESOLVED",
+      "target": "unknown costs",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Dropping a predecessor or exceeding a cap would bias cost and reliability.",
+      "evidence_refs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "CASE-001-ARM-A-R2",
+        "CASE-004-ARM-A-R2",
+        "CASE-006-ARM-A-R1"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json",
+        "evals/results/phase-002d/cost/cost.json"
+      ],
+      "finding_id": "COST-STOP-005",
+      "pass_condition": "All retries and predecessors remain costed with no quality success after retry.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_retry_audit_preserves_failure_and_budget_semantics",
+      "severity": "INFO",
+      "statement": "Four retries across three slots retain predecessor costs and stay within the original per-cell cap; no retry yields quality success.",
+      "status": "RESOLVED",
+      "target": "retry costs and caps",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Starting before equivalence and every frozen prerequisite violates the Gate.",
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-001-ARM-A-R2.json",
+        "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md"
+      ],
+      "finding_id": "COST-STOP-006",
+      "pass_condition": "Zero starts occur now; any future run is allowlisted and bounded by all stop conditions.",
+      "required_test": "tests/unit/test_phase002d_r1_supplemental.py::test_current_matrix_authorizes_zero_slots",
+      "severity": "INFO",
+      "statement": "Current supplemental start count must be zero because the sole censored slot lacks harness semantic-equivalence PASS and no frozen authorization tranche exists.",
+      "status": "RESOLVED",
+      "target": "supplemental stops",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Another eligible censored slot or permission to rerun resolved terminal negatives would change the projection.",
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-001-ARM-A-R2.json",
+        "evals/results/phase-002d/cost/cost.json"
+      ],
+      "finding_id": "COST-STOP-007",
+      "pass_condition": "Projection shows at most 24/24 outcomes but quality remains below 4 balanced cases.",
+      "required_test": "tests/unit/test_phase002d_r1_supplemental.py::test_supplemental_projection_cannot_close_quality_gate",
+      "severity": "WARNING",
+      "statement": "A legal tranche can add at most one resolved slot and cannot raise the two balanced quality cases to four; offline harness testing is the simplest next action.",
+      "status": "RESOLVED",
+      "target": "marginal value",
+      "testability": "TESTABLE"
+    }
+  ],
+  "identity_blind": true,
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_NATIVE_SUBAGENT",
+  "nested_codex_used": false,
+  "output_hash": "23ac9164f0bc51f840dac4b2f62e772c793fe037223ffccea783eb82f3b27aac",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "cost_and_stop_auditor",
+  "round": "FIRST_ROUND",
+  "verdict": "PASS",
+  "web_used": false,
+  "writes_observed": false
+}

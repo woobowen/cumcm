@@ -7,10 +7,13 @@
   "required": [
     "schema_version", "audit_id", "attempt_count", "slot_count", "retry_burden",
     "slots_with_retry", "attempt_to_first_eligible", "terminal_failure_before_success",
-    "success_after_retry", "primary_eligible_after_retry", "cell_attempt_efficiency",
+    "success_after_retry", "primary_eligible_after_retry", "retry_queue_positions",
+    "retry_queue_monotonic", "retry_after_terminal", "historical_protocol_deviations",
+    "cell_attempt_efficiency",
     "earliest_eligible_enforced", "best_of_n_prohibited", "previous_failures_retained",
     "later_success_erases_failure", "posthoc_budget_expansion", "per_cell_cap_respected",
-    "all_attempts_in_cost", "failure_zero_imputation", "findings", "audit_hash"
+    "all_attempts_in_cost", "failure_zero_imputation", "cost_reconciliation",
+    "elapsed_budget_boundary", "findings", "audit_hash"
   ],
   "properties": {
     "schema_version": {"const": "1.0.0"},
@@ -23,6 +26,28 @@
     "terminal_failure_before_success": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "success_after_retry": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "primary_eligible_after_retry": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "retry_queue_positions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["attempt_id", "ledger_position", "queue_position", "retry_of", "predecessor_classification", "allowed_after_predecessor"],
+        "properties": {
+          "attempt_id": {"type": "string", "minLength": 1},
+          "ledger_position": {"type": "integer", "minimum": 1},
+          "queue_position": {"type": "integer", "minimum": 1},
+          "retry_of": {"type": "string", "minLength": 1},
+          "predecessor_classification": {"type": "string", "minLength": 1},
+          "allowed_after_predecessor": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "retry_queue_monotonic": {"const": false},
+    "retry_after_terminal": {"type": "array", "minItems": 2, "items": {"type": "string"}, "uniqueItems": true},
+    "historical_protocol_deviations": {
+      "type": "array",
+      "const": ["RETRY_QUEUE_EXECUTION_ORDER_NON_MONOTONIC", "RETRY_STARTED_AFTER_TERMINAL_PREDECESSOR"]
+    },
     "cell_attempt_efficiency": {
       "type": "object",
       "required": ["resolved_slots_per_attempt", "quality_success_slots_per_attempt", "primary_eligible_slots_per_attempt"],
@@ -36,9 +61,40 @@
     "per_cell_cap_respected": {"const": true},
     "all_attempts_in_cost": {"const": true},
     "failure_zero_imputation": {"const": false},
+    "cost_reconciliation": {
+      "type": "object",
+      "required": ["recomputed", "recorded", "exact_match", "unknown_costs_preserved"],
+      "properties": {
+        "recomputed": {"$ref": "#/$defs/costTotals"},
+        "recorded": {"$ref": "#/$defs/costTotals"},
+        "exact_match": {"const": true},
+        "unknown_costs_preserved": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "elapsed_budget_boundary": {
+      "type": "object",
+      "required": ["semantics", "elapsed_before_last_start", "elapsed_after_last_finish", "maximum_total_elapsed_seconds", "last_start_admitted_below_cap", "stopped_after_cap_reached"],
+      "properties": {
+        "semantics": {"const": "START_ADMISSION_CHECK_THEN_STOP_AFTER_COMPLETION"},
+        "elapsed_before_last_start": {"type": "number", "minimum": 0},
+        "elapsed_after_last_finish": {"type": "number", "minimum": 0},
+        "maximum_total_elapsed_seconds": {"type": "number", "minimum": 0},
+        "last_start_admitted_below_cap": {"const": true},
+        "stopped_after_cap_reached": {"const": true}
+      },
+      "additionalProperties": false
+    },
     "findings": {"type": "array", "items": {"type": "object", "required": ["finding_id", "severity", "evidence_ids", "statement"]}},
     "audit_hash": {"$ref": "#/$defs/hash"}
   },
-  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "costTotals": {
+      "type": "object",
+      "required": ["attempts", "duration_seconds", "input_tokens", "output_tokens", "retries", "failed_attempts", "infrastructure_failures", "oracle_passes", "oracle_failures", "successful_primary_records"],
+      "additionalProperties": {"type": "number", "minimum": 0}
+    }
+  },
   "additionalProperties": false
 }

@@ -37,18 +37,19 @@ def _schedule_slots(schedule: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _resolution(classifications: list[dict[str, Any]]) -> tuple[str, str, str | None]:
     kinds = [item["primary_classification"] for item in classifications]
-    if "ELIGIBLE_SUCCESS" in kinds:
+    decisive = next(
+        (kind for kind in kinds if kind == "ELIGIBLE_SUCCESS" or kind in TERMINAL_CLASSIFICATIONS),
+        None,
+    )
+    if decisive == "ELIGIBLE_SUCCESS":
         return "RESOLVED_ELIGIBLE_SUCCESS", "ORACLE_PASS", None
-    terminals = [kind for kind in kinds if kind in TERMINAL_CLASSIFICATIONS]
-    if terminals:
-        if "VALID_OUTPUT_ORACLE_FAIL" in terminals:
-            subtype = "ORACLE_FAIL"
-        elif "TERMINAL_POLICY_FAILURE" in terminals:
-            subtype = "POLICY_FAILURE"
-        elif "TERMINAL_MODEL_SCHEMA_FAILURE" in terminals:
-            subtype = "MODEL_SCHEMA_FAILURE"
-        else:
-            subtype = "UNSUPPORTED_CLAIM_FAILURE"
+    if decisive in TERMINAL_CLASSIFICATIONS:
+        subtype = {
+            "VALID_OUTPUT_ORACLE_FAIL": "ORACLE_FAIL",
+            "TERMINAL_POLICY_FAILURE": "POLICY_FAILURE",
+            "TERMINAL_MODEL_SCHEMA_FAILURE": "MODEL_SCHEMA_FAILURE",
+            "TERMINAL_UNSUPPORTED_CLAIM_FAILURE": "UNSUPPORTED_CLAIM_FAILURE",
+        }[decisive]
         return "RESOLVED_TERMINAL_NEGATIVE", subtype, None
     if "HARNESS_CENSORED" in kinds:
         return (
@@ -86,7 +87,7 @@ def build_slot_matrix(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any],
             raise ValueError(f"SCHEDULED_SLOT_UNATTEMPTED:{planned['slot_id']}")
         attempt_values = [attempts[item] for item in attempt_ids]
         class_values = [classified[item] for item in attempt_ids]
-        success_ids = [
+        observed_success_ids = [
             item["attempt_id"]
             for item in class_values
             if item["primary_classification"] == "ELIGIBLE_SUCCESS"
@@ -107,6 +108,11 @@ def build_slot_matrix(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any],
             if item["primary_classification"] == "HARNESS_CENSORED"
         ]
         resolution, subtype, unresolved = _resolution(class_values)
+        selected_success_id = (
+            observed_success_ids[0]
+            if resolution == "RESOLVED_ELIGIBLE_SUCCESS" and observed_success_ids
+            else None
+        )
         first_completion = next(
             (
                 item["attempt_id"]
@@ -126,14 +132,14 @@ def build_slot_matrix(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any],
             "attempt_count": len(attempt_ids),
             "first_attempt_id": attempt_ids[0],
             "first_completion_id": first_completion,
-            "first_eligible_success_id": success_ids[0] if success_ids else None,
-            "selected_quality_record_id": success_ids[0] if success_ids else None,
+            "first_eligible_success_id": observed_success_ids[0] if observed_success_ids else None,
+            "selected_quality_record_id": selected_success_id,
             "terminal_failure_ids": terminal_ids,
             "infrastructure_failure_ids": infrastructure_ids,
             "harness_failure_ids": harness_ids,
             "outcome_resolution": resolution,
             "outcome_subtype": subtype,
-            "quality_eligible": bool(success_ids),
+            "quality_eligible": selected_success_id is not None,
             "reliability_eligible": True,
             "censored": resolution.startswith("CENSORED_") or resolution == "UNRESOLVED_UNKNOWN",
             "retry_count": len(attempt_ids) - 1,
@@ -175,8 +181,14 @@ def build_slot_matrix(root: Path) -> tuple[list[dict[str, Any]], dict[str, Any],
         "slots": slot_records,
         "resolution_counts": {name: counts.get(name, 0) for name in resolution_names},
         "all_attempts_accounted": accounted == sorted(ledger["attempt_ids"]),
-        "earliest_eligible_selection": True,
-        "best_of_n_prohibited": True,
+        "earliest_eligible_selection": all(
+            item["selected_quality_record_id"] in (None, item["first_eligible_success_id"])
+            for item in slot_records
+        ),
+        "best_of_n_prohibited": all(
+            item["selected_quality_record_id"] in (None, item["first_eligible_success_id"])
+            for item in slot_records
+        ),
     }
     matrix = hashed_body(body, "matrix_hash")
     return slot_records, matrix, render_slot_csv(slot_records)

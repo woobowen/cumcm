@@ -116,6 +116,14 @@ def test_failures_are_never_imputed_as_zero_scores(repo_root):
         ("posthoc_budget_expansion", False),
         ("per_cell_cap_respected", True),
         ("all_attempts_in_cost", True),
+        ("retry_queue_monotonic", False),
+        (
+            "retry_after_terminal",
+            [
+                "EXP-CASE-004-ARM-A-R2-A02",
+                "EXP-CASE-006-ARM-A-R1-A02",
+            ],
+        ),
     ],
 )
 def test_retry_audit_preserves_failure_and_budget_semantics(repo_root, field, expected):

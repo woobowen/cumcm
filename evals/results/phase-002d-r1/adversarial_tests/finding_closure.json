@@ -1,0 +1,116 @@
+{
+  "all_serious_findings_closed": true,
+  "closed_serious_finding_count": 10,
+  "closure_hash": "658077c806d2d64cabebe09d3c482cabf2f1836bd13df729a51b29d56f7dfc6b",
+  "closure_id": "PHASE-002D-R1-FIRST-ROUND-FINDING-CLOSURE-001",
+  "closures": [
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "EXPERIMENT-PROTOCOL-001",
+      "original_status": "UNRESOLVED",
+      "role": "experiment_protocol_auditor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-001",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "EXPERIMENT-PROTOCOL-002",
+      "original_status": "UNRESOLVED",
+      "role": "experiment_protocol_auditor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-002",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "EXPERIMENT-PROTOCOL-004",
+      "original_status": "UNRESOLVED",
+      "role": "experiment_protocol_auditor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-004",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "EXPERIMENT-PROTOCOL-005",
+      "original_status": "UNRESOLVED",
+      "role": "experiment_protocol_auditor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-005",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "FAILATTR-003-POLICY-CAUSE",
+      "original_status": "UNRESOLVED",
+      "role": "failure_attribution_auditor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-FAILATTR-003-POLICY-CAUSE",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "FAILATTR-004-HARD-FAIL-003",
+      "original_status": "UNRESOLVED",
+      "role": "failure_attribution_auditor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-FAILATTR-004-HARD-FAIL-003",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "FAILATTR-005-MIXED-TRANSPORT",
+      "original_status": "UNRESOLVED",
+      "role": "failure_attribution_auditor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-FAILATTR-005-MIXED-TRANSPORT",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-001",
+      "original_status": "UNRESOLVED",
+      "role": "retry_bias_prosecutor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-RETRY-PROSECUTOR-BLOCKER-001",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-002",
+      "original_status": "UNRESOLVED",
+      "role": "retry_bias_prosecutor",
+      "severity": "BLOCKER",
+      "test_id": "TEST-RETRY-PROSECUTOR-BLOCKER-002",
+      "test_status": "PASSED"
+    },
+    {
+      "disposition": "CLOSED_BY_EXECUTED_TEST",
+      "finding_id": "RETRY-PROSECUTOR-ERROR-003",
+      "original_status": "UNRESOLVED",
+      "role": "retry_bias_prosecutor",
+      "severity": "ERROR",
+      "test_id": "TEST-RETRY-PROSECUTOR-ERROR-003",
+      "test_status": "PASSED"
+    }
+  ],
+  "repair_loops": [
+    {
+      "change": "Recompute oracle PASS/FAIL only inside primary-eligible records.",
+      "failure": "EXACT_COST_RECONCILIATION_ORACLE_SCOPE_MISMATCH",
+      "hypothesis": "The frozen cost oracle counters are scoped to primary-eligible records.",
+      "loop": 1,
+      "verification": "25 serious-finding test nodes passed; exact totals reconcile."
+    },
+    {
+      "change": "Register the active plan as an explicit post-audit remediation path without regenerating the frozen bundles.",
+      "failure": "POST_AUDIT_PLAN_PROGRESS_DRIFT_NOT_REGISTERED",
+      "hypothesis": "The audit-time plan is immutable evidence, while its progress section must record later remediation.",
+      "loop": 2,
+      "verification": "Frozen bundle validation accepts only the seven registered paths."
+    }
+  ],
+  "schema_version": "1.0.0",
+  "serious_finding_count": 10
+}

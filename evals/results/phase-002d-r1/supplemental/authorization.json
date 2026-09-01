@@ -1,0 +1,203 @@
+{
+  "accepted_scope": "NONE",
+  "api_billing_used": false,
+  "api_key_used": false,
+  "authorization_hash": "9fde86b03e3aa7feae1aff323e2c07b89b0e67db1cb59183e3e38ea6f75389fc",
+  "authorized_slot_ids": [],
+  "decision": "AUTOMATED_REJECTED",
+  "decision_id": "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1",
+  "evidence_refs": [
+    "PHASE-002D-R1-INPUT-FREEZE-001",
+    "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+    "PHASE-002D-R1-HARNESS-SEMANTIC-EQUIVALENCE-001"
+  ],
+  "generic_retry_authorized": false,
+  "harness_semantic_equivalence": {
+    "attempt_ids": [
+      "EXP-CASE-001-ARM-A-R2-A01",
+      "EXP-CASE-001-ARM-A-R2-A03"
+    ],
+    "bound_file_hashes": [],
+    "claimed_namespace": ".harness/",
+    "equivalence_hash": "072a023d63829882af10afd1cf20082a27fd9f4f936f898b4d9a7e9252a9376b",
+    "equivalence_id": "PHASE-002D-R1-HARNESS-SEMANTIC-EQUIVALENCE-001",
+    "evidence_refs": [
+      "evals/results/phase-002d/attempts/EXP-CASE-001-ARM-A-R2-A01.json",
+      "evals/results/phase-002d/attempts/EXP-CASE-001-ARM-A-R2-A03.json"
+    ],
+    "reason": "CLAIMED_FILES_HAVE_NO_AUTHORITATIVE_BOUND_WORKSPACE_FILES",
+    "schema_version": "1.0.0",
+    "semantic_equivalence_pass": false,
+    "slot_id": "CASE-001-ARM-A-R2",
+    "status": "NOT_ESTABLISHED",
+    "supplemental_eligible": false
+  },
+  "human_technical_gate_used": false,
+  "input_freeze_hash": "4a03c2d840e0defff8df87a9dae68b76a3b9bbcec279e5298c971771ebe91c85",
+  "input_freeze_id": "PHASE-002D-R1-INPUT-FREEZE-001",
+  "majority_vote_used": false,
+  "maximum_real_starts": 0,
+  "maximum_starts_per_slot": 0,
+  "original_budget_mutated": false,
+  "protocol_fingerprint": {
+    "cohort_hash": "db663586c8d86c12e72da19872a34ab9cdd5070b050d8ebd4a9a56b949bc2058",
+    "fixture_hash": "9aa9f4813e8bcdea383f86d7db88825f341fe3a2cfbcc07ff26fea51ca73ba97",
+    "model": "gpt-5.6-sol",
+    "oracle_hash": "d33ba9e3172641d3c87d8a182f7208ec7e8d8d101ecb91b6e81bc4f7d7631703",
+    "package_hash": "0e83575e15d35e67e472a2a359089f591c272d739273f358433a79886113c36f",
+    "prompt_hash": "e636b3f15142a09806e1922dee450dedb4f46314e285bfd99373629ea5d8b5c4",
+    "reasoning_setting": "medium",
+    "schema_hash": "992c9399b992edf98432f815b220a105bb47d62170c1c5289156dca50b6b41b9",
+    "scorer_hash": "f45957211d64b482bf321c1a9715292b6f4f8c33eae059306ce1975422272585",
+    "transport_profile": "PROXY_INHERITED"
+  },
+  "schema_version": "1.0.0",
+  "slot_assessments": [
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-001-ARM-C-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-001-ARM-A-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-001-ARM-B-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "CENSORED_HARNESS",
+      "reason": "HARNESS_SEMANTIC_EQUIVALENCE_NOT_ESTABLISHED",
+      "slot_id": "CASE-001-ARM-A-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-001-ARM-B-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-001-ARM-C-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-002-ARM-A-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-002-ARM-C-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-002-ARM-B-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-002-ARM-C-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-002-ARM-B-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_ELIGIBLE_SUCCESS",
+      "reason": "PROHIBITED_RESOLVED_ELIGIBLE_SUCCESS",
+      "slot_id": "CASE-002-ARM-A-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-004-ARM-A-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-004-ARM-C-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-004-ARM-B-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-004-ARM-C-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-004-ARM-B-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-004-ARM-A-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-006-ARM-A-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-006-ARM-C-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-006-ARM-B-R1"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-006-ARM-A-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-006-ARM-B-R2"
+    },
+    {
+      "eligible": false,
+      "outcome_resolution": "RESOLVED_TERMINAL_NEGATIVE",
+      "reason": "PROHIBITED_RESOLVED_TERMINAL_NEGATIVE",
+      "slot_id": "CASE-006-ARM-C-R2"
+    }
+  ],
+  "slot_matrix_hash": "71189c69ffab3dc03c7173adf9808160fb86f6ce9dbe4e37f40b3de9d5f57af8",
+  "target": "SUPPLEMENTAL_GENERIC_RUNS"
+}

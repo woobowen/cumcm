@@ -80,6 +80,18 @@ def test_resolution_precedence_is_fail_closed(kinds, expected):
     assert _resolution(records)[0] == expected
 
 
+def test_terminal_predecessor_cannot_be_erased_by_later_success():
+    records = [
+        {"primary_classification": "TERMINAL_POLICY_FAILURE"},
+        {"primary_classification": "ELIGIBLE_SUCCESS"},
+    ]
+    assert _resolution(records) == (
+        "RESOLVED_TERMINAL_NEGATIVE",
+        "POLICY_FAILURE",
+        None,
+    )
+
+
 def test_slot_matrix_accounts_for_all_attempts_exactly_once(repo_root):
     records, matrix, _ = build_slot_matrix(repo_root)
     attempts = [attempt_id for item in records for attempt_id in item["all_attempt_ids"]]
