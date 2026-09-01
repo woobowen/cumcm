@@ -23,24 +23,26 @@
     "reasoning_setting": "medium",
     "transport_profile": "PROXY_INHERITED",
     "target_successes": 24,
-    "attempts": 0,
-    "successes": 0,
+    "attempts": 3,
+    "successes": 3,
     "failures": 0,
-    "balanced_cases": [],
+    "balanced_cases": [
+      "CASE-001"
+    ],
     "repeat_depth": 0,
     "budget_remaining": {
       "maximum_total_attempts": 40,
-      "remaining_attempts": 40,
+      "remaining_attempts": 37,
       "maximum_total_input_tokens": 10000000,
-      "remaining_input_tokens": 10000000,
+      "remaining_input_tokens": 9467011,
       "maximum_total_output_tokens": 334443,
-      "remaining_output_tokens": 334443,
+      "remaining_output_tokens": 306598,
       "maximum_total_elapsed_seconds": 6197,
-      "remaining_elapsed_seconds": 6197,
+      "remaining_elapsed_seconds": 5563.927961,
       "monetary_cost": "UNKNOWN"
     },
-    "current_batch": 0,
-    "infrastructure_status": "PILOT_PASS"
+    "current_batch": 1,
+    "infrastructure_status": "BATCH_001_PASS"
   },
   "content_verified_commit": "fe90c320900883b2035afaf8a7cae089b800fd71",
   "verification_manifest": {
@@ -73,6 +75,6 @@
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T18:56:09+08:00",
+  "updated_at": "2026-09-01T19:13:42+08:00",
   "updated_by": "main-agent"
 }

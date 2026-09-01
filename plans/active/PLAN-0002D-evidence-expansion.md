@@ -241,8 +241,9 @@ the Skill stays scaffold-only until a later implementation phase.
 4. **M4 schedule/runner — COMPLETE** — fixed schedule, runner, append-only attempts,
    checkpoint/status, mocks and fault injection passed without a real scored start; ADR-0026;
    business commit `fe90c32` is remotely delivered and verified.
-5. **M5 Batch 1** — one complete block is attempted in frozen order; every record is verified and
-   retained; checkpoint/cost/status/tests pass; atomic commit and push.
+5. **M5 Batch 1 — VALIDATED, DELIVERY PENDING** — one complete block was attempted in frozen order;
+   all three records are primary eligible and retained; checkpoint/cost/score-audit/status pass;
+   atomic commit is ready for push.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
    condition with exact status.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
@@ -316,9 +317,15 @@ affected hashes and acceptance changes before further scored work.
 - `2026-09-01T18:56:09+08:00`: M4 business commit
   `fe90c320900883b2035afaf8a7cae089b800fd71` was pushed normally and verified byte-for-byte at
   `origin/feat/evidence-expansion-002d`. Draft PR #3 remains OPEN/DRAFT against `main`.
+- `2026-09-01T19:13:42+08:00`: M5 Batch 1 completed the frozen CASE-001/R1 block in ARM-C,
+  ARM-A, ARM-B order. All three fresh attempts completed Schema-valid with process E2, no hard
+  failure, no recovery and primary eligibility PASS. Oracle outcomes were FAIL, PASS, FAIL in
+  schedule order and remain separate from eligibility. Total observed input/output tokens were
+  532,989/27,845 and elapsed time was 633.072039 seconds. Cost hash is `2afad1f7...`; the append-only
+  coverage-binding audit `1c24743d...` preserves one non-authoritative ARM-A coverage false positive
+  and excludes coverage hard-failure fields from formal Gates.
 
 ## 24. Current next step
 
-Run M5 Batch 1 only: `CASE-001 × repeat 1` in frozen order ARM-C, ARM-A, ARM-B, at most three fresh
-attempts. Then verify every record, checkpoint, budget and Gate, commit atomically and push before
-starting any later block.
+Commit and remotely deliver M5 Batch 1. Do not start Batch 2 until the remote SHA equals the local
+business commit and freeze/runner/score/cost checks still pass.

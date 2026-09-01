@@ -1,0 +1,258 @@
+{
+  "api_billing_used": false,
+  "api_key_used": false,
+  "attempts": 3,
+  "average_run_cost_by_arm": {
+    "ARM-A": {
+      "attempt_count": 1,
+      "average_duration_seconds": 268.726587,
+      "cached_input_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 1
+      },
+      "duration_seconds": 268.726587,
+      "input_tokens": {
+        "average_per_record": 323805.0,
+        "observed_records": 1,
+        "status": "OBSERVED",
+        "total": 323805,
+        "total_records": 1
+      },
+      "oracle_passes": 1,
+      "output_tokens": {
+        "average_per_record": 12392.0,
+        "observed_records": 1,
+        "status": "OBSERVED",
+        "total": 12392,
+        "total_records": 1
+      },
+      "primary_eligible": 1,
+      "reasoning_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 1
+      }
+    },
+    "ARM-B": {
+      "attempt_count": 1,
+      "average_duration_seconds": 214.176884,
+      "cached_input_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 1
+      },
+      "duration_seconds": 214.176884,
+      "input_tokens": {
+        "average_per_record": 98386.0,
+        "observed_records": 1,
+        "status": "OBSERVED",
+        "total": 98386,
+        "total_records": 1
+      },
+      "oracle_passes": 0,
+      "output_tokens": {
+        "average_per_record": 9570.0,
+        "observed_records": 1,
+        "status": "OBSERVED",
+        "total": 9570,
+        "total_records": 1
+      },
+      "primary_eligible": 1,
+      "reasoning_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 1
+      }
+    },
+    "ARM-C": {
+      "attempt_count": 1,
+      "average_duration_seconds": 150.168568,
+      "cached_input_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 1
+      },
+      "duration_seconds": 150.168568,
+      "input_tokens": {
+        "average_per_record": 110798.0,
+        "observed_records": 1,
+        "status": "OBSERVED",
+        "total": 110798,
+        "total_records": 1
+      },
+      "oracle_passes": 0,
+      "output_tokens": {
+        "average_per_record": 5883.0,
+        "observed_records": 1,
+        "status": "OBSERVED",
+        "total": 5883,
+        "total_records": 1
+      },
+      "primary_eligible": 1,
+      "reasoning_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 1
+      }
+    }
+  },
+  "batch_id": 1,
+  "calculated_at": "2026-09-01T11:15:46.101902Z",
+  "clean_room_architecture_engineering_cost": "UNKNOWN_NOT_IMPLEMENTED",
+  "correctness_and_hard_gates_dominate_cost": true,
+  "cost_hash": "2afad1f7b33e1637b976fe1984e1397adff801514a706127160e1d95efadc8bd",
+  "cost_id": "PHASE-002D-COST-CURRENT",
+  "duration_seconds": 633.072039,
+  "failed_attempts": 0,
+  "independent_repeat_marginal_cost": {
+    "cases": [],
+    "status": "NOT_YET_OBSERVED"
+  },
+  "infrastructure_failures": 0,
+  "maintenance_surface": {
+    "lines_of_code": 1545,
+    "paths": [
+      "src/cumcm_skill_lab/expansion/runner.py",
+      "src/cumcm_skill_lab/expansion/attempt_ledger.py",
+      "src/cumcm_skill_lab/expansion/eligibility.py",
+      "src/cumcm_skill_lab/expansion/oracle.py",
+      "src/cumcm_skill_lab/expansion/scoring.py",
+      "src/cumcm_skill_lab/expansion/schedule.py",
+      "scripts/run_phase002d_expansion.py",
+      "scripts/generate_phase002d_schedule.py",
+      "contracts/expansion_attempt.schema.json",
+      "contracts/expansion_run.schema.json",
+      "contracts/primary_eligibility.schema.json",
+      "contracts/expansion_schedule.schema.json"
+    ],
+    "tracked_file_count": 12
+  },
+  "marginal_balanced_case_costs": {
+    "CASE-001": {
+      "attempt_count": 3,
+      "average_duration_seconds": 211.024013,
+      "cached_input_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 3
+      },
+      "duration_seconds": 633.072039,
+      "input_tokens": {
+        "average_per_record": 177663.0,
+        "observed_records": 3,
+        "status": "OBSERVED",
+        "total": 532989,
+        "total_records": 3
+      },
+      "output_tokens": {
+        "average_per_record": 9281.666667,
+        "observed_records": 3,
+        "status": "OBSERVED",
+        "total": 27845,
+        "total_records": 3
+      },
+      "reasoning_tokens": {
+        "average_per_record": "UNKNOWN",
+        "observed_records": 0,
+        "status": "UNKNOWN",
+        "total": "UNKNOWN",
+        "total_records": 3
+      }
+    }
+  },
+  "monetary_cost": "UNKNOWN",
+  "operator_interventions": 0,
+  "oracle_failures": 2,
+  "oracle_passes": 1,
+  "per_successful_primary_record": {
+    "attempt_count": 3,
+    "average_duration_seconds": 211.024013,
+    "cached_input_tokens": {
+      "average_per_record": "UNKNOWN",
+      "observed_records": 0,
+      "status": "UNKNOWN",
+      "total": "UNKNOWN",
+      "total_records": 3
+    },
+    "duration_seconds": 633.072039,
+    "input_tokens": {
+      "average_per_record": 177663.0,
+      "observed_records": 3,
+      "status": "OBSERVED",
+      "total": 532989,
+      "total_records": 3
+    },
+    "output_tokens": {
+      "average_per_record": 9281.666667,
+      "observed_records": 3,
+      "status": "OBSERVED",
+      "total": 27845,
+      "total_records": 3
+    },
+    "reasoning_tokens": {
+      "average_per_record": "UNKNOWN",
+      "observed_records": 0,
+      "status": "UNKNOWN",
+      "total": "UNKNOWN",
+      "total_records": 3
+    }
+  },
+  "queue_delay_seconds": "UNKNOWN",
+  "replay_cpu_seconds": "NOT_RUN",
+  "retain_scaffold_minimum_engineering_cost": "UNKNOWN_NOT_ESTIMATED",
+  "retries": 0,
+  "runner_cpu_seconds": "UNKNOWN",
+  "schema_version": "1.0.0",
+  "storage": {
+    "tracked_evidence_bytes": 174597,
+    "tracked_evidence_file_count": 39
+  },
+  "success_rate": 1.0,
+  "successful_primary_records": 3,
+  "tokens": {
+    "cached_input_tokens": {
+      "average_per_record": "UNKNOWN",
+      "observed_records": 0,
+      "status": "UNKNOWN",
+      "total": "UNKNOWN",
+      "total_records": 3
+    },
+    "input_tokens": {
+      "average_per_record": 177663.0,
+      "observed_records": 3,
+      "status": "OBSERVED",
+      "total": 532989,
+      "total_records": 3
+    },
+    "output_tokens": {
+      "average_per_record": 9281.666667,
+      "observed_records": 3,
+      "status": "OBSERVED",
+      "total": 27845,
+      "total_records": 3
+    },
+    "reasoning_tokens": {
+      "average_per_record": "UNKNOWN",
+      "observed_records": 0,
+      "status": "UNKNOWN",
+      "total": "UNKNOWN",
+      "total_records": 3
+    }
+  },
+  "unknown_checkpoint_token_totals_not_treated_as_zero": true
+}

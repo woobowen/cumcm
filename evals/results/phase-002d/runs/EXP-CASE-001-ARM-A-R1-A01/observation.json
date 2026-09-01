@@ -1,0 +1,189 @@
+{
+  "anonymous_arm_id": "ARM-A",
+  "assumptions": [
+    "Proposed interpretation, not human-approved: 'tonne' means metric tonne, so 1 tonne = 1000 kg.",
+    "Proposed interpretation, not stated explicitly: each dispatched trip may carry up to 0.6 tonnes and trip assignments are whole nonnegative integers.",
+    "The conditional candidate treats the requests as quantities to satisfy within the 12-hour horizon; the brief does not state priority weights, partial-delivery policy, or safety stock.",
+    "No causal demand adjustment is inferred from the rainfall-attendance correlation."
+  ],
+  "baseline": {
+    "description": "Direct metric-unit conversion and whole-trip feasibility arithmetic, conditional on acceptance of the proposed interpretation.",
+    "evidence": [
+      "The local brief supplies 1800 kg North demand, 1.2 tonnes South demand, 0.6 tonnes/trip, six available trips, 1.5 crew-hours/trip, and an 8 crew-hour cap.",
+      "Executed arithmetic assertions verified 1800 + 1200 = 3000, 5 x 600 = 3000, 5 x 1.5 <= 8, and 6 x 1.5 > 8.",
+      "This is a conditional candidate, not an accepted or dispatch-authorized allocation."
+    ],
+    "result": "North 3 trips (1800 kg), South 2 trips (1200 kg); total 5 trips, 3000 kg, 7.5 crew-hours."
+  },
+  "candidate_models": [
+    "Deterministic integer linear allocation: integer trips per shelter, minimize total unmet interpreted demand subject to trip, capacity, and crew-hour limits.",
+    "Robust or stochastic allocation driven by rainfall-conditioned demand scenarios; presently unidentifiable because no causal effect, scenario probabilities, or uncertainty bounds are supplied."
+  ],
+  "case_id": "CASE-001",
+  "claims": [
+    "Verified from local evidence: the interpreted total is 3000 kg under the stated proposed conversion.",
+    "Verified arithmetically: five full trips exactly carry 3000 kg and consume 7.5 crew-hours.",
+    "Conditional analytical claim: a 3-trip North and 2-trip South allocation exactly matches interpreted shelter demands.",
+    "Workflow claim: task 2 and task 3 remain blocked because no human acceptance or dispatch approval was provided.",
+    "No claim is made that rainfall causes attendance or that the conditional allocation is authorized."
+  ],
+  "code_artifacts": [
+    "workflow/stage1_requirements.json: structured task 1 handoff with status, proposed interpretation, evidence, hashes, and human gate.",
+    "workflow/workflow_state.json: recoverable stage state with input roles, hashes, prerequisites, handoff location, history, and blocked downstream stages.",
+    "observation.json: schema-targeted observation returned for this run."
+  ],
+  "commands_executed": [
+    "ls -la",
+    "sed -n reads of TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, observation.schema.json, and case/input/problem.md",
+    "sha256sum of required inputs and created workflow artifacts",
+    "mkdir -p workflow",
+    "python -c freshness and arithmetic assertions (failed because the python executable is absent)",
+    "python3 -c freshness and arithmetic assertions (passed)",
+    "python3 -c jsonschema validation of observation.json against observation.schema.json (passed)"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "Using the proposed metric conversion, South demand is 1200 kg and total stated demand is 3000 kg (3.0 tonnes).",
+    "Five full trips provide 3000 kg and consume 7.5 crew-hours, leaving 0.5 crew-hours and one nominal trip unused.",
+    "A conditional exact-demand allocation is North: 3 trips = 1800 kg; South: 2 trips = 1200 kg.",
+    "Six loaded trips would require 9 crew-hours and violate the 8 crew-hour limit.",
+    "At the five-trip crew limit there is no transport-mass slack relative to the interpreted 3000 kg demand.",
+    "No attendance observations, uncertainty distribution, confidence interval, rainfall-response coefficient, pack count, pack mass, travel time, route, or shelter priority is provided.",
+    "One-row unit summary: North demand = 1800 kg; South demand = 1200 kg; total demand = 3000 kg; trip capacity = 600 kg/trip; loading effort = 1.5 crew-hours/trip; rainfall = 75 mm; horizon = 12 hours."
+  ],
+  "evaluation_id": "PHASE-002D-EVIDENCE-EXPANSION",
+  "experiment_design": [
+    "Before dispatch, freeze the human-accepted unit/demand interpretation and hash the resulting handoff.",
+    "Independently recount sealed packs or weigh each load; record actual kg per trip and shelter destination against a five-row manifest.",
+    "Check that North receives three 600 kg loads and South receives two 600 kg loads, subject to the accepted interpretation.",
+    "Record loader start/finish times and crew-hours, verify the total is at most 8, and confirm five trips remain operationally available within 12 hours.",
+    "Verify vehicle rated payload, pack seals, destination labels, and manifest-to-load correspondence before release.",
+    "Require independent operations and shelter-recipient sign-off; discrepancies block dispatch and return the workflow to the earliest affected stage."
+  ],
+  "falsification_tests": [
+    "Attempt six loaded trips: 6 x 1.5 = 9 crew-hours, falsifying feasibility under the crew constraint.",
+    "Attempt four or fewer full trips: capacity is at most 2400 kg, falsifying exact fulfillment of interpreted 3000 kg demand.",
+    "Assign fewer than three full trips to North or fewer than two to South: shelter-specific interpreted demand is not met.",
+    "Change the unit interpretation or demand semantics without renewed acceptance: mark task 2 and task 3 artifacts STALE and restart at task 1.",
+    "Treat the rainfall correlation as a causal quantity adjustment: reject because the brief provides no causal study or effect size."
+  ],
+  "files_created": [
+    "workflow/stage1_requirements.json",
+    "workflow/workflow_state.json",
+    "observation.json"
+  ],
+  "formalization": {
+    "constraints": [
+      "x_N, x_S are nonnegative integers.",
+      "x_N + x_S <= 6.",
+      "1.5(x_N + x_S) <= 8 crew-hours.",
+      "600x_N + u_N >= 1800 and 600x_S + u_S >= 1200, with u_N, u_S >= 0, conditional on accepted units and demand semantics.",
+      "For exact fulfillment with full 600 kg loads: x_N = 3 and x_S = 2.",
+      "No causal rainfall adjustment may be imposed from the supplied correlation alone."
+    ],
+    "notes": [
+      "The one-row unit summary is recorded in data_findings despite selected_model being null.",
+      "The deterministic formulation is traceable but blocked from downstream acceptance until the human gate is passed."
+    ],
+    "objective": "Candidate only: minimize u_N + u_S; no objective or model has been selected or human-approved.",
+    "parameters": [
+      "d_N = 1800 kg.",
+      "d_S = 1200 kg under the proposed conversion.",
+      "c = 600 kg/trip under the proposed conversion.",
+      "T = 6 available trips.",
+      "h = 1.5 crew-hours/trip; H = 8 crew-hours.",
+      "r = 75 mm forecast rainfall; no quantitative demand mapping is available."
+    ],
+    "units": [
+      "Demand and allocated water mass: kg; source South demand and trip capacity are also stated in tonnes.",
+      "Conversion proposed for acceptance: 1 tonne = 1000 kg.",
+      "Trip capacity: kg/trip or tonnes/trip.",
+      "Labor: crew-hours and crew-hours/trip.",
+      "Rainfall: mm.",
+      "Planning horizon: hours."
+    ],
+    "variables": [
+      "x_N: whole trips assigned to Shelter North.",
+      "x_S: whole trips assigned to Shelter South.",
+      "u_N, u_S: unmet demand in kg, if an optimization model is later accepted.",
+      "Rainfall is not a decision variable."
+    ]
+  },
+  "human_gates": [
+    "Task 1 gate: accept or reject 1 tonne = 1000 kg and the interpretation North = 1800 kg, South = 1200 kg, total = 3000 kg.",
+    "Task 2 gate: approve the conditional 3-trip/2-trip allocation, priority and shortage policy, and any reserve or rainfall contingency.",
+    "Task 3 gate: operations verifies measured loads, seals, manifest, staffing, vehicle/route readiness, shelter readiness, and the 12-hour schedule before dispatch.",
+    "Any input, configuration, script, handoff, or output hash change requires stale-artifact review and renewed approval from the earliest affected stage."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "North requests 1800 kg; South requests 1.2 tonnes.",
+    "Truck capacity is 0.6 tonnes per trip.",
+    "At most six trips are available.",
+    "Each loaded trip consumes 1.5 crew-hours and at most 8 crew-hours are available.",
+    "The operational horizon is the next 12 hours.",
+    "Forecast rainfall is 75 mm, affects demand uncertainty, and is not controllable by the allocator.",
+    "The rainfall-attendance relationship is correlational; no causal study is supplied.",
+    "Controllable decisions are trips and water-pack mass assigned to each shelter, plus dispatch/loading sequencing if operations later define it.",
+    "Crew hours limit loading to floor(8/1.5) = 5 trips, which is tighter than the six-trip availability limit."
+  ],
+  "requirements": [
+    "Task 1 must build a requirement trace and identify controllable decisions.",
+    "Task 1 must establish an accepted unit conversion and demand interpretation for downstream use.",
+    "Task 2 must propose an allocation using the task 1 accepted demand estimate.",
+    "Task 3 must specify pre-dispatch validation of the allocation.",
+    "The handoff must contain a one-row unit summary even if no model is selected.",
+    "Dependency chain: task 1 interpretation and acceptance -> task 2 allocation -> task 3 pre-dispatch validation.",
+    "Task 1 inputs are North demand, South demand, unit conversion, trip capacity, trip availability, crew-hour limit, loading effort, rainfall, and the stated non-causal correlation.",
+    "Task 1 output is a traceable demand interpretation plus controllable/uncontrollable classification and an acceptance gate.",
+    "Task 2 output is a shelter-by-shelter trip and mass allocation subject to vehicle, trip, crew, integrality, and accepted-demand constraints.",
+    "Task 3 output is documented evidence that units, quantities, loading, capacity, staffing, seals, manifests, and approvals were checked before dispatch."
+  ],
+  "robustness_tests": [
+    "Demand increase scenario: any positive aggregate increase above 3000 kg cannot be carried in five 600 kg trips; escalation, extra crew, another vehicle, or shortage policy would be required.",
+    "Demand decrease scenario: recompute whole-trip needs and check whether partial loading is allowed; that policy is unspecified.",
+    "Loading-time sensitivity: five trips remain within 8 crew-hours at up to 1.6 crew-hours/trip and violate the cap above 1.6.",
+    "Rainfall scenarios cannot be quantified from supplied data; validation should request explicit demand bounds rather than extrapolate from correlation.",
+    "Recompute all hashes before downstream use; any mismatch makes dependent artifacts STALE."
+  ],
+  "run_index": 1,
+  "selected_model": null,
+  "self_reported_limitations": [
+    "The observation extraction is complete, but the underlying allocation workflow is not approved: task 1 awaits a human gate and tasks 2-3 were not advanced.",
+    "The first arithmetic-test command used an unavailable 'python' executable; the same assertions were rerun successfully with the available 'python3' executable.",
+    "No external data, network, web search, MCP, remote, parent directory, credentials, or historical material was used.",
+    "No dependency was installed and no input file was modified.",
+    "The proposed allocation is deterministic and does not quantify rainfall-driven uncertainty because the required evidence is absent."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/problem.md"
+  ],
+  "tests_claimed": [
+    "Required-input presence and SHA-256 freshness check.",
+    "Unit-conversion, capacity, and crew-hour arithmetic assertions.",
+    "Observation JSON parsing and schema validation."
+  ],
+  "tests_verified": [
+    "Preflight located every TASK.json-listed required file and recorded SHA-256 hashes.",
+    "Freshness recomputation matched the recorded case-input hash.",
+    "Python 3 assertions passed for total interpreted demand, five-trip capacity, five-trip crew feasibility, and six-trip crew infeasibility.",
+    "Python jsonschema validation passed for observation.json against observation.schema.json."
+  ],
+  "uncertainties": [
+    "No human has accepted the metric conversion or interpretation of requests as exact demand.",
+    "Rainfall-related demand uncertainty is acknowledged but not quantified.",
+    "The correlation's data, strength, lag, population, and confounders are absent.",
+    "The brief omits pack size/count, partial-load rules, demand priority, reserve policy, travel and unloading times, routes, truck availability details, and receiving capacity.",
+    "It is unknown whether the 1.5 crew-hours covers only loading or all crew effort relevant to the 12-hour operation."
+  ],
+  "validation": [
+    "Numerical acceptance criteria: allocated mass equals accepted demand by shelter; total loaded mass is at most 3000 kg over five trips; each trip is at most 600 kg; crew use is at most 8 crew-hours.",
+    "Traceability acceptance criteria: every load has a destination, measured quantity, seal/lot record, loader record, and manifest identifier.",
+    "Freshness acceptance criteria: recomputed hashes of the case input, accepted task 1 handoff, allocation handoff, and validation record match the workflow state before downstream use.",
+    "Operational acceptance criteria: truck availability, payload rating, route feasibility, shelter receipt readiness, and completion within 12 hours are confirmed by responsible humans; the brief alone does not verify them."
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/expansion-cost/v1",
+  "title": "Phase 002D Expansion Cost",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "cost_id", "batch_id", "calculated_at", "attempts",
+    "successful_primary_records", "failed_attempts", "success_rate", "oracle_passes",
+    "oracle_failures", "tokens", "duration_seconds", "retries", "infrastructure_failures",
+    "operator_interventions", "queue_delay_seconds", "runner_cpu_seconds",
+    "replay_cpu_seconds", "storage", "maintenance_surface", "per_successful_primary_record",
+    "marginal_balanced_case_costs", "independent_repeat_marginal_cost",
+    "average_run_cost_by_arm", "clean_room_architecture_engineering_cost",
+    "retain_scaffold_minimum_engineering_cost", "monetary_cost", "api_key_used",
+    "api_billing_used", "correctness_and_hard_gates_dominate_cost",
+    "unknown_checkpoint_token_totals_not_treated_as_zero", "cost_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "cost_id": {"const": "PHASE-002D-COST-CURRENT"},
+    "batch_id": {"type": "integer", "minimum": 1},
+    "calculated_at": {"type": "string", "minLength": 1},
+    "attempts": {"type": "integer", "minimum": 0, "maximum": 48},
+    "successful_primary_records": {"type": "integer", "minimum": 0, "maximum": 24},
+    "failed_attempts": {"type": "integer", "minimum": 0, "maximum": 48},
+    "success_rate": {"type": "number", "minimum": 0, "maximum": 1},
+    "oracle_passes": {"type": "integer", "minimum": 0, "maximum": 24},
+    "oracle_failures": {"type": "integer", "minimum": 0, "maximum": 24},
+    "tokens": {"$ref": "#/$defs/token_set"},
+    "duration_seconds": {"type": "number", "minimum": 0, "maximum": 14400},
+    "retries": {"type": "integer", "minimum": 0},
+    "infrastructure_failures": {"type": "integer", "minimum": 0},
+    "operator_interventions": {"const": 0},
+    "queue_delay_seconds": {"const": "UNKNOWN"},
+    "runner_cpu_seconds": {"const": "UNKNOWN"},
+    "replay_cpu_seconds": {"enum": ["NOT_RUN", "UNKNOWN"]},
+    "storage": {
+      "type": "object",
+      "required": ["tracked_evidence_file_count", "tracked_evidence_bytes"],
+      "properties": {
+        "tracked_evidence_file_count": {"type": "integer", "minimum": 0},
+        "tracked_evidence_bytes": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "maintenance_surface": {
+      "type": "object",
+      "required": ["tracked_file_count", "lines_of_code", "paths"],
+      "properties": {
+        "tracked_file_count": {"type": "integer", "minimum": 1},
+        "lines_of_code": {"type": "integer", "minimum": 1},
+        "paths": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    },
+    "per_successful_primary_record": {"$ref": "#/$defs/attempt_cost"},
+    "marginal_balanced_case_costs": {
+      "type": "object",
+      "patternProperties": {"^CASE-[0-9]{3}$": {"$ref": "#/$defs/attempt_cost"}},
+      "additionalProperties": false
+    },
+    "independent_repeat_marginal_cost": {
+      "type": "object",
+      "required": ["status", "cases"],
+      "properties": {
+        "status": {"enum": ["OBSERVED", "NOT_YET_OBSERVED"]},
+        "cases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    },
+    "average_run_cost_by_arm": {
+      "type": "object",
+      "patternProperties": {
+        "^ARM-[ABC]$": {
+          "allOf": [
+            {"$ref": "#/$defs/attempt_cost"},
+            {
+              "type": "object",
+              "required": ["primary_eligible", "oracle_passes"],
+              "properties": {
+                "primary_eligible": {"type": "integer", "minimum": 0},
+                "oracle_passes": {"type": "integer", "minimum": 0}
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "clean_room_architecture_engineering_cost": {"const": "UNKNOWN_NOT_IMPLEMENTED"},
+    "retain_scaffold_minimum_engineering_cost": {"const": "UNKNOWN_NOT_ESTIMATED"},
+    "monetary_cost": {"const": "UNKNOWN"},
+    "api_key_used": {"const": false},
+    "api_billing_used": {"const": false},
+    "correctness_and_hard_gates_dominate_cost": {"const": true},
+    "unknown_checkpoint_token_totals_not_treated_as_zero": {"const": true},
+    "cost_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "token": {
+      "type": "object",
+      "required": ["status", "total", "observed_records", "total_records"],
+      "properties": {
+        "status": {"enum": ["OBSERVED", "UNKNOWN"]},
+        "total": {"anyOf": [{"type": "integer", "minimum": 0}, {"const": "UNKNOWN"}]},
+        "average_per_record": {"anyOf": [{"type": "number", "minimum": 0}, {"const": "UNKNOWN"}]},
+        "observed_records": {"type": "integer", "minimum": 0},
+        "total_records": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "token_set": {
+      "type": "object",
+      "required": ["input_tokens", "cached_input_tokens", "output_tokens", "reasoning_tokens"],
+      "properties": {
+        "input_tokens": {"$ref": "#/$defs/token"},
+        "cached_input_tokens": {"$ref": "#/$defs/token"},
+        "output_tokens": {"$ref": "#/$defs/token"},
+        "reasoning_tokens": {"$ref": "#/$defs/token"}
+      },
+      "additionalProperties": false
+    },
+    "attempt_cost": {
+      "type": "object",
+      "required": [
+        "attempt_count", "input_tokens", "cached_input_tokens", "output_tokens",
+        "reasoning_tokens", "duration_seconds", "average_duration_seconds"
+      ],
+      "properties": {
+        "attempt_count": {"type": "integer", "minimum": 0},
+        "input_tokens": {"$ref": "#/$defs/token"},
+        "cached_input_tokens": {"$ref": "#/$defs/token"},
+        "output_tokens": {"$ref": "#/$defs/token"},
+        "reasoning_tokens": {"$ref": "#/$defs/token"},
+        "duration_seconds": {"type": "number", "minimum": 0},
+        "average_duration_seconds": {"anyOf": [{"type": "number", "minimum": 0}, {"const": "NOT_YET_OBSERVED"}]},
+        "primary_eligible": {"type": "integer", "minimum": 0},
+        "oracle_passes": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
