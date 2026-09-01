@@ -1,0 +1,179 @@
+{
+  "anonymous_arm_id": "ARM-C",
+  "assumptions": [
+    "Leakage analysis assumes target is the prediction label; the deployment population and prediction timestamp were not specified.",
+    "The standard conversion 1 tonne = 1000 kg is assumed for unit harmonization.",
+    "Exact repetition of every field including row_id 5 is treated as a probable duplicate-export error, subject to source-owner confirmation.",
+    "row_id is treated as an identifier, not a predictive feature; its missing value 6 is not by itself evidence of a missing record."
+  ],
+  "baseline": {
+    "description": "Training-fold mean predictor after excluding target_copy, future_score, and row_id, using entity-disjoint folds and fold-local preprocessing.",
+    "evidence": [
+      "This is the simplest leakage-safe predictive baseline for a numeric target.",
+      "No baseline metric was run because the deployment target, evaluation metric, category mapping, and disposition of the negative-mass record remain unresolved."
+    ],
+    "result": null
+  },
+  "candidate_models": [
+    "Mean-only baseline: lowest implementation cost and a variance reference; falsified as useful if a leakage-safe candidate cannot improve a predeclared metric across entity-held-out folds.",
+    "Regularized linear model with fold-local one-hot encoding, standardized numeric fields, missing/sentinel indicators, and no leaked fields: low cost and interpretable; unsuitable if residual checks show stable nonlinear structure or interactions.",
+    "Shallow tree ensemble with the same allowed inputs and fold-local preprocessing: moderate cost and nonlinear fit; rejected for current selection because 10 unique rows make variance and overfit risk dominant; reconsider only with materially more independent entities.",
+    "Global date-blocked model was considered as a split/modeling workflow but rejected for the default design because repeated entities can cross the boundary and deployment to known versus unseen entities is unspecified."
+  ],
+  "case_id": "CASE-002",
+  "claims": [
+    "All numeric counts, equality relationships, fold memberships, hashes, and schema conformance reported as verified were produced by local commands in this run.",
+    "The 250 kg value is classified as plausible because the local dictionary permits values up to 300 kg.",
+    "The value 99 is classified as a sentinel because the local dictionary explicitly defines it as such.",
+    "No predictive performance, human approval, correction, or model selection is claimed."
+  ],
+  "code_artifacts": [
+    "No persistent code artifact was created; audits and split sanity checks were executed as inline Python 3 scripts."
+  ],
+  "commands_executed": [
+    "ls -la",
+    "sed -n on TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, and observation.schema.json",
+    "wc -l case/input/data.csv and sed -n on both listed case inputs",
+    "sha256sum on both inputs; git status --short; attempted inline python audit (failed because python was not installed)",
+    "inline python3 audit of row counts, duplicates, missingness, categories, units, invalid/extreme values, leakage equalities, and entity/date sequences",
+    "inline python3 deterministic entity-fold sanity test, followed by sha256sum and git status --short",
+    "python3 import/version check for jsonschema",
+    "inline Python 3 validation of the returned observation against observation.schema.json"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "Verified: the CSV parses as 11 data rows and 10 columns.",
+    "Probable error: CSV lines 6 and 7 are byte-equivalent records with row_id 5; exact deduplication leaves 10 records. Preserve both raw rows and record any deduplication as a reversible decision.",
+    "Definite domain violation requiring correction or quarantine: row_id 4 has mass_value -5 kg; mass amount cannot be negative under the supplied shipment interpretation.",
+    "Missingness: row_id 3 has the only blank feature value (1/11 rows).",
+    "Known sentinel, not a plausible numeric extreme: row_id 8 has feature 99, which the dictionary identifies as a device-mode sentinel. Retain a sentinel indicator and exclude 99 from numeric fitting/imputation.",
+    "Plausible extreme, not an error: row_id 9 has mass_value 250 kg; the dictionary explicitly permits bulk shipments up to 300 kg.",
+    "Valid mixed-unit value: row_id 3 has 0.012 tonne, equivalent to 12 kg; the other ten rows use kg.",
+    "Category encoding is inconsistent: red/Red/R and blue/BLUE occur. Case-only normalization is supported; mapping R to red is plausible but unverified and requires a codebook or human decision.",
+    "Direct leakage: target_copy equals target in all 11 rows.",
+    "Temporal leakage: future_score - target equals 1 in all 11 rows, and the dictionary says future_score is recorded one day later.",
+    "Storage order is not chronological within entity A: 2026-01-03 precedes 2026-01-02 in the file. Sort by parsed date within entity before any temporal procedure; file order itself is not a data-value error.",
+    "The row_id sequence skips 6, but identifier contiguity is undocumented, so this is an audit flag rather than a verified error."
+  ],
+  "evaluation_id": "PHASE-002D-EVIDENCE-EXPANSION",
+  "experiment_design": [
+    "Default proposal for unseen-entity generalization: exact-deduplicate using all non-split-derived raw fields, then deterministic three-fold entity holdout with tested folds {A,D}, {B,E}, and {C,F}.",
+    "Within each fold, fit category encoding, imputation, scaling, and the estimator on training rows only; apply frozen transformations to held-out rows.",
+    "Exclude future_score and target_copy at schema level before splitting; exclude row_id and raw entity from predictors while retaining them for provenance/grouping.",
+    "Compare the training-mean baseline, regularized linear model, and only if more independent entities become available, a shallow tree ensemble using a predeclared metric.",
+    "If deployment instead predicts future observations of already-known entities, replace the default with per-entity forward chaining after confirming the estimand; do not report the two designs as interchangeable."
+  ],
+  "falsification_tests": [
+    "Duplicate hypothesis: falsified if source transaction identifiers show the two row_id 5 records are distinct legitimate events despite identical exported fields.",
+    "R-to-red mapping: falsified by an authoritative category codebook assigning R another meaning.",
+    "Unseen-entity split choice: falsified if the declared deployment objective is prediction of later records for already-observed entities.",
+    "Linear-model suitability: falsified if, on adequate additional entity-held-out data, a preregistered residual/nonlinearity check and metric consistently favor a nonlinear candidate.",
+    "Leakage exclusions: falsified only by evidence that either field is genuinely available and independent of target at the actual prediction timestamp; the supplied dictionary currently contradicts this."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "Exclude future_score, target_copy, row_id, and raw entity identifier from predictors.",
+      "No entity may appear in both training and test portions of an entity-disjoint fold.",
+      "Deduplicate before assigning folds so duplicate records cannot cross a boundary.",
+      "Do not silently coerce negative mass, sentinel 99, missing feature, or unverified category aliases.",
+      "Raw inputs remain immutable; derived records carry provenance and decision status."
+    ],
+    "notes": [
+      "Subtask flow: immutable raw rows -> audited derived rows -> leakage exclusions -> entity-disjoint split -> fold-local preprocessing -> baseline/candidate evaluation.",
+      "Evaluation metric and deployment estimand are unresolved, so model selection is blocked.",
+      "Audit log design is append-only with event_id, timestamp, actor, raw row reference/hash, field, old value, proposed value, reason/evidence, severity, status, and supersedes_event_id; reversals append a superseding event rather than overwriting history."
+    ],
+    "objective": null,
+    "parameters": [
+      "Unit factor: tonne to kg multiplier 1000.",
+      "Known feature sentinel: 99.",
+      "Deterministic three-fold entity allocation tested: {A,D}, {B,E}, {C,F} as held-out groups.",
+      "Any imputation, scaling, encoding, or model hyperparameters must be learned on each training fold only."
+    ],
+    "units": [
+      "mass_value is converted to kg in derived data only.",
+      "date is calendar date in YYYY-MM-DD form.",
+      "feature and target units are not supplied."
+    ],
+    "variables": [
+      "y_i = target for record i.",
+      "X_i = category, harmonized mass in kg, cleaned feature value, feature-missing indicator, and feature-sentinel indicator.",
+      "g_i = entity and t_i = parsed date.",
+      "d_i = reversible audit disposition: retain, quarantine, correct, deduplicate, or supersede."
+    ]
+  },
+  "human_gates": [
+    "Source owner must confirm the row_id 5 duplicate disposition and the negative-mass correction or quarantine.",
+    "Data steward must approve the category codebook, especially whether R maps to red.",
+    "Problem owner must declare prediction timestamp, deployment population, evaluation metric, and acceptable threshold before model evaluation or selection.",
+    "Any audit decision must be appended with evidence and may only be changed by a superseding event."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "future_score is recorded one day after target and is unavailable at the target prediction time.",
+    "target_copy is derived from target and therefore cannot be a predictor.",
+    "Entities A, B, and C have repeated observations, so row-random splitting can place the same entity in train and test.",
+    "Only 11 rows (10 after exact deduplication) and six entities are present, so performance estimates would have high variance.",
+    "Preprocessing statistics and category mappings must be fitted or fixed without looking at held-out labels or held-out feature distributions."
+  ],
+  "requirements": [
+    "Inspect only the listed local inputs and preserve them byte-for-byte.",
+    "Audit injected data issues, separating errors from plausible extremes.",
+    "Design a leakage-safe split and an append/supersede audit record.",
+    "Distinguish verified evidence from assumptions and proposed tests; do not invent results or mark any decision FINAL.",
+    "Use no network, MCP, remotes, parent directories, credentials, or historical material."
+  ],
+  "robustness_tests": [
+    "Verified split robustness at the invariant level: every unique record is held out exactly once and no entity overlaps train/test.",
+    "Proposed, not executed: compare conclusions with the negative-mass row quarantined versus source-corrected, never absolute-valued silently.",
+    "Proposed, not executed: compare case-only category normalization with an approved R mapping.",
+    "Proposed, not executed: report fold-level results and sensitivity to alternative deterministic entity allocations once an evaluation metric and sufficient sample are approved.",
+    "Proposed, not executed: test missing-feature imputation choices and sentinel-indicator ablation within training folds only."
+  ],
+  "run_index": 1,
+  "selected_model": null,
+  "self_reported_limitations": [
+    "The audit covers only the two listed case inputs and cannot establish source-system truth.",
+    "The first audit invocation used the unavailable command python and failed; it was rerun successfully with python3.",
+    "No model was trained and no predictive metric was computed because unresolved high-severity data and specification gates require fail-closed behavior.",
+    "The tested split proves leakage-related grouping invariants, not statistical adequacy; six entities are too few for a stable performance claim.",
+    "No files were created and no input was modified."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "case/input/data.csv",
+    "case/input/data_dictionary.json",
+    "observation.schema.json"
+  ],
+  "tests_claimed": [
+    "CSV structural and content audit.",
+    "Exact-duplicate detection and deduplicated row count.",
+    "Leakage equality checks for target_copy and future_score.",
+    "Three-fold entity-disjoint coverage sanity test.",
+    "Input preservation by SHA-256 and clean Git status.",
+    "JSON Schema validation of the observation."
+  ],
+  "tests_verified": [
+    "CSV audit passed: 11 rows, 10 columns, one blank feature, one exact duplicate group, one negative mass, one sentinel 99, and one mass at least 100 kg.",
+    "Leakage checks passed: target_copy equals target for 11/11 rows and future_score - target is 1 for 11/11 rows.",
+    "Split sanity passed after exact deduplication: folds held out {A,D} with 4 rows, {B,E} with 3 rows, and {C,F} with 3 rows; train/test entity intersections were empty and all 10 unique records appeared in exactly one test fold.",
+    "Input preservation passed: data.csv SHA-256 fbae0d7192fadb96d7cbacdec610d1498c486b6c3ccdfaa64ab87d4b0a287bf3 and data_dictionary.json SHA-256 3bced423cd31dcd532eec0468755f47f122fe1f6d0dea166d1ba73a59429bf74; git status --short produced no entries.",
+    "The observation passed Draft 2020-12 validation against the local schema."
+  ],
+  "uncertainties": [
+    "The intended deployment estimand (new entities versus future records of known entities) is unspecified.",
+    "No evaluation metric or acceptable error threshold is specified.",
+    "The authoritative meaning of category R is unknown.",
+    "The source-correct value or disposition for -5 kg is unknown.",
+    "Whether identical row_id 5 rows represent duplicate export or two legitimate events requires source-system evidence.",
+    "Feature and target units and the missingness mechanism are not supplied."
+  ],
+  "validation": [
+    "Verified data assertions and split invariants by actual Python 3 execution.",
+    "No predictive validation or metric is claimed.",
+    "High-severity negative mass and both leakage fields block downstream model selection until disposition and estimand are approved."
+  ]
+}

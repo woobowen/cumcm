@@ -1,0 +1,161 @@
+{
+  "anonymous_arm_id": "ARM-C",
+  "case_id": "CASE-002",
+  "coverage_hash": "1968b6a32e44d9665ab978b2ee052bec41dc20c734516152d08b305709b67b9d",
+  "dimensions": {
+    "CATEGORY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "DATE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "DUP": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "ENTITY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in experiment_design"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "EXTREME": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FUTURE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "IMBALANCE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "IMMUTABLE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in reality_constraints"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "IMPOSSIBLE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "MISSING": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOISE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 4.0,
+      "source": "DETERMINISTIC"
+    },
+    "TARGET": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 7.0,
+      "source": "DETERMINISTIC"
+    },
+    "UNITS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in data_findings"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evidence": [
+    "MISSING",
+    "IMPOSSIBLE",
+    "UNITS",
+    "DATE",
+    "CATEGORY",
+    "FUTURE",
+    "ENTITY",
+    "TARGET",
+    "NOISE"
+  ],
+  "hard_failures": [],
+  "missing": [
+    "DUP",
+    "IMBALANCE",
+    "EXTREME",
+    "IMMUTABLE"
+  ],
+  "proves_correctness": false,
+  "repeat_id": 1,
+  "schema_version": "1.0.0",
+  "semantic_review_used": false,
+  "status": "SCORED",
+  "structured_coverage_score": 50.0
+}
