@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/phase_route/v1",
+  "title": "Automated Phase Route",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "route_id",
+    "decision_id",
+    "decision",
+    "audit_result",
+    "current_phase",
+    "next_phase_allowed",
+    "phase003_allowed",
+    "evidence_expansion_allowed",
+    "phase002d_started",
+    "reason_codes",
+    "route_hash"
+  ],
+  "properties": {
+    "route_id": {"type": "string", "minLength": 1},
+    "decision_id": {"type": "string", "minLength": 1},
+    "decision": {"enum": ["AUTOMATED_ACCEPTED", "AUTOMATED_REJECTED", "RETEST_REQUIRED", "EVIDENCE_INSUFFICIENT", "AUTOMATED_ABSTAINED", "STALE"]},
+    "audit_result": {"enum": ["PASS", "FAIL", "RETEST_REQUIRED", "PENDING"]},
+    "current_phase": {"const": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C"},
+    "next_phase_allowed": {"type": ["string", "null"]},
+    "phase003_allowed": {"type": "boolean"},
+    "evidence_expansion_allowed": {"type": "boolean"},
+    "phase002d_started": {"const": false},
+    "reason_codes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "route_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

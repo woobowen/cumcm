@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/pre_adjudication_record/v1",
+  "title": "Pre-Adjudication Record",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "record_id",
+    "phase",
+    "input_freeze_id",
+    "input_freeze_hash",
+    "config_hash",
+    "policy_hash",
+    "hard_gates",
+    "evidence_sufficiency_id",
+    "evidence_sufficiency_result",
+    "short_circuit",
+    "decision",
+    "semantic_judges_status",
+    "ranking_status",
+    "next_phase_candidate",
+    "created_at",
+    "record_hash"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "phase": {"const": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C"},
+    "input_freeze_id": {"type": "string", "minLength": 1},
+    "input_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "config_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "policy_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "hard_gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "gate", "passed", "evidence_refs"],
+        "properties": {
+          "target": {"type": "string"},
+          "gate": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence_sufficiency_id": {"type": "string", "minLength": 1},
+    "evidence_sufficiency_result": {"enum": ["SUFFICIENT", "INSUFFICIENT", "STALE"]},
+    "short_circuit": {"type": "boolean"},
+    "decision": {"enum": ["CONTINUE_SEMANTIC_ADJUDICATION", "EVIDENCE_INSUFFICIENT", "AUTOMATED_REJECTED", "STALE"]},
+    "semantic_judges_status": {"enum": ["REQUIRED", "SKIPPED", "BLOCKED"]},
+    "ranking_status": {"enum": ["ALLOWED", "PROHIBITED"]},
+    "next_phase_candidate": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "record_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}
