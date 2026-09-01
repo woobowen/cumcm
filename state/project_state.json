@@ -17,12 +17,12 @@
   "accepted_component_specifications": [],
   "next_phase_allowed": null,
   "evidence_expansion": {
-    "cohort_mode": null,
-    "cohort_id": null,
-    "model": null,
-    "reasoning_setting": null,
-    "transport_profile": null,
-    "target_successes": null,
+    "cohort_mode": "NEW_MODEL_COHORT",
+    "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
+    "model": "gpt-5.6-sol",
+    "reasoning_setting": "medium",
+    "transport_profile": "PENDING_PILOT",
+    "target_successes": 24,
     "attempts": 0,
     "successes": 0,
     "failures": 0,
@@ -30,13 +30,13 @@
     "repeat_depth": 0,
     "budget_remaining": null,
     "current_batch": 0,
-    "infrastructure_status": "NOT_CHECKED"
+    "infrastructure_status": "PENDING_PILOT"
   },
   "content_verified_commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
   "verification_manifest": {
-    "path": "evals/results/phase-002c/input_freeze_manifest.json",
-    "sha256": "35c2c37019f3f024c90b71ff572a6f23608c12bf758efb1b666f5c3d08aa655f",
-    "subject_commit": "2c272a359a8b7197ce65bcefe2736007895dc9b6"
+    "path": "evals/results/phase-002d/input_freeze_manifest.json",
+    "sha256": "5982276016f6e8a275a8d67de763571b3855a32005148af42499786c6bc79c3c",
+    "subject_commit": "a27e10f2ef8f730d45f08c0224cf0f1ac5348042"
   },
   "delivery_receipt_for_commit": {
     "commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
@@ -57,12 +57,12 @@
     "The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.",
     "Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.",
     "Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.",
-    "Direct-adoption leakage and integration risk predicates accept arbitrary LOW-prefixed strings; this is non-blocking for the two currently rejected targets but must be closed before any future positive adoption decision.",
+    "Direct-adoption risks now use a closed fail-closed enum; the Phase 002C compatibility replay preserves both historical whole-package rejections.",
     "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T17:58:44+08:00",
+  "updated_at": "2026-09-01T18:14:55+08:00",
   "updated_by": "main-agent"
 }

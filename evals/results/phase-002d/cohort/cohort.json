@@ -1,0 +1,133 @@
+{
+  "anonymous_arms": [
+    "ARM-A",
+    "ARM-B",
+    "ARM-C"
+  ],
+  "auth_mode": "CHATGPT_MANAGED_CODEX",
+  "candidate_model_ids": [
+    "gpt-5.2",
+    "gpt-5.5",
+    "gpt-5.6-luna",
+    "gpt-5.6-sol",
+    "gpt-5.6-terra"
+  ],
+  "codex_cli_version": "0.147.0",
+  "cohort_hash": "f1ad3696f3d86a23d38c6c21fd6a977561b547b831a94f554531d91df971cc16",
+  "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
+  "continuation_checks": {
+    "compatibility_pilot_pass": false,
+    "frozen_prompt_schema_fixture_package_scorer_oracle": true,
+    "historical_model_visible": false,
+    "model_id_exact": true,
+    "reasoning_exact": true,
+    "sandbox_network_mcp_exact": true,
+    "transport_profile_frozen": false
+  },
+  "continuation_shortfall": {
+    "cells": [
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-A",
+        "case_id": "CASE-001",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-B",
+        "case_id": "CASE-001",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-C",
+        "case_id": "CASE-001",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 2,
+        "anonymous_arm_id": "ARM-A",
+        "case_id": "CASE-002",
+        "historical_eligible_repeats": 0
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-B",
+        "case_id": "CASE-002",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-C",
+        "case_id": "CASE-002",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-A",
+        "case_id": "CASE-004",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-B",
+        "case_id": "CASE-004",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 2,
+        "anonymous_arm_id": "ARM-C",
+        "case_id": "CASE-004",
+        "historical_eligible_repeats": 0
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-A",
+        "case_id": "CASE-006",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-B",
+        "case_id": "CASE-006",
+        "historical_eligible_repeats": 1
+      },
+      {
+        "additional_successes_needed": 1,
+        "anonymous_arm_id": "ARM-C",
+        "case_id": "CASE-006",
+        "historical_eligible_repeats": 1
+      }
+    ],
+    "minimum_repeats": 2,
+    "target_successes": 14
+  },
+  "historical_model": "gpt-5.4",
+  "historical_model_visible": false,
+  "historical_phase002_use": "CROSS_MODEL_EXPLORATORY_GAP_EVIDENCE_ONLY",
+  "mcp_policy": "DISABLED_REQUIRED",
+  "minimum_repeats": 2,
+  "mode": "NEW_MODEL_COHORT",
+  "model": "gpt-5.6-sol",
+  "model_switch_allowed": false,
+  "network_policy": "DISABLED_REQUIRED",
+  "pilot_status": "PENDING",
+  "primary_cases": [
+    "CASE-001",
+    "CASE-002",
+    "CASE-004",
+    "CASE-006"
+  ],
+  "reasoning_setting": "medium",
+  "sandbox": "workspace-write",
+  "schema_version": "1.0.0",
+  "scored_runs_started": false,
+  "selected_model_supports_reasoning": true,
+  "selection_reason_codes": [
+    "HISTORICAL_MODEL_VISIBLE_FAILED",
+    "COMPATIBILITY_PILOT_PASS_FAILED",
+    "TRANSPORT_PROFILE_FROZEN_FAILED"
+  ],
+  "target_successes": 24,
+  "transport_profile": "PENDING_PILOT"
+}

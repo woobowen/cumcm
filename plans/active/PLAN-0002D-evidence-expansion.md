@@ -228,10 +228,10 @@ the Skill stays scaffold-only until a later implementation phase.
 
 ## 19. Milestones and acceptance
 
-1. **M1 start** — preflight/baseline pass; archive completed 002C plan; create this plan; transition
+1. **M1 start — COMPLETE** — preflight/baseline pass; archive completed 002C plan; create this plan; transition
    state; strict risk enum and Phase 002C compatibility replay pass; focused/full checks; atomic
    commit and push.
-2. **M2 freeze/cohort** — Phase 002D input freeze verifies; local model availability and compatibility
+2. **M2 freeze/cohort — COMPLETE** — Phase 002D input freeze verifies; local model availability and compatibility
    Gate select a mode/model without a scored start; ADR-0024/25/28/29 and target calculator pass;
    atomic commit and push.
 3. **M3 pilot/budget** — fresh pilot succeeds within two starts; one profile and replayable formula
@@ -291,12 +291,16 @@ affected hashes and acceptance changes before further scored work.
   PR was open; Codex CLI was `0.147.0` with ChatGPT authentication.
 - `2026-09-01T17:53:30+08:00`: baseline `bash scripts/ci.sh` passed with 378 tests, strict zero
   errors/warnings and exactly one formal Skill.
-- Phase 002 historical model is `gpt-5.4`/`medium`; current local availability and cohort mode remain
-  pending M2 machine checks. Official model documentation is not treated as proof of local account
-  availability.
+- `2026-09-01T18:07:00+08:00`: M1 delivered commits `07b0247` and `a27e10f` to the task branch;
+  remote SHA matched and Draft PR #3 was created OPEN/DRAFT.
+- `2026-09-01T18:14:55+08:00`: the local read-only App Server catalog omitted historical
+  `gpt-5.4` and exposed `gpt-5.6-sol` with `medium`; zero models were started. The machine Gate
+  selected `NEW_MODEL_COHORT`, prohibited old-primary reuse, recomputed the inactive MODE A
+  shortfall as 14 and set the active target to 24. Input freeze `4846e25e...` and cohort hash
+  `f1ad3696...` passed. Official web documentation was not used as local-account evidence.
 
 ## 24. Current next step
 
-Complete M1 strict risk-enum repair and compatibility replay, validate, atomically commit and push.
-Do not start model availability Pilot or any scored run before M1 is delivered and M2/M3 freezes
-exist.
+Commit and remotely deliver M2, then execute only the compact non-scored calibration pilot. Freeze
+the winning transport profile and the formula budget after pilot success. Do not start any scored
+run before the M3 budget record exists and passes `--check`.
