@@ -245,8 +245,8 @@ the Skill stays scaffold-only until a later implementation phase.
    are primary eligible and retained; checkpoint/cost/score-audit/status passed; business commit
    `dcff679` is remotely delivered and verified.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
-   condition with exact status. Batches 2 and 3 are remotely delivered; Batch 4 is validated
-   locally with retained failures and awaits delivery.
+   condition with exact status. Batches 2 through 4 are remotely delivered; the final primary
+   block is next.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
    hard Gates.
 8. **M8 audits/decisions** — four independent first-round audits; all BLOCKER tests executed; five
@@ -352,7 +352,10 @@ affected hashes and acceptance changes before further scored work.
   remaining elapsed budget is 1,347.669194 seconds. Score audit `9126fbb0...` and cost
   `30538e0d...` pass. The non-frozen score auditor now treats missing observations as explicitly
   noncomparable instead of raising; 58 focused tests pass with one expected skip.
+- `2026-09-01T20:46:12+08:00`: Batch 4 business commit
+  `a6d85b5234d1e2f09587da4145a4cedc23c86867` was pushed normally and verified byte-for-byte at the
+  task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
 
 ## 24. Current next step
 
-Validate, commit and remotely deliver M6 Batch 4 before starting the final primary block.
+Run the final frozen primary block as M6 Batch 5 after the Batch 4 receipt commit is verified.
