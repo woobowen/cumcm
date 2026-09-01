@@ -238,9 +238,9 @@ the Skill stays scaffold-only until a later implementation phase.
    atomic commit and push.
 3. **M3 pilot/budget — COMPLETE** — fresh pilot succeeds within two starts; one profile and replayable formula
    budget freeze before scored work; ADR-0027; focused checks; atomic commit and push.
-4. **M4 schedule/runner — VALIDATED, DELIVERY PENDING** — fixed schedule, runner, append-only attempts,
-   checkpoint/status, mocks and fault injection pass without a real scored start; ADR-0026; atomic
-   commit is ready for push.
+4. **M4 schedule/runner — COMPLETE** — fixed schedule, runner, append-only attempts,
+   checkpoint/status, mocks and fault injection passed without a real scored start; ADR-0026;
+   business commit `fe90c32` is remotely delivered and verified.
 5. **M5 Batch 1** — one complete block is attempted in frozen order; every record is verified and
    retained; checkpoint/cost/status/tests pass; atomic commit and push.
 6. **M6 later batches** — each bounded batch is verified/committed/pushed; stop at minima or frozen
@@ -313,8 +313,12 @@ affected hashes and acceptance changes before further scored work.
   attempts and 48 retry slots. Input freeze `ddcb409e...` binds the independent runner, ledger,
   eligibility, oracle, coverage scorer and contracts. Runner `--check`, `--status` and dry-run pass
   with zero scored attempts; the first block is CASE-001/R1 in ARM-C, ARM-A, ARM-B order.
+- `2026-09-01T18:56:09+08:00`: M4 business commit
+  `fe90c320900883b2035afaf8a7cae089b800fd71` was pushed normally and verified byte-for-byte at
+  `origin/feat/evidence-expansion-002d`. Draft PR #3 remains OPEN/DRAFT against `main`.
 
 ## 24. Current next step
 
-Commit and remotely deliver M4. Do not start Batch 1 until the remote SHA equals the local business
-commit and every freeze/schedule/runner check still passes from that commit.
+Run M5 Batch 1 only: `CASE-001 × repeat 1` in frozen order ARM-C, ARM-A, ARM-B, at most three fresh
+attempts. Then verify every record, checkpoint, budget and Gate, commit atomically and push before
+starting any later block.
