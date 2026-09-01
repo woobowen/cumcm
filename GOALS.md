@@ -33,11 +33,12 @@ This repository supplies facts, formulas, tables, figure-ready data, validation,
 
 ## Undecided
 
-- Upstream architecture and component specifications: `UNVERIFIED`; Phase 002D stopped at 18
-  eligible records, three balanced cases and repeat depth one before semantic audit or decisions.
+- Upstream architecture/base: `EVIDENCE_INSUFFICIENT`; Phase 002D-R1 accepts four component
+  specifications only, without implementation, integration or a positive performance claim.
 - Project license: `PROJECT_LICENSE_UNDECIDED`.
 - Production modeling methods, reviewer thresholds, and benchmark cases: `NEEDS_REVIEW`.
 - Official 2026 rule extraction: registered but `NEEDS_EXTRACTION`.
 
-Phase 002D remains evidence acquisition only. Its next legal route is a redesigned and newly frozen
-Phase 002D continuation; it cannot integrate a candidate, select a base, or start Phase 003.
+Phase 002D-R1 completes failure-aware adjudication while quality remains insufficient at two
+balanced cases and quality repeat depth one. Its next legal route is a redesigned, newly frozen
+Phase 002D acquisition; it cannot integrate a candidate, select a base, or start Phase 003.

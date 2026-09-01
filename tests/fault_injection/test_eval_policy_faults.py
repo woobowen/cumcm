@@ -55,12 +55,19 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
     assert not any("HUMAN" in blocker for blocker in state["blockers"])
     assert any("CONNECT_RESET" in risk.upper() for risk in state["risks"])
     assert state["technical_adjudication_status"] in legal_statuses
-    if state["technical_adjudication_status"] == "AUTOMATED_ADJUDICATION_COMPLETE":
+    if state["technical_adjudication_status"] in {
+        "AUTOMATED_ADJUDICATION_COMPLETE",
+        "FAILURE_AWARE_ADJUDICATION_COMPLETE",
+    }:
         assert state["automated_decision_ids"]
         assert state["next_phase_allowed"] in {
             "PHASE-EVIDENCE-EXPANSION-002D",
             "PHASE-SKILL-INTEGRATION-003",
         }
+        if state["technical_adjudication_status"] == "FAILURE_AWARE_ADJUDICATION_COMPLETE":
+            assert state["next_phase_allowed"] == "PHASE-EVIDENCE-EXPANSION-002D"
+            assert state["selected_architecture"] is None
+            assert state["accepted_component_specifications"]
     elif state["technical_adjudication_status"] == "EVIDENCE_EXPANSION_INCOMPLETE":
         assert state["next_phase_allowed"] == "PHASE-EVIDENCE-EXPANSION-002D"
     elif state["technical_adjudication_status"] == "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS":

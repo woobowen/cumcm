@@ -14,6 +14,8 @@
 | Transport recovery policy | `docs/TRANSPORT_RECOVERY_POLICY.md` | recovery implementation and runbook |
 | Formal execution records | `evals/results/phase-002b/` | state transitions and reports |
 | Phase 002D experiment and closure | `evals/results/phase-002d/` | generated Phase 002D reports and state |
+| Phase 002D-R1 failure-aware adjudication | `evals/results/phase-002d-r1/` | generated R1 reports and state |
+| Failure-aware evidence policy | `docs/FAILURE_AWARE_EVIDENCE_POLICY.md` and `rules/phase002d_r1_workflow_rules.yaml` | R1 engines/tests |
 | Automated technical decisions | versioned `evals/results/*/automated_decisions/` | state transitions and reports |
 | Team compliance/challenge | `contracts/team_compliance_challenge.schema.json` records | STALE trigger only |
 | Upstream candidate facts | `research/upstream_candidates/manifest.yaml` | CSV/reviews/notices |

@@ -10,3 +10,7 @@ only mocks and deterministic cases; it never starts a real Codex Agent.
 Real Phase 002D runs are local, manually invoked evaluation evidence and are never CI jobs. CI may
 replay hashes, Schemas, schedules, oracle/process logic, sufficiency and the locked incomplete route
 without network, model starts, native semantic Subagents or hidden-answer access.
+
+R1 CI likewise replays only frozen public-to-repository artifacts. It never runs native Subagents,
+real supplemental models or external-network experiments. Failure, order, label and scope mutations
+are project-authored protocol tests, not benchmark answers.

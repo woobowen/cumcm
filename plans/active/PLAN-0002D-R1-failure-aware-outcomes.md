@@ -257,6 +257,24 @@ reset/clean/rebase/force-push/merge. PR #3 remains OPEN/DRAFT and is updated onl
   are accepted as `SPECIFICATION_ONLY`. No architecture, implementation, integration or Phase 003
   claim is made. The formal state remains in progress until the independent Decision Auditor and
   five-variant replay pass.
+- `2026-09-02T03:49:25+08:00`: M8 completed after three bounded post-decision repair cycles. The
+  original independent audit returned `RETEST_REQUIRED` for conflicting reliability scopes and an
+  ambiguous replay consumer; subsequent audits exposed two evidence-catalog omissions. Every
+  round is preserved, each finding is test-bound, canonical and wrapper scope now both say
+  `RELIABILITY_ONLY`, and the final native Auditor returns `PASS` with zero blockers.
+- M8 formal audit passes all 27 mechanical checks at checkpoint
+  `900cebe0b5a4a6d998cd9d14976ddd25a1f397f44c84be8a0c0746d60c1ca0bd`. Offline replay is stable
+  across original, attempt-order, evidence-order, anonymous-arm-label and failure-flag-order
+  variants at hash `3ef8f6df426379167eeae22e39aa06384e83695e33b4d0a7b37c1dad7f5f713b`.
+- M8 commit `154a137f10e5fe7bcd545389258e6b57feac04f4` is remotely delivered on the task branch. The formal
+  technical state may now become `FAILURE_AWARE_ADJUDICATION_COMPLETE`, while quality remains
+  insufficient, architecture remains null and the only route is the next Phase 002D design.
+- `2026-09-02T03:53:00+08:00`: M9 local closure generated 14 hash-bound reports and the formal
+  status, then passed every one of the 28 required validation commands. Evidence includes Ruff,
+  `800 passed, 1 skipped`, 54 Schemas with 54 positive and 44 rejected-negative fixtures, both
+  immutable freezes, all R1 checks, strict validation with zero errors/warnings and full offline
+  CI. A preliminary self-reference failure was fixed by retaining the previous delivery receipt
+  until the new content commit exists; no test or contract was relaxed.
 
-Next: commit and remotely verify the seven formal decisions, then run the independent native
-failure-aware Decision Auditor against the frozen post-decision bundle.
+Next: deliver the M9 content commit, bind it through a separate prior-commit delivery receipt,
+update Draft PR #3 and verify its remote SHA and CI without entering Phase 003.

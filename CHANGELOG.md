@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.5-failure-aware-adjudication — 2026-09-02
+
+- Classified all 28 frozen Phase 002D attempts and resolved the 24-slot outcome matrix while
+  preserving terminal failures, censoring, retries, costs and historical protocol deviations.
+- Separated quality, reliability, completeness and component-gap scopes; quality remains
+  insufficient, reliability is descriptive-only and four mechanisms are specification-only.
+- Added five first-round audits, serious-finding tests, zero-start supplemental authorization,
+  seven canonical decisions, independent Decision Auditor repair/re-audit and five-variant replay.
+- Kept architecture/base unset, Skill `SCAFFOLD_ONLY`, third-party integration false and Phase 003
+  locked; the sole next route is a newly frozen Phase 002D acquisition design.
+
 ## 0.2.4-evidence-expansion — 2026-09-01
 
 - Froze a new `gpt-5.6-sol`/`medium` cohort, compact pilot, formula budget, blocked randomized

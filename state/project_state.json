@@ -7,16 +7,24 @@
   "current_plan": "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md",
   "active_skill_version": "0.1.0-foundation",
   "current_branch": "feat/evidence-expansion-002d",
-  "technical_adjudication_status": "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS",
+  "technical_adjudication_status": "FAILURE_AWARE_ADJUDICATION_COMPLETE",
   "automated_decision_ids": [
-    "DECISION-EVIDENCE-SUFFICIENCY-002C",
-    "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
-    "DECISION-RECOVERY-POLICY-002C",
-    "DECISION-COMPONENT-READINESS-002C"
+    "DECISION-ARCHITECTURE-002D-R1",
+    "DECISION-COMPONENT-READINESS-002D-R1",
+    "DECISION-FAILURE-SEMANTICS-002D-R1",
+    "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1",
+    "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1",
+    "DECISION-SLOT-RESOLUTION-002D-R1",
+    "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1"
   ],
   "selected_architecture": null,
-  "accepted_component_specifications": [],
-  "next_phase_allowed": null,
+  "accepted_component_specifications": [
+    "accepted-versus-done-workflow-state",
+    "claim-evidence-support-gate",
+    "hash-bound-reproducibility-manifest",
+    "leakage-safe-model-comparison-gate"
+  ],
+  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
   "evidence_expansion": {
     "cohort_mode": "NEW_MODEL_COHORT",
     "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
@@ -47,19 +55,19 @@
     "current_batch": 7,
     "infrastructure_status": "STOPPED_ELAPSED_BUDGET_REACHED",
     "repeat_depth_deprecated": true,
-    "quality_balanced_case_count": 3,
+    "quality_balanced_case_count": 2,
     "quality_minimum_repeat_depth": 1,
-    "outcome_resolved_case_count": null,
-    "outcome_minimum_repeat_depth": null,
+    "outcome_resolved_case_count": 3,
+    "outcome_minimum_repeat_depth": 2,
     "schedule_attempted_repeat_depth": 2,
-    "reliability_observed_repeat_depth": null,
-    "resolved_success_slots": null,
-    "resolved_terminal_negative_slots": null,
-    "infrastructure_censored_slots": null,
-    "harness_censored_slots": null,
-    "unknown_slots": null,
-    "supplemental_run_authorized": null,
-    "supplemental_budget_id": null
+    "reliability_observed_repeat_depth": 2,
+    "resolved_success_slots": 9,
+    "resolved_terminal_negative_slots": 14,
+    "infrastructure_censored_slots": 0,
+    "harness_censored_slots": 1,
+    "unknown_slots": 0,
+    "supplemental_run_authorized": false,
+    "supplemental_budget_id": "PHASE-002D-R1-SUPPLEMENTAL-BUDGET-001"
   },
   "content_verified_commit": "fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235",
   "verification_manifest": {
@@ -74,10 +82,7 @@
     "verified_at": "2026-09-01T21:43:14+08:00"
   },
   "team_compliance_review_status": "NOT_RUN",
-  "blockers": [
-    "FAILURE_AWARE_ADJUDICATION_PENDING",
-    "DECISION_AUDIT_PENDING"
-  ],
+  "blockers": [],
   "risks": [
     "Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.",
     "Project license is PROJECT_LICENSE_UNDECIDED.",
@@ -91,11 +96,13 @@
     "Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.",
     "Direct-adoption risks now use a closed fail-closed enum; the Phase 002C compatibility replay preserves both historical whole-package rejections.",
     "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.",
-    "Phase 002D stopped at 18 eligible records, 3 balanced cases and sufficiency repeat depth 1 after crossing the frozen elapsed budget; semantic Subagents and automated decisions remain locked."
+    "Phase 002D-R1 quality evidence remains insufficient at 2 of 4 balanced cases and repeat depth 1 of 2; reliability evidence cannot be promoted into a quality or superiority claim.",
+    "The sole censored slot is harness-censored without established semantic equivalence, so supplemental authorization and the real-start budget remain zero.",
+    "Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-02T02:08:52+08:00",
+  "updated_at": "2026-09-02T03:49:25+08:00",
   "updated_by": "main-agent"
 }

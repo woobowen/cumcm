@@ -70,6 +70,13 @@ freeze-bound global workflow policy. Only a passing failure-aware Decision Audit
 replay may establish a terminal R1 status. Neither an in-progress label nor completion of
 deterministic preprocessing is an automated technical decision.
 
+`FAILURE_AWARE_ADJUDICATION_IN_PROGRESS → FAILURE_AWARE_ADJUDICATION_COMPLETE` requires all 28
+attempt classifications, the 24-slot matrix, separate evidence scopes, retry audit, five first-round
+audits with test-bound serious findings, supplemental decision, seven automated decisions,
+Decision Auditor PASS and stable five-variant replay. Completion may retain
+`EVIDENCE_INSUFFICIENT` quality and route only to `PHASE-EVIDENCE-EXPANSION-002D`; it does not imply
+architecture selection or Phase 003 eligibility.
+
 ## Project lifecycle
 
 `INIT → FOUNDATION_READY → UPSTREAMS_INVENTORIED → UPSTREAMS_STATIC_REVIEWED → CANDIDATES_FROZEN`

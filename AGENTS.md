@@ -37,6 +37,8 @@ See `docs/SOURCE_OF_TRUTH.md` for ownership and `docs/INDEX.md` for the full map
 - Upstream changes, input changes, or superseded Final Runs propagate `STALE` to dependent artifacts.
 - Phase 002D machine truth is `evals/results/phase-002d/`; an insufficient terminal Gate locks native
   semantic audits and Phase 003, and only a newly frozen Phase 002D design may continue acquisition.
+- Phase 002D-R1 machine truth is `evals/results/phase-002d-r1/`; quality, reliability, outcome and
+  gap scopes never substitute for one another, and terminal/censored outcomes are never zero scores.
 
 ## Prohibitions
 

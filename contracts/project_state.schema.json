@@ -46,6 +46,7 @@
         "AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS",
         "EVIDENCE_EXPANSION_IN_PROGRESS",
         "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS",
+        "FAILURE_AWARE_ADJUDICATION_COMPLETE",
         "EVIDENCE_EXPANSION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_COMPLETE",
@@ -189,6 +190,32 @@
           "selected_architecture": {"type": "null"},
           "accepted_component_specifications": {"maxItems": 0},
           "next_phase_allowed": {"type": "null"},
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "skill_capability_status": {"const": "SCAFFOLD_ONLY"}
+        },
+        "required": ["evidence_expansion"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "const": "FAILURE_AWARE_ADJUDICATION_COMPLETE"
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
+          "subphase": {
+            "const": "PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION"
+          },
+          "status": {"const": "IN_PROGRESS"},
+          "selected_architecture": {"type": "null"},
+          "accepted_component_specifications": {"minItems": 1},
+          "next_phase_allowed": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
           "base_selected": {"const": false},
           "third_party_integrated": {"const": false},
           "skill_capability_status": {"const": "SCAFFOLD_ONLY"}

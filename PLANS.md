@@ -13,3 +13,7 @@ cycles it records `AUTOMATED_ADJUDICATION_INCOMPLETE`, preserves failures, keeps
 Phase 002D plans checkpoint and remotely deliver every real batch. If a frozen budget stops before
 the four-case/two-repeat minima, the plan records `EVIDENCE_EXPANSION_INCOMPLETE`, locks semantic
 Subagents/decisions and describes redesign conditions; it does not move to completed plans.
+
+Phase 002D-R1 may complete a failure-aware adjudication even when quality remains insufficient.
+Completion requires the independent Decision Auditor and stable replay, records only bounded
+accepted scopes, and routes a new acquisition design back to Phase 002D without executing it.

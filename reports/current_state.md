@@ -11,20 +11,19 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `FAILURE_AWARE_ADJUDICATION_IN_PROGRESS`
-- Automated decisions: `DECISION-EVIDENCE-SUFFICIENCY-002C, DECISION-DIRECT-UPSTREAM-ADOPTION-002C, DECISION-RECOVERY-POLICY-002C, DECISION-COMPONENT-READINESS-002C`
+- Technical adjudication: `FAILURE_AWARE_ADJUDICATION_COMPLETE`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1`
 - Selected architecture: `None`
-- Accepted component specifications: `None`
-- Next phase allowed: `None`
+- Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
+- Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`
 - Content-verified commit: `fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235`
 - Delivery receipt commit: `fd0523bc5caa0a0e2c50d5f75fd9b475fd57a235`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-02T02:08:52+08:00` by `main-agent`
+- Updated: `2026-09-02T03:49:25+08:00` by `main-agent`
 
 ## Blockers
 
-- FAILURE_AWARE_ADJUDICATION_PENDING
-- DECISION_AUDIT_PENDING
+- None
 
 ## Risks
 
@@ -40,4 +39,6 @@
 - Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.
 - Direct-adoption risks now use a closed fail-closed enum; the Phase 002C compatibility replay preserves both historical whole-package rejections.
 - Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.
-- Phase 002D stopped at 18 eligible records, 3 balanced cases and sufficiency repeat depth 1 after crossing the frozen elapsed budget; semantic Subagents and automated decisions remain locked.
+- Phase 002D-R1 quality evidence remains insufficient at 2 of 4 balanced cases and repeat depth 1 of 2; reliability evidence cannot be promoted into a quality or superiority claim.
+- The sole censored slot is harness-censored without established semantic equivalence, so supplemental authorization and the real-start budget remain zero.
+- Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown.

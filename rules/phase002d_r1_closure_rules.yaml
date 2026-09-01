@@ -1,0 +1,12 @@
+version: "1.0.0"
+state_machine_source: WORKFLOW.md
+scope: PHASE-002D-R1-POST-DECISION-CLOSURE
+prerequisites:
+  decision_audit_result: PASS
+  offline_replay_stable: true
+technical_adjudication_status_contract:
+  legal_enum_source: contracts/project_state.schema.json#/properties/technical_adjudication_status/enum
+  invariant_source: contracts/project_state.schema.json#/allOf
+  registered_transitions:
+    FAILURE_AWARE_ADJUDICATION_IN_PROGRESS:
+      - FAILURE_AWARE_ADJUDICATION_COMPLETE

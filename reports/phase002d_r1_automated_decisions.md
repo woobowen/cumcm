@@ -1,5 +1,5 @@
 <!-- GENERATED FILE — DO NOT EDIT -->
-# Formal automated decisions
+# Phase 002D-R1 automated decisions
 
 | Decision ID | Decision | Accepted scope | Next phase | Hash |
 | --- | --- | --- | --- | --- |
@@ -11,6 +11,5 @@
 | DECISION-ARCHITECTURE-002D-R1 | EVIDENCE_INSUFFICIENT | NONE | PHASE-EVIDENCE-EXPANSION-002D | 3ea6c9c729b25bef7831b7aeed51fcc7c8e60f86649f51ec87699a0e387dd37f |
 | DECISION-COMPONENT-READINESS-002D-R1 | AUTOMATED_ACCEPTED | SPECIFICATION_ONLY | PHASE-EVIDENCE-EXPANSION-002D | a5ef2fdf2882717006e8b97b04d5016b08b3200194c715c8b2516dd4144fc11f |
 
-All records exclude recovery ranking, arm identity, Agent voting and a human technical Gate. The
-system rejects supplemental execution and declines architecture selection. Team compliance review
-cannot override these technical outcomes.
+The canonical and wrapper `accepted_scope` fields agree for all seven records. Architecture remains
+unselected; four mechanisms are accepted only as specifications.

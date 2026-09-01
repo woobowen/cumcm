@@ -1,43 +1,17 @@
-# Automated Adjudication Dossier
+<!-- GENERATED FILE — DO NOT EDIT -->
+# Automated adjudication dossier
 
-Phase 002 produced candidate dynamic runs; Phase 002A rebuilt deterministic evidence classification; Phase 002B preserved 2 `RESPONSES_CONNECT_RESET` recovery failures and transport-repaired is `False`; Phase 002C recorded `EVIDENCE_INSUFFICIENT` through an evidence-sufficiency short circuit; semantic Judges are `SKIPPED`.
+Phase 002D-R1 uses one canonical automated-decision contract, a failure-aware scope envelope,
+independent native audits, deterministic serious-finding tests, a formal Decision Auditor and
+five-variant offline replay. Formal audit `PASS`; architecture unselected; quality
+insufficient; accepted scopes are policy, reliability and specification only.
 
-Technical status: `AUTOMATED_ADJUDICATION_COMPLETE`.
-Evidence sufficiency: `INSUFFICIENT`; balanced cases 2/4; repeats 1/2.
-Decision audit: `PASS`; deterministic replay: `True`.
-Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`. Phase 003 allowed: `False`. Phase 002D started: `False`.
-Selected architecture: `None`; third-party integrated: `False`; Skill capability: `SCAFFOLD_ONLY`.
-Phase 002B transport repaired: `False`. Preserved recovery attempts: 2 with `RESPONSES_CONNECT_RESET`; nested Codex used: `False`; API key used: `False`.
-
-## Native audits
-
-| Role | Model | Reasoning | RO | Peer view | Output hash | Findings | Blockers | Verdict |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| evidence_sufficiency_auditor | INHERITED_PARENT_UNEXPOSED | INHERITED_PARENT_UNEXPOSED | True | NONE | 1de280d35e959ce355d9840e09b0de8096053a50913b26bd0b97693c9c60478e | 8 | 0 | PASS |
-| adjudication_policy_prosecutor | INHERITED_PARENT_UNEXPOSED | INHERITED_PARENT_UNEXPOSED | True | NONE | 5ee12808550468ef78aaa4d447233f2a860c284fbf796b4bf7d9ad06e40738d6 | 9 | 0 | PASS |
-| dissent_and_cost_auditor | INHERITED_PARENT_UNEXPOSED | INHERITED_PARENT_UNEXPOSED | True | NONE | df3347aa5a338e6067161b53d423b7a54b90bee5a17977992d7d3e14565d9e71 | 5 | 0 | PASS |
-| reproducibility_auditor | INHERITED_PARENT_UNEXPOSED | INHERITED_PARENT_UNEXPOSED | True | NONE | 447a38914de3bea6a0d3e6c711a5dce6af865c3c7203ab0bc91fd37aaea3c8ca | 10 | 0 | PASS |
-| automated_decision_auditor | INHERITED_PARENT_UNEXPOSED | INHERITED_PARENT_UNEXPOSED | True | FROZEN_PREDECESSORS_ONLY | f81d9f46553955f02c7de88f7fff3adc3c5a40ac1cc3cd745a0c0dd7570dcde1 | 7 | 0 | PASS |
-
-## Decisions
-
-| Decision ID | Type | Target | Decision | Scope | Sufficiency | Audit | Next phase |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| DECISION-COMPONENT-READINESS-002C | COMPONENT_READINESS | accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate | EVIDENCE_INSUFFICIENT | NONE | INSUFFICIENT | DECISION-AUDIT-002C | None |
-| DECISION-DIRECT-UPSTREAM-ADOPTION-002C | DIRECT_UPSTREAM_ADOPTION | HANDSOMEZR_WHOLE_PACKAGE, YUSHUI_WHOLE_PACKAGE | AUTOMATED_REJECTED | NONE | INSUFFICIENT | DECISION-AUDIT-002C | None |
-| DECISION-EVIDENCE-SUFFICIENCY-002C | EVIDENCE_SUFFICIENCY | ARCHITECTURE_SELECTION, COMPONENT_COMBINATION_SELECTION | EVIDENCE_INSUFFICIENT | NONE | INSUFFICIENT | DECISION-AUDIT-002C | PHASE-EVIDENCE-EXPANSION-002D |
-| DECISION-RECOVERY-POLICY-002C | RECOVERY_POLICY | RECOVERY_AFFECTED_EVIDENCE_USAGE | AUTOMATED_ACCEPTED | POLICY_ONLY | SUFFICIENT | DECISION-AUDIT-002C | None |
-
-## Integrity
-
-Input freeze: `cc6397b0aea83d910105b15c5fb2f701ac4ff4def2858deb55c283d7cc396aa9`; evidence: `19f5bf98cd1337763a415e086121bdf73b4d92ffa1f6d0ac74ba49d1c058029c`; report inputs are machine records only.
-
-<!-- PHASE002D:START -->
-## Phase 002D terminal addendum
-
-Phase 002D ran 28 scored starts in one new cohort and retained 18 eligible records. Its formal
-sufficiency is `INSUFFICIENT` at 3/4 balanced cases and
-1/2 repeats. Elapsed budget stopped the runner. Native
-Subagents, Phase 002D decisions, Decision Auditor and decision replay were not run. The deterministic
-route permits only `PHASE-EVIDENCE-EXPANSION-002D`; Phase 003 remains false.
-<!-- PHASE002D:END -->
+| Decision ID | Decision | Accepted scope | Next phase | Hash |
+| --- | --- | --- | --- | --- |
+| DECISION-FAILURE-SEMANTICS-002D-R1 | AUTOMATED_ACCEPTED | POLICY_ONLY | PHASE-EVIDENCE-EXPANSION-002D | a779535ff2fbb8e1ef75a144ee49e4b373e2b93726ff543bf90491193b3e819b |
+| DECISION-SLOT-RESOLUTION-002D-R1 | AUTOMATED_ACCEPTED | POLICY_ONLY | PHASE-EVIDENCE-EXPANSION-002D | 1681faf7fddce21b749bbbcba7adb8d703b56531ed12c30c820c847f00fe7c0e |
+| DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1 | AUTOMATED_REJECTED | NONE | PHASE-EVIDENCE-EXPANSION-002D | 0ef9abf1f8a309f1d65bbcb3dc1e46f8904da7f9e40fafd1029f587ce99105c1 |
+| DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1 | EVIDENCE_INSUFFICIENT | NONE | PHASE-EVIDENCE-EXPANSION-002D | f561cf10ec88287dd155d7df82a052a0df1d514afda03774460305a83fe5be8c |
+| DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1 | AUTOMATED_ACCEPTED | RELIABILITY_ONLY | PHASE-EVIDENCE-EXPANSION-002D | 7868c12445014b3fa473ad2be9ff0938486a0d4528309ab2f174bcdabcd098c8 |
+| DECISION-ARCHITECTURE-002D-R1 | EVIDENCE_INSUFFICIENT | NONE | PHASE-EVIDENCE-EXPANSION-002D | 3ea6c9c729b25bef7831b7aeed51fcc7c8e60f86649f51ec87699a0e387dd37f |
+| DECISION-COMPONENT-READINESS-002D-R1 | AUTOMATED_ACCEPTED | SPECIFICATION_ONLY | PHASE-EVIDENCE-EXPANSION-002D | a5ef2fdf2882717006e8b97b04d5016b08b3200194c715c8b2516dd4144fc11f |

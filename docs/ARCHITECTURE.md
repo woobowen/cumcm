@@ -36,6 +36,14 @@ workspaces. Append-only attempt/run/eligibility/oracle/process records feed a de
 sufficiency Gate. Semantic Subagents and automated decisions are downstream consumers only when
 that Gate is sufficient; the terminal insufficient route writes no substitute opinion.
 
+## Failure-aware adjudication plane
+
+Phase 002D-R1 freezes the completed experiment, classifies all attempts, resolves slots and creates
+separate quality, reliability, completeness and gap projections. Five identity-blind first-round
+auditors feed deterministic finding tests. Seven canonical decisions then require a separate
+Decision Auditor and five offline order/label variants before formal state can change. This plane
+specifies components but does not implement them.
+
 ## Why not concatenate full Skills
 
 Full-Skill concatenation creates duplicate state machines, contradictory gates, discovery collisions, instruction-budget pressure, uncertain license boundaries, and untraceable behavior. The project instead evaluates mechanisms, then adopts/ports/reimplements only evidence-backed components through explicit ADRs, license review, and tests.

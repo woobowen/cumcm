@@ -22,3 +22,8 @@ Phase 002D scored work additionally disables web/MCP use, sanitizes the environm
 ephemeral no-remote repositories. Tracked attempts expose no raw session identifiers. Candidate
 packages remain sanitized instruction data only; no upstream code or dependency is installed or
 executed, and no result authorizes integration.
+
+R1 native audits receive role-specific hash-bound allowlists, use no web/MCP/API key, cannot write
+formal state and cannot inspect arm identity. Supplemental launch remains locked unless every
+precondition passes; the current authorization has zero starts. Offline replay performs no network
+or model call.
