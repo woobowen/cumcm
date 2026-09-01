@@ -244,9 +244,9 @@ the Skill stays scaffold-only until a later implementation phase.
 5. **M5 Batch 1 — COMPLETE** — one complete block was attempted in frozen order; all three records
    are primary eligible and retained; checkpoint/cost/score-audit/status passed; business commit
    `dcff679` is remotely delivered and verified.
-6. **M6 later batches — TERMINAL LOCALLY** — each bounded batch is verified/committed/pushed; the
+6. **M6 later batches — COMPLETE/REMOTE TERMINAL** — each bounded batch is verified/committed/pushed; the
    final A03 is excluded by HARD-FAIL-003 and cumulative elapsed crosses the frozen limit. Runner
-   is STOPPED with `ELAPSED_BUDGET_REACHED`; Batch 7 awaits delivery.
+   is STOPPED with `ELAPSED_BUDGET_REACHED`; Batch 7 is remotely delivered.
 7. **M7 sufficiency** — formal machine record correctly reports cohort, balanced cases, repeats and
    hard Gates.
 8. **M8 audits/decisions** — four independent first-round audits; all BLOCKER tests executed; five
@@ -378,7 +378,10 @@ affected hashes and acceptance changes before further scored work.
   three and repeat depth zero. Elapsed reached 6,228.480778 seconds, so runner status is STOPPED
   with `ELAPSED_BUDGET_REACHED`. Cost `a9b97f47...` and score audit `5b84b5a2...` pass. No further
   model start or native Subagent audit is allowed.
+- `2026-09-01T21:18:32+08:00`: Terminal Batch 7 business commit
+  `e935da9fd18c0567c99214c36c1658a8d05e0508` was pushed normally and verified byte-for-byte at the
+  task-branch remote ref. Draft PR #3 remains OPEN/DRAFT.
 
 ## 24. Current next step
 
-Validate and deliver terminal Batch 7, then generate the formal M7 insufficiency record offline.
+Generate and validate the formal M7 insufficiency record offline; keep Subagent audits locked.
