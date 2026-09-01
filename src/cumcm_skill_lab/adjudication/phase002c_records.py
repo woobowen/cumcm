@@ -40,6 +40,11 @@ DECISION_FILES = {
 }
 
 
+def decision_created_at(root: Path) -> str:
+    """Use the governing policy freeze timestamp for every derived decision."""
+    return str(resolve_policy(root)["frozen_at"])
+
+
 def _common(root: Path, *, decision_id: str, decision_type: str, targets: list[str]) -> dict:
     freeze = read_json(root / FREEZE_PATH)
     sufficiency = read_json(root / SUFFICIENCY_PATH)
@@ -73,7 +78,7 @@ def _common(root: Path, *, decision_id: str, decision_type: str, targets: list[s
         "stale_dependencies": [],
         "confidence": 1.0,
         "next_phase_allowed": None,
-        "created_at": resolve_config(root)["frozen_at"],
+        "created_at": decision_created_at(root),
     }
 
 

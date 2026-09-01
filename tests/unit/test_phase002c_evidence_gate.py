@@ -15,6 +15,7 @@ from cumcm_skill_lab.adjudication.evidence_sufficiency import (
 from cumcm_skill_lab.adjudication.models import sha256_json
 from cumcm_skill_lab.adjudication.native_subagent_audits import blocker_test_record
 from cumcm_skill_lab.adjudication.phase002c_records import (
+    decision_created_at,
     evaluate_direct_adoption_gates,
 )
 from cumcm_skill_lab.adjudication.phase002c_reporting import (
@@ -603,6 +604,10 @@ def test_direct_adoption_unknown_evidence_fails_closed(field, value, gate):
 def test_direct_adoption_unverified_scope_fails_closed(review_status):
     candidate, arm = _safe_candidate()
     assert _gates(candidate, arm, review_status=review_status)["scope_conflict"] is False
+
+
+def test_decision_timestamp_comes_from_frozen_policy(repo_root):
+    assert decision_created_at(repo_root) == "2026-09-01T11:57:13+08:00"
 
 
 def test_component_value_is_not_an_input_to_whole_package_gates():
