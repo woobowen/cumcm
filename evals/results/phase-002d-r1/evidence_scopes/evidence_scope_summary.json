@@ -1,0 +1,166 @@
+{
+  "component_gap_evidence": {
+    "agent_votes_excluded": true,
+    "eligible_gap_groups": [
+      {
+        "attempt_ids": [
+          "EXP-CASE-001-ARM-C-R1-A01",
+          "EXP-CASE-001-ARM-B-R1-A01",
+          "EXP-CASE-004-ARM-A-R1-A01",
+          "EXP-CASE-004-ARM-C-R1-A01",
+          "EXP-CASE-004-ARM-B-R1-A01",
+          "EXP-CASE-004-ARM-C-R2-A01",
+          "EXP-CASE-004-ARM-B-R2-A01",
+          "EXP-CASE-006-ARM-B-R1-A01",
+          "EXP-CASE-004-ARM-A-R2-A02"
+        ],
+        "case_ids": [
+          "CASE-001",
+          "CASE-004",
+          "CASE-006"
+        ],
+        "gap_id": "REPEATED_ORACLE_CORRECTNESS_GAP",
+        "repeat_ids": [
+          1,
+          2
+        ]
+      },
+      {
+        "attempt_ids": [
+          "EXP-CASE-004-ARM-A-R2-A01",
+          "EXP-CASE-006-ARM-A-R1-A01",
+          "EXP-CASE-006-ARM-C-R1-A01",
+          "EXP-CASE-006-ARM-A-R2-A01",
+          "EXP-CASE-006-ARM-B-R2-A01",
+          "EXP-CASE-006-ARM-C-R2-A01",
+          "EXP-CASE-006-ARM-A-R1-A02"
+        ],
+        "case_ids": [
+          "CASE-004",
+          "CASE-006"
+        ],
+        "gap_id": "REPEATED_POLICY_COMPLIANCE_GAP",
+        "repeat_ids": [
+          1,
+          2
+        ]
+      }
+    ],
+    "excluded_isolated_failures": [
+      "EXP-CASE-001-ARM-A-R2-A01",
+      "EXP-CASE-001-ARM-A-R2-A03"
+    ],
+    "infrastructure_excluded": true,
+    "recovery_excluded": true
+  },
+  "failure_is_not_zero_score": true,
+  "outcome_completeness": {
+    "censored_slot_ids": [
+      "CASE-001-ARM-A-R2"
+    ],
+    "minimum_repeat_depth": 2,
+    "resolved_case_count": 3,
+    "resolved_slot_count": 23,
+    "resolved_slot_ids": [
+      "CASE-001-ARM-C-R1",
+      "CASE-001-ARM-A-R1",
+      "CASE-001-ARM-B-R1",
+      "CASE-001-ARM-B-R2",
+      "CASE-001-ARM-C-R2",
+      "CASE-002-ARM-A-R1",
+      "CASE-002-ARM-C-R1",
+      "CASE-002-ARM-B-R1",
+      "CASE-002-ARM-C-R2",
+      "CASE-002-ARM-B-R2",
+      "CASE-002-ARM-A-R2",
+      "CASE-004-ARM-A-R1",
+      "CASE-004-ARM-C-R1",
+      "CASE-004-ARM-B-R1",
+      "CASE-004-ARM-C-R2",
+      "CASE-004-ARM-B-R2",
+      "CASE-004-ARM-A-R2",
+      "CASE-006-ARM-A-R1",
+      "CASE-006-ARM-C-R1",
+      "CASE-006-ARM-B-R1",
+      "CASE-006-ARM-A-R2",
+      "CASE-006-ARM-B-R2",
+      "CASE-006-ARM-C-R2"
+    ],
+    "resolved_success_slots": 9,
+    "resolved_terminal_negative_slots": 14
+  },
+  "quality_evidence": {
+    "balanced_case_count": 2,
+    "balanced_cases": [
+      "CASE-001",
+      "CASE-002"
+    ],
+    "minimum_repeat_depth": 1,
+    "required_balanced_cases": 4,
+    "required_repeat_depth": 2,
+    "result": "EVIDENCE_INSUFFICIENT",
+    "selected_record_ids": [
+      "EXP-CASE-001-ARM-A-R1-A01",
+      "EXP-CASE-001-ARM-B-R2-A01",
+      "EXP-CASE-001-ARM-C-R2-A01",
+      "EXP-CASE-002-ARM-A-R1-A01",
+      "EXP-CASE-002-ARM-C-R1-A01",
+      "EXP-CASE-002-ARM-B-R1-A01",
+      "EXP-CASE-002-ARM-C-R2-A01",
+      "EXP-CASE-002-ARM-B-R2-A01",
+      "EXP-CASE-002-ARM-A-R2-A01"
+    ]
+  },
+  "reliability_evidence": {
+    "attempt_count": 28,
+    "attempt_ids": [
+      "EXP-CASE-001-ARM-C-R1-A01",
+      "EXP-CASE-001-ARM-A-R1-A01",
+      "EXP-CASE-001-ARM-B-R1-A01",
+      "EXP-CASE-001-ARM-A-R2-A01",
+      "EXP-CASE-001-ARM-B-R2-A01",
+      "EXP-CASE-001-ARM-C-R2-A01",
+      "EXP-CASE-002-ARM-A-R1-A01",
+      "EXP-CASE-002-ARM-C-R1-A01",
+      "EXP-CASE-002-ARM-B-R1-A01",
+      "EXP-CASE-002-ARM-C-R2-A01",
+      "EXP-CASE-002-ARM-B-R2-A01",
+      "EXP-CASE-002-ARM-A-R2-A01",
+      "EXP-CASE-004-ARM-A-R1-A01",
+      "EXP-CASE-004-ARM-C-R1-A01",
+      "EXP-CASE-004-ARM-B-R1-A01",
+      "EXP-CASE-004-ARM-C-R2-A01",
+      "EXP-CASE-004-ARM-B-R2-A01",
+      "EXP-CASE-004-ARM-A-R2-A01",
+      "EXP-CASE-006-ARM-A-R1-A01",
+      "EXP-CASE-006-ARM-C-R1-A01",
+      "EXP-CASE-006-ARM-B-R1-A01",
+      "EXP-CASE-006-ARM-A-R2-A01",
+      "EXP-CASE-006-ARM-B-R2-A01",
+      "EXP-CASE-006-ARM-C-R2-A01",
+      "EXP-CASE-001-ARM-A-R2-A02",
+      "EXP-CASE-004-ARM-A-R2-A02",
+      "EXP-CASE-006-ARM-A-R1-A02",
+      "EXP-CASE-001-ARM-A-R2-A03"
+    ],
+    "completion_rate": 0.714285714,
+    "infrastructure_rate": 0.035714286,
+    "policy_violation_rate": 0.25,
+    "primary_eligible_rate": 0.642857143,
+    "retry_burden": 4,
+    "slot_count": 24,
+    "terminal_failure_rate": 0.571428571
+  },
+  "repeat_semantics": {
+    "outcome_minimum_repeat_depth": 2,
+    "outcome_resolved_case_count": 3,
+    "quality_balanced_case_count": 2,
+    "quality_minimum_repeat_depth": 1,
+    "reliability_observed_repeat_depth": 2,
+    "repeat_depth_deprecated": true,
+    "schedule_attempted_repeat_depth": 2
+  },
+  "schema_version": "1.0.0",
+  "scope_summary_id": "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+  "summary_hash": "ca27214aa5d3712559cd9f5f7783f44c983dd6f8e875f2dafd225e53d92b2344"
+}

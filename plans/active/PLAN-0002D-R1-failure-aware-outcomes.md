@@ -17,11 +17,13 @@ as missing. The source experiment has 24 planned slots, 28 scored attempts, 20 c
 policy violations, six authoritative `HARD-FAIL-003` findings and one recorded infrastructure
 failure. It stopped at 6,228.480778 seconds after crossing the immutable 6,197-second elapsed cap.
 
-The old quality-only Gate remains `INSUFFICIENT`: three of four balanced success cases and eligible
-repeat depth one of two. The legacy runner-wide complete-repeat depth is zero. The original budget
-is closed and may not be edited or expanded. Architecture is null, accepted components are empty,
-base selection and third-party integration are false, and the formal Skill remains
-`0.1.0-foundation`/`SCAFFOLD_ONLY`.
+The old Gate remains `INSUFFICIENT`: its primary-eligibility coverage reported three of four
+balanced cases and eligible repeat depth one of two. R1 does not overwrite that historical record;
+its stricter quality projection excludes oracle-failing terminal negatives and therefore has two
+balanced cases at repeat depth one. The legacy runner-wide complete-repeat depth is zero. The
+original budget is closed and may not be edited or expanded. Architecture is null, accepted
+components are empty, base selection and third-party integration are false, and the formal Skill
+remains `0.1.0-foundation`/`SCAFFOLD_ONLY`.
 
 ## 2. Scope
 
@@ -66,7 +68,7 @@ retain every secondary flag.
 ## 5. Slot resolution and evidence scopes
 
 The matrix contains exactly 24 unique slots and all attempt IDs in stable start order. Quality uses
-the earliest eligible observation per slot and never a best score. A verified terminal negative
+the earliest `ELIGIBLE_SUCCESS` (including oracle PASS) per slot and never a best score. A verified terminal negative
 without eligible success resolves the slot negatively and blocks further retries. Infrastructure-
 only, harness-only and unknown slots stay censored/unresolved.
 
@@ -220,5 +222,19 @@ reset/clean/rebase/force-push/merge. PR #3 remains OPEN/DRAFT and is updated onl
   (`6 passed`), unit/integration/fault suite (`546 passed`, `1 skipped`), contracts (`45/45` valid,
   `35/35` invalid rejected), status render/check, strict validation (`0 errors`, `0 warnings`), full
   CI (`546 passed`, `1 skipped`) and `git diff --check`.
+- `2026-09-02T02:27:21+08:00`: M2 classified all 28 frozen attempts exactly once: 9 eligible
+  successes, 9 valid-output oracle failures, 7 terminal policy failures, 1 infrastructure-censored
+  attempt and 2 harness-censored attempts. Six `HARD-FAIL-003` flags and all four retries remain
+  explicit. The 24-slot matrix accounts for every attempt: 9 resolved successes, 14 resolved
+  terminal negatives and 1 harness-censored slot; best-of-N is prohibited.
+- `2026-09-02T02:27:21+08:00`: M3 separated the evidence scopes. Quality remains insufficient at
+  2/4 balanced cases and repeat depth 1/2; outcome completeness is 23/24 slots across 3 fully
+  resolved cases at depth 2; reliability retains all 28 attempts with retry burden 4. The retry
+  audit found one primary-eligible result after retry but no oracle-PASS success after retry.
+- M2/M3 repair loop 1 fixed 13 Ruff `E501` findings by formatting only; lint then passed. Repair
+  loop 2 corrected a test expectation that had confused the 9 oracle failures with the frozen set
+  of 6 `HARD-FAIL-003` attempts; the rerun passed 132 tests. Contracts now validate 50 positive
+  fixtures and reject 40 negative fixtures; both historical and R1 freezes pass.
 
-Next: create and remotely verify the M1 checkpoint before classification.
+Next: create and remotely verify the M2 and M3 atomic commits, then prepare five isolated native
+read-only first-round audit bundles.

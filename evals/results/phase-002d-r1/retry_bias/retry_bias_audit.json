@@ -1,0 +1,143 @@
+{
+  "all_attempts_in_cost": true,
+  "attempt_count": 28,
+  "attempt_to_first_eligible": [
+    {
+      "attempt_id": "EXP-CASE-001-ARM-C-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-C-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-A-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-A-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-B-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-B-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-B-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-C-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-C-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-A-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-A-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-C-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-C-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-B-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-C-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-C-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-B-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-B-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-A-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-A-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-A-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-A-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-C-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-C-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-B-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-C-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-C-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-B-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-B-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-A-R2-A02",
+      "attempt_number": 2,
+      "slot_id": "CASE-004-ARM-A-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-006-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-006-ARM-B-R1"
+    }
+  ],
+  "audit_hash": "eba4c973345cce41cdf29551bac00a0de3eda4f46f12ded47b43c8ce3cd76afb",
+  "audit_id": "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+  "best_of_n_prohibited": true,
+  "cell_attempt_efficiency": {
+    "primary_eligible_slots_per_attempt": 0.642857143,
+    "quality_success_slots_per_attempt": 0.321428571,
+    "resolved_slots_per_attempt": 0.821428571
+  },
+  "earliest_eligible_enforced": true,
+  "failure_zero_imputation": false,
+  "findings": [
+    {
+      "evidence_ids": [
+        "CASE-004-ARM-A-R2"
+      ],
+      "finding_id": "RETRY-BIAS-001",
+      "severity": "WARNING",
+      "statement": "Primary eligibility occurred after retry in one slot; prior failures remain in reliability and cost."
+    },
+    {
+      "evidence_ids": [
+        "CASE-001-ARM-A-R2",
+        "CASE-004-ARM-A-R2",
+        "CASE-006-ARM-A-R1"
+      ],
+      "finding_id": "RETRY-BIAS-002",
+      "severity": "INFO",
+      "statement": "No oracle-PASS quality success occurred after retry and no best-of-N quality selection was used."
+    }
+  ],
+  "later_success_erases_failure": false,
+  "per_cell_cap_respected": true,
+  "posthoc_budget_expansion": false,
+  "previous_failures_retained": true,
+  "primary_eligible_after_retry": [
+    "CASE-004-ARM-A-R2"
+  ],
+  "retry_burden": 4,
+  "schema_version": "1.0.0",
+  "slot_count": 24,
+  "slots_with_retry": [
+    "CASE-001-ARM-A-R2",
+    "CASE-004-ARM-A-R2",
+    "CASE-006-ARM-A-R1"
+  ],
+  "success_after_retry": [],
+  "terminal_failure_before_success": []
+}

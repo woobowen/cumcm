@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/retry-bias-audit/v1",
+  "title": "Phase 002D-R1 Retry-Until-Success Bias Audit",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "audit_id", "attempt_count", "slot_count", "retry_burden",
+    "slots_with_retry", "attempt_to_first_eligible", "terminal_failure_before_success",
+    "success_after_retry", "primary_eligible_after_retry", "cell_attempt_efficiency",
+    "earliest_eligible_enforced", "best_of_n_prohibited", "previous_failures_retained",
+    "later_success_erases_failure", "posthoc_budget_expansion", "per_cell_cap_respected",
+    "all_attempts_in_cost", "failure_zero_imputation", "findings", "audit_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "audit_id": {"const": "PHASE-002D-R1-RETRY-BIAS-AUDIT-001"},
+    "attempt_count": {"const": 28},
+    "slot_count": {"const": 24},
+    "retry_burden": {"type": "integer", "minimum": 0},
+    "slots_with_retry": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "attempt_to_first_eligible": {"type": "array", "items": {"type": "object", "required": ["slot_id", "attempt_number", "attempt_id"]}},
+    "terminal_failure_before_success": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "success_after_retry": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "primary_eligible_after_retry": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "cell_attempt_efficiency": {
+      "type": "object",
+      "required": ["resolved_slots_per_attempt", "quality_success_slots_per_attempt", "primary_eligible_slots_per_attempt"],
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "earliest_eligible_enforced": {"const": true},
+    "best_of_n_prohibited": {"const": true},
+    "previous_failures_retained": {"const": true},
+    "later_success_erases_failure": {"const": false},
+    "posthoc_budget_expansion": {"const": false},
+    "per_cell_cap_respected": {"const": true},
+    "all_attempts_in_cost": {"const": true},
+    "failure_zero_imputation": {"const": false},
+    "findings": {"type": "array", "items": {"type": "object", "required": ["finding_id", "severity", "evidence_ids", "statement"]}},
+    "audit_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}
