@@ -1,0 +1,81 @@
+{
+  "ablation": {
+    "candidate_results_used": false,
+    "post_hoc_selection": false,
+    "selection_rule": "Choose at most two components with the largest deterministic critical-case contribution, ordered by component ID on ties; never use model results or preference.",
+    "stage1_arms": [
+      "baseline",
+      "accepted-versus-done-workflow-state-only",
+      "claim-evidence-support-gate-only",
+      "hash-bound-reproducibility-manifest-only",
+      "leakage-safe-model-comparison-gate-only",
+      "all-four-components",
+      "reproducibility-plus-claim-support-interaction"
+    ],
+    "stage2_max_component_ablations": 2
+  },
+  "absolute_start_cap": 30,
+  "architecture_arms": [
+    "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+    "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+    "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+  ],
+  "composite_family_count": 4,
+  "executed_in_phase_002d_r2": false,
+  "main_start_formula": "eligible_architecture_count * 4 * 2",
+  "prohibited_arms": [
+    "HANDSOMEZR",
+    "YUSHUI",
+    "any third-party whole package"
+  ],
+  "protocol_hash": "202870df3a8cdb007dcaaf5722e16c7fcb668c4b92f65561e7b043c8c5d1a97c",
+  "protocol_id": "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
+  "randomization": "BLOCKED_RANDOMIZED_ARM_ORDER",
+  "repeats": 2,
+  "retry_allowance_formula": "ceil(main_model_starts * 0.25)",
+  "retry_rules": [
+    "Only independently classified fresh infrastructure failures may receive a retry.",
+    "At most one retry is allowed for a primary slot and all attempts remain in ledgers.",
+    "Retry allowance is ceil(main starts * 0.25); no terminal correctness failure is retried into success."
+  ],
+  "schema_version": "1.0.0",
+  "stage2_equalities": [
+    "same model cohort",
+    "same Prompt",
+    "same data",
+    "same timeout",
+    "same sandbox",
+    "same network/MCP policy",
+    "same hidden cases",
+    "same grader"
+  ],
+  "stages": [
+    {
+      "entry_condition": "specification, Benchmark and thresholds are frozen",
+      "exit_condition": "all public, property and critical hidden hard gates pass",
+      "model_execution": false,
+      "name": "DETERMINISTIC_CONFORMANCE",
+      "stage": 1
+    },
+    {
+      "entry_condition": "the architecture passed every Stage 1 hard gate",
+      "exit_condition": "all planned terminal outcomes are preserved or the cap stops",
+      "model_execution": true,
+      "name": "MODEL_IN_LOOP_COMPOSITE_FUTURE",
+      "stage": 2
+    },
+    {
+      "entry_condition": "Stage 2 evidence is frozen without threshold mutation",
+      "exit_condition": "audited deterministic decision and stable replay exist",
+      "model_execution": false,
+      "name": "AUTOMATIC_ARCHITECTURE_ADJUDICATION_FUTURE",
+      "stage": 3
+    }
+  ],
+  "status": "POLICY_FROZEN",
+  "stop_conditions": [
+    "Stop an architecture before Stage 2 on any Stage 1 hard failure.",
+    "Stop when the retry allowance or absolute 30-start cap is exhausted.",
+    "Stop with RETEST_REQUIRED or EVIDENCE_INSUFFICIENT on missing, leaked, stale, censored or non-replayable critical evidence."
+  ]
+}

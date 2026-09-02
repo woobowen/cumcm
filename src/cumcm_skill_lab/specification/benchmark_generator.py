@@ -197,6 +197,31 @@ def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
     families = _families()
     public_cases = _public_cases()
     protocol = _benchmark_protocol(families)
+    sealed_families = [item for item in families if item["tier"] == "SEALED_PROPERTY"]
+    case_slots = [
+        (family, index)
+        for family in sealed_families
+        for index in range(1, family["case_count"] + 1)
+    ]
+    seed_identities = sorted(seed_hashes.items())
+    if len(case_slots) != len(seed_identities):
+        raise ValueError("SEALED_CASE_SEED_CARDINALITY_MISMATCH")
+    oracle_records = []
+    for (family, index), (seed_slot, seed_hash) in zip(case_slots, seed_identities, strict=True):
+        oracle_records.append(
+            {
+                "case_slot_id": f"{family['family_id']}-{index:02d}",
+                "family_id": family["family_id"],
+                "oracle_class": (
+                    "VALID_CONTROL" if family["negative_control"] else "INVALID_CONTROL"
+                ),
+                "strata": [family["category"], *family["component_scope"]],
+                "seed_slot": seed_slot,
+                "seed_identity_hash": seed_hash,
+                "inclusion": "INCLUDED",
+                "exclusion_reason": None,
+            }
+        )
     values: dict[Path, Any] = {
         Path("benchmark_protocol.yaml"): protocol,
         Path("case_catalog.yaml"): {"schema_version": "1.0.0", "families": families},
@@ -236,6 +261,13 @@ def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
             "hard_failures_noncompensatory": True,
             "unknown_is_not_zero": True,
             "recovery_evidence_ranked": False,
+        },
+        Path("manifests/oracle_class_map.json"): {
+            "schema_version": "1.0.0",
+            "frozen_before_prototype": True,
+            "candidate_results_present": False,
+            "record_count": len(oracle_records),
+            "records": oracle_records,
         },
     }
     artifact_hashes = {path.as_posix(): sha256_json(value) for path, value in values.items()}

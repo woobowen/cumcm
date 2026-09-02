@@ -1,0 +1,19 @@
+{
+  "candidate_results_used": false,
+  "executed": false,
+  "policy_hash": "4726308e0f0967ee31f5f7ded465a3235ce2c4cb59bf61585c127a96db6a042d",
+  "post_hoc_selection": false,
+  "schema_version": "1.0.0",
+  "selection_rule": "Choose at most two components with the largest deterministic critical-case contribution, ordered by component ID on ties; never use model results or preference.",
+  "stage1_arms": [
+    "baseline",
+    "accepted-versus-done-workflow-state-only",
+    "claim-evidence-support-gate-only",
+    "hash-bound-reproducibility-manifest-only",
+    "leakage-safe-model-comparison-gate-only",
+    "all-four-components",
+    "reproducibility-plus-claim-support-interaction"
+  ],
+  "stage2_max_component_ablations": 2,
+  "status": "POLICY_FROZEN"
+}

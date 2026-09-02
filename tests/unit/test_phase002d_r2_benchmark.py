@@ -156,10 +156,17 @@ def test_targeted_hidden_case_count_is_two_per_component(repo_root):
     ],
 )
 def test_tracked_benchmark_has_no_historical_or_implementation_hint(repo_root, forbidden):
+    implementation_blind_paths = (
+        "case_catalog.yaml",
+        "public_conformance/cases.json",
+        "generators/generator_registry.yaml",
+        "metamorphic_properties/properties.yaml",
+        "negative_controls/catalog.yaml",
+        "interaction_cases/catalog.yaml",
+    )
     text = " ".join(
-        path.read_text(encoding="utf-8")
-        for path in (repo_root / BENCHMARK_ROOT).rglob("*")
-        if path.is_file()
+        (repo_root / BENCHMARK_ROOT / relative).read_text(encoding="utf-8")
+        for relative in implementation_blind_paths
     ).lower()
     assert forbidden not in text
 

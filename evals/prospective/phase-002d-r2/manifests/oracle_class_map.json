@@ -1,0 +1,280 @@
+{
+  "candidate_results_present": false,
+  "frozen_before_prototype": true,
+  "record_count": 20,
+  "records": [
+    {
+      "case_slot_id": "R2-TARGET-1-01",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-1",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "be55b5a14dd7842c45e9bd0dae208fc03745f04c9b172221b0ed43375c2ae5f0",
+      "seed_slot": "R2-HIDDEN-01",
+      "strata": [
+        "TARGETED",
+        "accepted-versus-done-workflow-state"
+      ]
+    },
+    {
+      "case_slot_id": "R2-TARGET-1-02",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-1",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "9a15a266eb8c359bc01ae15bd4230c8084eb866cc73438e61df3935674b42429",
+      "seed_slot": "R2-HIDDEN-02",
+      "strata": [
+        "TARGETED",
+        "accepted-versus-done-workflow-state"
+      ]
+    },
+    {
+      "case_slot_id": "R2-TARGET-2-01",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-2",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "cbd07593f3a551be5b83e5def5222e51c11a74428acfb01478cca818e6989b00",
+      "seed_slot": "R2-HIDDEN-03",
+      "strata": [
+        "TARGETED",
+        "claim-evidence-support-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-TARGET-2-02",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-2",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "99ee98d0effbeb6e8f5c1899be33bf836c851a511bee5c8e19df21115d4fa3ed",
+      "seed_slot": "R2-HIDDEN-04",
+      "strata": [
+        "TARGETED",
+        "claim-evidence-support-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-TARGET-3-01",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-3",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "2ccf3e033c752f1da34df7095f33397a6f45cb76e59deabdc16580d7686ca8fe",
+      "seed_slot": "R2-HIDDEN-05",
+      "strata": [
+        "TARGETED",
+        "hash-bound-reproducibility-manifest"
+      ]
+    },
+    {
+      "case_slot_id": "R2-TARGET-3-02",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-3",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "3ebeb6601b82541504ea169362f7293a0c16b4b16802d95cb06ab30b60a414fa",
+      "seed_slot": "R2-HIDDEN-06",
+      "strata": [
+        "TARGETED",
+        "hash-bound-reproducibility-manifest"
+      ]
+    },
+    {
+      "case_slot_id": "R2-TARGET-4-01",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-4",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "5470250ea85ba389bdb37c043fba8a09e28610b5e3a090bd2a24f310188516f6",
+      "seed_slot": "R2-HIDDEN-07",
+      "strata": [
+        "TARGETED",
+        "leakage-safe-model-comparison-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-TARGET-4-02",
+      "exclusion_reason": null,
+      "family_id": "R2-TARGET-4",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "79c2cae697e1b0df57e5325a954ff55e96e1119a0549c1810d878cdb9aed31da",
+      "seed_slot": "R2-HIDDEN-08",
+      "strata": [
+        "TARGETED",
+        "leakage-safe-model-comparison-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-INTERACTION-1-01",
+      "exclusion_reason": null,
+      "family_id": "R2-INTERACTION-1",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "eb12bdf646c1cb13c3b1646efbdf764e9c22b02b0f74bf0454b3ab4c0c9fef1b",
+      "seed_slot": "R2-HIDDEN-09",
+      "strata": [
+        "INTERACTION",
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-NEGATIVE-1-01",
+      "exclusion_reason": null,
+      "family_id": "R2-NEGATIVE-1",
+      "inclusion": "INCLUDED",
+      "oracle_class": "VALID_CONTROL",
+      "seed_identity_hash": "b677e3316bee492d3ee12fb7560694e269bc00f90c7c1ac45c5ca7dabb78bd27",
+      "seed_slot": "R2-HIDDEN-10",
+      "strata": [
+        "VALID_NEGATIVE_CONTROL",
+        "accepted-versus-done-workflow-state"
+      ]
+    },
+    {
+      "case_slot_id": "R2-GAMING-1-01",
+      "exclusion_reason": null,
+      "family_id": "R2-GAMING-1",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "f1fffa5e5b5c5118290b67df4b7bce09b447eb6c36ab2ebd6c745077ec079c77",
+      "seed_slot": "R2-HIDDEN-11",
+      "strata": [
+        "ADVERSARIAL_GAMING",
+        "accepted-versus-done-workflow-state"
+      ]
+    },
+    {
+      "case_slot_id": "R2-INTERACTION-2-01",
+      "exclusion_reason": null,
+      "family_id": "R2-INTERACTION-2",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "5602273ab1b9f3ebee7d988d063c39dff0fc186246696dffe7c5e5f083d1da5e",
+      "seed_slot": "R2-HIDDEN-12",
+      "strata": [
+        "INTERACTION",
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-NEGATIVE-2-01",
+      "exclusion_reason": null,
+      "family_id": "R2-NEGATIVE-2",
+      "inclusion": "INCLUDED",
+      "oracle_class": "VALID_CONTROL",
+      "seed_identity_hash": "3f5297af1a555ef89c82e0e7b116f8fb67ce3fb86a0b5aded7c7e2e88404dfeb",
+      "seed_slot": "R2-HIDDEN-13",
+      "strata": [
+        "VALID_NEGATIVE_CONTROL",
+        "claim-evidence-support-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-GAMING-2-01",
+      "exclusion_reason": null,
+      "family_id": "R2-GAMING-2",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "f59232f618bbfb571d44cea998c635f5eb63d5f60b64513f38c4cc6c6babab53",
+      "seed_slot": "R2-HIDDEN-14",
+      "strata": [
+        "ADVERSARIAL_GAMING",
+        "claim-evidence-support-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-INTERACTION-3-01",
+      "exclusion_reason": null,
+      "family_id": "R2-INTERACTION-3",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "97aac11f1bf4b5374691d50b81dc0aaa920db7d419453f74196a6b3578c9cc67",
+      "seed_slot": "R2-HIDDEN-15",
+      "strata": [
+        "INTERACTION",
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-NEGATIVE-3-01",
+      "exclusion_reason": null,
+      "family_id": "R2-NEGATIVE-3",
+      "inclusion": "INCLUDED",
+      "oracle_class": "VALID_CONTROL",
+      "seed_identity_hash": "293c70ca7bb5685657797ab27f61f30c4bdaddf3967d072f2e394096e8941cea",
+      "seed_slot": "R2-HIDDEN-16",
+      "strata": [
+        "VALID_NEGATIVE_CONTROL",
+        "hash-bound-reproducibility-manifest"
+      ]
+    },
+    {
+      "case_slot_id": "R2-GAMING-3-01",
+      "exclusion_reason": null,
+      "family_id": "R2-GAMING-3",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "e71415e6805345576f79ec722ceea6fb710c531fc6b53cb23afe6929fd1232ac",
+      "seed_slot": "R2-HIDDEN-17",
+      "strata": [
+        "ADVERSARIAL_GAMING",
+        "hash-bound-reproducibility-manifest"
+      ]
+    },
+    {
+      "case_slot_id": "R2-INTERACTION-4-01",
+      "exclusion_reason": null,
+      "family_id": "R2-INTERACTION-4",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "2ea93570e6e4e27516e1cc8613d9f89561831965104de77ba8c006dfc09872c5",
+      "seed_slot": "R2-HIDDEN-18",
+      "strata": [
+        "INTERACTION",
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-NEGATIVE-4-01",
+      "exclusion_reason": null,
+      "family_id": "R2-NEGATIVE-4",
+      "inclusion": "INCLUDED",
+      "oracle_class": "VALID_CONTROL",
+      "seed_identity_hash": "5d59642b7aea82a5b68d2abc04f36a100adadd52c76ccf71e419cbf6d4c0556f",
+      "seed_slot": "R2-HIDDEN-19",
+      "strata": [
+        "VALID_NEGATIVE_CONTROL",
+        "leakage-safe-model-comparison-gate"
+      ]
+    },
+    {
+      "case_slot_id": "R2-GAMING-4-01",
+      "exclusion_reason": null,
+      "family_id": "R2-GAMING-4",
+      "inclusion": "INCLUDED",
+      "oracle_class": "INVALID_CONTROL",
+      "seed_identity_hash": "dc2f1f1c052f347b726497555db9e17d8a881963e079525f1c25427670e42fa1",
+      "seed_slot": "R2-HIDDEN-20",
+      "strata": [
+        "ADVERSARIAL_GAMING",
+        "leakage-safe-model-comparison-gate"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,304 @@
+{
+  "candidate_results_present": false,
+  "category_separation": [
+    "correctness",
+    "reliability",
+    "cost",
+    "maintenance"
+  ],
+  "frozen_before_prototype": true,
+  "metrics": [
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "critical_violation_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "raw_input_mutation_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "stale_false_accept_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "unsupported_claim_false_accept_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "test_leakage_false_accept_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "manifest_mismatch_missed_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "second_formal_skill_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "second_state_truth_source_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "hidden_vault_access_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "third_party_execution_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "unauthorized_state_write_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "HARD_SAFETY",
+      "direction": "ZERO_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "premature_test_access_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "LEAKAGE_PREVENTION",
+      "direction": "ONE_ONLY",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "final_test_access_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "TARGET_EFFECTIVENESS",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "targeted_detection_recall",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "FALSE_BLOCK",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "valid_control_false_block_rate",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "STATE_CORRECTNESS",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "state_transition_precision",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "STATE_CORRECTNESS",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "state_transition_recall",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "STATE_CORRECTNESS",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "stale_propagation_recall",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "CLAIM_SUPPORT",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "claim_support_precision",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "CLAIM_SUPPORT",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "claim_support_recall",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "LEAKAGE_PREVENTION",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "leakage_detection_recall",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "REPRODUCIBILITY",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "reproduction_success_rate",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "REPRODUCIBILITY",
+      "direction": "MAXIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "completion_rate",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "REPRODUCIBILITY",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "terminal_failure_rate",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "COST",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "retry_burden",
+      "unit": "rate",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "COST",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "input_token_overhead",
+      "unit": "ratio",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "COST",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "output_token_overhead",
+      "unit": "ratio",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "COST",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "elapsed_time_overhead",
+      "unit": "ratio",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "MAINTENANCE",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "tracked_code_surface",
+      "unit": "weighted_files",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "MAINTENANCE",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": false,
+      "metric_id": "maintenance_score",
+      "unit": "weighted_units",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "MAINTENANCE",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "state_source_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    },
+    {
+      "category": "MAINTENANCE",
+      "direction": "MINIMIZE",
+      "evidence_source": "frozen synthetic oracle or hash-bound attempt/Git ledger",
+      "hard_safety": true,
+      "metric_id": "formal_skill_count",
+      "unit": "count",
+      "unknown_is_zero": false
+    }
+  ],
+  "registry_hash": "1fadd6b2ada7d90b3a84a9f4476e1f2779ed74bc115871c22f40c471ab5417ab",
+  "registry_id": "PHASE-002D-R2-METRICS-001",
+  "schema_version": "1.0.0",
+  "status": "POLICY_FROZEN"
+}

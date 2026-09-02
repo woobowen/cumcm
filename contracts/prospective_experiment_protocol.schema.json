@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/prospective-experiment-protocol/v1",
+  "title": "Prospective Shadow Experiment Protocol",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "protocol_id", "status", "executed_in_phase_002d_r2", "architecture_arms", "stages", "stage2_equalities", "composite_family_count", "repeats", "main_start_formula", "retry_allowance_formula", "absolute_start_cap", "randomization", "retry_rules", "stop_conditions", "ablation", "prohibited_arms", "protocol_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "protocol_id": {"const": "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001"},
+    "status": {"const": "POLICY_FROZEN"},
+    "executed_in_phase_002d_r2": {"const": false},
+    "architecture_arms": {"type": "array", "minItems": 2, "maxItems": 3, "items": {"type": "string"}, "uniqueItems": true},
+    "stages": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/stage"}},
+    "stage2_equalities": {"type": "array", "minItems": 8, "items": {"type": "string"}, "uniqueItems": true},
+    "composite_family_count": {"const": 4},
+    "repeats": {"const": 2},
+    "main_start_formula": {"const": "eligible_architecture_count * 4 * 2"},
+    "retry_allowance_formula": {"const": "ceil(main_model_starts * 0.25)"},
+    "absolute_start_cap": {"const": 30},
+    "randomization": {"const": "BLOCKED_RANDOMIZED_ARM_ORDER"},
+    "retry_rules": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "stop_conditions": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "ablation": {"$ref": "#/$defs/ablation"},
+    "prohibited_arms": {"type": "array", "minItems": 2, "items": {"type": "string"}, "uniqueItems": true},
+    "protocol_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "required": ["stage", "name", "entry_condition", "model_execution", "exit_condition"],
+      "properties": {
+        "stage": {"type": "integer", "minimum": 1, "maximum": 3},
+        "name": {"type": "string"},
+        "entry_condition": {"type": "string"},
+        "model_execution": {"type": "boolean"},
+        "exit_condition": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "ablation": {
+      "type": "object",
+      "required": ["stage1_arms", "stage2_max_component_ablations", "selection_rule", "candidate_results_used", "post_hoc_selection"],
+      "properties": {
+        "stage1_arms": {"type": "array", "minItems": 7, "items": {"type": "string"}, "uniqueItems": true},
+        "stage2_max_component_ablations": {"const": 2},
+        "selection_rule": {"type": "string", "minLength": 20},
+        "candidate_results_used": {"const": false},
+        "post_hoc_selection": {"const": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

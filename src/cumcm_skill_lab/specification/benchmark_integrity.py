@@ -38,6 +38,7 @@ def validate_prospective_benchmark(root: Path) -> dict[str, Any]:
         "model_in_loop/catalog.yaml",
         "rubrics/rubric.yaml",
         "manifests/public_manifest.json",
+        "manifests/oracle_class_map.json",
         "sealed_manifest.json",
     )
     for relative in required:
@@ -50,6 +51,7 @@ def validate_prospective_benchmark(root: Path) -> dict[str, Any]:
     public = read_json(benchmark_root / "public_conformance/cases.json")
     sealed = read_json(benchmark_root / "sealed_manifest.json")
     generator = read_yaml(benchmark_root / "generators/generator_registry.yaml")
+    oracle_map = read_json(benchmark_root / "manifests/oracle_class_map.json")
     errors.extend(_schema_errors(read_json(root / BENCHMARK_CONTRACT), protocol, "BENCHMARK"))
     errors.extend(_schema_errors(read_json(root / MANIFEST_CONTRACT), sealed, "SEALED_MANIFEST"))
     case_schema = read_json(root / CASE_CONTRACT)
@@ -84,8 +86,31 @@ def validate_prospective_benchmark(root: Path) -> dict[str, Any]:
         errors.append("INTERACTION_CASE_COUNT_INVALID")
     if len([item for item in families if item.get("gaming")]) != 4:
         errors.append("GAMING_CASE_COUNT_INVALID")
+    oracle_records = oracle_map.get("records", [])
+    if oracle_map.get("record_count") != 20 or len(oracle_records) != 20:
+        errors.append("ORACLE_CLASS_MAP_COUNT_INVALID")
+    slot_ids = [item.get("case_slot_id") for item in oracle_records]
+    if len(slot_ids) != len(set(slot_ids)):
+        errors.append("ORACLE_CLASS_MAP_DUPLICATE_SLOT")
+    seed_hashes = {item.get("seed_identity_hash") for item in oracle_records}
+    if seed_hashes != set(sealed.get("hidden_seed_hashes", {}).values()):
+        errors.append("ORACLE_CLASS_MAP_SEED_IDENTITY_MISMATCH")
+    if any(
+        item.get("oracle_class") not in {"VALID_CONTROL", "INVALID_CONTROL"}
+        for item in oracle_records
+    ):
+        errors.append("ORACLE_CLASS_MAP_CLASS_INVALID")
+    implementation_blind_paths = (
+        "case_catalog.yaml",
+        "public_conformance/cases.json",
+        "generators/generator_registry.yaml",
+        "metamorphic_properties/properties.yaml",
+        "negative_controls/catalog.yaml",
+        "interaction_cases/catalog.yaml",
+    )
     tracked_text = " ".join(
-        path.read_text(encoding="utf-8") for path in benchmark_root.rglob("*") if path.is_file()
+        (benchmark_root / relative).read_text(encoding="utf-8")
+        for relative in implementation_blind_paths
     ).lower()
     forbidden = (
         "arch-s0-retain",

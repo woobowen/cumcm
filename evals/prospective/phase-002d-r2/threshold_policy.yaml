@@ -1,0 +1,408 @@
+{
+  "abstention_conditions": [
+    "Any evidence-sufficiency denominator is unmet or precision is undefined.",
+    "Any threshold, evaluator, oracle class, stratum, exclusion or candidate-set hash changed after freeze.",
+    "Any critical outcome is missing, unknown, recovery-affected, censored or disputed by non-replayable evidence.",
+    "Material independent-designer disagreement has not been resolved by a deterministic test."
+  ],
+  "candidate_metrics_present_at_freeze": false,
+  "disagreement_routing": "RETEST_REQUIRED",
+  "evidence_sufficiency": [
+    "Every sealed case hash maps before execution to an oracle class, frozen strata, seed identity and inclusion reason.",
+    "N_valid >= 20 paired valid controls; each reported stratum and transformation has at least 10 paired observations; block precision has at least 10 blocked labeled controls.",
+    "Baseline and candidate receive identical cases, derived variants, seeds, model cohort, Prompt, environment and budgets with complete hash-bound terminal outcomes.",
+    "Recovery-affected, leaked, censored, missing, post-freeze or hash-mismatched evidence is excluded from ranking and never scored zero."
+  ],
+  "frozen_before_prototype": true,
+  "mutation_effect": "STALE_ALL_DEPENDENT_RESULTS",
+  "policy_hash": "2d193049d84456c8f2b9b6c3bde3124436ad8377f88beb9cf9d70376bfbe6fcc",
+  "policy_id": "PHASE-002D-R2-THRESHOLDS-001",
+  "schema_version": "1.0.0",
+  "status": "POLICY_FROZEN",
+  "thresholds": [
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "critical_violation_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "raw_input_mutation_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "stale_false_accept_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "unsupported_claim_false_accept_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "test_leakage_false_accept_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "manifest_mismatch_missed_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "second_formal_skill_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "second_state_truth_source_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "hidden_vault_access_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "third_party_execution_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "unauthorized_state_write_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "premature_test_access_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "final_test_access_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate_overall - baseline_overall >= 0.10 and candidate_each_family >= baseline_each_family",
+      "metric_id": "targeted_detection_recall",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "paired false_block_count <= baseline_count + 1 and exact one-sided noninferiority rejects delta >= max(0.05, 1/N_valid)",
+      "metric_id": "valid_control_false_block_rate",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/false_block_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "state_transition_precision",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "state_transition_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "stale_propagation_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= max(0.95, baseline + 0.10)",
+      "metric_id": "claim_support_precision",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= max(0.95, baseline + 0.10)",
+      "metric_id": "claim_support_recall",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "leakage_detection_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= max(0.95, baseline)",
+      "metric_id": "reproduction_success_rate",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= max(0.95, baseline); all planned attempts remain in denominator",
+      "metric_id": "completion_rate",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "candidate <= baseline; terminal and censored outcomes are not zero",
+      "metric_id": "terminal_failure_rate",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": null,
+      "metric_id": "retry_burden",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0.1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "aggregate candidate/baseline <= 1.50 and maximum case ratio <= 2.00",
+      "metric_id": "input_token_overhead",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "aggregate candidate/baseline <= 1.50 and maximum case ratio <= 2.00",
+      "metric_id": "output_token_overhead",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "same-runner aggregate candidate/baseline <= 2.00 and maximum case ratio <= 3.00",
+      "metric_id": "elapsed_time_overhead",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": null,
+      "metric_id": "tracked_code_surface",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 24
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": null,
+      "metric_id": "maintenance_score",
+      "noncompensatory": false,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 24
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "state_source_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "formal_skill_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    }
+  ]
+}

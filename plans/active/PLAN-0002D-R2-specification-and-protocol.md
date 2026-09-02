@@ -213,8 +213,19 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   A leakage scan initially rejected a fixture containing the physical vault path; the public
   contract now uses a logical vault identifier, and the repaired leakage, secret, contract,
   generator, vault, freeze and `35` focused tests pass.
-- Current milestone: M4 commit/delivery. Next legal work is prospective metric, threshold,
-  experiment, ablation and cost-policy freeze before candidate results exist.
+- `2026-09-02`: M4 commit `75f4c66` was pushed. Three mutually peer-invisible read-only threshold
+  designers returned RETEST_REQUIRED findings. Deterministic remediation added the pre-result
+  oracle-class/stratum/seed-identity denominator map and converted each material finding to tests;
+  the Benchmark manifest was prospectively superseded before prototype work and is now
+  `91f12beb0c2693a0fac0ae53da20dd00e1db4ab16418d7f8254521abcde291c8`.
+- `2026-09-02`: M5 froze 32 separated metrics and 32 thresholds at policy hash
+  `2d193049d84456c8f2b9b6c3bde3124436ad8377f88beb9cf9d70376bfbe6fcc`; candidate metrics were
+  absent. The three-arm future protocol hash is
+  `202870df3a8cdb007dcaaf5722e16c7fcb668c4b92f65561e7b043c8c5d1a97c`, with Stage 1 before
+  Stage 2, 24 maximum primary starts for three eligible arms, 6 fresh-retry slots, absolute cap 30,
+  and pre-registered ablations. No stage was executed; focused tests passed `47` cases.
+- Current milestone: M5 commit/delivery. Next legal work is five independent adversarial audits and
+  deterministic finding-to-test closure.
 
 ## 22. Update rule
 
