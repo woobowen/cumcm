@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/prospective-benchmark/v1",
+  "title": "Prospective Synthetic Benchmark Protocol",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "benchmark_id", "status", "prospective", "synthetic_only", "historical_answers_used", "third_party_examples_used", "implementation_specific_fields", "public_case_count", "sealed_case_count", "model_in_loop_case_count", "case_family_ids", "metamorphic_transformations", "isolation_level", "prototype_runs", "benchmark_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "benchmark_id": {"const": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001"},
+    "status": {"const": "BENCHMARK_FROZEN"},
+    "prospective": {"const": true},
+    "synthetic_only": {"const": true},
+    "historical_answers_used": {"const": false},
+    "third_party_examples_used": {"const": false},
+    "implementation_specific_fields": {"const": false},
+    "public_case_count": {"type": "integer", "minimum": 16},
+    "sealed_case_count": {"type": "integer", "minimum": 20},
+    "model_in_loop_case_count": {"type": "integer", "minimum": 8},
+    "case_family_ids": {"type": "array", "minItems": 12, "items": {"type": "string"}, "uniqueItems": true},
+    "metamorphic_transformations": {"type": "array", "minItems": 10, "items": {"type": "string"}, "uniqueItems": true},
+    "isolation_level": {"const": "POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED"},
+    "prototype_runs": {"const": 0},
+    "benchmark_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

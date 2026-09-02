@@ -17,3 +17,9 @@ Subagents/decisions and describes redesign conditions; it does not move to compl
 Phase 002D-R1 may complete a failure-aware adjudication even when quality remains insufficient.
 Completion requires the independent Decision Auditor and stable replay, records only bounded
 accepted scopes, and routes a new acquisition design back to Phase 002D without executing it.
+
+Phase 002D-R2 may complete as a specification/protocol phase when every frozen artifact, serious
+finding closure, bounded automated decision, independent Decision Audit and offline replay passes.
+A pre-audit shadow decision may remain `RETEST_REQUIRED`; it authorizes no implementation and routes
+only another newly frozen R2 design. Completion never selects architecture/base, mutates the formal
+Skill, executes a prototype/model/API experiment, or opens Phase 003.

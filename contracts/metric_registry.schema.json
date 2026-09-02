@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/metric-registry/v1",
+  "title": "Prospective Metric Registry",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "registry_id", "status", "frozen_before_prototype", "candidate_results_present", "metrics", "category_separation", "registry_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "registry_id": {"const": "PHASE-002D-R2-METRICS-001"},
+    "status": {"const": "POLICY_FROZEN"},
+    "frozen_before_prototype": {"const": true},
+    "candidate_results_present": {"const": false},
+    "metrics": {"type": "array", "minItems": 24, "items": {"$ref": "#/$defs/metric"}},
+    "category_separation": {"type": "array", "minItems": 4, "items": {"type": "string"}, "uniqueItems": true},
+    "registry_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "required": ["metric_id", "category", "direction", "unit", "evidence_source", "hard_safety", "unknown_is_zero"],
+      "properties": {
+        "metric_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "category": {"enum": ["HARD_SAFETY", "TARGET_EFFECTIVENESS", "FALSE_BLOCK", "REPRODUCIBILITY", "STATE_CORRECTNESS", "CLAIM_SUPPORT", "LEAKAGE_PREVENTION", "COST", "MAINTENANCE"]},
+        "direction": {"enum": ["MINIMIZE", "MAXIMIZE", "ZERO_ONLY", "ONE_ONLY"]},
+        "unit": {"type": "string"},
+        "evidence_source": {"type": "string"},
+        "hard_safety": {"type": "boolean"},
+        "unknown_is_zero": {"const": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

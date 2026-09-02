@@ -31,6 +31,11 @@ POST_AUDIT_REMEDIATION_PATHS = frozenset(
         "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md",
     }
 )
+LEGACY_COMPLETED_PATHS = {
+    "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md": (
+        "plans/completed/PLAN-0002D-R1-failure-aware-outcomes.md"
+    )
+}
 
 ROLE_TASKS = {
     "failure_attribution_auditor": [
@@ -88,6 +93,15 @@ ROLE_TASKS = {
         "return PASS, FAIL, RETEST_REQUIRED, or ABSTAIN without modifying files",
     ],
 }
+
+
+def _resolved_source_path(root: Path, relative: str) -> Path:
+    """Resolve the one lifecycle move without changing frozen R1 bundle keys."""
+    path = root / relative
+    if path.is_file():
+        return path
+    replacement = LEGACY_COMPLETED_PATHS.get(relative)
+    return root / replacement if replacement else path
 
 
 def _source_evidence_paths(root: Path) -> list[str]:
@@ -170,7 +184,7 @@ def _evidence_catalog(root: Path) -> list[str]:
 def build_first_round_bundles(root: Path) -> dict[str, dict[str, Any]]:
     freeze = read_json(root / RESULT_ROOT / "input_freeze_manifest.json")
     allowed_paths = _common_allowed_paths(root)
-    source_hashes = {path: file_sha256(root / path) for path in allowed_paths}
+    source_hashes = {path: file_sha256(_resolved_source_path(root, path)) for path in allowed_paths}
     evidence_catalog = _evidence_catalog(root)
     bundles: dict[str, dict[str, Any]] = {}
     for role in FIRST_ROUND_ROLES:
@@ -241,7 +255,7 @@ def validate_frozen_first_round_bundles(root: Path) -> dict[str, Any]:
         if sha256_json(body) != recorded_hash:
             errors.append(f"SUBAGENT_BUNDLE_HASH_MISMATCH:{role}")
         for relative, expected in bundle["source_hashes"].items():
-            target = root / relative
+            target = _resolved_source_path(root, relative)
             if not target.is_file():
                 errors.append(f"SUBAGENT_BUNDLE_SOURCE_MISSING:{role}:{relative}")
             elif file_sha256(target) != expected:
@@ -425,7 +439,7 @@ def validate_audit(root: Path, audit: dict[str, Any], *, role: str) -> list[str]
             errors.append(f"SUBAGENT_EVIDENCE_REF_INVALID:{role}:{','.join(unknown_evidence)}")
         for reference in finding.get("file_references", []):
             path = reference.split(":", 1)[0]
-            if path not in allowed_files or not (root / path).is_file():
+            if path not in allowed_files or not _resolved_source_path(root, path).is_file():
                 errors.append(f"SUBAGENT_FILE_REF_INVALID:{role}:{reference}")
             if role in FIRST_ROUND_ROLES and "subagent_audits/" in path:
                 errors.append(f"SUBAGENT_PEER_REFERENCE:{role}:{reference}")

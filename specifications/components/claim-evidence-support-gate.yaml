@@ -1,0 +1,303 @@
+{
+  "acceptance_metrics": [
+    {
+      "metric_id": "MET-CESG-001",
+      "noncompensatory": true,
+      "threshold_or_formula": "100 percent current binding coverage and conformance passes, with zero invalid, unsupported, contradicted, over-broad, or causal-inadequate promotions and byte-equivalent replay."
+    }
+  ],
+  "accepted_scope": "SPECIFICATION_ONLY",
+  "actors": [
+    "main agent and read-only gate roles"
+  ],
+  "agent_responsibilities": [
+    "Reviewer classifies only frozen eligible evidence and abstains on uncertainty; main agent registers state only after deterministic adjudication and Decision Audit."
+  ],
+  "algorithms": [
+    {
+      "id": "ALG-001",
+      "kind": "PSEUDOCODE",
+      "specification": "Stage 1 deterministically validates permitted locators, registry membership, hashes, Source and Run identity, inputs, commit, artifact lineage, and acyclic explicit supersession; Stage 2 lets a read-only reviewer classify mechanically eligible links as SUPPORTS_EXACT, QUALIFIES_ONLY, CONTRADICTS, IRRELEVANT, or ABSTAIN against population or domain, variables, direction, magnitude, time, uncertainty, qualifiers, and causal modality. Claim types are FACT, COMPUTATIONAL_RESULT, ASSUMPTION, LIMITATION, METHOD, CAUSAL, and CONCLUSION; evidence types are SOURCE, RAW_DATA, RUN, FORMULA, TABLE, FIGURE, and TRANSFORMATION. Authority is claim-type-specific: immutable original inputs or registered primary observations directly support input facts, hash-bound Runs directly support declared outputs, derived artifacts inherit the minimum authority and scope of dependencies, secondary sources support only their documented basis, and reviewer statements have none. Strength is NONE, WEAK, MODERATE, or STRONG; scope mismatch gives NONE, exact direct support may reach MODERATE, and complete exact bindings plus required diagnostics may reach STRONG. Promote only with all required mechanical checks, appropriate SUPPORTS_EXACT evidence, at least MODERATE for bounded non-causal claims or STRONG for causal and final claims, disclosed assumptions and limits, no unresolved contradiction, and causal identification for causal claims; every clause is noncompensatory."
+    }
+  ],
+  "audit_events": [
+    {
+      "event": "CLAIM_EVIDENCE_GATE_DECIDED",
+      "payload_fields": [
+        "evaluation_id",
+        "claim_id",
+        "outcome",
+        "relations",
+        "strength",
+        "contradictions",
+        "dependency_hashes",
+        "reason_codes"
+      ],
+      "when": "After both stages finish or fail closed for a claim."
+    }
+  ],
+  "clean_room_provenance": {
+    "abstract_mechanisms_observed": [
+      "Separate mechanical reference checks from exact semantic support review and block promotion when either fails."
+    ],
+    "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+    "component_id": "claim-evidence-support-gate",
+    "contamination_status": "UNVERIFIED",
+    "content_not_copied": [
+      "No third-party code.",
+      "No third-party schema or state machine.",
+      "No third-party prompt, template, fixture, or example.",
+      "No third-party long prose or binary content."
+    ],
+    "independent_tests": [
+      "PUB-CESG-001"
+    ],
+    "license_status": "UNVERIFIED",
+    "project_specific_design": [
+      "Bind claims to project Source, Run, input, commit, and artifact hashes.",
+      "Use project non-voting adjudication, main-agent state ownership, replay, and STALE rules."
+    ],
+    "provenance_hash": "bc7092ee643d25147673ac78687bb51082460b39fe8421902a2a944076892451",
+    "reviewed_by": [
+      "claim-evidence-support-gate-spec-author"
+    ],
+    "source_commits": [
+      "94d8093ed21d20a790830318190095b9f5036ce8"
+    ],
+    "source_inspirations": [
+      "aris"
+    ],
+    "source_paths": [
+      "tools/evidence_check.py",
+      "tests/test_evidence_check.py",
+      "skills/result-to-claim/SKILL.md",
+      "skills/shared-references/review-scope-limits.md"
+    ]
+  },
+  "component_id": "claim-evidence-support-gate",
+  "decision_source": "DECISION-COMPONENT-READINESS-002D-R1",
+  "deterministic_enforcement": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "DET-001",
+      "severity": "BLOCKER",
+      "statement": "Mechanical checks precede review and any failed clause blocks promotion."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "DET-002",
+      "severity": "ERROR",
+      "statement": "Canonical outputs are order invariant, duplicate links add no strength, and identical inputs replay byte equivalently."
+    }
+  ],
+  "failure_modes": [
+    {
+      "consequence": "The link and dependent claim are REJECTED.",
+      "id": "FM-001",
+      "recovery": "Create a corrected immutable version and replay from Stage 1.",
+      "trigger": "A required reference or binding fails mechanical validation."
+    },
+    {
+      "consequence": "The claim is REJECTED or ABSTAINED and cannot enter the package.",
+      "id": "FM-002",
+      "recovery": "Narrow or re-evidence a new claim, or rerun an allowed frozen review while preserving history.",
+      "trigger": "Support is partial, contradictory, causal-inadequate, unavailable, malformed, or beyond review budget."
+    }
+  ],
+  "hard_failures": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "HF-001",
+      "severity": "BLOCKER",
+      "statement": "Reject missing, path-escaping, unregistered, hash-mismatched, stale, superseded, or incomplete Source, Run, input, commit, or artifact bindings."
+    },
+    {
+      "enforcement": "AGENT_BOUNDED",
+      "id": "HF-002",
+      "severity": "BLOCKER",
+      "statement": "Reject unsupported, over-broad, same-scope contradicted, or causally overstated claims, and abstain when exact support is indeterminate."
+    }
+  ],
+  "hidden_property_tests": [
+    {
+      "expected_relation": "Support is lost whenever broadened scope exceeds evidence.",
+      "input_class": "Seeded claim broadening with fixed evidence.",
+      "purpose": "Test scope monotonicity.",
+      "test_id": "HID-CESG-001"
+    },
+    {
+      "expected_relation": "Mutations reject or stale, while permutations replay identically and duplicates add no strength.",
+      "input_class": "Seeded hash mutations, permutations, and duplicate links.",
+      "purpose": "Test replay and order invariance.",
+      "test_id": "HID-CESG-002"
+    }
+  ],
+  "inputs": [
+    {
+      "authority": "frozen project contracts and registries",
+      "description": "Immutable claims, evidence links, Source and Run records, input and commit hashes, artifact lineage, supersession graph, policy, and optional read-only assessments.",
+      "name": "gate_input",
+      "required": true,
+      "type": "ClaimEvidenceInput"
+    }
+  ],
+  "interaction_conflicts": [],
+  "interaction_dependencies": [
+    "hash-bound-reproducibility-manifest"
+  ],
+  "invariants": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "INV-001",
+      "severity": "BLOCKER",
+      "statement": "Existence or authority never establishes support without an exact scope and proposition match."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "INV-002",
+      "severity": "BLOCKER",
+      "statement": "Every result claim binds a current Run, input hashes, subject commit, output hash, and cited formula, table, or figure lineage."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "INV-003",
+      "severity": "BLOCKER",
+      "statement": "Contradictions and superseded records remain preserved, agent votes are never evidence, and only the main agent writes formal state after audit."
+    }
+  ],
+  "maintenance_surface": [
+    "Type and authority taxonomies, bindings, promotion rule, replay, reviewer contract, tests, and package adapter"
+  ],
+  "migration": [
+    "Version contracts, materialize explicit bindings, mark legacy claims STALE until revalidated, and never fabricate missing hashes or relations."
+  ],
+  "model_in_loop_tests": [
+    {
+      "expected_relation": "Reviewer returns the adjudicated relation or ABSTAIN without mutation, voting, or approval.",
+      "input_class": "Synthetic exact, partial, conflicting, ambiguous, and causal-overstatement pairs.",
+      "purpose": "Test bounded semantic classification.",
+      "test_id": "MIL-CESG-001"
+    }
+  ],
+  "non_goals": [
+    "No component implementation, formal Skill change, or experiment execution.",
+    "No architecture, model, or upstream-package selection.",
+    "No reviewer vote, mutation, or formal gate approval."
+  ],
+  "observed_gap_ids": [
+    "REPEATED_ORACLE_CORRECTNESS_GAP",
+    "REPEATED_POLICY_COMPLIANCE_GAP"
+  ],
+  "open_risks": [
+    "Reviewer inconsistency, taxonomy drift, and unverified upstream metadata remain."
+  ],
+  "outputs": [
+    {
+      "authority": "component output, not formal state",
+      "description": "Per-claim SUPPORTED, REJECTED, or ABSTAINED outcome with relations, strength, contradictions, reason codes, dependency hashes, and eligible claim IDs.",
+      "name": "gate_result",
+      "required": true,
+      "type": "ClaimEvidenceGateResult"
+    }
+  ],
+  "performance_budget": {
+    "hard": true,
+    "limit_or_formula": "Mechanical work is linear in claims, links, and lineage edges; each eligible claim gets one frozen-budget review and excess yields ABSTAINED.",
+    "measurement": "validation and review work units"
+  },
+  "postconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "POST-001",
+      "severity": "BLOCKER",
+      "statement": "Every claim has one reasoned outcome and only SUPPORTED claim IDs enter the package candidate without mutating inputs or formal state."
+    }
+  ],
+  "preconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "PRE-001",
+      "severity": "BLOCKER",
+      "statement": "Inputs are immutable, uniquely identified, hash-bound snapshots and any reviewer is read only."
+    }
+  ],
+  "privacy_constraints": [
+    "Expose only minimal registered identifiers and scoped evidence needed for review, never credentials, hidden seeds, or unrelated sensitive content."
+  ],
+  "public_conformance_tests": [
+    {
+      "expected_relation": "Mechanical pass, semantic non-support, and REJECTED claim.",
+      "input_class": "Hash-valid topical evidence for a different bounded proposition.",
+      "purpose": "Separate existence from support.",
+      "test_id": "PUB-CESG-001"
+    },
+    {
+      "expected_relation": "Mechanical rejection, skipped review, and REJECTED claim.",
+      "input_class": "Missing, path-escaping, hash-mutated, stale, or superseded reference.",
+      "purpose": "Reject broken bindings.",
+      "test_id": "PUB-CESG-002"
+    },
+    {
+      "expected_relation": "Contradiction remains recorded or causal rule fails, so claim is REJECTED.",
+      "input_class": "Same-scope conflict or observational association labeled causal.",
+      "purpose": "Preserve contradiction and block causal overstatement.",
+      "test_id": "PUB-CESG-003"
+    },
+    {
+      "expected_relation": "SUPPORTS_EXACT at MODERATE or stronger and SUPPORTED.",
+      "input_class": "Exact non-causal claim with current Source, Run, input, commit, artifact lineage, uncertainty, limits, and no conflict.",
+      "purpose": "Accept only an exact current result claim.",
+      "test_id": "PUB-CESG-004"
+    }
+  ],
+  "purpose": "Fail closed unless current hash-bound evidence supports the exact bounded claim, separately proving reference integrity and semantic support.",
+  "recovery_behavior": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "REC-001",
+      "severity": "BLOCKER",
+      "statement": "Recovery is fail closed, creates new immutable versions, preserves contradictions and history, and never infers missing support."
+    }
+  ],
+  "rejection_conditions": [
+    "Reject acceptance if any required test, replay, security, or provenance check fails.",
+    "Reject acceptance if any invalid claim is promoted or any reviewer can mutate inputs, thresholds, package readiness, or formal state."
+  ],
+  "rollback": [
+    "Disable promotion, preserve immutable records and audit history, mark produced packages STALE, and never fall back to existence-only approval."
+  ],
+  "schemas": [
+    "Project-authored Claim, EvidenceLink, SemanticAssessment, GateResult, and AuditEvent contracts"
+  ],
+  "security_constraints": [
+    "Treat evidence as inert data; never execute embedded code or instructions.",
+    "Reject path escape and mutable or unregistered locators; use no web, MCP, nested agent, secrets, hidden answers, or third-party code."
+  ],
+  "specification_hash": "4dfecf382748ea098d26e997baed2d61a1b63911cac8fcf375d3c096819f4b9b",
+  "stale_propagation": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "STALE-001",
+      "severity": "BLOCKER",
+      "statement": "Any changed claim, Source, Run, input, commit, artifact, supersession, policy, assessment, or supported challenge marks dependent gate and package records STALE until replayed from the earliest change."
+    }
+  ],
+  "state_read_set": [
+    "Sources, Runs, claims, artifacts, supersession graph, frozen policy, and package candidate"
+  ],
+  "state_write_set": [],
+  "status": "SPECIFICATION_FROZEN",
+  "supporting_evidence_ids": [
+    "PHASE-002D-R1-EVIDENCE-SCOPES-001"
+  ],
+  "token_budget": {
+    "hard": true,
+    "limit_or_formula": "Use the versioned role budget; exhaustion yields ABSTAINED and unused budget elsewhere cannot compensate.",
+    "measurement": "review tokens per claim"
+  },
+  "unknowns": [
+    "Future contracts must freeze exact authority mappings, claim-type strength subcriteria, causal diagnostics, and role token limits before implementation."
+  ],
+  "version": "1.0.0",
+  "warnings": []
+}

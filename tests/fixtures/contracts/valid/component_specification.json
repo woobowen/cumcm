@@ -1,0 +1,82 @@
+{
+  "component_id": "accepted-versus-done-workflow-state",
+  "version": "1.0.0",
+  "status": "SPECIFICATION_FROZEN",
+  "decision_source": "DECISION-COMPONENT-READINESS-002D-R1",
+  "accepted_scope": "SPECIFICATION_ONLY",
+  "purpose": "Separate observable execution completion from evidence-backed technical acceptance.",
+  "observed_gap_ids": ["GAP-STATE-001"],
+  "supporting_evidence_ids": ["PHASE-002D-R1-EVIDENCE-SCOPES-001"],
+  "non_goals": ["component implementation", "architecture selection", "human technical approval"],
+  "clean_room_provenance": {
+    "component_id": "accepted-versus-done-workflow-state",
+    "source_inspirations": ["source-a"],
+    "source_commits": ["1111111111111111111111111111111111111111"],
+    "source_paths": ["metadata/path-a"],
+    "abstract_mechanisms_observed": ["abstract separation of execution and acceptance"],
+    "content_not_copied": ["code", "schema", "prompt", "state machine"],
+    "project_specific_design": ["single project state", "deterministic acceptance gate"],
+    "license_status": "UNVERIFIED",
+    "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+    "contamination_status": "UNVERIFIED",
+    "independent_tests": ["TEST-STATE-001"],
+    "reviewed_by": ["clean_room_provenance_auditor"],
+    "provenance_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "actors": ["main-agent"],
+  "inputs": [{"name": "task_record", "type": "object", "required": true, "description": "Existing task state", "authority": "state/project_state.json"}],
+  "outputs": [{"name": "transition_record", "type": "object", "required": true, "description": "Append-only transition evidence", "authority": "state ledger"}],
+  "state_read_set": ["state/project_state.json"],
+  "state_write_set": ["state/task_ledger.jsonl"],
+  "schemas": ["contracts/project_state.schema.json"],
+  "preconditions": [{"id": "PRE-001", "statement": "Input state validates", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"}],
+  "postconditions": [{"id": "POST-001", "statement": "Transition is append-only", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"}],
+  "invariants": [
+    {"id": "INV-001", "statement": "done is not accepted", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"},
+    {"id": "INV-002", "statement": "one project state", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"},
+    {"id": "INV-003", "statement": "human review cannot advance technical state", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"}
+  ],
+  "hard_failures": [
+    {"id": "HF-001", "statement": "done treated as accepted", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"},
+    {"id": "HF-002", "statement": "second state truth detected", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"}
+  ],
+  "warnings": [{"id": "WARN-001", "statement": "noncritical metadata absent", "enforcement": "AGENT_BOUNDED", "severity": "WARNING"}],
+  "algorithms": [{"id": "ALG-001", "kind": "STATE_TRANSITION_TABLE", "specification": "Validate predecessor, evidence and hashes before acceptance."}],
+  "deterministic_enforcement": [
+    {"id": "DET-001", "statement": "Validate transition", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"},
+    {"id": "DET-002", "statement": "Propagate stale", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"}
+  ],
+  "agent_responsibilities": ["Propose inputs; never advance formal state directly."],
+  "stale_propagation": [{"id": "STALE-001", "statement": "Changed dependency marks descendants stale", "enforcement": "DETERMINISTIC", "severity": "BLOCKER"}],
+  "failure_modes": [
+    {"id": "FAIL-001", "trigger": "missing evidence", "consequence": "reject transition", "recovery": "supply evidence and replay"},
+    {"id": "FAIL-002", "trigger": "hash drift", "consequence": "mark stale", "recovery": "recompute descendants"}
+  ],
+  "recovery_behavior": [{"id": "REC-001", "statement": "Resume from earliest valid predecessor", "enforcement": "DETERMINISTIC", "severity": "ERROR"}],
+  "audit_events": [{"event": "STATE_TRANSITION_EVALUATED", "when": "every transition", "payload_fields": ["task_id", "from", "to", "evidence_hash"]}],
+  "security_constraints": ["No external command execution", "No second state authority"],
+  "privacy_constraints": ["Do not store credentials or private paths"],
+  "performance_budget": {"measurement": "validation milliseconds", "limit_or_formula": "baseline p95 + 20%", "hard": false},
+  "token_budget": {"measurement": "agent tokens", "limit_or_formula": "no model required for enforcement", "hard": true},
+  "maintenance_surface": ["one validator and existing state contract"],
+  "interaction_dependencies": ["hash-bound-reproducibility-manifest"],
+  "interaction_conflicts": ["duplicate state writer"],
+  "public_conformance_tests": [
+    {"test_id": "PUB-001", "purpose": "done versus accepted", "input_class": "state", "expected_relation": "not equal"},
+    {"test_id": "PUB-002", "purpose": "artifact versus validated", "input_class": "state", "expected_relation": "not equal"},
+    {"test_id": "PUB-003", "purpose": "validated versus accepted", "input_class": "state", "expected_relation": "not equal"},
+    {"test_id": "PUB-004", "purpose": "stale propagation", "input_class": "mutation", "expected_relation": "descendants stale"}
+  ],
+  "hidden_property_tests": [
+    {"test_id": "HID-001", "purpose": "permutation stability", "input_class": "generated", "expected_relation": "same decision"},
+    {"test_id": "HID-002", "purpose": "false block", "input_class": "valid control", "expected_relation": "accepted"}
+  ],
+  "model_in_loop_tests": [{"test_id": "MIL-001", "purpose": "composite workflow", "input_class": "synthetic", "expected_relation": "oracle match"}],
+  "acceptance_metrics": [{"metric_id": "critical_violation_count", "threshold_or_formula": "0", "noncompensatory": true}],
+  "rejection_conditions": ["critical violation", "second state source"],
+  "rollback": ["Remove candidate implementation and replay state from frozen predecessor"],
+  "migration": ["Append transitions to existing ledger without creating a new state store"],
+  "unknowns": ["future implementation overhead"],
+  "open_risks": ["language-model bypass before deterministic enforcement"],
+  "specification_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}

@@ -1,0 +1,195 @@
+{
+  "api_calls": 0,
+  "created_at": "2026-09-02T13:02:23+08:00",
+  "decision_ids": [
+    "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2",
+    "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
+    "DECISION-INTERACTION-CONTRACT-002D-R2",
+    "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2",
+    "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+    "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2"
+  ],
+  "model_calls": 0,
+  "network_calls": 0,
+  "offline": true,
+  "projection": {
+    "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2": {
+      "architecture_selected": false,
+      "core_scope": "POLICY_ONLY",
+      "decision": "AUTOMATED_ACCEPTED",
+      "decision_id": "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2",
+      "evidence_sufficiency": "SUFFICIENT",
+      "hard_gate_status": "PASS",
+      "human_technical_gate_used": false,
+      "majority_vote_used": false,
+      "next_phase_allowed": null,
+      "phase_scope": "CANDIDATE_SET_FROZEN",
+      "prototype_executed": false,
+      "reason_codes": [
+        "CANDIDATE_SET_FROZEN_WITH_BASELINE_NO_SELECTION"
+      ],
+      "rejected_scope": [
+        "ARCHITECTURE_SELECTION",
+        "BASE_SELECTION",
+        "PHASE_003"
+      ],
+      "retest_requirements": [],
+      "target_count": 3
+    },
+    "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2": {
+      "architecture_selected": false,
+      "core_scope": "SPECIFICATION_ONLY",
+      "decision": "AUTOMATED_ACCEPTED",
+      "decision_id": "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
+      "evidence_sufficiency": "SUFFICIENT",
+      "hard_gate_status": "PASS",
+      "human_technical_gate_used": false,
+      "majority_vote_used": false,
+      "next_phase_allowed": null,
+      "phase_scope": "SPECIFICATION_FROZEN",
+      "prototype_executed": false,
+      "reason_codes": [
+        "FOUR_COMPONENT_SPECIFICATIONS_SCHEMA_VALID",
+        "SPECIFICATION_SCOPE_ONLY_NO_IMPLEMENTATION"
+      ],
+      "rejected_scope": [
+        "IMPLEMENTATION_READY",
+        "INTEGRATED",
+        "PRODUCTION_READY"
+      ],
+      "retest_requirements": [],
+      "target_count": 4
+    },
+    "DECISION-INTERACTION-CONTRACT-002D-R2": {
+      "architecture_selected": false,
+      "core_scope": "SPECIFICATION_ONLY",
+      "decision": "AUTOMATED_ACCEPTED",
+      "decision_id": "DECISION-INTERACTION-CONTRACT-002D-R2",
+      "evidence_sufficiency": "SUFFICIENT",
+      "hard_gate_status": "PASS",
+      "human_technical_gate_used": false,
+      "majority_vote_used": false,
+      "next_phase_allowed": null,
+      "phase_scope": "SPECIFICATION_FROZEN",
+      "prototype_executed": false,
+      "reason_codes": [
+        "SINGLE_TRUTH_INTERACTION_CONTRACT_VALID"
+      ],
+      "rejected_scope": [
+        "DIRECT_STATE_ADVANCE",
+        "SECOND_SKILL",
+        "SECOND_STATE_TRUTH"
+      ],
+      "retest_requirements": [],
+      "target_count": 1
+    },
+    "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2": {
+      "architecture_selected": false,
+      "core_scope": "POLICY_ONLY",
+      "decision": "AUTOMATED_ACCEPTED",
+      "decision_id": "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2",
+      "evidence_sufficiency": "SUFFICIENT",
+      "hard_gate_status": "PASS",
+      "human_technical_gate_used": false,
+      "majority_vote_used": false,
+      "next_phase_allowed": null,
+      "phase_scope": "BENCHMARK_FROZEN",
+      "prototype_executed": false,
+      "reason_codes": [
+        "PROSPECTIVE_SEALED_BENCHMARK_VALID_AND_VAULT_IGNORED"
+      ],
+      "rejected_scope": [
+        "CANDIDATE_VISIBLE_ORACLE",
+        "HISTORICAL_ANSWER_USE"
+      ],
+      "retest_requirements": [],
+      "target_count": 1
+    },
+    "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2": {
+      "architecture_selected": false,
+      "core_scope": "NONE",
+      "decision": "RETEST_REQUIRED",
+      "decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+      "evidence_sufficiency": "INSUFFICIENT",
+      "hard_gate_status": "FAIL",
+      "human_technical_gate_used": false,
+      "majority_vote_used": false,
+      "next_phase_allowed": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
+      "phase_scope": null,
+      "prototype_executed": false,
+      "reason_codes": [
+        "PREREQUISITE_PENDING:decision_auditor",
+        "PREREQUISITE_PENDING:replay"
+      ],
+      "rejected_scope": [
+        "DIRECT_REUSE",
+        "FORMAL_SKILL_IMPLEMENTATION",
+        "INTEGRATION",
+        "PHASE_003",
+        "PRODUCTION"
+      ],
+      "retest_requirements": [
+        "decision_auditor",
+        "replay"
+      ],
+      "target_count": 3
+    },
+    "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2": {
+      "architecture_selected": false,
+      "core_scope": "POLICY_ONLY",
+      "decision": "AUTOMATED_ACCEPTED",
+      "decision_id": "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2",
+      "evidence_sufficiency": "SUFFICIENT",
+      "hard_gate_status": "PASS",
+      "human_technical_gate_used": false,
+      "majority_vote_used": false,
+      "next_phase_allowed": null,
+      "phase_scope": "POLICY_FROZEN",
+      "prototype_executed": false,
+      "reason_codes": [
+        "PROSPECTIVE_NONCOMPENSATORY_POLICY_FROZEN_BEFORE_RESULTS"
+      ],
+      "rejected_scope": [
+        "CANDIDATE_INFORMED_THRESHOLD",
+        "POST_HOC_ABLATION"
+      ],
+      "retest_requirements": [],
+      "target_count": 1
+    }
+  },
+  "prototype_executions": 0,
+  "recorded_decision_hashes": {
+    "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2": "cdfe6819aba54827c7ff679bceda4ef1f8657e60ab5c411e1e2be2600d2d0166",
+    "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2": "a704c2864746a747a164c0e85d0af74eeeb978f4229be69caca675e093c97b2a",
+    "DECISION-INTERACTION-CONTRACT-002D-R2": "5e5b79baaeff8546cf71eb8bfcba70ca1a627f297569ac12eaf33a9e1203ec29",
+    "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2": "9d668ca9d49fe3b261b83b6235d772a9fa96b5651b5e31b5b29ec1b07bb9ac0f",
+    "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2": "795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d",
+    "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2": "bd7c9c750ea8c80bd89c0da5065d2cd9ca81319247770d6bda74c7ef5778c3d2"
+  },
+  "replay_hash": "53be85e534fbe67b5644a3dfbc70432e84c4f16aae3e2f7fa61ac21f9ec17331",
+  "replay_id": "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001",
+  "schema_version": "1.0.0",
+  "seed_manifest": {
+    "checks": {
+      "canonical_manifest_hash_valid": true,
+      "cohort_id_matches": true,
+      "private_oracle_commitment_present": true,
+      "private_values_read": false,
+      "seed_commitment_count_matches": true,
+      "vault_ignored_and_untracked": true
+    },
+    "sealed_manifest_file_hash": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e",
+    "sealed_manifest_hash": "17f7534d50940fbee223ad856c01af11aae0c02aa38f9d2e041b8e572c61ce9b",
+    "stable": true
+  },
+  "stable": true,
+  "target_label_map_hash": "4ed6a5eb8de35560dfc038c63c190a949e25a02737ecc27ca6b851ada8489479",
+  "third_party_executions": 0,
+  "variants": {
+    "decision_order_permutation": true,
+    "evidence_order_permutation": true,
+    "original_rebuild": true,
+    "seed_manifest_verification": true,
+    "target_label_permutation": true
+  }
+}

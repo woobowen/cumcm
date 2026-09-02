@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cumcm.local/contracts/project_state/v2.1",
+  "$id": "https://cumcm.local/contracts/project_state/v2.2",
   "title": "Project State",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "object",
   "required": [
     "project_id",
@@ -32,7 +32,7 @@
   ],
   "properties": {
     "project_id": {"type": "string", "minLength": 1},
-    "schema_version": {"const": "2.1.0"},
+    "schema_version": {"const": "2.2.0"},
     "phase": {"type": "string", "minLength": 1},
     "subphase": {"type": ["string", "null"]},
     "status": {"enum": ["IN_PROGRESS", "FOUNDATION_READY", "FOUNDATION_INCOMPLETE", "STALE"]},
@@ -47,6 +47,9 @@
         "EVIDENCE_EXPANSION_IN_PROGRESS",
         "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS",
         "FAILURE_AWARE_ADJUDICATION_COMPLETE",
+        "SPECIFICATION_PROTOCOL_IN_PROGRESS",
+        "SPECIFICATION_PROTOCOL_COMPLETE",
+        "SPECIFICATION_PROTOCOL_INCOMPLETE",
         "EVIDENCE_EXPANSION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_COMPLETE",
@@ -68,6 +71,41 @@
       "type": "array",
       "items": {"type": "string"},
       "uniqueItems": true
+    },
+    "architecture_candidate_set": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "specification_protocol": {
+      "type": "object",
+      "required": [
+        "input_freeze_id",
+        "input_freeze_hash",
+        "implementation_embargo_status",
+        "benchmark_freeze_status",
+        "threshold_policy_status",
+        "decision_audit_status",
+        "replay_stable",
+        "real_model_starts",
+        "native_subagent_runs",
+        "prototype_executions",
+        "third_party_executions"
+      ],
+      "properties": {
+        "input_freeze_id": {"const": "PHASE-002D-R2-INPUT-FREEZE-001"},
+        "input_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "implementation_embargo_status": {"enum": ["PASS", "FAIL"]},
+        "benchmark_freeze_status": {"enum": ["NOT_RUN", "BENCHMARK_FROZEN", "RETEST_REQUIRED", "STALE"]},
+        "threshold_policy_status": {"enum": ["NOT_RUN", "POLICY_FROZEN", "RETEST_REQUIRED", "STALE"]},
+        "decision_audit_status": {"enum": ["NOT_RUN", "PASS", "FAIL", "RETEST_REQUIRED"]},
+        "replay_stable": {"type": "boolean"},
+        "real_model_starts": {"const": 0},
+        "native_subagent_runs": {"type": "integer", "minimum": 0},
+        "prototype_executions": {"const": 0},
+        "third_party_executions": {"const": 0}
+      },
+      "additionalProperties": false
     },
     "next_phase_allowed": {"type": ["string", "null"]},
     "content_verified_commit": {
@@ -221,6 +259,81 @@
           "skill_capability_status": {"const": "SCAFFOLD_ONLY"}
         },
         "required": ["evidence_expansion"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {"const": "SPECIFICATION_PROTOCOL_IN_PROGRESS"}
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
+          "subphase": {"const": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL"},
+          "status": {"const": "IN_PROGRESS"},
+          "current_plan": {"const": "plans/active/PLAN-0002D-R2-specification-and-protocol.md"},
+          "selected_architecture": {"type": "null"},
+          "accepted_component_specifications": {
+            "minItems": 4,
+            "maxItems": 4,
+            "allOf": [
+              {"contains": {"const": "accepted-versus-done-workflow-state"}},
+              {"contains": {"const": "claim-evidence-support-gate"}},
+              {"contains": {"const": "hash-bound-reproducibility-manifest"}},
+              {"contains": {"const": "leakage-safe-model-comparison-gate"}}
+            ]
+          },
+          "architecture_candidate_set": {"maxItems": 0},
+          "next_phase_allowed": {"type": "null"},
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "skill_capability_status": {"const": "SCAFFOLD_ONLY"}
+        },
+        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {"const": "SPECIFICATION_PROTOCOL_COMPLETE"}
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
+          "subphase": {"const": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL"},
+          "status": {"const": "IN_PROGRESS"},
+          "selected_architecture": {"type": "null"},
+          "accepted_component_specifications": {"minItems": 4, "maxItems": 4},
+          "architecture_candidate_set": {
+            "minItems": 2,
+            "maxItems": 3,
+            "contains": {"const": "ARCH-S0-RETAIN-SCAFFOLD-ONLY"}
+          },
+          "next_phase_allowed": {
+            "enum": [
+              "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+              "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
+              null
+            ]
+          },
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "skill_capability_status": {"const": "SCAFFOLD_ONLY"},
+          "specification_protocol": {
+            "properties": {
+              "implementation_embargo_status": {"const": "PASS"},
+              "benchmark_freeze_status": {"const": "BENCHMARK_FROZEN"},
+              "threshold_policy_status": {"const": "POLICY_FROZEN"},
+              "decision_audit_status": {"const": "PASS"},
+              "replay_stable": {"const": true}
+            }
+          }
+        },
+        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
       }
     }
   ],

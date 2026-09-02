@@ -1,0 +1,23 @@
+{
+  "absolute_start_cap": 30,
+  "api_calls_in_phase_002d_r2": 0,
+  "main_start_formula": "eligible_architecture_count * 4 * 2",
+  "maximum_main_starts_for_three_eligible_arms": 24,
+  "maximum_retry_starts_for_three_eligible_arms": 6,
+  "policy_hash": "25dc09b832e067960f0a63dc6bbf888fcdcbf15f619a02395b08a460d40ba1fc",
+  "prototype_executions_in_phase_002d_r2": 0,
+  "real_model_starts_in_phase_002d_r2": 0,
+  "resource_caps": {
+    "deterministic_case_executions": 4004,
+    "grader_actions": 4034,
+    "maintained_logical_units": 24,
+    "model_starts_including_retries": 30,
+    "retained_artifact_bytes": 2147483648,
+    "wall_time_seconds": 86400
+  },
+  "retry_allowance_formula": "ceil(main_model_starts * 0.25)",
+  "retry_burden_formula": "retry_attempt_count / max(1, planned_primary_slot_count)",
+  "schema_version": "1.0.0",
+  "start_cap_scope": "GLOBAL_ACROSS_ALL_ARMS_ABLATIONS_PRIMARY_AND_RETRY_ATTEMPTS",
+  "status": "POLICY_FROZEN"
+}

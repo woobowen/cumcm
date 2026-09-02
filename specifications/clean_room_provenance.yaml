@@ -1,0 +1,149 @@
+{
+  "records": [
+    {
+      "abstract_mechanisms_observed": [
+        "Completion, acceptance, dependency freshness, and resume are distinct mechanisms."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "accepted-versus-done-workflow-state",
+      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "content_not_copied": [
+        "No upstream source code was copied.",
+        "No upstream tests were copied.",
+        "No upstream state schema or controller was copied.",
+        "No upstream examples, prompts, or execution logic were copied."
+      ],
+      "independent_tests": [
+        "FUTURE-IMPLEMENTATION-TEST:accepted-versus-done-workflow-state"
+      ],
+      "license_status": "UNVERIFIED",
+      "project_specific_design": [
+        "Use only existing project state and ledgers with the main agent as sole writer.",
+        "Require audited automatic acceptance and route supported challenges through STALE, findings, tests, and re-adjudication."
+      ],
+      "provenance_hash": "82ff0fb7121db9aa52271bd7fc4ead024fcb6759e96f38c3bdcf35a204ca9abe",
+      "reviewed_by": [
+        "PENDING_INDEPENDENT_AUDIT"
+      ],
+      "source_commits": [
+        "94d8093ed21d20a790830318190095b9f5036ce8"
+      ],
+      "source_inspirations": [
+        "aris metadata summarized by the registered component card"
+      ],
+      "source_paths": [
+        "research/upstream_candidates/component_cards/accepted-versus-done-workflow-state.yaml"
+      ]
+    },
+    {
+      "abstract_mechanisms_observed": [
+        "Separate mechanical reference checks from exact semantic support review and block promotion when either fails."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "claim-evidence-support-gate",
+      "contamination_status": "UNVERIFIED",
+      "content_not_copied": [
+        "No third-party code.",
+        "No third-party schema or state machine.",
+        "No third-party prompt, template, fixture, or example.",
+        "No third-party long prose or binary content."
+      ],
+      "independent_tests": [
+        "PUB-CESG-001"
+      ],
+      "license_status": "UNVERIFIED",
+      "project_specific_design": [
+        "Bind claims to project Source, Run, input, commit, and artifact hashes.",
+        "Use project non-voting adjudication, main-agent state ownership, replay, and STALE rules."
+      ],
+      "provenance_hash": "bc7092ee643d25147673ac78687bb51082460b39fe8421902a2a944076892451",
+      "reviewed_by": [
+        "claim-evidence-support-gate-spec-author"
+      ],
+      "source_commits": [
+        "94d8093ed21d20a790830318190095b9f5036ce8"
+      ],
+      "source_inspirations": [
+        "aris"
+      ],
+      "source_paths": [
+        "tools/evidence_check.py",
+        "tests/test_evidence_check.py",
+        "skills/result-to-claim/SKILL.md",
+        "skills/shared-references/review-scope-limits.md"
+      ]
+    },
+    {
+      "abstract_mechanisms_observed": [
+        "A per-run manifest can bind hashes, seed, runtime and command for replay checks."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "hash-bound-reproducibility-manifest",
+      "contamination_status": "UNVERIFIED",
+      "content_not_copied": [
+        "No code copied.",
+        "No schema copied.",
+        "No tests copied.",
+        "No prompts, templates, examples or state machines copied."
+      ],
+      "independent_tests": [
+        "R2-HBRM-PUB-01",
+        "R2-HBRM-HID-01"
+      ],
+      "license_status": "UNKNOWN",
+      "project_specific_design": [
+        "Extend the native Run contract and STALE graph.",
+        "Keep failed, partial and superseded records outside successful evidence."
+      ],
+      "provenance_hash": "b166934833156002d980b23ad0e924b49b42408cbfc59e80de523bf28997fdf1",
+      "reviewed_by": [
+        "hash-bound-reproducibility-manifest-spec-author"
+      ],
+      "source_commits": [
+        "5a85fe34ca1d075872e95556b122c8979984d322"
+      ],
+      "source_inspirations": [
+        "xiaoma-math-modeling-skill metadata card"
+      ],
+      "source_paths": [
+        "references/roles/编程手/scripts/repro_manifest.py",
+        "tests/test_reproducibility.py"
+      ]
+    },
+    {
+      "abstract_mechanisms_observed": [
+        "Predeclare comparisons, isolate final holdout data, and require baseline and diagnostic evidence."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "leakage-safe-model-comparison-gate",
+      "contamination_status": "UNVERIFIED",
+      "content_not_copied": [
+        "No upstream source file was opened.",
+        "No upstream code or dependency was copied.",
+        "No upstream schema, prompt, state machine, or prose was copied.",
+        "No peer output or expected conclusion was inspected."
+      ],
+      "independent_tests": [
+        "LCG-PUB-001"
+      ],
+      "license_status": "UNVERIFIED",
+      "project_specific_design": [
+        "All splits, attempts, access events, and decisions bind to project Run IDs and immutable hashes.",
+        "Failed runs remain nonnumeric evidence and exposed holdouts are permanently demoted."
+      ],
+      "provenance_hash": "9a82e30e5fa7e7be104bae8158fbc77a7b6f70a812e2948d3c74d073f6e4a33d",
+      "reviewed_by": [
+        "leakage-safe-model-comparison-gate-spec-author"
+      ],
+      "source_commits": [
+        "f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f"
+      ],
+      "source_inspirations": [
+        "kdense-scientific-agent-skills metadata-only mechanism card"
+      ],
+      "source_paths": []
+    }
+  ],
+  "registry_hash": "e05a15989a7e2af5ea2803b3f3e44bf909cad75009b7a60fd41d0dda4c93d7ed",
+  "schema_version": "1.0.0"
+}

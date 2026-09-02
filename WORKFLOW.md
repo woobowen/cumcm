@@ -77,6 +77,23 @@ Decision Auditor PASS and stable five-variant replay. Completion may retain
 `EVIDENCE_INSUFFICIENT` quality and route only to `PHASE-EVIDENCE-EXPANSION-002D`; it does not imply
 architecture selection or Phase 003 eligibility.
 
+## Phase 002D-R2 clean-room specification and prospective-protocol route
+
+`FAILURE_AWARE_ADJUDICATION_COMPLETE → SPECIFICATION_PROTOCOL_IN_PROGRESS` is a bounded Phase 002D
+continuation authorized only by the four R1 `SPECIFICATION_ONLY` component decisions. R2 freezes
+project-authored component and interaction contracts, a two-to-three-arm architecture candidate set
+including retain-scaffold, a prospective synthetic Benchmark, hidden-seed metadata, metrics,
+pre-implementation thresholds, ablations and a later shadow-prototype protocol. It does not
+implement a component, modify the formal Skill, select an architecture or execute an experiment.
+
+`SPECIFICATION_PROTOCOL_IN_PROGRESS → SPECIFICATION_PROTOCOL_COMPLETE` requires immutable historical
+inputs, passing component/interaction/candidate/Benchmark/threshold/embargo decisions, test-bound
+serious findings, an independent Decision Auditor PASS and stable offline replay. Completion does
+not require prototype authorization. If and only if that separate authorization is accepted at
+`EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY`, the next route may be
+`PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION`; otherwise it is R2 or null. Architecture remains null,
+the Skill remains `SCAFFOLD_ONLY`, and Phase 003 stays locked.
+
 ## Project lifecycle
 
 `INIT → FOUNDATION_READY → UPSTREAMS_INVENTORIED → UPSTREAMS_STATIC_REVIEWED → CANDIDATES_FROZEN`

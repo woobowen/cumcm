@@ -1,0 +1,193 @@
+{
+  "architecture_selected": false,
+  "automated_decision": {
+    "accepted_scope": "SPECIFICATION_ONLY",
+    "component_results": [
+      {
+        "accepted_scope": "SPECIFICATION_ONLY",
+        "decision": "AUTOMATED_ACCEPTED",
+        "evidence_refs": [
+          "specifications/components/accepted-versus-done-workflow-state.yaml",
+          "evals/results/phase-002d-r2/provenance/role_chain.json"
+        ],
+        "maintenance_cost": "MEDIUM",
+        "mechanism_id": "accepted-versus-done-workflow-state",
+        "reason_codes": [
+          "SPECIFICATION_FROZEN",
+          "IMPLEMENTATION_NOT_AUTHORIZED"
+        ],
+        "required_tests": [
+          "R2-DET-COMPONENT:accepted-versus-done-workflow-state"
+        ]
+      },
+      {
+        "accepted_scope": "SPECIFICATION_ONLY",
+        "decision": "AUTOMATED_ACCEPTED",
+        "evidence_refs": [
+          "specifications/components/claim-evidence-support-gate.yaml",
+          "evals/results/phase-002d-r2/provenance/role_chain.json"
+        ],
+        "maintenance_cost": "MEDIUM",
+        "mechanism_id": "claim-evidence-support-gate",
+        "reason_codes": [
+          "SPECIFICATION_FROZEN",
+          "IMPLEMENTATION_NOT_AUTHORIZED"
+        ],
+        "required_tests": [
+          "R2-DET-COMPONENT:claim-evidence-support-gate"
+        ]
+      },
+      {
+        "accepted_scope": "SPECIFICATION_ONLY",
+        "decision": "AUTOMATED_ACCEPTED",
+        "evidence_refs": [
+          "specifications/components/hash-bound-reproducibility-manifest.yaml",
+          "evals/results/phase-002d-r2/provenance/role_chain.json"
+        ],
+        "maintenance_cost": "MEDIUM",
+        "mechanism_id": "hash-bound-reproducibility-manifest",
+        "reason_codes": [
+          "SPECIFICATION_FROZEN",
+          "IMPLEMENTATION_NOT_AUTHORIZED"
+        ],
+        "required_tests": [
+          "R2-DET-COMPONENT:hash-bound-reproducibility-manifest"
+        ]
+      },
+      {
+        "accepted_scope": "SPECIFICATION_ONLY",
+        "decision": "AUTOMATED_ACCEPTED",
+        "evidence_refs": [
+          "specifications/components/leakage-safe-model-comparison-gate.yaml",
+          "evals/results/phase-002d-r2/provenance/role_chain.json"
+        ],
+        "maintenance_cost": "MEDIUM",
+        "mechanism_id": "leakage-safe-model-comparison-gate",
+        "reason_codes": [
+          "SPECIFICATION_FROZEN",
+          "IMPLEMENTATION_NOT_AUTHORIZED"
+        ],
+        "required_tests": [
+          "R2-DET-COMPONENT:leakage-safe-model-comparison-gate"
+        ]
+      }
+    ],
+    "confidence": 1.0,
+    "created_at": "2026-09-02T13:02:23+08:00",
+    "decision": "AUTOMATED_ACCEPTED",
+    "decision_audit": "PENDING:PHASE002D_R2_DECISION_AUDITOR",
+    "decision_id": "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
+    "decision_type": "COMPONENTS",
+    "dissent_findings": [
+      "CC-001",
+      "CC-002",
+      "CC-003",
+      "CC-004",
+      "CC-005",
+      "CC-006",
+      "CRP-001",
+      "CRP-002",
+      "CRP-003",
+      "CRP-004",
+      "CRP-005",
+      "PBI-001",
+      "PBI-002",
+      "PBI-003",
+      "PBI-004",
+      "PBI-005",
+      "PBI-006",
+      "TP-B1",
+      "TP-B2",
+      "TP-B3",
+      "TP-E1",
+      "TP-E2",
+      "TP-E3",
+      "XI-001",
+      "XI-002",
+      "XI-003",
+      "XI-004",
+      "XI-005",
+      "XI-006"
+    ],
+    "eligible_evidence": [
+      "specifications/components/accepted-versus-done-workflow-state.yaml",
+      "specifications/components/claim-evidence-support-gate.yaml",
+      "specifications/components/hash-bound-reproducibility-manifest.yaml",
+      "specifications/components/leakage-safe-model-comparison-gate.yaml"
+    ],
+    "evidence_freeze_id": "PHASE-002D-R2-INPUT-FREEZE-001",
+    "evidence_sufficiency": "SUFFICIENT",
+    "excluded_evidence": [
+      "AGENT_VOTES",
+      "HUMAN_TECHNICAL_GATE",
+      "HISTORICAL_BENCHMARK_ANSWERS",
+      "HIDDEN_VAULT_VALUES",
+      "UPSTREAM_EXECUTABLE_CONTENT",
+      "PROTOTYPE_OR_MODEL_RESULTS"
+    ],
+    "hard_gate_status": "PASS",
+    "judge_decisions": [],
+    "meta_adjudication": "DETERMINISTIC_SPECIFICATION_POLICY_ENGINE_NO_VOTE",
+    "next_phase_allowed": null,
+    "policy_version": "phase002d-r2/1.0.0",
+    "reason_codes": [
+      "FOUR_COMPONENT_SPECIFICATIONS_SCHEMA_VALID",
+      "SPECIFICATION_SCOPE_ONLY_NO_IMPLEMENTATION"
+    ],
+    "rejected_scope": [
+      "IMPLEMENTATION_READY",
+      "INTEGRATED",
+      "PRODUCTION_READY"
+    ],
+    "replay_hash": "6a7fb9faff0388702a9eb77b4e15ed8ee9b254a7affba2efa8d11fa8528682ec",
+    "retest_requirements": [],
+    "stale_dependencies": [],
+    "target_ids": [
+      "accepted-versus-done-workflow-state",
+      "claim-evidence-support-gate",
+      "hash-bound-reproducibility-manifest",
+      "leakage-safe-model-comparison-gate"
+    ],
+    "tests": [
+      "R2-DET-CC-001",
+      "R2-DET-CC-002",
+      "R2-DET-CC-003",
+      "R2-DET-CC-004",
+      "R2-DET-CC-005",
+      "R2-DET-CC-006",
+      "R2-DET-CRP-001",
+      "R2-DET-CRP-002",
+      "R2-DET-CRP-003",
+      "R2-DET-CRP-004",
+      "R2-DET-CRP-005",
+      "R2-DET-PBI-001",
+      "R2-DET-PBI-002",
+      "R2-DET-PBI-003",
+      "R2-DET-PBI-004",
+      "R2-DET-PBI-005",
+      "R2-DET-PBI-006",
+      "R2-DET-TP-B1",
+      "R2-DET-TP-B2",
+      "R2-DET-TP-B3",
+      "R2-DET-TP-E1",
+      "R2-DET-TP-E2",
+      "R2-DET-TP-E3",
+      "R2-DET-XI-001",
+      "R2-DET-XI-002",
+      "R2-DET-XI-003",
+      "R2-DET-XI-004",
+      "R2-DET-XI-005",
+      "R2-DET-XI-006"
+    ]
+  },
+  "automated_decision_contract": "contracts/automated_decision.schema.json",
+  "decision_hash": "a704c2864746a747a164c0e85d0af74eeeb978f4229be69caca675e093c97b2a",
+  "formal_skill_modified": false,
+  "human_technical_gate_used": false,
+  "majority_vote_used": false,
+  "model_or_api_evidence_used": false,
+  "phase_scope": "SPECIFICATION_FROZEN",
+  "phase_scope_source": "contracts/component_specification.schema.json",
+  "prototype_executed": false,
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,558 @@
+{
+  "audience": "AUDITOR_ONLY_NOT_CANDIDATE",
+  "families": [
+    {
+      "case_count": 2,
+      "category": "TARGETED",
+      "component_scope": [
+        "accepted-versus-done-workflow-state"
+      ],
+      "family_hash": "240877765647715439c4a26a5ef080233cf8974e061b2a854299e0cb4461e6e9",
+      "family_id": "R2-TARGET-1",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-TARGETED-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 2,
+      "category": "TARGETED",
+      "component_scope": [
+        "claim-evidence-support-gate"
+      ],
+      "family_hash": "b2beabd463a31acaed4ea733d16d8673eb5afeeadf4737b182db861ad43dde3e",
+      "family_id": "R2-TARGET-2",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-TARGETED-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 2,
+      "category": "TARGETED",
+      "component_scope": [
+        "hash-bound-reproducibility-manifest"
+      ],
+      "family_hash": "51413ddf3eca1cf37b220a8fbb48424a9af011ec8e056774935fe45172b4f352",
+      "family_id": "R2-TARGET-3",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-TARGETED-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 2,
+      "category": "TARGETED",
+      "component_scope": [
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "7f1bce684d41177a2d848bd27afd4cc2d9bcfd840c100bdad3012a0d87c35c89",
+      "family_id": "R2-TARGET-4",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-TARGETED-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "INTERACTION",
+      "component_scope": [
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "839b769e3c176db7abe428c9acaae44f2ffce1b1e139cd5eb30b4bf9203813a7",
+      "family_id": "R2-INTERACTION-1",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-INTERACTION-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 5,
+      "category": "VALID_NEGATIVE_CONTROL",
+      "component_scope": [
+        "accepted-versus-done-workflow-state"
+      ],
+      "family_hash": "6365f20915c594f6d3137e49442836be7a7c25359f5dbbaafde9155b62100098",
+      "family_id": "R2-NEGATIVE-1",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": true,
+      "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "ADVERSARIAL_GAMING",
+      "component_scope": [
+        "accepted-versus-done-workflow-state"
+      ],
+      "family_hash": "1bb7e85c37348e7f83a64e78916104bf692342f1893dddecff1e770c67acad2c",
+      "family_id": "R2-GAMING-1",
+      "frozen_before_prototype": true,
+      "gaming": true,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 2,
+      "category": "COMPOSITE",
+      "component_scope": [
+        "accepted-versus-done-workflow-state"
+      ],
+      "family_hash": "ddd67416ef4d1c965e605ab282b71488375121b4e60c7b071788dfc2ed505d85",
+      "family_id": "R2-MODEL-1",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-COMPOSITE-V1",
+      "tier": "MODEL_IN_LOOP_FUTURE",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "INTERACTION",
+      "component_scope": [
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "cf3b41723c6f44b84a27ba23a340d7e48293f596cd55aa13ccaf1c2b8cb6d050",
+      "family_id": "R2-INTERACTION-2",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-INTERACTION-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 5,
+      "category": "VALID_NEGATIVE_CONTROL",
+      "component_scope": [
+        "claim-evidence-support-gate"
+      ],
+      "family_hash": "6742a90b9884fe4c872b91e75adc965fd0c3c68c38f3957a679cac43d44fed76",
+      "family_id": "R2-NEGATIVE-2",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": true,
+      "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "ADVERSARIAL_GAMING",
+      "component_scope": [
+        "claim-evidence-support-gate"
+      ],
+      "family_hash": "3a7559209254b1147ec387f572920df293d64530034445589027af8b5573663d",
+      "family_id": "R2-GAMING-2",
+      "frozen_before_prototype": true,
+      "gaming": true,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 2,
+      "category": "COMPOSITE",
+      "component_scope": [
+        "claim-evidence-support-gate"
+      ],
+      "family_hash": "682f2e8bdf6606c064d0a08220ddcde6165471d4be1bb0b3c899791ea1cfa403",
+      "family_id": "R2-MODEL-2",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-COMPOSITE-V1",
+      "tier": "MODEL_IN_LOOP_FUTURE",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "INTERACTION",
+      "component_scope": [
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "8dea1bccc05f0fb161f11087d73706b9bb8b1c909cef222204b10cd1030acf69",
+      "family_id": "R2-INTERACTION-3",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-INTERACTION-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 5,
+      "category": "VALID_NEGATIVE_CONTROL",
+      "component_scope": [
+        "hash-bound-reproducibility-manifest"
+      ],
+      "family_hash": "0edde8ef94672d81625af03de7c08004d1a88628631ccc9805a47f748a445b86",
+      "family_id": "R2-NEGATIVE-3",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": true,
+      "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "ADVERSARIAL_GAMING",
+      "component_scope": [
+        "hash-bound-reproducibility-manifest"
+      ],
+      "family_hash": "fc9279ca5038aa8299bedd51687d97f8980d35259a3435d54f58afd507702a2b",
+      "family_id": "R2-GAMING-3",
+      "frozen_before_prototype": true,
+      "gaming": true,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 2,
+      "category": "COMPOSITE",
+      "component_scope": [
+        "hash-bound-reproducibility-manifest"
+      ],
+      "family_hash": "e6786976cc44201798b2440765e83c1fa532e8a369d327021a2f7bf1c67c60f3",
+      "family_id": "R2-MODEL-3",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-COMPOSITE-V1",
+      "tier": "MODEL_IN_LOOP_FUTURE",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "INTERACTION",
+      "component_scope": [
+        "accepted-versus-done-workflow-state",
+        "claim-evidence-support-gate",
+        "hash-bound-reproducibility-manifest",
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "8fb7ce645d988fd4369b365492819eff7f488fe7af95cea96a7613da12615a84",
+      "family_id": "R2-INTERACTION-4",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-INTERACTION-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 5,
+      "category": "VALID_NEGATIVE_CONTROL",
+      "component_scope": [
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "03b7601d0c8faf3e3682a747432158995b361d5aaca50c683e384a4f8808402b",
+      "family_id": "R2-NEGATIVE-4",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": true,
+      "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 1,
+      "category": "ADVERSARIAL_GAMING",
+      "component_scope": [
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "1b6b07481635e556b7d11499a4ccd1f68f646a85bdeb8b43fbf21ba16b7b8a36",
+      "family_id": "R2-GAMING-4",
+      "frozen_before_prototype": true,
+      "gaming": true,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
+      "tier": "SEALED_PROPERTY",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    },
+    {
+      "case_count": 2,
+      "category": "COMPOSITE",
+      "component_scope": [
+        "leakage-safe-model-comparison-gate"
+      ],
+      "family_hash": "88b2c33e7ec902cbe7f23d94be7bfb6c128f45948463dd835e85c224b8325723",
+      "family_id": "R2-MODEL-4",
+      "frozen_before_prototype": true,
+      "gaming": false,
+      "generator_id": "GEN-SYNTHETIC-V2",
+      "negative_control": false,
+      "oracle_interface": "ORACLE-COMPOSITE-V1",
+      "tier": "MODEL_IN_LOOP_FUTURE",
+      "transformations": [
+        "row_permutation",
+        "column_renaming",
+        "unit_conversion",
+        "benign_noise",
+        "extra_irrelevant_field",
+        "time_shift",
+        "entity_relabeling",
+        "file_order_permutation",
+        "evidence_order_permutation",
+        "claim_order_permutation"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0"
+}

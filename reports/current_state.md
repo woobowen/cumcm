@@ -3,23 +3,23 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-EVIDENCE-EXPANSION-002D`
-- Subphase: `PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION`
+- Subphase: `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0002D-R1-failure-aware-outcomes.md`
-- Branch: `feat/evidence-expansion-002d`
+- Active plan: `plans/active/PLAN-0002D-R2-specification-and-protocol.md`
+- Branch: `feat/phase002d-r2-spec-protocol`
 - Skill version: `0.1.0-foundation`
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `FAILURE_AWARE_ADJUDICATION_COMPLETE`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1`
+- Technical adjudication: `SPECIFICATION_PROTOCOL_COMPLETE`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
 - Selected architecture: `None`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`
-- Content-verified commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
-- Delivery receipt commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
+- Next phase allowed: `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL`
+- Content-verified commit: `4434e0c5df9621c7b17731a3854a80442401da2b`
+- Delivery receipt commit: `4434e0c5df9621c7b17731a3854a80442401da2b`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-02T03:58:21+08:00` by `main-agent`
+- Updated: `2026-09-02T22:00:00+08:00` by `main-agent`
 
 ## Blockers
 
@@ -42,3 +42,7 @@
 - Phase 002D-R1 quality evidence remains insufficient at 2 of 4 balanced cases and repeat depth 1 of 2; reliability evidence cannot be promoted into a quality or superiority claim.
 - The sole censored slot is harness-censored without established semantic equivalence, so supplemental authorization and the real-start budget remain zero.
 - Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown.
+- Phase 002D-R2 specifications and prospective thresholds are not implementation or positive performance evidence.
+- The hidden Benchmark vault is policy/workspace isolated and not OS-enforced.
+- Shadow prototype authorization is RETEST_REQUIRED; no R3 prototype work is authorized.
+- Clean-room provenance is evidence of process controls, not proof of legal compliance.

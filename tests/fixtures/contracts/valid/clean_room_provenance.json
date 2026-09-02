@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "component_id": "accepted-versus-done-workflow-state",
+      "source_inspirations": ["source-a"],
+      "source_commits": ["1111111111111111111111111111111111111111"],
+      "source_paths": ["metadata/path-a"],
+      "abstract_mechanisms_observed": ["abstract separation of execution and acceptance"],
+      "content_not_copied": ["code", "schema", "prompt", "state machine"],
+      "project_specific_design": ["single project state", "deterministic acceptance gate"],
+      "license_status": "UNVERIFIED",
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "contamination_status": "UNVERIFIED",
+      "independent_tests": ["TEST-A"],
+      "reviewed_by": ["clean_room_provenance_auditor"],
+      "provenance_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "component_id": "claim-evidence-support-gate",
+      "source_inspirations": ["source-b"],
+      "source_commits": ["2222222222222222222222222222222222222222"],
+      "source_paths": ["metadata/path-b"],
+      "abstract_mechanisms_observed": ["abstract claim to evidence relation"],
+      "content_not_copied": ["code", "schema", "prompt", "template"],
+      "project_specific_design": ["claim ledger truth", "scope-bounded support"],
+      "license_status": "UNKNOWN",
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "contamination_status": "UNVERIFIED",
+      "independent_tests": ["TEST-B"],
+      "reviewed_by": ["clean_room_provenance_auditor"],
+      "provenance_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "component_id": "hash-bound-reproducibility-manifest",
+      "source_inspirations": ["source-c"],
+      "source_commits": ["3333333333333333333333333333333333333333"],
+      "source_paths": ["metadata/path-c"],
+      "abstract_mechanisms_observed": ["abstract input and output hash binding"],
+      "content_not_copied": ["code", "schema", "prompt", "example"],
+      "project_specific_design": ["Run binding", "privacy redaction"],
+      "license_status": "RESTRICTED",
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "contamination_status": "RESTRICTED",
+      "independent_tests": ["TEST-C"],
+      "reviewed_by": ["clean_room_provenance_auditor"],
+      "provenance_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "component_id": "leakage-safe-model-comparison-gate",
+      "source_inspirations": ["source-d"],
+      "source_commits": ["4444444444444444444444444444444444444444"],
+      "source_paths": ["metadata/path-d"],
+      "abstract_mechanisms_observed": ["abstract sealed-test comparison"],
+      "content_not_copied": ["code", "schema", "prompt", "oracle"],
+      "project_specific_design": ["test access ledger", "one-time evaluation"],
+      "license_status": "VERIFIED_PERMISSIVE_METADATA_ONLY",
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "independent_tests": ["TEST-D"],
+      "reviewed_by": ["clean_room_provenance_auditor"],
+      "provenance_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  ],
+  "registry_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+}

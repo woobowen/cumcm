@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/threshold-policy/v1",
+  "title": "Prospective Threshold Policy",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "policy_id", "status", "frozen_before_prototype", "candidate_metrics_present_at_freeze", "thresholds", "evidence_sufficiency", "abstention_conditions", "disagreement_routing", "mutation_effect", "decision_table", "policy_dependency_classes", "baseline_rule", "cost_accounting", "policy_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "policy_id": {"const": "PHASE-002D-R2-THRESHOLDS-001"},
+    "status": {"const": "POLICY_FROZEN"},
+    "frozen_before_prototype": {"const": true},
+    "candidate_metrics_present_at_freeze": {"const": false},
+    "thresholds": {"type": "array", "minItems": 15, "items": {"$ref": "#/$defs/threshold"}},
+    "evidence_sufficiency": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "abstention_conditions": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "disagreement_routing": {"const": "RETEST_REQUIRED"},
+    "mutation_effect": {"const": "STALE_ALL_DEPENDENT_RESULTS"},
+    "decision_table": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["rank", "condition", "disposition"],
+        "properties": {
+          "rank": {"type": "integer"},
+          "condition": {"type": "string"},
+          "disposition": {"enum": ["STALE", "EVIDENCE_INSUFFICIENT", "AUTOMATED_REJECTED", "ELIGIBLE_FOR_FUTURE_AUTOMATED_COMPARISON"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "policy_dependency_classes": {"type": "array", "minItems": 8, "items": {"type": "string"}, "uniqueItems": true},
+    "baseline_rule": {"type": "string", "minLength": 20},
+    "cost_accounting": {"type": "object", "required": ["manifest_required", "unknown_cost_disposition", "strict_dominance_rule"], "properties": {"manifest_required": {"const": true}, "unknown_cost_disposition": {"const": "EVIDENCE_INSUFFICIENT"}, "strict_dominance_rule": {"type": "string"}}, "additionalProperties": false},
+    "policy_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "threshold": {
+      "type": "object",
+      "required": ["metric_id", "rule_kind", "comparator", "value", "formula", "noncompensatory", "candidate_results_used", "rationale_source"],
+      "properties": {
+        "metric_id": {"type": "string"},
+        "rule_kind": {"enum": ["ABSOLUTE", "BASELINE_DERIVED"]},
+        "comparator": {"enum": ["EQ", "LE", "GE"]},
+        "value": {"type": ["number", "null"]},
+        "formula": {"type": ["string", "null"]},
+        "noncompensatory": {"type": "boolean"},
+        "candidate_results_used": {"const": false},
+        "rationale_source": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

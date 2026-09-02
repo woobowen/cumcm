@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/component-interaction/v1",
+  "title": "Clean-room Component Interaction Contract",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "contract_id", "status", "state_truth", "formal_skill_count", "ledger_truths", "component_interfaces", "data_dependencies", "failure_precedence", "failure_precedence_table", "stale_node_types", "retry_policy", "rollback", "concurrency_conflicts", "duplicate_truth_detection", "invariants", "decision", "contract_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "contract_id": {"const": "PHASE-002D-R2-COMPONENT-INTERACTION-001"},
+    "status": {"const": "SPECIFICATION_FROZEN"},
+    "state_truth": {"const": "state/project_state.json"},
+    "formal_skill_count": {"const": 1},
+    "ledger_truths": {
+      "type": "object",
+      "required": ["run", "claim", "model_comparison"],
+      "properties": {
+        "run": {"const": "existing-native-run-ledger"},
+        "claim": {"const": "existing-native-claim-ledger"},
+        "model_comparison": {"const": "existing-native-model-comparison-ledger-with-immutable-revisions-and-one-cas-current-pointer"}
+      },
+      "additionalProperties": false
+    },
+    "component_interfaces": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/interface"}},
+    "data_dependencies": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/edge"}, "uniqueItems": true},
+    "failure_precedence": {"type": "array", "minItems": 4, "items": {"type": "string"}, "uniqueItems": true},
+    "failure_precedence_table": {"type": "array", "minItems": 6, "items": {"$ref": "#/$defs/failure"}},
+    "stale_node_types": {"type": "array", "minItems": 5, "items": {"enum": ["SOURCE_RUN_MANIFEST", "COMPARISON_EXECUTION", "DECISION", "CLAIM_REVISION", "STATE_PROPOSAL"]}, "uniqueItems": true},
+    "retry_policy": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "rollback": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+    "concurrency_conflicts": {"type": "array", "minItems": 2, "items": {"type": "string"}, "uniqueItems": true},
+    "duplicate_truth_detection": {"type": "array", "minItems": 3, "items": {"type": "string"}, "uniqueItems": true},
+    "invariants": {"type": "array", "minItems": 5, "items": {"type": "string"}, "uniqueItems": true},
+    "decision": {"const": "SPECIFICATION_FROZEN"},
+    "contract_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "interface": {
+      "type": "object",
+      "required": ["component_id", "state_access", "append_ledgers", "can_produce_stale", "can_block_final_run", "can_block_claim", "direct_state_advance", "consumes", "produces"],
+      "properties": {
+        "component_id": {"enum": ["accepted-versus-done-workflow-state", "claim-evidence-support-gate", "hash-bound-reproducibility-manifest", "leakage-safe-model-comparison-gate"]},
+        "state_access": {"enum": ["READ_ONLY_PROPOSAL", "READ_ONLY_GATE"]},
+        "append_ledgers": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "can_produce_stale": {"type": "boolean"},
+        "can_block_final_run": {"type": "boolean"},
+        "can_block_claim": {"type": "boolean"},
+        "direct_state_advance": {"const": false},
+        "consumes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "produces": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from", "to", "artifact", "required", "producer_component", "schema_ref", "schema_version", "artifact_hash_binding", "revision_binding", "currentness_required", "decision_audit_required", "from_node_type", "to_node_type"],
+      "properties": {
+        "from": {"type": "string"},
+        "to": {"type": "string"},
+        "artifact": {"type": "string"},
+        "required": {"const": true},
+        "producer_component": {"type": "string"},
+        "schema_ref": {"type": "string", "minLength": 1},
+        "schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "artifact_hash_binding": {"const": "SHA256_REQUIRED"},
+        "revision_binding": {"const": "IMMUTABLE_REVISION_AND_PRIOR_HASH"},
+        "currentness_required": {"const": true},
+        "decision_audit_required": {"const": true},
+        "from_node_type": {"enum": ["SOURCE_RUN_MANIFEST", "COMPARISON_EXECUTION", "DECISION", "CLAIM_REVISION", "STATE_PROPOSAL"]},
+        "to_node_type": {"enum": ["SOURCE_RUN_MANIFEST", "COMPARISON_EXECUTION", "DECISION", "CLAIM_REVISION", "STATE_PROPOSAL"]}
+      },
+      "additionalProperties": false
+    },
+    "failure": {
+      "type": "object",
+      "required": ["rank", "category", "dominant_disposition", "reason_code", "noncompensatory"],
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1},
+        "category": {"enum": ["SECURITY_PRIVACY", "HASH_STALE", "REPRODUCIBILITY", "LEAKAGE", "CLAIM_SUPPORT", "STATE_TRANSITION"]},
+        "dominant_disposition": {"enum": ["REJECT", "STALE", "INELIGIBLE", "BLOCK"]},
+        "reason_code": {"type": "string", "minLength": 3},
+        "noncompensatory": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

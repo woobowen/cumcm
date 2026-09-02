@@ -1,0 +1,805 @@
+{
+  "findings": [
+    {
+      "attack": "Dependency edges name artifacts only as prose and do not bind schema, producer identity, content hash, revision, freshness or decision-audit status. The state component consumes generic validated gate records, so a forged or stale Agent-authored claim/comparison record could satisfy the interaction shape.",
+      "claim_attacked": "Dependency edges name artifacts only as prose and do not bind schema, producer identity, content hash, revision, freshness or decision-audit status. The state component consumes generic validated gate records, so a forged or stale Agent-authored claim/comparison record could satisfy the interaction shape.",
+      "confidence": 1.0,
+      "counterexample": "For each edge, replace the predecessor with wrong-producer, wrong-schema, stale, hash-mismatched and unaudited records; every substitution must deterministically block the consumer and state proposal.",
+      "evidence": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for XI-001 is false",
+      "finding_id": "XI-001",
+      "pass_condition": "every edge is typed, hash/revision/currentness/audit bound",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-XI-001",
+      "role": "cross-component-interaction-prosecutor",
+      "severity": "BLOCKER",
+      "statement": "Dependency edges name artifacts only as prose and do not bind schema, producer identity, content hash, revision, freshness or decision-audit status. The state component consumes generic validated gate records, so a forged or stale Agent-authored claim/comparison record could satisfy the interaction shape.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The contract permits only one model-comparison record and treats a second as conflict, while leakage recovery preserves invalid history, seals a new test and appends rerun evidence. Without versioned immutable revisions plus one current pointer, retry requires overwrite or violates the single-record rule.",
+      "claim_attacked": "The contract permits only one model-comparison record and treats a second as conflict, while leakage recovery preserves invalid history, seals a new test and appends rerun evidence. Without versioned immutable revisions plus one current pointer, retry requires overwrite or violates the single-record rule.",
+      "confidence": 1.0,
+      "counterexample": "Trigger premature test access, then retry with a new seal; require two immutable linked revisions, exactly one current pointer, preserved failed access evidence and no second ledger authority.",
+      "evidence": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for XI-002 is false",
+      "finding_id": "XI-002",
+      "pass_condition": "comparison revisions are immutable with one CAS current pointer",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-XI-002",
+      "role": "cross-component-interaction-prosecutor",
+      "severity": "BLOCKER",
+      "statement": "The contract permits only one model-comparison record and treats a second as conflict, while leakage recovery preserves invalid history, seals a new test and appends rerun evidence. Without versioned immutable revisions plus one current pointer, retry requires overwrite or violates the single-record rule.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Run node classes are ambiguous: reproducibility manifests are predecessors of comparison, but leakage failure is said to invalidate comparison Runs. A reverse STALE edge to candidate/baseline manifests would create a cycle and corrupt otherwise valid immutable inputs.",
+      "claim_attacked": "Run node classes are ambiguous: reproducibility manifests are predecessors of comparison, but leakage failure is said to invalidate comparison Runs. A reverse STALE edge to candidate/baseline manifests would create a cycle and corrupt otherwise valid immutable inputs.",
+      "confidence": 1.0,
+      "counterexample": "Build candidate-manifest->comparison->state and comparison-run->decision graphs; premature access must stale only exposed comparison runs and their dependents, preserve unchanged source manifests, reject cycles and yield the exact transitive closure.",
+      "evidence": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for XI-003 is false",
+      "finding_id": "XI-003",
+      "pass_condition": "STALE graph uses distinct frozen node classes",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-XI-003",
+      "role": "cross-component-interaction-prosecutor",
+      "severity": "ERROR",
+      "statement": "Run node classes are ambiguous: reproducibility manifests are predecessors of comparison, but leakage failure is said to invalidate comparison Runs. A reverse STALE edge to candidate/baseline manifests would create a cycle and corrupt otherwise valid immutable inputs.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Failure precedence is a prose list without a canonical disposition/reason-code table for simultaneous security, hash, reproducibility, leakage, claim and transition failures; event order can therefore change the reported outcome or recovery route.",
+      "claim_attacked": "Failure precedence is a prose list without a canonical disposition/reason-code table for simultaneous security, hash, reproducibility, leakage, claim and transition failures; event order can therefore change the reported outcome or recovery route.",
+      "confidence": 1.0,
+      "counterexample": "Inject every pair and selected triples of failures in all event permutations; require identical dominant disposition, complete noncompensatory reason set, STALE closure and recovery predecessor.",
+      "evidence": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for XI-004 is false",
+      "finding_id": "XI-004",
+      "pass_condition": "failure precedence is total and noncompensatory",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-XI-004",
+      "role": "cross-component-interaction-prosecutor",
+      "severity": "ERROR",
+      "statement": "Failure precedence is a prose list without a canonical disposition/reason-code table for simultaneous security, hash, reproducibility, leakage, claim and transition failures; event order can therefore change the reported outcome or recovery route.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The reproducibility component declares a nonempty state write set although the interaction interface classifies it as READ_ONLY_GATE. The qualifier 'by main agent' is prose and does not mechanically prevent a component or Agent from appending Run status directly or racing two proposals on one prior-state hash.",
+      "claim_attacked": "The reproducibility component declares a nonempty state write set although the interaction interface classifies it as READ_ONLY_GATE. The qualifier 'by main agent' is prose and does not mechanically prevent a component or Agent from appending Run status directly or racing two proposals on one prior-state hash.",
+      "confidence": 1.0,
+      "counterexample": "Lint every component capability and attempt direct writes plus two proposals sharing one prior-state hash; direct writes must fail, conflicting proposals must both remain unapplied, and only one Main-Agent compare-and-swap may persist.",
+      "evidence": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml"
+      ],
+      "fail_condition": "closure predicate for XI-005 is false",
+      "finding_id": "XI-005",
+      "pass_condition": "all component state_write_set values are empty",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-XI-005",
+      "role": "cross-component-interaction-prosecutor",
+      "severity": "ERROR",
+      "statement": "The reproducibility component declares a nonempty state write set although the interaction interface classifies it as READ_ONLY_GATE. The qualifier 'by main agent' is prose and does not mechanically prevent a component or Agent from appending Run status directly or racing two proposals on one prior-state hash.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Declared cross-component dependencies are absent from three component interaction_dependencies arrays and generic in the fourth, so local validation cannot prove the frozen graph is complete or acyclic and an Agent may invoke a downstream gate without its required predecessor.",
+      "claim_attacked": "Declared cross-component dependencies are absent from three component interaction_dependencies arrays and generic in the fourth, so local validation cannot prove the frozen graph is complete or acyclic and an Agent may invoke a downstream gate without its required predecessor.",
+      "confidence": 1.0,
+      "counterexample": "Derive component dependencies from typed interfaces, compare them exactly with the interaction graph, reject missing/extra edges and cycles, and prove no downstream invocation succeeds before all required predecessors pass.",
+      "evidence": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for XI-006 is false",
+      "finding_id": "XI-006",
+      "pass_condition": "local component dependencies exactly match the interaction DAG",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-XI-006",
+      "role": "cross-component-interaction-prosecutor",
+      "severity": "ERROR",
+      "statement": "Declared cross-component dependencies are absent from three component interaction_dependencies arrays and generic in the fourth, so local validation cannot prove the frozen graph is complete or acyclic and an Agent may invoke a downstream gate without its required predecessor.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Sealed-class secrecy is broken at the metadata layer: oracle_class_map reveals every sealed case slot, family, VALID_CONTROL/INVALID_CONTROL label, seed slot and strata; case_catalog additionally reveals category, component scope, gaming and negative-control flags, while sealed_manifest lists oracle_class_map as a public artifact and declares contains_hidden_oracle=false. A candidate can special-case identifiers or infer required behavior without private values.",
+      "claim_attacked": "Sealed-class secrecy is broken at the metadata layer: oracle_class_map reveals every sealed case slot, family, VALID_CONTROL/INVALID_CONTROL label, seed slot and strata; case_catalog additionally reveals category, component scope, gaming and negative-control flags, while sealed_manifest lists oracle_class_map as a public artifact and declares contains_hidden_oracle=false. A candidate can special-case identifiers or infer required behavior without private values.",
+      "confidence": 1.0,
+      "counterexample": "DET-PBI-LEAK: construct the exact candidate-visible bundle and fail if it contains or derivably exposes sealed slot/family IDs, oracle classes, seed slots/hashes, strata, gaming/negative flags, oracle-interface names or component-target labels; use opaque per-run IDs and keep only commitments outside the adjudicator boundary.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "fail_condition": "closure predicate for PBI-001 is false",
+      "finding_id": "PBI-001",
+      "pass_condition": "rejected class map is absent and candidate bundle is opaque",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-PBI-001",
+      "role": "prospective-benchmark-integrity-auditor",
+      "severity": "BLOCKER",
+      "statement": "Sealed-class secrecy is broken at the metadata layer: oracle_class_map reveals every sealed case slot, family, VALID_CONTROL/INVALID_CONTROL label, seed slot and strata; case_catalog additionally reveals category, component scope, gaming and negative-control flags, while sealed_manifest lists oracle_class_map as a public artifact and declares contains_hidden_oracle=false. A candidate can special-case identifiers or infer required behavior without private values.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Public-hidden separation is policy-only, not OS-enforced, and the supplied evidence provides no candidate access ledger or deny-list proof. Because labeled sealed metadata is present in the workspace/public manifest, declarations of prospective isolation do not establish non-access.",
+      "claim_attacked": "Public-hidden separation is policy-only, not OS-enforced, and the supplied evidence provides no candidate access ledger or deny-list proof. Because labeled sealed metadata is present in the workspace/public manifest, declarations of prospective isolation do not establish non-access.",
+      "confidence": 1.0,
+      "counterexample": "DET-PBI-ACCESS: before each run, attempt read/list/stat/open against every sealed, oracle and seed path from the candidate identity; require deterministic denial, record the access ledger, and invalidate the cohort on any access or missing ledger.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "fail_condition": "closure predicate for PBI-002 is false",
+      "finding_id": "PBI-002",
+      "pass_condition": "future candidate execution requires enforced denial and access ledger",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-PBI-002",
+      "role": "prospective-benchmark-integrity-auditor",
+      "severity": "BLOCKER",
+      "statement": "Public-hidden separation is policy-only, not OS-enforced, and the supplied evidence provides no candidate access ledger or deny-list proof. Because labeled sealed metadata is present in the workspace/public manifest, declarations of prospective isolation do not establish non-access.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The catalog names five oracle interfaces, but sealed_manifest binds only ORACLE-INTERFACE-V1. The allowed evidence does not prove that each named interface and its scoring semantics are independently frozen, enabling oracle-contract drift.",
+      "claim_attacked": "The catalog names five oracle interfaces, but sealed_manifest binds only ORACLE-INTERFACE-V1. The allowed evidence does not prove that each named interface and its scoring semantics are independently frozen, enabling oracle-contract drift.",
+      "confidence": 1.0,
+      "counterexample": "DET-PBI-ORACLE-BIND: collect every catalog oracle_interface value and require exactly one manifest digest plus schema/version digest for each; fail missing, extra, aliasing or changed mappings.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "fail_condition": "closure predicate for PBI-003 is false",
+      "finding_id": "PBI-003",
+      "pass_condition": "each oracle interface has a frozen schema/semantic digest",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-PBI-003",
+      "role": "prospective-benchmark-integrity-auditor",
+      "severity": "ERROR",
+      "statement": "The catalog names five oracle interfaces, but sealed_manifest binds only ORACLE-INTERFACE-V1. The allowed evidence does not prove that each named interface and its scoring semantics are independently frozen, enabling oracle-contract drift.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "False-positive evidence is underpowered in the sealed map: only four VALID_CONTROL records exist, one per component scope. Transformation names are repeated on families, but no allowed record binds generated valid-control variants, expected relations or variant hashes, so transformed cases cannot be counted as independent false-positive evidence.",
+      "claim_attacked": "False-positive evidence is underpowered in the sealed map: only four VALID_CONTROL records exist, one per component scope. Transformation names are repeated on families, but no allowed record binds generated valid-control variants, expected relations or variant hashes, so transformed cases cannot be counted as independent false-positive evidence.",
+      "confidence": 1.0,
+      "counterexample": "DET-PBI-FP: freeze minimum valid-control denominators and independent seeds per component/stratum; require each counted base/variant to have an oracle class, expected relation, seed hash and artifact hash; otherwise return EVIDENCE_INSUFFICIENT.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml"
+      ],
+      "fail_condition": "closure predicate for PBI-004 is false",
+      "finding_id": "PBI-004",
+      "pass_condition": "private committed cohort contains at least 20 valid controls",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-PBI-004",
+      "role": "prospective-benchmark-integrity-auditor",
+      "severity": "ERROR",
+      "statement": "False-positive evidence is underpowered in the sealed map: only four VALID_CONTROL records exist, one per component scope. Transformation names are repeated on families, but no allowed record binds generated valid-control variants, expected relations or variant hashes, so transformed cases cannot be counted as independent false-positive evidence.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The protocol reports 16 public and 20 sealed cases, but the allowed records expose identities only for the 20 sealed slots. No replayable proof shows that public cases, sealed cases, generator inputs and transformed variants are disjoint or non-near-duplicates.",
+      "claim_attacked": "The protocol reports 16 public and 20 sealed cases, but the allowed records expose identities only for the 20 sealed slots. No replayable proof shows that public cases, sealed cases, generator inputs and transformed variants are disjoint or non-near-duplicates.",
+      "confidence": 1.0,
+      "counterexample": "DET-PBI-SEPARATION: before results, compare canonical content, generator ancestry, seed identity, semantic template ID and transformation closure across public and sealed sets; require zero exact/ancestral/semantic overlap and emit a hash-bound report.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "fail_condition": "closure predicate for PBI-005 is false",
+      "finding_id": "PBI-005",
+      "pass_condition": "public/sealed lineage and transformation closure report zero overlap",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-PBI-005",
+      "role": "prospective-benchmark-integrity-auditor",
+      "severity": "ERROR",
+      "statement": "The protocol reports 16 public and 20 sealed cases, but the allowed records expose identities only for the 20 sealed slots. No replayable proof shows that public cases, sealed cases, generator inputs and transformed variants are disjoint or non-near-duplicates.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Metamorphic coverage is asserted only as the same ten transformation names on every family. The allowed evidence does not establish applicability, invariance versus equivariance, expected outputs, compositions, order effects, invalid transformations or coverage of gaming and false-block boundaries.",
+      "claim_attacked": "Metamorphic coverage is asserted only as the same ten transformation names on every family. The allowed evidence does not establish applicability, invariance versus equivariance, expected outputs, compositions, order effects, invalid transformations or coverage of gaming and false-block boundaries.",
+      "confidence": 1.0,
+      "counterexample": "DET-PBI-META: require a frozen matrix of family-by-transformation applicability, expected relation, base/variant hashes, composition pairs and reasoned exclusions; fail uncovered component/category cells and verify permutation plus at least one noncommuting composition per applicable scope.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "fail_condition": "closure predicate for PBI-006 is false",
+      "finding_id": "PBI-006",
+      "pass_condition": "metamorphic applicability matrix covers every sealed family/property pair",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-PBI-006",
+      "role": "prospective-benchmark-integrity-auditor",
+      "severity": "ERROR",
+      "statement": "Metamorphic coverage is asserted only as the same ten transformation names on every family. The allowed evidence does not establish applicability, invariance versus equivariance, expected outputs, compositions, order effects, invalid transformations or coverage of gaming and false-block boundaries.",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Hindsight exclusion is asserted by booleans, but the threshold policy does not hash-bind its metric registry, protocol, or cited rationale artifacts into one pre-result freeze record; replacement after results is therefore not disproved by these files alone.",
+      "claim_attacked": "Hindsight exclusion is asserted by booleans, but the threshold policy does not hash-bind its metric registry, protocol, or cited rationale artifacts into one pre-result freeze record; replacement after results is therefore not disproved by these files alone.",
+      "confidence": 1.0,
+      "counterexample": "TP-T1: freeze a joint manifest of all policy inputs, commit and order-before-attempt evidence; mutate each bytewise and require freeze failure plus dependent STALE.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "fail_condition": "closure predicate for TP-B1 is false",
+      "finding_id": "TP-B1",
+      "pass_condition": "joint pre-attempt policy freeze binds every dependency",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-TP-B1",
+      "role": "threshold-and-metric-prosecutor",
+      "severity": "BLOCKER",
+      "statement": "Hindsight exclusion is asserted by booleans, but the threshold policy does not hash-bind its metric registry, protocol, or cited rationale artifacts into one pre-result freeze record; replacement after results is therefore not disproved by these files alone.",
+      "status": "CLOSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "No complete decision function is stated, while targeted detection, claim-support recall, reproduction success, completion, and terminal failure thresholds are marked compensatory. This permits an undefined aggregation path despite correctness being noncompensatory.",
+      "claim_attacked": "No complete decision function is stated, while targeted detection, claim-support recall, reproduction success, completion, and terminal failure thresholds are marked compensatory. This permits an undefined aggregation path despite correctness being noncompensatory.",
+      "confidence": 1.0,
+      "counterexample": "TP-T2: fail each correctness/reliability threshold singly while all other metrics pass; deterministic adjudication must reject or abstain exactly as frozen, never average the failure away.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "fail_condition": "closure predicate for TP-B2 is false",
+      "finding_id": "TP-B2",
+      "pass_condition": "all thresholds use one total noncompensatory decision table",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-TP-B2",
+      "role": "threshold-and-metric-prosecutor",
+      "severity": "BLOCKER",
+      "statement": "No complete decision function is stated, while targeted detection, claim-support recall, reproduction success, completion, and terminal failure thresholds are marked compensatory. This permits an undefined aggregation path despite correctness being noncompensatory.",
+      "status": "CLOSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The false-block rule names an exact one-sided noninferiority test but omits alpha, paired statistic, success/failure counts, handling of discordant pairs, and the exact denominator. N_valid and block-precision minima do not uniquely define the calculation.",
+      "claim_attacked": "The false-block rule names an exact one-sided noninferiority test but omits alpha, paired statistic, success/failure counts, handling of discordant pairs, and the exact denominator. N_valid and block-precision minima do not uniquely define the calculation.",
+      "confidence": 1.0,
+      "counterexample": "TP-T3: supply boundary tables with N_valid=20, missing pairs, zero blocks, and discordant pairs; one frozen formula must return the same PASS/FAIL/ABSTAIN reason under independent replay.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "fail_condition": "closure predicate for TP-B3 is false",
+      "finding_id": "TP-B3",
+      "pass_condition": "paired false-block formula freezes alpha, counts, denominator and undefined route",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-TP-B3",
+      "role": "threshold-and-metric-prosecutor",
+      "severity": "BLOCKER",
+      "statement": "The false-block rule names an exact one-sided noninferiority test but omits alpha, paired statistic, success/failure counts, handling of discordant pairs, and the exact denominator. N_valid and block-precision minima do not uniquely define the calculation.",
+      "status": "CLOSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Token and elapsed ratios do not define zero or missing baseline denominators. Claim-support formulas max(0.95,baseline+0.10) exceed the unit interval when baseline>0.90, creating an unmarked impossible line rather than a defined abstention or intentional rejection.",
+      "claim_attacked": "Token and elapsed ratios do not define zero or missing baseline denominators. Claim-support formulas max(0.95,baseline+0.10) exceed the unit interval when baseline>0.90, creating an unmarked impossible line rather than a defined abstention or intentional rejection.",
+      "confidence": 1.0,
+      "counterexample": "TP-T4: evaluate zero/missing denominators and baselines 0.90,0.91,1.00; reject undefined arithmetic and require a frozen domain-valid result or explicit abstention reason.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "fail_condition": "closure predicate for TP-E1 is false",
+      "finding_id": "TP-E1",
+      "pass_condition": "rate and overhead formulas define range and missing-baseline behavior",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-TP-E1",
+      "role": "threshold-and-metric-prosecutor",
+      "severity": "ERROR",
+      "statement": "Token and elapsed ratios do not define zero or missing baseline denominators. Claim-support formulas max(0.95,baseline+0.10) exceed the unit interval when baseline>0.90, creating an unmarked impossible line rather than a defined abstention or intentional rejection.",
+      "status": "CLOSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "retry_burden has no numerator or denominator formula. The protocol permits ceil(main starts*0.25) retries while the threshold is 0.10, and absolute_start_cap does not explicitly say whether it is global; valid arithmetic and stop behavior are therefore under-specified.",
+      "claim_attacked": "retry_burden has no numerator or denominator formula. The protocol permits ceil(main starts*0.25) retries while the threshold is 0.10, and absolute_start_cap does not explicitly say whether it is global; valid arithmetic and stop behavior are therefore under-specified.",
+      "confidence": 1.0,
+      "counterexample": "TP-T5: for eligible counts 0..3, replay primary, infrastructure-retry, per-slot, and cap accounting; every attempt must be counted once and no start may exceed the uniquely declared scope.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "fail_condition": "closure predicate for TP-E2 is false",
+      "finding_id": "TP-E2",
+      "pass_condition": "retry permission, burden denominator and global cap are algebraically consistent",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-TP-E2",
+      "role": "threshold-and-metric-prosecutor",
+      "severity": "ERROR",
+      "statement": "retry_burden has no numerator or denominator formula. The protocol permits ceil(main starts*0.25) retries while the threshold is 0.10, and absolute_start_cap does not explicitly say whether it is global; valid arithmetic and stop behavior are therefore under-specified.",
+      "status": "CLOSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "mutation_effect states STALE_ALL_DEPENDENT_RESULTS but neither the dependency closure nor mutation coverage for registry, protocol, rationale, formulas, exclusions, and budget fields is specified here.",
+      "claim_attacked": "mutation_effect states STALE_ALL_DEPENDENT_RESULTS but neither the dependency closure nor mutation coverage for registry, protocol, rationale, formulas, exclusions, and budget fields is specified here.",
+      "confidence": 1.0,
+      "counterexample": "TP-T6: mutate every policy dependency class after freeze and require all attempts, metrics, audits, decisions, and reports reachable from it to become STALE until full replay.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "fail_condition": "closure predicate for TP-E3 is false",
+      "finding_id": "TP-E3",
+      "pass_condition": "all frozen policy dependency classes propagate transitive STALE",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-TP-E3",
+      "role": "threshold-and-metric-prosecutor",
+      "severity": "ERROR",
+      "statement": "mutation_effect states STALE_ALL_DEPENDENT_RESULTS but neither the dependency closure nor mutation coverage for registry, protocol, rationale, formulas, exclusions, and budget fields is specified here.",
+      "status": "CLOSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The retain-scaffold baseline is assigned a falsification condition requiring the frozen baseline-relative effectiveness formula, while that formula requires candidate-baseline improvement >=0.10. Applied literally, the baseline cannot exceed itself and the simplest fallback is always falsified; selection_rule is null.",
+      "claim_attacked": "The retain-scaffold baseline is assigned a falsification condition requiring the frozen baseline-relative effectiveness formula, while that formula requires candidate-baseline improvement >=0.10. Applied literally, the baseline cannot exceed itself and the simplest fallback is always falsified; selection_rule is null.",
+      "confidence": 1.0,
+      "counterexample": "Evaluate the threshold engine with only ARCH-S0 and with all nonbaseline arms failing; ARCH-S0 must remain the comparator/fallback and must not be tested for improvement over itself.",
+      "evidence": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml"
+      ],
+      "fail_condition": "closure predicate for CC-001 is false",
+      "finding_id": "CC-001",
+      "pass_condition": "ARCH-S0 remains comparator/fallback and is exempt from self-improvement",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CC-001",
+      "role": "cost-complexity-dissent-auditor",
+      "severity": "BLOCKER",
+      "statement": "The retain-scaffold baseline is assigned a falsification condition requiring the frozen baseline-relative effectiveness formula, while that formula requires candidate-baseline improvement >=0.10. Applied literally, the baseline cannot exceed itself and the simplest fallback is always falsified; selection_rule is null.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Retry policy authorizes ceil(main starts*0.25), including 6 retries for 24 main starts, but the acceptance threshold requires retry_burden<=0.10 without defining denominator or rounding. A policy-compliant retry schedule can therefore be threshold-ineligible.",
+      "claim_attacked": "Retry policy authorizes ceil(main starts*0.25), including 6 retries for 24 main starts, but the acceptance threshold requires retry_burden<=0.10 without defining denominator or rounding. A policy-compliant retry schedule can therefore be threshold-ineligible.",
+      "confidence": 1.0,
+      "counterexample": "Replay main-start counts 1 through 24 with every authorized retry count; compute one frozen retry-burden denominator and prove authorization, threshold and 30-start cap never contradict.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "fail_condition": "closure predicate for CC-002 is false",
+      "finding_id": "CC-002",
+      "pass_condition": "retry authorization and acceptance share 0.25 denominator/cap",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CC-002",
+      "role": "cost-complexity-dissent-auditor",
+      "severity": "BLOCKER",
+      "statement": "Retry policy authorizes ceil(main starts*0.25), including 6 retries for 24 main starts, but the acceptance threshold requires retry_burden<=0.10 without defining denominator or rounding. A policy-compliant retry schedule can therefore be threshold-ineligible.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Token, retry, code-surface and maintenance limits are marked compensatory, but no decision_rule, selection_rule, utility formula or compensation ceiling exists. Effectiveness could silently compensate arbitrary cost, or different implementations could reject the same metric vector.",
+      "claim_attacked": "Token, retry, code-surface and maintenance limits are marked compensatory, but no decision_rule, selection_rule, utility formula or compensation ceiling exists. Effectiveness could silently compensate arbitrary cost, or different implementations could reject the same metric vector.",
+      "confidence": 1.0,
+      "counterexample": "Feed identical synthetic vectors where one cost cap alone fails and permute metric order; require one invariant result under an explicit frozen noncompensatory rule or bounded utility formula.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "fail_condition": "closure predicate for CC-003 is false",
+      "finding_id": "CC-003",
+      "pass_condition": "cost and maintenance caps cannot be compensated",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CC-003",
+      "role": "cost-complexity-dissent-auditor",
+      "severity": "BLOCKER",
+      "statement": "Token, retry, code-surface and maintenance limits are marked compensatory, but no decision_rule, selection_rule, utility formula or compensation ceiling exists. Effectiveness could silently compensate arbitrary cost, or different implementations could reject the same metric vector.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "tracked_code_surface<=24 and maintenance_score<=24 lack units, inclusion rules and scoring formulas. The candidate descriptions enumerate files, kernels, prompts, validators, tests, reason codes and migration adapters only as prose, so surface can be reduced by file merging or omission from accounting.",
+      "claim_attacked": "tracked_code_surface<=24 and maintenance_score<=24 lack units, inclusion rules and scoring formulas. The candidate descriptions enumerate files, kernels, prompts, validators, tests, reason codes and migration adapters only as prose, so surface can be reduced by file merging or omission from accounting.",
+      "confidence": 1.0,
+      "counterexample": "Score equivalent fixtures under file split/merge, rename and generated-code changes; require invariant totals and mandatory inclusion of runtime code, contracts, prompts, adapters, tests and maintained configuration.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "fail_condition": "closure predicate for CC-004 is false",
+      "finding_id": "CC-004",
+      "pass_condition": "logical-unit surface and maintenance formulas resist file split/merge gaming",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CC-004",
+      "role": "cost-complexity-dissent-auditor",
+      "severity": "ERROR",
+      "statement": "tracked_code_surface<=24 and maintenance_score<=24 lack units, inclusion rules and scoring formulas. The candidate descriptions enumerate files, kernels, prompts, validators, tests, reason codes and migration adapters only as prose, so surface can be reduced by file merging or omission from accounting.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The budget caps only model starts and retries. Stage 1 has seven ablation arms and Stage 2 may add two ablations, yet deterministic case executions, transformations, grader work, artifact retention, wall time, storage and engineering surface have no global caps.",
+      "claim_attacked": "The budget caps only model starts and retries. Stage 1 has seven ablation arms and Stage 2 may add two ablations, yet deterministic case executions, transformations, grader work, artifact retention, wall time, storage and engineering surface have no global caps.",
+      "confidence": 1.0,
+      "counterexample": "Expand every frozen arm, case, repeat, transformation, ablation and retained failed artifact into a resource ledger; reject launch unless starts, executions, wall time, storage and maintenance work each fit frozen caps.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "fail_condition": "closure predicate for CC-005 is false",
+      "finding_id": "CC-005",
+      "pass_condition": "prospective protocol freezes complete resource caps",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CC-005",
+      "role": "cost-complexity-dissent-auditor",
+      "severity": "ERROR",
+      "statement": "The budget caps only model starts and retries. Stage 1 has seven ablation arms and Stage 2 may add two ablations, yet deterministic case executions, transformations, grader work, artifact retention, wall time, storage and engineering surface have no global caps.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Stop conditions cover hard failures, missing evidence and start exhaustion but not observed token, surface, maintenance or retry-cap breach, nor strict cost dominance by a simpler eligible alternative. Work may continue after an arm is already cost-ineligible.",
+      "claim_attacked": "Stop conditions cover hard failures, missing evidence and start exhaustion but not observed token, surface, maintenance or retry-cap breach, nor strict cost dominance by a simpler eligible alternative. Work may continue after an arm is already cost-ineligible.",
+      "confidence": 1.0,
+      "counterexample": "Inject a prospective arm that exceeds each cost cap and another with identical hard-gate/effectiveness evidence but strictly lower frozen costs; require immediate stop for the exceeded arm and deterministic dominance handling without votes.",
+      "evidence": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "fail_condition": "closure predicate for CC-006 is false",
+      "finding_id": "CC-006",
+      "pass_condition": "cost breach and strict dominance have deterministic stop routes",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CC-006",
+      "role": "cost-complexity-dissent-auditor",
+      "severity": "ERROR",
+      "statement": "Stop conditions cover hard failures, missing evidence and start exhaustion but not observed token, surface, maintenance or retry-cap breach, nor strict cost dominance by a simpler eligible alternative. Work may continue after an arm is already cost-ineligible.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The allowed artifacts contain normalized frozen specifications and reviewed_by role labels but no immutable author bundle hash, raw author output hash, normalization diff, role session identity, peer-visibility record, expected-conclusion visibility, or author/normalizer/auditor separation record. Raw-output preservation, identity blindness, and prevention of same-agent role reuse therefore cannot be audited.",
+      "claim_attacked": "The allowed artifacts contain normalized frozen specifications and reviewed_by role labels but no immutable author bundle hash, raw author output hash, normalization diff, role session identity, peer-visibility record, expected-conclusion visibility, or author/normalizer/auditor separation record. Raw-output preservation, identity blindness, and prevention of same-agent role reuse therefore cannot be audited.",
+      "confidence": 1.0,
+      "counterexample": "DET-CRP-ROLE-CHAIN: require for each component an append-only record of role, pseudonymous session identity, frozen input-bundle hash, peer/expected-conclusion visibility flags, raw-output hash, normalized-output hash, canonical diff hash, and distinct author/normalizer/auditor identities; reject reuse, missing raw bytes, or material normalization changes.",
+      "evidence": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for CRP-001 is false",
+      "finding_id": "CRP-001",
+      "pass_condition": "role-chain evidence binds distinct authors, raw outputs and normalization",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CRP-001",
+      "role": "clean-room-provenance-auditor",
+      "severity": "BLOCKER",
+      "statement": "The allowed artifacts contain normalized frozen specifications and reviewed_by role labels but no immutable author bundle hash, raw author output hash, normalization diff, role session identity, peer-visibility record, expected-conclusion visibility, or author/normalizer/auditor separation record. Raw-output preservation, identity blindness, and prevention of same-agent role reuse therefore cannot be audited.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Hidden-answer exclusion is not demonstrated. The claim-evidence specification names a CASE-006 oracle fixture and the comparison provenance names CASE-004 oracle requirements, but no allowed access ledger, exposure classification, demotion record, or hash-bound proof distinguishes permitted requirements from hidden or validation answers.",
+      "claim_attacked": "Hidden-answer exclusion is not demonstrated. The claim-evidence specification names a CASE-006 oracle fixture and the comparison provenance names CASE-004 oracle requirements, but no allowed access ledger, exposure classification, demotion record, or hash-bound proof distinguishes permitted requirements from hidden or validation answers.",
+      "confidence": 1.0,
+      "counterexample": "DET-CRP-HIDDEN-ACCESS: replay a frozen per-role access ledger against an allowlist of requirement-only hashes; reject any oracle/answer/vault read, missing event, or post-exposure held-out classification, and require permanent development demotion for exposed cases.",
+      "evidence": [
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/clean_room_provenance.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/clean_room_provenance.yaml"
+      ],
+      "fail_condition": "closure predicate for CRP-002 is false",
+      "finding_id": "CRP-002",
+      "pass_condition": "per-role allowlist and hidden-answer exclusion ledger is frozen",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CRP-002",
+      "role": "clean-room-provenance-auditor",
+      "severity": "ERROR",
+      "statement": "Hidden-answer exclusion is not demonstrated. The claim-evidence specification names a CASE-006 oracle fixture and the comparison provenance names CASE-004 oracle requirements, but no allowed access ledger, exposure classification, demotion record, or hash-bound proof distinguishes permitted requirements from hidden or validation answers.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "Source provenance is incomplete or ambiguous: accepted-versus-done records an observed mechanism with empty inspiration, commit, and path fields; leakage-safe comparison names an inspiration and commit but no source path; all external inspirations have UNKNOWN or UNVERIFIED license status. These records do not support file-level source identification or license-bound reuse audit.",
+      "claim_attacked": "Source provenance is incomplete or ambiguous: accepted-versus-done records an observed mechanism with empty inspiration, commit, and path fields; leakage-safe comparison names an inspiration and commit but no source path; all external inspirations have UNKNOWN or UNVERIFIED license status. These records do not support file-level source identification or license-bound reuse audit.",
+      "confidence": 1.0,
+      "counterexample": "DET-CRP-SOURCE-COMPLETE: require each mechanism to declare PROJECT_NATIVE with a project source/hash or external inspiration with exact 40-hex commit, nonempty file-level paths, license evidence status, exposure mode, and allowed reuse; fail ambiguous empty fields and unresolved paths.",
+      "evidence": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for CRP-003 is false",
+      "finding_id": "CRP-003",
+      "pass_condition": "source completeness and license-bound reuse report is frozen",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CRP-003",
+      "role": "clean-room-provenance-auditor",
+      "severity": "ERROR",
+      "statement": "Source provenance is incomplete or ambiguous: accepted-versus-done records an observed mechanism with empty inspiration, commit, and path fields; leakage-safe comparison names an inspiration and commit but no source path; all external inspirations have UNKNOWN or UNVERIFIED license status. These records do not support file-level source identification or license-bound reuse audit.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "CONTAINED_METADATA_ONLY and content_not_copied are assertions without an allowed exposure ledger, verbatim-overlap report, schema/prompt fingerprint report, or restricted-copy scan. Because upstream content and licenses were deliberately unavailable to this auditor, absence of copied code, prose, tests, schemas, prompts, or examples is not independently established.",
+      "claim_attacked": "CONTAINED_METADATA_ONLY and content_not_copied are assertions without an allowed exposure ledger, verbatim-overlap report, schema/prompt fingerprint report, or restricted-copy scan. Because upstream content and licenses were deliberately unavailable to this auditor, absence of copied code, prose, tests, schemas, prompts, or examples is not independently established.",
+      "confidence": 1.0,
+      "counterexample": "DET-CRP-CONTAMINATION: an authorized isolated scanner must compare normalized text n-grams, AST/token structure, schema keys, prompt phrases, fixtures, and binary hashes against registered source paths; publish only counts, match locations, thresholds, tool hash, and decision hash, and reject material or restricted overlap.",
+      "evidence": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "evidence_refs": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "fail_condition": "closure predicate for CRP-004 is false",
+      "finding_id": "CRP-004",
+      "pass_condition": "restricted-copy and similarity-warning scan report is frozen",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CRP-004",
+      "role": "clean-room-provenance-auditor",
+      "severity": "ERROR",
+      "statement": "CONTAINED_METADATA_ONLY and content_not_copied are assertions without an allowed exposure ledger, verbatim-overlap report, schema/prompt fingerprint report, or restricted-copy scan. Because upstream content and licenses were deliberately unavailable to this auditor, absence of copied code, prose, tests, schemas, prompts, or examples is not independently established.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The embargo hash-binds the formal Skill and protected src tree and prohibits two prototype prefixes, but the allowed record provides no workspace-wide allowlist scan proving that component or prototype implementation was not created elsewhere; is_component_implementation=false and is_shadow_prototype=false are unaccompanied by scan evidence.",
+      "claim_attacked": "The embargo hash-binds the formal Skill and protected src tree and prohibits two prototype prefixes, but the allowed record provides no workspace-wide allowlist scan proving that component or prototype implementation was not created elsewhere; is_component_implementation=false and is_shadow_prototype=false are unaccompanied by scan evidence.",
+      "confidence": 1.0,
+      "counterexample": "DET-CRP-EMBARGO: scan the complete tracked workspace against a frozen specification-only allowlist, compare all protected tree/file hashes with the embargo baseline, reject new executable/component/prototype paths anywhere, and emit a canonical hash-bound scan report.",
+      "evidence": [
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "fail_condition": "closure predicate for CRP-005 is false",
+      "finding_id": "CRP-005",
+      "pass_condition": "workspace-wide embargo allowlist scan report is frozen",
+      "recommended_action": "retain deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2-DET-CRP-005",
+      "role": "clean-room-provenance-auditor",
+      "severity": "ERROR",
+      "statement": "The embargo hash-binds the formal Skill and protected src tree and prohibits two prototype prefixes, but the allowed record provides no workspace-wide allowlist scan proving that component or prototype implementation was not created elsewhere; is_component_implementation=false and is_shadow_prototype=false are unaccompanied by scan evidence.",
+      "status": "CLOSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "testability": "TESTABLE",
+      "unresolved": false
+    }
+  ],
+  "schema_version": "1.0.0"
+}

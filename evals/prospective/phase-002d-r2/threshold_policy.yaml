@@ -1,0 +1,446 @@
+{
+  "abstention_conditions": [
+    "Any evidence-sufficiency denominator is unmet or precision is undefined.",
+    "Any threshold, evaluator, oracle class, stratum, exclusion or candidate-set hash changed after freeze.",
+    "Any critical outcome is missing, unknown, recovery-affected, censored or disputed by non-replayable evidence.",
+    "Material independent-designer disagreement has not been resolved by a deterministic test."
+  ],
+  "baseline_rule": "ARCH-S0 is comparator and fallback; it is never required to improve over itself and is not selected in Phase 002D-R2.",
+  "candidate_metrics_present_at_freeze": false,
+  "cost_accounting": {
+    "manifest_required": true,
+    "strict_dominance_rule": "an otherwise eligible arm strictly dominated on every frozen cost by a simpler eligible arm is AUTOMATED_REJECTED unless a predeclared non-cost threshold is measurably superior",
+    "unknown_cost_disposition": "EVIDENCE_INSUFFICIENT"
+  },
+  "decision_table": [
+    {
+      "condition": "any policy hash, freeze-order, oracle, evaluator or access-integrity failure",
+      "disposition": "STALE",
+      "rank": 1
+    },
+    {
+      "condition": "any missing, unknown, censored, mismatched or insufficient denominator",
+      "disposition": "EVIDENCE_INSUFFICIENT",
+      "rank": 2
+    },
+    {
+      "condition": "any individual threshold fails",
+      "disposition": "AUTOMATED_REJECTED",
+      "rank": 3
+    },
+    {
+      "condition": "all individual thresholds pass",
+      "disposition": "ELIGIBLE_FOR_FUTURE_AUTOMATED_COMPARISON",
+      "rank": 4
+    }
+  ],
+  "disagreement_routing": "RETEST_REQUIRED",
+  "evidence_sufficiency": [
+    "Every opaque sealed case maps inside the isolated adjudicator before execution to an oracle class, frozen strata, domain-separated seed commitment and inclusion reason; none of that per-case metadata is candidate-visible.",
+    "N_valid >= 20 paired valid controls; each reported stratum and transformation has at least 10 paired observations; block precision has at least 10 blocked labeled controls.",
+    "Baseline and candidate receive identical cases, derived variants, seeds, model cohort, Prompt, environment and budgets with complete hash-bound terminal outcomes.",
+    "Recovery-affected, leaked, censored, missing, post-freeze or hash-mismatched evidence is excluded from ranking and never scored zero."
+  ],
+  "frozen_before_prototype": true,
+  "mutation_effect": "STALE_ALL_DEPENDENT_RESULTS",
+  "policy_dependency_classes": [
+    "metric_registry",
+    "threshold_policy",
+    "experiment_protocol",
+    "budget_and_ablation_policy",
+    "candidate_set",
+    "benchmark_and_oracle_interfaces",
+    "designer_and_prosecutor_rationales",
+    "evaluator_and_access_policy"
+  ],
+  "policy_hash": "92a09cbc0ea7d2ef47addf2e61c6ed0e2062fd9c2a3b6ddd4798fccf564680e3",
+  "policy_id": "PHASE-002D-R2-THRESHOLDS-001",
+  "schema_version": "1.0.0",
+  "status": "POLICY_FROZEN",
+  "thresholds": [
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "critical_violation_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "raw_input_mutation_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "stale_false_accept_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "unsupported_claim_false_accept_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "test_leakage_false_accept_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "manifest_mismatch_missed_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "second_formal_skill_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "second_state_truth_source_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "hidden_vault_access_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "third_party_execution_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "unauthorized_state_write_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "premature_test_access_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "rules/phase002d_r2_workflow_rules.yaml"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "final_test_access_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate_overall - baseline_overall >= 0.10 and candidate_each_family >= baseline_each_family",
+      "metric_id": "targeted_detection_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "N_valid=number of complete paired valid controls >=20; candidate_blocks and baseline_blocks are paired binary outcomes; n10=count(candidate=1,baseline=0), n01=count(candidate=0,baseline=1); alpha=0.05; exact one-sided paired binomial noninferiority test on discordant pairs rejects H0:(candidate_rate-baseline_rate) >= delta where delta=max(0.05,1/N_valid); zero discordance passes only when candidate_blocks<=baseline_blocks; missing/mismatched pairs ABSTAIN",
+      "metric_id": "valid_control_false_block_rate",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/false_block_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "state_transition_precision",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "state_transition_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "stale_propagation_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= min(1.0, max(0.95, baseline + 0.10)); baseline missing ABSTAIN",
+      "metric_id": "claim_support_precision",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= min(1.0, max(0.95, baseline + 0.10)); baseline missing ABSTAIN",
+      "metric_id": "claim_support_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "leakage_detection_recall",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= max(0.95, baseline)",
+      "metric_id": "reproduction_success_rate",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "GE",
+      "formula": "candidate >= max(0.95, baseline); all planned attempts remain in denominator",
+      "metric_id": "completion_rate",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "candidate <= baseline; terminal and censored outcomes are not zero",
+      "metric_id": "terminal_failure_rate",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/effectiveness_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "retry_burden=retry_attempt_count/max(1,planned_primary_slot_count); all infrastructure retries count once; permission cap and acceptance cap are both 0.25; missing ledger or zero planned slots ABSTAIN",
+      "metric_id": "retry_burden",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 0.25
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "aggregate candidate/max(1,baseline) <= 1.50 and maximum case ratio using max(1,baseline_case) <= 2.00; missing baseline ABSTAIN",
+      "metric_id": "input_token_overhead",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "aggregate candidate/max(1,baseline) <= 1.50 and maximum case ratio using max(1,baseline_case) <= 2.00; missing baseline ABSTAIN",
+      "metric_id": "output_token_overhead",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "same-runner aggregate candidate/max(0.001,baseline) <= 2.00 and maximum case ratio using max(0.001,baseline_case) <= 3.00; missing baseline ABSTAIN",
+      "metric_id": "elapsed_time_overhead",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "BASELINE_DERIVED",
+      "value": null
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "count unique maintained logical units across runtime code, contracts, prompts, validators, adapters, tests and configuration; file split/merge or rename does not change logical-unit identity; generated files excluded only when reproducibly generated from a counted source",
+      "metric_id": "tracked_code_surface",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 24
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "LE",
+      "formula": "sum one point per maintained logical unit plus one per independent migration adapter, reason-code registry and retained-artifact policy; use the same logical-unit manifest as tracked_code_surface",
+      "metric_id": "maintenance_score",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 24
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "state_source_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    },
+    {
+      "candidate_results_used": false,
+      "comparator": "EQ",
+      "formula": null,
+      "metric_id": "formal_skill_count",
+      "noncompensatory": true,
+      "rationale_source": [
+        "evals/results/phase-002d-r2/threshold_outputs/cost_maintenance_threshold_designer.json"
+      ],
+      "rule_kind": "ABSOLUTE",
+      "value": 1
+    }
+  ]
+}

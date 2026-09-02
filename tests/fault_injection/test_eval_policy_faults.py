@@ -76,6 +76,14 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         assert state["accepted_component_specifications"] == []
         assert not any(decision.endswith("002D-R1") for decision in state["automated_decision_ids"])
         assert state["next_phase_allowed"] is None
+    elif state["technical_adjudication_status"] == "SPECIFICATION_PROTOCOL_COMPLETE":
+        assert state["selected_architecture"] is None
+        assert len(state["architecture_candidate_set"]) in {2, 3}
+        assert state["next_phase_allowed"] in {
+            "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
+            "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+            None,
+        }
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False

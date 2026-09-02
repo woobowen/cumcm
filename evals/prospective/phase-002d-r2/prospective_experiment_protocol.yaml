@@ -1,0 +1,94 @@
+{
+  "ablation": {
+    "candidate_results_used": false,
+    "post_hoc_selection": false,
+    "selection_rule": "Choose at most two components with the largest deterministic critical-case contribution, ordered by component ID on ties; never use model results or preference.",
+    "stage1_arms": [
+      "baseline",
+      "accepted-versus-done-workflow-state-only",
+      "claim-evidence-support-gate-only",
+      "hash-bound-reproducibility-manifest-only",
+      "leakage-safe-model-comparison-gate-only",
+      "all-four-components",
+      "reproducibility-plus-claim-support-interaction"
+    ],
+    "stage2_max_component_ablations": 2
+  },
+  "absolute_start_cap": 30,
+  "architecture_arms": [
+    "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+    "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+    "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+  ],
+  "composite_family_count": 4,
+  "executed_in_phase_002d_r2": false,
+  "main_start_formula": "eligible_architecture_count * 4 * 2",
+  "prohibited_arms": [
+    "HANDSOMEZR",
+    "YUSHUI",
+    "any third-party whole package"
+  ],
+  "protocol_hash": "cfc17c89ca79f40cc1889fd0bdd5c03fe91ec1ae8de70cf65f114e25f416d081",
+  "protocol_id": "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
+  "randomization": "BLOCKED_RANDOMIZED_ARM_ORDER",
+  "repeats": 2,
+  "resource_caps": {
+    "deterministic_case_executions": 4004,
+    "grader_actions": 4034,
+    "maintained_logical_units": 24,
+    "model_starts_including_retries": 30,
+    "retained_artifact_bytes": 2147483648,
+    "wall_time_seconds": 86400
+  },
+  "retry_allowance_formula": "ceil(main_model_starts * 0.25)",
+  "retry_burden_formula": "retry_attempt_count / max(1, planned_primary_slot_count)",
+  "retry_rules": [
+    "Only independently classified fresh infrastructure failures may receive a retry.",
+    "At most one retry is allowed for a primary slot and all attempts remain in ledgers.",
+    "Retry allowance is ceil(main starts * 0.25); no terminal correctness failure is retried into success.",
+    "Retry burden is retries divided by planned primary slots and must not exceed 0.25; permission and acceptance use the same denominator and cap."
+  ],
+  "schema_version": "1.0.0",
+  "stage2_equalities": [
+    "same model cohort",
+    "same Prompt",
+    "same data",
+    "same timeout",
+    "same sandbox",
+    "same network/MCP policy",
+    "same hidden cases",
+    "same grader"
+  ],
+  "stages": [
+    {
+      "entry_condition": "specification, Benchmark and thresholds are frozen",
+      "exit_condition": "all public, property and critical hidden hard gates pass",
+      "model_execution": false,
+      "name": "DETERMINISTIC_CONFORMANCE",
+      "stage": 1
+    },
+    {
+      "entry_condition": "the architecture passed every Stage 1 hard gate",
+      "exit_condition": "all planned terminal outcomes are preserved or the cap stops",
+      "model_execution": true,
+      "name": "MODEL_IN_LOOP_COMPOSITE_FUTURE",
+      "stage": 2
+    },
+    {
+      "entry_condition": "Stage 2 evidence is frozen without threshold mutation",
+      "exit_condition": "audited deterministic decision and stable replay exist",
+      "model_execution": false,
+      "name": "AUTOMATIC_ARCHITECTURE_ADJUDICATION_FUTURE",
+      "stage": 3
+    }
+  ],
+  "start_cap_scope": "GLOBAL_ACROSS_ALL_ARMS_ABLATIONS_PRIMARY_AND_RETRY_ATTEMPTS",
+  "status": "POLICY_FROZEN",
+  "stop_conditions": [
+    "Stop an architecture before Stage 2 on any Stage 1 hard failure.",
+    "Stop when the retry allowance or absolute 30-start cap is exhausted.",
+    "Stop with RETEST_REQUIRED or EVIDENCE_INSUFFICIENT on missing, leaked, stale, censored or non-replayable critical evidence.",
+    "Stop an arm immediately on any token, retry, logical-surface, maintenance, wall-time, storage or grader-action cap breach; unknown cost is EVIDENCE_INSUFFICIENT.",
+    "Reject strict cost dominance by a simpler eligible arm unless a predeclared non-cost threshold is measurably superior; this rule does not select an architecture here."
+  ]
+}

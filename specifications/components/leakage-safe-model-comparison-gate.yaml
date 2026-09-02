@@ -1,0 +1,297 @@
+{
+  "acceptance_metrics": [
+    {
+      "metric_id": "LCG-METRIC-001",
+      "noncompensatory": true,
+      "threshold_or_formula": "pre-freeze revealing test accesses=0; winner=validation-rule winner; required-artifact, failure-retention, and ledger integrity=100%; final-test batches=1; unauthorized retries=0; all conformance tests and independent audit PASS."
+    }
+  ],
+  "accepted_scope": "SPECIFICATION_ONLY",
+  "actors": [
+    "main agent as sole formal-state writer"
+  ],
+  "agent_responsibilities": [
+    "The main agent freezes authoritative inputs and alone updates formal state; producers append complete successes, failures, retries, and accesses; the adjudicator replays deterministic rules and abstains on missing evidence; an independent auditor verifies replay before acceptance."
+  ],
+  "algorithms": [
+    {
+      "id": "LCG-ALG-001",
+      "kind": "PSEUDOCODE",
+      "specification": "Verify hashes, freeze order, split isolation, feature availability, training-only transforms, artifact completeness, seeds, failures, and access chain; aggregate each eligible candidate over frozen validation seeds with the frozen metric; form the frozen-tolerance tie set and apply frozen ordered tie keys; require the recorded model freeze to match; authorize one atomic final-test batch only after pretest PASS; apply frozen final thresholds without fallback; otherwise emit reason-coded REJECT, ABSTAIN, or STALE."
+    }
+  ],
+  "audit_events": [
+    {
+      "event": "COMPARISON_GATE_EVALUATED",
+      "payload_fields": [
+        "run_id",
+        "input_hashes",
+        "access_chain_head",
+        "selected_candidate_id",
+        "test_batch_count",
+        "decision",
+        "reason_codes",
+        "record_hash"
+      ],
+      "when": "At pretest adjudication, final-test closure, invalidation, or replay."
+    }
+  ],
+  "clean_room_provenance": {
+    "abstract_mechanisms_observed": [
+      "Predeclare comparisons, isolate final holdout data, and require baseline and diagnostic evidence."
+    ],
+    "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+    "component_id": "leakage-safe-model-comparison-gate",
+    "contamination_status": "UNVERIFIED",
+    "content_not_copied": [
+      "No upstream source file was opened.",
+      "No upstream code or dependency was copied.",
+      "No upstream schema, prompt, state machine, or prose was copied.",
+      "No peer output or expected conclusion was inspected."
+    ],
+    "independent_tests": [
+      "LCG-PUB-001"
+    ],
+    "license_status": "UNVERIFIED",
+    "project_specific_design": [
+      "All splits, attempts, access events, and decisions bind to project Run IDs and immutable hashes.",
+      "Failed runs remain nonnumeric evidence and exposed holdouts are permanently demoted."
+    ],
+    "provenance_hash": "9a82e30e5fa7e7be104bae8158fbc77a7b6f70a812e2948d3c74d073f6e4a33d",
+    "reviewed_by": [
+      "leakage-safe-model-comparison-gate-spec-author"
+    ],
+    "source_commits": [
+      "f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f"
+    ],
+    "source_inspirations": [
+      "kdense-scientific-agent-skills metadata-only mechanism card"
+    ],
+    "source_paths": []
+  },
+  "component_id": "leakage-safe-model-comparison-gate",
+  "decision_source": "DECISION-COMPONENT-READINESS-002D-R1",
+  "deterministic_enforcement": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-DET-001",
+      "severity": "BLOCKER",
+      "statement": "Canonical hashes, identifiers, schemas, freeze order, overlaps, feature times, ledger links, access counts, required artifacts, and stale dependencies are checked without model judgment."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-DET-002",
+      "severity": "BLOCKER",
+      "statement": "Eligibility, validation aggregates, metric direction, tie membership, tie resolution, selected-candidate equality, and final threshold relations replay only from frozen inputs, with no vote or compensating metric."
+    }
+  ],
+  "failure_modes": [
+    {
+      "consequence": "The Run, test set, and dependent decisions are invalid.",
+      "id": "LCG-FAIL-001",
+      "recovery": "Retain all evidence and restart with a new Run and newly sealed test set.",
+      "trigger": "Test information is exposed before model freeze or a second final-test batch is attempted."
+    },
+    {
+      "consequence": "The gate cannot pass and failures remain explicit nonnumeric outcomes.",
+      "id": "LCG-FAIL-002",
+      "recovery": "Before test exposure, append a versioned correction and replay all dependencies; after exposure, also replace the sealed test set.",
+      "trigger": "A required attempt fails or the ledger, selection replay, split, or evidence bundle is incomplete or inconsistent."
+    }
+  ],
+  "hard_failures": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-HARD-001",
+      "severity": "BLOCKER",
+      "statement": "Any premature or ambiguous test access, partition overlap, future or target-derived feature, nontraining-fitted transformation, or broken access-ledger chain is a hard failure."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-HARD-002",
+      "severity": "BLOCKER",
+      "statement": "Any validation-rule mismatch, missing baseline or required evidence, omitted or zero-scored failure, unscheduled seed or retry, post-freeze rule change, fallback selection, or second final-test batch is a hard failure."
+    }
+  ],
+  "hidden_property_tests": [
+    {
+      "expected_relation": "Canonical hash, winner, and verdict are unchanged.",
+      "input_class": "Random permutations of equivalent candidates, seeds, attempts, and events.",
+      "purpose": "Verify order-independent replay.",
+      "test_id": "LCG-HID-001"
+    },
+    {
+      "expected_relation": "Every invalid dependency becomes STALE or REJECTED and only zero-preaccess, one-batch traces can pass.",
+      "input_class": "Single-field hash mutations and generated event traces around freeze and final-test authorization.",
+      "purpose": "Verify fail-closed dependency and access behavior.",
+      "test_id": "LCG-HID-002"
+    }
+  ],
+  "inputs": [
+    {
+      "authority": "main-agent freeze",
+      "description": "Run binding; objective; train, validation, and sealed-test splits; temporal and group rules; feature availability; naive and domain baselines; frozen candidates, metric, thresholds, tie rule, seeds, retries, robustness, ablations, attempts, model freeze, access ledger, and final-test batch.",
+      "name": "comparison_bundle",
+      "required": true,
+      "type": "FrozenComparisonBundle"
+    }
+  ],
+  "interaction_conflicts": [],
+  "interaction_dependencies": [
+    "hash-bound-reproducibility-manifest"
+  ],
+  "invariants": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-INV-001",
+      "severity": "BLOCKER",
+      "statement": "Test records, labels, predictions, metrics, ranks, and failure patterns never influence generation, features, hyperparameters, thresholds, architecture, early stopping, retries, selection, or filtering; premature access invalidates the Run and requires a new sealed test set."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-INV-002",
+      "severity": "BLOCKER",
+      "statement": "The winner is the frozen validation-objective optimum with only the frozen tie rule, while every failed run remains explicit and nonnumeric and every stochastic operation uses the frozen seed schedule."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-INV-003",
+      "severity": "BLOCKER",
+      "statement": "Partitions are record-, group-, and time-safe, transformations fit training data only, target and future leakage are absent, required drift, robustness, uncertainty, randomization, and ablation evidence precedes model freeze, and final test executes once with all access evidence retained."
+    }
+  ],
+  "maintenance_surface": [
+    "Versioned logical contracts, deterministic reason codes, replay rules, and conformance fixtures."
+  ],
+  "migration": [
+    "Apply prospectively with new Run IDs; historical runs are never grandfathered, missing access history is never fabricated, and later schema versions require rehashing, replay, and audit."
+  ],
+  "model_in_loop_tests": [
+    {
+      "expected_relation": "Deterministic replay controls; prohibited proposals are rejected and missing evidence yields no PASS.",
+      "input_class": "A model recommends the test-best candidate, post-hoc threshold, omitted failure, or inferred missing evidence.",
+      "purpose": "Ignore persuasive inadmissible narratives.",
+      "test_id": "LCG-MIL-001"
+    }
+  ],
+  "non_goals": [
+    "Implement or execute a component, model, experiment, or shadow prototype.",
+    "Select or recommend a current Phase 002D-R2 architecture or model.",
+    "Import upstream code, dependencies, schemas, prompts, state machines, or prose."
+  ],
+  "observed_gap_ids": [
+    "REPEATED_POLICY_COMPLIANCE_GAP"
+  ],
+  "open_risks": [
+    "Unmediated caches, prompts, logs, incorrect grouping keys, or wrong availability timestamps could conceal leakage despite mechanically valid hashes."
+  ],
+  "outputs": [
+    {
+      "authority": "deterministic adjudicator",
+      "description": "Hash-bound PASS, REJECT, ABSTAIN, or STALE record containing selection replay, access findings, final-test disposition, reason codes, and affected dependencies.",
+      "name": "comparison_gate_record",
+      "required": true,
+      "type": "ComparisonGateRecord"
+    }
+  ],
+  "performance_budget": {
+    "hard": true,
+    "limit_or_formula": "One bounded pass, O(E+A+C*S+K), with no unbounded search or retry.",
+    "measurement": "Gate work over access events E, attempts A, candidates C, seeds S, and checks K."
+  },
+  "postconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-POST-001",
+      "severity": "BLOCKER",
+      "statement": "A PASS proves validation-rule selection, complete required evidence, zero revealing test access before model freeze, exactly one later final-test batch, retained failures and access history, stable hashes, and no formal-state or current-architecture selection by this component."
+    }
+  ],
+  "preconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-PRE-001",
+      "severity": "BLOCKER",
+      "statement": "Before score observation, freeze the Run binding, objective, train-validation-test membership, temporal boundaries, disjoint group keys, feature availability, candidates, naive and domain baselines, validation metric, thresholds, tie rule, seeds, retries, failure treatment, robustness, ablations, and append-only access-ledger genesis."
+    }
+  ],
+  "privacy_constraints": [
+    "Ledgers use pseudonymous identifiers and expose only the minimum aggregates and failure metadata needed for deterministic audit."
+  ],
+  "public_conformance_tests": [
+    {
+      "expected_relation": "Process PASS is reproducible and the final verdict uses only frozen thresholds.",
+      "input_class": "Valid frozen bundle with disjoint splits, both baselines, complete attempts and diagnostics, validation-consistent winner, clean access chain, and one final batch.",
+      "purpose": "Accept a complete leakage-safe record.",
+      "test_id": "LCG-PUB-001"
+    },
+    {
+      "expected_relation": "The Run is rejected, dependencies become stale, and premature test exposure requires a new test set.",
+      "input_class": "A test read, test-driven early stop, future feature, cross-split group, or validation-fitted transform appears.",
+      "purpose": "Reject held-out leakage.",
+      "test_id": "LCG-PUB-002"
+    },
+    {
+      "expected_relation": "Each mutation independently prevents PASS.",
+      "input_class": "Winner mismatches validation, a baseline or diagnostic is missing, a failed run is zeroed or omitted, or a seed or retry is unscheduled.",
+      "purpose": "Reject comparison-rule violations.",
+      "test_id": "LCG-PUB-003"
+    },
+    {
+      "expected_relation": "Frozen tie keys yield the same winner under permutation, one batch is permitted, and two batches invalidate the Run.",
+      "input_class": "Permuted tied candidates plus a trace containing either one or two final-test batches.",
+      "purpose": "Enforce deterministic ties and one-time final evaluation.",
+      "test_id": "LCG-PUB-004"
+    }
+  ],
+  "purpose": "Specify a deterministic fail-closed gate for leakage-safe validation selection and one-time sealed-test evaluation, with every decision bound to one Run ID and immutable evidence.",
+  "recovery_behavior": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-REC-001",
+      "severity": "BLOCKER",
+      "statement": "Recovery is append-only from an exact hash-verified predecessor; silent edits and retries are forbidden, and any revealing test access makes replacement of the test set and Run mandatory."
+    }
+  ],
+  "rejection_conditions": [
+    "Reject on any hard failure, missing or stale evidence, broken replay, ambiguous access, or failed independent audit.",
+    "Reject any use of this SPECIFICATION_ONLY output to implement a component, select a current architecture, or infer acceptance by vote."
+  ],
+  "rollback": [
+    "Supersede this draft or frozen version append-only, retain its provenance and evidence, mark dependents STALE, and require a new audited specification decision."
+  ],
+  "schemas": [
+    "contracts/component_specification.schema.json"
+  ],
+  "security_constraints": [
+    "Test access is deny-by-default and limited to one hash-bound final batch after pretest PASS and model freeze.",
+    "No upstream or other third-party executable, dependency, prompt, schema, or tool declaration is imported or executed."
+  ],
+  "specification_hash": "a2550ed800ed61ce27d2a3eb2a4ead791ad4bb722d09d9b96e3e2dabaa270d55",
+  "stale_propagation": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "LCG-STALE-001",
+      "severity": "BLOCKER",
+      "statement": "Any changed input, split, feature, candidate, baseline, metric, seed, attempt, robustness result, model, environment, policy, or ledger predecessor marks all dependent selections, tests, audits, decisions, claims, and handoffs STALE from the earliest affected predecessor, and exposed tests cannot regain held-out status."
+    }
+  ],
+  "state_read_set": [
+    "frozen comparison bundle and dependency status"
+  ],
+  "state_write_set": [],
+  "status": "SPECIFICATION_FROZEN",
+  "supporting_evidence_ids": [
+    "PHASE-002D-R1-EVIDENCE-SCOPES-001"
+  ],
+  "token_budget": {
+    "hard": true,
+    "limit_or_formula": "0",
+    "measurement": "Model tokens used by authoritative gate replay."
+  },
+  "unknowns": [
+    "Problem-specific numeric drift, robustness, uncertainty, practical-improvement, sample-size, ablation-applicability, and runtime thresholds must be frozen before any future experiment because R1 evidence does not establish universal values."
+  ],
+  "version": "1.0.0",
+  "warnings": []
+}
