@@ -1,0 +1,165 @@
+{
+  "anonymous_arm_id": "ARM-B",
+  "assumptions": [
+    "The CSV row order is the authoritative temporal order because 20 time labels, from 2026-02-29 through 2026-02-48, are not valid Gregorian dates.",
+    "Each prediction is one-step-ahead and may use the immediately preceding observed target; the current row target is unavailable at prediction time.",
+    "MAE is the primary selection metric and RMSE is secondary; both are in target units and lower is better.",
+    "Candidate selection uses validation rows only; the held-out test is opened once after selection and refitting."
+  ],
+  "baseline": {
+    "description": "Naive persistence: predict row t target as the observed target from row t-1.",
+    "evidence": [
+      "Metrics were computed locally from timeseries.csv using Python 3 standard-library arithmetic.",
+      "Across expanding-window evaluation blocks 19-28, 29-38, and 39-48, persistence MAE was 0.896800, 1.812500, and 0.854600 respectively."
+    ],
+    "result": "Validation rows 29-38: MAE=1.812500, RMSE=3.311928, n=10. Held-out test rows 39-48: MAE=0.854600, RMSE=1.118578, n=10."
+  },
+  "candidate_models": [
+    "Naive persistence baseline.",
+    "Mean-drift-adjusted persistence: previous target plus the mean first difference estimated only from the training prefix.",
+    "Ordinary least-squares regression on feature with training-median imputation.",
+    "Winsorized ordinary least-squares regression on feature with training-only 5th/95th percentile clipping and training-median imputation."
+  ],
+  "case_id": "CASE-004",
+  "claims": [
+    "The deployable candidate selected by validation MAE is mean-drift-adjusted persistence.",
+    "Held-out evidence does not support claiming that the selected model is better than naive persistence on the primary metric.",
+    "target_proxy, future_target, and regime must be removed to respect prediction-time availability.",
+    "Median or jump-excluded drift variants look better on this test but were post-selection perturbations and are not promoted to selected models."
+  ],
+  "code_artifacts": [],
+  "commands_executed": [
+    "ls -la",
+    "sed -n '1,240p' TASK.json runtime_metadata.json ARM_INSTRUCTION.md observation.schema.json",
+    "sed -n '1,260p' case/input/timeseries.csv case/input/field_notes.json",
+    "python -c import/version probe (failed because python was not found)",
+    "python3 -c import/version probe for numpy, pandas, and sklearn (failed at missing pandas)",
+    "python3 standard-library heredoc experiment computing splits, leakage identities, candidate metrics, rolling folds, perturbations, and bootstrap evidence",
+    "python3 standard-library heredoc experiment computing selected-model folds, robustness variants, leaky-oracle falsification results, and invalid-date counts",
+    "python3 -c import jsonschema/version probe",
+    "python3 jsonschema validation of the final observation supplied on standard input"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "timeseries.csv has 48 rows and 7 data columns.",
+    "target_proxy equals target in all 48 rows.",
+    "future_target at row t equals target at row t+1 for all 47 adjacent pairs.",
+    "Regime counts are early=32 and late=16.",
+    "Gregorian parsing rejects 20 labels: 2026-02-29 through 2026-02-48; experiments therefore use row indices, not calendar arithmetic."
+  ],
+  "evaluation_id": "PHASE-002D-EVIDENCE-EXPANSION",
+  "experiment_design": [
+    "Use contiguous ordered blocks: train rows 1-28, validation rows 29-38, and test rows 39-48.",
+    "Before fitting, quarantine future_target, target_proxy, and regime based on field_notes.json and verify their leakage signatures numerically.",
+    "Predefine MAE as primary and RMSE as secondary, evaluate all candidates on validation, then select the lowest-validation-MAE candidate.",
+    "Refit only the selected model on rows 1-38 and evaluate once on rows 39-48.",
+    "Repeat evidence with expanding prefixes 1-18, 1-28, and 1-38 evaluated on the next 10 rows.",
+    "Retain every adverse result, including lack of test-MAE improvement and perturbation failures."
+  ],
+  "falsification_tests": [
+    "If target_proxy were mistakenly admitted, validation error collapses to MAE=0 and RMSE=0; this falsifies its legitimacy as a predictor rather than supporting model skill.",
+    "Aligning future_target at t to target at t+1 yields MAE=0 and RMSE=0 on 9 checked pairs; this confirms it is a future-outcome oracle.",
+    "The selected model failed to beat naive persistence on held-out MAE, contradicting a general superiority claim."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "For prediction at t, use only information available before or at prediction time.",
+      "Exclude future_target, target_proxy, and regime from every deployable model.",
+      "Keep the test block untouched during candidate selection.",
+      "Fit imputation, clipping, regression, and drift parameters on the applicable training prefix only."
+    ],
+    "notes": [
+      "Selected model equation: y_hat_t=y_(t-1)+d_T.",
+      "Invalid date strings prevent defensible day-based spacing; one row is treated as one temporal step."
+    ],
+    "objective": "Minimize validation MAE, using validation RMSE as a secondary diagnostic; report both metrics unchanged on the held-out test.",
+    "parameters": [
+      "Fixed split indices: train 1-28, validation 29-38, test 39-48.",
+      "Selected-model refit drift d_38=0.900243 target units per row.",
+      "Bootstrap seed=20260901 and 2000 paired resamples.",
+      "Feature-jitter experiment seeds=0 through 19 with Gaussian sigma=0.5."
+    ],
+    "units": [
+      "MAE and RMSE: target units.",
+      "Drift: target units per ordered row.",
+      "Feature jitter: feature units."
+    ],
+    "variables": [
+      "y_t: target at ordered row t.",
+      "f_t: feature available at prediction time.",
+      "y_hat_t: one-step-ahead prediction.",
+      "d_T: mean of y_i-y_(i-1) over an allowed training prefix ending at T."
+    ]
+  },
+  "human_gates": [
+    "No human approval was recorded.",
+    "Before deployment, a human must confirm actual timestamps, forecast horizon, acceptable error thresholds, and whether previous target is available at prediction time.",
+    "Any promotion of a post-selection robust drift variant requires a new untouched test block."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "The case is synthetic and contains only 48 ordered observations, so estimates and resampling intervals are unstable.",
+    "The operational regime label is known only after period close and is unavailable for live prediction.",
+    "Feature has 2 missing values; future_target has 1 missing value; target, target_proxy, noise_feature, and regime have no missing values.",
+    "Feature=180 at row 40 is documented as possible sensor saturation, and the train/validation/test distributions include an early-to-late regime transition."
+  ],
+  "requirements": [
+    "Inspect only the listed local inputs in the isolated repository and preserve them unchanged.",
+    "Design a temporal train/validation/test experiment with a naive baseline, predefined metrics, leakage removal, repeated evidence, perturbation tests, randomness control, and retained failures.",
+    "Return exactly one observation object conforming to observation.schema.json; distinguish claims from verified evidence and do not use external or historical material."
+  ],
+  "robustness_tests": [
+    "Removing sensor-saturation row 40 from selected-model test scoring gives n=9, MAE=0.854859, RMSE=0.960301.",
+    "Replacing mean drift with median drift gives d=0.749000, test MAE=0.836800, RMSE=0.961043.",
+    "Excluding the regime-jump difference from row 32 to 33 gives d=0.648833, test MAE=0.799167, RMSE=0.949961.",
+    "For the winsorized feature candidate, Gaussian feature jitter sigma=0.5 over seeds 0-19 left test MAE at 4.640603 because test features remained clipped; this is a clipping artifact, not broad robustness.",
+    "For the winsorized feature candidate, forcing every test feature missing degraded performance to MAE=24.960180 and RMSE=25.032351; this retained failure shows severe missingness sensitivity."
+  ],
+  "run_index": 2,
+  "selected_model": "Mean-drift-adjusted persistence, selected by lowest validation MAE; selection is provisional and the held-out test failure is retained.",
+  "self_reported_limitations": [
+    "No project files or inputs were modified, and no code artifact was created.",
+    "No network, web, MCP, remotes, parent directories, credentials, or historical material were used.",
+    "The environment lacked the python command and pandas; calculations used python3 standard-library code without installing dependencies.",
+    "Candidate coverage was intentionally small and does not establish optimality.",
+    "Feature-jitter evidence concerns the winsorized candidate, not the selected drift model; the selected model is structurally independent of feature."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/timeseries.csv",
+    "case/input/field_notes.json"
+  ],
+  "tests_claimed": [
+    "Temporal holdout comparison on predefined MAE and RMSE.",
+    "Three expanding-window evaluation blocks for repeated evidence.",
+    "Paired seeded bootstrap of held-out MAE difference.",
+    "Leakage-oracle falsification checks.",
+    "Sensor-saturation row removal, drift-estimator perturbation, regime-jump removal, feature-jitter, and all-feature-missing perturbations.",
+    "JSON Schema validation."
+  ],
+  "tests_verified": [
+    "Validation rows 29-38: drift MAE=1.561900 and RMSE=3.053295 versus persistence MAE=1.812500 and RMSE=3.311928.",
+    "After refit on rows 1-38, test rows 39-48: drift MAE=0.897297 and RMSE=0.996798 versus persistence MAE=0.854600 and RMSE=1.118578.",
+    "Expanding folds 19-28, 29-38, 39-48: drift MAE=0.690153, 1.561900, 0.897297; persistence MAE=0.896800, 1.812500, 0.854600.",
+    "Paired bootstrap with seed 20260901 and 2000 resamples gave drift-minus-persistence test MAE mean=0.051172 and percentile interval [-0.429049, 0.494843].",
+    "target_proxy produces MAE=RMSE=0 on validation; future_target produces MAE=RMSE=0 for the 9 checked next-row validation pairs, confirming leakage.",
+    "The final observation passed local jsonschema validation against observation.schema.json."
+  ],
+  "uncertainties": [
+    "Only 10 observations occur in each validation and test block.",
+    "The regime transition and one large feature saturation event make performance distribution-dependent.",
+    "The invalid calendar labels leave actual elapsed-time spacing unknown.",
+    "The paired bootstrap resamples a dependent temporal block and is only a sensitivity summary, not an iid confidence guarantee.",
+    "No external semantics, deployment costs, or human acceptance thresholds were available."
+  ],
+  "validation": [
+    "Mean-drift-adjusted persistence won validation among the tested deployable candidates: MAE=1.561900, RMSE=3.053295.",
+    "Other validation results: ordinary feature regression MAE=4.150529, RMSE=5.484623; winsorized feature regression MAE=9.335768, RMSE=10.612075.",
+    "On the held-out test, selected drift improved RMSE by 0.121780 but worsened MAE by 0.042697 relative to persistence.",
+    "The bootstrap interval crosses zero, so the test data do not establish a reliable MAE advantage for selected drift."
+  ]
+}

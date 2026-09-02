@@ -1,0 +1,22 @@
+schema_version: "1.0.0"
+phase: PHASE-EVIDENCE-EXPANSION-002D
+frozen_at: "2026-09-01T18:09:59+08:00"
+subject_base_commit: 8dd43cad3bac58ac25fdbb0d412d894d428472ae
+codex_cli_version: "0.147.0"
+auth_mode: CHATGPT_MANAGED_CODEX
+preferred_historical_model: gpt-5.4
+allowed_replacement_models: [gpt-5.6-sol]
+reasoning_setting: medium
+sandbox: workspace-write
+network_policy: DISABLED_REQUIRED
+mcp_policy: DISABLED_REQUIRED
+primary_cases: [CASE-001, CASE-002, CASE-004, CASE-006]
+anonymous_arms: [ARM-A, ARM-B, ARM-C]
+minimum_balanced_cases: 4
+minimum_repeats: 2
+timeout_seconds: 900
+cohort_concurrency: 1
+monetary_cost: UNKNOWN
+api_key_allowed: false
+api_billing_allowed: false
+fine_tuning_allowed: false

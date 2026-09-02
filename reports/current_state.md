@@ -2,23 +2,24 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C`
+- Phase: `PHASE-EVIDENCE-EXPANSION-002D`
+- Subphase: `PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0002C-evidence-sufficiency.md`
-- Branch: `feat/upstream-dynamic-eval`
+- Active plan: `plans/active/PLAN-0002D-R1-failure-aware-outcomes.md`
+- Branch: `feat/evidence-expansion-002d`
 - Skill version: `0.1.0-foundation`
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `AUTOMATED_ADJUDICATION_COMPLETE`
-- Automated decisions: `DECISION-EVIDENCE-SUFFICIENCY-002C, DECISION-DIRECT-UPSTREAM-ADOPTION-002C, DECISION-RECOVERY-POLICY-002C, DECISION-COMPONENT-READINESS-002C`
+- Technical adjudication: `FAILURE_AWARE_ADJUDICATION_COMPLETE`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1`
 - Selected architecture: `None`
-- Accepted component specifications: `None`
+- Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `PHASE-EVIDENCE-EXPANSION-002D`
-- Content-verified commit: `f9aea6b47de57ed0dba9b84670d95d34ee3f65dc`
-- Delivery receipt commit: `f9aea6b47de57ed0dba9b84670d95d34ee3f65dc`
+- Content-verified commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
+- Delivery receipt commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-01T14:30:11+08:00` by `main-agent`
+- Updated: `2026-09-02T03:58:21+08:00` by `main-agent`
 
 ## Blockers
 
@@ -36,5 +37,8 @@
 - The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.
 - Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.
 - Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.
-- Direct-adoption leakage and integration risk predicates accept arbitrary LOW-prefixed strings; this is non-blocking for the two currently rejected targets but must be closed before any future positive adoption decision.
+- Direct-adoption risks now use a closed fail-closed enum; the Phase 002C compatibility replay preserves both historical whole-package rejections.
 - Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.
+- Phase 002D-R1 quality evidence remains insufficient at 2 of 4 balanced cases and repeat depth 1 of 2; reliability evidence cannot be promoted into a quality or superiority claim.
+- The sole censored slot is harness-censored without established semantic equivalence, so supplemental authorization and the real-start budget remain zero.
+- Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown.

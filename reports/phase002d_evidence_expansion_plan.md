@@ -1,12 +1,13 @@
-# Phase 002D Evidence Expansion Plan (Draft; Not Executed)
+# Phase 002D evidence expansion outcome
 
-Goal: at least 4 balanced cases with at least 2 independent primary repeats for every required arm.
-Currently balanced: `['CASE-001', 'CASE-006']`; all balanced cells and newly completed cells require repeat depth 2.
-Minimum frozen completion batch: 14 successful new primary runs across cases `['CASE-001', 'CASE-006', 'CASE-002', 'CASE-004']`; arm × case shortfalls: `['CASE-001:ARM-A×1', 'CASE-001:ARM-B×1', 'CASE-001:ARM-C×1', 'CASE-006:ARM-A×1', 'CASE-006:ARM-B×1', 'CASE-006:ARM-C×1', 'CASE-002:ARM-A×2', 'CASE-002:ARM-B×1', 'CASE-002:ARM-C×1', 'CASE-004:ARM-A×1', 'CASE-004:ARM-B×1', 'CASE-004:ARM-C×2']`. Recovery-affected cells remain missing for ranking purposes.
-Add numerical-ground-truth synthetic cases only where they enlarge model classes without exposing held-out answers. Prefer deterministic oracles and compact, case-scoped inputs; never resend the full repository or historical transcripts.
-Run ordinary Codex and the formal Skill against identical hash-bound prompts, seeds, limits, and oracle checks. Candidate labels remain anonymous. Any revealed validation answer permanently demotes that case to development.
-Token-cost evidence: Historical basis: 3,605,071 tokens over 20 attempts and 2,364,115 over 13 valid completions. Per-valid-completion min/median/mean/max is 75,364/131,579/181,855/620,339; 14-success extrapolation is 1,055,096/1,842,106/2,545,970/8,684,746 tokens. At observed 0.65 success, 21.538 expected attempts including 7.538 retries cost about 3,882,384 tokens using the all-attempt mean of 180,253.55. Hardened replay inference-token cost is zero by declared offline/no-model mode; monetary cost is UNKNOWN without frozen pricing.
-Time-cost evidence: Historical basis: 2,847.841679 seconds over 20 attempts and 1,963.986270 over 13 valid completions. Per-valid-completion min/median/mean/max is 59.238140/161.606911/151.075867/349.207864 seconds; 14-success extrapolation is 829.333960/2,262.496754/2,115.062137/4,888.910096 seconds. Retry-adjusted expectation is 3,066.906424 seconds (51.115107 minutes) over 21.538 attempts. Hardened replay CPU/wall time and operator/queue time are UNKNOWN because the allowed evidence contains no benchmark.
-Before any expansion batch, run one compact hash-bound deterministic-oracle pilot with the intended model. Freeze separate successful-run, retry, token, elapsed-time, and total-spend limits from that pilot; do not reuse an unsupported fixed per-run ceiling.
-Stop when minima pass, any mandatory hard gate fails, the frozen run budget is exhausted, input hashes diverge, leakage is detected, or two consecutive infrastructure failures make the planned cell non-comparable.
-Reassess only after expansion: accepted-versus-done workflow state, claim-evidence support gate, hash-bound reproducibility manifest, and leakage-safe model comparison gate. Do not integrate in Phase 002D.
+The frozen objective was 24 eligible records forming four balanced cases with two independent
+repeats. Acquisition used eight primary blocks followed by the frozen retry queue. It stopped after
+28 scored starts with 18 eligible records,
+3 balanced cases and
+1 independent repeat.
+
+The terminal condition is `ELAPSED_BUDGET_REACHED` at
+6228.480778 seconds. Formal status is
+`EVIDENCE_EXPANSION_INCOMPLETE`; the next legal route is
+`PHASE-EVIDENCE-EXPANSION-002D` after a new reviewed design/freeze. No semantic audit, decision,
+integration or Phase 003 execution occurred.

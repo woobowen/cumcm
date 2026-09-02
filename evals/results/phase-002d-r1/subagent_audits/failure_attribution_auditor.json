@@ -1,0 +1,179 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002D-R1-FAILURE-ATTRIBUTION-FIRST-ROUND",
+  "blockers": [
+    "FAILATTR-003-POLICY-CAUSE",
+    "FAILATTR-004-HARD-FAIL-003",
+    "FAILATTR-005-MIXED-TRANSPORT"
+  ],
+  "bundle_hash": "804c999ad4f9aabc59f1cc23ce95045cb6d1dd4b8fd6c8e69ed92e445ce91778",
+  "bundle_id": "PHASE-002D-R1-NATIVE-FAILURE_ATTRIBUTION_AUDITOR",
+  "created_at": "2026-09-01T23:12:32+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-FAILURE-ATTRIBUTION-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d-r1/slot_outcomes/slot_outcome_matrix.json",
+        "evals/results/phase-002d/attempt_ledger.json"
+      ],
+      "finding_id": "FAILATTR-001-ACCOUNTING",
+      "pass_condition": "All counts reproduce with no orphan or duplicate.",
+      "required_test": "tests/unit/test_phase002d_r1_classification.py::test_all_28_attempts_are_classified_once",
+      "severity": "INFO",
+      "statement": "All 28 attempts, 24 slots, 7 policy labels, 6 HARD-FAIL-003 flags, 2 completed exclusions and 4 retries are count-consistent.",
+      "status": "RESOLVED",
+      "target": "attempt and slot accounting",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-FAILURE-ATTRIBUTION-001",
+        "EXP-CASE-001-ARM-A-R1-A01",
+        "EXP-CASE-004-ARM-A-R1-A01"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json"
+      ],
+      "finding_id": "FAILATTR-002-PRIMARY-ELIGIBLE",
+      "pass_condition": "Exactly nine PASS records are selected and no oracle-fail enters quality.",
+      "required_test": "tests/unit/test_phase002d_r1_classification.py::test_classification_cardinality",
+      "severity": "INFO",
+      "statement": "The 18 primary-eligible attempts split into nine oracle-PASS successes and nine oracle-failing terminal negatives; only the former enter quality.",
+      "status": "RESOLVED",
+      "target": "eligible success versus oracle failure",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "FAILED, schema-invalid, NOT_RUN and E0 process evidence can also be compatible with schema, harness or unknown failure.",
+      "evidence_refs": [
+        "CLASSIFICATION:EXP-CASE-004-ARM-A-R2-A01",
+        "CLASSIFICATION:EXP-CASE-006-ARM-A-R1-A01",
+        "EXP-CASE-006-ARM-C-R2-A01"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/attempt_classification/EXP-CASE-004-ARM-A-R2-A01.json",
+        "evals/results/phase-002d/attempts/EXP-CASE-004-ARM-A-R2-A01.json",
+        "src/cumcm_skill_lab/failure_aware/classification.py",
+        "rules/evidence_hierarchy.yaml"
+      ],
+      "finding_id": "FAILATTR-003-POLICY-CAUSE",
+      "pass_condition": "Policy terminal classification requires the preserved authoritative runner label; removing it fails closed rather than inferring policy from missing output.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_policy_attribution_requires_authoritative_runner_label",
+      "severity": "BLOCKER",
+      "statement": "Seven runner POLICY_VIOLATION labels reproduce, but the bundle does not bind them to rule-specific E1/E2 candidate actions; generic cause attribution needs a fail-closed test.",
+      "status": "UNRESOLVED",
+      "target": "seven terminal policy attributions",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Ignored harness output and candidate fabrication produce the same visible path mismatch without extra evidence.",
+      "evidence_refs": [
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A01",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A02",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A03",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d/runs/EXP-CASE-001-ARM-A-R2-A01/observation.json",
+        "src/cumcm_skill_lab/failure_aware/classification.py",
+        "rules/dynamic_eval_rules.yaml"
+      ],
+      "finding_id": "FAILATTR-004-HARD-FAIL-003",
+      "pass_condition": "Harness equivalence stays NOT_ESTABLISHED without bound files and cannot authorize a supplemental run.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_harness_semantic_equivalence_fails_closed_without_bound_files",
+      "severity": "BLOCKER",
+      "statement": "Six flags are present, but .harness claims plus empty tracked files do not prove fabrication; harness causation needs semantic-equivalence and file-binding tests.",
+      "status": "UNRESOLVED",
+      "target": "HARD-FAIL-003 and harness binding",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A late transport artifact and a transport-caused incomplete attempt can share these visible fields.",
+      "evidence_refs": [
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A02",
+        "EXP-CASE-001-ARM-A-R2-A02",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/attempt_classification/EXP-CASE-001-ARM-A-R2-A02.json",
+        "evals/results/phase-002d/attempts/EXP-CASE-001-ARM-A-R2-A02.json",
+        "src/cumcm_skill_lab/failure_aware/classification.py"
+      ],
+      "finding_id": "FAILATTR-005-MIXED-TRANSPORT",
+      "pass_condition": "The authoritative runner transport label controls primary censoring while contradictory signals remain secondary and confidence is not HIGH.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_mixed_transport_attribution_retains_secondary_uncertainty",
+      "severity": "BLOCKER",
+      "statement": "The mixed attempt has a runner HTTPS_FALLBACK_DISCONNECT plus schema-valid observation, oracle FAIL and harness signals; precedence requires an explicit observable-evidence test.",
+      "status": "UNRESOLVED",
+      "target": "mixed transport primary attribution",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "EXP-CASE-001-ARM-A-R2-A01",
+        "EXP-CASE-001-ARM-A-R2-A03",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/attempt_classification/EXP-CASE-001-ARM-A-R2-A01.json",
+        "evals/results/phase-002d-r1/attempt_classification/EXP-CASE-001-ARM-A-R2-A03.json",
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json"
+      ],
+      "finding_id": "FAILATTR-006-COMPLETED-EXCLUSIONS",
+      "pass_condition": "Exactly two completed exclusions remain unselected and fully accounted.",
+      "required_test": "tests/unit/test_phase002d_r1_classification.py::test_completed_harness_mismatches_are_not_quality_eligible",
+      "severity": "INFO",
+      "statement": "The two completed exclusions stay out of quality but remain in reliability and cost; this does not prove harness equivalence.",
+      "status": "RESOLVED",
+      "target": "completed exclusion bookkeeping",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "An empty terminal_failure_before_success field does not mean no retry followed a terminal record.",
+      "evidence_refs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "CASE-004-ARM-A-R2",
+        "CASE-006-ARM-A-R1"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-004-ARM-A-R2.json",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-006-ARM-A-R1.json"
+      ],
+      "finding_id": "FAILATTR-007-RETRIES",
+      "pass_condition": "Both retry-after-terminal histories are explicit and never erased.",
+      "required_test": "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_retry_after_terminal_is_explicit",
+      "severity": "WARNING",
+      "statement": "Four retry edges are preserved, including two after retrospectively terminal predecessors; no retry produces an oracle-PASS quality success.",
+      "status": "UNRESOLVED",
+      "target": "retry histories",
+      "testability": "TESTABLE"
+    }
+  ],
+  "identity_blind": true,
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_NATIVE_SUBAGENT",
+  "nested_codex_used": false,
+  "output_hash": "5c4ed540368d4a117c3deeb53822fe74baddbca6341bf7d065582ebdb3388185",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "failure_attribution_auditor",
+  "round": "FIRST_ROUND",
+  "verdict": "RETEST_REQUIRED",
+  "web_used": false,
+  "writes_observed": false
+}

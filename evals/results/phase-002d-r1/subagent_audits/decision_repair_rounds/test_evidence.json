@@ -1,0 +1,31 @@
+{
+  "evidence": [
+    {
+      "artifact_hashes": {
+        "tests/unit/test_phase002d_r1_decisions.py": "fe0874a23f7e5da7f6429b9c5043204a09049b34b6422d42560aba7bcd239500"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_decisions.py::test_all_decisions_have_one_canonical_accepted_scope",
+      "completed_at": "2026-09-02T03:30:00+08:00",
+      "finding_id": "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "observed_result": "pytest exit 0; deterministic repair node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-02T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "TEST-FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY"
+    },
+    {
+      "artifact_hashes": {
+        "tests/unit/test_phase002d_r1_replay.py": "163d75ba317ee3b82404048019595a071c79375408108b4208782051786b258f"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_replay.py::test_replay_projection_is_order_and_label_stable",
+      "completed_at": "2026-09-02T03:30:00+08:00",
+      "finding_id": "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "observed_result": "pytest exit 0; deterministic repair node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-02T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "TEST-FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

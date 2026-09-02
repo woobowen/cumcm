@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/expansion-run/v1",
+  "title": "Phase 002D Expansion Run Binding",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "run_id", "attempt_id", "execution_kind", "case_id",
+    "anonymous_arm_id", "repeat_id", "attempt_hash", "subject_commit",
+    "workspace_commit", "observation_hash",
+    "oracle_result_hash", "process_hash", "coverage_hash", "eligibility_hash",
+    "primary_eligible", "oracle_status", "process_evidence_status",
+    "robustness_status", "run_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "run_id": {"type": "string", "minLength": 1},
+    "attempt_id": {"type": "string", "minLength": 1},
+    "execution_kind": {"const": "REAL_CODEX"},
+    "case_id": {"enum": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+    "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+    "repeat_id": {"type": "integer", "minimum": 1, "maximum": 2},
+    "attempt_hash": {"$ref": "#/$defs/hash"},
+    "subject_commit": {"$ref": "#/$defs/git_hash"},
+    "workspace_commit": {"$ref": "#/$defs/git_hash"},
+    "observation_hash": {"anyOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]},
+    "oracle_result_hash": {"$ref": "#/$defs/hash"},
+    "process_hash": {"$ref": "#/$defs/hash"},
+    "coverage_hash": {"$ref": "#/$defs/hash"},
+    "eligibility_hash": {"$ref": "#/$defs/hash"},
+    "primary_eligible": {"type": "boolean"},
+    "oracle_status": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
+    "process_evidence_status": {"enum": ["PASS", "FAIL"]},
+    "robustness_status": {"const": "PENDING_CROSS_REPEAT"},
+    "run_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "git_hash": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+  },
+  "additionalProperties": false
+}

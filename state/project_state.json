@@ -1,32 +1,85 @@
 {
   "project_id": "cumcm-skill-lab",
-  "schema_version": "2.0.0",
-  "phase": "PHASE-AUTOMATED-EVIDENCE-SUFFICIENCY-002C",
+  "schema_version": "2.1.0",
+  "phase": "PHASE-EVIDENCE-EXPANSION-002D",
+  "subphase": "PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION",
   "status": "IN_PROGRESS",
-  "current_plan": "plans/active/PLAN-0002C-evidence-sufficiency.md",
+  "current_plan": "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md",
   "active_skill_version": "0.1.0-foundation",
-  "current_branch": "feat/upstream-dynamic-eval",
-  "technical_adjudication_status": "AUTOMATED_ADJUDICATION_COMPLETE",
+  "current_branch": "feat/evidence-expansion-002d",
+  "technical_adjudication_status": "FAILURE_AWARE_ADJUDICATION_COMPLETE",
   "automated_decision_ids": [
-    "DECISION-EVIDENCE-SUFFICIENCY-002C",
-    "DECISION-DIRECT-UPSTREAM-ADOPTION-002C",
-    "DECISION-RECOVERY-POLICY-002C",
-    "DECISION-COMPONENT-READINESS-002C"
+    "DECISION-ARCHITECTURE-002D-R1",
+    "DECISION-COMPONENT-READINESS-002D-R1",
+    "DECISION-FAILURE-SEMANTICS-002D-R1",
+    "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1",
+    "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1",
+    "DECISION-SLOT-RESOLUTION-002D-R1",
+    "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1"
   ],
   "selected_architecture": null,
-  "accepted_component_specifications": [],
+  "accepted_component_specifications": [
+    "accepted-versus-done-workflow-state",
+    "claim-evidence-support-gate",
+    "hash-bound-reproducibility-manifest",
+    "leakage-safe-model-comparison-gate"
+  ],
   "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
-  "content_verified_commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
+  "evidence_expansion": {
+    "cohort_mode": "NEW_MODEL_COHORT",
+    "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
+    "model": "gpt-5.6-sol",
+    "reasoning_setting": "medium",
+    "transport_profile": "PROXY_INHERITED",
+    "target_successes": 24,
+    "attempts": 28,
+    "successes": 18,
+    "failures": 8,
+    "balanced_cases": [
+      "CASE-001",
+      "CASE-002",
+      "CASE-004"
+    ],
+    "repeat_depth": 0,
+    "budget_remaining": {
+      "maximum_total_attempts": 40,
+      "remaining_attempts": 12,
+      "maximum_total_input_tokens": 10000000,
+      "remaining_input_tokens": 4273146,
+      "maximum_total_output_tokens": 334443,
+      "remaining_output_tokens": 61982,
+      "maximum_total_elapsed_seconds": 6197,
+      "remaining_elapsed_seconds": 0,
+      "monetary_cost": "UNKNOWN"
+    },
+    "current_batch": 7,
+    "infrastructure_status": "STOPPED_ELAPSED_BUDGET_REACHED",
+    "repeat_depth_deprecated": true,
+    "quality_balanced_case_count": 2,
+    "quality_minimum_repeat_depth": 1,
+    "outcome_resolved_case_count": 3,
+    "outcome_minimum_repeat_depth": 2,
+    "schedule_attempted_repeat_depth": 2,
+    "reliability_observed_repeat_depth": 2,
+    "resolved_success_slots": 9,
+    "resolved_terminal_negative_slots": 14,
+    "infrastructure_censored_slots": 0,
+    "harness_censored_slots": 1,
+    "unknown_slots": 0,
+    "supplemental_run_authorized": false,
+    "supplemental_budget_id": "PHASE-002D-R1-SUPPLEMENTAL-BUDGET-001"
+  },
+  "content_verified_commit": "62dc0b443782e93a246ab510c383cc2a13071e2f",
   "verification_manifest": {
-    "path": "evals/results/phase-002c/input_freeze_manifest.json",
-    "sha256": "35c2c37019f3f024c90b71ff572a6f23608c12bf758efb1b666f5c3d08aa655f",
-    "subject_commit": "2c272a359a8b7197ce65bcefe2736007895dc9b6"
+    "path": "evals/results/phase-002d-r1/input_freeze_manifest.json",
+    "sha256": "50b18b674a3ea2ca770e4ed60328b214f2c1eda9a3e9856b7410cd7095192218",
+    "subject_commit": "d59f4b8a36fa3c15e06ec0aceb948cd2bafd2abc"
   },
   "delivery_receipt_for_commit": {
-    "commit": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
+    "commit": "62dc0b443782e93a246ab510c383cc2a13071e2f",
     "remote": "origin",
-    "remote_sha": "f9aea6b47de57ed0dba9b84670d95d34ee3f65dc",
-    "verified_at": "2026-09-01T14:30:11+08:00"
+    "remote_sha": "62dc0b443782e93a246ab510c383cc2a13071e2f",
+    "verified_at": "2026-09-02T03:58:21+08:00"
   },
   "team_compliance_review_status": "NOT_RUN",
   "blockers": [],
@@ -41,12 +94,15 @@
     "The frozen gpt-5.4 default is unavailable; all Phase 002B formal roles must use versioned gpt-5.6-sol/medium with an explicit comparability limitation.",
     "Correctness initial exec and its only exact-session resume both ended in RESPONSES_CONNECT_RESET; the per-role two-attempt limit is exhausted with six global starts unused.",
     "Frozen comparative evidence has only 2 balanced cases and repeat depth 1 against minima 4 and 2; Phase 002D requires at least 14 successful eligible primary additions under the deterministic allocation.",
-    "Direct-adoption leakage and integration risk predicates accept arbitrary LOW-prefixed strings; this is non-blocking for the two currently rejected targets but must be closed before any future positive adoption decision.",
-    "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark."
+    "Direct-adoption risks now use a closed fail-closed enum; the Phase 002C compatibility replay preserves both historical whole-package rejections.",
+    "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.",
+    "Phase 002D-R1 quality evidence remains insufficient at 2 of 4 balanced cases and repeat depth 1 of 2; reliability evidence cannot be promoted into a quality or superiority claim.",
+    "The sole censored slot is harness-censored without established semantic equivalence, so supplemental authorization and the real-start budget remain zero.",
+    "Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-01T14:30:11+08:00",
+  "updated_at": "2026-09-02T03:58:21+08:00",
   "updated_by": "main-agent"
 }

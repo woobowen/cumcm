@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/evidence-scope-summary/v1",
+  "title": "Phase 002D-R1 Evidence Scope Summary",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "scope_summary_id", "quality_evidence", "reliability_evidence",
+    "outcome_completeness", "component_gap_evidence", "repeat_semantics",
+    "failure_is_not_zero_score", "summary_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "scope_summary_id": {"const": "PHASE-002D-R1-EVIDENCE-SCOPES-001"},
+    "quality_evidence": {"$ref": "#/$defs/quality"},
+    "reliability_evidence": {"$ref": "#/$defs/reliability"},
+    "outcome_completeness": {"$ref": "#/$defs/outcome"},
+    "component_gap_evidence": {"$ref": "#/$defs/component"},
+    "repeat_semantics": {"$ref": "#/$defs/repeats"},
+    "failure_is_not_zero_score": {"const": true},
+    "summary_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "quality": {
+      "type": "object",
+      "required": ["selected_record_ids", "balanced_cases", "balanced_case_count", "minimum_repeat_depth", "required_balanced_cases", "required_repeat_depth", "result"],
+      "properties": {
+        "selected_record_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "balanced_cases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "balanced_case_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "minimum_repeat_depth": {"type": "integer", "minimum": 0, "maximum": 2},
+        "required_balanced_cases": {"const": 4},
+        "required_repeat_depth": {"const": 2},
+        "result": {"enum": ["SUFFICIENT", "EVIDENCE_INSUFFICIENT"]}
+      },
+      "additionalProperties": false
+    },
+    "reliability": {
+      "type": "object",
+      "required": ["attempt_ids", "attempt_count", "slot_count", "completion_rate", "primary_eligible_rate", "terminal_failure_rate", "policy_violation_rate", "infrastructure_rate", "retry_burden"],
+      "properties": {
+        "attempt_ids": {"type": "array", "minItems": 28, "maxItems": 28, "items": {"type": "string"}, "uniqueItems": true},
+        "attempt_count": {"const": 28},
+        "slot_count": {"const": 24},
+        "completion_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "primary_eligible_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "terminal_failure_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "policy_violation_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "infrastructure_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "retry_burden": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "outcome": {
+      "type": "object",
+      "required": ["resolved_slot_ids", "resolved_slot_count", "resolved_success_slots", "resolved_terminal_negative_slots", "censored_slot_ids", "resolved_case_count", "minimum_repeat_depth"],
+      "properties": {
+        "resolved_slot_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "resolved_slot_count": {"type": "integer", "minimum": 0, "maximum": 24},
+        "resolved_success_slots": {"type": "integer", "minimum": 0, "maximum": 24},
+        "resolved_terminal_negative_slots": {"type": "integer", "minimum": 0, "maximum": 24},
+        "censored_slot_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "resolved_case_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "minimum_repeat_depth": {"type": "integer", "minimum": 0, "maximum": 2}
+      },
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "required": ["eligible_gap_groups", "excluded_isolated_failures", "infrastructure_excluded", "recovery_excluded", "agent_votes_excluded"],
+      "properties": {
+        "eligible_gap_groups": {"type": "array", "items": {"type": "object", "required": ["gap_id", "attempt_ids", "case_ids", "repeat_ids"]}},
+        "excluded_isolated_failures": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "infrastructure_excluded": {"const": true},
+        "recovery_excluded": {"const": true},
+        "agent_votes_excluded": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "repeats": {
+      "type": "object",
+      "required": ["repeat_depth_deprecated", "quality_balanced_case_count", "quality_minimum_repeat_depth", "outcome_resolved_case_count", "outcome_minimum_repeat_depth", "schedule_attempted_repeat_depth", "reliability_observed_repeat_depth"],
+      "properties": {
+        "repeat_depth_deprecated": {"const": true},
+        "quality_balanced_case_count": {"type": "integer", "minimum": 0},
+        "quality_minimum_repeat_depth": {"type": "integer", "minimum": 0},
+        "outcome_resolved_case_count": {"type": "integer", "minimum": 0},
+        "outcome_minimum_repeat_depth": {"type": "integer", "minimum": 0},
+        "schedule_attempted_repeat_depth": {"const": 2},
+        "reliability_observed_repeat_depth": {"const": 2}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

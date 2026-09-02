@@ -1,0 +1,58 @@
+{
+  "api_billing_used": false,
+  "api_key_used": false,
+  "attempt_hash": "ee1f5115a023da0bacbc41a79739bc3a57564b5294487180a13a2aaf26697076",
+  "attempt_id": "CALIBRATION-PILOT-002D-001-ATTEMPT-002",
+  "completion_status": "PASS",
+  "counts_as_primary": false,
+  "counts_as_repeat": false,
+  "duration_seconds": 21.204297,
+  "ended_at": "2026-09-01T10:25:31.063878Z",
+  "event_summary": {
+    "item.completed": 3,
+    "item.started": 2,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "exit_code": 0,
+  "failure_class": null,
+  "files_written": [],
+  "fresh_session": true,
+  "input_mutated": false,
+  "model": "gpt-5.6-sol",
+  "observable_commands": [
+    "bash shell_text_sha_redacted"
+  ],
+  "oracle_status": "PASS",
+  "output": {
+    "completion_status": "COMPLETED",
+    "difference": 8,
+    "input_sha256": "c6f1f54877fafe9de5b133573a09514c8a97e5f5c759038e68a922bef38e85ad",
+    "mcp_used": false,
+    "network_used": false,
+    "pilot_id": "CALIBRATION-PILOT-002D-001",
+    "sum": 42
+  },
+  "proxy_variables_present": true,
+  "raw_trace_hash": "58b5811093febe49a8232f0abbeaf2170ab9d67320ee60bd9ed416ba8c1d2584",
+  "reasoning_setting": "medium",
+  "result_hashes": {
+    "structured_output": "cd9f1ad1f8e13990bbc5fe15a665cc0b773526585340823d562b7235039204dd"
+  },
+  "resume_used": false,
+  "retry_of": "CALIBRATION-PILOT-002D-001-ATTEMPT-001",
+  "schema_valid": true,
+  "schema_version": "1.0.0",
+  "started_at": "2026-09-01T10:25:09.859586Z",
+  "stderr_hash": "fc6302e95ed8818b19fe307692aa01eba197ea5da02f7033fbb3b03163db3689",
+  "stderr_summary": null,
+  "token_usage": {
+    "cached_input_tokens": null,
+    "input_tokens": 41092,
+    "output_tokens": 397,
+    "reasoning_tokens": null,
+    "total_tokens": null
+  },
+  "transport_profile": "PROXY_INHERITED"
+}

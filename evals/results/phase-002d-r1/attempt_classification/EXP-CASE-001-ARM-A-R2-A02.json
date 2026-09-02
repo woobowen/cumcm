@@ -1,0 +1,43 @@
+{
+  "anonymous_arm_id": "ARM-A",
+  "attempt_id": "EXP-CASE-001-ARM-A-R2-A02",
+  "attribution_basis": "TRANSPORT_OBSERVATION_WITH_HARNESS_SECONDARY",
+  "case_id": "CASE-001",
+  "classification_hash": "d43f2bb44450f26338b019dcac547212ccbb6be8503f98b67862bd983334a52e",
+  "classification_id": "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A02",
+  "confidence": "MEDIUM",
+  "evidence_refs": [
+    "evals/results/phase-002d/attempts/EXP-CASE-001-ARM-A-R2-A02.json",
+    "evals/results/phase-002d/eligibility/EXP-CASE-001-ARM-A-R2-A02.json",
+    "evals/results/phase-002d/oracle/EXP-CASE-001-ARM-A-R2-A02.json",
+    "evals/results/phase-002d/process_evidence/EXP-CASE-001-ARM-A-R2-A02.json",
+    "rules/dynamic_eval_rules.yaml#hard_failures.HARD-FAIL-003",
+    "evals/results/phase-002d/runs/EXP-CASE-001-ARM-A-R2-A02/observation.json"
+  ],
+  "identity_used": false,
+  "observed": {
+    "completion_status": "FAILED",
+    "failure_class": "HTTPS_FALLBACK_DISCONNECT",
+    "hard_failures": [
+      "HARD-FAIL-003"
+    ],
+    "oracle_status": "FAIL",
+    "primary_eligible": false,
+    "process_evidence_status": "FAIL",
+    "retry_of": "EXP-CASE-001-ARM-A-R2-A01",
+    "schema_valid": true
+  },
+  "primary_classification": "INFRASTRUCTURE_CENSORED",
+  "recovery_used": false,
+  "repeat_id": 2,
+  "schema_version": "1.0.0",
+  "secondary_flags": [
+    "HARD_FAIL_003_RECORDED",
+    "HARNESS_PATH_CLAIM_MISMATCH",
+    "ORACLE_FAIL",
+    "PROCESS_EVIDENCE_FAIL",
+    "RETRY_ATTEMPT",
+    "TRANSPORT_FAILURE_RECORDED"
+  ],
+  "slot_id": "CASE-001-ARM-A-R2"
+}

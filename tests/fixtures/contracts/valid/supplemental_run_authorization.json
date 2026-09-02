@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1",
+  "decision": "AUTOMATED_REJECTED",
+  "target": "SUPPLEMENTAL_GENERIC_RUNS",
+  "accepted_scope": "NONE",
+  "input_freeze_id": "F-1",
+  "input_freeze_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "slot_matrix_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "harness_semantic_equivalence": {
+    "equivalence_id": "E-1",
+    "status": "NOT_ESTABLISHED",
+    "bound_file_hashes": [],
+    "semantic_equivalence_pass": false,
+    "supplemental_eligible": false,
+    "equivalence_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "slot_assessments": [],
+  "authorized_slot_ids": [],
+  "maximum_real_starts": 0,
+  "maximum_starts_per_slot": 0,
+  "protocol_fingerprint": {
+    "cohort_hash": "d", "model": "m", "reasoning_setting": "medium",
+    "prompt_hash": "d", "schema_hash": "d", "fixture_hash": "d",
+    "package_hash": "d", "scorer_hash": "d", "oracle_hash": "d",
+    "transport_profile": "p"
+  },
+  "generic_retry_authorized": false,
+  "original_budget_mutated": false,
+  "api_key_used": false,
+  "api_billing_used": false,
+  "majority_vote_used": false,
+  "human_technical_gate_used": false,
+  "evidence_refs": ["E-1"],
+  "authorization_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+}

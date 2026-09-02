@@ -1,0 +1,145 @@
+{
+  "evidence": [
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/experiment_protocol_auditor.json": "fdf352419e1128fde060e40b862dcff9e541265911d3449414bd29358a5ba0e0",
+        "tests/unit/test_phase002d_r1_protocol.py": "edcbe8fa3c3e9ca8ce188a6e64106c9d7c24133aac9f00562e43c02b25da7aea"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_protocol.py::test_historical_retry_protocol_deviations_are_explicit",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "EXPERIMENT-PROTOCOL-001",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/experiment_protocol_auditor.json": "fdf352419e1128fde060e40b862dcff9e541265911d3449414bd29358a5ba0e0",
+        "tests/unit/test_phase002d_r1_protocol.py": "edcbe8fa3c3e9ca8ce188a6e64106c9d7c24133aac9f00562e43c02b25da7aea"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_protocol.py::test_all_historical_tree_hashes_replay",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "EXPERIMENT-PROTOCOL-002",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-002"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/experiment_protocol_auditor.json": "fdf352419e1128fde060e40b862dcff9e541265911d3449414bd29358a5ba0e0",
+        "tests/fault_injection/test_phase002d_r1_supplemental_faults.py": "f09241199b3dc13ba412ed16e9c5e4577ea7c4b6486526aa80d421f4663e96c4"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_protocol_mutations_require_new_cohort",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "EXPERIMENT-PROTOCOL-004",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-004"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/experiment_protocol_auditor.json": "fdf352419e1128fde060e40b862dcff9e541265911d3449414bd29358a5ba0e0",
+        "tests/fault_injection/test_phase002d_r1_supplemental_faults.py": "f09241199b3dc13ba412ed16e9c5e4577ea7c4b6486526aa80d421f4663e96c4"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_every_missing_precondition_yields_zero_starts",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "EXPERIMENT-PROTOCOL-005",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-005"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/failure_attribution_auditor.json": "1443eed24b4edcd22ec804fcf9d2d7aa55b9d39f94ab3e206773200caa4185c6",
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py": "d249332a62e5c22bf04cf4367db92c52e2c818be412cc4629cdabc390e5d4573"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_policy_attribution_requires_authoritative_runner_label",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "FAILATTR-003-POLICY-CAUSE",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-FAILATTR-003-POLICY-CAUSE"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/failure_attribution_auditor.json": "1443eed24b4edcd22ec804fcf9d2d7aa55b9d39f94ab3e206773200caa4185c6",
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py": "d249332a62e5c22bf04cf4367db92c52e2c818be412cc4629cdabc390e5d4573"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_harness_semantic_equivalence_fails_closed_without_bound_files",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "FAILATTR-004-HARD-FAIL-003",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-FAILATTR-004-HARD-FAIL-003"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/failure_attribution_auditor.json": "1443eed24b4edcd22ec804fcf9d2d7aa55b9d39f94ab3e206773200caa4185c6",
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py": "d249332a62e5c22bf04cf4367db92c52e2c818be412cc4629cdabc390e5d4573"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_mixed_transport_attribution_retains_secondary_uncertainty",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "FAILATTR-005-MIXED-TRANSPORT",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-FAILATTR-005-MIXED-TRANSPORT"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/retry_bias_prosecutor.json": "e5863e9bd5d61ff79f11c8ccbbdd63d6081ea304fcd81e936b5a49fce5bc5c82",
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py": "d249332a62e5c22bf04cf4367db92c52e2c818be412cc4629cdabc390e5d4573"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_terminal_before_success_cannot_be_quality_selected",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-001",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-RETRY-PROSECUTOR-BLOCKER-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/retry_bias_prosecutor.json": "e5863e9bd5d61ff79f11c8ccbbdd63d6081ea304fcd81e936b5a49fce5bc5c82",
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py": "d249332a62e5c22bf04cf4367db92c52e2c818be412cc4629cdabc390e5d4573"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_retry_control_mutations_fail_closed",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-002",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-RETRY-PROSECUTOR-BLOCKER-002"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r1/subagent_audits/retry_bias_prosecutor.json": "e5863e9bd5d61ff79f11c8ccbbdd63d6081ea304fcd81e936b5a49fce5bc5c82",
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py": "d249332a62e5c22bf04cf4367db92c52e2c818be412cc4629cdabc390e5d4573"
+      },
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_exact_cost_reconciliation_rejects_count_preserving_mutation",
+      "completed_at": "2026-09-01T19:05:17.713749+00:00",
+      "finding_id": "RETRY-PROSECUTOR-ERROR-003",
+      "observed_result": "pytest exit 0; deterministic requested node passed",
+      "oracle_result": true,
+      "started_at": "2026-09-01T19:05:17.713749+00:00",
+      "status": "PASSED",
+      "test_id": "TEST-RETRY-PROSECUTOR-ERROR-003"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

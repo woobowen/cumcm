@@ -1,0 +1,58 @@
+{
+  "audit_hash": "1c24743d07a42df52ec4c02ef74fe90d83ff79029dd8d31fa17c9a1a79825d36",
+  "audit_id": "PHASE-002D-COVERAGE-BINDING-AUDIT",
+  "audited_at": "2026-09-01T11:15:23.578020Z",
+  "authoritative_attempt_binding_pass": true,
+  "batch_id": 1,
+  "coverage_binding_mismatch_count": 1,
+  "coverage_excluded_from_hard_gates": true,
+  "original_scores_modified": false,
+  "records": [
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_hard_failures": [],
+      "attempt_hash": "7286ffba7db4242622d1fc19c33bfc09df732fb24468029571bf45f6338afadd",
+      "attempt_id": "EXP-CASE-001-ARM-C-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "56207f1173d808bda515cdaf1e9e9662b1fe4c7e08a6350936bf3fa2a9236d31",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_hard_failures": [],
+      "attempt_hash": "f2a6f62dac495d62707ff32bec3c7ab9714649a0c2ed20ed85de2de1b3de6634",
+      "attempt_id": "EXP-CASE-001-ARM-A-R1-A01",
+      "authoritative_match": true,
+      "classification": "COVERAGE_BINDING_MISMATCH",
+      "coverage_binding_mismatch": true,
+      "coverage_hard_failures": [
+        "HARD-FAIL-003"
+      ],
+      "coverage_hash": "7246e7e4899d81879a596067ad1bb55bb860a0de3d1582c04a786093903ce841",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_hard_failures": [],
+      "attempt_hash": "4a49c1ebe503586a407f6c6fa64106484af34b203ae1bd50ff8172fdfe6244e5",
+      "attempt_id": "EXP-CASE-001-ARM-B-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "033baa3ae471fb940539ed0b71e132461f2a5e669a6371717244750e39ab50f5",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    }
+  ],
+  "schema_version": "1.0.0",
+  "status": "PASS_WITH_COVERAGE_LIMITATION"
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/slot-outcome-matrix/v1",
+  "title": "Phase 002D-R1 Slot Outcome Matrix",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "matrix_id", "input_freeze_id", "schedule_hash",
+    "source_attempt_count", "expected_slot_count", "slots", "resolution_counts",
+    "all_attempts_accounted", "earliest_eligible_selection", "best_of_n_prohibited",
+    "matrix_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "matrix_id": {"const": "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001"},
+    "input_freeze_id": {"const": "PHASE-002D-R1-INPUT-FREEZE-001"},
+    "schedule_hash": {"$ref": "#/$defs/hash"},
+    "source_attempt_count": {"const": 28},
+    "expected_slot_count": {"const": 24},
+    "slots": {
+      "type": "array", "minItems": 24, "maxItems": 24,
+      "items": {
+        "type": "object",
+        "required": ["slot_id", "all_attempt_ids", "outcome_resolution", "slot_hash"]
+      }
+    },
+    "resolution_counts": {
+      "type": "object",
+      "required": [
+        "RESOLVED_ELIGIBLE_SUCCESS", "RESOLVED_TERMINAL_NEGATIVE",
+        "CENSORED_INFRASTRUCTURE", "CENSORED_HARNESS", "UNRESOLVED_UNKNOWN", "STALE"
+      ],
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "all_attempts_accounted": {"const": true},
+    "earliest_eligible_selection": {"const": true},
+    "best_of_n_prohibited": {"const": true},
+    "matrix_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

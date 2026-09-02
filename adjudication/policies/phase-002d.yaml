@@ -1,0 +1,29 @@
+schema_version: "1.0.0"
+policy_id: PHASE-002D-EVIDENCE-EXPANSION-POLICY
+version: "1.0.0"
+frozen_at: "2026-09-01T18:09:59+08:00"
+model_cohort_policy:
+  model_identifier: HARD_EXACT
+  reasoning_setting: HARD_EXACT
+  prompt_schema_fixture_package_scorer_oracle: HARD_EXACT
+  sandbox_network_mcp: HARD_EXACT
+  codex_cli_major: HARD_EXACT
+  codex_cli_minor_patch: PILOT_REQUIRED
+  cross_model_primary_mixing: FORBIDDEN
+  historical_mode_b_use: CROSS_MODEL_EXPLORATORY_GAP_EVIDENCE_ONLY
+  model_switch_after_freeze: FORBIDDEN
+primary_evidence_policy:
+  fresh_session_required: true
+  resume_allowed: false
+  parser_recovery_allowed: false
+  manual_repair_allowed: false
+  recovery_evidence_ranking_allowed: false
+transport_policy:
+  inherited_profile_first: PROXY_INHERITED
+  one_process_local_fallback: NO_PROXY_PROCESS_ONLY
+  profiles_may_not_mix: true
+decision_policy:
+  majority_vote_allowed: false
+  technical_human_override_allowed: false
+  phase003_before_audited_acceptance: false
+  system_may_reject_all_or_abstain: true

@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "scope_summary_id": "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+  "quality_evidence": {
+    "selected_record_ids": [],
+    "balanced_cases": [],
+    "balanced_case_count": 0,
+    "minimum_repeat_depth": 0,
+    "required_balanced_cases": 4,
+    "required_repeat_depth": 2,
+    "result": "EVIDENCE_INSUFFICIENT"
+  },
+  "reliability_evidence": {
+    "attempt_ids": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", "A15", "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23", "A24", "A25", "A26", "A27", "A28"],
+    "attempt_count": 28,
+    "slot_count": 24,
+    "completion_rate": 0,
+    "primary_eligible_rate": 0,
+    "terminal_failure_rate": 0,
+    "policy_violation_rate": 0,
+    "infrastructure_rate": 0,
+    "retry_burden": 0
+  },
+  "outcome_completeness": {
+    "resolved_slot_ids": [],
+    "resolved_slot_count": 0,
+    "resolved_success_slots": 0,
+    "resolved_terminal_negative_slots": 0,
+    "censored_slot_ids": [],
+    "resolved_case_count": 0,
+    "minimum_repeat_depth": 0
+  },
+  "component_gap_evidence": {
+    "eligible_gap_groups": [],
+    "excluded_isolated_failures": [],
+    "infrastructure_excluded": true,
+    "recovery_excluded": true,
+    "agent_votes_excluded": true
+  },
+  "repeat_semantics": {
+    "repeat_depth_deprecated": true,
+    "quality_balanced_case_count": 0,
+    "quality_minimum_repeat_depth": 0,
+    "outcome_resolved_case_count": 0,
+    "outcome_minimum_repeat_depth": 0,
+    "schedule_attempted_repeat_depth": 2,
+    "reliability_observed_repeat_depth": 2
+  },
+  "failure_is_not_zero_score": true,
+  "summary_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+}

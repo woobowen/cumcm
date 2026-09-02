@@ -8,6 +8,7 @@ def _state():
     return {
         "project_id": "p",
         "phase": "phase",
+        "subphase": "subphase",
         "status": "IN_PROGRESS",
         "current_plan": "plan",
         "current_branch": "branch",
@@ -37,6 +38,7 @@ def test_generated_status_and_staleness(tmp_path: Path):
     state_path.write_text(json.dumps(_state()), encoding="utf-8")
     assert generate_status(tmp_path)[0] is True
     assert generate_status(tmp_path, check=True)[0] is True
+    assert "- Subphase: `subphase`" in (tmp_path / "reports/current_state.md").read_text()
     changed = _state()
     changed["status"] = "STALE"
     state_path.write_text(json.dumps(changed), encoding="utf-8")

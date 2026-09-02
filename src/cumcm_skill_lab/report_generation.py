@@ -16,6 +16,7 @@ def render_status_text(state: dict) -> str:
 
 - Project: `{state["project_id"]}`
 - Phase: `{state["phase"]}`
+- Subphase: `{state.get("subphase") or "None"}`
 - Status: `{state["status"]}`
 - Active plan: `{state["current_plan"]}`
 - Branch: `{state["current_branch"]}`

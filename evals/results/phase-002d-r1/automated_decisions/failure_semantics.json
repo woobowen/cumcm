@@ -1,0 +1,99 @@
+{
+  "accepted_scope": "POLICY_ONLY",
+  "automated_decision": {
+    "accepted_scope": "POLICY_ONLY",
+    "confidence": 1.0,
+    "created_at": "2026-09-01T23:12:32+08:00",
+    "decision": "AUTOMATED_ACCEPTED",
+    "decision_audit": "PENDING:FAILURE_AWARE_DECISION_AUDITOR",
+    "decision_id": "DECISION-FAILURE-SEMANTICS-002D-R1",
+    "decision_type": "RECOVERY_POLICY",
+    "dissent_findings": [
+      "COST-STOP-001",
+      "COST-STOP-002",
+      "COST-STOP-003",
+      "COST-STOP-004",
+      "COST-STOP-005",
+      "COST-STOP-006",
+      "COST-STOP-007",
+      "EVIDENCE-SCOPE-001",
+      "EVIDENCE-SCOPE-002",
+      "EVIDENCE-SCOPE-003",
+      "EVIDENCE-SCOPE-004",
+      "EVIDENCE-SCOPE-005",
+      "EXPERIMENT-PROTOCOL-001",
+      "EXPERIMENT-PROTOCOL-002",
+      "EXPERIMENT-PROTOCOL-003",
+      "EXPERIMENT-PROTOCOL-004",
+      "EXPERIMENT-PROTOCOL-005",
+      "FAILATTR-001-ACCOUNTING",
+      "FAILATTR-002-PRIMARY-ELIGIBLE",
+      "FAILATTR-003-POLICY-CAUSE",
+      "FAILATTR-004-HARD-FAIL-003",
+      "FAILATTR-005-MIXED-TRANSPORT",
+      "FAILATTR-006-COMPLETED-EXCLUSIONS",
+      "FAILATTR-007-RETRIES",
+      "RETRY-PROSECUTOR-BLOCKER-001",
+      "RETRY-PROSECUTOR-BLOCKER-002",
+      "RETRY-PROSECUTOR-ERROR-003",
+      "RETRY-PROSECUTOR-INFO-005",
+      "RETRY-PROSECUTOR-INFO-006",
+      "RETRY-PROSECUTOR-INFO-007",
+      "RETRY-PROSECUTOR-WARNING-004"
+    ],
+    "eligible_evidence": [
+      "PHASE-002D-R1-FAILURE-ATTRIBUTION-001"
+    ],
+    "evidence_freeze_id": "PHASE-002D-R1-INPUT-FREEZE-001",
+    "evidence_sufficiency": "SUFFICIENT",
+    "excluded_evidence": [
+      "RECOVERY_AFFECTED_EVIDENCE",
+      "AGENT_VOTES",
+      "HUMAN_TECHNICAL_GATE",
+      "ARM_IDENTITY"
+    ],
+    "hard_gate_status": "PASS",
+    "judge_decisions": [],
+    "meta_adjudication": "DETERMINISTIC_FAILURE_AWARE_POLICY_ENGINE_NO_VOTE",
+    "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+    "policy_version": "phase002d-r1/1.0.0",
+    "reason_codes": [
+      "FAILURES_ARE_OBSERVED_CATEGORICAL_OUTCOMES",
+      "CENSORED_OUTCOMES_EXCLUDED_FROM_COMPARATIVE_RANKING"
+    ],
+    "rejected_scope": [
+      "HISTORICAL_ATTEMPT_MUTATION",
+      "FAILURE_AS_ZERO_SCORE"
+    ],
+    "replay_hash": "e95e681bbc53ebe45d10fd7fdc40531926551ce2b7d9ca554ef162ad6b6617c0",
+    "retest_requirements": [],
+    "stale_dependencies": [],
+    "target_ids": [
+      "FAILURE_AWARE_EVIDENCE_USAGE"
+    ],
+    "tests": [
+      "TEST-EXPERIMENT-PROTOCOL-001",
+      "TEST-EXPERIMENT-PROTOCOL-002",
+      "TEST-EXPERIMENT-PROTOCOL-004",
+      "TEST-EXPERIMENT-PROTOCOL-005",
+      "TEST-FAILATTR-003-POLICY-CAUSE",
+      "TEST-FAILATTR-004-HARD-FAIL-003",
+      "TEST-FAILATTR-005-MIXED-TRANSPORT",
+      "TEST-RETRY-PROSECUTOR-BLOCKER-001",
+      "TEST-RETRY-PROSECUTOR-BLOCKER-002",
+      "TEST-RETRY-PROSECUTOR-ERROR-003"
+    ]
+  },
+  "automated_decision_contract": "contracts/automated_decision.schema.json",
+  "evidence_scope": "POLICY",
+  "failure_aware_hash": "a779535ff2fbb8e1ef75a144ee49e4b373e2b93726ff543bf90491193b3e819b",
+  "human_technical_gate_used": false,
+  "identity_used": false,
+  "majority_vote_used": false,
+  "positive_performance_superiority_claim_allowed": false,
+  "posthoc_observation_policy": true,
+  "quality_reliability_conflated": false,
+  "recovery_ranked": false,
+  "schema_version": "1.0.0",
+  "terminal_negative_zero_imputed": false
+}

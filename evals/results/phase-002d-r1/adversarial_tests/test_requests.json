@@ -1,0 +1,286 @@
+{
+  "requests": [
+    {
+      "artifacts": [
+        "evals/results/phase-002d/schedule/schedule.json",
+        "evals/results/phase-002d/attempt_ledger.json",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_protocol.py::test_historical_retry_protocol_deviations_are_explicit",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "EXPERIMENT-PROTOCOL-001",
+      "inputs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "EXP-CASE-004-ARM-A-R2-A02",
+        "EXP-CASE-006-ARM-A-R1-A02"
+      ],
+      "oracle": "The exact traversal and both post-terminal retries are detected, retained in cost/reliability and excluded from clean conformance claims.",
+      "pass_condition": "The exact traversal and both post-terminal retries are detected, retained in cost/reliability and excluded from clean conformance claims.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/unit/test_phase002d_r1_protocol.py::test_historical_retry_protocol_deviations_are_explicit",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "EXP-CASE-004-ARM-A-R2-A02",
+        "EXP-CASE-006-ARM-A-R1-A02"
+      ],
+      "status": "PASSED",
+      "target": "historical retry protocol",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-001",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r1/input_freeze_manifest.json",
+        "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r1_protocol.py::test_all_historical_tree_hashes_replay",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "EXPERIMENT-PROTOCOL-002",
+      "inputs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001"
+      ],
+      "oracle": "All five historical roots and all Phase 002D file hashes exactly replay with no missing or unexpected member.",
+      "pass_condition": "All five historical roots and all Phase 002D file hashes exactly replay with no missing or unexpected member.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/unit/test_phase002d_r1_protocol.py::test_all_historical_tree_hashes_replay",
+        "PHASE-002D-R1-INPUT-FREEZE-001"
+      ],
+      "status": "PASSED",
+      "target": "historical immutability receipt",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-002",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r1/input_freeze_manifest.json",
+        "evals/results/phase-002d/budget/frozen_budget.json",
+        "evals/results/phase-002d/schedule/schedule.json"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_protocol_mutations_require_new_cohort",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "EXPERIMENT-PROTOCOL-004",
+      "inputs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "EXP-CASE-001-ARM-A-R1-A01"
+      ],
+      "oracle": "Every frozen-protocol mutation produces NEW_PROTOCOL_COHORT_REQUIRED and zero pooled starts.",
+      "pass_condition": "Every frozen-protocol mutation produces NEW_PROTOCOL_COHORT_REQUIRED and zero pooled starts.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_protocol_mutations_require_new_cohort",
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "EXP-CASE-001-ARM-A-R1-A01"
+      ],
+      "status": "PASSED",
+      "target": "new protocol cohort boundary",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-004",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md",
+        "evals/results/phase-002d-r1/input_freeze_manifest.json",
+        "rules/phase002d_r1_workflow_rules.yaml"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_every_missing_precondition_yields_zero_starts",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "EXPERIMENT-PROTOCOL-005",
+      "inputs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "oracle": "Every missing prerequisite yields zero starts and the current state has a hash-bound zero-start receipt.",
+      "pass_condition": "Every missing prerequisite yields zero starts and the current state has a hash-bound zero-start receipt.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_supplemental_faults.py::test_every_missing_precondition_yields_zero_starts",
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "status": "PASSED",
+      "target": "real-start precondition Gate",
+      "test_id": "TEST-EXPERIMENT-PROTOCOL-005",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r1/attempt_classification/EXP-CASE-004-ARM-A-R2-A01.json",
+        "evals/results/phase-002d/attempts/EXP-CASE-004-ARM-A-R2-A01.json",
+        "src/cumcm_skill_lab/failure_aware/classification.py",
+        "rules/evidence_hierarchy.yaml"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_policy_attribution_requires_authoritative_runner_label",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "FAILATTR-003-POLICY-CAUSE",
+      "inputs": [
+        "CLASSIFICATION:EXP-CASE-004-ARM-A-R2-A01",
+        "CLASSIFICATION:EXP-CASE-006-ARM-A-R1-A01",
+        "EXP-CASE-006-ARM-C-R2-A01"
+      ],
+      "oracle": "Policy terminal classification requires the preserved authoritative runner label; removing it fails closed rather than inferring policy from missing output.",
+      "pass_condition": "Policy terminal classification requires the preserved authoritative runner label; removing it fails closed rather than inferring policy from missing output.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_policy_attribution_requires_authoritative_runner_label",
+        "CLASSIFICATION:EXP-CASE-004-ARM-A-R2-A01",
+        "CLASSIFICATION:EXP-CASE-006-ARM-A-R1-A01",
+        "EXP-CASE-006-ARM-C-R2-A01"
+      ],
+      "status": "PASSED",
+      "target": "seven terminal policy attributions",
+      "test_id": "TEST-FAILATTR-003-POLICY-CAUSE",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d/runs/EXP-CASE-001-ARM-A-R2-A01/observation.json",
+        "src/cumcm_skill_lab/failure_aware/classification.py",
+        "rules/dynamic_eval_rules.yaml"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_harness_semantic_equivalence_fails_closed_without_bound_files",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "FAILATTR-004-HARD-FAIL-003",
+      "inputs": [
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A01",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A02",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A03",
+        "CASE-001-ARM-A-R2"
+      ],
+      "oracle": "Harness equivalence stays NOT_ESTABLISHED without bound files and cannot authorize a supplemental run.",
+      "pass_condition": "Harness equivalence stays NOT_ESTABLISHED without bound files and cannot authorize a supplemental run.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_harness_semantic_equivalence_fails_closed_without_bound_files",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A01",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A02",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A03",
+        "CASE-001-ARM-A-R2"
+      ],
+      "status": "PASSED",
+      "target": "HARD-FAIL-003 and harness binding",
+      "test_id": "TEST-FAILATTR-004-HARD-FAIL-003",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r1/attempt_classification/EXP-CASE-001-ARM-A-R2-A02.json",
+        "evals/results/phase-002d/attempts/EXP-CASE-001-ARM-A-R2-A02.json",
+        "src/cumcm_skill_lab/failure_aware/classification.py"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_mixed_transport_attribution_retains_secondary_uncertainty",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "FAILATTR-005-MIXED-TRANSPORT",
+      "inputs": [
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A02",
+        "EXP-CASE-001-ARM-A-R2-A02",
+        "CASE-001-ARM-A-R2"
+      ],
+      "oracle": "The authoritative runner transport label controls primary censoring while contradictory signals remain secondary and confidence is not HIGH.",
+      "pass_condition": "The authoritative runner transport label controls primary censoring while contradictory signals remain secondary and confidence is not HIGH.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_mixed_transport_attribution_retains_secondary_uncertainty",
+        "CLASSIFICATION:EXP-CASE-001-ARM-A-R2-A02",
+        "EXP-CASE-001-ARM-A-R2-A02",
+        "CASE-001-ARM-A-R2"
+      ],
+      "status": "PASSED",
+      "target": "mixed transport primary attribution",
+      "test_id": "TEST-FAILATTR-005-MIXED-TRANSPORT",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "src/cumcm_skill_lab/failure_aware/slot_matrix.py",
+        "src/cumcm_skill_lab/failure_aware/retry_bias.py",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-004-ARM-A-R2.json"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_terminal_before_success_cannot_be_quality_selected",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-001",
+      "inputs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "CASE-004-ARM-A-R2",
+        "CLASSIFICATION:EXP-CASE-004-ARM-A-R2-A01"
+      ],
+      "oracle": "The terminal outcome remains terminal and the later success is recorded as a forbidden retry, never quality evidence.",
+      "pass_condition": "The terminal outcome remains terminal and the later success is recorded as a forbidden retry, never quality evidence.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_terminal_before_success_cannot_be_quality_selected",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "CASE-004-ARM-A-R2",
+        "CLASSIFICATION:EXP-CASE-004-ARM-A-R2-A01"
+      ],
+      "status": "PASSED",
+      "target": "terminal-before-success precedence",
+      "test_id": "TEST-RETRY-PROSECUTOR-BLOCKER-001",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "src/cumcm_skill_lab/failure_aware/retry_bias.py",
+        "src/cumcm_skill_lab/failure_aware/slot_matrix.py",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_retry_control_mutations_fail_closed",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "RETRY-PROSECUTOR-BLOCKER-002",
+      "inputs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001"
+      ],
+      "oracle": "Independent derivations reject every deletion, best-of-N, erasure and zero-imputation mutation.",
+      "pass_condition": "Independent derivations reject every deletion, best-of-N, erasure and zero-imputation mutation.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_retry_control_mutations_fail_closed",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001"
+      ],
+      "status": "PASSED",
+      "target": "mutation-resistant retry controls",
+      "test_id": "TEST-RETRY-PROSECUTOR-BLOCKER-002",
+      "timeout": 120
+    },
+    {
+      "artifacts": [
+        "src/cumcm_skill_lab/failure_aware/retry_bias.py",
+        "evals/results/phase-002d/cost/cost.json",
+        "evals/results/phase-002d/attempt_ledger.json"
+      ],
+      "command_or_procedure": ".venv/bin/python -m pytest -q tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_exact_cost_reconciliation_rejects_count_preserving_mutation",
+      "expected_result": "pytest exits 0 and the stated pass condition holds",
+      "fail_condition": "pytest exits nonzero or the pass condition is not established",
+      "finding_id": "RETRY-PROSECUTOR-ERROR-003",
+      "inputs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "EXP-CASE-001-ARM-A-R2-A02"
+      ],
+      "oracle": "Exact ledger IDs and all observable aggregate cost fields must reconcile.",
+      "pass_condition": "Exact ledger IDs and all observable aggregate cost fields must reconcile.",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "tests/fault_injection/test_phase002d_r1_failure_aware_faults.py::test_exact_cost_reconciliation_rejects_count_preserving_mutation",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "EXP-CASE-001-ARM-A-R2-A02"
+      ],
+      "status": "PASSED",
+      "target": "exact cost reconciliation",
+      "test_id": "TEST-RETRY-PROSECUTOR-ERROR-003",
+      "timeout": 120
+    }
+  ],
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,935 @@
+{
+  "anonymous_arms": [
+    "ARM-A",
+    "ARM-B",
+    "ARM-C"
+  ],
+  "blocks": [
+    {
+      "anonymous_arm_order": [
+        "ARM-C",
+        "ARM-A",
+        "ARM-B"
+      ],
+      "block_id": "BLOCK-001-CASE-001-R1",
+      "block_number": 1,
+      "case_id": "CASE-001",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-001-ARM-C-R1",
+          "primary_attempt_id": "EXP-CASE-001-ARM-C-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-001-ARM-C-R1-A02",
+            "EXP-CASE-001-ARM-C-R1-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-001-ARM-A-R1",
+          "primary_attempt_id": "EXP-CASE-001-ARM-A-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-001-ARM-A-R1-A02",
+            "EXP-CASE-001-ARM-A-R1-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-001-ARM-B-R1",
+          "primary_attempt_id": "EXP-CASE-001-ARM-B-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-001-ARM-B-R1-A02",
+            "EXP-CASE-001-ARM-B-R1-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 1
+    },
+    {
+      "anonymous_arm_order": [
+        "ARM-A",
+        "ARM-B",
+        "ARM-C"
+      ],
+      "block_id": "BLOCK-002-CASE-001-R2",
+      "block_number": 2,
+      "case_id": "CASE-001",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-001-ARM-A-R2",
+          "primary_attempt_id": "EXP-CASE-001-ARM-A-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-001-ARM-A-R2-A02",
+            "EXP-CASE-001-ARM-A-R2-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-001-ARM-B-R2",
+          "primary_attempt_id": "EXP-CASE-001-ARM-B-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-001-ARM-B-R2-A02",
+            "EXP-CASE-001-ARM-B-R2-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-001-ARM-C-R2",
+          "primary_attempt_id": "EXP-CASE-001-ARM-C-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-001-ARM-C-R2-A02",
+            "EXP-CASE-001-ARM-C-R2-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 2
+    },
+    {
+      "anonymous_arm_order": [
+        "ARM-A",
+        "ARM-C",
+        "ARM-B"
+      ],
+      "block_id": "BLOCK-003-CASE-002-R1",
+      "block_number": 3,
+      "case_id": "CASE-002",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-002-ARM-A-R1",
+          "primary_attempt_id": "EXP-CASE-002-ARM-A-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-002-ARM-A-R1-A02",
+            "EXP-CASE-002-ARM-A-R1-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-002-ARM-C-R1",
+          "primary_attempt_id": "EXP-CASE-002-ARM-C-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-002-ARM-C-R1-A02",
+            "EXP-CASE-002-ARM-C-R1-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-002-ARM-B-R1",
+          "primary_attempt_id": "EXP-CASE-002-ARM-B-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-002-ARM-B-R1-A02",
+            "EXP-CASE-002-ARM-B-R1-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 1
+    },
+    {
+      "anonymous_arm_order": [
+        "ARM-C",
+        "ARM-B",
+        "ARM-A"
+      ],
+      "block_id": "BLOCK-004-CASE-002-R2",
+      "block_number": 4,
+      "case_id": "CASE-002",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-002-ARM-C-R2",
+          "primary_attempt_id": "EXP-CASE-002-ARM-C-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-002-ARM-C-R2-A02",
+            "EXP-CASE-002-ARM-C-R2-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-002-ARM-B-R2",
+          "primary_attempt_id": "EXP-CASE-002-ARM-B-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-002-ARM-B-R2-A02",
+            "EXP-CASE-002-ARM-B-R2-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-002-ARM-A-R2",
+          "primary_attempt_id": "EXP-CASE-002-ARM-A-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-002-ARM-A-R2-A02",
+            "EXP-CASE-002-ARM-A-R2-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 2
+    },
+    {
+      "anonymous_arm_order": [
+        "ARM-A",
+        "ARM-C",
+        "ARM-B"
+      ],
+      "block_id": "BLOCK-005-CASE-004-R1",
+      "block_number": 5,
+      "case_id": "CASE-004",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-004-ARM-A-R1",
+          "primary_attempt_id": "EXP-CASE-004-ARM-A-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-004-ARM-A-R1-A02",
+            "EXP-CASE-004-ARM-A-R1-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-004-ARM-C-R1",
+          "primary_attempt_id": "EXP-CASE-004-ARM-C-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-004-ARM-C-R1-A02",
+            "EXP-CASE-004-ARM-C-R1-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-004-ARM-B-R1",
+          "primary_attempt_id": "EXP-CASE-004-ARM-B-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-004-ARM-B-R1-A02",
+            "EXP-CASE-004-ARM-B-R1-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 1
+    },
+    {
+      "anonymous_arm_order": [
+        "ARM-C",
+        "ARM-B",
+        "ARM-A"
+      ],
+      "block_id": "BLOCK-006-CASE-004-R2",
+      "block_number": 6,
+      "case_id": "CASE-004",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-004-ARM-C-R2",
+          "primary_attempt_id": "EXP-CASE-004-ARM-C-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-004-ARM-C-R2-A02",
+            "EXP-CASE-004-ARM-C-R2-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-004-ARM-B-R2",
+          "primary_attempt_id": "EXP-CASE-004-ARM-B-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-004-ARM-B-R2-A02",
+            "EXP-CASE-004-ARM-B-R2-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-004-ARM-A-R2",
+          "primary_attempt_id": "EXP-CASE-004-ARM-A-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-004-ARM-A-R2-A02",
+            "EXP-CASE-004-ARM-A-R2-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 2
+    },
+    {
+      "anonymous_arm_order": [
+        "ARM-A",
+        "ARM-C",
+        "ARM-B"
+      ],
+      "block_id": "BLOCK-007-CASE-006-R1",
+      "block_number": 7,
+      "case_id": "CASE-006",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-006-ARM-A-R1",
+          "primary_attempt_id": "EXP-CASE-006-ARM-A-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-006-ARM-A-R1-A02",
+            "EXP-CASE-006-ARM-A-R1-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-006-ARM-C-R1",
+          "primary_attempt_id": "EXP-CASE-006-ARM-C-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-006-ARM-C-R1-A02",
+            "EXP-CASE-006-ARM-C-R1-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-006-ARM-B-R1",
+          "primary_attempt_id": "EXP-CASE-006-ARM-B-R1-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-006-ARM-B-R1-A02",
+            "EXP-CASE-006-ARM-B-R1-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 1
+    },
+    {
+      "anonymous_arm_order": [
+        "ARM-A",
+        "ARM-B",
+        "ARM-C"
+      ],
+      "block_id": "BLOCK-008-CASE-006-R2",
+      "block_number": 8,
+      "case_id": "CASE-006",
+      "planned_attempts": [
+        {
+          "anonymous_arm_id": "ARM-A",
+          "cell_id": "CASE-006-ARM-A-R2",
+          "primary_attempt_id": "EXP-CASE-006-ARM-A-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-006-ARM-A-R2-A02",
+            "EXP-CASE-006-ARM-A-R2-A03"
+          ],
+          "schedule_order": 1
+        },
+        {
+          "anonymous_arm_id": "ARM-B",
+          "cell_id": "CASE-006-ARM-B-R2",
+          "primary_attempt_id": "EXP-CASE-006-ARM-B-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-006-ARM-B-R2-A02",
+            "EXP-CASE-006-ARM-B-R2-A03"
+          ],
+          "schedule_order": 2
+        },
+        {
+          "anonymous_arm_id": "ARM-C",
+          "cell_id": "CASE-006-ARM-C-R2",
+          "primary_attempt_id": "EXP-CASE-006-ARM-C-R2-A01",
+          "retry_attempt_ids": [
+            "EXP-CASE-006-ARM-C-R2-A02",
+            "EXP-CASE-006-ARM-C-R2-A03"
+          ],
+          "schedule_order": 3
+        }
+      ],
+      "repeat_id": 2
+    }
+  ],
+  "cases": [
+    "CASE-001",
+    "CASE-002",
+    "CASE-004",
+    "CASE-006"
+  ],
+  "cohort_hash": "db663586c8d86c12e72da19872a34ab9cdd5070b050d8ebd4a9a56b949bc2058",
+  "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
+  "deviation_policy": {
+    "arm_first_execution_allowed": false,
+    "complete_current_block_before_retry": true,
+    "maximum_attempts_per_cell": 3,
+    "post_result_reordering_allowed": false,
+    "retry_queue_order_frozen": true,
+    "successful_cell_never_repeated": true
+  },
+  "generated_at": "2026-09-01T10:37:39.140926Z",
+  "maximum_retry_slots": 48,
+  "mode": "NEW_MODEL_COHORT",
+  "primary_attempt_count": 24,
+  "primary_queue": [
+    "EXP-CASE-001-ARM-C-R1-A01",
+    "EXP-CASE-001-ARM-A-R1-A01",
+    "EXP-CASE-001-ARM-B-R1-A01",
+    "EXP-CASE-001-ARM-A-R2-A01",
+    "EXP-CASE-001-ARM-B-R2-A01",
+    "EXP-CASE-001-ARM-C-R2-A01",
+    "EXP-CASE-002-ARM-A-R1-A01",
+    "EXP-CASE-002-ARM-C-R1-A01",
+    "EXP-CASE-002-ARM-B-R1-A01",
+    "EXP-CASE-002-ARM-C-R2-A01",
+    "EXP-CASE-002-ARM-B-R2-A01",
+    "EXP-CASE-002-ARM-A-R2-A01",
+    "EXP-CASE-004-ARM-A-R1-A01",
+    "EXP-CASE-004-ARM-C-R1-A01",
+    "EXP-CASE-004-ARM-B-R1-A01",
+    "EXP-CASE-004-ARM-C-R2-A01",
+    "EXP-CASE-004-ARM-B-R2-A01",
+    "EXP-CASE-004-ARM-A-R2-A01",
+    "EXP-CASE-006-ARM-A-R1-A01",
+    "EXP-CASE-006-ARM-C-R1-A01",
+    "EXP-CASE-006-ARM-B-R1-A01",
+    "EXP-CASE-006-ARM-A-R2-A01",
+    "EXP-CASE-006-ARM-B-R2-A01",
+    "EXP-CASE-006-ARM-C-R2-A01"
+  ],
+  "repeats": 2,
+  "retry_queue": [
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-001-ARM-C-R1-A02",
+      "block_id": "BLOCK-001-CASE-001-R1",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-001-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-001-ARM-C-R1-A03",
+      "block_id": "BLOCK-001-CASE-001-R1",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-001-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-001-ARM-A-R1-A02",
+      "block_id": "BLOCK-001-CASE-001-R1",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-001-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-001-ARM-A-R1-A03",
+      "block_id": "BLOCK-001-CASE-001-R1",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-001-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-001-ARM-B-R1-A02",
+      "block_id": "BLOCK-001-CASE-001-R1",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-001-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-001-ARM-B-R1-A03",
+      "block_id": "BLOCK-001-CASE-001-R1",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-001-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-001-ARM-A-R2-A02",
+      "block_id": "BLOCK-002-CASE-001-R2",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-001-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-001-ARM-A-R2-A03",
+      "block_id": "BLOCK-002-CASE-001-R2",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-001-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-001-ARM-B-R2-A02",
+      "block_id": "BLOCK-002-CASE-001-R2",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-001-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-001-ARM-B-R2-A03",
+      "block_id": "BLOCK-002-CASE-001-R2",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-001-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-001-ARM-C-R2-A02",
+      "block_id": "BLOCK-002-CASE-001-R2",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-001-ARM-C-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-001-ARM-C-R2-A03",
+      "block_id": "BLOCK-002-CASE-001-R2",
+      "case_id": "CASE-001",
+      "cell_id": "CASE-001-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-001-ARM-C-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-002-ARM-A-R1-A02",
+      "block_id": "BLOCK-003-CASE-002-R1",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-002-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-002-ARM-A-R1-A03",
+      "block_id": "BLOCK-003-CASE-002-R1",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-002-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-002-ARM-C-R1-A02",
+      "block_id": "BLOCK-003-CASE-002-R1",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-002-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-002-ARM-C-R1-A03",
+      "block_id": "BLOCK-003-CASE-002-R1",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-002-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-002-ARM-B-R1-A02",
+      "block_id": "BLOCK-003-CASE-002-R1",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-002-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-002-ARM-B-R1-A03",
+      "block_id": "BLOCK-003-CASE-002-R1",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-002-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-002-ARM-C-R2-A02",
+      "block_id": "BLOCK-004-CASE-002-R2",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-002-ARM-C-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-002-ARM-C-R2-A03",
+      "block_id": "BLOCK-004-CASE-002-R2",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-002-ARM-C-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-002-ARM-B-R2-A02",
+      "block_id": "BLOCK-004-CASE-002-R2",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-002-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-002-ARM-B-R2-A03",
+      "block_id": "BLOCK-004-CASE-002-R2",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-002-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-002-ARM-A-R2-A02",
+      "block_id": "BLOCK-004-CASE-002-R2",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-002-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-002-ARM-A-R2-A03",
+      "block_id": "BLOCK-004-CASE-002-R2",
+      "case_id": "CASE-002",
+      "cell_id": "CASE-002-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-002-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-004-ARM-A-R1-A02",
+      "block_id": "BLOCK-005-CASE-004-R1",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-004-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-004-ARM-A-R1-A03",
+      "block_id": "BLOCK-005-CASE-004-R1",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-004-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-004-ARM-C-R1-A02",
+      "block_id": "BLOCK-005-CASE-004-R1",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-004-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-004-ARM-C-R1-A03",
+      "block_id": "BLOCK-005-CASE-004-R1",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-004-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-004-ARM-B-R1-A02",
+      "block_id": "BLOCK-005-CASE-004-R1",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-004-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-004-ARM-B-R1-A03",
+      "block_id": "BLOCK-005-CASE-004-R1",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-004-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-004-ARM-C-R2-A02",
+      "block_id": "BLOCK-006-CASE-004-R2",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-004-ARM-C-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-004-ARM-C-R2-A03",
+      "block_id": "BLOCK-006-CASE-004-R2",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-004-ARM-C-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-004-ARM-B-R2-A02",
+      "block_id": "BLOCK-006-CASE-004-R2",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-004-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-004-ARM-B-R2-A03",
+      "block_id": "BLOCK-006-CASE-004-R2",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-004-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-004-ARM-A-R2-A02",
+      "block_id": "BLOCK-006-CASE-004-R2",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-004-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-004-ARM-A-R2-A03",
+      "block_id": "BLOCK-006-CASE-004-R2",
+      "case_id": "CASE-004",
+      "cell_id": "CASE-004-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-004-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-006-ARM-A-R1-A02",
+      "block_id": "BLOCK-007-CASE-006-R1",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-006-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-006-ARM-A-R1-A03",
+      "block_id": "BLOCK-007-CASE-006-R1",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-A-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-006-ARM-A-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-006-ARM-C-R1-A02",
+      "block_id": "BLOCK-007-CASE-006-R1",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-006-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-006-ARM-C-R1-A03",
+      "block_id": "BLOCK-007-CASE-006-R1",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-C-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-006-ARM-C-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-006-ARM-B-R1-A02",
+      "block_id": "BLOCK-007-CASE-006-R1",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-006-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-006-ARM-B-R1-A03",
+      "block_id": "BLOCK-007-CASE-006-R1",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-B-R1",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 1,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-006-ARM-B-R1-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-006-ARM-A-R2-A02",
+      "block_id": "BLOCK-008-CASE-006-R2",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-006-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_id": "EXP-CASE-006-ARM-A-R2-A03",
+      "block_id": "BLOCK-008-CASE-006-R2",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-A-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-006-ARM-A-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-006-ARM-B-R2-A02",
+      "block_id": "BLOCK-008-CASE-006-R2",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-006-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_id": "EXP-CASE-006-ARM-B-R2-A03",
+      "block_id": "BLOCK-008-CASE-006-R2",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-B-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-006-ARM-B-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-006-ARM-C-R2-A02",
+      "block_id": "BLOCK-008-CASE-006-R2",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 1,
+      "retry_of": "EXP-CASE-006-ARM-C-R2-A01"
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_id": "EXP-CASE-006-ARM-C-R2-A03",
+      "block_id": "BLOCK-008-CASE-006-R2",
+      "case_id": "CASE-006",
+      "cell_id": "CASE-006-ARM-C-R2",
+      "eligible_only_after_predecessor_failure": true,
+      "repeat_id": 2,
+      "retry_index": 2,
+      "retry_of": "EXP-CASE-006-ARM-C-R2-A01"
+    }
+  ],
+  "schedule_hash": "5d0351aa4e00885131aedfefdbaa8e311cf2c299652a38f42f6ecad762c045aa",
+  "schedule_id": "PHASE-002D-BLOCKED-SCHEDULE-001",
+  "schema_version": "1.0.0",
+  "scored_runs_started_at_freeze": false,
+  "seed": 20260901
+}

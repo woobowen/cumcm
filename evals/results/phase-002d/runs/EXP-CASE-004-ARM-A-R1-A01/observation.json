@@ -1,0 +1,179 @@
+{
+  "anonymous_arm_id": "ARM-A",
+  "assumptions": [
+    "CSV row order is the intended temporal order because 20 supplied time labels (rows 29-48, 1-based including data rows only) are not valid ISO calendar dates.",
+    "A one-step-ahead forecast may use the immediately preceding observed target and the current feature, but not current target_proxy, next-outcome future_target, or post-close regime.",
+    "The feature unit and target unit are unspecified; MAE and RMSE are therefore reported in target units.",
+    "Model specification, split boundaries, metric precedence, perturbations, and seed were fixed in case/analyze.py before candidate metrics were generated, but after the required input inspection."
+  ],
+  "baseline": {
+    "description": "Naive one-step persistence: predict target[t] as target[t-1].",
+    "evidence": [
+      "artifacts/experiment_results.json records the validation and test metrics.",
+      "Persistence had lower MAE than causal ridge on the main validation window and each of three rolling-origin folds."
+    ],
+    "result": "Validation MAE 1.812500, RMSE 3.311928, sMAPE 2.348518%; held-out test MAE 0.854600, RMSE 1.118578, sMAPE 0.970524%."
+  },
+  "candidate_models": [
+    "Naive persistence baseline using lag-1 target.",
+    "Deterministic ridge regression (lambda=1) using current feature, causal lag-1 target, and a feature-missing indicator; training-median imputation.",
+    "Leakage-only ridge controls using target_proxy or future_target were retained solely for falsification and were ineligible for selection."
+  ],
+  "case_id": "CASE-004",
+  "claims": [
+    "Verified: under the predefined main validation rule, persistence was selected over causal ridge.",
+    "Verified: persistence also had lower MAE on each of three predefined rolling-origin comparisons.",
+    "Verified: selected persistence achieved test MAE 0.854600 on the 10-row held-out interval.",
+    "Bounded claim: the available local evidence supports persistence as the selected model for this experiment only; it does not establish future or external performance.",
+    "Verified sensitivity: causal ridge test error changed materially under clipping and imputation perturbations, so its behavior is not robust to these data-handling choices."
+  ],
+  "code_artifacts": [
+    "case/analyze.py: standard-library deterministic experiment, metric calculation, rolling-origin checks, perturbations, falsification controls, bootstrap, and structured state generation.",
+    "artifacts/preflight.json: input roles, presence evidence, and initial hashes.",
+    "artifacts/experiment_results.json: structured metrics and retained failures.",
+    "artifacts/workflow_state.json: stage, prerequisites, handoff paths, hashes, and stale-artifact status."
+  ],
+  "commands_executed": [
+    "ls -la",
+    "sed -n reads of TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, and observation.schema.json",
+    "sha256sum, wc, and sed inspection of case/input/timeseries.csv and case/input/field_notes.json",
+    "python3 -m py_compile case/analyze.py",
+    "python3 case/analyze.py",
+    "Python assertion checks for input relations, selection results, rolling-origin results, and freshness hashes",
+    "sha256sum checks for inputs, script, and structured artifacts",
+    "find case artifacts -maxdepth 3 -type f -print and git status --short",
+    "Python jsonschema.Draft202012Validator validation plus required-key and prohibited-label assertions",
+    "git diff --check and git diff --exit-code checks confirming unchanged input files"
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "Verified 48 rows, 48 distinct time strings, 32 early labels, and 16 late labels.",
+    "Verified target_proxy equals target in all 48 rows and future_target equals the next row's target for all 47 checkable transitions; both are leakage.",
+    "Verified 20 invalid calendar labels spanning supplied strings 2026-02-29 through 2026-02-48; positional order was used without altering input.",
+    "Input SHA-256 values remained 96571e89d1a2d54c0e039784815367665b28a43dd7bd3fd566b7cfdb3212bafb for timeseries.csv and 4f993b161f6b5d6e1817fd5ad5b8ca16552155e5056fd3be5187230e5e68d284 for field_notes.json."
+  ],
+  "evaluation_id": "PHASE-002D-EVIDENCE-EXPANSION",
+  "experiment_design": [
+    "Preflight classified timeseries.csv as ordered observations/candidate predictors and field_notes.json as availability/provenance metadata; both required inputs were present and hashed.",
+    "Use rows 2-28 for fitting, rows 29-38 for model selection, and rows 39-48 once for held-out reporting; row 1 lacks a causal lag.",
+    "Compare persistence with causal ridge under validation MAE, RMSE tie-break, and descriptive sMAPE; remove all documented leakage before selection.",
+    "Repeat comparison on three expanding-window rolling-origin folds.",
+    "After selection, run train-range feature clipping, forward-fill imputation, noise-feature negative control, and explicit leaky-feature falsification controls.",
+    "Use deterministic fitting and seed 20260901 for 1000 paired bootstrap resamples; retain failed validity checks and disqualified controls in structured evidence."
+  ],
+  "falsification_tests": [
+    "Exact-value assertions falsified prediction-time validity of target_proxy: it equals target on all 48 rows.",
+    "Shift assertion falsified prediction-time validity of future_target: it equals the next row target on all 47 checkable transitions.",
+    "Ineligible ridge controls were retained: target_proxy validation MAE 0.628242 and future_target validation MAE 1.993167; these results were not used for selection.",
+    "Calendar parsing failed for 20 labels; the failure was retained and positional chronology was explicitly substituted."
+  ],
+  "files_created": [
+    "case/analyze.py",
+    "case/__pycache__/analyze.cpython-312.pyc",
+    "artifacts/preflight.json",
+    "artifacts/experiment_results.json",
+    "artifacts/workflow_state.json",
+    "observation.json"
+  ],
+  "formalization": {
+    "constraints": [
+      "Training precedes validation, which precedes test; no random row split.",
+      "Exclude target_proxy, future_target, and regime from eligible models because they are unavailable or outcome-derived at prediction time.",
+      "Fit imputation and ridge scaling only on each training window.",
+      "Do not use the test window for model selection."
+    ],
+    "notes": [
+      "Persistence is deterministic, so the bootstrap comparison of selected versus baseline is identically zero because they are the same model.",
+      "The 180 saturation value was not silently removed; train-range clipping was evaluated as a separately labeled perturbation."
+    ],
+    "objective": "Select the eligible model with minimum validation MAE, using validation RMSE as the predefined tie-breaker; report MAE, RMSE, and sMAPE on the untouched test window after selection.",
+    "parameters": [
+      "Usable row indices: train 2-28, validation 29-38, test 39-48 (all 1-based data-row numbers).",
+      "Ridge penalty lambda=1.0; median imputation estimated only from the applicable training window.",
+      "Bootstrap repetitions=1000 and fixed seed=20260901.",
+      "Rolling-origin windows: train 2-18/validate 19-24, train 2-24/validate 25-30, and train 2-30/validate 31-36."
+    ],
+    "units": [
+      "MAE and RMSE: unspecified target units.",
+      "sMAPE: percent.",
+      "time: ordered row position because supplied date strings are partly invalid."
+    ],
+    "variables": [
+      "y_t: target at ordered row t.",
+      "x_t: feature available at prediction time; m_t: its missingness indicator.",
+      "n_t: independent noise_feature used only as a negative control.",
+      "y_hat_t: one-step prediction based only on information available by t."
+    ]
+  },
+  "human_gates": [
+    "No human approval or external review was requested, received, or inferred.",
+    "A human decision would be required before deployment to define valid timestamps, operational thresholds, feature preprocessing, and acceptable shift handling."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "Only 48 ordered rows exist; row 1 cannot be scored with a causal lag-1 target, leaving 47 usable rows.",
+    "The feature has 2 missing values, future_target has 1 missing value, and feature=180 occurs in the held-out test interval as documented sensor saturation.",
+    "The regime changes from early to late at row 33 and is known only after period close, so it is unavailable to a deployable predictor.",
+    "The held-out test contains only 10 observations, limiting precision and external validity."
+  ],
+  "requirements": [
+    "Use only the isolated repository and listed local inputs; preserve inputs and avoid network, MCP, remotes, parent directories, credentials, and historical material.",
+    "Design and execute a chronological train/validation/test experiment with a naive baseline, predefined metrics, leakage removal, repeated evidence, perturbation tests, randomness control, and retained failures.",
+    "Apply hash-based preflight, structured handoffs, recoverable workflow state, freshness verification, and fail-closed prerequisites.",
+    "Return one object conforming to observation.schema.json without assigning a terminal-finality label or inventing evidence."
+  ],
+  "robustness_tests": [
+    "Unperturbed causal ridge on test: MAE 2.656513, RMSE 5.841965, sMAPE 2.849578%.",
+    "Clipping feature values to the expanded-training range: causal ridge test MAE 0.797399, RMSE 0.924883, sMAPE 0.903945%.",
+    "Forward-fill missing-feature perturbation: causal ridge test MAE 3.406062, RMSE 8.167917, sMAPE 3.536132%.",
+    "Replacing feature with noise_feature as a negative-control input: ridge test MAE 0.777651, RMSE 1.057145, sMAPE 0.881149%; this post-selection result is descriptive and does not establish signal in noise.",
+    "Three expanding-window folds consistently favored persistence by MAE, providing repeated but small-sample evidence."
+  ],
+  "run_index": 1,
+  "selected_model": "Naive persistence baseline",
+  "self_reported_limitations": [
+    "No network, web search, MCP, remotes, parent-project files, credentials, or historical material were used.",
+    "No external packages were installed; the experiment used Python 3.12 standard library only.",
+    "The experiment does not repair invalid timestamps or infer missing domain semantics.",
+    "The selected model equals the naive baseline, making the paired bootstrap comparison uninformative.",
+    "Robustness and falsification results are limited to the specified local perturbations and do not exhaust possible failure modes."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/timeseries.csv",
+    "case/input/field_notes.json"
+  ],
+  "tests_claimed": [
+    "Python syntax compilation.",
+    "Minimal end-to-end execution producing preflight, experiment, and workflow-state JSON.",
+    "Input invariants and leakage-relationship assertions.",
+    "Chronological candidate selection and three rolling-origin comparisons.",
+    "Output freshness-hash recomputation and stale-state assertion.",
+    "Schema validation of observation.json."
+  ],
+  "tests_verified": [
+    "python3 -m py_compile case/analyze.py exited successfully.",
+    "python3 case/analyze.py exited successfully and produced all three structured artifacts.",
+    "Assertions verified 48 rows, unique time strings, 48/48 exact target_proxy matches, 47/47 checkable future_target next-row matches, and 20 invalid calendar labels.",
+    "Assertions verified persistence won the main validation comparison and all three rolling-origin MAE comparisons.",
+    "Assertions recomputed every input, script, and output hash stored in workflow_state.json and verified stale_artifacts is empty.",
+    "Draft 2020-12 schema validation passed; the observation key set exactly matched the schema required-key set.",
+    "git diff --check passed and git diff --exit-code confirmed both listed case inputs were unchanged."
+  ],
+  "uncertainties": [
+    "Forty-eight rows and a 10-row test set are insufficient for precise generalization estimates.",
+    "Invalid calendar labels prevent calendar-aware seasonality, elapsed-time checks, or confirmation of actual sampling intervals.",
+    "Feature and target units, deployment horizon, loss asymmetry, and operational acceptance thresholds are unspecified.",
+    "The regime shift and sensor saturation create distribution shift; only one realization is available.",
+    "Post-selection perturbation metrics, especially the noise control, must not be interpreted as alternative model-selection evidence."
+  ],
+  "validation": [
+    "Main validation: persistence MAE 1.812500, RMSE 3.311928, sMAPE 2.348518%; causal ridge MAE 2.244261, RMSE 3.489720, sMAPE 2.926877%.",
+    "Rolling-origin MAE pairs (persistence, causal ridge): (0.654167, 0.744109), (1.217833, 1.229154), and (2.292167, 2.828131).",
+    "Held-out selected persistence: MAE 0.854600, RMSE 1.118578, sMAPE 0.970524% on 10 rows.",
+    "Paired bootstrap baseline-minus-selected MAE difference was 0 with 95% percentile interval [0,0], necessarily, because the selected model is the baseline itself."
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "anonymous_arm_id": "ARM-B",
+  "assumptions": [
+    "The task concerns supervised regression with target as response.",
+    "R probably denotes red, but this is not established by the dictionary and needs human confirmation.",
+    "Use source line plus raw-row hash as the audit key because row_id is non-unique; missing row_id 6 is an anomaly, not a proven error without a contiguity contract.",
+    "The proposed split prioritizes protection against both repeated-entity and temporal leakage."
+  ],
+  "baseline": {
+    "description": "Leakage diagnostic only: predict target using target_copy.",
+    "evidence": [
+      "Computed target_copy mismatch count is zero.",
+      "The dictionary states target_copy is derived from target.",
+      "No leakage-free baseline was fitted."
+    ],
+    "result": "MAE 0 on all 11 physical rows; invalid as a predictive baseline"
+  },
+  "candidate_models": [
+    "Training-set median target predictor as the first leakage-free baseline.",
+    "Regularized linear regression on prediction-time-safe fields if more data become available.",
+    "Tree-based regression only after collecting enough entity-disjoint longitudinal data."
+  ],
+  "case_id": "CASE-002",
+  "claims": [
+    "Every verified numeric finding was computed from the listed local inputs.",
+    "The proposed split prevents entity, exact-duplicate, and forward-time leakage if its assertions pass.",
+    "The zero-MAE diagnostic is leakage evidence, not predictive evidence.",
+    "Inputs remained unchanged during inspection."
+  ],
+  "code_artifacts": [],
+  "commands_executed": [
+    "ls -la.",
+    "sed -n reads of TASK.json, runtime_metadata.json, ARM_INSTRUCTION.md, observation.schema.json, data_dictionary.json, and data.csv.",
+    "First audit heredoc attempted python, which was unavailable; sha256sum and git status --short still ran.",
+    "python3 standard-library heredoc computed shape, duplicates, missingness, category/unit counts, mass conversions, sentinel, leakage relationships, ordering, and hashes; sha256sum and git status --short also ran.",
+    "First in-memory schema-validation heredoc failed with NameError because a Python dict used JSON null.",
+    "Final python3 heredoc parsed this object as JSON and validated it against observation.schema.json with jsonschema; no output file was written."
+  ],
+  "completion_status": "COMPLETED",
+  "data_findings": [
+    "Verified shape: 11 rows and 10 columns.",
+    "Error: row_id 5 occurs twice as one exact duplicate group with one extra row; deduplicate before splitting while preserving both raw records in lineage.",
+    "Identifier issue: row_id 5 is non-unique and row_id 6 is absent; the gap alone does not prove corruption.",
+    "Error: row_id 4 has mass_value -5 kg, conflicting with a nonnegative shipment amount; quarantine or correct only from authoritative provenance, never silently clip.",
+    "Missingness: row_id 3 has an empty feature; any imputation must be fitted on training data only.",
+    "Documented sentinel, not an extreme: row_id 8 feature=99 denotes a known device mode; encode a mode flag and mark the measurement unavailable.",
+    "Category representations are inconsistent: red/Red/R and blue/BLUE. Case normalization is supportable; mapping R to red is human-gated.",
+    "Mixed units are not inherently erroneous: 0.012 tonne at row_id 3 converts to 12 kg.",
+    "Plausible extreme: row_id 9 is 250 kg, within the dictionary's stated possible range up to 300 kg, so it must not be removed merely as an outlier.",
+    "Leakage: target_copy equals target on all 11 rows and is documented as derived from target.",
+    "Leakage: future_score-target equals 1 on all 11 rows and future_score is documented as recorded one day later.",
+    "Ordering issue: entity A is stored as 2026-01-01, 2026-01-03, 2026-01-02; temporal logic must parse and sort dates."
+  ],
+  "evaluation_id": "PHASE-002D-EVIDENCE-EXPANSION",
+  "experiment_design": [
+    "Freeze raw inputs by hash; create a derived table keyed by source line plus raw-row hash.",
+    "Record duplicate keep/drop lineage before split; parse/sort dates; derive kg while retaining original units; quarantine negative mass.",
+    "Represent feature=99 as device_mode_99=1 plus missing measurement; add missingness indicator; fit imputation on train only.",
+    "Exclude row_id, future_score, target_copy, and target from features; use entity/date only for splitting unless deployment confirms safe date features.",
+    "Use a predeclared forward cutoff; reserve every post-cutoff entity entirely from train; evaluate only post-cutoff test rows; never tune on test.",
+    "With more data, use inner forward-chaining entity-disjoint validation folds.",
+    "Audit log fields: raw_hash, source_line, raw_row_id, action, field, old_value, derived_value, rule_id, reason, split, preprocessing_fit_partition, reviewer_status, and rule-set version/timestamp."
+  ],
+  "falsification_tests": [
+    "Leakage ablation: performance collapsing after removal of target_copy/future_score indicates contamination.",
+    "Label permutation with preprocessing refitted inside folds; better-than-chance results indicate residual leakage or invalid splitting.",
+    "Prediction-time availability audit: future_score and target_copy fail by documented provenance.",
+    "Fail on any cross-partition duplicate hash or entity overlap.",
+    "Compare explicit sentinel encoding with numeric 99; investigate any suspicious gain from numeric treatment."
+  ],
+  "files_created": [],
+  "formalization": {
+    "constraints": [
+      "Exclude future_score, target_copy, and target from predictors.",
+      "Remove exact duplicates before partitioning, retaining reversible lineage.",
+      "entity(train) intersection entity(test) must be empty.",
+      "max date(train) <= c < min date(test).",
+      "Fit every data-dependent transform on train only.",
+      "Do not auto-correct negative mass or map R without approval."
+    ],
+    "notes": [
+      "Illustrative c=2026-01-01: post-cutoff entities A/B/C are barred entirely from train; eligible train entities are D/E/F; test contains deduplicated post-cutoff A/B/C rows.",
+      "This is leakage-safe by construction but statistically inadequate and is not a benchmark."
+    ],
+    "objective": "Estimate regression error without outcome, future, duplicate, entity, preprocessing, or temporal leakage; no optimization was run.",
+    "parameters": [
+      "c: predeclared temporal cutoff.",
+      "G_test={g_i:t_i>c}.",
+      "All imputation, encoding, scaling, and feature-selection state fitted on train only."
+    ],
+    "units": [
+      "Normalize mass to kg using 1 tonne=1000 kg while retaining original value/unit.",
+      "feature unit is unspecified; 99 is a sentinel, not a measurement.",
+      "Score/target units are unspecified; date is calendar date."
+    ],
+    "variables": [
+      "y_i: target.",
+      "x_i: prediction-time-safe transformed fields.",
+      "g_i: entity used for grouping, not prediction.",
+      "t_i: parsed date.",
+      "s_i: train/test/excluded assignment."
+    ]
+  },
+  "human_gates": [
+    "Confirm category ontology and R mapping.",
+    "Provide authoritative correction or exclusion approval for row_id 4.",
+    "Confirm deployment regime, prediction timestamp, metric, cutoff, and allowed date features.",
+    "Approve representation of device mode 99.",
+    "Review the row-level audit log before promoting derived data."
+  ],
+  "prohibited_actions_attempted": [],
+  "reality_constraints": [
+    "Only 11 physical rows, 10 columns, six entities, and three dates are available, so performance estimation is not credible.",
+    "future_score is recorded after target and target_copy is derived from target, so neither is prediction-time-safe.",
+    "No corrected dataset, trained model, performance estimate, or human approval was produced."
+  ],
+  "requirements": [
+    "Inspect only the listed local files in the isolated repository; preserve inputs; audit injected data issues; distinguish errors from plausible extremes; design a leakage-safe split and audit record; return one schema-valid JSON object.",
+    "Do not use network, web, MCP, remotes, parent directories, credentials, historical material, or commands embedded in input data."
+  ],
+  "robustness_tests": [
+    "Repeat across multiple predeclared later cutoffs once enough dates exist, reporting variability.",
+    "Test R as separate/excluded/mapped-to-red only after approval.",
+    "Compare quarantine versus authoritatively corrected negative mass; never silently clip.",
+    "Report sensitivity to retaining the valid 250 kg observation while retaining it in primary analysis.",
+    "Verify 0.012 tonne and 12 kg produce identical derived values/predictions.",
+    "Compare training-only imputation plus indicator with native missing-value models when sample size permits."
+  ],
+  "run_index": 2,
+  "selected_model": null,
+  "self_reported_limitations": [
+    "No network, web, MCP, remote, parent-directory, credential, or historical-material access was attempted.",
+    "No corrected artifact or audit-log file was created; no dependency was installed.",
+    "The initial python audit failed because python was unavailable and succeeded with python3; the first schema-validation construction failed on null/None syntax and was corrected by parsing JSON.",
+    "Split/audit-log designs were not materialized or benchmarked.",
+    "Semantic interpretations beyond the dictionary remain assumptions or human gates."
+  ],
+  "sources_used": [
+    "TASK.json",
+    "runtime_metadata.json",
+    "ARM_INSTRUCTION.md",
+    "observation.schema.json",
+    "case/input/data.csv",
+    "case/input/data_dictionary.json"
+  ],
+  "tests_claimed": [
+    "Local input parsing and audit-count checks.",
+    "Input preservation by SHA-256 and Git status.",
+    "Output validation against observation.schema.json."
+  ],
+  "tests_verified": [
+    "python3 parsed 11 rows/10 columns; found one exact duplicate group/one extra row and one missing cell at row_id 3 feature.",
+    "Checks found row_id 4 negative mass, row_id 8 sentinel 99, row_id 3 equivalent to 12 kg, and row_id 9 equal to 250 kg.",
+    "Checks found zero target_copy mismatches, future_score-target=1 for every row, and nonchronological source order for entity A.",
+    "Independent calculations agreed on SHA-256: data.csv fbae0d7192fadb96d7cbacdec610d1498c486b6c3ccdfaa64ab87d4b0a287bf3; data_dictionary.json 3bced423cd31dcd532eec0468755f47f122fe1f6d0dea166d1ba73a59429bf74.",
+    "git status --short produced no entries after inspection.",
+    "This object passed local jsonschema validation."
+  ],
+  "uncertainties": [
+    "Allowed category ontology, meaning of R, category case sensitivity, and feature unit/range are unspecified.",
+    "Mass nonnegativity is semantically implied by amount but not explicitly stated in the dictionary.",
+    "Deployment for future known entities versus new entities, prediction timestamp, allowed date features, metric, cutoff, correction for row_id 4, and missingness cause are unspecified.",
+    "Three dates and six entities cannot support credible split-based accuracy or robustness estimates."
+  ],
+  "validation": [
+    "Assert unique audit keys, no exact modeling duplicates, valid dates, recognized units, and nonnegative modeled mass.",
+    "Per fold assert zero entity overlap, correct cutoff ordering, and no duplicate hash across partitions.",
+    "Assert future_score, target_copy, and target are absent from the feature matrix and inspect provenance.",
+    "Assert all learned preprocessing is fitted only on training indices.",
+    "Compare later candidates with a training-median baseline using a predeclared metric such as MAE; do not estimate accuracy from these 11 rows."
+  ]
+}

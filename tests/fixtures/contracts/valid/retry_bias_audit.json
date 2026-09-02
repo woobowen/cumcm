@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+  "attempt_count": 28,
+  "slot_count": 24,
+  "retry_burden": 0,
+  "slots_with_retry": [],
+  "attempt_to_first_eligible": [],
+  "terminal_failure_before_success": [],
+  "success_after_retry": [],
+  "primary_eligible_after_retry": [],
+  "retry_queue_positions": [],
+  "retry_queue_monotonic": false,
+  "retry_after_terminal": ["ATTEMPT-001", "ATTEMPT-002"],
+  "historical_protocol_deviations": [
+    "RETRY_QUEUE_EXECUTION_ORDER_NON_MONOTONIC",
+    "RETRY_STARTED_AFTER_TERMINAL_PREDECESSOR"
+  ],
+  "cell_attempt_efficiency": {
+    "resolved_slots_per_attempt": 0,
+    "quality_success_slots_per_attempt": 0,
+    "primary_eligible_slots_per_attempt": 0
+  },
+  "earliest_eligible_enforced": true,
+  "best_of_n_prohibited": true,
+  "previous_failures_retained": true,
+  "later_success_erases_failure": false,
+  "posthoc_budget_expansion": false,
+  "per_cell_cap_respected": true,
+  "all_attempts_in_cost": true,
+  "failure_zero_imputation": false,
+  "cost_reconciliation": {
+    "recomputed": {
+      "attempts": 28,
+      "duration_seconds": 1,
+      "input_tokens": 1,
+      "output_tokens": 1,
+      "retries": 4,
+      "failed_attempts": 8,
+      "infrastructure_failures": 1,
+      "oracle_passes": 9,
+      "oracle_failures": 9,
+      "successful_primary_records": 18
+    },
+    "recorded": {
+      "attempts": 28,
+      "duration_seconds": 1,
+      "input_tokens": 1,
+      "output_tokens": 1,
+      "retries": 4,
+      "failed_attempts": 8,
+      "infrastructure_failures": 1,
+      "oracle_passes": 9,
+      "oracle_failures": 9,
+      "successful_primary_records": 18
+    },
+    "exact_match": true,
+    "unknown_costs_preserved": true
+  },
+  "elapsed_budget_boundary": {
+    "semantics": "START_ADMISSION_CHECK_THEN_STOP_AFTER_COMPLETION",
+    "elapsed_before_last_start": 1,
+    "elapsed_after_last_finish": 2,
+    "maximum_total_elapsed_seconds": 2,
+    "last_start_admitted_below_cap": true,
+    "stopped_after_cap_reached": true
+  },
+  "findings": [],
+  "audit_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+}

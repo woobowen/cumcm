@@ -17,3 +17,9 @@
   without valid prerequisites. See `TRANSPORT_RECOVERY_POLICY.md`.
 - **Team challenge:** validate the separate challenge record, mark the decision and descendants
   `STALE`, and replay automated adjudication. Team review cannot reverse the technical record.
+- **Phase 002D budget stop:** preserve every attempt and the terminal checkpoint, forbid further
+  starts, generate insufficiency/route records, and require a new reviewed freeze before same-phase
+  continuation. See `EXPANSION_RECOVERY.md`.
+- **Phase 002D-R1 interruption:** verify the historical and R1 freezes, resume the earliest missing
+  classifier/matrix/scope/audit artifact, preserve every native verdict, and bind serious findings
+  to tests. A non-PASS Decision Auditor or unstable replay keeps state incomplete with no route.

@@ -1,0 +1,321 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002D-R1-FAILURE-AWARE-DECISION-POST-DECISION-CYCLE-3",
+  "blockers": [],
+  "bundle_hash": "9591eb8b338a68d92ccc62c25da04e31289322fef6772c1ed24f65957d20bf3c",
+  "bundle_id": "PHASE-002D-R1-NATIVE-FAILURE_AWARE_DECISION_AUDITOR",
+  "created_at": "2026-09-02T03:42:30+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-FAILURE-ATTRIBUTION-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+        "TEST-FAILATTR-003-POLICY-CAUSE",
+        "TEST-FAILATTR-004-HARD-FAIL-003",
+        "TEST-FAILATTR-005-MIXED-TRANSPORT"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d-r1/slot_outcomes/slot_outcome_matrix.json",
+        "evals/results/phase-002d-r1/adversarial_tests/test_evidence.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-001-FAILURE-ATTRIBUTION",
+      "pass_condition": "All 28 attempts remain uniquely accounted and the three failure classes remain distinct.",
+      "required_test": "Replay the registered policy-cause, harness-equivalence, and mixed-transport attribution tests.",
+      "severity": "INFO",
+      "statement": "The frozen census independently reconciles 28 unique attempts across 24 slots: nine eligible successes, nine oracle negatives, seven terminal policy failures, one infrastructure-censored attempt, and two harness-censored attempts. Policy, harness, and mixed-transport attribution tests remain closed by passing evidence.",
+      "status": "RESOLVED",
+      "target": "failure misattribution",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "TEST-RETRY-PROSECUTOR-BLOCKER-001",
+        "TEST-RETRY-PROSECUTOR-BLOCKER-002",
+        "TEST-RETRY-PROSECUTOR-ERROR-003"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json",
+        "evals/results/phase-002d-r1/adversarial_tests/test_evidence.json",
+        "evals/results/phase-002d-r1/slot_outcomes/slot_outcome_matrix.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-002-RETRY-BIAS",
+      "pass_condition": "No later attempt erases a terminal predecessor or becomes best-of-N quality evidence, and all costs reconcile exactly.",
+      "required_test": "Replay the three registered retry-bias mutation tests.",
+      "severity": "INFO",
+      "statement": "Four retries and both retry-after-terminal deviations remain explicit; predecessors stay in reliability and cost, no retry yields an oracle-PASS quality selection, and mutation tests reject terminal erasure, best-of-N selection, and count-preserving cost substitution.",
+      "status": "RESOLVED",
+      "target": "retry bias",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "DECISION-FAILURE-SEMANTICS-002D-R1",
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/automated_decisions/failure_semantics.json",
+        "evals/results/phase-002d-r1/replay/replay.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-003-RECOVERY-CONTAMINATION",
+      "pass_condition": "No recovery-affected record enters quality, ranking, component gaps, or a positive decision scope.",
+      "required_test": "Recompute recovery flags and the replay excluded-evidence projection from the frozen classifications.",
+      "severity": "INFO",
+      "statement": "All 28 classifications record recovery_used=false; recovery evidence is excluded from component gaps and every replay projection, while the unresolved harness-censored slot remains outside comparative ranking and supplemental execution.",
+      "status": "RESOLVED",
+      "target": "recovery contamination",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-INPUT-FREEZE-001",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1",
+        "TEST-EXPERIMENT-PROTOCOL-004",
+        "TEST-EXPERIMENT-PROTOCOL-005"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/input_freeze_manifest.json",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json",
+        "evals/results/phase-002d-r1/supplemental/budget.json",
+        "evals/results/phase-002d-r1/supplemental/status.json",
+        "tests/unit/test_phase002d_r1_replay.py"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-004-BUDGET-MUTATION",
+      "pass_condition": "Original and source budget hashes remain unchanged and every unauthorized or mutated supplemental path yields zero starts or RETEST_REQUIRED.",
+      "required_test": "Replay frozen-budget hashes, missing-precondition mutations, and the replay budget-mutation rejection test.",
+      "severity": "INFO",
+      "statement": "The original freeze forbids budget mutation, retry accounting reports no post-hoc expansion, and supplemental authorization preserves the source budget while locking an immutable zero-start tranche with no model or API use.",
+      "status": "RESOLVED",
+      "target": "original and supplemental budget mutation",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-FAILURE-ATTRIBUTION-001",
+        "DECISION-ARCHITECTURE-002D-R1",
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d-r1/automated_decisions/architecture.json",
+        "evals/results/phase-002d-r1/replay/replay.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-005-IDENTITY-BIAS",
+      "pass_condition": "The permutation preserves every decision, accepted scope, route, exclusion, negative control, and projection hash.",
+      "required_test": "Replay the anonymous-arm label permutation and compare all seven decision projections.",
+      "severity": "INFO",
+      "statement": "The classifications and decisions use only anonymous arm IDs, record identity_used=false, explicitly exclude ARM_IDENTITY, and reproduce identical projections under anonymous-arm label permutation.",
+      "status": "RESOLVED",
+      "target": "identity bias",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-ARCHITECTURE-002D-R1",
+        "DECISION-SLOT-RESOLUTION-002D-R1",
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/automated_decisions/architecture.json",
+        "evals/results/phase-002d-r1/automated_decisions/slot_resolution.json",
+        "evals/results/phase-002d-r1/replay/replay.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-006-VOTE-HUMAN-GATE",
+      "pass_condition": "No vote or human field affects any technical outcome or route.",
+      "required_test": "Compare vote, human-Gate, excluded-evidence, and judge-decision fields across every recorded and replayed decision.",
+      "severity": "INFO",
+      "statement": "All seven decisions and all five replay variants record majority_vote_used=false and human_technical_gate_used=false, exclude AGENT_VOTES and HUMAN_TECHNICAL_GATE, and contain no judge decision that can authorize a technical Gate.",
+      "status": "RESOLVED",
+      "target": "majority vote and human technical Gate use",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "TEST-RETRY-PROSECUTOR-BLOCKER-002",
+        "TEST-RETRY-PROSECUTOR-ERROR-003",
+        "TEST-EXPERIMENT-PROTOCOL-004",
+        "TEST-EXPERIMENT-PROTOCOL-005",
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/adversarial_tests/test_evidence.json",
+        "src/cumcm_skill_lab/failure_aware/replay.py",
+        "tests/unit/test_phase002d_r1_replay.py",
+        "evals/results/phase-002d-r1/replay/replay.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-007-HARDCODING",
+      "pass_condition": "Every prohibited mutation fails closed and the unmutated projection matches all recorded decisions exactly.",
+      "required_test": "Replay all registered control mutations and compare the evidence-derived projection with the seven recorded decisions.",
+      "severity": "INFO",
+      "statement": "The replay projection recomputes bounded decisions from classifications, slot outcomes, retry-cost controls, evidence scopes, and supplemental authorization; frozen adversarial receipts reject deletion, best-of-N, zero-imputation, cost substitution, protocol drift, and missing-precondition mutations.",
+      "status": "RESOLVED",
+      "target": "hardcoded favorable controls",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "PHASE-002D-R1-QUALITY-EVIDENCE-SUFFICIENCY-001",
+        "PHASE-002D-R1-RELIABILITY-EVIDENCE-SUFFICIENCY-001",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1",
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1",
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/quality_sufficiency.json",
+        "evals/results/phase-002d-r1/evidence_scopes/reliability_sufficiency.json",
+        "evals/results/phase-002d-r1/automated_decisions/quality_evidence_sufficiency.json",
+        "evals/results/phase-002d-r1/automated_decisions/reliability_evidence_sufficiency.json",
+        "evals/results/phase-002d-r1/replay/replay.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-008-QUALITY-RELIABILITY-SEPARATION",
+      "pass_condition": "Quality stays insufficient, reliability stays descriptive-only, and no quality or superiority claim is enabled.",
+      "required_test": "Recompute quality and reliability independently and replay their decisions under all five variants.",
+      "severity": "INFO",
+      "statement": "Quality remains EVIDENCE_INSUFFICIENT at two balanced cases and repeat depth one; reliability is accepted only as RELIABILITY_ONLY descriptive evidence, with quality inference, superiority, and scope conflation prohibited in every replay variant.",
+      "status": "RESOLVED",
+      "target": "quality and reliability scope separation",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-ARCHITECTURE-002D-R1",
+        "DECISION-COMPONENT-READINESS-002D-R1",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1",
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/automated_decisions/architecture.json",
+        "evals/results/phase-002d-r1/automated_decisions/component_readiness.json",
+        "evals/results/phase-002d-r1/automated_decisions/quality_evidence_sufficiency.json",
+        "evals/results/phase-002d-r1/replay/replay.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-009-POSTHOC-POSITIVE-CLAIMS",
+      "pass_condition": "No architecture, base-selection, implementation-ready, Phase 003, quality, or superiority claim is exposed.",
+      "required_test": "Assert post-hoc claim limits across every recorded and replayed decision.",
+      "severity": "INFO",
+      "statement": "Architecture, base selection, and Phase 003 claims remain rejected; performance superiority is false in all seven decisions and all five replay variants, while component gaps authorize only SPECIFICATION_ONLY work.",
+      "status": "RESOLVED",
+      "target": "post-hoc positive claim",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1",
+        "TEST-EXPERIMENT-PROTOCOL-005",
+        "TEST-FAILATTR-004-HARD-FAIL-003"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/supplemental/authorization.json",
+        "evals/results/phase-002d-r1/supplemental/budget.json",
+        "evals/results/phase-002d-r1/supplemental/status.json",
+        "evals/results/phase-002d-r1/automated_decisions/supplemental_authorization.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-010-SUPPLEMENTAL-SCOPE",
+      "pass_condition": "No real, model, or API start is admitted and no resolved or terminal slot becomes supplementally eligible.",
+      "required_test": "Replay missing-precondition and harness-equivalence failure controls.",
+      "severity": "INFO",
+      "statement": "Supplemental execution remains rejected: no slot is authorized, generic and terminal retries are prohibited, harness equivalence is not established, the launch is locked, and recorded model/API starts remain zero.",
+      "status": "RESOLVED",
+      "target": "supplemental overreach",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-ARCHITECTURE-002D-R1",
+        "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1",
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/automated_decisions/architecture.json",
+        "evals/results/phase-002d-r1/automated_decisions/quality_evidence_sufficiency.json",
+        "evals/results/phase-002d-r1/replay/replay.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-011-NEXT-PHASE-ROUTE",
+      "pass_condition": "The sole route is Phase 002D evidence expansion and Phase 003 remains unavailable.",
+      "required_test": "Compare the next-phase route across all seven recorded decisions and five replay variants.",
+      "severity": "INFO",
+      "statement": "All seven recorded decisions and all five replay variants route only to PHASE-EVIDENCE-EXPANSION-002D; quality and architecture reject Phase 003 and retain the newly frozen acquisition-design requirements.",
+      "status": "RESOLVED",
+      "target": "next-phase route",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1",
+        "PHASE-002D-R1-RELIABILITY-EVIDENCE-SUFFICIENCY-001",
+        "TEST-FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+        "PHASE-002D-R1-DECISION-AUDIT-REPAIR-CLOSURE-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/automated_decisions/reliability_evidence_sufficiency.json",
+        "evals/results/phase-002d-r1/evidence_scopes/reliability_sufficiency.json",
+        "evals/results/phase-002d-r1/subagent_audits/decision_repair_rounds/test_evidence.json",
+        "evals/results/phase-002d-r1/subagent_audits/decision_repair_rounds/finding_closure.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-012-ACCEPTED-SCOPE-CONSISTENCY",
+      "pass_condition": "Every decision wrapper accepted_scope equals its embedded automated_decision.accepted_scope, including RELIABILITY_ONLY.",
+      "required_test": "tests/unit/test_phase002d_r1_decisions.py::test_all_decisions_have_one_canonical_accepted_scope",
+      "severity": "INFO",
+      "statement": "The prior accepted-scope inconsistency is repaired: the reliability wrapper and embedded automated decision both state RELIABILITY_ONLY, all seven wrapper/core pairs agree, and the canonical-scope repair test has a passing frozen receipt and closure.",
+      "status": "RESOLVED",
+      "target": "accepted scope",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R1-FAILURE-AWARE-REPLAY-001",
+        "TEST-FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+        "PHASE-002D-R1-DECISION-AUDIT-REPAIR-CLOSURE-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/replay/replay.json",
+        "src/cumcm_skill_lab/failure_aware/replay.py",
+        "tests/unit/test_phase002d_r1_replay.py",
+        "evals/results/phase-002d-r1/subagent_audits/decision_repair_rounds/test_evidence.json",
+        "evals/results/phase-002d-r1/subagent_audits/decision_repair_rounds/finding_closure.json"
+      ],
+      "finding_id": "FAILURE-AWARE-DECISION-013-FIVE-VARIANT-REPLAY",
+      "pass_condition": "Five variants match all seven recorded projections and share identical scopes, routes, exclusions, negative controls, projection hashes, and recorded decision replay hashes.",
+      "required_test": "tests/unit/test_phase002d_r1_replay.py::test_replay_projection_is_order_and_label_stable",
+      "severity": "INFO",
+      "statement": "The prior replay blocker is repaired: ORIGINAL plus four identity-blind order/label variants each reproduce all seven recorded decision projections, share one independently recomputed projection hash, preserve recorded decision replay hashes and negative controls, and route only to Phase 002D with zero network, model, or API use.",
+      "status": "RESOLVED",
+      "target": "replay readiness",
+      "testability": "TESTABLE"
+    }
+  ],
+  "identity_blind": true,
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_NATIVE_SUBAGENT",
+  "nested_codex_used": false,
+  "output_hash": "57b22acd2f7cb87dc479d74883c8963a8552a8126bfd6b3dc614ff4f3e2433d9",
+  "peer_output_access": "FROZEN_PREDECESSORS_ONLY",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "failure_aware_decision_auditor",
+  "round": "POST_DECISION",
+  "verdict": "PASS",
+  "web_used": false,
+  "writes_observed": false
+}

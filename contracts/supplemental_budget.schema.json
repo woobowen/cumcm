@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/supplemental-budget/v1",
+  "title": "Phase 002D-R1 Supplemental Budget",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "budget_id", "status", "authorization_id", "authorization_hash",
+    "source_budget_id", "source_budget_mutated", "authorized_slot_ids",
+    "maximum_total_starts", "maximum_starts_per_slot", "concurrency",
+    "fresh_sessions_only", "resume_allowed", "recovery_allowed", "protocol_fingerprint",
+    "immutable", "api_key_used", "api_billing_used", "budget_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "budget_id": {"const": "PHASE-002D-R1-SUPPLEMENTAL-BUDGET-001"},
+    "status": {"enum": ["FROZEN", "NOT_AUTHORIZED"]},
+    "authorization_id": {"const": "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1"},
+    "authorization_hash": {"$ref": "#/$defs/hash"},
+    "source_budget_id": {"const": "PHASE-002D-FROZEN-BUDGET-001"},
+    "source_budget_mutated": {"const": false},
+    "authorized_slot_ids": {"type": "array", "maxItems": 2, "items": {"type": "string"}, "uniqueItems": true},
+    "maximum_total_starts": {"type": "integer", "minimum": 0, "maximum": 4},
+    "maximum_starts_per_slot": {"type": "integer", "minimum": 0, "maximum": 2},
+    "concurrency": {"const": 1},
+    "fresh_sessions_only": {"const": true},
+    "resume_allowed": {"const": false},
+    "recovery_allowed": {"const": false},
+    "protocol_fingerprint": {"type": "object", "minProperties": 10, "additionalProperties": {"type": "string", "minLength": 1}},
+    "immutable": {"const": true},
+    "api_key_used": {"const": false},
+    "api_billing_used": {"const": false},
+    "budget_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "NOT_AUTHORIZED"}}},
+      "then": {
+        "properties": {
+          "authorized_slot_ids": {"maxItems": 0},
+          "maximum_total_starts": {"const": 0},
+          "maximum_starts_per_slot": {"const": 0}
+        }
+      }
+    }
+  ],
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

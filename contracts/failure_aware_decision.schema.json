@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/failure-aware-decision/v1",
+  "title": "Phase 002D-R1 Failure-Aware Automated Decision Envelope",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "automated_decision_contract", "automated_decision",
+    "evidence_scope", "accepted_scope", "posthoc_observation_policy",
+    "positive_performance_superiority_claim_allowed", "quality_reliability_conflated",
+    "terminal_negative_zero_imputed", "majority_vote_used", "human_technical_gate_used",
+    "recovery_ranked", "identity_used", "failure_aware_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "automated_decision_contract": {"const": "contracts/automated_decision.schema.json"},
+    "automated_decision": {"type": "object"},
+    "evidence_scope": {"enum": ["POLICY", "OUTCOME_COMPLETENESS", "QUALITY_EVIDENCE", "RELIABILITY_EVIDENCE", "COMPONENT_GAP_EVIDENCE"]},
+    "accepted_scope": {"enum": ["NONE", "POLICY_ONLY", "RELIABILITY_ONLY", "SPECIFICATION_ONLY"]},
+    "posthoc_observation_policy": {"const": true},
+    "positive_performance_superiority_claim_allowed": {"const": false},
+    "quality_reliability_conflated": {"const": false},
+    "terminal_negative_zero_imputed": {"const": false},
+    "majority_vote_used": {"const": false},
+    "human_technical_gate_used": {"const": false},
+    "recovery_ranked": {"const": false},
+    "identity_used": {"const": false},
+    "failure_aware_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"evidence_scope": {"const": "QUALITY_EVIDENCE"}}},
+      "then": {"properties": {"accepted_scope": {"const": "NONE"}}}
+    },
+    {
+      "if": {"properties": {"evidence_scope": {"const": "RELIABILITY_EVIDENCE"}}},
+      "then": {"properties": {"accepted_scope": {"const": "RELIABILITY_ONLY"}}}
+    },
+    {
+      "if": {"properties": {"evidence_scope": {"const": "COMPONENT_GAP_EVIDENCE"}}},
+      "then": {"properties": {"accepted_scope": {"enum": ["NONE", "SPECIFICATION_ONLY"]}}}
+    }
+  ],
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

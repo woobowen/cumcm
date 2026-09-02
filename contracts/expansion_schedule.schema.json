@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/expansion-schedule/v1",
+  "title": "Phase 002D Blocked Randomized Schedule",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "schedule_id", "seed", "cohort_id", "cohort_hash", "mode",
+    "generated_at", "cases", "repeats", "anonymous_arms", "blocks", "primary_queue",
+    "retry_queue", "primary_attempt_count", "maximum_retry_slots", "deviation_policy",
+    "scored_runs_started_at_freeze", "schedule_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "schedule_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "cohort_id": {"type": "string", "minLength": 1},
+    "cohort_hash": {"$ref": "#/$defs/hash"},
+    "mode": {"enum": ["CONTINUATION_COHORT", "NEW_MODEL_COHORT"]},
+    "generated_at": {"type": "string", "minLength": 1},
+    "cases": {"type": "array", "const": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+    "repeats": {"const": 2},
+    "anonymous_arms": {"type": "array", "const": ["ARM-A", "ARM-B", "ARM-C"]},
+    "blocks": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/block"}},
+    "primary_queue": {"type": "array", "minItems": 24, "maxItems": 24, "items": {"type": "string"}, "uniqueItems": true},
+    "retry_queue": {"type": "array", "minItems": 48, "maxItems": 48, "items": {"$ref": "#/$defs/retry"}},
+    "primary_attempt_count": {"const": 24},
+    "maximum_retry_slots": {"const": 48},
+    "deviation_policy": {
+      "type": "object",
+      "required": ["complete_current_block_before_retry", "retry_queue_order_frozen", "successful_cell_never_repeated", "maximum_attempts_per_cell", "post_result_reordering_allowed", "arm_first_execution_allowed"],
+      "properties": {
+        "complete_current_block_before_retry": {"const": true},
+        "retry_queue_order_frozen": {"const": true},
+        "successful_cell_never_repeated": {"const": true},
+        "maximum_attempts_per_cell": {"const": 3},
+        "post_result_reordering_allowed": {"const": false},
+        "arm_first_execution_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "scored_runs_started_at_freeze": {"const": false},
+    "schedule_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "cell": {
+      "type": "object",
+      "required": ["cell_id", "anonymous_arm_id", "schedule_order", "primary_attempt_id", "retry_attempt_ids"],
+      "properties": {
+        "cell_id": {"type": "string", "minLength": 1},
+        "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+        "schedule_order": {"type": "integer", "minimum": 1, "maximum": 3},
+        "primary_attempt_id": {"type": "string", "minLength": 1},
+        "retry_attempt_ids": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "block": {
+      "type": "object",
+      "required": ["block_id", "block_number", "case_id", "repeat_id", "anonymous_arm_order", "planned_attempts"],
+      "properties": {
+        "block_id": {"type": "string", "minLength": 1},
+        "block_number": {"type": "integer", "minimum": 1, "maximum": 8},
+        "case_id": {"enum": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+        "repeat_id": {"type": "integer", "minimum": 1, "maximum": 2},
+        "anonymous_arm_order": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"enum": ["ARM-A", "ARM-B", "ARM-C"]}, "uniqueItems": true},
+        "planned_attempts": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/cell"}}
+      },
+      "additionalProperties": false
+    },
+    "retry": {
+      "type": "object",
+      "required": ["attempt_id", "retry_of", "cell_id", "block_id", "case_id", "repeat_id", "anonymous_arm_id", "retry_index", "eligible_only_after_predecessor_failure"],
+      "properties": {
+        "attempt_id": {"type": "string", "minLength": 1},
+        "retry_of": {"type": "string", "minLength": 1},
+        "cell_id": {"type": "string", "minLength": 1},
+        "block_id": {"type": "string", "minLength": 1},
+        "case_id": {"enum": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+        "repeat_id": {"type": "integer", "minimum": 1, "maximum": 2},
+        "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]},
+        "retry_index": {"type": "integer", "minimum": 1, "maximum": 2},
+        "eligible_only_after_predecessor_failure": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

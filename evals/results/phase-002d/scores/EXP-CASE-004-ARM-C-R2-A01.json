@@ -1,0 +1,119 @@
+{
+  "anonymous_arm_id": "ARM-C",
+  "case_id": "CASE-004",
+  "coverage_hash": "f110901a385bc833391de75d95e086792ff6c7601fca153b27f2014d20449c9b",
+  "dimensions": {
+    "BASE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in baseline"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "DRIFT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "FAILRUN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in experiment_design"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "LEAK": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in data_findings"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "METRIC": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in experiment_design"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "NOCAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "RANDOM": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in uncertainties"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "ROBUST": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in robustness_tests"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "SPLIT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in experiment_design"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evidence": [
+    "SPLIT",
+    "BASE"
+  ],
+  "hard_failures": [
+    "HARD-FAIL-003"
+  ],
+  "missing": [
+    "LEAK",
+    "METRIC",
+    "DRIFT",
+    "ROBUST",
+    "RANDOM",
+    "FAILRUN",
+    "NOCAUSAL"
+  ],
+  "proves_correctness": false,
+  "repeat_id": 2,
+  "schema_version": "1.0.0",
+  "semantic_review_used": false,
+  "status": "SCORED",
+  "structured_coverage_score": 18.0
+}

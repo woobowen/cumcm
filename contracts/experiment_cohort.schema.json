@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/experiment-cohort/v1",
+  "title": "Phase 002D Experiment Cohort",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "cohort_id", "mode", "model", "reasoning_setting", "auth_mode", "transport_profile", "codex_cli_version", "sandbox", "network_policy", "mcp_policy", "primary_cases", "anonymous_arms", "minimum_repeats", "target_successes", "historical_phase002_use", "historical_model", "historical_model_visible", "selected_model_supports_reasoning", "continuation_checks", "continuation_shortfall", "selection_reason_codes", "candidate_model_ids", "pilot_status", "scored_runs_started", "model_switch_allowed", "cohort_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "cohort_id": {"type": "string", "minLength": 1},
+    "mode": {"enum": ["CONTINUATION_COHORT", "NEW_MODEL_COHORT"]},
+    "model": {"type": "string", "minLength": 1},
+    "reasoning_setting": {"const": "medium"},
+    "auth_mode": {"const": "CHATGPT_MANAGED_CODEX"},
+    "transport_profile": {"enum": ["PENDING_PILOT", "PROXY_INHERITED", "NO_PROXY_PROCESS_ONLY"]},
+    "codex_cli_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "sandbox": {"const": "workspace-write"},
+    "network_policy": {"const": "DISABLED_REQUIRED"},
+    "mcp_policy": {"const": "DISABLED_REQUIRED"},
+    "primary_cases": {"type": "array", "const": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]},
+    "anonymous_arms": {"type": "array", "const": ["ARM-A", "ARM-B", "ARM-C"]},
+    "minimum_repeats": {"const": 2},
+    "target_successes": {"type": "integer", "minimum": 1, "maximum": 24},
+    "historical_phase002_use": {"enum": ["PRIMARY_ELIGIBLE_IF_EXACT_MATCH", "CROSS_MODEL_EXPLORATORY_GAP_EVIDENCE_ONLY"]},
+    "historical_model": {"type": "string", "minLength": 1},
+    "historical_model_visible": {"type": "boolean"},
+    "selected_model_supports_reasoning": {"const": true},
+    "continuation_checks": {
+      "type": "object",
+      "required": ["historical_model_visible", "model_id_exact", "reasoning_exact", "frozen_prompt_schema_fixture_package_scorer_oracle", "sandbox_network_mcp_exact", "compatibility_pilot_pass", "transport_profile_frozen"],
+      "properties": {
+        "historical_model_visible": {"type": "boolean"},
+        "model_id_exact": {"type": "boolean"},
+        "reasoning_exact": {"type": "boolean"},
+        "frozen_prompt_schema_fixture_package_scorer_oracle": {"type": "boolean"},
+        "sandbox_network_mcp_exact": {"type": "boolean"},
+        "compatibility_pilot_pass": {"type": "boolean"},
+        "transport_profile_frozen": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "continuation_shortfall": {
+      "type": "object",
+      "required": ["minimum_repeats", "cells", "target_successes"],
+      "properties": {
+        "minimum_repeats": {"const": 2},
+        "cells": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"type": "object", "required": ["case_id", "anonymous_arm_id", "historical_eligible_repeats", "additional_successes_needed"], "properties": {"case_id": {"enum": ["CASE-001", "CASE-002", "CASE-004", "CASE-006"]}, "anonymous_arm_id": {"enum": ["ARM-A", "ARM-B", "ARM-C"]}, "historical_eligible_repeats": {"type": "integer", "minimum": 0}, "additional_successes_needed": {"type": "integer", "minimum": 0, "maximum": 2}}, "additionalProperties": false}},
+        "target_successes": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "selection_reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "candidate_model_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "pilot_status": {"enum": ["PENDING", "PASS", "INFRASTRUCTURE_BLOCKED"]},
+    "prepilot_cohort_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "scored_runs_started": {"type": "boolean"},
+    "model_switch_allowed": {"const": false},
+    "cohort_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {"if": {"properties": {"mode": {"const": "NEW_MODEL_COHORT"}}}, "then": {"properties": {"target_successes": {"const": 24}, "historical_phase002_use": {"const": "CROSS_MODEL_EXPLORATORY_GAP_EVIDENCE_ONLY"}}}},
+    {"if": {"properties": {"pilot_status": {"const": "PASS"}}}, "then": {"required": ["prepilot_cohort_hash"], "properties": {"transport_profile": {"enum": ["PROXY_INHERITED", "NO_PROXY_PROCESS_ONLY"]}}}}
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,106 @@
+{
+  "anonymous_arm_id": "ARM-B",
+  "case_id": "CASE-001",
+  "coverage_hash": "033baa3ae471fb940539ed0b71e132461f2a5e669a6371717244750e39ab50f5",
+  "dimensions": {
+    "CAUSAL": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in claims"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "DEPENDENCY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in requirements"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    },
+    "GATE": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in human_gates"
+      ],
+      "missing": [],
+      "score": 5.0,
+      "source": "DETERMINISTIC"
+    },
+    "REAL-CREW": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in reality_constraints"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "REAL-RAIN": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in reality_constraints"
+      ],
+      "missing": [],
+      "score": 10.0,
+      "source": "DETERMINISTIC"
+    },
+    "REQ-SUBTASKS": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in requirements"
+      ],
+      "missing": [],
+      "score": 12.0,
+      "source": "DETERMINISTIC"
+    },
+    "REQ-UNIT-SUMMARY": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [
+        "matched structured coverage in requirements"
+      ],
+      "missing": [],
+      "score": 8.0,
+      "source": "DETERMINISTIC"
+    },
+    "UNIT-CONVERT": {
+      "affected_by_run_failure": false,
+      "confidence": "HIGH",
+      "evidence": [],
+      "missing": [
+        "missing coverage terms in requirements"
+      ],
+      "score": 0.0,
+      "source": "DETERMINISTIC"
+    }
+  },
+  "evidence": [
+    "REQ-SUBTASKS",
+    "REQ-UNIT-SUMMARY",
+    "REAL-CREW",
+    "REAL-RAIN",
+    "GATE"
+  ],
+  "hard_failures": [],
+  "missing": [
+    "UNIT-CONVERT",
+    "CAUSAL",
+    "DEPENDENCY"
+  ],
+  "proves_correctness": false,
+  "repeat_id": 1,
+  "schema_version": "1.0.0",
+  "semantic_review_used": false,
+  "status": "SCORED",
+  "structured_coverage_score": 45.0
+}

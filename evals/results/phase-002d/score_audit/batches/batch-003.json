@@ -1,0 +1,238 @@
+{
+  "audit_hash": "1be00ad26c38f1bd1d1d506ea01db3770e14f798ddfcec983312959cbcf05a8a",
+  "audit_id": "PHASE-002D-COVERAGE-BINDING-AUDIT",
+  "audited_at": "2026-09-01T12:07:39.416447Z",
+  "authoritative_attempt_binding_pass": true,
+  "batch_id": 3,
+  "coverage_binding_mismatch_count": 4,
+  "coverage_excluded_from_hard_gates": true,
+  "original_scores_modified": false,
+  "records": [
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_hard_failures": [],
+      "attempt_hash": "7286ffba7db4242622d1fc19c33bfc09df732fb24468029571bf45f6338afadd",
+      "attempt_id": "EXP-CASE-001-ARM-C-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "56207f1173d808bda515cdaf1e9e9662b1fe4c7e08a6350936bf3fa2a9236d31",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_hard_failures": [],
+      "attempt_hash": "f2a6f62dac495d62707ff32bec3c7ab9714649a0c2ed20ed85de2de1b3de6634",
+      "attempt_id": "EXP-CASE-001-ARM-A-R1-A01",
+      "authoritative_match": true,
+      "classification": "COVERAGE_BINDING_MISMATCH",
+      "coverage_binding_mismatch": true,
+      "coverage_hard_failures": [
+        "HARD-FAIL-003"
+      ],
+      "coverage_hash": "7246e7e4899d81879a596067ad1bb55bb860a0de3d1582c04a786093903ce841",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_hard_failures": [],
+      "attempt_hash": "4a49c1ebe503586a407f6c6fa64106484af34b203ae1bd50ff8172fdfe6244e5",
+      "attempt_id": "EXP-CASE-001-ARM-B-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "033baa3ae471fb940539ed0b71e132461f2a5e669a6371717244750e39ab50f5",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_hard_failures": [
+        "HARD-FAIL-003"
+      ],
+      "attempt_hash": "8130861cb242f369acf78b4814c956fc7852f94e2fc6e06b47adfc10d56ca953",
+      "attempt_id": "EXP-CASE-001-ARM-A-R2-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [
+        "HARD-FAIL-003"
+      ],
+      "coverage_hash": "d803b500b93de02bd2f9b0124232b0d150002068856ab9aa7d5a258ee749887e",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": [
+        "HARD-FAIL-003"
+      ]
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_hard_failures": [],
+      "attempt_hash": "5a073bf973701fe764408977f73271d3de9b52aba6ea3be0b26fd99baf461b06",
+      "attempt_id": "EXP-CASE-001-ARM-B-R2-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "29e444c6199e0b02e1eb45feb10b2fdebd6860776b0005a93f8b9a9aa2720c01",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_hard_failures": [],
+      "attempt_hash": "3854de86546acfa7f26cd257c9b3a0ef46d01414aaf8b70859680f0cf036fe1e",
+      "attempt_id": "EXP-CASE-001-ARM-C-R2-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "f8d808a888f0bfdfdf8ecf6d00d125fd46bc37207559128d2f981dfd1a368ef6",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_hard_failures": [],
+      "attempt_hash": "40c59bf55e3e9b72a9fda4dc84b51a741b341f4af2befec89a2b5fdbd329cab8",
+      "attempt_id": "EXP-CASE-002-ARM-A-R1-A01",
+      "authoritative_match": true,
+      "classification": "COVERAGE_BINDING_MISMATCH",
+      "coverage_binding_mismatch": true,
+      "coverage_hard_failures": [
+        "HARD-FAIL-003"
+      ],
+      "coverage_hash": "1c75da8f7180488be7e58788b302d682f96c94a456f89fa289f1a09296b6c8e5",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_hard_failures": [],
+      "attempt_hash": "f3ec93055b705158e0027cf5b9686f36b28ec0f5eb5a873b182a62c682387445",
+      "attempt_id": "EXP-CASE-002-ARM-C-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "1968b6a32e44d9665ab978b2ee052bec41dc20c734516152d08b305709b67b9d",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_hard_failures": [],
+      "attempt_hash": "c408edc9f814698c5d8d1f4723eb06444b549f2dbdfcc7383c66ad7ffec996eb",
+      "attempt_id": "EXP-CASE-002-ARM-B-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "3d39c15fda7f58f9f68c56ca1a1bd03defb1f370ecea42c48efc120a2ba831f0",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_hard_failures": [],
+      "attempt_hash": "f713eedb41bd4cb65fc09ed70ebe9d5464f5cec44a7f9fb78fad958b68a69ea5",
+      "attempt_id": "EXP-CASE-002-ARM-C-R2-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "4a345eee8f870ad439324e9f1bed4d5fecaeac7d065452366d6101b4a40048f0",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_hard_failures": [],
+      "attempt_hash": "a4a327a70e78e2101d36d35e81522c47dd8f1bf38419dade56cf56d3e9e2adf5",
+      "attempt_id": "EXP-CASE-002-ARM-B-R2-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "c036d27f30fb70ae60accd9c7be50dcddfe5d699f0031989578b0465b73cca09",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_hard_failures": [],
+      "attempt_hash": "68eb3af786937c77a8f54164e2a977ed85b886c09373bc20a917a6efae19c613",
+      "attempt_id": "EXP-CASE-002-ARM-A-R2-A01",
+      "authoritative_match": true,
+      "classification": "COVERAGE_BINDING_MISMATCH",
+      "coverage_binding_mismatch": true,
+      "coverage_hard_failures": [
+        "HARD-FAIL-003"
+      ],
+      "coverage_hash": "b1cc190c67d42c4a7730872bf69eb2f5b2574320829f403ac7ef9333369a7e83",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-A",
+      "attempt_hard_failures": [],
+      "attempt_hash": "9f3959a3924ad7b414817dfb20a505490fe850c44194616e212ac5377b382572",
+      "attempt_id": "EXP-CASE-004-ARM-A-R1-A01",
+      "authoritative_match": true,
+      "classification": "COVERAGE_BINDING_MISMATCH",
+      "coverage_binding_mismatch": true,
+      "coverage_hard_failures": [
+        "HARD-FAIL-003"
+      ],
+      "coverage_hash": "ad8f0bad2a9c6637db0f64d3fa585658c63434a074828d4b1d7ce86639c2114c",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-C",
+      "attempt_hard_failures": [],
+      "attempt_hash": "12f74ad7adfc2adea27be68230edd20281b55db573e1d0fe6b37192378cf37be",
+      "attempt_id": "EXP-CASE-004-ARM-C-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "b9e9cdcf910d6b5f08a00e1831bd241461aa154400050dcfbc55fc3333dbea6b",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    },
+    {
+      "anonymous_arm_id": "ARM-B",
+      "attempt_hard_failures": [],
+      "attempt_hash": "352e94d82c543651875c06d96b36f091c82063f52a7a43b9e3ec8a6dd00ec5c2",
+      "attempt_id": "EXP-CASE-004-ARM-B-R1-A01",
+      "authoritative_match": true,
+      "classification": "CONSISTENT",
+      "coverage_binding_mismatch": false,
+      "coverage_hard_failures": [],
+      "coverage_hash": "bd7fe86d473ecc70d2cbd1779aa4691b2ae2ab72c34be990818f8792ab9678db",
+      "coverage_is_hard_gate_source": false,
+      "coverage_proves_correctness": false,
+      "recomputed_hard_failures": []
+    }
+  ],
+  "schema_version": "1.0.0",
+  "status": "PASS_WITH_COVERAGE_LIMITATION"
+}

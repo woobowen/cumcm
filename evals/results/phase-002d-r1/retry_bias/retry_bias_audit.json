@@ -1,0 +1,242 @@
+{
+  "all_attempts_in_cost": true,
+  "attempt_count": 28,
+  "attempt_to_first_eligible": [
+    {
+      "attempt_id": "EXP-CASE-001-ARM-C-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-C-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-A-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-A-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-B-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-B-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-B-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-001-ARM-C-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-001-ARM-C-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-A-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-A-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-C-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-C-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-B-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-C-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-C-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-B-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-B-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-002-ARM-A-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-002-ARM-A-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-A-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-A-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-C-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-C-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-B-R1"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-C-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-C-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-B-R2-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-004-ARM-B-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-004-ARM-A-R2-A02",
+      "attempt_number": 2,
+      "slot_id": "CASE-004-ARM-A-R2"
+    },
+    {
+      "attempt_id": "EXP-CASE-006-ARM-B-R1-A01",
+      "attempt_number": 1,
+      "slot_id": "CASE-006-ARM-B-R1"
+    }
+  ],
+  "audit_hash": "48c814e3edfcce012f7decbf77b18234bed05c30c4a776da58f50610042f0b3a",
+  "audit_id": "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+  "best_of_n_prohibited": true,
+  "cell_attempt_efficiency": {
+    "primary_eligible_slots_per_attempt": 0.642857143,
+    "quality_success_slots_per_attempt": 0.321428571,
+    "resolved_slots_per_attempt": 0.821428571
+  },
+  "cost_reconciliation": {
+    "exact_match": true,
+    "recomputed": {
+      "attempts": 28,
+      "duration_seconds": 6228.480778,
+      "failed_attempts": 8,
+      "infrastructure_failures": 1,
+      "input_tokens": 5726854,
+      "oracle_failures": 9,
+      "oracle_passes": 9,
+      "output_tokens": 272461,
+      "retries": 4,
+      "successful_primary_records": 18
+    },
+    "recorded": {
+      "attempts": 28,
+      "duration_seconds": 6228.480778,
+      "failed_attempts": 8,
+      "infrastructure_failures": 1,
+      "input_tokens": 5726854,
+      "oracle_failures": 9,
+      "oracle_passes": 9,
+      "output_tokens": 272461,
+      "retries": 4,
+      "successful_primary_records": 18
+    },
+    "unknown_costs_preserved": true
+  },
+  "earliest_eligible_enforced": true,
+  "elapsed_budget_boundary": {
+    "elapsed_after_last_finish": 6228.480778,
+    "elapsed_before_last_start": 5988.297082,
+    "last_start_admitted_below_cap": true,
+    "maximum_total_elapsed_seconds": 6197,
+    "semantics": "START_ADMISSION_CHECK_THEN_STOP_AFTER_COMPLETION",
+    "stopped_after_cap_reached": true
+  },
+  "failure_zero_imputation": false,
+  "findings": [
+    {
+      "evidence_ids": [
+        "CASE-004-ARM-A-R2"
+      ],
+      "finding_id": "RETRY-BIAS-001",
+      "severity": "WARNING",
+      "statement": "Primary eligibility occurred after retry in one slot; prior failures remain in reliability and cost."
+    },
+    {
+      "evidence_ids": [
+        "CASE-001-ARM-A-R2",
+        "CASE-004-ARM-A-R2",
+        "CASE-006-ARM-A-R1"
+      ],
+      "finding_id": "RETRY-BIAS-002",
+      "severity": "INFO",
+      "statement": "No oracle-PASS quality success occurred after retry and no best-of-N quality selection was used."
+    },
+    {
+      "evidence_ids": [
+        "EXP-CASE-004-ARM-A-R2-A02",
+        "EXP-CASE-006-ARM-A-R1-A02"
+      ],
+      "finding_id": "RETRY-BIAS-003",
+      "severity": "ERROR",
+      "statement": "Two historical retries followed terminal predecessors; the deviations remain counted but cannot authorize later success or future supplemental execution."
+    },
+    {
+      "evidence_ids": [
+        "EXP-CASE-001-ARM-A-R2-A02",
+        "EXP-CASE-004-ARM-A-R2-A02",
+        "EXP-CASE-006-ARM-A-R1-A02",
+        "EXP-CASE-001-ARM-A-R2-A03"
+      ],
+      "finding_id": "RETRY-BIAS-004",
+      "severity": "WARNING",
+      "statement": "Historical retry execution order was not monotonic in the frozen retry queue."
+    }
+  ],
+  "historical_protocol_deviations": [
+    "RETRY_QUEUE_EXECUTION_ORDER_NON_MONOTONIC",
+    "RETRY_STARTED_AFTER_TERMINAL_PREDECESSOR"
+  ],
+  "later_success_erases_failure": false,
+  "per_cell_cap_respected": true,
+  "posthoc_budget_expansion": false,
+  "previous_failures_retained": true,
+  "primary_eligible_after_retry": [
+    "CASE-004-ARM-A-R2"
+  ],
+  "retry_after_terminal": [
+    "EXP-CASE-004-ARM-A-R2-A02",
+    "EXP-CASE-006-ARM-A-R1-A02"
+  ],
+  "retry_burden": 4,
+  "retry_queue_monotonic": false,
+  "retry_queue_positions": [
+    {
+      "allowed_after_predecessor": true,
+      "attempt_id": "EXP-CASE-001-ARM-A-R2-A02",
+      "ledger_position": 25,
+      "predecessor_classification": "HARNESS_CENSORED",
+      "queue_position": 7,
+      "retry_of": "EXP-CASE-001-ARM-A-R2-A01"
+    },
+    {
+      "allowed_after_predecessor": false,
+      "attempt_id": "EXP-CASE-004-ARM-A-R2-A02",
+      "ledger_position": 26,
+      "predecessor_classification": "TERMINAL_POLICY_FAILURE",
+      "queue_position": 35,
+      "retry_of": "EXP-CASE-004-ARM-A-R2-A01"
+    },
+    {
+      "allowed_after_predecessor": false,
+      "attempt_id": "EXP-CASE-006-ARM-A-R1-A02",
+      "ledger_position": 27,
+      "predecessor_classification": "TERMINAL_POLICY_FAILURE",
+      "queue_position": 37,
+      "retry_of": "EXP-CASE-006-ARM-A-R1-A01"
+    },
+    {
+      "allowed_after_predecessor": true,
+      "attempt_id": "EXP-CASE-001-ARM-A-R2-A03",
+      "ledger_position": 28,
+      "predecessor_classification": "INFRASTRUCTURE_CENSORED",
+      "queue_position": 8,
+      "retry_of": "EXP-CASE-001-ARM-A-R2-A02"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "slot_count": 24,
+  "slots_with_retry": [
+    "CASE-001-ARM-A-R2",
+    "CASE-004-ARM-A-R2",
+    "CASE-006-ARM-A-R1"
+  ],
+  "success_after_retry": [],
+  "terminal_failure_before_success": []
+}

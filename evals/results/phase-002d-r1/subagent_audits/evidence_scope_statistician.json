@@ -1,0 +1,132 @@
+{
+  "api_key_used": false,
+  "audit_id": "AUDIT-PHASE-002D-R1-EVIDENCE-SCOPE-FIRST-ROUND",
+  "blockers": [],
+  "bundle_hash": "b723811ab0888022ccdd6f42c5491213fde76767031057a9fa3a54eeae16f03a",
+  "bundle_id": "PHASE-002D-R1-NATIVE-EVIDENCE_SCOPE_STATISTICIAN",
+  "created_at": "2026-09-01T23:12:32+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": "Any oracle-fail or policy-fail slot entering selected quality records would contaminate the Gate.",
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/slot_outcomes/slot_outcome_matrix.json",
+        "src/cumcm_skill_lab/failure_aware/evidence_scopes.py"
+      ],
+      "finding_id": "EVIDENCE-SCOPE-001",
+      "pass_condition": "Exactly 9 selected records, balanced cases CASE-001 and CASE-002, depth 1 and no terminal-negative quality selection.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_quality_scope_preserves_original_gate",
+      "severity": "INFO",
+      "statement": "Independent projection yields 9 quality-eligible slots, two balanced cases and minimum repeat depth one; 14 terminal-negative slots remain quality-ineligible.",
+      "status": "RESOLVED",
+      "target": "QUALITY_EVIDENCE",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Deleting a failed, infrastructure-censored or retry attempt biases reliability.",
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "PHASE-002D-R1-FAILURE-ATTRIBUTION-001",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/failure_attribution_summary.json",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json",
+        "evals/results/phase-002d/attempt_ledger.json"
+      ],
+      "finding_id": "EVIDENCE-SCOPE-002",
+      "pass_condition": "The exact counts and rounded rates reproduce from all 28 frozen attempts.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_reliability_scope_uses_all_attempts",
+      "severity": "INFO",
+      "statement": "All 28 attempts remain in reliability: 20 completed, 18 primary-eligible, 16 terminal, 7 policy, 1 infrastructure and 4 retries.",
+      "status": "RESOLVED",
+      "target": "RELIABILITY_EVIDENCE",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Counting CASE-001-ARM-A-R2 as success or terminal negative overstates completeness.",
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "PHASE-002D-R1-SLOT-OUTCOME-MATRIX-001",
+        "CASE-001-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/slot_outcomes/records/CASE-001-ARM-A-R2.json",
+        "src/cumcm_skill_lab/failure_aware/slot_matrix.py"
+      ],
+      "finding_id": "EVIDENCE-SCOPE-003",
+      "pass_condition": "Resolution counts are 9, 14 and 1 censored, with three fully resolved cases at depth two.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_outcome_completeness_is_not_quality_sufficiency",
+      "severity": "INFO",
+      "statement": "The matrix resolves 23 of 24 slots: 9 successes and 14 terminal negatives; CASE-001-ARM-A-R2 remains harness-censored.",
+      "status": "RESOLVED",
+      "target": "OUTCOME_COMPLETENESS",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Using the mixed infrastructure attempt as a gap solely from secondary flags would violate scope separation.",
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "EXP-CASE-001-ARM-A-R2-A02",
+        "EXP-CASE-004-ARM-A-R1-A01"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/attempt_classification/EXP-CASE-001-ARM-A-R2-A02.json",
+        "src/cumcm_skill_lab/failure_aware/evidence_scopes.py"
+      ],
+      "finding_id": "EVIDENCE-SCOPE-004",
+      "pass_condition": "Only repeated oracle and policy terminal groups are eligible; censored and recovery evidence remain excluded.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_component_gaps_require_repetition",
+      "severity": "INFO",
+      "statement": "Repeated component-gap groups contain 9 oracle failures and 7 policy failures; infrastructure and harness censoring are excluded.",
+      "status": "RESOLVED",
+      "target": "COMPONENT_GAP_EVIDENCE",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Substituting schedule or outcome depth two for quality depth one would reverse the quality Gate.",
+      "evidence_refs": [
+        "PHASE-002D-R1-EVIDENCE-SCOPES-001",
+        "PHASE-002D-R1-RETRY-BIAS-AUDIT-001",
+        "CASE-004-ARM-A-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+        "evals/results/phase-002d-r1/retry_bias/retry_bias_audit.json",
+        "evals/results/phase-002d/schedule/schedule.json"
+      ],
+      "finding_id": "EVIDENCE-SCOPE-005",
+      "pass_condition": "All six named metrics reproduce independently and success_after_retry remains empty.",
+      "required_test": "tests/unit/test_phase002d_r1_scopes_retry.py::test_repeat_depth_has_explicit_scope",
+      "severity": "INFO",
+      "statement": "The six scoped repeat values are 2, 1, 3, 2, 2 and 2; unscoped repeat_depth is deprecated and no retry fills quality evidence.",
+      "status": "RESOLVED",
+      "target": "REPEAT_SEMANTICS",
+      "testability": "TESTABLE"
+    }
+  ],
+  "identity_blind": true,
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_NATIVE_SUBAGENT",
+  "nested_codex_used": false,
+  "output_hash": "03ff5f072631c73c2fcef9421bb5a59d78ed5f81f9419192a867a060c93925c2",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "evidence_scope_statistician",
+  "round": "FIRST_ROUND",
+  "verdict": "PASS",
+  "web_used": false,
+  "writes_observed": false
+}
