@@ -254,8 +254,20 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   production, direct reuse and Phase 003; the phase may still complete without shadow
   authorization. The six-decision validator passes and the focused adjudication suite passes
   `13` tests.
-- Current milestone: M7 validation and delivery. The next legal work is M8 independent Decision
-  Audit and offline replay over the immutable six-decision snapshot.
+- `2026-09-02`: M7 commit `18257e3` was pushed and verified at the same remote SHA. M8 rebuilt the
+  six recorded decisions offline and passed original, decision-order, evidence-order, opaque-label
+  and seed-manifest variants. Replay hash is
+  `53be85e534fbe67b5644a3dfbc70432e84c4f16aae3e2f7fa61ac21f9ec17331`; network, model, API,
+  prototype and third-party execution counts are zero, and the vault checker reports
+  `private_values_read=false`.
+- A fresh read-only Decision Auditor received only the hash-bound allowlisted bundle after the M7
+  decision set and replay were frozen. Its immutable raw output independently returned `PASS` on
+  all 29 required checks with no failures or blockers. The main agent normalized only the declared
+  64-zero checkpoint placeholder; formal checkpoint hash is
+  `3d9c300152d8ba18564e3ac77772a5aa2d984b2db1344b958d47d9883c6db658`. The focused audit/replay
+  suite passes `42` tests.
+- Current milestone: M8 validation and delivery. The next legal work is M9 formal state, generated
+  reports, version/docs, full offline CI and remote Draft-PR verification.
 
 ## 22. Update rule
 
