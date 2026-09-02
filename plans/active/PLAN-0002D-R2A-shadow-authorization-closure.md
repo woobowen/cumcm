@@ -170,3 +170,27 @@ handoff must state zero API, batch-model, prototype and third-party executions.
   `fc8dbec82107763fb875f5e3a06e135f86dab917a9db47f953de3058d34fb6bb`. It is explicitly non-active;
   formal state, the decision log, and routing remain unchanged pending the final auditor, seal, and
   replay. Focused tests passed `139`; contracts passed `72/72` valid and `62/62` invalid rejected.
+- `2026-09-03`: M6 ran the fourth native read-only final-auditor role against three successively
+  frozen bundles. The first two transports returned `RETEST_REQUIRED` for conflicting scope identity
+  and missing candidate-level mutation evidence; both transports and their attempted remediation
+  bundles were preserved. The third and terminal transport again
+  returned `RETEST_REQUIRED`, checkpoint
+  `eaf0693b11c3897d9ed2fb447d31f96d9b9fc12f333d0d53165b79b83ab04a3b`, because the evidence
+  timestamp predates candidate creation and does not bind the exact candidate byte/canonical hash.
+  Following the bounded retry stop rule, no fourth repair was attempted; failed remediation code and
+  its competing candidate contract were removed, and the current non-active M5 candidate was restored
+  at hash `fc8dbec82107763fb875f5e3a06e135f86dab917a9db47f953de3058d34fb6bb`.
+  The terminal historical audit bundle hash is
+  `8cbaa9080949d9e1e68206295d4bd884a3b93044b5a22b56926206032c2d31a2`. No authorization seal,
+  final replay, formal state transition, R3 start, architecture selection, prototype, API call,
+  third-party execution, or Phase 003 transition occurred. M7-M8 are blocked by the final-audit gate;
+  M9 is limited to the incomplete acceptance report and remote evidence delivery.
+- `2026-09-03`: M9 terminal validation collected `1310` tests and returned `1288 passed`, `21
+  failed`, `1 skipped`; `bash scripts/ci.sh` failed with the same test set. The dominant cascade is
+  the R1 historical freeze comparing the live `rules/workflow_rules.yaml` task-branch pointer with
+  its earlier byte hash; an additional R2 state test applies the current `2.4.0` Schema constant to
+  its historical `2.3.0` state snapshot. Three bounded repair attempts were exhausted, and the final
+  incomplete compatibility attempt was rolled back. Strict validation, contracts, lint/format,
+  R2/R2A freezes, current R2A candidate checks, embargo, vault and generated reports pass; seal,
+  replay and state transition correctly return machine-readable `BLOCKED` because the final audit is
+  `RETEST_REQUIRED`.

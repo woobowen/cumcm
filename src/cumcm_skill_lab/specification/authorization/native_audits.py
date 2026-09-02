@@ -19,6 +19,7 @@ from .models import CREATED_AT, RESULT_ROOT
 INPUT_ROOT = RESULT_ROOT / "subagent_inputs"
 OUTPUT_ROOT = RESULT_ROOT / "subagent_outputs"
 RAW_OUTPUT_ROOT = OUTPUT_ROOT / "raw"
+FINAL_AUDIT_PATH = RESULT_ROOT / "authorization_audit/audit.json"
 FIRST_ROUND_ROLES = (
     "authorization_dependency_prosecutor",
     "shadow_scope_security_auditor",
@@ -123,7 +124,13 @@ def recorded_audit_bundle(root: Path, role: str) -> dict[str, Any]:
     return bundle
 
 
-def validate_subagent_output(root: Path, value: dict[str, Any], role: str) -> list[str]:
+def validate_subagent_output(
+    root: Path,
+    value: dict[str, Any],
+    role: str,
+    *,
+    final_bundle_path: Path | None = None,
+) -> list[str]:
     errors = [
         f"R2A_SUBAGENT_SCHEMA:{'/'.join(map(str, item.absolute_path))}:{item.message}"
         for item in Draft202012Validator(
@@ -139,6 +146,21 @@ def validate_subagent_output(root: Path, value: dict[str, Any], role: str) -> li
             or value.get("bundle_hash") != bundle["bundle_hash"]
         ):
             errors.append("R2A_SUBAGENT_BUNDLE_MISMATCH")
+    elif role == FINAL_ROLE:
+        bundle_path = final_bundle_path or INPUT_ROOT / f"{FINAL_ROLE}.json"
+        bundle = read_json(root / bundle_path)
+        bundle_body = dict(bundle)
+        recorded_bundle_hash = bundle_body.pop("bundle_hash", None)
+        if sha256_json(bundle_body) != recorded_bundle_hash:
+            errors.append("R2A_FINAL_AUDIT_BUNDLE_HASH_MISMATCH")
+        if value.get("bundle_id") != bundle.get("bundle_id") or value.get(
+            "bundle_hash"
+        ) != bundle.get("bundle_hash"):
+            errors.append("R2A_SUBAGENT_BUNDLE_MISMATCH")
+        if value.get("round") != "POST_DECISION":
+            errors.append("R2A_FINAL_AUDIT_ROUND_MISMATCH")
+        if value.get("peer_output_access") != "FROZEN_PREDECESSORS_ONLY":
+            errors.append("R2A_FINAL_AUDIT_PEER_VISIBILITY_MISMATCH")
     body = dict(value)
     recorded = body.pop("output_hash", None)
     if sha256_json(body) != recorded:
@@ -177,3 +199,58 @@ def check_or_write_normalized_first_round_outputs(root: Path, *, check: bool) ->
         errors.extend(check_or_write(root / OUTPUT_ROOT / f"{role}.json", normalized, check=check))
         hashes[role] = normalized["output_hash"]
     return {"status": "PASS" if not errors else "FAIL", "errors": errors, "hashes": hashes}
+
+
+def check_or_write_normalized_final_output(root: Path, *, check: bool) -> dict[str, Any]:
+    """Preserve final-auditor transport and publish its canonical audit record."""
+    errors: list[str] = []
+    historical_hashes: dict[str, str] = {}
+    for attempt in ("001", "002"):
+        raw_attempt_path = root / RAW_OUTPUT_ROOT / f"{FINAL_ROLE}-attempt-{attempt}.json"
+        bundle_attempt_path = INPUT_ROOT / f"{FINAL_ROLE}-attempt-{attempt}.json"
+        if not raw_attempt_path.exists():
+            continue
+        normalized_attempt = normalize_subagent_output(read_json(raw_attempt_path))
+        errors.extend(
+            f"attempt-{attempt}:{item}"
+            for item in validate_subagent_output(
+                root,
+                normalized_attempt,
+                FINAL_ROLE,
+                final_bundle_path=bundle_attempt_path,
+            )
+        )
+        errors.extend(
+            check_or_write(
+                root / OUTPUT_ROOT / f"{FINAL_ROLE}-attempt-{attempt}.json",
+                normalized_attempt,
+                check=check,
+            )
+        )
+        historical_hashes[attempt] = normalized_attempt["output_hash"]
+    raw_path = root / RAW_OUTPUT_ROOT / f"{FINAL_ROLE}.json"
+    if not raw_path.exists():
+        return {
+            "status": "FAIL",
+            "errors": errors + ["R2A_FINAL_AUDIT_RAW_OUTPUT_MISSING"],
+            "audit_id": None,
+            "result": "NOT_RUN",
+            "checkpoint_hash": None,
+            "historical_attempt_hashes": historical_hashes,
+        }
+    normalized = normalize_subagent_output(read_json(raw_path))
+    errors.extend(validate_subagent_output(root, normalized, FINAL_ROLE))
+    errors.extend(
+        check_or_write(root / OUTPUT_ROOT / f"{FINAL_ROLE}.json", normalized, check=check)
+    )
+    errors.extend(check_or_write(root / FINAL_AUDIT_PATH, normalized, check=check))
+    return {
+        "status": "PASS" if not errors else "FAIL",
+        "errors": sorted(set(errors)),
+        "audit_id": normalized.get("audit_id"),
+        "result": normalized.get("verdict"),
+        "checkpoint_hash": normalized.get("output_hash"),
+        "finding_count": len(normalized.get("findings", [])),
+        "blocker_count": len(normalized.get("blockers", [])),
+        "historical_attempt_hashes": historical_hashes,
+    }

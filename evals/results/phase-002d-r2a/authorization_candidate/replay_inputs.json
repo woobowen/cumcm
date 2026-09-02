@@ -1,0 +1,31 @@
+{
+  "active_decision_available": false,
+  "candidate_decision": "AUTOMATED_ACCEPTED",
+  "candidate_hash": "629bf30a38d13108d65fc5eaa4c129963628661da2162f8c45bb30c6e7829481",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+  "created_at": "2026-09-03T05:20:00+08:00",
+  "dependency_graph_hash": "df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c",
+  "final_audit_id": "R2A-AUDIT-FINAL-SHADOW-AUTHORIZATION-001",
+  "final_audit_status": "PENDING",
+  "finding_closure_hash": "e2711a3c922b523635e36343351edea1cbb80349c809bddcbfda4d8f2cd5ef42",
+  "input_freeze_hash": "f524f63e8c98482a85784767c9cd539f98ad286390aac8be831061d31f0a0a95",
+  "input_freeze_id": "PHASE-002D-R2A-INPUT-FREEZE-001",
+  "permutation_plan": [
+    "EVIDENCE_ORDER_REVERSED",
+    "DECISION_INPUT_ORDER_REVERSED",
+    "TARGET_LABELS_PERMUTED"
+  ],
+  "preconditions_hash": "a3e97450afaabd41b735180354ac250511c6094739b9179eed7b371735d1f65a",
+  "replay_input_id": "PHASE-002D-R2A-AUTHORIZATION-REPLAY-INPUTS-001",
+  "replay_inputs_hash": "b5bd449b823358f80474f8dc64e8092218bb90c4e8f0a1bd3ca7e6fccba2e80e",
+  "replay_performed": false,
+  "required_invariants": [
+    "DECISION_STABLE",
+    "ACCEPTED_SCOPE_STABLE",
+    "NEXT_ROUTE_STABLE",
+    "NO_ARCHITECTURE_SELECTION",
+    "NO_PHASE_003",
+    "EXACT_INPUT_AUDIT_DECISION_BINDINGS"
+  ],
+  "schema_version": "1.0.0"
+}
