@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/prospective-case-family/v1",
+  "title": "Prospective Synthetic Benchmark Case Family",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["family_id", "tier", "component_scope", "category", "generator_id", "case_count", "oracle_interface", "transformations", "negative_control", "gaming", "frozen_before_prototype", "family_hash"],
+  "properties": {
+    "family_id": {"type": "string", "pattern": "^R2-[A-Z0-9-]+$"},
+    "tier": {"enum": ["PUBLIC_CONFORMANCE", "SEALED_PROPERTY", "MODEL_IN_LOOP_FUTURE"]},
+    "component_scope": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true},
+    "category": {"enum": ["TARGETED", "INTERACTION", "VALID_NEGATIVE_CONTROL", "ADVERSARIAL_GAMING", "COMPOSITE"]},
+    "generator_id": {"type": "string", "minLength": 1},
+    "case_count": {"type": "integer", "minimum": 1},
+    "oracle_interface": {"type": "string", "minLength": 1},
+    "transformations": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "negative_control": {"type": "boolean"},
+    "gaming": {"type": "boolean"},
+    "frozen_before_prototype": {"const": true},
+    "family_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

@@ -204,8 +204,17 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   S0/W1/K1 set at hash `c51ea5d8b583971c8d4bc79943389264cf48a521e26f30eac7fb5d8bd497694d`.
   Validation passed with `selected_architecture=null`, one formal Skill and one project-state truth;
   the focused interaction/architecture suite passed `43` tests.
-- Current milestone: M3 commit/delivery. Next legal work is prospective synthetic Benchmark
-  construction under the implementation embargo.
+- `2026-09-02`: M3 commits `671683f` and `011efde` were pushed. M4 generated 16 balanced public
+  conformance cases, 20 sealed property/adversarial cases and 4 future model-in-loop families with
+  two repeats each. The ignored vault was initialized once; checks used only presence/ignore status
+  and did not parse private values. The sealed manifest hash is
+  `1e37df1d3717670baba83f672976a08884df79cd52d30fd47b9b18c443dd907d` at isolation level
+  `POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED`; prototype/model/API executions remain zero.
+  A leakage scan initially rejected a fixture containing the physical vault path; the public
+  contract now uses a logical vault identifier, and the repaired leakage, secret, contract,
+  generator, vault, freeze and `35` focused tests pass.
+- Current milestone: M4 commit/delivery. Next legal work is prospective metric, threshold,
+  experiment, ablation and cost-policy freeze before candidate results exist.
 
 ## 22. Update rule
 
