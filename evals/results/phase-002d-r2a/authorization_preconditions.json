@@ -1,0 +1,272 @@
+{
+  "all_required_pass": true,
+  "checks": [
+    {
+      "check_id": "R2A-PRE-01",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/component_specification_freeze.json"
+      ],
+      "observed": "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2=AUTOMATED_ACCEPTED/SPECIFICATION_FROZEN",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-02",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/interaction_contract.json"
+      ],
+      "observed": "DECISION-INTERACTION-CONTRACT-002D-R2=AUTOMATED_ACCEPTED/SPECIFICATION_FROZEN",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-03",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/architecture_candidate_set.json"
+      ],
+      "observed": "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2=AUTOMATED_ACCEPTED/CANDIDATE_SET_FROZEN",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-04",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/prospective_benchmark_freeze.json"
+      ],
+      "observed": "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2=AUTOMATED_ACCEPTED/BENCHMARK_FROZEN",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-05",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/threshold_policy_freeze.json"
+      ],
+      "observed": "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2=AUTOMATED_ACCEPTED/POLICY_FROZEN",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-06",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/decision_audit/audit.json"
+      ],
+      "observed": "R2 Decision Auditor=PASS",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-07",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/replay/replay.json"
+      ],
+      "observed": "R2 replay stable=True",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-08",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/test_evidence/evidence.json",
+        "evals/results/phase-002d-r2a/adversarial_findings/closure.json"
+      ],
+      "observed": "R2 passed serious evidence=29/29; R2A closed=15/15",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-09",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/adversarial_findings/findings.json",
+        "evals/results/phase-002d-r2a/adversarial_findings/closure.json"
+      ],
+      "observed": "unresolved serious blockers=0",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-10",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "observed": "implementation embargo=PASS",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-11",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        ".agents/skills/cumcm-modeling-evidence/SKILL.md"
+      ],
+      "observed": "formal Skill tree hash=edeeaf7312e7fc1cdc008bfa799a6127787768246c90ab4c4a569615d11dde33",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-12",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "state/project_state.json"
+      ],
+      "observed": "prototype executions=0",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-13",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "state/project_state.json"
+      ],
+      "observed": "third-party executions=0",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-14",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json"
+      ],
+      "observed": "API calls=0",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-15",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json"
+      ],
+      "observed": "real batch model runs=0",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-16",
+      "evidence_refs": [
+        "state/project_state.json"
+      ],
+      "observed": "selected_architecture=null",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-17",
+      "evidence_refs": [
+        "state/project_state.json"
+      ],
+      "observed": "base_selected=false",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-18",
+      "evidence_refs": [
+        "state/project_state.json"
+      ],
+      "observed": "third_party_integrated=false",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-19",
+      "evidence_refs": [
+        ".agents/skills/cumcm-modeling-evidence/SKILL.md"
+      ],
+      "observed": "formal Skill count=1",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-20",
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/sealed_manifest.json",
+        "evals/prospective/phase-002d-r2/manifests/oracle_commitments.json"
+      ],
+      "observed": "vault=PASS; commitment=True; private_values_read=False",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-21",
+      "evidence_refs": [
+        ".gitignore",
+        "evals/prospective/phase-002d-r2/access_policy.yaml"
+      ],
+      "observed": "hidden seed actual values are untracked and unread",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-22",
+      "evidence_refs": [
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "observed": "candidate count=3",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-23",
+      "evidence_refs": [
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "observed": "baseline=ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-24",
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "observed": "prospective protocol stages=[1, 2, 3]",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-25",
+      "evidence_refs": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "observed": "frozen model-run cap=30",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-26",
+      "evidence_refs": [
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "observed": "accepted scope=EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+      "required": true,
+      "status": "PASS"
+    },
+    {
+      "check_id": "R2A-PRE-27",
+      "evidence_refs": [
+        "specifications/shadow_prototype_scope.yaml",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "observed": "Phase 003 remains prohibited",
+      "required": true,
+      "status": "PASS"
+    }
+  ],
+  "created_at": "2026-09-03T04:00:00+08:00",
+  "eligibility": "ELIGIBLE_FOR_BOUNDED_CANDIDATE",
+  "failed_check_ids": [],
+  "input_freeze_hash": "f524f63e8c98482a85784767c9cd539f98ad286390aac8be831061d31f0a0a95",
+  "input_freeze_id": "PHASE-002D-R2A-INPUT-FREEZE-001",
+  "passed_check_count": 27,
+  "preconditions_hash": "a78cceb968f03638a777b2b8464a605cd1f57e046532ce8f99d56d84b7a1c057",
+  "record_id": "PHASE-002D-R2A-AUTHORIZATION-PRECONDITIONS-001",
+  "required_check_count": 27,
+  "schema_version": "1.0.0",
+  "unknowns": [
+    "CLEAN_ROOM_LEGAL_COMPLIANCE_NOT_PROVEN",
+    "HIDDEN_VAULT_OS_ISOLATION_NOT_VERIFIED",
+    "PROTOTYPE_EFFECTIVENESS_UNMEASURED",
+    "MONETARY_COST_UNKNOWN"
+  ]
+}

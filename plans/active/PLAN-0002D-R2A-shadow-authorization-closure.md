@@ -163,3 +163,10 @@ handoff must state zero API, batch-model, prototype and third-party executions.
   now explicitly defines authorization-evaluation precedence and hashes to
   `df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c`. Focused tests passed
   `130`; contracts passed `71/71` valid and `61/61` invalid rejected.
+- `2026-09-03`: M5 derived all 27 authorization preconditions from frozen files; `27/27` passed at
+  preconditions hash `a78cceb968f03638a777b2b8464a605cd1f57e046532ce8f99d56d84b7a1c057`.
+  The deterministic candidate proposes `AUTOMATED_ACCEPTED` only for the bounded experimental
+  scope, with runtime gates still unsatisfied and model Stage 2 denied. Candidate hash is
+  `fc8dbec82107763fb875f5e3a06e135f86dab917a9db47f953de3058d34fb6bb`. It is explicitly non-active;
+  formal state, the decision log, and routing remain unchanged pending the final auditor, seal, and
+  replay. Focused tests passed `139`; contracts passed `72/72` valid and `62/62` invalid rejected.

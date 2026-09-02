@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/authorization-precondition/v1",
+  "title": "Phase 002D-R2A Shadow Authorization Preconditions",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "record_id", "created_at", "input_freeze_id", "input_freeze_hash", "checks", "required_check_count", "passed_check_count", "failed_check_ids", "unknowns", "all_required_pass", "eligibility", "preconditions_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"const": "PHASE-002D-R2A-AUTHORIZATION-PRECONDITIONS-001"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "input_freeze_id": {"const": "PHASE-002D-R2A-INPUT-FREEZE-001"},
+    "input_freeze_hash": {"$ref": "#/$defs/hash"},
+    "checks": {
+      "type": "array",
+      "minItems": 27,
+      "maxItems": 27,
+      "items": {
+        "type": "object",
+        "required": ["check_id", "status", "required", "observed", "evidence_refs"],
+        "properties": {
+          "check_id": {"type": "string", "pattern": "^R2A-PRE-[0-9]{2}$"},
+          "status": {"enum": ["PASS", "FAIL", "UNKNOWN"]},
+          "required": {"const": true},
+          "observed": {"type": "string", "minLength": 1},
+          "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true}
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_check_count": {"const": 27},
+    "passed_check_count": {"type": "integer", "minimum": 0, "maximum": 27},
+    "failed_check_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "unknowns": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "all_required_pass": {"type": "boolean"},
+    "eligibility": {"enum": ["ELIGIBLE_FOR_BOUNDED_CANDIDATE", "RETEST_REQUIRED", "STALE"]},
+    "preconditions_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}
