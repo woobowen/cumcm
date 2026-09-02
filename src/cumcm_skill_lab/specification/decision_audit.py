@@ -37,6 +37,7 @@ AUDIT_PATH = RESULT_ROOT / "decision_audit/audit.json"
 RAW_AUDIT_PATH = RESULT_ROOT / "subagent_outputs/decision_auditor.json"
 BUNDLE_ID = "PHASE-002D-R2-NATIVE-DECISION-AUDITOR"
 AUDIT_ID = "DECISION-AUDIT-PHASE-002D-R2"
+POST_AUDIT_MUTABLE_PATHS = {"state/project_state.json"}
 AUDITOR_CHECKS = (
     "historical_input_integrity",
     "decision_set_complete",
@@ -274,6 +275,32 @@ def check_or_write_auditor_bundle(root: Path, *, check: bool) -> dict[str, Any]:
     }
 
 
+def validate_bundle_snapshot(root: Path, bundle: dict[str, Any]) -> list[str]:
+    """Validate the frozen audit bundle while permitting its formal-state output to advance."""
+    errors: list[str] = []
+    body = dict(bundle)
+    bundle_hash = body.pop("bundle_hash", None)
+    if sha256_json(body) != bundle_hash:
+        errors.append("PHASE002D_R2_AUDITOR_BUNDLE_HASH_MISMATCH")
+    source_hashes = bundle.get("source_hashes", {})
+    if sha256_json(source_hashes) != bundle.get("evidence_hash"):
+        errors.append("PHASE002D_R2_AUDITOR_EVIDENCE_HASH_MISMATCH")
+    input_body = {
+        "source_hashes": source_hashes,
+        "required_checks": bundle.get("required_checks"),
+        "decision_ids": bundle.get("decision_ids"),
+    }
+    if sha256_json(input_body) != bundle.get("input_bundle_hash"):
+        errors.append("PHASE002D_R2_AUDITOR_INPUT_BUNDLE_HASH_MISMATCH")
+    for relative, expected in source_hashes.items():
+        if relative in POST_AUDIT_MUTABLE_PATHS:
+            continue
+        path = root / relative
+        if not path.is_file() or file_sha256(path) != expected:
+            errors.append(f"PHASE002D_R2_AUDITOR_SOURCE_DRIFT:{relative}")
+    return errors
+
+
 def _seal_raw_audit(root: Path) -> dict[str, Any]:
     raw = deepcopy(read_json(root / RAW_AUDIT_PATH))
     body = dict(raw)
@@ -289,7 +316,8 @@ def validate_audit(root: Path, audit: dict[str, Any]) -> list[str]:
             read_json(root / "contracts/decision_audit.schema.json")
         ).iter_errors(audit)
     ]
-    bundle = build_auditor_bundle(root)
+    bundle = read_json(root / BUNDLE_PATH)
+    errors.extend(validate_bundle_snapshot(root, bundle))
     for field in (
         "bundle_id",
         "bundle_hash",
@@ -321,7 +349,14 @@ def validate_audit(root: Path, audit: dict[str, Any]) -> list[str]:
 
 
 def check_or_write_decision_audit(root: Path, *, check: bool) -> dict[str, Any]:
-    bundle_errors = check_or_write(root / BUNDLE_PATH, build_auditor_bundle(root), check=check)
+    if not (root / BUNDLE_PATH).is_file():
+        return {
+            "status": "FAIL",
+            "errors": ["PHASE002D_R2_DECISION_AUDITOR_BUNDLE_MISSING"],
+            "audit_id": None,
+            "result": None,
+        }
+    bundle_errors = validate_bundle_snapshot(root, read_json(root / BUNDLE_PATH))
     if not (root / RAW_AUDIT_PATH).is_file():
         return {
             "status": "FAIL",
@@ -351,5 +386,6 @@ __all__ = [
     "check_or_write_auditor_bundle",
     "check_or_write_decision_audit",
     "evaluate_audit_checks",
+    "validate_bundle_snapshot",
     "validate_audit",
 ]

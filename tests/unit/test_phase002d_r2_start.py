@@ -14,6 +14,14 @@ def _json(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _in_progress_state(repo_root):
+    state = _json(repo_root / "state/project_state.json")
+    state["technical_adjudication_status"] = "SPECIFICATION_PROTOCOL_IN_PROGRESS"
+    state["architecture_candidate_set"] = []
+    state["next_phase_allowed"] = None
+    return state
+
+
 def test_r2_input_freeze_verifies_all_historical_inputs(repo_root):
     manifest = _json(repo_root / "evals/results/phase-002d-r2/input_freeze_manifest.json")
     assert verify_input_freeze(repo_root, manifest) == []
@@ -44,11 +52,18 @@ def test_r2_state_is_schema_valid_and_keeps_boundary(repo_root):
     schema = _json(repo_root / "contracts/project_state.schema.json")
     state = _json(repo_root / "state/project_state.json")
     Draft202012Validator(schema).validate(state)
-    assert state["technical_adjudication_status"] == "SPECIFICATION_PROTOCOL_IN_PROGRESS"
+    assert state["technical_adjudication_status"] == "SPECIFICATION_PROTOCOL_COMPLETE"
     assert state["accepted_component_specifications"] == list(COMPONENT_IDS)
-    assert state["architecture_candidate_set"] == []
+    assert len(state["architecture_candidate_set"]) == 3
     assert state["selected_architecture"] is None
-    assert state["next_phase_allowed"] is None
+    assert state["next_phase_allowed"] == (
+        "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL"
+    )
+
+
+def test_r2_in_progress_shape_remains_schema_valid(repo_root):
+    schema = _json(repo_root / "contracts/project_state.schema.json")
+    Draft202012Validator(schema).validate(_in_progress_state(repo_root))
 
 
 @pytest.mark.parametrize(
@@ -63,7 +78,7 @@ def test_r2_state_is_schema_valid_and_keeps_boundary(repo_root):
 )
 def test_r2_in_progress_state_rejects_premature_advancement(repo_root, field, value):
     schema = _json(repo_root / "contracts/project_state.schema.json")
-    state = _json(repo_root / "state/project_state.json")
+    state = _in_progress_state(repo_root)
     state[field] = value
     with pytest.raises(ValidationError):
         Draft202012Validator(schema).validate(state)
@@ -74,7 +89,7 @@ def test_r2_transition_from_completed_r1_is_registered(repo_root):
     rules = yaml.safe_load(
         (repo_root / "rules/phase002d_r2_workflow_rules.yaml").read_text(encoding="utf-8")
     )
-    candidate = _json(repo_root / "state/project_state.json")
+    candidate = _in_progress_state(repo_root)
     source = copy.deepcopy(candidate)
     source["subphase"] = "PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION"
     source["current_plan"] = "plans/completed/PLAN-0002D-R1-failure-aware-outcomes.md"

@@ -8,9 +8,9 @@ from cumcm_skill_lab.specification.decision_audit import (
     AUDITOR_CHECKS,
     BUNDLE_PATH,
     RAW_AUDIT_PATH,
-    build_auditor_bundle,
     evaluate_audit_checks,
     validate_audit,
+    validate_bundle_snapshot,
 )
 
 
@@ -20,7 +20,7 @@ def test_deterministic_decision_audit_check_passes(repo_root, check_name):
 
 
 def test_auditor_bundle_is_hash_bound_and_current(repo_root):
-    assert read_json(repo_root / BUNDLE_PATH) == build_auditor_bundle(repo_root)
+    assert validate_bundle_snapshot(repo_root, read_json(repo_root / BUNDLE_PATH)) == []
 
 
 def test_formal_audit_passes_contract_and_bindings(repo_root):

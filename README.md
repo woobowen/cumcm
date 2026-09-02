@@ -17,8 +17,12 @@ audits/decisions/replay. Quality remains `EVIDENCE_INSUFFICIENT` at two oracle-p
 cases and depth one; observed reliability is descriptive-only, four mechanisms are accepted only as
 specifications, and only a redesigned Phase 002D continuation is allowed. No architecture/base is
 selected, no component is implemented, no third-party code is integrated, and Phase 003 is blocked.
-Phase 002D-R2 is now freezing clean-room component/interaction specifications and a prospective
-Benchmark, threshold and shadow-prototype protocol; no prototype or real experiment is run here.
+Phase 002D-R2 has frozen four clean-room component specifications, their single-truth interaction
+contract, three unselected architecture candidates, a prospective sealed Benchmark, 32 metrics and
+thresholds, and a later-phase experiment/ablation protocol. All 29 serious adversarial findings have
+passing deterministic evidence; the independent Decision Auditor and five-variant offline replay
+pass. Shadow authorization remains `RETEST_REQUIRED` on the R2 route. No prototype, model/API
+experiment, component implementation, architecture selection or Phase 003 transition occurred.
 
 Start with `AGENTS.md`, then read `GOALS.md`, `WORKFLOW.md`, the active plan, and `state/project_state.json`. Run `bash scripts/bootstrap_dev_env.sh` and `bash scripts/ci.sh` for local validation.
 

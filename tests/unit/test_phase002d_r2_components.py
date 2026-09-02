@@ -25,6 +25,14 @@ def _spec(repo_root, component_id):
     )
 
 
+def _interaction(repo_root):
+    return yaml.safe_load(
+        (repo_root / "specifications/interactions/component_interaction_contract.yaml").read_text(
+            encoding="utf-8"
+        )
+    )
+
+
 def test_all_component_author_bundles_are_frozen_and_valid(repo_root):
     assert validate_component_author_bundles(repo_root) == []
 
@@ -76,7 +84,13 @@ def test_each_component_spec_has_clean_room_scope_and_single_state_boundary(
     assert spec["accepted_scope"] == "SPECIFICATION_ONLY"
     assert spec["status"] == "SPECIFICATION_FROZEN"
     assert spec["clean_room_provenance"]["allowed_reuse_mode"] == "REFERENCE_ABSTRACT_MECHANISM"
-    assert "state/project_state.json" in spec["state_read_set"]
+    interaction = _interaction(repo_root)
+    interface = next(
+        item for item in interaction["component_interfaces"] if item["component_id"] == component_id
+    )
+    assert interaction["state_truth"] == "state/project_state.json"
+    assert interface["state_access"].startswith("READ_ONLY")
+    assert interface["direct_state_advance"] is False
     assert all("benchmark-vault" not in value for value in spec["state_read_set"])
 
 

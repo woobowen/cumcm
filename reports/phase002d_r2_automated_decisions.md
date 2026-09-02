@@ -1,7 +1,5 @@
 <!-- GENERATED FILE — DO NOT EDIT -->
-# Automated adjudication dossier
-
-## Current Phase 002D-R2 decision set
+# Phase 002D-R2 automated decisions
 
 | Decision | Result | Phase scope | Next route | Hash |
 | --- | --- | --- | --- | --- |
@@ -12,8 +10,8 @@
 | DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 | RETEST_REQUIRED | NONE | PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL | 795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d |
 | DECISION-THRESHOLD-POLICY-FREEZE-002D-R2 | AUTOMATED_ACCEPTED | POLICY_FROZEN | NONE | bd7c9c750ea8c80bd89c0da5065d2cd9ca81319247770d6bda74c7ef5778c3d2 |
 
-Decision Audit is `PASS` and offline replay is `True`. The current
-technical state is `SPECIFICATION_PROTOCOL_COMPLETE`. Architecture remains null, the
-formal Skill remains scaffold-only, and shadow authorization is RETEST_REQUIRED. Historical Phase
-002A–002D-R1 machine records remain immutable under their versioned result directories and are not
-superseded by a positive performance claim.
+The frozen native automated-decision core is reused; the envelope records the exact R2 phase scope
+without creating a competing decision contract. The first five decisions accept only frozen
+specification/protocol artifacts. Shadow authorization is `RETEST_REQUIRED` with accepted
+scope `None` and route `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL` because its M7
+snapshot correctly predates the M8 Auditor and replay. Architecture remains unselected.

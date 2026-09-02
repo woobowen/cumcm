@@ -11,15 +11,15 @@
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `SPECIFICATION_PROTOCOL_IN_PROGRESS`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1`
+- Technical adjudication: `SPECIFICATION_PROTOCOL_COMPLETE`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
 - Selected architecture: `None`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `None`
-- Content-verified commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
-- Delivery receipt commit: `62dc0b443782e93a246ab510c383cc2a13071e2f`
+- Next phase allowed: `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL`
+- Content-verified commit: `750323410895a838c039d6b41a84edadc970dcdc`
+- Delivery receipt commit: `750323410895a838c039d6b41a84edadc970dcdc`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-02T13:13:11+08:00` by `main-agent`
+- Updated: `2026-09-02T22:00:00+08:00` by `main-agent`
 
 ## Blockers
 
@@ -44,3 +44,5 @@
 - Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown.
 - Phase 002D-R2 specifications and prospective thresholds are not implementation or positive performance evidence.
 - The hidden Benchmark vault is policy/workspace isolated and not OS-enforced.
+- Shadow prototype authorization is RETEST_REQUIRED; no R3 prototype work is authorized.
+- Clean-room provenance is evidence of process controls, not proof of legal compliance.

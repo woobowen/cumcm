@@ -6,6 +6,16 @@
   architecture, one scaffold-only formal Skill, false base selection/integration and Phase 003 lock.
 - Added an immutable R2 input-freeze design, implementation embargo and prospective clean-room
   specification/protocol plan; no component or shadow prototype is implemented or executed.
+- Froze four project-authored component contracts, their single-truth interaction model, three
+  unselected architecture candidates, a 16-public/36-sealed/8-future-case Benchmark, 32 metrics,
+  32 thresholds and a bounded prospective experiment/ablation protocol.
+- Preserved five independent adversarial audits and closed all 29 serious findings with explicit
+  deterministic tests and evidence; superseded a leakage-prone sealed cohort without reading its
+  private values and re-authored component drafts with role-disjoint clean-room authors.
+- Recorded five bounded specification/protocol acceptances, a correctly pre-audit
+  `RETEST_REQUIRED` shadow decision, an independent 29-check Decision Auditor PASS and stable
+  five-variant offline replay. Architecture/base remain unset, the Skill remains scaffold-only,
+  and no prototype, model/API call, training, third-party execution or Phase 003 transition ran.
 
 ## 0.2.5-failure-aware-adjudication — 2026-09-02
 

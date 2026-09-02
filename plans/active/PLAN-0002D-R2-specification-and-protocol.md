@@ -266,8 +266,18 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   64-zero checkpoint placeholder; formal checkpoint hash is
   `3d9c300152d8ba18564e3ac77772a5aa2d984b2db1344b958d47d9883c6db658`. The focused audit/replay
   suite passes `42` tests.
-- Current milestone: M8 validation and delivery. The next legal work is M9 formal state, generated
-  reports, version/docs, full offline CI and remote Draft-PR verification.
+- `2026-09-02`: M8 commit `7503234` was pushed and verified at the same remote SHA. M9 migrated the
+  formal state to `SPECIFICATION_PROTOCOL_COMPLETE` without selecting an architecture/base or
+  changing the scaffold-only Skill. It appended DEC-0040/0041, PHASE-002D-R2-M9, RISK-0025/0026
+  and REVIEW-0016, and generated all 14 required reports at manifest hash
+  `40015a148050077fd77fd832757cd9c047dec7fc17bbca7ece22524ba2dd4a2a`.
+- M9 state, reporting and post-audit-mutability checks pass `60` focused tests. The accepted-scope
+  boundaries, 29/29 serious-finding closure, immutable Decision Auditor result and five stable
+  replay variants remain intact; model, API, prototype, third-party and private-value reads remain
+  zero.
+- Current milestone: M9 final offline validation and remote Draft-PR verification. The next legal
+  route remains a newly frozen R2 design because shadow authorization is `RETEST_REQUIRED`; no
+  Phase 003 or implementation work is authorized.
 
 ## 22. Update rule
 
