@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/shadow-prototype-authorization/v1",
+  "title": "Phase 002D-R2 Shadow Prototype Authorization",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "authorization_id", "decision", "accepted_scope", "architecture_ids", "prerequisites", "next_phase_allowed", "phase003_prohibited", "formal_skill_modification_allowed", "prototype_execution_in_r2", "authorization_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authorization_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2"},
+    "decision": {"enum": ["AUTOMATED_ACCEPTED", "RETEST_REQUIRED", "EVIDENCE_INSUFFICIENT", "AUTOMATED_REJECTED", "STALE"]},
+    "accepted_scope": {"type": ["string", "null"], "enum": ["EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY", null]},
+    "architecture_ids": {"type": "array", "minItems": 2, "maxItems": 3, "items": {"type": "string"}, "uniqueItems": true},
+    "prerequisites": {
+      "type": "object",
+      "required": ["component_specs", "interaction", "candidate_set", "benchmark", "thresholds", "embargo", "provenance", "blocker_tests", "decision_auditor", "replay"],
+      "properties": {
+        "component_specs": {"type": "boolean"},
+        "interaction": {"type": "boolean"},
+        "candidate_set": {"type": "boolean"},
+        "benchmark": {"type": "boolean"},
+        "thresholds": {"type": "boolean"},
+        "embargo": {"type": "boolean"},
+        "provenance": {"type": "boolean"},
+        "blocker_tests": {"type": "boolean"},
+        "decision_auditor": {"type": "boolean"},
+        "replay": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "next_phase_allowed": {"type": ["string", "null"], "enum": ["PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION", "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL", null]},
+    "phase003_prohibited": {"const": true},
+    "formal_skill_modification_allowed": {"const": false},
+    "prototype_execution_in_r2": {"const": false},
+    "authorization_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "AUTOMATED_ACCEPTED"}}},
+      "then": {
+        "properties": {
+          "accepted_scope": {"const": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"},
+          "prerequisites": {
+            "properties": {
+              "component_specs": {"const": true},
+              "interaction": {"const": true},
+              "candidate_set": {"const": true},
+              "benchmark": {"const": true},
+              "thresholds": {"const": true},
+              "embargo": {"const": true},
+              "provenance": {"const": true},
+              "blocker_tests": {"const": true},
+              "decision_auditor": {"const": true},
+              "replay": {"const": true}
+            }
+          },
+          "next_phase_allowed": {"const": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"}
+        }
+      },
+      "else": {
+        "properties": {
+          "accepted_scope": {"const": null},
+          "next_phase_allowed": {
+            "enum": ["PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL", null]
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

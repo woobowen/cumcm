@@ -242,8 +242,20 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   produced passing source-completeness, role-chain, access-ledger, contamination-warning and
   implementation-embargo evidence. No upstream source tree, candidate implementation or prototype
   was read or executed.
-- Current milestone: M6 validation and delivery. The next legal work is M7 deterministic automatic
-  decisions; no shadow prototype may be created or run in this phase.
+- `2026-09-02`: M6 commit `591701e` was pushed and verified at the same remote SHA. M7 generated six
+  hash-bound decisions using the frozen native `automated_decision.schema.json` core plus an
+  explicit phase-scope envelope; no competing automated-decision contract was introduced. The
+  component, interaction, candidate-set, Benchmark and threshold decisions are
+  `AUTOMATED_ACCEPTED` at exactly `SPECIFICATION_FROZEN`, `SPECIFICATION_FROZEN`,
+  `CANDIDATE_SET_FROZEN`, `BENCHMARK_FROZEN` and `POLICY_FROZEN`. Architecture remains unselected.
+- The M7 shadow authorization snapshot is correctly `RETEST_REQUIRED` with `accepted_scope=null`
+  and the R2 route because the independent Decision Auditor and offline replay occur only after the
+  complete decision set is frozen. It rejects formal-Skill implementation, integration,
+  production, direct reuse and Phase 003; the phase may still complete without shadow
+  authorization. The six-decision validator passes and the focused adjudication suite passes
+  `13` tests.
+- Current milestone: M7 validation and delivery. The next legal work is M8 independent Decision
+  Audit and offline replay over the immutable six-decision snapshot.
 
 ## 22. Update rule
 
