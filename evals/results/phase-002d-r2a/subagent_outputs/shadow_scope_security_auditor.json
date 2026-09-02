@@ -1,0 +1,226 @@
+{
+  "api_calls": 0,
+  "api_key_used": false,
+  "audit_id": "R2A-AUDIT-SHADOW-SCOPE-SECURITY-001",
+  "blockers": [
+    "R2A-SEC-001",
+    "R2A-SEC-002",
+    "R2A-SEC-003",
+    "R2A-SEC-004",
+    "R2A-SEC-005",
+    "R2A-SEC-006"
+  ],
+  "bundle_hash": "7ad245973333a86be5eb94cf6a1bd08107732dec6664174df157d1d16dd72b56",
+  "bundle_id": "PHASE-002D-R2A-SHADOW-SCOPE-SECURITY-AUDITOR-001",
+  "cost_assessment": null,
+  "created_at": "2026-09-03T03:00:00+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": "在 seal 后弱化 access_policy.yaml 的 deny_prefixes 或扩大 candidate_visible_manifest.json 的 exposed_fields；如果 replay 仍只验证 sealed manifest 文件本身及 commitment，它可以继续报告 stable=true，而候选 Prompt 边界已漂移。当前两个可见文件已经给出这种漂移的可复现实例。",
+      "evidence_refs": [
+        "PHASE-002D-R2-SEALED-BENCHMARK-001",
+        "PHASE-002D-R2A-INPUT-FREEZE-001",
+        "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001",
+        "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2"
+      ],
+      "file_references": [
+        "evals/prospective/phase-002d-r2/sealed_manifest.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/manifests/candidate_visible_manifest.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/replay/replay.json"
+      ],
+      "finding_id": "R2A-SEC-001",
+      "pass_condition": "所有当前公开边界文件的重算哈希与 sealed manifest 逐项相等；任何缺失、算法未定义或不相等均产生 deterministic rejection，且 replay projection 不得为 stable=true。",
+      "required_test": "R2A-SEC-MANIFEST-BINDING-001：从冻结 subject commit 重算 sealed_manifest.json.public_artifact_hashes 中每个文件的规定字节级 SHA-256，至少显式覆盖 access_policy.yaml 与 manifests/candidate_visible_manifest.json；把逐项匹配作为 authorization 与 replay 的 fail-closed hard gate。",
+      "severity": "BLOCKER",
+      "statement": "冻结清单未与当前 candidate-visible 安全边界一致绑定。sealed_manifest.json 记录 access_policy.yaml 的 public_artifact_hash 为 cbf4e4c281f327b55592e0a9b2aaaa7564ad244cfb8757fc0b26b4bb25ad1562，但 bundle 与 PHASE-002D-R2A-INPUT-FREEZE-001 共同确认当前文件 SHA-256 为 58f56a10ec4e4b46a4122f26c4fbb72e11fbcfd0c80e5d8024693c4e297db3d7；candidate_visible_manifest.json 同样由 sealed manifest 记录为 d6533317fe1630a5621fd06fe6676de77f5bbf59b4b86a9bd0efa1e3f682f91d，而当前 SHA-256 为 953920ad3da40205975a35389a81857cd58c41ac7c0262a4819d877bf7454cc7。PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 的 seed_manifest checks 只证明 sealed manifest 自身稳定，没有证明这些公开边界文件与其记录匹配。",
+      "status": "OPEN",
+      "target": "PHASE-002D-R2-SEALED-BENCHMARK-001 public-artifact binding",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "在允许的 experiments/shadow_prototypes/common/ 中运行原型，通过绝对路径、../ traversal、符号链接或继承的文件描述符读取放置在 synthetic benchmark-vault/ 中的 sentinel，再把 sentinel 拼入模型 Prompt；字符串 deny_prefixes 对这些解析方式不构成 OS 拒绝。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "PHASE-002D-R2-SEALED-BENCHMARK-001",
+        "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2"
+      ],
+      "file_references": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "finding_id": "R2A-SEC-002",
+      "pass_condition": "所有读取在 OS/capability 层于内容返回前被拒绝；Prompt、stdout、stderr、结果文件和 ledger 中均不存在 sentinel；完整 ledger 记录每次拒绝；该测试 PASS 必须成为 future execution 的不可绕过前置节点。",
+      "required_test": "R2A-SEC-VAULT-CAPABILITY-001：在拟用于 R3 的完全相同 runtime 中放置 synthetic hidden sentinel，执行恶意原型，依次尝试相对路径、绝对路径、../、symlink、继承 FD、子进程和环境变量读取，并捕获最终 Prompt 与 access ledger。",
+      "severity": "BLOCKER",
+      "statement": "hidden vault 隔离目前明确是 POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED，os_enforced_verified=false；access policy 也要求 future execution 前建立 OS enforcement。PHASE-002D-R2A-AUTHORIZATION-DAG-001 却没有 OS-isolation verification 节点或通往 future prototype execution 的硬前置边，因而规范本身不能证明 hidden seed、hidden oracle 或其值不会被原型读取并进入 Prompt。",
+      "status": "OPEN",
+      "target": "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001 vault isolation",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "在 experiments/shadow_prototypes/common/ 创建指向 ../../../state/project_state.json 的 symlink，或为该状态文件创建同文件系统 hardlink，再经允许路径写入；同理可将链接指向正式 Skill 文件。词法 allowed-prefix 检查仍看到允许路径，但目标 inode 属于禁止树。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2-IMPLEMENTATION-EMBARGO-001",
+        "ARCH-PUB-MAIN-AGENT-WRITE",
+        "ARCH-PUB-ROLE-ISOLATION"
+      ],
+      "file_references": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "state/project_state.json"
+      ],
+      "finding_id": "R2A-SEC-003",
+      "pass_condition": "每种攻击都在 open/write 前 deterministic fail closed；禁止树 inode 不可由原型命名空间引用；正式 Skill 树与 state 文件哈希完全不变，且只有 MAIN_AGENT 专用写通道能够更新正式 state。",
+      "required_test": "R2A-SEC-PATH-CONFINEMENT-001：在隔离 fixture repo 中对正式 state 与正式 Skill 运行 direct、absolute、../、symlink、hardlink、rename-swap 和 check/use TOCTOU 写入攻击；执行前后重算 PHASE-002D-R2-IMPLEMENTATION-EMBARGO-001 所保护树及 state 文件哈希。",
+      "severity": "BLOCKER",
+      "statement": "formal_state_write_allowed=false、formal_skill_auto_discovery=false 以及 prohibited_paths 当前只是声明。allowed_paths/prohibited_paths 均是词法前缀，bundle 中没有 canonical-path、no-follow、inode、hardlink 或 TOCTOU 防护证据；因此不能证明允许树中的原型无法污染 .agents/skills/cumcm-modeling-evidence/ 或写入 state/project_state.json。",
+      "status": "OPEN",
+      "target": "formal Skill and formal state path confinement",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "把带 sentinel side effect 的伪第三方模块复制到 experiments/shadow_prototypes/common/，或将其安装在 fixture site-packages/PATH；原型 import 该模块或通过 subprocess 执行二进制。当前 scope schema 仍然验证通过，因为它只检查布尔声明。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2-IMPLEMENTATION-EMBARGO-001",
+        "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+      ],
+      "file_references": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        ".gitignore"
+      ],
+      "finding_id": "R2A-SEC-004",
+      "pass_condition": "所有非冻结 project-owned allowlist 项在加载或执行前被拒绝；网络获取不可用；provenance 清单闭合且无第三方项；license_block_released 保持 false，任一未知来源导致 deterministic rejection。",
+      "required_test": "R2A-SEC-THIRD-PARTY-DENY-001：在拟定 runtime 的 vendored source、site-packages 与 PATH 中分别注入标记为 THIRD_PARTY_UNKNOWN_LICENSE 的模块/二进制，并测试 import、dynamic import、plugin discovery、subprocess 和网络获取；同时生成实际加载模块及执行文件的 provenance 清单。",
+      "severity": "BLOCKER",
+      "statement": "runtime_isolation 将 third_party_code_allowed、third_party_execution_allowed 和 license_block_released 均设为 false，但 bundle 未提供 project-owned dependency allowlist、isolated interpreter、import hook、subprocess policy、network denial或制品 provenance gate。声明不能阻止从允许树 vendor 未授权代码、导入现有 .venv/site-packages，或执行 PATH 中的第三方二进制。",
+      "status": "OPEN",
+      "target": "third-party code and execution boundary",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "正常 Skill workflow 运行 python experiments/shadow_prototypes/arch_k1/entrypoint.py，或把仓库根加入 import path 后导入原型模块；如果入口产生 side effect，当前两个布尔声明不会阻止调用。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "ARCH-PUB-SINGLE-TRUTH",
+        "ARCH-PUB-ROLE-ISOLATION"
+      ],
+      "file_references": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "finding_id": "R2A-SEC-005",
+      "pass_condition": "所有生产调用面在模块加载前拒绝 shadow target，sentinel 不产生；正式 Skill 与生产配置中不存在 shadow 路径或注册项；只有显式 shadow-only runner capability 能调用，且该 capability 不对正常 workflow 暴露。",
+      "required_test": "R2A-SEC-CALLER-ISOLATION-001：创建带 side-effect sentinel 的 shadow entrypoint，从正式 Skill discovery、正常 workflow registry、Python import、CLI dispatch 与 subprocess 五种调用面尝试激活，并对正式 Skill/生产配置做冻结引用扫描。",
+      "severity": "BLOCKER",
+      "statement": "formal_skill_auto_discovery=false 与 production_workflow_callable=false 没有对应的注册表、import、CLI、subprocess 或 workflow-caller 强制测试。原型位于仓库内可命名路径，目录隔离本身不能阻止正式 Skill 或正常生产 workflow 直接执行该路径。",
+      "status": "OPEN",
+      "target": "normal Skill and production workflow non-callability",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "原型在 evals/results/phase-002d-r3/automated_decisions/authorization.json 写入自报 PASS 的结构化记录，或放置会被 glob-based consumer 收集的 audit/replay 文件；仅按 allowed path 判定时写入合法，但可能被后续 R3 消费者误认为正式证据。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "L7-FORMAL-STATE-TRANSITION",
+        "FORMAL_EVIDENCE_PACKAGE_ALLOWED_FALSE"
+      ],
+      "file_references": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "finding_id": "R2A-SEC-006",
+      "pass_condition": "写权限收窄到按 Run ID 和 schema 定义的不可执行 prototype-output 文件；所有决策、审计、状态、Skill、链接和未声明文件均被拒绝；正式结果发现器对任何 shadow-origin artifact fail closed。",
+      "required_test": "R2A-SEC-RESULT-SCOPE-001：对 R3 输出策略执行 allowlist mutation suite，尝试创建 automated_decisions、decision_audit、replay、state、Skill metadata、可执行文件、软链接及任意未声明扩展名；再运行所有正式结果发现器验证其拒绝 shadow-origin marker。",
+      "severity": "BLOCKER",
+      "statement": "允许写入整个 evals/results/phase-002d-r3/，没有限定到 content-addressed prototype outputs，也没有禁止在该树内创建 automated_decisions、decision_audit、state、Skill loader 或可执行文件。与此同时 state_isolation.formal_evidence_package_allowed=false；宽目录授权可使 shadow 输出伪装成下游 machine-truth 或正式决策制品。",
+      "status": "OPEN",
+      "target": "experimental output scope",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "在非 main 任务分支提交包含唯一 sentinel 的 shadow 文件并推送，随后按 DELETE_ISOLATED_SHADOW_TREES 删除两棵树并再次提交；git rev-list --objects --all 或远端旧 SHA 仍可取回 sentinel。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "DELETE_ISOLATED_SHADOW_TREES",
+        "refs/heads/main"
+      ],
+      "file_references": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        ".gitignore",
+        "state/project_state.json"
+      ],
+      "finding_id": "R2A-SEC-007",
+      "pass_condition": "规范必须选择并验证一种可实现策略：shadow trees 始终处于不可提交且不可推送的 disposable workspace，或有与历史不可变规则兼容的隔离仓库/生命周期；rollback 后所有授权可达 refs 与导出物均不包含 sentinel，且正式 state/Skill 无需修复。",
+      "required_test": "R2A-SEC-ROLLBACK-001：在 disposable fixture repo 与临时 bare remote 中提交并推送 shadow sentinel，执行规定 rollback，然后检查所有 refs、对象可达性、archives、工作树和正式 state/Skill 哈希。",
+      "severity": "ERROR",
+      "statement": "rollback 只删除两个工作树根，但 .gitignore 未忽略 experiments/shadow_prototypes/ 或 evals/results/phase-002d-r3/，prohibited_git_refs 仅禁止 main。原型及结果因此可以提交到其他分支；删除工作树不会从 Git 历史或远端对象中完整移除，而 historical_artifact_mutation_allowed=false 又排除了通过历史改写清除。当前规范不能满足完整删除回滚。",
+      "status": "OPEN",
+      "target": "DELETE_ISOLATED_SHADOW_TREES rollback",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001",
+        "PROJECT_LICENSE_UNDECIDED",
+        "YUSHUI_UNKNOWN_NO_LICENSE"
+      ],
+      "file_references": [
+        "specifications/shadow_prototype_scope.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "state/project_state.json"
+      ],
+      "finding_id": "R2A-SEC-008",
+      "pass_condition": "任一字段被放宽或候选被选择时 deterministic rejection；在未新增独立法律证据前不得改变 license block。",
+      "required_test": "R2A-SEC-LICENSE-DECLARATION-001：schema 与 authorization replay 必须断言 license_block_released=false、selected_architecture=null 及全部 prohibited_scopes 保持存在。",
+      "severity": "INFO",
+      "statement": "在声明层面，scope 正确保留 license_block_released=false、selected_architecture=null，并明确禁止 DIRECT_REUSE、ARCHITECTURE_SELECTED、FORMAL_INTEGRATION 与 PHASE_003_INTEGRATION；state 仍记录 PROJECT_LICENSE_UNDECIDED 与 YUSHUI UNKNOWN_NO_LICENSE。未发现规范文本直接解除许可证或架构限制，但实际强制性仍受 R2A-SEC-004、R2A-SEC-005 和 R2A-SEC-006 约束。",
+      "status": "RESOLVED",
+      "target": "license and architecture declarations",
+      "testability": "TESTABLE"
+    }
+  ],
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "nested_codex_used": false,
+  "output_hash": "9e565dbb319b11705614fbd1772b4a39e18dcda321fbabfddc090507373c671d",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "shadow_scope_security_auditor",
+  "round": "FIRST_ROUND",
+  "uncertainties": [
+    "bundle 未包含未来 R3 runtime、path guard、import guard、正式结果发现器或 rollback 实现，因此无法证明这些机制在 bundle 外不存在；但当前授权证据未绑定它们，也不能据此通过安全门。",
+    "allowed files 未定义 sealed_manifest.json.public_artifact_hashes 的替代 canonicalization 算法；按字段名与同 bundle 中明确使用的 file_sha256 语义审计时，两项可复算文件均不匹配，必须由 deterministic binding test 消除该不确定性。",
+    "未读取 benchmark-vault、hidden oracle、hidden seed 或任何原始隐藏值。",
+    "未读取正式 Skill 内容；non-callability 结论仅针对当前授权 bundle 缺少强制证据，而不是声称已观察到正式 Skill 实际调用 shadow prototype。"
+  ],
+  "verdict": "FAIL",
+  "web_used": false,
+  "writes_observed": false
+}

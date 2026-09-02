@@ -148,3 +148,8 @@ handoff must state zero API, batch-model, prototype and third-party executions.
   state, contracts, vault, historical evidence, upstream caches and `main` are denied. Deletion-only
   rollback, private state, no discovery/production callability and zero implementation/execution are
   enforced. Scope-focused tests passed `30`; contracts and strict validation passed.
+- `2026-09-03`: M3 preserved three peer-invisible native read-only audit transports and derived
+  canonical hash-bound records. The roles returned `FAIL`, `FAIL`, and `RETEST_REQUIRED`; all 19
+  findings remain individually visible, including 15 `BLOCKER`/`ERROR` findings with mandatory
+  deterministic tests. No peer output, expected conclusion, vote, web, MCP, API, nested Codex, or
+  write capability was available. Audit-bundle/output tests passed `19`; contracts passed.

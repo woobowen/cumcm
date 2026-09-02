@@ -1,0 +1,177 @@
+{
+  "audit_id": "R2A-AUDIT-AUTHORIZATION-DEPENDENCY-001",
+  "role": "authorization_dependency_prosecutor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "bundle_id": "PHASE-002D-R2A-AUTHORIZATION-DEPENDENCY-PROSECUTOR-001",
+  "bundle_hash": "f70bff266557c42270e30c9f418e018b2b282a1a7babcb218b430a7ffdc01a70",
+  "verdict": "FAIL",
+  "findings": [
+    {
+      "finding_id": "R2A-AUTHDEP-001",
+      "severity": "BLOCKER",
+      "target": "旧 R2 M7/M8 时序与新授权 DAG",
+      "statement": "PHASE-002D-R2A-AUTHORIZATION-DAG-001 声明 L2-R2-DECISION-AUDIT -> L3-R2-REPLAY，但 DECISION-AUDIT-PHASE-002D-R2 的 audit_evidence_refs 包含 R2 replay，并以 offline_replay_stable=true 为审计检查，因此实际依赖是 L3-R2-REPLAY -> L2-R2-DECISION-AUDIT。按该图其他边所采用的“prerequisite source -> dependent target”语义合并声明边和实际证据边，会形成 L2/L3 二节点环；cycle_detected=false 因而不成立。旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 同时把 decision_auditor 和 replay 标记为 pending，不能消除此环。",
+      "counterexample": "从 authorization_dependency_graph.json 取声明边 L2-R2-DECISION-AUDIT -> L3-R2-REPLAY，再从 audit.json 的 audit_evidence_refs 和 checks.offline_replay_stable 推导 L3-R2-REPLAY -> L2-R2-DECISION-AUDIT；Tarjan/Kosaraju 强连通分量计算将返回包含两个节点的非平凡 SCC。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "DECISION-AUDIT-PHASE-002D-R2",
+        "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+        "TEST:R2A-DET-AUTHDEP-M7M8-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "R2A-DET-AUTHDEP-M7M8-001：确定性提取 DAG 声明边及 audit_evidence_refs 所产生的实际 artifact dependency edges，对合并图执行 SCC 和 topological-sort 检查。",
+      "pass_condition": "合并图不存在非平凡 SCC；具体地，不得同时存在 L2-R2-DECISION-AUDIT -> L3-R2-REPLAY 与 L3-R2-REPLAY -> L2-R2-DECISION-AUDIT。应改为 replay 先于依赖 replay 的 prerequisite audit，或拆分为不读取 replay 的 pre-replay audit 与读取 replay 的后置 audit。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "R2A-AUTHDEP-002",
+      "severity": "BLOCKER",
+      "target": "L7-FORMAL-STATE-TRANSITION",
+      "statement": "contracts/project_state.schema.json 允许在没有任何 R2A active authorization decision、L6 final-auditor PASS 或 L7 final-replay 绑定记录时，将当前 state 直接推进到 SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE 并把 next_phase_allowed 设置为 PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION。该 schema 只约束现有 R2 specification_protocol 字段和静态 scope 字段，与 DAG 声明的 L6-R2A-FINAL-AUDITOR、L7-R2A-FINAL-REPLAY 两个前置节点没有交叉绑定。",
+      "counterexample": "以内存副本读取当前 state/project_state.json，仅把 technical_adjudication_status 改为 SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE、next_phase_allowed 改为 PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION，保持 automated_decision_ids 不含任何 R2A 新决定且不提供 final audit/replay；该对象仍满足现有 project_state schema 的相关 allOf 分支。",
+      "evidence_refs": [
+        "L6-R2A-FINAL-AUDITOR",
+        "L7-R2A-FINAL-REPLAY",
+        "L7-FORMAL-STATE-TRANSITION",
+        "TEST:R2A-DET-STATE-GATE-001"
+      ],
+      "file_references": [
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "R2A-DET-STATE-GATE-001：对当前 project_state 构造仅修改 technical_adjudication_status 和 next_phase_allowed 的 bypass fixture，并在不存在新 authorization ID/hash、final-audit PASS ID/hash、final-replay ID/hash 时执行 strict state validation。",
+      "pass_condition": "bypass fixture 必须被拒绝；SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE 和 R3 route 只有在 state 显式绑定同一 R2A input freeze 下的独立新授权决定、final-auditor PASS 及 stable final replay，且三者哈希交叉一致时才能通过。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "R2A-AUTHDEP-003",
+      "severity": "BLOCKER",
+      "target": "R2 与 R2A replay 的同输入绑定",
+      "statement": "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 记录 decision hashes，但没有 input_freeze_id 或 input_freeze_hash；R2A manifest 仅在独立字段中记录 r2_input_freeze_hash 和 replay file/replay hash。PHASE-002D-R2A-AUTHORIZATION-DAG-001 也只有图级 input_freeze_hash，没有 candidate、seal、final audit、final replay 的逐 artifact 输入绑定。因此相同 decision projection 可被声明为针对不同冻结输入的 stable replay，当前 contract 无法证明 replay 与被授权决定使用同一输入。",
+      "counterexample": "构造两个仅 R2 input-freeze hash 不同、decision JSON/hash projection 相同的冻结输入；现有 replay.json 对二者字节级相同且 stable=true，因为 replay artifact 不携带输入冻结哈希。类似地，未来 final replay 可以指向不同输入而不改变 authorization_dependency_graph schema 所验证的任何字段。",
+      "evidence_refs": [
+        "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001",
+        "PHASE-002D-R2A-INPUT-FREEZE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "TEST:R2A-DET-REPLAY-INPUT-BINDING-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "R2A-DET-REPLAY-INPUT-BINDING-001：在内存 fixture 中改变 replay 所属 input_freeze_id/hash，同时保持 decision projection、recorded_decision_hashes 和 stable=true 不变，执行 authorization closure validation。",
+      "pass_condition": "输入冻结不一致的 replay 必须被拒绝；final replay 必须携带并匹配 graph/manifest 的 input_freeze_id/hash、active authorization decision hash 和 final-audit checkpoint hash，并由这些相同输入重新计算得到稳定 projection。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "R2A-AUTHDEP-004",
+      "severity": "BLOCKER",
+      "target": "旧授权决定的不可变 supersession",
+      "statement": "PHASE-002D-R2A-INPUT-FREEZE-001 冻结了旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 的 RETEST_REQUIRED 决定、decision_hash 和 file_sha256，但新 DAG 的 L7-R2A-AUTHORIZATION-SEAL 没有 decision_id、supersedes_decision_id、supersedes_decision_hash 或 immutable predecessor path。project_state schema 只要求 automated_decision_ids 唯一，不能阻止新 seal 复用旧 decision ID、造成双重身份，也不能要求旧 RETEST_REQUIRED artifact 继续保留。",
+      "counterexample": "保留旧文件不变，但创建内容为 AUTOMATED_ACCEPTED 的新 seal 并复用 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2；state 的 automated_decision_ids 无需变化，DAG schema 也没有决策身份字段，因而无法发现同一 ID 对应两个不同决定。若直接覆盖旧路径，现有图和 state schema 同样没有历史不可变性约束。",
+      "evidence_refs": [
+        "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+        "L7-R2A-AUTHORIZATION-SEAL",
+        "TEST:R2A-DET-SUPERSESSION-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json",
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "R2A-DET-SUPERSESSION-001：分别构造新授权复用旧 decision ID、覆盖旧 artifact path、删除旧 ID、supersedes hash 不匹配四种 fixture，执行跨 artifact identity 与 immutability validation。",
+      "pass_condition": "四种 fixture 均被拒绝；新授权必须使用独立且唯一的 decision ID/path，显式绑定 superseded DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 的 decision_hash 与 file_sha256，并验证旧 artifact 字节及旧 state history 未改变。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "R2A-AUTHDEP-005",
+      "severity": "ERROR",
+      "target": "authorization dependency graph contract",
+      "statement": "contracts/authorization_dependency_graph.schema.json 不验证 node ID 唯一性、edge 端点存在性、level 单调性、必需边、可达性、graph_hash 重算或真实无环性；cycle_detected 被固定为 false 只是自报字段。即使不考虑 R2 audit 的隐式反向依赖，该 schema 也会接受显式有环或包含重复/悬空节点的伪造图。",
+      "counterexample": "向现有 edges 追加 L7-FORMAL-STATE-TRANSITION -> L7-R2A-AUTHORIZATION-SEAL，保留 cycle_detected=false 和原 graph_hash。新增边与现有 seal -> final replay -> state transition 形成显式环，但仍满足当前 schema 的字符串 pattern、minItems 和 cycle_detected const。",
+      "evidence_refs": [
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "TEST:R2A-DET-DAG-SEMANTICS-001"
+      ],
+      "file_references": [
+        "contracts/authorization_dependency_graph.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "R2A-DET-DAG-SEMANTICS-001：生成 cycle-edge、duplicate-node、dangling-endpoint、non-monotone-level、missing-required-edge 和 stale-graph-hash 六类 fixture，并运行 schema 加 semantic validator。",
+      "pass_condition": "六类 fixture 全部被拒绝；validator 必须重算 canonical graph_hash，要求节点唯一、端点存在、规定的 artifact 节点和必经边齐全、依赖顺序合法、关键节点可达，并独立计算 cycle_detected=false。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "R2A-AUTHDEP-006",
+      "severity": "INFO",
+      "target": "当前 R2 prerequisite audit 的显式 decision-ID 覆盖",
+      "statement": "就 bundle 中当前 frozen artifacts 而言，DECISION-AUDIT-PHASE-002D-R2 的 decision_ids 确实覆盖 input_freeze_manifest.accepted_prerequisite_decision_hashes 中五个 AUTOMATED_ACCEPTED 决定：DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2、DECISION-INTERACTION-CONTRACT-002D-R2、DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2、DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2、DECISION-THRESHOLD-POLICY-FREEZE-002D-R2。该 PASS 还覆盖旧 RETEST_REQUIRED 授权的真实性，但不能解释为旧授权已被接受或已被 supersede。",
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-AUDIT-PHASE-002D-R2",
+        "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
+        "DECISION-INTERACTION-CONTRACT-002D-R2",
+        "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2",
+        "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2",
+        "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/automated_decisions/component_specification_freeze.json",
+        "evals/results/phase-002d-r2/automated_decisions/interaction_contract.json",
+        "evals/results/phase-002d-r2/automated_decisions/architecture_candidate_set.json",
+        "evals/results/phase-002d-r2/automated_decisions/prospective_benchmark_freeze.json",
+        "evals/results/phase-002d-r2/automated_decisions/threshold_policy_freeze.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "R2A-DET-PREREQUISITE-COVERAGE-001：对 accepted_prerequisite_decision_hashes 的 key set、audit.decision_ids、各 decision file 的 decision_id/hash 和 audit PASS checkpoint 做确定性交叉校验。",
+      "pass_condition": "五个 accepted prerequisite decision ID 必须全部出现且 hash 精确匹配；旧 RETEST_REQUIRED authorization 只能被分类为经审计的历史拒绝/重测决定，不得被计为 accepted prerequisite。",
+      "status": "RESOLVED"
+    }
+  ],
+  "blockers": [
+    "R2A-AUTHDEP-001",
+    "R2A-AUTHDEP-002",
+    "R2A-AUTHDEP-003",
+    "R2A-AUTHDEP-004"
+  ],
+  "cost_assessment": null,
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "api_calls": 0,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "expected_conclusion_visible": false,
+  "uncertainties": [
+    "bundle 未提供 R2A authorization candidate、active seal、final auditor 或 final replay artifact，因此无法直接检查这些未来 artifact 的实际字段和哈希；本审计只能判断冻结 DAG、rules、schemas 与现有 R2 artifacts 是否足以强制所声明顺序。",
+    "bundle 未提供冻结清单、R2 replay 或 R2A state transition 的专用语义 validator 实现；若仓库另有未授权读取的 validator，可能覆盖部分 schema 缺口，但该能力不能由当前证据推定。"
+  ],
+  "created_at": "2026-09-03T03:00:00+08:00",
+  "output_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+}
