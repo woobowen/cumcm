@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+  "artifact_path": "evals/results/phase-002d-r2a/authorization_decision/authorization.json",
+  "decision": "AUTOMATED_ACCEPTED",
+  "accepted_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+  "candidate_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "input_freeze_id": "PHASE-002D-R2A-INPUT-FREEZE-001",
+  "input_freeze_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "dependency_graph_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "preconditions_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "scope_hash": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "final_audit_id": "R2A-AUDIT-FINAL-SHADOW-AUTHORIZATION-001",
+  "final_audit_result": "PASS",
+  "final_audit_checkpoint_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "supersedes": {
+    "decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+    "artifact_path": "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json",
+    "decision_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+    "file_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "historical_decision": "RETEST_REQUIRED"
+  },
+  "supersession_reason": "POST_AUDIT_AND_REPLAY_CLOSURE",
+  "selected_architecture": null,
+  "base_selected": false,
+  "third_party_integrated": false,
+  "restrictions": ["NO_ARCHITECTURE_SELECTION", "NO_FORMAL_SKILL_INTEGRATION", "NO_PHASE_003", "NO_MODEL_STAGE2_WITHOUT_NEW_FROZEN_AUTHORIZATION"],
+  "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+  "phase003_prohibited": true,
+  "authorization_hash": "3333333333333333333333333333333333333333333333333333333333333333"
+}

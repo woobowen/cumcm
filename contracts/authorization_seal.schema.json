@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/authorization-seal/v1",
+  "title": "Phase 002D-R2A Shadow Authorization Seal",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "authorization_id",
+    "artifact_path",
+    "decision",
+    "accepted_scope",
+    "candidate_id",
+    "candidate_hash",
+    "input_freeze_id",
+    "input_freeze_hash",
+    "dependency_graph_hash",
+    "preconditions_hash",
+    "scope_hash",
+    "final_audit_id",
+    "final_audit_result",
+    "final_audit_checkpoint_hash",
+    "supersedes",
+    "supersession_reason",
+    "selected_architecture",
+    "base_selected",
+    "third_party_integrated",
+    "restrictions",
+    "next_phase_allowed",
+    "phase003_prohibited",
+    "authorization_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authorization_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"},
+    "artifact_path": {"const": "evals/results/phase-002d-r2a/authorization_decision/authorization.json"},
+    "decision": {"enum": ["AUTOMATED_ACCEPTED", "RETEST_REQUIRED", "EVIDENCE_INSUFFICIENT", "AUTOMATED_REJECTED", "AUTOMATED_ABSTAINED", "STALE"]},
+    "accepted_scope": {"type": ["string", "null"], "enum": ["EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY", null]},
+    "candidate_id": {"const": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"},
+    "candidate_hash": {"$ref": "#/$defs/hash"},
+    "input_freeze_id": {"const": "PHASE-002D-R2A-INPUT-FREEZE-001"},
+    "input_freeze_hash": {"$ref": "#/$defs/hash"},
+    "dependency_graph_hash": {"$ref": "#/$defs/hash"},
+    "preconditions_hash": {"$ref": "#/$defs/hash"},
+    "scope_hash": {"$ref": "#/$defs/hash"},
+    "final_audit_id": {"const": "R2A-AUDIT-FINAL-SHADOW-AUTHORIZATION-001"},
+    "final_audit_result": {"const": "PASS"},
+    "final_audit_checkpoint_hash": {"$ref": "#/$defs/hash"},
+    "supersedes": {
+      "type": "object",
+      "required": ["decision_id", "artifact_path", "decision_hash", "file_sha256", "historical_decision"],
+      "properties": {
+        "decision_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2"},
+        "artifact_path": {"const": "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"},
+        "decision_hash": {"$ref": "#/$defs/hash"},
+        "file_sha256": {"$ref": "#/$defs/hash"},
+        "historical_decision": {"const": "RETEST_REQUIRED"}
+      },
+      "additionalProperties": false
+    },
+    "supersession_reason": {"const": "POST_AUDIT_AND_REPLAY_CLOSURE"},
+    "selected_architecture": {"type": "null"},
+    "base_selected": {"const": false},
+    "third_party_integrated": {"const": false},
+    "restrictions": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 4,
+      "allOf": [
+        {"contains": {"const": "NO_ARCHITECTURE_SELECTION"}},
+        {"contains": {"const": "NO_FORMAL_SKILL_INTEGRATION"}},
+        {"contains": {"const": "NO_PHASE_003"}},
+        {"contains": {"const": "NO_MODEL_STAGE2_WITHOUT_NEW_FROZEN_AUTHORIZATION"}}
+      ],
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_phase_allowed": {"type": ["string", "null"], "enum": ["PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION", "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE", null]},
+    "phase003_prohibited": {"const": true},
+    "authorization_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "AUTOMATED_ACCEPTED"}}, "required": ["decision"]},
+      "then": {
+        "properties": {
+          "accepted_scope": {"const": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"},
+          "next_phase_allowed": {"const": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"}
+        }
+      },
+      "else": {
+        "properties": {
+          "accepted_scope": {"type": "null"},
+          "next_phase_allowed": {"enum": ["PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE", null]}
+        }
+      }
+    }
+  ],
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

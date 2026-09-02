@@ -10,6 +10,9 @@
     "created_at",
     "input_freeze_id",
     "input_freeze_hash",
+    "graph_purpose",
+    "edge_semantics",
+    "historical_evidence_references_create_edges",
     "nodes",
     "edges",
     "prerequisite_audit_node",
@@ -27,6 +30,11 @@
     "created_at": {"type": "string", "minLength": 1},
     "input_freeze_id": {"const": "PHASE-002D-R2A-INPUT-FREEZE-001"},
     "input_freeze_hash": {"$ref": "#/$defs/hash"},
+    "graph_purpose": {"const": "R2A_AUTHORIZATION_EVALUATION_PRECEDENCE"},
+    "edge_semantics": {
+      "const": "PREREQUISITE_VALIDATION_ORDER_OVER_ALREADY_FROZEN_ATOMIC_ARTIFACTS"
+    },
+    "historical_evidence_references_create_edges": {"const": false},
     "nodes": {
       "type": "array",
       "minItems": 20,

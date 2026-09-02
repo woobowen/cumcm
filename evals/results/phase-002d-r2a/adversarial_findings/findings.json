@@ -1,0 +1,466 @@
+{
+  "findings": [
+    {
+      "attack": "PHASE-002D-R2A-AUTHORIZATION-DAG-001 声明 L2-R2-DECISION-AUDIT -> L3-R2-REPLAY，但 DECISION-AUDIT-PHASE-002D-R2 的 audit_evidence_refs 包含 R2 replay，并以 offline_replay_stable=true 为审计检查，因此实际依赖是 L3-R2-REPLAY -> L2-R2-DECISION-AUDIT。按该图其他边所采用的“prerequisite source -> dependent target”语义合并声明边和实际证据边，会形成 L2/L3 二节点环；cycle_detected=false 因而不成立。旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 同时把 decision_auditor 和 replay 标记为 pending，不能消除此环。",
+      "claim_attacked": "PHASE-002D-R2A-AUTHORIZATION-DAG-001 声明 L2-R2-DECISION-AUDIT -> L3-R2-REPLAY，但 DECISION-AUDIT-PHASE-002D-R2 的 audit_evidence_refs 包含 R2 replay，并以 offline_replay_stable=true 为审计检查，因此实际依赖是 L3-R2-REPLAY -> L2-R2-DECISION-AUDIT。按该图其他边所采用的“prerequisite source -> dependent target”语义合并声明边和实际证据边，会形成 L2/L3 二节点环；cycle_detected=false 因而不成立。旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 同时把 decision_auditor 和 replay 标记为 pending，不能消除此环。",
+      "confidence": 1.0,
+      "counterexample": "从 authorization_dependency_graph.json 取声明边 L2-R2-DECISION-AUDIT -> L3-R2-REPLAY，再从 audit.json 的 audit_evidence_refs 和 checks.offline_replay_stable 推导 L3-R2-REPLAY -> L2-R2-DECISION-AUDIT；Tarjan/Kosaraju 强连通分量计算将返回包含两个节点的非平凡 SCC。",
+      "evidence": [
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "DECISION-AUDIT-PHASE-002D-R2",
+        "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+        "TEST:R2A-DET-AUTHDEP-M7M8-001"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-001 is false",
+      "finding_id": "R2A-AUTHDEP-001",
+      "pass_condition": "DAG explicitly models R2A evaluation precedence; historical audit evidence references are content bindings, not inferred graph edges",
+      "recommended_action": "retain the deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2A-DET-AUTHDEP-M7M8-001",
+      "role": "authorization_dependency_prosecutor",
+      "severity": "BLOCKER",
+      "statement": "PHASE-002D-R2A-AUTHORIZATION-DAG-001 声明 L2-R2-DECISION-AUDIT -> L3-R2-REPLAY，但 DECISION-AUDIT-PHASE-002D-R2 的 audit_evidence_refs 包含 R2 replay，并以 offline_replay_stable=true 为审计检查，因此实际依赖是 L3-R2-REPLAY -> L2-R2-DECISION-AUDIT。按该图其他边所采用的“prerequisite source -> dependent target”语义合并声明边和实际证据边，会形成 L2/L3 二节点环；cycle_detected=false 因而不成立。旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 同时把 decision_auditor 和 replay 标记为 pending，不能消除此环。",
+      "status": "CLOSED",
+      "target": "旧 R2 M7/M8 时序与新授权 DAG",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "contracts/project_state.schema.json 允许在没有任何 R2A active authorization decision、L6 final-auditor PASS 或 L7 final-replay 绑定记录时，将当前 state 直接推进到 SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE 并把 next_phase_allowed 设置为 PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION。该 schema 只约束现有 R2 specification_protocol 字段和静态 scope 字段，与 DAG 声明的 L6-R2A-FINAL-AUDITOR、L7-R2A-FINAL-REPLAY 两个前置节点没有交叉绑定。",
+      "claim_attacked": "contracts/project_state.schema.json 允许在没有任何 R2A active authorization decision、L6 final-auditor PASS 或 L7 final-replay 绑定记录时，将当前 state 直接推进到 SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE 并把 next_phase_allowed 设置为 PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION。该 schema 只约束现有 R2 specification_protocol 字段和静态 scope 字段，与 DAG 声明的 L6-R2A-FINAL-AUDITOR、L7-R2A-FINAL-REPLAY 两个前置节点没有交叉绑定。",
+      "confidence": 1.0,
+      "counterexample": "以内存副本读取当前 state/project_state.json，仅把 technical_adjudication_status 改为 SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE、next_phase_allowed 改为 PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION，保持 automated_decision_ids 不含任何 R2A 新决定且不提供 final audit/replay；该对象仍满足现有 project_state schema 的相关 allOf 分支。",
+      "evidence": [
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "evidence_refs": [
+        "L6-R2A-FINAL-AUDITOR",
+        "L7-R2A-FINAL-REPLAY",
+        "L7-FORMAL-STATE-TRANSITION",
+        "TEST:R2A-DET-STATE-GATE-001"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-002 is false",
+      "finding_id": "R2A-AUTHDEP-002",
+      "pass_condition": "complete-state bypass without candidate, active decision, final audit, and replay bindings is rejected",
+      "recommended_action": "retain the deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2A-DET-STATE-GATE-001",
+      "role": "authorization_dependency_prosecutor",
+      "severity": "BLOCKER",
+      "statement": "contracts/project_state.schema.json 允许在没有任何 R2A active authorization decision、L6 final-auditor PASS 或 L7 final-replay 绑定记录时，将当前 state 直接推进到 SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE 并把 next_phase_allowed 设置为 PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION。该 schema 只约束现有 R2 specification_protocol 字段和静态 scope 字段，与 DAG 声明的 L6-R2A-FINAL-AUDITOR、L7-R2A-FINAL-REPLAY 两个前置节点没有交叉绑定。",
+      "status": "CLOSED",
+      "target": "L7-FORMAL-STATE-TRANSITION",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 记录 decision hashes，但没有 input_freeze_id 或 input_freeze_hash；R2A manifest 仅在独立字段中记录 r2_input_freeze_hash 和 replay file/replay hash。PHASE-002D-R2A-AUTHORIZATION-DAG-001 也只有图级 input_freeze_hash，没有 candidate、seal、final audit、final replay 的逐 artifact 输入绑定。因此相同 decision projection 可被声明为针对不同冻结输入的 stable replay，当前 contract 无法证明 replay 与被授权决定使用同一输入。",
+      "claim_attacked": "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 记录 decision hashes，但没有 input_freeze_id 或 input_freeze_hash；R2A manifest 仅在独立字段中记录 r2_input_freeze_hash 和 replay file/replay hash。PHASE-002D-R2A-AUTHORIZATION-DAG-001 也只有图级 input_freeze_hash，没有 candidate、seal、final audit、final replay 的逐 artifact 输入绑定。因此相同 decision projection 可被声明为针对不同冻结输入的 stable replay，当前 contract 无法证明 replay 与被授权决定使用同一输入。",
+      "confidence": 1.0,
+      "counterexample": "构造两个仅 R2 input-freeze hash 不同、decision JSON/hash projection 相同的冻结输入；现有 replay.json 对二者字节级相同且 stable=true，因为 replay artifact 不携带输入冻结哈希。类似地，未来 final replay 可以指向不同输入而不改变 authorization_dependency_graph schema 所验证的任何字段。",
+      "evidence": [
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001",
+        "PHASE-002D-R2A-INPUT-FREEZE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "TEST:R2A-DET-REPLAY-INPUT-BINDING-001"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-003 is false",
+      "finding_id": "R2A-AUTHDEP-003",
+      "pass_condition": "replay mutations to input freeze, active decision, or final-audit checkpoint are rejected",
+      "recommended_action": "retain the deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2A-DET-REPLAY-INPUT-BINDING-001",
+      "role": "authorization_dependency_prosecutor",
+      "severity": "BLOCKER",
+      "statement": "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 记录 decision hashes，但没有 input_freeze_id 或 input_freeze_hash；R2A manifest 仅在独立字段中记录 r2_input_freeze_hash 和 replay file/replay hash。PHASE-002D-R2A-AUTHORIZATION-DAG-001 也只有图级 input_freeze_hash，没有 candidate、seal、final audit、final replay 的逐 artifact 输入绑定。因此相同 decision projection 可被声明为针对不同冻结输入的 stable replay，当前 contract 无法证明 replay 与被授权决定使用同一输入。",
+      "status": "CLOSED",
+      "target": "R2 与 R2A replay 的同输入绑定",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "PHASE-002D-R2A-INPUT-FREEZE-001 冻结了旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 的 RETEST_REQUIRED 决定、decision_hash 和 file_sha256，但新 DAG 的 L7-R2A-AUTHORIZATION-SEAL 没有 decision_id、supersedes_decision_id、supersedes_decision_hash 或 immutable predecessor path。project_state schema 只要求 automated_decision_ids 唯一，不能阻止新 seal 复用旧 decision ID、造成双重身份，也不能要求旧 RETEST_REQUIRED artifact 继续保留。",
+      "claim_attacked": "PHASE-002D-R2A-INPUT-FREEZE-001 冻结了旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 的 RETEST_REQUIRED 决定、decision_hash 和 file_sha256，但新 DAG 的 L7-R2A-AUTHORIZATION-SEAL 没有 decision_id、supersedes_decision_id、supersedes_decision_hash 或 immutable predecessor path。project_state schema 只要求 automated_decision_ids 唯一，不能阻止新 seal 复用旧 decision ID、造成双重身份，也不能要求旧 RETEST_REQUIRED artifact 继续保留。",
+      "confidence": 1.0,
+      "counterexample": "保留旧文件不变，但创建内容为 AUTOMATED_ACCEPTED 的新 seal 并复用 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2；state 的 automated_decision_ids 无需变化，DAG schema 也没有决策身份字段，因而无法发现同一 ID 对应两个不同决定。若直接覆盖旧路径，现有图和 state schema 同样没有历史不可变性约束。",
+      "evidence": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json",
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "evidence_refs": [
+        "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+        "L7-R2A-AUTHORIZATION-SEAL",
+        "TEST:R2A-DET-SUPERSESSION-001"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-004 is false",
+      "finding_id": "R2A-AUTHDEP-004",
+      "pass_condition": "new ID/path and exact immutable predecessor ID/decision hash/file hash are mandatory",
+      "recommended_action": "retain the deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2A-DET-SUPERSESSION-001",
+      "role": "authorization_dependency_prosecutor",
+      "severity": "BLOCKER",
+      "statement": "PHASE-002D-R2A-INPUT-FREEZE-001 冻结了旧 DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2 的 RETEST_REQUIRED 决定、decision_hash 和 file_sha256，但新 DAG 的 L7-R2A-AUTHORIZATION-SEAL 没有 decision_id、supersedes_decision_id、supersedes_decision_hash 或 immutable predecessor path。project_state schema 只要求 automated_decision_ids 唯一，不能阻止新 seal 复用旧 decision ID、造成双重身份，也不能要求旧 RETEST_REQUIRED artifact 继续保留。",
+      "status": "CLOSED",
+      "target": "旧授权决定的不可变 supersession",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "contracts/authorization_dependency_graph.schema.json 不验证 node ID 唯一性、edge 端点存在性、level 单调性、必需边、可达性、graph_hash 重算或真实无环性；cycle_detected 被固定为 false 只是自报字段。即使不考虑 R2 audit 的隐式反向依赖，该 schema 也会接受显式有环或包含重复/悬空节点的伪造图。",
+      "claim_attacked": "contracts/authorization_dependency_graph.schema.json 不验证 node ID 唯一性、edge 端点存在性、level 单调性、必需边、可达性、graph_hash 重算或真实无环性；cycle_detected 被固定为 false 只是自报字段。即使不考虑 R2 audit 的隐式反向依赖，该 schema 也会接受显式有环或包含重复/悬空节点的伪造图。",
+      "confidence": 1.0,
+      "counterexample": "向现有 edges 追加 L7-FORMAL-STATE-TRANSITION -> L7-R2A-AUTHORIZATION-SEAL，保留 cycle_detected=false 和原 graph_hash。新增边与现有 seal -> final replay -> state transition 形成显式环，但仍满足当前 schema 的字符串 pattern、minItems 和 cycle_detected const。",
+      "evidence": [
+        "contracts/authorization_dependency_graph.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "TEST:R2A-DET-DAG-SEMANTICS-001"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-005 is false",
+      "finding_id": "R2A-AUTHDEP-005",
+      "pass_condition": "duplicate nodes, dangling endpoints, level errors, cycles, missing edges, semantic drift, and stale graph hashes are rejected",
+      "recommended_action": "retain the deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2A-DET-DAG-SEMANTICS-001",
+      "role": "authorization_dependency_prosecutor",
+      "severity": "ERROR",
+      "statement": "contracts/authorization_dependency_graph.schema.json 不验证 node ID 唯一性、edge 端点存在性、level 单调性、必需边、可达性、graph_hash 重算或真实无环性；cycle_detected 被固定为 false 只是自报字段。即使不考虑 R2 audit 的隐式反向依赖，该 schema 也会接受显式有环或包含重复/悬空节点的伪造图。",
+      "status": "CLOSED",
+      "target": "authorization dependency graph contract",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The frozen main-start formula produces 24 primary starts and permits six retries for three eligible architectures, but the case catalog declares eight MODEL_IN_LOOP_FUTURE base cases across four families. Under the ordinary one-model-start-per-case interpretation, three architectures times eight cases times two repeats requires 48 primary starts before retries. The protocol does not define a family-bundling execution unit that reconciles this difference, and its formula also does not account for up to two Stage 2 component ablations. Therefore the 30-start cap is not yet demonstrably compatible with complete benchmark coverage.",
+      "claim_attacked": "The frozen main-start formula produces 24 primary starts and permits six retries for three eligible architectures, but the case catalog declares eight MODEL_IN_LOOP_FUTURE base cases across four families. Under the ordinary one-model-start-per-case interpretation, three architectures times eight cases times two repeats requires 48 primary starts before retries. The protocol does not define a family-bundling execution unit that reconciles this difference, and its formula also does not account for up to two Stage 2 component ablations. Therefore the 30-start cap is not yet demonstrably compatible with complete benchmark coverage.",
+      "confidence": 1.0,
+      "counterexample": "If each R2-MODEL-1 through R2-MODEL-4 case_count entry consumes one independent model start, the primary schedule is 3 * 8 * 2 = 48, which exceeds the absolute cap of 30 without any retry or ablation.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/ablation_policy.yaml"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
+        "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001",
+        "R2-MODEL-1",
+        "R2-MODEL-2",
+        "R2-MODEL-3",
+        "R2-MODEL-4"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-PCD-001 is false",
+      "finding_id": "R2A-PCD-001",
+      "pass_condition": "model Stage 2 has zero authorized starts until an exact frozen schedule proves all tuples and caps",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-DET-PCD-SCHEDULE-001",
+      "role": "protocol_cost_dissent_auditor",
+      "severity": "BLOCKER",
+      "statement": "The frozen main-start formula produces 24 primary starts and permits six retries for three eligible architectures, but the case catalog declares eight MODEL_IN_LOOP_FUTURE base cases across four families. Under the ordinary one-model-start-per-case interpretation, three architectures times eight cases times two repeats requires 48 primary starts before retries. The protocol does not define a family-bundling execution unit that reconciles this difference, and its formula also does not account for up to two Stage 2 component ablations. Therefore the 30-start cap is not yet demonstrably compatible with complete benchmark coverage.",
+      "status": "CLOSED",
+      "target": "Stage 2 execution schedule and 30-start cap",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The resource policy caps starts, wall time, storage, grader actions and maintained logical units, but it provides no absolute input-token or output-token ceiling. Token thresholds are only ratios to an unmeasured baseline. Monetary cost is explicitly UNKNOWN in the shadow scope, while operator effort, queue delay and future maintenance burden are not measured. This conflicts with the frozen rule that unknown cost yields EVIDENCE_INSUFFICIENT and prevents treating full Stage 2 affordability as established.",
+      "claim_attacked": "The resource policy caps starts, wall time, storage, grader actions and maintained logical units, but it provides no absolute input-token or output-token ceiling. Token thresholds are only ratios to an unmeasured baseline. Monetary cost is explicitly UNKNOWN in the shadow scope, while operator effort, queue delay and future maintenance burden are not measured. This conflicts with the frozen rule that unknown cost yields EVIDENCE_INSUFFICIENT and prevents treating full Stage 2 affordability as established.",
+      "confidence": 1.0,
+      "counterexample": "A candidate and baseline can satisfy the 1.50 token-overhead ratio while both consume an arbitrarily large absolute token volume; the 30-start cap alone does not bound that volume or its monetary cost.",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
+        "PHASE-002D-R2-THRESHOLDS-001",
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "input_token_overhead",
+        "output_token_overhead",
+        "elapsed_time_overhead",
+        "maintenance_score"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-PCD-002 is false",
+      "finding_id": "R2A-PCD-002",
+      "pass_condition": "model Stage 2 is denied and unknown cost deterministically routes to EVIDENCE_INSUFFICIENT",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-DET-PCD-COST-001",
+      "role": "protocol_cost_dissent_auditor",
+      "severity": "BLOCKER",
+      "statement": "The resource policy caps starts, wall time, storage, grader actions and maintained logical units, but it provides no absolute input-token or output-token ceiling. Token thresholds are only ratios to an unmeasured baseline. Monetary cost is explicitly UNKNOWN in the shadow scope, while operator effort, queue delay and future maintenance burden are not measured. This conflicts with the frozen rule that unknown cost yields EVIDENCE_INSUFFICIENT and prevents treating full Stage 2 affordability as established.",
+      "status": "CLOSED",
+      "target": "Prospective cost accounting and Stage 2 authorization",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "The catalog is stratified by component rather than by the architectural discriminants between workflow-language guards and a deterministic kernel. It contains one adversarial-gaming base case per component and two composite base cases per component, but no frozen mapping from W1/K1-specific failure modes to oracle classes, metrics or independent analysis units. Ten transformations per family and repeated runs do not by themselves establish independent discriminatory power. Consequently the benchmark may measure component conformance while failing to distinguish the claimed benefit of K1 over W1.",
+      "claim_attacked": "The catalog is stratified by component rather than by the architectural discriminants between workflow-language guards and a deterministic kernel. It contains one adversarial-gaming base case per component and two composite base cases per component, but no frozen mapping from W1/K1-specific failure modes to oracle classes, metrics or independent analysis units. Ten transformations per family and repeated runs do not by themselves establish independent discriminatory power. Consequently the benchmark may measure component conformance while failing to distinguish the claimed benefit of K1 over W1.",
+      "confidence": 1.0,
+      "counterexample": "Two implementations could return identical outputs on all component-targeted cases while differing only on a narrative-bypass or fail-closed kernel path not represented by a sealed oracle; all reported component metrics would tie despite the architectural difference.",
+      "evidence": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001",
+        "PHASE-002D-R2-THRESHOLDS-001",
+        "R2-GAMING-1",
+        "R2-GAMING-2",
+        "R2-GAMING-3",
+        "R2-GAMING-4",
+        "targeted_detection_recall",
+        "valid_control_false_block_rate"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-PCD-003 is false",
+      "finding_id": "R2A-PCD-003",
+      "pass_condition": "model Stage 2 is denied until a frozen W1/K1 discriminant-to-case/metric matrix passes",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-DET-PCD-DISCRIMINATION-001",
+      "role": "protocol_cost_dissent_auditor",
+      "severity": "BLOCKER",
+      "statement": "The catalog is stratified by component rather than by the architectural discriminants between workflow-language guards and a deterministic kernel. It contains one adversarial-gaming base case per component and two composite base cases per component, but no frozen mapping from W1/K1-specific failure modes to oracle classes, metrics or independent analysis units. Ten transformations per family and repeated runs do not by themselves establish independent discriminatory power. Consequently the benchmark may measure component conformance while failing to distinguish the claimed benefit of K1 over W1.",
+      "status": "CLOSED",
+      "target": "Hidden benchmark ability to distinguish ARCH-W1 from ARCH-K1",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "冻结清单未与当前 candidate-visible 安全边界一致绑定。sealed_manifest.json 记录 access_policy.yaml 的 public_artifact_hash 为 cbf4e4c281f327b55592e0a9b2aaaa7564ad244cfb8757fc0b26b4bb25ad1562，但 bundle 与 PHASE-002D-R2A-INPUT-FREEZE-001 共同确认当前文件 SHA-256 为 58f56a10ec4e4b46a4122f26c4fbb72e11fbcfd0c80e5d8024693c4e297db3d7；candidate_visible_manifest.json 同样由 sealed manifest 记录为 d6533317fe1630a5621fd06fe6676de77f5bbf59b4b86a9bd0efa1e3f682f91d，而当前 SHA-256 为 953920ad3da40205975a35389a81857cd58c41ac7c0262a4819d877bf7454cc7。PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 的 seed_manifest checks 只证明 sealed manifest 自身稳定，没有证明这些公开边界文件与其记录匹配。",
+      "claim_attacked": "冻结清单未与当前 candidate-visible 安全边界一致绑定。sealed_manifest.json 记录 access_policy.yaml 的 public_artifact_hash 为 cbf4e4c281f327b55592e0a9b2aaaa7564ad244cfb8757fc0b26b4bb25ad1562，但 bundle 与 PHASE-002D-R2A-INPUT-FREEZE-001 共同确认当前文件 SHA-256 为 58f56a10ec4e4b46a4122f26c4fbb72e11fbcfd0c80e5d8024693c4e297db3d7；candidate_visible_manifest.json 同样由 sealed manifest 记录为 d6533317fe1630a5621fd06fe6676de77f5bbf59b4b86a9bd0efa1e3f682f91d，而当前 SHA-256 为 953920ad3da40205975a35389a81857cd58c41ac7c0262a4819d877bf7454cc7。PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 的 seed_manifest checks 只证明 sealed manifest 自身稳定，没有证明这些公开边界文件与其记录匹配。",
+      "confidence": 1.0,
+      "counterexample": "在 seal 后弱化 access_policy.yaml 的 deny_prefixes 或扩大 candidate_visible_manifest.json 的 exposed_fields；如果 replay 仍只验证 sealed manifest 文件本身及 commitment，它可以继续报告 stable=true，而候选 Prompt 边界已漂移。当前两个可见文件已经给出这种漂移的可复现实例。",
+      "evidence": [
+        "evals/prospective/phase-002d-r2/sealed_manifest.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/manifests/candidate_visible_manifest.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/replay/replay.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2-SEALED-BENCHMARK-001",
+        "PHASE-002D-R2A-INPUT-FREEZE-001",
+        "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001",
+        "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-SEC-001 is false",
+      "finding_id": "R2A-SEC-001",
+      "pass_condition": "sealed public-artifact fields are canonical semantic hashes and both questioned bindings recompute exactly",
+      "recommended_action": "retain the deterministic regression and re-adjudicate on mutation",
+      "required_test": "R2A-SEC-MANIFEST-BINDING-001",
+      "role": "shadow_scope_security_auditor",
+      "severity": "BLOCKER",
+      "statement": "冻结清单未与当前 candidate-visible 安全边界一致绑定。sealed_manifest.json 记录 access_policy.yaml 的 public_artifact_hash 为 cbf4e4c281f327b55592e0a9b2aaaa7564ad244cfb8757fc0b26b4bb25ad1562，但 bundle 与 PHASE-002D-R2A-INPUT-FREEZE-001 共同确认当前文件 SHA-256 为 58f56a10ec4e4b46a4122f26c4fbb72e11fbcfd0c80e5d8024693c4e297db3d7；candidate_visible_manifest.json 同样由 sealed manifest 记录为 d6533317fe1630a5621fd06fe6676de77f5bbf59b4b86a9bd0efa1e3f682f91d，而当前 SHA-256 为 953920ad3da40205975a35389a81857cd58c41ac7c0262a4819d877bf7454cc7。PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001 的 seed_manifest checks 只证明 sealed manifest 自身稳定，没有证明这些公开边界文件与其记录匹配。",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2-SEALED-BENCHMARK-001 public-artifact binding",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "hidden vault 隔离目前明确是 POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED，os_enforced_verified=false；access policy 也要求 future execution 前建立 OS enforcement。PHASE-002D-R2A-AUTHORIZATION-DAG-001 却没有 OS-isolation verification 节点或通往 future prototype execution 的硬前置边，因而规范本身不能证明 hidden seed、hidden oracle 或其值不会被原型读取并进入 Prompt。",
+      "claim_attacked": "hidden vault 隔离目前明确是 POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED，os_enforced_verified=false；access policy 也要求 future execution 前建立 OS enforcement。PHASE-002D-R2A-AUTHORIZATION-DAG-001 却没有 OS-isolation verification 节点或通往 future prototype execution 的硬前置边，因而规范本身不能证明 hidden seed、hidden oracle 或其值不会被原型读取并进入 Prompt。",
+      "confidence": 1.0,
+      "counterexample": "在允许的 experiments/shadow_prototypes/common/ 中运行原型，通过绝对路径、../ traversal、符号链接或继承的文件描述符读取放置在 synthetic benchmark-vault/ 中的 sentinel，再把 sentinel 拼入模型 Prompt；字符串 deny_prefixes 对这些解析方式不构成 OS 拒绝。",
+      "evidence": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "PHASE-002D-R2-SEALED-BENCHMARK-001",
+        "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-SEC-002 is false",
+      "finding_id": "R2A-SEC-002",
+      "pass_condition": "OS isolation remains unverified and all prototype execution/hidden-benchmark use is denied until the future sentinel capability gate passes",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-SEC-VAULT-CAPABILITY-001",
+      "role": "shadow_scope_security_auditor",
+      "severity": "BLOCKER",
+      "statement": "hidden vault 隔离目前明确是 POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED，os_enforced_verified=false；access policy 也要求 future execution 前建立 OS enforcement。PHASE-002D-R2A-AUTHORIZATION-DAG-001 却没有 OS-isolation verification 节点或通往 future prototype execution 的硬前置边，因而规范本身不能证明 hidden seed、hidden oracle 或其值不会被原型读取并进入 Prompt。",
+      "status": "CLOSED",
+      "target": "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001 vault isolation",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "formal_state_write_allowed=false、formal_skill_auto_discovery=false 以及 prohibited_paths 当前只是声明。allowed_paths/prohibited_paths 均是词法前缀，bundle 中没有 canonical-path、no-follow、inode、hardlink 或 TOCTOU 防护证据；因此不能证明允许树中的原型无法污染 .agents/skills/cumcm-modeling-evidence/ 或写入 state/project_state.json。",
+      "claim_attacked": "formal_state_write_allowed=false、formal_skill_auto_discovery=false 以及 prohibited_paths 当前只是声明。allowed_paths/prohibited_paths 均是词法前缀，bundle 中没有 canonical-path、no-follow、inode、hardlink 或 TOCTOU 防护证据；因此不能证明允许树中的原型无法污染 .agents/skills/cumcm-modeling-evidence/ 或写入 state/project_state.json。",
+      "confidence": 1.0,
+      "counterexample": "在 experiments/shadow_prototypes/common/ 创建指向 ../../../state/project_state.json 的 symlink，或为该状态文件创建同文件系统 hardlink，再经允许路径写入；同理可将链接指向正式 Skill 文件。词法 allowed-prefix 检查仍看到允许路径，但目标 inode 属于禁止树。",
+      "evidence": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "state/project_state.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2-IMPLEMENTATION-EMBARGO-001",
+        "ARCH-PUB-MAIN-AGENT-WRITE",
+        "ARCH-PUB-ROLE-ISOLATION"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-SEC-003 is false",
+      "finding_id": "R2A-SEC-003",
+      "pass_condition": "file writes and execution remain denied until canonical-root, no-follow, inode, rename-swap, and protected-hash gates pass",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-SEC-PATH-CONFINEMENT-001",
+      "role": "shadow_scope_security_auditor",
+      "severity": "BLOCKER",
+      "statement": "formal_state_write_allowed=false、formal_skill_auto_discovery=false 以及 prohibited_paths 当前只是声明。allowed_paths/prohibited_paths 均是词法前缀，bundle 中没有 canonical-path、no-follow、inode、hardlink 或 TOCTOU 防护证据；因此不能证明允许树中的原型无法污染 .agents/skills/cumcm-modeling-evidence/ 或写入 state/project_state.json。",
+      "status": "CLOSED",
+      "target": "formal Skill and formal state path confinement",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "runtime_isolation 将 third_party_code_allowed、third_party_execution_allowed 和 license_block_released 均设为 false，但 bundle 未提供 project-owned dependency allowlist、isolated interpreter、import hook、subprocess policy、network denial或制品 provenance gate。声明不能阻止从允许树 vendor 未授权代码、导入现有 .venv/site-packages，或执行 PATH 中的第三方二进制。",
+      "claim_attacked": "runtime_isolation 将 third_party_code_allowed、third_party_execution_allowed 和 license_block_released 均设为 false，但 bundle 未提供 project-owned dependency allowlist、isolated interpreter、import hook、subprocess policy、network denial或制品 provenance gate。声明不能阻止从允许树 vendor 未授权代码、导入现有 .venv/site-packages，或执行 PATH 中的第三方二进制。",
+      "confidence": 1.0,
+      "counterexample": "把带 sentinel side effect 的伪第三方模块复制到 experiments/shadow_prototypes/common/，或将其安装在 fixture site-packages/PATH；原型 import 该模块或通过 subprocess 执行二进制。当前 scope schema 仍然验证通过，因为它只检查布尔声明。",
+      "evidence": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        ".gitignore"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2-IMPLEMENTATION-EMBARGO-001",
+        "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-SEC-004 is false",
+      "finding_id": "R2A-SEC-004",
+      "pass_condition": "file writes and execution remain denied until project-owned dependency provenance and isolated-interpreter gates pass",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-SEC-THIRD-PARTY-DENY-001",
+      "role": "shadow_scope_security_auditor",
+      "severity": "BLOCKER",
+      "statement": "runtime_isolation 将 third_party_code_allowed、third_party_execution_allowed 和 license_block_released 均设为 false，但 bundle 未提供 project-owned dependency allowlist、isolated interpreter、import hook、subprocess policy、network denial或制品 provenance gate。声明不能阻止从允许树 vendor 未授权代码、导入现有 .venv/site-packages，或执行 PATH 中的第三方二进制。",
+      "status": "CLOSED",
+      "target": "third-party code and execution boundary",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "formal_skill_auto_discovery=false 与 production_workflow_callable=false 没有对应的注册表、import、CLI、subprocess 或 workflow-caller 强制测试。原型位于仓库内可命名路径，目录隔离本身不能阻止正式 Skill 或正常生产 workflow 直接执行该路径。",
+      "claim_attacked": "formal_skill_auto_discovery=false 与 production_workflow_callable=false 没有对应的注册表、import、CLI、subprocess 或 workflow-caller 强制测试。原型位于仓库内可命名路径，目录隔离本身不能阻止正式 Skill 或正常生产 workflow 直接执行该路径。",
+      "confidence": 1.0,
+      "counterexample": "正常 Skill workflow 运行 python experiments/shadow_prototypes/arch_k1/entrypoint.py，或把仓库根加入 import path 后导入原型模块；如果入口产生 side effect，当前两个布尔声明不会阻止调用。",
+      "evidence": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "ARCH-PUB-SINGLE-TRUTH",
+        "ARCH-PUB-ROLE-ISOLATION"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-SEC-005 is false",
+      "finding_id": "R2A-SEC-005",
+      "pass_condition": "execution remains denied until a non-production shadow-only runner capability is verified",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-SEC-CALLER-ISOLATION-001",
+      "role": "shadow_scope_security_auditor",
+      "severity": "BLOCKER",
+      "statement": "formal_skill_auto_discovery=false 与 production_workflow_callable=false 没有对应的注册表、import、CLI、subprocess 或 workflow-caller 强制测试。原型位于仓库内可命名路径，目录隔离本身不能阻止正式 Skill 或正常生产 workflow 直接执行该路径。",
+      "status": "CLOSED",
+      "target": "normal Skill and production workflow non-callability",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "允许写入整个 evals/results/phase-002d-r3/，没有限定到 content-addressed prototype outputs，也没有禁止在该树内创建 automated_decisions、decision_audit、state、Skill loader 或可执行文件。与此同时 state_isolation.formal_evidence_package_allowed=false；宽目录授权可使 shadow 输出伪装成下游 machine-truth 或正式决策制品。",
+      "claim_attacked": "允许写入整个 evals/results/phase-002d-r3/，没有限定到 content-addressed prototype outputs，也没有禁止在该树内创建 automated_decisions、decision_audit、state、Skill loader 或可执行文件。与此同时 state_isolation.formal_evidence_package_allowed=false；宽目录授权可使 shadow 输出伪装成下游 machine-truth 或正式决策制品。",
+      "confidence": 1.0,
+      "counterexample": "原型在 evals/results/phase-002d-r3/automated_decisions/authorization.json 写入自报 PASS 的结构化记录，或放置会被 glob-based consumer 收集的 audit/replay 文件；仅按 allowed path 判定时写入合法，但可能被后续 R3 消费者误认为正式证据。",
+      "evidence": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "L7-FORMAL-STATE-TRANSITION",
+        "FORMAL_EVIDENCE_PACKAGE_ALLOWED_FALSE"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-SEC-006 is false",
+      "finding_id": "R2A-SEC-006",
+      "pass_condition": "outputs remain denied until content-addressed JSON-only shadow-origin enforcement rejects formal artifact kinds",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-SEC-RESULT-SCOPE-001",
+      "role": "shadow_scope_security_auditor",
+      "severity": "BLOCKER",
+      "statement": "允许写入整个 evals/results/phase-002d-r3/，没有限定到 content-addressed prototype outputs，也没有禁止在该树内创建 automated_decisions、decision_audit、state、Skill loader 或可执行文件。与此同时 state_isolation.formal_evidence_package_allowed=false；宽目录授权可使 shadow 输出伪装成下游 machine-truth 或正式决策制品。",
+      "status": "CLOSED",
+      "target": "experimental output scope",
+      "testability": "TESTABLE",
+      "unresolved": false
+    },
+    {
+      "attack": "rollback 只删除两个工作树根，但 .gitignore 未忽略 experiments/shadow_prototypes/ 或 evals/results/phase-002d-r3/，prohibited_git_refs 仅禁止 main。原型及结果因此可以提交到其他分支；删除工作树不会从 Git 历史或远端对象中完整移除，而 historical_artifact_mutation_allowed=false 又排除了通过历史改写清除。当前规范不能满足完整删除回滚。",
+      "claim_attacked": "rollback 只删除两个工作树根，但 .gitignore 未忽略 experiments/shadow_prototypes/ 或 evals/results/phase-002d-r3/，prohibited_git_refs 仅禁止 main。原型及结果因此可以提交到其他分支；删除工作树不会从 Git 历史或远端对象中完整移除，而 historical_artifact_mutation_allowed=false 又排除了通过历史改写清除。当前规范不能满足完整删除回滚。",
+      "confidence": 1.0,
+      "counterexample": "在非 main 任务分支提交包含唯一 sentinel 的 shadow 文件并推送，随后按 DELETE_ISOLATED_SHADOW_TREES 删除两棵树并再次提交；git rev-list --objects --all 或远端旧 SHA 仍可取回 sentinel。",
+      "evidence": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        ".gitignore",
+        "state/project_state.json"
+      ],
+      "evidence_refs": [
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "DELETE_ISOLATED_SHADOW_TREES",
+        "refs/heads/main"
+      ],
+      "fail_condition": "deterministic closure predicate for R2A-SEC-007 is false",
+      "finding_id": "R2A-SEC-007",
+      "pass_condition": "future artifacts must stay disposable, untracked, uncommitted, unpushed, and absent from every ref after rollback",
+      "recommended_action": "retain the fail-closed gate; do not treat underlying runtime or empirical risk as proven",
+      "required_test": "R2A-SEC-ROLLBACK-001",
+      "role": "shadow_scope_security_auditor",
+      "severity": "ERROR",
+      "statement": "rollback 只删除两个工作树根，但 .gitignore 未忽略 experiments/shadow_prototypes/ 或 evals/results/phase-002d-r3/，prohibited_git_refs 仅禁止 main。原型及结果因此可以提交到其他分支；删除工作树不会从 Git 历史或远端对象中完整移除，而 historical_artifact_mutation_allowed=false 又排除了通过历史改写清除。当前规范不能满足完整删除回滚。",
+      "status": "CLOSED",
+      "target": "DELETE_ISOLATED_SHADOW_TREES rollback",
+      "testability": "TESTABLE",
+      "unresolved": false
+    }
+  ],
+  "schema_version": "1.0.0"
+}

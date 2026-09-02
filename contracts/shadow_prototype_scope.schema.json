@@ -18,6 +18,12 @@
     "state_isolation",
     "vault_isolation",
     "runtime_isolation",
+    "path_confinement",
+    "dependency_policy",
+    "callability_policy",
+    "output_policy",
+    "execution_stages",
+    "future_runtime_gate",
     "rollback",
     "prohibited_scopes",
     "phase003_prohibited",
@@ -118,9 +124,106 @@
       },
       "additionalProperties": false
     },
+    "path_confinement": {
+      "type": "object",
+      "required": ["status", "canonical_root_required", "no_follow_required", "shared_inode_forbidden", "rename_swap_defense_required", "pre_post_protected_hash_required"],
+      "properties": {
+        "status": {"const": "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION"},
+        "canonical_root_required": {"const": true},
+        "no_follow_required": {"const": true},
+        "shared_inode_forbidden": {"const": true},
+        "rename_swap_defense_required": {"const": true},
+        "pre_post_protected_hash_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "dependency_policy": {
+      "type": "object",
+      "required": ["status", "project_owned_allowlist_required", "isolated_interpreter_no_site_packages_required", "dynamic_import_allowed", "subprocess_allowed", "network_allowed", "loaded_artifact_provenance_required"],
+      "properties": {
+        "status": {"const": "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION"},
+        "project_owned_allowlist_required": {"const": true},
+        "isolated_interpreter_no_site_packages_required": {"const": true},
+        "dynamic_import_allowed": {"const": false},
+        "subprocess_allowed": {"const": false},
+        "network_allowed": {"const": false},
+        "loaded_artifact_provenance_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "callability_policy": {
+      "type": "object",
+      "required": ["status", "shadow_only_runner_capability_required", "production_registry_entry_allowed", "formal_skill_import_allowed", "normal_cli_dispatch_allowed", "production_subprocess_call_allowed"],
+      "properties": {
+        "status": {"const": "UNVERIFIED_BLOCKS_EXECUTION"},
+        "shadow_only_runner_capability_required": {"const": true},
+        "production_registry_entry_allowed": {"const": false},
+        "formal_skill_import_allowed": {"const": false},
+        "normal_cli_dispatch_allowed": {"const": false},
+        "production_subprocess_call_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "output_policy": {
+      "type": "object",
+      "required": ["status", "root", "content_addressed_run_id_required", "shadow_origin_marker_required", "allowed_suffixes", "executable_allowed", "links_allowed", "formal_artifact_kinds_allowed", "formal_discovery_allowed"],
+      "properties": {
+        "status": {"const": "POLICY_ONLY_BLOCKS_OUTPUT_UNTIL_ENFORCED"},
+        "root": {"const": "evals/results/phase-002d-r3/"},
+        "content_addressed_run_id_required": {"const": true},
+        "shadow_origin_marker_required": {"const": true},
+        "allowed_suffixes": {"const": [".json"]},
+        "executable_allowed": {"const": false},
+        "links_allowed": {"const": false},
+        "formal_artifact_kinds_allowed": {"const": []},
+        "formal_discovery_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "execution_stages": {
+      "type": "object",
+      "required": ["prototype_build", "deterministic_stage1", "model_stage2", "final_stage3", "model_starts_authorized", "hidden_benchmark_use_authorized"],
+      "properties": {
+        "prototype_build": {"const": "CONDITIONAL_ON_FILE_AND_DEPENDENCY_GATES"},
+        "deterministic_stage1": {"const": "CONDITIONAL_ON_ALL_RUNTIME_GATES"},
+        "model_stage2": {"const": "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION"},
+        "final_stage3": {"const": "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION"},
+        "model_starts_authorized": {"const": 0},
+        "hidden_benchmark_use_authorized": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "future_runtime_gate": {
+      "type": "object",
+      "required": ["current_status", "actual_runtime_evidence_present", "required_before_file_write", "required_before_any_execution", "required_before_model_stage2", "unknown_cost_disposition"],
+      "properties": {
+        "current_status": {"const": "NOT_SATISFIED_EXECUTION_PROHIBITED"},
+        "actual_runtime_evidence_present": {"const": false},
+        "required_before_file_write": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_before_any_execution": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_before_model_stage2": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "unknown_cost_disposition": {"const": "EVIDENCE_INSUFFICIENT"}
+      },
+      "additionalProperties": false
+    },
     "rollback": {
       "type": "object",
-      "required": ["strategy", "deletion_roots", "formal_state_repair_required", "historical_artifact_mutation_allowed"],
+      "required": ["strategy", "deletion_roots", "formal_state_repair_required", "historical_artifact_mutation_allowed", "disposable_workspace_required", "git_tracking_allowed", "git_commit_allowed", "git_push_allowed", "all_refs_absence_verification_required"],
       "properties": {
         "strategy": {"const": "DELETE_ISOLATED_SHADOW_TREES"},
         "deletion_roots": {
@@ -130,7 +233,12 @@
           "items": {"type": "string", "minLength": 1}
         },
         "formal_state_repair_required": {"const": false},
-        "historical_artifact_mutation_allowed": {"const": false}
+        "historical_artifact_mutation_allowed": {"const": false},
+        "disposable_workspace_required": {"const": true},
+        "git_tracking_allowed": {"const": false},
+        "git_commit_allowed": {"const": false},
+        "git_push_allowed": {"const": false},
+        "all_refs_absence_verification_required": {"const": true}
       },
       "additionalProperties": false
     },

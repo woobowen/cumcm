@@ -103,10 +103,88 @@ def validate_scope_value(root: Path, value: dict[str, Any]) -> list[str]:
         )
     ):
         errors.append("SHADOW_SCOPE_RUNTIME_ISOLATION_BROKEN")
+    confinement = value.get("path_confinement", {})
+    if confinement.get("status") != "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION" or any(
+        confinement.get(field) is not True
+        for field in (
+            "canonical_root_required",
+            "no_follow_required",
+            "shared_inode_forbidden",
+            "rename_swap_defense_required",
+            "pre_post_protected_hash_required",
+        )
+    ):
+        errors.append("SHADOW_SCOPE_PATH_CONFINEMENT_GATE_INCOMPLETE")
+    dependency = value.get("dependency_policy", {})
+    if (
+        dependency.get("status") != "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION"
+        or dependency.get("project_owned_allowlist_required") is not True
+        or dependency.get("isolated_interpreter_no_site_packages_required") is not True
+        or dependency.get("loaded_artifact_provenance_required") is not True
+        or any(
+            dependency.get(field) is not False
+            for field in ("dynamic_import_allowed", "subprocess_allowed", "network_allowed")
+        )
+    ):
+        errors.append("SHADOW_SCOPE_DEPENDENCY_GATE_INCOMPLETE")
+    callability = value.get("callability_policy", {})
+    if (
+        callability.get("status") != "UNVERIFIED_BLOCKS_EXECUTION"
+        or callability.get("shadow_only_runner_capability_required") is not True
+        or any(
+            callability.get(field) is not False
+            for field in (
+                "production_registry_entry_allowed",
+                "formal_skill_import_allowed",
+                "normal_cli_dispatch_allowed",
+                "production_subprocess_call_allowed",
+            )
+        )
+    ):
+        errors.append("SHADOW_SCOPE_CALLABILITY_GATE_INCOMPLETE")
+    output = value.get("output_policy", {})
+    if (
+        output.get("status") != "POLICY_ONLY_BLOCKS_OUTPUT_UNTIL_ENFORCED"
+        or output.get("root") != "evals/results/phase-002d-r3/"
+        or output.get("content_addressed_run_id_required") is not True
+        or output.get("shadow_origin_marker_required") is not True
+        or output.get("allowed_suffixes") != [".json"]
+        or output.get("formal_artifact_kinds_allowed") != []
+        or any(
+            output.get(field) is not False
+            for field in ("executable_allowed", "links_allowed", "formal_discovery_allowed")
+        )
+    ):
+        errors.append("SHADOW_SCOPE_OUTPUT_GATE_INCOMPLETE")
+    stages = value.get("execution_stages", {})
+    if (
+        stages.get("prototype_build") != "CONDITIONAL_ON_FILE_AND_DEPENDENCY_GATES"
+        or stages.get("deterministic_stage1") != "CONDITIONAL_ON_ALL_RUNTIME_GATES"
+        or stages.get("model_stage2") != "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION"
+        or stages.get("final_stage3") != "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION"
+        or stages.get("model_starts_authorized") != 0
+        or stages.get("hidden_benchmark_use_authorized") is not False
+    ):
+        errors.append("SHADOW_SCOPE_EXECUTION_STAGE_ESCALATION")
+    future = value.get("future_runtime_gate", {})
+    if (
+        future.get("current_status") != "NOT_SATISFIED_EXECUTION_PROHIBITED"
+        or future.get("actual_runtime_evidence_present") is not False
+        or future.get("unknown_cost_disposition") != "EVIDENCE_INSUFFICIENT"
+        or set(future.get("required_before_model_stage2", []))
+        != {"R2A-PCD-001", "R2A-PCD-002", "R2A-PCD-003"}
+    ):
+        errors.append("SHADOW_SCOPE_FUTURE_RUNTIME_GATE_INCOMPLETE")
     rollback = value.get("rollback", {})
     if (
         rollback.get("strategy") != "DELETE_ISOLATED_SHADOW_TREES"
         or rollback.get("historical_artifact_mutation_allowed") is not False
+        or rollback.get("disposable_workspace_required") is not True
+        or rollback.get("all_refs_absence_verification_required") is not True
+        or any(
+            rollback.get(field) is not False
+            for field in ("git_tracking_allowed", "git_commit_allowed", "git_push_allowed")
+        )
     ):
         errors.append("SHADOW_SCOPE_ROLLBACK_NOT_ISOLATED")
     prohibited_existing_roots = (

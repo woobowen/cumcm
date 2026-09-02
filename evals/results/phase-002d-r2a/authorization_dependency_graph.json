@@ -3,6 +3,7 @@
   "candidate_node": "L5-R2A-AUTHORIZATION-CANDIDATE",
   "created_at": "2026-09-03T02:00:00+08:00",
   "cycle_detected": false,
+  "edge_semantics": "PREREQUISITE_VALIDATION_ORDER_OVER_ALREADY_FROZEN_ATOMIC_ARTIFACTS",
   "edges": [
     {
       "source": "L0-COMPONENT-SPECS",
@@ -107,8 +108,10 @@
   ],
   "final_authorization_audit_node": "L6-R2A-FINAL-AUDITOR",
   "final_replay_node": "L7-R2A-FINAL-REPLAY",
-  "graph_hash": "0ee65da479708740dfa3a5d1cec5e3f5854053cc790e6dd4580e28cdc3296484",
+  "graph_hash": "df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c",
   "graph_id": "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+  "graph_purpose": "R2A_AUTHORIZATION_EVALUATION_PRECEDENCE",
+  "historical_evidence_references_create_edges": false,
   "input_freeze_hash": "f524f63e8c98482a85784767c9cd539f98ad286390aac8be831061d31f0a0a95",
   "input_freeze_id": "PHASE-002D-R2A-INPUT-FREEZE-001",
   "nodes": [

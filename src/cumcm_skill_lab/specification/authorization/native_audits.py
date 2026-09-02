@@ -111,6 +111,18 @@ def check_or_write_first_round_bundles(root: Path, *, check: bool) -> dict[str, 
     return {"status": "PASS" if not errors else "FAIL", "errors": errors, "hashes": hashes}
 
 
+def recorded_audit_bundle(root: Path, role: str) -> dict[str, Any]:
+    """Load a historical first-round bundle without re-reading remediated live inputs."""
+    if role not in FIRST_ROUND_ROLES:
+        raise ValueError(f"UNKNOWN_FIRST_ROUND_AUTHORIZATION_ROLE:{role}")
+    bundle = read_json(root / INPUT_ROOT / f"{role}.json")
+    body = dict(bundle)
+    recorded_hash = body.pop("bundle_hash", None)
+    if sha256_json(body) != recorded_hash:
+        raise ValueError(f"R2A_RECORDED_AUDIT_BUNDLE_HASH_MISMATCH:{role}")
+    return bundle
+
+
 def validate_subagent_output(root: Path, value: dict[str, Any], role: str) -> list[str]:
     errors = [
         f"R2A_SUBAGENT_SCHEMA:{'/'.join(map(str, item.absolute_path))}:{item.message}"
@@ -121,7 +133,7 @@ def validate_subagent_output(root: Path, value: dict[str, Any], role: str) -> li
     if value.get("role") != role:
         errors.append("R2A_SUBAGENT_ROLE_MISMATCH")
     if role in ROLE_PATHS:
-        bundle = build_audit_bundle(root, role)
+        bundle = recorded_audit_bundle(root, role)
         if (
             value.get("bundle_id") != bundle["bundle_id"]
             or value.get("bundle_hash") != bundle["bundle_hash"]
@@ -150,9 +162,7 @@ def normalize_subagent_output(value: dict[str, Any]) -> dict[str, Any]:
     return normalized
 
 
-def check_or_write_normalized_first_round_outputs(
-    root: Path, *, check: bool
-) -> dict[str, Any]:
+def check_or_write_normalized_first_round_outputs(root: Path, *, check: bool) -> dict[str, Any]:
     """Preserve raw transports and derive schema-valid, hash-bound audit records."""
     errors: list[str] = []
     hashes: dict[str, str] = {}
@@ -164,8 +174,6 @@ def check_or_write_normalized_first_round_outputs(
         normalized = normalize_subagent_output(read_json(raw_path))
         validation_errors = validate_subagent_output(root, normalized, role)
         errors.extend(f"{role}:{item}" for item in validation_errors)
-        errors.extend(
-            check_or_write(root / OUTPUT_ROOT / f"{role}.json", normalized, check=check)
-        )
+        errors.extend(check_or_write(root / OUTPUT_ROOT / f"{role}.json", normalized, check=check))
         hashes[role] = normalized["output_hash"]
     return {"status": "PASS" if not errors else "FAIL", "errors": errors, "hashes": hashes}

@@ -153,3 +153,13 @@ handoff must state zero API, batch-model, prototype and third-party executions.
   findings remain individually visible, including 15 `BLOCKER`/`ERROR` findings with mandatory
   deterministic tests. No peer output, expected conclusion, vote, web, MCP, API, nested Codex, or
   write capability was available. Audit-bundle/output tests passed `19`; contracts passed.
+- `2026-09-03`: M4 converted all 15 `BLOCKER`/`ERROR` findings into Schema-valid requests and
+  deterministic evidence. Six dependency/hash findings are closed by direct validators; nine
+  future runtime, output, rollback, schedule, cost, and discrimination risks remain truthfully
+  `UNVERIFIED` but no longer authorize the risky operation: file writes/execution require future
+  gates, and model Stage 2 has zero authorized starts pending a new freeze. Closure hash is
+  `61a68a723161f46b30ac6ac2183680b009bd6d24ede6d19068449fbf8b8078f5`; current scope hash is
+  `919680d3cc8578d72d4ff960b00d61750f273e22a0634a8012daa3cb2c422501`; the 20-node/25-edge DAG
+  now explicitly defines authorization-evaluation precedence and hashes to
+  `df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c`. Focused tests passed
+  `130`; contracts passed `71/71` valid and `61/61` invalid rejected.

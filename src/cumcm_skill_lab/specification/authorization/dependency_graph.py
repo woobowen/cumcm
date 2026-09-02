@@ -68,6 +68,9 @@ def build_dependency_graph(root: Path) -> dict[str, Any]:
         "created_at": CREATED_AT,
         "input_freeze_id": freeze["freeze_id"],
         "input_freeze_hash": freeze["manifest_hash"],
+        "graph_purpose": "R2A_AUTHORIZATION_EVALUATION_PRECEDENCE",
+        "edge_semantics": ("PREREQUISITE_VALIDATION_ORDER_OVER_ALREADY_FROZEN_ATOMIC_ARTIFACTS"),
+        "historical_evidence_references_create_edges": False,
         "nodes": nodes,
         "edges": [{"source": source, "target": target} for source, target in edges],
         "prerequisite_audit_node": "L2-R2-DECISION-AUDIT",
@@ -120,7 +123,17 @@ def verify_dependency_graph(root: Path, graph: dict[str, Any] | None = None) -> 
     cycles = cycle_nodes(graph)
     if cycles or graph.get("cycle_detected") is not False:
         errors.append("PHASE002D_R2A_DEPENDENCY_CYCLE")
-    ids = {item["id"] for item in graph.get("nodes", [])}
+    node_items = graph.get("nodes", [])
+    node_ids = [item.get("id") for item in node_items]
+    ids = set(node_ids)
+    if len(node_ids) != len(ids):
+        errors.append("PHASE002D_R2A_DEPENDENCY_DUPLICATE_NODE")
+    levels = {item.get("id"): item.get("level") for item in node_items}
+    if any(
+        not isinstance(node_id, str) or not node_id.startswith(f"L{level}-")
+        for node_id, level in levels.items()
+    ):
+        errors.append("PHASE002D_R2A_DEPENDENCY_NODE_LEVEL_MISMATCH")
     required = {
         "L2-R2-DECISION-AUDIT",
         "L3-R2-REPLAY",
@@ -133,7 +146,22 @@ def verify_dependency_graph(root: Path, graph: dict[str, Any] | None = None) -> 
     }
     if not required <= ids:
         errors.append("PHASE002D_R2A_DEPENDENCY_REQUIRED_NODE_MISSING")
-    edges = {(item["source"], item["target"]) for item in graph.get("edges", [])}
+    edge_items = graph.get("edges", [])
+    edge_pairs = [(item.get("source"), item.get("target")) for item in edge_items]
+    edges = set(edge_pairs)
+    if len(edge_pairs) != len(edges):
+        errors.append("PHASE002D_R2A_DEPENDENCY_DUPLICATE_EDGE")
+    if any(source not in ids or target not in ids for source, target in edge_pairs):
+        errors.append("PHASE002D_R2A_DEPENDENCY_DANGLING_ENDPOINT")
+    if any(
+        source in levels
+        and target in levels
+        and isinstance(levels[source], int)
+        and isinstance(levels[target], int)
+        and levels[source] > levels[target]
+        for source, target in edge_pairs
+    ):
+        errors.append("PHASE002D_R2A_DEPENDENCY_LEVEL_REGRESSION")
     required_edges = {
         ("L2-R2-DECISION-AUDIT", "L3-R2-REPLAY"),
         ("L3-R2-REPLAY", "L4-R2A-ELIGIBILITY"),
@@ -153,6 +181,34 @@ def verify_dependency_graph(root: Path, graph: dict[str, Any] | None = None) -> 
     }
     if forbidden & edges:
         errors.append("PHASE002D_R2A_DEPENDENCY_FORBIDDEN_BACK_EDGE")
+    outgoing: dict[str, set[str]] = defaultdict(set)
+    for source, target in edges:
+        outgoing[source].add(target)
+
+    def reachable(source: str, target: str) -> bool:
+        pending = [source]
+        seen: set[str] = set()
+        while pending:
+            current = pending.pop()
+            if current == target:
+                return True
+            if current in seen:
+                continue
+            seen.add(current)
+            pending.extend(sorted(outgoing[current] - seen))
+        return False
+
+    roots = {node for node, level in levels.items() if level == 0}
+    state_node = graph.get("state_transition_node")
+    if any(not reachable(root_node, state_node) for root_node in roots):
+        errors.append("PHASE002D_R2A_DEPENDENCY_STATE_NOT_REACHABLE_FROM_INPUT")
+    if (
+        graph.get("graph_purpose") != "R2A_AUTHORIZATION_EVALUATION_PRECEDENCE"
+        or graph.get("edge_semantics")
+        != "PREREQUISITE_VALIDATION_ORDER_OVER_ALREADY_FROZEN_ATOMIC_ARTIFACTS"
+        or graph.get("historical_evidence_references_create_edges") is not False
+    ):
+        errors.append("PHASE002D_R2A_DEPENDENCY_EDGE_SEMANTICS_INVALID")
     errors.extend(verify_input_freeze(root))
     return sorted(set(errors))
 

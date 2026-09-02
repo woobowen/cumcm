@@ -8,18 +8,18 @@ from cumcm_skill_lab.specification.authorization.native_audits import (
     INPUT_ROOT,
     OUTPUT_ROOT,
     RAW_OUTPUT_ROOT,
-    build_audit_bundle,
     check_or_write_first_round_bundles,
     check_or_write_normalized_first_round_outputs,
     normalize_subagent_output,
+    recorded_audit_bundle,
     validate_subagent_output,
 )
 
 
 @pytest.mark.parametrize("role", FIRST_ROUND_ROLES)
-def test_first_round_bundle_is_deterministic_and_hash_bound(repo_root, role):
+def test_first_round_bundle_is_immutable_and_hash_bound(repo_root, role):
     recorded = read_json(repo_root / INPUT_ROOT / f"{role}.json")
-    assert build_audit_bundle(repo_root, role) == recorded
+    assert recorded_audit_bundle(repo_root, role) == recorded
     body = copy.deepcopy(recorded)
     recorded_hash = body.pop("bundle_hash")
     assert sha256_json(body) == recorded_hash
@@ -46,12 +46,14 @@ def test_first_round_bundle_denies_external_execution_surfaces(repo_root, role):
     assert constraints["majority_vote_allowed"] is False
 
 
-def test_all_first_round_bundles_check_without_writes(repo_root):
-    assert check_or_write_first_round_bundles(repo_root, check=True)["status"] == "PASS"
+def test_live_bundle_rebuild_detects_post_audit_remediation(repo_root):
+    result = check_or_write_first_round_bundles(repo_root, check=True)
+    assert result["status"] == "FAIL"
+    assert result["errors"]
 
 
 def _sample_output(repo_root, role):
-    bundle = build_audit_bundle(repo_root, role)
+    bundle = recorded_audit_bundle(repo_root, role)
     value = {
         "audit_id": f"AUDIT-{role}",
         "role": role,

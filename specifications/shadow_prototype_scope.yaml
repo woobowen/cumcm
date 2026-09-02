@@ -58,6 +58,72 @@
     "license_block_released": false,
     "isolated_output_required": true
   },
+  "path_confinement": {
+    "status": "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION",
+    "canonical_root_required": true,
+    "no_follow_required": true,
+    "shared_inode_forbidden": true,
+    "rename_swap_defense_required": true,
+    "pre_post_protected_hash_required": true
+  },
+  "dependency_policy": {
+    "status": "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION",
+    "project_owned_allowlist_required": true,
+    "isolated_interpreter_no_site_packages_required": true,
+    "dynamic_import_allowed": false,
+    "subprocess_allowed": false,
+    "network_allowed": false,
+    "loaded_artifact_provenance_required": true
+  },
+  "callability_policy": {
+    "status": "UNVERIFIED_BLOCKS_EXECUTION",
+    "shadow_only_runner_capability_required": true,
+    "production_registry_entry_allowed": false,
+    "formal_skill_import_allowed": false,
+    "normal_cli_dispatch_allowed": false,
+    "production_subprocess_call_allowed": false
+  },
+  "output_policy": {
+    "status": "POLICY_ONLY_BLOCKS_OUTPUT_UNTIL_ENFORCED",
+    "root": "evals/results/phase-002d-r3/",
+    "content_addressed_run_id_required": true,
+    "shadow_origin_marker_required": true,
+    "allowed_suffixes": [".json"],
+    "executable_allowed": false,
+    "links_allowed": false,
+    "formal_artifact_kinds_allowed": [],
+    "formal_discovery_allowed": false
+  },
+  "execution_stages": {
+    "prototype_build": "CONDITIONAL_ON_FILE_AND_DEPENDENCY_GATES",
+    "deterministic_stage1": "CONDITIONAL_ON_ALL_RUNTIME_GATES",
+    "model_stage2": "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION",
+    "final_stage3": "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION",
+    "model_starts_authorized": 0,
+    "hidden_benchmark_use_authorized": false
+  },
+  "future_runtime_gate": {
+    "current_status": "NOT_SATISFIED_EXECUTION_PROHIBITED",
+    "actual_runtime_evidence_present": false,
+    "required_before_file_write": [
+      "R2A-SEC-PATH-CONFINEMENT-001",
+      "R2A-SEC-THIRD-PARTY-DENY-001",
+      "R2A-SEC-ROLLBACK-001"
+    ],
+    "required_before_any_execution": [
+      "R2A-SEC-VAULT-CAPABILITY-001",
+      "R2A-SEC-PATH-CONFINEMENT-001",
+      "R2A-SEC-THIRD-PARTY-DENY-001",
+      "R2A-SEC-CALLER-ISOLATION-001",
+      "R2A-SEC-RESULT-SCOPE-001"
+    ],
+    "required_before_model_stage2": [
+      "R2A-PCD-001",
+      "R2A-PCD-002",
+      "R2A-PCD-003"
+    ],
+    "unknown_cost_disposition": "EVIDENCE_INSUFFICIENT"
+  },
   "rollback": {
     "strategy": "DELETE_ISOLATED_SHADOW_TREES",
     "deletion_roots": [
@@ -65,7 +131,12 @@
       "evals/results/phase-002d-r3/"
     ],
     "formal_state_repair_required": false,
-    "historical_artifact_mutation_allowed": false
+    "historical_artifact_mutation_allowed": false,
+    "disposable_workspace_required": true,
+    "git_tracking_allowed": false,
+    "git_commit_allowed": false,
+    "git_push_allowed": false,
+    "all_refs_absence_verification_required": true
   },
   "prohibited_scopes": [
     "FORMAL_SKILL_IMPLEMENTATION",
@@ -84,5 +155,5 @@
     "PROTOTYPE_EFFECTIVENESS_UNMEASURED",
     "MONETARY_COST_UNKNOWN"
   ],
-  "scope_hash": "ecb4b8675817a9fac78c2f7089090b46f7930a5671cb9e27924aee01e719da26"
+  "scope_hash": "919680d3cc8578d72d4ff960b00d61750f273e22a0634a8012daa3cb2c422501"
 }

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cumcm.local/contracts/project_state/v2.3",
+  "$id": "https://cumcm.local/contracts/project_state/v2.4",
   "title": "Project State",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "type": "object",
   "required": [
     "project_id",
@@ -32,7 +32,7 @@
   ],
   "properties": {
     "project_id": {"type": "string", "minLength": 1},
-    "schema_version": {"const": "2.3.0"},
+    "schema_version": {"const": "2.4.0"},
     "phase": {"type": "string", "minLength": 1},
     "subphase": {"type": ["string", "null"]},
     "status": {"enum": ["IN_PROGRESS", "FOUNDATION_READY", "FOUNDATION_INCOMPLETE", "STALE"]},
@@ -107,6 +107,46 @@
         "native_subagent_runs": {"type": "integer", "minimum": 0},
         "prototype_executions": {"const": 0},
         "third_party_executions": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "shadow_authorization": {
+      "type": "object",
+      "required": [
+        "input_freeze_id",
+        "input_freeze_hash",
+        "candidate_id",
+        "candidate_hash",
+        "active_decision_id",
+        "active_decision_hash",
+        "supersedes_decision_id",
+        "supersedes_decision_hash",
+        "supersedes_file_sha256",
+        "final_audit_result",
+        "final_audit_checkpoint_hash",
+        "final_replay_stable",
+        "final_replay_hash",
+        "replay_input_freeze_hash",
+        "replay_decision_hash",
+        "replay_audit_checkpoint_hash"
+      ],
+      "properties": {
+        "input_freeze_id": {"const": "PHASE-002D-R2A-INPUT-FREEZE-001"},
+        "input_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "candidate_id": {"type": ["string", "null"]},
+        "candidate_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "active_decision_id": {"type": ["string", "null"]},
+        "active_decision_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "supersedes_decision_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2"},
+        "supersedes_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "supersedes_file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "final_audit_result": {"enum": ["NOT_RUN", "PASS", "FAIL", "RETEST_REQUIRED"]},
+        "final_audit_checkpoint_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "final_replay_stable": {"type": "boolean"},
+        "final_replay_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replay_input_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replay_decision_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replay_audit_checkpoint_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
       },
       "additionalProperties": false
     },
@@ -294,7 +334,7 @@
           "third_party_integrated": {"const": false},
           "skill_capability_status": {"const": "SCAFFOLD_ONLY"}
         },
-        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
+        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol", "shadow_authorization"]
       }
     },
     {
@@ -406,7 +446,26 @@
         },
         "required": ["technical_adjudication_status"]
       },
-      "then": {"properties": {"next_phase_allowed": {"type": "null"}}}
+      "then": {
+        "properties": {
+          "next_phase_allowed": {"type": "null"},
+          "shadow_authorization": {
+            "properties": {
+              "candidate_id": {"type": "null"},
+              "candidate_hash": {"type": "null"},
+              "active_decision_id": {"type": "null"},
+              "active_decision_hash": {"type": "null"},
+              "final_audit_result": {"const": "NOT_RUN"},
+              "final_audit_checkpoint_hash": {"type": "null"},
+              "final_replay_stable": {"const": false},
+              "final_replay_hash": {"type": "null"},
+              "replay_input_freeze_hash": {"type": "null"},
+              "replay_decision_hash": {"type": "null"},
+              "replay_audit_checkpoint_hash": {"type": "null"}
+            }
+          }
+        }
+      }
     },
     {
       "if": {
@@ -428,8 +487,24 @@
               "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE",
               null
             ]
+          },
+          "shadow_authorization": {
+            "properties": {
+              "candidate_id": {"const": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"},
+              "candidate_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "active_decision_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"},
+              "active_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "final_audit_result": {"const": "PASS"},
+              "final_audit_checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "final_replay_stable": {"const": true},
+              "final_replay_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replay_input_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replay_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replay_audit_checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
           }
-        }
+        },
+        "required": ["shadow_authorization"]
       }
     }
   ],
