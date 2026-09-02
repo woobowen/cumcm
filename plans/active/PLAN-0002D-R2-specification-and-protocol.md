@@ -1,10 +1,11 @@
 # PLAN-0002D-R2 — Clean-room Specification and Prospective Protocol
 
-Status: `IN_PROGRESS`
+Status: `COMPLETE`
 Phase: `PHASE-EVIDENCE-EXPANSION-002D`
 Subphase: `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL`
 Owner: main agent
 Started: `2026-09-02T13:02:23+08:00`
+Completed: `2026-09-02T21:15:00+08:00`
 Branch: `feat/phase002d-r2-spec-protocol`
 Base commit: `10073a2fe5b1512a16ab9a9c7907fb2b7f5ff765`
 Predecessor: `plans/completed/PLAN-0002D-R1-failure-aware-outcomes.md`
@@ -305,6 +306,15 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   executions. The replacement validation-ledger hash is
   `5b2f39893110556b32c8aadc1c8e25b9b9b3fb5342aa6b982119afc90d8a605b`. The remaining Gate is
   remote delivery and CI on the repair SHA while PR #4 stays OPEN/DRAFT.
+- Repair commit `9540ec27ab61135231ac2cab7441fa2627fd0b17` was pushed and verified at
+  the identical remote SHA. GitHub Actions run `33634357169` passed its `offline-validation` job;
+  Draft PR #4 remained OPEN/DRAFT at that head. Phase 002D-R2 is complete with no technical
+  BLOCKER. The plan remains under `plans/active/` only because strict repository policy requires
+  exactly one active plan and no successor phase is authorized or frozen.
+- Final disposition: four component specifications, the single-truth interaction contract, three
+  unselected architecture candidates, prospective Benchmark, thresholds and experiment protocol
+  are frozen. Shadow authorization remains `RETEST_REQUIRED` on the R2 route. Architecture/base
+  stay unset, the formal Skill stays `SCAFFOLD_ONLY`, and Phase 003 remains prohibited.
 
 ## 22. Update rule
 
