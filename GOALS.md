@@ -42,3 +42,7 @@ This repository supplies facts, formulas, tables, figure-ready data, validation,
 Phase 002D-R1 completes failure-aware adjudication while quality remains insufficient at two
 balanced cases and quality repeat depth one. Its next legal route is a redesigned, newly frozen
 Phase 002D acquisition; it cannot integrate a candidate, select a base, or start Phase 003.
+
+Phase 002D-R2 uses that bounded authorization only to freeze four clean-room specifications and a
+prospective architecture-comparison protocol. It may authorize a later isolated shadow prototype,
+but cannot implement components, select an architecture, change the formal Skill, or enter Phase 003.

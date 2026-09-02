@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.6-specification-protocol — 2026-09-02
+
+- Started Phase 002D-R2 from the audited R1 `SPECIFICATION_ONLY` authorization and preserved null
+  architecture, one scaffold-only formal Skill, false base selection/integration and Phase 003 lock.
+- Added an immutable R2 input-freeze design, implementation embargo and prospective clean-room
+  specification/protocol plan; no component or shadow prototype is implemented or executed.
+
 ## 0.2.5-failure-aware-adjudication — 2026-09-02
 
 - Classified all 28 frozen Phase 002D attempts and resolved the 24-slot outcome matrix while

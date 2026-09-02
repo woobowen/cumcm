@@ -1,13 +1,13 @@
 {
   "project_id": "cumcm-skill-lab",
-  "schema_version": "2.1.0",
+  "schema_version": "2.2.0",
   "phase": "PHASE-EVIDENCE-EXPANSION-002D",
-  "subphase": "PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION",
+  "subphase": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
   "status": "IN_PROGRESS",
-  "current_plan": "plans/active/PLAN-0002D-R1-failure-aware-outcomes.md",
+  "current_plan": "plans/active/PLAN-0002D-R2-specification-and-protocol.md",
   "active_skill_version": "0.1.0-foundation",
-  "current_branch": "feat/evidence-expansion-002d",
-  "technical_adjudication_status": "FAILURE_AWARE_ADJUDICATION_COMPLETE",
+  "current_branch": "feat/phase002d-r2-spec-protocol",
+  "technical_adjudication_status": "SPECIFICATION_PROTOCOL_IN_PROGRESS",
   "automated_decision_ids": [
     "DECISION-ARCHITECTURE-002D-R1",
     "DECISION-COMPONENT-READINESS-002D-R1",
@@ -24,7 +24,8 @@
     "hash-bound-reproducibility-manifest",
     "leakage-safe-model-comparison-gate"
   ],
-  "next_phase_allowed": "PHASE-EVIDENCE-EXPANSION-002D",
+  "architecture_candidate_set": [],
+  "next_phase_allowed": null,
   "evidence_expansion": {
     "cohort_mode": "NEW_MODEL_COHORT",
     "cohort_id": "PHASE-002D-NEW_MODEL_COHORT-GPT-5-6-SOL-MEDIUM",
@@ -70,10 +71,23 @@
     "supplemental_budget_id": "PHASE-002D-R1-SUPPLEMENTAL-BUDGET-001"
   },
   "content_verified_commit": "62dc0b443782e93a246ab510c383cc2a13071e2f",
+  "specification_protocol": {
+    "input_freeze_id": "PHASE-002D-R2-INPUT-FREEZE-001",
+    "input_freeze_hash": "52379058863de851e34b012880229fc542150989ae1c178a09318b836737245a",
+    "implementation_embargo_status": "PASS",
+    "benchmark_freeze_status": "NOT_RUN",
+    "threshold_policy_status": "NOT_RUN",
+    "decision_audit_status": "NOT_RUN",
+    "replay_stable": false,
+    "real_model_starts": 0,
+    "native_subagent_runs": 0,
+    "prototype_executions": 0,
+    "third_party_executions": 0
+  },
   "verification_manifest": {
-    "path": "evals/results/phase-002d-r1/input_freeze_manifest.json",
-    "sha256": "50b18b674a3ea2ca770e4ed60328b214f2c1eda9a3e9856b7410cd7095192218",
-    "subject_commit": "d59f4b8a36fa3c15e06ec0aceb948cd2bafd2abc"
+    "path": "evals/results/phase-002d-r2/input_freeze_manifest.json",
+    "sha256": "2138a13dda8a4e241931c98182a2356c2047537c79faeb8f5d7dab5e229c76fd",
+    "subject_commit": "10073a2fe5b1512a16ab9a9c7907fb2b7f5ff765"
   },
   "delivery_receipt_for_commit": {
     "commit": "62dc0b443782e93a246ab510c383cc2a13071e2f",
@@ -98,11 +112,13 @@
     "Phase 002C hardened replay has no frozen CPU, wall-time, operator-time, or monetary-cost benchmark.",
     "Phase 002D-R1 quality evidence remains insufficient at 2 of 4 balanced cases and repeat depth 1 of 2; reliability evidence cannot be promoted into a quality or superiority claim.",
     "The sole censored slot is harness-censored without established semantic equivalence, so supplemental authorization and the real-start budget remain zero.",
-    "Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown."
+    "Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown.",
+    "Phase 002D-R2 specifications and prospective thresholds are not implementation or positive performance evidence.",
+    "The hidden Benchmark vault is policy/workspace isolated and not OS-enforced."
   ],
   "base_selected": false,
   "third_party_integrated": false,
   "skill_capability_status": "SCAFFOLD_ONLY",
-  "updated_at": "2026-09-02T03:58:21+08:00",
+  "updated_at": "2026-09-02T13:13:11+08:00",
   "updated_by": "main-agent"
 }

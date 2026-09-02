@@ -7,6 +7,7 @@ from cumcm_skill_lab.failure_aware.native_audits import (
     BUNDLE_ROOT,
     FIRST_ROUND_ROLES,
     POST_DECISION_ROLE,
+    _resolved_source_path,
     build_decision_auditor_bundle,
     build_first_round_bundles,
     check_or_write_first_round_bundles,
@@ -61,7 +62,10 @@ def test_each_bundle_hash_and_allowed_file_set_are_replayable(repo_root, role):
     body = dict(bundle)
     recorded_hash = body.pop("bundle_hash")
     assert sha256_json(body) == recorded_hash
-    assert all((repo_root / path).is_file() for path in bundle["allowed_file_references"])
+    assert all(
+        _resolved_source_path(repo_root, path).is_file()
+        for path in bundle["allowed_file_references"]
+    )
     assert all("subagent_audits/" not in path for path in bundle["allowed_file_references"])
 
 

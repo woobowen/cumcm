@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/implementation-embargo/v1",
+  "title": "Phase 002D-R2 Implementation Embargo",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "embargo_id",
+    "phase",
+    "subphase",
+    "subject_commit",
+    "embargo_effective_at",
+    "formal_skill_path",
+    "formal_skill_tree_hash",
+    "formal_skill_file_hashes",
+    "subject_commit_src_git_tree",
+    "protected_src_tree_hash",
+    "protected_src_file_hashes",
+    "allowed_specification_validator_prefixes",
+    "prohibited_prototype_prefixes",
+    "prohibited_formal_skill_modification",
+    "prohibited_component_implementation",
+    "prohibited_shadow_prototype_execution",
+    "embargo_release_condition",
+    "is_component_implementation",
+    "is_shadow_prototype",
+    "embargo_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "embargo_id": {"const": "PHASE-002D-R2-IMPLEMENTATION-EMBARGO-001"},
+    "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
+    "subphase": {"const": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL"},
+    "subject_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "embargo_effective_at": {"type": "string", "minLength": 1},
+    "formal_skill_path": {"const": ".agents/skills/cumcm-modeling-evidence"},
+    "formal_skill_tree_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "formal_skill_file_hashes": {"$ref": "#/$defs/hashMap"},
+    "subject_commit_src_git_tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "protected_src_tree_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "protected_src_file_hashes": {"$ref": "#/$defs/hashMap"},
+    "allowed_specification_validator_prefixes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"const": "src/cumcm_skill_lab/specification/"},
+      "uniqueItems": true
+    },
+    "prohibited_prototype_prefixes": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "prohibited_formal_skill_modification": {"const": true},
+    "prohibited_component_implementation": {"const": true},
+    "prohibited_shadow_prototype_execution": {"const": true},
+    "embargo_release_condition": {"type": "string", "minLength": 1},
+    "is_component_implementation": {"const": false},
+    "is_shadow_prototype": {"const": false},
+    "embargo_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "hashMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    }
+  },
+  "additionalProperties": false
+}

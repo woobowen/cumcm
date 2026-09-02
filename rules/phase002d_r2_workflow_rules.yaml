@@ -1,0 +1,30 @@
+version: "1.0.0"
+state_machine_source: WORKFLOW.md
+scope: PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL
+formal_state_writer: MAIN_AGENT_ONLY
+technical_decision_method: FROZEN_DETERMINISTIC_EVIDENCE_NO_VOTE
+subagent_policy:
+  native_only: true
+  read_only: true
+  peer_visibility: false
+  web_mcp_api_allowed: false
+  majority_vote_allowed: false
+  abstention_allowed: true
+  raw_output_immutable: true
+implementation_embargo:
+  formal_skill_behavior_changes: false
+  component_implementation: false
+  shadow_prototype_execution: false
+  specification_validation_modules: true
+technical_adjudication_status_contract:
+  legal_enum_source: contracts/project_state.schema.json#/properties/technical_adjudication_status/enum
+  invariant_source: contracts/project_state.schema.json#/allOf
+  registered_transitions:
+    FAILURE_AWARE_ADJUDICATION_COMPLETE:
+      - SPECIFICATION_PROTOCOL_IN_PROGRESS
+    SPECIFICATION_PROTOCOL_IN_PROGRESS:
+      - SPECIFICATION_PROTOCOL_COMPLETE
+      - SPECIFICATION_PROTOCOL_INCOMPLETE
+      - STALE
+    SPECIFICATION_PROTOCOL_INCOMPLETE:
+      - SPECIFICATION_PROTOCOL_IN_PROGRESS
