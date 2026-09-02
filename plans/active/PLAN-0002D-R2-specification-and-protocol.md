@@ -278,6 +278,9 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
 - Current milestone: M9 final offline validation and remote Draft-PR verification. The next legal
   route remains a newly frozen R2 design because shadow authorization is `RETEST_REQUIRED`; no
   Phase 003 or implementation work is authorized.
+- M9 substantive content commit `4434e0c5df9621c7b17731a3854a80442401da2b` was pushed to the
+  designated branch and verified at the identical remote SHA. The delivery receipt now binds that
+  prior content commit; final validation-ledger and Draft-PR/CI closure remain pending.
 
 ## 22. Update rule
 

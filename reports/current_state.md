@@ -16,8 +16,8 @@
 - Selected architecture: `None`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL`
-- Content-verified commit: `750323410895a838c039d6b41a84edadc970dcdc`
-- Delivery receipt commit: `750323410895a838c039d6b41a84edadc970dcdc`
+- Content-verified commit: `4434e0c5df9621c7b17731a3854a80442401da2b`
+- Delivery receipt commit: `4434e0c5df9621c7b17731a3854a80442401da2b`
 - Team compliance review: `NOT_RUN`
 - Updated: `2026-09-02T22:00:00+08:00` by `main-agent`
 

@@ -18,7 +18,7 @@ from .models import COMPONENT_IDS, RESULT_ROOT, verify_input_freeze
 from .replay import REPLAY_PATH, validate_replay
 
 STATE_PATH = Path("state/project_state.json")
-CONTENT_VERIFIED_COMMIT = "750323410895a838c039d6b41a84edadc970dcdc"
+CONTENT_VERIFIED_COMMIT = "4434e0c5df9621c7b17731a3854a80442401da2b"
 UPDATED_AT = "2026-09-02T22:00:00+08:00"
 R2_ROUTE = "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL"
 LEDGER_ENTRIES = {
@@ -131,7 +131,24 @@ LEDGER_ENTRIES = {
             "prototype_executions": 0,
             "third_party_executions": 0,
             "phase_003_started": False,
-        }
+        },
+        {
+            "task_id": "PHASE-002D-R2-M9-CONTENT-RECEIPT",
+            "status": "REMOTE_DELIVERED",
+            "plan": "plans/active/PLAN-0002D-R2-specification-and-protocol.md",
+            "updated_at": UPDATED_AT,
+            "owner": "main-agent",
+            "technical_adjudication_status": "SPECIFICATION_PROTOCOL_COMPLETE",
+            "content_verified_commit": CONTENT_VERIFIED_COMMIT,
+            "remote": "origin",
+            "remote_sha": CONTENT_VERIFIED_COMMIT,
+            "selected_architecture": None,
+            "base_selected": False,
+            "third_party_integrated": False,
+            "shadow_authorization": "RETEST_REQUIRED",
+            "next_phase_allowed": R2_ROUTE,
+            "phase_003_started": False,
+        },
     ],
     Path("state/risk_register.jsonl"): [
         {
