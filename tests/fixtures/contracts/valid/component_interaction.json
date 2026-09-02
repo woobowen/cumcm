@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+  "status": "SPECIFICATION_FROZEN",
+  "state_truth": "state/project_state.json",
+  "formal_skill_count": 1,
+  "ledger_truths": {"run": "existing-native-run-ledger", "claim": "existing-native-claim-ledger", "model_comparison": "single-native-model-comparison-decision-record"},
+  "component_interfaces": [
+    {"component_id": "accepted-versus-done-workflow-state", "state_access": "READ_ONLY_PROPOSAL", "append_ledgers": ["existing-state-transition-ledger-via-main-agent"], "can_produce_stale": true, "can_block_final_run": true, "can_block_claim": true, "direct_state_advance": false, "consumes": ["gate results"], "produces": ["transition proposal"]},
+    {"component_id": "claim-evidence-support-gate", "state_access": "READ_ONLY_GATE", "append_ledgers": ["existing-claim-ledger-via-main-agent"], "can_produce_stale": true, "can_block_final_run": false, "can_block_claim": true, "direct_state_advance": false, "consumes": ["manifest"], "produces": ["claim decision"]},
+    {"component_id": "hash-bound-reproducibility-manifest", "state_access": "READ_ONLY_GATE", "append_ledgers": ["existing-run-ledger-via-main-agent"], "can_produce_stale": true, "can_block_final_run": true, "can_block_claim": true, "direct_state_advance": false, "consumes": ["run capture"], "produces": ["manifest"]},
+    {"component_id": "leakage-safe-model-comparison-gate", "state_access": "READ_ONLY_GATE", "append_ledgers": ["existing-model-comparison-record-via-main-agent"], "can_produce_stale": true, "can_block_final_run": true, "can_block_claim": false, "direct_state_advance": false, "consumes": ["comparison freeze"], "produces": ["comparison decision"]}
+  ],
+  "data_dependencies": [
+    {"from": "hash-bound-reproducibility-manifest", "to": "claim-evidence-support-gate", "artifact": "verified Run binding", "required": true},
+    {"from": "leakage-safe-model-comparison-gate", "to": "accepted-versus-done-workflow-state", "artifact": "comparison gate decision", "required": true},
+    {"from": "claim-evidence-support-gate", "to": "accepted-versus-done-workflow-state", "artifact": "claim gate decision", "required": true}
+  ],
+  "failure_precedence": ["security/privacy", "stale/hash", "leakage/reproducibility", "claim support", "state advancement"],
+  "retry_policy": ["no failed evidence rewriting", "retry creates a new Run or sealed test"],
+  "rollback": ["preserve ledgers", "mark affected dependents STALE"],
+  "concurrency_conflicts": ["same Run mutation", "same state transition"],
+  "duplicate_truth_detection": ["project state", "Run ledger", "Claim ledger"],
+  "invariants": ["one project state", "one formal Skill", "one Run truth", "one Claim truth", "no direct Agent state advance"],
+  "decision": "SPECIFICATION_FROZEN",
+  "contract_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

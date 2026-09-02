@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+  "status": "SPECIFICATION_FROZEN",
+  "state_truth": "state/project_state.json",
+  "formal_skill_count": 1,
+  "ledger_truths": {
+    "run": "existing-native-run-ledger",
+    "claim": "existing-native-claim-ledger",
+    "model_comparison": "single-native-model-comparison-decision-record"
+  },
+  "component_interfaces": [
+    {
+      "component_id": "accepted-versus-done-workflow-state",
+      "state_access": "READ_ONLY_PROPOSAL",
+      "append_ledgers": ["existing-state-transition-ledger-via-main-agent"],
+      "can_produce_stale": true,
+      "can_block_final_run": true,
+      "can_block_claim": true,
+      "direct_state_advance": false,
+      "consumes": ["current state", "validated gate records", "dependency graph"],
+      "produces": ["state-transition proposal", "STALE closure", "resume frontier"]
+    },
+    {
+      "component_id": "claim-evidence-support-gate",
+      "state_access": "READ_ONLY_GATE",
+      "append_ledgers": ["existing-claim-ledger-via-main-agent"],
+      "can_produce_stale": true,
+      "can_block_final_run": false,
+      "can_block_claim": true,
+      "direct_state_advance": false,
+      "consumes": ["verified Run manifest", "claim/evidence bindings", "authority policy"],
+      "produces": ["claim disposition", "eligible claim set", "STALE proposal"]
+    },
+    {
+      "component_id": "hash-bound-reproducibility-manifest",
+      "state_access": "READ_ONLY_GATE",
+      "append_ledgers": ["existing-run-ledger-via-main-agent"],
+      "can_produce_stale": true,
+      "can_block_final_run": true,
+      "can_block_claim": true,
+      "direct_state_advance": false,
+      "consumes": ["trusted Run capture", "bound artifacts", "Git/environment/dependency facts"],
+      "produces": ["verified native Run manifest", "Run eligibility", "STALE proposal"]
+    },
+    {
+      "component_id": "leakage-safe-model-comparison-gate",
+      "state_access": "READ_ONLY_GATE",
+      "append_ledgers": ["existing-model-comparison-record-via-main-agent"],
+      "can_produce_stale": true,
+      "can_block_final_run": true,
+      "can_block_claim": false,
+      "direct_state_advance": false,
+      "consumes": ["frozen comparison design", "verified Run manifests", "access ledger"],
+      "produces": ["comparison disposition", "sealed-test invalidation", "STALE proposal"]
+    }
+  ],
+  "data_dependencies": [
+    {"from": "hash-bound-reproducibility-manifest", "to": "claim-evidence-support-gate", "artifact": "verified Run and artifact lineage", "required": true},
+    {"from": "hash-bound-reproducibility-manifest", "to": "leakage-safe-model-comparison-gate", "artifact": "verified candidate and baseline Runs", "required": true},
+    {"from": "claim-evidence-support-gate", "to": "accepted-versus-done-workflow-state", "artifact": "claim gate decision", "required": true},
+    {"from": "leakage-safe-model-comparison-gate", "to": "accepted-versus-done-workflow-state", "artifact": "comparison gate decision", "required": true}
+  ],
+  "failure_precedence": [
+    "security-or-privacy failure blocks all dependent use",
+    "hash, source or STALE failure blocks semantic or comparative interpretation",
+    "reproducibility failure blocks Final Run and every dependent Claim",
+    "leakage failure invalidates comparison Runs and requires a new sealed test",
+    "claim-support failure blocks only affected Claim/package promotion",
+    "state transition occurs only after all applicable predecessors pass"
+  ],
+  "retry_policy": [
+    "A failed, partial or exposed Run is immutable and never rewritten as success.",
+    "Retries create new Run IDs and manifests; premature test exposure requires a new sealed test set.",
+    "Only exact-session recovery allowed by existing budgets may resume; exhausted budget terminates without inference."
+  ],
+  "rollback": [
+    "Disable only the future shadow implementation surface and preserve every ledger record.",
+    "Mark all dependents of withdrawn or changed behavior STALE and replay from the earliest valid predecessor."
+  ],
+  "concurrency_conflicts": [
+    "two writes for the same prior-state hash",
+    "conflicting manifests for one Run identity",
+    "conflicting claim dispositions for one claim revision",
+    "more than one final-test access or model-comparison record"
+  ],
+  "duplicate_truth_detection": [
+    "reject any project-state path other than state/project_state.json",
+    "reject a second Run or Claim ledger authority",
+    "reject a second model-comparison decision record",
+    "reject any component, Agent or human declaring FINAL or bypassing a deterministic gate"
+  ],
+  "invariants": [
+    "Exactly one formal Skill remains discoverable.",
+    "Existing project state and native ledgers are the sole truths.",
+    "All component outputs are evidence or proposals until MAIN_AGENT persists a valid transition.",
+    "Every component may produce a STALE proposal but cannot clear STALE directly.",
+    "No Agent, reviewer, human vote or component directly advances technical state.",
+    "Dependency flow is acyclic; failure precedence is noncompensatory."
+  ],
+  "decision": "SPECIFICATION_FROZEN",
+  "contract_hash": "ed7e00ab84a547a96a12d4ba7de0584f2d58085f689e4e49b43e741ed4cb7e2b"
+}
