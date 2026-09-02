@@ -5,7 +5,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python -m ruff check .",
-      "duration_seconds": 0.058394,
+      "duration_seconds": 0.03132,
       "evidence_hash": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -18,7 +18,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python -m ruff format --check .",
-      "duration_seconds": 0.070791,
+      "duration_seconds": 0.035192,
       "evidence_hash": "52fe84fee2173ce3c6fef21dde2e30a0f5a06cad16719eeedd6e78db673a81ee",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -31,20 +31,20 @@
     {
       "blocker": null,
       "command": ".venv/bin/python -m pytest -q",
-      "duration_seconds": 118.608689,
-      "evidence_hash": "fd227016c9af60c489c4bfe53739c9e4a9c3dc73b9e56b27e643ddc4cbe1d3b3",
+      "duration_seconds": 77.261172,
+      "evidence_hash": "d376c35a702455eeb47cce3f9cb7ff69d5e2c895ea792140e204c55b773a489a",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
       "id": "PYTEST",
       "model_or_reasoning_visibility": "NONE",
       "result": "PASS",
       "stderr_tail": "",
-      "stdout_tail": "........................................................................ [  6%]\n........................................................................ [ 12%]\n........................................................................ [ 18%]\n........................................................................ [ 25%]\n........................................................................ [ 31%]\n........................................................................ [ 37%]\n........................................................................ [ 44%]\n........................................................................ [ 50%]\n........................................................................ [ 56%]\n........................................................................ [ 63%]\n........................................................................ [ 69%]\n........................................................................ [ 75%]\n........................................................................ [ 82%]\n........................................................................ [ 88%]\n................s....................................................... [ 94%]\n...........................................................              [100%]\n1138 passed, 1 skipped in 117.35s (0:01:57)\n"
+      "stdout_tail": "........................................................................ [  6%]\n........................................................................ [ 12%]\n........................................................................ [ 18%]\n........................................................................ [ 25%]\n........................................................................ [ 31%]\n........................................................................ [ 37%]\n........................................................................ [ 44%]\n........................................................................ [ 50%]\n........................................................................ [ 56%]\n........................................................................ [ 63%]\n........................................................................ [ 69%]\n........................................................................ [ 75%]\n........................................................................ [ 82%]\n........................................................................ [ 88%]\n.................s...................................................... [ 94%]\n............................................................             [100%]\n1139 passed, 1 skipped in 76.39s (0:01:16)\n"
     },
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_instruction_budget.py",
-      "duration_seconds": 0.064133,
+      "duration_seconds": 0.053533,
       "evidence_hash": "2b21eb602acc7a5cc1980b51851461027e7ea44c7ee47f5ee1876f09bf483b83",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -57,7 +57,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_skill_discovery.py --expected-name cumcm-modeling-evidence --expected-count 1",
-      "duration_seconds": 0.105771,
+      "duration_seconds": 0.069084,
       "evidence_hash": "b9d2ff4e03913af0e2a32076010d4b8d6d2e30800fccfb4202ea8f4428265f75",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -70,7 +70,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_contracts.py",
-      "duration_seconds": 0.860625,
+      "duration_seconds": 0.738598,
       "evidence_hash": "65bc997aadaad5ab08874cc1b01fa6d229bd2459e395c1c360f938fcddc4288a",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -83,7 +83,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_upstream_manifest.py",
-      "duration_seconds": 0.160391,
+      "duration_seconds": 0.131907,
       "evidence_hash": "45f957b9d70a4e859d3f26f680c12c0cc277043fbeafd2887e4772060c826c04",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -96,7 +96,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_answer_leakage.py",
-      "duration_seconds": 0.040429,
+      "duration_seconds": 0.031704,
       "evidence_hash": "d340485da43172c5cd09f19a05cbbaa022c11e5e8afee19a234ce5376d208d01",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -109,7 +109,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_secrets.py",
-      "duration_seconds": 1.126447,
+      "duration_seconds": 0.832768,
       "evidence_hash": "4cc2305e90f20d86dc33305aca8e90ba3512b04c714992a80c4b0b2b7796c897",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -122,7 +122,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/freeze_phase002d_inputs.py --check",
-      "duration_seconds": 0.14226,
+      "duration_seconds": 0.108658,
       "evidence_hash": "5eef1b11a7e65615a58bdbf1b937b1dba961d01bf74ba5687ac67588789f78f5",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -135,7 +135,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/freeze_phase002d_r1_inputs.py --check",
-      "duration_seconds": 0.081366,
+      "duration_seconds": 0.06794,
       "evidence_hash": "52e92be67db3f2a15631df64ee99f196125c7d737949d8d3f35744ad4f0ce286",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -148,7 +148,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/freeze_phase002d_r2_inputs.py --check",
-      "duration_seconds": 0.064492,
+      "duration_seconds": 0.054857,
       "evidence_hash": "e6463a3c846dffb77af5a992b2b7d68a874115589fa05d23f35aff6f91ebaae5",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -161,7 +161,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/validate_component_specifications.py --check",
-      "duration_seconds": 0.267392,
+      "duration_seconds": 0.212185,
       "evidence_hash": "56214bf6e2dc981fbdebac674dee72431d986d22dbbd662fa8c183a7e6dde106",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -174,7 +174,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/validate_component_interactions.py --check",
-      "duration_seconds": 0.178183,
+      "duration_seconds": 0.150756,
       "evidence_hash": "73b6efc68ad9835a3865459a1890969e6421b86f07d39106cc8977f372078c2b",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -187,7 +187,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/validate_architecture_candidates.py --check",
-      "duration_seconds": 0.140783,
+      "duration_seconds": 0.091427,
       "evidence_hash": "0952b617f2bbd7b0a6acf67c2a0412d318f7da66abcb1be436d320b978afb5da",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -200,7 +200,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/generate_prospective_benchmark.py --check",
-      "duration_seconds": 0.204434,
+      "duration_seconds": 0.107689,
       "evidence_hash": "6844e0f2d24f778bc26a244987e842e933d0592d166eec5607975a45f53f872a",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -213,20 +213,20 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_benchmark_vault.py --check",
-      "duration_seconds": 0.07431,
-      "evidence_hash": "1aef35cf788d4a1a0fe3765a8d34a7b02c787e90c0e52560aa881f092ef75fc6",
+      "duration_seconds": 0.052276,
+      "evidence_hash": "58cb1e5d6d2df8c7aaf1662c58e4743a2994c3ba90b28de3fbbcf77ecf5aa1c4",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
       "id": "BENCHMARK_VAULT",
       "model_or_reasoning_visibility": "NONE",
       "result": "PASS",
       "stderr_tail": "",
-      "stdout_tail": "{\"errors\": [], \"ignored\": {\"generated_case_hashes.json\": true, \"generated_case_hashes_v2.json\": true, \"hidden_oracle_parameters.json\": true, \"hidden_oracle_parameters_v2.json\": true, \"hidden_seeds.json\": true, \"hidden_seeds_v2.json\": true, \"oracle_class_map_v2.json\": true, \"vault_manifest.json\": true, \"vault_manifest_v2.json\": true}, \"isolation_level\": \"POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED\", \"private_values_read\": false, \"status\": \"PASS\"}\n"
+      "stdout_tail": "{\"errors\": [], \"ignored\": {\"generated_case_hashes.json\": true, \"generated_case_hashes_v2.json\": true, \"hidden_oracle_parameters.json\": true, \"hidden_oracle_parameters_v2.json\": true, \"hidden_seeds.json\": true, \"hidden_seeds_v2.json\": true, \"oracle_class_map_v2.json\": true, \"vault_manifest.json\": true, \"vault_manifest_v2.json\": true}, \"isolation_level\": \"POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED\", \"mount_status\": \"MOUNTED\", \"private_values_read\": false, \"public_commitment_verified\": true, \"status\": \"PASS\"}\n"
     },
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/freeze_prospective_benchmark.py --check",
-      "duration_seconds": 0.145156,
+      "duration_seconds": 0.110065,
       "evidence_hash": "6844e0f2d24f778bc26a244987e842e933d0592d166eec5607975a45f53f872a",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -239,7 +239,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/freeze_prospective_thresholds.py --check",
-      "duration_seconds": 0.172066,
+      "duration_seconds": 0.117393,
       "evidence_hash": "97387c6e7eb9eb931db4f5e8350b399f14ac8d9f6df8f6812b8b07e2b2e3ff07",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -252,7 +252,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/validate_prospective_protocol.py --check",
-      "duration_seconds": 0.145669,
+      "duration_seconds": 0.107564,
       "evidence_hash": "f1dd2e6adb1460884cb37009608b4ced4a013c50f22d1d5ee2df2b92d2055924",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -265,7 +265,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/validate_clean_room_provenance.py --check",
-      "duration_seconds": 0.308185,
+      "duration_seconds": 0.253448,
       "evidence_hash": "d075f0400e1c418647265e56c0e30570a525ae699e82d4e36422a423bbc0a910",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -278,7 +278,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/synthesize_phase002d_r2_findings.py --check",
-      "duration_seconds": 0.424414,
+      "duration_seconds": 0.304774,
       "evidence_hash": "1ed5e5aec5d7b83e3e58bc814332135dd728fd2f357450bc325d93e77bd674bf",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -291,7 +291,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/check_implementation_embargo.py --check",
-      "duration_seconds": 0.074365,
+      "duration_seconds": 0.045535,
       "evidence_hash": "4be369dbc0ffc75c18d05352d24f5d2c76f8574f70fdca7c26d13ebf2a39bb36",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -304,7 +304,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/adjudicate_phase002d_r2.py --check",
-      "duration_seconds": 1.056285,
+      "duration_seconds": 0.794898,
       "evidence_hash": "5c6614950ca97aeb7f17ea1d12bcf83f083eed3ffaa0a108efc40ca6abfd7ff6",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -317,7 +317,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/audit_phase002d_r2_decision.py --check",
-      "duration_seconds": 0.708136,
+      "duration_seconds": 0.632127,
       "evidence_hash": "5fd3d1ee4134ac466945fa9d28425456290b7c888ec763616a011b43c2f8dc21",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -330,7 +330,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/replay_phase002d_r2_decision.py --check",
-      "duration_seconds": 1.043448,
+      "duration_seconds": 0.789956,
       "evidence_hash": "bb41f585996b87eeeea09d0ce016c4c4d9d9b1dd574acb8ee557ef423707d55a",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -343,7 +343,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/transition_phase002d_r2_state.py --check",
-      "duration_seconds": 0.77172,
+      "duration_seconds": 0.575471,
       "evidence_hash": "69c15339cfa78a5da356214f502e6fd32dc395a9121eae29393175c24655a59c",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -356,20 +356,20 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/summarize_phase002d_r2.py --check",
-      "duration_seconds": 0.247734,
-      "evidence_hash": "830630de00e0b4fdb6a3682603d587943ccf39dd62ad847d21f31693e338e4bb",
+      "duration_seconds": 0.321792,
+      "evidence_hash": "7f3645cc7c935ae245284868fb25ddf48f3f9c18099e00e83d0801a13ac6aa55",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
       "id": "R2_REPORTS",
       "model_or_reasoning_visibility": "NONE",
       "result": "PASS",
       "stderr_tail": "",
-      "stdout_tail": "{\"errors\": [], \"manifest_hash\": \"40015a148050077fd77fd832757cd9c047dec7fc17bbca7ece22524ba2dd4a2a\", \"report_count\": 14, \"status\": \"PASS\"}\n"
+      "stdout_tail": "{\"errors\": [], \"manifest_hash\": \"5cf68dc3955dd96fb6066911133beb7fe94620d2b6f1fc5f81a6d47c0d858af5\", \"report_count\": 14, \"status\": \"PASS\"}\n"
     },
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/render_status.py",
-      "duration_seconds": 0.02323,
+      "duration_seconds": 0.02653,
       "evidence_hash": "6881b0a4415516ca61ea937555fa5ee43bdccd64052d33f7a9802f510db145e2",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -382,7 +382,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/render_status.py --check",
-      "duration_seconds": 0.02947,
+      "duration_seconds": 0.025891,
       "evidence_hash": "485f06b720baf95874f16d5c478136279d65d90e8afcb28082b71c94b3b4e334",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -395,7 +395,7 @@
     {
       "blocker": null,
       "command": ".venv/bin/python scripts/validate_repo.py --strict",
-      "duration_seconds": 2.918424,
+      "duration_seconds": 2.046575,
       "evidence_hash": "b5e97290e0e6e93c9bbd532004bd00677211b1f1d95e184bb46e8900f22f5d39",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -408,20 +408,20 @@
     {
       "blocker": null,
       "command": "bash scripts/ci.sh",
-      "duration_seconds": 91.313191,
-      "evidence_hash": "38c4e5d466a8c7ddcf3a5f57a1fc5a4017c2d9e5309bdbeb967770d01dc21ded",
+      "duration_seconds": 80.788462,
+      "evidence_hash": "104f49652b70b6747e0b441443a7ca20a7b9eaeda7b147ef19a33aa5ea377280",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
       "id": "OFFLINE_CI",
       "model_or_reasoning_visibility": "NONE",
       "result": "PASS",
       "stderr_tail": "",
-      "stdout_tail": "................................ [ 18%]\n........................................................................ [ 25%]\n........................................................................ [ 31%]\n........................................................................ [ 37%]\n........................................................................ [ 44%]\n........................................................................ [ 50%]\n........................................................................ [ 56%]\n........................................................................ [ 63%]\n........................................................................ [ 69%]\n........................................................................ [ 75%]\n........................................................................ [ 82%]\n........................................................................ [ 88%]\n................s....................................................... [ 94%]\n...........................................................              [100%]\n1138 passed, 1 skipped in 87.70s (0:01:27)\nrepository=PASS errors=0 warnings=0\n{\"error_count\": 0, \"errors\": [], \"ok\": true, \"sections\": {\"contracts\": {\"errors\": [], \"invalid_rejected\": 58, \"schema_count\": 68, \"valid_fixtures\": 68}, \"delivery\": {\"errors\": []}, \"instructions\": {\"errors\": [], \"sizes\": {\".agents/skills/cumcm-modeling-evidence/AGENTS.md\": 463, \"AGENTS.md\": 5038, \"benchmarks/AGENTS.md\": 425, \"research/upstream_candidates/AGENTS.md\": 482, \"tests/AGENTS.md\": 317}, \"total_project_bytes\": 6725, \"warnings\": []}, \"leakage\": {\"errors\": [], \"findings\": []}, \"privacy\": {\"errors\": []}, \"secrets\": {\"errors\": []}, \"skills\": {\"errors\": [], \"names\": [\"cumcm-modeling-evidence\"], \"skills\": [\".agents/skills/cumcm-modeling-evidence/SKILL.md\"]}, \"upstreams\": {\"cache_ignored\": true, \"candidate_count\": 8, \"component_card_count\": 4, \"errors\": []}}, \"strict\": true, \"warning_count\": 0, \"warnings\": [], \"yaml_count\": 52}\n"
+      "stdout_tail": "................................ [ 18%]\n........................................................................ [ 25%]\n........................................................................ [ 31%]\n........................................................................ [ 37%]\n........................................................................ [ 44%]\n........................................................................ [ 50%]\n........................................................................ [ 56%]\n........................................................................ [ 63%]\n........................................................................ [ 69%]\n........................................................................ [ 75%]\n........................................................................ [ 82%]\n........................................................................ [ 88%]\n.................s...................................................... [ 94%]\n............................................................             [100%]\n1139 passed, 1 skipped in 77.57s (0:01:17)\nrepository=PASS errors=0 warnings=0\n{\"error_count\": 0, \"errors\": [], \"ok\": true, \"sections\": {\"contracts\": {\"errors\": [], \"invalid_rejected\": 58, \"schema_count\": 68, \"valid_fixtures\": 68}, \"delivery\": {\"errors\": []}, \"instructions\": {\"errors\": [], \"sizes\": {\".agents/skills/cumcm-modeling-evidence/AGENTS.md\": 463, \"AGENTS.md\": 5038, \"benchmarks/AGENTS.md\": 425, \"research/upstream_candidates/AGENTS.md\": 482, \"tests/AGENTS.md\": 317}, \"total_project_bytes\": 6725, \"warnings\": []}, \"leakage\": {\"errors\": [], \"findings\": []}, \"privacy\": {\"errors\": []}, \"secrets\": {\"errors\": []}, \"skills\": {\"errors\": [], \"names\": [\"cumcm-modeling-evidence\"], \"skills\": [\".agents/skills/cumcm-modeling-evidence/SKILL.md\"]}, \"upstreams\": {\"cache_ignored\": true, \"candidate_count\": 8, \"component_card_count\": 4, \"errors\": []}}, \"strict\": true, \"warning_count\": 0, \"warnings\": [], \"yaml_count\": 52}\n"
     },
     {
       "blocker": null,
       "command": "git diff --check",
-      "duration_seconds": 0.003231,
+      "duration_seconds": 0.004311,
       "evidence_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
@@ -434,20 +434,20 @@
     {
       "blocker": null,
       "command": "git status --short --branch",
-      "duration_seconds": 0.00514,
-      "evidence_hash": "d055fa71e525d39c80228dcaab307c6c2a6bafc86478544ec66659ed6398219a",
+      "duration_seconds": 0.007415,
+      "evidence_hash": "0296b5b686554f4210d709bdcb63bed4ea8ce87d82c422c89b4560b72d01a919",
       "execution_type": "DETERMINISTIC_OFFLINE",
       "exit_code": 0,
       "id": "GIT_STATUS",
       "model_or_reasoning_visibility": "NONE",
       "result": "PASS",
       "stderr_tail": "",
-      "stdout_tail": "## feat/phase002d-r2-spec-protocol...origin/feat/phase002d-r2-spec-protocol\n?? evals/results/phase-002d-r2/validation_commands.json\n"
+      "stdout_tail": "## feat/phase002d-r2-spec-protocol...origin/feat/phase002d-r2-spec-protocol\n M evals/results/phase-002d-r2/reports_manifest.json\n M plans/active/PLAN-0002D-R2-specification-and-protocol.md\n M reports/phase002d_r2_benchmark_design.md\n M src/cumcm_skill_lab/specification/reporting.py\n M src/cumcm_skill_lab/specification/vault_manifest.py\n M tests/unit/test_phase002d_r2_benchmark.py\n"
     }
   ],
   "created_at": "2026-09-02T13:02:23+08:00",
   "failed_count": 0,
-  "ledger_hash": "582e8a87840dc6601f78cd44a4593792ed022edba3262d16f9897b047a8175e9",
+  "ledger_hash": "5b2f39893110556b32c8aadc1c8e25b9b9b3fb5342aa6b982119afc90d8a605b",
   "ledger_id": "PHASE-002D-R2-FINAL-VALIDATION-001",
   "passed_count": 34,
   "prototype_executions": 0,

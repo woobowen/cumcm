@@ -1,12 +1,14 @@
 import copy
 import json
 import subprocess
+from pathlib import Path
 
 import pytest
 import yaml
 from jsonschema import Draft202012Validator
 
 from cumcm_skill_lab.adjudication.models import sha256_json
+from cumcm_skill_lab.specification import vault_manifest
 from cumcm_skill_lab.specification.benchmark_generator import (
     BENCHMARK_ROOT,
     TRANSFORMATIONS,
@@ -91,6 +93,19 @@ def test_vault_is_ignored_untracked_and_not_read(repo_root):
         text=True,
     )
     assert tracked.stdout == ""
+
+
+def test_clean_checkout_without_vault_mount_uses_public_commitment(repo_root, monkeypatch):
+    monkeypatch.setattr(
+        vault_manifest,
+        "VAULT_ROOT",
+        Path("benchmark-vault/fresh-checkout-vault-not-mounted"),
+    )
+    result = vault_manifest.check_benchmark_vault(repo_root)
+    assert result["status"] == "PASS"
+    assert result["mount_status"] == "NOT_MOUNTED"
+    assert result["public_commitment_verified"] is True
+    assert result["private_values_read"] is False
 
 
 def test_hidden_seed_and_oracle_paths_are_git_ignored(repo_root):

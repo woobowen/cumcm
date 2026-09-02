@@ -289,6 +289,22 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   native/model/API/prototype/third-party execution counts are zero.
 - Current milestone: commit and remotely verify the passing validation ledger, then verify Draft PR
   #4 remains OPEN/DRAFT and its final-SHA remote CI succeeds. No technical BLOCKER remains locally.
+- Remote CI run `33633088918` on validation commit `84ac8ec` failed `17` tests because a clean
+  checkout correctly omitted every ignored private-vault file, while the vault checker incorrectly
+  required a mounted local vault. The failure cascaded into Benchmark adjudication, Audit, replay
+  and state tests; it did not expose or read private values.
+- Repair cycle 1 distinguishes an all-file mounted vault from a completely unmounted clean checkout.
+  Both require Git-ignore/non-tracking and canonical tracked commitment/interface evidence; a
+  partial mount or commitment mismatch fails closed. The unmounted path makes no claim that private
+  vault material is available. Mounted and true no-vault temporary-clone paths each pass the 99-test
+  affected chain with `private_values_read=false`. The clarified 14-report manifest is
+  `5cf68dc3955dd96fb6066911133beb7fe94620d2b6f1fc5f81a6d47c0d858af5`; final full validation and
+  remote CI rerun remain.
+- Repair cycle 1 final matrix passes `34/34` commands with `1139 passed, 1 skipped`, strict
+  validation at zero errors/warnings, full offline CI, and zero model/API/prototype/third-party
+  executions. The replacement validation-ledger hash is
+  `5b2f39893110556b32c8aadc1c8e25b9b9b3fb5342aa6b982119afc90d8a605b`. The remaining Gate is
+  remote delivery and CI on the repair SHA while PR #4 stays OPEN/DRAFT.
 
 ## 22. Update rule
 

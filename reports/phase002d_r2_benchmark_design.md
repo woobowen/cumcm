@@ -15,4 +15,6 @@
 
 Tracked artifacts expose opaque case IDs, aggregate commitments and oracle-interface hashes, never
 hidden seeds or private oracle mappings. The vault is ignored and policy/workspace isolated, not
-OS-enforced; future execution requires stronger denial and an access ledger.
+OS-enforced. A clean checkout may validate the tracked commitments with the vault unmounted; that
+proves public-manifest consistency and non-leakage, not private-vault availability. A partial mount
+fails closed. Future execution requires stronger denial and an access ledger.
