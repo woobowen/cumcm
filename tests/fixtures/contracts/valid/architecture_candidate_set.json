@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_set_id": "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001",
+  "status": "CANDIDATE_SET_FROZEN",
+  "baseline_id": "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+  "candidates": [
+    {"architecture_id":"ARCH-S0-RETAIN-SCAFFOLD-ONLY","purpose":"Retain scaffold as the minimum-complexity comparison baseline.","component_placement":{"a":"spec","b":"spec","c":"spec","d":"spec"},"formal_skill_count":1,"state_truth_sources":["state/project_state.json"],"deterministic_modules":[],"agent_modules":["general Codex"],"data_flow":["existing"],"state_flow":["main agent"],"failure_flow":["fail closed"],"stale_flow":["existing"],"security_boundary":["offline","one Skill"],"implementation_surface":[],"maintenance_surface":["scaffold"],"estimated_complexity":"MINIMAL","expected_benefits":["low cost"],"expected_costs":["gaps remain"],"falsification_conditions":["hard failure","ineffective"],"public_tests":["P0"],"hidden_tests":["H0"],"prototype_scope":"EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY","prohibited_behavior":["selection","integration","second Skill","second state"]},
+    {"architecture_id":"ARCH-W1-WORKFLOW-ONLY-GUARDS","purpose":"Test workflow-only guards with one formal Skill and existing state.","component_placement":{"a":"workflow","b":"workflow","c":"workflow","d":"workflow"},"formal_skill_count":1,"state_truth_sources":["state/project_state.json"],"deterministic_modules":["existing validators"],"agent_modules":["bounded reviewers"],"data_flow":["spec to workflow"],"state_flow":["main agent"],"failure_flow":["gate blocks"],"stale_flow":["existing"],"security_boundary":["offline","read-only agent"],"implementation_surface":["future shadow workflow"],"maintenance_surface":["rules and tests"],"estimated_complexity":"LOW","expected_benefits":["low code"],"expected_costs":["model bypass risk"],"falsification_conditions":["hard failure","overhead"],"public_tests":["P1"],"hidden_tests":["H1"],"prototype_scope":"EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY","prohibited_behavior":["selection","integration","second Skill","second state"]}
+  ],
+  "selected_architecture": null,
+  "decision": "CANDIDATE_SET_FROZEN",
+  "candidate_set_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

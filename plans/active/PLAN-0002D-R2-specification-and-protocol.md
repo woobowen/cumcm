@@ -199,8 +199,13 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   agent, so the fourth isolated role ran sequentially on a fresh role turn instead of a fourth
   simultaneous thread; this limitation remains an audit input. Component validation passed and the
   focused suite passed `101` tests; no component or prototype behavior was implemented.
-- Current milestone: M2 commit/delivery. Next legal work is interaction and candidate-set
-  specification without selection.
+- `2026-09-02`: M2 commit `ca06c3d` was pushed. M3 froze the single-truth interaction contract at
+  hash `ed7e00ab84a547a96a12d4ba7de0584f2d58085f689e4e49b43e741ed4cb7e2b` and the three-candidate
+  S0/W1/K1 set at hash `c51ea5d8b583971c8d4bc79943389264cf48a521e26f30eac7fb5d8bd497694d`.
+  Validation passed with `selected_architecture=null`, one formal Skill and one project-state truth;
+  the focused interaction/architecture suite passed `43` tests.
+- Current milestone: M3 commit/delivery. Next legal work is prospective synthetic Benchmark
+  construction under the implementation embargo.
 
 ## 22. Update rule
 

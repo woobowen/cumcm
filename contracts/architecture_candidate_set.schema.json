@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/architecture-candidate-set/v1",
+  "title": "Frozen Prospective Architecture Candidate Set",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["schema_version", "candidate_set_id", "status", "baseline_id", "candidates", "selected_architecture", "decision", "candidate_set_hash"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "candidate_set_id": {"const": "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001"},
+    "status": {"const": "CANDIDATE_SET_FROZEN"},
+    "baseline_id": {"const": "ARCH-S0-RETAIN-SCAFFOLD-ONLY"},
+    "candidates": {"type": "array", "minItems": 2, "maxItems": 3, "items": {"$ref": "#/$defs/candidate"}},
+    "selected_architecture": {"type": "null"},
+    "decision": {"const": "CANDIDATE_SET_FROZEN"},
+    "candidate_set_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "required": ["architecture_id", "purpose", "component_placement", "formal_skill_count", "state_truth_sources", "deterministic_modules", "agent_modules", "data_flow", "state_flow", "failure_flow", "stale_flow", "security_boundary", "implementation_surface", "maintenance_surface", "estimated_complexity", "expected_benefits", "expected_costs", "falsification_conditions", "public_tests", "hidden_tests", "prototype_scope", "prohibited_behavior"],
+      "properties": {
+        "architecture_id": {"type": "string", "pattern": "^ARCH-[A-Z0-9-]+$"},
+        "purpose": {"type": "string", "minLength": 20},
+        "component_placement": {"type": "object", "minProperties": 4, "additionalProperties": {"type": "string"}},
+        "formal_skill_count": {"const": 1},
+        "state_truth_sources": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"const": "state/project_state.json"}},
+        "deterministic_modules": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "agent_modules": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "data_flow": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "state_flow": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "failure_flow": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "stale_flow": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "security_boundary": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "implementation_surface": {"type": "array", "items": {"type": "string"}},
+        "maintenance_surface": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "estimated_complexity": {"enum": ["MINIMAL", "LOW", "MEDIUM", "HIGH", "UNKNOWN"]},
+        "expected_benefits": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "expected_costs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "falsification_conditions": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "public_tests": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true},
+        "hidden_tests": {"type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true},
+        "prototype_scope": {"const": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"},
+        "prohibited_behavior": {"type": "array", "minItems": 4, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
