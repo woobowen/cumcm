@@ -1,4 +1,5 @@
 {
+  "audience": "AUDITOR_ONLY_NOT_CANDIDATE",
   "families": [
     {
       "case_count": 2,
@@ -6,11 +7,11 @@
       "component_scope": [
         "accepted-versus-done-workflow-state"
       ],
-      "family_hash": "5b3258dfd7412c933f4cbacfba8437e882ca9f48c806144728a596f6a15cb90e",
+      "family_hash": "240877765647715439c4a26a5ef080233cf8974e061b2a854299e0cb4461e6e9",
       "family_id": "R2-TARGET-1",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-TARGETED-V1",
       "tier": "SEALED_PROPERTY",
@@ -33,11 +34,11 @@
       "component_scope": [
         "claim-evidence-support-gate"
       ],
-      "family_hash": "6d6ab9a20fa22fe207b8ab765d89bbc53c0e72d21e1699cfa57b58df057376d2",
+      "family_hash": "b2beabd463a31acaed4ea733d16d8673eb5afeeadf4737b182db861ad43dde3e",
       "family_id": "R2-TARGET-2",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-TARGETED-V1",
       "tier": "SEALED_PROPERTY",
@@ -60,11 +61,11 @@
       "component_scope": [
         "hash-bound-reproducibility-manifest"
       ],
-      "family_hash": "84a6775ded3bc914c909219285bf790110dc70d1528dca23cf254965a44a4d93",
+      "family_hash": "51413ddf3eca1cf37b220a8fbb48424a9af011ec8e056774935fe45172b4f352",
       "family_id": "R2-TARGET-3",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-TARGETED-V1",
       "tier": "SEALED_PROPERTY",
@@ -87,11 +88,11 @@
       "component_scope": [
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "4ee6714382f311c66e35570db9c2256dced72111b3d24b6b8e47515a0b0c119b",
+      "family_hash": "7f1bce684d41177a2d848bd27afd4cc2d9bcfd840c100bdad3012a0d87c35c89",
       "family_id": "R2-TARGET-4",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-TARGETED-V1",
       "tier": "SEALED_PROPERTY",
@@ -117,11 +118,11 @@
         "hash-bound-reproducibility-manifest",
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "250d5de394693ae1d402f431fb5f0cf943a49b803f9735b3fbd73e8342028d8a",
+      "family_hash": "839b769e3c176db7abe428c9acaae44f2ffce1b1e139cd5eb30b4bf9203813a7",
       "family_id": "R2-INTERACTION-1",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-INTERACTION-V1",
       "tier": "SEALED_PROPERTY",
@@ -139,16 +140,16 @@
       ]
     },
     {
-      "case_count": 1,
+      "case_count": 5,
       "category": "VALID_NEGATIVE_CONTROL",
       "component_scope": [
         "accepted-versus-done-workflow-state"
       ],
-      "family_hash": "1ac8c1cab7abd9d2ab804f57f7c1b19b653a910ea4edd82bb3248e2e515b3108",
+      "family_hash": "6365f20915c594f6d3137e49442836be7a7c25359f5dbbaafde9155b62100098",
       "family_id": "R2-NEGATIVE-1",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": true,
       "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
       "tier": "SEALED_PROPERTY",
@@ -171,11 +172,11 @@
       "component_scope": [
         "accepted-versus-done-workflow-state"
       ],
-      "family_hash": "1c5a9b1d77620a7efc22a843223510f1c5a8362642b702391546f7ef1be10c6a",
+      "family_hash": "1bb7e85c37348e7f83a64e78916104bf692342f1893dddecff1e770c67acad2c",
       "family_id": "R2-GAMING-1",
       "frozen_before_prototype": true,
       "gaming": true,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
       "tier": "SEALED_PROPERTY",
@@ -198,11 +199,11 @@
       "component_scope": [
         "accepted-versus-done-workflow-state"
       ],
-      "family_hash": "24466e04a2634bea18706331cd01857cab79dd6529e276f3fcc916980ca86bd0",
+      "family_hash": "ddd67416ef4d1c965e605ab282b71488375121b4e60c7b071788dfc2ed505d85",
       "family_id": "R2-MODEL-1",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-COMPOSITE-V1",
       "tier": "MODEL_IN_LOOP_FUTURE",
@@ -228,11 +229,11 @@
         "hash-bound-reproducibility-manifest",
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "24b84d627496837b284116f6a166dcf4c091105cb0f8d75954516af19dff8537",
+      "family_hash": "cf3b41723c6f44b84a27ba23a340d7e48293f596cd55aa13ccaf1c2b8cb6d050",
       "family_id": "R2-INTERACTION-2",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-INTERACTION-V1",
       "tier": "SEALED_PROPERTY",
@@ -250,16 +251,16 @@
       ]
     },
     {
-      "case_count": 1,
+      "case_count": 5,
       "category": "VALID_NEGATIVE_CONTROL",
       "component_scope": [
         "claim-evidence-support-gate"
       ],
-      "family_hash": "849968e3a8e050c8a29da4d445b2c39792058881e24f68ae1bc7f1fb2bc43a83",
+      "family_hash": "6742a90b9884fe4c872b91e75adc965fd0c3c68c38f3957a679cac43d44fed76",
       "family_id": "R2-NEGATIVE-2",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": true,
       "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
       "tier": "SEALED_PROPERTY",
@@ -282,11 +283,11 @@
       "component_scope": [
         "claim-evidence-support-gate"
       ],
-      "family_hash": "2a5a4d2263332d336e3761943a1527e5aa43d91592d2dc2e4e59528d983d3763",
+      "family_hash": "3a7559209254b1147ec387f572920df293d64530034445589027af8b5573663d",
       "family_id": "R2-GAMING-2",
       "frozen_before_prototype": true,
       "gaming": true,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
       "tier": "SEALED_PROPERTY",
@@ -309,11 +310,11 @@
       "component_scope": [
         "claim-evidence-support-gate"
       ],
-      "family_hash": "daaf18e09bffaa0eeb41cf754325f92e647c023d79bf2d6d727ff70035acd6f8",
+      "family_hash": "682f2e8bdf6606c064d0a08220ddcde6165471d4be1bb0b3c899791ea1cfa403",
       "family_id": "R2-MODEL-2",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-COMPOSITE-V1",
       "tier": "MODEL_IN_LOOP_FUTURE",
@@ -339,11 +340,11 @@
         "hash-bound-reproducibility-manifest",
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "636d42bbf0a47b8a7918c339a72025a04df99a83965c9e581c7a3f42dc111bc4",
+      "family_hash": "8dea1bccc05f0fb161f11087d73706b9bb8b1c909cef222204b10cd1030acf69",
       "family_id": "R2-INTERACTION-3",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-INTERACTION-V1",
       "tier": "SEALED_PROPERTY",
@@ -361,16 +362,16 @@
       ]
     },
     {
-      "case_count": 1,
+      "case_count": 5,
       "category": "VALID_NEGATIVE_CONTROL",
       "component_scope": [
         "hash-bound-reproducibility-manifest"
       ],
-      "family_hash": "61aa31616589120849296c3c433759276dc7a1d44dd8f45b803450ba410c5ab1",
+      "family_hash": "0edde8ef94672d81625af03de7c08004d1a88628631ccc9805a47f748a445b86",
       "family_id": "R2-NEGATIVE-3",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": true,
       "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
       "tier": "SEALED_PROPERTY",
@@ -393,11 +394,11 @@
       "component_scope": [
         "hash-bound-reproducibility-manifest"
       ],
-      "family_hash": "b2ae4a28f8268b4ee5d26685e3e2a3217d8abb43f6ccc75e5fb9723cd536505b",
+      "family_hash": "fc9279ca5038aa8299bedd51687d97f8980d35259a3435d54f58afd507702a2b",
       "family_id": "R2-GAMING-3",
       "frozen_before_prototype": true,
       "gaming": true,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
       "tier": "SEALED_PROPERTY",
@@ -420,11 +421,11 @@
       "component_scope": [
         "hash-bound-reproducibility-manifest"
       ],
-      "family_hash": "8bbfb4d7ea0c9108603fc8003934a67b3d168795fadd228517e9a30c08b42290",
+      "family_hash": "e6786976cc44201798b2440765e83c1fa532e8a369d327021a2f7bf1c67c60f3",
       "family_id": "R2-MODEL-3",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-COMPOSITE-V1",
       "tier": "MODEL_IN_LOOP_FUTURE",
@@ -450,11 +451,11 @@
         "hash-bound-reproducibility-manifest",
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "e0776bb955262af3fb26583be3ee213de5411a2c8ec770ee1c7da77de13fdb84",
+      "family_hash": "8fb7ce645d988fd4369b365492819eff7f488fe7af95cea96a7613da12615a84",
       "family_id": "R2-INTERACTION-4",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-INTERACTION-V1",
       "tier": "SEALED_PROPERTY",
@@ -472,16 +473,16 @@
       ]
     },
     {
-      "case_count": 1,
+      "case_count": 5,
       "category": "VALID_NEGATIVE_CONTROL",
       "component_scope": [
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "9d70a59eee8bf661e0556da21082a6c511e2333c7f079df1075a8f5164e8f910",
+      "family_hash": "03b7601d0c8faf3e3682a747432158995b361d5aaca50c683e384a4f8808402b",
       "family_id": "R2-NEGATIVE-4",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": true,
       "oracle_interface": "ORACLE-VALID_NEGATIVE_CONTROL-V1",
       "tier": "SEALED_PROPERTY",
@@ -504,11 +505,11 @@
       "component_scope": [
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "5275f100b23a011b5e3561575de74e72829f049c66a749726720cbb1c8027d43",
+      "family_hash": "1b6b07481635e556b7d11499a4ccd1f68f646a85bdeb8b43fbf21ba16b7b8a36",
       "family_id": "R2-GAMING-4",
       "frozen_before_prototype": true,
       "gaming": true,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-ADVERSARIAL_GAMING-V1",
       "tier": "SEALED_PROPERTY",
@@ -531,11 +532,11 @@
       "component_scope": [
         "leakage-safe-model-comparison-gate"
       ],
-      "family_hash": "1d3222cb351d04a81959e6737279c68acef6c2ec094c79b611698ef498136199",
+      "family_hash": "88b2c33e7ec902cbe7f23d94be7bfb6c128f45948463dd835e85c224b8325723",
       "family_id": "R2-MODEL-4",
       "frozen_before_prototype": true,
       "gaming": false,
-      "generator_id": "GEN-SYNTHETIC-V1",
+      "generator_id": "GEN-SYNTHETIC-V2",
       "negative_control": false,
       "oracle_interface": "ORACLE-COMPOSITE-V1",
       "tier": "MODEL_IN_LOOP_FUTURE",

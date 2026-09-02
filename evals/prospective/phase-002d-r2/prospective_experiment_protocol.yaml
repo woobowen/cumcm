@@ -28,15 +28,25 @@
     "YUSHUI",
     "any third-party whole package"
   ],
-  "protocol_hash": "202870df3a8cdb007dcaaf5722e16c7fcb668c4b92f65561e7b043c8c5d1a97c",
+  "protocol_hash": "cfc17c89ca79f40cc1889fd0bdd5c03fe91ec1ae8de70cf65f114e25f416d081",
   "protocol_id": "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
   "randomization": "BLOCKED_RANDOMIZED_ARM_ORDER",
   "repeats": 2,
+  "resource_caps": {
+    "deterministic_case_executions": 4004,
+    "grader_actions": 4034,
+    "maintained_logical_units": 24,
+    "model_starts_including_retries": 30,
+    "retained_artifact_bytes": 2147483648,
+    "wall_time_seconds": 86400
+  },
   "retry_allowance_formula": "ceil(main_model_starts * 0.25)",
+  "retry_burden_formula": "retry_attempt_count / max(1, planned_primary_slot_count)",
   "retry_rules": [
     "Only independently classified fresh infrastructure failures may receive a retry.",
     "At most one retry is allowed for a primary slot and all attempts remain in ledgers.",
-    "Retry allowance is ceil(main starts * 0.25); no terminal correctness failure is retried into success."
+    "Retry allowance is ceil(main starts * 0.25); no terminal correctness failure is retried into success.",
+    "Retry burden is retries divided by planned primary slots and must not exceed 0.25; permission and acceptance use the same denominator and cap."
   ],
   "schema_version": "1.0.0",
   "stage2_equalities": [
@@ -72,10 +82,13 @@
       "stage": 3
     }
   ],
+  "start_cap_scope": "GLOBAL_ACROSS_ALL_ARMS_ABLATIONS_PRIMARY_AND_RETRY_ATTEMPTS",
   "status": "POLICY_FROZEN",
   "stop_conditions": [
     "Stop an architecture before Stage 2 on any Stage 1 hard failure.",
     "Stop when the retry allowance or absolute 30-start cap is exhausted.",
-    "Stop with RETEST_REQUIRED or EVIDENCE_INSUFFICIENT on missing, leaked, stale, censored or non-replayable critical evidence."
+    "Stop with RETEST_REQUIRED or EVIDENCE_INSUFFICIENT on missing, leaked, stale, censored or non-replayable critical evidence.",
+    "Stop an arm immediately on any token, retry, logical-surface, maintenance, wall-time, storage or grader-action cap breach; unknown cost is EVIDENCE_INSUFFICIENT.",
+    "Reject strict cost dominance by a simpler eligible arm unless a predeclared non-cost threshold is measurably superior; this rule does not select an architecture here."
   ]
 }

@@ -11,6 +11,7 @@ from _bootstrap import ROOT
 from cumcm_skill_lab.specification.benchmark_generator import (
     materialize_benchmark,
     refresh_tracked_benchmark,
+    rotate_benchmark_vault,
 )
 from cumcm_skill_lab.specification.benchmark_integrity import validate_prospective_benchmark
 
@@ -23,11 +24,20 @@ def main() -> int:
         action="store_true",
         help="create one ignored hidden-seed vault; refuses overwrite",
     )
+    parser.add_argument(
+        "--rotate-vault",
+        action="store_true",
+        help="create a new ignored cohort after permanent rejection; refuses overwrite",
+    )
     args = parser.parse_args()
+    if sum((args.check, args.initialize_vault, args.rotate_vault)) > 1:
+        parser.error("--check, --initialize-vault and --rotate-vault are mutually exclusive")
     if args.check and args.initialize_vault:
         parser.error("--check never initializes hidden material")
     if args.check:
         result = validate_prospective_benchmark(ROOT)
+    elif args.rotate_vault:
+        result = rotate_benchmark_vault(ROOT)
     elif args.initialize_vault:
         result = materialize_benchmark(ROOT, initialize_vault=True)
     else:

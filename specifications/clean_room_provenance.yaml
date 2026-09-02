@@ -2,55 +2,61 @@
   "records": [
     {
       "abstract_mechanisms_observed": [
-        "Done differs from accepted; dependency changes reopen work."
+        "Completion, acceptance, dependency freshness, and resume are distinct mechanisms."
       ],
       "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
       "component_id": "accepted-versus-done-workflow-state",
       "contamination_status": "CONTAINED_METADATA_ONLY",
       "content_not_copied": [
-        "code",
-        "tests",
-        "schemas",
-        "text"
+        "No upstream source code was copied.",
+        "No upstream tests were copied.",
+        "No upstream state schema or controller was copied.",
+        "No upstream examples, prompts, or execution logic were copied."
       ],
       "independent_tests": [
-        "P1"
+        "FUTURE-IMPLEMENTATION-TEST:accepted-versus-done-workflow-state"
       ],
       "license_status": "UNVERIFIED",
       "project_specific_design": [
-        "WORKFLOW.md lifecycle",
-        "Existing state and ledgers only"
+        "Use only existing project state and ledgers with the main agent as sole writer.",
+        "Require audited automatic acceptance and route supported challenges through STALE, findings, tests, and re-adjudication."
       ],
-      "provenance_hash": "f197ed46b679f1d71be77aea9f4785114b4ea5fd159ed7b5bdb1a682164534d3",
+      "provenance_hash": "82ff0fb7121db9aa52271bd7fc4ead024fcb6759e96f38c3bdcf35a204ca9abe",
       "reviewed_by": [
-        "state-spec-author"
+        "PENDING_INDEPENDENT_AUDIT"
       ],
-      "source_commits": [],
-      "source_inspirations": [],
-      "source_paths": []
+      "source_commits": [
+        "94d8093ed21d20a790830318190095b9f5036ce8"
+      ],
+      "source_inspirations": [
+        "aris metadata summarized by the registered component card"
+      ],
+      "source_paths": [
+        "research/upstream_candidates/component_cards/accepted-versus-done-workflow-state.yaml"
+      ]
     },
     {
       "abstract_mechanisms_observed": [
-        "Separate reference checks from semantic support."
+        "Separate mechanical reference checks from exact semantic support review and block promotion when either fails."
       ],
       "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
       "component_id": "claim-evidence-support-gate",
-      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "contamination_status": "UNVERIFIED",
       "content_not_copied": [
-        "No code.",
-        "No schema.",
-        "No prompt.",
-        "No examples."
+        "No third-party code.",
+        "No third-party schema or state machine.",
+        "No third-party prompt, template, fixture, or example.",
+        "No third-party long prose or binary content."
       ],
       "independent_tests": [
-        "T4"
+        "PUB-CESG-001"
       ],
       "license_status": "UNVERIFIED",
       "project_specific_design": [
-        "Bind native Source/Claim/Run/artifacts.",
-        "Keep MAIN_AGENT_ONLY writes."
+        "Bind claims to project Source, Run, input, commit, and artifact hashes.",
+        "Use project non-voting adjudication, main-agent state ownership, replay, and STALE rules."
       ],
-      "provenance_hash": "5acbffc386c4dc70ad3e7392a14d975c7ab6f4cbce9f4a8f5683fac5f3908ce4",
+      "provenance_hash": "bc7092ee643d25147673ac78687bb51082460b39fe8421902a2a944076892451",
       "reviewed_by": [
         "claim-evidence-support-gate-spec-author"
       ],
@@ -61,78 +67,83 @@
         "aris"
       ],
       "source_paths": [
-        "tools/evidence_check.py"
+        "tools/evidence_check.py",
+        "tests/test_evidence_check.py",
+        "skills/result-to-claim/SKILL.md",
+        "skills/shared-references/review-scope-limits.md"
       ]
     },
     {
       "abstract_mechanisms_observed": [
-        "Bind Run facts and artifacts by hash."
+        "A per-run manifest can bind hashes, seed, runtime and command for replay checks."
       ],
       "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
       "component_id": "hash-bound-reproducibility-manifest",
-      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "contamination_status": "UNVERIFIED",
       "content_not_copied": [
-        "code",
-        "schemas",
-        "prompts",
-        "tests/assets"
+        "No code copied.",
+        "No schema copied.",
+        "No tests copied.",
+        "No prompts, templates, examples or state machines copied."
       ],
       "independent_tests": [
-        "T1"
+        "R2-HBRM-PUB-01",
+        "R2-HBRM-HID-01"
       ],
       "license_status": "UNKNOWN",
       "project_specific_design": [
-        "extend native Run truth",
-        "ineligible outcomes never become success"
+        "Extend the native Run contract and STALE graph.",
+        "Keep failed, partial and superseded records outside successful evidence."
       ],
-      "provenance_hash": "ef8e67cda78efe6f036eb69e24b0b6ff9c4493bca5ded2e836367e764f20f3e3",
+      "provenance_hash": "b166934833156002d980b23ad0e924b49b42408cbfc59e80de523bf28997fdf1",
       "reviewed_by": [
-        "spec-author"
+        "hash-bound-reproducibility-manifest-spec-author"
       ],
       "source_commits": [
         "5a85fe34ca1d075872e95556b122c8979984d322"
       ],
       "source_inspirations": [
-        "xiaoma-math-modeling-skill metadata"
+        "xiaoma-math-modeling-skill metadata card"
       ],
       "source_paths": [
-        "references/roles/编程手/scripts/repro_manifest.py"
+        "references/roles/编程手/scripts/repro_manifest.py",
+        "tests/test_reproducibility.py"
       ]
     },
     {
       "abstract_mechanisms_observed": [
-        "Freeze comparison rules and isolate final test access."
+        "Predeclare comparisons, isolate final holdout data, and require baseline and diagnostic evidence."
       ],
       "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
       "component_id": "leakage-safe-model-comparison-gate",
-      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "contamination_status": "UNVERIFIED",
       "content_not_copied": [
-        "code",
-        "tests",
-        "prose",
-        "assets"
+        "No upstream source file was opened.",
+        "No upstream code or dependency was copied.",
+        "No upstream schema, prompt, state machine, or prose was copied.",
+        "No peer output or expected conclusion was inspected."
       ],
       "independent_tests": [
-        "P1"
+        "LCG-PUB-001"
       ],
       "license_status": "UNVERIFIED",
       "project_specific_design": [
-        "CASE-004 oracle requirements",
-        "Native deterministic project gate"
+        "All splits, attempts, access events, and decisions bind to project Run IDs and immutable hashes.",
+        "Failed runs remain nonnumeric evidence and exposed holdouts are permanently demoted."
       ],
-      "provenance_hash": "c3799a9d9629a655e8abf14d88953074f6a219a0facc3f1f010918caa7d5323b",
+      "provenance_hash": "9a82e30e5fa7e7be104bae8158fbc77a7b6f70a812e2948d3c74d073f6e4a33d",
       "reviewed_by": [
-        "comparison-gate-spec-author"
+        "leakage-safe-model-comparison-gate-spec-author"
       ],
       "source_commits": [
         "f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f"
       ],
       "source_inspirations": [
-        "kdense-scientific-agent-skills"
+        "kdense-scientific-agent-skills metadata-only mechanism card"
       ],
       "source_paths": []
     }
   ],
-  "registry_hash": "02b23136bb8c11e2a30dbdcac026a9c5f7049a15fd6b1e402988bed6207d7441",
+  "registry_hash": "e05a15989a7e2af5ea2803b3f3e44bf909cad75009b7a60fd41d0dda4c93d7ed",
   "schema_version": "1.0.0"
 }

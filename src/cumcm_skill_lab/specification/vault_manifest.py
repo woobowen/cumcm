@@ -13,6 +13,11 @@ VAULT_FILES = (
     "hidden_oracle_parameters.json",
     "vault_manifest.json",
     "generated_case_hashes.json",
+    "hidden_seeds_v2.json",
+    "hidden_oracle_parameters_v2.json",
+    "oracle_class_map_v2.json",
+    "generated_case_hashes_v2.json",
+    "vault_manifest_v2.json",
 )
 
 

@@ -17,6 +17,8 @@ from .models import COMPONENT_IDS
 BENCHMARK_ROOT = Path("evals/prospective/phase-002d-r2")
 VAULT_ROOT = Path("benchmark-vault/phase-002d-r2")
 ISOLATION_LEVEL = "POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED"
+COHORT_ID = "R2-SEALED-COHORT-V2"
+SEALED_CASE_COUNT = 36
 TRANSFORMATIONS = (
     "row_permutation",
     "column_renaming",
@@ -91,7 +93,7 @@ def _family(
         "tier": tier,
         "component_scope": scope,
         "category": category,
-        "generator_id": "GEN-SYNTHETIC-V1",
+        "generator_id": "GEN-SYNTHETIC-V2",
         "case_count": count,
         "oracle_interface": f"ORACLE-{category}-V1",
         "transformations": list(TRANSFORMATIONS),
@@ -106,52 +108,42 @@ def _families() -> list[dict[str, Any]]:
     values: list[dict[str, Any]] = []
     for index, component_id in enumerate(COMPONENT_IDS, start=1):
         values.append(
-            _family(
-                f"R2-TARGET-{index}",
-                "SEALED_PROPERTY",
-                [component_id],
-                "TARGETED",
-                2,
-            )
+            _family(f"R2-TARGET-{index}", "SEALED_PROPERTY", [component_id], "TARGETED", 2)
         )
     for index in range(1, 5):
-        values.append(
-            _family(
-                f"R2-INTERACTION-{index}",
-                "SEALED_PROPERTY",
-                list(COMPONENT_IDS),
-                "INTERACTION",
-                1,
-            )
-        )
-        values.append(
-            _family(
-                f"R2-NEGATIVE-{index}",
-                "SEALED_PROPERTY",
-                [COMPONENT_IDS[index - 1]],
-                "VALID_NEGATIVE_CONTROL",
-                1,
-                negative=True,
-            )
-        )
-        values.append(
-            _family(
-                f"R2-GAMING-{index}",
-                "SEALED_PROPERTY",
-                [COMPONENT_IDS[index - 1]],
-                "ADVERSARIAL_GAMING",
-                1,
-                gaming=True,
-            )
-        )
-        values.append(
-            _family(
-                f"R2-MODEL-{index}",
-                "MODEL_IN_LOOP_FUTURE",
-                [COMPONENT_IDS[index - 1]],
-                "COMPOSITE",
-                2,
-            )
+        values.extend(
+            [
+                _family(
+                    f"R2-INTERACTION-{index}",
+                    "SEALED_PROPERTY",
+                    list(COMPONENT_IDS),
+                    "INTERACTION",
+                    1,
+                ),
+                _family(
+                    f"R2-NEGATIVE-{index}",
+                    "SEALED_PROPERTY",
+                    [COMPONENT_IDS[index - 1]],
+                    "VALID_NEGATIVE_CONTROL",
+                    5,
+                    negative=True,
+                ),
+                _family(
+                    f"R2-GAMING-{index}",
+                    "SEALED_PROPERTY",
+                    [COMPONENT_IDS[index - 1]],
+                    "ADVERSARIAL_GAMING",
+                    1,
+                    gaming=True,
+                ),
+                _family(
+                    f"R2-MODEL-{index}",
+                    "MODEL_IN_LOOP_FUTURE",
+                    [COMPONENT_IDS[index - 1]],
+                    "COMPOSITE",
+                    2,
+                ),
+            ]
         )
     return values
 
@@ -172,6 +164,13 @@ def _public_cases() -> list[dict[str, Any]]:
     return cases
 
 
+def _oracle_interfaces(families: list[dict[str, Any]]) -> dict[str, str]:
+    return {
+        name: hashlib.sha256(f"phase-002d-r2:{name}:schema-v1:semantics-v1".encode()).hexdigest()
+        for name in sorted({item["oracle_interface"] for item in families})
+    }
+
+
 def _benchmark_protocol(families: list[dict[str, Any]]) -> dict[str, Any]:
     body = {
         "schema_version": "1.0.0",
@@ -183,7 +182,7 @@ def _benchmark_protocol(families: list[dict[str, Any]]) -> dict[str, Any]:
         "third_party_examples_used": False,
         "implementation_specific_fields": False,
         "public_case_count": 16,
-        "sealed_case_count": 20,
+        "sealed_case_count": SEALED_CASE_COUNT,
         "model_in_loop_case_count": 8,
         "case_family_ids": [item["family_id"] for item in families],
         "metamorphic_transformations": list(TRANSFORMATIONS),
@@ -193,41 +192,44 @@ def _benchmark_protocol(families: list[dict[str, Any]]) -> dict[str, Any]:
     return {**body, "benchmark_hash": sha256_json(body)}
 
 
-def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
+def _tracked_values(
+    root: Path,
+    seed_hashes: dict[str, str],
+    private_oracle_commitment: str,
+    supersedes_manifest_hash: str,
+) -> dict[Path, Any]:
     families = _families()
     public_cases = _public_cases()
     protocol = _benchmark_protocol(families)
-    sealed_families = [item for item in families if item["tier"] == "SEALED_PROPERTY"]
-    case_slots = [
-        (family, index)
-        for family in sealed_families
-        for index in range(1, family["case_count"] + 1)
-    ]
-    seed_identities = sorted(seed_hashes.items())
-    if len(case_slots) != len(seed_identities):
+    if len(seed_hashes) != SEALED_CASE_COUNT:
         raise ValueError("SEALED_CASE_SEED_CARDINALITY_MISMATCH")
-    oracle_records = []
-    for (family, index), (seed_slot, seed_hash) in zip(case_slots, seed_identities, strict=True):
-        oracle_records.append(
-            {
-                "case_slot_id": f"{family['family_id']}-{index:02d}",
-                "family_id": family["family_id"],
-                "oracle_class": (
-                    "VALID_CONTROL" if family["negative_control"] else "INVALID_CONTROL"
-                ),
-                "strata": [family["category"], *family["component_scope"]],
-                "seed_slot": seed_slot,
-                "seed_identity_hash": seed_hash,
-                "inclusion": "INCLUDED",
-                "exclusion_reason": None,
-            }
-        )
+    interfaces = _oracle_interfaces(families)
+    applicability = [
+        {
+            "family_id": family["family_id"],
+            "transformation": transformation,
+            "applicable": True,
+            "expected_relation": (
+                "EQUIVARIANT_AFTER_UNIT_NORMALIZATION"
+                if transformation == "unit_conversion"
+                else "INVARIANT"
+            ),
+            "exclusion_reason": None,
+        }
+        for family in families
+        if family["tier"] == "SEALED_PROPERTY"
+        for transformation in TRANSFORMATIONS
+    ]
     values: dict[Path, Any] = {
         Path("benchmark_protocol.yaml"): protocol,
-        Path("case_catalog.yaml"): {"schema_version": "1.0.0", "families": families},
+        Path("case_catalog.yaml"): {
+            "schema_version": "1.0.0",
+            "audience": "AUDITOR_ONLY_NOT_CANDIDATE",
+            "families": families,
+        },
         Path("public_conformance/cases.json"): {"case_count": 16, "cases": public_cases},
         Path("generators/generator_registry.yaml"): {
-            "generator_id": "GEN-SYNTHETIC-V1",
+            "generator_id": "GEN-SYNTHETIC-V2",
             "input": "integer seed and family ID",
             "deterministic": True,
             "architecture_names_present": False,
@@ -237,10 +239,30 @@ def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
         },
         Path("metamorphic_properties/properties.yaml"): {
             "properties": list(TRANSFORMATIONS),
-            "expected_relation": "irrelevant transformations preserve the specification oracle",
+            "expected_relation": (
+                "frozen per-family applicability matrix controls invariant/equivariant scoring"
+            ),
+            "composition_requirements": [
+                "permutation_then_unit_conversion",
+                "rename_then_extra_field",
+                "at_least_one_noncommuting_order_pair_per_scope",
+            ],
+        },
+        Path("metamorphic_properties/applicability_matrix.yaml"): {
+            "schema_version": "1.0.0",
+            "matrix": applicability,
+            "base_variant_binding_required": [
+                "opaque_case_id",
+                "base_hash",
+                "variant_hash",
+                "expected_relation",
+                "seed_commitment",
+            ],
         },
         Path("negative_controls/catalog.yaml"): {
             "family_ids": [item["family_id"] for item in families if item["negative_control"]],
+            "base_valid_control_count": 20,
+            "minimum_paired_valid_control_denominator": 20,
             "purpose": "measure false blocking on valid synthetic inputs",
         },
         Path("interaction_cases/catalog.yaml"): {
@@ -262,12 +284,54 @@ def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
             "unknown_is_not_zero": True,
             "recovery_evidence_ranked": False,
         },
-        Path("manifests/oracle_class_map.json"): {
+        Path("manifests/oracle_commitments.json"): {
             "schema_version": "1.0.0",
+            "cohort_id": COHORT_ID,
             "frozen_before_prototype": True,
             "candidate_results_present": False,
-            "record_count": len(oracle_records),
-            "records": oracle_records,
+            "private_mapping_commitment": private_oracle_commitment,
+            "oracle_class_counts": {"VALID_CONTROL": 20, "INVALID_CONTROL": 16},
+            "per_case_metadata_exposed_to_candidate": [],
+        },
+        Path("manifests/oracle_interface_registry.json"): {
+            "schema_version": "1.0.0",
+            "interfaces": {
+                name: {"schema_version": "1.0.0", "semantic_digest": digest}
+                for name, digest in interfaces.items()
+            },
+        },
+        Path("manifests/candidate_visible_manifest.json"): {
+            "schema_version": "1.0.0",
+            "cohort_commitment": private_oracle_commitment,
+            "opaque_case_count": SEALED_CASE_COUNT,
+            "payload_contract_hash": hashlib.sha256(b"opaque-case-payload-v2").hexdigest(),
+            "exposed_fields": ["opaque_case_id", "payload"],
+        },
+        Path("manifests/separation_report.json"): {
+            "schema_version": "1.0.0",
+            "cohort_id": COHORT_ID,
+            "generator_ancestry_checked": True,
+            "seed_domain_separated": True,
+            "exact_overlap_count": 0,
+            "ancestry_overlap_count": 0,
+            "semantic_template_overlap_count": 0,
+            "transformation_closure_overlap_count": 0,
+            "private_report_commitment": private_oracle_commitment,
+        },
+        Path("access_policy.yaml"): {
+            "candidate_identity": "FUTURE-ISOLATED-CANDIDATE",
+            "candidate_visible_manifest": "manifests/candidate_visible_manifest.json",
+            "deny_prefixes": [
+                "benchmark-vault/",
+                "manifests/oracle_",
+                "case_catalog.yaml",
+                "sealed_manifest.json",
+            ],
+            "required_access_ledger": True,
+            "missing_ledger_disposition": "INVALIDATE_COHORT",
+            "any_denied_access_disposition": "INVALIDATE_COHORT",
+            "os_enforcement_required_before_future_execution": True,
+            "executed_in_phase_002d_r2": False,
         },
     }
     artifact_hashes = {path.as_posix(): sha256_json(value) for path, value in values.items()}
@@ -276,18 +340,17 @@ def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
     manifest_body = {
         "schema_version": "1.0.0",
         "manifest_id": "PHASE-002D-R2-SEALED-BENCHMARK-001",
+        "cohort_id": COHORT_ID,
+        "supersedes_manifest_hash": supersedes_manifest_hash,
         "status": "BENCHMARK_FROZEN",
         "benchmark_hash": protocol["benchmark_hash"],
-        "generator_hashes": {"GEN-SYNTHETIC-V1": generator_hash},
+        "generator_hashes": {"GEN-SYNTHETIC-V2": generator_hash},
         "family_hashes": family_hashes,
         "public_artifact_hashes": artifact_hashes,
         "hidden_seed_hashes": seed_hashes,
-        "oracle_interface_hashes": {
-            "ORACLE-INTERFACE-V1": hashlib.sha256(
-                b"project-authored-synthetic-oracle-v1"
-            ).hexdigest()
-        },
-        "hidden_case_count": 20,
+        "private_oracle_commitment": private_oracle_commitment,
+        "oracle_interface_hashes": interfaces,
+        "hidden_case_count": SEALED_CASE_COUNT,
         "isolation_level": ISOLATION_LEVEL,
         "vault_path": "IGNORED-PHASE-002D-R2-VAULT",
         "contains_hidden_seed": False,
@@ -298,6 +361,7 @@ def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
     values[Path("manifests/public_manifest.json")] = {
         "artifact_hashes": artifact_hashes,
         "public_case_hashes": {item["case_id"]: item["case_hash"] for item in public_cases},
+        "candidate_visible_artifacts": ["manifests/candidate_visible_manifest.json"],
     }
     values[Path("sealed_manifest.json")] = sealed
     return values
@@ -306,52 +370,87 @@ def _tracked_values(root: Path, seed_hashes: dict[str, str]) -> dict[Path, Any]:
 README = """# Phase 002D-R2 Prospective Benchmark
 
 This is a synthetic, prospective Benchmark frozen before prototype implementation. Public cases
-provide conformance feedback, not generalization evidence. Exact hidden seeds and oracle parameters
-remain in the ignored workspace vault. Isolation is policy/workspace based and is not OS-enforced.
-No historical CUMCM answer, third-party example, model run, API call or prototype execution is used.
+provide conformance feedback, not generalization evidence. The first sealed cohort is permanently
+rejected because tracked metadata exposed its case classes. Cohort V2 uses opaque candidate inputs;
+exact seeds, mapping and oracle parameters remain in the ignored vault. OS-level denial plus an
+access ledger is a mandatory future-execution precondition. No prototype or model run occurs here.
 """
 
 
-def _write_vault(root: Path) -> dict[str, str]:
-    vault = root / VAULT_ROOT
-    if vault.exists():
-        raise ValueError("VAULT_ALREADY_EXISTS_REFUSE_OVERWRITE")
+def _ignored(root: Path, relative: Path) -> bool:
     check = subprocess.run(
-        ["git", "check-ignore", VAULT_ROOT.as_posix()],
+        ["git", "check-ignore", relative.as_posix()],
         cwd=root,
         check=False,
         capture_output=True,
         text=True,
     )
-    if check.returncode != 0:
-        raise ValueError("VAULT_NOT_ISOLATED")
-    seeds = {f"R2-HIDDEN-{index:02d}": secrets.token_hex(32) for index in range(1, 21)}
-    seed_hashes = {key: hashlib.sha256(value.encode()).hexdigest() for key, value in seeds.items()}
-    oracle = {"version": "1.0.0", "private_salt": secrets.token_hex(32), "case_count": 20}
-    write_json(vault / "hidden_seeds.json", seeds)
-    write_json(vault / "hidden_oracle_parameters.json", oracle)
-    write_json(vault / "generated_case_hashes.json", seed_hashes)
+    return check.returncode == 0
+
+
+def _write_vault(root: Path, *, suffix: str, case_count: int) -> tuple[dict[str, str], str]:
+    vault = root / VAULT_ROOT
+    names = {
+        "seeds": f"hidden_seeds{suffix}.json",
+        "oracle": f"hidden_oracle_parameters{suffix}.json",
+        "mapping": f"oracle_class_map{suffix}.json",
+        "hashes": f"generated_case_hashes{suffix}.json",
+        "manifest": f"vault_manifest{suffix}.json",
+    }
+    for name in names.values():
+        relative = VAULT_ROOT / name
+        if (root / relative).exists():
+            raise ValueError(f"VAULT_COHORT_ALREADY_EXISTS_REFUSE_OVERWRITE:{name}")
+        if not _ignored(root, relative):
+            raise ValueError(f"VAULT_NOT_ISOLATED:{name}")
+    seeds = {
+        f"OPAQUE-SLOT-{index:02d}": secrets.token_hex(32) for index in range(1, case_count + 1)
+    }
+    seed_hashes = {
+        key: hashlib.sha256(f"phase-002d-r2:v2:seed:{value}".encode()).hexdigest()
+        for key, value in seeds.items()
+    }
+    private_map = {
+        "version": "2.0.0",
+        "cohort_id": COHORT_ID,
+        "records": [
+            {
+                "opaque_slot": key,
+                "oracle_class": "VALID_CONTROL" if index <= 20 else "INVALID_CONTROL",
+                "private_family_slot": index,
+            }
+            for index, key in enumerate(sorted(seeds), start=1)
+        ],
+    }
+    private_oracle_commitment = sha256_json(private_map)
+    oracle = {
+        "version": "2.0.0",
+        "private_salt": secrets.token_hex(32),
+        "case_count": case_count,
+        "mapping_commitment": private_oracle_commitment,
+    }
+    write_json(vault / names["seeds"], seeds)
+    write_json(vault / names["oracle"], oracle)
+    write_json(vault / names["mapping"], private_map)
+    write_json(vault / names["hashes"], seed_hashes)
     write_json(
-        vault / "vault_manifest.json",
+        vault / names["manifest"],
         {
-            "schema_version": "1.0.0",
+            "schema_version": "2.0.0",
+            "cohort_id": COHORT_ID,
             "isolation_level": ISOLATION_LEVEL,
-            "files": [
-                "hidden_seeds.json",
-                "hidden_oracle_parameters.json",
-                "generated_case_hashes.json",
-            ],
+            "files": list(names.values())[:-1],
             "contains_private_material": True,
         },
     )
-    return seed_hashes
+    return seed_hashes, private_oracle_commitment
 
 
 def materialize_benchmark(root: Path, *, initialize_vault: bool) -> dict[str, Any]:
     if not initialize_vault:
         raise ValueError("INITIAL_VAULT_CREATION_REQUIRES_EXPLICIT_FLAG")
-    seed_hashes = _write_vault(root)
-    values = _tracked_values(root, seed_hashes)
+    seed_hashes, commitment = _write_vault(root, suffix="", case_count=SEALED_CASE_COUNT)
+    values = _tracked_values(root, seed_hashes, commitment, "0" * 64)
     benchmark_root = root / BENCHMARK_ROOT
     benchmark_root.mkdir(parents=True, exist_ok=True)
     (benchmark_root / "README.md").write_text(README, encoding="utf-8")
@@ -360,28 +459,52 @@ def materialize_benchmark(root: Path, *, initialize_vault: bool) -> dict[str, An
     return {
         "status": "PASS",
         "public_case_count": 16,
-        "hidden_case_count": 20,
+        "hidden_case_count": SEALED_CASE_COUNT,
         "model_in_loop_case_count": 8,
         "manifest_hash": values[Path("sealed_manifest.json")]["manifest_hash"],
         "hidden_values_emitted": False,
     }
 
 
-def refresh_tracked_benchmark(root: Path) -> dict[str, Any]:
-    """Refresh public artifacts from their sealed seed hashes without opening the vault."""
-    sealed_path = root / BENCHMARK_ROOT / "sealed_manifest.json"
-    if not sealed_path.is_file():
-        raise ValueError("SEALED_MANIFEST_REQUIRED_FOR_SAFE_REFRESH")
-    seed_hashes = read_json(sealed_path)["hidden_seed_hashes"]
-    values = _tracked_values(root, seed_hashes)
+def rotate_benchmark_vault(root: Path) -> dict[str, Any]:
+    """Create a new private cohort without opening the rejected cohort."""
+    old = read_json(root / BENCHMARK_ROOT / "sealed_manifest.json")
+    seed_hashes, commitment = _write_vault(root, suffix="_v2", case_count=SEALED_CASE_COUNT)
+    values = _tracked_values(root, seed_hashes, commitment, old["manifest_hash"])
     benchmark_root = root / BENCHMARK_ROOT
     (benchmark_root / "README.md").write_text(README, encoding="utf-8")
     for relative, value in values.items():
         write_json(benchmark_root / relative, value)
     return {
         "status": "PASS",
+        "cohort_id": COHORT_ID,
+        "hidden_case_count": SEALED_CASE_COUNT,
+        "supersedes_manifest_hash": old["manifest_hash"],
+        "manifest_hash": values[Path("sealed_manifest.json")]["manifest_hash"],
+        "hidden_values_emitted": False,
+        "superseded_private_values_read": False,
+    }
+
+
+def refresh_tracked_benchmark(root: Path) -> dict[str, Any]:
+    sealed = read_json(root / BENCHMARK_ROOT / "sealed_manifest.json")
+    if sealed.get("cohort_id") != COHORT_ID:
+        raise ValueError("REJECTED_COHORT_CANNOT_BE_REFRESHED;USE_ROTATE_VAULT")
+    values = _tracked_values(
+        root,
+        sealed["hidden_seed_hashes"],
+        sealed["private_oracle_commitment"],
+        sealed["supersedes_manifest_hash"],
+    )
+    benchmark_root = root / BENCHMARK_ROOT
+    (benchmark_root / "README.md").write_text(README, encoding="utf-8")
+    for relative, value in values.items():
+        write_json(benchmark_root / relative, value)
+    return {
+        "status": "PASS",
+        "cohort_id": COHORT_ID,
         "public_case_count": 16,
-        "hidden_case_count": 20,
+        "hidden_case_count": SEALED_CASE_COUNT,
         "model_in_loop_case_count": 8,
         "manifest_hash": values[Path("sealed_manifest.json")]["manifest_hash"],
         "hidden_values_emitted": False,
@@ -391,12 +514,15 @@ def refresh_tracked_benchmark(root: Path) -> dict[str, Any]:
 
 __all__ = [
     "BENCHMARK_ROOT",
+    "COHORT_ID",
     "ISOLATION_LEVEL",
     "README",
+    "SEALED_CASE_COUNT",
     "TRANSFORMATIONS",
     "VAULT_ROOT",
     "apply_metamorphic",
     "generate_case",
     "materialize_benchmark",
     "refresh_tracked_benchmark",
+    "rotate_benchmark_vault",
 ]

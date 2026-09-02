@@ -1,0 +1,776 @@
+{
+  "schema_version": "1.0.0",
+  "test_requests": [
+    {
+      "artifacts": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k XI-001",
+      "expected_result": "every edge is typed, hash/revision/currentness/audit bound",
+      "fail_condition": "closure predicate for XI-001 is false",
+      "finding_id": "XI-001",
+      "inputs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "every edge is typed, hash/revision/currentness/audit bound",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "test_id": "R2-DET-XI-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k XI-002",
+      "expected_result": "comparison revisions are immutable with one CAS current pointer",
+      "fail_condition": "closure predicate for XI-002 is false",
+      "finding_id": "XI-002",
+      "inputs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "comparison revisions are immutable with one CAS current pointer",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "test_id": "R2-DET-XI-002",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k XI-003",
+      "expected_result": "STALE graph uses distinct frozen node classes",
+      "fail_condition": "closure predicate for XI-003 is false",
+      "finding_id": "XI-003",
+      "inputs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "STALE graph uses distinct frozen node classes",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "test_id": "R2-DET-XI-003",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k XI-004",
+      "expected_result": "failure precedence is total and noncompensatory",
+      "fail_condition": "closure predicate for XI-004 is false",
+      "finding_id": "XI-004",
+      "inputs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "failure precedence is total and noncompensatory",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "test_id": "R2-DET-XI-004",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k XI-005",
+      "expected_result": "all component state_write_set values are empty",
+      "fail_condition": "closure predicate for XI-005 is false",
+      "finding_id": "XI-005",
+      "inputs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "all component state_write_set values are empty",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "test_id": "R2-DET-XI-005",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k XI-006",
+      "expected_result": "local component dependencies exactly match the interaction DAG",
+      "fail_condition": "closure predicate for XI-006 is false",
+      "finding_id": "XI-006",
+      "inputs": [
+        "specifications/interactions/component_interaction_contract.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "local component dependencies exactly match the interaction DAG",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-COMPONENT-INTERACTION-001",
+      "test_id": "R2-DET-XI-006",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k PBI-001",
+      "expected_result": "rejected class map is absent and candidate bundle is opaque",
+      "fail_condition": "closure predicate for PBI-001 is false",
+      "finding_id": "PBI-001",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "rejected class map is absent and candidate bundle is opaque",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "test_id": "R2-DET-PBI-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k PBI-002",
+      "expected_result": "future candidate execution requires enforced denial and access ledger",
+      "fail_condition": "closure predicate for PBI-002 is false",
+      "finding_id": "PBI-002",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "future candidate execution requires enforced denial and access ledger",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "test_id": "R2-DET-PBI-002",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k PBI-003",
+      "expected_result": "each oracle interface has a frozen schema/semantic digest",
+      "fail_condition": "closure predicate for PBI-003 is false",
+      "finding_id": "PBI-003",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "each oracle interface has a frozen schema/semantic digest",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "test_id": "R2-DET-PBI-003",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k PBI-004",
+      "expected_result": "private committed cohort contains at least 20 valid controls",
+      "fail_condition": "closure predicate for PBI-004 is false",
+      "finding_id": "PBI-004",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "private committed cohort contains at least 20 valid controls",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "test_id": "R2-DET-PBI-004",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k PBI-005",
+      "expected_result": "public/sealed lineage and transformation closure report zero overlap",
+      "fail_condition": "closure predicate for PBI-005 is false",
+      "finding_id": "PBI-005",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/manifests/oracle_class_map.json",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "public/sealed lineage and transformation closure report zero overlap",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "test_id": "R2-DET-PBI-005",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k PBI-006",
+      "expected_result": "metamorphic applicability matrix covers every sealed family/property pair",
+      "fail_condition": "closure predicate for PBI-006 is false",
+      "finding_id": "PBI-006",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "metamorphic applicability matrix covers every sealed family/property pair",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-PROSPECTIVE-BENCHMARK-001",
+      "test_id": "R2-DET-PBI-006",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k TP-B1",
+      "expected_result": "joint pre-attempt policy freeze binds every dependency",
+      "fail_condition": "closure predicate for TP-B1 is false",
+      "finding_id": "TP-B1",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "joint pre-attempt policy freeze binds every dependency",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "test_id": "R2-DET-TP-B1",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k TP-B2",
+      "expected_result": "all thresholds use one total noncompensatory decision table",
+      "fail_condition": "closure predicate for TP-B2 is false",
+      "finding_id": "TP-B2",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "all thresholds use one total noncompensatory decision table",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "test_id": "R2-DET-TP-B2",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k TP-B3",
+      "expected_result": "paired false-block formula freezes alpha, counts, denominator and undefined route",
+      "fail_condition": "closure predicate for TP-B3 is false",
+      "finding_id": "TP-B3",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "paired false-block formula freezes alpha, counts, denominator and undefined route",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "test_id": "R2-DET-TP-B3",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k TP-E1",
+      "expected_result": "rate and overhead formulas define range and missing-baseline behavior",
+      "fail_condition": "closure predicate for TP-E1 is false",
+      "finding_id": "TP-E1",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "rate and overhead formulas define range and missing-baseline behavior",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "test_id": "R2-DET-TP-E1",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k TP-E2",
+      "expected_result": "retry permission, burden denominator and global cap are algebraically consistent",
+      "fail_condition": "closure predicate for TP-E2 is false",
+      "finding_id": "TP-E2",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "retry permission, burden denominator and global cap are algebraically consistent",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "test_id": "R2-DET-TP-E2",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k TP-E3",
+      "expected_result": "all frozen policy dependency classes propagate transitive STALE",
+      "fail_condition": "closure predicate for TP-E3 is false",
+      "finding_id": "TP-E3",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "all frozen policy dependency classes propagate transitive STALE",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "frozen Phase 002D-R2 metrics, thresholds, abstention, mutation, and budget arithmetic",
+      "test_id": "R2-DET-TP-E3",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CC-001",
+      "expected_result": "ARCH-S0 remains comparator/fallback and is exempt from self-improvement",
+      "fail_condition": "closure predicate for CC-001 is false",
+      "finding_id": "CC-001",
+      "inputs": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "ARCH-S0 remains comparator/fallback and is exempt from self-improvement",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "test_id": "R2-DET-CC-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CC-002",
+      "expected_result": "retry authorization and acceptance share 0.25 denominator/cap",
+      "fail_condition": "closure predicate for CC-002 is false",
+      "finding_id": "CC-002",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "retry authorization and acceptance share 0.25 denominator/cap",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "test_id": "R2-DET-CC-002",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CC-003",
+      "expected_result": "cost and maintenance caps cannot be compensated",
+      "fail_condition": "closure predicate for CC-003 is false",
+      "finding_id": "CC-003",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "cost and maintenance caps cannot be compensated",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "test_id": "R2-DET-CC-003",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CC-004",
+      "expected_result": "logical-unit surface and maintenance formulas resist file split/merge gaming",
+      "fail_condition": "closure predicate for CC-004 is false",
+      "finding_id": "CC-004",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "logical-unit surface and maintenance formulas resist file split/merge gaming",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "test_id": "R2-DET-CC-004",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CC-005",
+      "expected_result": "prospective protocol freezes complete resource caps",
+      "fail_condition": "closure predicate for CC-005 is false",
+      "finding_id": "CC-005",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "prospective protocol freezes complete resource caps",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "test_id": "R2-DET-CC-005",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CC-006",
+      "expected_result": "cost breach and strict dominance have deterministic stop routes",
+      "fail_condition": "closure predicate for CC-006 is false",
+      "finding_id": "CC-006",
+      "inputs": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "cost breach and strict dominance have deterministic stop routes",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 prospective cost and complexity policy",
+      "test_id": "R2-DET-CC-006",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CRP-001",
+      "expected_result": "role-chain evidence binds distinct authors, raw outputs and normalization",
+      "fail_condition": "closure predicate for CRP-001 is false",
+      "finding_id": "CRP-001",
+      "inputs": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "role-chain evidence binds distinct authors, raw outputs and normalization",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "test_id": "R2-DET-CRP-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/clean_room_provenance.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CRP-002",
+      "expected_result": "per-role allowlist and hidden-answer exclusion ledger is frozen",
+      "fail_condition": "closure predicate for CRP-002 is false",
+      "finding_id": "CRP-002",
+      "inputs": [
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/clean_room_provenance.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "per-role allowlist and hidden-answer exclusion ledger is frozen",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "test_id": "R2-DET-CRP-002",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CRP-003",
+      "expected_result": "source completeness and license-bound reuse report is frozen",
+      "fail_condition": "closure predicate for CRP-003 is false",
+      "finding_id": "CRP-003",
+      "inputs": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/accepted-versus-done-workflow-state.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "source completeness and license-bound reuse report is frozen",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "test_id": "R2-DET-CRP-003",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CRP-004",
+      "expected_result": "restricted-copy and similarity-warning scan report is frozen",
+      "fail_condition": "closure predicate for CRP-004 is false",
+      "finding_id": "CRP-004",
+      "inputs": [
+        "specifications/clean_room_provenance.yaml",
+        "specifications/components/claim-evidence-support-gate.yaml",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "restricted-copy and similarity-warning scan report is frozen",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "test_id": "R2-DET-CRP-004",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py -k CRP-005",
+      "expected_result": "workspace-wide embargo allowlist scan report is frozen",
+      "fail_condition": "closure predicate for CRP-005 is false",
+      "finding_id": "CRP-005",
+      "inputs": [
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "oracle": "evaluate_closures frozen predicate",
+      "pass_condition": "workspace-wide embargo allowlist scan report is frozen",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound closure artifacts"
+      ],
+      "status": "PASSED",
+      "target": "Phase 002D-R2 clean-room provenance registry, four frozen component specifications, and implementation embargo",
+      "test_id": "R2-DET-CRP-005",
+      "timeout": 60
+    }
+  ]
+}

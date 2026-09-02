@@ -224,8 +224,26 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
   `202870df3a8cdb007dcaaf5722e16c7fcb668c4b92f65561e7b043c8c5d1a97c`, with Stage 1 before
   Stage 2, 24 maximum primary starts for three eligible arms, 6 fresh-retry slots, absolute cap 30,
   and pre-registered ablations. No stage was executed; focused tests passed `47` cases.
-- Current milestone: M5 commit/delivery. Next legal work is five independent adversarial audits and
-  deterministic finding-to-test closure.
+- `2026-09-02`: M6 preserved five independent read-only attack outputs. Their 32 findings included
+  29 `BLOCKER`/`ERROR` items; every serious item now has a Schema-valid test request, a
+  deterministic closure predicate and passing test evidence (`29/29` closed; focused suite
+  `76 passed`). The original findings remain immutable. Remediation added typed immutable
+  interaction edges and failure precedence, complete cost/threshold formulas, a joint policy
+  freeze, and explicit public/sealed Benchmark separation.
+- The Benchmark prosecutor rejected the first sealed cohort because a tracked oracle-class map
+  exposed hidden class membership. That cohort is permanently superseded. Fresh cohort
+  `R2-SEALED-COHORT-V2` contains 36 sealed cases and is tracked only through opaque identifiers,
+  interface hashes and a private commitment; its current manifest hash is
+  `17f7534d50940fbee223ad856c01af11aae0c02aa38f9d2e041b8e572c61ce9b`. Generation and checks report
+  `private_values_read=false`; hidden V2 material remains ignored and unread.
+- The provenance prosecutor found that the initial component authors had later served as M6
+  auditors. Four new distinct peer-invisible read-only authors therefore re-authored all component
+  drafts. The main agent resealed them, synchronized only the frozen interaction dependencies, and
+  produced passing source-completeness, role-chain, access-ledger, contamination-warning and
+  implementation-embargo evidence. No upstream source tree, candidate implementation or prototype
+  was read or executed.
+- Current milestone: M6 validation and delivery. The next legal work is M7 deterministic automatic
+  decisions; no shadow prototype may be created or run in this phase.
 
 ## 22. Update rule
 

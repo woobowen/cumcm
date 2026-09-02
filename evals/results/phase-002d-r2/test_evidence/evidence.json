@@ -1,0 +1,431 @@
+{
+  "schema_version": "1.0.0",
+  "test_evidence": [
+    {
+      "artifact_hashes": {
+        "specifications/components/accepted-versus-done-workflow-state.yaml": "d1c176989c39d18c49c87aed01db37569eddf014144e19b7e7930a832e9043e3",
+        "specifications/components/claim-evidence-support-gate.yaml": "c86a16f460ebdd3fbd3bfe6b2690ced2fffd5bf1646b03baa6c5da49bfd0a4ff",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a",
+        "specifications/interactions/component_interaction_contract.yaml": "38756ee4a2f9a7121fa8e74cf4c8f5753d3184dc0e730ef6b0b940be26843844"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "XI-001",
+      "observed_result": "every edge is typed, hash/revision/currentness/audit bound",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-XI-001"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a",
+        "specifications/interactions/component_interaction_contract.yaml": "38756ee4a2f9a7121fa8e74cf4c8f5753d3184dc0e730ef6b0b940be26843844"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "XI-002",
+      "observed_result": "comparison revisions are immutable with one CAS current pointer",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-XI-002"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/components/hash-bound-reproducibility-manifest.yaml": "4a0cdc01792b6be3a50b4b3c3679b73dee3fe28812315c471a37c3c50edee5d5",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a",
+        "specifications/interactions/component_interaction_contract.yaml": "38756ee4a2f9a7121fa8e74cf4c8f5753d3184dc0e730ef6b0b940be26843844"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "XI-003",
+      "observed_result": "STALE graph uses distinct frozen node classes",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-XI-003"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/components/claim-evidence-support-gate.yaml": "c86a16f460ebdd3fbd3bfe6b2690ced2fffd5bf1646b03baa6c5da49bfd0a4ff",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml": "4a0cdc01792b6be3a50b4b3c3679b73dee3fe28812315c471a37c3c50edee5d5",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a",
+        "specifications/interactions/component_interaction_contract.yaml": "38756ee4a2f9a7121fa8e74cf4c8f5753d3184dc0e730ef6b0b940be26843844"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "XI-004",
+      "observed_result": "failure precedence is total and noncompensatory",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-XI-004"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/components/hash-bound-reproducibility-manifest.yaml": "4a0cdc01792b6be3a50b4b3c3679b73dee3fe28812315c471a37c3c50edee5d5",
+        "specifications/interactions/component_interaction_contract.yaml": "38756ee4a2f9a7121fa8e74cf4c8f5753d3184dc0e730ef6b0b940be26843844"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "XI-005",
+      "observed_result": "all component state_write_set values are empty",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-XI-005"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/components/accepted-versus-done-workflow-state.yaml": "d1c176989c39d18c49c87aed01db37569eddf014144e19b7e7930a832e9043e3",
+        "specifications/components/claim-evidence-support-gate.yaml": "c86a16f460ebdd3fbd3bfe6b2690ced2fffd5bf1646b03baa6c5da49bfd0a4ff",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml": "4a0cdc01792b6be3a50b4b3c3679b73dee3fe28812315c471a37c3c50edee5d5",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a",
+        "specifications/interactions/component_interaction_contract.yaml": "38756ee4a2f9a7121fa8e74cf4c8f5753d3184dc0e730ef6b0b940be26843844"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "XI-006",
+      "observed_result": "local component dependencies exactly match the interaction DAG",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-XI-006"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/case_catalog.yaml": "8db3c1603427830fcc5f422534fd497f88bed78d67388f9855e0933f9517823b",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "PBI-001",
+      "observed_result": "rejected class map is absent and candidate bundle is opaque",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-PBI-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml": "9bf98d176cb1be97375c1c90d465b7769af30bae2586707a5e1b0462ce4e3eff",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "PBI-002",
+      "observed_result": "future candidate execution requires enforced denial and access ledger",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-PBI-002"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/case_catalog.yaml": "8db3c1603427830fcc5f422534fd497f88bed78d67388f9855e0933f9517823b",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "PBI-003",
+      "observed_result": "each oracle interface has a frozen schema/semantic digest",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-PBI-003"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/case_catalog.yaml": "8db3c1603427830fcc5f422534fd497f88bed78d67388f9855e0933f9517823b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "PBI-004",
+      "observed_result": "private committed cohort contains at least 20 valid controls",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-PBI-004"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml": "9bf98d176cb1be97375c1c90d465b7769af30bae2586707a5e1b0462ce4e3eff",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "PBI-005",
+      "observed_result": "public/sealed lineage and transformation closure report zero overlap",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-PBI-005"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/benchmark_protocol.yaml": "9bf98d176cb1be97375c1c90d465b7769af30bae2586707a5e1b0462ce4e3eff",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml": "8db3c1603427830fcc5f422534fd497f88bed78d67388f9855e0933f9517823b",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "PBI-006",
+      "observed_result": "metamorphic applicability matrix covers every sealed family/property pair",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-PBI-006"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/metric_registry.yaml": "b73475ae58c0939c2afbfd2a5952a9098c98172c1c09abf855710238d2f3f12a",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "TP-B1",
+      "observed_result": "joint pre-attempt policy freeze binds every dependency",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-TP-B1"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/metric_registry.yaml": "b73475ae58c0939c2afbfd2a5952a9098c98172c1c09abf855710238d2f3f12a",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "TP-B2",
+      "observed_result": "all thresholds use one total noncompensatory decision table",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-TP-B2"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/metric_registry.yaml": "b73475ae58c0939c2afbfd2a5952a9098c98172c1c09abf855710238d2f3f12a",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "TP-B3",
+      "observed_result": "paired false-block formula freezes alpha, counts, denominator and undefined route",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-TP-B3"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/metric_registry.yaml": "b73475ae58c0939c2afbfd2a5952a9098c98172c1c09abf855710238d2f3f12a",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "TP-E1",
+      "observed_result": "rate and overhead formulas define range and missing-baseline behavior",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-TP-E1"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "TP-E2",
+      "observed_result": "retry permission, burden denominator and global cap are algebraically consistent",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-TP-E2"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "TP-E3",
+      "observed_result": "all frozen policy dependency classes propagate transitive STALE",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-TP-E3"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CC-001",
+      "observed_result": "ARCH-S0 remains comparator/fallback and is exempt from self-improvement",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CC-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/budget_policy.yaml": "c2d5b17c56e3079fa94766cbcd4b1693dd33901e4063fba2517e55dee7eea897",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CC-002",
+      "observed_result": "retry authorization and acceptance share 0.25 denominator/cap",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CC-002"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CC-003",
+      "observed_result": "cost and maintenance caps cannot be compensated",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CC-003"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CC-004",
+      "observed_result": "logical-unit surface and maintenance formulas resist file split/merge gaming",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CC-004"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/budget_policy.yaml": "c2d5b17c56e3079fa94766cbcd4b1693dd33901e4063fba2517e55dee7eea897",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CC-005",
+      "observed_result": "prospective protocol freezes complete resource caps",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CC-005"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CC-006",
+      "observed_result": "cost breach and strict dominance have deterministic stop routes",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CC-006"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/clean_room_provenance.yaml": "947fc434b1634b631b2fa66acffcb2aaa7a5ecbb770501b8b8c33b3412380f5e",
+        "specifications/components/accepted-versus-done-workflow-state.yaml": "d1c176989c39d18c49c87aed01db37569eddf014144e19b7e7930a832e9043e3",
+        "specifications/components/claim-evidence-support-gate.yaml": "c86a16f460ebdd3fbd3bfe6b2690ced2fffd5bf1646b03baa6c5da49bfd0a4ff",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml": "4a0cdc01792b6be3a50b4b3c3679b73dee3fe28812315c471a37c3c50edee5d5",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CRP-001",
+      "observed_result": "role-chain evidence binds distinct authors, raw outputs and normalization",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CRP-001"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/clean_room_provenance.yaml": "947fc434b1634b631b2fa66acffcb2aaa7a5ecbb770501b8b8c33b3412380f5e",
+        "specifications/components/claim-evidence-support-gate.yaml": "c86a16f460ebdd3fbd3bfe6b2690ced2fffd5bf1646b03baa6c5da49bfd0a4ff",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CRP-002",
+      "observed_result": "per-role allowlist and hidden-answer exclusion ledger is frozen",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CRP-002"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/clean_room_provenance.yaml": "947fc434b1634b631b2fa66acffcb2aaa7a5ecbb770501b8b8c33b3412380f5e",
+        "specifications/components/accepted-versus-done-workflow-state.yaml": "d1c176989c39d18c49c87aed01db37569eddf014144e19b7e7930a832e9043e3",
+        "specifications/components/claim-evidence-support-gate.yaml": "c86a16f460ebdd3fbd3bfe6b2690ced2fffd5bf1646b03baa6c5da49bfd0a4ff",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml": "4a0cdc01792b6be3a50b4b3c3679b73dee3fe28812315c471a37c3c50edee5d5",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CRP-003",
+      "observed_result": "source completeness and license-bound reuse report is frozen",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CRP-003"
+    },
+    {
+      "artifact_hashes": {
+        "specifications/clean_room_provenance.yaml": "947fc434b1634b631b2fa66acffcb2aaa7a5ecbb770501b8b8c33b3412380f5e",
+        "specifications/components/claim-evidence-support-gate.yaml": "c86a16f460ebdd3fbd3bfe6b2690ced2fffd5bf1646b03baa6c5da49bfd0a4ff",
+        "specifications/components/hash-bound-reproducibility-manifest.yaml": "4a0cdc01792b6be3a50b4b3c3679b73dee3fe28812315c471a37c3c50edee5d5",
+        "specifications/components/leakage-safe-model-comparison-gate.yaml": "62c957400dfd327304efd0f1498577e73e680bf6b8b6c2af4dce41a623b0e13a"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CRP-004",
+      "observed_result": "restricted-copy and similarity-warning scan report is frozen",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CRP-004"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r2/implementation_embargo.json": "2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2_adversarial.py",
+      "completed_at": "2026-09-02T19:00:00+08:00",
+      "finding_id": "CRP-005",
+      "observed_result": "workspace-wide embargo allowlist scan report is frozen",
+      "oracle_result": true,
+      "started_at": "2026-09-02T19:00:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2-DET-CRP-005"
+    }
+  ]
+}

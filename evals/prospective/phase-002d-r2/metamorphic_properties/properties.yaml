@@ -1,5 +1,10 @@
 {
-  "expected_relation": "irrelevant transformations preserve the specification oracle",
+  "composition_requirements": [
+    "permutation_then_unit_conversion",
+    "rename_then_extra_field",
+    "at_least_one_noncommuting_order_pair_per_scope"
+  ],
+  "expected_relation": "frozen per-family applicability matrix controls invariant/equivariant scoring",
   "properties": [
     "row_permutation",
     "column_renaming",

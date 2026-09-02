@@ -80,19 +80,35 @@ def build_protocol(architecture_arms: list[str]) -> dict[str, Any]:
         "repeats": 2,
         "main_start_formula": "eligible_architecture_count * 4 * 2",
         "retry_allowance_formula": "ceil(main_model_starts * 0.25)",
+        "retry_burden_formula": "retry_attempt_count / max(1, planned_primary_slot_count)",
         "absolute_start_cap": 30,
+        "start_cap_scope": "GLOBAL_ACROSS_ALL_ARMS_ABLATIONS_PRIMARY_AND_RETRY_ATTEMPTS",
+        "resource_caps": {
+            "deterministic_case_executions": 4004,
+            "model_starts_including_retries": 30,
+            "grader_actions": 4034,
+            "wall_time_seconds": 86400,
+            "retained_artifact_bytes": 2147483648,
+            "maintained_logical_units": 24,
+        },
         "randomization": "BLOCKED_RANDOMIZED_ARM_ORDER",
         "retry_rules": [
             "Only independently classified fresh infrastructure failures may receive a retry.",
             "At most one retry is allowed for a primary slot and all attempts remain in ledgers.",
             "Retry allowance is ceil(main starts * 0.25); no terminal correctness failure is "
             "retried into success.",
+            "Retry burden is retries divided by planned primary slots and must not exceed 0.25; "
+            "permission and acceptance use the same denominator and cap.",
         ],
         "stop_conditions": [
             "Stop an architecture before Stage 2 on any Stage 1 hard failure.",
             "Stop when the retry allowance or absolute 30-start cap is exhausted.",
             "Stop with RETEST_REQUIRED or EVIDENCE_INSUFFICIENT on missing, leaked, stale, "
             "censored or non-replayable critical evidence.",
+            "Stop an arm immediately on any token, retry, logical-surface, maintenance, wall-time, "
+            "storage or grader-action cap breach; unknown cost is EVIDENCE_INSUFFICIENT.",
+            "Reject strict cost dominance by a simpler eligible arm unless a predeclared non-cost "
+            "threshold is measurably superior; this rule does not select an architecture here.",
         ],
         "ablation": ablation,
         "prohibited_arms": ["HANDSOMEZR", "YUSHUI", "any third-party whole package"],
@@ -115,6 +131,9 @@ def _supporting_policies(protocol: dict[str, Any]) -> tuple[dict[str, Any], dict
         "retry_allowance_formula": protocol["retry_allowance_formula"],
         "maximum_retry_starts_for_three_eligible_arms": 6,
         "absolute_start_cap": protocol["absolute_start_cap"],
+        "start_cap_scope": protocol["start_cap_scope"],
+        "retry_burden_formula": protocol["retry_burden_formula"],
+        "resource_caps": protocol["resource_caps"],
         "real_model_starts_in_phase_002d_r2": 0,
         "api_calls_in_phase_002d_r2": 0,
         "prototype_executions_in_phase_002d_r2": 0,
@@ -175,6 +194,13 @@ def validate_protocol(root: Path) -> dict[str, Any]:
         errors.append("PROTOCOL_RETRY_FORMULA_INVALID")
     if budget.get("absolute_start_cap") != 30:
         errors.append("PROTOCOL_START_CAP_INVALID")
+    if (
+        budget.get("start_cap_scope")
+        != "GLOBAL_ACROSS_ALL_ARMS_ABLATIONS_PRIMARY_AND_RETRY_ATTEMPTS"
+    ):
+        errors.append("PROTOCOL_START_CAP_SCOPE_INVALID")
+    if budget.get("resource_caps") != protocol.get("resource_caps"):
+        errors.append("PROTOCOL_RESOURCE_CAP_DRIFT")
     if any(
         budget.get(key) != 0
         for key in (

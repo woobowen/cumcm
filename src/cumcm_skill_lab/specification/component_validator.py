@@ -25,7 +25,7 @@ INPUT_ROOT = RESULT_ROOT / "component_spec_inputs"
 COMPONENT_CONTRACT = Path("contracts/component_specification.schema.json")
 PROVENANCE_CONTRACT = Path("contracts/clean_room_provenance.schema.json")
 SOURCE_DECISION = Path("evals/results/phase-002d-r1/automated_decisions/component_readiness.json")
-RAW_OUTPUT_ROOT = RESULT_ROOT / "subagent_outputs"
+RAW_OUTPUT_ROOT = RESULT_ROOT / "subagent_outputs/fresh_authors"
 RAW_OUTPUT_FILES = {
     "accepted-versus-done-workflow-state": "state_component_spec_author.json",
     "claim-evidence-support-gate": "claim_evidence_spec_author.json",

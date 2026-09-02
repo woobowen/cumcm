@@ -1,67 +1,77 @@
 {
   "acceptance_metrics": [
     {
-      "metric_id": "C",
+      "metric_id": "HBRM-NONCOMPENSATORY",
       "noncompensatory": true,
-      "threshold_or_formula": "100% binding/mutation/determinism/STALE coverage; 0 leakage, silent reuse, or ineligible success"
+      "threshold_or_formula": "100% formal Runs have one valid manifest; 100% mutation probes fail; 0 failed/partial/stale/superseded records pass; deterministic rebuild equality is 100%."
     }
   ],
   "accepted_scope": "SPECIFICATION_ONLY",
   "actors": [
-    "MAIN_AGENT_ONLY"
+    "formal-run producer",
+    "deterministic verifier",
+    "main formal-state writer"
   ],
   "agent_responsibilities": [
-    "Main agent writes; helpers verify without inventing facts."
+    "Agents may supply capture data but cannot waive fields or mismatches; only the main agent associates verified manifests with formal state."
   ],
   "algorithms": [
     {
-      "id": "A",
-      "kind": "PSEUDOCODE",
-      "specification": "Normalize bindings and project-relative paths; reject missing or forbidden values; recompute sizes and SHA-256; classify success, failed, partial, stale, or superseded; eligibility requires every binding match, zero exit, complete outputs, no failure, current status, exact replay environment/dependencies/command/seed/solver/model, and privacy PASS; canonicalize excluding self-hash, hash, insert, and reverify. Replay creates a new Run. Mutation or supersession propagates STALE to all dependents."
+      "id": "ALG-01",
+      "kind": "STATE_TRANSITION_TABLE",
+      "specification": "CAPTURE canonicalizes allowlisted relative identifiers, argv, sorted maps and SHA-256 hashes. COMPLETE plus exit 0 and verified outputs may become SUCCESS. Nonzero exit is FAILED; missing/truncated output is PARTIAL; replacement makes the prior Run SUPERSEDED. VERIFY recomputes bindings before replay; mutation or identity/environment mismatch emits codes and STALE/REJECTED. REPLAY uses bound argv, directory, seed, config, dependencies and environment, then compares exit, outputs and metrics. Failed, partial, stale and superseded records stay queryable but are ineligible as successful evidence."
     }
   ],
   "audit_events": [
     {
-      "event": "MANIFEST_CHECKED",
+      "event": "REPRODUCIBILITY_MANIFEST_VERIFIED",
       "payload_fields": [
-        "run_id/hash/result/reasons"
+        "run_id",
+        "manifest_hash",
+        "run_status",
+        "verification_status",
+        "mismatch_codes",
+        "predecessor_id",
+        "verified_at"
       ],
-      "when": "build, verify, classify, mismatch, supersede, or stale"
+      "when": "After capture, verification, replay, mismatch or supersession."
     }
   ],
   "clean_room_provenance": {
     "abstract_mechanisms_observed": [
-      "Bind Run facts and artifacts by hash."
+      "A per-run manifest can bind hashes, seed, runtime and command for replay checks."
     ],
     "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
     "component_id": "hash-bound-reproducibility-manifest",
-    "contamination_status": "CONTAINED_METADATA_ONLY",
+    "contamination_status": "UNVERIFIED",
     "content_not_copied": [
-      "code",
-      "schemas",
-      "prompts",
-      "tests/assets"
+      "No code copied.",
+      "No schema copied.",
+      "No tests copied.",
+      "No prompts, templates, examples or state machines copied."
     ],
     "independent_tests": [
-      "T1"
+      "R2-HBRM-PUB-01",
+      "R2-HBRM-HID-01"
     ],
     "license_status": "UNKNOWN",
     "project_specific_design": [
-      "extend native Run truth",
-      "ineligible outcomes never become success"
+      "Extend the native Run contract and STALE graph.",
+      "Keep failed, partial and superseded records outside successful evidence."
     ],
-    "provenance_hash": "ef8e67cda78efe6f036eb69e24b0b6ff9c4493bca5ded2e836367e764f20f3e3",
+    "provenance_hash": "b166934833156002d980b23ad0e924b49b42408cbfc59e80de523bf28997fdf1",
     "reviewed_by": [
-      "spec-author"
+      "hash-bound-reproducibility-manifest-spec-author"
     ],
     "source_commits": [
       "5a85fe34ca1d075872e95556b122c8979984d322"
     ],
     "source_inspirations": [
-      "xiaoma-math-modeling-skill metadata"
+      "xiaoma-math-modeling-skill metadata card"
     ],
     "source_paths": [
-      "references/roles/编程手/scripts/repro_manifest.py"
+      "references/roles/编程手/scripts/repro_manifest.py",
+      "tests/test_reproducibility.py"
     ]
   },
   "component_id": "hash-bound-reproducibility-manifest",
@@ -69,227 +79,274 @@
   "deterministic_enforcement": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "D1",
+      "id": "DET-01",
       "severity": "BLOCKER",
-      "statement": "Schema, hashes, privacy, lifecycle, replay, and STALE checks use no votes or model judgment."
+      "statement": "Use UTF-8 canonical JSON, sorted object keys, preserved array order, no insignificant whitespace and SHA-256 lowercase hex."
     },
     {
-      "enforcement": "AGENT_BOUNDED",
-      "id": "D2",
+      "enforcement": "DETERMINISTIC",
+      "id": "DET-02",
       "severity": "BLOCKER",
-      "statement": "Verifier requests changes; main agent alone commits them."
+      "statement": "Verify all bound bytes and identities before replay acceptance or downstream reuse."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "DET-03",
+      "severity": "ERROR",
+      "statement": "Commands are argv arrays with project-relative directories; reject shell-only or private absolute-path records."
     }
   ],
   "failure_modes": [
     {
-      "consequence": "verification fails; INELIGIBLE and STALE where applicable",
-      "id": "F1",
-      "recovery": "correct authority data and rebuild without fabrication",
-      "trigger": "binding missing, invalid, sensitive, or mismatched"
+      "consequence": "Verification fails closed; the Run is not successful evidence and dependents become STALE.",
+      "id": "FM-01",
+      "recovery": "Correct the authority and create a new versioned capture; never edit the old manifest.",
+      "trigger": "Missing binding, mutation, hash mismatch or environment mismatch."
     },
     {
-      "consequence": "record remains explicit and INELIGIBLE",
-      "id": "F2",
-      "recovery": "preserve it and create a new linked Run",
-      "trigger": "failed/partial execution, replay mismatch, or supersession"
+      "consequence": "Record FAILED, PARTIAL or SUPERSEDED with emitted-output hashes and failure details; exclude it from successful evidence.",
+      "id": "FM-02",
+      "recovery": "Preserve it and create a linked Run/attempt only if retry policy permits.",
+      "trigger": "Nonzero exit, interruption, missing output or supersession."
     }
   ],
   "hard_failures": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "H1",
+      "id": "HF-01",
       "severity": "BLOCKER",
-      "statement": "Missing, invalid, or mismatched binding rejects."
+      "statement": "A mandatory binding is absent, malformed, ambiguous or unhashed."
     },
     {
       "enforcement": "DETERMINISTIC",
-      "id": "H2",
+      "id": "HF-02",
       "severity": "BLOCKER",
-      "statement": "Sensitive data or ineligible-as-success rejects."
+      "statement": "A recomputed hash, Run/Git identity, output or replay result differs."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "HF-03",
+      "severity": "BLOCKER",
+      "statement": "Replay environment or dependency lock differs from its fingerprint."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "HF-04",
+      "severity": "BLOCKER",
+      "statement": "Sensitive or disallowed path content is detected."
     }
   ],
   "hidden_property_tests": [
     {
-      "expected_relation": "stable or reject",
-      "input_class": "order/path variants",
-      "purpose": "canonicalization",
-      "test_id": "X1"
+      "expected_relation": "Equivalent values match; ambiguous values reject.",
+      "input_class": "Generated key orders, Unicode and path edge cases",
+      "purpose": "Canonicalization robustness",
+      "test_id": "R2-HBRM-HID-01"
     },
     {
-      "expected_relation": "all predicates pass or reject",
-      "input_class": "state combinations/encoded secrets",
-      "purpose": "noncompensation/privacy",
-      "test_id": "X2"
+      "expected_relation": "Every material mutation fails or propagates STALE.",
+      "input_class": "Single-field/byte mutations in every binding class",
+      "purpose": "No silent reuse",
+      "test_id": "R2-HBRM-HID-02"
     }
   ],
   "inputs": [
     {
-      "authority": "native Run and trusted capture",
-      "description": "Bind Run ID; every input and raw manifest; Git commit/tree; executable/config; seed; allowlisted environment; dependency lock; tokenized command; start/end/duration; exit/signal; solver/model; expected/actual outputs; metrics; failure; supersession; and credential-free reproduction command. Artifacts have size and SHA-256; absence is explicit.",
-      "name": "run_capture",
+      "description": "Run ID; frozen input/raw-manifest hashes; executable, config, Git commit/tree; seed; allowlisted environment/dependency locks; argv, relative working directory and reproduction argv; times, exit, solver/model, outputs, metrics, failure/partial status and supersession.",
+      "name": "formal_run_capture",
       "required": true,
-      "type": "RunCapture"
+      "type": "object"
+    },
+    {
+      "description": "Run ID, manifest bytes, available bound artifacts and replay mode.",
+      "name": "verification_request",
+      "required": false,
+      "type": "object"
     }
   ],
   "interaction_conflicts": [
-    "parallel truth or silent mutation"
+    "parallel manifest registry",
+    "free-form notes as evidence"
   ],
-  "interaction_dependencies": [
-    "native Run/artifact/Git/STALE contracts"
-  ],
+  "interaction_dependencies": [],
   "invariants": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "I1",
+      "id": "INV-01",
       "severity": "BLOCKER",
-      "statement": "Same capture yields identical bytes and hash."
+      "statement": "Exactly one current manifest binds each Run ID; historical versions are immutable."
     },
     {
       "enforcement": "DETERMINISTIC",
-      "id": "I2",
+      "id": "INV-02",
       "severity": "BLOCKER",
-      "statement": "Any bound mutation causes transitive STALE."
+      "statement": "SUCCESS requires all mandatory bindings and outputs verified; FAILED, PARTIAL, SUPERSEDED or STALE never counts as successful evidence."
     },
     {
       "enforcement": "DETERMINISTIC",
-      "id": "I3",
+      "id": "INV-03",
+      "severity": "ERROR",
+      "statement": "Hashes cover canonical field values and artifact bytes."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "INV-04",
       "severity": "BLOCKER",
-      "statement": "Failed, partial, stale, superseded, or environment-mismatched Runs are INELIGIBLE; only main agent writes state."
+      "statement": "No credential, key, password, browser state, hidden reasoning, raw trace or unnecessary private path is stored."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "INV-05",
+      "severity": "ERROR",
+      "statement": "The same ordered logical capture yields byte-identical canonical JSON and hash."
     }
   ],
   "maintenance_surface": [
-    "Run schema, hashing, fingerprints, lifecycle, privacy, tests"
+    "Native Run schema, canonical verifier, STALE integration, status projection and tests."
   ],
   "migration": [
-    "Extend native Run atomically; incomplete history stays INELIGIBLE without fabricated backfill."
+    "Backfill only with derived versioned manifests linked to immutable Runs; unbackfillable Runs are UNKNOWN/NOT_EVIDENCE and never rewritten."
   ],
   "model_in_loop_tests": [
     {
-      "expected_relation": "deterministic reject",
-      "input_class": "invalid model-authored manifest",
-      "purpose": "no model override",
-      "test_id": "M"
+      "expected_relation": "The deterministic verifier applies; hidden reasoning/raw traces are absent and never substitute for bindings.",
+      "input_class": "Formal Run naming a model",
+      "purpose": "Model-run boundary",
+      "test_id": "R2-HBRM-MIL-01"
     }
   ],
   "non_goals": [
-    "implementation",
-    "architecture selection",
-    "parallel state or sensitive storage"
+    "Implement or select architecture.",
+    "Create a second state authority.",
+    "Claim performance or Phase 003 readiness."
   ],
   "observed_gap_ids": [
-    "REPEATED_ORACLE_CORRECTNESS_GAP"
+    "REPEATED_ORACLE_CORRECTNESS_GAP",
+    "REPEATED_POLICY_COMPLIANCE_GAP"
   ],
   "open_risks": [
-    "Undeclared dependencies, fingerprint or secret-scan gaps, scale, lineage defects, and non-replayable services."
+    "Broad environment fingerprints cause false mismatches; narrow ones can miss material drift."
   ],
   "outputs": [
     {
-      "authority": "main agent after deterministic verification",
-      "description": "One canonical manifest with self-excluding hash, verification, eligibility, and STALE result.",
-      "name": "manifest",
+      "authority": "project-native formal Run contract",
+      "description": "Versioned Run-owned manifest with verification result and mismatch codes; not separate state.",
+      "name": "native_reproducibility_manifest",
       "required": true,
-      "type": "NativeManifest"
+      "type": "canonical JSON object"
     }
   ],
   "performance_budget": {
     "hard": true,
-    "limit_or_formula": "O(bytes) time; O(metadata) memory",
-    "measurement": "hash work"
+    "limit_or_formula": "O(bound bytes + entries), one streaming hash pass per artifact per operation",
+    "measurement": "capture and verification work"
   },
   "postconditions": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "Q",
+      "id": "POST-01",
       "severity": "BLOCKER",
-      "statement": "One verified native manifest exists; ineligible outcomes remain explicit."
+      "statement": "Unchanged capture data reproduces canonical bytes, while every mismatch is recorded without converting failure to success."
     }
   ],
   "preconditions": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "P",
+      "id": "PRE-01",
       "severity": "BLOCKER",
-      "statement": "All required bindings are authoritative and secret-free."
+      "statement": "The Run ID exists and inputs come from registered native authorities."
     }
   ],
   "privacy_constraints": [
-    "Never store credentials, keys, passwords, browser state, hidden reasoning, raw private traces, or unnecessary private paths."
+    "Allowlist reproducibility fields and dependency fingerprints; exclude usernames, home paths, host secrets and unrelated variables."
   ],
   "public_conformance_tests": [
     {
-      "expected_relation": "reject",
-      "input_class": "omit one",
-      "purpose": "missing binding",
-      "test_id": "T1"
+      "expected_relation": "Canonical bytes and hash are identical.",
+      "input_class": "Same capture with reordered map keys",
+      "purpose": "Deterministic rebuild",
+      "test_id": "R2-HBRM-PUB-01"
     },
     {
-      "expected_relation": "STALE",
-      "input_class": "change bound byte",
-      "purpose": "mutation",
-      "test_id": "T2"
+      "expected_relation": "Every variant is rejected before evidence use.",
+      "input_class": "Each mandatory binding omitted",
+      "purpose": "Required bindings",
+      "test_id": "R2-HBRM-PUB-02"
     },
     {
-      "expected_relation": "same bytes/hash",
-      "input_class": "same capture",
-      "purpose": "determinism",
-      "test_id": "T3"
+      "expected_relation": "Mismatch is detected and Run plus dependents become STALE.",
+      "input_class": "One-byte input, executable, config or output mutation; changed Git identity",
+      "purpose": "Mutation and staleness",
+      "test_id": "R2-HBRM-PUB-03"
     },
     {
-      "expected_relation": "INELIGIBLE or reject",
-      "input_class": "failed, partial, superseded, mismatch, secret",
-      "purpose": "outcomes/privacy",
-      "test_id": "T4"
+      "expected_relation": "Each stays explicit and none passes as successful evidence.",
+      "input_class": "Failed, partial, stale and superseded Runs",
+      "purpose": "Outcome isolation",
+      "test_id": "R2-HBRM-PUB-04"
+    },
+    {
+      "expected_relation": "Replay evidence is rejected with ENVIRONMENT_MISMATCH.",
+      "input_class": "Changed environment or dependency lock",
+      "purpose": "Environment mismatch",
+      "test_id": "R2-HBRM-PUB-05"
+    },
+    {
+      "expected_relation": "Capture rejects it and serializes no forbidden content.",
+      "input_class": "Credential, browser state, hidden reasoning or private path",
+      "purpose": "Sensitive-data exclusion",
+      "test_id": "R2-HBRM-PUB-06"
     }
   ],
-  "purpose": "Define one native hash-bound manifest for reproducible formal Runs and deterministic rejection of silent reuse.",
+  "purpose": "Specify one project-native hash-bound manifest per formal Run so capture, verification, replay, failure, supersession and staleness are deterministic.",
   "recovery_behavior": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "R",
+      "id": "REC-01",
       "severity": "BLOCKER",
-      "statement": "Rebuild only from immutable capture; never rewrite failure, bypass hashes, leak secrets, or waive mismatch."
+      "statement": "Recovery creates a linked new Run or manifest version, re-verifies every binding and leaves failed/partial records unchanged."
     }
   ],
   "rejection_conditions": [
-    "Any required binding, rule, test, privacy control, or evidence link is absent or bypassable.",
-    "Parallel truth, sensitive storage, silent mutation, ineligible success, third-party copying, or non-main state writes."
+    "Any formal Run lacks a unique valid manifest or binding.",
+    "Any mutation or environment mismatch passes silently.",
+    "Any failed, partial, stale or superseded record passes as successful evidence."
   ],
   "rollback": [
-    "Supersede draft; preserve manifests and STALE affected dependents."
+    "A future rollback restores the prior native Run schema, preserves manifests as non-authoritative audit records and marks dependents for replay."
   ],
   "schemas": [
-    "native Run manifest schema"
+    "Future additive native Run reproducibility contract; no parallel registry."
   ],
   "security_constraints": [
-    "Offline only; no third-party execution, web, MCP, API, browser, benchmark answers, or unverified hashes.",
-    "Tokenized commands and project-relative paths only; no shell expansion, traversal, votes, or overrides."
+    "Use allowlisted local metadata; validation never executes captured commands.",
+    "Reject credentials, private keys, passwords, tokens, browser state, raw traces and hidden reasoning.",
+    "Store relative paths or artifact IDs, not unnecessary private absolute paths."
   ],
-  "specification_hash": "3e56618b9b2599858a57669095a7a2ec519b45c77ff1afdd5d2e4ff460f6a6ff",
+  "specification_hash": "f20b5548f4f2c8693000e573c9510adbf8791d141ca4d2783370d17704ab3aad",
   "stale_propagation": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "S",
+      "id": "STALE-01",
       "severity": "BLOCKER",
-      "statement": "Changed bindings or supersession stale all reachable dependents until recomputed."
+      "statement": "Changing any input, raw manifest, executable, config, Git tree/commit, seed, environment, dependency, command, output, metric or supersession binding marks the Run and dependents STALE until rebuilt from the earliest affected predecessor."
     }
   ],
   "state_read_set": [
-    "state/project_state.json"
+    "Formal Run, frozen hashes, Git, dependency/environment, artifacts and STALE graph."
   ],
-  "state_write_set": [
-    "native Run manifest/status by main agent"
-  ],
+  "state_write_set": [],
   "status": "SPECIFICATION_FROZEN",
   "supporting_evidence_ids": [
     "PHASE-002D-R1-EVIDENCE-SCOPES-001"
   ],
   "token_budget": {
     "hard": true,
-    "limit_or_formula": "0",
-    "measurement": "model tokens in enforcement"
+    "limit_or_formula": "0; deterministic and model-free",
+    "measurement": "model tokens for generation or verification"
   },
   "unknowns": [
-    "Native field mappings, fingerprints, solver/model identity, credential replay, and timing limit."
+    "Final native schema path and environment allowlist await implementation design without changing these invariants."
   ],
   "version": "1.0.0",
   "warnings": []

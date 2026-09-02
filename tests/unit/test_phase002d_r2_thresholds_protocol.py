@@ -113,7 +113,7 @@ def test_false_block_threshold_is_paired_noninferiority(repo_root):
 
 @pytest.mark.parametrize(
     ("metric_id", "value"),
-    [("retry_burden", 0.10), ("tracked_code_surface", 24), ("maintenance_score", 24)],
+    [("retry_burden", 0.25), ("tracked_code_surface", 24), ("maintenance_score", 24)],
 )
 def test_cost_and_maintenance_absolute_caps_are_frozen(repo_root, metric_id, value):
     policy = _yaml(repo_root / THRESHOLD_PATH)
@@ -129,16 +129,17 @@ def test_threshold_mutation_marks_all_dependent_results_stale(repo_root):
     assert len(policy["abstention_conditions"]) >= 3
 
 
-def test_oracle_class_map_closes_pre_result_denominator_gap(repo_root):
-    mapping = _json(repo_root / BENCHMARK_ROOT / "manifests/oracle_class_map.json")
-    assert mapping["frozen_before_prototype"] is True
-    assert mapping["candidate_results_present"] is False
-    assert mapping["record_count"] == 20
-    assert {item["oracle_class"] for item in mapping["records"]} == {
-        "VALID_CONTROL",
-        "INVALID_CONTROL",
+def test_private_oracle_commitment_closes_denominator_without_case_leak(repo_root):
+    commitments = _json(repo_root / BENCHMARK_ROOT / "manifests/oracle_commitments.json")
+    assert commitments["frozen_before_prototype"] is True
+    assert commitments["candidate_results_present"] is False
+    assert commitments["oracle_class_counts"] == {
+        "VALID_CONTROL": 20,
+        "INVALID_CONTROL": 16,
     }
-    assert all(item["seed_identity_hash"] for item in mapping["records"])
+    assert commitments["per_case_metadata_exposed_to_candidate"] == []
+    assert len(commitments["private_mapping_commitment"]) == 64
+    assert not (repo_root / BENCHMARK_ROOT / "manifests/oracle_class_map.json").exists()
 
 
 @pytest.mark.parametrize("audit_path", AUDIT_PATHS)

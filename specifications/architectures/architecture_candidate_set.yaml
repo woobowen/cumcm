@@ -27,7 +27,7 @@
       "estimated_complexity": "MINIMAL",
       "expected_benefits": ["Lowest new maintenance and runtime overhead."],
       "expected_costs": ["The four observed mechanism gaps remain unresolved by new enforcement."],
-      "falsification_conditions": ["Any frozen hard-safety requirement fails.", "Target effectiveness does not meet its frozen baseline-relative formula."],
+      "falsification_conditions": ["Any frozen hard-safety requirement fails.", "Baseline evidence is missing, stale, leaked or non-replayable; the baseline is never tested for improvement over itself."],
       "public_tests": ["ARCH-PUB-BASELINE-IDENTITY", "ARCH-PUB-SINGLE-TRUTH"],
       "hidden_tests": ["ARCH-HID-VALID-CONTROL", "ARCH-HID-GAMING-RESISTANCE"],
       "prototype_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
@@ -94,5 +94,5 @@
   ],
   "selected_architecture": null,
   "decision": "CANDIDATE_SET_FROZEN",
-  "candidate_set_hash": "c51ea5d8b583971c8d4bc79943389264cf48a521e26f30eac7fb5d8bd497694d"
+  "candidate_set_hash": "77d306a4e87f16051e8151d96bd21ca020d38f216e9a74e1060d5eb8c5ac047e"
 }

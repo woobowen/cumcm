@@ -1,268 +1,281 @@
 {
   "acceptance_metrics": [
     {
-      "metric_id": "m",
+      "metric_id": "METRIC-001",
       "noncompensatory": true,
-      "threshold_or_formula": "100% exact state, closure and resume results; 0 illegal advances."
+      "threshold_or_formula": "100% exact state and STALE-oracle match, 0 unsafe resume skips, and 0 unauthorized technical transitions."
     }
   ],
   "accepted_scope": "SPECIFICATION_ONLY",
   "actors": [
-    "MAIN_AGENT"
+    "MAIN_AGENT_FORMAL_STATE_WRITER"
   ],
   "agent_responsibilities": [
-    "MAIN_AGENT alone applies formal mutations; all other roles only produce evidence or proposals."
+    "The main agent alone writes formal state; other agents may supply evidence-bound findings or tests but cannot decide technical outcomes."
   ],
   "algorithms": [
     {
-      "id": "a",
+      "id": "ALG-001",
       "kind": "STATE_TRANSITION_TABLE",
-      "specification": "TASK_CREATED>EXECUTION_STARTED>COMMAND_COMPLETED>ARTIFACT_PRODUCED>AUTOMATIC_VALIDATION_PASSED>FINAL_EVIDENCE_FROZEN>AUTOMATED_ACCEPTED>FORMALLY_INTEGRATED. Every edge needs its own current hash-bound evidence; acceptance also needs an audited automated decision and Decision Auditor PASS. An audited rejection gives AUTOMATED_REJECTED. A dependency change or supported challenge gives STALE to the root and all transitive dependents, excluding unrelated branches. Resume at the earliest missing or invalid stage; current accepted work skips execution, while accepted but unintegrated work resumes at integration."
+      "specification": "Advance TASK_CREATED -> EXECUTION_STARTED -> COMMAND_COMPLETED -> ARTIFACT_PRODUCED -> AUTOMATIC_VALIDATION_PASSED -> AUTOMATIC_ADJUDICATION_ACCEPTED -> FINAL_EVIDENCE_FROZEN -> FORMALLY_INTEGRATED only when each edge's separate evidence is current; mark an affected node and all reachable dependents STALE on any dependency mismatch or supported challenge; record AUTOMATED_REJECTED only for an audited hard-gate failure or verified counterexample; resume skips only nodes retaining current audited automatic acceptance and exact dependency hashes, otherwise restarts at the earliest invalid predecessor; TEAM_COMPLIANCE_REVIEW changes no technical state, while a supported challenge creates STALE, a finding, a test, and re-adjudication."
     }
   ],
   "audit_events": [
     {
-      "event": "STATE_EVALUATED",
+      "event": "WORKFLOW_STATE_EVALUATED",
       "payload_fields": [
-        "task_id"
+        "node, prior state, requested state, outcome, reasons, hashes, evidence, and writer"
       ],
-      "when": "A transition, stale event, resume, review or challenge is evaluated."
+      "when": "Every transition, freshness, restart, rejection, stale, review, or challenge evaluation"
     }
   ],
   "clean_room_provenance": {
     "abstract_mechanisms_observed": [
-      "Done differs from accepted; dependency changes reopen work."
+      "Completion, acceptance, dependency freshness, and resume are distinct mechanisms."
     ],
     "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
     "component_id": "accepted-versus-done-workflow-state",
     "contamination_status": "CONTAINED_METADATA_ONLY",
     "content_not_copied": [
-      "code",
-      "tests",
-      "schemas",
-      "text"
+      "No upstream source code was copied.",
+      "No upstream tests were copied.",
+      "No upstream state schema or controller was copied.",
+      "No upstream examples, prompts, or execution logic were copied."
     ],
     "independent_tests": [
-      "P1"
+      "FUTURE-IMPLEMENTATION-TEST:accepted-versus-done-workflow-state"
     ],
     "license_status": "UNVERIFIED",
     "project_specific_design": [
-      "WORKFLOW.md lifecycle",
-      "Existing state and ledgers only"
+      "Use only existing project state and ledgers with the main agent as sole writer.",
+      "Require audited automatic acceptance and route supported challenges through STALE, findings, tests, and re-adjudication."
     ],
-    "provenance_hash": "f197ed46b679f1d71be77aea9f4785114b4ea5fd159ed7b5bdb1a682164534d3",
+    "provenance_hash": "82ff0fb7121db9aa52271bd7fc4ead024fcb6759e96f38c3bdcf35a204ca9abe",
     "reviewed_by": [
-      "state-spec-author"
+      "PENDING_INDEPENDENT_AUDIT"
     ],
-    "source_commits": [],
-    "source_inspirations": [],
-    "source_paths": []
+    "source_commits": [
+      "94d8093ed21d20a790830318190095b9f5036ce8"
+    ],
+    "source_inspirations": [
+      "aris metadata summarized by the registered component card"
+    ],
+    "source_paths": [
+      "research/upstream_candidates/component_cards/accepted-versus-done-workflow-state.yaml"
+    ]
   },
   "component_id": "accepted-versus-done-workflow-state",
   "decision_source": "DECISION-COMPONENT-READINESS-002D-R1",
   "deterministic_enforcement": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "d1",
+      "id": "DET-001",
       "severity": "BLOCKER",
-      "statement": "Validate edge, evidence, hashes and writer before mutation."
+      "statement": "Validate every transition edge and its required evidence before advancement."
     },
     {
       "enforcement": "DETERMINISTIC",
-      "id": "d2",
+      "id": "DET-002",
       "severity": "BLOCKER",
-      "statement": "Compute STALE closure and resume point deterministically; never infer missing evidence."
+      "statement": "Compare registered hashes exactly and compute STALE as the registered transitive dependent closure."
     }
   ],
   "failure_modes": [
     {
-      "consequence": "Only durable current milestones remain.",
-      "id": "f1",
-      "recovery": "Resume at the earliest missing stage.",
-      "trigger": "Crash between milestones."
+      "consequence": "Only the greatest separately evidenced stage is retained.",
+      "id": "FM-001",
+      "recovery": "Restart at the earliest missing evidence stage.",
+      "trigger": "Execution terminates without complete artifact or validation evidence."
     },
     {
-      "consequence": "Block acceptance, integration and skipping.",
-      "id": "f2",
-      "recovery": "Preserve history and replay from the earliest valid predecessor.",
-      "trigger": "Missing hash, conflict, rejection or unauthorized continuation."
+      "consequence": "The affected transitive closure becomes STALE while history remains immutable.",
+      "id": "FM-002",
+      "recovery": "Recompute from the earliest affected predecessor and repeat adjudication and audit.",
+      "trigger": "A dependency changes after validation, acceptance, freeze, integration, or rejection."
     }
   ],
   "hard_failures": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "h1",
+      "id": "HF-001",
       "severity": "BLOCKER",
-      "statement": "Reject missing, conflicting, stale or scope-mismatched hashes, evidence, predecessors, freeze, decision or Auditor PASS."
+      "statement": "Deny missing-hash, stale, unaudited, unregistered, skipped-stage, AUTO_PROCEED, fail-continue, or skip-on-done transitions."
     },
     {
       "enforcement": "DETERMINISTIC",
-      "id": "h2",
+      "id": "HF-002",
       "severity": "BLOCKER",
-      "statement": "Reject skip-on-done, AUTO_PROCEED, fail-continue, voting, human override and unauthorized writes."
+      "statement": "Deny formal-state writes by any actor other than the main agent and deny human or vote-based technical acceptance."
     }
   ],
   "hidden_property_tests": [
     {
-      "expected_relation": "STALE equals reachable nodes only.",
-      "input_class": "Seeded dependency DAGs",
-      "purpose": "Closure property",
-      "test_id": "H1"
+      "expected_relation": "Computed valid and STALE sets exactly match reachability oracles.",
+      "input_class": "Hidden-seed acyclic graphs with changed and unrelated nodes.",
+      "purpose": "Check exact closure over generated dependency graphs.",
+      "test_id": "HIDDEN-001"
     },
     {
-      "expected_relation": "No skipped state; conflicts fail closed; exact duplicates are idempotent.",
-      "input_class": "Missing, reordered or duplicate evidence",
-      "purpose": "Prefix and hash safety",
-      "test_id": "H2"
+      "expected_relation": "Resume selects the earliest missing or stale stage and never skips on completion or artifact existence alone.",
+      "input_class": "Hidden-seed crashes before and after every workflow stage.",
+      "purpose": "Check crash and resume boundaries.",
+      "test_id": "HIDDEN-002"
     }
   ],
   "inputs": [
     {
-      "description": "Existing state, ledgers, hashes, decisions and reviews.",
-      "name": "evidence",
+      "authority": "Existing project contracts and ledgers",
+      "description": "Current state, node evidence, dependency edges and hashes, decisions, audits, freezes, reviews, and challenges.",
+      "name": "workflow_evidence",
       "required": true,
-      "type": "records"
+      "type": "schema-valid existing state and ledger bundle"
     }
   ],
-  "interaction_conflicts": [],
-  "interaction_dependencies": [],
+  "interaction_conflicts": [
+    "Parallel controllers, AUTO_PROCEED, fail-continue, skip-on-done, human technical acceptance, votes, and mutable history"
+  ],
+  "interaction_dependencies": [
+    "claim-evidence-support-gate",
+    "leakage-safe-model-comparison-gate"
+  ],
   "invariants": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "i1",
+      "id": "INV-001",
       "severity": "BLOCKER",
-      "statement": "Done means at most COMMAND_COMPLETED; artifact does not mean validated, validation does not mean accepted, and accepted does not mean integrated."
+      "statement": "TASK_CREATED, EXECUTION_STARTED, and COMMAND_COMPLETED are distinct, and command completion records termination rather than success."
     },
     {
       "enforcement": "DETERMINISTIC",
-      "id": "i2",
+      "id": "INV-002",
       "severity": "BLOCKER",
-      "statement": "TEAM_COMPLIANCE_REVIEW never advances technical state; a supported challenge creates STALE, a finding, a test and re-adjudication."
+      "statement": "ARTIFACT_PRODUCED, AUTOMATIC_VALIDATION_PASSED, and AUTOMATIC_ADJUDICATION_ACCEPTED are distinct and require separate evidence."
     },
     {
       "enforcement": "DETERMINISTIC",
-      "id": "i3",
+      "id": "INV-003",
       "severity": "BLOCKER",
-      "statement": "Only MAIN_AGENT writes existing formal state and ledgers; no second controller or FINAL authority exists."
+      "statement": "AUTOMATIC_ADJUDICATION_ACCEPTED, FINAL_EVIDENCE_FROZEN, FORMALLY_INTEGRATED, STALE, and AUTOMATED_REJECTED are distinct; TEAM_COMPLIANCE_REVIEW never advances technical state."
     }
   ],
   "maintenance_surface": [
-    "WORKFLOW.md, project-state contract, existing ledgers and tests."
+    "Existing state contract, workflow rules, ledgers, hashes, freezes, validators, and conformance tests"
   ],
   "migration": [
-    "Legacy done maps at most to COMMAND_COMPLETED; later states require their own current evidence, otherwise STALE."
+    "Map each legacy node to its greatest directly evidenced state, classify missing hashes or edges as STALE, and never backfill acceptance."
   ],
   "model_in_loop_tests": [
     {
-      "expected_relation": "Claims cannot replace registered evidence.",
-      "input_class": "Agent claims done or review means accepted",
-      "purpose": "Narrative escalation resistance",
-      "test_id": "M1"
+      "expected_relation": "The model cannot write state, and deterministic enforcement returns only the greatest proven stage.",
+      "input_class": "Ambiguous narratives paired with incomplete deterministic evidence.",
+      "purpose": "Bound ambiguous model interpretations of done, accepted, approved, and final.",
+      "test_id": "MODEL-001"
     }
   ],
   "non_goals": [
-    "No implementation.",
-    "No architecture choice.",
-    "No new controller or FINAL authority."
+    "Do not implement the component.",
+    "Do not select an architecture.",
+    "Do not create another controller or FINAL authority."
   ],
   "observed_gap_ids": [
-    "REPEATED_POLICY_COMPLIANCE_GAP"
+    "REPEATED_ORACLE_CORRECTNESS_GAP"
   ],
   "open_risks": [
-    "Legacy conflation or missing dependency edges may cause incorrect freshness."
+    "Incomplete or overly broad dependency edges may miss required invalidation or mark unrelated work STALE."
   ],
   "outputs": [
     {
-      "description": "State, STALE closure, resume point and mutation proposal.",
-      "name": "projection",
+      "authority": "Existing project ledgers",
+      "description": "Records allowed or denied state, valid and STALE sets, restart point, reasons, and evidence references.",
+      "name": "workflow_assessment",
       "required": true,
-      "type": "state result"
+      "type": "deterministic transition, freshness, restart, and audit result"
     }
   ],
   "performance_budget": {
     "hard": true,
-    "limit_or_formula": "At most once per reachable node and edge, O(V+E).",
-    "measurement": "Graph visits"
+    "limit_or_formula": "At most N node classifications plus E registered edge visits per N-node, E-edge evaluation.",
+    "measurement": "Freshness and restart traversal"
   },
   "postconditions": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "q",
+      "id": "POST-001",
       "severity": "ERROR",
-      "statement": "Return the highest contiguous supported state, exact STALE closure and earliest resume point."
+      "statement": "Every evaluation returns a reasoned result and preserves immutable historical evidence."
     }
   ],
   "preconditions": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "p",
+      "id": "PRE-001",
       "severity": "BLOCKER",
-      "statement": "State, evidence and dependency hashes validate."
+      "statement": "All referenced state, evidence, edges, hashes, decisions, and audits are schema-valid, registered, current, and authority-bound."
     }
   ],
   "privacy_constraints": [
-    "Store identifiers, hashes and references, not secrets or raw content."
+    "Store only necessary identifiers, statuses, hashes, reason codes, and evidence references, never secrets or protected raw content."
   ],
   "public_conformance_tests": [
     {
-      "expected_relation": "Each prefix yields only its supported state.",
-      "input_class": "Lifecycle prefixes",
-      "purpose": "State distinctions",
-      "test_id": "P1"
+      "expected_relation": "The result is exactly the greatest separately evidenced stage and never advances across the omitted proof.",
+      "input_class": "Records omitting each successive dispatch, terminal-outcome, or artifact-hash proof.",
+      "purpose": "Distinguish created, started, completed, and produced states.",
+      "test_id": "PUBLIC-001"
     },
     {
-      "expected_relation": "Resume at earliest missing stage.",
-      "input_class": "Before done, after done, after accepted",
-      "purpose": "Crash resume",
-      "test_id": "P2"
+      "expected_relation": "No later state is inferred, and rejection occurs only from audited hard-gate or counterexample evidence.",
+      "input_class": "Records omitting each validator, hard gate, decision, auditor, freeze, integration, or rejection proof.",
+      "purpose": "Distinguish artifact, validation, acceptance, freeze, integration, and rejection.",
+      "test_id": "PUBLIC-002"
     },
     {
-      "expected_relation": "STALE closure exactly matches reachability.",
-      "input_class": "Input, config, code, Final Run, paper and unrelated mutations",
-      "purpose": "Freshness",
-      "test_id": "P3"
+      "expected_relation": "STALE equals the exact registered dependent closure and restart begins at the earliest invalid node, skipping only current audited acceptance.",
+      "input_class": "Input, configuration, code, run, paper, source, policy, and unrelated-branch hash mutations.",
+      "purpose": "Verify freshness and safe resume.",
+      "test_id": "PUBLIC-003"
     },
     {
-      "expected_relation": "Review does not advance; challenge routes STALE/test/re-adjudication; illegal paths fail.",
-      "input_class": "Review, challenge, AUTO_PROCEED, fail-continue and skip-on-done",
-      "purpose": "Policy safety",
-      "test_id": "P4"
+      "expected_relation": "Review never changes technical state; only a supported challenge creates exact STALE closure, a finding, a test, and re-adjudication.",
+      "input_class": "TEAM_COMPLIANCE_REVIEW plus supported and unsupported TEAM_CHALLENGE records.",
+      "purpose": "Verify review and challenge boundaries.",
+      "test_id": "PUBLIC-004"
     }
   ],
-  "purpose": "Separate execution completion from evidence acceptance in existing project state.",
+  "purpose": "Specify evidence-backed workflow stages, freshness, restart, rejection, challenge, and audit behavior without implementation.",
   "recovery_behavior": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "r",
+      "id": "REC-001",
       "severity": "BLOCKER",
-      "statement": "Append corrective evidence without rewriting history and follow only registered WORKFLOW.md edges."
+      "statement": "Resume reconstructs state only from valid records and hashes, never infers acceptance from done, success, file existence, review, or agent text, and never rewrites frozen history."
     }
   ],
   "rejection_conditions": [
-    "Any state distinction or STALE closure is wrong.",
-    "Any prohibited continuation, override, vote, inference or competing authority succeeds."
+    "Reject if any completion, artifact, validation, review, vote, or agent assertion substitutes for audited automatic acceptance.",
+    "Reject if any dependency mutation yields an incorrect STALE closure, unsafe skip, mutable history, or competing controller."
   ],
   "rollback": [
-    "Disable the projection, preserve history, mark dependents STALE and recompute through existing authority."
+    "Supersede this specification without changing historical evidence; any future implementation rollback must disable its transitions and mark dependent evidence STALE."
   ],
   "schemas": [
     "contracts/project_state.schema.json"
   ],
   "security_constraints": [
-    "No third-party execution or shell, Git, remote, installer or updater control.",
-    "Require contracts, hashes, prior-state match and MAIN_AGENT writer identity."
+    "Do not execute or copy upstream code, tests, shell, Git, remote, installer, or updater behavior.",
+    "Reject unregistered authorities, edges, hashes, evidence, and competing state controllers."
   ],
-  "specification_hash": "5a0b3155cf8832b62cc50dd6036e046e89c08173585b85e4a548a3cb6aecfe65",
+  "specification_hash": "7f837021b847d62b7fd37f89acfc7e9a1c1562a0bac9957d25c2479bac228a0c",
   "stale_propagation": [
     {
       "enforcement": "DETERMINISTIC",
-      "id": "s",
+      "id": "STALE-001",
       "severity": "BLOCKER",
-      "statement": "Changed inputs, sources, policy, code, configuration, environment, evidence, Final Run or supported challenge mark all registered transitive dependents STALE; only recomputation clears it."
+      "statement": "Any changed input, source, code, configuration, environment, run, policy, evidence, decision, audit, or supported challenge marks the affected node and registered dependents STALE until recomputed from the earliest predecessor."
     }
   ],
   "state_read_set": [
-    "state/project_state.json"
+    "Existing project state, ledgers, dependency graph, hashes, decisions, audits, and freezes"
   ],
   "state_write_set": [],
   "status": "SPECIFICATION_FROZEN",
@@ -271,12 +284,19 @@
   ],
   "token_budget": {
     "hard": true,
-    "limit_or_formula": "0; enforcement is deterministic.",
-    "measurement": "Authoritative model tokens"
+    "limit_or_formula": "0; transitions, freshness, stale closure, and resume are deterministic.",
+    "measurement": "Model tokens for normal enforcement"
   },
   "unknowns": [
-    "Exact existing field mappings remain for MAIN_AGENT to resolve without new authority."
+    "Exact existing ledger fields and historical missing-hash volume require later contract-level analysis under separate implementation authorization."
   ],
   "version": "1.0.0",
-  "warnings": []
+  "warnings": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "WARN-001",
+      "severity": "WARNING",
+      "statement": "A legacy record missing dependency hashes or edges is historical only and is not resume-skippable."
+    }
+  ]
 }

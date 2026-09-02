@@ -4,7 +4,7 @@
   "status": "SPECIFICATION_FROZEN",
   "state_truth": "state/project_state.json",
   "formal_skill_count": 1,
-  "ledger_truths": {"run": "existing-native-run-ledger", "claim": "existing-native-claim-ledger", "model_comparison": "single-native-model-comparison-decision-record"},
+  "ledger_truths": {"run": "existing-native-run-ledger", "claim": "existing-native-claim-ledger", "model_comparison": "existing-native-model-comparison-ledger-with-immutable-revisions-and-one-cas-current-pointer"},
   "component_interfaces": [
     {"component_id": "accepted-versus-done-workflow-state", "state_access": "READ_ONLY_PROPOSAL", "append_ledgers": ["existing-state-transition-ledger-via-main-agent"], "can_produce_stale": true, "can_block_final_run": true, "can_block_claim": true, "direct_state_advance": false, "consumes": ["gate results"], "produces": ["transition proposal"]},
     {"component_id": "claim-evidence-support-gate", "state_access": "READ_ONLY_GATE", "append_ledgers": ["existing-claim-ledger-via-main-agent"], "can_produce_stale": true, "can_block_final_run": false, "can_block_claim": true, "direct_state_advance": false, "consumes": ["manifest"], "produces": ["claim decision"]},
@@ -12,11 +12,20 @@
     {"component_id": "leakage-safe-model-comparison-gate", "state_access": "READ_ONLY_GATE", "append_ledgers": ["existing-model-comparison-record-via-main-agent"], "can_produce_stale": true, "can_block_final_run": true, "can_block_claim": false, "direct_state_advance": false, "consumes": ["comparison freeze"], "produces": ["comparison decision"]}
   ],
   "data_dependencies": [
-    {"from": "hash-bound-reproducibility-manifest", "to": "claim-evidence-support-gate", "artifact": "verified Run binding", "required": true},
-    {"from": "leakage-safe-model-comparison-gate", "to": "accepted-versus-done-workflow-state", "artifact": "comparison gate decision", "required": true},
-    {"from": "claim-evidence-support-gate", "to": "accepted-versus-done-workflow-state", "artifact": "claim gate decision", "required": true}
+    {"from": "hash-bound-reproducibility-manifest", "to": "claim-evidence-support-gate", "artifact": "verified Run binding", "required": true, "producer_component": "hash-bound-reproducibility-manifest", "schema_ref": "contracts/run.schema.json", "schema_version": "1.0.0", "artifact_hash_binding": "SHA256_REQUIRED", "revision_binding": "IMMUTABLE_REVISION_AND_PRIOR_HASH", "currentness_required": true, "decision_audit_required": true, "from_node_type": "SOURCE_RUN_MANIFEST", "to_node_type": "CLAIM_REVISION"},
+    {"from": "leakage-safe-model-comparison-gate", "to": "accepted-versus-done-workflow-state", "artifact": "comparison gate decision", "required": true, "producer_component": "leakage-safe-model-comparison-gate", "schema_ref": "contracts/model_comparison.schema.json", "schema_version": "1.0.0", "artifact_hash_binding": "SHA256_REQUIRED", "revision_binding": "IMMUTABLE_REVISION_AND_PRIOR_HASH", "currentness_required": true, "decision_audit_required": true, "from_node_type": "DECISION", "to_node_type": "STATE_PROPOSAL"},
+    {"from": "claim-evidence-support-gate", "to": "accepted-versus-done-workflow-state", "artifact": "claim gate decision", "required": true, "producer_component": "claim-evidence-support-gate", "schema_ref": "contracts/claim.schema.json", "schema_version": "1.0.0", "artifact_hash_binding": "SHA256_REQUIRED", "revision_binding": "IMMUTABLE_REVISION_AND_PRIOR_HASH", "currentness_required": true, "decision_audit_required": true, "from_node_type": "CLAIM_REVISION", "to_node_type": "STATE_PROPOSAL"}
   ],
   "failure_precedence": ["security/privacy", "stale/hash", "leakage/reproducibility", "claim support", "state advancement"],
+  "failure_precedence_table": [
+    {"rank": 1, "category": "SECURITY_PRIVACY", "dominant_disposition": "REJECT", "reason_code": "SECURITY_PRIVACY_FAILURE", "noncompensatory": true},
+    {"rank": 2, "category": "HASH_STALE", "dominant_disposition": "STALE", "reason_code": "HASH_OR_CURRENTNESS_FAILURE", "noncompensatory": true},
+    {"rank": 3, "category": "REPRODUCIBILITY", "dominant_disposition": "INELIGIBLE", "reason_code": "REPRODUCIBILITY_FAILURE", "noncompensatory": true},
+    {"rank": 4, "category": "LEAKAGE", "dominant_disposition": "REJECT", "reason_code": "LEAKAGE_OR_ACCESS_FAILURE", "noncompensatory": true},
+    {"rank": 5, "category": "CLAIM_SUPPORT", "dominant_disposition": "BLOCK", "reason_code": "CLAIM_SUPPORT_FAILURE", "noncompensatory": true},
+    {"rank": 6, "category": "STATE_TRANSITION", "dominant_disposition": "BLOCK", "reason_code": "STATE_TRANSITION_FAILURE", "noncompensatory": true}
+  ],
+  "stale_node_types": ["SOURCE_RUN_MANIFEST", "COMPARISON_EXECUTION", "DECISION", "CLAIM_REVISION", "STATE_PROPOSAL"],
   "retry_policy": ["no failed evidence rewriting", "retry creates a new Run or sealed test"],
   "rollback": ["preserve ledgers", "mark affected dependents STALE"],
   "concurrency_conflicts": ["same Run mutation", "same state transition"],
