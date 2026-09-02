@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/authorization-dependency-graph/v1",
+  "title": "Phase 002D-R2A Authorization Dependency Graph",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "graph_id",
+    "created_at",
+    "input_freeze_id",
+    "input_freeze_hash",
+    "nodes",
+    "edges",
+    "prerequisite_audit_node",
+    "final_authorization_audit_node",
+    "candidate_node",
+    "active_decision_node",
+    "final_replay_node",
+    "state_transition_node",
+    "cycle_detected",
+    "graph_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "graph_id": {"const": "PHASE-002D-R2A-AUTHORIZATION-DAG-001"},
+    "created_at": {"type": "string", "minLength": 1},
+    "input_freeze_id": {"const": "PHASE-002D-R2A-INPUT-FREEZE-001"},
+    "input_freeze_hash": {"$ref": "#/$defs/hash"},
+    "nodes": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["id", "level", "kind"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^L[0-7]-"},
+          "level": {"type": "integer", "minimum": 0, "maximum": 7},
+          "kind": {
+            "enum": [
+              "FROZEN_INPUT",
+              "PREREQUISITE_DECISION",
+              "PREREQUISITE_AUDIT",
+              "PREREQUISITE_REPLAY",
+              "ELIGIBILITY",
+              "DECISION_CANDIDATE",
+              "FINAL_AUDIT",
+              "ACTIVE_DECISION",
+              "FINAL_REPLAY",
+              "STATE_TRANSITION"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "edges": {
+      "type": "array",
+      "minItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["source", "target"],
+        "properties": {
+          "source": {"type": "string", "pattern": "^L[0-7]-"},
+          "target": {"type": "string", "pattern": "^L[0-7]-"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "prerequisite_audit_node": {"const": "L2-R2-DECISION-AUDIT"},
+    "final_authorization_audit_node": {"const": "L6-R2A-FINAL-AUDITOR"},
+    "candidate_node": {"const": "L5-R2A-AUTHORIZATION-CANDIDATE"},
+    "active_decision_node": {"const": "L7-R2A-AUTHORIZATION-SEAL"},
+    "final_replay_node": {"const": "L7-R2A-FINAL-REPLAY"},
+    "state_transition_node": {"const": "L7-FORMAL-STATE-TRANSITION"},
+    "cycle_detected": {"const": false},
+    "graph_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

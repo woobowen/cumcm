@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cumcm.local/contracts/project_state/v2.2",
+  "$id": "https://cumcm.local/contracts/project_state/v2.3",
   "title": "Project State",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "object",
   "required": [
     "project_id",
@@ -32,7 +32,7 @@
   ],
   "properties": {
     "project_id": {"type": "string", "minLength": 1},
-    "schema_version": {"const": "2.2.0"},
+    "schema_version": {"const": "2.3.0"},
     "phase": {"type": "string", "minLength": 1},
     "subphase": {"type": ["string", "null"]},
     "status": {"enum": ["IN_PROGRESS", "FOUNDATION_READY", "FOUNDATION_INCOMPLETE", "STALE"]},
@@ -50,6 +50,9 @@
         "SPECIFICATION_PROTOCOL_IN_PROGRESS",
         "SPECIFICATION_PROTOCOL_COMPLETE",
         "SPECIFICATION_PROTOCOL_INCOMPLETE",
+        "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS",
+        "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+        "SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE",
         "EVIDENCE_EXPANSION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_COMPLETE",
@@ -334,6 +337,99 @@
           }
         },
         "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "enum": [
+              "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS",
+              "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+              "SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE"
+            ]
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
+          "subphase": {
+            "const": "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE"
+          },
+          "status": {"const": "IN_PROGRESS"},
+          "current_plan": {
+            "const": "plans/active/PLAN-0002D-R2A-shadow-authorization-closure.md"
+          },
+          "selected_architecture": {"type": "null"},
+          "accepted_component_specifications": {
+            "minItems": 4,
+            "maxItems": 4,
+            "allOf": [
+              {"contains": {"const": "accepted-versus-done-workflow-state"}},
+              {"contains": {"const": "claim-evidence-support-gate"}},
+              {"contains": {"const": "hash-bound-reproducibility-manifest"}},
+              {"contains": {"const": "leakage-safe-model-comparison-gate"}}
+            ]
+          },
+          "architecture_candidate_set": {
+            "minItems": 2,
+            "maxItems": 3,
+            "contains": {"const": "ARCH-S0-RETAIN-SCAFFOLD-ONLY"}
+          },
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "skill_capability_status": {"const": "SCAFFOLD_ONLY"},
+          "specification_protocol": {
+            "properties": {
+              "implementation_embargo_status": {"const": "PASS"},
+              "benchmark_freeze_status": {"const": "BENCHMARK_FROZEN"},
+              "threshold_policy_status": {"const": "POLICY_FROZEN"},
+              "decision_audit_status": {"const": "PASS"},
+              "replay_stable": {"const": true},
+              "prototype_executions": {"const": 0},
+              "third_party_executions": {"const": 0},
+              "real_model_starts": {"const": 0}
+            }
+          }
+        },
+        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "const": "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS"
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {"properties": {"next_phase_allowed": {"type": "null"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "enum": [
+              "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+              "SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE"
+            ]
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "next_phase_allowed": {
+            "enum": [
+              "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+              "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE",
+              null
+            ]
+          }
+        }
       }
     }
   ],

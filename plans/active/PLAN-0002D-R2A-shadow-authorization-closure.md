@@ -1,0 +1,136 @@
+# PLAN-0002D-R2A — Shadow Prototype Authorization Closure
+
+Status: `IN_PROGRESS`
+Phase: `PHASE-EVIDENCE-EXPANSION-002D`
+Subphase: `PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE`
+Owner: main agent
+Started: `2026-09-03T02:00:00+08:00`
+Branch: `feat/phase002d-r2a-shadow-authorization`
+Base commit: `7769a1478940305069aab07d71290a06025206d2`
+Predecessor: `plans/completed/PLAN-0002D-R2-specification-and-protocol.md`
+
+## 1. Current state and R2 evidence
+
+R2 is merged through PR #4. Its component, interaction, candidate-set, prospective-Benchmark and
+threshold/protocol prerequisite decisions are accepted at their bounded scopes. The R2 Decision
+Auditor is `PASS`, replay is stable, all 29 serious findings have passing deterministic evidence,
+architecture is null, base selection and third-party integration are false, and the sole formal
+Skill remains `0.1.0-foundation`/`SCAFFOLD_ONLY`.
+
+The preserved `DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2` is `RETEST_REQUIRED`. That was the
+correct M7 time snapshot: the downstream R2 audit and replay did not yet exist. It is not rewritten,
+reclassified, or described as erroneous. R2A may only supersede it using the subsequently frozen
+audit and replay evidence.
+
+## 2. Objective and non-goals
+
+Close the post-audit authorization dependency without a cycle; freeze all R2 inputs; compute
+eligibility; freeze an experimental-only future shadow scope; preserve independent native attacks;
+convert every serious attack to deterministic evidence; generate a candidate; obtain an independent
+authorization-specific audit; seal a superseding decision; replay it; and migrate formal state.
+
+This phase does not implement or execute a prototype, alter the prospective experiment or formal
+Skill, choose an architecture, expose hidden Benchmark values, run a model experiment, reuse or
+execute third-party code, release the implementation embargo, enter Phase 003, merge PR #5, or
+modify `main`.
+
+## 3. Historical preservation and supersession
+
+Every result tree through `evals/results/phase-002d-r2/`, the R2 specifications, and the R2
+prospective protocol are immutable inputs. The old authorization file is bound by exact byte hash.
+A new decision may use ID `DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A` only with
+`supersedes` set to the old ID and `supersession_reason=POST_AUDIT_AND_REPLAY_CLOSURE`.
+
+## 4. Authorization dependency DAG
+
+The only legal order is L0 frozen specifications/Benchmark/policy/embargo/provenance; L1 five
+prerequisite decisions; L2 R2 Decision Audit; L3 R2 replay; L4 R2A eligibility; L5 candidate
+authorization; L6 authorization-specific Auditor; and L7 final seal replay plus formal transition.
+Edges are validated as a directed acyclic graph. L2 never depends on L5, L6 audits L5 only, and
+state migration requires both L6 `PASS` and L7 stable replay.
+
+## 5. Preconditions and uncertainty
+
+Eligibility is derived from frozen files and checks all 27 required predicates: bounded accepted
+decisions/scopes; audit; replay; finding closure; embargo; Skill and source boundaries; zero
+prototype, third-party, API and batch-model executions; null architecture; false base/integration;
+one Skill; hidden commitment hygiene; two-to-three candidates with S0; three protocol stages; cap
+at most 30; experimental-only scope; and continued Phase 003 prohibition.
+
+Clean-room legal compliance, OS-enforced vault isolation, prototype effectiveness and monetary cost
+remain `UNKNOWN`/unverified. They are recorded as risks and cannot be promoted to positive evidence.
+
+## 6. Shadow scope and rollback boundary
+
+The scope specification permits S0 as an immutable baseline adapter and future isolated W1/K1
+experiments only below frozen shadow-workspace and R3-result prefixes. It denies the formal Skill,
+formal state, contracts, vault, historical evidence, third-party caches and `main`. Any future
+prototype must use private temporary state and output, stay undiscoverable from production, never
+emit formal FINAL/Evidence Package material, and be fully removable by deleting its isolated tree.
+The only positive scope is `EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY`.
+
+## 7. Native Subagents and attack-to-test chain
+
+Round 1 runs three peer-invisible read-only roles: dependency prosecutor, security auditor, and
+protocol/cost dissent auditor. They receive frozen allowlisted bundles, cannot write, commit, push,
+use nested Codex, web, MCP or APIs, see peer output or expected conclusions, and may abstain. Their
+raw structured outputs are immutable. Every `BLOCKER`/`ERROR` becomes a Schema-valid test request,
+deterministic test and passing/failing evidence; non-testable claims stay uncertainty. Votes never
+close findings. After L5, one fresh read-only final authorization auditor reviews only its allowlist.
+
+## 8. Candidate, audit, seal, replay and state
+
+The deterministic candidate engine may return accepted, retest, insufficient, rejected, abstained
+or stale from evidence. It cannot write formal state. The final Auditor may return `PASS`, `FAIL` or
+`RETEST_REQUIRED`. Only `PASS` permits the deterministic seal. The active record reuses the existing
+automated-decision truth contract and the authorization envelope; no competing decision Schema is
+created. Offline replay permutes decision/evidence order and opaque labels. State advances only
+after a valid seal and stable replay; architecture remains null in every outcome.
+
+An accepted experimental decision routes only to
+`PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION`. Retest routes back to this R2A closure. Other outcomes
+use a frozen null/R2A route. Phase 003 is never legal.
+
+## 9. Milestones and acceptance
+
+1. **M1 start/freeze:** preflight and baseline pass; prior plan archived; plan/state/rules updated;
+   R2A input manifest, exact old-decision binding, DAG and embargo checks pass; commit, push, create
+   Draft PR #5.
+2. **M2 scope:** scope, path allowlist/denylist, state isolation and rollback validate with faults;
+   commit and push.
+3. **M3 native attacks:** three independent raw outputs and normalized findings validate; commit
+   and push.
+4. **M4 attack closure:** every serious finding has test request and deterministic evidence; no
+   unresolved serious finding; commit and push.
+5. **M5 candidate:** all preconditions and candidate record are reproducible; formal state remains
+   in progress.
+6. **M6 final audit:** independent auditor output is preserved; votes are absent.
+7. **M7 seal:** only an audit `PASS` seals the active superseding decision and bounded route.
+8. **M8 replay/state:** offline variants are stable before formal transition; generated reports
+   reflect machine truth.
+9. **M9 closure:** at least 35 meaningful new tests, full offline validation and CI pass; atomic
+   commits are pushed; Draft PR #5 and remote SHA are verified without merge.
+
+Phase completion means the authorization procedure is complete, not that the outcome must be
+accepted. `RETEST_REQUIRED`, insufficient, rejected, abstained or stale are legal completed outputs
+when their audit/replay/state records are consistent.
+
+## 10. Recovery, rollback, Git and PR
+
+On interruption, verify branch, clean/dirty paths, remote SHA, exact old-decision hash, R2/R2A input
+freezes and the first incomplete milestone. Never regenerate historical evidence. After at most
+three repair cycles, preserve failures and stop as incomplete. Published changes roll back only by
+scoped `git revert`; append-only records are superseded, never rewritten.
+
+Before every commit inspect status, whitespace, stats, full diff and staged diff; stage explicit
+paths only. Push normally to the designated task branch with bounded TLS retry. PR #5 must remain
+`OPEN`/`DRAFT`; no readiness, approval, merge, deletion, force push or direct `main` work is allowed.
+
+## 11. Validation and handoff
+
+All ten R2A CLIs support `--help` and read-only `--check`, are offline and deterministic, never read
+hidden values, and return machine JSON with non-zero failures. Run focused contract/fault tests at
+each milestone, then Ruff, all pytest, all repository/security/freeze/vault/embargo checks, status
+render/check, strict validation and `scripts/ci.sh`. Record command, exit, duration, execution type,
+evidence hash, blockers and model visibility. The final generated acceptance report and the 21-part
+handoff must state zero API, batch-model, prototype and third-party executions.

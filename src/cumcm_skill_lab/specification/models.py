@@ -52,6 +52,11 @@ FROZEN_RULE_INPUTS = (
     "rules/phase002d_r1_workflow_rules.yaml",
     "rules/phase002d_r2_workflow_rules.yaml",
 )
+SUCCESSOR_CONTRACT_SNAPSHOTS = {
+    # R2A starts from the merged R2 closure.  This snapshot proves the R2-frozen
+    # project-state contract before R2A adds its successor statuses.
+    "contracts/project_state.schema.json": "7769a1478940305069aab07d71290a06025206d2",
+}
 
 
 def file_hashes(
@@ -189,13 +194,27 @@ def verify_input_freeze(root: Path, manifest: dict[str, Any] | None = None) -> l
         "phase002d_r1_automated_decision_hashes",
         "historical_component_card_hashes",
         "source_input_hashes",
-        "contract_input_hashes",
-        "rule_input_hashes",
     ):
         for relative, expected in manifest.get(group, {}).items():
             path = root / relative
             if not path.is_file() or file_sha256(path) != expected:
                 errors.append(f"FROZEN_HASH_MISMATCH:{group}:{relative}")
+    for group in ("contract_input_hashes", "rule_input_hashes"):
+        for relative, expected in manifest.get(group, {}).items():
+            path = root / relative
+            if path.is_file() and file_sha256(path) == expected:
+                continue
+            snapshot = SUCCESSOR_CONTRACT_SNAPSHOTS.get(relative)
+            if snapshot is None:
+                errors.append(f"FROZEN_HASH_MISMATCH:{group}:{relative}")
+                continue
+            try:
+                snapshot_hash = _git_file_sha256(root, snapshot, relative)
+            except subprocess.CalledProcessError:
+                errors.append(f"FROZEN_SUCCESSOR_SNAPSHOT_MISSING:{group}:{relative}")
+                continue
+            if snapshot_hash != expected:
+                errors.append(f"FROZEN_SUCCESSOR_SNAPSHOT_MISMATCH:{group}:{relative}")
     for relative, expected in manifest.get("historical_tree_hashes", {}).items():
         if tree_hash(file_hashes(root, Path(relative))) != expected:
             errors.append(f"HISTORICAL_INPUT_MUTATED:{relative}")

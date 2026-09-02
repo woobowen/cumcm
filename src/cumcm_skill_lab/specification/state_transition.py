@@ -256,6 +256,10 @@ def build_final_state(root: Path) -> dict[str, Any]:
     )
     state.update(
         {
+            "schema_version": "2.3.0",
+            "subphase": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
+            "current_plan": "plans/completed/PLAN-0002D-R2-specification-and-protocol.md",
+            "current_branch": "feat/phase002d-r2-spec-protocol",
             "technical_adjudication_status": "SPECIFICATION_PROTOCOL_COMPLETE",
             "automated_decision_ids": sorted(
                 set(state["automated_decision_ids"]) | set(DECISION_FILES)
