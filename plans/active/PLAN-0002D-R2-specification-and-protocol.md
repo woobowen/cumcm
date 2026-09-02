@@ -190,7 +190,17 @@ remains OPEN/DRAFT and is never readied, approved, merged, force-pushed or delet
 - Historical Phase 002D plan is correctly archived because its technical result was incomplete;
   the complete R1 plan is moved to completed.
 - R1 and Phase 002D freezes pass; no tracked vault/upstream cache, answer leakage or secrets exist.
-- Current milestone: M1. Next legal work is specification/protocol construction only.
+- `2026-09-02`: M1 passed `811 passed, 1 skipped`; commit `0831506` was pushed and Draft PR #4
+  was created. R2 input-freeze manifest hash is
+  `52379058863de851e34b012880229fc542150989ae1c178a09318b836737245a` and the formal Skill tree
+  remained `edeeaf7312e7fc1cdc008bfa799a6127787768246c90ab4c4a569615d11dde33`.
+- `2026-09-02`: M2 preserved four read-only identity-blind author outputs and sealed four Schema-valid
+  project-authored specifications. Resource capacity allowed three child threads plus the main
+  agent, so the fourth isolated role ran sequentially on a fresh role turn instead of a fourth
+  simultaneous thread; this limitation remains an audit input. Component validation passed and the
+  focused suite passed `101` tests; no component or prototype behavior was implemented.
+- Current milestone: M2 commit/delivery. Next legal work is interaction and candidate-set
+  specification without selection.
 
 ## 22. Update rule
 

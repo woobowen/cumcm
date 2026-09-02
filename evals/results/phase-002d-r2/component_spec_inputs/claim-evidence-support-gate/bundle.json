@@ -1,0 +1,48 @@
+{
+  "allowed_file_references": [
+    "research/upstream_candidates/component_cards/claim-evidence-support-gate.yaml",
+    "evals/results/phase-002d-r1/input_freeze_manifest.json",
+    "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json",
+    "rules/phase002d_r2_workflow_rules.yaml",
+    "WORKFLOW.md",
+    "contracts/component_specification.schema.json",
+    "contracts/clean_room_provenance.schema.json"
+  ],
+  "bundle_hash": "3dc44a7e1a7b2fda677060d6473f5c7933da59b16b7bf78a68d5019561b251a6",
+  "bundle_id": "PHASE-002D-R2-SPEC-AUTHOR-CLAIM-EVIDENCE-SUPPORT-GATE",
+  "component_id": "claim-evidence-support-gate",
+  "component_requirements": [
+    "Define claim/evidence types, support, contradiction, supersession, source authority, Run/formula/table/figure binding and support strength.",
+    "Distinguish evidence existence from support for the exact bounded claim.",
+    "Reject stale, hash-mismatched, contradicted, overstated or unsupported causal claims.",
+    "Only a scope-bounded supported claim may enter the evidence package."
+  ],
+  "decision_excerpt_hash": "f54fb4de2eff93c009a438ed6bdb6b2f41d390798b18a55950294ba800ceaa15",
+  "decision_excerpt_path": "evals/results/phase-002d-r2/component_spec_inputs/claim-evidence-support-gate/decision.json",
+  "expected_conclusion_visible": false,
+  "independent": true,
+  "output_contract": "contracts/component_specification.schema.json",
+  "output_instruction": "Return exactly one JSON object that validates as a SPECIFICATION_DRAFT. Use a 64-zero placeholder for specification_hash and provenance_hash; the main agent will compute canonical hashes without changing material recommendations.",
+  "peer_outputs_visible": false,
+  "prohibitions": [
+    "no file writes, commits, pushes or formal-state changes",
+    "no peer outputs or expected main-agent conclusion",
+    "no web, MCP, nested Codex, API key or third-party repository access",
+    "no copied third-party code, schema, prompt, state machine, template or long text",
+    "no implementation, architecture selection, performance claim or majority vote",
+    "no fabricated evidence; abstain explicitly if the frozen inputs are insufficient"
+  ],
+  "read_only": true,
+  "role": "claim-evidence-support-gate-spec-author",
+  "round": "FIRST_ROUND",
+  "schema_version": "1.0.0",
+  "source_hashes": {
+    "WORKFLOW.md": "2a3327ed57f2463c206fc7cf3c169748fe022c0ac7aae812d7a57c48fb8c9f3e",
+    "contracts/clean_room_provenance.schema.json": "726176c1d8f129d4ab2b50c34ec5b3165c8b0979d5e7456ebf8ecd2b973f8120",
+    "contracts/component_specification.schema.json": "cbd97833ff88b959734416ffbfc08217f50b98c44bc78e300d496af61874563f",
+    "evals/results/phase-002d-r1/evidence_scopes/evidence_scope_summary.json": "0a35ec201ac859cfdb6a20de8c5d61f20b8b173eb2d87a75810fdf01248bdf63",
+    "evals/results/phase-002d-r1/input_freeze_manifest.json": "50b18b674a3ea2ca770e4ed60328b214f2c1eda9a3e9856b7410cd7095192218",
+    "research/upstream_candidates/component_cards/claim-evidence-support-gate.yaml": "f9578f8bb02cbb6aa275ae810ecc0800855e95b2f7e0cc1cab7ee8c1f3aad291",
+    "rules/phase002d_r2_workflow_rules.yaml": "9a8eb594f9d501cbe3dbf0aafffc815a814bdfa6f90fe29f81e3e8d412f0f062"
+  }
+}

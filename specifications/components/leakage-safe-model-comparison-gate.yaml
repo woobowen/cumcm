@@ -1,0 +1,291 @@
+{
+  "acceptance_metrics": [
+    {
+      "metric_id": "m",
+      "noncompensatory": true,
+      "threshold_or_formula": "0 pre-freeze test reads; exactly 1 authorized final read; 100% validation-rule selection and required evidence retention."
+    }
+  ],
+  "accepted_scope": "SPECIFICATION_ONLY",
+  "actors": [
+    "MAIN_AGENT"
+  ],
+  "agent_responsibilities": [
+    "MAIN_AGENT freezes and applies formal records; agents cannot inspect test data, alter rules, discard failures or vote on selection."
+  ],
+  "algorithms": [
+    {
+      "id": "a",
+      "kind": "PSEUDOCODE",
+      "specification": "Validate the immutable freeze and hashes. Verify train/validation/test separation plus declared temporal and group boundaries; reject target or future-derived features. Verify naive and domain baselines and every frozen candidate use only training data for fitting; validation alone may drive feature, hyperparameter, threshold, architecture, early-stop and selection choices. Retain every seed and failed run. Select exactly by the frozen metric direction; apply only the frozen deterministic tie-break. Require frozen robustness, drift/randomization, uncertainty and ablation evidence. Replay the append-only access ledger: any test access before candidate and selection freeze invalidates the run and dependent decisions and demands a newly sealed test. After all checks pass, permit exactly one logged final test evaluation; it cannot change or filter the selected result."
+    }
+  ],
+  "audit_events": [
+    {
+      "event": "DATA_ACCESS",
+      "payload_fields": [
+        "run_id",
+        "split_hash",
+        "actor",
+        "operation",
+        "purpose",
+        "sequence"
+      ],
+      "when": "Any split is read or a final test is requested."
+    }
+  ],
+  "clean_room_provenance": {
+    "abstract_mechanisms_observed": [
+      "Freeze comparison rules and isolate final test access."
+    ],
+    "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+    "component_id": "leakage-safe-model-comparison-gate",
+    "contamination_status": "CONTAINED_METADATA_ONLY",
+    "content_not_copied": [
+      "code",
+      "tests",
+      "prose",
+      "assets"
+    ],
+    "independent_tests": [
+      "P1"
+    ],
+    "license_status": "UNVERIFIED",
+    "project_specific_design": [
+      "CASE-004 oracle requirements",
+      "Native deterministic project gate"
+    ],
+    "provenance_hash": "c3799a9d9629a655e8abf14d88953074f6a219a0facc3f1f010918caa7d5323b",
+    "reviewed_by": [
+      "comparison-gate-spec-author"
+    ],
+    "source_commits": [
+      "f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f"
+    ],
+    "source_inspirations": [
+      "kdense-scientific-agent-skills"
+    ],
+    "source_paths": []
+  },
+  "component_id": "leakage-safe-model-comparison-gate",
+  "decision_source": "DECISION-COMPONENT-READINESS-002D-R1",
+  "deterministic_enforcement": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "d1",
+      "severity": "BLOCKER",
+      "statement": "Compare recorded hashes, access order and selected candidate against the frozen protocol."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "d2",
+      "severity": "BLOCKER",
+      "statement": "Count final-test accesses, retain failed runs and reject any undeclared filtering or rule change."
+    }
+  ],
+  "failure_modes": [
+    {
+      "consequence": "Run and dependents invalid.",
+      "id": "f1",
+      "recovery": "Seal a new untouched test set and rerun from the frozen predecessor.",
+      "trigger": "Premature test access."
+    },
+    {
+      "consequence": "Gate cannot pass.",
+      "id": "f2",
+      "recovery": "Append evidence under a newly frozen eligible protocol; never rewrite history.",
+      "trigger": "Missing run, failed-run, freeze or robustness evidence."
+    }
+  ],
+  "hard_failures": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "h1",
+      "severity": "BLOCKER",
+      "statement": "Fail on any test read before model freeze, unlogged access, reuse after invalidation or more than one authorized final evaluation."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "h2",
+      "severity": "BLOCKER",
+      "statement": "Fail when required freeze fields or evidence are absent, target/future leakage exists, failed runs are filtered, or selection differs from the frozen validation metric and tie rule."
+    }
+  ],
+  "hidden_property_tests": [
+    {
+      "expected_relation": "Every leaked case fails.",
+      "input_class": "Seeded target, future, group and temporal leakage mutations",
+      "purpose": "Leakage detection",
+      "test_id": "H1"
+    },
+    {
+      "expected_relation": "Tampering, filtering and second access fail deterministically.",
+      "input_class": "Reordered, deleted or relabeled accesses and runs",
+      "purpose": "Ledger integrity",
+      "test_id": "H2"
+    }
+  ],
+  "inputs": [
+    {
+      "description": "Objective, data splits, candidates, baselines, metric, tie rule, seeds, checks, runs and access ledger.",
+      "name": "freeze",
+      "required": true,
+      "type": "hash-bound records"
+    }
+  ],
+  "interaction_conflicts": [],
+  "interaction_dependencies": [],
+  "invariants": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "i1",
+      "severity": "BLOCKER",
+      "statement": "Test data never influences generation, features, hyperparameters, thresholds, architecture selection, early stopping, result filtering or candidate choice."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "i2",
+      "severity": "BLOCKER",
+      "statement": "Any premature or second final-test access invalidates the run and dependent decisions, marks them STALE and requires a new sealed test set."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "i3",
+      "severity": "BLOCKER",
+      "statement": "Objective, splits, baselines, candidates, metric, tie-break, seeds, robustness and ablation plan remain frozen; failed runs and all access evidence are retained."
+    }
+  ],
+  "maintenance_surface": [
+    "Experiment freeze, access ledger, selector, robustness evidence and conformance tests."
+  ],
+  "migration": [
+    "Legacy runs lacking a complete pre-run freeze or access ledger are ineligible for final-test acceptance and remain development evidence."
+  ],
+  "model_in_loop_tests": [
+    {
+      "expected_relation": "Request cannot alter freeze or pass gate.",
+      "input_class": "Agent requests test peek, rule change or failed-run deletion",
+      "purpose": "Resist result shopping",
+      "test_id": "M1"
+    }
+  ],
+  "non_goals": [
+    "No implementation or model run.",
+    "No architecture or model selection by this specification.",
+    "No copied upstream code, dependencies or voting."
+  ],
+  "observed_gap_ids": [
+    "REPEATED_POLICY_COMPLIANCE_GAP"
+  ],
+  "open_risks": [
+    "Hidden indirect leakage or incomplete access instrumentation can invalidate apparent compliance."
+  ],
+  "outputs": [
+    {
+      "description": "Pass or fail with selected validation result, final-test status, reasons and evidence references.",
+      "name": "gate",
+      "required": true,
+      "type": "decision evidence"
+    }
+  ],
+  "performance_budget": {
+    "hard": true,
+    "limit_or_formula": "One pass over candidates, runs and access events.",
+    "measurement": "Records checked"
+  },
+  "postconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "q",
+      "severity": "ERROR",
+      "statement": "Gate output is hash-bound to every frozen rule, run including failures, access event and any one-time final-test result."
+    }
+  ],
+  "preconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "p",
+      "severity": "BLOCKER",
+      "statement": "Before execution, freeze objective, train/validation/sealed-test identities, time/group rules, target/future exclusions, naive and domain baselines, candidate set, metric direction, tie-break, seeds, robustness checks, ablations and access-ledger policy."
+    }
+  ],
+  "privacy_constraints": [
+    "Ledger stores hashes and access metadata, not raw test rows, targets or secrets."
+  ],
+  "public_conformance_tests": [
+    {
+      "expected_relation": "Invalidate run/decisions and require new sealed test.",
+      "input_class": "Test read before freeze",
+      "purpose": "Premature access",
+      "test_id": "P1"
+    },
+    {
+      "expected_relation": "Selection equals frozen validation rule and tie-break without test influence.",
+      "input_class": "Candidates, validation metrics and ties",
+      "purpose": "Selection rule",
+      "test_id": "P2"
+    },
+    {
+      "expected_relation": "Gate fails.",
+      "input_class": "Missing baseline, split, seed, robustness or ablation evidence",
+      "purpose": "Evidence completeness",
+      "test_id": "P3"
+    },
+    {
+      "expected_relation": "Allow one post-freeze read; retain failures; reject repeats.",
+      "input_class": "One or repeated final-test reads with failed runs",
+      "purpose": "Final evaluation",
+      "test_id": "P4"
+    }
+  ],
+  "purpose": "Define a deterministic leakage-safe model-comparison gate using frozen evidence.",
+  "recovery_behavior": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "r",
+      "severity": "BLOCKER",
+      "statement": "Corrections are append-only; invalid test data are never resealed or reused, and failed runs remain in the denominator and ledger."
+    }
+  ],
+  "rejection_conditions": [
+    "Any test influence, premature/repeated access, leakage or access-ledger gap.",
+    "Any unfrozen rule, wrong selection, missing baseline/check/ablation/seed evidence or filtered failed run."
+  ],
+  "rollback": [
+    "Withdraw the gate result, retain all runs and access evidence, mark dependents STALE and require a new sealed test when exposure occurred."
+  ],
+  "schemas": [
+    "existing project experiment contracts"
+  ],
+  "security_constraints": [
+    "No third-party code, dependencies, network tools or broad upstream permissions.",
+    "Sealed-test identity and access ledger are immutable, hash-bound and fail closed."
+  ],
+  "specification_hash": "c382a725f0c6b4ba154ca796ea060a8a23fb160471d934cf16e0d4cf6f13de32",
+  "stale_propagation": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "s",
+      "severity": "BLOCKER",
+      "statement": "Changed objective, data, split, candidate, baseline, metric, tie rule, seed, check, code, access evidence or premature test read marks dependent runs, selections, decisions and reports STALE."
+    }
+  ],
+  "state_read_set": [
+    "state/project_state.json"
+  ],
+  "state_write_set": [],
+  "status": "SPECIFICATION_FROZEN",
+  "supporting_evidence_ids": [
+    "PHASE-002D-R1-EVIDENCE-SCOPES-001"
+  ],
+  "token_budget": {
+    "hard": true,
+    "limit_or_formula": "0; enforcement is deterministic.",
+    "measurement": "Model tokens for gate decision"
+  },
+  "unknowns": [
+    "Exact field mappings to existing experiment contracts remain for MAIN_AGENT to resolve without changing these gates."
+  ],
+  "version": "1.0.0",
+  "warnings": []
+}

@@ -1,0 +1,294 @@
+{
+  "acceptance_metrics": [
+    {
+      "metric_id": "X1",
+      "noncompensatory": true,
+      "threshold_or_formula": "valid promoted rate=1; invalid rejection=1; CASE-006 match=1; contradiction,causal-overclaim,mutation promotions=0"
+    }
+  ],
+  "accepted_scope": "SPECIFICATION_ONLY",
+  "actors": [
+    "MAIN_AGENT",
+    "REFERENCE_VALIDATOR",
+    "READ_ONLY_REVIEWER"
+  ],
+  "agent_responsibilities": [
+    "Reviewer assesses support and abstains without mutation; MAIN_AGENT alone persists; Auditor checks replay."
+  ],
+  "algorithms": [
+    {
+      "id": "A1",
+      "kind": "PSEUDOCODE",
+      "specification": "Validate registration,path,hash,currentness,supersession and Source/Run/formula/table/figure lineage. Then review exact scope,authority,transformations,assumptions,limits,contradictions and causal capability. Eligibility is the AND of all checks; unknown or failure is ineligible; joint strength is its weakest essential link."
+    }
+  ],
+  "audit_events": [
+    {
+      "event": "CLAIM_GATE",
+      "payload_fields": [
+        "claim_id",
+        "hash",
+        "disposition"
+      ],
+      "when": "On check,decision or stale propagation."
+    }
+  ],
+  "clean_room_provenance": {
+    "abstract_mechanisms_observed": [
+      "Separate reference checks from semantic support."
+    ],
+    "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+    "component_id": "claim-evidence-support-gate",
+    "contamination_status": "CONTAINED_METADATA_ONLY",
+    "content_not_copied": [
+      "No code.",
+      "No schema.",
+      "No prompt.",
+      "No examples."
+    ],
+    "independent_tests": [
+      "T4"
+    ],
+    "license_status": "UNVERIFIED",
+    "project_specific_design": [
+      "Bind native Source/Claim/Run/artifacts.",
+      "Keep MAIN_AGENT_ONLY writes."
+    ],
+    "provenance_hash": "5acbffc386c4dc70ad3e7392a14d975c7ab6f4cbce9f4a8f5683fac5f3908ce4",
+    "reviewed_by": [
+      "claim-evidence-support-gate-spec-author"
+    ],
+    "source_commits": [
+      "94d8093ed21d20a790830318190095b9f5036ce8"
+    ],
+    "source_inspirations": [
+      "aris"
+    ],
+    "source_paths": [
+      "tools/evidence_check.py"
+    ]
+  },
+  "component_id": "claim-evidence-support-gate",
+  "decision_source": "DECISION-COMPONENT-READINESS-002D-R1",
+  "deterministic_enforcement": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "D1",
+      "severity": "BLOCKER",
+      "statement": "Mechanically check identity, paths, hashes, lineage, currentness and non-mutation."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "D2",
+      "severity": "BLOCKER",
+      "statement": "Set eligible=true only for validated SUPPORTED."
+    }
+  ],
+  "failure_modes": [
+    {
+      "consequence": "Binding and claim are ineligible.",
+      "id": "F1",
+      "recovery": "Create a new version and rerun.",
+      "trigger": "Mechanical check fails."
+    },
+    {
+      "consequence": "Claim is ineligible.",
+      "id": "F2",
+      "recovery": "Narrow the claim or freeze evidence; never vote.",
+      "trigger": "Support is absent,narrower,contradicted,uncertain or reviewer-mutated."
+    }
+  ],
+  "hard_failures": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "H1",
+      "severity": "BLOCKER",
+      "statement": "Reject missing, escaping, stale, superseded or hash-mismatched bindings."
+    },
+    {
+      "enforcement": "AGENT_BOUNDED",
+      "id": "H2",
+      "severity": "BLOCKER",
+      "statement": "Reject unsupported, overstated, contradicted or non-causal causal claims and reviewer mutation."
+    }
+  ],
+  "hidden_property_tests": [
+    {
+      "expected_relation": "Support cannot improve.",
+      "input_class": "Seeded scope expansion.",
+      "purpose": "Broadening monotonicity.",
+      "test_id": "U1"
+    },
+    {
+      "expected_relation": "Order/duplicates invariant; dependents stale.",
+      "input_class": "Permutations and hash flips.",
+      "purpose": "Order,duplicate,stale properties.",
+      "test_id": "U2"
+    }
+  ],
+  "inputs": [
+    {
+      "description": "Frozen claims, evidence, bindings, policies, hashes and supersession.",
+      "name": "bundle",
+      "required": true,
+      "type": "GateInput"
+    }
+  ],
+  "interaction_conflicts": [],
+  "interaction_dependencies": [],
+  "invariants": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "I1",
+      "severity": "BLOCKER",
+      "statement": "Evidence existence is not semantic support."
+    },
+    {
+      "enforcement": "AGENT_BOUNDED",
+      "id": "I2",
+      "severity": "BLOCKER",
+      "statement": "Support cannot be narrower than the claim; causal claims need causal evidence."
+    },
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "I3",
+      "severity": "BLOCKER",
+      "statement": "Unresolved contradiction blocks promotion; votes cannot compensate."
+    }
+  ],
+  "maintenance_surface": [
+    "Native contracts, policies, bindings, tests and audit records."
+  ],
+  "migration": [
+    "Add versioned bindings beside native truth; old unbound claims remain ineligible."
+  ],
+  "model_in_loop_tests": [
+    {
+      "expected_relation": "Gold match, conflicts kept, uncertainty abstained.",
+      "input_class": "Synthetic gold bundles.",
+      "purpose": "Bounded semantic review.",
+      "test_id": "M1"
+    }
+  ],
+  "non_goals": [
+    "No implementation or experiment.",
+    "No architecture selection or parallel truth.",
+    "No votes, authority, or existence as proof."
+  ],
+  "observed_gap_ids": [
+    "REPEATED_ORACLE_CORRECTNESS_GAP",
+    "REPEATED_POLICY_COMPLIANCE_GAP"
+  ],
+  "open_risks": [
+    "Semantic inconsistency and incomplete lineage may cause fail-closed rejection."
+  ],
+  "outputs": [
+    {
+      "description": "Hash-bound checks, findings, reasons and eligible claims.",
+      "name": "decision",
+      "required": true,
+      "type": "GateDecision"
+    }
+  ],
+  "performance_budget": {
+    "hard": false,
+    "limit_or_formula": "One check per distinct binding and review per claim-binding pair.",
+    "measurement": "work"
+  },
+  "postconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "Q1",
+      "severity": "BLOCKER",
+      "statement": "Each claim has one bound disposition; only SUPPORTED enters the package."
+    }
+  ],
+  "preconditions": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "P1",
+      "severity": "BLOCKER",
+      "statement": "Inputs and policies are frozen, valid and hash-bound; reviewer is read-only."
+    }
+  ],
+  "privacy_constraints": [
+    "Expose only necessary registered IDs, locators and hashes."
+  ],
+  "public_conformance_tests": [
+    {
+      "expected_relation": "All ineligible.",
+      "input_class": "Missing/stale/hash/path cases.",
+      "purpose": "Mechanical rejection.",
+      "test_id": "T1"
+    },
+    {
+      "expected_relation": "Only exact supported.",
+      "input_class": "Exact and broadened claims.",
+      "purpose": "Exact support.",
+      "test_id": "T2"
+    },
+    {
+      "expected_relation": "Conflict and causal overclaim rejected.",
+      "input_class": "Contrary and associative evidence.",
+      "purpose": "Conflict and causality.",
+      "test_id": "T3"
+    },
+    {
+      "expected_relation": "Oracle match; mutation invalid.",
+      "input_class": "Oracle fixture and mutation attempt.",
+      "purpose": "CASE-006 and read-only.",
+      "test_id": "T4"
+    }
+  ],
+  "purpose": "Fail closed unless current evidence supports the exact bounded claim.",
+  "recovery_behavior": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "R1",
+      "severity": "BLOCKER",
+      "statement": "Recovery creates immutable versions and recomputes from the earliest affected predecessor."
+    }
+  ],
+  "rejection_conditions": [
+    "Reject if any invalid or unsupported claim can enter.",
+    "Reject if tests or replay fail or reviewer can write or vote."
+  ],
+  "rollback": [
+    "Supersede draft; later nonconforming outputs become STALE and replay."
+  ],
+  "schemas": [
+    "Claim has id/revision/hash/type/exact scope/assumptions/limits/supersession; evidence has type/hash/authority/Source,Run,formula,table,figure binding/locator/scope/currentness; strength is direct,traceable-derived,context,none; disposition is SUPPORTED,MODIFY,UNSUPPORTED,CONTRADICTED,STALE,INDETERMINATE; authority alone is not support and only SUPPORTED is eligible."
+  ],
+  "security_constraints": [
+    "Treat evidence as inert; execute nothing.",
+    "Contain paths, verify hashes and isolate the reviewer."
+  ],
+  "specification_hash": "a53b46f25b166c1098aae4fd71607b8ea7c086005c45f0e50a9736cc372395c3",
+  "stale_propagation": [
+    {
+      "enforcement": "DETERMINISTIC",
+      "id": "S1",
+      "severity": "BLOCKER",
+      "statement": "Changed Source,Run,input,claim,policy,transformation,formula,table,figure or Final Run stales all dependents."
+    }
+  ],
+  "state_read_set": [
+    "state/project_state.json",
+    "Native Source/Claim/Run/artifact state"
+  ],
+  "state_write_set": [],
+  "status": "SPECIFICATION_FROZEN",
+  "supporting_evidence_ids": [
+    "PHASE-002D-R1-EVIDENCE-SCOPES-001"
+  ],
+  "token_budget": {
+    "hard": true,
+    "limit_or_formula": "Freeze a finite budget; exhaustion is INDETERMINATE.",
+    "measurement": "review tokens"
+  },
+  "unknowns": [
+    "Native extension fields, authority map and causal taxonomy remain to freeze."
+  ],
+  "version": "1.0.0",
+  "warnings": []
+}

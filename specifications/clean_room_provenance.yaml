@@ -1,0 +1,138 @@
+{
+  "records": [
+    {
+      "abstract_mechanisms_observed": [
+        "Done differs from accepted; dependency changes reopen work."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "accepted-versus-done-workflow-state",
+      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "content_not_copied": [
+        "code",
+        "tests",
+        "schemas",
+        "text"
+      ],
+      "independent_tests": [
+        "P1"
+      ],
+      "license_status": "UNVERIFIED",
+      "project_specific_design": [
+        "WORKFLOW.md lifecycle",
+        "Existing state and ledgers only"
+      ],
+      "provenance_hash": "f197ed46b679f1d71be77aea9f4785114b4ea5fd159ed7b5bdb1a682164534d3",
+      "reviewed_by": [
+        "state-spec-author"
+      ],
+      "source_commits": [],
+      "source_inspirations": [],
+      "source_paths": []
+    },
+    {
+      "abstract_mechanisms_observed": [
+        "Separate reference checks from semantic support."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "claim-evidence-support-gate",
+      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "content_not_copied": [
+        "No code.",
+        "No schema.",
+        "No prompt.",
+        "No examples."
+      ],
+      "independent_tests": [
+        "T4"
+      ],
+      "license_status": "UNVERIFIED",
+      "project_specific_design": [
+        "Bind native Source/Claim/Run/artifacts.",
+        "Keep MAIN_AGENT_ONLY writes."
+      ],
+      "provenance_hash": "5acbffc386c4dc70ad3e7392a14d975c7ab6f4cbce9f4a8f5683fac5f3908ce4",
+      "reviewed_by": [
+        "claim-evidence-support-gate-spec-author"
+      ],
+      "source_commits": [
+        "94d8093ed21d20a790830318190095b9f5036ce8"
+      ],
+      "source_inspirations": [
+        "aris"
+      ],
+      "source_paths": [
+        "tools/evidence_check.py"
+      ]
+    },
+    {
+      "abstract_mechanisms_observed": [
+        "Bind Run facts and artifacts by hash."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "hash-bound-reproducibility-manifest",
+      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "content_not_copied": [
+        "code",
+        "schemas",
+        "prompts",
+        "tests/assets"
+      ],
+      "independent_tests": [
+        "T1"
+      ],
+      "license_status": "UNKNOWN",
+      "project_specific_design": [
+        "extend native Run truth",
+        "ineligible outcomes never become success"
+      ],
+      "provenance_hash": "ef8e67cda78efe6f036eb69e24b0b6ff9c4493bca5ded2e836367e764f20f3e3",
+      "reviewed_by": [
+        "spec-author"
+      ],
+      "source_commits": [
+        "5a85fe34ca1d075872e95556b122c8979984d322"
+      ],
+      "source_inspirations": [
+        "xiaoma-math-modeling-skill metadata"
+      ],
+      "source_paths": [
+        "references/roles/编程手/scripts/repro_manifest.py"
+      ]
+    },
+    {
+      "abstract_mechanisms_observed": [
+        "Freeze comparison rules and isolate final test access."
+      ],
+      "allowed_reuse_mode": "REFERENCE_ABSTRACT_MECHANISM",
+      "component_id": "leakage-safe-model-comparison-gate",
+      "contamination_status": "CONTAINED_METADATA_ONLY",
+      "content_not_copied": [
+        "code",
+        "tests",
+        "prose",
+        "assets"
+      ],
+      "independent_tests": [
+        "P1"
+      ],
+      "license_status": "UNVERIFIED",
+      "project_specific_design": [
+        "CASE-004 oracle requirements",
+        "Native deterministic project gate"
+      ],
+      "provenance_hash": "c3799a9d9629a655e8abf14d88953074f6a219a0facc3f1f010918caa7d5323b",
+      "reviewed_by": [
+        "comparison-gate-spec-author"
+      ],
+      "source_commits": [
+        "f6fcafeb1cc8c82eca0160a18bc41c38427b8e0f"
+      ],
+      "source_inspirations": [
+        "kdense-scientific-agent-skills"
+      ],
+      "source_paths": []
+    }
+  ],
+  "registry_hash": "02b23136bb8c11e2a30dbdcac026a9c5f7049a15fd6b1e402988bed6207d7441",
+  "schema_version": "1.0.0"
+}
