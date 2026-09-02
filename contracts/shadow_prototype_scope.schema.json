@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/shadow-prototype-scope/v1",
+  "title": "Phase 002D-R2A Experimental Shadow Prototype Scope",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scope_id",
+    "status",
+    "accepted_scope",
+    "candidate_ids",
+    "baseline",
+    "selected_architecture",
+    "allowed_paths",
+    "prohibited_paths",
+    "prohibited_git_refs",
+    "state_isolation",
+    "vault_isolation",
+    "runtime_isolation",
+    "rollback",
+    "prohibited_scopes",
+    "phase003_prohibited",
+    "implementation_created",
+    "prototype_executed",
+    "unknowns",
+    "scope_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "scope_id": {"const": "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001"},
+    "status": {"const": "SPECIFICATION_ONLY_NOT_IMPLEMENTED"},
+    "accepted_scope": {"const": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"},
+    "candidate_ids": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+          "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+          "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+        ]
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "required": ["architecture_id", "mode", "implementation_path"],
+      "properties": {
+        "architecture_id": {"const": "ARCH-S0-RETAIN-SCAFFOLD-ONLY"},
+        "mode": {"const": "IMMUTABLE_BASELINE_ADAPTER"},
+        "implementation_path": {"type": "null"}
+      },
+      "additionalProperties": false
+    },
+    "selected_architecture": {"type": "null"},
+    "allowed_paths": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "experiments/shadow_prototypes/arch_w1/",
+          "experiments/shadow_prototypes/arch_k1/",
+          "experiments/shadow_prototypes/common/",
+          "evals/results/phase-002d-r3/"
+        ]
+      }
+    },
+    "prohibited_paths": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "prohibited_git_refs": {
+      "type": "array",
+      "contains": {"const": "refs/heads/main"},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "state_isolation": {
+      "type": "object",
+      "required": ["formal_state_write_allowed", "private_state_required", "formal_final_allowed", "formal_evidence_package_allowed"],
+      "properties": {
+        "formal_state_write_allowed": {"const": false},
+        "private_state_required": {"const": true},
+        "formal_final_allowed": {"const": false},
+        "formal_evidence_package_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "vault_isolation": {
+      "type": "object",
+      "required": ["hidden_seed_read_allowed", "hidden_oracle_read_allowed", "hidden_oracle_prompt_allowed", "tracked_hidden_values_allowed", "current_isolation", "os_enforced_verified"],
+      "properties": {
+        "hidden_seed_read_allowed": {"const": false},
+        "hidden_oracle_read_allowed": {"const": false},
+        "hidden_oracle_prompt_allowed": {"const": false},
+        "tracked_hidden_values_allowed": {"const": false},
+        "current_isolation": {"const": "POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED"},
+        "os_enforced_verified": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "runtime_isolation": {
+      "type": "object",
+      "required": ["formal_skill_auto_discovery", "production_workflow_callable", "third_party_code_allowed", "third_party_execution_allowed", "license_block_released", "isolated_output_required"],
+      "properties": {
+        "formal_skill_auto_discovery": {"const": false},
+        "production_workflow_callable": {"const": false},
+        "third_party_code_allowed": {"const": false},
+        "third_party_execution_allowed": {"const": false},
+        "license_block_released": {"const": false},
+        "isolated_output_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "rollback": {
+      "type": "object",
+      "required": ["strategy", "deletion_roots", "formal_state_repair_required", "historical_artifact_mutation_allowed"],
+      "properties": {
+        "strategy": {"const": "DELETE_ISOLATED_SHADOW_TREES"},
+        "deletion_roots": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "formal_state_repair_required": {"const": false},
+        "historical_artifact_mutation_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "prohibited_scopes": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "allOf": [
+        {"contains": {"const": "FORMAL_SKILL_IMPLEMENTATION"}},
+        {"contains": {"const": "FORMAL_INTEGRATION"}},
+        {"contains": {"const": "PRODUCTION_READY"}},
+        {"contains": {"const": "DIRECT_REUSE"}},
+        {"contains": {"const": "ARCHITECTURE_SELECTED"}},
+        {"contains": {"const": "PHASE_003_INTEGRATION"}}
+      ],
+      "items": {"type": "string"}
+    },
+    "phase003_prohibited": {"const": true},
+    "implementation_created": {"const": false},
+    "prototype_executed": {"const": false},
+    "unknowns": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "scope_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

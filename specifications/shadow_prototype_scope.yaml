@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+  "status": "SPECIFICATION_ONLY_NOT_IMPLEMENTED",
+  "accepted_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+  "candidate_ids": [
+    "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+    "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+    "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+  ],
+  "baseline": {
+    "architecture_id": "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+    "mode": "IMMUTABLE_BASELINE_ADAPTER",
+    "implementation_path": null
+  },
+  "selected_architecture": null,
+  "allowed_paths": [
+    "experiments/shadow_prototypes/arch_w1/",
+    "experiments/shadow_prototypes/arch_k1/",
+    "experiments/shadow_prototypes/common/",
+    "evals/results/phase-002d-r3/"
+  ],
+  "prohibited_paths": [
+    ".agents/skills/cumcm-modeling-evidence/",
+    "state/project_state.json",
+    "contracts/",
+    "benchmark-vault/",
+    "evals/results/phase-002/",
+    "evals/results/phase-002a/",
+    "evals/results/phase-002b/",
+    "evals/results/phase-002c/",
+    "evals/results/phase-002d/",
+    "evals/results/phase-002d-r1/",
+    "evals/results/phase-002d-r2/",
+    ".cache/upstream/",
+    ".cache/upstream-eval/"
+  ],
+  "prohibited_git_refs": ["refs/heads/main"],
+  "state_isolation": {
+    "formal_state_write_allowed": false,
+    "private_state_required": true,
+    "formal_final_allowed": false,
+    "formal_evidence_package_allowed": false
+  },
+  "vault_isolation": {
+    "hidden_seed_read_allowed": false,
+    "hidden_oracle_read_allowed": false,
+    "hidden_oracle_prompt_allowed": false,
+    "tracked_hidden_values_allowed": false,
+    "current_isolation": "POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED",
+    "os_enforced_verified": false
+  },
+  "runtime_isolation": {
+    "formal_skill_auto_discovery": false,
+    "production_workflow_callable": false,
+    "third_party_code_allowed": false,
+    "third_party_execution_allowed": false,
+    "license_block_released": false,
+    "isolated_output_required": true
+  },
+  "rollback": {
+    "strategy": "DELETE_ISOLATED_SHADOW_TREES",
+    "deletion_roots": [
+      "experiments/shadow_prototypes/",
+      "evals/results/phase-002d-r3/"
+    ],
+    "formal_state_repair_required": false,
+    "historical_artifact_mutation_allowed": false
+  },
+  "prohibited_scopes": [
+    "FORMAL_SKILL_IMPLEMENTATION",
+    "FORMAL_INTEGRATION",
+    "PRODUCTION_READY",
+    "DIRECT_REUSE",
+    "ARCHITECTURE_SELECTED",
+    "PHASE_003_INTEGRATION"
+  ],
+  "phase003_prohibited": true,
+  "implementation_created": false,
+  "prototype_executed": false,
+  "unknowns": [
+    "CLEAN_ROOM_LEGAL_COMPLIANCE_NOT_PROVEN",
+    "HIDDEN_VAULT_OS_ISOLATION_NOT_VERIFIED",
+    "PROTOTYPE_EFFECTIVENESS_UNMEASURED",
+    "MONETARY_COST_UNKNOWN"
+  ],
+  "scope_hash": "ecb4b8675817a9fac78c2f7089090b46f7930a5671cb9e27924aee01e719da26"
+}

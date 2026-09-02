@@ -134,3 +134,17 @@ each milestone, then Ruff, all pytest, all repository/security/freeze/vault/emba
 render/check, strict validation and `scripts/ci.sh`. Record command, exit, duration, execution type,
 evidence hash, blockers and model visibility. The final generated acceptance report and the 21-part
 handoff must state zero API, batch-model, prototype and third-party executions.
+
+## 12. Progress
+
+- `2026-09-03`: M1 froze 539 historical files at manifest hash
+  `f524f63e8c98482a85784767c9cd539f98ad286390aac8be831061d31f0a0a95`, preserved the old
+  authorization at byte hash `6150252f16889d02e643384e4229b2b77e2d00480a4c51fc474218c6cb95e291`,
+  and froze a 20-node/25-edge acyclic dependency graph. Focused tests passed `60`; strict validation
+  passed. Commit `b6f4699` was pushed and Draft PR #5 was created `OPEN/DRAFT`.
+- `2026-09-03`: M2 froze `EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY` scope hash
+  `ecb4b8675817a9fac78c2f7089090b46f7930a5671cb9e27924aee01e719da26`. S0 remains an immutable
+  pathless baseline; W1/K1/common and future R3 results are the only path prefixes. Formal Skill,
+  state, contracts, vault, historical evidence, upstream caches and `main` are denied. Deletion-only
+  rollback, private state, no discovery/production callability and zero implementation/execution are
+  enforced. Scope-focused tests passed `30`; contracts and strict validation passed.
