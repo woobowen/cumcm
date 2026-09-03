@@ -30,6 +30,8 @@
     "canonical_candidate_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
     "candidate_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
     "bundle_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "parent_artifact_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact_sequence_index": {"type": "integer", "minimum": 0},
     "verdict": {"enum": ["PASS", "FAIL", "RETEST", "RETEST_REQUIRED", "ABSTAIN"]},
     "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "checks": {"type": "array", "items": {"type": "object"}},
@@ -64,8 +66,12 @@
     {
       "if": {"properties": {"role": {"const": "final_shadow_authorization_auditor"}}, "required": ["role"]},
       "then": {
-        "required": ["candidate_id", "candidate_file_sha256", "canonical_candidate_hash", "candidate_freeze_hash", "bundle_hash"],
-        "properties": {"round": {"const": "POST_DECISION"}, "peer_output_access": {"const": "FROZEN_PREDECESSORS_ONLY"}}
+        "required": ["candidate_id", "candidate_file_sha256", "canonical_candidate_hash", "candidate_freeze_hash", "bundle_hash", "parent_artifact_hash", "artifact_sequence_index"],
+        "properties": {
+          "round": {"const": "POST_DECISION"},
+          "peer_output_access": {"const": "FROZEN_PREDECESSORS_ONLY"},
+          "artifact_sequence_index": {"const": 10}
+        }
       },
       "else": {"properties": {"round": {"const": "FIRST_ROUND"}, "peer_output_access": {"const": "NONE"}}}
     }

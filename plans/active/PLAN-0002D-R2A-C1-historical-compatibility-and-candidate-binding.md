@@ -245,3 +245,16 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   and Schema records, embargo and formal Skill hashes, and frozen predecessor audits. Bundle hash is
   `f5c2adbd8621b5f1496a2b77972c85478917b3758ff0d70b88d8832335e043eb`; 44 focused tests and
   full CI (`1412` passed, one skipped) pass with strict validation at zero errors/warnings.
+- `2026-09-03`: M8 ran a fresh independent read-only final Auditor against fixed commit
+  `2114ce3664de78de24ae39fd23f0561b79e3b270`. It returned structured `FAIL`, not authorization.
+  Candidate identity, byte/canonical/freeze tuple, artifact ordering, mutation evidence, historical
+  compatibility, Schema routing, embargo, and scope all passed, but finding `R2A-C1-FINAL-001`
+  proved that the inherited R2 authorization graph ordered Decision Audit before replay even though
+  the Audit consumed the replay. The immutable raw output and normalized output hash
+  `601f4b8a57aa2d08869906c8d6ce8454cebc4bacbf0fac4bdc616cbf41af5d10` are preserved; C1 is not
+  sealed. Deterministic test `C1-DET-R2-AUDIT-REPLAY-ACYCLIC-PREREQUISITE-001` detects both the
+  reversed edge and missing prerequisite edge. The single permitted C2 path is now open through
+  dependency-resolution hash `d2ac9bbeda65e3aa3f8a59396431499f9bf4e8cf84b2711c98cf972f13223bb9`;
+  its corrected graph hash is
+  `97e40742c47d796c3cfee54b0e75c15693c60e94eeaa7ef6fb54587effa8f64c` and validates without
+  semantic or structural cycles. No unchanged-C1 re-audit is permitted.

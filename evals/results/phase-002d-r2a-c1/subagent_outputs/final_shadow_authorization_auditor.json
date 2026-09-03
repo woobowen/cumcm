@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "PHASE-002D-R2A-C1-FINAL-SHADOW-AUTHORIZATION-AUDIT-001",
+  "role": "final_shadow_authorization_auditor",
+  "round": "POST_DECISION",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "FROZEN_PREDECESSORS_ONLY",
+  "reviewed_commit": "2114ce3664de78de24ae39fd23f0561b79e3b270",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+  "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+  "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+  "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+  "bundle_hash": "f5c2adbd8621b5f1496a2b77972c85478917b3758ff0d70b88d8832335e043eb",
+  "parent_artifact_hash": "f5c2adbd8621b5f1496a2b77972c85478917b3758ff0d70b88d8832335e043eb",
+  "artifact_sequence_index": 10,
+  "verdict": "FAIL",
+  "evidence_refs": [
+    "commit:2114ce3664de78de24ae39fd23f0561b79e3b270",
+    "evals/results/phase-002d-r2a-c1/final_audit_bundle/bundle-c1.json#f5c2adbd8621b5f1496a2b77972c85478917b3758ff0d70b88d8832335e043eb",
+    "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c1.json#file:b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a#canonical:d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+    "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c1.json#cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+    "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c1.json#32bd8ae102a2d3f4173620fca5f610fa7180a289a89163c7439140680ae1d7d0",
+    "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c1.json#2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+    "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c1.json#c7e8b9f8794421096974c2db141bdab38e20f3a70ec218bb4e198766635c962c",
+    "evals/results/phase-002d-r2a-c1/candidate_closure/closure-c1.json#ba420be53a7dbaccd84e2137599f1e77821cc92018970b1a16f2e97669cc9e3d",
+    "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json#db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "evals/results/phase-002d-r2a-c1/historical_verification/record.json#e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
+    "evals/results/phase-002d-r2a-c1/schema_resolution/record.json#7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+    "evals/results/phase-002d-r2a-c1/compatibility_tests/closure.json#0e923c8c580cad513ba91fcfaf2656f67c4c092628e34252d7e1e136e7c57617",
+    "evals/results/phase-002d-r2a/authorization_dependency_graph.json#df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c",
+    "specifications/shadow_prototype_scope.yaml#919680d3cc8578d72d4ff960b00d61750f273e22a0634a8012daa3cb2c422501",
+    "evals/results/phase-002d-r2/decision_audit/audit.json#file:a8b97b8ac245d23e1087f56f25dc75fb623eda7acf7fa6fa80521c1c09c9a673",
+    "evals/results/phase-002d-r2/replay/replay.json#53be85e534fbe67b5644a3dfbc70432e84c4f16aae3e2f7fa61ac21f9ec17331",
+    "evals/results/phase-002d-r2/implementation_embargo.json#file:2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919",
+    "evals/results/phase-002d-r2a-c1/subagent_outputs/candidate_binding_prosecutor-post-evidence.json#3a55c2d234fd0dd553d0187620c3b91f99fa6bda919650f60db7315c83218afd"
+  ],
+  "checks": [
+    {
+      "check_id": "FINAL-C1-BUNDLE-INTEGRITY",
+      "result": "PASS",
+      "statement": "The bundle canonical hash and every allowed-path raw SHA-256 recompute exactly at the reviewed commit."
+    },
+    {
+      "check_id": "FINAL-C1-EXACT-CANDIDATE-BYTES",
+      "result": "PASS",
+      "statement": "The candidate bytes recompute to the file SHA-256 bound by the freeze, L5-L9 artifacts, and bundle."
+    },
+    {
+      "check_id": "FINAL-C1-CANONICAL-HASH",
+      "result": "PASS",
+      "statement": "Canonical JSON with sorted keys, compact separators, preserved arrays, and retained unknown fields recomputes the bound candidate hash."
+    },
+    {
+      "check_id": "FINAL-C1-CANDIDATE-FREEZE",
+      "result": "PASS",
+      "statement": "The freeze hash recomputes exactly, binds the candidate tuple and L3 parent, and the candidate and freeze paths have not changed since introduction."
+    },
+    {
+      "check_id": "FINAL-C1-L4-L8-SEQUENCE",
+      "result": "PASS",
+      "statement": "L4-L8 and the L9 bundle have strictly monotonic indices and exact canonical parent-hash links."
+    },
+    {
+      "check_id": "FINAL-C1-WRONG-AND-PREFREEZE-EVIDENCE",
+      "result": "PASS",
+      "statement": "All 30 evidence records bind the C1 candidate tuple and L6 parent; old-candidate and pre-freeze mutations are rejected."
+    },
+    {
+      "check_id": "FINAL-C1-HISTORY-MUTATION",
+      "result": "PASS",
+      "statement": "Allowed-path Git history shows no post-introduction mutation of the frozen candidate or freeze manifest, and the historical verification record reports no preservation error."
+    },
+    {
+      "check_id": "FINAL-C1-SCHEMA-COMPATIBILITY",
+      "result": "PASS",
+      "statement": "Historical 2.1.0-2.3.0 and current 2.4.0 resolutions are explicit, fail closed, and their nested and enclosing hashes recompute exactly."
+    },
+    {
+      "check_id": "FINAL-C1-DAG-CYCLE",
+      "result": "FAIL",
+      "statement": "The declared DAG requires L2-R2-DECISION-AUDIT before L3-R2-REPLAY, but the L2 audit consumes the L3 replay and bases five passing checks on it, creating the semantic cycle L2→L3→L2."
+    },
+    {
+      "check_id": "FINAL-C1-SCOPE-CREEP",
+      "result": "PASS",
+      "statement": "The candidate remains limited to an experimental shadow prototype and preserves all specification, state, path, runtime, and integration prohibitions."
+    },
+    {
+      "check_id": "FINAL-C1-HIDDEN-VAULT-LEAKAGE",
+      "result": "PASS",
+      "statement": "Allowed artifacts contain only prohibitions, commitments, hashes, and isolation metadata; no hidden seed, oracle, answer, or vault value is exposed."
+    },
+    {
+      "check_id": "FINAL-C1-FORMAL-SKILL-BINDING",
+      "result": "PASS",
+      "statement": "The formal Skill file-hash map canonically recomputes its tree hash, which is consistently bound by the embargo, input freeze, candidate, and bundle."
+    },
+    {
+      "check_id": "FINAL-C1-PROTOTYPE-IMPLEMENTATION-EXECUTION",
+      "result": "PASS",
+      "statement": "Candidate, scope, embargo, input counters, and R2 replay consistently record no implementation, prototype execution, model run, API call, network call, or third-party execution."
+    },
+    {
+      "check_id": "FINAL-C1-ARCHITECTURE-BASE-THIRD-PARTY",
+      "result": "PASS",
+      "statement": "No architecture or base is selected and no third-party code is integrated or executed."
+    },
+    {
+      "check_id": "FINAL-C1-PHASE-003-ROUTE",
+      "result": "PASS",
+      "statement": "The only proposed next route is Phase 002D-R3 shadow validation and Phase 003 remains prohibited."
+    },
+    {
+      "check_id": "FINAL-C1-MAJORITY-VOTE",
+      "result": "PASS",
+      "statement": "Candidate, prerequisite decisions, Decision Auditor, replay, and audit records consistently exclude majority voting."
+    },
+    {
+      "check_id": "FINAL-C1-HARDCODED-DECISION",
+      "result": "PASS",
+      "statement": "The candidate-bound mutation suite rejects a hardcoded acceptance projection with both source and projection errors."
+    },
+    {
+      "check_id": "FINAL-C1-PREDECESSOR-FINDINGS",
+      "result": "PASS",
+      "statement": "Every frozen predecessor finding and R2A-FINAL-002 is mapped to closed deterministic evidence, with no predecessor finding silently counted as a vote."
+    },
+    {
+      "check_id": "FINAL-C1-UNRESOLVED-FINDING",
+      "result": "FAIL",
+      "statement": "The audit/replay dependency-cycle blocker identified by this independent audit remains open."
+    },
+    {
+      "check_id": "FINAL-C1-R2-AUDIT-REPLAY-PREREQUISITES",
+      "result": "FAIL",
+      "statement": "Although the R2 audit file hash, PASS result, replay hash, offline status, and stable flag verify individually, their prerequisite order is self-dependent and cannot authorize the C1 transition."
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "R2A-C1-FINAL-001",
+      "severity": "BLOCKER",
+      "status": "OPEN",
+      "statement": "The authorization DAG orders the R2 Decision Auditor before R2 replay, while the Decision Auditor consumes that replay and derives passing checks from it; the resulting semantic cycle invalidates the R2 audit/replay prerequisite chain.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/replay/replay.json"
+      ],
+      "required_test": "C1-DET-R2-AUDIT-REPLAY-ACYCLIC-PREREQUISITE-001"
+    }
+  ],
+  "unresolved_blockers": [
+    "R2A-C1-FINAL-001"
+  ],
+  "limitations": [
+    "The audit was confined to the bundle and its allowed paths; underlying source, test, state, historical Schema, and formal Skill bytes outside that allowlist were not read."
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "api_calls": 0,
+  "majority_vote_used": false,
+  "expected_conclusion_visible": false,
+  "output_hash": "601f4b8a57aa2d08869906c8d6ce8454cebc4bacbf0fac4bdc616cbf41af5d10"
+}
