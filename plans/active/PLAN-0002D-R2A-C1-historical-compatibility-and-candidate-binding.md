@@ -298,3 +298,15 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   `c11e731fed7212b8f4c82a91c30902cd619829a751a6d1ee3d4a1da3b9b8a443`. Focused bundle tests pass
   `52/52`; full CI passes `1452` tests with one skip and strict validation reports zero
   errors/warnings. L18 remains absent pending a fresh final Auditor at the committed bundle SHA.
+- `2026-09-03`: A fresh identity-separated, read-only C2 final authorization Auditor reviewed only
+  the L17 bundle and its declared allowlisted artifacts at fixed commit
+  `50c7cc59a1b9468faa898021ca2a797afd939009`. It used no peer output, web, MCP, API, nested
+  Codex, writes, or votes and returned structured `PASS` across 21 checks with zero findings and
+  zero blockers. The immutable raw transport is preserved; the sequence-18 normalized result binds
+  parent bundle hash `c11e731fed7212b8f4c82a91c30902cd619829a751a6d1ee3d4a1da3b9b8a443`
+  and hashes to `e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125`.
+  Its limitations preserve the experimental-only scope and do not claim prototype implementation,
+  execution, quality, generality, effectiveness, safety, or Phase 003 eligibility. Focused final
+  audit tests pass `41/41`; full CI passes `1460` tests with one skip and strict validation reports
+  zero errors/warnings. No authorization seal, replay, or formal state transition predates this
+  passing result.

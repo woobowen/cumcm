@@ -70,7 +70,7 @@
         "properties": {
           "round": {"const": "POST_DECISION"},
           "peer_output_access": {"const": "FROZEN_PREDECESSORS_ONLY"},
-          "artifact_sequence_index": {"const": 10}
+          "artifact_sequence_index": {"enum": [10, 18]}
         }
       },
       "else": {"properties": {"round": {"const": "FIRST_ROUND"}, "peer_output_access": {"const": "NONE"}}}
