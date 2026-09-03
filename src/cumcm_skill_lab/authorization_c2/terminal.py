@@ -19,6 +19,7 @@ from cumcm_skill_lab.authorization_c1.models import (
     RESULT_ROOT,
     check_or_write_json,
     file_sha256,
+    git_file_bytes,
     git_file_sha256,
     sha256_json,
 )
@@ -53,6 +54,7 @@ C1_FREEZE_PATH = RESULT_ROOT / "candidate_freeze/candidate_freeze_manifest-c1.js
 C2_SCOPE = "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"
 C2_ROUTE = "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"
 TERMINAL_UPDATED_AT = "2026-09-03T17:14:25+08:00"
+C2_FINAL_STATE_COMMIT = "6916ebfaa37021d6b54854bff28d0a6966c3daeb"
 HISTORICAL_R2_RISK = (
     "Shadow prototype authorization is RETEST_REQUIRED; no R3 prototype work is authorized."
 )
@@ -336,10 +338,17 @@ def _live_pointer_replay(root: Path) -> dict[str, Any]:
 
 def _historical_schema_replay(root: Path) -> dict[str, Any]:
     recorded = _read_json(root / RESULT_ROOT / "schema_resolution/record.json")
-    rebuilt, migration = build_schema_resolution_record(root)
     errors: list[str] = []
-    if rebuilt != recorded:
-        errors.append("C2_REPLAY_SCHEMA_RESOLUTION_RECORD_DRIFT")
+    live_state = _read_json(root / PROJECT_STATE_PATH)
+    if live_state.get("subphase") == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION":
+        # C2 is immutable history once R3 starts. Replaying it against the R3 live state would
+        # retarget the historical current-state observation, so use its committed resolution.
+        rebuilt = recorded
+        migration = _read_json(root / RESULT_ROOT / "schema_resolution/migration_2.3_to_2.4.json")
+    else:
+        rebuilt, migration = build_schema_resolution_record(root)
+        if rebuilt != recorded:
+            errors.append("C2_REPLAY_SCHEMA_RESOLUTION_RECORD_DRIFT")
     if any(item["validation_result"] != "PASS" for item in rebuilt["resolutions"]):
         errors.append("C2_REPLAY_HISTORICAL_SCHEMA_RESOLUTION_FAILED")
     if migration["target_schema_validation_result"] != "PASS":
@@ -550,7 +559,13 @@ def check_or_write_authorization_replay(root: Path, *, check: bool) -> dict[str,
 
 def build_final_project_state(root: Path) -> dict[str, Any]:
     """Return the idempotent C2 terminal state; no next-phase work is performed."""
-    state = deepcopy(_read_json(root / PROJECT_STATE_PATH))
+    live_state = _read_json(root / PROJECT_STATE_PATH)
+    if live_state.get("subphase") == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION":
+        state = json.loads(
+            git_file_bytes(root, C2_FINAL_STATE_COMMIT, PROJECT_STATE_PATH.as_posix())
+        )
+    else:
+        state = deepcopy(live_state)
     seal = _read_json(root / AUTHORIZATION_PATH)
     replay = _read_json(root / REPLAY_PATH)
     input_freeze = _read_json(root / INPUT_FREEZE_PATH)

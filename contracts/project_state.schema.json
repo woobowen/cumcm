@@ -53,6 +53,10 @@
         "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS",
         "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
         "SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE",
+        "SHADOW_PROTOTYPE_VALIDATION_IN_PROGRESS",
+        "SHADOW_PROTOTYPE_VALIDATION_COMPLETE",
+        "SHADOW_PROTOTYPE_VALIDATION_INCOMPLETE",
+        "MODEL_INFRASTRUCTURE_BLOCKED",
         "EVIDENCE_EXPANSION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_COMPLETE",
@@ -168,6 +172,36 @@
         "replay_input_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
         "replay_decision_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
         "replay_audit_checkpoint_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "shadow_validation": {
+      "type": "object",
+      "required": [
+        "starting_authorization_id",
+        "input_freeze_id",
+        "input_freeze_hash",
+        "prototype_implementation_count",
+        "prototype_execution_count",
+        "real_model_starts",
+        "native_subagent_runs",
+        "stage1_status",
+        "stage2_status",
+        "decision_audit_status",
+        "replay_stable"
+      ],
+      "properties": {
+        "starting_authorization_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"},
+        "input_freeze_id": {"type": ["string", "null"]},
+        "input_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "prototype_implementation_count": {"type": "integer", "minimum": 0, "maximum": 3},
+        "prototype_execution_count": {"type": "integer", "minimum": 0},
+        "real_model_starts": {"type": "integer", "minimum": 0, "maximum": 30},
+        "native_subagent_runs": {"type": "integer", "minimum": 0},
+        "stage1_status": {"enum": ["NOT_RUN", "PASS", "FAIL", "STALE"]},
+        "stage2_status": {"enum": ["NOT_RUN", "PASS", "BLOCKED", "INCOMPLETE", "STALE"]},
+        "decision_audit_status": {"enum": ["NOT_RUN", "PASS", "FAIL", "RETEST_REQUIRED"]},
+        "replay_stable": {"type": "boolean"}
       },
       "additionalProperties": false
     },
@@ -563,6 +597,55 @@
           }
         },
         "required": ["shadow_authorization"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "enum": [
+              "SHADOW_PROTOTYPE_VALIDATION_IN_PROGRESS",
+              "SHADOW_PROTOTYPE_VALIDATION_COMPLETE",
+              "SHADOW_PROTOTYPE_VALIDATION_INCOMPLETE",
+              "MODEL_INFRASTRUCTURE_BLOCKED"
+            ]
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
+          "subphase": {"const": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"},
+          "status": {"const": "IN_PROGRESS"},
+          "current_plan": {"const": "plans/active/PLAN-0002D-R3-shadow-prototype-validation.md"},
+          "accepted_component_specifications": {"minItems": 4, "maxItems": 4},
+          "architecture_candidate_set": {"minItems": 3, "maxItems": 3},
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "skill_capability_status": {"const": "SCAFFOLD_ONLY"}
+        },
+        "required": ["shadow_authorization", "shadow_validation"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {"const": "SHADOW_PROTOTYPE_VALIDATION_IN_PROGRESS"}
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "selected_architecture": {"type": "null"},
+          "next_phase_allowed": {"type": "null"},
+          "shadow_validation": {
+            "properties": {
+              "decision_audit_status": {"const": "NOT_RUN"},
+              "replay_stable": {"const": false}
+            }
+          }
+        }
       }
     }
   ],

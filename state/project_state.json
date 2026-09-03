@@ -30,8 +30,8 @@
   "base_selected": false,
   "blockers": [],
   "content_verified_commit": null,
-  "current_branch": "feat/phase002d-r2a-shadow-authorization",
-  "current_plan": "plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md",
+  "current_branch": "feat/phase002d-r3-shadow-validation",
+  "current_plan": "plans/active/PLAN-0002D-R3-shadow-prototype-validation.md",
   "delivery_receipt_for_commit": null,
   "evidence_expansion": {
     "attempts": 28,
@@ -77,7 +77,7 @@
     "transport_profile": "PROXY_INHERITED",
     "unknown_slots": 0
   },
-  "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+  "next_phase_allowed": null,
   "phase": "PHASE-EVIDENCE-EXPANSION-002D",
   "project_id": "cumcm-skill-lab",
   "risks": [
@@ -131,6 +131,19 @@
     "replay_decision_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
     "replay_audit_checkpoint_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125"
   },
+  "shadow_validation": {
+    "starting_authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+    "input_freeze_id": null,
+    "input_freeze_hash": null,
+    "prototype_implementation_count": 0,
+    "prototype_execution_count": 0,
+    "real_model_starts": 0,
+    "native_subagent_runs": 0,
+    "stage1_status": "NOT_RUN",
+    "stage2_status": "NOT_RUN",
+    "decision_audit_status": "NOT_RUN",
+    "replay_stable": false
+  },
   "specification_protocol": {
     "benchmark_freeze_status": "BENCHMARK_FROZEN",
     "decision_audit_status": "PASS",
@@ -145,11 +158,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE",
+  "subphase": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+  "technical_adjudication_status": "SHADOW_PROTOTYPE_VALIDATION_IN_PROGRESS",
   "third_party_integrated": false,
-  "updated_at": "2026-09-03T17:14:25+08:00",
+  "updated_at": "2026-09-03T20:59:57+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

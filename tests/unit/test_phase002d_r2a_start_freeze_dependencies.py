@@ -215,12 +215,14 @@ def test_r2_to_r2a_state_transition_is_registered(repo_root):
     assert apply_registered_technical_transition(source, candidate, rules, schema) == candidate
 
 
-def test_r2a_has_exactly_one_active_plan(repo_root):
+def test_r3_successor_has_exactly_one_active_plan(repo_root):
     plans = list((repo_root / "plans/active").glob("*.md"))
-    assert [item.name for item in plans] == [
-        "PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md"
-    ]
+    assert [item.name for item in plans] == ["PLAN-0002D-R3-shadow-prototype-validation.md"]
     assert (repo_root / "plans/completed/PLAN-0002D-R2-specification-and-protocol.md").is_file()
     assert (
         repo_root / "plans/completed/PLAN-0002D-R2A-shadow-authorization-closure-incomplete.md"
+    ).is_file()
+    assert (
+        repo_root
+        / "plans/completed/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md"
     ).is_file()
