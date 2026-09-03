@@ -270,3 +270,13 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   preserving every prototype/component/Skill prohibition. C1/C2 focused tests pass `32/32`; full
   CI passes `1428` tests with one skip and strict validation has zero errors/warnings. C2 remains
   non-active and no L13+ evidence predates this freeze.
+- `2026-09-03`: C2 regenerated its complete post-freeze pre-audit chain rather than relabeling C1
+  evidence. L13 records `25/25` passing preconditions at hash
+  `b235ae5b559569099e5a62800e50e7c3b3fb3b882619b13bdbb324f54e727921`; L14 records 31 attacks
+  at hash `dd2500874f39f0a4efc4de6ea8192e5228fe73ae2d66b3a073b87874122a4017`; L15 records `31/31`
+  candidate-bound rejections at hash
+  `ed3f0383ef5a63138eb62fdeead8e23cc5d0de3d1313a4d78821059a61d58c5a`. The added
+  `C1-DET-R2-AUDIT-REPLAY-ACYCLIC-PREREQUISITE-001` mutation reverses the corrected replay-to-audit
+  edge and deterministically detects both the semantic cycle and missing prerequisite edge. C1/C2
+  cross-revision focused tests pass `56/56`; full CI passes `1436` tests with one skip and strict
+  validation reports zero errors/warnings. L16 remains blocked pending independent C2 prosecution.

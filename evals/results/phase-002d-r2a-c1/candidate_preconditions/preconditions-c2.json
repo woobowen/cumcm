@@ -1,0 +1,246 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "PHASE-002D-R2A-C2-CANDIDATE-PRECONDITIONS-001",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
+  "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+  "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+  "parent_artifact_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+  "artifact_sequence_index": 13,
+  "checks": [
+    {
+      "check_id": "C2-PRE-001",
+      "required": true,
+      "status": "PASS",
+      "observed": "exact C2 candidate freeze validates",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c2.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-002",
+      "required": true,
+      "status": "PASS",
+      "observed": "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2=AUTOMATED_ACCEPTED",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/component_specification_freeze.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-003",
+      "required": true,
+      "status": "PASS",
+      "observed": "DECISION-INTERACTION-CONTRACT-002D-R2=AUTOMATED_ACCEPTED",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/interaction_contract.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-004",
+      "required": true,
+      "status": "PASS",
+      "observed": "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2=AUTOMATED_ACCEPTED",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/architecture_candidate_set.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-005",
+      "required": true,
+      "status": "PASS",
+      "observed": "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2=AUTOMATED_ACCEPTED",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/prospective_benchmark_freeze.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-006",
+      "required": true,
+      "status": "PASS",
+      "observed": "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2=AUTOMATED_ACCEPTED",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/automated_decisions/threshold_policy_freeze.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-007",
+      "required": true,
+      "status": "PASS",
+      "observed": "R2 Auditor=PASS",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/decision_audit/audit.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-008",
+      "required": true,
+      "status": "PASS",
+      "observed": "R2 replay stable=true",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/replay/replay.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-009",
+      "required": true,
+      "status": "PASS",
+      "observed": "historical R2A preconditions=27/27",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a/authorization_preconditions.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-010",
+      "required": true,
+      "status": "PASS",
+      "observed": "historical R2A serious findings closed",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a/adversarial_findings/closure.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-011",
+      "required": true,
+      "status": "PASS",
+      "observed": "C2 compatibility findings closed",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/compatibility_tests/closure.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-012",
+      "required": true,
+      "status": "PASS",
+      "observed": "implementation embargo file=2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919; post-freeze errors=[]",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-013",
+      "required": true,
+      "status": "PASS",
+      "observed": "formal Skill tree hash=edeeaf7312e7fc1cdc008bfa799a6127787768246c90ab4c4a569615d11dde33",
+      "evidence_refs": [
+        ".agents/skills/cumcm-modeling-evidence/"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-014",
+      "required": true,
+      "status": "PASS",
+      "observed": "Benchmark hash bound",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-015",
+      "required": true,
+      "status": "PASS",
+      "observed": "threshold hash bound",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-016",
+      "required": true,
+      "status": "PASS",
+      "observed": "protocol hash bound",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-017",
+      "required": true,
+      "status": "PASS",
+      "observed": "selected_architecture=null",
+      "evidence_refs": [
+        "state/project_state.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-018",
+      "required": true,
+      "status": "PASS",
+      "observed": "base_selected=false",
+      "evidence_refs": [
+        "state/project_state.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-019",
+      "required": true,
+      "status": "PASS",
+      "observed": "third_party_integrated=false",
+      "evidence_refs": [
+        "state/project_state.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-020",
+      "required": true,
+      "status": "PASS",
+      "observed": "Skill capability=SCAFFOLD_ONLY",
+      "evidence_refs": [
+        "state/project_state.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-021",
+      "required": true,
+      "status": "PASS",
+      "observed": "formal Skill count=1",
+      "evidence_refs": [
+        ".agents/skills/"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-022",
+      "required": true,
+      "status": "PASS",
+      "observed": "post-freeze prototype/API/model/third-party observations=0; prohibited runtime files=0",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
+        "state/project_state.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-023",
+      "required": true,
+      "status": "PASS",
+      "observed": "Phase 003 prohibited",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-024",
+      "required": true,
+      "status": "PASS",
+      "observed": "C1 final finding dependency resolution=PASS; corrected graph errors=[]",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/dependency_resolution/dependency-graph-c2.json"
+      ]
+    },
+    {
+      "check_id": "C2-PRE-025",
+      "required": true,
+      "status": "PASS",
+      "observed": "C1 final FAIL and exact finding preserved as C2 retest input",
+      "evidence_refs": [
+        "evals/results/phase-002d-r2a-c1/final_audit/audit-c1.json"
+      ]
+    }
+  ],
+  "required_check_count": 25,
+  "passed_check_count": 25,
+  "failed_check_ids": [],
+  "all_required_pass": true,
+  "historical_preconditions_classification": "PREREQUISITE_CONTEXT_ONLY",
+  "historical_preconditions_hash": "a78cceb968f03638a777b2b8464a605cd1f57e046532ce8f99d56d84b7a1c057",
+  "preconditions_hash": "b235ae5b559569099e5a62800e50e7c3b3fb3b882619b13bdbb324f54e727921"
+}

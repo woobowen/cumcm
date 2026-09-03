@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0.0",
+  "plan_id": "PHASE-002D-R2A-C2-CANDIDATE-MUTATION-PLAN-001",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
+  "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+  "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+  "parent_artifact_hash": "b235ae5b559569099e5a62800e50e7c3b3fb3b882619b13bdbb324f54e727921",
+  "artifact_sequence_index": 14,
+  "test_count": 31,
+  "tests": [
+    {
+      "test_id": "C2-MUT-001",
+      "mutation_type": "CANDIDATE_BYTE_MUTATION",
+      "mutated_field": "$bytes",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-002",
+      "mutation_type": "CANONICAL_SEMANTIC_MUTATION",
+      "mutated_field": "accepted_scope",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-003",
+      "mutation_type": "CANDIDATE_ID_MUTATION",
+      "mutated_field": "candidate_id",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_ID_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-004",
+      "mutation_type": "ACCEPTED_SCOPE_MUTATION",
+      "mutated_field": "accepted_scope",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-005",
+      "mutation_type": "NEXT_PHASE_MUTATION",
+      "mutated_field": "next_phase_allowed",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-006",
+      "mutation_type": "ARCHITECTURE_SELECTION",
+      "mutated_field": "selected_architecture",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_ARCHITECTURE_SELECTION_PROHIBITED",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-007",
+      "mutation_type": "BASE_SELECTION",
+      "mutated_field": "base_selected",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_FORMAL_INTEGRATION_PROHIBITED",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-008",
+      "mutation_type": "THIRD_PARTY_INTEGRATION",
+      "mutated_field": "third_party_integrated",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_FORMAL_INTEGRATION_PROHIBITED",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-009",
+      "mutation_type": "FORMAL_INTEGRATION_SCOPE",
+      "mutated_field": "restrictions",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-010",
+      "mutation_type": "PHASE_003_ROUTE",
+      "mutated_field": "next_phase_allowed",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-011",
+      "mutation_type": "HIDDEN_VAULT_ACCESS",
+      "mutated_field": "restrictions",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-012",
+      "mutation_type": "FORMAL_SKILL_WRITE",
+      "mutated_field": "restrictions",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-013",
+      "mutation_type": "PROTOTYPE_AUTO_DISCOVERY",
+      "mutated_field": "formal_skill_auto_discovery",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-014",
+      "mutation_type": "MISSING_SUPERSEDES",
+      "mutated_field": "supersedes",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-015",
+      "mutation_type": "WRONG_SUPERSEDES",
+      "mutated_field": "supersedes.decision_id",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-016",
+      "mutation_type": "CANDIDATE_HASH_MISMATCH",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-017",
+      "mutation_type": "EVIDENCE_BOUND_TO_OLD_CANDIDATE",
+      "mutated_field": "candidate_id",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_CANDIDATE_ID_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-018",
+      "mutation_type": "EVIDENCE_PREDATES_FREEZE",
+      "mutated_field": "artifact_sequence_index",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_ARTIFACT_SEQUENCE_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-019",
+      "mutation_type": "PARENT_HASH_MISMATCH",
+      "mutated_field": "parent_artifact_hash",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_PARENT_ARTIFACT_HASH_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-020",
+      "mutation_type": "SEQUENCE_INDEX_INVERSION",
+      "mutated_field": "artifact_sequence_index",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_ARTIFACT_SEQUENCE_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-021",
+      "mutation_type": "AUDIT_BUNDLE_DIFFERENT_CANDIDATE_BYTES",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-022",
+      "mutation_type": "REPORT_HARDCODED_ACCEPT",
+      "mutated_field": "decision_source",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_REPORT_DECISION_SOURCE_NOT_INPUT_DRIVEN",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-023",
+      "mutation_type": "CANDIDATE_SELF_HASH_REFERENCE",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CANDIDATE_SELF_HASH_FIELD_PROHIBITED:candidate_file_sha256",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-024",
+      "mutation_type": "UNKNOWN_FIELD_RETENTION",
+      "mutated_field": "unknown_attack_field",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-025",
+      "mutation_type": "STATE_BINDING_SUBSTITUTION",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-026",
+      "mutation_type": "STATE_PHASE_003_ROUTE",
+      "mutated_field": "next_phase_allowed",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_STATE_ROUTE_INVALID",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-027",
+      "mutation_type": "FROZEN_CANDIDATE_REWRITE",
+      "mutated_field": "$bytes",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_FROZEN_CANDIDATE_REWRITE_PROHIBITED",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-028",
+      "mutation_type": "REHASHED_FAILED_PRECONDITION",
+      "mutated_field": "all_required_pass",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_PRECONDITIONS_SEMANTIC_FAILURE",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-029",
+      "mutation_type": "POSTFREEZE_EMBARGO_VIOLATION",
+      "mutated_field": "embargo_errors",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_POSTFREEZE_EMBARGO_NOT_PASS",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C2-MUT-030",
+      "mutation_type": "CLOSURE_CLAIM_MISMATCH",
+      "mutated_field": "closures",
+      "expected_result": "REJECTED",
+      "expected_error": "C2_CLOSURE_REQUIRED_EVIDENCE_MISMATCH",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    },
+    {
+      "test_id": "C1-DET-R2-AUDIT-REPLAY-ACYCLIC-PREREQUISITE-001",
+      "mutation_type": "R2_AUDIT_REPLAY_DEPENDENCY_INVERSION",
+      "mutated_field": "corrected_graph.edges",
+      "expected_result": "REJECTED",
+      "expected_error": "C1_R2_AUDIT_REPLAY_SEMANTIC_CYCLE",
+      "candidate_source": "READ_ONLY_COPY_OF_FROZEN_C2"
+    }
+  ],
+  "historical_test_evidence_classification": "HISTORICAL_CONTEXT_ONLY_NOT_C2_PASS_EVIDENCE",
+  "test_plan_hash": "dd2500874f39f0a4efc4de6ea8192e5228fe73ae2d66b3a073b87874122a4017"
+}
