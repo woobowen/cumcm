@@ -55,9 +55,12 @@ class ShadowCaseInput:
     payload: Mapping[str, Any]
     input_hash: str
     case_class: str = "unspecified"
+    source_commitment_hash: str | None = None
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "payload", deep_freeze(dict(self.payload)))
+        if self.input_hash != sha256_json(self.payload):
+            raise ValueError("SHADOW_CASE_INPUT_HASH_MISMATCH")
 
 
 @dataclass(frozen=True, slots=True)

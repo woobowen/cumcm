@@ -7,7 +7,10 @@ from pathlib import Path
 
 from experiments.shadow_prototypes import ARCHITECTURE_IDS, COMPONENT_IDS
 from experiments.shadow_prototypes.common.interface import ShadowContext, verify_result_hash
-from experiments.shadow_prototypes.common.public_cases import load_public_cases
+from experiments.shadow_prototypes.common.public_cases import (
+    load_public_cases,
+    public_isolated_state,
+)
 
 from .runner import run_case
 
@@ -34,7 +37,12 @@ def validate_prototypes(root: Path, architecture_ids: tuple[str, ...]) -> dict[s
                 )
                 try:
                     result, unchanged = run_case(
-                        root, architecture_id, case, {}, context, persist=False
+                        root,
+                        architecture_id,
+                        case,
+                        public_isolated_state(),
+                        context,
+                        persist=False,
                     )
                 except (ImportError, ModuleNotFoundError, ValueError) as exc:
                     errors.append(f"PROTOTYPE_EXECUTION_FAILED:{architecture_id}:{exc}")

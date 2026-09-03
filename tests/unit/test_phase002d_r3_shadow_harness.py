@@ -35,7 +35,9 @@ def _context(tmp_path: Path, case_id: str) -> ShadowContext:
 
 def test_shadow_case_input_is_deeply_read_only() -> None:
     source = {"nested": {"items": [1, 2]}}
-    case = ShadowCaseInput("case", COMPONENT_IDS[0], source, "a" * 64)
+    from experiments.shadow_prototypes.common.interface import sha256_json
+
+    case = ShadowCaseInput("case", COMPONENT_IDS[0], source, sha256_json(source))
     source["nested"]["items"].append(3)
     assert canonical_json(case.payload) == b'{"nested":{"items":[1,2]}}'
     with pytest.raises(TypeError):

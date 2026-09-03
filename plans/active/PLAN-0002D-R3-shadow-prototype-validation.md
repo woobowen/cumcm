@@ -109,3 +109,10 @@ change; preserve factual history.
   C1/C2 code hashes and replays their evidence at its historical checkpoint while current R3
   embargo enforcement remains active. The targeted 221-test set and full CI now pass at
   `1490 passed, 1 skipped`; no frozen evidence artifact was modified.
+- `2026-09-03T22:18:03+08:00`: W1 implements all four public workflow checklists and completed the
+  maximum three public repair loops. Its 39 focused tests, 32 S0/W1 common-interface executions,
+  input-freeze check, strict validation, and full CI (`1523 passed, 1 skipped`) pass. The independent
+  final W1 audit nevertheless found one uncaught malformed-input BLOCKER (`W1-FINAL-001`); the
+  repair limit is exhausted, no fourth repair is performed, and W1 is recorded ineligible rather
+  than silently fixed or promoted. Three native read-only audit runs occurred; none accessed hidden
+  or sealed values and no model run occurred.
