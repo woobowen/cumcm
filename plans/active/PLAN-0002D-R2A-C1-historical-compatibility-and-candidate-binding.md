@@ -289,3 +289,12 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   unresolved finding, and hashes to
   `c493a1a2b2d5267bbbe3d33f1c79ddf3b34a8aa523fc942fac54bec56c5bb2f5`. Focused tests pass
   `58/58`; full CI passes `1438` tests with one skip and strict validation has zero errors/warnings.
+- `2026-09-03`: C2 M7 produced the L17 exact-candidate final-audit bundle only after its L16 closure
+  was committed and remotely verified. Bundle
+  `PHASE-002D-R2A-C2-FINAL-SHADOW-AUTHORIZATION-AUDIT-BUNDLE-001` binds the C2 byte/canonical/
+  freeze tuple, all 31 new evidence hashes, the C1 final-failure checkpoint, dependency resolution
+  and corrected graph, historical/Schema compatibility, R2 prerequisites, embargo, formal Skill,
+  scope, and every allowed-path byte hash. Its bundle hash is
+  `c11e731fed7212b8f4c82a91c30902cd619829a751a6d1ee3d4a1da3b9b8a443`. Focused bundle tests pass
+  `52/52`; full CI passes `1452` tests with one skip and strict validation reports zero
+  errors/warnings. L18 remains absent pending a fresh final Auditor at the committed bundle SHA.
