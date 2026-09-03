@@ -1,0 +1,193 @@
+{
+  "api_calls": 0,
+  "api_key_used": false,
+  "audit_id": "R2A-AUDIT-PROTOCOL-COST-DISSENT-001",
+  "blockers": [
+    "R2A-PCD-001",
+    "R2A-PCD-002",
+    "R2A-PCD-003"
+  ],
+  "bundle_hash": "8323ae87000e132fb1eb3db6c8096adb63294f0dfe449b70cd3d6e29c22dc009",
+  "bundle_id": "PHASE-002D-R2A-PROTOCOL-COST-DISSENT-AUDITOR-001",
+  "cost_assessment": {
+    "benefit_metrics": [
+      "targeted_detection_recall",
+      "valid_control_false_block_rate",
+      "state_transition_precision",
+      "state_transition_recall",
+      "stale_propagation_recall",
+      "claim_support_precision",
+      "claim_support_recall",
+      "leakage_detection_recall",
+      "reproduction_success_rate",
+      "completion_rate",
+      "terminal_failure_rate"
+    ],
+    "maintenance_cost": "Tracked logical units and maintenance_score are each capped at 24, but no per-candidate prospective logical-unit manifest exists yet; future maintenance duration, migration burden and post-experiment ownership remain UNKNOWN.",
+    "simplest_alternative": "Retain ARCH-S0 as the immutable scaffold baseline and perform only deterministic Stage 1 on isolated W1/K1 shadows; spend zero model starts unless the schedule, cost and benchmark-discrimination blockers are resolved.",
+    "stop_conditions": [
+      "Do not permit model starts until the exact schedule proves complete coverage within the 30-start cap.",
+      "Stop an architecture on any deterministic Stage 1 hard failure.",
+      "Keep Stage 2 at EVIDENCE_INSUFFICIENT while absolute token, monetary, operator or queue cost remains uncapped or unlabeled UNKNOWN.",
+      "Stop any arm on a resource-cap breach or missing hash-bound terminal outcome.",
+      "Reject a candidate strictly cost-dominated by ARCH-S0 or another simpler eligible arm unless a frozen non-cost threshold is measurably superior.",
+      "Retain ARCH-S0 when no candidate clears every noncompensatory gate."
+    ],
+    "time_cost": "Automated wall time is capped at 86400 seconds and elapsed-time overhead is ratio-capped, but operator labor and queue delay are UNKNOWN and have no frozen ledger rule.",
+    "token_cost": "Absolute input and output token cost is UNKNOWN. Frozen thresholds constrain only candidate-to-baseline ratios, while the 30-start cap does not impose an absolute token ceiling."
+  },
+  "created_at": "2026-09-03T03:00:00+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": "If each R2-MODEL-1 through R2-MODEL-4 case_count entry consumes one independent model start, the primary schedule is 3 * 8 * 2 = 48, which exceeds the absolute cap of 30 without any retry or ablation.",
+      "evidence_refs": [
+        "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
+        "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001",
+        "R2-MODEL-1",
+        "R2-MODEL-2",
+        "R2-MODEL-3",
+        "R2-MODEL-4"
+      ],
+      "file_references": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/ablation_policy.yaml"
+      ],
+      "finding_id": "R2A-PCD-001",
+      "pass_condition": "Every required tuple is represented exactly once at its declared analysis level; any bundled start has a frozen, hash-bound rule preserving separate terminal outcomes for every case; Stage 2 ablations are explicitly included or deterministically excluded; primary plus retry starts are at most 30; deterministic executions are at most 4004; grader actions are at most 4034.",
+      "required_test": "Run a deterministic schedule expander that emits every required tuple of architecture_id, family_id, case_id, transformation_id, repeat_id, ablation_id and attempt_type, then counts primary starts, retries, deterministic executions and grader actions without aggregation hidden from the ledger.",
+      "severity": "BLOCKER",
+      "statement": "The frozen main-start formula produces 24 primary starts and permits six retries for three eligible architectures, but the case catalog declares eight MODEL_IN_LOOP_FUTURE base cases across four families. Under the ordinary one-model-start-per-case interpretation, three architectures times eight cases times two repeats requires 48 primary starts before retries. The protocol does not define a family-bundling execution unit that reconciles this difference, and its formula also does not account for up to two Stage 2 component ablations. Therefore the 30-start cap is not yet demonstrably compatible with complete benchmark coverage.",
+      "status": "OPEN",
+      "target": "Stage 2 execution schedule and 30-start cap",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "A candidate and baseline can satisfy the 1.50 token-overhead ratio while both consume an arbitrarily large absolute token volume; the 30-start cap alone does not bound that volume or its monetary cost.",
+      "evidence_refs": [
+        "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
+        "PHASE-002D-R2-THRESHOLDS-001",
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "input_token_overhead",
+        "output_token_overhead",
+        "elapsed_time_overhead",
+        "maintenance_score"
+      ],
+      "file_references": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "finding_id": "R2A-PCD-002",
+      "pass_condition": "Every cost incurred by Stage 2 has a finite predeclared ceiling and ledger source, or is explicitly UNKNOWN and deterministically routes Stage 2 to EVIDENCE_INSUFFICIENT; future maintenance remains labeled as a proxy or unknown and is not represented as measured lifetime cost.",
+      "required_test": "Before any model start, generate and validate a deterministic cost preflight manifest containing absolute input/output token ceilings, a monetary ceiling or explicit UNKNOWN disposition, operator-minute accounting, queue/wall-time accounting, retained-byte accounting and the logical-unit maintenance manifest for each arm.",
+      "severity": "BLOCKER",
+      "statement": "The resource policy caps starts, wall time, storage, grader actions and maintained logical units, but it provides no absolute input-token or output-token ceiling. Token thresholds are only ratios to an unmeasured baseline. Monetary cost is explicitly UNKNOWN in the shadow scope, while operator effort, queue delay and future maintenance burden are not measured. This conflicts with the frozen rule that unknown cost yields EVIDENCE_INSUFFICIENT and prevents treating full Stage 2 affordability as established.",
+      "status": "OPEN",
+      "target": "Prospective cost accounting and Stage 2 authorization",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "Two implementations could return identical outputs on all component-targeted cases while differing only on a narrative-bypass or fail-closed kernel path not represented by a sealed oracle; all reported component metrics would tie despite the architectural difference.",
+      "evidence_refs": [
+        "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001",
+        "PHASE-002D-R2-THRESHOLDS-001",
+        "R2-GAMING-1",
+        "R2-GAMING-2",
+        "R2-GAMING-3",
+        "R2-GAMING-4",
+        "targeted_detection_recall",
+        "valid_control_false_block_rate"
+      ],
+      "file_references": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "finding_id": "R2A-PCD-003",
+      "pass_condition": "Every declared W1/K1 discriminant changes at least one frozen critical metric when injected, valid controls remain unchanged, and every threshold denominator records base_case_id, seed, transformation and repeat so that the frozen N_valid and per-stratum requirements pass under an explicitly declared analysis unit rather than accidental pseudoreplication.",
+      "required_test": "In the isolated adjudicator, deterministically expand a metric-to-case coverage matrix and replay synthetic W1-like and K1-like outputs that differ only on each predeclared architectural discriminant, including narrative bypass, deterministic fail-closed behavior, canonicalization mismatch and mutation handling.",
+      "severity": "BLOCKER",
+      "statement": "The catalog is stratified by component rather than by the architectural discriminants between workflow-language guards and a deterministic kernel. It contains one adversarial-gaming base case per component and two composite base cases per component, but no frozen mapping from W1/K1-specific failure modes to oracle classes, metrics or independent analysis units. Ten transformations per family and repeated runs do not by themselves establish independent discriminatory power. Consequently the benchmark may measure component conformance while failing to distinguish the claimed benefit of K1 over W1.",
+      "status": "OPEN",
+      "target": "Hidden benchmark ability to distinguish ARCH-W1 from ARCH-K1",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+        "DECISION-AUDIT-PHASE-002D-R2",
+        "PHASE-002D-R2-AUTOMATED-DECISION-REPLAY-001",
+        "PHASE-002D-R2A-INPUT-FREEZE-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json"
+      ],
+      "finding_id": "R2A-PCD-004",
+      "pass_condition": "All three checks are true.",
+      "required_test": "Verify that the R2 audit result is PASS, replay stable is true, and their file hashes equal the values frozen in PHASE-002D-R2A-INPUT-FREEZE-001.",
+      "severity": "INFO",
+      "statement": "The two prerequisites that caused the R2 shadow authorization to return RETEST_REQUIRED are now present: the independent R2 decision audit reports PASS and the offline replay reports stable. This supports reconsidering authorization in R2A, but it does not establish prototype benefit, benchmark discrimination or affordability.",
+      "status": "RESOLVED",
+      "target": "Procedural basis for reconsidering R3 authorization",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": "If W1 or K1 fails any deterministic hard gate or exceeds the 24-logical-unit maintenance cap, spending model starts on that arm cannot make it eligible because the protocol is noncompensatory.",
+      "evidence_refs": [
+        "PHASE-002D-R2-PROSPECTIVE-PROTOCOL-001",
+        "PHASE-002D-R2-ARCHITECTURE-CANDIDATES-001",
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+      ],
+      "file_references": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "specifications/shadow_prototype_scope.yaml",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "finding_id": "R2A-PCD-005",
+      "pass_condition": "ARCH-S0 remains intact; every Stage 1 failure stops the affected candidate; only a candidate passing all deterministic gates and the maintenance cap can be reconsidered for Stage 2 after R2A-PCD-001 through R2A-PCD-003 are resolved.",
+      "required_test": "Execute only the frozen deterministic Stage 1 schedule after its schedule-expansion preflight, record per-arm hard-gate and logical-unit results, and apply the frozen noncompensatory stop conditions without model starts.",
+      "severity": "WARNING",
+      "statement": "No candidate results exist, prototype effectiveness is explicitly unmeasured, and no architecture is selected. The evidence therefore supports at most isolated implementation plus deterministic Stage 1 as a value-of-information gate while retaining ARCH-S0 as the immutable comparator and fallback. W1 or K1 model-in-loop execution is not justified until the schedule, cost and discriminatory-power blockers close.",
+      "status": "OPEN",
+      "target": "Least-cost R3 scope and scaffold retention",
+      "testability": "TESTABLE"
+    }
+  ],
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "nested_codex_used": false,
+  "output_hash": "0759241a76462991f37d3ddf34ba53061d33f9aa8d5147358bee024f04ed6282",
+  "peer_output_access": "NONE",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "protocol_cost_dissent_auditor",
+  "round": "FIRST_ROUND",
+  "uncertainties": [
+    "Absolute model input-token and output-token consumption is unknown.",
+    "Monetary execution cost is unknown.",
+    "Operator labor is unknown.",
+    "Queue delay is unknown.",
+    "Future maintenance and migration burden are unknown.",
+    "Whether one model start legally bundles both cases in each composite family is unspecified.",
+    "The hidden-oracle mapping to W1/K1 architectural discriminants was not available in the allowed bundle."
+  ],
+  "verdict": "RETEST_REQUIRED",
+  "web_used": false,
+  "writes_observed": false
+}

@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/shadow-prototype-scope/v1",
+  "title": "Phase 002D-R2A Experimental Shadow Prototype Scope",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scope_id",
+    "status",
+    "accepted_scope",
+    "candidate_ids",
+    "baseline",
+    "selected_architecture",
+    "allowed_paths",
+    "prohibited_paths",
+    "prohibited_git_refs",
+    "state_isolation",
+    "vault_isolation",
+    "runtime_isolation",
+    "path_confinement",
+    "dependency_policy",
+    "callability_policy",
+    "output_policy",
+    "execution_stages",
+    "future_runtime_gate",
+    "rollback",
+    "prohibited_scopes",
+    "phase003_prohibited",
+    "implementation_created",
+    "prototype_executed",
+    "unknowns",
+    "scope_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "scope_id": {"const": "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001"},
+    "status": {"const": "SPECIFICATION_ONLY_NOT_IMPLEMENTED"},
+    "accepted_scope": {"const": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"},
+    "candidate_ids": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+          "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+          "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+        ]
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "required": ["architecture_id", "mode", "implementation_path"],
+      "properties": {
+        "architecture_id": {"const": "ARCH-S0-RETAIN-SCAFFOLD-ONLY"},
+        "mode": {"const": "IMMUTABLE_BASELINE_ADAPTER"},
+        "implementation_path": {"type": "null"}
+      },
+      "additionalProperties": false
+    },
+    "selected_architecture": {"type": "null"},
+    "allowed_paths": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "experiments/shadow_prototypes/arch_w1/",
+          "experiments/shadow_prototypes/arch_k1/",
+          "experiments/shadow_prototypes/common/",
+          "evals/results/phase-002d-r3/"
+        ]
+      }
+    },
+    "prohibited_paths": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "prohibited_git_refs": {
+      "type": "array",
+      "contains": {"const": "refs/heads/main"},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "state_isolation": {
+      "type": "object",
+      "required": ["formal_state_write_allowed", "private_state_required", "formal_final_allowed", "formal_evidence_package_allowed"],
+      "properties": {
+        "formal_state_write_allowed": {"const": false},
+        "private_state_required": {"const": true},
+        "formal_final_allowed": {"const": false},
+        "formal_evidence_package_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "vault_isolation": {
+      "type": "object",
+      "required": ["hidden_seed_read_allowed", "hidden_oracle_read_allowed", "hidden_oracle_prompt_allowed", "tracked_hidden_values_allowed", "current_isolation", "os_enforced_verified"],
+      "properties": {
+        "hidden_seed_read_allowed": {"const": false},
+        "hidden_oracle_read_allowed": {"const": false},
+        "hidden_oracle_prompt_allowed": {"const": false},
+        "tracked_hidden_values_allowed": {"const": false},
+        "current_isolation": {"const": "POLICY_AND_WORKSPACE_ISOLATED_NOT_OS_ENFORCED"},
+        "os_enforced_verified": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "runtime_isolation": {
+      "type": "object",
+      "required": ["formal_skill_auto_discovery", "production_workflow_callable", "third_party_code_allowed", "third_party_execution_allowed", "license_block_released", "isolated_output_required"],
+      "properties": {
+        "formal_skill_auto_discovery": {"const": false},
+        "production_workflow_callable": {"const": false},
+        "third_party_code_allowed": {"const": false},
+        "third_party_execution_allowed": {"const": false},
+        "license_block_released": {"const": false},
+        "isolated_output_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "path_confinement": {
+      "type": "object",
+      "required": ["status", "canonical_root_required", "no_follow_required", "shared_inode_forbidden", "rename_swap_defense_required", "pre_post_protected_hash_required"],
+      "properties": {
+        "status": {"const": "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION"},
+        "canonical_root_required": {"const": true},
+        "no_follow_required": {"const": true},
+        "shared_inode_forbidden": {"const": true},
+        "rename_swap_defense_required": {"const": true},
+        "pre_post_protected_hash_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "dependency_policy": {
+      "type": "object",
+      "required": ["status", "project_owned_allowlist_required", "isolated_interpreter_no_site_packages_required", "dynamic_import_allowed", "subprocess_allowed", "network_allowed", "loaded_artifact_provenance_required"],
+      "properties": {
+        "status": {"const": "UNVERIFIED_BLOCKS_FILE_WRITES_AND_EXECUTION"},
+        "project_owned_allowlist_required": {"const": true},
+        "isolated_interpreter_no_site_packages_required": {"const": true},
+        "dynamic_import_allowed": {"const": false},
+        "subprocess_allowed": {"const": false},
+        "network_allowed": {"const": false},
+        "loaded_artifact_provenance_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "callability_policy": {
+      "type": "object",
+      "required": ["status", "shadow_only_runner_capability_required", "production_registry_entry_allowed", "formal_skill_import_allowed", "normal_cli_dispatch_allowed", "production_subprocess_call_allowed"],
+      "properties": {
+        "status": {"const": "UNVERIFIED_BLOCKS_EXECUTION"},
+        "shadow_only_runner_capability_required": {"const": true},
+        "production_registry_entry_allowed": {"const": false},
+        "formal_skill_import_allowed": {"const": false},
+        "normal_cli_dispatch_allowed": {"const": false},
+        "production_subprocess_call_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "output_policy": {
+      "type": "object",
+      "required": ["status", "root", "content_addressed_run_id_required", "shadow_origin_marker_required", "allowed_suffixes", "executable_allowed", "links_allowed", "formal_artifact_kinds_allowed", "formal_discovery_allowed"],
+      "properties": {
+        "status": {"const": "POLICY_ONLY_BLOCKS_OUTPUT_UNTIL_ENFORCED"},
+        "root": {"const": "evals/results/phase-002d-r3/"},
+        "content_addressed_run_id_required": {"const": true},
+        "shadow_origin_marker_required": {"const": true},
+        "allowed_suffixes": {"const": [".json"]},
+        "executable_allowed": {"const": false},
+        "links_allowed": {"const": false},
+        "formal_artifact_kinds_allowed": {"const": []},
+        "formal_discovery_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "execution_stages": {
+      "type": "object",
+      "required": ["prototype_build", "deterministic_stage1", "model_stage2", "final_stage3", "model_starts_authorized", "hidden_benchmark_use_authorized"],
+      "properties": {
+        "prototype_build": {"const": "CONDITIONAL_ON_FILE_AND_DEPENDENCY_GATES"},
+        "deterministic_stage1": {"const": "CONDITIONAL_ON_ALL_RUNTIME_GATES"},
+        "model_stage2": {"const": "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION"},
+        "final_stage3": {"const": "PROHIBITED_PENDING_NEW_FROZEN_AUTHORIZATION"},
+        "model_starts_authorized": {"const": 0},
+        "hidden_benchmark_use_authorized": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "future_runtime_gate": {
+      "type": "object",
+      "required": ["current_status", "actual_runtime_evidence_present", "required_before_file_write", "required_before_any_execution", "required_before_model_stage2", "unknown_cost_disposition"],
+      "properties": {
+        "current_status": {"const": "NOT_SATISFIED_EXECUTION_PROHIBITED"},
+        "actual_runtime_evidence_present": {"const": false},
+        "required_before_file_write": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_before_any_execution": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_before_model_stage2": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "unknown_cost_disposition": {"const": "EVIDENCE_INSUFFICIENT"}
+      },
+      "additionalProperties": false
+    },
+    "rollback": {
+      "type": "object",
+      "required": ["strategy", "deletion_roots", "formal_state_repair_required", "historical_artifact_mutation_allowed", "disposable_workspace_required", "git_tracking_allowed", "git_commit_allowed", "git_push_allowed", "all_refs_absence_verification_required"],
+      "properties": {
+        "strategy": {"const": "DELETE_ISOLATED_SHADOW_TREES"},
+        "deletion_roots": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "formal_state_repair_required": {"const": false},
+        "historical_artifact_mutation_allowed": {"const": false},
+        "disposable_workspace_required": {"const": true},
+        "git_tracking_allowed": {"const": false},
+        "git_commit_allowed": {"const": false},
+        "git_push_allowed": {"const": false},
+        "all_refs_absence_verification_required": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "prohibited_scopes": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "allOf": [
+        {"contains": {"const": "FORMAL_SKILL_IMPLEMENTATION"}},
+        {"contains": {"const": "FORMAL_INTEGRATION"}},
+        {"contains": {"const": "PRODUCTION_READY"}},
+        {"contains": {"const": "DIRECT_REUSE"}},
+        {"contains": {"const": "ARCHITECTURE_SELECTED"}},
+        {"contains": {"const": "PHASE_003_INTEGRATION"}}
+      ],
+      "items": {"type": "string"}
+    },
+    "phase003_prohibited": {"const": true},
+    "implementation_created": {"const": false},
+    "prototype_executed": {"const": false},
+    "unknowns": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "scope_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

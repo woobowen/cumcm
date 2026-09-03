@@ -14,3 +14,13 @@ Only the five frozen artifact scopes are accepted. Candidate-set acceptance is n
 selection. The shadow decision accepts no scope, routes to R2 and prohibits formal implementation,
 integration, production, direct reuse and Phase 003. No Agent majority or human technical approval
 contributed to these outcomes.
+
+## Phase 002D-R2A-C1/C2 continuation
+
+| Decision | Result | Phase scope | Next route | Hash |
+| --- | --- | --- | --- | --- |
+| DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2 | AUTOMATED_ACCEPTED | EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY | PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION | ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473 |
+
+This decision supersedes the preserved R2 shadow authorization only. It authorizes a future
+experimental validation phase, not an architecture, base, formal integration, production use, or
+Phase 003.

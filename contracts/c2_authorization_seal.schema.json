@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/c2-authorization-seal/v1",
+  "title": "Phase 002D-R2A-C2 Active Shadow Authorization Seal",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "record_type", "authorization_id", "artifact_path",
+    "parent_artifact_hash", "artifact_sequence_index", "automated_decision_contract",
+    "automated_decision", "decision", "accepted_scope", "candidate_id", "candidate_path",
+    "candidate_file_sha256", "canonical_candidate_hash", "candidate_freeze_hash",
+    "input_freeze_id", "input_freeze_hash", "dependency_graph_hash",
+    "dependency_resolution_hash", "preconditions_hash", "test_plan_hash",
+    "test_evidence_set_hash", "candidate_closure_hash", "final_audit_bundle_hash",
+    "final_audit_id", "final_audit_result", "final_audit_output_hash", "supersedes",
+    "replaces_historical_non_active_candidate", "replaces_failed_c1_revision",
+    "supersession_reason", "restrictions", "selected_architecture", "base_selected",
+    "third_party_integrated", "skill_capability_status", "prototype_implemented",
+    "prototype_executed", "real_model_in_loop_runs", "api_calls", "third_party_executions",
+    "majority_vote_used", "next_phase_allowed", "phase003_prohibited", "authorization_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "ACTIVE_SHADOW_PROTOTYPE_AUTHORIZATION"},
+    "authorization_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"},
+    "artifact_path": {"const": "evals/results/phase-002d-r2a-c1/authorization_decision/authorization-c2.json"},
+    "parent_artifact_hash": {"$ref": "#/$defs/hash"},
+    "artifact_sequence_index": {"const": 19},
+    "automated_decision_contract": {"const": "contracts/automated_decision.schema.json"},
+    "automated_decision": {"type": "object"},
+    "decision": {"enum": ["AUTOMATED_ACCEPTED", "RETEST_REQUIRED"]},
+    "accepted_scope": {"enum": ["EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY", null]},
+    "candidate_id": {"const": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"},
+    "candidate_path": {"const": "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json"},
+    "candidate_file_sha256": {"$ref": "#/$defs/hash"},
+    "canonical_candidate_hash": {"$ref": "#/$defs/hash"},
+    "candidate_freeze_hash": {"$ref": "#/$defs/hash"},
+    "input_freeze_id": {"const": "PHASE-002D-R2A-C1-INPUT-FREEZE-001"},
+    "input_freeze_hash": {"$ref": "#/$defs/hash"},
+    "dependency_graph_hash": {"$ref": "#/$defs/hash"},
+    "dependency_resolution_hash": {"$ref": "#/$defs/hash"},
+    "preconditions_hash": {"$ref": "#/$defs/hash"},
+    "test_plan_hash": {"$ref": "#/$defs/hash"},
+    "test_evidence_set_hash": {"$ref": "#/$defs/hash"},
+    "candidate_closure_hash": {"$ref": "#/$defs/hash"},
+    "final_audit_bundle_hash": {"$ref": "#/$defs/hash"},
+    "final_audit_id": {"const": "PHASE-002D-R2A-C2-FINAL-SHADOW-AUTHORIZATION-AUDIT-001"},
+    "final_audit_result": {"const": "PASS"},
+    "final_audit_output_hash": {"$ref": "#/$defs/hash"},
+    "supersedes": {"$ref": "#/$defs/superseded"},
+    "replaces_historical_non_active_candidate": {"type": "object"},
+    "replaces_failed_c1_revision": {"type": "object"},
+    "supersession_reason": {"const": "POST_CANDIDATE_BOUND_EVIDENCE_AND_FINAL_AUDIT_PASS"},
+    "restrictions": {
+      "type": "array", "uniqueItems": true, "minItems": 8,
+      "allOf": [
+        {"contains": {"const": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"}},
+        {"contains": {"const": "NO_ARCHITECTURE_SELECTION"}},
+        {"contains": {"const": "NO_FORMAL_INTEGRATION"}},
+        {"contains": {"const": "NO_HIDDEN_VAULT_ACCESS"}},
+        {"contains": {"const": "NO_PHASE_003"}}
+      ],
+      "items": {"type": "string"}
+    },
+    "selected_architecture": {"type": "null"},
+    "base_selected": {"const": false},
+    "third_party_integrated": {"const": false},
+    "skill_capability_status": {"const": "SCAFFOLD_ONLY"},
+    "prototype_implemented": {"const": false},
+    "prototype_executed": {"const": false},
+    "real_model_in_loop_runs": {"const": 0},
+    "api_calls": {"const": 0},
+    "third_party_executions": {"const": 0},
+    "majority_vote_used": {"const": false},
+    "next_phase_allowed": {"enum": ["PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION", null]},
+    "phase003_prohibited": {"const": true},
+    "authorization_hash": {"$ref": "#/$defs/hash"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "AUTOMATED_ACCEPTED"}}, "required": ["decision"]},
+      "then": {
+        "properties": {
+          "accepted_scope": {"const": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"},
+          "next_phase_allowed": {"const": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"}
+        }
+      },
+      "else": {
+        "properties": {"accepted_scope": {"type": "null"}, "next_phase_allowed": {"type": "null"}}
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "superseded": {
+      "type": "object",
+      "required": ["decision_id", "artifact_path", "decision_hash", "file_sha256", "historical_decision", "preserved"],
+      "properties": {
+        "decision_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2"},
+        "artifact_path": {"const": "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"},
+        "decision_hash": {"$ref": "#/$defs/hash"},
+        "file_sha256": {"$ref": "#/$defs/hash"},
+        "historical_decision": {"const": "RETEST_REQUIRED"},
+        "preserved": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

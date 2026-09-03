@@ -13,6 +13,13 @@ from cumcm_skill_lab.adjudication.models import (
     sha256_bytes,
     sha256_json,
 )
+from cumcm_skill_lab.authorization_c1.historical_verification import (
+    load_policy as load_historical_policy,
+)
+from cumcm_skill_lab.authorization_c1.historical_verification import (
+    policy_entry,
+    verify_file_entry,
+)
 
 RESULT_ROOT = Path("evals/results/phase-002d-r2")
 FREEZE_PATH = RESULT_ROOT / "input_freeze_manifest.json"
@@ -52,6 +59,11 @@ FROZEN_RULE_INPUTS = (
     "rules/phase002d_r1_workflow_rules.yaml",
     "rules/phase002d_r2_workflow_rules.yaml",
 )
+SUCCESSOR_CONTRACT_SNAPSHOTS = {
+    # R2A starts from the merged R2 closure.  This snapshot proves the R2-frozen
+    # project-state contract before R2A adds its successor statuses.
+    "contracts/project_state.schema.json": "7769a1478940305069aab07d71290a06025206d2",
+}
 
 
 def file_hashes(
@@ -185,17 +197,56 @@ def verify_input_freeze(root: Path, manifest: dict[str, Any] | None = None) -> l
         path = root / relative
         if not path.is_file() or file_sha256(path) != expected:
             errors.append(f"FORMAL_SKILL_INPUT_MUTATED:{relative}")
-    for group in (
-        "phase002d_r1_automated_decision_hashes",
-        "historical_component_card_hashes",
-        "source_input_hashes",
-        "contract_input_hashes",
-        "rule_input_hashes",
-    ):
+    for group in ("phase002d_r1_automated_decision_hashes", "historical_component_card_hashes"):
         for relative, expected in manifest.get(group, {}).items():
             path = root / relative
             if not path.is_file() or file_sha256(path) != expected:
                 errors.append(f"FROZEN_HASH_MISMATCH:{group}:{relative}")
+    compatibility_adapter = "src/cumcm_skill_lab/failure_aware/evidence_freeze.py"
+    try:
+        historical_policy = load_historical_policy(root)
+        compatibility_record = read_json(
+            root / "evals/results/phase-002d-r2a-c1/historical_verification/record.json"
+        )
+    except (OSError, ValueError) as exc:
+        errors.append(f"PHASE002D_R2_COMPATIBILITY_BINDING_INVALID:{exc}")
+        historical_policy = None
+        compatibility_record = {}
+    for relative, expected in manifest.get("source_input_hashes", {}).items():
+        path = root / relative
+        if relative != compatibility_adapter:
+            if not path.is_file() or file_sha256(path) != expected:
+                errors.append(f"FROZEN_HASH_MISMATCH:source_input_hashes:{relative}")
+            continue
+        if historical_policy is None:
+            continue
+        try:
+            entry = policy_entry(historical_policy, relative, "PHASE-002D-R2/1.0.0")
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
+        errors.extend(verify_file_entry(root, entry, expected))
+        bound = compatibility_record.get("verifier_adapter_hashes", {}).get(relative)
+        if not path.is_file() or file_sha256(path) != bound:
+            errors.append(f"PHASE002D_R2_COMPATIBILITY_ADAPTER_DRIFT:{relative}")
+        if compatibility_record.get("result") != "PASS":
+            errors.append("PHASE002D_R2_COMPATIBILITY_RECORD_NOT_PASS")
+    for group in ("contract_input_hashes", "rule_input_hashes"):
+        for relative, expected in manifest.get(group, {}).items():
+            path = root / relative
+            if path.is_file() and file_sha256(path) == expected:
+                continue
+            snapshot = SUCCESSOR_CONTRACT_SNAPSHOTS.get(relative)
+            if snapshot is None:
+                errors.append(f"FROZEN_HASH_MISMATCH:{group}:{relative}")
+                continue
+            try:
+                snapshot_hash = _git_file_sha256(root, snapshot, relative)
+            except subprocess.CalledProcessError:
+                errors.append(f"FROZEN_SUCCESSOR_SNAPSHOT_MISSING:{group}:{relative}")
+                continue
+            if snapshot_hash != expected:
+                errors.append(f"FROZEN_SUCCESSOR_SNAPSHOT_MISMATCH:{group}:{relative}")
     for relative, expected in manifest.get("historical_tree_hashes", {}).items():
         if tree_hash(file_hashes(root, Path(relative))) != expected:
             errors.append(f"HISTORICAL_INPUT_MUTATED:{relative}")

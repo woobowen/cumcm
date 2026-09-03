@@ -1,0 +1,222 @@
+{
+  "active_decision_node": "L7-R2A-AUTHORIZATION-SEAL",
+  "candidate_node": "L5-R2A-AUTHORIZATION-CANDIDATE",
+  "created_at": "2026-09-03T02:00:00+08:00",
+  "cycle_detected": false,
+  "edge_semantics": "PREREQUISITE_VALIDATION_ORDER_OVER_ALREADY_FROZEN_ATOMIC_ARTIFACTS",
+  "edges": [
+    {
+      "source": "L0-COMPONENT-SPECS",
+      "target": "L1-COMPONENT-DECISION"
+    },
+    {
+      "source": "L0-INTERACTION",
+      "target": "L1-INTERACTION-DECISION"
+    },
+    {
+      "source": "L0-CANDIDATE-SET",
+      "target": "L1-CANDIDATE-SET-DECISION"
+    },
+    {
+      "source": "L0-BENCHMARK",
+      "target": "L1-BENCHMARK-DECISION"
+    },
+    {
+      "source": "L0-THRESHOLD-PROTOCOL",
+      "target": "L1-THRESHOLD-DECISION"
+    },
+    {
+      "source": "L0-IMPLEMENTATION-EMBARGO",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L0-CLEAN-ROOM-PROVENANCE",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L1-COMPONENT-DECISION",
+      "target": "L2-R2-DECISION-AUDIT"
+    },
+    {
+      "source": "L1-INTERACTION-DECISION",
+      "target": "L2-R2-DECISION-AUDIT"
+    },
+    {
+      "source": "L1-CANDIDATE-SET-DECISION",
+      "target": "L2-R2-DECISION-AUDIT"
+    },
+    {
+      "source": "L1-BENCHMARK-DECISION",
+      "target": "L2-R2-DECISION-AUDIT"
+    },
+    {
+      "source": "L1-THRESHOLD-DECISION",
+      "target": "L2-R2-DECISION-AUDIT"
+    },
+    {
+      "source": "L2-R2-DECISION-AUDIT",
+      "target": "L3-R2-REPLAY"
+    },
+    {
+      "source": "L3-R2-REPLAY",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L1-COMPONENT-DECISION",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L1-INTERACTION-DECISION",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L1-CANDIDATE-SET-DECISION",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L1-BENCHMARK-DECISION",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L1-THRESHOLD-DECISION",
+      "target": "L4-R2A-ELIGIBILITY"
+    },
+    {
+      "source": "L4-R2A-ELIGIBILITY",
+      "target": "L5-R2A-AUTHORIZATION-CANDIDATE"
+    },
+    {
+      "source": "L5-R2A-AUTHORIZATION-CANDIDATE",
+      "target": "L6-R2A-FINAL-AUDITOR"
+    },
+    {
+      "source": "L6-R2A-FINAL-AUDITOR",
+      "target": "L7-R2A-AUTHORIZATION-SEAL"
+    },
+    {
+      "source": "L7-R2A-AUTHORIZATION-SEAL",
+      "target": "L7-R2A-FINAL-REPLAY"
+    },
+    {
+      "source": "L6-R2A-FINAL-AUDITOR",
+      "target": "L7-FORMAL-STATE-TRANSITION"
+    },
+    {
+      "source": "L7-R2A-FINAL-REPLAY",
+      "target": "L7-FORMAL-STATE-TRANSITION"
+    }
+  ],
+  "final_authorization_audit_node": "L6-R2A-FINAL-AUDITOR",
+  "final_replay_node": "L7-R2A-FINAL-REPLAY",
+  "graph_hash": "df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c",
+  "graph_id": "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+  "graph_purpose": "R2A_AUTHORIZATION_EVALUATION_PRECEDENCE",
+  "historical_evidence_references_create_edges": false,
+  "input_freeze_hash": "f524f63e8c98482a85784767c9cd539f98ad286390aac8be831061d31f0a0a95",
+  "input_freeze_id": "PHASE-002D-R2A-INPUT-FREEZE-001",
+  "nodes": [
+    {
+      "id": "L0-COMPONENT-SPECS",
+      "kind": "FROZEN_INPUT",
+      "level": 0
+    },
+    {
+      "id": "L0-INTERACTION",
+      "kind": "FROZEN_INPUT",
+      "level": 0
+    },
+    {
+      "id": "L0-CANDIDATE-SET",
+      "kind": "FROZEN_INPUT",
+      "level": 0
+    },
+    {
+      "id": "L0-BENCHMARK",
+      "kind": "FROZEN_INPUT",
+      "level": 0
+    },
+    {
+      "id": "L0-THRESHOLD-PROTOCOL",
+      "kind": "FROZEN_INPUT",
+      "level": 0
+    },
+    {
+      "id": "L0-IMPLEMENTATION-EMBARGO",
+      "kind": "FROZEN_INPUT",
+      "level": 0
+    },
+    {
+      "id": "L0-CLEAN-ROOM-PROVENANCE",
+      "kind": "FROZEN_INPUT",
+      "level": 0
+    },
+    {
+      "id": "L1-COMPONENT-DECISION",
+      "kind": "PREREQUISITE_DECISION",
+      "level": 1
+    },
+    {
+      "id": "L1-INTERACTION-DECISION",
+      "kind": "PREREQUISITE_DECISION",
+      "level": 1
+    },
+    {
+      "id": "L1-CANDIDATE-SET-DECISION",
+      "kind": "PREREQUISITE_DECISION",
+      "level": 1
+    },
+    {
+      "id": "L1-BENCHMARK-DECISION",
+      "kind": "PREREQUISITE_DECISION",
+      "level": 1
+    },
+    {
+      "id": "L1-THRESHOLD-DECISION",
+      "kind": "PREREQUISITE_DECISION",
+      "level": 1
+    },
+    {
+      "id": "L2-R2-DECISION-AUDIT",
+      "kind": "PREREQUISITE_AUDIT",
+      "level": 2
+    },
+    {
+      "id": "L3-R2-REPLAY",
+      "kind": "PREREQUISITE_REPLAY",
+      "level": 3
+    },
+    {
+      "id": "L4-R2A-ELIGIBILITY",
+      "kind": "ELIGIBILITY",
+      "level": 4
+    },
+    {
+      "id": "L5-R2A-AUTHORIZATION-CANDIDATE",
+      "kind": "DECISION_CANDIDATE",
+      "level": 5
+    },
+    {
+      "id": "L6-R2A-FINAL-AUDITOR",
+      "kind": "FINAL_AUDIT",
+      "level": 6
+    },
+    {
+      "id": "L7-R2A-AUTHORIZATION-SEAL",
+      "kind": "ACTIVE_DECISION",
+      "level": 7
+    },
+    {
+      "id": "L7-R2A-FINAL-REPLAY",
+      "kind": "FINAL_REPLAY",
+      "level": 7
+    },
+    {
+      "id": "L7-FORMAL-STATE-TRANSITION",
+      "kind": "STATE_TRANSITION",
+      "level": 7
+    }
+  ],
+  "prerequisite_audit_node": "L2-R2-DECISION-AUDIT",
+  "schema_version": "1.0.0",
+  "state_transition_node": "L7-FORMAL-STATE-TRANSITION"
+}

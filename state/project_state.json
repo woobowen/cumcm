@@ -22,21 +22,17 @@
     "DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1",
     "DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1",
     "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+    "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
     "DECISION-SLOT-RESOLUTION-002D-R1",
     "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1",
     "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2"
   ],
   "base_selected": false,
   "blockers": [],
-  "content_verified_commit": "4434e0c5df9621c7b17731a3854a80442401da2b",
-  "current_branch": "feat/phase002d-r2-spec-protocol",
-  "current_plan": "plans/active/PLAN-0002D-R2-specification-and-protocol.md",
-  "delivery_receipt_for_commit": {
-    "commit": "4434e0c5df9621c7b17731a3854a80442401da2b",
-    "remote": "origin",
-    "remote_sha": "4434e0c5df9621c7b17731a3854a80442401da2b",
-    "verified_at": "2026-09-02T22:00:00+08:00"
-  },
+  "content_verified_commit": null,
+  "current_branch": "feat/phase002d-r2a-shadow-authorization",
+  "current_plan": "plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md",
+  "delivery_receipt_for_commit": null,
   "evidence_expansion": {
     "attempts": 28,
     "balanced_cases": [
@@ -81,7 +77,7 @@
     "transport_profile": "PROXY_INHERITED",
     "unknown_slots": 0
   },
-  "next_phase_allowed": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
+  "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
   "phase": "PHASE-EVIDENCE-EXPANSION-002D",
   "project_id": "cumcm-skill-lab",
   "risks": [
@@ -102,19 +98,46 @@
     "Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown.",
     "Phase 002D-R2 specifications and prospective thresholds are not implementation or positive performance evidence.",
     "The hidden Benchmark vault is policy/workspace isolated and not OS-enforced.",
-    "Shadow prototype authorization is RETEST_REQUIRED; no R3 prototype work is authorized.",
-    "Clean-room provenance is evidence of process controls, not proof of legal compliance."
+    "Clean-room provenance is evidence of process controls, not proof of legal compliance.",
+    "Phase 002D-R2A may authorize only an isolated future experimental shadow scope; it is not architecture selection, formal Skill integration, prototype effectiveness evidence, legal proof, or OS-enforced vault isolation.",
+    "The C2 active authorization permits only a future isolated experimental shadow prototype; it is not architecture selection, formal Skill integration, effectiveness evidence, production authorization, or Phase 003 entry."
   ],
-  "schema_version": "2.2.0",
+  "schema_version": "2.4.0",
   "selected_architecture": null,
   "skill_capability_status": "SCAFFOLD_ONLY",
+  "shadow_authorization": {
+    "input_freeze_id": "PHASE-002D-R2A-C1-INPUT-FREEZE-001",
+    "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+    "candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+    "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
+    "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+    "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+    "active_decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+    "active_decision_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
+    "replaces_non_active_candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+    "supersedes_decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+    "supersedes_decision_hash": "795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d",
+    "supersedes_file_sha256": "6150252f16889d02e643384e4229b2b77e2d00480a4c51fc474218c6cb95e291",
+    "historical_compatibility_hash": "e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
+    "schema_resolution_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+    "candidate_closure_hash": "c493a1a2b2d5267bbbe3d33f1c79ddf3b34a8aa523fc942fac54bec56c5bb2f5",
+    "final_audit_bundle_hash": "c11e731fed7212b8f4c82a91c30902cd619829a751a6d1ee3d4a1da3b9b8a443",
+    "final_audit_result": "PASS",
+    "final_audit_checkpoint_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125",
+    "final_replay_stable": true,
+    "final_replay_hash": "08e8a542dc863151e7bad91fdb6a1301c30f2d9770d6a3a8582652c8ca0e5818",
+    "replay_input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "replay_decision_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
+    "replay_audit_checkpoint_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125"
+  },
   "specification_protocol": {
     "benchmark_freeze_status": "BENCHMARK_FROZEN",
     "decision_audit_status": "PASS",
     "implementation_embargo_status": "PASS",
     "input_freeze_hash": "52379058863de851e34b012880229fc542150989ae1c178a09318b836737245a",
     "input_freeze_id": "PHASE-002D-R2-INPUT-FREEZE-001",
-    "native_subagent_runs": 17,
+    "native_subagent_runs": 24,
     "prototype_executions": 0,
     "real_model_starts": 0,
     "replay_stable": true,
@@ -122,15 +145,15 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
+  "subphase": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "SPECIFICATION_PROTOCOL_COMPLETE",
+  "technical_adjudication_status": "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
   "third_party_integrated": false,
-  "updated_at": "2026-09-02T22:00:00+08:00",
+  "updated_at": "2026-09-03T17:14:25+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
-    "path": "evals/results/phase-002d-r2/input_freeze_manifest.json",
-    "sha256": "2138a13dda8a4e241931c98182a2356c2047537c79faeb8f5d7dab5e229c76fd",
-    "subject_commit": "10073a2fe5b1512a16ab9a9c7907fb2b7f5ff765"
+    "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
+    "sha256": "c4994aacb4bb587a5c9214643797de2587d9db5e1f6cdfbd32db64874b7bf3fc",
+    "subject_commit": "2d117985404b21abd7f0c3a10258731e06f77852"
   }
 }

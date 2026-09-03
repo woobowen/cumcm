@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cumcm.local/contracts/project_state/v2.2",
+  "$id": "https://cumcm.local/contracts/project_state/v2.4",
   "title": "Project State",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "type": "object",
   "required": [
     "project_id",
@@ -32,7 +32,7 @@
   ],
   "properties": {
     "project_id": {"type": "string", "minLength": 1},
-    "schema_version": {"const": "2.2.0"},
+    "schema_version": {"const": "2.4.0"},
     "phase": {"type": "string", "minLength": 1},
     "subphase": {"type": ["string", "null"]},
     "status": {"enum": ["IN_PROGRESS", "FOUNDATION_READY", "FOUNDATION_INCOMPLETE", "STALE"]},
@@ -50,6 +50,9 @@
         "SPECIFICATION_PROTOCOL_IN_PROGRESS",
         "SPECIFICATION_PROTOCOL_COMPLETE",
         "SPECIFICATION_PROTOCOL_INCOMPLETE",
+        "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS",
+        "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+        "SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE",
         "EVIDENCE_EXPANSION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_COMPLETE",
@@ -104,6 +107,67 @@
         "native_subagent_runs": {"type": "integer", "minimum": 0},
         "prototype_executions": {"const": 0},
         "third_party_executions": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "shadow_authorization": {
+      "type": "object",
+      "required": [
+        "input_freeze_id",
+        "input_freeze_hash",
+        "candidate_id",
+        "candidate_hash",
+        "candidate_file_sha256",
+        "canonical_candidate_hash",
+        "candidate_freeze_hash",
+        "active_decision_id",
+        "active_decision_hash",
+        "replaces_non_active_candidate_id",
+        "supersedes_decision_id",
+        "supersedes_decision_hash",
+        "supersedes_file_sha256",
+        "historical_compatibility_hash",
+        "schema_resolution_hash",
+        "candidate_closure_hash",
+        "final_audit_bundle_hash",
+        "final_audit_result",
+        "final_audit_checkpoint_hash",
+        "final_replay_stable",
+        "final_replay_hash",
+        "replay_input_freeze_hash",
+        "replay_decision_hash",
+        "replay_audit_checkpoint_hash"
+      ],
+      "properties": {
+        "input_freeze_id": {
+          "enum": [
+            "PHASE-002D-R2A-INPUT-FREEZE-001",
+            "PHASE-002D-R2A-C1-INPUT-FREEZE-001"
+          ]
+        },
+        "input_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "candidate_id": {"type": ["string", "null"]},
+        "candidate_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "candidate_file_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "canonical_candidate_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "candidate_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "active_decision_id": {"type": ["string", "null"]},
+        "active_decision_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replaces_non_active_candidate_id": {"type": ["string", "null"]},
+        "supersedes_decision_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2"},
+        "supersedes_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "supersedes_file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "historical_compatibility_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "schema_resolution_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "candidate_closure_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "final_audit_bundle_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "final_audit_result": {"enum": ["NOT_RUN", "PASS", "FAIL", "RETEST_REQUIRED"]},
+        "final_audit_checkpoint_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "final_replay_stable": {"type": "boolean"},
+        "final_replay_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replay_input_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replay_decision_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replay_audit_checkpoint_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
       },
       "additionalProperties": false
     },
@@ -291,7 +355,7 @@
           "third_party_integrated": {"const": false},
           "skill_capability_status": {"const": "SCAFFOLD_ONLY"}
         },
-        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
+        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol", "shadow_authorization"]
       }
     },
     {
@@ -334,6 +398,171 @@
           }
         },
         "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "enum": [
+              "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS",
+              "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+              "SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE"
+            ]
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
+          "subphase": {
+            "enum": [
+              "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE",
+              "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE"
+            ]
+          },
+          "status": {"const": "IN_PROGRESS"},
+          "current_plan": {
+            "enum": [
+              "plans/active/PLAN-0002D-R2A-shadow-authorization-closure.md",
+              "plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md"
+            ]
+          },
+          "selected_architecture": {"type": "null"},
+          "accepted_component_specifications": {
+            "minItems": 4,
+            "maxItems": 4,
+            "allOf": [
+              {"contains": {"const": "accepted-versus-done-workflow-state"}},
+              {"contains": {"const": "claim-evidence-support-gate"}},
+              {"contains": {"const": "hash-bound-reproducibility-manifest"}},
+              {"contains": {"const": "leakage-safe-model-comparison-gate"}}
+            ]
+          },
+          "architecture_candidate_set": {
+            "minItems": 2,
+            "maxItems": 3,
+            "contains": {"const": "ARCH-S0-RETAIN-SCAFFOLD-ONLY"}
+          },
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "skill_capability_status": {"const": "SCAFFOLD_ONLY"},
+          "specification_protocol": {
+            "properties": {
+              "implementation_embargo_status": {"const": "PASS"},
+              "benchmark_freeze_status": {"const": "BENCHMARK_FROZEN"},
+              "threshold_policy_status": {"const": "POLICY_FROZEN"},
+              "decision_audit_status": {"const": "PASS"},
+              "replay_stable": {"const": true},
+              "prototype_executions": {"const": 0},
+              "third_party_executions": {"const": 0},
+              "real_model_starts": {"const": 0}
+            }
+          }
+        },
+        "required": ["evidence_expansion", "architecture_candidate_set", "specification_protocol"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "const": "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS"
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "next_phase_allowed": {"type": "null"},
+          "shadow_authorization": {
+            "properties": {
+              "candidate_id": {"type": "null"},
+              "candidate_hash": {"type": "null"},
+              "candidate_file_sha256": {"type": "null"},
+              "canonical_candidate_hash": {"type": "null"},
+              "candidate_freeze_hash": {"type": "null"},
+              "active_decision_id": {"type": "null"},
+              "active_decision_hash": {"type": "null"},
+              "replaces_non_active_candidate_id": {"type": "null"},
+              "historical_compatibility_hash": {"type": "null"},
+              "schema_resolution_hash": {"type": "null"},
+              "candidate_closure_hash": {"type": "null"},
+              "final_audit_bundle_hash": {"type": "null"},
+              "final_audit_result": {"const": "NOT_RUN"},
+              "final_audit_checkpoint_hash": {"type": "null"},
+              "final_replay_stable": {"const": false},
+              "final_replay_hash": {"type": "null"},
+              "replay_input_freeze_hash": {"type": "null"},
+              "replay_decision_hash": {"type": "null"},
+              "replay_audit_checkpoint_hash": {"type": "null"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "enum": [
+              "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+              "SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE"
+            ]
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "next_phase_allowed": {
+            "enum": [
+              "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+              "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE",
+              "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE",
+              null
+            ]
+          },
+          "shadow_authorization": {
+            "properties": {
+              "candidate_id": {
+                "enum": [
+                  "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+                  "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+                  "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"
+                ]
+              },
+              "candidate_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "candidate_file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "canonical_candidate_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "candidate_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "active_decision_id": {
+                "enum": [
+                  "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+                  "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+                  "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"
+                ]
+              },
+              "active_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replaces_non_active_candidate_id": {
+                "const": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"
+              },
+              "historical_compatibility_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "schema_resolution_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "candidate_closure_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "final_audit_bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "final_audit_result": {"const": "PASS"},
+              "final_audit_checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "final_replay_stable": {"const": true},
+              "final_replay_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replay_input_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replay_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replay_audit_checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        },
+        "required": ["shadow_authorization"]
       }
     }
   ],

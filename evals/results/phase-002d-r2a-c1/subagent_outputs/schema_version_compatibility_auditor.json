@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "PHASE-002D-R2A-C1-SCHEMA-VERSION-COMPATIBILITY-AUDIT-001",
+  "role": "schema_version_compatibility_auditor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "reviewed_commit": "3106454daf234aff50af5ec1941c35ac548b7274",
+  "verdict": "RETEST",
+  "evidence_refs": [
+    "evals/results/phase-002d-r2a-c1/historical_verification/record.json#7b7a961bc0fb82aa6a4e263109fcdfa1d45d3bd53131309f6486c5ffee00037b",
+    "evals/results/phase-002d-r2a-c1/schema_resolution/record.json#3b39684cb4ba607c0826956ea7155e416754261a9ad65ff98ce0a5775040621c",
+    "evals/results/phase-002d-r2a-c1/schema_resolution/migration_2.3_to_2.4.json#f7347fc6ad7b3b23e3b00c5507d90bfa32bab08f4b3573ca2c8c208b344a6f63",
+    "b6f469995d2de6ef492bb8f8ee90029059d4b2c3:contracts/project_state.schema.json#e666f668a349eb91b97a3cdb3efac925942cc30fdd3e6c0c1e4e12ebbda50893",
+    "contracts/project_state.schema.json#062c59f246fd87dace72a61bb23a95510f617e5bc37020f32822c84b421d49a3",
+    "tests/unit/test_project_state_schema_compatibility.py"
+  ],
+  "checks": [
+    {
+      "check_id": "SCHEMA-CHECK-001",
+      "result": "PASS",
+      "statement": "Historical 2.3 state uses the exact b6f4699 Schema blob."
+    },
+    {
+      "check_id": "SCHEMA-CHECK-002",
+      "result": "PASS",
+      "statement": "Historical hash, version, $id, and subject commit are bound."
+    },
+    {
+      "check_id": "SCHEMA-CHECK-003",
+      "result": "PASS",
+      "statement": "Current 2.4 state uses the L0-frozen current Schema."
+    },
+    {
+      "check_id": "SCHEMA-CHECK-004",
+      "result": "PASS",
+      "statement": "Unknown, missing, cross-version, hash-mismatch, and downgrade paths fail closed."
+    },
+    {
+      "check_id": "SCHEMA-CHECK-005",
+      "result": "FAIL",
+      "statement": "A C1 current state could omit shadow_authorization."
+    },
+    {
+      "check_id": "SCHEMA-CHECK-006",
+      "result": "FAIL",
+      "statement": "A C1 subphase could carry an old freeze identity."
+    },
+    {
+      "check_id": "SCHEMA-CHECK-007",
+      "result": "FAIL",
+      "statement": "Migration evidence did not validate derived state inside its generator."
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "SCHEMA-COMPAT-001",
+      "severity": "ERROR",
+      "status": "OPEN",
+      "statement": "C1 current-state resolution must reject a missing shadow_authorization binding namespace.",
+      "evidence_paths": [
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "src/cumcm_skill_lab/authorization_c1/schema_resolution.py"
+      ],
+      "required_test": "C1-SCHEMA-016-MISSING-SHADOW-AUTHORIZATION-REJECTED"
+    },
+    {
+      "finding_id": "SCHEMA-COMPAT-002",
+      "severity": "ERROR",
+      "status": "OPEN",
+      "statement": "C1 state resolution must couple the C1 subphase to the exact C1 input-freeze ID and hash.",
+      "evidence_paths": [
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+      ],
+      "required_test": "C1-SCHEMA-017-C1-SUBPHASE-REJECTS-R2A-FREEZE-ID"
+    },
+    {
+      "finding_id": "SCHEMA-COMPAT-003",
+      "severity": "ERROR",
+      "status": "OPEN",
+      "statement": "The migration record generator must validate and record its derived state against the target 2.4 Schema and fail closed.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/schema_resolution.py",
+        "evals/results/phase-002d-r2a-c1/schema_resolution/migration_2.3_to_2.4.json"
+      ],
+      "required_test": "C1-SCHEMA-018-MIGRATION-RECORD-FAILS-CLOSED-ON-TARGET-SCHEMA-INVALID"
+    }
+  ],
+  "unresolved_blockers": [],
+  "limitations": [
+    "No peer output, web, MCP, API, nested Codex, repository write, commit, push, or remote-state check was used.",
+    "Focused Schema tests were rerun; full pytest was not rerun by the auditor."
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "api_calls": 0,
+  "majority_vote_used": false,
+  "expected_conclusion_visible": false,
+  "output_hash": "d568275c87e73b256d07d3340a9c633e92de1765a3476325635a211d69090d09"
+}

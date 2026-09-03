@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0.0",
+  "test_evidence": [
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json": "6150252f16889d02e643384e4229b2b77e2d00480a4c51fc474218c6cb95e291",
+        "evals/results/phase-002d-r2/decision_audit/audit.json": "a8b97b8ac245d23e1087f56f25dc75fb623eda7acf7fa6fa80521c1c09c9a673",
+        "evals/results/phase-002d-r2/replay/replay.json": "48ae715acedf717d374553d640c21c71ba0d4810cabde0fa0abbd02f3f984cd6",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-AUTHDEP-001",
+      "observed_result": "DAG explicitly models R2A evaluation precedence; historical audit evidence references are content bindings, not inferred graph edges",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-AUTHDEP-M7M8-001"
+    },
+    {
+      "artifact_hashes": {
+        "contracts/project_state.schema.json": "155575fdffbc37a493d6f1723404ab2802b51bc80d9a55c684f34d75a2a381dd",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+        "rules/phase002d_r2a_workflow_rules.yaml": "5af501f477002f2cf8f8c3a8c513dbba900fb77fca6179c6b1ef5e412319d180",
+        "state/project_state.json": "6280f01cd0553e95e4c4bbb8a866802067a3b6dd08818780bdfd84a1fe781c49"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-AUTHDEP-002",
+      "observed_result": "complete-state bypass without candidate, active decision, final audit, and replay bindings is rejected",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-STATE-GATE-001"
+    },
+    {
+      "artifact_hashes": {
+        "contracts/authorization_dependency_graph.schema.json": "b06ba46021915a8653acf091841c87dee02d705e89d36687791a96dccc13ca1b",
+        "evals/results/phase-002d-r2/replay/replay.json": "48ae715acedf717d374553d640c21c71ba0d4810cabde0fa0abbd02f3f984cd6",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json": "4172e63617a081f4db60ce9d74e9aa527dfa516bc0d24526c045b09d1564deb2"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-AUTHDEP-003",
+      "observed_result": "replay mutations to input freeze, active decision, or final-audit checkpoint are rejected",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-REPLAY-INPUT-BINDING-001"
+    },
+    {
+      "artifact_hashes": {
+        "contracts/authorization_dependency_graph.schema.json": "b06ba46021915a8653acf091841c87dee02d705e89d36687791a96dccc13ca1b",
+        "contracts/project_state.schema.json": "155575fdffbc37a493d6f1723404ab2802b51bc80d9a55c684f34d75a2a381dd",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json": "6150252f16889d02e643384e4229b2b77e2d00480a4c51fc474218c6cb95e291",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json": "4172e63617a081f4db60ce9d74e9aa527dfa516bc0d24526c045b09d1564deb2",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257",
+        "state/project_state.json": "6280f01cd0553e95e4c4bbb8a866802067a3b6dd08818780bdfd84a1fe781c49"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-AUTHDEP-004",
+      "observed_result": "new ID/path and exact immutable predecessor ID/decision hash/file hash are mandatory",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-SUPERSESSION-001"
+    },
+    {
+      "artifact_hashes": {
+        "contracts/authorization_dependency_graph.schema.json": "b06ba46021915a8653acf091841c87dee02d705e89d36687791a96dccc13ca1b",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-AUTHDEP-005",
+      "observed_result": "duplicate nodes, dangling endpoints, level errors, cycles, missing edges, semantic drift, and stale graph hashes are rejected",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-DAG-SEMANTICS-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/ablation_policy.yaml": "c6aa104d62f8cec46be12163650684f05af097b790b31bcb8a5b855c3beb9832",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml": "c2d5b17c56e3079fa94766cbcd4b1693dd33901e4063fba2517e55dee7eea897",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml": "8db3c1603427830fcc5f422534fd497f88bed78d67388f9855e0933f9517823b",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-PCD-001",
+      "observed_result": "model Stage 2 has zero authorized starts until an exact frozen schedule proves all tuples and caps",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-PCD-SCHEDULE-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/budget_policy.yaml": "c2d5b17c56e3079fa94766cbcd4b1693dd33901e4063fba2517e55dee7eea897",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml": "b73475ae58c0939c2afbfd2a5952a9098c98172c1c09abf855710238d2f3f12a",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-PCD-002",
+      "observed_result": "model Stage 2 is denied and unknown cost deterministically routes to EVIDENCE_INSUFFICIENT",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-PCD-COST-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/case_catalog.yaml": "8db3c1603427830fcc5f422534fd497f88bed78d67388f9855e0933f9517823b",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml": "b73475ae58c0939c2afbfd2a5952a9098c98172c1c09abf855710238d2f3f12a",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-PCD-003",
+      "observed_result": "model Stage 2 is denied until a frozen W1/K1 discriminant-to-case/metric matrix passes",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-DET-PCD-DISCRIMINATION-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/access_policy.yaml": "58f56a10ec4e4b46a4122f26c4fbb72e11fbcfd0c80e5d8024693c4e297db3d7",
+        "evals/prospective/phase-002d-r2/manifests/candidate_visible_manifest.json": "953920ad3da40205975a35389a81857cd58c41ac7c0262a4819d877bf7454cc7",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e",
+        "evals/results/phase-002d-r2/replay/replay.json": "48ae715acedf717d374553d640c21c71ba0d4810cabde0fa0abbd02f3f984cd6",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json": "4172e63617a081f4db60ce9d74e9aa527dfa516bc0d24526c045b09d1564deb2"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-SEC-001",
+      "observed_result": "sealed public-artifact fields are canonical semantic hashes and both questioned bindings recompute exactly",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-SEC-MANIFEST-BINDING-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/prospective/phase-002d-r2/access_policy.yaml": "58f56a10ec4e4b46a4122f26c4fbb72e11fbcfd0c80e5d8024693c4e297db3d7",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-SEC-002",
+      "observed_result": "OS isolation remains unverified and all prototype execution/hidden-benchmark use is denied until the future sentinel capability gate passes",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-SEC-VAULT-CAPABILITY-001"
+    },
+    {
+      "artifact_hashes": {
+        "contracts/shadow_prototype_scope.schema.json": "3f059283f9a938edff3270d0ba277d05483135bdc5325d568adbae66c85bf6c7",
+        "evals/results/phase-002d-r2/implementation_embargo.json": "2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257",
+        "state/project_state.json": "6280f01cd0553e95e4c4bbb8a866802067a3b6dd08818780bdfd84a1fe781c49"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-SEC-003",
+      "observed_result": "file writes and execution remain denied until canonical-root, no-follow, inode, rename-swap, and protected-hash gates pass",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-SEC-PATH-CONFINEMENT-001"
+    },
+    {
+      "artifact_hashes": {
+        ".gitignore": "6e5506a338b38f20d8253c207f677092bdea26d427acfd7bb4949bbad3a94525",
+        "contracts/shadow_prototype_scope.schema.json": "3f059283f9a938edff3270d0ba277d05483135bdc5325d568adbae66c85bf6c7",
+        "evals/results/phase-002d-r2/implementation_embargo.json": "2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-SEC-004",
+      "observed_result": "file writes and execution remain denied until project-owned dependency provenance and isolated-interpreter gates pass",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-SEC-THIRD-PARTY-DENY-001"
+    },
+    {
+      "artifact_hashes": {
+        "evals/results/phase-002d-r2/implementation_embargo.json": "2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+        "specifications/architectures/architecture_candidate_set.yaml": "dc3c5c996f67662e3c219a8e2b81444a8bba12ba632a5d4f12bb038dc37d992b",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-SEC-005",
+      "observed_result": "execution remains denied until a non-production shadow-only runner capability is verified",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-SEC-CALLER-ISOLATION-001"
+    },
+    {
+      "artifact_hashes": {
+        "contracts/shadow_prototype_scope.schema.json": "3f059283f9a938edff3270d0ba277d05483135bdc5325d568adbae66c85bf6c7",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+        "rules/phase002d_r2a_workflow_rules.yaml": "5af501f477002f2cf8f8c3a8c513dbba900fb77fca6179c6b1ef5e412319d180",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-SEC-006",
+      "observed_result": "outputs remain denied until content-addressed JSON-only shadow-origin enforcement rejects formal artifact kinds",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-SEC-RESULT-SCOPE-001"
+    },
+    {
+      "artifact_hashes": {
+        ".gitignore": "6e5506a338b38f20d8253c207f677092bdea26d427acfd7bb4949bbad3a94525",
+        "contracts/shadow_prototype_scope.schema.json": "3f059283f9a938edff3270d0ba277d05483135bdc5325d568adbae66c85bf6c7",
+        "specifications/shadow_prototype_scope.yaml": "ae79a402ab198017d0ad85c5491cd7cd42c5614676b9c5ffd85d1d8f183b0257",
+        "state/project_state.json": "6280f01cd0553e95e4c4bbb8a866802067a3b6dd08818780bdfd84a1fe781c49"
+      },
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "completed_at": "2026-09-03T03:30:00+08:00",
+      "finding_id": "R2A-SEC-007",
+      "observed_result": "future artifacts must stay disposable, untracked, uncommitted, unpushed, and absent from every ref after rollback",
+      "oracle_result": true,
+      "started_at": "2026-09-03T03:30:00+08:00",
+      "status": "PASSED",
+      "test_id": "R2A-SEC-ROLLBACK-001"
+    }
+  ]
+}

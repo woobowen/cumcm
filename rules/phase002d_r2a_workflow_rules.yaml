@@ -1,0 +1,48 @@
+version: "1.0.0"
+state_machine_source: WORKFLOW.md
+scope: PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE
+formal_state_writer: MAIN_AGENT_ONLY
+technical_decision_method: FROZEN_DETERMINISTIC_EVIDENCE_NO_VOTE
+subagent_policy:
+  native_only: true
+  read_only: true
+  peer_visibility: false
+  web_mcp_api_allowed: false
+  nested_codex_allowed: false
+  majority_vote_allowed: false
+  abstention_allowed: true
+  raw_output_immutable: true
+implementation_embargo:
+  formal_skill_behavior_changes: false
+  component_implementation: false
+  shadow_prototype_implementation: false
+  shadow_prototype_execution: false
+  authorization_validation_modules: true
+accepted_scope: EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY
+prohibited_scopes:
+  - FORMAL_SKILL_IMPLEMENTATION
+  - FORMAL_INTEGRATION
+  - PRODUCTION_READY
+  - DIRECT_REUSE
+  - ARCHITECTURE_SELECTED
+  - PHASE_003_INTEGRATION
+technical_adjudication_status_contract:
+  legal_enum_source: contracts/project_state.schema.json#/properties/technical_adjudication_status/enum
+  invariant_source: contracts/project_state.schema.json#/allOf
+  registered_transitions:
+    SPECIFICATION_PROTOCOL_COMPLETE:
+      - SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS
+    SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS:
+      - SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE
+      - SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE
+      - STALE
+    SHADOW_PROTOTYPE_AUTHORIZATION_INCOMPLETE:
+      - SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS
+routing:
+  AUTOMATED_ACCEPTED: PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION
+  RETEST_REQUIRED: PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE
+  EVIDENCE_INSUFFICIENT: null
+  AUTOMATED_REJECTED: null
+  AUTOMATED_ABSTAINED: null
+  STALE: null
+phase003_prohibited: true

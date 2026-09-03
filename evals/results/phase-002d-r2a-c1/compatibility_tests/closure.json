@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "closure_id": "PHASE-002D-R2A-C1-COMPATIBILITY-AUDIT-CLOSURE-001",
+  "artifact_sequence_index": 3,
+  "parent_artifact_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+  "created_at": "2026-09-03T14:26:16+08:00",
+  "audit_output_hashes": {
+    "historical_freeze_semantics_auditor": "7c099ede53656ee8d0c8dce46af67bb717e57240561450c5fb1846e24d2d5a96",
+    "schema_version_compatibility_auditor": "d568275c87e73b256d07d3340a9c633e92de1765a3476325635a211d69090d09",
+    "candidate_binding_prosecutor": "4b1a866d1d644f60b35c71a57fb68e486643c42b107253e71431b78cf9fc27b1"
+  },
+  "historical_compatibility_hash": "e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
+  "schema_resolution_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+  "closures": [
+    {
+      "finding_id": "HFS-AUD-001",
+      "required_test_id": "HFS-C1-T016-C1-SUBJECT-COMMIT-RETARGET-REJECTED",
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "HFS-AUD-002",
+      "required_test_id": "HFS-C1-T017-LIVE-POINTER-DUPLICATE-YAML-KEY-REJECTED",
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "HFS-AUD-003",
+      "required_test_id": "HFS-C1-T018-DERIVED-OBSERVATION-AUTHORITY-RECOMPUTED",
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "SCHEMA-COMPAT-001",
+      "required_test_id": "C1-SCHEMA-016-MISSING-SHADOW-AUTHORIZATION-REJECTED",
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "SCHEMA-COMPAT-002",
+      "required_test_id": "C1-SCHEMA-017-C1-SUBPHASE-REJECTS-R2A-FREEZE-ID",
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "SCHEMA-COMPAT-003",
+      "required_test_id": "C1-SCHEMA-018-MIGRATION-RECORD-FAILS-CLOSED-ON-TARGET-SCHEMA-INVALID",
+      "status": "CLOSED"
+    }
+  ],
+  "candidate_findings_deferred_to_m5_m6": [
+    {
+      "finding_id": "C1-CBP-001",
+      "required_test_id": "C1-DET-L4PLUS-EXACT-CANDIDATE-TUPLE-001"
+    },
+    {
+      "finding_id": "C1-CBP-002",
+      "required_test_id": "C1-DET-POST-AUDIT-CANDIDATE-MUTATION-001"
+    },
+    {
+      "finding_id": "C1-CBP-003",
+      "required_test_id": "C1-DET-CANONICAL-NO-SELF-REFERENCE-UNKNOWN-FIELD-001"
+    },
+    {
+      "finding_id": "C1-CBP-004",
+      "required_test_id": "C1-DET-WRONG-CANDIDATE-AND-PREFREEZE-EVIDENCE-001"
+    },
+    {
+      "finding_id": "C1-CBP-005",
+      "required_test_id": "C1-DET-MONOTONIC-SEQUENCE-AND-PARENT-001"
+    },
+    {
+      "finding_id": "C1-CBP-006",
+      "required_test_id": "C1-DET-STATE-EXACT-BINDING-AND-ROUTE-001"
+    }
+  ],
+  "candidate_prosecutor_verdict": "ABSTAIN",
+  "candidate_abstention_treated_as_pass": false,
+  "unresolved_compatibility_blockers": [],
+  "result": "PASS",
+  "errors": [],
+  "closure_hash": "0e923c8c580cad513ba91fcfaf2656f67c4c092628e34252d7e1e136e7c57617"
+}

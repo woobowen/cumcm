@@ -1,0 +1,261 @@
+{
+  "schema_version": "1.0.0",
+  "resolution_id": "PHASE-002D-R2A-C1-FINAL-001-C2-DEPENDENCY-RESOLUTION-001",
+  "finding_id": "R2A-C1-FINAL-001",
+  "parent_artifact_hash": "601f4b8a57aa2d08869906c8d6ce8454cebc4bacbf0fac4bdc616cbf41af5d10",
+  "artifact_sequence_index": 11,
+  "source_graph_hash": "df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c",
+  "source_graph_file_sha256": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+  "source_graph_unchanged": true,
+  "original_semantic_errors": [
+    "C1_R2_AUDIT_REPLAY_SEMANTIC_CYCLE",
+    "C1_R2_REPLAY_TO_AUDIT_PREREQUISITE_EDGE_MISSING"
+  ],
+  "corrected_graph": {
+    "schema_version": "1.0.0",
+    "graph_id": "PHASE-002D-R2A-C2-AUTHORIZATION-DAG-001",
+    "graph_purpose": "C2_AUTHORIZATION_EVALUATION_PRECEDENCE",
+    "edge_semantics": "ACTUAL_CONSUMER_PREREQUISITE_ORDER",
+    "source_graph_path": "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+    "source_graph_file_sha256": "012d28629cb8ada6c8f62009690e63f0979b1436e4a85f35762848988e6a20b2",
+    "source_graph_hash": "df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c",
+    "nodes": [
+      {
+        "id": "L0-COMPONENT-SPECS",
+        "kind": "FROZEN_INPUT",
+        "level": 0
+      },
+      {
+        "id": "L0-INTERACTION",
+        "kind": "FROZEN_INPUT",
+        "level": 0
+      },
+      {
+        "id": "L0-CANDIDATE-SET",
+        "kind": "FROZEN_INPUT",
+        "level": 0
+      },
+      {
+        "id": "L0-BENCHMARK",
+        "kind": "FROZEN_INPUT",
+        "level": 0
+      },
+      {
+        "id": "L0-THRESHOLD-PROTOCOL",
+        "kind": "FROZEN_INPUT",
+        "level": 0
+      },
+      {
+        "id": "L0-IMPLEMENTATION-EMBARGO",
+        "kind": "FROZEN_INPUT",
+        "level": 0
+      },
+      {
+        "id": "L0-CLEAN-ROOM-PROVENANCE",
+        "kind": "FROZEN_INPUT",
+        "level": 0
+      },
+      {
+        "id": "L1-COMPONENT-DECISION",
+        "kind": "PREREQUISITE_DECISION",
+        "level": 1
+      },
+      {
+        "id": "L1-INTERACTION-DECISION",
+        "kind": "PREREQUISITE_DECISION",
+        "level": 1
+      },
+      {
+        "id": "L1-CANDIDATE-SET-DECISION",
+        "kind": "PREREQUISITE_DECISION",
+        "level": 1
+      },
+      {
+        "id": "L1-BENCHMARK-DECISION",
+        "kind": "PREREQUISITE_DECISION",
+        "level": 1
+      },
+      {
+        "id": "L1-THRESHOLD-DECISION",
+        "kind": "PREREQUISITE_DECISION",
+        "level": 1
+      },
+      {
+        "id": "L3-R2-DECISION-AUDIT",
+        "kind": "PREREQUISITE_AUDIT",
+        "level": 3
+      },
+      {
+        "id": "L2-R2-REPLAY",
+        "kind": "PREREQUISITE_REPLAY",
+        "level": 2
+      },
+      {
+        "id": "L4-R2A-ELIGIBILITY",
+        "kind": "ELIGIBILITY",
+        "level": 4
+      },
+      {
+        "id": "L5-R2A-AUTHORIZATION-CANDIDATE",
+        "kind": "DECISION_CANDIDATE",
+        "level": 5
+      },
+      {
+        "id": "L6-R2A-FINAL-AUDITOR",
+        "kind": "FINAL_AUDIT",
+        "level": 6
+      },
+      {
+        "id": "L7-R2A-AUTHORIZATION-SEAL",
+        "kind": "ACTIVE_DECISION",
+        "level": 7
+      },
+      {
+        "id": "L7-R2A-FINAL-REPLAY",
+        "kind": "FINAL_REPLAY",
+        "level": 7
+      },
+      {
+        "id": "L7-FORMAL-STATE-TRANSITION",
+        "kind": "STATE_TRANSITION",
+        "level": 7
+      }
+    ],
+    "edges": [
+      {
+        "source": "L0-COMPONENT-SPECS",
+        "target": "L1-COMPONENT-DECISION"
+      },
+      {
+        "source": "L0-INTERACTION",
+        "target": "L1-INTERACTION-DECISION"
+      },
+      {
+        "source": "L0-CANDIDATE-SET",
+        "target": "L1-CANDIDATE-SET-DECISION"
+      },
+      {
+        "source": "L0-BENCHMARK",
+        "target": "L1-BENCHMARK-DECISION"
+      },
+      {
+        "source": "L0-THRESHOLD-PROTOCOL",
+        "target": "L1-THRESHOLD-DECISION"
+      },
+      {
+        "source": "L0-IMPLEMENTATION-EMBARGO",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L0-CLEAN-ROOM-PROVENANCE",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L1-COMPONENT-DECISION",
+        "target": "L3-R2-DECISION-AUDIT"
+      },
+      {
+        "source": "L1-INTERACTION-DECISION",
+        "target": "L3-R2-DECISION-AUDIT"
+      },
+      {
+        "source": "L1-CANDIDATE-SET-DECISION",
+        "target": "L3-R2-DECISION-AUDIT"
+      },
+      {
+        "source": "L1-BENCHMARK-DECISION",
+        "target": "L3-R2-DECISION-AUDIT"
+      },
+      {
+        "source": "L1-THRESHOLD-DECISION",
+        "target": "L3-R2-DECISION-AUDIT"
+      },
+      {
+        "source": "L2-R2-REPLAY",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L1-COMPONENT-DECISION",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L1-INTERACTION-DECISION",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L1-CANDIDATE-SET-DECISION",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L1-BENCHMARK-DECISION",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L1-THRESHOLD-DECISION",
+        "target": "L4-R2A-ELIGIBILITY"
+      },
+      {
+        "source": "L4-R2A-ELIGIBILITY",
+        "target": "L5-R2A-AUTHORIZATION-CANDIDATE"
+      },
+      {
+        "source": "L5-R2A-AUTHORIZATION-CANDIDATE",
+        "target": "L6-R2A-FINAL-AUDITOR"
+      },
+      {
+        "source": "L6-R2A-FINAL-AUDITOR",
+        "target": "L7-R2A-AUTHORIZATION-SEAL"
+      },
+      {
+        "source": "L7-R2A-AUTHORIZATION-SEAL",
+        "target": "L7-R2A-FINAL-REPLAY"
+      },
+      {
+        "source": "L6-R2A-FINAL-AUDITOR",
+        "target": "L7-FORMAL-STATE-TRANSITION"
+      },
+      {
+        "source": "L7-R2A-FINAL-REPLAY",
+        "target": "L7-FORMAL-STATE-TRANSITION"
+      },
+      {
+        "source": "L1-BENCHMARK-DECISION",
+        "target": "L2-R2-REPLAY"
+      },
+      {
+        "source": "L1-CANDIDATE-SET-DECISION",
+        "target": "L2-R2-REPLAY"
+      },
+      {
+        "source": "L1-COMPONENT-DECISION",
+        "target": "L2-R2-REPLAY"
+      },
+      {
+        "source": "L1-INTERACTION-DECISION",
+        "target": "L2-R2-REPLAY"
+      },
+      {
+        "source": "L1-THRESHOLD-DECISION",
+        "target": "L2-R2-REPLAY"
+      },
+      {
+        "source": "L2-R2-REPLAY",
+        "target": "L3-R2-DECISION-AUDIT"
+      }
+    ],
+    "prerequisite_replay_node": "L2-R2-REPLAY",
+    "prerequisite_audit_node": "L3-R2-DECISION-AUDIT",
+    "candidate_node": "L5-R2A-AUTHORIZATION-CANDIDATE",
+    "final_authorization_audit_node": "L6-R2A-FINAL-AUDITOR",
+    "active_decision_node": "L7-R2A-AUTHORIZATION-SEAL",
+    "final_replay_node": "L7-R2A-FINAL-REPLAY",
+    "state_transition_node": "L7-FORMAL-STATE-TRANSITION",
+    "cycle_detected": false,
+    "historical_source_modified": false,
+    "graph_hash": "97e40742c47d796c3cfee54b0e75c15693c60e94eeaa7ef6fb54587effa8f64c"
+  },
+  "corrected_graph_errors": [],
+  "required_test": "C1-DET-R2-AUDIT-REPLAY-ACYCLIC-PREREQUISITE-001",
+  "status": "PASS",
+  "resolution_hash": "d2ac9bbeda65e3aa3f8a59396431499f9bf4e8cf84b2711c98cf972f13223bb9"
+}

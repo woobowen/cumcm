@@ -1,0 +1,148 @@
+{
+  "all_serious_findings_closed_for_bounded_authorization": true,
+  "closed_serious_finding_count": 15,
+  "closure_hash": "61a68a723161f46b30ac6ac2183680b009bd6d24ede6d19068449fbf8b8078f5",
+  "closures": [
+    {
+      "authorization_effect": "CURRENT_AUTHORIZATION_EVIDENCE_VALIDATED",
+      "disposition": "CLOSED_BY_DETERMINISTIC_VALIDATOR",
+      "finding_id": "R2A-AUTHDEP-001",
+      "test_id": "R2A-DET-AUTHDEP-M7M8-001",
+      "test_passed": true,
+      "underlying_risk_resolved": true,
+      "underlying_risk_status": "RESOLVED"
+    },
+    {
+      "authorization_effect": "CURRENT_AUTHORIZATION_EVIDENCE_VALIDATED",
+      "disposition": "CLOSED_BY_DETERMINISTIC_VALIDATOR",
+      "finding_id": "R2A-AUTHDEP-002",
+      "test_id": "R2A-DET-STATE-GATE-001",
+      "test_passed": true,
+      "underlying_risk_resolved": true,
+      "underlying_risk_status": "RESOLVED"
+    },
+    {
+      "authorization_effect": "CURRENT_AUTHORIZATION_EVIDENCE_VALIDATED",
+      "disposition": "CLOSED_BY_DETERMINISTIC_VALIDATOR",
+      "finding_id": "R2A-AUTHDEP-003",
+      "test_id": "R2A-DET-REPLAY-INPUT-BINDING-001",
+      "test_passed": true,
+      "underlying_risk_resolved": true,
+      "underlying_risk_status": "RESOLVED"
+    },
+    {
+      "authorization_effect": "CURRENT_AUTHORIZATION_EVIDENCE_VALIDATED",
+      "disposition": "CLOSED_BY_DETERMINISTIC_VALIDATOR",
+      "finding_id": "R2A-AUTHDEP-004",
+      "test_id": "R2A-DET-SUPERSESSION-001",
+      "test_passed": true,
+      "underlying_risk_resolved": true,
+      "underlying_risk_status": "RESOLVED"
+    },
+    {
+      "authorization_effect": "CURRENT_AUTHORIZATION_EVIDENCE_VALIDATED",
+      "disposition": "CLOSED_BY_DETERMINISTIC_VALIDATOR",
+      "finding_id": "R2A-AUTHDEP-005",
+      "test_id": "R2A-DET-DAG-SEMANTICS-001",
+      "test_passed": true,
+      "underlying_risk_resolved": true,
+      "underlying_risk_status": "RESOLVED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-PCD-001",
+      "test_id": "R2A-DET-PCD-SCHEDULE-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-PCD-002",
+      "test_id": "R2A-DET-PCD-COST-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-PCD-003",
+      "test_id": "R2A-DET-PCD-DISCRIMINATION-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "CURRENT_AUTHORIZATION_EVIDENCE_VALIDATED",
+      "disposition": "CLOSED_AS_CANONICAL_HASH_SEMANTICS_FALSE_POSITIVE",
+      "finding_id": "R2A-SEC-001",
+      "test_id": "R2A-SEC-MANIFEST-BINDING-001",
+      "test_passed": true,
+      "underlying_risk_resolved": true,
+      "underlying_risk_status": "RESOLVED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-SEC-002",
+      "test_id": "R2A-SEC-VAULT-CAPABILITY-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-SEC-003",
+      "test_id": "R2A-SEC-PATH-CONFINEMENT-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-SEC-004",
+      "test_id": "R2A-SEC-THIRD-PARTY-DENY-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-SEC-005",
+      "test_id": "R2A-SEC-CALLER-ISOLATION-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-SEC-006",
+      "test_id": "R2A-SEC-RESULT-SCOPE-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    },
+    {
+      "authorization_effect": "RISKY_OPERATION_PROHIBITED_UNTIL_FUTURE_TEST_PASSES",
+      "disposition": "CLOSED_BY_FAIL_CLOSED_SCOPE_RESTRICTION",
+      "finding_id": "R2A-SEC-007",
+      "test_id": "R2A-SEC-ROLLBACK-001",
+      "test_passed": true,
+      "underlying_risk_resolved": false,
+      "underlying_risk_status": "UNVERIFIED"
+    }
+  ],
+  "created_at": "2026-09-03T03:30:00+08:00",
+  "majority_vote_used": false,
+  "schema_version": "1.0.0",
+  "serious_finding_count": 15,
+  "underlying_future_risks_are_not_promoted_to_verified_facts": true,
+  "unresolved_serious_findings": []
+}

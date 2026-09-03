@@ -1,0 +1,465 @@
+{
+  "schema_version": "1.0.0",
+  "test_requests": [
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "DAG explicitly models R2A evaluation precedence; historical audit evidence references are content bindings, not inferred graph edges",
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-001 is false",
+      "finding_id": "R2A-AUTHDEP-001",
+      "inputs": [
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "DAG explicitly models R2A evaluation precedence; historical audit evidence references are content bindings, not inferred graph edges",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "旧 R2 M7/M8 时序与新授权 DAG",
+      "test_id": "R2A-DET-AUTHDEP-M7M8-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "complete-state bypass without candidate, active decision, final audit, and replay bindings is rejected",
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-002 is false",
+      "finding_id": "R2A-AUTHDEP-002",
+      "inputs": [
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "complete-state bypass without candidate, active decision, final audit, and replay bindings is rejected",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "L7-FORMAL-STATE-TRANSITION",
+      "test_id": "R2A-DET-STATE-GATE-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "replay mutations to input freeze, active decision, or final-audit checkpoint are rejected",
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-003 is false",
+      "finding_id": "R2A-AUTHDEP-003",
+      "inputs": [
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "replay mutations to input freeze, active decision, or final-audit checkpoint are rejected",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "R2 与 R2A replay 的同输入绑定",
+      "test_id": "R2A-DET-REPLAY-INPUT-BINDING-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json",
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "new ID/path and exact immutable predecessor ID/decision hash/file hash are mandatory",
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-004 is false",
+      "finding_id": "R2A-AUTHDEP-004",
+      "inputs": [
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "contracts/authorization_dependency_graph.schema.json",
+        "contracts/project_state.schema.json",
+        "state/project_state.json",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "new ID/path and exact immutable predecessor ID/decision hash/file hash are mandatory",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "旧授权决定的不可变 supersession",
+      "test_id": "R2A-DET-SUPERSESSION-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "contracts/authorization_dependency_graph.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "duplicate nodes, dangling endpoints, level errors, cycles, missing edges, semantic drift, and stale graph hashes are rejected",
+      "fail_condition": "deterministic closure predicate for R2A-AUTHDEP-005 is false",
+      "finding_id": "R2A-AUTHDEP-005",
+      "inputs": [
+        "contracts/authorization_dependency_graph.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "duplicate nodes, dangling endpoints, level errors, cycles, missing edges, semantic drift, and stale graph hashes are rejected",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "authorization dependency graph contract",
+      "test_id": "R2A-DET-DAG-SEMANTICS-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/ablation_policy.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "model Stage 2 has zero authorized starts until an exact frozen schedule proves all tuples and caps",
+      "fail_condition": "deterministic closure predicate for R2A-PCD-001 is false",
+      "finding_id": "R2A-PCD-001",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/ablation_policy.yaml"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "model Stage 2 has zero authorized starts until an exact frozen schedule proves all tuples and caps",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "Stage 2 execution schedule and 30-start cap",
+      "test_id": "R2A-DET-PCD-SCHEDULE-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "model Stage 2 is denied and unknown cost deterministically routes to EVIDENCE_INSUFFICIENT",
+      "fail_condition": "deterministic closure predicate for R2A-PCD-002 is false",
+      "finding_id": "R2A-PCD-002",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/prospective/phase-002d-r2/budget_policy.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml",
+        "specifications/shadow_prototype_scope.yaml"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "model Stage 2 is denied and unknown cost deterministically routes to EVIDENCE_INSUFFICIENT",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "Prospective cost accounting and Stage 2 authorization",
+      "test_id": "R2A-DET-PCD-COST-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "model Stage 2 is denied until a frozen W1/K1 discriminant-to-case/metric matrix passes",
+      "fail_condition": "deterministic closure predicate for R2A-PCD-003 is false",
+      "finding_id": "R2A-PCD-003",
+      "inputs": [
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/prospective/phase-002d-r2/case_catalog.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/metric_registry.yaml"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "model Stage 2 is denied until a frozen W1/K1 discriminant-to-case/metric matrix passes",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "Hidden benchmark ability to distinguish ARCH-W1 from ARCH-K1",
+      "test_id": "R2A-DET-PCD-DISCRIMINATION-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "evals/prospective/phase-002d-r2/sealed_manifest.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/manifests/candidate_visible_manifest.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/replay/replay.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "sealed public-artifact fields are canonical semantic hashes and both questioned bindings recompute exactly",
+      "fail_condition": "deterministic closure predicate for R2A-SEC-001 is false",
+      "finding_id": "R2A-SEC-001",
+      "inputs": [
+        "evals/prospective/phase-002d-r2/sealed_manifest.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/manifests/candidate_visible_manifest.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/replay/replay.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "sealed public-artifact fields are canonical semantic hashes and both questioned bindings recompute exactly",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2-SEALED-BENCHMARK-001 public-artifact binding",
+      "test_id": "R2A-SEC-MANIFEST-BINDING-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "OS isolation remains unverified and all prototype execution/hidden-benchmark use is denied until the future sentinel capability gate passes",
+      "fail_condition": "deterministic closure predicate for R2A-SEC-002 is false",
+      "finding_id": "R2A-SEC-002",
+      "inputs": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/sealed_manifest.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "OS isolation remains unverified and all prototype execution/hidden-benchmark use is denied until the future sentinel capability gate passes",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001 vault isolation",
+      "test_id": "R2A-SEC-VAULT-CAPABILITY-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "state/project_state.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "file writes and execution remain denied until canonical-root, no-follow, inode, rename-swap, and protected-hash gates pass",
+      "fail_condition": "deterministic closure predicate for R2A-SEC-003 is false",
+      "finding_id": "R2A-SEC-003",
+      "inputs": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "state/project_state.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "file writes and execution remain denied until canonical-root, no-follow, inode, rename-swap, and protected-hash gates pass",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "formal Skill and formal state path confinement",
+      "test_id": "R2A-SEC-PATH-CONFINEMENT-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        ".gitignore"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "file writes and execution remain denied until project-owned dependency provenance and isolated-interpreter gates pass",
+      "fail_condition": "deterministic closure predicate for R2A-SEC-004 is false",
+      "finding_id": "R2A-SEC-004",
+      "inputs": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        ".gitignore"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "file writes and execution remain denied until project-owned dependency provenance and isolated-interpreter gates pass",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "third-party code and execution boundary",
+      "test_id": "R2A-SEC-THIRD-PARTY-DENY-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "execution remains denied until a non-production shadow-only runner capability is verified",
+      "fail_condition": "deterministic closure predicate for R2A-SEC-005 is false",
+      "finding_id": "R2A-SEC-005",
+      "inputs": [
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "specifications/architectures/architecture_candidate_set.yaml",
+        "evals/results/phase-002d-r2/implementation_embargo.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "execution remains denied until a non-production shadow-only runner capability is verified",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "normal Skill and production workflow non-callability",
+      "test_id": "R2A-SEC-CALLER-ISOLATION-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "outputs remain denied until content-addressed JSON-only shadow-origin enforcement rejects formal artifact kinds",
+      "fail_condition": "deterministic closure predicate for R2A-SEC-006 is false",
+      "finding_id": "R2A-SEC-006",
+      "inputs": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "rules/phase002d_r2a_workflow_rules.yaml"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "outputs remain denied until content-addressed JSON-only shadow-origin enforcement rejects formal artifact kinds",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "experimental output scope",
+      "test_id": "R2A-SEC-RESULT-SCOPE-001",
+      "timeout": 60
+    },
+    {
+      "artifacts": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        ".gitignore",
+        "state/project_state.json"
+      ],
+      "command_or_procedure": "pytest -q tests/unit/test_phase002d_r2a_adversarial.py",
+      "expected_result": "future artifacts must stay disposable, untracked, uncommitted, unpushed, and absent from every ref after rollback",
+      "fail_condition": "deterministic closure predicate for R2A-SEC-007 is false",
+      "finding_id": "R2A-SEC-007",
+      "inputs": [
+        "specifications/shadow_prototype_scope.yaml",
+        "contracts/shadow_prototype_scope.schema.json",
+        ".gitignore",
+        "state/project_state.json"
+      ],
+      "oracle": "evaluate_closures deterministic predicate",
+      "pass_condition": "future artifacts must stay disposable, untracked, uncommitted, unpushed, and absent from every ref after rollback",
+      "reproducibility": "DETERMINISTIC",
+      "required_evidence": [
+        "pytest node PASS",
+        "hash-bound R2A closure artifacts",
+        "explicit fail-closed disposition for unverified future evidence"
+      ],
+      "status": "PASSED",
+      "target": "DELETE_ISOLATED_SHADOW_TREES rollback",
+      "test_id": "R2A-SEC-ROLLBACK-001",
+      "timeout": 60
+    }
+  ]
+}

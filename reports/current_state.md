@@ -3,23 +3,23 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-EVIDENCE-EXPANSION-002D`
-- Subphase: `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL`
+- Subphase: `PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0002D-R2-specification-and-protocol.md`
-- Branch: `feat/phase002d-r2-spec-protocol`
+- Active plan: `plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md`
+- Branch: `feat/phase002d-r2a-shadow-authorization`
 - Skill version: `0.1.0-foundation`
 - Skill capability: `SCAFFOLD_ONLY`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `SPECIFICATION_PROTOCOL_COMPLETE`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
+- Technical adjudication: `SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
 - Selected architecture: `None`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL`
-- Content-verified commit: `4434e0c5df9621c7b17731a3854a80442401da2b`
-- Delivery receipt commit: `4434e0c5df9621c7b17731a3854a80442401da2b`
+- Next phase allowed: `PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION`
+- Content-verified commit: `UNVERIFIED`
+- Delivery receipt commit: `UNVERIFIED`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-02T22:00:00+08:00` by `main-agent`
+- Updated: `2026-09-03T17:14:25+08:00` by `main-agent`
 
 ## Blockers
 
@@ -44,5 +44,6 @@
 - Cached-input tokens, reasoning tokens, monetary cost, CPU time, queue and operator time, maintenance cost, and future quality under a newly frozen acquisition design remain unknown.
 - Phase 002D-R2 specifications and prospective thresholds are not implementation or positive performance evidence.
 - The hidden Benchmark vault is policy/workspace isolated and not OS-enforced.
-- Shadow prototype authorization is RETEST_REQUIRED; no R3 prototype work is authorized.
 - Clean-room provenance is evidence of process controls, not proof of legal compliance.
+- Phase 002D-R2A may authorize only an isolated future experimental shadow scope; it is not architecture selection, formal Skill integration, prototype effectiveness evidence, legal proof, or OS-enforced vault isolation.
+- The C2 active authorization permits only a future isolated experimental shadow prototype; it is not architecture selection, formal Skill integration, effectiveness evidence, production authorization, or Phase 003 entry.

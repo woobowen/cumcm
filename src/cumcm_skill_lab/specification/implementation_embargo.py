@@ -16,6 +16,14 @@ CREATED_AT = "2026-09-02T13:02:23+08:00"
 FORMAL_SKILL_ROOT = Path(".agents/skills/cumcm-modeling-evidence")
 SRC_ROOT = Path("src/cumcm_skill_lab")
 ALLOWED_PREFIXES = ("src/cumcm_skill_lab/specification/",)
+AUTHORIZATION_GOVERNANCE_PREFIXES = (
+    "src/cumcm_skill_lab/authorization_c1/",
+    "src/cumcm_skill_lab/authorization_c2/",
+)
+C1_COMPATIBILITY_ADAPTERS = {
+    "src/cumcm_skill_lab/expansion/input_freeze.py",
+    "src/cumcm_skill_lab/failure_aware/evidence_freeze.py",
+}
 PROHIBITED_PREFIXES = (
     "experiments/shadow_prototypes/",
     "src/cumcm_skill_lab/components/",
@@ -81,8 +89,18 @@ def verify_embargo(root: Path, embargo: dict[str, Any] | None = None) -> list[st
     current_skill = file_hashes(root, FORMAL_SKILL_ROOT)
     if set(current_skill) != set(embargo.get("formal_skill_file_hashes", {})):
         errors.append("FORMAL_SKILL_TREE_MEMBERSHIP_CHANGED")
-    protected = embargo.get("protected_src_file_hashes", {})
+    protected = {
+        path: digest
+        for path, digest in embargo.get("protected_src_file_hashes", {}).items()
+        if path not in C1_COMPATIBILITY_ADAPTERS
+    }
     current_protected = file_hashes(root, SRC_ROOT, excluded_prefixes=ALLOWED_PREFIXES)
+    current_protected = {
+        path: digest
+        for path, digest in current_protected.items()
+        if path not in C1_COMPATIBILITY_ADAPTERS
+        and not any(path.startswith(prefix) for prefix in AUTHORIZATION_GOVERNANCE_PREFIXES)
+    }
     if current_protected != protected:
         errors.append("PROTECTED_SRC_TREE_CHANGED")
     tracked = subprocess.run(

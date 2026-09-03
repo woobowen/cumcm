@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/c2-authorization-replay/v1",
+  "title": "Phase 002D-R2A-C2 Final Authorization Replay",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "replay_id", "artifact_path", "parent_artifact_hash",
+    "artifact_sequence_index", "mode", "authorization_id", "active_decision_hash",
+    "automated_decision_replay_hash", "candidate_id", "candidate_file_sha256",
+    "canonical_candidate_hash", "candidate_freeze_hash", "input_freeze_hash",
+    "final_audit_id", "final_audit_output_hash", "decision_projection", "variant_count",
+    "variants", "stable", "api_calls", "network_calls", "model_calls",
+    "prototype_executions", "third_party_executions", "next_phase_allowed",
+    "phase003_prohibited", "replay_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "replay_id": {"const": "PHASE-002D-R2A-C2-FINAL-AUTHORIZATION-REPLAY-001"},
+    "artifact_path": {"const": "evals/results/phase-002d-r2a-c1/replay/replay-c2.json"},
+    "parent_artifact_hash": {"$ref": "#/$defs/hash"},
+    "artifact_sequence_index": {"const": 20},
+    "mode": {"const": "OFFLINE_NO_MODEL_NO_NETWORK"},
+    "authorization_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"},
+    "active_decision_hash": {"$ref": "#/$defs/hash"},
+    "automated_decision_replay_hash": {"$ref": "#/$defs/hash"},
+    "candidate_id": {"const": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"},
+    "candidate_file_sha256": {"$ref": "#/$defs/hash"},
+    "canonical_candidate_hash": {"$ref": "#/$defs/hash"},
+    "candidate_freeze_hash": {"$ref": "#/$defs/hash"},
+    "input_freeze_hash": {"$ref": "#/$defs/hash"},
+    "final_audit_id": {"const": "PHASE-002D-R2A-C2-FINAL-SHADOW-AUTHORIZATION-AUDIT-001"},
+    "final_audit_output_hash": {"$ref": "#/$defs/hash"},
+    "decision_projection": {"type": "object"},
+    "variant_count": {"const": 8},
+    "variants": {
+      "type": "object",
+      "required": [
+        "original_rebuild", "evidence_order_permutation", "test_evidence_order_permutation",
+        "candidate_label_permutation", "decision_order_permutation", "repeated_canonicalization",
+        "historical_schema_resolver_replay", "live_pointer_normalization_replay"
+      ],
+      "additionalProperties": {
+        "type": "object", "required": ["stable"],
+        "properties": {"stable": {"const": true}}
+      }
+    },
+    "stable": {"const": true},
+    "api_calls": {"const": 0},
+    "network_calls": {"const": 0},
+    "model_calls": {"const": 0},
+    "prototype_executions": {"const": 0},
+    "third_party_executions": {"const": 0},
+    "next_phase_allowed": {"const": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"},
+    "phase003_prohibited": {"const": true},
+    "replay_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+  "additionalProperties": false
+}

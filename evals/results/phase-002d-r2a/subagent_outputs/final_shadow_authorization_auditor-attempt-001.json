@@ -1,0 +1,158 @@
+{
+  "api_calls": 0,
+  "api_key_used": false,
+  "audit_id": "R2A-AUDIT-FINAL-SHADOW-AUTHORIZATION-001",
+  "blockers": [
+    "R2A-FINAL-001"
+  ],
+  "bundle_hash": "950d2207cd077f1d473403c6029f90bf70de616b79a3eae3b8538da7b10a35c6",
+  "bundle_id": "PHASE-002D-R2A-FINAL-SHADOW-AUTHORIZATION-AUDITOR-001",
+  "cost_assessment": null,
+  "created_at": "2026-09-03T04:35:00+08:00",
+  "expected_conclusion_visible": false,
+  "findings": [
+    {
+      "counterexample": "读取 proposed_automated_decision 的消费者会得到 POLICY_ONLY，而读取 candidate 顶层或未来 seal 的消费者会得到 EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY；两者可对是否允许隔离 shadow prototype 工作作出相反判断，且都引用同一 decision ID。",
+      "evidence_refs": [
+        "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+        "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2a/authorization_candidate/candidate.json",
+        "specifications/shadow_prototype_scope.yaml",
+        "rules/phase002d_r2a_workflow_rules.yaml",
+        "contracts/automated_decision.schema.json",
+        "contracts/authorization_seal.schema.json"
+      ],
+      "finding_id": "R2A-FINAL-001",
+      "pass_condition": "同一决定身份的所有 accepted_scope 投影均且仅为 EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY；不存在 POLICY_ONLY 或隐式 scope 转换；新候选、合同和依赖哈希重新冻结并通过独立 final audit。",
+      "required_test": "R2A-FINAL-SINGLE-SCOPE-001：对同一 authorization/decision ID 的 candidate 顶层、proposed automated decision、scope specification、workflow rules 与 seal projection 做确定性交叉校验；将任一字段变异为 POLICY_ONLY、NONE、SPECIFICATION_ONLY 或 null，并验证 fail closed。若继续使用 generic automated-decision contract，必须先形成允许唯一合法值 EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY 的新冻结合同。",
+      "severity": "BLOCKER",
+      "statement": "同一 proposed authorization ID 存在冲突的 accepted_scope 真值：candidate.proposed_accepted_scope、shadow_prototype_scope、R2A rules 与未来 authorization seal contract 均要求 EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY，但 candidate.proposed_automated_decision.accepted_scope 为 POLICY_ONLY。该嵌套对象的 decision_id 与 proposed_authorization_id 相同，并声明受 contracts/automated_decision.schema.json 约束；后续 seal 若采用 EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY，将使同一决定身份对应两个不同授权范围。当前 generic automated-decision contract 又不允许 EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY，因而该候选不能在不发生未审计范围转换的情况下被激活。",
+      "status": "OPEN",
+      "target": "L5 authorization candidate accepted-scope identity",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R2A-AUTHORIZATION-DAG-001",
+        "PHASE-002D-R2A-INPUT-FREEZE-001",
+        "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+        "PHASE-002D-R2A-AUTHORIZATION-PRECONDITIONS-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2a/authorization_dependency_graph.json",
+        "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json",
+        "evals/results/phase-002d-r2a/adversarial_findings/closure.json",
+        "evals/results/phase-002d-r2a/authorization_candidate/candidate.json",
+        "state/project_state.json"
+      ],
+      "finding_id": "R2A-FINAL-002",
+      "pass_condition": "全部哈希精确匹配，显式 DAG 无环，旧历史字节未改变，新 candidate 未激活且 state 未迁移。",
+      "required_test": "重算 graph、freeze、closure、candidate 与旧 R2 decision canonical hashes及旧文件 SHA-256；验证显式 DAG 无环、新旧 decision ID 不同、旧 ID 仍在 state history、candidate.active=false 且 formal_state_transition_performed=false。",
+      "severity": "INFO",
+      "statement": "在冻结的 R2A graph semantics 下，显式依赖图无环；candidate 保持 non-active L5 proposal，当前 formal state 仍为 SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS。旧 R2 RETEST_REQUIRED 决定仍保留原 decision ID、canonical decision hash 和 byte-level file SHA-256，candidate 使用独立新 ID 并精确绑定 superseded snapshot。冻结 closure 报告的十五项 serious findings 均已由确定性测试或 fail-closed scope restriction 关闭。",
+      "status": "RESOLVED",
+      "target": "dependency order, historical immutability and supersession",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+        "PHASE-002D-R2A-SHADOW-PROTOTYPE-SCOPE-001",
+        "PHASE-002D-R2A-FORMAL-STATE-PROPOSAL-001"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2a/authorization_candidate/candidate.json",
+        "evals/results/phase-002d-r2a/authorization_candidate/state_proposal.json",
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "state/project_state.json"
+      ],
+      "finding_id": "R2A-FINAL-003",
+      "pass_condition": "所有放宽 fixture 被拒绝；实际 state 在 seal、PASS audit 和 stable final replay 前保持未迁移；Phase 003 始终禁止。",
+      "required_test": "对 candidate、scope、state proposal、authorization seal schema 与 current state 执行禁止范围交叉校验，并将 selected_architecture、base_selected、third_party_integrated、phase003_prohibited、prototype_executed 及 current next route 逐项变异。",
+      "severity": "INFO",
+      "statement": "除 R2A-FINAL-001 的双重 accepted_scope 表达外，候选未选择 architecture 或 base，未实现或执行 prototype，未集成第三方，未授权 model Stage 2，未修改 formal Skill，并明确拒绝 formal integration、production、direct reuse、architecture selection 与 Phase 003。R3 仅是 proposed next route；当前 state.next_phase_allowed 仍为 null，不能解释为已经进入 R3。",
+      "status": "RESOLVED",
+      "target": "scope containment and prohibited downstream effects",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "PHASE-002D-R2-SEALED-BENCHMARK-001",
+        "PHASE-002D-R2-THRESHOLDS-001",
+        "PHASE-002D-R2A-AUTHORIZATION-REPLAY-INPUTS-001",
+        "R2A-SEC-MANIFEST-BINDING-001"
+      ],
+      "file_references": [
+        "evals/prospective/phase-002d-r2/sealed_manifest.json",
+        "evals/prospective/phase-002d-r2/manifests/candidate_visible_manifest.json",
+        "evals/prospective/phase-002d-r2/access_policy.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml",
+        "evals/prospective/phase-002d-r2/prospective_experiment_protocol.yaml",
+        "evals/results/phase-002d-r2a/authorization_candidate/replay_inputs.json",
+        "evals/results/phase-002d-r2a/test_evidence/evidence.json"
+      ],
+      "finding_id": "R2A-FINAL-004",
+      "pass_condition": "所有 frozen hashes继续匹配；任何 Benchmark、threshold、scope、input、decision 或 audit-checkpoint mutation 均 fail closed；只有 seal 后生成的真实 final replay 才能写入 replay/state bindings。",
+      "required_test": "在 scope inconsistency 修复并重新冻结后，按 replay_inputs 的三种 permutation 重建决定；最终 replay 必须绑定同一 input freeze、active decision hash 与 final-audit checkpoint，并验证 decision、accepted scope、next route、no-architecture-selection 和 no-Phase-003 均稳定。",
+      "severity": "INFO",
+      "statement": "bundle 与所有 allowed artifact 的 byte hashes 均匹配；Benchmark manifest、candidate-visible boundary、access policy、threshold policy 与 prospective protocol 保持冻结。公开边界字段的 canonical semantic hashes可重算匹配 sealed manifest。未观察到 hidden value、prototype result、API、web、MCP、nested Codex 或 majority vote 的使用。candidate、graph、preconditions、scope、closure、state proposal 与 replay-input canonical hashes均重算匹配；final replay 尚未执行，replay_inputs 正确标记 active decision unavailable、final audit pending 和 replay_performed=false。",
+      "status": "RESOLVED",
+      "target": "benchmark, threshold, leakage, voting and replay preparation",
+      "testability": "TESTABLE"
+    },
+    {
+      "counterexample": null,
+      "evidence_refs": [
+        "CLEAN_ROOM_LEGAL_COMPLIANCE_NOT_PROVEN",
+        "HIDDEN_VAULT_OS_ISOLATION_NOT_VERIFIED",
+        "PROTOTYPE_EFFECTIVENESS_UNMEASURED",
+        "MONETARY_COST_UNKNOWN"
+      ],
+      "file_references": [
+        "evals/results/phase-002d-r2a/authorization_candidate/candidate.json",
+        "evals/results/phase-002d-r2a/authorization_preconditions.json",
+        "specifications/shadow_prototype_scope.yaml",
+        "evals/prospective/phase-002d-r2/threshold_policy.yaml"
+      ],
+      "finding_id": "R2A-FINAL-005",
+      "pass_condition": null,
+      "required_test": null,
+      "severity": "WARNING",
+      "statement": "legal compliance、OS-enforced vault isolation、prototype effectiveness 与 monetary cost 仍未知。候选及 scope 将这些项目显式列为 unknown，并通过 future runtime gates、零授权 model starts 与 EVIDENCE_INSUFFICIENT disposition 阻止其被提升为正向事实；这些未知项不能支持授权范围扩张、architecture selection 或 Phase 003。",
+      "status": "UNRESOLVED",
+      "target": "unverified legal, isolation, effectiveness and cost claims",
+      "testability": "NON_TESTABLE_CLAIM"
+    }
+  ],
+  "independent": true,
+  "majority_vote_used": false,
+  "mcp_used": false,
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "nested_codex_used": false,
+  "output_hash": "a5aac4eea1dc4d222a6a5e6d70613be351400161d2b904afbe47a9dcaa0c8822",
+  "peer_output_access": "FROZEN_PREDECESSORS_ONLY",
+  "read_only": true,
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "role": "final_shadow_authorization_auditor",
+  "round": "POST_DECISION",
+  "uncertainties": [
+    "CLEAN_ROOM_LEGAL_COMPLIANCE_NOT_PROVEN",
+    "HIDDEN_VAULT_OS_ISOLATION_NOT_VERIFIED",
+    "PROTOTYPE_EFFECTIVENESS_UNMEASURED",
+    "MONETARY_COST_UNKNOWN",
+    "实际 authorization seal 与 final replay 在本次 L5 audit 时尚不存在；其未来正确性不能由 proposal 预先推定。",
+    "contracts/automated_decision.schema.json 对 replay_hash 仅约束为 64 位十六进制字符串，未在 schema 内编码 canonical recomputation 语义；当前 candidate 值虽可重算为移除 replay_hash 后的 canonical decision hash，但未来 final replay 仍必须独立产生并绑定。",
+    "allowed bundle 未提供 final seal/replay validator 实现；本审计只能依据冻结合同、候选、测试证据和 predecessor outputs 判断。"
+  ],
+  "verdict": "RETEST_REQUIRED",
+  "web_used": false,
+  "writes_observed": false
+}

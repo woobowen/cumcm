@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "freeze_id": "PHASE-002D-R2A-C1-INPUT-FREEZE-001",
+  "phase": "PHASE-EVIDENCE-EXPANSION-002D",
+  "subphase": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE",
+  "artifact_sequence_index": 0,
+  "parent_artifact_hash": null,
+  "created_at": "2026-09-03T14:26:16+08:00",
+  "starting_commit": "2d117985404b21abd7f0c3a10258731e06f77852",
+  "draft_pr": {
+    "number": 5,
+    "head_commit": "2d117985404b21abd7f0c3a10258731e06f77852"
+  },
+  "historical_freezes": {
+    "r1": {
+      "path": "evals/results/phase-002d-r1/input_freeze_manifest.json",
+      "file_sha256": "50b18b674a3ea2ca770e4ed60328b214f2c1eda9a3e9856b7410cd7095192218",
+      "freeze_id": "PHASE-002D-R1-INPUT-FREEZE-001",
+      "manifest_hash": "4a03c2d840e0defff8df87a9dae68b76a3b9bbcec279e5298c971771ebe91c85"
+    },
+    "r2": {
+      "path": "evals/results/phase-002d-r2/input_freeze_manifest.json",
+      "file_sha256": "2138a13dda8a4e241931c98182a2356c2047537c79faeb8f5d7dab5e229c76fd",
+      "freeze_id": "PHASE-002D-R2-INPUT-FREEZE-001",
+      "manifest_hash": "52379058863de851e34b012880229fc542150989ae1c178a09318b836737245a"
+    },
+    "r2a": {
+      "path": "evals/results/phase-002d-r2a/input_freeze_manifest.json",
+      "file_sha256": "4172e63617a081f4db60ce9d74e9aa527dfa516bc0d24526c045b09d1564deb2",
+      "freeze_id": "PHASE-002D-R2A-INPUT-FREEZE-001",
+      "manifest_hash": "f524f63e8c98482a85784767c9cd539f98ad286390aac8be831061d31f0a0a95"
+    }
+  },
+  "old_candidate": {
+    "path": "evals/results/phase-002d-r2a/authorization_candidate/candidate.json",
+    "file_sha256": "2d612e761537c653a6bb27cba66cbf10c75e1b4e9758fa8443a6960525647b21",
+    "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+    "canonical_candidate_hash": "fc8dbec82107763fb875f5e3a06e135f86dab917a9db47f953de3058d34fb6bb",
+    "classification": "HISTORICAL_NON_ACTIVE_CANDIDATE"
+  },
+  "old_final_auditors": [
+    {
+      "path": "evals/results/phase-002d-r2a/subagent_outputs/final_shadow_authorization_auditor-attempt-001.json",
+      "file_sha256": "5f645fbd3a84f2b1161770c945ad9f207d511db0271257b5dee6eebf5c1a9b72",
+      "output_hash": "a5aac4eea1dc4d222a6a5e6d70613be351400161d2b904afbe47a9dcaa0c8822"
+    },
+    {
+      "path": "evals/results/phase-002d-r2a/subagent_outputs/final_shadow_authorization_auditor-attempt-002.json",
+      "file_sha256": "5fbecb08e6d55ac90d41a9af55599c01eadc95a8a48d68c8dc455500485e4cee",
+      "output_hash": "fa30c971b91f00d274577edd4a8e75ee788be053894561c7e76578069473c757"
+    },
+    {
+      "path": "evals/results/phase-002d-r2a/subagent_outputs/final_shadow_authorization_auditor.json",
+      "file_sha256": "fecfd7c688370c186e7d904a23a00e0a9ef28a9e9eceddd0a4635f287f3bedce",
+      "output_hash": "eaf0693b11c3897d9ed2fb447d31f96d9b9fc12f333d0d53165b79b83ab04a3b"
+    }
+  ],
+  "terminal_finding": {
+    "finding_id": "R2A-FINAL-002",
+    "output_hash": "eaf0693b11c3897d9ed2fb447d31f96d9b9fc12f333d0d53165b79b83ab04a3b",
+    "bundle_hash": "8cbaa9080949d9e1e68206295d4bd884a3b93044b5a22b56926206032c2d31a2",
+    "path": "evals/results/phase-002d-r2a/subagent_outputs/final_shadow_authorization_auditor.json"
+  },
+  "protected_bindings": {
+    "formal_skill_tree_hash": "edeeaf7312e7fc1cdc008bfa799a6127787768246c90ab4c4a569615d11dde33",
+    "benchmark_hash": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e",
+    "threshold_hash": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+    "protocol_hash": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+    "implementation_embargo_hash": "2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919"
+  },
+  "current_schema": {
+    "path": "contracts/project_state.schema.json",
+    "file_sha256": "062c59f246fd87dace72a61bb23a95510f617e5bc37020f32822c84b421d49a3",
+    "schema_version": "2.4.0",
+    "source": "CURRENT_TREE"
+  },
+  "historical_schemas": [
+    {
+      "schema_version": "2.1.0",
+      "schema_path": "contracts/project_state.schema.json",
+      "subject_commit": "10073a2fe5b1512a16ab9a9c7907fb2b7f5ff765",
+      "schema_file_sha256": "e5babcc4bd10d6c103da882e9327c1f600c39e91dd5991cc358e5ae90e8151b6"
+    },
+    {
+      "schema_version": "2.2.0",
+      "schema_path": "contracts/project_state.schema.json",
+      "subject_commit": "4434e0c5df9621c7b17731a3854a80442401da2b",
+      "schema_file_sha256": "447d5064217140059522c5feb406b524016d7282d4e232b4c2846c6d91f20e8a"
+    },
+    {
+      "schema_version": "2.3.0",
+      "schema_path": "contracts/project_state.schema.json",
+      "subject_commit": "b6f469995d2de6ef492bb8f8ee90029059d4b2c3",
+      "schema_file_sha256": "e666f668a349eb91b97a3cdb3efac925942cc30fdd3e6c0c1e4e12ebbda50893"
+    }
+  ],
+  "workflow_rules": {
+    "path": "rules/workflow_rules.yaml",
+    "current_file_sha256": "40b41ee7ab9cd9b79488e25c0e22e766f42fd7c987a3fa1a0b3f7c56f04f78bf",
+    "historical_subject_commit": "d59f4b8a36fa3c15e06ec0aceb948cd2bafd2abc",
+    "historical_subject_file_sha256": "a2271121eb659f50155699c2cd3ccff2771b0fd5bb90bf3710b022d4bbb33864"
+  },
+  "counters": {
+    "api_calls": 0,
+    "real_model_in_loop_runs": 0,
+    "prototype_executions": 0,
+    "third_party_executions": 0
+  },
+  "historical_roots_immutable": [
+    "evals/results/phase-002/",
+    "evals/results/phase-002a/",
+    "evals/results/phase-002b/",
+    "evals/results/phase-002c/",
+    "evals/results/phase-002d/",
+    "evals/results/phase-002d-r1/",
+    "evals/results/phase-002d-r2/",
+    "evals/results/phase-002d-r2a/"
+  ],
+  "manifest_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132"
+}

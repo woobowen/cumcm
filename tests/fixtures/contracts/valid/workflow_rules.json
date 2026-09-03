@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "state_machine_source": "WORKFLOW.md",
+  "required_project_states": ["INIT", "STALE"],
+  "required_run_states": ["PROBLEM_INGESTED", "STALE"],
+  "formal_state_writer": "MAIN_AGENT_ONLY",
+  "automated_adjudication": "REQUIRED",
+  "technical_decision_method": "FROZEN_LEXICOGRAPHIC_EVIDENCE_NO_VOTE",
+  "team_compliance_review": "NON_TECHNICAL_NO_OVERRIDE",
+  "stale_source": "WORKFLOW.md",
+  "git_delivery": {
+    "remote_name": "origin",
+    "repository": "woobowen/cumcm",
+    "remote_url": "https://github.com/example/repository.git",
+    "protected_base_branch": "main",
+    "preferred_task_branch": "feat/phase002d-r2a-shadow-authorization",
+    "allow_force_push": false,
+    "allow_agent_merge": false
+  },
+  "rules": [
+    {
+      "id": "GIT-DELIVERY-001",
+      "title": "Verified deterministic changes must be remotely delivered",
+      "level": "MUST",
+      "scope": "repository",
+      "statement": "Validated changes must be delivered.",
+      "failure_severity": "BLOCKER",
+      "enforcement": {"type": "manual_and_git_verification"},
+      "repair": {"action": "Validate and deliver."},
+      "owner": "project-foundation",
+      "status": "ACTIVE"
+    }
+  ]
+}

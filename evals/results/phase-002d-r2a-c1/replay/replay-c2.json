@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "replay_id": "PHASE-002D-R2A-C2-FINAL-AUTHORIZATION-REPLAY-001",
+  "artifact_path": "evals/results/phase-002d-r2a-c1/replay/replay-c2.json",
+  "parent_artifact_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
+  "artifact_sequence_index": 20,
+  "mode": "OFFLINE_NO_MODEL_NO_NETWORK",
+  "authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "active_decision_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
+  "automated_decision_replay_hash": "5dd6f2aec47db2c4e725b49dad13ca3c91aa8eff3e83b0b569002cfb2e224fc3",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
+  "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+  "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+  "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+  "final_audit_id": "PHASE-002D-R2A-C2-FINAL-SHADOW-AUTHORIZATION-AUDIT-001",
+  "final_audit_output_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125",
+  "decision_projection": {
+    "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+    "decision": "AUTOMATED_ACCEPTED",
+    "accepted_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+    "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+    "selected_architecture": null,
+    "base_selected": false,
+    "third_party_integrated": false,
+    "skill_capability_status": "SCAFFOLD_ONLY",
+    "phase003_prohibited": true,
+    "final_audit_result": "PASS"
+  },
+  "variant_count": 8,
+  "variants": {
+    "original_rebuild": {
+      "stable": true,
+      "authorization_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473"
+    },
+    "evidence_order_permutation": {
+      "stable": true,
+      "evidence_count": 31
+    },
+    "test_evidence_order_permutation": {
+      "stable": true,
+      "test_evidence_count": 31
+    },
+    "candidate_label_permutation": {
+      "stable": true,
+      "decision_projection_stable": true,
+      "exact_binding_rejected": true
+    },
+    "decision_order_permutation": {
+      "stable": true,
+      "decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"
+    },
+    "repeated_canonicalization": {
+      "stable": true,
+      "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420"
+    },
+    "historical_schema_resolver_replay": {
+      "stable": true,
+      "errors": [],
+      "resolved_versions": [
+        "2.1.0",
+        "2.2.0",
+        "2.3.0",
+        "2.4.0"
+      ],
+      "record_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+      "unknown_version_behavior": "FAIL_CLOSED"
+    },
+    "live_pointer_normalization_replay": {
+      "stable": true,
+      "errors": [],
+      "verification_modes": [
+        "LIVE_SEMANTIC_POINTER"
+      ],
+      "manifest_versions": [
+        "PHASE-002D-R1/1.0.0",
+        "PHASE-002D/1.0.0"
+      ],
+      "allowed_live_fields": [
+        "git_delivery.preferred_task_branch"
+      ]
+    }
+  },
+  "stable": true,
+  "api_calls": 0,
+  "network_calls": 0,
+  "model_calls": 0,
+  "prototype_executions": 0,
+  "third_party_executions": 0,
+  "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+  "phase003_prohibited": true,
+  "replay_hash": "08e8a542dc863151e7bad91fdb6a1301c30f2d9770d6a3a8582652c8ca0e5818"
+}

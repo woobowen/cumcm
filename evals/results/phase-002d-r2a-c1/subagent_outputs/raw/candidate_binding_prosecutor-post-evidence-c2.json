@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "PHASE-002D-R2A-C2-CANDIDATE-BINDING-PROSECUTOR-001",
+  "role": "candidate_binding_prosecutor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "reviewed_commit": "59b29163f665fc4c1dab0dfd6fc9ddcfec092c73",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
+  "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+  "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+  "verdict": "PASS",
+  "evidence_refs": [
+    "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json",
+    "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c2.json",
+    "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c2.json",
+    "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c2.json",
+    "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json",
+    "evals/results/phase-002d-r2a-c1/dependency_resolution/dependency-graph-c2.json",
+    "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
+    "evals/results/phase-002d-r2a-c1/historical_verification/record.json",
+    "evals/results/phase-002d-r2a-c1/schema_resolution/record.json",
+    "evals/results/phase-002d-r2a-c1/compatibility_tests/closure.json",
+    "src/cumcm_skill_lab/authorization_c2/candidate_freeze.py",
+    "src/cumcm_skill_lab/authorization_c2/candidate_evidence.py",
+    "src/cumcm_skill_lab/authorization_c1/dependency_c2.py",
+    "tests/unit/test_phase002d_r2a_c2_candidate_freeze.py",
+    "tests/unit/test_phase002d_r2a_c2_candidate_evidence.py",
+    "evals/results/phase-002d-r2/decision_audit/audit.json",
+    "evals/results/phase-002d-r2/replay/replay.json",
+    "evals/results/phase-002d-r2/implementation_embargo.json",
+    "specifications/shadow_prototype_scope.yaml",
+    "state/project_state.json"
+  ],
+  "checks": [
+    {
+      "check_id": "C2-CBP-001",
+      "status": "PASS",
+      "statement": "The candidate blob SHA-256, independently canonicalized candidate hash, and canonical freeze hash exactly match the required C2 tuple; reserved self-hash fields are absent and unknown fields remain hash-significant.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c2.json",
+        "src/cumcm_skill_lab/authorization_c2/candidate_freeze.py"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-002",
+      "status": "PASS",
+      "statement": "The C2 identifier and all three C2 hashes differ from the embedded frozen failed-C1 tuple; C2 evidence uniformly binds the C2 tuple and the validators reject substituted candidate identities.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json",
+        "src/cumcm_skill_lab/authorization_c2/candidate_evidence.py"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-003",
+      "status": "PASS",
+      "statement": "The canonical artifact chain is monotonic and hash-linked as L12 freeze to L13 preconditions to L14 plan to L15 evidence; all recorded artifact hashes independently recompute.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-004",
+      "status": "PASS",
+      "statement": "Git history confirms the candidate and freeze were introduced unchanged in commit 98fb7f24ad1859bc6b2f3e12385d600a20c224f9 from creation base a7f88f6cbe2b529b467953e5d156697d1ce130d9, while L13-L15 evidence was introduced in the later reviewed commit.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-005",
+      "status": "PASS",
+      "statement": "The plan and evidence contain the same 31 unique ordered test IDs; every evidence item is C2-bound, hash-valid, code-hash-bound, rejected with its expected error, marked copy-only, and records that the frozen original was not modified.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json",
+        "src/cumcm_skill_lab/authorization_c2/candidate_evidence.py",
+        "tests/unit/test_phase002d_r2a_c2_candidate_evidence.py"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-006",
+      "status": "PASS",
+      "statement": "The corrected dependency graph is hash-valid, structurally acyclic, and contains replay-to-audit without the reverse edge; the audit explicitly consumes replay and the inversion attack deterministically reports both semantic-cycle and missing-prerequisite errors.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/dependency_resolution/dependency-graph-c2.json",
+        "evals/results/phase-002d-r2/decision_audit/audit.json",
+        "evals/results/phase-002d-r2/replay/replay.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json",
+        "src/cumcm_skill_lab/authorization_c1/dependency_c2.py"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-007",
+      "status": "PASS",
+      "statement": "The accepted candidate decision is prerequisite-driven rather than a constant accept, and the hardcoded-report mutation is rejected by the input-projection validator.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json",
+        "src/cumcm_skill_lab/authorization_c2/candidate_freeze.py",
+        "src/cumcm_skill_lab/authorization_c2/candidate_evidence.py"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-008",
+      "status": "PASS",
+      "statement": "Compatibility closure has no unresolved blockers, all 25 fresh C2 preconditions pass, all mapped closure tests are present and passing, and the evidence chain is ready for the subsequent prosecutor-bound closure step.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/compatibility_tests/closure.json",
+        "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c2.json",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c2.json",
+        "src/cumcm_skill_lab/authorization_c2/candidate_evidence.py"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-009",
+      "status": "PASS",
+      "statement": "The implementation-embargo blob matches its protected input hash; allowed records report zero prototype, model, API, and third-party executions and no prohibited runtime files.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2/implementation_embargo.json",
+        "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
+        "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c2.json",
+        "state/project_state.json"
+      ]
+    },
+    {
+      "check_id": "C2-CBP-010",
+      "status": "PASS",
+      "statement": "The candidate remains inactive and limited to experimental shadow validation; architecture and base selection, formal Skill or state integration, third-party code or execution, model stage 2, prototype execution, and Phase 003 remain prohibited.",
+      "evidence_paths": [
+        "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c2.json",
+        "specifications/shadow_prototype_scope.yaml",
+        "state/project_state.json"
+      ]
+    }
+  ],
+  "findings": [],
+  "unresolved_blockers": [],
+  "limitations": [
+    "The fixed-commit allowlist prohibited independent enumeration of the full repository tree, so tree-wide embargo and prohibited-path absence were assessed through the allowed hash-bound precondition, input-freeze, embargo, scope, and state records.",
+    "The C1 final-audit output and C1 candidate artifacts were intentionally not accessed; C1-to-C2 separation was checked using the frozen C1 tuple embedded in the allowed C2 candidate and generic substitution rejection logic.",
+    "Repository pytest execution would import non-allowlisted modules and artifacts, so this audit used independent read-only hash, graph, history, binding, and evidence-consistency checks confined to the allowed fixed-commit blobs."
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "api_calls": 0,
+  "majority_vote_used": false,
+  "expected_conclusion_visible": false
+}

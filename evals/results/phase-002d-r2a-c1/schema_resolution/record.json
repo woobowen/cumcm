@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "PHASE-002D-R2A-C1-SCHEMA-RESOLUTION-001",
+  "artifact_sequence_index": 2,
+  "parent_artifact_hash": "e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
+  "created_at": "2026-09-03T14:26:16+08:00",
+  "historical_compatibility_hash": "e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
+  "resolutions": [
+    {
+      "snapshot_path": "state/project_state.json",
+      "snapshot_subject_commit": "10073a2fe5b1512a16ab9a9c7907fb2b7f5ff765",
+      "state_schema_version": "2.1.0",
+      "schema_path": "contracts/project_state.schema.json",
+      "schema_source": "SUBJECT_COMMIT_BLOB",
+      "schema_subject_commit": "10073a2fe5b1512a16ab9a9c7907fb2b7f5ff765",
+      "schema_file_sha256": "e5babcc4bd10d6c103da882e9327c1f600c39e91dd5991cc358e5ae90e8151b6",
+      "validation_result": "PASS",
+      "errors": [],
+      "migration_required": false,
+      "migration_artifact": null,
+      "resolution_hash": "5ad18d3e95ac324a1946b425dac43dfe14cb51258d7bd67a239437a36cef2333"
+    },
+    {
+      "snapshot_path": "state/project_state.json",
+      "snapshot_subject_commit": "4434e0c5df9621c7b17731a3854a80442401da2b",
+      "state_schema_version": "2.2.0",
+      "schema_path": "contracts/project_state.schema.json",
+      "schema_source": "SUBJECT_COMMIT_BLOB",
+      "schema_subject_commit": "4434e0c5df9621c7b17731a3854a80442401da2b",
+      "schema_file_sha256": "447d5064217140059522c5feb406b524016d7282d4e232b4c2846c6d91f20e8a",
+      "validation_result": "PASS",
+      "errors": [],
+      "migration_required": false,
+      "migration_artifact": null,
+      "resolution_hash": "f86b9e2fd9430c3457a776dc9fd1746c24c448c7fae969c3e65264d0df2e1bb0"
+    },
+    {
+      "snapshot_path": "state/project_state.json",
+      "snapshot_subject_commit": "b6f469995d2de6ef492bb8f8ee90029059d4b2c3",
+      "state_schema_version": "2.3.0",
+      "schema_path": "contracts/project_state.schema.json",
+      "schema_source": "SUBJECT_COMMIT_BLOB",
+      "schema_subject_commit": "b6f469995d2de6ef492bb8f8ee90029059d4b2c3",
+      "schema_file_sha256": "e666f668a349eb91b97a3cdb3efac925942cc30fdd3e6c0c1e4e12ebbda50893",
+      "validation_result": "PASS",
+      "errors": [],
+      "migration_required": false,
+      "migration_artifact": null,
+      "resolution_hash": "0ee2e8788c7a8c3c6d018d27ca569d63e254f989456330844c387810eed91e59"
+    },
+    {
+      "snapshot_path": "state/project_state.json",
+      "snapshot_subject_commit": null,
+      "state_schema_version": "2.4.0",
+      "schema_path": "contracts/project_state.schema.json",
+      "schema_source": "CURRENT_TREE",
+      "schema_subject_commit": "CURRENT_TREE",
+      "schema_file_sha256": "062c59f246fd87dace72a61bb23a95510f617e5bc37020f32822c84b421d49a3",
+      "validation_result": "PASS",
+      "errors": [],
+      "migration_required": false,
+      "migration_artifact": null,
+      "resolution_hash": "9285ad1842215c10c7e3f3cd34d119eec43d2e9670e36b4f16a55d834baf19d7"
+    }
+  ],
+  "migration_required_for_validation": false,
+  "derived_comparison_migration": {
+    "path": "evals/results/phase-002d-r2a-c1/schema_resolution/migration_2.3_to_2.4.json",
+    "migration_hash": "b1db25416035b466e2690596cf5931d0897ec860ff758b3efc71db612c57c1c2",
+    "authoritative_historical_truth": false
+  },
+  "unknown_version_behavior": "FAIL_CLOSED",
+  "current_schema_fallback_for_history": false,
+  "historical_state_rewritten": false,
+  "result": "PASS",
+  "errors": [],
+  "record_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462"
+}

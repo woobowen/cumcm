@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "policy_id": "PHASE-002D-R2A-C1-HISTORICAL-VERIFICATION-POLICY-001",
+  "entries": [
+    {
+      "path": "rules/workflow_rules.yaml",
+      "manifest_version": "PHASE-002D-R1/1.0.0",
+      "verification_mode": "LIVE_SEMANTIC_POINTER",
+      "subject_commit": "d59f4b8a36fa3c15e06ec0aceb948cd2bafd2abc",
+      "allowed_live_fields": ["git_delivery.preferred_task_branch"],
+      "current_schema": "contracts/workflow_rules.schema.json",
+      "semantic_validator": "workflow_delivery_invariants",
+      "failure_severity": "BLOCKER"
+    }
+  ]
+}
