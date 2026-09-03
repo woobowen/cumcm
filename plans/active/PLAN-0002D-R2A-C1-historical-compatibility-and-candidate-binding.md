@@ -240,3 +240,8 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   `ba420be53a7dbaccd84e2137599f1e77821cc92018970b1a16f2e97669cc9e3d` with no unresolved
   finding. Focused tests pass `48/48`; full pytest and CI pass `1400` tests with one skip, and strict
   validation reports zero errors/warnings.
+- `2026-09-03`: M7 produced the L8 exact-candidate bundle at sequence index 9. It binds the candidate
+  byte/canonical/freeze tuple, all 30 evidence hashes, dependency/scope/R2 decisions, compatibility
+  and Schema records, embargo and formal Skill hashes, and frozen predecessor audits. Bundle hash is
+  `f5c2adbd8621b5f1496a2b77972c85478917b3758ff0d70b88d8832335e043eb`; 44 focused tests and
+  full CI (`1412` passed, one skipped) pass with strict validation at zero errors/warnings.
