@@ -99,3 +99,13 @@ change; preserve factual history.
   repair made completed C2 replay use its committed historical state/Schema evidence under the R3
   successor instead of retargeting live state. The affected 258 tests and full CI pass at
   `1484 passed, 1 skipped`; strict validation reports zero errors/warnings.
+- `2026-09-03T21:31:00+08:00`: R3 input freeze
+  `707af8b8456aecf45a79b3f8c86622b20459ba46f74945651ea74ec3ddb2c00b` binds the C2 authorization,
+  frozen specifications/protocols, nine historical evidence trees, formal Skill, start-state Git
+  snapshot, and candidate-neutral runner/scorer/grader. The immutable common interface and
+  format-only S0 adapter passed all 16 public interface executions; no model or vault access ran.
+- `2026-09-03`: the first full-CI pass attempt exposed authorization-time verifiers that treated
+  successor R3 files as pre-C2 files. A bounded compatibility correction retains the original
+  C1/C2 code hashes and replays their evidence at its historical checkpoint while current R3
+  embargo enforcement remains active. The targeted 221-test set and full CI now pass at
+  `1490 passed, 1 skipped`; no frozen evidence artifact was modified.

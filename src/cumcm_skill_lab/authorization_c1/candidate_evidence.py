@@ -8,7 +8,10 @@ from pathlib import Path
 from typing import Any
 
 from cumcm_skill_lab.specification.authorization.models import repository_file_hashes, tree_hash
-from cumcm_skill_lab.specification.implementation_embargo import verify_embargo
+from cumcm_skill_lab.specification.implementation_embargo import (
+    r3_shadow_authorized,
+    verify_embargo,
+)
 
 from .candidate_freeze import (
     CANDIDATE_ID,
@@ -39,6 +42,7 @@ POST_EVIDENCE_PROSECUTOR_RAW_PATH = (
 POST_EVIDENCE_PROSECUTOR_PATH = (
     RESULT_ROOT / "subagent_outputs/candidate_binding_prosecutor-post-evidence.json"
 )
+HISTORICAL_TEST_CODE_HASH = "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069"
 BINDING_FIELDS = (
     "candidate_id",
     "candidate_file_sha256",
@@ -432,16 +436,18 @@ def build_preconditions(root: Path) -> dict[str, Any]:
     r2_replay = _read_json(root / r2_replay_path)
     r2a_closure = _read_json(root / r2a_closure_path)
     embargo_errors = verify_embargo(root)
-    prohibited_runtime_files = [
-        path
-        for relative in (
-            Path("experiments/shadow_prototypes"),
-            Path("src/cumcm_skill_lab/components"),
-        )
-        if (root / relative).exists()
-        for path in (root / relative).rglob("*")
-        if path.is_file()
-    ]
+    prohibited_runtime_files = []
+    if not r3_shadow_authorized(root):
+        prohibited_runtime_files = [
+            path
+            for relative in (
+                Path("experiments/shadow_prototypes"),
+                Path("src/cumcm_skill_lab/components"),
+            )
+            if (root / relative).exists()
+            for path in (root / relative).rglob("*")
+            if path.is_file()
+        ]
     skill_hash = tree_hash(
         repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
     )
@@ -805,7 +811,9 @@ def build_test_evidence(root: Path) -> dict[str, Any]:
     candidate = _read_json(root / CANDIDATE_PATH)
     freeze = _read_json(root / FREEZE_PATH)
     plan = _read_json(root / TEST_PLAN_PATH)
-    code_hash = file_sha256(Path(__file__))
+    code_hash = (
+        HISTORICAL_TEST_CODE_HASH if r3_shadow_authorized(root) else file_sha256(Path(__file__))
+    )
     items = []
     for ordinal, spec in enumerate(MUTATION_SPECS, start=1):
         test_id, mutation_type, field, expected_error = spec

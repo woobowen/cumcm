@@ -20,14 +20,38 @@ AUTHORIZATION_GOVERNANCE_PREFIXES = (
     "src/cumcm_skill_lab/authorization_c1/",
     "src/cumcm_skill_lab/authorization_c2/",
 )
+R3_SHADOW_PREFIX = "src/cumcm_skill_lab/shadow_validation/"
+R3_PROTOTYPE_PREFIX = "experiments/shadow_prototypes/"
+R3_STATE_PATH = Path("state/project_state.json")
+R3_AUTHORIZATION_PATH = Path(
+    "evals/results/phase-002d-r2a-c1/authorization_decision/authorization-c2.json"
+)
 C1_COMPATIBILITY_ADAPTERS = {
     "src/cumcm_skill_lab/expansion/input_freeze.py",
     "src/cumcm_skill_lab/failure_aware/evidence_freeze.py",
 }
 PROHIBITED_PREFIXES = (
-    "experiments/shadow_prototypes/",
+    R3_PROTOTYPE_PREFIX,
     "src/cumcm_skill_lab/components/",
 )
+
+
+def r3_shadow_authorized(root: Path) -> bool:
+    """Return true only for the live, candidate-bound C2-authorized R3 phase."""
+    if not (root / R3_STATE_PATH).is_file() or not (root / R3_AUTHORIZATION_PATH).is_file():
+        return False
+    state = read_json(root / R3_STATE_PATH)
+    authorization = read_json(root / R3_AUTHORIZATION_PATH)
+    return (
+        state.get("subphase") == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"
+        and state.get("current_branch") == "feat/phase002d-r3-shadow-validation"
+        and state.get("third_party_integrated") is False
+        and state.get("skill_capability_status") == "SCAFFOLD_ONLY"
+        and authorization.get("authorization_id")
+        == "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"
+        and authorization.get("decision") == "AUTOMATED_ACCEPTED"
+        and authorization.get("accepted_scope") == "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"
+    )
 
 
 def _subject_tree_id(root: Path, relative: str) -> str:
@@ -94,7 +118,9 @@ def verify_embargo(root: Path, embargo: dict[str, Any] | None = None) -> list[st
         for path, digest in embargo.get("protected_src_file_hashes", {}).items()
         if path not in C1_COMPATIBILITY_ADAPTERS
     }
-    current_protected = file_hashes(root, SRC_ROOT, excluded_prefixes=ALLOWED_PREFIXES)
+    r3_authorized = r3_shadow_authorized(root)
+    allowed_prefixes = (*ALLOWED_PREFIXES, *((R3_SHADOW_PREFIX,) if r3_authorized else ()))
+    current_protected = file_hashes(root, SRC_ROOT, excluded_prefixes=allowed_prefixes)
     current_protected = {
         path: digest
         for path, digest in current_protected.items()
@@ -118,7 +144,12 @@ def verify_embargo(root: Path, embargo: dict[str, Any] | None = None) -> list[st
         if path.is_file()
     ]
     for relative in sorted(set(tracked + worktree_paths)):
-        if any(relative.startswith(prefix) for prefix in PROHIBITED_PREFIXES):
+        active_prohibitions = tuple(
+            prefix
+            for prefix in PROHIBITED_PREFIXES
+            if not (r3_authorized and prefix == R3_PROTOTYPE_PREFIX)
+        )
+        if any(relative.startswith(prefix) for prefix in active_prohibitions):
             errors.append(f"PROHIBITED_IMPLEMENTATION_DETECTED:{relative}")
     return sorted(set(errors))
 
@@ -140,4 +171,10 @@ def check_or_write_embargo(root: Path, *, check: bool) -> dict[str, Any]:
     }
 
 
-__all__ = ["EMBARGO_ID", "EMBARGO_PATH", "check_or_write_embargo", "verify_embargo"]
+__all__ = [
+    "EMBARGO_ID",
+    "EMBARGO_PATH",
+    "check_or_write_embargo",
+    "r3_shadow_authorized",
+    "verify_embargo",
+]
