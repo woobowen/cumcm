@@ -10,6 +10,7 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from .models import (
+    C1_SUBPHASE,
     CREATED_AT,
     INPUT_FREEZE_PATH,
     RESULT_ROOT,
@@ -131,6 +132,15 @@ class SchemaVersionResolver:
                 f"{item.message}"
                 for item in Draft202012Validator(schema).iter_errors(state)
             )
+        if source == "CURRENT_TREE" and state.get("subphase") == C1_SUBPHASE:
+            shadow = state.get("shadow_authorization")
+            if not isinstance(shadow, dict):
+                errors.append("C1_PROJECT_STATE_SHADOW_AUTHORIZATION_REQUIRED")
+            else:
+                if shadow.get("input_freeze_id") != self.freeze["freeze_id"]:
+                    errors.append("C1_PROJECT_STATE_INPUT_FREEZE_ID_MISMATCH")
+                if shadow.get("input_freeze_hash") != self.freeze["manifest_hash"]:
+                    errors.append("C1_PROJECT_STATE_INPUT_FREEZE_HASH_MISMATCH")
         record = {
             "snapshot_path": "state/project_state.json",
             "snapshot_subject_commit": snapshot_subject_commit,
@@ -186,6 +196,7 @@ def migrate_state_for_comparison(
 def _migration_artifact(root: Path, historical_state: dict[str, Any]) -> dict[str, Any]:
     source_copy = deepcopy(historical_state)
     migrated = migrate_state_for_comparison(source_copy, target_schema_version="2.4.0")
+    target_validation = SchemaVersionResolver(root).resolve(migrated, source="CURRENT_TREE")
     body: dict[str, Any] = {
         "schema_version": "1.0.0",
         "migration_id": "PROJECT-STATE-DERIVED-COMPARISON-2.3-TO-2.4-001",
@@ -197,6 +208,9 @@ def _migration_artifact(root: Path, historical_state: dict[str, Any]) -> dict[st
         "security_fields_preserved": all(
             migrated[field] == historical_state[field] for field in SECURITY_FIELDS
         ),
+        "target_schema_validation_result": target_validation["validation_result"],
+        "target_schema_validation_errors": target_validation["errors"],
+        "target_schema_file_sha256": target_validation["schema_file_sha256"],
         "migration_code_path": ("src/cumcm_skill_lab/authorization_c1/schema_resolution.py"),
         "migration_code_file_sha256": file_sha256(
             root / "src/cumcm_skill_lab/authorization_c1/schema_resolution.py"
@@ -236,10 +250,12 @@ def build_schema_resolution_record(root: Path) -> tuple[dict[str, Any], dict[str
     errors = [error for item in resolutions for error in item["errors"]]
     if not migration["source_unchanged"] or not migration["security_fields_preserved"]:
         errors.append("PROJECT_STATE_MIGRATION_INVARIANT_FAILED")
+    if migration["target_schema_validation_result"] != "PASS":
+        errors.append("PROJECT_STATE_MIGRATION_TARGET_SCHEMA_INVALID")
     body: dict[str, Any] = {
         "schema_version": "1.0.0",
         "record_id": "PHASE-002D-R2A-C1-SCHEMA-RESOLUTION-001",
-        "artifact_sequence_index": 1,
+        "artifact_sequence_index": 2,
         "parent_artifact_hash": history["record_hash"],
         "created_at": CREATED_AT,
         "historical_compatibility_hash": history["record_hash"],

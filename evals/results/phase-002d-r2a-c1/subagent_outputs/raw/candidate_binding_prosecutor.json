@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "R2A-C1-M4-CANDIDATE-BINDING-PROSECUTOR-001",
+  "role": "candidate_binding_prosecutor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "reviewed_commit": "3106454daf234aff50af5ec1941c35ac548b7274",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+  "verdict": "ABSTAIN",
+  "evidence_refs": [
+    "commit:2d117985404b21abd7f0c3a10258731e06f77852",
+    "commit:3106454daf234aff50af5ec1941c35ac548b7274",
+    "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json#db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "evals/results/phase-002d-r2a-c1/historical_verification/record.json#7b7a961bc0fb82aa6a4e263109fcdfa1d45d3bd53131309f6486c5ffee00037b",
+    "evals/results/phase-002d-r2a-c1/schema_resolution/record.json#3b39684cb4ba607c0826956ea7155e416754261a9ad65ff98ce0a5775040621c",
+    "evals/results/phase-002d-r2a/authorization_candidate/candidate.json#file:2d612e761537c653a6bb27cba66cbf10c75e1b4e9758fa8443a6960525647b21#canonical:fc8dbec82107763fb875f5e3a06e135f86dab917a9db47f953de3058d34fb6bb",
+    "evals/results/phase-002d-r2a/subagent_outputs/final_shadow_authorization_auditor.json#R2A-FINAL-002"
+  ],
+  "checks": [
+    {"check_id": "CBP-CHECK-INPUT-FREEZE", "result": "PASS", "statement": "L0 preserves the old candidate as historical context."},
+    {"check_id": "CBP-CHECK-C1-CANDIDATE", "result": "NOT_YET_AVAILABLE", "statement": "C1 and L3-L8 artifacts do not exist at reviewed commit."},
+    {"check_id": "CBP-CHECK-L4PLUS-CONTRACT", "result": "FAIL", "statement": "Existing historical schemas cannot enforce the C1 exact-candidate tuple and parent chain."},
+    {"check_id": "CBP-CHECK-POST-AUDIT-MUTATION", "result": "FAIL", "statement": "Historical final-audit validation does not bind the three C1 candidate hashes."},
+    {"check_id": "CBP-CHECK-SEQUENCE", "result": "FAIL", "statement": "Historical and Schema records both used sequence index 1."}
+  ],
+  "findings": [
+    {
+      "finding_id": "C1-CBP-001",
+      "severity": "BLOCKER",
+      "status": "DEFERRED",
+      "statement": "A C1 machine contract must require candidate_id, candidate_file_sha256, canonical_candidate_hash, candidate_freeze_hash, parent_artifact_hash, and artifact_sequence_index on every L4+ artifact.",
+      "evidence_paths": ["contracts/authorization_precondition.schema.json", "contracts/test_evidence.schema.json", "contracts/authorization_seal.schema.json", "contracts/subagent_audit.schema.json"],
+      "required_test": "C1-DET-L4PLUS-EXACT-CANDIDATE-TUPLE-001"
+    },
+    {
+      "finding_id": "C1-CBP-002",
+      "severity": "BLOCKER",
+      "status": "DEFERRED",
+      "statement": "Final audit output and terminal gates must bind and recompute candidate byte, canonical, and freeze hashes to detect post-audit mutation.",
+      "evidence_paths": ["src/cumcm_skill_lab/specification/authorization/native_audits.py", "src/cumcm_skill_lab/specification/authorization/terminal_gates.py", "tests/unit/test_phase002d_r2a_final_audit_inputs.py"],
+      "required_test": "C1-DET-POST-AUDIT-CANDIDATE-MUTATION-001"
+    },
+    {
+      "finding_id": "C1-CBP-003",
+      "severity": "ERROR",
+      "status": "DEFERRED",
+      "statement": "C1 needs a canonicalization and freeze validator that excludes reserved external hashes, rejects self-reference, and retains unknown fields.",
+      "evidence_paths": ["src/cumcm_skill_lab/authorization_c1/models.py", "src/cumcm_skill_lab/specification/authorization/candidate.py", "scripts/generate_shadow_authorization_candidate.py"],
+      "required_test": "C1-DET-CANONICAL-NO-SELF-REFERENCE-UNKNOWN-FIELD-001"
+    },
+    {
+      "finding_id": "C1-CBP-004",
+      "severity": "BLOCKER",
+      "status": "DEFERRED",
+      "statement": "Candidate-bound evidence must make old-candidate, pre-freeze, or relabeled C1-to-C2 evidence machine-rejectable and record mutation/code/input/output/exit details.",
+      "evidence_paths": ["contracts/test_evidence.schema.json", "evals/results/phase-002d-r2a/test_evidence/evidence.json", "evals/results/phase-002d-r2a/adversarial_findings/closure.json"],
+      "required_test": "C1-DET-WRONG-CANDIDATE-AND-PREFREEZE-EVIDENCE-001"
+    },
+    {
+      "finding_id": "C1-CBP-005",
+      "severity": "ERROR",
+      "status": "DEFERRED",
+      "statement": "The C1 monotonic chain must reject duplicated or inverted sequence indexes in addition to parent mismatches.",
+      "evidence_paths": ["evals/results/phase-002d-r2a-c1/historical_verification/record.json", "evals/results/phase-002d-r2a-c1/schema_resolution/record.json"],
+      "required_test": "C1-DET-MONOTONIC-SEQUENCE-AND-PARENT-001"
+    },
+    {
+      "finding_id": "C1-CBP-006",
+      "severity": "ERROR",
+      "status": "DEFERRED",
+      "statement": "A dedicated C1 state-transition validator must prove artifact equality and route restrictions rather than accept independently well-formed hashes.",
+      "evidence_paths": ["contracts/project_state.schema.json", "src/cumcm_skill_lab/specification/authorization/bindings.py", "state/project_state.json"],
+      "required_test": "C1-DET-STATE-EXACT-BINDING-AND-ROUTE-001"
+    }
+  ],
+  "unresolved_blockers": ["C1-CBP-001", "C1-CBP-002", "C1-CBP-004"],
+  "limitations": [
+    "C1 candidate and L3-L8 artifacts were unavailable, so ABSTAIN is not PASS and cannot authorize sealing.",
+    "No peer output, web, MCP, API, nested Codex, hidden Benchmark content, file write, commit, push, or full pytest was used."
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "api_calls": 0,
+  "majority_vote_used": false,
+  "expected_conclusion_visible": false
+}

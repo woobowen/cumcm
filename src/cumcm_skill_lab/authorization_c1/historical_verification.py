@@ -23,6 +23,40 @@ MODES = {
 }
 
 
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """Safe YAML loader that fails closed when a mapping key is duplicated."""
+
+
+def _construct_unique_mapping(
+    loader: _UniqueKeyLoader, node: yaml.MappingNode, deep: bool = False
+) -> dict[Any, Any]:
+    loader.flatten_mapping(node)
+    mapping: dict[Any, Any] = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in mapping:
+            raise yaml.constructor.ConstructorError(
+                "while constructing a mapping",
+                node.start_mark,
+                f"found duplicate key {key!r}",
+                key_node.start_mark,
+            )
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+_UniqueKeyLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+    _construct_unique_mapping,
+)
+
+
+def load_unique_yaml(value: bytes | str) -> Any:
+    """Parse YAML without accepting consumer-dependent duplicate-key semantics."""
+    text = value.decode("utf-8") if isinstance(value, bytes) else value
+    return yaml.load(text, Loader=_UniqueKeyLoader)
+
+
 def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -43,7 +77,7 @@ def _semantic_diff(left: Any, right: Any, prefix: str = "") -> set[str]:
 
 
 def load_policy(root: Path) -> dict[str, Any]:
-    policy = yaml.safe_load((root / POLICY_PATH).read_text(encoding="utf-8"))
+    policy = load_unique_yaml((root / POLICY_PATH).read_text(encoding="utf-8"))
     schema = _read_json(root / POLICY_SCHEMA_PATH)
     errors = sorted(Draft202012Validator(schema).iter_errors(policy), key=str)
     if errors:
@@ -133,8 +167,8 @@ def verify_file_entry(
     if mode != "LIVE_SEMANTIC_POINTER":
         return [f"HISTORICAL_UNSUPPORTED_MODE:{path}:{mode}"]
     try:
-        historical_value = yaml.safe_load(subject.decode("utf-8"))
-        current_value = yaml.safe_load(current_bytes.decode("utf-8"))
+        historical_value = load_unique_yaml(subject)
+        current_value = load_unique_yaml(current_bytes)
     except (UnicodeDecodeError, yaml.YAMLError) as exc:
         return [f"LIVE_POINTER_PARSE_FAILED:{path}:{type(exc).__name__}"]
     errors = _validate_workflow(root, current_value, entry.get("current_schema"))
@@ -218,6 +252,7 @@ __all__ = [
     "MODES",
     "POLICY_PATH",
     "load_policy",
+    "load_unique_yaml",
     "policy_entry",
     "subject_tree_hash",
     "verify_derived_observation",

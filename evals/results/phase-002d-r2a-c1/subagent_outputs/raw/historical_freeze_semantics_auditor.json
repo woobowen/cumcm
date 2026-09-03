@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "PHASE-002D-R2A-C1-HISTORICAL-FREEZE-SEMANTICS-AUDIT-001",
+  "role": "historical_freeze_semantics_auditor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "reviewed_commit": "3106454daf234aff50af5ec1941c35ac548b7274",
+  "verdict": "RETEST",
+  "evidence_refs": [
+    "commit:2d117985404b21abd7f0c3a10258731e06f77852",
+    "commit:f1ba332575ba2ad0606503c37e1118a9db33226b",
+    "commit:3db8a4b77f79dd4a99cfa2d5f979433eec5dc8ea",
+    "commit:3106454daf234aff50af5ec1941c35ac548b7274",
+    "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json#db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "evals/results/phase-002d-r2a-c1/historical_verification/record.json#7b7a961bc0fb82aa6a4e263109fcdfa1d45d3bd53131309f6486c5ffee00037b",
+    "rules/workflow_rules.yaml#40b41ee7ab9cd9b79488e25c0e22e766f42fd7c987a3fa1a0b3f7c56f04f78bf",
+    "tests/unit/test_historical_verification.py"
+  ],
+  "checks": [
+    {"check_id": "HFS-CHECK-001", "result": "PASS", "statement": "Committed compatibility record rebuilt exactly."},
+    {"check_id": "HFS-CHECK-002", "result": "PASS", "statement": "R1 and Phase 002D historical freezes resolve their Git subjects."},
+    {"check_id": "HFS-CHECK-003", "result": "PASS", "statement": "Only git_delivery.preferred_task_branch differs semantically in the live workflow pointer."},
+    {"check_id": "HFS-CHECK-004", "result": "PASS", "statement": "Historical result trees are byte-identical from the C1 starting commit."},
+    {"check_id": "HFS-CHECK-005", "result": "FAIL", "statement": "C1 immutable root subject commits could be retargeted inside policy."},
+    {"check_id": "HFS-CHECK-006", "result": "FAIL", "statement": "yaml.safe_load accepted duplicate mapping keys."}
+  ],
+  "findings": [
+    {
+      "finding_id": "HFS-AUD-001",
+      "severity": "BLOCKER",
+      "status": "OPEN",
+      "statement": "C1 CURRENT_TREE_IMMUTABLE roots have a movable trust anchor unless each policy subject_commit is bound to the L0 starting_commit before expected-tree calculation.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/historical_record.py",
+        "contracts/historical_verification_policy.schema.json",
+        "rules/historical_verification_policy.yaml",
+        "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+      ],
+      "required_test": "HFS-C1-T016-C1-SUBJECT-COMMIT-RETARGET-REJECTED"
+    },
+    {
+      "finding_id": "HFS-AUD-002",
+      "severity": "ERROR",
+      "status": "OPEN",
+      "statement": "LIVE_SEMANTIC_POINTER parsing must reject duplicate YAML mapping keys because consumers may interpret duplicate security keys differently.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/historical_verification.py",
+        "rules/historical_verification_policy.yaml",
+        "contracts/workflow_rules.schema.json"
+      ],
+      "required_test": "HFS-C1-T017-LIVE-POINTER-DUPLICATE-YAML-KEY-REJECTED"
+    },
+    {
+      "finding_id": "HFS-AUD-003",
+      "severity": "WARN",
+      "status": "OPEN",
+      "statement": "The registered reports/current_state.md DERIVED_OBSERVATION should be recomputed from authoritative project state inside the compatibility record.",
+      "evidence_paths": [
+        "rules/historical_verification_policy.yaml",
+        "src/cumcm_skill_lab/authorization_c1/historical_record.py",
+        "src/cumcm_skill_lab/report_generation.py"
+      ],
+      "required_test": "HFS-C1-T018-DERIVED-OBSERVATION-AUTHORITY-RECOMPUTED"
+    }
+  ],
+  "unresolved_blockers": ["HFS-AUD-001", "HFS-AUD-002"],
+  "limitations": [
+    "No peer output, web, MCP, API, nested Codex, hidden Benchmark content, file write, commit, push, or full pytest was used.",
+    "The attacks were in-memory; no historical artifact was modified."
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "api_calls": 0,
+  "majority_vote_used": false,
+  "expected_conclusion_visible": false
+}

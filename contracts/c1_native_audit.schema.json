@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/c1-native-audit/v1",
+  "title": "Phase 002D-R2A-C1 native read-only audit",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version", "audit_id", "role", "round", "independent", "read_only",
+    "peer_output_access", "reviewed_commit", "verdict", "evidence_refs", "checks",
+    "findings", "unresolved_blockers", "limitations", "writes_observed",
+    "nested_codex_used", "web_used", "mcp_used", "api_calls",
+    "majority_vote_used", "expected_conclusion_visible", "output_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "audit_id": {"type": "string", "minLength": 1},
+    "role": {"enum": [
+      "historical_freeze_semantics_auditor",
+      "schema_version_compatibility_auditor",
+      "candidate_binding_prosecutor",
+      "final_shadow_authorization_auditor"
+    ]},
+    "round": {"enum": ["FIRST_ROUND", "POST_DECISION"]},
+    "independent": {"const": true},
+    "read_only": {"const": true},
+    "peer_output_access": {"enum": ["NONE", "FROZEN_PREDECESSORS_ONLY"]},
+    "reviewed_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "candidate_id": {"type": ["string", "null"]},
+    "candidate_file_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "canonical_candidate_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "candidate_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "bundle_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "verdict": {"enum": ["PASS", "FAIL", "RETEST", "RETEST_REQUIRED", "ABSTAIN"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "checks": {"type": "array", "items": {"type": "object"}},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["finding_id", "severity", "status", "statement", "evidence_paths", "required_test"],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["BLOCKER", "ERROR", "WARN", "INFO"]},
+          "status": {"enum": ["OPEN", "RESOLVED", "DEFERRED", "UNRESOLVED"]},
+          "statement": {"type": "string", "minLength": 1},
+          "evidence_paths": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "required_test": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "unresolved_blockers": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "writes_observed": {"const": false},
+    "nested_codex_used": {"const": false},
+    "web_used": {"const": false},
+    "mcp_used": {"const": false},
+    "api_calls": {"const": 0},
+    "majority_vote_used": {"const": false},
+    "expected_conclusion_visible": {"const": false},
+    "output_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"role": {"const": "final_shadow_authorization_auditor"}}, "required": ["role"]},
+      "then": {
+        "required": ["candidate_id", "candidate_file_sha256", "canonical_candidate_hash", "candidate_freeze_hash", "bundle_hash"],
+        "properties": {"round": {"const": "POST_DECISION"}, "peer_output_access": {"const": "FROZEN_PREDECESSORS_ONLY"}}
+      },
+      "else": {"properties": {"round": {"const": "FIRST_ROUND"}, "peer_output_access": {"const": "NONE"}}}
+    }
+  ],
+  "additionalProperties": false
+}

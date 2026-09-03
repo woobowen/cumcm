@@ -1,7 +1,9 @@
 from copy import deepcopy
 
+import pytest
 import yaml
 
+from cumcm_skill_lab.authorization_c1.historical_record import build_historical_record
 from cumcm_skill_lab.authorization_c1.historical_verification import (
     load_policy,
     policy_entry,
@@ -165,3 +167,41 @@ def test_historical_tree_checks_subject_and_current(repo_root):
     entry = policy_entry(load_policy(repo_root), "evals/results/phase-002/", VERSION)
     expected = "12bb666a5532ec810bba842971c20cd4d8635268360cfd901a60bd9def650e3e"
     assert verify_tree_entry(repo_root, entry, expected) == []
+
+
+def test_c1_immutable_subject_commit_retarget_is_rejected(repo_root, monkeypatch):
+    import cumcm_skill_lab.authorization_c1.historical_record as record_module
+
+    mutated = deepcopy(record_module.load_policy(repo_root))
+    for entry in mutated["entries"]:
+        if (
+            entry["manifest_version"] == "PHASE-002D-R2A-C1/1.0.0"
+            and entry["verification_mode"] == "CURRENT_TREE_IMMUTABLE"
+        ):
+            entry["subject_commit"] = "3106454daf234aff50af5ec1941c35ac548b7274"
+    monkeypatch.setattr(record_module, "load_policy", lambda _root: mutated)
+    record = build_historical_record(repo_root)
+    assert record["result"] == "FAIL"
+    assert any(
+        item.startswith("C1_HISTORICAL_SUBJECT_RETARGETED:")
+        for item in record["preservation_errors"]
+    )
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        b"version: 1\nversion: 1\n",
+        b"git_delivery:\n  allow_force_push: true\n  allow_force_push: false\n",
+    ],
+)
+def test_live_pointer_duplicate_yaml_key_is_rejected(repo_root, payload):
+    errors = verify_file_entry(
+        repo_root, _workflow_entry(repo_root), WORKFLOW_HASH, current_bytes=payload
+    )
+    assert any(item.startswith("LIVE_POINTER_PARSE_FAILED:") for item in errors)
+
+
+def test_derived_observation_is_recomputed_from_authoritative_state(repo_root):
+    record = build_historical_record(repo_root)
+    assert record["derived_observation_errors"] == []

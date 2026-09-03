@@ -208,3 +208,16 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   freeze/state/Schema selection passes `162`, full pytest passes `1339` with one skip, CI exits zero,
   and strict validation reports zero errors/warnings. Schema resolution record hash is
   `3b39684cb4ba607c0826956ea7155e416754261a9ad65ff98ce0a5775040621c`.
+- `2026-09-03`: M4 ran three independent native read-only audits without peer visibility, web,
+  MCP, API, nested Codex, writes, votes, or an expected conclusion. Historical and Schema auditors
+  returned `RETEST`; the pre-candidate prosecutor correctly returned `ABSTAIN`. Five serious
+  compatibility findings became deterministic tests and were closed: immutable-root subject
+  retargeting, duplicate YAML keys, missing C1 state namespace, wrong C1 freeze identity, and
+  migration target-Schema validation. The derived-observation warning was also closed. Candidate
+  findings remain explicitly deferred to M5/M6 and ABSTAIN is not treated as PASS. Historical
+  compatibility hash is `e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037`,
+  Schema resolution hash is `7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462`,
+  and compatibility-audit closure hash is
+  `0e923c8c580cad513ba91fcfaf2656f67c4c092628e34252d7e1e136e7c57617`.
+  One M4 repair loop fixed missing contract fixtures; the rerun passed `1352` tests with one skip,
+  full CI exited zero, and strict validation reported zero errors/warnings.

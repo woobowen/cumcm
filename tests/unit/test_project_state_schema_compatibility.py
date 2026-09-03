@@ -161,3 +161,44 @@ def test_derived_migration_validates_only_as_current_comparison(repo_root):
     )
     result = SchemaVersionResolver(repo_root).resolve(migrated, source="CURRENT_TREE")
     assert result["validation_result"] == "PASS"
+
+
+def test_c1_current_state_requires_shadow_authorization(repo_root):
+    state = _current_state(repo_root)
+    del state["shadow_authorization"]
+    result = SchemaVersionResolver(repo_root).resolve(state, source="CURRENT_TREE")
+    assert "C1_PROJECT_STATE_SHADOW_AUTHORIZATION_REQUIRED" in result["errors"]
+
+
+def test_c1_current_state_rejects_old_freeze_identity(repo_root):
+    state = _current_state(repo_root)
+    state["shadow_authorization"]["input_freeze_id"] = "PHASE-002D-R2A-INPUT-FREEZE-001"
+    state["shadow_authorization"]["input_freeze_hash"] = "0" * 64
+    result = SchemaVersionResolver(repo_root).resolve(state, source="CURRENT_TREE")
+    assert "C1_PROJECT_STATE_INPUT_FREEZE_ID_MISMATCH" in result["errors"]
+    assert "C1_PROJECT_STATE_INPUT_FREEZE_HASH_MISMATCH" in result["errors"]
+
+
+def test_migration_record_fails_closed_on_target_schema_invalid(repo_root, monkeypatch):
+    original = schema_module.migrate_state_for_comparison
+
+    def invalid_migration(state, *, target_schema_version):
+        migrated = original(state, target_schema_version=target_schema_version)
+        migrated["selected_architecture"] = "ARCH-ATTACKER"
+        return migrated
+
+    monkeypatch.setattr(schema_module, "migrate_state_for_comparison", invalid_migration)
+    record, migration = schema_module.build_schema_resolution_record(repo_root)
+    assert migration["target_schema_validation_result"] == "FAIL"
+    assert "PROJECT_STATE_MIGRATION_TARGET_SCHEMA_INVALID" in record["errors"]
+
+
+def test_schema_resolution_sequence_strictly_follows_history(repo_root):
+    history = json.loads(
+        (
+            repo_root / "evals/results/phase-002d-r2a-c1/historical_verification/record.json"
+        ).read_text(encoding="utf-8")
+    )
+    record, _ = schema_module.build_schema_resolution_record(repo_root)
+    assert record["parent_artifact_hash"] == history["record_hash"]
+    assert record["artifact_sequence_index"] == history["artifact_sequence_index"] + 1

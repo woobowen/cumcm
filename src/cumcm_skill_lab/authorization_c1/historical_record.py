@@ -7,12 +7,14 @@ from pathlib import Path
 from typing import Any
 
 from cumcm_skill_lab.failure_aware.evidence_freeze import verify_input_freeze
+from cumcm_skill_lab.report_generation import render_status_text
 
 from .historical_verification import (
     POLICY_PATH,
     load_policy,
     policy_entry,
     subject_tree_hash,
+    verify_derived_observation,
     verify_tree_entry,
 )
 from .models import (
@@ -21,6 +23,7 @@ from .models import (
     RESULT_ROOT,
     check_or_write_json,
     file_sha256,
+    git_file_sha256,
     sha256_json,
 )
 
@@ -43,10 +46,21 @@ def build_historical_record(root: Path) -> dict[str, Any]:
     preservation_errors: list[str] = []
     for relative in dict.fromkeys(freeze["historical_roots_immutable"]):
         entry = policy_entry(policy, relative, "PHASE-002D-R2A-C1/1.0.0")
+        if entry["subject_commit"] != freeze["starting_commit"]:
+            preservation_errors.append(f"C1_HISTORICAL_SUBJECT_RETARGETED:{relative}")
+            continue
         expected = subject_tree_hash(root, entry)
         preserved_tree_hashes[relative] = expected
         preservation_errors.extend(verify_tree_entry(root, entry, expected))
     errors.extend(preservation_errors)
+    derived_entry = policy_entry(policy, "reports/current_state.md", "PHASE-002D-R2A-C1/1.0.0")
+    derived_errors = verify_derived_observation(
+        root,
+        derived_entry,
+        git_file_sha256(root, derived_entry["subject_commit"], derived_entry["path"]),
+        lambda: render_status_text(_read_json(root / "state/project_state.json")).encode("utf-8"),
+    )
+    errors.extend(derived_errors)
     body: dict[str, Any] = {
         "schema_version": "1.0.0",
         "record_id": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-001",
@@ -90,6 +104,7 @@ def build_historical_record(root: Path) -> dict[str, Any]:
         "historical_r1_freeze_errors": errors,
         "preserved_historical_tree_hashes": preserved_tree_hashes,
         "preservation_errors": preservation_errors,
+        "derived_observation_errors": derived_errors,
         "original_failure_count_fixed": 20 if not errors else 0,
         "result": "PASS" if not errors else "FAIL",
         "no_current_file_fallback": True,
