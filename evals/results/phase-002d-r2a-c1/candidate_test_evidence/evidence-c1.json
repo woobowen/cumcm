@@ -1,0 +1,1651 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_set_id": "PHASE-002D-R2A-C1-CANDIDATE-MUTATION-EVIDENCE-001",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+  "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+  "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+  "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+  "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+  "artifact_sequence_index": 7,
+  "evidence_count": 30,
+  "passed_count": 30,
+  "test_evidence": [
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-001",
+      "test_id": "C1-MUT-001",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 1,
+      "mutation_type": "CANDIDATE_BYTE_MUTATION",
+      "mutated_field": "$bytes",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "CANDIDATE_BYTE_MUTATION",
+        "mutated_field": "$bytes",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "e3bbb216ef7c5c0fce07fcdf879ea2bc0f550fb27e75445e7336cb2152132c3f",
+        "candidate_copy_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_copy_bytes_sha256": "e3bbb216ef7c5c0fce07fcdf879ea2bc0f550fb27e75445e7336cb2152132c3f",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": false
+        }
+      },
+      "input_hash": "f353719d042ff872b78d99fe3019023f0648331f0301b7b0c7c61d8eb396d68d",
+      "output_hash": "6dcc9ffbb84dbd82ddc5d264ef8052c4c0931a12692260198ebaec7cce087c06",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "7806cf1788e14f6e5f32b5cdc28c4f85a5c9deddecbe02a43519d37f72744762"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-002",
+      "test_id": "C1-MUT-002",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 2,
+      "mutation_type": "CANONICAL_SEMANTIC_MUTATION",
+      "mutated_field": "accepted_scope",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "CANONICAL_SEMANTIC_MUTATION",
+        "mutated_field": "accepted_scope",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "7485db38c3a32e7a992dce67d76110e1a7ec2f09e643a1d93a0f05ee77123006",
+        "candidate_copy_hash": "e7de02415680091f41a5dde66bc4ae7bb684fba8e6fd3a452884a0941df846a2",
+        "candidate_copy_bytes_sha256": "7485db38c3a32e7a992dce67d76110e1a7ec2f09e643a1d93a0f05ee77123006",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY_MUTATED"
+        }
+      },
+      "input_hash": "a92a28cee5d720930c16671f45c2992217b7430b6e59e2248fc6eb6cf08d7fd9",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "36c2fa93562432a56c7fb77609db84b1674ba4e9b50af192fe6d4238988d3e89"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-003",
+      "test_id": "C1-MUT-003",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 3,
+      "mutation_type": "CANDIDATE_ID_MUTATION",
+      "mutated_field": "candidate_id",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_ID_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_ID_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "CANDIDATE_ID_MUTATION",
+        "mutated_field": "candidate_id",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "8936be20ef242bc8cda4e9b061839d0d4681e2797e04ee5fe378d3f0a94da23e",
+        "candidate_copy_hash": "8105f82d866f91f89ff3dba4996014936e361acc543c1d688c56244b106494e7",
+        "candidate_copy_bytes_sha256": "8936be20ef242bc8cda4e9b061839d0d4681e2797e04ee5fe378d3f0a94da23e",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "CANDIDATE-ATTACKER"
+        }
+      },
+      "input_hash": "ce1723efbf82cda16fca744a3e0c3d190313cc792ac989d8f2908b5b390bf707",
+      "output_hash": "bde9880394958988c8f0b7aaac7fb6822eac6c7ac97a0a49e1f2fe860296b1c1",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "380ab9463f37f5ed26dd2403442b09f01b960526fd1cbe1e049062009b6b199b"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-004",
+      "test_id": "C1-MUT-004",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 4,
+      "mutation_type": "ACCEPTED_SCOPE_MUTATION",
+      "mutated_field": "accepted_scope",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "ACCEPTED_SCOPE_MUTATION",
+        "mutated_field": "accepted_scope",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "64dc3195d4ba7ff1c94992fa87385a9a69840980491e0c222373fada455dfbcb",
+        "candidate_copy_hash": "8435a4212d0653b73ef42d4267fba6bc8360341988d76d449a06f19aa9746293",
+        "candidate_copy_bytes_sha256": "64dc3195d4ba7ff1c94992fa87385a9a69840980491e0c222373fada455dfbcb",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "FORMAL_INTEGRATION"
+        }
+      },
+      "input_hash": "695c44faea5cb7abb961b33ebf298d91e7b856a2653118681dae2ba4c7c2978e",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "31bac20a3620ff351f217667f3bc7468be158d5c97ac42c33594f02ab5881483"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-005",
+      "test_id": "C1-MUT-005",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 5,
+      "mutation_type": "NEXT_PHASE_MUTATION",
+      "mutated_field": "next_phase_allowed",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "NEXT_PHASE_MUTATION",
+        "mutated_field": "next_phase_allowed",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "689435155953658c041479a0c4c859cf2a152f353d8157ad1cd51b71a14477d1",
+        "candidate_copy_hash": "61c92e87c84d12bfc383f44a1c3fd77d32ff81676fa75c62521f46a47d5fc1e8",
+        "candidate_copy_bytes_sha256": "689435155953658c041479a0c4c859cf2a152f353d8157ad1cd51b71a14477d1",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": null
+        }
+      },
+      "input_hash": "46dc0175b51006a0e588a908ae31aac7985be4ae0c751a04baf3d7ae319b14db",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "5a33837c0e8a0e3499faffa36b1e3115d446791f6ce345f1355046be84d74ee2"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-006",
+      "test_id": "C1-MUT-006",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 6,
+      "mutation_type": "ARCHITECTURE_SELECTION",
+      "mutated_field": "selected_architecture",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_ARCHITECTURE_SELECTION_PROHIBITED",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_ARCHITECTURE_SELECTION_PROHIBITED",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "ARCHITECTURE_SELECTION",
+        "mutated_field": "selected_architecture",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "a1934ff0fd0e4eaef29771c5fceb2132fabe0d599cb9e2d7163bfd28566649d6",
+        "candidate_copy_hash": "7e57b8a1834d0a52a52de1565e151fc4c78340cc6d62612d58932aca56f39f64",
+        "candidate_copy_bytes_sha256": "a1934ff0fd0e4eaef29771c5fceb2132fabe0d599cb9e2d7163bfd28566649d6",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+        }
+      },
+      "input_hash": "5a8def35f2988003ae612d8d5c9c98945a5e7da1014c7b265a15aa866db2992d",
+      "output_hash": "7ab320be283e08b63b7024c872f49af46d5bed8adad29aeaf587473ae1a8f326",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "5fa8e4675f2e3f40da9a2c63e1835f2040243af9faa87bfff9b22243a64c82e3"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-007",
+      "test_id": "C1-MUT-007",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 7,
+      "mutation_type": "BASE_SELECTION",
+      "mutated_field": "base_selected",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_FORMAL_INTEGRATION_PROHIBITED",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_FORMAL_INTEGRATION_PROHIBITED",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "BASE_SELECTION",
+        "mutated_field": "base_selected",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "ec25343d7d769b1a160c94b6ab2438670bba4f658a19783eaeabc59b8d0de01d",
+        "candidate_copy_hash": "08f2ff75a3beb7e33fa62a6d202eef597470b47d115bd6ae59eb553c521a1052",
+        "candidate_copy_bytes_sha256": "ec25343d7d769b1a160c94b6ab2438670bba4f658a19783eaeabc59b8d0de01d",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": true
+        }
+      },
+      "input_hash": "e490e3e8c41b8b0dc0a62c469372119866e57b9bf98837d48ddc1b431c60b0a3",
+      "output_hash": "6b6fd963c9a7ec475c8c0ecb9759c09dfcb091888dfd7a7e0efabf1d32544913",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "f1649efb0194c489e8329bde66a5e8632e4b35881d85d5130c2e75a4408fabab"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-008",
+      "test_id": "C1-MUT-008",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 8,
+      "mutation_type": "THIRD_PARTY_INTEGRATION",
+      "mutated_field": "third_party_integrated",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_FORMAL_INTEGRATION_PROHIBITED",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_FORMAL_INTEGRATION_PROHIBITED",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "THIRD_PARTY_INTEGRATION",
+        "mutated_field": "third_party_integrated",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "bf30fa336d7243a9b67373fb965fd150582b71c7520a5fe80427a2d64d455dbf",
+        "candidate_copy_hash": "eb1483b8d272bf3a7137fd0b7fe3c58070c51c78e54a2e2300094ac7c4f2e2be",
+        "candidate_copy_bytes_sha256": "bf30fa336d7243a9b67373fb965fd150582b71c7520a5fe80427a2d64d455dbf",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": true
+        }
+      },
+      "input_hash": "5fd93c000ce53b9c4a7ed6858ea8429aff7e13631063e9af1f40c1e318449a3a",
+      "output_hash": "6b6fd963c9a7ec475c8c0ecb9759c09dfcb091888dfd7a7e0efabf1d32544913",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "2fa6e45c1894f992cd2530d65bf15dca799a988e41579222cd221db36055fc4c"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-009",
+      "test_id": "C1-MUT-009",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 9,
+      "mutation_type": "FORMAL_INTEGRATION_SCOPE",
+      "mutated_field": "restrictions",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "FORMAL_INTEGRATION_SCOPE",
+        "mutated_field": "restrictions",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "c23c1c3cef5fce303f3111a669fde23a04d34a5a06a064c810dc5fcf370e0fec",
+        "candidate_copy_hash": "f38c75d8c1588ee6fa530fa2b3e7a32e1b96dc752b25499832abc7e64cac83b0",
+        "candidate_copy_bytes_sha256": "c23c1c3cef5fce303f3111a669fde23a04d34a5a06a064c810dc5fcf370e0fec",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": [
+            "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+            "NO_ARCHITECTURE_SELECTION",
+            "NO_FORMAL_SKILL_WRITE",
+            "NO_FORMAL_INTEGRATION",
+            "NO_HIDDEN_VAULT_ACCESS",
+            "NO_THIRD_PARTY_CODE_OR_EXECUTION",
+            "NO_MODEL_STAGE2_WITHOUT_NEW_FROZEN_AUTHORIZATION",
+            "NO_PHASE_003",
+            "FORMAL_INTEGRATION_ALLOWED"
+          ]
+        }
+      },
+      "input_hash": "421fb1283bfd467104c48990ca22d22efdcb3e0e5984af5752afb1872a5b6e49",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "181c68ae7f24531a52a2bacf10d5baa2ddf2d48386d253c2f41d4e19c5115a71"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-010",
+      "test_id": "C1-MUT-010",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 10,
+      "mutation_type": "PHASE_003_ROUTE",
+      "mutated_field": "next_phase_allowed",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "PHASE_003_ROUTE",
+        "mutated_field": "next_phase_allowed",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "db379bbb031aa9bb9ee41a08f788e086d292afe403558fc2b32d882afd7c0179",
+        "candidate_copy_hash": "667ae3aa748878d1cf3d139865429f13e77024a31f9d430f64bb22ab174c7d48",
+        "candidate_copy_bytes_sha256": "db379bbb031aa9bb9ee41a08f788e086d292afe403558fc2b32d882afd7c0179",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "PHASE-003"
+        }
+      },
+      "input_hash": "fdaf0ac3e40f0ea789798b57b1c39930cd5ea0439566d2f2408d49379b14b615",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "822ff78e5c74e4aceead364cb85df41df4869c062dd09b896feb5c41b5b11bb0"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-011",
+      "test_id": "C1-MUT-011",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 11,
+      "mutation_type": "HIDDEN_VAULT_ACCESS",
+      "mutated_field": "restrictions",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "HIDDEN_VAULT_ACCESS",
+        "mutated_field": "restrictions",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "e28d758f2ab2984b07ffa5f6852983896b3d538a8a1cf377b07b80b2e696b8b2",
+        "candidate_copy_hash": "2abba9efdc7a9f21b00a25c743672e58f29b7e74329c157a4832dfe8f5bbf63c",
+        "candidate_copy_bytes_sha256": "e28d758f2ab2984b07ffa5f6852983896b3d538a8a1cf377b07b80b2e696b8b2",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": [
+            "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+            "NO_ARCHITECTURE_SELECTION",
+            "NO_FORMAL_SKILL_WRITE",
+            "NO_FORMAL_INTEGRATION",
+            "NO_THIRD_PARTY_CODE_OR_EXECUTION",
+            "NO_MODEL_STAGE2_WITHOUT_NEW_FROZEN_AUTHORIZATION",
+            "NO_PHASE_003"
+          ]
+        }
+      },
+      "input_hash": "2f84395d1b5c41d7675c27b33e9a44772674bb3f63e26a7d70b1861ffa6f9bd4",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "175613b5ad16bc87825bf84d16e9ba9ce25f065e3f67cf5d1241d42bfecfa0a0"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-012",
+      "test_id": "C1-MUT-012",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 12,
+      "mutation_type": "FORMAL_SKILL_WRITE",
+      "mutated_field": "restrictions",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "FORMAL_SKILL_WRITE",
+        "mutated_field": "restrictions",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "734023bbe9fefe23c7982ac36196ca97ce80d51b649f873901e2fce8ef9906e5",
+        "candidate_copy_hash": "c44addc3b9fcaec801f0a8c24e4b5eb54a18c1893e2d59ef6e0737d96bcf91d9",
+        "candidate_copy_bytes_sha256": "734023bbe9fefe23c7982ac36196ca97ce80d51b649f873901e2fce8ef9906e5",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": [
+            "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+            "NO_ARCHITECTURE_SELECTION",
+            "NO_FORMAL_INTEGRATION",
+            "NO_HIDDEN_VAULT_ACCESS",
+            "NO_THIRD_PARTY_CODE_OR_EXECUTION",
+            "NO_MODEL_STAGE2_WITHOUT_NEW_FROZEN_AUTHORIZATION",
+            "NO_PHASE_003"
+          ]
+        }
+      },
+      "input_hash": "94d7b0e362b056efd5c7c2024f844298ed1fe29918a58378d6a4e7c52ffed393",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "2e1d7f7bd1a8f64167398d38791f9ab1954adcc77adf21ae4b2ec7d3a0ec4c5d"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-013",
+      "test_id": "C1-MUT-013",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 13,
+      "mutation_type": "PROTOTYPE_AUTO_DISCOVERY",
+      "mutated_field": "formal_skill_auto_discovery",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "PROTOTYPE_AUTO_DISCOVERY",
+        "mutated_field": "formal_skill_auto_discovery",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "5edaada8d585d1c3888d5b79f481c071acddb198747417a150b55307c45ccbe3",
+        "candidate_copy_hash": "480b601766f9c42f6bb7d3c33ab1072fe29cd0e81a3d6d5daabc504c51e60a0b",
+        "candidate_copy_bytes_sha256": "5edaada8d585d1c3888d5b79f481c071acddb198747417a150b55307c45ccbe3",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": true
+        }
+      },
+      "input_hash": "9baf1146053d68d33d66b0c103bdf8d727f6dfcb0c1eb40411a685eafe768dea",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "a307427fe0d1f61a99ccd660e5de24e9d9e1100329583266408d0694e22e640a"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-014",
+      "test_id": "C1-MUT-014",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 14,
+      "mutation_type": "MISSING_SUPERSEDES",
+      "mutated_field": "supersedes",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "MISSING_SUPERSEDES",
+        "mutated_field": "supersedes",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "314975172c3cde37efc68681c21b24a36b8c502d8192b0320acfa21b0ff2d26c",
+        "candidate_copy_hash": "8808123aa78af82e206f3c00f666bbca7203bcefe34086f67984a5d8368b5b7e",
+        "candidate_copy_bytes_sha256": "314975172c3cde37efc68681c21b24a36b8c502d8192b0320acfa21b0ff2d26c",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": false
+        }
+      },
+      "input_hash": "d0941f34a9e9ec1595f115bf90cf18d67ba15b41366cf1b7638ea2526ea27451",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "e8e5e4236584747089b702387918fbda131ccd3dc6a84edb8cb98050f82006e2"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-015",
+      "test_id": "C1-MUT-015",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 15,
+      "mutation_type": "WRONG_SUPERSEDES",
+      "mutated_field": "supersedes.decision_id",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "WRONG_SUPERSEDES",
+        "mutated_field": "supersedes.decision_id",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "61ddb167a262eb2b307c975474a4dbac8daa4ad2fe3a81a18e529d8561f77d5f",
+        "candidate_copy_hash": "8e1c7eb7125031b949bc90e4ee50d189e6b21854d698a8d2acc3b779de0d4b11",
+        "candidate_copy_bytes_sha256": "61ddb167a262eb2b307c975474a4dbac8daa4ad2fe3a81a18e529d8561f77d5f",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "DECISION-ATTACKER"
+        }
+      },
+      "input_hash": "7534bfdcebde35aacba6273ab8764070bf79c4f0a383314795e9bf2228301685",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "a2f873f1eb51767e570d0eceb0a5358f9280f4f83409d6a0e3fef4930bb5171e"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-016",
+      "test_id": "C1-MUT-016",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 16,
+      "mutation_type": "CANDIDATE_HASH_MISMATCH",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "CANDIDATE_HASH_MISMATCH",
+        "mutated_field": "candidate_file_sha256",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "candidate_copy_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_copy_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "binding_copy_hash": "dccf35f0a6f47435ba16c37b272431f7092d7288eed18a9c2dea3ed2311bf651",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "input_hash": "6bd8d671fde18249cc3e4a8e9742bcc128cf96aa44169064bc74b04c67dde673",
+      "output_hash": "6dcc9ffbb84dbd82ddc5d264ef8052c4c0931a12692260198ebaec7cce087c06",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "32f40ecde152ea9d14e41034b00075879d5fcb2011dab86c53f7e1c7b8b27cbc"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-017",
+      "test_id": "C1-MUT-017",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 17,
+      "mutation_type": "EVIDENCE_BOUND_TO_OLD_CANDIDATE",
+      "mutated_field": "candidate_id",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_CANDIDATE_ID_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_ID_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "EVIDENCE_BOUND_TO_OLD_CANDIDATE",
+        "mutated_field": "candidate_id",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "candidate_copy_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_copy_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "binding_copy_hash": "b7774685039def39a0b9d4e548d00193ea818ed1dd36212ae81b8cf8f64727a2",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"
+        }
+      },
+      "input_hash": "39cb96ad44b658df425b6213e2113c48f1cf9ba80231998589c76ee5e4a1b652",
+      "output_hash": "090a00b76cf43bd0cfafaddf497f993e231ff237543e708337d49fe4f3f02a58",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "001d41d8ba1071a4cbafc9493cd96d1b1f4e8bd0ea5b95eb4f016355aa7bd02e"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-018",
+      "test_id": "C1-MUT-018",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 18,
+      "mutation_type": "EVIDENCE_PREDATES_FREEZE",
+      "mutated_field": "artifact_sequence_index",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_ARTIFACT_SEQUENCE_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_ARTIFACT_SEQUENCE_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "EVIDENCE_PREDATES_FREEZE",
+        "mutated_field": "artifact_sequence_index",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "candidate_copy_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_copy_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "binding_copy_hash": "eb5029901aba9e8c5e5ca0368fe9fd336fbdd42ba2e5dc82eb613390f0d6b993",
+        "mutated_field_observation": {
+          "present": true,
+          "value": 4
+        }
+      },
+      "input_hash": "fb4239f4444e806235b5f47581d1dd688c4099ffdcb4de20e62657358ab98788",
+      "output_hash": "eb82939e414051a8b391da3ae4b535d8db1f0486afadecc1732142d0a1abcaa7",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "eafab8dc6b50ac8d34cd2a1294007034bad8289ddc4580e72f245e43c5645aae"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-019",
+      "test_id": "C1-MUT-019",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 19,
+      "mutation_type": "PARENT_HASH_MISMATCH",
+      "mutated_field": "parent_artifact_hash",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_PARENT_ARTIFACT_HASH_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_PARENT_ARTIFACT_HASH_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "PARENT_HASH_MISMATCH",
+        "mutated_field": "parent_artifact_hash",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "candidate_copy_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_copy_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "binding_copy_hash": "ae5236f9c03412c86d4dc552c9921c9b8f7c41b8a2e7b25fbcae4927fe690ba1",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "input_hash": "b2eda5933d9cc7cd4e6e7bfc3a141538d99a03139488bd117efe97fefd8f8815",
+      "output_hash": "9eecf62b9c9bd458b9f28188ddb48e470d219620be3e7479e0d61e61c12af0f2",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "df2e4daed6f7e1bc2e2b3e9e01c1c570ea0c1edf6c70e318a79a1852e9f9461c"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-020",
+      "test_id": "C1-MUT-020",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 20,
+      "mutation_type": "SEQUENCE_INDEX_INVERSION",
+      "mutated_field": "artifact_sequence_index",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_ARTIFACT_SEQUENCE_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_ARTIFACT_SEQUENCE_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "SEQUENCE_INDEX_INVERSION",
+        "mutated_field": "artifact_sequence_index",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "candidate_copy_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_copy_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "binding_copy_hash": "466b782aca32008e3a8018d7acf191283c64b55a36124570c21ebc2439ad2ca7",
+        "mutated_field_observation": {
+          "present": true,
+          "value": 6
+        }
+      },
+      "input_hash": "afc877eb25956f83936c45713a0f4630f3822f0d5d2f30072fcc4c765b88ee91",
+      "output_hash": "eb82939e414051a8b391da3ae4b535d8db1f0486afadecc1732142d0a1abcaa7",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "1387d6c759880e651d12fdf188a92bf36be2b096d6ea287269ee939f39da1514"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-021",
+      "test_id": "C1-MUT-021",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 21,
+      "mutation_type": "AUDIT_BUNDLE_DIFFERENT_CANDIDATE_BYTES",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_FROZEN_CANDIDATE_BYTES_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "AUDIT_BUNDLE_DIFFERENT_CANDIDATE_BYTES",
+        "mutated_field": "candidate_file_sha256",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "c71bee2ae7e24ce872a8072151004e186a655e6bd7bc0f5d92f8df53a3ffea08",
+        "synthetic_bundle_hash": "8d35af0b66eca6698845a6d6a257d4f627f27771bcef8a955ba14a131f4418a9"
+      },
+      "input_hash": "f622dbe74649156ca501d687aadbf1ac6940184cab9ad45e069ddf7a01ba559e",
+      "output_hash": "18e8d85c03196059157fc517011c3ee175d84571d3cf4466d7e13898e79ec1d5",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "88df9b8c54fb49d365ce0e014e2fa66465391b11b799ead35e78ecbb871dbe2f"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-022",
+      "test_id": "C1-MUT-022",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 22,
+      "mutation_type": "REPORT_HARDCODED_ACCEPT",
+      "mutated_field": "decision_source",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_REPORT_DECISION_SOURCE_NOT_INPUT_DRIVEN",
+      "actual_errors": [
+        "C1_REPORT_DECISION_SOURCE_NOT_INPUT_DRIVEN",
+        "C1_REPORT_PROJECTION_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+        "decision": "AUTOMATED_ACCEPTED",
+        "accepted_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+        "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+        "decision_source": "HARDCODED_ACCEPT"
+      },
+      "input_hash": "afd82bea95b9479f0840d7a97e66e9cda32f798fee632f800165d644fa891ea3",
+      "output_hash": "8963572700ab19723f47c5977f6416289ede96cded34db26ea6815871ae2de41",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "eb0bf5fdbb451d36cebd4dab499ea46adbcd1b9540cbfb3cc2a44515ca9981b4"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-023",
+      "test_id": "C1-MUT-023",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 23,
+      "mutation_type": "CANDIDATE_SELF_HASH_REFERENCE",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CANDIDATE_SELF_HASH_FIELD_PROHIBITED:candidate_file_sha256",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SELF_HASH_FIELD_PROHIBITED:candidate_file_sha256",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "CANDIDATE_SELF_HASH_REFERENCE",
+        "mutated_field": "candidate_file_sha256",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "e68355f088def54b8600055cf25f374ec4282addc91a19facf3198bb1d57ed6c",
+        "candidate_copy_hash": "31b66c660c26d42570a00da0734c8f79d47fcf40efa09149f0944f787bf32c84",
+        "candidate_copy_bytes_sha256": "e68355f088def54b8600055cf25f374ec4282addc91a19facf3198bb1d57ed6c",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "input_hash": "ab3538a20ec385fb7f632fb7e142dee53001324de73535b606eb8198f821d918",
+      "output_hash": "9cfd99bc5f92e5adac949f2223d05a529fed3e1a67a22266881ff5723af5c09a",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "e19320f911929fda85c99ecfaef4ca7033c935a53068f2b62cf31355d9c0e6ba"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-024",
+      "test_id": "C1-MUT-024",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 24,
+      "mutation_type": "UNKNOWN_FIELD_RETENTION",
+      "mutated_field": "unknown_attack_field",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+        "C1_BOUND_CANONICAL_CANDIDATE_HASH_MISMATCH",
+        "C1_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "mutation_type": "UNKNOWN_FIELD_RETENTION",
+        "mutated_field": "unknown_attack_field",
+        "original_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "mutated_candidate_bytes_sha256": "4579346dc4b2a5606c81087d88adddaccb5cb37c0059251e745f4ec4e53629e2",
+        "candidate_copy_hash": "ae2da298b1930780d0cf25ccdab9d5b7a9e43471160426232423c194d6718bfe",
+        "candidate_copy_bytes_sha256": "4579346dc4b2a5606c81087d88adddaccb5cb37c0059251e745f4ec4e53629e2",
+        "binding_copy_hash": "05488043ebeb353962d39ed0f0e7da3b5a95866d07f82b239dbebb9f662ced39",
+        "mutated_field_observation": {
+          "present": true,
+          "value": "MUST_NOT_BE_DROPPED"
+        }
+      },
+      "input_hash": "8953ddb616939d066b28225e1f10cb54f0622c8545062f78ede7c0412ad6609c",
+      "output_hash": "2dca7dc63ef65cc3bcc9486a2d38031cd55ee4462ade8ef82dedbbe56166b2b3",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "f19ba72dcf75750306e6062a7a9d56eac9060971a6a28da090724368981d339f"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-025",
+      "test_id": "C1-MUT-025",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 25,
+      "mutation_type": "STATE_BINDING_SUBSTITUTION",
+      "mutated_field": "candidate_file_sha256",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH",
+      "actual_errors": [
+        "C1_BOUND_CANDIDATE_FILE_SHA256_MISMATCH"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+        "candidate_file_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+        "decision": "AUTOMATED_ACCEPTED",
+        "accepted_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+        "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+        "selected_architecture": null,
+        "base_selected": false,
+        "third_party_integrated": false,
+        "skill_capability_status": "SCAFFOLD_ONLY",
+        "phase003_prohibited": true
+      },
+      "input_hash": "6fa619ae75e57fa88b1cbd983893cfb5c3ebd7e5bf02f1774eaa963941fb2f6d",
+      "output_hash": "6dcc9ffbb84dbd82ddc5d264ef8052c4c0931a12692260198ebaec7cce087c06",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "29eb17bff1627fc7d063bef7d32491e2d67f96022423f56df14a05ba2b33d245"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-026",
+      "test_id": "C1-MUT-026",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 26,
+      "mutation_type": "STATE_PHASE_003_ROUTE",
+      "mutated_field": "next_phase_allowed",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_STATE_ROUTE_INVALID",
+      "actual_errors": [
+        "C1_STATE_ROUTE_INVALID"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+        "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+        "decision": "AUTOMATED_ACCEPTED",
+        "accepted_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+        "next_phase_allowed": "PHASE-003",
+        "selected_architecture": null,
+        "base_selected": false,
+        "third_party_integrated": false,
+        "skill_capability_status": "SCAFFOLD_ONLY",
+        "phase003_prohibited": true
+      },
+      "input_hash": "7d354093d8d29565fdc9dd1354f301e4d95a54662460a5a03785681ab79ef579",
+      "output_hash": "278973c047188430fe296f28db6da399ce0cff65048ff3812c4bdcabdada6734",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "ed277dcb1bca49b177ef38be267e2a4798410bee6b844e2faa8b493213330c31"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-027",
+      "test_id": "C1-MUT-027",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 27,
+      "mutation_type": "FROZEN_CANDIDATE_REWRITE",
+      "mutated_field": "$bytes",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_FROZEN_CANDIDATE_REWRITE_PROHIBITED",
+      "actual_errors": [
+        "C1_FROZEN_CANDIDATE_REWRITE_PROHIBITED"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "current_candidate_bytes_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "proposed_candidate_bytes_sha256": "e3bbb216ef7c5c0fce07fcdf879ea2bc0f550fb27e75445e7336cb2152132c3f"
+      },
+      "input_hash": "aaf79396aae56e62e8a96fd251d432387b7a57d37a474f2a7f6a4d55ee30627e",
+      "output_hash": "dbc99750fac1c45ef025cbb0710551cf98cb0d62653233989d365221c7e2c0b8",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "a1615de4a581a4d3fc774009a9e6ad8d92ee1ffa35788b745585d35b266b31d7"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-028",
+      "test_id": "C1-MUT-028",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 28,
+      "mutation_type": "REHASHED_FAILED_PRECONDITION",
+      "mutated_field": "all_required_pass",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_PRECONDITIONS_SEMANTIC_FAILURE",
+      "actual_errors": [
+        "C1_PRECONDITIONS_SEMANTIC_FAILURE"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "schema_version": "1.0.0",
+        "record_id": "PHASE-002D-R2A-C1-CANDIDATE-PRECONDITIONS-001",
+        "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+        "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+        "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+        "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+        "parent_artifact_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+        "artifact_sequence_index": 5,
+        "checks": [
+          {
+            "check_id": "C1-PRE-001",
+            "required": true,
+            "status": "FAIL",
+            "observed": "exact C1 candidate freeze validates",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c1.json",
+              "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c1.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-002",
+            "required": true,
+            "status": "PASS",
+            "observed": "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2=AUTOMATED_ACCEPTED",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/automated_decisions/component_specification_freeze.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-003",
+            "required": true,
+            "status": "PASS",
+            "observed": "DECISION-INTERACTION-CONTRACT-002D-R2=AUTOMATED_ACCEPTED",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/automated_decisions/interaction_contract.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-004",
+            "required": true,
+            "status": "PASS",
+            "observed": "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2=AUTOMATED_ACCEPTED",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/automated_decisions/architecture_candidate_set.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-005",
+            "required": true,
+            "status": "PASS",
+            "observed": "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2=AUTOMATED_ACCEPTED",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/automated_decisions/prospective_benchmark_freeze.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-006",
+            "required": true,
+            "status": "PASS",
+            "observed": "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2=AUTOMATED_ACCEPTED",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/automated_decisions/threshold_policy_freeze.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-007",
+            "required": true,
+            "status": "PASS",
+            "observed": "R2 Auditor=PASS",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/decision_audit/audit.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-008",
+            "required": true,
+            "status": "PASS",
+            "observed": "R2 replay stable=true",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/replay/replay.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-009",
+            "required": true,
+            "status": "PASS",
+            "observed": "historical R2A preconditions=27/27",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a/authorization_preconditions.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-010",
+            "required": true,
+            "status": "PASS",
+            "observed": "historical R2A serious findings closed",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a/adversarial_findings/closure.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-011",
+            "required": true,
+            "status": "PASS",
+            "observed": "C1 compatibility findings closed",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a-c1/compatibility_tests/closure.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-012",
+            "required": true,
+            "status": "PASS",
+            "observed": "implementation embargo file=2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919; post-freeze errors=[]",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2/implementation_embargo.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-013",
+            "required": true,
+            "status": "PASS",
+            "observed": "formal Skill tree hash=edeeaf7312e7fc1cdc008bfa799a6127787768246c90ab4c4a569615d11dde33",
+            "evidence_refs": [
+              ".agents/skills/cumcm-modeling-evidence/"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-014",
+            "required": true,
+            "status": "PASS",
+            "observed": "Benchmark hash bound",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-015",
+            "required": true,
+            "status": "PASS",
+            "observed": "threshold hash bound",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-016",
+            "required": true,
+            "status": "PASS",
+            "observed": "protocol hash bound",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-017",
+            "required": true,
+            "status": "PASS",
+            "observed": "selected_architecture=null",
+            "evidence_refs": [
+              "state/project_state.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-018",
+            "required": true,
+            "status": "PASS",
+            "observed": "base_selected=false",
+            "evidence_refs": [
+              "state/project_state.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-019",
+            "required": true,
+            "status": "PASS",
+            "observed": "third_party_integrated=false",
+            "evidence_refs": [
+              "state/project_state.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-020",
+            "required": true,
+            "status": "PASS",
+            "observed": "Skill capability=SCAFFOLD_ONLY",
+            "evidence_refs": [
+              "state/project_state.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-021",
+            "required": true,
+            "status": "PASS",
+            "observed": "formal Skill count=1",
+            "evidence_refs": [
+              ".agents/skills/"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-022",
+            "required": true,
+            "status": "PASS",
+            "observed": "post-freeze prototype/API/model/third-party observations=0; prohibited runtime files=0",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
+              "state/project_state.json"
+            ]
+          },
+          {
+            "check_id": "C1-PRE-023",
+            "required": true,
+            "status": "PASS",
+            "observed": "Phase 003 prohibited",
+            "evidence_refs": [
+              "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c1.json"
+            ]
+          }
+        ],
+        "required_check_count": 23,
+        "passed_check_count": 22,
+        "failed_check_ids": [
+          "C1-PRE-001"
+        ],
+        "all_required_pass": false,
+        "historical_preconditions_classification": "PREREQUISITE_CONTEXT_ONLY",
+        "historical_preconditions_hash": "a78cceb968f03638a777b2b8464a605cd1f57e046532ce8f99d56d84b7a1c057",
+        "preconditions_hash": "09ae7daa5e059ae0f3530f77f9af8e8ee4b386b77f87e94472223652da85a1be"
+      },
+      "input_hash": "d0dfd86917ab0ae0e4afea870079ba963878cf1513a53ec7b5ae72e1c5a89679",
+      "output_hash": "c20a8b950361c77bf0e6ff031751ca61ac2099baa41030afc68fce6c371a395e",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "6fff7d9743b636805e6b5a2e152f43514378d2e25db7bb54db48b86e496b40f9"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-029",
+      "test_id": "C1-MUT-029",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 29,
+      "mutation_type": "POSTFREEZE_EMBARGO_VIOLATION",
+      "mutated_field": "embargo_errors",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_POSTFREEZE_EMBARGO_NOT_PASS",
+      "actual_errors": [
+        "C1_POSTFREEZE_EMBARGO_NOT_PASS"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "embargo_errors": [
+          "PROHIBITED_IMPLEMENTATION_DETECTED:synthetic.py"
+        ],
+        "prohibited_runtime_files": [],
+        "counters": {
+          "prototype_executions": 0,
+          "api_calls": 0
+        }
+      },
+      "input_hash": "30d3dd8196ef7f55157d9d57e3163360a6b64827faccc3e2b3617613e47a862a",
+      "output_hash": "eb53e388f0c69e0d757e5bbc2e558f721234159125b62c540ec1624a4c6f8bd6",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "cd774e0dd65cc34979cf6892f614ba0dc09c01b82208d802038263700b48f197"
+    },
+    {
+      "schema_version": "1.0.0",
+      "evidence_id": "EVIDENCE-C1-MUT-030",
+      "test_id": "C1-MUT-030",
+      "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+      "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+      "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+      "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+      "parent_artifact_hash": "2ffe9a48e935b84ec03a9189d974971b663814fa4e3e5fb9b5f75896fb5568ef",
+      "artifact_sequence_index": 7,
+      "generation_ordinal": 30,
+      "mutation_type": "CLOSURE_CLAIM_MISMATCH",
+      "mutated_field": "closures",
+      "expected_result": "REJECTED",
+      "actual_result": "REJECTED",
+      "expected_error": "C1_CLOSURE_REQUIRED_EVIDENCE_MISMATCH",
+      "actual_errors": [
+        "C1_CLOSURE_FINDING_NOT_CLOSED",
+        "C1_CLOSURE_PROSECUTOR_FINDINGS_NOT_CLOSED",
+        "C1_CLOSURE_REQUIRED_EVIDENCE_MISMATCH",
+        "C1_CLOSURE_UNRESOLVED_FINDING"
+      ],
+      "test_code_path": "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+      "test_code_hash": "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069",
+      "input_observation": {
+        "closures": [
+          {
+            "finding_id": "C1-CBP-001",
+            "test_ids": [
+              "C1-MUT-UNRELATED"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-002",
+            "test_ids": [
+              "C1-MUT-001",
+              "C1-MUT-002",
+              "C1-MUT-021"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-003",
+            "test_ids": [
+              "C1-MUT-023",
+              "C1-MUT-024"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-004",
+            "test_ids": [
+              "C1-MUT-017",
+              "C1-MUT-018"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-005",
+            "test_ids": [
+              "C1-MUT-019",
+              "C1-MUT-020"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-006",
+            "test_ids": [
+              "C1-MUT-025",
+              "C1-MUT-026"
+            ]
+          },
+          {
+            "finding_id": "R2A-FINAL-002",
+            "test_ids": [
+              "C1-MUT-001",
+              "C1-MUT-002",
+              "C1-MUT-021"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-M6-001",
+            "test_ids": [
+              "C1-MUT-027"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-M6-002",
+            "test_ids": [
+              "C1-MUT-001",
+              "C1-MUT-021"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-M6-003",
+            "test_ids": [
+              "C1-MUT-009",
+              "C1-MUT-022"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-M6-004",
+            "test_ids": [
+              "C1-MUT-028"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-M6-005",
+            "test_ids": [
+              "C1-MUT-029"
+            ]
+          },
+          {
+            "finding_id": "C1-CBP-M6-006",
+            "test_ids": [
+              "C1-MUT-023",
+              "C1-MUT-024",
+              "C1-MUT-025",
+              "C1-MUT-026"
+            ]
+          }
+        ]
+      },
+      "input_hash": "465806050744310b0b12337d7fdf93070eabe4fff8ade98c13d5f363f3a4a2a2",
+      "output_hash": "c8e1a48bb41abc6231e706e1c29608334e61e8eb38d11b8f56542c1124043692",
+      "exit_code": 1,
+      "status": "PASS",
+      "candidate_copy_only": true,
+      "original_candidate_modified": false,
+      "evidence_hash": "896427605332077cc1c84f9e35a5f96e730cc7855ba5dea630a4ef3140978a82"
+    }
+  ],
+  "test_evidence_hashes": [
+    "7806cf1788e14f6e5f32b5cdc28c4f85a5c9deddecbe02a43519d37f72744762",
+    "36c2fa93562432a56c7fb77609db84b1674ba4e9b50af192fe6d4238988d3e89",
+    "380ab9463f37f5ed26dd2403442b09f01b960526fd1cbe1e049062009b6b199b",
+    "31bac20a3620ff351f217667f3bc7468be158d5c97ac42c33594f02ab5881483",
+    "5a33837c0e8a0e3499faffa36b1e3115d446791f6ce345f1355046be84d74ee2",
+    "5fa8e4675f2e3f40da9a2c63e1835f2040243af9faa87bfff9b22243a64c82e3",
+    "f1649efb0194c489e8329bde66a5e8632e4b35881d85d5130c2e75a4408fabab",
+    "2fa6e45c1894f992cd2530d65bf15dca799a988e41579222cd221db36055fc4c",
+    "181c68ae7f24531a52a2bacf10d5baa2ddf2d48386d253c2f41d4e19c5115a71",
+    "822ff78e5c74e4aceead364cb85df41df4869c062dd09b896feb5c41b5b11bb0",
+    "175613b5ad16bc87825bf84d16e9ba9ce25f065e3f67cf5d1241d42bfecfa0a0",
+    "2e1d7f7bd1a8f64167398d38791f9ab1954adcc77adf21ae4b2ec7d3a0ec4c5d",
+    "a307427fe0d1f61a99ccd660e5de24e9d9e1100329583266408d0694e22e640a",
+    "e8e5e4236584747089b702387918fbda131ccd3dc6a84edb8cb98050f82006e2",
+    "a2f873f1eb51767e570d0eceb0a5358f9280f4f83409d6a0e3fef4930bb5171e",
+    "32f40ecde152ea9d14e41034b00075879d5fcb2011dab86c53f7e1c7b8b27cbc",
+    "001d41d8ba1071a4cbafc9493cd96d1b1f4e8bd0ea5b95eb4f016355aa7bd02e",
+    "eafab8dc6b50ac8d34cd2a1294007034bad8289ddc4580e72f245e43c5645aae",
+    "df2e4daed6f7e1bc2e2b3e9e01c1c570ea0c1edf6c70e318a79a1852e9f9461c",
+    "1387d6c759880e651d12fdf188a92bf36be2b096d6ea287269ee939f39da1514",
+    "88df9b8c54fb49d365ce0e014e2fa66465391b11b799ead35e78ecbb871dbe2f",
+    "eb0bf5fdbb451d36cebd4dab499ea46adbcd1b9540cbfb3cc2a44515ca9981b4",
+    "e19320f911929fda85c99ecfaef4ca7033c935a53068f2b62cf31355d9c0e6ba",
+    "f19ba72dcf75750306e6062a7a9d56eac9060971a6a28da090724368981d339f",
+    "29eb17bff1627fc7d063bef7d32491e2d67f96022423f56df14a05ba2b33d245",
+    "ed277dcb1bca49b177ef38be267e2a4798410bee6b844e2faa8b493213330c31",
+    "a1615de4a581a4d3fc774009a9e6ad8d92ee1ffa35788b745585d35b266b31d7",
+    "6fff7d9743b636805e6b5a2e152f43514378d2e25db7bb54db48b86e496b40f9",
+    "cd774e0dd65cc34979cf6892f614ba0dc09c01b82208d802038263700b48f197",
+    "896427605332077cc1c84f9e35a5f96e730cc7855ba5dea630a4ef3140978a82"
+  ],
+  "historical_evidence_used_as_candidate_pass": false,
+  "evidence_hash": "c7e8b9f8794421096974c2db141bdab38e20f3a70ec218bb4e198766635c962c"
+}

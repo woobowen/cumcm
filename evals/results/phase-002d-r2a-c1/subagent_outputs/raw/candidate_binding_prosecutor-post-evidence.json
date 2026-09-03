@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "R2A-C1-M6-CANDIDATE-BINDING-PROSECUTOR-POST-EVIDENCE-001",
+  "role": "candidate_binding_prosecutor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "reviewed_commit": "1a4e3774f5bffa5a340bdae27d0716282cf1f0cc",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+  "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+  "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+  "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+  "bundle_hash": null,
+  "verdict": "FAIL",
+  "evidence_refs": [
+    "commit:1a4e3774f5bffa5a340bdae27d0716282cf1f0cc",
+    "evals/results/phase-002d-r2a-c1/candidate_revision/candidate-c1.json#b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+    "evals/results/phase-002d-r2a-c1/candidate_freeze/candidate_freeze_manifest-c1.json#cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+    "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c1.json#b3ac69383ea8bdf08c657940d66945cbe4464888d31374ee200770db911514bd",
+    "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c1.json#54ac631da702b115ccb11186ab5c567541a3c333a687d987c7fce387b2503e7d",
+    "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c1.json#d547503cf6e8e947bc571fd2f001d563c2595ac687a4b7d62300021d0eaad0ed",
+    "evals/results/phase-002d-r2a-c1/candidate_closure/closure-c1.json#10207f2d0a67ff46de75a31e326af0b427434f9857c74be057717e09514a567c"
+  ],
+  "checks": [
+    {
+      "check_id": "CBP-M6-CHECK-FROZEN-WRITE-ONCE",
+      "result": "FAIL",
+      "statement": "Write mode can overwrite the already-frozen C1 candidate path."
+    },
+    {
+      "check_id": "CBP-M6-CHECK-REAL-MUTATION-INPUTS",
+      "result": "FAIL",
+      "statement": "Byte and audit-bundle mutations record substituted hashes without exposing the actual mutated bytes or bundle validation path."
+    },
+    {
+      "check_id": "CBP-M6-CHECK-DECLARATION-MATCH",
+      "result": "FAIL",
+      "statement": "Two mutation declarations do not match their executed target or validator."
+    },
+    {
+      "check_id": "CBP-M6-CHECK-SEMANTIC-REHASH",
+      "result": "FAIL",
+      "statement": "A rehashed record with a failed required precondition is structurally accepted."
+    },
+    {
+      "check_id": "CBP-M6-CHECK-POSTFREEZE-EMBARGO",
+      "result": "FAIL",
+      "statement": "Post-freeze implementation-embargo observations are not recomputed."
+    },
+    {
+      "check_id": "CBP-M6-CHECK-CLOSURE-CLAIMS",
+      "result": "FAIL",
+      "statement": "Closure claims are broader than the executed deterministic evidence."
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "C1-CBP-M6-001",
+      "severity": "BLOCKER",
+      "status": "OPEN",
+      "statement": "The candidate generator must reject every attempt to overwrite an already-frozen candidate even when called with check=false.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/candidate_freeze.py",
+        "scripts/freeze_shadow_authorization_candidate.py"
+      ],
+      "required_test": "C1-MUT-027"
+    },
+    {
+      "finding_id": "C1-CBP-M6-002",
+      "severity": "BLOCKER",
+      "status": "OPEN",
+      "statement": "C1-MUT-001 and C1-MUT-021 must execute against actual mutated candidate bytes and an actual exact-candidate bundle validator, not only substitute a local hash variable.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+        "evals/results/phase-002d-r2a-c1/candidate_test_evidence/evidence-c1.json"
+      ],
+      "required_test": "C1-MUT-001,C1-MUT-021"
+    },
+    {
+      "finding_id": "C1-CBP-M6-003",
+      "severity": "ERROR",
+      "status": "OPEN",
+      "statement": "C1-MUT-009 must mutate the declared restrictions field and C1-MUT-022 must exercise the actual input-driven report renderer or validator.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+        "evals/results/phase-002d-r2a-c1/candidate_test_plan/test-plan-c1.json"
+      ],
+      "required_test": "C1-MUT-009,C1-MUT-022"
+    },
+    {
+      "finding_id": "C1-CBP-M6-004",
+      "severity": "BLOCKER",
+      "status": "OPEN",
+      "statement": "A record whose required precondition fails must remain rejected after its structural hash is recomputed.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+        "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c1.json"
+      ],
+      "required_test": "C1-MUT-028"
+    },
+    {
+      "finding_id": "C1-CBP-M6-005",
+      "severity": "ERROR",
+      "status": "OPEN",
+      "statement": "Candidate-bound preconditions must recompute current implementation embargo, runtime-file, and execution-counter observations after freeze.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+        "evals/results/phase-002d-r2a-c1/candidate_preconditions/preconditions-c1.json"
+      ],
+      "required_test": "C1-MUT-029"
+    },
+    {
+      "finding_id": "C1-CBP-M6-006",
+      "severity": "BLOCKER",
+      "status": "OPEN",
+      "statement": "Closure must bind executable tests for canonical self-reference and unknown-field retention, exact state projection and route, and exact audit-bundle candidate bytes.",
+      "evidence_paths": [
+        "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py",
+        "evals/results/phase-002d-r2a-c1/candidate_closure/closure-c1.json"
+      ],
+      "required_test": "C1-MUT-021,C1-MUT-023,C1-MUT-024,C1-MUT-025,C1-MUT-026,C1-MUT-030"
+    }
+  ],
+  "unresolved_blockers": [
+    "C1-CBP-M6-001",
+    "C1-CBP-M6-002",
+    "C1-CBP-M6-004",
+    "C1-CBP-M6-006"
+  ],
+  "limitations": [
+    "The final audit bundle did not yet exist and was not reviewed.",
+    "The review was read-only and used no peer output, web, MCP, API, nested Codex, hidden Benchmark content, commit, or push."
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "web_used": false,
+  "mcp_used": false,
+  "api_calls": 0,
+  "majority_vote_used": false,
+  "expected_conclusion_visible": false
+}

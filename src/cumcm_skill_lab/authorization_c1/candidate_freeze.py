@@ -228,17 +228,40 @@ def validate_candidate_freeze(root: Path, value: dict[str, Any]) -> list[str]:
     return sorted(set(errors))
 
 
+def frozen_revision_rewrite_errors(current: bytes, proposed: bytes) -> list[str]:
+    """Reject any attempt to replace bytes at an already-frozen revision path."""
+    return [] if current == proposed else ["C1_FROZEN_CANDIDATE_REWRITE_PROHIBITED"]
+
+
 def check_or_write_candidate_freeze(root: Path, *, check: bool) -> dict[str, Any]:
     candidate = build_candidate(root)
-    errors = check_or_write_json(root / CANDIDATE_PATH, candidate, check=check)
-    if not errors:
-        errors.extend(validate_candidate(root, _read_json(root / CANDIDATE_PATH)))
-        manifest = build_candidate_freeze(root, candidate)
-        errors.extend(check_or_write_json(root / FREEZE_PATH, manifest, check=check))
-        if not errors:
-            errors.extend(validate_candidate_freeze(root, _read_json(root / FREEZE_PATH)))
+    candidate_exists = (root / CANDIDATE_PATH).is_file()
+    freeze_exists = (root / FREEZE_PATH).is_file()
+    errors: list[str] = []
+    manifest: dict[str, Any] | None = None
+    if candidate_exists or freeze_exists:
+        if not candidate_exists or not freeze_exists:
+            errors.append("C1_CANDIDATE_FREEZE_PARTIAL_ARTIFACT_SET")
+        else:
+            # A frozen revision is write-once even when this function is called in write mode.
+            proposed = (json.dumps(candidate, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+            errors.extend(
+                frozen_revision_rewrite_errors((root / CANDIDATE_PATH).read_bytes(), proposed)
+            )
+            errors.extend(check_or_write_json(root / CANDIDATE_PATH, candidate, check=True))
+            manifest = _read_json(root / FREEZE_PATH)
+            errors.extend(validate_candidate_freeze(root, manifest))
+    elif check:
+        errors.extend(check_or_write_json(root / CANDIDATE_PATH, candidate, check=True))
+        errors.extend(["C1_CANDIDATE_FREEZE_MISSING"])
     else:
-        manifest = None
+        errors.extend(check_or_write_json(root / CANDIDATE_PATH, candidate, check=False))
+        if not errors:
+            errors.extend(validate_candidate(root, _read_json(root / CANDIDATE_PATH)))
+            manifest = build_candidate_freeze(root, candidate)
+            errors.extend(check_or_write_json(root / FREEZE_PATH, manifest, check=False))
+            if not errors:
+                errors.extend(validate_candidate_freeze(root, manifest))
     return {
         "status": "PASS" if not errors else "FAIL",
         "errors": errors,
@@ -259,6 +282,7 @@ __all__ = [
     "build_candidate_freeze",
     "canonical_candidate_hash",
     "check_or_write_candidate_freeze",
+    "frozen_revision_rewrite_errors",
     "validate_candidate",
     "validate_candidate_freeze",
 ]

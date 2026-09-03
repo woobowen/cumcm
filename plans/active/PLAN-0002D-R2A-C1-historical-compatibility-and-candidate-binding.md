@@ -228,3 +228,15 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   `d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702`, and freeze hash
   `cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011`. Sixteen focused
   candidate/freeze tests pass; the formal Skill hash remains unchanged.
+- `2026-09-03`: M6 regenerated 23/23 post-freeze preconditions and 30/30 exact-candidate mutation
+  results. The prosecutor's first inspection of L3-L7 returned `FAIL` with six serious findings;
+  its output hash `3a55c2d234fd0dd553d0187620c3b91f99fa6bda919650f60db7315c83218afd`
+  remains preserved rather than relabeled. One deterministic repair loop made the C1 candidate path
+  write-once, used actual mutated bytes and bundle/report/state validators, rejected rehashed failed
+  preconditions, recomputed post-freeze embargo/runtime observations, and bound closure claims to
+  the resulting tests. The candidate bytes and freeze stayed unchanged. Preconditions hash is
+  `32bd8ae102a2d3f4173620fca5f610fa7180a289a89163c7439140680ae1d7d0`, evidence hash is
+  `c7e8b9f8794421096974c2db141bdab38e20f3a70ec218bb4e198766635c962c`, and closure hash is
+  `ba420be53a7dbaccd84e2137599f1e77821cc92018970b1a16f2e97669cc9e3d` with no unresolved
+  finding. Focused tests pass `48/48`; full pytest and CI pass `1400` tests with one skip, and strict
+  validation reports zero errors/warnings.
