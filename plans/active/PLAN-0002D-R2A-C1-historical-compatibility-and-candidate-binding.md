@@ -321,3 +321,13 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   Phase 003 remain prohibited. Focused seal/audit/bundle tests pass `29/29`; full CI passes `1467`
   tests with one skip and strict validation reports zero errors/warnings. No replay or formal state
   transition predates the seal.
+- `2026-09-03`: L20 rebuilt the exact L19 decision fully offline across all eight required variants:
+  original, evidence-order, test-evidence-order, candidate-label, decision-order, repeated
+  canonicalization, historical-Schema resolution, and live-pointer normalization. Every variant is
+  stable. The candidate-label replay preserves the decision projection while independently proving
+  that a relabeled candidate fails the exact binding validator. The record is sequence index 20,
+  binds the L19 authorization hash, L18 audit output, input freeze, and exact C2 tuple, executes no
+  API, network, model, prototype, or third-party work, and hashes to
+  `08e8a542dc863151e7bad91fdb6a1301c30f2d9770d6a3a8582652c8ca0e5818`. Focused replay/seal
+  tests pass `14/14`; full CI passes `1474` tests with one skip and strict validation reports zero
+  errors/warnings. No formal state transition predates this stable replay.

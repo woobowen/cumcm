@@ -9,23 +9,37 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+from cumcm_skill_lab.authorization_c1.historical_verification import (
+    load_policy,
+    verify_file_entry,
+)
 from cumcm_skill_lab.authorization_c1.models import (
     CREATED_AT,
     INPUT_FREEZE_PATH,
     RESULT_ROOT,
     check_or_write_json,
     file_sha256,
+    git_file_sha256,
     sha256_json,
 )
+from cumcm_skill_lab.authorization_c1.schema_resolution import build_schema_resolution_record
 
 from .candidate_evidence import CLOSURE_PATH, PRECONDITIONS_PATH, TEST_EVIDENCE_PATH, TEST_PLAN_PATH
-from .candidate_freeze import CANDIDATE_PATH, DECISION_ID, FREEZE_PATH, validate_candidate_freeze
+from .candidate_freeze import (
+    CANDIDATE_PATH,
+    DECISION_ID,
+    FREEZE_PATH,
+    canonical_candidate_hash,
+    validate_candidate,
+    validate_candidate_freeze,
+)
 from .final_audit import FINAL_AUDIT_PATH, evaluate_final_audit_gate, validate_final_audit
 from .final_audit_bundle import BUNDLE_PATH, validate_final_audit_bundle
 
 AUTHORIZATION_PATH = RESULT_ROOT / "authorization_decision/authorization-c2.json"
 REPLAY_PATH = RESULT_ROOT / "replay/replay-c2.json"
 AUTHORIZATION_CONTRACT = Path("contracts/c2_authorization_seal.schema.json")
+REPLAY_CONTRACT = Path("contracts/c2_authorization_replay.schema.json")
 AUTOMATED_DECISION_CONTRACT = Path("contracts/automated_decision.schema.json")
 OLD_R2_DECISION_PATH = Path(
     "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"
@@ -280,10 +294,250 @@ def check_or_write_authorization_seal(root: Path, *, check: bool) -> dict[str, A
     }
 
 
+def _live_pointer_replay(root: Path) -> dict[str, Any]:
+    policy = load_policy(root)
+    entries = [item for item in policy["entries"] if item["path"] == "rules/workflow_rules.yaml"]
+    errors = [
+        error
+        for entry in entries
+        for error in verify_file_entry(
+            root,
+            entry,
+            git_file_sha256(root, entry["subject_commit"], entry["path"]),
+        )
+    ]
+    return {
+        "stable": bool(entries) and not errors,
+        "errors": sorted(set(errors)),
+        "verification_modes": sorted({entry["verification_mode"] for entry in entries}),
+        "manifest_versions": sorted(entry["manifest_version"] for entry in entries),
+        "allowed_live_fields": sorted(
+            {field for entry in entries for field in entry["allowed_live_fields"]}
+        ),
+    }
+
+
+def _historical_schema_replay(root: Path) -> dict[str, Any]:
+    recorded = _read_json(root / RESULT_ROOT / "schema_resolution/record.json")
+    rebuilt, migration = build_schema_resolution_record(root)
+    errors: list[str] = []
+    if rebuilt != recorded:
+        errors.append("C2_REPLAY_SCHEMA_RESOLUTION_RECORD_DRIFT")
+    if any(item["validation_result"] != "PASS" for item in rebuilt["resolutions"]):
+        errors.append("C2_REPLAY_HISTORICAL_SCHEMA_RESOLUTION_FAILED")
+    if migration["target_schema_validation_result"] != "PASS":
+        errors.append("C2_REPLAY_SCHEMA_MIGRATION_TARGET_INVALID")
+    return {
+        "stable": not errors,
+        "errors": errors,
+        "resolved_versions": [item["state_schema_version"] for item in rebuilt["resolutions"]],
+        "record_hash": rebuilt["record_hash"],
+        "unknown_version_behavior": rebuilt["unknown_version_behavior"],
+    }
+
+
+def _build_replay_variants(root: Path, seal: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    candidate = _read_json(root / CANDIDATE_PATH)
+    evidence = _read_json(root / TEST_EVIDENCE_PATH)
+    audit = _read_json(root / FINAL_AUDIT_PATH)
+    projection = _decision_projection(candidate, audit)
+
+    reordered_evidence = list(reversed(evidence["test_evidence_hashes"]))
+    evidence_stable = sorted(reordered_evidence) == sorted(evidence["test_evidence_hashes"])
+    reordered_tests = list(reversed(evidence["test_evidence"]))
+    test_ids = [item["test_id"] for item in evidence["test_evidence"]]
+    reordered_test_ids = [item["test_id"] for item in reordered_tests]
+    test_evidence_stable = sorted(test_ids) == sorted(reordered_test_ids)
+
+    relabeled = deepcopy(candidate)
+    relabeled["revision"] = "C2-PERMUTED-LABEL"
+    label_projection_stable = _decision_projection(relabeled, audit) == projection
+    exact_binding_rejected = "C2_CANDIDATE_SEMANTIC_PAYLOAD_MISMATCH" in validate_candidate(
+        root, relabeled
+    )
+
+    reordered_decision = deepcopy(seal["automated_decision"])
+    reordered_decision["eligible_evidence"] = list(
+        reversed(reordered_decision["eligible_evidence"])
+    )
+    reordered_decision["tests"] = list(reversed(reordered_decision["tests"]))
+    decision_order_stable = all(
+        reordered_decision[field] == seal["automated_decision"][field]
+        for field in (
+            "decision_id",
+            "decision",
+            "accepted_scope",
+            "next_phase_allowed",
+            "hard_gate_status",
+        )
+    )
+
+    canonical_once = canonical_candidate_hash(candidate)
+    canonical_twice = canonical_candidate_hash(
+        json.loads(json.dumps(candidate, ensure_ascii=False, sort_keys=True))
+    )
+    schema_replay = _historical_schema_replay(root)
+    live_pointer_replay = _live_pointer_replay(root)
+    return {
+        "original_rebuild": {
+            "stable": build_authorization_seal(root) == seal,
+            "authorization_hash": seal["authorization_hash"],
+        },
+        "evidence_order_permutation": {
+            "stable": evidence_stable,
+            "evidence_count": len(reordered_evidence),
+        },
+        "test_evidence_order_permutation": {
+            "stable": test_evidence_stable,
+            "test_evidence_count": len(reordered_tests),
+        },
+        "candidate_label_permutation": {
+            "stable": label_projection_stable and exact_binding_rejected,
+            "decision_projection_stable": label_projection_stable,
+            "exact_binding_rejected": exact_binding_rejected,
+        },
+        "decision_order_permutation": {
+            "stable": decision_order_stable,
+            "decision_id": seal["authorization_id"],
+        },
+        "repeated_canonicalization": {
+            "stable": canonical_once == canonical_twice == seal["canonical_candidate_hash"],
+            "canonical_candidate_hash": canonical_once,
+        },
+        "historical_schema_resolver_replay": schema_replay,
+        "live_pointer_normalization_replay": live_pointer_replay,
+    }
+
+
+def build_authorization_replay(root: Path) -> dict[str, Any]:
+    """Build the eight-variant offline L20 replay from the exact L19 seal."""
+    seal = _read_json(root / AUTHORIZATION_PATH)
+    audit = _read_json(root / FINAL_AUDIT_PATH)
+    input_freeze = _read_json(root / INPUT_FREEZE_PATH)
+    variants = _build_replay_variants(root, seal)
+    body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "replay_id": "PHASE-002D-R2A-C2-FINAL-AUTHORIZATION-REPLAY-001",
+        "artifact_path": REPLAY_PATH.as_posix(),
+        "parent_artifact_hash": seal["authorization_hash"],
+        "artifact_sequence_index": 20,
+        "mode": "OFFLINE_NO_MODEL_NO_NETWORK",
+        "authorization_id": seal["authorization_id"],
+        "active_decision_hash": seal["authorization_hash"],
+        "automated_decision_replay_hash": seal["automated_decision"]["replay_hash"],
+        "candidate_id": seal["candidate_id"],
+        "candidate_file_sha256": seal["candidate_file_sha256"],
+        "canonical_candidate_hash": seal["canonical_candidate_hash"],
+        "candidate_freeze_hash": seal["candidate_freeze_hash"],
+        "input_freeze_hash": input_freeze["manifest_hash"],
+        "final_audit_id": audit["audit_id"],
+        "final_audit_output_hash": audit["output_hash"],
+        "decision_projection": _decision_projection(_read_json(root / CANDIDATE_PATH), audit),
+        "variant_count": len(variants),
+        "variants": variants,
+        "stable": all(item["stable"] for item in variants.values()),
+        "api_calls": 0,
+        "network_calls": 0,
+        "model_calls": 0,
+        "prototype_executions": 0,
+        "third_party_executions": 0,
+        "next_phase_allowed": seal["next_phase_allowed"],
+        "phase003_prohibited": True,
+    }
+    body["replay_hash"] = sha256_json(body)
+    return body
+
+
+def validate_authorization_replay(root: Path, value: dict[str, Any]) -> list[str]:
+    gate = evaluate_final_audit_gate(root, "REPLAY")
+    errors = list(gate["errors"])
+    seal = _read_json(root / AUTHORIZATION_PATH)
+    errors.extend(validate_authorization_seal(root, seal))
+    errors.extend(_schema_errors(root, REPLAY_CONTRACT, value, "C2_REPLAY_SCHEMA"))
+    body = deepcopy(value)
+    recorded_hash = body.pop("replay_hash", None)
+    if sha256_json(body) != recorded_hash:
+        errors.append("C2_AUTHORIZATION_REPLAY_HASH_MISMATCH")
+    if value != build_authorization_replay(root):
+        errors.append("C2_AUTHORIZATION_REPLAY_NOT_REPRODUCIBLE")
+    required = {
+        "original_rebuild",
+        "evidence_order_permutation",
+        "test_evidence_order_permutation",
+        "candidate_label_permutation",
+        "decision_order_permutation",
+        "repeated_canonicalization",
+        "historical_schema_resolver_replay",
+        "live_pointer_normalization_replay",
+    }
+    if set(value.get("variants", {})) != required:
+        errors.append("C2_AUTHORIZATION_REPLAY_VARIANT_SET_MISMATCH")
+    if value.get("stable") is not True or not all(
+        item.get("stable") is True for item in value.get("variants", {}).values()
+    ):
+        errors.append("C2_AUTHORIZATION_REPLAY_NOT_STABLE")
+    if any(
+        value.get(field) != 0
+        for field in (
+            "api_calls",
+            "network_calls",
+            "model_calls",
+            "prototype_executions",
+            "third_party_executions",
+        )
+    ):
+        errors.append("C2_AUTHORIZATION_REPLAY_EXTERNAL_EXECUTION_PROHIBITED")
+    return sorted(set(errors))
+
+
+def check_or_write_authorization_replay(root: Path, *, check: bool) -> dict[str, Any]:
+    gate = evaluate_final_audit_gate(root, "REPLAY")
+    if gate["status"] != "PASS":
+        return {**gate, "artifact_created": False}
+    if not (root / AUTHORIZATION_PATH).is_file():
+        return {
+            "action": "REPLAY",
+            "status": "BLOCKED",
+            "errors": ["C2_AUTHORIZATION_SEAL_MISSING"],
+            "artifact_created": False,
+        }
+    seal_errors = validate_authorization_seal(root, _read_json(root / AUTHORIZATION_PATH))
+    if seal_errors:
+        return {
+            "action": "REPLAY",
+            "status": "BLOCKED",
+            "errors": seal_errors,
+            "artifact_created": False,
+        }
+    value = build_authorization_replay(root)
+    errors = _schema_errors(root, REPLAY_CONTRACT, value, "C2_REPLAY_SCHEMA")
+    if not value["stable"]:
+        errors.append("C2_AUTHORIZATION_REPLAY_NOT_STABLE")
+    if not errors:
+        errors.extend(check_or_write_json(root / REPLAY_PATH, value, check=check))
+    if not errors:
+        errors.extend(validate_authorization_replay(root, _read_json(root / REPLAY_PATH)))
+    return {
+        "action": "REPLAY",
+        "status": "PASS" if not errors else "FAIL",
+        "errors": sorted(set(errors)),
+        "replay_id": value["replay_id"],
+        "replay_hash": value["replay_hash"],
+        "stable": value["stable"],
+        "variant_count": value["variant_count"],
+        "next_phase_allowed": value["next_phase_allowed"],
+        "artifact_created": not check and not errors,
+        "artifact_path": REPLAY_PATH.as_posix(),
+    }
+
+
 __all__ = [
     "AUTHORIZATION_PATH",
     "REPLAY_PATH",
     "build_authorization_seal",
+    "build_authorization_replay",
     "check_or_write_authorization_seal",
+    "check_or_write_authorization_replay",
     "validate_authorization_seal",
+    "validate_authorization_replay",
 ]
