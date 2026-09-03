@@ -38,9 +38,13 @@ from .final_audit_bundle import BUNDLE_PATH, validate_final_audit_bundle
 
 AUTHORIZATION_PATH = RESULT_ROOT / "authorization_decision/authorization-c2.json"
 REPLAY_PATH = RESULT_ROOT / "replay/replay-c2.json"
+STATE_TRANSITION_PATH = RESULT_ROOT / "state_transition/transition-c2.json"
 AUTHORIZATION_CONTRACT = Path("contracts/c2_authorization_seal.schema.json")
 REPLAY_CONTRACT = Path("contracts/c2_authorization_replay.schema.json")
+STATE_TRANSITION_CONTRACT = Path("contracts/c2_state_transition.schema.json")
 AUTOMATED_DECISION_CONTRACT = Path("contracts/automated_decision.schema.json")
+PROJECT_STATE_CONTRACT = Path("contracts/project_state.schema.json")
+PROJECT_STATE_PATH = Path("state/project_state.json")
 OLD_R2_DECISION_PATH = Path(
     "evals/results/phase-002d-r2/automated_decisions/shadow_prototype_authorization.json"
 )
@@ -48,6 +52,19 @@ OLD_R2A_CANDIDATE_PATH = Path("evals/results/phase-002d-r2a/authorization_candid
 C1_FREEZE_PATH = RESULT_ROOT / "candidate_freeze/candidate_freeze_manifest-c1.json"
 C2_SCOPE = "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY"
 C2_ROUTE = "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"
+TERMINAL_UPDATED_AT = "2026-09-03T17:14:25+08:00"
+HISTORICAL_R2_RISK = (
+    "Shadow prototype authorization is RETEST_REQUIRED; no R3 prototype work is authorized."
+)
+C1_CLOSURE_RISK = (
+    "Phase 002D-R2A-C1 must restore historical compatibility and bind all candidate-specific "
+    "evidence to an immutable post-freeze candidate before any seal."
+)
+C2_SCOPE_RISK = (
+    "The C2 active authorization permits only a future isolated experimental shadow prototype; "
+    "it is not architecture selection, formal Skill integration, effectiveness evidence, "
+    "production authorization, or Phase 003 entry."
+)
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -531,13 +548,226 @@ def check_or_write_authorization_replay(root: Path, *, check: bool) -> dict[str,
     }
 
 
+def build_final_project_state(root: Path) -> dict[str, Any]:
+    """Return the idempotent C2 terminal state; no next-phase work is performed."""
+    state = deepcopy(_read_json(root / PROJECT_STATE_PATH))
+    seal = _read_json(root / AUTHORIZATION_PATH)
+    replay = _read_json(root / REPLAY_PATH)
+    input_freeze = _read_json(root / INPUT_FREEZE_PATH)
+    historical = _read_json(root / RESULT_ROOT / "historical_verification/record.json")
+    schema = _read_json(root / RESULT_ROOT / "schema_resolution/record.json")
+    closure = _read_json(root / CLOSURE_PATH)
+    bundle = _read_json(root / BUNDLE_PATH)
+    audit = _read_json(root / FINAL_AUDIT_PATH)
+    state["technical_adjudication_status"] = "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE"
+    state["next_phase_allowed"] = seal["next_phase_allowed"]
+    state["selected_architecture"] = None
+    state["base_selected"] = False
+    state["third_party_integrated"] = False
+    state["skill_capability_status"] = "SCAFFOLD_ONLY"
+    state["automated_decision_ids"] = sorted(
+        set(state["automated_decision_ids"]) | {seal["authorization_id"]}
+    )
+    state["specification_protocol"]["native_subagent_runs"] = max(
+        state["specification_protocol"]["native_subagent_runs"], 24
+    )
+    state["specification_protocol"]["prototype_executions"] = 0
+    state["specification_protocol"]["third_party_executions"] = 0
+    state["specification_protocol"]["real_model_starts"] = 0
+    state["shadow_authorization"] = {
+        "input_freeze_id": input_freeze["freeze_id"],
+        "input_freeze_hash": input_freeze["manifest_hash"],
+        "candidate_id": seal["candidate_id"],
+        "candidate_hash": seal["canonical_candidate_hash"],
+        "candidate_file_sha256": seal["candidate_file_sha256"],
+        "canonical_candidate_hash": seal["canonical_candidate_hash"],
+        "candidate_freeze_hash": seal["candidate_freeze_hash"],
+        "active_decision_id": seal["authorization_id"],
+        "active_decision_hash": seal["authorization_hash"],
+        "replaces_non_active_candidate_id": input_freeze["old_candidate"]["candidate_id"],
+        "supersedes_decision_id": seal["supersedes"]["decision_id"],
+        "supersedes_decision_hash": seal["supersedes"]["decision_hash"],
+        "supersedes_file_sha256": seal["supersedes"]["file_sha256"],
+        "historical_compatibility_hash": historical["record_hash"],
+        "schema_resolution_hash": schema["record_hash"],
+        "candidate_closure_hash": closure["closure_hash"],
+        "final_audit_bundle_hash": bundle["bundle_hash"],
+        "final_audit_result": audit["verdict"],
+        "final_audit_checkpoint_hash": audit["output_hash"],
+        "final_replay_stable": replay["stable"],
+        "final_replay_hash": replay["replay_hash"],
+        "replay_input_freeze_hash": replay["input_freeze_hash"],
+        "replay_decision_hash": replay["active_decision_hash"],
+        "replay_audit_checkpoint_hash": replay["final_audit_output_hash"],
+    }
+    state["risks"] = [
+        risk for risk in state["risks"] if risk not in {HISTORICAL_R2_RISK, C1_CLOSURE_RISK}
+    ]
+    if C2_SCOPE_RISK not in state["risks"]:
+        state["risks"].append(C2_SCOPE_RISK)
+    state["updated_at"] = TERMINAL_UPDATED_AT
+    state["updated_by"] = "main-agent"
+    return state
+
+
+def validate_final_project_state(root: Path, value: dict[str, Any]) -> list[str]:
+    errors = _schema_errors(root, PROJECT_STATE_CONTRACT, value, "C2_PROJECT_STATE_SCHEMA")
+    if value != build_final_project_state(root):
+        errors.append("C2_FINAL_PROJECT_STATE_NOT_REPRODUCIBLE")
+    seal = _read_json(root / AUTHORIZATION_PATH)
+    replay = _read_json(root / REPLAY_PATH)
+    expected = {
+        "phase": "PHASE-EVIDENCE-EXPANSION-002D",
+        "subphase": (
+            "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE"
+        ),
+        "status": "IN_PROGRESS",
+        "technical_adjudication_status": "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+        "selected_architecture": None,
+        "base_selected": False,
+        "third_party_integrated": False,
+        "skill_capability_status": "SCAFFOLD_ONLY",
+        "next_phase_allowed": C2_ROUTE,
+    }
+    for field, expected_value in expected.items():
+        if value.get(field) != expected_value:
+            errors.append(f"C2_FINAL_PROJECT_STATE_{field.upper()}_MISMATCH")
+    shadow = value.get("shadow_authorization", {})
+    if shadow.get("active_decision_hash") != seal["authorization_hash"]:
+        errors.append("C2_FINAL_PROJECT_STATE_DECISION_HASH_MISMATCH")
+    if shadow.get("final_replay_hash") != replay["replay_hash"]:
+        errors.append("C2_FINAL_PROJECT_STATE_REPLAY_HASH_MISMATCH")
+    if shadow.get("final_audit_result") != "PASS" or shadow.get("final_replay_stable") is not True:
+        errors.append("C2_FINAL_PROJECT_STATE_TERMINAL_GATES_NOT_PASS")
+    return sorted(set(errors))
+
+
+def build_state_transition(root: Path) -> dict[str, Any]:
+    seal = _read_json(root / AUTHORIZATION_PATH)
+    replay = _read_json(root / REPLAY_PATH)
+    audit = _read_json(root / FINAL_AUDIT_PATH)
+    final_state = build_final_project_state(root)
+    body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "transition_id": "PHASE-002D-R2A-C2-FORMAL-STATE-TRANSITION-001",
+        "artifact_path": STATE_TRANSITION_PATH.as_posix(),
+        "parent_artifact_hash": replay["replay_hash"],
+        "artifact_sequence_index": 21,
+        "project_state_path": PROJECT_STATE_PATH.as_posix(),
+        "project_state_schema": PROJECT_STATE_CONTRACT.as_posix(),
+        "project_state_schema_version": final_state["schema_version"],
+        "from_technical_status": "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS",
+        "to_technical_status": final_state["technical_adjudication_status"],
+        "authorization_id": seal["authorization_id"],
+        "authorization_hash": seal["authorization_hash"],
+        "final_audit_id": audit["audit_id"],
+        "final_audit_result": audit["verdict"],
+        "final_audit_output_hash": audit["output_hash"],
+        "final_replay_id": replay["replay_id"],
+        "final_replay_hash": replay["replay_hash"],
+        "final_replay_stable": replay["stable"],
+        "full_ci_before_transition": {
+            "status": "PASS",
+            "passed": 1474,
+            "failed": 0,
+            "skipped": 1,
+            "command": "bash scripts/ci.sh",
+            "subject_commit": "8f1571679867ad4be34a0ff0c5b726182bea0a4e",
+        },
+        "selected_architecture": None,
+        "base_selected": False,
+        "third_party_integrated": False,
+        "skill_capability_status": "SCAFFOLD_ONLY",
+        "prototype_executions": 0,
+        "api_calls": 0,
+        "real_model_in_loop_runs": 0,
+        "third_party_executions": 0,
+        "next_phase_allowed": final_state["next_phase_allowed"],
+        "phase003_prohibited": True,
+        "final_state_hash": sha256_json(final_state),
+    }
+    body["transition_hash"] = sha256_json(body)
+    return body
+
+
+def validate_state_transition(root: Path, value: dict[str, Any]) -> list[str]:
+    gate = evaluate_final_audit_gate(root, "STATE_TRANSITION")
+    errors = list(gate["errors"])
+    seal = _read_json(root / AUTHORIZATION_PATH)
+    replay = _read_json(root / REPLAY_PATH)
+    errors.extend(validate_authorization_seal(root, seal))
+    errors.extend(validate_authorization_replay(root, replay))
+    errors.extend(_schema_errors(root, STATE_TRANSITION_CONTRACT, value, "C2_TRANSITION_SCHEMA"))
+    body = deepcopy(value)
+    recorded_hash = body.pop("transition_hash", None)
+    if sha256_json(body) != recorded_hash:
+        errors.append("C2_STATE_TRANSITION_HASH_MISMATCH")
+    if value != build_state_transition(root):
+        errors.append("C2_STATE_TRANSITION_NOT_REPRODUCIBLE")
+    if value.get("parent_artifact_hash") != replay.get("replay_hash"):
+        errors.append("C2_STATE_TRANSITION_PARENT_REPLAY_HASH_MISMATCH")
+    if value.get("final_replay_stable") is not True:
+        errors.append("C2_STATE_TRANSITION_REPLAY_NOT_STABLE")
+    return sorted(set(errors))
+
+
+def check_or_write_state_transition(root: Path, *, check: bool) -> dict[str, Any]:
+    gate = evaluate_final_audit_gate(root, "STATE_TRANSITION")
+    if gate["status"] != "PASS":
+        return {**gate, "formal_state_transition_performed": False}
+    if not (root / REPLAY_PATH).is_file():
+        return {
+            "action": "STATE_TRANSITION",
+            "status": "BLOCKED",
+            "errors": ["C2_FINAL_REPLAY_MISSING"],
+            "formal_state_transition_performed": False,
+        }
+    replay_errors = validate_authorization_replay(root, _read_json(root / REPLAY_PATH))
+    if replay_errors:
+        return {
+            "action": "STATE_TRANSITION",
+            "status": "BLOCKED",
+            "errors": replay_errors,
+            "formal_state_transition_performed": False,
+        }
+    transition = build_state_transition(root)
+    final_state = build_final_project_state(root)
+    errors = _schema_errors(root, STATE_TRANSITION_CONTRACT, transition, "C2_TRANSITION_SCHEMA")
+    errors.extend(validate_final_project_state(root, final_state))
+    if not errors:
+        errors.extend(check_or_write_json(root / STATE_TRANSITION_PATH, transition, check=check))
+    if not errors:
+        errors.extend(check_or_write_json(root / PROJECT_STATE_PATH, final_state, check=check))
+    if not errors:
+        errors.extend(validate_state_transition(root, _read_json(root / STATE_TRANSITION_PATH)))
+        errors.extend(validate_final_project_state(root, _read_json(root / PROJECT_STATE_PATH)))
+    return {
+        "action": "STATE_TRANSITION",
+        "status": "PASS" if not errors else "FAIL",
+        "errors": sorted(set(errors)),
+        "transition_id": transition["transition_id"],
+        "transition_hash": transition["transition_hash"],
+        "final_state_hash": transition["final_state_hash"],
+        "technical_adjudication_status": final_state["technical_adjudication_status"],
+        "next_phase_allowed": final_state["next_phase_allowed"],
+        "formal_state_transition_performed": not check and not errors,
+        "artifact_path": STATE_TRANSITION_PATH.as_posix(),
+    }
+
+
 __all__ = [
     "AUTHORIZATION_PATH",
     "REPLAY_PATH",
+    "STATE_TRANSITION_PATH",
     "build_authorization_seal",
     "build_authorization_replay",
+    "build_final_project_state",
+    "build_state_transition",
     "check_or_write_authorization_seal",
     "check_or_write_authorization_replay",
+    "check_or_write_state_transition",
     "validate_authorization_seal",
     "validate_authorization_replay",
+    "validate_final_project_state",
+    "validate_state_transition",
 ]

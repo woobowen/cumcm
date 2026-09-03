@@ -84,6 +84,12 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
             "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
             None,
         }
+    elif state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE":
+        shadow = state["shadow_authorization"]
+        assert state["next_phase_allowed"] == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"
+        assert shadow["active_decision_id"] in state["automated_decision_ids"]
+        assert shadow["final_audit_result"] == "PASS"
+        assert shadow["final_replay_stable"] is True
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False

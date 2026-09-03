@@ -331,3 +331,17 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   `08e8a542dc863151e7bad91fdb6a1301c30f2d9770d6a3a8582652c8ca0e5818`. Focused replay/seal
   tests pass `14/14`; full CI passes `1474` tests with one skip and strict validation reports zero
   errors/warnings. No formal state transition predates this stable replay.
+- `2026-09-03`: L21 performed the sole formal state transition after the L20 full CI pass and
+  remote-SHA verification. Sequence index 21 binds parent replay hash
+  `08e8a542dc863151e7bad91fdb6a1301c30f2d9770d6a3a8582652c8ca0e5818`, transition hash
+  `2e180b3c3e17b687a184d9f99a24827c308bf9a30c2ec8f5ff4218e6a87ae257`, and final state hash
+  `33cab87e17c6b2c35ab99df7b65cf832b53cdabafa8a15716d0168e5565dab7a`. Machine state is now
+  `SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE`, registers the C2 active decision, and routes only to
+  `PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION`; phase/subphase/status remain unchanged and all
+  architecture, integration, Skill, execution, third-party, API, model-run, and Phase 003 boundaries
+  remain closed. The first post-transition CI exposed seven tests that had conflated the live state
+  with the historical start state. One repair loop now loads the exact sequence-start snapshot at
+  commit `586ec15c81b530fd200ae79fa600ea060bec6727`, adds an explicit complete-state branch, and makes
+  the bypass attack remove all required bindings. No assertion was skipped, xfailed, or weakened.
+  Focused transition/replay/seal tests pass `20/20`; the repaired full CI passes `1480` tests with
+  one skip and strict validation reports zero errors/warnings.

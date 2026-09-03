@@ -7,6 +7,7 @@ from jsonschema import Draft202012Validator, ValidationError
 
 from cumcm_skill_lab.adjudication.models import file_sha256, sha256_json
 from cumcm_skill_lab.adjudication.state_transition import apply_registered_technical_transition
+from cumcm_skill_lab.authorization_c1.models import git_file_bytes
 from cumcm_skill_lab.specification.authorization.dependency_graph import (
     build_dependency_graph,
     cycle_nodes,
@@ -19,9 +20,15 @@ from cumcm_skill_lab.specification.authorization.models import (
     git_file_sha256,
 )
 
+R2A_START_STATE_COMMIT = "586ec15c81b530fd200ae79fa600ea060bec6727"
+
 
 def _json(path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _r2a_start_state(repo_root):
+    return json.loads(git_file_bytes(repo_root, R2A_START_STATE_COMMIT, "state/project_state.json"))
 
 
 def _rehash(record, field):
@@ -164,7 +171,7 @@ def test_r2a_state_transition_requires_final_audit_and_replay_edges(repo_root):
 
 def test_r2a_start_state_is_schema_valid(repo_root):
     schema = _json(repo_root / "contracts/project_state.schema.json")
-    state = _json(repo_root / "state/project_state.json")
+    state = _r2a_start_state(repo_root)
     Draft202012Validator(schema).validate(state)
     assert state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS"
     assert state["selected_architecture"] is None
@@ -182,7 +189,7 @@ def test_r2a_start_state_is_schema_valid(repo_root):
 )
 def test_r2a_start_state_rejects_premature_advancement(repo_root, field, value):
     schema = _json(repo_root / "contracts/project_state.schema.json")
-    state = _json(repo_root / "state/project_state.json")
+    state = _r2a_start_state(repo_root)
     state[field] = value
     with pytest.raises(ValidationError):
         Draft202012Validator(schema).validate(state)
@@ -193,7 +200,7 @@ def test_r2_to_r2a_state_transition_is_registered(repo_root):
     rules = yaml.safe_load(
         (repo_root / "rules/phase002d_r2a_workflow_rules.yaml").read_text(encoding="utf-8")
     )
-    candidate = _json(repo_root / "state/project_state.json")
+    candidate = _r2a_start_state(repo_root)
     source = copy.deepcopy(candidate)
     source.update(
         {

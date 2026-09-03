@@ -95,6 +95,29 @@ def _state_bypass_is_rejected(root: Path) -> bool:
     state = read_json(root / "state/project_state.json")
     state["technical_adjudication_status"] = "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE"
     state["next_phase_allowed"] = "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"
+    shadow = state["shadow_authorization"]
+    for field in (
+        "candidate_id",
+        "candidate_hash",
+        "candidate_file_sha256",
+        "canonical_candidate_hash",
+        "candidate_freeze_hash",
+        "active_decision_id",
+        "active_decision_hash",
+        "replaces_non_active_candidate_id",
+        "historical_compatibility_hash",
+        "schema_resolution_hash",
+        "candidate_closure_hash",
+        "final_audit_bundle_hash",
+        "final_audit_checkpoint_hash",
+        "final_replay_hash",
+        "replay_input_freeze_hash",
+        "replay_decision_hash",
+        "replay_audit_checkpoint_hash",
+    ):
+        shadow[field] = None
+    shadow["final_audit_result"] = "NOT_RUN"
+    shadow["final_replay_stable"] = False
     schema = read_json(root / "contracts/project_state.schema.json")
     return bool(list(Draft202012Validator(schema).iter_errors(state)))
 

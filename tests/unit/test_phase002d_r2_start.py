@@ -6,8 +6,11 @@ import yaml
 from jsonschema import Draft202012Validator, ValidationError
 
 from cumcm_skill_lab.adjudication.state_transition import apply_registered_technical_transition
+from cumcm_skill_lab.authorization_c1.models import git_file_bytes
 from cumcm_skill_lab.specification.implementation_embargo import verify_embargo
 from cumcm_skill_lab.specification.models import COMPONENT_IDS, verify_input_freeze
+
+R2A_START_STATE_COMMIT = "586ec15c81b530fd200ae79fa600ea060bec6727"
 
 
 def _json(path):
@@ -22,6 +25,10 @@ def _in_progress_state(repo_root):
     state["architecture_candidate_set"] = []
     state["next_phase_allowed"] = None
     return state
+
+
+def _r2a_start_state(repo_root):
+    return json.loads(git_file_bytes(repo_root, R2A_START_STATE_COMMIT, "state/project_state.json"))
 
 
 def test_r2_input_freeze_verifies_all_historical_inputs(repo_root):
@@ -52,7 +59,7 @@ def test_r2_implementation_embargo_hash_mutation_fails_closed(repo_root):
 
 def test_r2a_start_state_is_schema_valid_and_keeps_boundary(repo_root):
     schema = _json(repo_root / "contracts/project_state.schema.json")
-    state = _json(repo_root / "state/project_state.json")
+    state = _r2a_start_state(repo_root)
     Draft202012Validator(schema).validate(state)
     assert state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS"
     assert state["accepted_component_specifications"] == list(COMPONENT_IDS)
