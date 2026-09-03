@@ -221,3 +221,10 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   `0e923c8c580cad513ba91fcfaf2656f67c4c092628e34252d7e1e136e7c57617`.
   One M4 repair loop fixed missing contract fixtures; the rerun passed `1352` tests with one skip,
   full CI exited zero, and strict validation reported zero errors/warnings.
+- `2026-09-03`: M5 deterministically generated the non-active C1 candidate from passing frozen
+  prerequisites, without candidate-specific preconditions or evidence. The candidate contains no
+  self hash or timestamp. Its independent freeze records byte SHA-256
+  `b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a`, canonical hash
+  `d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702`, and freeze hash
+  `cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011`. Sixteen focused
+  candidate/freeze tests pass; the formal Skill hash remains unchanged.
