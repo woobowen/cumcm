@@ -17,3 +17,13 @@ technical state is `SPECIFICATION_PROTOCOL_COMPLETE`. Architecture remains null,
 formal Skill remains scaffold-only, and shadow authorization is RETEST_REQUIRED. Historical Phase
 002A–002D-R1 machine records remain immutable under their versioned result directories and are not
 superseded by a positive performance claim.
+
+## Phase 002D-R2A-C1/C2 continuation
+
+Historical R2 decision `DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2` remains preserved at
+`795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d`. C2 independently closed the candidate-bound authorization
+chain: candidate `CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2`, audit `PASS` / `e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125`,
+active decision `AUTOMATED_ACCEPTED` / `EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY`, replay stable
+`true`, and route `PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION`. Architecture remains
+null; no prototype, formal Skill integration, third-party execution, API/model experiment, or
+Phase 003 work occurred.

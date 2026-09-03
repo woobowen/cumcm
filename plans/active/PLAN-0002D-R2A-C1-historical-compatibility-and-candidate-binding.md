@@ -1,6 +1,6 @@
 # PLAN-0002D-R2A-C1 — Historical Compatibility and Candidate-Bound Authorization Closure
 
-Status: `IN_PROGRESS`
+Status: `COMPLETE`
 Phase: `PHASE-EVIDENCE-EXPANSION-002D`
 Subphase: `PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE`
 Owner: main agent
@@ -345,3 +345,15 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   the bypass attack remove all required bindings. No assertion was skipped, xfailed, or weakened.
   Focused transition/replay/seal tests pass `20/20`; the repaired full CI passes `1480` tests with
   one skip and strict validation reports zero errors/warnings.
+- `2026-09-03`: M10 generated nine continuation reports plus the two cumulative automated-decision
+  reports from machine inputs. The old incomplete R2A acceptance report remains byte-identical.
+  Validation repair loop 1 removed an inapplicable C1 bundle-preparation command that correctly
+  fails after C1 was frozen as failed and replaced by C2; C1 freeze/evidence/failure-audit checks
+  remain in the matrix and the C2 preparation check is the applicable final-bundle gate. The final
+  36-command record hash is
+  `39dcc359eb6d49c299b3163ecbe62a906d11c990a01d7c0cf1331dd009eae1e3`.
+  Every required standalone check plus full CI passes; Ruff passes, pytest reports `1484 passed,
+  0 failed, 1 skipped` from 1485 collected nodes, 78 valid contract fixtures pass, 68 invalid
+  fixtures are rejected, strict validation reports zero errors and warnings, and Git whitespace
+  validation passes. Remote CI for the formal state commit
+  `6916ebfaa37021d6b54854bff28d0a6966c3daeb` passed. No dependency was installed.
