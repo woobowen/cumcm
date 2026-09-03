@@ -258,3 +258,15 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   its corrected graph hash is
   `97e40742c47d796c3cfee54b0e75c15693c60e94eeaa7ef6fb54587effa8f64c` and validates without
   semantic or structural cycles. No unchanged-C1 re-audit is permitted.
+- `2026-09-03`: The sole permitted C2 revision was generated only after the C1 failure and its
+  dependency resolution were committed and remotely verified. C2 binds corrected graph hash
+  `97e40742c47d796c3cfee54b0e75c15693c60e94eeaa7ef6fb54587effa8f64c`, resolution hash
+  `d2ac9bbeda65e3aa3f8a59396431499f9bf4e8cf84b2711c98cf972f13223bb9`, and the exact failed C1
+  tuple without changing any C1 byte. Its new candidate file SHA-256 is
+  `77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51`, canonical hash is
+  `318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420`, and sequence-12 freeze
+  hash is `50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961`.
+  The R2 embargo verifier now classifies the isolated `authorization_c2/` path as governance while
+  preserving every prototype/component/Skill prohibition. C1/C2 focused tests pass `32/32`; full
+  CI passes `1428` tests with one skip and strict validation has zero errors/warnings. C2 remains
+  non-active and no L13+ evidence predates this freeze.

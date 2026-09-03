@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "SHADOW_AUTHORIZATION_CANDIDATE_NOT_ACTIVE",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "revision": "C2",
+  "active": false,
+  "proposed_authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "decision": "AUTOMATED_ACCEPTED",
+  "accepted_scope": "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+  "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+  "input_references": {
+    "c1_input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "historical_compatibility_hash": "e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
+    "schema_resolution_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+    "compatibility_closure_hash": "0e923c8c580cad513ba91fcfaf2656f67c4c092628e34252d7e1e136e7c57617",
+    "source_r2a_dependency_graph_hash": "df07f7e7387a410e0a90a3af13da9c712ebc1621f8145282b30f5ef9d3af4a0c",
+    "c2_dependency_graph_hash": "97e40742c47d796c3cfee54b0e75c15693c60e94eeaa7ef6fb54587effa8f64c",
+    "c2_dependency_resolution_hash": "d2ac9bbeda65e3aa3f8a59396431499f9bf4e8cf84b2711c98cf972f13223bb9",
+    "c1_final_audit_output_hash": "601f4b8a57aa2d08869906c8d6ce8454cebc4bacbf0fac4bdc616cbf41af5d10",
+    "r2a_scope_hash": "919680d3cc8578d72d4ff960b00d61750f273e22a0634a8012daa3cb2c422501",
+    "r2a_historical_preconditions_hash": "a78cceb968f03638a777b2b8464a605cd1f57e046532ce8f99d56d84b7a1c057",
+    "formal_skill_tree_hash": "edeeaf7312e7fc1cdc008bfa799a6127787768246c90ab4c4a569615d11dde33",
+    "benchmark_hash": "8772841d7cd55d4d12d9fbff173c80dd96d3232f8fa10c04a1cd8113fca4ba1e",
+    "threshold_hash": "59cc497f5b3557422f6d1755b94757e3d672c6320b690bbe0c4e125a0dabfe7b",
+    "protocol_hash": "73b1a80e5dc84ba9b2b0ccda28a1ab38c054b30056b596eee7ea3f613f5e3e9b",
+    "implementation_embargo_hash": "2ff861d2db30e3cd56b37b20448527e492cf3ec3132ac245c08b96c3c820b919"
+  },
+  "supersedes": {
+    "decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+    "decision_hash": "795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d",
+    "historical_decision": "RETEST_REQUIRED"
+  },
+  "replaces_non_active_candidate": {
+    "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+    "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+    "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+    "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+    "classification": "FROZEN_FAILED_C1_CANDIDATE"
+  },
+  "retests_candidate": {
+    "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+    "candidate_file_sha256": "b02d963794ef3df29c0971083eaad957f80f7b421f05fb79b7f3189ff51eac8a",
+    "canonical_candidate_hash": "d74ea54edf38f37d6506b066c7cd8a52ae31dddd189e3da8fd34a4c083b49702",
+    "candidate_freeze_hash": "cdc4142c3313d159cdc8c7b83ed234484c9daab7454e8a3c902e6486be174011",
+    "final_audit_output_hash": "601f4b8a57aa2d08869906c8d6ce8454cebc4bacbf0fac4bdc616cbf41af5d10",
+    "final_audit_verdict": "FAIL",
+    "finding_id": "R2A-C1-FINAL-001",
+    "resolution_hash": "d2ac9bbeda65e3aa3f8a59396431499f9bf4e8cf84b2711c98cf972f13223bb9"
+  },
+  "restrictions": [
+    "EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY",
+    "NO_ARCHITECTURE_SELECTION",
+    "NO_FORMAL_SKILL_WRITE",
+    "NO_FORMAL_INTEGRATION",
+    "NO_HIDDEN_VAULT_ACCESS",
+    "NO_THIRD_PARTY_CODE_OR_EXECUTION",
+    "NO_MODEL_STAGE2_WITHOUT_NEW_FROZEN_AUTHORIZATION",
+    "NO_PHASE_003"
+  ],
+  "selected_architecture": null,
+  "base_selected": false,
+  "third_party_integrated": false,
+  "skill_capability_status": "SCAFFOLD_ONLY",
+  "phase003_prohibited": true,
+  "prototype_implemented": false,
+  "prototype_executed": false,
+  "real_model_in_loop_runs": 0,
+  "api_calls": 0,
+  "third_party_executions": 0,
+  "majority_vote_used": false,
+  "unknowns": [
+    "CLEAN_ROOM_LEGAL_COMPLIANCE_NOT_PROVEN",
+    "HIDDEN_VAULT_OS_ISOLATION_NOT_VERIFIED",
+    "PROTOTYPE_EFFECTIVENESS_UNMEASURED",
+    "MONETARY_COST_UNKNOWN"
+  ]
+}

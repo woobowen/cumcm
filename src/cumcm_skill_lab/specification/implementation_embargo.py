@@ -16,7 +16,10 @@ CREATED_AT = "2026-09-02T13:02:23+08:00"
 FORMAL_SKILL_ROOT = Path(".agents/skills/cumcm-modeling-evidence")
 SRC_ROOT = Path("src/cumcm_skill_lab")
 ALLOWED_PREFIXES = ("src/cumcm_skill_lab/specification/",)
-C1_GOVERNANCE_PREFIXES = ("src/cumcm_skill_lab/authorization_c1/",)
+AUTHORIZATION_GOVERNANCE_PREFIXES = (
+    "src/cumcm_skill_lab/authorization_c1/",
+    "src/cumcm_skill_lab/authorization_c2/",
+)
 C1_COMPATIBILITY_ADAPTERS = {
     "src/cumcm_skill_lab/expansion/input_freeze.py",
     "src/cumcm_skill_lab/failure_aware/evidence_freeze.py",
@@ -96,7 +99,7 @@ def verify_embargo(root: Path, embargo: dict[str, Any] | None = None) -> list[st
         path: digest
         for path, digest in current_protected.items()
         if path not in C1_COMPATIBILITY_ADAPTERS
-        and not any(path.startswith(prefix) for prefix in C1_GOVERNANCE_PREFIXES)
+        and not any(path.startswith(prefix) for prefix in AUTHORIZATION_GOVERNANCE_PREFIXES)
     }
     if current_protected != protected:
         errors.append("PROTECTED_SRC_TREE_CHANGED")
