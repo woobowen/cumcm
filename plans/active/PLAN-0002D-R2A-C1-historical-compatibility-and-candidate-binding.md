@@ -200,4 +200,4 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   historical result trees byte-immutable, and allow only the workflow task-branch pointer to change
   semantically. Fifteen focused attack tests and all 48 affected historical tests pass; the 20-test
   history cascade is fixed. Compatibility record hash is
-  `fb285d147ba4acc808cd1f7f4e1b68513c95f4bc74bb8c12152b687fd66cb6b7`.
+  `17fa7ea0c99fb7ad467ba739efffedb3060a6404c3119a833bc625c805a71629`.

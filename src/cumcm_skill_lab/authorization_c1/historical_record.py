@@ -46,6 +46,14 @@ def build_historical_record(root: Path) -> dict[str, Any]:
         "verifier_file_sha256": file_sha256(
             root / "src/cumcm_skill_lab/authorization_c1/historical_verification.py"
         ),
+        "verifier_adapter_hashes": {
+            path: file_sha256(root / path)
+            for path in (
+                "src/cumcm_skill_lab/expansion/input_freeze.py",
+                "src/cumcm_skill_lab/failure_aware/evidence_freeze.py",
+                "src/cumcm_skill_lab/specification/models.py",
+            )
+        },
         "verification_modes": sorted({item["verification_mode"] for item in policy["entries"]}),
         "r1_subject_commit": r1_manifest["subject_commit"],
         "immutable_paths": sorted(

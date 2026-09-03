@@ -6,9 +6,14 @@
   "created_at": "2026-09-03T14:26:16+08:00",
   "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
   "policy_path": "rules/historical_verification_policy.yaml",
-  "policy_file_sha256": "5b7a85ac080af53c945eeb1a86484558b852943c069b5e09038cd33ec63dd30f",
+  "policy_file_sha256": "95660b6cd281c9584a47f78978ae8f10cf874f1da32454e52ab507fb25165006",
   "verifier_path": "src/cumcm_skill_lab/authorization_c1/historical_verification.py",
   "verifier_file_sha256": "54c3251404d25507f5a7b1796ee591658213327614e8777338e52f5f909c7f35",
+  "verifier_adapter_hashes": {
+    "src/cumcm_skill_lab/expansion/input_freeze.py": "a331b249d1e1ac8c17f2fc10c3231ec93eac2291fb4a50583b8a3b335388a364",
+    "src/cumcm_skill_lab/failure_aware/evidence_freeze.py": "ceb3a53574def91df97ca294bdfdc0780cd05c9715f1bdfcde1645e11bb81d4c",
+    "src/cumcm_skill_lab/specification/models.py": "7b0f456d2ad2f0271e4405ac9c0450bcb9cb0bd4e32cd9c2b2b4cf129379b8df"
+  },
   "verification_modes": [
     "CURRENT_TREE_IMMUTABLE",
     "DERIVED_OBSERVATION",
@@ -67,5 +72,5 @@
   "result": "PASS",
   "no_current_file_fallback": true,
   "whole_file_ignore_allowed": false,
-  "record_hash": "fb285d147ba4acc808cd1f7f4e1b68513c95f4bc74bb8c12152b687fd66cb6b7"
+  "record_hash": "17fa7ea0c99fb7ad467ba739efffedb3060a6404c3119a833bc625c805a71629"
 }

@@ -74,6 +74,14 @@ entries:
     current_schema: null
     semantic_validator: json_schema_identity
     failure_severity: BLOCKER
+  - path: src/cumcm_skill_lab/failure_aware/evidence_freeze.py
+    manifest_version: PHASE-002D-R2/1.0.0
+    verification_mode: SUBJECT_COMMIT_BLOB
+    subject_commit: 10073a2fe5b1512a16ab9a9c7907fb2b7f5ff765
+    allowed_live_fields: []
+    current_schema: null
+    semantic_validator: c1_compatibility_adapter_binding
+    failure_severity: BLOCKER
   - path: reports/current_state.md
     manifest_version: PHASE-002D-R2A-C1/1.0.0
     verification_mode: DERIVED_OBSERVATION
