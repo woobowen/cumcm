@@ -1,6 +1,6 @@
 # PLAN-0002D-R2A — Shadow Prototype Authorization Closure
 
-Status: `IN_PROGRESS`
+Status: `INCOMPLETE` — continued by `plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md`
 Phase: `PHASE-EVIDENCE-EXPANSION-002D`
 Subphase: `PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE`
 Owner: main agent

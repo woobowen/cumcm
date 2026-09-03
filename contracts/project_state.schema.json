@@ -117,11 +117,19 @@
         "input_freeze_hash",
         "candidate_id",
         "candidate_hash",
+        "candidate_file_sha256",
+        "canonical_candidate_hash",
+        "candidate_freeze_hash",
         "active_decision_id",
         "active_decision_hash",
+        "replaces_non_active_candidate_id",
         "supersedes_decision_id",
         "supersedes_decision_hash",
         "supersedes_file_sha256",
+        "historical_compatibility_hash",
+        "schema_resolution_hash",
+        "candidate_closure_hash",
+        "final_audit_bundle_hash",
         "final_audit_result",
         "final_audit_checkpoint_hash",
         "final_replay_stable",
@@ -131,15 +139,28 @@
         "replay_audit_checkpoint_hash"
       ],
       "properties": {
-        "input_freeze_id": {"const": "PHASE-002D-R2A-INPUT-FREEZE-001"},
+        "input_freeze_id": {
+          "enum": [
+            "PHASE-002D-R2A-INPUT-FREEZE-001",
+            "PHASE-002D-R2A-C1-INPUT-FREEZE-001"
+          ]
+        },
         "input_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
         "candidate_id": {"type": ["string", "null"]},
         "candidate_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "candidate_file_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "canonical_candidate_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "candidate_freeze_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
         "active_decision_id": {"type": ["string", "null"]},
         "active_decision_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "replaces_non_active_candidate_id": {"type": ["string", "null"]},
         "supersedes_decision_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2"},
         "supersedes_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
         "supersedes_file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "historical_compatibility_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "schema_resolution_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "candidate_closure_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "final_audit_bundle_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
         "final_audit_result": {"enum": ["NOT_RUN", "PASS", "FAIL", "RETEST_REQUIRED"]},
         "final_audit_checkpoint_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
         "final_replay_stable": {"type": "boolean"},
@@ -396,11 +417,17 @@
         "properties": {
           "phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"},
           "subphase": {
-            "const": "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE"
+            "enum": [
+              "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE",
+              "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE"
+            ]
           },
           "status": {"const": "IN_PROGRESS"},
           "current_plan": {
-            "const": "plans/active/PLAN-0002D-R2A-shadow-authorization-closure.md"
+            "enum": [
+              "plans/active/PLAN-0002D-R2A-shadow-authorization-closure.md",
+              "plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md"
+            ]
           },
           "selected_architecture": {"type": "null"},
           "accepted_component_specifications": {
@@ -453,8 +480,16 @@
             "properties": {
               "candidate_id": {"type": "null"},
               "candidate_hash": {"type": "null"},
+              "candidate_file_sha256": {"type": "null"},
+              "canonical_candidate_hash": {"type": "null"},
+              "candidate_freeze_hash": {"type": "null"},
               "active_decision_id": {"type": "null"},
               "active_decision_hash": {"type": "null"},
+              "replaces_non_active_candidate_id": {"type": "null"},
+              "historical_compatibility_hash": {"type": "null"},
+              "schema_resolution_hash": {"type": "null"},
+              "candidate_closure_hash": {"type": "null"},
+              "final_audit_bundle_hash": {"type": "null"},
               "final_audit_result": {"const": "NOT_RUN"},
               "final_audit_checkpoint_hash": {"type": "null"},
               "final_replay_stable": {"const": false},
@@ -485,15 +520,38 @@
             "enum": [
               "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
               "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE",
+              "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE",
               null
             ]
           },
           "shadow_authorization": {
             "properties": {
-              "candidate_id": {"const": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"},
+              "candidate_id": {
+                "enum": [
+                  "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+                  "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+                  "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"
+                ]
+              },
               "candidate_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-              "active_decision_id": {"const": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"},
+              "candidate_file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "canonical_candidate_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "candidate_freeze_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "active_decision_id": {
+                "enum": [
+                  "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+                  "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C1",
+                  "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"
+                ]
+              },
               "active_decision_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "replaces_non_active_candidate_id": {
+                "const": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A"
+              },
+              "historical_compatibility_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "schema_resolution_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "candidate_closure_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "final_audit_bundle_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
               "final_audit_result": {"const": "PASS"},
               "final_audit_checkpoint_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
               "final_replay_stable": {"const": true},

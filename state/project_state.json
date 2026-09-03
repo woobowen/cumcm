@@ -30,7 +30,7 @@
   "blockers": [],
   "content_verified_commit": null,
   "current_branch": "feat/phase002d-r2a-shadow-authorization",
-  "current_plan": "plans/active/PLAN-0002D-R2A-shadow-authorization-closure.md",
+  "current_plan": "plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md",
   "delivery_receipt_for_commit": null,
   "evidence_expansion": {
     "attempts": 28,
@@ -99,21 +99,30 @@
     "The hidden Benchmark vault is policy/workspace isolated and not OS-enforced.",
     "Shadow prototype authorization is RETEST_REQUIRED; no R3 prototype work is authorized.",
     "Clean-room provenance is evidence of process controls, not proof of legal compliance.",
-    "Phase 002D-R2A may authorize only an isolated future experimental shadow scope; it is not architecture selection, formal Skill integration, prototype effectiveness evidence, legal proof, or OS-enforced vault isolation."
+    "Phase 002D-R2A may authorize only an isolated future experimental shadow scope; it is not architecture selection, formal Skill integration, prototype effectiveness evidence, legal proof, or OS-enforced vault isolation.",
+    "Phase 002D-R2A-C1 must restore historical compatibility and bind all candidate-specific evidence to an immutable post-freeze candidate before any seal."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": null,
   "skill_capability_status": "SCAFFOLD_ONLY",
   "shadow_authorization": {
-    "input_freeze_id": "PHASE-002D-R2A-INPUT-FREEZE-001",
-    "input_freeze_hash": "f524f63e8c98482a85784767c9cd539f98ad286390aac8be831061d31f0a0a95",
+    "input_freeze_id": "PHASE-002D-R2A-C1-INPUT-FREEZE-001",
+    "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
     "candidate_id": null,
     "candidate_hash": null,
+    "candidate_file_sha256": null,
+    "canonical_candidate_hash": null,
+    "candidate_freeze_hash": null,
     "active_decision_id": null,
     "active_decision_hash": null,
+    "replaces_non_active_candidate_id": null,
     "supersedes_decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
     "supersedes_decision_hash": "795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d",
     "supersedes_file_sha256": "6150252f16889d02e643384e4229b2b77e2d00480a4c51fc474218c6cb95e291",
+    "historical_compatibility_hash": null,
+    "schema_resolution_hash": null,
+    "candidate_closure_hash": null,
+    "final_audit_bundle_hash": null,
     "final_audit_result": "NOT_RUN",
     "final_audit_checkpoint_hash": null,
     "final_replay_stable": false,
@@ -136,15 +145,15 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "PHASE-002D-R2A-SHADOW-PROTOTYPE-AUTHORIZATION-CLOSURE",
+  "subphase": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE",
   "team_compliance_review_status": "NOT_RUN",
   "technical_adjudication_status": "SHADOW_PROTOTYPE_AUTHORIZATION_IN_PROGRESS",
   "third_party_integrated": false,
-  "updated_at": "2026-09-03T02:00:00+08:00",
+  "updated_at": "2026-09-03T14:26:16+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
-    "path": "evals/results/phase-002d-r2a/input_freeze_manifest.json",
-    "sha256": "4172e63617a081f4db60ce9d74e9aa527dfa516bc0d24526c045b09d1564deb2",
-    "subject_commit": "7769a1478940305069aab07d71290a06025206d2"
+    "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
+    "sha256": "c4994aacb4bb587a5c9214643797de2587d9db5e1f6cdfbd32db64874b7bf3fc",
+    "subject_commit": "2d117985404b21abd7f0c3a10258731e06f77852"
   }
 }
