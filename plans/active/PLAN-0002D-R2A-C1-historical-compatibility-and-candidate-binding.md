@@ -310,3 +310,14 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   audit tests pass `41/41`; full CI passes `1460` tests with one skip and strict validation reports
   zero errors/warnings. No authorization seal, replay, or formal state transition predates this
   passing result.
+- `2026-09-03`: L19 sealed active decision
+  `DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2` only after the passing L18 result was
+  committed and remotely verified. The seal reuses and validates the existing automated-decision
+  contract, binds the exact C2 byte/canonical/freeze tuple and every L13-L18 checkpoint, preserves
+  the historical R2 `RETEST_REQUIRED` decision and both non-active predecessor candidate lines,
+  and hashes to `ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473` at
+  sequence index 19. Its accepted scope is only `EXPERIMENTAL_SHADOW_PROTOTYPE_ONLY`; architecture
+  and base selection, formal Skill integration, prototype execution, third-party execution and
+  Phase 003 remain prohibited. Focused seal/audit/bundle tests pass `29/29`; full CI passes `1467`
+  tests with one skip and strict validation reports zero errors/warnings. No replay or formal state
+  transition predates the seal.
