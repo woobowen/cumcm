@@ -60,13 +60,16 @@ class WorkflowGuardAdapter:
                 passed, reasons, diagnostics = GUARDS[case_input.component_id](
                     case_input.payload, isolated_state
                 )
-            except (KeyError, TypeError, ValueError) as exc:
+            except Exception as exc:  # noqa: BLE001 - fail closed at the architecture boundary
                 passed = False
                 reasons = ("W1_MALFORMED_INPUT_FAIL_CLOSED",)
-                diagnostics = {"sanitized_exception": type(exc).__name__}
-                terminal_status = "FAILED"
+                diagnostics = {
+                    "disposition": "REJECTED",
+                    "sanitized_exception": type(exc).__name__,
+                }
+                terminal_status = "FAILED_RETAINED"
             decision = ShadowDecision(
-                "PASS" if passed else ("ERROR" if terminal_status == "FAILED" else "BLOCK"),
+                "PASS" if passed else "BLOCK",
                 reasons or ("W1_ALL_WORKFLOW_CHECKS_PASS",),
                 {case_input.component_id: "PASS" if passed else "BLOCK"},
             )

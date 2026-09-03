@@ -35,6 +35,8 @@ FROZEN_FILES = (
     "evals/prospective/phase-002d-r2/access_policy.yaml",
 )
 ENGINE_FILES = (
+    "experiments/shadow_prototypes/common/interface.py",
+    "experiments/shadow_prototypes/common/public_cases.py",
     "src/cumcm_skill_lab/shadow_validation/runner.py",
     "src/cumcm_skill_lab/shadow_validation/scorer.py",
     "src/cumcm_skill_lab/shadow_validation/grader.py",

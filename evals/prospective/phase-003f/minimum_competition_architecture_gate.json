@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "MINIMUM_COMPETITION_ARCHITECTURE_GATE",
+  "decision_id": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
+  "status": "FROZEN_BEFORE_TEST_EXECUTION",
+  "frozen_at": "2026-09-04T00:25:00+08:00",
+  "accepted_scope": "COMPETITION_RC_IMPLEMENTATION_ONLY",
+  "candidate_order": [
+    "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+  ],
+  "excluded_completion_candidate": "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
+  "hard_gates": [
+    "G1_MALFORMED_INPUT_FAIL_CLOSED",
+    "G2_DONE_IS_NOT_ACCEPTED",
+    "G3_CLAIM_EVIDENCE_EXACT_SUPPORT",
+    "G4_REPRODUCIBILITY_MANIFEST",
+    "G5_LEAKAGE_SAFE_COMPARISON",
+    "G6_INPUT_AND_STATE_ISOLATION",
+    "G7_SECURITY_AND_PROVENANCE",
+    "G8_END_TO_END_COMPONENT_COMPOSITION"
+  ],
+  "gate_semantics": "Every gate is noncompensatory. PASS requires deterministic public evidence; a missing or failed gate is FAIL.",
+  "selection_rule": [
+    "If K1 passes all eight gates, provisionally select K1.",
+    "Otherwise, if W1 passes all eight gates, provisionally select W1.",
+    "Otherwise emit FAST_TRACK_IMPLEMENTATION_BLOCKED; S0 cannot substitute for a complete Skill."
+  ],
+  "deferred_not_passed": [
+    "full sealed Stage 1",
+    "Stage 2 model-in-loop comparison",
+    "full ablation",
+    "full six-agent audit",
+    "full metric portfolio evaluation"
+  ],
+  "prohibited_claims": [
+    "PRODUCTION_READY",
+    "FULL_R3_VALIDATED",
+    "SEALED_BENCHMARK_PASSED"
+  ],
+  "real_model_starts_allowed": 0,
+  "hidden_benchmark_access_allowed": false,
+  "majority_vote_allowed": false
+}

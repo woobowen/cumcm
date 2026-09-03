@@ -9,6 +9,7 @@ from cumcm_skill_lab.shadow_validation.grader import grade_result
 from cumcm_skill_lab.shadow_validation.runner import run_case
 from experiments.shadow_prototypes import COMPONENT_IDS
 from experiments.shadow_prototypes.arch_w1 import WorkflowGuardAdapter
+from experiments.shadow_prototypes.arch_w1.guards import comparison_checklist
 from experiments.shadow_prototypes.common.interface import (
     ShadowCaseInput,
     ShadowContext,
@@ -52,7 +53,9 @@ def _evaluate_payload(
     )[0]
 
 
-def test_w1_passes_all_public_conformance_relations(repo_root: Path, tmp_path: Path) -> None:
+def test_w1_passes_corrected_public_controls_and_blocks_adversarial_cases(
+    repo_root: Path, tmp_path: Path
+) -> None:
     for index, case in enumerate(load_public_cases(repo_root)):
         result, unchanged = run_case(
             repo_root,
@@ -95,7 +98,7 @@ def test_w1_valid_controls_tolerate_irrelevant_fields(repo_root: Path, tmp_path:
                 _context(tmp_path, derived, repeat),
                 persist=False,
             )
-            assert result.decision.outcome == "PASS"
+            assert result.decision.outcome == _expected(case)
 
 
 @pytest.mark.parametrize("component_id", COMPONENT_IDS)
@@ -138,7 +141,8 @@ def test_w1_claim_evidence_order_is_invariant(repo_root: Path, tmp_path: Path) -
     for ordered in (evidence + [extra], [extra] + evidence):
         result = _evaluate_payload(repo_root, tmp_path, case, {**case.payload, "evidence": ordered})
         decisions.append((result.decision.outcome, result.decision.reason_codes))
-    assert decisions[0] == decisions[1] == ("PASS", ("W1_ALL_WORKFLOW_CHECKS_PASS",))
+    assert decisions[0] == decisions[1]
+    assert decisions[0][0] == "PASS"
 
 
 def test_w1_supported_challenge_proposes_exact_stale_closure(
@@ -270,8 +274,78 @@ def test_w1_malformed_input_returns_reason_coded_terminal_result(
         if item.component_id == component_id and item.case_class == "valid control"
     )
     result = _evaluate_payload(repo_root, tmp_path, case, {**case.payload, field: value})
-    assert result.decision.outcome in {"BLOCK", "ERROR"}
+    assert result.decision.outcome == "BLOCK"
     assert result.decision.reason_codes
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "reason"),
+    [
+        ("splits", [], "W1_COMPARISON_SPLIT_INVALID"),
+        ("splits", None, "W1_COMPARISON_SPLIT_INVALID"),
+        ("splits", "invalid", "W1_COMPARISON_SPLIT_INVALID"),
+        (
+            "splits",
+            {"train": [[]], "validation": ["v"], "test": ["t"]},
+            "W1_COMPARISON_SPLIT_INVALID",
+        ),
+        ("validation_scores", {"a": "invalid", "b": None}, "W1_COMPARISON_NO_VALID_CANDIDATE"),
+        ("validation_scores", {}, "W1_COMPARISON_NO_VALID_CANDIDATE"),
+    ],
+)
+def test_w1_comparison_malformed_variants_fail_closed(
+    repo_root: Path,
+    tmp_path: Path,
+    field: str,
+    value: object,
+    reason: str,
+) -> None:
+    case = next(
+        item
+        for item in load_public_cases(repo_root)
+        if item.component_id == "leakage-safe-model-comparison-gate"
+        and item.case_class == "valid control"
+    )
+    result = _evaluate_payload(repo_root, tmp_path, case, {**case.payload, field: value})
+    assert result.decision.outcome == "BLOCK"
+    assert reason in result.decision.reason_codes
+    assert result.terminal_status in {"COMPLETED", "FAILED_RETAINED"}
+
+
+@pytest.mark.parametrize("score", [float("nan"), float("inf"), float("-inf")])
+def test_w1_nonfinite_scores_are_reason_coded_before_canonical_capture(
+    repo_root: Path, score: float
+) -> None:
+    case = next(
+        item
+        for item in load_public_cases(repo_root)
+        if item.component_id == "leakage-safe-model-comparison-gate"
+        and item.case_class == "valid control"
+    )
+    passed, reasons, _ = comparison_checklist(
+        {**case.payload, "validation_scores": {"a": score, "b": 0.7}}, ISOLATED_STATE
+    )
+    assert not passed
+    assert "W1_COMPARISON_NONFINITE_SELECTION_METRIC" in reasons
+
+
+def test_w1_empty_tie_set_path_fails_closed_without_index_error(repo_root: Path) -> None:
+    case = next(
+        item
+        for item in load_public_cases(repo_root)
+        if item.component_id == "leakage-safe-model-comparison-gate"
+        and item.case_class == "valid control"
+    )
+    malformed_state = {
+        **ISOLATED_STATE,
+        "comparison_policy": {
+            **ISOLATED_STATE["comparison_policy"],
+            "tie_tolerance": float("nan"),
+        },
+    }
+    passed, reasons, _ = comparison_checklist(dict(case.payload), malformed_state)
+    assert not passed
+    assert "W1_COMPARISON_POLICY_INVALID" in reasons
 
 
 def test_w1_required_component_dependencies_are_noncompensatory(
@@ -409,9 +483,11 @@ def test_w1_privacy_filter_allows_benign_words(repo_root: Path, tmp_path: Path) 
         if item.component_id == "hash-bound-reproducibility-manifest"
         and item.case_class == "valid control"
     )
+    baseline = _evaluate_payload(repo_root, tmp_path, case, dict(case.payload))
     payload = {**case.payload, "token_budget": 0, "secretariat_label": "public"}
     result = _evaluate_payload(repo_root, tmp_path, case, payload)
-    assert result.decision.outcome == "PASS"
+    assert result.decision.outcome == baseline.decision.outcome == "PASS"
+    assert "W1_MANIFEST_PRIVATE_FIELD_REJECTED" not in result.decision.reason_codes
 
 
 def test_w1_claim_semantics_are_derived_from_hashed_artifact_body(

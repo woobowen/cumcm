@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from cumcm_skill_lab.shadow_validation import runner as runner_module
 from cumcm_skill_lab.shadow_validation.grader import grade_result
 from cumcm_skill_lab.shadow_validation.input_freeze import verify_input_freeze
 from cumcm_skill_lab.shadow_validation.runner import run_case
@@ -15,7 +16,9 @@ from experiments.shadow_prototypes.common.interface import (
     ShadowCaseInput,
     ShadowContext,
     ShadowDecision,
+    build_result,
     canonical_json,
+    sha256_json,
     verify_result_hash,
 )
 from experiments.shadow_prototypes.common.public_cases import load_public_cases
@@ -67,8 +70,10 @@ def test_s0_is_format_only_and_records_all_missing_capabilities(
 
 def test_runner_writes_only_to_isolated_output(repo_root: Path, tmp_path: Path) -> None:
     case = load_public_cases(repo_root)[0]
-    context = _context(tmp_path, case.case_id)
-    result, _ = run_case(repo_root, ScaffoldOnlyAdapter.architecture_id, case, {}, context)
+    synthetic_root = tmp_path / "repo"
+    output_root = synthetic_root / "evals/results/phase-002d-r3"
+    context = _context(output_root, case.case_id)
+    result, _ = run_case(synthetic_root, ScaffoldOnlyAdapter.architecture_id, case, {}, context)
     stored = json.loads((context.output_dir / "result.json").read_text(encoding="utf-8"))
     assert stored["result_hash"] == result.result_hash
     prohibited = _context(repo_root / "state", case.case_id)
@@ -104,6 +109,67 @@ def test_grader_emits_sanitized_class_only(repo_root: Path, tmp_path: Path) -> N
 def test_shadow_decision_rejects_formal_final() -> None:
     with pytest.raises(ValueError, match="SHADOW_OUTCOME_NOT_ALLOWED"):
         ShadowDecision("FINAL", ("NARRATIVE_ONLY",))
+
+
+@pytest.mark.parametrize(
+    ("mode", "expected_error"),
+    (
+        ("wrong_case", "SHADOW_RESULT_CASE_BINDING_MISMATCH"),
+        ("wrong_input", "SHADOW_RESULT_INPUT_BINDING_MISMATCH"),
+        ("nested_formal", "FORMAL_OUTCOME_PROHIBITED"),
+    ),
+)
+def test_runner_rejects_forged_result_bindings_and_nested_formal_outcomes(
+    repo_root: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    mode: str,
+    expected_error: str,
+) -> None:
+    case = load_public_cases(repo_root)[0]
+
+    class FakeArchitecture:
+        def evaluate_case(self, case_input, isolated_state, run_context):
+            del isolated_state
+            result_case = case_input
+            component_results = {case_input.component_id: "PASS"}
+            if mode == "wrong_case":
+                result_case = ShadowCaseInput(
+                    "forged-case",
+                    case_input.component_id,
+                    case_input.payload,
+                    case_input.input_hash,
+                )
+            elif mode == "wrong_input":
+                forged_payload = {"forged": True}
+                result_case = ShadowCaseInput(
+                    case_input.case_id,
+                    case_input.component_id,
+                    forged_payload,
+                    sha256_json(forged_payload),
+                )
+            else:
+                component_results = {case_input.component_id: "FORMALLY_INTEGRATED"}
+            return build_result(
+                context=run_context,
+                case_input=result_case,
+                decision=ShadowDecision(
+                    "PASS", ("FAKE_RESULT",), component_results=component_results
+                ),
+            )
+
+    monkeypatch.setattr(
+        runner_module, "load_architecture", lambda architecture_id: FakeArchitecture()
+    )
+    with pytest.raises(ValueError, match=expected_error):
+        run_case(
+            repo_root,
+            ScaffoldOnlyAdapter.architecture_id,
+            case,
+            {},
+            _context(tmp_path, case.case_id),
+            persist=False,
+        )
 
 
 def test_r3_freeze_and_embargo_are_valid(repo_root: Path) -> None:

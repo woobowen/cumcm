@@ -40,7 +40,11 @@ def thaw(value: Any) -> Any:
 
 def canonical_json(value: Any) -> bytes:
     return json.dumps(
-        thaw(value), ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        thaw(value),
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
     ).encode("utf-8")
 
 

@@ -116,3 +116,49 @@ change; preserve factual history.
   repair limit is exhausted, no fourth repair is performed, and W1 is recorded ineligible rather
   than silently fixed or promoted. Three native read-only audit runs occurred; none accessed hidden
   or sealed values and no model run occurred.
+- `2026-09-03`: K1 initial public audit identified seven BLOCKERs and four ERRORs. Repair loop 1/3
+  converts them to deterministic public tests covering trusted lifecycle graphs and dispositions,
+  frozen claim vocabulary/strength and Run lineage, independently registered manifests/captures,
+  frozen comparison design/attempt/access ledgers, canonical values, semantic-set invariance, and
+  shadow-only execution. The same audit confirmed a candidate-neutral persistent-output confinement
+  bug in the common runner. Before Prototype/Stage 1 freeze and before any sealed result existed, the
+  one permitted common-harness repair restricted persistent writes to `evals/results/phase-002d-r3/`;
+  all arms receive the same correction. R3 input freeze was re-signed from
+  `707af8b8456aecf45a79b3f8c86622b20459ba46f74945651ea74ec3ddb2c00b` to
+  `325f5a26959e1006b382a709abdc75e40244853f64941a10f8e0863a8aae2bb2`; the original remains in Git
+  history, the subject state snapshot remains commit `4d55d5e`, and no frozen benchmark, metric,
+  threshold, protocol, grader, scorer, hidden value, or candidate-specific result changed.
+
+## 10. COMPETITION_FAST_TRACK_DECISION
+
+- Reason: `COMPETITION_DEADLINE`.
+- Attempted release target: `COMPETITION_RC1`; the target was not reached.
+- Full R3 status: `DEFERRED_NOT_PASSED`; full sealed Stage 1, Stage 2 model-in-loop comparison,
+  full ablation, full six-agent audit, and the full metric portfolio evaluation are not executed.
+- Retained hard gates: malformed-input fail-closed; done-versus-accepted; exact claim-evidence
+  support; hash-bound reproducibility manifest; model-comparison leakage; input immutability;
+  no Prototype formal-state write; no answer, secret, or third-party contamination; end-to-end
+  Skill smoke; and full repository CI.
+- The fast track may select only K1 or W1 through the pre-frozen eight-gate rule at
+  `evals/prospective/phase-003f/minimum_competition_architecture_gate.json`. S0 remains a
+  behavior-missing baseline and cannot be presented as a complete Skill.
+- Fast-track repairs were capped at two targeted loops per candidate, overriding the three-loop
+  budget of the deferred full-R3 design. Both budgets are exhausted for this fast-track attempt.
+- Final minimum-Gate outcome: `FAST_TRACK_IMPLEMENTATION_BLOCKED`. K1 and W1 each pass only G2 and
+  G7, and each fails G1, G3, G4, G5, G6, and G8. No architecture is selected. The formal Skill is
+  intentionally retained at `0.1.0-foundation` / `SCAFFOLD_ONLY`; no false RC, handoff, or Phase 003
+  transition is emitted.
+- The candidate-neutral common runner now verifies result case/input bindings and rejects nested
+  formal outcome markers. The re-signed R3 freeze also includes common interface/public-case hashes.
+- One additional read-only auditor run produced deterministic counterexamples without reading the
+  hidden vault, using a model, executing third-party code, or voting on the outcome.
+- The corrected public Gate executed 118 candidate cases and six candidate-composition probes. Its
+  decision hash is `2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d`;
+  the normalized read-only audit SHA-256 is
+  `d3e19c1d1e5b95843e581f928eaa52d8b9516f88dfa3f13f0d96210c19e0c54d`.
+- Final local validation for this blocked fast-track record: focused Gate/R3 tests `110 passed`,
+  state/report/contract focus `147 passed`, full pytest `1594 passed, 1 skipped`, strict repository
+  validation `0 errors, 0 warnings`, generated report current, and `scripts/ci.sh` PASS with the same
+  full-test count. The expected Gate CLI exit is 1 because no architecture is selectable.
+- This decision does not assert full R3 validation, sealed Benchmark passage, Stage 2
+  effectiveness, production readiness, or generalization to unseen CUMCM problems.

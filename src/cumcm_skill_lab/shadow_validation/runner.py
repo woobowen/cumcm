@@ -8,11 +8,13 @@ from pathlib import Path
 from typing import Any
 
 from experiments.shadow_prototypes.common.interface import (
+    PROHIBITED_FORMAL_OUTCOMES,
     ShadowCaseInput,
     ShadowContext,
     ShadowRunResult,
     canonical_json,
     deep_freeze,
+    thaw,
     verify_result_hash,
 )
 
@@ -57,7 +59,7 @@ def load_architecture(architecture_id: str) -> Any:
     return cls()
 
 
-def _validate_output_dir(root: Path, output_dir: Path) -> None:
+def _validate_output_dir(root: Path, output_dir: Path, *, persist: bool) -> None:
     resolved = output_dir.resolve()
     formal_targets = [
         (root / ".agents/skills/cumcm-modeling-evidence").resolve(),
@@ -69,9 +71,23 @@ def _validate_output_dir(root: Path, output_dir: Path) -> None:
     try:
         relative = resolved.relative_to(root.resolve())
     except ValueError:
+        if persist:
+            raise ValueError("SHADOW_PERSISTENT_OUTPUT_OUTSIDE_R3_ROOT") from None
         return
     if any(part in PROHIBITED_OUTPUT_PARTS for part in relative.parts):
         raise ValueError("SHADOW_OUTPUT_TARGET_PROHIBITED")
+    if persist:
+        allowed_root = (root / "evals/results/phase-002d-r3").resolve()
+        if resolved != allowed_root and allowed_root not in resolved.parents:
+            raise ValueError("SHADOW_PERSISTENT_OUTPUT_OUTSIDE_R3_ROOT")
+
+
+def _contains_formal_outcome(value: Any) -> bool:
+    if isinstance(value, Mapping):
+        return any(_contains_formal_outcome(item) for item in value.values())
+    if isinstance(value, (list, tuple, set, frozenset)):
+        return any(_contains_formal_outcome(item) for item in value)
+    return isinstance(value, str) and value in PROHIBITED_FORMAL_OUTCOMES
 
 
 def run_case(
@@ -85,14 +101,26 @@ def run_case(
 ) -> tuple[ShadowRunResult, bool]:
     if context.architecture_id != architecture_id:
         raise ValueError("RUN_CONTEXT_ARCHITECTURE_MISMATCH")
-    _validate_output_dir(root, context.output_dir)
+    _validate_output_dir(root, context.output_dir, persist=persist)
     before = canonical_json(case_input.payload)
     architecture = load_architecture(architecture_id)
     result = architecture.evaluate_case(case_input, deep_freeze(isolated_state), context)
     unchanged = before == canonical_json(case_input.payload)
     if result.architecture_id != architecture_id or result.run_id != context.run_id:
         raise ValueError("SHADOW_RESULT_BINDING_MISMATCH")
-    if result.decision.outcome in {"FINAL", "FORMALLY_INTEGRATED"}:
+    if result.case_id != case_input.case_id:
+        raise ValueError("SHADOW_RESULT_CASE_BINDING_MISMATCH")
+    if result.input_hash != case_input.input_hash:
+        raise ValueError("SHADOW_RESULT_INPUT_BINDING_MISMATCH")
+    decision_projection = {
+        "outcome": result.decision.outcome,
+        "component_results": thaw(result.decision.component_results),
+        "proposed_actions": [
+            {"action_type": action.action_type, "payload": thaw(action.payload)}
+            for action in result.decision.proposed_actions
+        ],
+    }
+    if _contains_formal_outcome(decision_projection):
         raise ValueError("FORMAL_OUTCOME_PROHIBITED")
     if not verify_result_hash(result):
         raise ValueError("SHADOW_RESULT_HASH_MISMATCH")

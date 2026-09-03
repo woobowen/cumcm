@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "AUDIT-COMPETITION-CORE-GATES-003F-001",
+  "role": "read-only W1/K1 core-gate auditor",
+  "read_only": true,
+  "decision_authority": false,
+  "scope": [
+    "W1 and K1 public deterministic implementation",
+    "common shadow runner bindings",
+    "pre-frozen eight-gate evaluator"
+  ],
+  "prohibited_access": {
+    "hidden_benchmark_read": false,
+    "network_used": false,
+    "api_used": false,
+    "third_party_code_executed": false,
+    "model_run_started": false
+  },
+  "test_observation": {
+    "command_scope": "W1/K1/common focused public tests",
+    "passed": 106,
+    "failed": 0,
+    "note": "Passing focused tests did not cover the counterexamples below."
+  },
+  "verdict": "BLOCKER_FINDINGS_CONFIRMED",
+  "findings": [
+    {
+      "id": "CORE-GATE-B01",
+      "severity": "BLOCKER",
+      "gate": "G8_END_TO_END_COMPONENT_COMPOSITION",
+      "architectures": [
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+      ],
+      "statement": "The K1 composer evaluates independent prebuilt payloads, accepts mismatched producer and consumer output hashes, does not propagate STALE to downstream components, bypasses the state boundary, and emits an ad-hoc package rather than the modeling-to-paper contract."
+    },
+    {
+      "id": "CORE-GATE-B02",
+      "severity": "BLOCKER",
+      "gate": "MINIMUM_COMPETITION_ARCHITECTURE_GATE",
+      "architectures": [
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+      ],
+      "statement": "The initial evaluator used any-marker aggregation, trusted candidate diagnostics, omitted required fault injections, and manufactured the G8 package in the harness; its earlier 8/8 observations were invalid and were not persisted."
+    },
+    {
+      "id": "CORE-GATE-B03",
+      "severity": "BLOCKER",
+      "gate": "G6_INPUT_AND_STATE_ISOLATION",
+      "architectures": [
+        "COMMON"
+      ],
+      "statement": "The common runner did not bind result case_id/input_hash and did not recursively reject nested formal outcomes. This candidate-neutral defect was repaired and covered by fault-injection tests."
+    },
+    {
+      "id": "CORE-GATE-B04",
+      "severity": "BLOCKER",
+      "gate": "G1_MALFORMED_INPUT_FAIL_CLOSED",
+      "architectures": [
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+      ],
+      "statement": "Malformed context values still escape as TypeError; W1 also accepts an invalid stage."
+    },
+    {
+      "id": "CORE-GATE-B05",
+      "severity": "BLOCKER",
+      "gate": "G3_CLAIM_EVIDENCE_EXACT_SUPPORT",
+      "architectures": [
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+      ],
+      "statement": "Both candidates accept a verified-run decision_id mutation while retaining an artifact hash that does not bind the entire decision record."
+    },
+    {
+      "id": "CORE-GATE-B06",
+      "severity": "BLOCKER",
+      "gate": "G4_REPRODUCIBILITY_MANIFEST",
+      "architectures": [
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+      ],
+      "statement": "Both candidates accept synthetic private_key, refresh_token, and UNC-path probes."
+    },
+    {
+      "id": "CORE-GATE-B07",
+      "severity": "BLOCKER",
+      "gate": "G5_LEAKAGE_SAFE_COMPARISON",
+      "architectures": [
+        "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+      ],
+      "statement": "Both candidates accept numeric-string scores; W1 additionally accepts a scored FAILED attempt and untrusted but well-formed freeze hashes."
+    },
+    {
+      "id": "CORE-GATE-B08",
+      "severity": "BLOCKER",
+      "gate": "G8_END_TO_END_COMPONENT_COMPOSITION",
+      "architectures": [
+        "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+      ],
+      "statement": "W1 has no candidate-owned four-component composer and cannot satisfy the frozen end-to-end composition gate."
+    }
+  ],
+  "conclusion": "K1 must fail G8 and W1 is not an eligible fallback. The frozen noncompensatory selection rule therefore requires FAST_TRACK_IMPLEMENTATION_BLOCKED unless a permitted repair loop closes every failed gate; both candidate repair budgets are exhausted."
+}

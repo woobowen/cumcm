@@ -16,6 +16,7 @@
     "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2",
     "DECISION-COMPONENT-READINESS-002D-R1",
     "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
+    "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
     "DECISION-FAILURE-SEMANTICS-002D-R1",
     "DECISION-INTERACTION-CONTRACT-002D-R2",
     "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2",
@@ -28,7 +29,10 @@
     "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2"
   ],
   "base_selected": false,
-  "blockers": [],
+  "blockers": [
+    "FAST_TRACK_IMPLEMENTATION_BLOCKED: K1 failed G1, G3, G4, G5, G6, and G8; W1 failed G1, G3, G4, G5, G6, and G8.",
+    "No architecture passed all eight noncompensatory public hard gates; the formal Skill remains SCAFFOLD_ONLY and no competition RC was generated."
+  ],
   "content_verified_commit": null,
   "current_branch": "feat/phase002d-r3-shadow-validation",
   "current_plan": "plans/active/PLAN-0002D-R3-shadow-prototype-validation.md",
@@ -134,11 +138,11 @@
   "shadow_validation": {
     "starting_authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
     "input_freeze_id": "PHASE-002D-R3-INPUT-FREEZE-001",
-    "input_freeze_hash": "707af8b8456aecf45a79b3f8c86622b20459ba46f74945651ea74ec3ddb2c00b",
+    "input_freeze_hash": "325f5a26959e1006b382a709abdc75e40244853f64941a10f8e0863a8aae2bb2",
     "prototype_implementation_count": 2,
-    "prototype_execution_count": 32,
+    "prototype_execution_count": 150,
     "real_model_starts": 0,
-    "native_subagent_runs": 3,
+    "native_subagent_runs": 4,
     "stage1_status": "NOT_RUN",
     "stage2_status": "NOT_RUN",
     "decision_audit_status": "NOT_RUN",
@@ -160,9 +164,9 @@
   "status": "IN_PROGRESS",
   "subphase": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "SHADOW_PROTOTYPE_VALIDATION_IN_PROGRESS",
+  "technical_adjudication_status": "SHADOW_PROTOTYPE_VALIDATION_INCOMPLETE",
   "third_party_integrated": false,
-  "updated_at": "2026-09-03T22:18:03+08:00",
+  "updated_at": "2026-09-04T00:39:46+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

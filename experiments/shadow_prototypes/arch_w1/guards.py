@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import re
 from collections import Counter
 from collections.abc import Mapping
@@ -23,6 +24,10 @@ WORKFLOW_STAGES = (
 REPRODUCIBILITY_FIELDS = frozenset(
     {
         "run_id",
+        "revision_id",
+        "prior_manifest_hash",
+        "current",
+        "authority",
         "input_hash",
         "code_commit",
         "config_hash",
@@ -35,6 +40,8 @@ REPRODUCIBILITY_FIELDS = frozenset(
         "outcome",
     }
 )
+RUN_BINDING_FIELDS = ("run_id", "input_hash", "code_commit", "output_hash", "lineage")
+STRENGTH_RANK = {"NONE": 0, "WEAK": 1, "MODERATE": 2, "STRONG": 3}
 HEX_64 = re.compile(r"^[0-9a-f]{64}$")
 HEX_40 = re.compile(r"^[0-9a-f]{40}$")
 PRIVATE_KEYS = frozenset(
@@ -237,7 +244,20 @@ def claim_checklist(
     manifest = payload.get("verified_run_manifest", {})
     if not _verified_manifest_valid(manifest, isolated_state, run_id=run_id):
         reasons.append("W1_CLAIM_VERIFIED_RUN_MANIFEST_REQUIRED")
-    evidence = tuple(payload.get("evidence", ()))
+    evidence_raw = payload.get("evidence")
+    if not isinstance(evidence_raw, (list, tuple)):
+        evidence: tuple[Any, ...] = ()
+        reasons.append("W1_CLAIM_EVIDENCE_SET_INVALID")
+    else:
+        evidence = tuple(evidence_raw)
+    trusted_run_bindings = isolated_state.get("trusted_run_bindings", {})
+    run_binding = (
+        trusted_run_bindings.get(run_id) if isinstance(trusted_run_bindings, Mapping) else None
+    )
+    if not isinstance(run_binding, Mapping) or any(
+        claim.get(field) != run_binding.get(field) for field in RUN_BINDING_FIELDS
+    ):
+        reasons.append("W1_CLAIM_RUN_BINDING_MISMATCH")
     supporting = []
     for item in evidence:
         if not isinstance(item, Mapping):
@@ -282,7 +302,17 @@ def claim_checklist(
             reasons.append("W1_CLAIM_STALE_EVIDENCE")
         if item.get("run_id") != run_id:
             reasons.append("W1_CLAIM_RUN_BINDING_MISMATCH")
-        semantic_fields = ("bounded_proposition", "scope", "modality", "strength")
+        semantic_fields = (
+            "bounded_proposition",
+            "scope",
+            "modality",
+            "strength",
+            "evidence_type",
+            *RUN_BINDING_FIELDS,
+            "revision_id",
+            "prior_revision_hash",
+            "superseded",
+        )
         semantics_bound = isinstance(artifact_body, Mapping) and not any(
             item.get(field) != artifact_body.get(field) for field in semantic_fields
         )
@@ -293,8 +323,17 @@ def claim_checklist(
         )
         exact = exact and artifact_body.get("bounded_proposition") == claim.get("proposition")
         strength = artifact_body.get("strength") if isinstance(artifact_body, Mapping) else None
-        adequate = isinstance(strength, int) and strength >= claim.get("strength", 0)
-        if exact and adequate:
+        claim_strength = claim.get("strength")
+        adequate = bool(
+            strength in STRENGTH_RANK
+            and claim_strength in STRENGTH_RANK
+            and STRENGTH_RANK[strength] >= STRENGTH_RANK[claim_strength]
+            and STRENGTH_RANK[strength] >= STRENGTH_RANK["MODERATE"]
+        )
+        run_bound = isinstance(run_binding, Mapping) and all(
+            artifact_body.get(field) == run_binding.get(field) for field in RUN_BINDING_FIELDS
+        )
+        if exact and adequate and run_bound and item.get("superseded") is False:
             supporting.append(str(item.get("evidence_id", "")))
     if not supporting:
         reasons.append("W1_CLAIM_EXACT_SUPPORT_MISSING")
@@ -343,6 +382,10 @@ def reproducibility_checklist(
     elif isinstance(manifest, Mapping):
         computed = {
             "run_id": capture.get("run_id"),
+            "revision_id": capture.get("revision_id"),
+            "prior_manifest_hash": capture.get("prior_manifest_hash"),
+            "current": capture.get("current"),
+            "authority": capture.get("authority"),
             "input_hash": sha256_json(capture.get("input_content")),
             "code_commit": capture.get("code_commit"),
             "config_hash": sha256_json(capture.get("config_content")),
@@ -356,6 +399,16 @@ def reproducibility_checklist(
         }
         if canonical_json(manifest) != canonical_json(computed):
             reasons.append("W1_MANIFEST_BINDING_MISMATCH")
+        trusted_manifests = isolated_state.get("trusted_repro_manifest_hashes", {})
+        trusted_captures = isolated_state.get("trusted_capture_hashes", {})
+        if not isinstance(trusted_manifests, Mapping) or sha256_json(
+            manifest
+        ) != trusted_manifests.get(manifest.get("run_id")):
+            reasons.append("W1_MANIFEST_UNTRUSTED_REVISION")
+        if not isinstance(trusted_captures, Mapping) or sha256_json(
+            capture
+        ) != trusted_captures.get(manifest.get("run_id")):
+            reasons.append("W1_MANIFEST_UNTRUSTED_CAPTURE")
     command = manifest.get("command") if isinstance(manifest, Mapping) else None
     cwd = manifest.get("cwd") if isinstance(manifest, Mapping) else None
     if (
@@ -386,8 +439,24 @@ def comparison_checklist(
     payload: Mapping[str, Any], isolated_state: Mapping[str, Any]
 ) -> tuple[bool, tuple[str, ...], dict[str, Any]]:
     reasons = _state_boundary(isolated_state)
-    splits = payload.get("splits", {})
-    split_sets = [set(splits.get(name, ())) for name in ("train", "validation", "test")]
+    splits = payload.get("splits")
+    if not isinstance(splits, Mapping):
+        split_sets = [set(), set(), set()]
+        reasons.append("W1_COMPARISON_SPLIT_INVALID")
+    else:
+        try:
+            split_values = [splits.get(name) for name in ("train", "validation", "test")]
+            if any(
+                not isinstance(value, (list, tuple))
+                or not value
+                or any(not isinstance(item, str) or not item for item in value)
+                for value in split_values
+            ):
+                raise TypeError
+            split_sets = [set(value) for value in split_values]
+        except (TypeError, ValueError):
+            split_sets = [set(), set(), set()]
+            reasons.append("W1_COMPARISON_SPLIT_INVALID")
     if not all(split_sets) or any(
         left & right for index, left in enumerate(split_sets) for right in split_sets[index + 1 :]
     ):
@@ -435,10 +504,31 @@ def comparison_checklist(
             candidate_seed_pairs[(str(attempt.get("candidate_id")), attempt.get("seed"))] += 1
             if attempt.get("retry") and attempt.get("infrastructure_failure") is not True:
                 reasons.append("W1_COMPARISON_UNAUTHORIZED_RETRY")
-    scores = payload.get("validation_scores", {})
-    if not isinstance(scores, Mapping) or not scores:
+    scores = payload.get("validation_scores")
+    numeric_scores: dict[str, float] = {}
+    scores_valid = isinstance(scores, Mapping) and bool(scores)
+    if not scores_valid:
         reasons.append("W1_COMPARISON_VALIDATION_SCORES_MISSING")
+        reasons.append("W1_COMPARISON_NO_VALID_CANDIDATE")
     else:
+        for candidate, raw_score in scores.items():
+            if not isinstance(candidate, str) or not candidate:
+                reasons.append("W1_COMPARISON_CANDIDATE_INVALID")
+                scores_valid = False
+                continue
+            try:
+                score = float(raw_score)
+            except (TypeError, ValueError, OverflowError):
+                reasons.append("W1_COMPARISON_SCORE_INVALID")
+                scores_valid = False
+                continue
+            if isinstance(raw_score, bool) or not math.isfinite(score):
+                reasons.append("W1_COMPARISON_NONFINITE_SELECTION_METRIC")
+                scores_valid = False
+                continue
+            numeric_scores[candidate] = score
+        if not numeric_scores:
+            reasons.append("W1_COMPARISON_NO_VALID_CANDIDATE")
         frozen_policy = isolated_state.get("comparison_policy", {})
         observed_policy = {
             "metric_direction": payload.get("metric_direction"),
@@ -456,7 +546,6 @@ def comparison_checklist(
         )
         if observed_policy != normalized_frozen_policy:
             reasons.append("W1_COMPARISON_POLICY_NOT_FROZEN")
-        numeric_scores = {str(key): float(value) for key, value in scores.items()}
         direction = (
             frozen_policy.get("metric_direction") if isinstance(frozen_policy, Mapping) else None
         )
@@ -469,10 +558,14 @@ def comparison_checklist(
         if (
             direction not in {"MAXIMIZE", "MINIMIZE"}
             or not isinstance(tolerance, (int, float))
+            or isinstance(tolerance, bool)
+            or not math.isfinite(float(tolerance))
             or tolerance < 0
             or list(tie_keys or ()) != ["candidate_id"]
         ):
             reasons.append("W1_COMPARISON_POLICY_INVALID")
+            winner = ""
+        elif not scores_valid:
             winner = ""
         else:
             optimum = (
@@ -485,11 +578,15 @@ def comparison_checklist(
                 for candidate, score in numeric_scores.items()
                 if abs(score - optimum) <= float(tolerance)
             ]
-            winner = sorted(tied)[0]
+            if not tied:
+                reasons.append("W1_COMPARISON_EMPTY_TIE_SET")
+                winner = ""
+            else:
+                winner = sorted(tied)[0]
         if not winner or payload.get("selected_candidate_id") != winner:
             reasons.append("W1_COMPARISON_SELECTION_MISMATCH")
         required_pairs = Counter(
-            {(str(candidate), seed): 1 for candidate in scores for seed in seeds}
+            {(candidate, seed): 1 for candidate in numeric_scores for seed in seeds}
         )
         if candidate_seed_pairs != required_pairs:
             reasons.append("W1_COMPARISON_CANDIDATE_SEED_MATRIX_INCOMPLETE")
@@ -500,8 +597,8 @@ def comparison_checklist(
         else Counter()
     )
     expected_run_ids = (
-        Counter({f"{candidate}-{seed}": 1 for candidate in scores for seed in seeds})
-        if isinstance(scores, Mapping)
+        Counter({f"{candidate}-{seed}": 1 for candidate in numeric_scores for seed in seeds})
+        if numeric_scores
         else Counter()
     )
     if (
@@ -511,7 +608,12 @@ def comparison_checklist(
         or manifest_run_ids != expected_run_ids
     ):
         reasons.append("W1_COMPARISON_VERIFIED_RUNS_REQUIRED")
-    events = tuple(payload.get("access_events", ()))
+    events_raw = payload.get("access_events")
+    if not isinstance(events_raw, (list, tuple)):
+        reasons.append("W1_COMPARISON_ACCESS_LEDGER_INVALID")
+        events: tuple[Any, ...] = ()
+    else:
+        events = tuple(events_raw)
     prior_hash = "0" * 64
     valid_events: list[Mapping[str, Any]] = []
     for event in events:
@@ -519,10 +621,28 @@ def comparison_checklist(
             reasons.append("W1_COMPARISON_ACCESS_EVENT_INVALID")
             continue
         body = {
-            key: event.get(key) for key in ("ordinal", "kind", "after_model_freeze", "prior_hash")
+            key: event.get(key)
+            for key in (
+                "ordinal",
+                "kind",
+                "after_model_freeze",
+                "prior_hash",
+                "run_id",
+                "model_freeze_hash",
+                "pretest_decision_hash",
+                "test_set_id",
+            )
         }
         if event.get("prior_hash") != prior_hash or event.get("event_hash") != sha256_json(body):
             reasons.append("W1_COMPARISON_ACCESS_CHAIN_BROKEN")
+        if (
+            event.get("run_id") != payload.get("run_id")
+            or event.get("model_freeze_hash") != isolated_state.get("trusted_model_freeze_hash")
+            or event.get("pretest_decision_hash")
+            != isolated_state.get("trusted_pretest_decision_hash")
+            or event.get("test_set_id") != isolated_state.get("trusted_test_set_id")
+        ):
+            reasons.append("W1_COMPARISON_ACCESS_EVENT_BINDING_INVALID")
         prior_hash = str(event.get("event_hash", ""))
         valid_events.append(event)
     premature = [
@@ -535,6 +655,13 @@ def comparison_checklist(
         reasons.append("W1_COMPARISON_PREMATURE_TEST_ACCESS")
     if payload.get("model_frozen") is not True or len(final_batches) != 1:
         reasons.append("W1_COMPARISON_FINAL_TEST_COUNT_INVALID")
+    trusted_heads = isolated_state.get("trusted_access_heads", {})
+    if not isinstance(trusted_heads, Mapping) or prior_hash != trusted_heads.get(
+        payload.get("run_id")
+    ):
+        reasons.append("W1_COMPARISON_ACCESS_HEAD_NOT_TRUSTED")
+    if payload.get("test_set_id") in set(isolated_state.get("exposed_test_set_ids", ())):
+        reasons.append("W1_COMPARISON_EXPOSED_TEST_SET_REJECTED")
     return (
         not reasons,
         tuple(sorted(set(reasons))),

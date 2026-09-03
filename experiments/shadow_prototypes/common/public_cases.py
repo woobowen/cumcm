@@ -17,9 +17,25 @@ WORKFLOW_PUBLIC_STAGES = (
     "AUTOMATIC_VALIDATION_PASSED",
     "AUTOMATIC_ADJUDICATION_ACCEPTED",
 )
+PUBLIC_DEPENDENCY_GRAPH = {"input": ["run"], "run": ["decision"]}
+PUBLIC_CLAIM_RUN_BINDING = {
+    "run_id": "run-public-1",
+    "input_hash": "1" * 64,
+    "code_commit": "2" * 40,
+    "output_hash": "4" * 64,
+    "lineage": ["table:public-result"],
+}
+PUBLIC_COMPARISON_POLICY = {
+    "metric_direction": "MAXIMIZE",
+    "tie_tolerance": 0.0,
+    "ordered_tie_keys": ["candidate_id"],
+}
+PUBLIC_MODEL_FREEZE_HASH = "7" * 64
+PUBLIC_PRETEST_DECISION_HASH = "8" * 64
+PUBLIC_TEST_SET_ID = "sealed-public-placeholder-v1"
 
 
-def _access_events(*, premature: bool) -> list[dict[str, Any]]:
+def _access_events(*, premature: bool, run_id: str) -> list[dict[str, Any]]:
     events: list[dict[str, Any]] = []
     prior_hash = "0" * 64
     kinds = ["TEST_READ", "FINAL_TEST_BATCH"] if premature else ["FINAL_TEST_BATCH"]
@@ -29,6 +45,10 @@ def _access_events(*, premature: bool) -> list[dict[str, Any]]:
             "kind": kind,
             "after_model_freeze": kind == "FINAL_TEST_BATCH",
             "prior_hash": prior_hash,
+            "run_id": run_id,
+            "model_freeze_hash": PUBLIC_MODEL_FREEZE_HASH,
+            "pretest_decision_hash": PUBLIC_PRETEST_DECISION_HASH,
+            "test_set_id": PUBLIC_TEST_SET_ID,
         }
         event = {**body, "event_hash": sha256_json(body)}
         events.append(event)
@@ -69,7 +89,8 @@ def _workflow_payload(case_class: str) -> dict[str, Any]:
             }
             for stage in stages
         },
-        "dependency_graph": {"input": ["run"], "run": ["decision"]},
+        "dependency_graph": PUBLIC_DEPENDENCY_GRAPH,
+        "dependency_graph_hash": sha256_json(PUBLIC_DEPENDENCY_GRAPH),
         "changed_nodes": ["input"] if case_class == "stale mutation" else [],
         "narrative_override": case_class == "gaming attempt",
         "team_challenge": {"supported": False},
@@ -94,7 +115,12 @@ def _claim_payload(case_class: str) -> dict[str, Any]:
             "bounded_proposition": bounded_proposition,
             "scope": "PUBLIC_RESULT",
             "modality": "observed",
-            "strength": 1,
+            "strength": "MODERATE",
+            "evidence_type": "RUN",
+            **PUBLIC_CLAIM_RUN_BINDING,
+            "revision_id": "claim-evidence-revision-1",
+            "prior_revision_hash": "0" * 64,
+            "superseded": False,
         }
         locator = "runs/run-public-1/result.json"
         artifact_hash = sha256_json(artifact_body)
@@ -110,21 +136,33 @@ def _claim_payload(case_class: str) -> dict[str, Any]:
                 "bounded_proposition": bounded_proposition,
                 "scope": "PUBLIC_RESULT",
                 "modality": "observed",
-                "strength": 1,
+                "strength": "MODERATE",
+                "evidence_type": "RUN",
                 "contradicts": [],
                 "current": case_class != "stale mutation",
                 "run_id": "run-public-1",
+                "input_hash": PUBLIC_CLAIM_RUN_BINDING["input_hash"],
+                "code_commit": PUBLIC_CLAIM_RUN_BINDING["code_commit"],
+                "output_hash": PUBLIC_CLAIM_RUN_BINDING["output_hash"],
+                "lineage": PUBLIC_CLAIM_RUN_BINDING["lineage"],
+                "revision_id": "claim-evidence-revision-1",
+                "prior_revision_hash": "0" * 64,
+                "superseded": False,
             }
         )
     return {
         "claim": {
             "claim_id": "claim-1",
-            "claim_type": "RESULT",
+            "claim_type": "COMPUTATIONAL_RESULT",
             "proposition": proposition,
             "scope": "PUBLIC_RESULT",
             "modality": "observed",
-            "strength": 1,
+            "strength": "MODERATE",
             "run_id": "run-public-1",
+            "input_hash": PUBLIC_CLAIM_RUN_BINDING["input_hash"],
+            "code_commit": PUBLIC_CLAIM_RUN_BINDING["code_commit"],
+            "output_hash": PUBLIC_CLAIM_RUN_BINDING["output_hash"],
+            "lineage": PUBLIC_CLAIM_RUN_BINDING["lineage"],
         },
         "evidence": evidence,
         "narrative_override": case_class == "gaming attempt",
@@ -146,6 +184,10 @@ def _manifest_payload(case_class: str) -> dict[str, Any]:
     output_content = {"status": "ok"}
     manifest = {
         "run_id": "run-public-1",
+        "revision_id": "run-public-1-manifest-v1",
+        "prior_manifest_hash": "0" * 64,
+        "current": True,
+        "authority": "existing-native-run-ledger",
         "input_hash": sha256_json(input_content),
         "code_commit": "2" * 40,
         "config_hash": sha256_json(config_content),
@@ -163,6 +205,10 @@ def _manifest_payload(case_class: str) -> dict[str, Any]:
         "manifest": manifest,
         "trusted_capture": {
             "run_id": "run-public-1",
+            "revision_id": "run-public-1-manifest-v1",
+            "prior_manifest_hash": "0" * 64,
+            "current": True,
+            "authority": "existing-native-run-ledger",
             "input_content": (
                 {"records": [9]} if case_class == "stale mutation" else input_content
             ),
@@ -183,8 +229,24 @@ def _manifest_payload(case_class: str) -> dict[str, Any]:
 
 
 def _comparison_payload(case_class: str) -> dict[str, Any]:
+    comparison_run_id = f"comparison-{case_class.replace(' ', '-')}"
+    attempts = [
+        {
+            "run_id": f"{candidate}-{seed}",
+            "candidate_id": candidate,
+            "seed": seed,
+            "terminal": True,
+            "outcome": "SUCCESS",
+            "retry": False,
+            "infrastructure_failure": False,
+            "predecessor_run_id": None,
+            "failure_class": "NONE",
+        }
+        for candidate in ("a", "b")
+        for seed in (1729, 2718)
+    ]
     return {
-        "run_id": "run-public-1",
+        "run_id": comparison_run_id,
         "splits": {"train": ["t1", "t2"], "validation": ["v1"], "test": ["h1"]},
         "group_overlap": False,
         "time_order_valid": True,
@@ -194,23 +256,21 @@ def _comparison_payload(case_class: str) -> dict[str, Any]:
         "baselines": ["naive"] if case_class == "missing evidence" else ["naive", "domain"],
         "candidate_freeze_hash": "5" * 64,
         "metric_freeze_hash": "6" * 64,
-        "metric_direction": "MAXIMIZE",
-        "tie_tolerance": 0.0,
-        "ordered_tie_keys": ["candidate_id"],
+        **PUBLIC_COMPARISON_POLICY,
         "freeze_order": ["split", "candidates", "metric", "attempts", "model", "test"],
         "frozen_seeds": [1729, 2718],
-        "attempts": [
-            {"candidate_id": "a", "seed": 1729, "terminal": True, "retry": False},
-            {"candidate_id": "a", "seed": 2718, "terminal": True, "retry": False},
-            {"candidate_id": "b", "seed": 1729, "terminal": True, "retry": False},
-            {"candidate_id": "b", "seed": 2718, "terminal": True, "retry": False},
-        ],
+        "attempts": attempts,
         "validation_scores": {"a": 0.8, "b": 0.7},
         "selected_candidate_id": "a",
         "model_frozen": True,
+        "model_freeze_hash": PUBLIC_MODEL_FREEZE_HASH,
+        "pretest_decision_hash": PUBLIC_PRETEST_DECISION_HASH,
+        "test_set_id": PUBLIC_TEST_SET_ID,
         "selected_candidate_matches_validation": True,
         "failures_retained": True,
-        "access_events": _access_events(premature=case_class == "gaming attempt"),
+        "access_events": _access_events(
+            premature=case_class == "gaming attempt", run_id=comparison_run_id
+        ),
         "dependency_current": case_class != "stale mutation",
         "verified_run_manifests": [
             {
@@ -262,6 +322,12 @@ def public_isolated_state() -> dict[str, Any]:
         )
     }
     claim_payload = _claim_payload("valid control")
+    repro_payload = _manifest_payload("valid control")
+    comparison_payloads = {
+        case_class: _comparison_payload(case_class)
+        for case_class in ("valid control", "missing evidence", "stale mutation", "gaming attempt")
+    }
+    comparison_payload = comparison_payloads["valid control"]
     trusted_run_ids = [
         "run-public-1",
         *(f"{candidate}-{seed}" for candidate in ("a", "b") for seed in (1729, 2718)),
@@ -269,7 +335,10 @@ def public_isolated_state() -> dict[str, Any]:
     return {
         "truth_source": "state/project_state.json",
         "formal_state_writes_allowed": False,
-        "trusted_run_ids": trusted_run_ids,
+        "trusted_run_ids": [
+            *trusted_run_ids,
+            *(payload["run_id"] for payload in comparison_payloads.values()),
+        ],
         "trusted_stage_hashes": {
             stage: sha256_json({"stage": stage, "run_id": "run-public-1"})
             for stage in WORKFLOW_PUBLIC_STAGES
@@ -280,14 +349,42 @@ def public_isolated_state() -> dict[str, Any]:
         "trusted_artifact_hashes": {
             item["locator"]: item["artifact_hash"] for item in claim_payload["evidence"]
         },
+        "trusted_run_bindings": {
+            "run-public-1": PUBLIC_CLAIM_RUN_BINDING,
+        },
         "trusted_manifest_hashes": {
             run_id: sha256_json({"run_id": run_id, "status": "PASS"}) for run_id in trusted_run_ids
         },
-        "comparison_policy": {
-            "metric_direction": "MAXIMIZE",
-            "tie_tolerance": 0.0,
-            "ordered_tie_keys": ["candidate_id"],
+        "trusted_dependency_graph": PUBLIC_DEPENDENCY_GRAPH,
+        "trusted_dependency_graph_hash": sha256_json(PUBLIC_DEPENDENCY_GRAPH),
+        "trusted_repro_manifest_hashes": {"run-public-1": sha256_json(repro_payload["manifest"])},
+        "trusted_capture_hashes": {"run-public-1": sha256_json(repro_payload["trusted_capture"])},
+        "comparison_policy": PUBLIC_COMPARISON_POLICY,
+        "trusted_candidates": ["a", "b"],
+        "trusted_seeds": [1729, 2718],
+        "trusted_candidate_freeze_hash": "5" * 64,
+        "trusted_metric_freeze_hash": "6" * 64,
+        "trusted_comparison_design_hash": sha256_json(
+            {
+                "splits": comparison_payload["splits"],
+                "group_overlap": comparison_payload["group_overlap"],
+                "time_order_valid": comparison_payload["time_order_valid"],
+                "future_feature": comparison_payload["future_feature"],
+                "target_feature": comparison_payload["target_feature"],
+                "transform_fit_scope": comparison_payload["transform_fit_scope"],
+                "baselines": comparison_payload["baselines"],
+                "policy": PUBLIC_COMPARISON_POLICY,
+            }
+        ),
+        "trusted_access_genesis": "0" * 64,
+        "trusted_access_heads": {
+            payload["run_id"]: payload["access_events"][-1]["event_hash"]
+            for payload in comparison_payloads.values()
         },
+        "trusted_model_freeze_hash": PUBLIC_MODEL_FREEZE_HASH,
+        "trusted_pretest_decision_hash": PUBLIC_PRETEST_DECISION_HASH,
+        "trusted_test_set_id": PUBLIC_TEST_SET_ID,
+        "exposed_test_set_ids": [],
     }
 
 

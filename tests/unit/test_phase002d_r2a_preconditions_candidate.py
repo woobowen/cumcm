@@ -139,7 +139,7 @@ def test_candidate_boundary_mutations_fail_closed(repo_root, field, invalid):
 def test_historical_candidate_does_not_replace_c2_active_decision(repo_root):
     state = read_json(repo_root / "state/project_state.json")
     candidate = read_json(repo_root / CANDIDATE_PATH)
-    assert state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_VALIDATION_IN_PROGRESS"
+    assert state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_VALIDATION_INCOMPLETE"
     assert state["next_phase_allowed"] is None
     assert candidate["proposed_authorization_id"] not in state["automated_decision_ids"]
     assert state["shadow_authorization"]["candidate_id"] != candidate["candidate_id"]
