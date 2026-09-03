@@ -4,10 +4,14 @@ from copy import deepcopy
 from cumcm_skill_lab.authorization_c1.candidate_evidence import (
     TEST_EVIDENCE_PATH as C1_TEST_EVIDENCE_PATH,
 )
+from cumcm_skill_lab.authorization_c1.compatibility_audits import validate_audit
 from cumcm_skill_lab.authorization_c1.models import file_sha256
 from cumcm_skill_lab.authorization_c2.candidate_evidence import (
     BINDING_FIELDS,
+    CLOSURE_PATH,
     MUTATION_SPECS,
+    POST_EVIDENCE_PROSECUTOR_PATH,
+    POST_EVIDENCE_PROSECUTOR_RAW_PATH,
     PRECONDITIONS_PATH,
     TEST_EVIDENCE_PATH,
     TEST_PLAN_PATH,
@@ -16,6 +20,7 @@ from cumcm_skill_lab.authorization_c2.candidate_evidence import (
     build_test_plan,
     check_or_write_candidate_evidence_inputs,
     validate_bound_artifact,
+    validate_candidate_evidence_chain,
 )
 from cumcm_skill_lab.authorization_c2.candidate_freeze import CANDIDATE_PATH, FREEZE_PATH
 
@@ -120,3 +125,28 @@ def test_c1_evidence_cannot_be_relabelled_as_c2(repo_root):
     assert "C2_BOUND_CANDIDATE_ID_MISMATCH" in errors
     assert "C2_BOUND_PARENT_ARTIFACT_HASH_MISMATCH" in errors
     assert "C2_BOUND_ARTIFACT_SEQUENCE_MISMATCH" in errors
+
+
+def test_c2_prosecutor_output_is_structurally_valid_and_preserved(repo_root):
+    raw = _read(repo_root, POST_EVIDENCE_PROSECUTOR_RAW_PATH)
+    normalized = _read(repo_root, POST_EVIDENCE_PROSECUTOR_PATH)
+    assert "output_hash" not in raw
+    assert validate_audit(repo_root, normalized, "candidate_binding_prosecutor") == []
+    assert normalized["reviewed_commit"] == "59b29163f665fc4c1dab0dfd6fc9ddcfec092c73"
+    assert normalized["verdict"] == "PASS"
+    assert normalized["findings"] == []
+    assert normalized["unresolved_blockers"] == []
+
+
+def test_c2_closure_binds_prosecutor_and_all_new_evidence(repo_root):
+    closure = _read(repo_root, CLOSURE_PATH)
+    evidence = _read(repo_root, TEST_EVIDENCE_PATH)
+    prosecutor = _read(repo_root, POST_EVIDENCE_PROSECUTOR_PATH)
+    assert validate_candidate_evidence_chain(repo_root) == []
+    assert closure["result"] == "PASS"
+    assert closure["unresolved_findings"] == []
+    assert closure["artifact_sequence_index"] == 16
+    assert closure["parent_artifact_hash"] == evidence["evidence_hash"]
+    assert closure["test_evidence_hashes"] == evidence["test_evidence_hashes"]
+    assert closure["candidate_prosecutor_review"]["output_hash"] == prosecutor["output_hash"]
+    assert closure["candidate_prosecutor_review"]["serious_findings_closed"] is True

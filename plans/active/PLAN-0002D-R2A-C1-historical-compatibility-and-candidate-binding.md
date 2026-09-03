@@ -280,3 +280,12 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   edge and deterministically detects both the semantic cycle and missing prerequisite edge. C1/C2
   cross-revision focused tests pass `56/56`; full CI passes `1436` tests with one skip and strict
   validation reports zero errors/warnings. L16 remains blocked pending independent C2 prosecution.
+- `2026-09-03`: A fresh identity-separated, read-only C2 candidate-binding prosecutor reviewed
+  fixed commit `59b29163f665fc4c1dab0dfd6fc9ddcfec092c73` without peer output, web, MCP, API, nested
+  Codex, writes, or votes. It returned `PASS` across ten checks with zero findings/blockers; raw
+  transport is preserved and normalized output hash is
+  `7962f021aeff32540836b4b0529900a22bbbfe0c66b7f70fd474aeba6fdf6e26`. L16 closure binds that
+  result and all 31 new evidence hashes, closes the inherited and C1 final findings, has zero
+  unresolved finding, and hashes to
+  `c493a1a2b2d5267bbbe3d33f1c79ddf3b34a8aa523fc942fac54bec56c5bb2f5`. Focused tests pass
+  `58/58`; full CI passes `1438` tests with one skip and strict validation has zero errors/warnings.

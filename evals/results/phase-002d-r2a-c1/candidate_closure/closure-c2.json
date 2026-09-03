@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "closure_id": "PHASE-002D-R2A-C2-CANDIDATE-CLOSURE-001",
+  "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+  "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
+  "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+  "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+  "parent_artifact_hash": "ed3f0383ef5a63138eb62fdeead8e23cc5d0de3d1313a4d78821059a61d58c5a",
+  "artifact_sequence_index": 16,
+  "test_evidence_hashes": [
+    "66c7167a1e20a13bfa4b6b5cd6c9ffbf634263b70e371037b96985d1571ba390",
+    "9fbbde89c6515fc88481fd2325b57198f3319f2240c4b368e686926c60b93524",
+    "6f8b42953c21829d97e8cf1b58ca6fa5a289807fcb5d39b8baa7037964a6346c",
+    "12071364988ea2010359fb7995939c84791e63a53a66d2d10f29a9154193d8f9",
+    "3c32af6ff588b0b858b067fc0c55945c0aadc6a461bc018ed4db64893bfbeb1d",
+    "573c1adaf89c81e7f1267ac11845407fd32a6168ff495dfa9a994c04c3594b72",
+    "cc31f1defc8d0cb959368da5d7fffca5c6fb563dabf6885de7897bdad70e1d06",
+    "ca52eae6d8b2cea11200086adf01658de8fd3aed80fd111137a4618036dfcf6f",
+    "9ff94289755db3ed287e145c0b7be0771c08bd47cd004686379e94aeb1f2d571",
+    "72414d009fd41f42e53fd13f90840d007919cec5376637f908fcaee21a4167f5",
+    "1befc6aa3e2883a15e5a4fc1ee476c5653050f1691ccd31af1cba89c6e550541",
+    "3b96c1ad229469f8fb39c19e6ea025b26423b5eb3597a5d8df562a331e397422",
+    "7ccde22fd098f63e27b7e9b8d6a3c168e479e600403b8b7895c8499dcdec0670",
+    "eeced50fa21b993ad431211fef066fedad14e14185ea81effa875550316e1877",
+    "89cce35cd2df55ad0d949e9cb642b84819d281e61312fb4180625013c9e5e0d3",
+    "9b2a12692a41be394f36cb1697473238e3ddd3f9d1cdf781db1167987b714e87",
+    "1a0a7e015be7a3e1dbbfe03adb177eeffbf687d4843fd38491e9b33c268fad1a",
+    "61d6dd477cc6335b4229d738abc0dd1cd79426d40226d1bb88934084170cb832",
+    "3a775a8b3ee56292c1e24db13237fda06bd0c960336bc3b89ebf56ca17a75016",
+    "7d0504b755731035b2d4d585201ba7abd19b6947931321030ba2b736f64d5c7e",
+    "1f93b03824c002801fdc337e14d2a750310710b8554dc7e7f61249688e7443d1",
+    "25ea8020d8ef5f25fa3457464dc7ccf3368002ca0217c8e45e0ac275df98b81c",
+    "0fb7237450f9c20f54aa2a365735db2e15c0ff8d87b6facbea2ba5183c556f87",
+    "19bbbfd01bb4c2b26df505c25f155577ee97492e4f17963041535ed6160531cc",
+    "0c54192e475ba033824cda93c97c6e76a6afdfdb27b135c13ad99e235b7c7334",
+    "2f8aa762fcd4b7fb3dafc458837c191e3a01be707386dfd160468a7a181c4996",
+    "dc0c5c24a3636c770ad6910bd94b74789f76ae3e652ed6d12b61621474c311bd",
+    "9f4d7ab72230f8e1dd04f92fba0bffd6d27a283398d177fcf9e81f8f081a8e23",
+    "50f5270a91a6c8a8f0360922a9470c361f093f91cd684acf9335bc6267373443",
+    "0ef5181e07453830c4677e4bf0011ae1e4c3ba48273c6231bc6f40bd8c6d8c86",
+    "60f58ee3520f96ae03a182cbb7acad004e417d4fd60a66f4e1c29f47e357d71e"
+  ],
+  "candidate_bound_pass_evidence_count": 31,
+  "historical_context_only": [
+    "evals/results/phase-002d-r2a/adversarial_findings/closure.json#15/15"
+  ],
+  "historical_evidence_used_as_candidate_pass": false,
+  "candidate_prosecutor_review": {
+    "audit_id": "PHASE-002D-R2A-C2-CANDIDATE-BINDING-PROSECUTOR-001",
+    "output_hash": "7962f021aeff32540836b4b0529900a22bbbfe0c66b7f70fd474aeba6fdf6e26",
+    "verdict_at_review": "PASS",
+    "serious_finding_ids": [],
+    "serious_findings_closed": true,
+    "closure_basis": "DETERMINISTIC_POST_REVIEW_REGRESSION_TESTS"
+  },
+  "closures": [
+    {
+      "finding_id": "C1-CBP-001",
+      "test_ids": [
+        "C2-MUT-016",
+        "C2-MUT-018",
+        "C2-MUT-019",
+        "C2-MUT-020",
+        "C2-MUT-027"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-002",
+      "test_ids": [
+        "C2-MUT-001",
+        "C2-MUT-002",
+        "C2-MUT-021"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-003",
+      "test_ids": [
+        "C2-MUT-023",
+        "C2-MUT-024"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-004",
+      "test_ids": [
+        "C2-MUT-017",
+        "C2-MUT-018"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-005",
+      "test_ids": [
+        "C2-MUT-019",
+        "C2-MUT-020"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-006",
+      "test_ids": [
+        "C2-MUT-025",
+        "C2-MUT-026"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "R2A-FINAL-002",
+      "test_ids": [
+        "C2-MUT-001",
+        "C2-MUT-002",
+        "C2-MUT-021"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-M6-001",
+      "test_ids": [
+        "C2-MUT-027"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-M6-002",
+      "test_ids": [
+        "C2-MUT-001",
+        "C2-MUT-021"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-M6-003",
+      "test_ids": [
+        "C2-MUT-009",
+        "C2-MUT-022"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-M6-004",
+      "test_ids": [
+        "C2-MUT-028"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-M6-005",
+      "test_ids": [
+        "C2-MUT-029"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "C1-CBP-M6-006",
+      "test_ids": [
+        "C2-MUT-023",
+        "C2-MUT-024",
+        "C2-MUT-025",
+        "C2-MUT-026"
+      ],
+      "status": "CLOSED"
+    },
+    {
+      "finding_id": "R2A-C1-FINAL-001",
+      "test_ids": [
+        "C1-DET-R2-AUDIT-REPLAY-ACYCLIC-PREREQUISITE-001"
+      ],
+      "status": "CLOSED"
+    }
+  ],
+  "unresolved_findings": [],
+  "all_candidate_tests_pass": true,
+  "result": "PASS",
+  "closure_hash": "c493a1a2b2d5267bbbe3d33f1c79ddf3b34a8aa523fc942fac54bec56c5bb2f5"
+}
