@@ -195,3 +195,9 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
 - `2026-09-03T14:26:16+08:00`: preflight confirmed expected root, branch, clean starting commit,
   origin, Draft PR #5, formal boundaries, and failed remote CI. Baseline reproduced exactly
   `21 failed, 1288 passed, 1 skipped`; no dependency was installed.
+- `2026-09-03`: M2 implemented four explicit historical verification modes and a contract-validated
+  path policy. Both the R1 and Phase 002D freeze verifiers now read recorded Git objects, keep
+  historical result trees byte-immutable, and allow only the workflow task-branch pointer to change
+  semantically. Fifteen focused attack tests and all 48 affected historical tests pass; the 20-test
+  history cascade is fixed. Compatibility record hash is
+  `fb285d147ba4acc808cd1f7f4e1b68513c95f4bc74bb8c12152b687fd66cb6b7`.

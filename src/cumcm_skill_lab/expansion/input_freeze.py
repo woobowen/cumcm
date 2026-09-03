@@ -5,6 +5,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from cumcm_skill_lab.authorization_c1.historical_verification import (
+    load_policy as load_historical_policy,
+)
+from cumcm_skill_lab.authorization_c1.historical_verification import (
+    policy_entry,
+    verify_file_entry,
+    verify_tree_entry,
+)
+
 from .budget import BUDGET_PATH
 from .cohort import COHORT_PATH
 from .models import (
@@ -153,12 +162,29 @@ def verify_input_freeze(root: Path, manifest: dict[str, Any] | None = None) -> l
     integrity = _git_historical_integrity(root)
     if not integrity["intact"]:
         errors.extend(f"HISTORICAL_INPUT_MUTATED:{path}" for path in integrity["changed_files"])
+    try:
+        historical_policy = load_historical_policy(root)
+    except (OSError, ValueError) as exc:
+        return sorted(set(errors + [f"HISTORICAL_POLICY_INVALID:{exc}"]))
+    manifest_version = "PHASE-002D/1.0.0"
+    for relative, expected in manifest["historical_tree_hashes"].items():
+        path_key = f"{relative}/"
+        try:
+            entry = policy_entry(historical_policy, path_key, manifest_version)
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
+        errors.extend(verify_tree_entry(root, entry, expected))
     for relative, expected in manifest["case_fixture_rubric_hashes"].items():
         if not (root / relative).is_file() or file_sha256(root / relative) != expected:
             errors.append(f"FROZEN_CASE_INPUT_MISMATCH:{relative}")
     for relative, expected in manifest["policy_hashes"].items():
-        if not (root / relative).is_file() or file_sha256(root / relative) != expected:
-            errors.append(f"FROZEN_POLICY_MISMATCH:{relative}")
+        try:
+            entry = policy_entry(historical_policy, relative, manifest_version)
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
+        errors.extend(verify_file_entry(root, entry, expected))
     for relative, expected in manifest["output_schema_hashes"].items():
         if not (root / relative).is_file() or file_sha256(root / relative) != expected:
             errors.append(f"FROZEN_SCHEMA_MISMATCH:{relative}")

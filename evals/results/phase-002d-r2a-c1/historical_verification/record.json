@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-001",
+  "artifact_sequence_index": 1,
+  "parent_artifact_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+  "created_at": "2026-09-03T14:26:16+08:00",
+  "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+  "policy_path": "rules/historical_verification_policy.yaml",
+  "policy_file_sha256": "5b7a85ac080af53c945eeb1a86484558b852943c069b5e09038cd33ec63dd30f",
+  "verifier_path": "src/cumcm_skill_lab/authorization_c1/historical_verification.py",
+  "verifier_file_sha256": "54c3251404d25507f5a7b1796ee591658213327614e8777338e52f5f909c7f35",
+  "verification_modes": [
+    "CURRENT_TREE_IMMUTABLE",
+    "DERIVED_OBSERVATION",
+    "LIVE_SEMANTIC_POINTER",
+    "SUBJECT_COMMIT_BLOB"
+  ],
+  "r1_subject_commit": "d59f4b8a36fa3c15e06ec0aceb948cd2bafd2abc",
+  "immutable_paths": [
+    "adjudication/configs/phase-002d.yaml",
+    "adjudication/configs/phase-002d.yaml",
+    "adjudication/policies/phase-002d.yaml",
+    "adjudication/policies/phase-002d.yaml",
+    "contracts/evidence_sufficiency.schema.json",
+    "contracts/expansion_attempt.schema.json",
+    "contracts/expansion_budget.schema.json",
+    "contracts/expansion_cost.schema.json",
+    "contracts/expansion_run.schema.json",
+    "contracts/expansion_schedule.schema.json",
+    "contracts/primary_eligibility.schema.json",
+    "evals/results/phase-002/",
+    "evals/results/phase-002/",
+    "evals/results/phase-002a/",
+    "evals/results/phase-002a/",
+    "evals/results/phase-002b/",
+    "evals/results/phase-002b/",
+    "evals/results/phase-002c/",
+    "evals/results/phase-002c/",
+    "evals/results/phase-002d/",
+    "rules/automated_adjudication_rules.yaml",
+    "rules/dynamic_eval_rules.yaml",
+    "rules/evidence_hierarchy.yaml",
+    "rules/evidence_rules.yaml",
+    "rules/native_subagent_audit_rules.yaml",
+    "rules/phase002d_r1_workflow_rules.yaml",
+    "rules/pre_adjudication_rules.yaml",
+    "rules/pre_adjudication_rules.yaml"
+  ],
+  "live_pointer_paths": [
+    "rules/workflow_rules.yaml"
+  ],
+  "allowed_live_fields": [
+    "git_delivery.preferred_task_branch"
+  ],
+  "rejected_live_fields": [
+    "git_delivery.remote_name",
+    "git_delivery.repository",
+    "git_delivery.remote_url",
+    "git_delivery.protected_base_branch",
+    "git_delivery.allow_force_push",
+    "git_delivery.allow_agent_merge",
+    "ALL_UNREGISTERED_FIELDS"
+  ],
+  "historical_r1_freeze_hash": "4a03c2d840e0defff8df87a9dae68b76a3b9bbcec279e5298c971771ebe91c85",
+  "historical_r1_freeze_errors": [],
+  "original_failure_count_fixed": 20,
+  "result": "PASS",
+  "no_current_file_fallback": true,
+  "whole_file_ignore_allowed": false,
+  "record_hash": "fb285d147ba4acc808cd1f7f4e1b68513c95f4bc74bb8c12152b687fd66cb6b7"
+}

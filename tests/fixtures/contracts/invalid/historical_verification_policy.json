@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "policy_id": "PHASE-002D-R2A-C1-HISTORICAL-VERIFICATION-POLICY-001",
+  "entries": [
+    {
+      "path": "rules/workflow_rules.yaml",
+      "manifest_version": "PHASE-002D-R1/1.0.0",
+      "verification_mode": "LIVE_SEMANTIC_POINTER",
+      "subject_commit": "not-a-commit",
+      "allowed_live_fields": [],
+      "current_schema": null,
+      "semantic_validator": "ignore_everything",
+      "failure_severity": "BLOCKER"
+    }
+  ]
+}

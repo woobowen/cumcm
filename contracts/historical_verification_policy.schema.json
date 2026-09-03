@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cumcm.local/contracts/historical_verification_policy/v1",
+  "title": "Historical Verification Policy",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["version", "policy_id", "entries"],
+  "properties": {
+    "version": {"const": "1.0.0"},
+    "policy_id": {"const": "PHASE-002D-R2A-C1-HISTORICAL-VERIFICATION-POLICY-001"},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "manifest_version",
+          "verification_mode",
+          "subject_commit",
+          "allowed_live_fields",
+          "current_schema",
+          "semantic_validator",
+          "failure_severity"
+        ],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "manifest_version": {"type": "string", "minLength": 1},
+          "verification_mode": {
+            "enum": [
+              "SUBJECT_COMMIT_BLOB",
+              "CURRENT_TREE_IMMUTABLE",
+              "LIVE_SEMANTIC_POINTER",
+              "DERIVED_OBSERVATION"
+            ]
+          },
+          "subject_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "allowed_live_fields": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          },
+          "current_schema": {"type": ["string", "null"]},
+          "semantic_validator": {"type": "string", "minLength": 1},
+          "failure_severity": {"enum": ["BLOCKER", "ERROR", "WARNING", "INFO"]}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"verification_mode": {"const": "LIVE_SEMANTIC_POINTER"}}},
+            "then": {
+              "properties": {
+                "allowed_live_fields": {"minItems": 1},
+                "current_schema": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "verification_mode": {
+                  "enum": ["SUBJECT_COMMIT_BLOB", "CURRENT_TREE_IMMUTABLE"]
+                }
+              }
+            },
+            "then": {"properties": {"allowed_live_fields": {"maxItems": 0}}}
+          }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

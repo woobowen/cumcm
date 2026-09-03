@@ -5,6 +5,13 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from cumcm_skill_lab.authorization_c1.historical_verification import (
+    load_policy,
+    policy_entry,
+    verify_file_entry,
+    verify_tree_entry,
+)
+
 from .models import (
     HISTORICAL_ROOTS,
     RESULT_ROOT,
@@ -137,11 +144,20 @@ def verify_input_freeze(root: Path, manifest: dict[str, Any] | None = None) -> l
     if manifest.get("subject_commit") != SUBJECT_COMMIT:
         errors.append("PHASE002D_R1_SUBJECT_COMMIT_MISMATCH")
 
+    try:
+        policy = load_policy(root)
+    except (OSError, ValueError) as exc:
+        return sorted(set(errors + [f"HISTORICAL_POLICY_INVALID:{exc}"]))
+    manifest_version = "PHASE-002D-R1/1.0.0"
     for directory in HISTORICAL_ROOTS:
-        actual = sha256_json(file_hashes(root, directory))
+        path_key = f"{directory.as_posix()}/"
         expected = manifest.get("historical_tree_hashes", {}).get(directory.as_posix())
-        if actual != expected:
-            errors.append(f"HISTORICAL_INPUT_MUTATED:{directory.as_posix()}")
+        try:
+            entry = policy_entry(policy, path_key, manifest_version)
+        except ValueError as exc:
+            errors.append(str(exc))
+            continue
+        errors.extend(verify_tree_entry(root, entry, expected))
     for group in (
         "attempt_record_hashes",
         "run_record_hashes",
@@ -150,13 +166,19 @@ def verify_input_freeze(root: Path, manifest: dict[str, Any] | None = None) -> l
         "oracle_record_hashes",
         "process_evidence_hashes",
         "phase002d_file_hashes",
-        "rule_hashes",
-        "contract_hashes",
     ):
         for relative, expected in manifest.get(group, {}).items():
             target = root / relative
             if not target.is_file() or file_sha256(target) != expected:
                 errors.append(f"FROZEN_HASH_MISMATCH:{group}:{relative}")
+    for group in ("rule_hashes", "contract_hashes"):
+        for relative, expected in manifest.get(group, {}).items():
+            try:
+                entry = policy_entry(policy, relative, manifest_version)
+            except ValueError as exc:
+                errors.append(str(exc))
+                continue
+            errors.extend(verify_file_entry(root, entry, expected))
     return sorted(set(errors))
 
 
