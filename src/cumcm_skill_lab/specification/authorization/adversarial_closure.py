@@ -16,6 +16,12 @@ from cumcm_skill_lab.adjudication.models import (
     read_yaml,
     sha256_json,
 )
+from cumcm_skill_lab.authorization_c1.historical_verification import (
+    load_policy,
+    policy_entry,
+    subject_tree_hash,
+    verify_tree_entry,
+)
 
 from .bindings import (
     build_synthetic_replay,
@@ -407,6 +413,33 @@ def _schema_errors(schema: dict[str, Any], values: list[dict[str, Any]]) -> list
 
 
 def synthesize_adversarial_closure(root: Path, *, check: bool) -> dict[str, Any]:
+    if check and (root / "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json").is_file():
+        stored_findings = read_json(root / FINDINGS_PATH)["findings"]
+        stored_requests = read_json(root / REQUESTS_PATH)["test_requests"]
+        stored_evidence = read_json(root / EVIDENCE_PATH)["test_evidence"]
+        stored_closure = read_json(root / CLOSURE_PATH)
+        body = dict(stored_closure)
+        recorded_hash = body.pop("closure_hash", None)
+        errors = []
+        if sha256_json(body) != recorded_hash:
+            errors.append("R2A_HISTORICAL_CLOSURE_HASH_MISMATCH")
+        policy = load_policy(root)
+        entry = policy_entry(policy, "evals/results/phase-002d-r2a/", "PHASE-002D-R2A-C1/1.0.0")
+        errors.extend(verify_tree_entry(root, entry, subject_tree_hash(root, entry)))
+        if not all(item.get("status") == "PASSED" for item in stored_evidence):
+            errors.append("R2A_HISTORICAL_TEST_EVIDENCE_NOT_PASS")
+        if not stored_closure.get("all_serious_findings_closed_for_bounded_authorization"):
+            errors.append("R2A_HISTORICAL_CLOSURE_NOT_PASS")
+        return {
+            "status": "PASS" if not errors else "FAIL",
+            "errors": sorted(set(errors)),
+            "finding_count": len(stored_findings),
+            "test_request_count": len(stored_requests),
+            "passed_count": sum(item.get("status") == "PASSED" for item in stored_evidence),
+            "failed_count": sum(item.get("status") != "PASSED" for item in stored_evidence),
+            "unresolved": stored_closure.get("unresolved_serious_findings", []),
+            "closure_hash": stored_closure.get("closure_hash"),
+        }
     evaluations = evaluate_closures(root)
     findings: list[dict[str, Any]] = []
     requests: list[dict[str, Any]] = []

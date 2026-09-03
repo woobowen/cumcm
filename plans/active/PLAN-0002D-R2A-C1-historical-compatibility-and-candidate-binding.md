@@ -200,4 +200,11 @@ CI, Git whitespace, remote SHA, Draft PR state, and remote CI.
   historical result trees byte-immutable, and allow only the workflow task-branch pointer to change
   semantically. Fifteen focused attack tests and all 48 affected historical tests pass; the 20-test
   history cascade is fixed. Compatibility record hash is
-  `17fa7ea0c99fb7ad467ba739efffedb3060a6404c3119a833bc625c805a71629`.
+  `7b7a961bc0fb82aa6a4e263109fcdfa1d45d3bd53131309f6486c5ffee00037b`.
+- `2026-09-03`: M3 added a commit/hash/version-aware `SchemaVersionResolver`. Historical 2.1, 2.2,
+  and 2.3 states validate only against their exact committed Schemas; current 2.4 validates only
+  against the L0-frozen current Schema. A non-authoritative pure 2.3-to-2.4 comparison migration
+  preserves security fields and source bytes. The original failing nodes pass `56/56`, the combined
+  freeze/state/Schema selection passes `162`, full pytest passes `1339` with one skip, CI exits zero,
+  and strict validation reports zero errors/warnings. Schema resolution record hash is
+  `3b39684cb4ba607c0826956ea7155e416754261a9ad65ff98ce0a5775040621c`.

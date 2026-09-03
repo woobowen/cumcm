@@ -3,13 +3,15 @@
 from __future__ import annotations
 
 import json
-from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
-from jsonschema import Draft202012Validator
-
 from cumcm_skill_lab.adjudication.models import check_or_write, read_json
+from cumcm_skill_lab.authorization_c1.models import git_file_bytes
+from cumcm_skill_lab.authorization_c1.schema_resolution import (
+    HISTORICAL_R2A_START_COMMIT,
+    SchemaVersionResolver,
+)
 
 from .adjudication import DECISION_FILES, DECISION_ROOT, SHADOW_DECISION_ID
 from .architecture_validator import validate_architecture_candidates
@@ -230,7 +232,7 @@ def _append_entries(original: str, entries: list[dict[str, Any]], id_key: str) -
 
 
 def build_final_state(root: Path) -> dict[str, Any]:
-    state = deepcopy(read_json(root / STATE_PATH))
+    state = json.loads(git_file_bytes(root, HISTORICAL_R2A_START_COMMIT, STATE_PATH.as_posix()))
     audit = read_json(root / AUDIT_PATH)
     replay = read_json(root / REPLAY_PATH)
     decisions = [
@@ -310,12 +312,12 @@ def build_final_state(root: Path) -> dict[str, Any]:
 
 
 def validate_final_state(root: Path, state: dict[str, Any]) -> list[str]:
-    errors = [
-        f"PHASE002D_R2_STATE_SCHEMA:{item.message}"
-        for item in Draft202012Validator(
-            read_json(root / "contracts/project_state.schema.json")
-        ).iter_errors(state)
-    ]
+    resolution = SchemaVersionResolver(root).resolve(
+        state,
+        source="SUBJECT_COMMIT_BLOB",
+        snapshot_subject_commit=HISTORICAL_R2A_START_COMMIT,
+    )
+    errors = [f"PHASE002D_R2_STATE_SCHEMA:{item}" for item in resolution["errors"]]
     if state.get("selected_architecture") is not None or state.get("base_selected") is not False:
         errors.append("PHASE002D_R2_STATE_ARCHITECTURE_SELECTION_PROHIBITED")
     if state.get("third_party_integrated") is not False:

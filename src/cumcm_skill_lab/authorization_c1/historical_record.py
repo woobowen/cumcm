@@ -8,7 +8,13 @@ from typing import Any
 
 from cumcm_skill_lab.failure_aware.evidence_freeze import verify_input_freeze
 
-from .historical_verification import POLICY_PATH, load_policy
+from .historical_verification import (
+    POLICY_PATH,
+    load_policy,
+    policy_entry,
+    subject_tree_hash,
+    verify_tree_entry,
+)
 from .models import (
     CREATED_AT,
     INPUT_FREEZE_PATH,
@@ -33,6 +39,14 @@ def build_historical_record(root: Path) -> dict[str, Any]:
     workflow_entry = next(
         item for item in policy["entries"] if item["path"] == "rules/workflow_rules.yaml"
     )
+    preserved_tree_hashes: dict[str, str] = {}
+    preservation_errors: list[str] = []
+    for relative in dict.fromkeys(freeze["historical_roots_immutable"]):
+        entry = policy_entry(policy, relative, "PHASE-002D-R2A-C1/1.0.0")
+        expected = subject_tree_hash(root, entry)
+        preserved_tree_hashes[relative] = expected
+        preservation_errors.extend(verify_tree_entry(root, entry, expected))
+    errors.extend(preservation_errors)
     body: dict[str, Any] = {
         "schema_version": "1.0.0",
         "record_id": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-001",
@@ -74,6 +88,8 @@ def build_historical_record(root: Path) -> dict[str, Any]:
         ],
         "historical_r1_freeze_hash": r1_manifest["manifest_hash"],
         "historical_r1_freeze_errors": errors,
+        "preserved_historical_tree_hashes": preserved_tree_hashes,
+        "preservation_errors": preservation_errors,
         "original_failure_count_fixed": 20 if not errors else 0,
         "result": "PASS" if not errors else "FAIL",
         "no_current_file_fallback": True,

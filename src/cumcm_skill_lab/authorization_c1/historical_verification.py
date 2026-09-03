@@ -195,6 +195,11 @@ def verify_tree_entry(
     return []
 
 
+def subject_tree_hash(root: Path, entry: dict[str, Any]) -> str:
+    """Return the canonical file-hash tree at the entry's exact Git subject."""
+    return sha256_json(_git_tree_file_hashes(root, entry["subject_commit"], entry["path"]))
+
+
 def verify_derived_observation(
     root: Path,
     entry: dict[str, Any],
@@ -214,6 +219,7 @@ __all__ = [
     "POLICY_PATH",
     "load_policy",
     "policy_entry",
+    "subject_tree_hash",
     "verify_derived_observation",
     "verify_file_entry",
     "verify_tree_entry",
