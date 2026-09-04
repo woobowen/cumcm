@@ -14,6 +14,7 @@ RC1_SUCCESSOR_STATUS = "COMPETITION_SKILL_RC_READY"
 DEVELOPMENT_EVAL_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
     "DEVELOPMENT_EVAL_RC2_READY",
+    "DEVELOPMENT_EVAL_RC3_READY",
     "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
     "DEVELOPMENT_EVAL_INCOMPLETE",
     "OFFICIAL_INPUTS_REQUIRED",
@@ -57,7 +58,12 @@ def competition_rc_successor(root: Path) -> bool:
         isinstance(state, dict)
         and state.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
         and state.get("technical_adjudication_status") in DEVELOPMENT_EVAL_STATUSES
-        and state.get("active_skill_version") in {"0.2.0-competition-rc1", "0.2.0-competition-rc2"}
+        and state.get("active_skill_version")
+        in {
+            "0.2.0-competition-rc1",
+            "0.2.0-competition-rc2",
+            "0.2.0-competition-rc3",
+        }
     )
     return rc1_ready or development_successor
 

@@ -1,0 +1,105 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "case_id": "CUMCM-2020-A-DEVELOPMENT-002",
+  "first_run_freeze_sha256": "cadb774025ae30dc871fb67bdc4ffb8ffa409773be8e01247c8fea21bf8286ff",
+  "gaps": [
+    {
+      "accepted_or_rejected": "ACCEPTED_FOR_RC3",
+      "classification": "GENERALIZABLE_SKILL_FAILURE",
+      "cross_case_relevance": "Any case-local program can intentionally return a nonzero exit after writing structured diagnostic output; such evidence must remain sealable.",
+      "failure_id": "GAP-004B-001",
+      "first_run_evidence": [
+        "Five frozen nonzero-exit captures contain structured output and failure=null.",
+        "All five were rejected by seal-run with RC_MANIFEST_OUTCOME_EVIDENCE_INCONSISTENT."
+      ],
+      "generalizable": true,
+      "proposed_change": "Make the controlled executor attach RC_EXECUTION_NONZERO_EXIT to every nonzero exit when no more specific failure exists, whether or not output.json already exists.",
+      "reference_evidence": "NONE_ACCESSED; not needed to establish the executor invariant.",
+      "rejection_reason": null,
+      "requirement_ids": [
+        "REQ-EVIDENCE-EXECUTE",
+        "REQ-EVIDENCE-SEAL"
+      ],
+      "risk_of_overfitting": "LOW; the test uses a generic program, neutral candidate names, and no case data, constants, equations, or conclusions.",
+      "root_cause": "The executor assigned a fallback failure only when output.json was absent, leaving a failed capture internally inconsistent when the child wrote diagnostics before exiting nonzero.",
+      "severity": "CRITICAL",
+      "verification_test": "A generic case-local program writes a valid diagnostic output and exits 2; execute records FAILED plus RC_EXECUTION_NONZERO_EXIT, and seal-run accepts the failed manifest."
+    },
+    {
+      "accepted_or_rejected": "REJECTED_FROM_FORMAL_SKILL_ACCEPTED_AS_EVAL_INFRASTRUCTURE_FIX",
+      "classification": "EXECUTION_EVIDENCE_FAILURE",
+      "cross_case_relevance": "A first-run can correctly freeze one immutable Skill commit while executing case code introduced by a later worktree commit.",
+      "failure_id": "GAP-004B-002",
+      "first_run_evidence": [
+        "Registry Skill commit was 1d842a45403370916ce2c36297876e9cd1ddde1f.",
+        "Execution manifests bound case code at f683ce76ff086b7109571e5124fb8a8218377725.",
+        "The original freeze check incorrectly required both values to be identical."
+      ],
+      "generalizable": false,
+      "proposed_change": "Retain the already tested repository freeze-tool correction that validates the frozen Skill blob at the Skill commit separately from execution code at its manifest commit.",
+      "reference_evidence": "NONE_ACCESSED; provenance bindings are self-contained.",
+      "rejection_reason": "The defect is in project evaluation infrastructure, not in the formal Skill runtime, and was repaired before the immutable first-run freeze without altering Skill code or Run evidence.",
+      "requirement_ids": [
+        "REQ-FIRST-RUN-FREEZE",
+        "REQ-PROVENANCE"
+      ],
+      "risk_of_overfitting": "LOW; commit-role separation is case independent.",
+      "root_cause": "The freeze tool conflated the immutable Skill provenance commit with the later case-code provenance commit.",
+      "severity": "HIGH",
+      "verification_test": "Freeze succeeds when Skill and case code bind different valid commits, and fails when either referenced blob hash is wrong."
+    },
+    {
+      "accepted_or_rejected": "REJECTED_FROM_FORMAL_SKILL",
+      "classification": "PHYSICAL_MODELING_FAILURE",
+      "cross_case_relevance": "Mechanistic models generally need boundary-condition and calibration validation, but the observed miss is tied to this case implementation and its environmental-profile approximation.",
+      "failure_id": "GAP-004B-003",
+      "first_run_evidence": [
+        "No candidate passed all four requirements.",
+        "Frozen validation RMSE values were 63.16751794, 20.144894, and 48.37396765 degrees Celsius for the surviving candidate outputs.",
+        "The first-run scientific-validity record identifies cooling-validation error and a linear zone-center environmental profile as limitations."
+      ],
+      "generalizable": false,
+      "proposed_change": "Improve only the case-owned model after unlock; retain general initial/boundary, identifiability, residual, convergence, and feasibility gates already present in the Skill.",
+      "reference_evidence": "NONE_ACCESSED; failure is directly observable from frozen measurements and constraints.",
+      "rejection_reason": "A formal Skill change would need case-specific physics or parameters and would duplicate existing generic checks.",
+      "requirement_ids": [
+        "REQ-1",
+        "REQ-2",
+        "REQ-3",
+        "REQ-4"
+      ],
+      "risk_of_overfitting": "HIGH if transferred into the Skill.",
+      "root_cause": "The selected environmental boundary approximation and fitted low-order dynamics did not reproduce the observed cooling regime or yield a fully feasible constrained solution.",
+      "severity": "HIGH",
+      "verification_test": "Development-only regression must independently recompute all process constraints, report calibration residuals, and reject any infeasible Final."
+    },
+    {
+      "accepted_or_rejected": "REJECTED_FROM_FORMAL_SKILL",
+      "classification": "OPTIMIZATION_FAILURE",
+      "cross_case_relevance": "Empty feasible sets should be handled explicitly, but this exception arose in case-owned search code rather than the generic state machine.",
+      "failure_id": "GAP-004B-004",
+      "first_run_evidence": [
+        "RUN-PRIMARY-TWO-NODE-20260904 raised ValueError: min() arg is an empty sequence.",
+        "The exception followed an empty symmetry-candidate pool after refinement."
+      ],
+      "generalizable": false,
+      "proposed_change": "Repair the case-owned optimizer to emit an explicit infeasible result and never reduce an empty candidate collection.",
+      "reference_evidence": "NONE_ACCESSED; traceback and capture are sufficient.",
+      "rejection_reason": "The formal Skill already requires feasibility checks and failed-Run preservation; the missing guard is local implementation code.",
+      "requirement_ids": [
+        "REQ-4",
+        "REQ-OPT-FEASIBILITY"
+      ],
+      "risk_of_overfitting": "MEDIUM if encoded as a case-shaped Skill branch.",
+      "root_cause": "Case-owned direct search assumed a nonempty feasible refinement pool before computing its minimum.",
+      "severity": "HIGH",
+      "verification_test": "An empty feasible pool yields structured INFEASIBLE evidence, a nonzero captured Run, and a sealable failed manifest without an unhandled exception."
+    }
+  ],
+  "reference_review_path": "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/postmortem/reference_review.json",
+  "revision_budget": {
+    "accepted_major_cycles": 1,
+    "maximum_major_cycles": 2
+  },
+  "skill_change_decision": "ONE_GENERALIZABLE_EXECUTOR_FAILURE_ACCEPTED_FOR_RC3"
+}

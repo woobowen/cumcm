@@ -18,7 +18,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0-competition-rc2"
+VERSION = "0.2.0-competition-rc3"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -2374,17 +2374,18 @@ def execute_case_code(
                     "reason_code": "RC_EXECUTION_OUTPUT_INVALID",
                 },
             )
-    elif not output_path.is_file():
+    else:
         if failure is None:
             failure = {"reason_code": "RC_EXECUTION_NONZERO_EXIT", "retained": True}
-        write_json(
-            output_path,
-            {
-                "candidate_id": candidate_id,
-                "status": "FAILED",
-                "reason_code": failure["reason_code"],
-            },
-        )
+        if not output_path.is_file():
+            write_json(
+                output_path,
+                {
+                    "candidate_id": candidate_id,
+                    "status": "FAILED",
+                    "reason_code": failure["reason_code"],
+                },
+            )
     outcome = "SUCCESS" if exit_code == 0 else "FAILED"
     input_files = [
         {"path": relative, "sha256": digest}

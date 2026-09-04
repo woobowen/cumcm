@@ -1,0 +1,63 @@
+{
+  "case_id": "CUMCM-2020-A-DEVELOPMENT-002",
+  "code_commit": "24be0026336b3352c4f360b4708e9bb5cf77cead",
+  "decision_hash": "b87d8aadc1e926006be9fe751bf42cb9c5edc35015a2c33d6d7dd05d6a10c51e",
+  "evidence_class": "STRESS_NOT_INDEPENDENT_GENERALIZATION",
+  "final_metrics": {
+    "q2_maximum_feasible_speed_cm_per_min": 67.79449749,
+    "q3_area_above_217_c_s": 713.10466265,
+    "q4_symmetry_rmse_c": 6.19907691,
+    "validation_rmse_c": 5.82804722
+  },
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "handoff_sha256": "cf15809ae45ea7c541dc1c9145068093649cf36c460393b371111a8bc996b050",
+  "input_hashes": {
+    "measurement": "69c881fdb9d4956cde9c5a2057eaef1d4f5b718c1ed84f82de783f93cddcffdb",
+    "variant_config": "39e1088960251f01eae42fa3fa754aeed264649854f8cc6e0a9d586add912148"
+  },
+  "observation_degradation": {
+    "noise_seed": 20260907,
+    "noise_sigma_c": 0.2,
+    "removed_noncritical_row_indices": [80, 181, 282, 383, 484, 585, 686],
+    "reported_precision_c": 0.1
+  },
+  "result": "PASS",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_FIRST_ORDER",
+      "capture_sha256": "f4ee0c2b79d21c089681f3c7b831212684ac88562c690575311b690538038c38",
+      "exit_code": 0,
+      "manifest_sha256": "4515bea47595c25c6d714648237f0f3c77daba49f8c8d8881922074df3581ad1",
+      "output_sha256": "ad6c45e69af0f70685020ce6a3c4283b38ce48ce5d1309dc143c883b0bd02736",
+      "run_id": "RUN-STRESS-C-BASELINE_FIRST_ORDER-20260906"
+    },
+    {
+      "candidate_id": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+      "capture_sha256": "864455301b27042d7746042a101f36de2ba0b8ea15dd60d7e42eb7cf14c13d6d",
+      "exit_code": 0,
+      "manifest_sha256": "0a27de67a99ead75de19fcbb62e6a13e51e60ffe440dc536760120d2e1d505ca",
+      "output_sha256": "aab668659945affdd88df0578b150b95203c949e70761083e4dda8df5e98fe13",
+      "run_id": "RUN-STRESS-C-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260906"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selected_model": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+  "skill_version": "0.2.0-competition-rc3",
+  "stale_probe": {
+    "dependency_chain": [
+      "data/raw/case_files/variant_config.json",
+      "experiments/experiment_plan.json",
+      "runs/RUN-STRESS-C-BASELINE_FIRST_ORDER-20260906/manifest.json",
+      "runs/RUN-STRESS-C-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260906/manifest.json"
+    ],
+    "reason_code": "RC_UPSTREAM_DEPENDENCY_STALE",
+    "status": "STALE"
+  },
+  "uncertainty": {
+    "original_validation_rmse_c": 5.80972512,
+    "reported_parameter_significant_digits": 4,
+    "stress_parameters": [52.5, 171.4],
+    "stress_validation_rmse_c": 5.82804722
+  },
+  "variant_id": "STRESS_C_DEGRADED_OBSERVATIONS"
+}

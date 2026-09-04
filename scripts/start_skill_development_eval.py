@@ -20,7 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
 DEFAULT_PROJECT_STATE = REPO_ROOT / "state/project_state.json"
 CASE_CLI = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
-SKILL_VERSION = "0.2.0-competition-rc2"
+SKILL_VERSION = "0.2.0-competition-rc3"
 ALLOWED_SET_TYPES = {"DEVELOPMENT", "VALIDATION", "HELD_OUT", "STRESS"}
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -127,10 +127,16 @@ def require_competition_rc_ready(path: Path, *, allow_active_eval: bool = False)
     integration_audit = (
         competition.get("integration_audit") if isinstance(competition, dict) else None
     )
-    ready_to_start = (
-        isinstance(value, dict)
-        and value.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
-        and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+    ready_to_start = isinstance(value, dict) and (
+        (
+            value.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
+            and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        )
+        or (
+            value.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+            and value.get("technical_adjudication_status") == "DEVELOPMENT_EVAL_RC2_READY"
+            and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+        )
     )
     isolated_test_during_active_eval = (
         allow_active_eval

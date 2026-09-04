@@ -18,10 +18,12 @@ def test_development_eval_state_is_schema_valid_and_preserves_rc1_evidence(repo_
     schema = _load(repo_root / "contracts/project_state.schema.json")
 
     Draft202012Validator(schema).validate(state)
-    assert state["technical_adjudication_status"] == "DEVELOPMENT_EVAL_RC2_READY"
-    assert state["subphase"] == "CUMCM-2023-C-DEVELOPMENT-RC2"
-    assert state["next_phase_allowed"] == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
-    assert state["active_skill_version"] == "0.2.0-competition-rc2"
+    assert state["technical_adjudication_status"] == "DEVELOPMENT_EVAL_RC3_READY"
+    assert state["subphase"] == "CUMCM-2020-A-DEVELOPMENT-RC3"
+    assert state["current_plan"] == "plans/active/PLAN-0004B-2020a-development-eval.md"
+    assert state["next_phase_allowed"] == "PHASE-SKILL-VALIDATION-EVAL-004-C"
+    assert state["active_skill_version"] == "0.2.0-competition-rc3"
+    assert state["development_eval"]["case_id"] == "CUMCM-2020-A-DEVELOPMENT-002"
     assert state["development_eval"]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
     assert state["development_eval"]["first_run_status"] == "FROZEN"
     assert state["development_eval"]["revision_cycles_used"] == 1

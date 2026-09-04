@@ -5,7 +5,7 @@
     "hash-bound-reproducibility-manifest",
     "leakage-safe-model-comparison-gate"
   ],
-  "active_skill_version": "0.2.0-competition-rc2",
+  "active_skill_version": "0.2.0-competition-rc3",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -92,33 +92,31 @@
     "native_subagent_runs": 3,
     "third_party_executions": 0
   },
-  "content_verified_commit": "d6233b7fd8980e0f2f8dcf386ccc81c05d1e7f03",
-  "current_branch": "feat/phase004-development-eval-2023c",
-  "current_plan": "plans/active/PLAN-0004A-2023c-development-eval.md",
+  "content_verified_commit": "b4f35cafa4816d255e832ec86b8ff5a65aa2484b",
+  "current_branch": "feat/phase004b-development-eval-2020a",
+  "current_plan": "plans/active/PLAN-0004B-2020a-development-eval.md",
   "delivery_receipt_for_commit": {
-    "commit": "d6233b7fd8980e0f2f8dcf386ccc81c05d1e7f03",
+    "commit": "b4f35cafa4816d255e832ec86b8ff5a65aa2484b",
     "remote": "origin",
-    "remote_sha": "d6233b7fd8980e0f2f8dcf386ccc81c05d1e7f03",
-    "verified_at": "2026-09-04T15:57:41+08:00"
+    "remote_sha": "b4f35cafa4816d255e832ec86b8ff5a65aa2484b",
+    "verified_at": "2026-09-04T20:28:39+08:00"
   },
   "development_eval": {
     "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
-    "case_id": "CUMCM-2023-C-DEVELOPMENT-001",
+    "case_id": "CUMCM-2020-A-DEVELOPMENT-002",
     "data_hashes": {
-      "raw/case_files/附件1.xlsx": "311bcf788c9131f88064e1ceb1c2f56496af6a390c7940029ae89e3967433bd7",
-      "raw/case_files/附件2.xlsx": "d10ad4125a37a0a335d1f3a3932caaa386367ccf9452cfbf9e280d65817a0d5b",
-      "raw/case_files/附件3.xlsx": "3a383a51148c8d94afdd1a4a395a88d14dc06a507f4120185066fae92d1405e9",
-      "raw/case_files/附件4.xlsx": "d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c"
+      "data/raw/case_files/result.csv": "2b995aa4a1f3e24ff0e88755ab56091bb68b8bebbaa473c884ab01963e521137",
+      "data/raw/case_files/附件.xlsx": "fc42c478d1b37796de5157125d9ea9e33c75d29ba7d7af9885b340fd41ab1e7c"
     },
     "first_run_freeze_status": "PASS",
     "first_run_status": "FROZEN",
     "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
-    "problem_hash": "f94818a4f1d84d2aaad2bcbfeb4a7047335a54dccc3a5a632ac2264bcf3d89e5",
+    "problem_hash": "5c8023b4e2b3c4ca81790c58ba69d56f0f39afe6bc5598d4aa5c0d9be8d0d386",
     "revision_cycles_used": 1,
     "search_log_path": "research/pre_freeze_search_log.jsonl",
     "set_type": "DEVELOPMENT",
-    "skill_start_commit": "a93a96d79890f6774552dc5ff333f833099edf83",
-    "skill_start_tree_hash": "49d499ab0e063a2cf72a780c89ee969a696fb02e",
+    "skill_start_commit": "1d842a45403370916ce2c36297876e9cd1ddde1f",
+    "skill_start_tree_hash": "3601313b9cddbf4c524b0b439fc0152cb1e77e5a",
     "stress_statuses": {
       "A": "PASS",
       "B": "PASS",
@@ -170,7 +168,7 @@
     "transport_profile": "PROXY_INHERITED",
     "unknown_slots": 0
   },
-  "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004-B",
+  "next_phase_allowed": "PHASE-SKILL-VALIDATION-EVAL-004-C",
   "phase": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
   "project_id": "cumcm-skill-lab",
   "risks": [
@@ -257,11 +255,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "CUMCM-2023-C-DEVELOPMENT-RC2",
+  "subphase": "CUMCM-2020-A-DEVELOPMENT-RC3",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "DEVELOPMENT_EVAL_RC2_READY",
+  "technical_adjudication_status": "DEVELOPMENT_EVAL_RC3_READY",
   "third_party_integrated": false,
-  "updated_at": "2026-09-04T15:57:41+08:00",
+  "updated_at": "2026-09-04T20:28:39+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

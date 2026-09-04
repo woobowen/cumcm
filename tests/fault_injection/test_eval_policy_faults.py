@@ -106,6 +106,15 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
             "C": "PASS",
         }
         assert state["active_skill_version"] == "0.2.0-competition-rc2"
+    elif state["technical_adjudication_status"] == "DEVELOPMENT_EVAL_RC3_READY":
+        assert state["subphase"] == "CUMCM-2020-A-DEVELOPMENT-RC3"
+        assert state["next_phase_allowed"] == "PHASE-SKILL-VALIDATION-EVAL-004-C"
+        assert state["development_eval"]["stress_statuses"] == {
+            "A": "PASS",
+            "B": "PASS",
+            "C": "PASS",
+        }
+        assert state["active_skill_version"] == "0.2.0-competition-rc3"
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False

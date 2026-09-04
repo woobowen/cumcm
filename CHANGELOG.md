@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.0-competition-rc3 — 2026-09-04
+
+- Advanced the sole formal Skill to `0.2.0-competition-rc3` from the remotely frozen, answer-sealed
+  2020 A Development first run.
+- Made every nonzero case-process exit carry a deterministic fallback failure while retaining any
+  structured diagnostic output, so failed Runs remain sealable and excluded from ranking.
+- Added a generic regression in which a case-local program writes output and exits nonzero; no
+  Development-case constants, equations, parameters, or conclusions entered the formal Skill.
+- Preserved the blocked RC2 answer-sealed first run in an independent remotely verified commit,
+  then completed a clean six-Run 2020 A Development regression through the 14-stage handoff.
+- Re-executed the preserved 2023 C statistical pipeline under RC3 and reproduced its RC2 input,
+  output, decision and selected-model evidence; executor, seal-run, Claim/handoff and STALE
+  semantics remain intact.
+- Completed mechanistic Stress A/B/C for reversible units/time conversion, shuffled equivalent
+  segments, and degraded noisy observations. All three reached `READY_FOR_PAPER_HANDOFF`; each
+  changed binding propagated `STALE`, and degraded observations reduced reported parameter
+  precision.
+- Froze RC3 commit/tree for the separate answer-sealed one-shot Validation phase. Two Development
+  cases do not establish Validation, external validity, production fitness, or generalization.
+
 ## 0.3.0-competition-rc2 — 2026-09-04
 
 - Upgraded the sole formal Skill to `0.2.0-competition-rc2` while preserving one discoverable

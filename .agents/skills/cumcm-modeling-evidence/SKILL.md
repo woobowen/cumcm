@@ -5,7 +5,7 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc2`
+Version: `0.2.0-competition-rc3`
 
 Capability: `COMPETITION_RC`
 
@@ -63,7 +63,7 @@ Assurance: `PUBLIC_DETERMINISTIC_TWO_END_TO_END_SMOKES_AND_CAPTURED_CASE_EXECUTI
 
 `init` 创建 `problem/ research/ data/{raw,processed}/ models/ experiments/ runs/ results/ evidence/ handoff/ state/`，以及根级 `case_state.json`。模板在 `templates/`；不能另建冲突 schema。
 
-集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、`execute`、`seal-run`、`manifest`、`claim-check`、`compare-check`、`stale-check`、`finalize`、`handoff`、`smoke`。`execute` 只运行实验计划中已冻结、与 Git blob 一致的 case-local Python 文件，自动捕获起止时间、exit、stdout/stderr/output hash；`seal-run` 重验 capture 后才写 manifest，调用方不得手填 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
+集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、`execute`、`seal-run`、`manifest`、`claim-check`、`compare-check`、`stale-check`、`finalize`、`handoff`、`smoke`。`execute` 只运行实验计划中已冻结、与 Git blob 一致的 case-local Python 文件，自动捕获起止时间、exit、stdout/stderr/output hash；任何非零 exit 都必须带显式 failure reason，即使程序已写出诊断 output，也应保留并允许 `seal-run` 形成 FAILED manifest。`seal-run` 重验 capture 后才写 manifest，调用方不得手填 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
 
 ## 四个角色
 

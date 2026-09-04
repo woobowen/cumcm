@@ -1,0 +1,132 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "case_id": "CUMCM-2020-A-DEVELOPMENT-002",
+  "case_state_sha256": "0d839d575a72b2589db5cb2f7bce28eda610ee4c75988385c7f2f0fbe8c54d0b",
+  "code": {
+    "commit": "8af7c482b4dacffa5af4803be190536935cc201f",
+    "repository_path": "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/development_regression/code/mechanistic_model.py",
+    "sha256": "da54e708bdb3cc6967a37814640222a3d012b96ca295cb97d50a76874bc39489"
+  },
+  "decision_hash": "93c8f0f97e425d9a18d9589f42fa9097d2a51393fef9f99b78cba5915c4a0f68",
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "final_metrics": {
+    "q2_maximum_feasible_speed_cm_per_min": 67.79449749,
+    "q3_area_above_217_c_s": 704.47625846,
+    "q4_symmetry_rmse_c": 6.30290679,
+    "validation_rmse_c": 5.80972512
+  },
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "handoff": {
+    "claim_count": 6,
+    "contract": "modeling-to-paper/v1",
+    "sha256": "2f90b95a12c99c750ed3968e6f12e585c962f1225709de7da47e853dd7f1b55a",
+    "status": "PASS"
+  },
+  "input_hashes": {
+    "data/raw/case_files/result.csv": "2b995aa4a1f3e24ff0e88755ab56091bb68b8bebbaa473c884ab01963e521137",
+    "data/raw/case_files/附件.xlsx": "fc42c478d1b37796de5157125d9ea9e33c75d29ba7d7af9885b340fd41ab1e7c",
+    "problem/case_files/2020A-炉温曲线.docx": "5c8023b4e2b3c4ca81790c58ba69d56f0f39afe6bc5598d4aa5c0d9be8d0d386"
+  },
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "numerical_validation": {
+    "coarse_step_s": 0.5,
+    "fine_step_s": 0.125,
+    "local_global_boundary": "SEEDED_BOUNDED_SEARCH_NO_GLOBAL_OPTIMUM_CERTIFICATE",
+    "maximum_absolute_temperature_difference_c": 0.55413808,
+    "refinement_threshold_c": 0.75,
+    "rmse_temperature_difference_c": 0.15914949,
+    "solver_status": "PASS_EXACT_EXPONENTIAL_AND_BOUNDED_LEAST_SQUARES"
+  },
+  "overfit_assessment": "REFERENCE_OVERFIT_NOT_OBSERVED_BUT_CANNOT_BE_PROVED_ABSENT;NO_REFERENCE_BODY_WAS_ACCESSED",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_FIRST_ORDER",
+      "capture_sha256": "58a9b71bf7fcb64a5bd3a73e222838909ded20a2f060237814ba35df0decf58d",
+      "elapsed_seconds": 1.356829,
+      "exit_code": 0,
+      "manifest_sha256": "7f3c3c22a4ba68b2df4a10d28ec8e79648ebf86d2fb4ff83785918e7c10bdcd8",
+      "outcome": "SUCCESS",
+      "output_sha256": "5d1dee9de42f668ec598b41f787e559d9e00fbb30aac06e76adece654089382b",
+      "run_id": "RUN-RC3-V2-BASELINE_FIRST_ORDER-20260904",
+      "seed": 20260904,
+      "selection_score": 1000027.8673994
+    },
+    {
+      "candidate_id": "BASELINE_FIRST_ORDER",
+      "capture_sha256": "988b1db07c0d5708a94ef2d45aba22233f2083384d23c5325e2d20c1ddd3724b",
+      "elapsed_seconds": 1.33649,
+      "exit_code": 0,
+      "manifest_sha256": "7334b272b5a991a2d6c9ec2fb865b20bb613f40557f9d5787fd08d9b84733451",
+      "outcome": "SUCCESS",
+      "output_sha256": "e8029d7d4c7d5daa6bd559b33f3f6964a4134805360c3fed43a9f0dd5d4c475b",
+      "run_id": "RUN-RC3-V2-BASELINE_FIRST_ORDER-20260905",
+      "seed": 20260905,
+      "selection_score": 1000027.8673994
+    },
+    {
+      "candidate_id": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+      "capture_sha256": "41054f8a5ff0d34c725d3b09cdfa1c57157035216cb24d6aab32c1107cc9d20a",
+      "elapsed_seconds": 1.548464,
+      "exit_code": 0,
+      "manifest_sha256": "f5e6ad544497b24160da70c9f618b775fce1518f76b4a07858864abdca4ce467",
+      "outcome": "SUCCESS",
+      "output_sha256": "71083fa593a0731c4062aedfe97570315f9ee054a0a9b40d0c27c54f1bf1463d",
+      "run_id": "RUN-RC3-V2-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260904",
+      "seed": 20260904,
+      "selection_score": 5.80972512
+    },
+    {
+      "candidate_id": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+      "capture_sha256": "73498fb57e44525efc07fb7ee0a301da3093c363cf4c23879e74d5db3ce1bc76",
+      "elapsed_seconds": 1.589185,
+      "exit_code": 0,
+      "manifest_sha256": "5e729959aac6aa256e7480e2fdfebb6b1b0a529a98d207a81f5acbad51cea4b5",
+      "outcome": "SUCCESS",
+      "output_sha256": "db888ce6cec98cb96d413ee365cf3bb857a5eacae6e4139c19d6e9aa0ed40df7",
+      "run_id": "RUN-RC3-V2-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260905",
+      "seed": 20260905,
+      "selection_score": 5.80972512
+    },
+    {
+      "candidate_id": "CONTROL_TWO_NODE",
+      "capture_sha256": "0a3005d234f079e6b197ba36d7731610b27d792d8d38bcd99c4bbe59d039aa38",
+      "elapsed_seconds": 7.217955,
+      "exit_code": 0,
+      "manifest_sha256": "05140d3e079965b25a25e61b060926ff8c062069bc18fc3169cdde6a80648c74",
+      "outcome": "SUCCESS",
+      "output_sha256": "10417c23fe34742b975c14b333630bbf53019d97e05d4e86fb1635bd807afc5b",
+      "run_id": "RUN-RC3-V2-CONTROL_TWO_NODE-20260904",
+      "seed": 20260904,
+      "selection_score": 1000020.70603219
+    },
+    {
+      "candidate_id": "CONTROL_TWO_NODE",
+      "capture_sha256": "eefb487bc69d292054460fa57d38d8c41598fc15ef56e207f5b6efeb73c00706",
+      "elapsed_seconds": 7.722985,
+      "exit_code": 0,
+      "manifest_sha256": "4ce6b3e368f01904f1fe00b8f4de36223b4880299b864f229602d0120dd39b27",
+      "outcome": "SUCCESS",
+      "output_sha256": "2ff7655f7f0508f7090144d880ca8645aa3728267f99a5cb116c518f301ec099",
+      "run_id": "RUN-RC3-V2-CONTROL_TWO_NODE-20260905",
+      "seed": 20260905,
+      "selection_score": 1000020.70603219
+    }
+  ],
+  "schema_version": "1.0.0",
+  "scientific_validity": {
+    "calibrated_parameters": [52.50000000000021, 171.0458515027588],
+    "constraint_feasibility": "PASS_SELECTED_RUN_ONLY",
+    "external_validity": "NOT_ESTABLISHED",
+    "identifiability": "LIMITED_ONE_PARAMETER_AT_LOWER_BOUND",
+    "selected_run": "RUN-RC3-V2-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260904",
+    "training_rmse_c": 5.839182108,
+    "validation_rmse_c": 5.809725115
+  },
+  "selected_model": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+  "skill": {
+    "commit": "8a2a813ff34d8c2701c64ff9d959848e7b88c27c",
+    "git_tree": "a4551c8aa0b6b119823f6ce9df3f0f948339bb33",
+    "runner_sha256": "1cdeeb04219e91dddf73eeb730782e31bef6a669061d2873137ad181b6a86f06",
+    "version": "0.2.0-competition-rc3"
+  }
+}

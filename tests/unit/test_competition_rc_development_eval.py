@@ -58,11 +58,28 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     ready = {
         "technical_adjudication_status": "COMPETITION_SKILL_RC_READY",
         "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
-        "active_skill_version": "0.2.0-competition-rc2",
+        "active_skill_version": start.SKILL_VERSION,
         "competition_rc1": {"integration_audit": {"status": "PASS"}},
     }
     project_state.write_text(json.dumps(ready) + "\n", encoding="utf-8")
     start.require_competition_rc_ready(project_state)
+
+    cross_type_ready = json.loads(json.dumps(ready))
+    cross_type_ready.update(
+        {
+            "phase": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+            "technical_adjudication_status": "DEVELOPMENT_EVAL_RC2_READY",
+            "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004-B",
+        }
+    )
+    project_state.write_text(json.dumps(cross_type_ready) + "\n", encoding="utf-8")
+    start.require_competition_rc_ready(project_state)
+
+    wrong_route = json.loads(json.dumps(cross_type_ready))
+    wrong_route["next_phase_allowed"] = "PHASE-SKILL-VALIDATION-EVAL-004-C"
+    project_state.write_text(json.dumps(wrong_route) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"):
+        start.require_competition_rc_ready(project_state)
 
     for wrong_type in ([], True, "PASS", 0):
         wrong = json.loads(json.dumps(ready))
@@ -112,10 +129,13 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     registry = yaml.safe_load(
         (repo_root / "benchmarks/case_registry.yaml").read_text(encoding="utf-8")
     )
-    assert len(registry["cases"]) == 1
+    assert len(registry["cases"]) == 2
     assert registry["cases"][0]["case_id"] == "CUMCM-2023-C-DEVELOPMENT-001"
     assert registry["cases"][0]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
     assert registry["cases"][0]["first_run_status"] == "FROZEN"
+    assert registry["cases"][1]["case_id"] == "CUMCM-2020-A-DEVELOPMENT-002"
+    assert registry["cases"][1]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
+    assert registry["cases"][1]["first_run_status"] == "FROZEN"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",
@@ -180,11 +200,18 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
         str(case_root),
     )
     started = command(repo_root, "start_skill_development_eval.py", *arguments)
+    state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+        assert started.returncode == 3
+        assert json.loads(started.stdout)["reason_codes"] == [
+            "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+        ]
+        return
     assert started.returncode == 0, started.stdout + started.stderr
     record = yaml.safe_load(registry.read_text(encoding="utf-8"))["cases"][0]
     assert record["answer_access_status"] == "SEALED"
     assert record["first_run_status"] == "IN_PROGRESS"
-    assert record["skill_version"] == "0.2.0-competition-rc2"
+    assert record["skill_version"] == "0.2.0-competition-rc3"
     assert (case_root / "case_state.json").is_file()
     duplicate = command(repo_root, "start_skill_development_eval.py", *arguments)
     assert duplicate.returncode == 3
@@ -225,6 +252,13 @@ def test_start_rejects_nonexistent_skill_commit(repo_root: Path, tmp_path: Path)
         str(case_root),
     )
 
+    state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+        assert rejected.returncode == 3
+        assert json.loads(rejected.stdout)["reason_codes"] == [
+            "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+        ]
+        return
     assert rejected.returncode == 3
     assert json.loads(rejected.stdout)["reason_codes"] == ["SKILL_COMMIT_NOT_FOUND"]
     assert yaml.safe_load(registry.read_text(encoding="utf-8"))["cases"] == []
@@ -283,6 +317,13 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "--case-kind",
         "prediction",
     )
+    state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+        assert started.returncode == 3
+        assert json.loads(started.stdout)["reason_codes"] == [
+            "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+        ]
+        return
     assert started.returncode == 0, started.stdout + started.stderr
     smoke = subprocess.run(
         [
@@ -379,6 +420,35 @@ def test_blocked_freeze_requires_failure_evidence_and_writes_no_fake_run(
     hashes = freeze.evidence_hashes(case_root, blocked=True)
     assert set(hashes) == set(freeze.REQUIRED_BLOCKED_EVIDENCE)
     assert not list(case_root.glob("runs/*/manifest.json"))
+
+
+def test_freeze_separates_skill_commit_from_case_execution_commit(repo_root: Path) -> None:
+    freeze = load_script(repo_root, "freeze_skill_first_run.py")
+    core = freeze.load_core()
+    skill_commit = "1d842a45403370916ce2c36297876e9cd1ddde1f"
+    runner_path = ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+    runner_sha256 = core.git_blob_hash(skill_commit, runner_path)
+    manifest = {
+        "code_commit": head_commit(repo_root),
+        "code_files": [
+            {
+                "scope": "SKILL_ROOT",
+                "path": "scripts/cumcm_case.py",
+                "repository_path": runner_path,
+                "sha256": runner_sha256,
+            },
+            {
+                "scope": "CASE_ROOT",
+                "path": "models/case_model.py",
+                "repository_path": "case/code.py",
+                "sha256": "a" * 64,
+            },
+        ],
+    }
+    freeze.validate_manifest_skill_binding(core, {"skill_commit": skill_commit}, manifest)
+    manifest["code_files"][0]["sha256"] = "b" * 64
+    with pytest.raises(ValueError, match="RUN_SKILL_COMMIT_MISMATCH"):
+        freeze.validate_manifest_skill_binding(core, {"skill_commit": skill_commit}, manifest)
 
 
 def test_unlock_rejects_unverified_remote_freeze(repo_root: Path, tmp_path: Path) -> None:

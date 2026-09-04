@@ -15,10 +15,11 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 K1 = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
 SKILL_VERSION = "0.2.0-competition-rc1"
-ACTIVE_SKILL_VERSIONS = {SKILL_VERSION, "0.2.0-competition-rc2"}
+ACTIVE_SKILL_VERSIONS = {SKILL_VERSION, "0.2.0-competition-rc2", "0.2.0-competition-rc3"}
 DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
     "DEVELOPMENT_EVAL_RC2_READY",
+    "DEVELOPMENT_EVAL_RC3_READY",
     "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
     "DEVELOPMENT_EVAL_INCOMPLETE",
 }
@@ -106,6 +107,10 @@ def evaluate() -> dict[str, Any]:
             "CUMCM-2023-C-POST-FREEZE-DIAGNOSIS",
             "CUMCM-2023-C-RC2-DEVELOPMENT-REGRESSION",
             "CUMCM-2023-C-DEVELOPMENT-RC2",
+            "CUMCM-2020-A-DEVELOPMENT-FIRST-RUN",
+            "CUMCM-2020-A-POST-FREEZE-DIAGNOSIS",
+            "CUMCM-2020-A-RC3-DEVELOPMENT-REGRESSION",
+            "CUMCM-2020-A-DEVELOPMENT-RC3",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES},
@@ -121,6 +126,10 @@ def evaluate() -> dict[str, Any]:
         or (
             state.get("technical_adjudication_status") == "DEVELOPMENT_EVAL_RC2_READY"
             and state.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+        )
+        or (
+            state.get("technical_adjudication_status") == "DEVELOPMENT_EVAL_RC3_READY"
+            and state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C"
         )
         or (
             state.get("technical_adjudication_status")
@@ -190,7 +199,7 @@ def evaluate() -> dict[str, Any]:
         ),
         "project_version_relationship": (
             (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-            in {"0.3.0-competition-rc1", "0.3.0-competition-rc2"}
+            in {"0.3.0-competition-rc1", "0.3.0-competition-rc2", "0.3.0-competition-rc3"}
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),
     }
@@ -204,13 +213,23 @@ def evaluate() -> dict[str, Any]:
     )
     registry = yaml.safe_load((ROOT / "benchmarks/case_registry.yaml").read_text(encoding="utf-8"))
     cases = registry.get("cases", [])
+    cases_by_id = (
+        {case.get("case_id"): case for case in cases if isinstance(case, dict)}
+        if isinstance(cases, list)
+        else {}
+    )
+    first_case = cases_by_id.get("CUMCM-2023-C-DEVELOPMENT-001", {})
+    second_case = cases_by_id.get("CUMCM-2020-A-DEVELOPMENT-002", {})
     checks["development_registry_answer_sealed_case"] = (
         isinstance(cases, list)
-        and len(cases) == 1
-        and cases[0].get("case_id") == "CUMCM-2023-C-DEVELOPMENT-001"
-        and cases[0].get("set_type") == "DEVELOPMENT"
-        and cases[0].get("answer_access_status") in {"SEALED", "UNLOCKED_AFTER_FIRST_RUN"}
-        and cases[0].get("skill_version") == SKILL_VERSION
+        and len(cases) == 2
+        and first_case.get("set_type") == "DEVELOPMENT"
+        and first_case.get("answer_access_status") == "UNLOCKED_AFTER_FIRST_RUN"
+        and first_case.get("skill_version") == SKILL_VERSION
+        and second_case.get("set_type") == "DEVELOPMENT"
+        and second_case.get("answer_access_status") == "UNLOCKED_AFTER_FIRST_RUN"
+        and second_case.get("first_run_status") == "FROZEN"
+        and second_case.get("skill_version") == "0.2.0-competition-rc2"
     )
     failed = sorted(name for name, value in checks.items() if not value)
     return {
