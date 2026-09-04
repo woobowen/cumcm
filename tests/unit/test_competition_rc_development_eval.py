@@ -104,7 +104,9 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     registry = yaml.safe_load(
         (repo_root / "benchmarks/case_registry.yaml").read_text(encoding="utf-8")
     )
-    assert registry["cases"] == []
+    assert len(registry["cases"]) == 1
+    assert registry["cases"][0]["case_id"] == "CUMCM-2023-C-DEVELOPMENT-001"
+    assert registry["cases"][0]["answer_access_status"] == "SEALED"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",
@@ -134,6 +136,9 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
 def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_path: Path) -> None:
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+    isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+    isolated["cases"] = []
+    registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
     case_root = tmp_path / "case"
     problem = case_root / "problem/original.md"
     data = case_root / "data/raw/input.dat"
@@ -180,6 +185,9 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
 def test_start_rejects_nonexistent_skill_commit(repo_root: Path, tmp_path: Path) -> None:
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+    isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+    isolated["cases"] = []
+    registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
     case_root = tmp_path / "case"
     problem = case_root / "problem/original.md"
     problem.parent.mkdir(parents=True)
@@ -218,6 +226,9 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
 ) -> None:
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+    isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+    isolated["cases"] = []
+    registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
     case_root = tmp_path / "case"
     problem = case_root / "problem/original.md"
     raw = case_root / "data/raw/prediction_rows.json"

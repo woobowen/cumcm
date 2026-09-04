@@ -1,33 +1,84 @@
 schema_version: 1.0.0
 purpose: PHASE_SKILL_DEVELOPMENT_EVAL_004
 allowed_set_types:
-  - DEVELOPMENT
-  - VALIDATION
-  - HELD_OUT
-  - STRESS
+- DEVELOPMENT
+- VALIDATION
+- HELD_OUT
+- STRESS
 allowed_answer_access_statuses:
-  - SEALED
-  - UNLOCKED_AFTER_FIRST_RUN
-  - PERMANENTLY_DEVELOPMENT
+- SEALED
+- UNLOCKED_AFTER_FIRST_RUN
+- PERMANENTLY_DEVELOPMENT
 allowed_first_run_statuses:
-  - NOT_STARTED
-  - IN_PROGRESS
-  - FROZEN
+- NOT_STARTED
+- IN_PROGRESS
+- FROZEN
 required_case_fields:
-  - case_id
-  - set_type
-  - problem_source
-  - problem_hash
-  - data_hashes
-  - answer_access_status
-  - first_run_status
-  - skill_version
-  - skill_commit
-  - model
-  - reasoning
-  - start_time
-  - freeze_time
-  - unlock_time
-  - generalizable_failures
-  - problem_specific_findings
-cases: []
+- case_id
+- set_type
+- problem_source
+- problem_hash
+- data_hashes
+- answer_access_status
+- first_run_status
+- skill_version
+- skill_commit
+- model
+- reasoning
+- start_time
+- freeze_time
+- unlock_time
+- generalizable_failures
+- problem_specific_findings
+cases:
+- case_id: CUMCM-2023-C-DEVELOPMENT-001
+  set_type: DEVELOPMENT
+  official_title: 2023 年全国大学生数学建模竞赛 C 题《蔬菜类商品的自动定价与补货决策》
+  problem_source: raw/case_files/C题.pdf
+  problem_source_domain: mcm.edu.cn
+  problem_source_url_sha256: a4cab68ac0ff194ac0d289ae43b278cd4f3e5740355ca5b54873d580ff0f93d2
+  official_package_sha256: 37b1010672adcf35831e798264cc69db616027f2287cfeae3c4ee6daf03ae4e6
+  problem_hash: f94818a4f1d84d2aaad2bcbfeb4a7047335a54dccc3a5a632ac2264bcf3d89e5
+  data_hashes:
+    raw/case_files/附件1.xlsx: 311bcf788c9131f88064e1ceb1c2f56496af6a390c7940029ae89e3967433bd7
+    raw/case_files/附件2.xlsx: d10ad4125a37a0a335d1f3a3932caaa386367ccf9452cfbf9e280d65817a0d5b
+    raw/case_files/附件3.xlsx: 3a383a51148c8d94afdd1a4a395a88d14dc06a507f4120185066fae92d1405e9
+    raw/case_files/附件4.xlsx: d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c
+  answer_access_status: SEALED
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  first_run_status: IN_PROGRESS
+  first_run_freeze: null
+  unlock_status: LOCKED
+  skill_version: 0.2.0-competition-rc1
+  skill_commit: a93a96d79890f6774552dc5ff333f833099edf83
+  model: gpt-5-codex
+  reasoning: UNKNOWN
+  start_time: '2026-09-04T05:51:52Z'
+  freeze_time: null
+  unlock_time: null
+  generalizable_failures: []
+  problem_specific_findings: []
+  raw_storage: PRIVATE_IGNORED_CACHE_NON_VAULT
+  acquired_at: '2026-09-04T13:52:03+08:00'
+  license_or_redistribution: OFFICIAL_PUBLIC_DOWNLOAD_REDISTRIBUTION_NOT_ESTABLISHED
+  input_metadata:
+  - filename: C题.pdf
+    size_bytes: 361842
+    media_type: application/pdf
+    sha256: f94818a4f1d84d2aaad2bcbfeb4a7047335a54dccc3a5a632ac2264bcf3d89e5
+  - filename: 附件1.xlsx
+    size_bytes: 17803
+    media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    sha256: 311bcf788c9131f88064e1ceb1c2f56496af6a390c7940029ae89e3967433bd7
+  - filename: 附件2.xlsx
+    size_bytes: 39150980
+    media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    sha256: d10ad4125a37a0a335d1f3a3932caaa386367ccf9452cfbf9e280d65817a0d5b
+  - filename: 附件3.xlsx
+    size_bytes: 1150765
+    media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    sha256: 3a383a51148c8d94afdd1a4a395a88d14dc06a507f4120185066fae92d1405e9
+  - filename: 附件4.xlsx
+    size_bytes: 18678
+    media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    sha256: d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c

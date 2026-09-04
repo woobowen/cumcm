@@ -125,6 +125,36 @@ For RC1, `COMPETITION_SKILL_RC_READY` permits only
 `PHASE-SKILL-DEVELOPMENT-EVAL-004`. Full R3 sealed Stage 1/Stage 2, ablation, external validity,
 production fitness, and monetary cost remain `DEFERRED_NOT_PASSED`.
 
+## Phase 004 answer-sealed Development route
+
+`COMPETITION_SKILL_RC_READY → DEVELOPMENT_FIRST_RUN_IN_PROGRESS` requires a clean non-main task
+branch based on the merged RC commit, one discoverable formal Skill, passing baseline CI, an empty
+or non-conflicting Development registry entry, official/hash-bound immutable problem inputs, and
+`answer_access_status=SEALED`. The case binds the RC Skill commit/tree, model and reasoning
+visibility, search policy, scoring rubric, time budget, and private workspace before modeling.
+
+The first run follows the 14 contest-run stages without modifying the formal Skill. Success,
+partial progress, deterministic rejection, STALE, and bounded execution failure are all freezeable
+outcomes; failed Runs remain evidence. Any answer access before a verified first-run freeze yields
+`FIRST_RUN_CONTAMINATION_SUSPECTED`. Unsafe official-input acquisition yields
+`OFFICIAL_INPUTS_REQUIRED`. Infrastructure that prevents an honest run yields
+`INFRASTRUCTURE_BLOCKED`; none of these labels authorize fabricated execution.
+
+Only an independently committed first-run freeze whose remote SHA matches may change the answer
+state to `UNLOCKED_AFTER_FIRST_RUN`. Post-unlock review separates generalizable Skill failures from
+knowledge, search, data-engineering, modeling, experiment, evidence, efficiency, problem-specific,
+and reference-disagreement findings. At most two major Skill revisions are allowed. A revision must
+be supported by first-run evidence, expressible without this case's identifiers/fields/values, and
+must preserve the synthetic smokes, negative matrix, one-Skill invariant, and deterministic state
+truth.
+
+An accepted revision may terminate at `DEVELOPMENT_EVAL_RC2_READY` only after same-case
+`DEVELOPMENT_REGRESSION`, Stress A/B/C, full CI, leakage/secrets/consistency checks, and remote
+delivery. No accepted generic change terminates at `DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE`.
+Unresolved core work after the revision cap terminates at `DEVELOPMENT_EVAL_INCOMPLETE`. Successful
+completion may route only to `PHASE-SKILL-DEVELOPMENT-EVAL-004-B`, using a structurally different
+answer-sealed Development problem; this case never becomes Validation or Held-out evidence.
+
 ## Contest-run lifecycle
 
 The formal RC case state is:

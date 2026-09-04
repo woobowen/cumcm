@@ -121,16 +121,26 @@ def iso_time(value: str | None) -> str:
     return value
 
 
-def require_competition_rc_ready(path: Path) -> None:
+def require_competition_rc_ready(path: Path, *, allow_active_eval: bool = False) -> None:
     value = json.loads(path.read_text(encoding="utf-8"))
     competition = value.get("competition_rc1") if isinstance(value, dict) else None
     integration_audit = (
         competition.get("integration_audit") if isinstance(competition, dict) else None
     )
+    ready_to_start = (
+        isinstance(value, dict)
+        and value.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
+        and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+    )
+    isolated_test_during_active_eval = (
+        allow_active_eval
+        and isinstance(value, dict)
+        and value.get("technical_adjudication_status") == "DEVELOPMENT_FIRST_RUN_IN_PROGRESS"
+        and value.get("next_phase_allowed") is None
+    )
     if (
         not isinstance(value, dict)
-        or value.get("technical_adjudication_status") != "COMPETITION_SKILL_RC_READY"
-        or value.get("next_phase_allowed") != "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        or not (ready_to_start or isolated_test_during_active_eval)
         or value.get("active_skill_version") != SKILL_VERSION
         or not isinstance(competition, dict)
         or not isinstance(integration_audit, dict)
@@ -140,7 +150,10 @@ def require_competition_rc_ready(path: Path) -> None:
 
 
 def register(args: argparse.Namespace) -> dict[str, Any]:
-    require_competition_rc_ready(DEFAULT_PROJECT_STATE)
+    require_competition_rc_ready(
+        DEFAULT_PROJECT_STATE,
+        allow_active_eval=args.registry.resolve() != DEFAULT_REGISTRY.resolve(),
+    )
     registry = read_registry(args.registry)
     if args.set_type not in ALLOWED_SET_TYPES:
         raise ValueError("SET_TYPE_INVALID")

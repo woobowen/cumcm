@@ -93,9 +93,34 @@
     "third_party_executions": 0
   },
   "content_verified_commit": null,
-  "current_branch": "feat/phase002d-r3-shadow-validation",
-  "current_plan": "plans/active/PLAN-0002D-R3-shadow-prototype-validation.md",
+  "current_branch": "feat/phase004-development-eval-2023c",
+  "current_plan": "plans/active/PLAN-0004A-2023c-development-eval.md",
   "delivery_receipt_for_commit": null,
+  "development_eval": {
+    "answer_access_status": "SEALED",
+    "case_id": "CUMCM-2023-C-DEVELOPMENT-001",
+    "data_hashes": {
+      "raw/case_files/附件1.xlsx": "311bcf788c9131f88064e1ceb1c2f56496af6a390c7940029ae89e3967433bd7",
+      "raw/case_files/附件2.xlsx": "d10ad4125a37a0a335d1f3a3932caaa386367ccf9452cfbf9e280d65817a0d5b",
+      "raw/case_files/附件3.xlsx": "3a383a51148c8d94afdd1a4a395a88d14dc06a507f4120185066fae92d1405e9",
+      "raw/case_files/附件4.xlsx": "d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c"
+    },
+    "first_run_freeze_status": "NOT_RUN",
+    "first_run_status": "IN_PROGRESS",
+    "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+    "problem_hash": "f94818a4f1d84d2aaad2bcbfeb4a7047335a54dccc3a5a632ac2264bcf3d89e5",
+    "revision_cycles_used": 0,
+    "search_log_path": "research/pre_freeze_search_log.jsonl",
+    "set_type": "DEVELOPMENT",
+    "skill_start_commit": "a93a96d79890f6774552dc5ff333f833099edf83",
+    "skill_start_tree_hash": "49d499ab0e063a2cf72a780c89ee969a696fb02e",
+    "stress_statuses": {
+      "A": "NOT_RUN",
+      "B": "NOT_RUN",
+      "C": "NOT_RUN"
+    },
+    "unlock_status": "LOCKED"
+  },
   "evidence_expansion": {
     "attempts": 28,
     "balanced_cases": [
@@ -140,8 +165,8 @@
     "transport_profile": "PROXY_INHERITED",
     "unknown_slots": 0
   },
-  "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
-  "phase": "PHASE-SKILL-INTEGRATION-003",
+  "next_phase_allowed": null,
+  "phase": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
   "project_id": "cumcm-skill-lab",
   "risks": [
     "Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.",
@@ -167,6 +192,9 @@
     "Competition RC1 assurance is limited to unchanged public deterministic Gates and two project-original end-to-end smoke cases.",
     "Full sealed Stage 1, Stage 2 model comparison, full ablation, external validity, production fitness, and monetary cost remain deferred and not passed.",
     "Trusted execution-code capture is fixed to the bundled deterministic runner; caller-supplied custom executors are outside RC1 assurance."
+    ,
+    "This Development case cannot establish Validation, Held-out, or single-problem generalization evidence; model prior exposure is unverifiable.",
+    "The current runtime exposes no exact reasoning-effort identifier, so the first-run binding records reasoning as UNKNOWN."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
@@ -224,11 +252,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
+  "subphase": "CUMCM-2023-C-DEVELOPMENT-FIRST-RUN",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "COMPETITION_SKILL_RC_READY",
+  "technical_adjudication_status": "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
   "third_party_integrated": false,
-  "updated_at": "2026-09-04T11:33:19+08:00",
+  "updated_at": "2026-09-04T13:52:03+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
