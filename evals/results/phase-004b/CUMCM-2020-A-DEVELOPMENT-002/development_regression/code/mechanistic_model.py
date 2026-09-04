@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -64,17 +65,35 @@ REQUIREMENT_CLAIMS = {
         "reports explicit feasibility residuals."
     ),
 }
+VARIANT_CONFIG: dict[str, Any] = {}
+
+
+def load_variant_config(case_root: Path) -> dict[str, Any]:
+    path = case_root / "data/raw/case_files/variant_config.json"
+    if not path.is_file():
+        return {"variant_id": "ORIGINAL_DEVELOPMENT_REGRESSION"}
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or not isinstance(value.get("variant_id"), str):
+        raise ValueError("VARIANT_CONFIG_INVALID")
+    value["config_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return value
 
 
 def load_measurements(case_root: Path) -> tuple[np.ndarray, np.ndarray]:
+    filename = str(VARIANT_CONFIG.get("measurement_filename", "附件.xlsx"))
     workbook = load_workbook(
-        case_root / "data/raw/case_files/附件.xlsx", read_only=True, data_only=True
+        case_root / "data/raw/case_files" / filename, read_only=True, data_only=True
     )
     sheet = workbook.active
     rows = [row for row in sheet.iter_rows(min_row=2, values_only=True) if row[0] is not None]
-    time_s = np.asarray([float(row[0]) for row in rows], dtype=float)
+    time_s = np.asarray([float(row[0]) for row in rows], dtype=float) * float(
+        VARIANT_CONFIG.get("time_to_seconds", 1.0)
+    )
     temperature_c = np.asarray([float(row[1]) for row in rows], dtype=float)
-    if len(time_s) != 709 or not np.all(np.diff(time_s) > 0):
+    temperature_c = temperature_c * float(
+        VARIANT_CONFIG.get("temperature_scale_to_celsius", 1.0)
+    ) + float(VARIANT_CONFIG.get("temperature_offset_to_celsius", 0.0))
+    if len(time_s) < 680 or not np.all(np.diff(time_s) > 0):
         raise ValueError("MEASUREMENT_SCHEMA_INVALID")
     return time_s, temperature_c
 
@@ -90,6 +109,31 @@ def zone_centers_cm() -> np.ndarray:
 
 
 def environment_temperature(position_cm: np.ndarray, settings_c: list[float]) -> np.ndarray:
+    segments = VARIANT_CONFIG.get("process_segments")
+    if isinstance(segments, list) and segments:
+        temperature_c = np.full_like(position_cm, AMBIENT_C, dtype=float)
+        ordered = sorted(segments, key=lambda item: (item["start_cm"], item["end_cm"]))
+        previous_end = 0.0
+        for segment in ordered:
+            start_cm = float(segment["start_cm"])
+            end_cm = float(segment["end_cm"])
+            if start_cm < previous_end - 1e-9 or end_cm <= start_cm:
+                raise ValueError("PROCESS_SEGMENT_COORDINATES_INVALID")
+            previous_end = end_cm
+            mask = (position_cm >= start_cm) & (position_cm <= end_cm)
+            kind = segment["kind"]
+            if kind == "ambient":
+                temperature_c[mask] = AMBIENT_C
+            elif kind == "zone":
+                temperature_c[mask] = settings_c[int(segment["setting_index"])]
+            elif kind == "gap":
+                left = settings_c[int(segment["left_setting_index"])]
+                right = settings_c[int(segment["right_setting_index"])]
+                fraction = (position_cm[mask] - start_cm) / (end_cm - start_cm)
+                temperature_c[mask] = left + fraction * (right - left)
+            else:
+                raise ValueError("PROCESS_SEGMENT_KIND_INVALID")
+        return temperature_c
     temperature_c = np.full_like(position_cm, AMBIENT_C, dtype=float)
     zone_starts = np.asarray(
         [ENTRY_EXIT_LENGTH_CM + index * (ZONE_LENGTH_CM + GAP_LENGTH_CM) for index in range(11)],
@@ -535,6 +579,8 @@ def numerical_validation(
 
 
 def main() -> int:
+    global VARIANT_CONFIG
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--case-root", required=True)
     parser.add_argument("--candidate-id", choices=sorted(MODEL_IDS), required=True)
@@ -542,10 +588,14 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     case_root = Path(args.case_root)
+    VARIANT_CONFIG = load_variant_config(case_root)
     measured_time_s, measured_temperature_c = load_measurements(case_root)
     parameters, calibration = calibrated_parameters(
         args.candidate_id, measured_time_s, measured_temperature_c
     )
+    if VARIANT_CONFIG.get("observation_degradation"):
+        calibration["parameters"] = [float(f"{value:.4g}") for value in parameters]
+        calibration["reported_parameter_significant_digits"] = 4
     q1 = q1_result(args.candidate_id, parameters)
     q2 = maximum_feasible_speed(args.candidate_id, parameters)
     q3, q4 = constrained_search(args.candidate_id, parameters, args.seed)
@@ -640,6 +690,7 @@ def main() -> int:
         "q2": q2,
         "q3": q3,
         "q4": q4,
+        "variant_metadata": VARIANT_CONFIG,
         "requirement_claims": requirement_claims,
         "robustness_evidence": robustness_evidence,
         "seed": args.seed,
@@ -658,6 +709,10 @@ def main() -> int:
             "held_out_validation_rmse_c": round(calibration["validation_rmse_c"], 8),
             "maximum_time_step_difference_c": numerical["max_abs_temperature_difference_c"],
             "single_board_external_validity": "UNVERIFIED",
+            "observation_degradation": VARIANT_CONFIG.get("observation_degradation", "NONE"),
+            "reported_parameter_significant_digits": calibration.get(
+                "reported_parameter_significant_digits", 8
+            ),
         },
     }
     output_path = case_root / args.output
