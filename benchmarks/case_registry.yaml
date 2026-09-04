@@ -333,10 +333,10 @@ cases:
   answer_access_status: SEALED
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   first_run_freeze:
-    freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001
-    path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.json
-    sha256: d9aae11a12ef1cc51d11889fe2d797b6d07f87b495111f4cac4e129ec58f5a1f
-    subject_commit: 414624deade0c36e898cd325e18728736578aeb8
+    freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.v2.json
+    sha256: 5de34dec79b8b8aa0273b16d6ce0f1d4115178cd9e8410cc241adcaa79c61a87
+    subject_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
   reference_unlock: LOCKED
   formal_skill_version: 0.2.0-competition-rc3
   formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
@@ -423,9 +423,22 @@ cases:
       results/post_selection_test.json: 89063c560ad1f07ac361a2e409b449839de23fa221a6b7d2f1924c867e5df5d8
       results/robustness.json: 7a84fd65b8e0463f7b48c88df8a8ec5d8ef14df26c9b3204cec1d1f693e21b99
       state/development_eval_binding.json: 42c9056277daf3addc54805694f36554f4a5ce076a395ab5fac498f594856748
-    freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001
-    freeze_sha256: d9aae11a12ef1cc51d11889fe2d797b6d07f87b495111f4cac4e129ec58f5a1f
-    worktree_commit: 414624deade0c36e898cd325e18728736578aeb8
+    freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    freeze_sha256: 5de34dec79b8b8aa0273b16d6ce0f1d4115178cd9e8410cc241adcaa79c61a87
+    worktree_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
+    supersedes_freeze:
+      freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001
+      path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.json
+      sha256: d9aae11a12ef1cc51d11889fe2d797b6d07f87b495111f4cac4e129ec58f5a1f
+      commit: cbd8dd9c4d840cc6a92bc98689f03eafef9645dc
+  first_run_freeze_history:
+  - freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.json
+    sha256: d9aae11a12ef1cc51d11889fe2d797b6d07f87b495111f4cac4e129ec58f5a1f
+    subject_commit: 414624deade0c36e898cd325e18728736578aeb8
+    freeze_commit: cbd8dd9c4d840cc6a92bc98689f03eafef9645dc
+    status: SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED
+  first_run_freeze_correction_count: 1
 - case_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002
   set_type: DEVELOPMENT
   registration_status: INPUT_REGISTERED
@@ -437,10 +450,10 @@ cases:
   answer_access_status: SEALED
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   first_run_freeze:
-    freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001
-    path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.json
-    sha256: fcb8b6bc97d5f8c6fb935f410cd1f910ca2f34f38891163d622e5ad11c694426
-    subject_commit: cbd4132848841c099e54322ffbca95df944a1cc2
+    freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.v2.json
+    sha256: a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d
+    subject_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
   reference_unlock: LOCKED
   formal_skill_version: 0.2.0-competition-rc3
   formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
@@ -540,9 +553,22 @@ cases:
       results/model_comparison.json: 1d68ffcddadf3965ac279f17815b252fa36e0d1abeab967ac5d735879a726ab3
       results/robustness.json: 52d93aded9eaa12cba54e97c0c616baf13892cdc885274adf6da98a78f9fd411
       state/development_eval_binding.json: 25ccea757ee2ef4a2b44b6d335b3ae44fbbec059ffc84b96551226a43b8dff80
-    freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001
-    freeze_sha256: fcb8b6bc97d5f8c6fb935f410cd1f910ca2f34f38891163d622e5ad11c694426
-    worktree_commit: cbd4132848841c099e54322ffbca95df944a1cc2
+    freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    freeze_sha256: a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d
+    worktree_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
+    supersedes_freeze:
+      freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001
+      path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.json
+      sha256: fcb8b6bc97d5f8c6fb935f410cd1f910ca2f34f38891163d622e5ad11c694426
+      commit: 2208dff7ab0ee89f7946f3cfb83d399586cc3338
+  first_run_freeze_history:
+  - freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.json
+    sha256: fcb8b6bc97d5f8c6fb935f410cd1f910ca2f34f38891163d622e5ad11c694426
+    subject_commit: cbd4132848841c099e54322ffbca95df944a1cc2
+    freeze_commit: 2208dff7ab0ee89f7946f3cfb83d399586cc3338
+    status: SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED
+  first_run_freeze_correction_count: 1
 - case_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003
   set_type: DEVELOPMENT
   registration_status: INPUT_REGISTERED

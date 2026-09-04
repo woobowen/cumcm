@@ -96,7 +96,7 @@ def validate_freeze(freeze: dict[str, Any], record: dict[str, Any]) -> list[str]
         or freeze.get("case_id") != case_id
         or freeze.get("batch_id") != "C-TARGET-BATCH-001"
         or freeze.get("batch_position") != record.get("batch_position")
-        or freeze.get("batch_skill_version") != "RC3"
+        or freeze.get("batch_skill_version") != FORMAL_SKILL_VERSION
         or freeze.get("set_type") != "DEVELOPMENT"
         or freeze.get("problem_type") != "C"
         or freeze.get("answer_state_at_freeze") != "SEALED"
@@ -178,6 +178,36 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
             errors.append(f"FIRST_RUN_FREEZE_DOCUMENT_INVALID:{case_id}")
             continue
         errors.extend(validate_freeze(freeze, record))
+        history = record.get("first_run_freeze_history", [])
+        supersedes = freeze.get("supersedes_freeze")
+        if history:
+            if (
+                not isinstance(history, list)
+                or len(history) != 1
+                or not isinstance(history[0], dict)
+                or not isinstance(supersedes, dict)
+                or supersedes.get("path") != history[0].get("path")
+                or supersedes.get("sha256") != history[0].get("sha256")
+                or supersedes.get("commit") != history[0].get("freeze_commit")
+                or history[0].get("status") != "SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED"
+            ):
+                errors.append(f"FIRST_RUN_FREEZE_HISTORY_INVALID:{case_id}")
+            else:
+                historical_path = root / str(history[0].get("path"))
+                if not historical_path.is_file() or file_hash(historical_path) != history[0].get(
+                    "sha256"
+                ):
+                    errors.append(f"FIRST_RUN_FREEZE_HISTORY_FILE_DRIFT:{case_id}")
+            correction = freeze.get("metadata_correction", {})
+            if (
+                not isinstance(correction, dict)
+                or correction.get("reason_code") != "RC_BATCH_SKILL_VERSION_SHORT_ALIAS_REJECTED"
+                or correction.get("case_evidence_changed") is not False
+                or correction.get("run_evidence_changed") is not False
+                or correction.get("answer_state_changed") is not False
+                or correction.get("original_freeze_preserved") is not True
+            ):
+                errors.append(f"FIRST_RUN_FREEZE_CORRECTION_INVALID:{case_id}")
         evidence = record.get("first_run_evidence", {})
         if (
             not isinstance(evidence, dict)
