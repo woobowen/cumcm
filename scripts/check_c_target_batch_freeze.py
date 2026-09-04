@@ -177,12 +177,21 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
             )
             if record.get(registry_field) != expected:
                 errors.append(f"BATCH_FREEZE_REGISTRY_DRIFT:{case_id}:{registry_field}")
+    subject = str(freeze.get("subject_commit", ""))
+    if (
+        not HEX40.fullmatch(subject)
+        or git_bytes(root, "cat-file", "-e", f"{subject}^{{commit}}") is None
+    ):
+        errors.append("BATCH_FREEZE_SUBJECT_COMMIT_INVALID")
     input_registration = freeze.get("input_registration", {})
+    input_registration_path = str(input_registration.get("path", ""))
+    input_registration_content = git_bytes(root, "show", f"{subject}:{input_registration_path}")
     if (
         not isinstance(input_registration, dict)
-        or input_registration.get("path")
-        != "evals/results/phase-004c-c-batch/input_registration.json"
-        or file_hash(root / str(input_registration.get("path"))) != input_registration.get("sha256")
+        or input_registration_path != "evals/results/phase-004c-c-batch/input_registration.json"
+        or input_registration_content is None
+        or hashlib.sha256(input_registration_content).hexdigest()
+        != input_registration.get("sha256")
     ):
         errors.append("BATCH_FREEZE_INPUT_REGISTRATION_DRIFT")
     for section, expected_path in (
@@ -190,10 +199,12 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         ("search_policy", "docs/SEARCH_POLICY.md"),
     ):
         record = freeze.get(section, {})
+        content = git_bytes(root, "show", f"{subject}:{expected_path}")
         if (
             not isinstance(record, dict)
             or record.get("path") != expected_path
-            or file_hash(root / expected_path) != record.get("sha256")
+            or content is None
+            or hashlib.sha256(content).hexdigest() != record.get("sha256")
         ):
             errors.append(f"BATCH_FREEZE_{section.upper()}_DRIFT")
     runner = freeze.get("runner", {})
@@ -207,12 +218,6 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         )
         if tree is None or tree.decode().strip() != skill.get("git_tree_sha1"):
             errors.append("BATCH_FREEZE_SKILL_TREE_COMMIT_DRIFT")
-    subject = str(freeze.get("subject_commit", ""))
-    if (
-        not HEX40.fullmatch(subject)
-        or git_bytes(root, "cat-file", "-e", f"{subject}^{{commit}}") is None
-    ):
-        errors.append("BATCH_FREEZE_SUBJECT_COMMIT_INVALID")
     state = load_json(root / STATE_PATH.relative_to(ROOT))
     state_freeze = state.get("batch_pre_run_freeze", {})
     receipt = load_json(root / RECEIPT_PATH.relative_to(ROOT))

@@ -1,0 +1,207 @@
+{
+  "answer_state": "SEALED",
+  "artifact_type": "c_target_validation_pre_run_freeze",
+  "case_id": "CUMCM-2024-C-VALIDATION-001",
+  "case_workspace": {
+    "case_state": "CREATED",
+    "case_state_sha256": "3ff537fd9d5837a23f4b2d16bde0afe5b317f091a270855fa1135ee5e1145cb1",
+    "initial_run_count": 0,
+    "path": ".cache/official_inputs/CUMCM-2024-C/validation_001",
+    "raw_inputs_git_ignored": true
+  },
+  "contamination_status": "NO_KNOWN_SOLUTION_OR_REFERENCE_EXPOSURE",
+  "created_at": "2026-09-05T02:36:56+08:00",
+  "environment": {
+    "dependency_snapshot": {
+      "canonical_sha256": "bfa98a47dda0690b63501ae56f0744ddb378f1ed34a5f65fa776763c84ca9e63",
+      "distribution_count": 35,
+      "normalization": "json({implementation,packages:[[normalized_name,version],...],python},sort_keys=True,separators=(',',':'))"
+    },
+    "interpreter": "CPython",
+    "pyproject_sha256": "640ff756af5a6a3186db8ccbb4b98c15dbd2b7e4104f6bccfaeb878ec130e920",
+    "python": "3.11.14"
+  },
+  "execution_policy": {
+    "all_runs_must_be_actual": true,
+    "answer_must_remain_sealed": true,
+    "baseline_required": true,
+    "failed_runs_retained": true,
+    "formal_skill_mutation": "PROHIBITED",
+    "infeasible_final": "PROHIBITED",
+    "maximum_wall_seconds": 14400,
+    "nonconverged_final": "PROHIBITED",
+    "one_shot": true,
+    "primary_candidate_required": true,
+    "result_driven_manual_repair": "PROHIBITED",
+    "terminal_freeze_forbids_new_validation_runs": true
+  },
+  "formal_skill": {
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "capability": "COMPETITION_RC",
+    "git_tree_sha1": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "name": "cumcm-modeling-evidence",
+    "release_commit": "46e13d31a3d22fe12a2cffe65a52558da3ecfa82",
+    "release_delivery_commit": "df5f6cf925ba3a8556f154446ae2778349f99dac",
+    "version": "0.2.0-competition-rc4"
+  },
+  "freeze_id": "CUMCM-2024-C-VALIDATION-001-PRE-RUN-FREEZE-001",
+  "freeze_payload_sha256": "d1b5456fbf174b01bc9e9b67f6e2fbf7f9894f6de2a54c9632ab2e0f2ddf4c86",
+  "hard_failures": [
+    "MAIN_QUESTION_MISSED",
+    "UNEXECUTED_CODE_CLAIMED_AS_RESULT",
+    "INFEASIBLE_SOLUTION_ACCEPTED",
+    "NONCONVERGED_RUN_ACCEPTED",
+    "RAW_INPUT_OVERWRITTEN",
+    "RESULT_NOT_BOUND_TO_CODE_AND_INPUT",
+    "CLAIM_WITHOUT_EVIDENCE",
+    "REFERENCE_ANSWER_EXPOSED_PRE_FREEZE",
+    "UNCAPTURED_NUMBER_MANUALLY_INSERTED",
+    "FORMAL_SKILL_MUTATED_DURING_VALIDATION",
+    "TERMINAL_FREEZE_FOLLOWED_BY_NEW_VALIDATION_RUN",
+    "OUTPUT_TEMPLATE_STRUCTURALLY_CORRUPTED"
+  ],
+  "input_registration": {
+    "path": "evals/results/phase-004c-c-validation/input_registration.json",
+    "sha256": "fff7e4f2b0dfb913f0ef586eb467f2d1d3ffe1f6b9a14359486e41fd19178c40"
+  },
+  "inputs": [
+    {
+      "path": "raw/case_files/C题.pdf",
+      "role": "PROBLEM",
+      "sha256": "c7b5e58bff4189b8afba5505f7bff7d4f08280fc291c51ef3f46134ebbf74f9a"
+    },
+    {
+      "path": "raw/case_files/附件1.xlsx",
+      "role": "DATA",
+      "sha256": "b799a137294a5c5497fed9667c5dfed6c967f1fb180316c5adc8509cfa6f0932"
+    },
+    {
+      "path": "raw/case_files/附件2.xlsx",
+      "role": "DATA",
+      "sha256": "869081a3ab47d3bf8d0955106b622aaf0fd2c068fada7948da69b20ebf1d00ce"
+    },
+    {
+      "path": "raw/case_files/附件3/result1_1.xlsx",
+      "role": "OUTPUT_TEMPLATE",
+      "sha256": "4f2484c0d70a5c4d047163f2ee6ef486949e813330466f46def4bd7d98af06af"
+    },
+    {
+      "path": "raw/case_files/附件3/result1_2.xlsx",
+      "role": "OUTPUT_TEMPLATE",
+      "sha256": "6166d43f5a64bf9d1657e80d4aee7f10f54bb1a5695b81a28a0ac5e657297649"
+    },
+    {
+      "path": "raw/case_files/附件3/result2.xlsx",
+      "role": "OUTPUT_TEMPLATE",
+      "sha256": "6a1ba9fc28d14d0a4a795e5f0b7261fb6e32165517afee62bcd1931aba5bee8a"
+    }
+  ],
+  "official_archive": {
+    "archive_sha256": "38d9effcede947354f9e9a9c2b4fc68947d83a77c2ff75737e9a662888158726",
+    "archive_url_sha256": "5989711f4f8ea4efc104f3e84904781391adb6f612fc824e4c1c71ddf86b44e0",
+    "official_page_url_sha256": "6c8e9f42a2f61f8b2ee69ee44a4a4860abf85e33d6fb5fbcde6ec1f1cf7ece93",
+    "official_title": "农作物的种植策略"
+  },
+  "pass_requirements": [
+    "FORMAL_SKILL_UNCHANGED",
+    "ANSWER_SEALED_AT_FREEZE_AND_TERMINAL",
+    "ALL_MAIN_PROBLEMS_HAVE_VALID_OUTPUTS",
+    "NO_HARD_FAILURE",
+    "BASELINE_AND_PRIMARY_ACTUALLY_RUN",
+    "FINAL_RUN_FEASIBLE",
+    "OPTIMIZATION_CONSTRAINTS_INDEPENDENTLY_RECOMPUTED",
+    "UNCERTAINTY_OR_SCENARIO_ANALYSIS_COMPLETE",
+    "CLAIM_EVIDENCE_COMPLETE",
+    "HANDOFF_COMPLETE",
+    "TERMINAL_FREEZE_REPLAYABLE",
+    "TIME_BOUND_RESPECTED"
+  ],
+  "reference_access": "LOCKED",
+  "required_stages": [
+    "PROBLEM_INTAKE",
+    "REQUIREMENT_DECOMPOSITION",
+    "RESEARCH_AND_SOURCE_PLANNING",
+    "ASSUMPTION_AND_SYMBOL_DEFINITION",
+    "DATA_AUDIT",
+    "MODEL_PORTFOLIO_GENERATION",
+    "BASELINE_DEFINITION",
+    "EXPERIMENT_DESIGN",
+    "IMPLEMENTATION_AND_EXECUTION",
+    "MODEL_COMPARISON",
+    "ROBUSTNESS_AND_SENSITIVITY",
+    "FINAL_RUN",
+    "CLAIM_EVIDENCE_VALIDATION",
+    "MODELING_TO_PAPER_HANDOFF"
+  ],
+  "rubric": {
+    "metric_count": 25,
+    "path": "evals/rubrics/phase-004c/CUMCM-2024-C-VALIDATION-001.yaml",
+    "result_independent": true,
+    "sha256": "ea0888f741f9d939b983cd63445cb0d09d0ff68be3811a4eaf36b7297a8ffa26"
+  },
+  "runner": {
+    "path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+    "sha256": "2a38546e2bf97250e82f2d02d8dc62890a9f89a790a849dfaace81c42d6309b3"
+  },
+  "schema_version": "1.0.0",
+  "set_type": "VALIDATION",
+  "skill_release": {
+    "delivery_path": "evals/results/phase-004c-c-batch/rc4/release_delivery.json",
+    "delivery_sha256": "a889525b9135c9afc69d8531fba5cfa69210d34d2d4a8a685dcc883f7ef9807a",
+    "manifest_path": "evals/results/phase-004c-c-batch/rc4/skill_release.json",
+    "manifest_sha256": "5073727981944d513a6cd665754ae3d6d5e1a90b2d8580c7a54a71d28ea98a85",
+    "status": "FROZEN_FOR_2024C_ONE_SHOT_VALIDATION"
+  },
+  "subject_commit": "936970391697b1a9362bf59749c96e645812c778",
+  "target_problem_type": "C",
+  "validation_protocol": {
+    "path": "rules/c_target_validation_protocol.yaml",
+    "protocol_id": "C-TARGET-ONE-SHOT-VALIDATION-PROTOCOL-004C",
+    "sha256": "58d04f7ba52c453611d08c8f80cf297c96bf3ae85cb95e94e025dc7b4cf1030a"
+  },
+  "worker_context": {
+    "allowed_inputs": [
+      "FROZEN_FORMAL_SKILL",
+      "THIS_PROTOCOL",
+      "PRE_RUN_VALIDATION_FREEZE",
+      "OFFICIAL_2024_C_PROBLEM_AND_ATTACHMENTS",
+      "NECESSARY_GENERAL_DOMAIN_SOURCES_WITH_LEDGER"
+    ],
+    "forbidden_inputs": [
+      "BATCH_REFERENCE_REVIEWS",
+      "BATCH_POSTMORTEM",
+      "RC4_CHANGE_RATIONALE",
+      "OTHER_PROBLEM_ANSWERS",
+      "2024_C_COMMENTARY",
+      "2024_C_PAPERS",
+      "2024_C_SOLUTIONS",
+      "2024_C_SOLUTION_CODE"
+    ],
+    "formal_state_write": "PROHIBITED",
+    "freshness": "FRESH_NATIVE_SUBAGENT_SESSION",
+    "git_write": "PROHIBITED",
+    "peer_output_access": "PROHIBITED",
+    "skill_write": "PROHIBITED",
+    "write_scope": "OWN_IGNORED_CASE_DIRECTORY_ONLY"
+  },
+  "worker_protocol": {
+    "checkpoint": "PRE_EXECUTION_CODE_GIT_BINDING",
+    "checkpoint_allows_result_access": false,
+    "checkpoint_author": "FRESH_VALIDATION_WORKER",
+    "checkpoint_main_agent_action": "COPY_PRE_RESULT_CODE_TO_TRACKED_VALIDATION_CODE_PATH_COMMIT_PUSH_AND_RETURN_BINDING_ONLY",
+    "checkpoint_maximum_count": 1,
+    "checkpoint_phase_a_stages": [
+      "PROBLEM_INTAKE",
+      "REQUIREMENT_DECOMPOSITION",
+      "RESEARCH_AND_SOURCE_PLANNING",
+      "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "DATA_AUDIT",
+      "MODEL_PORTFOLIO_GENERATION",
+      "BASELINE_DEFINITION",
+      "EXPERIMENT_DESIGN"
+    ],
+    "checkpoint_prohibits_model_execution": true,
+    "same_worker_must_resume": true
+  }
+}
