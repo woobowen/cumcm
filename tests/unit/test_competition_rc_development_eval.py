@@ -81,6 +81,19 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     assert freeze.REASON_CODE.fullmatch("RC_MODEL_FAILED:TIMEOUT")
     assert freeze.REASON_CODE.fullmatch("arbitrary sensitive explanation") is None
 
+    active = json.loads(json.dumps(ready))
+    active.update(
+        {
+            "phase": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+            "technical_adjudication_status": "DEVELOPMENT_EVAL_INCOMPLETE",
+            "next_phase_allowed": None,
+        }
+    )
+    project_state.write_text(json.dumps(active) + "\n", encoding="utf-8")
+    start.require_competition_rc_ready(project_state, allow_active_eval=True)
+    with pytest.raises(ValueError, match="COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"):
+        start.require_competition_rc_ready(project_state, allow_active_eval=False)
+
 
 def test_phase004_registry_readers_fail_closed_on_non_object_case(
     repo_root: Path, tmp_path: Path

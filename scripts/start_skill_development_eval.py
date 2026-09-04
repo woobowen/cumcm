@@ -135,13 +135,22 @@ def require_competition_rc_ready(path: Path, *, allow_active_eval: bool = False)
     isolated_test_during_active_eval = (
         allow_active_eval
         and isinstance(value, dict)
-        and value.get("technical_adjudication_status") == "DEVELOPMENT_FIRST_RUN_IN_PROGRESS"
-        and value.get("next_phase_allowed") is None
+        and value.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        and value.get("technical_adjudication_status")
+        in {
+            "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
+            "DEVELOPMENT_EVAL_INCOMPLETE",
+            "DEVELOPMENT_EVAL_RC2_READY",
+            "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
+        }
+    )
+    version_valid = value.get("active_skill_version") == SKILL_VERSION or (
+        isolated_test_during_active_eval and allow_active_eval
     )
     if (
         not isinstance(value, dict)
         or not (ready_to_start or isolated_test_during_active_eval)
-        or value.get("active_skill_version") != SKILL_VERSION
+        or not version_valid
         or not isinstance(competition, dict)
         or not isinstance(integration_audit, dict)
         or integration_audit.get("status") != "PASS"

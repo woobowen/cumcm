@@ -46,15 +46,19 @@ cases:
     raw/case_files/附件4.xlsx: d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c
   answer_access_status: SEALED
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
-  first_run_status: IN_PROGRESS
-  first_run_freeze: null
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2023-C-DEVELOPMENT-001-FIRST-RUN-FREEZE-001
+    path: evals/results/phase-004a/CUMCM-2023-C-DEVELOPMENT-001/first_run/first_run_freeze.json
+    sha256: 9f27706b099b187c5c6c82984fcf3e760d7cbcc6640525bbf7841014929a2fb3
+    subject_commit: 1cd1402521d2c4cf487c01e045a6ab1b20b6e130
   unlock_status: LOCKED
   skill_version: 0.2.0-competition-rc1
   skill_commit: a93a96d79890f6774552dc5ff333f833099edf83
   model: gpt-5-codex
   reasoning: UNKNOWN
   start_time: '2026-09-04T05:51:52Z'
-  freeze_time: null
+  freeze_time: '2026-09-04T06:16:39Z'
   unlock_time: null
   generalizable_failures: []
   problem_specific_findings: []
@@ -82,3 +86,27 @@ cases:
     size_bytes: 18678
     media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
     sha256: d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c
+  first_run_evidence:
+    skill_version: 0.2.0-competition-rc1
+    skill_commit: a93a96d79890f6774552dc5ff333f833099edf83
+    case_state: MODELS_PROPOSED
+    case_state_sha256: 54fedf4603cd5e66600195db6d23800f93c1e70b1732d00ad4ce77b5f2cb9e97
+    run_manifest_hashes: {}
+    blocked_reason_code: RC_CUSTOM_EXECUTOR_UNAVAILABLE
+    first_run_artifact_hashes:
+      data/data_audit.json: 7247b953402455291f5b5820cfee5f15b9e07f2fcb4a35fa289c458a6b71c8ed
+      evidence/first_run_failure.json: 2c6a961de613e49984abdfb9fef4763e0c12e45be5ed6a0a283524686cb0ea45
+      evidence/first_run_stage_status.json: 3b0a9bf97fe5090a3c2356e765be0d77a250831ea156259b7b1109f5367d43e0
+      evidence/first_run_timing.json: 1d72b3a275dbc62c0503727c0198fb51ad76edbabd18c99cca0d45ef9f7f6279
+      experiments/experiment_plan.json: 8d731731d5484706abb67481df9c4ba91db64f20954479eba0ca52c8767cf233
+      models/assumptions_and_symbols.json: 0cf4b39d3fd30055b0952eeb5cbd5be66068f77a376fe2ec0ab793985b376d91
+      models/model_candidates.json: 1513b565c5f7d0c7be755919d18d90d6433170661900dbdcbb6af554888fc150
+      problem/problem_requirements.json: 755f90ced0a068feb606f93cd524aa0920b0506da6fafa2770db671b246b9675
+      research/pre_freeze_search_log.jsonl: fe39e1871f85523e8cf35d0d44298ef6969c0a9c811bc7e6ae3719bc24212e71
+      research/research_plan.json: 3d95a528ba7d2726c625639e44cad783a03f307e72906e3fe002724cf0f08124
+      research/source_ledger.json: 71f68eeefce0166e58252e87e7b9aac5da3f6016a2d3e370ec071c8af1e092b0
+      state/development_eval_binding.json: b3e5d531d4a2e420202ef15f223fa5d91de3b0e7c0675efbbf37aed7ed885ff4
+      state/first_run_start_freeze.json: 3773f454e6d8915a09bb16c8921db674c28acbabace39c508c7d0d517f551bd1
+    freeze_id: CUMCM-2023-C-DEVELOPMENT-001-FIRST-RUN-FREEZE-001
+    freeze_sha256: 9f27706b099b187c5c6c82984fcf3e760d7cbcc6640525bbf7841014929a2fb3
+    worktree_commit: 1cd1402521d2c4cf487c01e045a6ab1b20b6e130
