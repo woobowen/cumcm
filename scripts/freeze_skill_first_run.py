@@ -387,7 +387,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         "case_id": args.case_id,
         "batch_id": record.get("batch_id"),
         "batch_position": record.get("batch_position"),
-        "batch_skill_version": "RC3" if batch_case else None,
+        "batch_skill_version": record["skill_version"] if batch_case else None,
         "set_type": record["set_type"],
         "problem_type": record.get("target_problem_type"),
         "answer_state_at_freeze": "SEALED",
