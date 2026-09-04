@@ -89,10 +89,12 @@ not reached. The remotely delivered terminal decision is
 `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`. No post-freeze Validation Run or Skill mutation is
 allowed.
 
-### M7 — Final audit and delivery (`IN_PROGRESS`)
+### M7 — Final audit and delivery (`COMPLETE_WITH_TERMINAL_EVIDENCE_INSUFFICIENT`)
 
 2025 C access flags remain false; scorecard/professional audit/acceptance/handoff reports match
-machine truth; final validation and remote CI pass; local and remote SHA match; Draft PR stays open.
+machine truth. Final local validation and the content commit's remote CI pass; its local and remote
+SHA match; Draft PR stays open. The final acceptance/state receipt commit and its remote CI are
+reported after delivery without creating a self-referential commit pointer.
 
 ## Validation commands
 
@@ -224,6 +226,11 @@ git diff --check
   `DECISION-C-TARGET-VALIDATION-004C` were committed and remotely verified at
   `197f62bc75ebe832e9dd3ced0306740f336b80d6`. Answer state remains `SEALED`, RC4 is unchanged, and
   the terminal decision is `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`.
+- M7 content commit `b71d762e9031b9d18656f43904cb7fc5145ba2ef` is remotely verified.
+  Full local CI passed with 1,868 tests and one skip; strict repository validation reported zero
+  errors and zero warnings. GitHub Actions run `33914904042` passed for that exact SHA. The 2025 C
+  reservation remains untouched, the acceptance and professional audit set matches machine truth,
+  and Draft PR 9 remains open and Draft.
 
 ## Next step
 
