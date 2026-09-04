@@ -117,6 +117,8 @@ no force push, ready-for-review transition, merge, or direct feature push to `ma
   inputs and changed precision. B/C old-binding probes propagated `STALE`.
 - Focused regression passed at `152 passed`; full pytest passed at `1808 passed, 1 skipped` in
   `305.78s`. Static, contract, discovery, leakage, secret, consistency and strict checks pass.
+- Final content commit `d6233b7fd8980e0f2f8dcf386ccc81c05d1e7f03` was remotely delivered;
+  GitHub run `33850439706` passed `offline-validation` in 8m12s while PR #7 remained Draft.
 
 ## 8. Update, rollback, and exact next step
 

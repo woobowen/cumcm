@@ -153,7 +153,7 @@ RC1 final state `MODELS_PROPOSED`，没有 selected model、Run result、formula
 - Starting baseline：1804 passed, 1 skipped；final focused：152 passed；final full：1808 passed, 1 skipped。
 - Two synthetic E2E PASS；30/30 negative PASS；Development/Stress machine consistency PASS；Skill discovery 1。
 - Ruff 683 files PASS；contracts 78 valid/68 invalid rejected；leakage/secrets/private paths 0；strict 0 errors/0 warnings。
-- `bash scripts/ci.sh` exit 0；pytest 311.00 s，CI wall 336.75 s。Remote CI：`UNKNOWN_UNTIL_FINAL_PUSH_VERIFICATION`。
+- `bash scripts/ci.sh` exit 0；pytest 311.00 s，CI wall 336.75 s。Remote CI for content commit `d6233b7f…e7f03`：GitHub run `33850439706` `success` in 8m12s。
 
 ## 19. Documentation Consistency
 
@@ -170,12 +170,12 @@ Plan、registry、protocol、Skill、VERSION、CHANGELOG、README、state、gene
 
 - Branch `feat/phase004-development-eval-2023c`；starting HEAD `a93a96d`。
 - Freeze commit `8e7b7ce`；RC2 candidate commits `e0e82b3`, `21bcf1b`；evidence commit `0d55475`，均已推送并在阶段内远端核验。
-- Final documentation commit/remote HEAD：在本报告写入后的 delivery receipt 中核验。
+- Content commit/remote SHA `d6233b7fd8980e0f2f8dcf386ccc81c05d1e7f03`；GitHub CI success。其后的 receipt-only commit 在最终对话 delivery 中核验。
 - Draft PR #7：`OPEN`, `DRAFT`, not merged/not ready。Raw inputs/reference bodies/caches 未 tracked。
 
 ## 22. Unknown and Limitations
 
-RC1 每 Gate 精确时间、reasoning effort、token/cached token、queue/operator time、monetary/API cost 和 remote CI outcome 在最终 push 前为 UNKNOWN。No future realized sales/profit, stockout labels, inventory, shelf capacity, promotion, weather or lead-time data；profit 是 proxy；item plan 是 feasible heuristic，非全局最优证明。许可仅确认官方公开下载，重新分发权未建立，因此原文件不提交。
+RC1 每 Gate 精确时间、reasoning effort、token/cached token、queue/operator time 和 monetary/API cost 为 UNKNOWN。No future realized sales/profit, stockout labels, inventory, shelf capacity, promotion, weather or lead-time data；profit 是 proxy；item plan 是 feasible heuristic，非全局最优证明。许可仅确认官方公开下载，重新分发权未建立，因此原文件不提交。
 
 ## 23. Exact Next Step
 
