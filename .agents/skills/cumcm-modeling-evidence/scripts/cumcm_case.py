@@ -22,6 +22,10 @@ ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = Path(__file__).resolve().parents[4]
+TRUSTED_EXECUTION_CODE_PATHS = (
+    "scripts/cumcm_case.py",
+    "scripts/synthetic_cases.py",
+)
 
 EXIT_OK = 0
 EXIT_INPUT = 2
@@ -1955,11 +1959,21 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         for left in range(3)
         for right in range(left + 1, 3)
     )
+    expected_code_files = [
+        {
+            "scope": "SKILL_ROOT",
+            "path": relative,
+            "repository_path": f".agents/skills/cumcm-modeling-evidence/{relative}",
+            "sha256": file_hash(SKILL_ROOT / relative),
+        }
+        for relative in TRUSTED_EXECUTION_CODE_PATHS
+    ]
     required_code_valid = (
         isinstance(required_code_files, list)
         and bool(required_code_files)
         and isinstance(code_commit, str)
         and git_commit_exists(code_commit)
+        and required_code_files == expected_code_files
     )
     code_identities: set[tuple[str, str]] = set()
     if required_code_valid:

@@ -721,6 +721,7 @@ def test_claim_validator_rejects_invalid_claim_ids(
         "overlapping_splits",
         "empty_splits",
         "empty_metric",
+        "unrelated_code_registry",
     ],
 )
 def test_experiment_plan_gate_rejects_invalid_recomputed_freezes(
@@ -760,6 +761,16 @@ def test_experiment_plan_gate_rejects_invalid_recomputed_freezes(
         plan["splits"] = {"train": [], "validation": [], "test": []}
     elif mutation == "empty_metric":
         plan["metric"] = ""
+    elif mutation == "unrelated_code_registry":
+        relative = "templates/README.md"
+        plan["required_code_files"] = [
+            {
+                "scope": "SKILL_ROOT",
+                "path": relative,
+                "repository_path": f".agents/skills/cumcm-modeling-evidence/{relative}",
+                "sha256": case_cli.file_hash(case_cli.SKILL_ROOT / relative),
+            }
+        ]
     plan["trusted_freeze_registry"] = {
         "candidate_set": case_cli.canonical_hash(plan["candidate_ids"]),
         "metric": case_cli.canonical_hash(
@@ -994,11 +1005,14 @@ def test_manifest_detects_frozen_case_root_code_mutation(
     freezes = copy.deepcopy(manifest["freeze_bindings"])
     freezes["code_set"] = case_cli.canonical_hash(manifest["code_files"])
     manifest["freeze_bindings"] = freezes
-    assert case_cli.validate_manifest(
-        manifest,
-        case_root=case_root,
-        trusted_freezes=freezes,
-    ).accepted is True
+    assert (
+        case_cli.validate_manifest(
+            manifest,
+            case_root=case_root,
+            trusted_freezes=freezes,
+        ).accepted
+        is True
+    )
 
     copied_code.write_text("mutated code dependency\n", encoding="utf-8")
     result = case_cli.validate_manifest(
