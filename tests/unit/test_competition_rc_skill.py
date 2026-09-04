@@ -29,7 +29,7 @@ def case_cli(skill_root: Path):
 
 def test_skill_is_competition_rc_and_has_one_workflow_set(skill_root: Path) -> None:
     skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
-    assert "0.2.0-competition-rc3" in skill
+    assert "0.2.0-competition-rc4" in skill
     assert "COMPETITION_RC" in skill
     assert len(list((skill_root / "workflows").glob("*.md"))) == 14
     assert len([path for path in (skill_root / "agents").glob("*.md")]) == 4
@@ -51,6 +51,7 @@ def test_cli_help_and_dry_run_are_structured(skill_root: Path, tmp_path: Path) -
         "init",
         "status",
         "validate",
+        "preflight-output",
         "manifest",
         "claim-check",
         "compare-check",

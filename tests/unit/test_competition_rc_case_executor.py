@@ -76,6 +76,7 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
     candidates = [
         {"candidate_id": "BASE", "baseline": True},
         {"candidate_id": "CAND", "baseline": False},
+        {"candidate_id": "INVALID", "baseline": False},
     ]
     accepted(case_cli, case_root, "model_candidates", {"candidates": candidates})
     case_cli.advance_once(case_root)
@@ -87,8 +88,18 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         "p=argparse.ArgumentParser(); p.add_argument('--case-root'); "
         "p.add_argument('--candidate-id'); p.add_argument('--seed'); "
         "p.add_argument('--output'); a=p.parse_args(); "
-        "json.dump({'candidate_id':a.candidate_id,'validation_metrics':{'loss':1.0}}, "
-        "open(a.output,'w'), sort_keys=True); "
+        "output={'candidate_id':a.candidate_id,'status':'SUCCESS',"
+        "'validation_metrics':{'loss':1.0}}; "
+        "output.update({'final_metrics':{'loss':1.0},'claim_scope':'generic',"
+        "'requirement_claims':{'REQ-1':{'claim_id':'CLAIM-GENERIC-1',"
+        "'claim_text':'generic','evidence_artifact_ids':[a.output]}},"
+        "'figure_ready_data':[{'figure_id':'GENERIC'}],"
+        "'uncertainty':{'scope':'bounded'},'limitations':['generic limitation'],"
+        "'robustness_evidence':{'metric':'loss','metric_direction':'MIN',"
+        "'perturbations':[{'perturbation_id':'GENERIC-SHIFT','metric':'loss',"
+        "'result':1.1,'evidence':'DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS'}],"
+        "'failure_cases':['generic failure']}}) if a.candidate_id != 'INVALID' else None; "
+        "json.dump(output, open(a.output,'w'), sort_keys=True); "
         "raise SystemExit(2 if a.candidate_id == 'BASE' else 0)\n",
         encoding="utf-8",
     )
@@ -121,7 +132,7 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
     stop_rule = "one bounded run"
     generated_at = "2026-09-04T00:00:00Z"
     freezes = {
-        "candidate_set": case_cli.canonical_hash(["BASE", "CAND"]),
+        "candidate_set": case_cli.canonical_hash(["BASE", "CAND", "INVALID"]),
         "metric": case_cli.canonical_hash(
             {
                 "name": "loss",
@@ -147,7 +158,7 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         {
             "preregistered": True,
             "execution_prepared": True,
-            "candidate_ids": ["BASE", "CAND"],
+            "candidate_ids": ["BASE", "CAND", "INVALID"],
             "baseline_id": "BASE",
             "metric": "loss",
             "metric_direction": "MIN",
@@ -162,6 +173,42 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
             "stop_rule": stop_rule,
             "handoff_generated_at": generated_at,
         },
+    )
+    case_cli.write_json(
+        case_root / "experiments/selected_output_contract_probe.json",
+        {
+            "candidate_id": "CONTRACT-PROBE",
+            "status": "CONTRACT_PROBE",
+            "probe_only": True,
+            "ranking_eligible": False,
+            "result_values_are_placeholders": True,
+            "final_metrics": {"loss": 0.0},
+            "claim_scope": "generic placeholder",
+            "requirement_claims": {
+                "REQ-1": {
+                    "claim_id": "CLAIM-PROBE-1",
+                    "claim_text": "generic placeholder",
+                    "evidence_artifact_ids": ["experiments/selected_output_contract_probe.json"],
+                }
+            },
+            "figure_ready_data": [{"figure_id": "GENERIC-PROBE"}],
+            "uncertainty": {"scope": "placeholder"},
+            "limitations": ["placeholder values are not results"],
+            "robustness_evidence": {
+                "metric": "loss",
+                "metric_direction": "MIN",
+                "perturbations": [
+                    {
+                        "perturbation_id": "GENERIC-PROBE-SHIFT",
+                        "metric": "loss",
+                        "result": 0.0,
+                        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+                    }
+                ],
+                "failure_cases": ["probe does not establish robustness"],
+            },
+        },
+        overwrite=False,
     )
     case_cli.advance_once(case_root)
     case_cli.advance_once(case_root)
@@ -209,6 +256,30 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
     )
     assert not failed_gate.accepted
     assert failed_gate.reason_codes == ("RC_MANIFEST_NOT_SUCCESS:FAILED",)
+
+    invalid_capture = case_cli.execute_case_code(
+        case_root,
+        run_id="RUN-INVALID-11",
+        candidate_id="INVALID",
+        seed=11,
+        code_path=model_relative,
+        timeout_seconds=30,
+    )
+    assert invalid_capture["outcome"] == "FAILED"
+    invalid_output = case_cli.load_json(case_root / invalid_capture["output"]["path"])
+    assert invalid_output == {
+        "candidate_id": "INVALID",
+        "status": "SUCCESS",
+        "validation_metrics": {"loss": 1.0},
+    }
+    invalid_capture_record = case_cli.load_json(case_root / invalid_capture["capture_path"])
+    assert invalid_capture_record["failure"]["reason_code"] == (
+        "RC_EXECUTION_OUTPUT_CONTRACT_INVALID"
+    )
+    assert (
+        "RC_OUTPUT_CONTRACT_REQUIRED_FIELDS_MISSING"
+        in invalid_capture_record["failure"]["reason_codes"]
+    )
 
     stdout = case_root / "runs/RUN-CAND-11/stdout.txt"
     stdout.write_text("tampered", encoding="utf-8")
