@@ -2,7 +2,7 @@
 
 Status: `IN_PROGRESS`
 Phase: `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`
-Subphase: `C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS`
+Subphase: `C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM`
 Owner: main agent / `modeling_orchestrator`
 Started: `2026-09-04T22:14:48+08:00`
 Branch: `feat/phase004c-c-target-batch-generalization`
@@ -61,14 +61,14 @@ hashes, no-solution-exposure results, environment, runner, RC3 tree, case order/
 policy, rubric, hard failures, roles, interventions, and answer states are frozen and remotely
 delivered before any result.
 
-### M3 — Three independent C first runs (`PENDING`)
+### M3 — Three independent C first runs (`COMPLETE`)
 
 At most two fresh workers run concurrently with path-level write isolation. Each case completes or
 truthfully terminates across 14 stages, preserves every Run, and produces an independent checked,
 pushed, remotely verified first-run freeze while all answers remain sealed and the Skill tree stays
 unchanged.
 
-### M4 — Unified postmortem and RC4 decision (`PENDING`)
+### M4 — Unified postmortem and RC4 decision (`IN_PROGRESS`)
 
 All-case unlock preconditions pass. Limited references are hash-logged with no-copy declarations.
 The cross-case matrix classifies every finding. Only eligible general failures enter at most two
@@ -163,13 +163,31 @@ git diff --check
   canonical payload SHA-256 is `1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09`;
   no case state had advanced beyond `CREATED` and no Run existed when frozen. Freeze commit
   `af1e0c158cbce131cab8c6f193167b79fe021a7e` is pushed and verified at the same remote SHA.
+- M3 executed three isolated RC3 first runs with no formal-Skill mutation and at most two workers.
+  2022 C completed nine candidate Runs and terminated truthfully at Stage 11 because the selected
+  output omitted required robustness/claim/handoff fields. 2021 C completed six attempts (four
+  successes and two preserved infeasible baseline failures) and stopped at comparison because the
+  baseline-success and authorized-test-access contracts failed. 2020 C completed six successful
+  attempts, passed all 14 stages, and reached `READY_FOR_PAPER_HANDOFF`; its post-selection test was
+  accessed once and was not used for selection. No answer/reference was accessed before freezing.
+- Each first run was independently committed, pushed, and verified before unified unlock. Original
+  freezes remain immutable. Versioned v2 freezes transparently correct two full-version metadata
+  fields (2022/2021) and one post-freeze summary-hash timing correction (2020); every original is
+  preserved and linked. Current freeze commits are
+  `7688b6a3f55052a5ba55396783c48eb5dc12d409` (2022/2021) and
+  `29ad3c3f3971e23a36dc7094abdfe86dc5fc6505` (2020).
+- The post-freeze full CI passed with 1,850 tests and one skip; strict validation, target policy,
+  batch freeze, and all first-run freeze checks passed. Unified unlock tooling commit
+  `49f5dd98b7d546f1e380e8b48d39078a1e176fc0` is remotely verified. Its dry run and write run both
+  passed against the exact three freeze commits and the unchanged RC3 tree. Receipt SHA-256 is
+  `d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a`; all three cases changed
+  together to `UNLOCKED_AFTER_FIRST_RUN` at `2026-09-05T00:59:00+08:00`.
 
 ## Next step
 
-Run M3 with at most two isolated fresh case workers. Each worker must pause before formal execution
-until its case-local code has been serially committed and returned as the experiment-plan code
-binding; each frozen first run is then checked, committed, pushed, and remotely verified by the
-main Orchestrator while all answers remain sealed.
+Complete M4 using only the bounded post-unlock reference set. Hash-log source metadata and no-copy
+declarations, classify every observed failure in one cross-case matrix, and authorize at most one
+RC4 only if a repeated or universal hard failure supports a neutral, low-overfitting change.
 
 ## Rollback and update rule
 

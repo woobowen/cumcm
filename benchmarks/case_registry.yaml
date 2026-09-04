@@ -330,14 +330,14 @@ cases:
   independent_problem: true
   batch_id: C-TARGET-BATCH-001
   batch_position: 1
-  answer_access_status: SEALED
+  answer_access_status: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   first_run_freeze:
     freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
     path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.v2.json
     sha256: 5de34dec79b8b8aa0273b16d6ce0f1d4115178cd9e8410cc241adcaa79c61a87
     subject_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
-  reference_unlock: LOCKED
+  reference_unlock: UNLOCKED_AFTER_ALL_FIRST_RUN_FREEZES
   formal_skill_version: 0.2.0-competition-rc3
   formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
   contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
@@ -382,7 +382,7 @@ cases:
   reasoning: UNKNOWN
   start_time: '2026-09-04T22:59:00+08:00'
   freeze_time: '2026-09-04T23:55:00+08:00'
-  unlock_time: null
+  unlock_time: '2026-09-05T00:59:00+08:00'
   generalizable_failures: []
   problem_specific_findings: []
   no_solution_exposure_result: PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED
@@ -439,6 +439,11 @@ cases:
     freeze_commit: cbd8dd9c4d840cc6a92bc98689f03eafef9645dc
     status: SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED
   first_run_freeze_correction_count: 1
+  unlock_status: UNLOCKED_AFTER_FIRST_RUN
+  unlock_receipt:
+    path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
+    sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
+    verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0
 - case_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002
   set_type: DEVELOPMENT
   registration_status: INPUT_REGISTERED
@@ -447,14 +452,14 @@ cases:
   independent_problem: true
   batch_id: C-TARGET-BATCH-001
   batch_position: 2
-  answer_access_status: SEALED
+  answer_access_status: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   first_run_freeze:
     freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
     path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.v2.json
     sha256: a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d
     subject_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
-  reference_unlock: LOCKED
+  reference_unlock: UNLOCKED_AFTER_ALL_FIRST_RUN_FREEZES
   formal_skill_version: 0.2.0-competition-rc3
   formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
   contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
@@ -517,7 +522,7 @@ cases:
   reasoning: UNKNOWN
   start_time: '2026-09-04T22:59:00+08:00'
   freeze_time: '2026-09-05T00:12:00+08:00'
-  unlock_time: null
+  unlock_time: '2026-09-05T00:59:00+08:00'
   generalizable_failures: []
   problem_specific_findings: []
   no_solution_exposure_result: PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED
@@ -569,6 +574,11 @@ cases:
     freeze_commit: 2208dff7ab0ee89f7946f3cfb83d399586cc3338
     status: SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED
   first_run_freeze_correction_count: 1
+  unlock_status: UNLOCKED_AFTER_FIRST_RUN
+  unlock_receipt:
+    path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
+    sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
+    verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0
 - case_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003
   set_type: DEVELOPMENT
   registration_status: INPUT_REGISTERED
@@ -577,14 +587,14 @@ cases:
   independent_problem: true
   batch_id: C-TARGET-BATCH-001
   batch_position: 3
-  answer_access_status: SEALED
+  answer_access_status: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   first_run_freeze:
     freeze_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003-FIRST-RUN-FREEZE-001-EVIDENCE-CORRECTION-002
     path: evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/first_run/first_run_freeze.v2.json
     sha256: a5016b6336001bf840247aa6135b4beba15d3a695da498ac1e9149afe332ccfb
     subject_commit: 7f0b67f94fb49213d5d05e5d75828e1075e2009a
-  reference_unlock: LOCKED
+  reference_unlock: UNLOCKED_AFTER_ALL_FIRST_RUN_FREEZES
   formal_skill_version: 0.2.0-competition-rc3
   formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
   contamination_status: COLOCATED_ARCHIVE_PREVIOUSLY_USED_FOR_2020A_NO_C_CONTENT_EXPOSURE_FOUND
@@ -650,7 +660,7 @@ cases:
   reasoning: UNKNOWN
   start_time: '2026-09-04T22:59:00+08:00'
   freeze_time: '2026-09-05T00:40:15+08:00'
-  unlock_time: null
+  unlock_time: '2026-09-05T00:59:00+08:00'
   generalizable_failures: []
   problem_specific_findings: []
   no_solution_exposure_result: PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED
@@ -702,3 +712,8 @@ cases:
     freeze_commit: 474c1241f67d31fd50deaae727e93ec213b558c5
     status: SUPERSEDED_POST_FREEZE_SUMMARY_HASH_CORRECTION_ORIGINAL_PRESERVED
   first_run_freeze_correction_count: 1
+  unlock_status: UNLOCKED_AFTER_FIRST_RUN
+  unlock_receipt:
+    path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
+    sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
+    verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0

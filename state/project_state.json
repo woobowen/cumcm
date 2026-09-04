@@ -6,20 +6,6 @@
     "leakage-safe-model-comparison-gate"
   ],
   "active_skill_version": "0.2.0-competition-rc3",
-  "batch_reference_unlocked": false,
-  "batch_skill_frozen": true,
-  "batch_pre_run_freeze": {
-    "file_sha256": "cf265bb11bb7c96389aab62870f5de925c1d379a430dc960ec6537c53bf0f732",
-    "freeze_commit": "af1e0c158cbce131cab8c6f193167b79fe021a7e",
-    "freeze_id": "C-TARGET-BATCH-001-PRE-RUN-FREEZE-001",
-    "path": "evals/results/phase-004c-c-batch/batch_pre_run_freeze.json",
-    "payload_sha256": "1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09",
-    "remote": "origin",
-    "remote_sha": "af1e0c158cbce131cab8c6f193167b79fe021a7e",
-    "status": "REMOTE_DELIVERED",
-    "subject_commit": "1196689281704d7dcc801952f6b2ce4f5e958624",
-    "verified_at": "2026-09-04T23:19:26+08:00"
-  },
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -44,54 +30,30 @@
     "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2"
   ],
   "base_selected": false,
+  "batch_pre_run_freeze": {
+    "file_sha256": "cf265bb11bb7c96389aab62870f5de925c1d379a430dc960ec6537c53bf0f732",
+    "freeze_commit": "af1e0c158cbce131cab8c6f193167b79fe021a7e",
+    "freeze_id": "C-TARGET-BATCH-001-PRE-RUN-FREEZE-001",
+    "path": "evals/results/phase-004c-c-batch/batch_pre_run_freeze.json",
+    "payload_sha256": "1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09",
+    "remote": "origin",
+    "remote_sha": "af1e0c158cbce131cab8c6f193167b79fe021a7e",
+    "status": "REMOTE_DELIVERED",
+    "subject_commit": "1196689281704d7dcc801952f6b2ce4f5e958624",
+    "verified_at": "2026-09-04T23:19:26+08:00"
+  },
+  "batch_reference_unlocked": true,
+  "batch_skill_frozen": true,
   "blockers": [],
   "competition_rc1": {
-    "old_blocked_decision": {
-      "decision_id": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
-      "decision_hash": "2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d",
-      "result": "FAST_TRACK_IMPLEMENTATION_BLOCKED",
-      "artifact_sha256": "70cd886ad2efb226769bb15a26d041554f12d24c2bf3acc8c87b90f6527156a1"
-    },
+    "api_calls": 0,
     "architecture_decision": {
-      "decision_id": "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
-      "decision_hash": "8b4c50dbe5f95ca04ceff4c489ae83dc3a4afa81e156e1f00f16b2ac65f25cbe",
       "artifact_sha256": "20b6d4c0086c8ab8e3a81f442fba63977db3d557f2143d91db86d0a4993bfa03",
+      "decision_hash": "8b4c50dbe5f95ca04ceff4c489ae83dc3a4afa81e156e1f00f16b2ac65f25cbe",
+      "decision_id": "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
       "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
     },
-    "minimum_gate": {
-      "result_sha256": "07d4362f0c2d0c6b502bcae99748e18f825ded4662554fb860d4db483376b971",
-      "k1_passed": 8,
-      "w1_passed": 8,
-      "case_evaluations": 234,
-      "unhandled_exceptions": 0
-    },
-    "formal_skill": {
-      "name": "cumcm-modeling-evidence",
-      "version": "0.2.0-competition-rc1",
-      "capability": "COMPETITION_RC",
-      "discoverable_count": 1,
-      "workflow_count": 14,
-      "role_count": 4
-    },
-    "end_to_end": {
-      "result_sha256": "3beefd5190547246a361e6829a2236224927af8a9673cc0344ff62f78676fa99",
-      "passed": 2,
-      "prediction_state": "READY_FOR_PAPER_HANDOFF",
-      "optimization_state": "READY_FOR_PAPER_HANDOFF"
-    },
-    "negative_tests": {
-      "result_sha256": "5c46849aee853b1bb1d9af43f7ea22d827681852e6a2150da6ad4bd0cd2f5f60",
-      "passed": 30,
-      "failed": 0,
-      "unhandled_exceptions": 0
-    },
-    "integration_audit": {
-      "status": "PASS",
-      "path": "evals/results/phase-003f-r1/formal_skill_integration/audit.json",
-      "sha256": "31df3fc5292e7b0d6110dab03f5848a2591472700bf51694cd200b8861c6c638"
-    },
     "assurance": "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES",
-    "full_r3_status": "DEFERRED_NOT_PASSED",
     "deferred_validation": [
       "full sealed Stage 1",
       "Stage 2 model comparison",
@@ -100,10 +62,48 @@
       "production fitness",
       "monetary cost"
     ],
-    "api_calls": 0,
+    "end_to_end": {
+      "optimization_state": "READY_FOR_PAPER_HANDOFF",
+      "passed": 2,
+      "prediction_state": "READY_FOR_PAPER_HANDOFF",
+      "result_sha256": "3beefd5190547246a361e6829a2236224927af8a9673cc0344ff62f78676fa99"
+    },
+    "formal_skill": {
+      "capability": "COMPETITION_RC",
+      "discoverable_count": 1,
+      "name": "cumcm-modeling-evidence",
+      "role_count": 4,
+      "version": "0.2.0-competition-rc1",
+      "workflow_count": 14
+    },
+    "full_r3_status": "DEFERRED_NOT_PASSED",
+    "integration_audit": {
+      "path": "evals/results/phase-003f-r1/formal_skill_integration/audit.json",
+      "sha256": "31df3fc5292e7b0d6110dab03f5848a2591472700bf51694cd200b8861c6c638",
+      "status": "PASS"
+    },
+    "minimum_gate": {
+      "case_evaluations": 234,
+      "k1_passed": 8,
+      "result_sha256": "07d4362f0c2d0c6b502bcae99748e18f825ded4662554fb860d4db483376b971",
+      "unhandled_exceptions": 0,
+      "w1_passed": 8
+    },
     "model_training": false,
-    "real_comparison_model_starts": 0,
     "native_subagent_runs": 3,
+    "negative_tests": {
+      "failed": 0,
+      "passed": 30,
+      "result_sha256": "5c46849aee853b1bb1d9af43f7ea22d827681852e6a2150da6ad4bd0cd2f5f60",
+      "unhandled_exceptions": 0
+    },
+    "old_blocked_decision": {
+      "artifact_sha256": "70cd886ad2efb226769bb15a26d041554f12d24c2bf3acc8c87b90f6527156a1",
+      "decision_hash": "2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d",
+      "decision_id": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
+      "result": "FAST_TRACK_IMPLEMENTATION_BLOCKED"
+    },
+    "real_comparison_model_starts": 0,
     "third_party_executions": 0
   },
   "content_verified_commit": "af1e0c158cbce131cab8c6f193167b79fe021a7e",
@@ -210,53 +210,52 @@
     "The C2 active authorization permits only a future isolated experimental shadow prototype; it is not architecture selection, formal Skill integration, effectiveness evidence, production authorization, or Phase 003 entry.",
     "Competition RC1 assurance is limited to unchanged public deterministic Gates and two project-original end-to-end smoke cases.",
     "Full sealed Stage 1, Stage 2 model comparison, full ablation, external validity, production fitness, and monetary cost remain deferred and not passed.",
-    "Trusted execution-code capture is fixed to the bundled deterministic runner; caller-supplied custom executors are outside RC1 assurance."
-    ,
+    "Trusted execution-code capture is fixed to the bundled deterministic runner; caller-supplied custom executors are outside RC1 assurance.",
     "This Development case cannot establish Validation, Held-out, or single-problem generalization evidence; model prior exposure is unverifiable.",
     "The current runtime exposes no exact reasoning-effort identifier, so the first-run binding records reasoning as UNKNOWN."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
-  "skill_capability_status": "COMPETITION_RC",
   "shadow_authorization": {
-    "input_freeze_id": "PHASE-002D-R2A-C1-INPUT-FREEZE-001",
-    "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
-    "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
-    "candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
-    "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
-    "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
-    "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
-    "active_decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
     "active_decision_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
-    "replaces_non_active_candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
-    "supersedes_decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
-    "supersedes_decision_hash": "795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d",
-    "supersedes_file_sha256": "6150252f16889d02e643384e4229b2b77e2d00480a4c51fc474218c6cb95e291",
-    "historical_compatibility_hash": "e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
-    "schema_resolution_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+    "active_decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
     "candidate_closure_hash": "c493a1a2b2d5267bbbe3d33f1c79ddf3b34a8aa523fc942fac54bec56c5bb2f5",
+    "candidate_file_sha256": "77ea5f21610003396791350f86cef2845b6ff63edf07e17301ca8e427ed31d51",
+    "candidate_freeze_hash": "50cac065c5aff239ec6c18962090b735030ec9cb059920ef44e7194ef412a961",
+    "candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
+    "candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+    "canonical_candidate_hash": "318191117a5e65bc9ab94ac9ec62c063c5bdaa57da3d7c82012c038ff02bb420",
     "final_audit_bundle_hash": "c11e731fed7212b8f4c82a91c30902cd619829a751a6d1ee3d4a1da3b9b8a443",
-    "final_audit_result": "PASS",
     "final_audit_checkpoint_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125",
-    "final_replay_stable": true,
+    "final_audit_result": "PASS",
     "final_replay_hash": "08e8a542dc863151e7bad91fdb6a1301c30f2d9770d6a3a8582652c8ca0e5818",
-    "replay_input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "final_replay_stable": true,
+    "historical_compatibility_hash": "e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037",
+    "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "input_freeze_id": "PHASE-002D-R2A-C1-INPUT-FREEZE-001",
+    "replaces_non_active_candidate_id": "CANDIDATE-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A",
+    "replay_audit_checkpoint_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125",
     "replay_decision_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
-    "replay_audit_checkpoint_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125"
+    "replay_input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
+    "schema_resolution_hash": "7c811862095ee93945fc04afdc17cab31843b95fd5b3920b05cc7bce533b6462",
+    "supersedes_decision_hash": "795166071e24497abf27f2be807b006bfa89660ad3d7d99b18c0631f1c304e1d",
+    "supersedes_decision_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2",
+    "supersedes_file_sha256": "6150252f16889d02e643384e4229b2b77e2d00480a4c51fc474218c6cb95e291"
   },
   "shadow_validation": {
-    "starting_authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
-    "input_freeze_id": "PHASE-002D-R3-INPUT-FREEZE-001",
+    "decision_audit_status": "NOT_RUN",
     "input_freeze_hash": "325f5a26959e1006b382a709abdc75e40244853f64941a10f8e0863a8aae2bb2",
-    "prototype_implementation_count": 2,
-    "prototype_execution_count": 150,
-    "real_model_starts": 0,
+    "input_freeze_id": "PHASE-002D-R3-INPUT-FREEZE-001",
     "native_subagent_runs": 4,
+    "prototype_execution_count": 150,
+    "prototype_implementation_count": 2,
+    "real_model_starts": 0,
+    "replay_stable": false,
     "stage1_status": "NOT_RUN",
     "stage2_status": "NOT_RUN",
-    "decision_audit_status": "NOT_RUN",
-    "replay_stable": false
+    "starting_authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2"
   },
+  "skill_capability_status": "COMPETITION_RC",
   "specification_protocol": {
     "benchmark_freeze_status": "BENCHMARK_FROZEN",
     "decision_audit_status": "PASS",
@@ -271,9 +270,9 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS",
+  "subphase": "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "C_TARGET_BATCH_IN_PROGRESS",
+  "technical_adjudication_status": "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
   "third_party_integrated": false,
   "updated_at": "2026-09-04T23:19:26+08:00",
   "updated_by": "main-agent",
