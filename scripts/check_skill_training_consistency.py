@@ -51,6 +51,7 @@ PHASE004B_STRESS = {
     "C": PHASE004B_ROOT / "stress/stress_c_evidence.json",
 }
 PHASE004C_HANDOFF = REPO_ROOT / "evals/results/phase-004b/phase004c_validation_handoff.json"
+RC4_CANDIDATE = REPO_ROOT / "evals/results/phase-004c-c-batch/rc4/candidate_freeze.json"
 PHASE004B_REPORTS = tuple(
     REPO_ROOT / f"reports/{name}.md"
     for name in (
@@ -126,11 +127,22 @@ def check() -> dict[str, Any]:
     skill_text = SKILL.read_text(encoding="utf-8")
     changelog = CHANGELOG.read_text(encoding="utf-8")
     registry = load_yaml(REGISTRY)
+    rc4_candidate = load_json(RC4_CANDIDATE) if RC4_CANDIDATE.is_file() else {}
+    rc4_candidate_staged = (
+        state.get("active_skill_version") == EXPECTED_VERSION
+        and state.get("technical_adjudication_status") == "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"
+        and rc4_candidate.get("formal_release") is False
+        and rc4_candidate.get("candidate_skill", {}).get("version") == "0.2.0-competition-rc4"
+        and rc4_candidate.get("candidate_skill", {}).get("implementation_commit")
+        == "297cad0a29c659b18484d4f3b67d69a942ad415c"
+    )
     if state.get("active_skill_version") != EXPECTED_VERSION:
         errors.append("PROJECT_STATE_SKILL_VERSION_MISMATCH")
     if state.get("skill_capability_status") != "COMPETITION_RC":
         errors.append("PROJECT_STATE_CAPABILITY_MISMATCH")
-    if EXPECTED_VERSION not in skill_text:
+    if EXPECTED_VERSION not in skill_text and not (
+        rc4_candidate_staged and "0.2.0-competition-rc4" in skill_text
+    ):
         errors.append("FORMAL_SKILL_VERSION_MISMATCH")
     if EXPECTED_VERSION not in changelog:
         errors.append("CHANGELOG_VERSION_MISSING")

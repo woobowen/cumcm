@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_type": "c_target_rc4_candidate_freeze",
+  "candidate_id": "C-TARGET-RC4-CANDIDATE-001",
+  "status": "CANDIDATE_IMPLEMENTED_FOCUSED_TESTS_PASS_RELEASE_PENDING_UNIFIED_REGRESSION",
+  "formal_release": false,
+  "revision_cycle": 1,
+  "maximum_revision_cycles": 2,
+  "source_decision": {
+    "failure_id": "C004C-CROSS-OUTPUT-CONTRACT-PREFLIGHT-001",
+    "matrix_path": "evals/results/phase-004c-c-batch/cross_case_failure_matrix.json",
+    "matrix_sha256": "9e70e6c9d52dd8da5e08e627186ee9df3725300d9fe2ba032265347cda9762c1",
+    "decision": "AUTHORIZE_SINGLE_RC4_CHANGE_SET"
+  },
+  "source_skill": {
+    "version": "0.2.0-competition-rc3",
+    "release_commit": "8a2a813ff34d8c2701c64ff9d959848e7b88c27c",
+    "git_tree_sha1": "a4551c8aa0b6b119823f6ce9df3f0f948339bb33"
+  },
+  "candidate_skill": {
+    "version": "0.2.0-competition-rc4",
+    "implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "git_tree_sha1": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "capability": "COMPETITION_RC",
+    "formal_skill_count": 1
+  },
+  "change_set": {
+    "count": 1,
+    "summary": "Generic selected-output contract preflight before experiment freeze and identical fail-closed validation of every exit-zero execute output.",
+    "preflight_is_result": false,
+    "preflight_ranking_eligible": false,
+    "preflight_values_are_placeholders": true,
+    "preflight_hash_bound_to_case_state": true,
+    "invalid_execute_output_retained": true,
+    "case_specific_branches": 0,
+    "second_state_truth_added": false,
+    "third_party_integration_added": false
+  },
+  "changed_formal_skill_files": [
+    ".agents/skills/cumcm-modeling-evidence/SKILL.md",
+    ".agents/skills/cumcm-modeling-evidence/VERSION",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+    ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+    ".agents/skills/cumcm-modeling-evidence/templates/case_state.json",
+    ".agents/skills/cumcm-modeling-evidence/workflows/experiment_design.md",
+    ".agents/skills/cumcm-modeling-evidence/workflows/model_execution.md"
+  ],
+  "changed_neutral_test_files": [
+    "tests/unit/test_competition_rc_case_executor.py",
+    "tests/unit/test_competition_rc_output_contract.py",
+    "tests/unit/test_competition_rc_skill.py"
+  ],
+  "focused_validation": {
+    "ruff": "PASS",
+    "skill_package_validation": "PASS",
+    "focused_tests": {
+      "passed": 21,
+      "failed": 0
+    },
+    "competition_rc_tests_after_candidate_commit": {
+      "passed": 142,
+      "failed": 1,
+      "expected_pending_release_mismatch_only": "formal_skill_version"
+    }
+  },
+  "anti_hardcoding": {
+    "scope": "ADDED_LINES_FROM_RC3_RELEASE_TO_RC4_CANDIDATE",
+    "result": "PASS",
+    "problem_year_or_number_tokens": 0,
+    "problem_titles": 0,
+    "problem_entities": 0,
+    "problem_specific_fields": 0,
+    "fixed_model_combinations": 0,
+    "answer_values": 0
+  },
+  "delivery": {
+    "branch": "feat/phase004c-c-target-batch-generalization",
+    "remote": "origin",
+    "remote_sha": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "verified_at": "2026-09-05T01:39:58+08:00"
+  },
+  "next_gate": "UNIFIED_RC4_REGRESSION",
+  "frozen_at": "2026-09-05T01:39:58+08:00"
+}

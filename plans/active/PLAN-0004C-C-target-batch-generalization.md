@@ -68,13 +68,13 @@ truthfully terminates across 14 stages, preserves every Run, and produces an ind
 pushed, remotely verified first-run freeze while all answers remain sealed and the Skill tree stays
 unchanged.
 
-### M4 — Unified postmortem and RC4 decision (`IN_PROGRESS`)
+### M4 — Unified postmortem and RC4 decision (`COMPLETE`)
 
 All-case unlock preconditions pass. Limited references are hash-logged with no-copy declarations.
 The cross-case matrix classifies every finding. Only eligible general failures enter at most two
 revision cycles; otherwise the decision explicitly retains RC3.
 
-### M5 — Unified regression (`PENDING`)
+### M5 — Unified regression (`IN_PROGRESS`)
 
 Three non-blind batch regressions, 2023 C, 2020 A auxiliary execution, two synthetic E2E, 30
 negative cases, new neutral tests, anti-hardcoding, leakage, secrets, strict validation, and full CI
@@ -182,12 +182,26 @@ git diff --check
   passed against the exact three freeze commits and the unchanged RC3 tree. Receipt SHA-256 is
   `d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a`; all three cases changed
   together to `UNLOCKED_AFTER_FIRST_RUN` at `2026-09-05T00:59:00+08:00`.
+- Bounded post-unlock review used exactly one official page and one published analysis per case;
+  all six bodies remain ignored, hash-logged, and uncopied. The cross-case matrix classified six
+  findings and admitted exactly one change set: the output-contract failure appeared independently
+  in all three cases and becomes hard/noncompensable when discovered after sealing. The five
+  case-specific, method-difference, or already-correctly-blocked findings produce no Skill change.
+- Revision cycle 1 implemented the sole RC4 candidate at commit
+  `297cad0a29c659b18484d4f3b67d69a942ad415c`, Skill tree
+  `d041ca38de030ae04813ef02dbe12f7f2b7a1c22`. It adds a non-result, non-ranking placeholder
+  selected-output preflight before experiment freeze and reuses the exact Gate in `execute`, while
+  retaining invalid output as failed evidence. Focused tests passed 21/21; the full Competition RC
+  unit set passed 144/144 after the version-aware candidate receipt. Added-line anti-hardcoding,
+  one-Skill, no-second-state, and no-third-party checks pass. This is a remotely verified candidate,
+  not a formal release; release remains conditional on M5.
 
 ## Next step
 
-Complete M4 using only the bounded post-unlock reference set. Hash-log source metadata and no-copy
-declarations, classify every observed failure in one cross-case matrix, and authorize at most one
-RC4 only if a repeated or universal hard failure supports a neutral, low-overfitting change.
+Freeze the RC4 candidate receipt, then run M5: three non-blind batch Development regressions,
+the 2023 C main chain with STALE probe, the 2020 A auxiliary executor path, two synthetic E2E cases,
+the original 30 negatives, neutral failures, anti-hardcoding, leakage/secrets checks, and full CI.
+Do not mark RC4 released until every release condition passes.
 
 ## Rollback and update rule
 

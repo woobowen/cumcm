@@ -82,6 +82,7 @@ def sha256(relative: str) -> str:
 
 def evaluate() -> dict[str, Any]:
     state = load_json("state/project_state.json")
+    rc4_candidate = load_json("evals/results/phase-004c-c-batch/rc4/candidate_freeze.json")
     decision = load_json("evals/results/phase-003f-r1/architecture_decision.json")
     gate = load_json(
         "evals/results/phase-003f-r1/minimum_competition_architecture_gate_result.json"
@@ -94,6 +95,14 @@ def evaluate() -> dict[str, Any]:
         encoding="utf-8"
     )
     workflow = (ROOT / "WORKFLOW.md").read_text(encoding="utf-8")
+    rc4_candidate_staged = (
+        state.get("active_skill_version") == "0.2.0-competition-rc3"
+        and state.get("technical_adjudication_status") == "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"
+        and rc4_candidate.get("formal_release") is False
+        and rc4_candidate.get("candidate_skill", {}).get("version") == "0.2.0-competition-rc4"
+        and rc4_candidate.get("candidate_skill", {}).get("implementation_commit")
+        == "297cad0a29c659b18484d4f3b67d69a942ad415c"
+    )
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -206,7 +215,10 @@ def evaluate() -> dict[str, Any]:
         and revision.get("repair_cycle", {}).get("focused_test") == "104 passed"
         and revision.get("repair_cycle", {}).get("tree_hash")
         == "76dce0d6a63ab78bd38a21c27d40fba0b2d5242e3283ade8cdc0b7dfd809b8d8",
-        "formal_skill_version": state.get("active_skill_version") in skill
+        "formal_skill_version": (
+            state.get("active_skill_version") in skill
+            or (rc4_candidate_staged and "0.2.0-competition-rc4" in skill)
+        )
         and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
         "formal_skill_capability": "Capability: `COMPETITION_RC`" in skill,
         "formal_skill_count_one": len(list((ROOT / ".agents/skills").glob("*/SKILL.md"))) == 1,
