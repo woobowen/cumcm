@@ -97,6 +97,7 @@ def valid_manifest(core: Any, case_root: Path) -> tuple[dict[str, Any], dict[str
         "metric": core.canonical_hash("MAE"),
         "seed_schedule": core.canonical_hash([7]),
     }
+    configuration = {"candidate_id": "CAND", "seed": 7}
     manifest = {
         "run_id": "RUN-CAND",
         "input_files": [{"path": "data/raw/input.json", "sha256": input_file_hash}],
@@ -113,7 +114,8 @@ def valid_manifest(core: Any, case_root: Path) -> tuple[dict[str, Any], dict[str
         "code_tree_hash": core.canonical_hash(
             [core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py")]
         ),
-        "configuration_hash": "3" * 64,
+        "configuration": configuration,
+        "configuration_hash": core.canonical_hash(configuration),
         "random_seed": 7,
         "argv": ["model.py", "--run"],
         "cwd_policy": "CASE_ROOT_RELATIVE",

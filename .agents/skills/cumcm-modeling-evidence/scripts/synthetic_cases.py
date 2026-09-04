@@ -97,6 +97,7 @@ def _write_run(
         }
         for relative in code_paths
     ]
+    configuration = {"candidate_id": candidate_id, "seed": 20260904}
     manifest = {
         "run_id": run_id,
         "input_files": input_files,
@@ -104,7 +105,8 @@ def _write_run(
         "code_commit": core.current_git_commit(),
         "code_files": code_files,
         "code_tree_hash": core.canonical_hash([item["sha256"] for item in code_files]),
-        "configuration_hash": core.canonical_hash({"candidate_id": candidate_id, "seed": 20260904}),
+        "configuration": configuration,
+        "configuration_hash": core.canonical_hash(configuration),
         "random_seed": 20260904,
         "argv": ["cumcm_case.py", "smoke", "--kind", core.load_state(case_root)["case_kind"]],
         "cwd_policy": "CASE_ROOT_RELATIVE",

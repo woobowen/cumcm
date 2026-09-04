@@ -29,6 +29,7 @@ def test_manifest_rejects_missing_input_fake_commit_and_incomplete_code_tree(
     case_cli.write_json(output, {"value": 1})
     output_hash = case_cli.file_hash(output)
     freezes = {"candidate_set": "1" * 64, "metric": "2" * 64, "seed_schedule": "3" * 64}
+    configuration = {"candidate_id": "A", "seed": 7}
     manifest = {
         "run_id": "RUN-A",
         "input_files": [{"path": "data/raw/missing.json", "sha256": "4" * 64}],
@@ -43,7 +44,8 @@ def test_manifest_rejects_missing_input_fake_commit_and_incomplete_code_tree(
             }
         ],
         "code_tree_hash": case_cli.canonical_hash(["5" * 64]),
-        "configuration_hash": "6" * 64,
+        "configuration": configuration,
+        "configuration_hash": case_cli.canonical_hash(configuration),
         "random_seed": 7,
         "argv": ["model.py"],
         "cwd_policy": "CASE_ROOT_RELATIVE",
@@ -66,6 +68,12 @@ def test_manifest_rejects_missing_input_fake_commit_and_incomplete_code_tree(
         "RC_MANIFEST_GIT_COMMIT_INVALID",
         "RC_MANIFEST_CODE_MISSING",
     } <= set(result.reason_codes)
+    changed_configuration = copy.deepcopy(manifest)
+    changed_configuration["configuration"]["seed"] = 8
+    changed_result = case_cli.validate_manifest(
+        changed_configuration, case_root=case_root, trusted_freezes=freezes
+    )
+    assert "RC_MANIFEST_CONFIGURATION_HASH_MISMATCH" in changed_result.reason_codes
 
 
 def test_comparison_rejects_empty_freezes_and_missing_baseline_attempt(case_cli) -> None:

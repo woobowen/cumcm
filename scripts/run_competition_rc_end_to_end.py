@@ -95,6 +95,14 @@ def run_case(
         path.parent.name: {
             "sha256": file_hash(path),
             "outcome": load_json(path)["outcome"],
+            "code_commit": load_json(path)["code_commit"],
+            "code_files": load_json(path)["code_files"],
+            "code_tree_hash": load_json(path)["code_tree_hash"],
+            "input_files": load_json(path)["input_files"],
+            "input_hash": load_json(path)["input_hash"],
+            "configuration": load_json(path)["configuration"],
+            "configuration_hash": load_json(path)["configuration_hash"],
+            "random_seed": load_json(path)["random_seed"],
             "output_hash": load_json(path)["output_hash"],
         }
         for path in sorted(case_root.glob("runs/*/manifest.json"))
@@ -103,6 +111,24 @@ def run_case(
     robustness = load_json(case_root / "results/robustness.json")["content"]
     final = load_json(case_root / "results/final_result.json")["content"]
     raw_files = sorted((case_root / "data/raw").glob("*"))
+    processed_files = sorted((case_root / "data/processed").glob("*"))
+    data_audit = load_json(case_root / "data/data_audit.json")["content"]
+    raw_before = raw_files[0].read_bytes()
+    raw_files[0].write_bytes(raw_before + b"\n")
+    stale_command = subprocess.run(
+        [
+            sys.executable,
+            str(CLI),
+            "stale-check",
+            "--case-root",
+            str(case_root),
+            "--check",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    stale_result = json.loads(stale_command.stdout)
     summary = {
         "schema_version": "1.0.0",
         "case_id": case_id,
@@ -118,7 +144,20 @@ def run_case(
         "gate_sequence": [item["gate"] for item in state["history"][1:]],
         "artifact_hashes": {relative: file_hash(case_root / relative) for relative in ARTIFACTS},
         "raw_input_hashes": {
-            str(path.relative_to(case_root)): file_hash(path) for path in raw_files
+            str(path.relative_to(case_root)): data_audit["data_hashes"][
+                str(path.relative_to(case_root))
+            ]
+            for path in raw_files
+        },
+        "processed_input_hashes": {
+            str(path.relative_to(case_root)): file_hash(path) for path in processed_files
+        },
+        "processing_lineage": data_audit.get("processing_lineage"),
+        "post_ready_raw_mutation_probe": {
+            "exit_code": stale_command.returncode,
+            "status": stale_result["status"],
+            "reason_codes": stale_result["reason_codes"],
+            "state_mutated": False,
         },
         "run_manifests": manifests,
         "selected_model": final["selected_model"],

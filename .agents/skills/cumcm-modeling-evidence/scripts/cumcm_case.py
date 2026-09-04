@@ -428,6 +428,7 @@ def validate_manifest(
         "code_commit",
         "code_files",
         "code_tree_hash",
+        "configuration",
         "configuration_hash",
         "random_seed",
         "argv",
@@ -458,6 +459,15 @@ def validate_manifest(
     commit = manifest.get("code_commit")
     if not isinstance(commit, str) or not git_commit_exists(commit):
         codes.add("RC_MANIFEST_GIT_COMMIT_INVALID")
+    configuration = manifest.get("configuration")
+    if not isinstance(configuration, dict):
+        codes.add("RC_MANIFEST_CONFIGURATION_INVALID")
+    else:
+        try:
+            if manifest.get("configuration_hash") != canonical_hash(configuration):
+                codes.add("RC_MANIFEST_CONFIGURATION_HASH_MISMATCH")
+        except (TypeError, ValueError):
+            codes.add("RC_MANIFEST_CONFIGURATION_INVALID")
     seed = manifest.get("random_seed")
     if not isinstance(seed, int) or isinstance(seed, bool):
         codes.add("RC_MANIFEST_SEED_INVALID")
