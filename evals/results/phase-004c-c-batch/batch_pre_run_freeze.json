@@ -1,0 +1,399 @@
+{
+  "agent_roles": [
+    "modeling_orchestrator",
+    "problem_and_model_analyst",
+    "data_and_experiment_engineer",
+    "adversarial_evidence_auditor"
+  ],
+  "answer_states": [
+    "SEALED",
+    "SEALED",
+    "SEALED"
+  ],
+  "answer_unlock_preconditions": [
+    "THREE_FIRST_RUN_FREEZES_EXIST",
+    "THREE_FIRST_RUN_FREEZE_CHECKS_PASS",
+    "THREE_FIRST_RUN_COMMITS_REMOTE_VERIFIED",
+    "LOCAL_REMOTE_SHA_MATCH",
+    "FORMAL_SKILL_TREE_UNCHANGED",
+    "NO_UNRESOLVED_SOLUTION_EXPOSURE",
+    "RAW_INPUT_HASHES_UNCHANGED"
+  ],
+  "artifact_type": "c_target_batch_pre_run_freeze",
+  "batch_id": "C-TARGET-BATCH-001",
+  "batch_reference_unlocked": false,
+  "batch_skill_frozen": true,
+  "case_order": [
+    "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+    "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+    "CUMCM-2020-C-DEVELOPMENT-BATCH-003"
+  ],
+  "cases": [
+    {
+      "answer_state": "SEALED",
+      "batch_position": 1,
+      "case_id": "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+      "case_state": "CREATED",
+      "case_state_sha256": "914a62b946bc95447a4a6c498cff84b546e8fcab2c87b68b451cb29b5a6f5d94",
+      "contamination_status": "NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE",
+      "data_hashes": {
+        "raw/case_files/附件.xlsx": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c"
+      },
+      "first_run_status": "IN_PROGRESS",
+      "generalization_axis": [
+        "COMPOSITIONAL_DATA",
+        "STATISTICAL_INFERENCE",
+        "CLASSIFICATION",
+        "CLUSTERING",
+        "MISSING_AND_ANOMALOUS_DATA",
+        "FEATURE_STABILITY"
+      ],
+      "model": "gpt-5",
+      "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+      "official_archive_sha256": "c27eb1b665f070341e134f5dc13bb2af469230424ff2eedabf594eee708bfee4",
+      "official_title": "古代玻璃制品的成分分析与鉴别",
+      "problem_hash": "573ee0f2865af13f8b2fbd12dab7f8efa68cf61ec6b8edf132a2120424480dbd",
+      "problem_source": "raw/case_files/C题.pdf",
+      "reasoning": "UNKNOWN",
+      "reference_unlock": "LOCKED",
+      "registration_start_time": "2026-09-04T22:59:00+08:00",
+      "search_log_sha256": "c9567d3a1ff8fb5452402f40e99865d654caaa511a6ca14d2881ff8567dd4384",
+      "set_type": "DEVELOPMENT",
+      "strict_first_run_eligibility": "ELIGIBLE_MODEL_PRIOR_UNVERIFIABLE",
+      "timebox_seconds": 10800
+    },
+    {
+      "answer_state": "SEALED",
+      "batch_position": 2,
+      "case_id": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+      "case_state": "CREATED",
+      "case_state_sha256": "95bb24f3b80e12509807af9fef945c6d49c2c9c53435c9de0bc4746973662282",
+      "contamination_status": "NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE",
+      "data_hashes": {
+        "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b",
+        "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685",
+        "raw/case_files/附件A 订购方案数据结果.xlsx": "3119bcd215c20dc660417fb7da226e60e82ee8f17f5d538ca336871a79e467b6",
+        "raw/case_files/附件B 转运方案数据结果.xlsx": "807187bf799da3183c0ec81dad3c496869c19565b8dde44dccadc65c648d7d98"
+      },
+      "first_run_status": "IN_PROGRESS",
+      "generalization_axis": [
+        "MULTI_TABLE_TIME_SERIES",
+        "SUPPLIER_EVALUATION",
+        "ORDERING_OPTIMIZATION",
+        "TRANSPORT_ALLOCATION",
+        "ROBUST_FEASIBILITY",
+        "MULTI_STAGE_DECISION"
+      ],
+      "model": "gpt-5",
+      "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+      "official_archive_sha256": "3391573f546fce4511e9a99c24c386e28203d8fee3d29bb2dccada5921cefe7b",
+      "official_title": "生产企业原材料的订购与运输",
+      "problem_hash": "4a592c20adad12d4f0678a783bfb47995bda03b1c7484adf254d96327f534056",
+      "problem_source": "raw/case_files/CUMCM2021-C.pdf",
+      "reasoning": "UNKNOWN",
+      "reference_unlock": "LOCKED",
+      "registration_start_time": "2026-09-04T22:59:00+08:00",
+      "search_log_sha256": "ff66806a7387e6c70d392513b7a0ae816d0c64615262bee3a2ef45e43f913721",
+      "set_type": "DEVELOPMENT",
+      "strict_first_run_eligibility": "ELIGIBLE_MODEL_PRIOR_UNVERIFIABLE",
+      "timebox_seconds": 10800
+    },
+    {
+      "answer_state": "SEALED",
+      "batch_position": 3,
+      "case_id": "CUMCM-2020-C-DEVELOPMENT-BATCH-003",
+      "case_state": "CREATED",
+      "case_state_sha256": "c7a489f9fbdb38203226346db466275a557daf3c38519c9135117e62c78d0ffd",
+      "contamination_status": "COLOCATED_ARCHIVE_PREVIOUSLY_USED_FOR_2020A_NO_C_CONTENT_EXPOSURE_FOUND",
+      "data_hashes": {
+        "raw/case_files/附件1：123家有信贷记录企业的相关数据.xlsx": "450df5f7184aa43b3b1cddaa4387cceb91d4881a666e667b7c84c480a8b2b600",
+        "raw/case_files/附件2：302家无信贷记录企业的相关数据.xlsx": "1399075d2b39a05da6d7722af16cb96ed322cf13b96dd780d5d42a7686bc634b",
+        "raw/case_files/附件3：银行贷款年利率与客户流失率关系的统计数据.xlsx": "abdbdf684b76d2ea2675233662d5e3db346314716ffd911d1389599410624056"
+      },
+      "first_run_status": "IN_PROGRESS",
+      "generalization_axis": [
+        "CREDIT_RISK",
+        "ENTERPRISE_SCORING",
+        "CLASSIFICATION",
+        "DECISION_UNDER_UNCERTAINTY",
+        "RISK_RETURN_TRADEOFF",
+        "POLICY_SCENARIO_ANALYSIS"
+      ],
+      "model": "gpt-5",
+      "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+      "official_archive_sha256": "04ea454f8a1559dac2dc5b7cf599bceb10cd6a0b6f2df55a35ca4450814239dd",
+      "official_title": "中小微企业的信贷决策",
+      "problem_hash": "d16b3e230eb616ac88ae5d5c172a4434d1814322d158e975c0959c95d49bb67d",
+      "problem_source": "raw/case_files/2020C-中小微企业的信贷决策.docx",
+      "reasoning": "UNKNOWN",
+      "reference_unlock": "LOCKED",
+      "registration_start_time": "2026-09-04T22:59:00+08:00",
+      "search_log_sha256": "78b0c2fca600addea71a2c037a8ae22be7e448e74c80b1cd6eae65ed77978364",
+      "set_type": "DEVELOPMENT",
+      "strict_first_run_eligibility": "ELIGIBLE_MODEL_PRIOR_UNVERIFIABLE",
+      "timebox_seconds": 10800
+    }
+  ],
+  "created_at": "2026-09-04T15:11:15Z",
+  "environment": {
+    "dependency_snapshot": {
+      "method": "importlib.metadata_name_version_only",
+      "package_count": 35,
+      "packages": [
+        {
+          "name": "attrs",
+          "version": "26.1.0"
+        },
+        {
+          "name": "cloudpickle",
+          "version": "3.1.2"
+        },
+        {
+          "name": "cumcm-skill-lab",
+          "version": "0.1.0"
+        },
+        {
+          "name": "et_xmlfile",
+          "version": "2.0.0"
+        },
+        {
+          "name": "formulaic",
+          "version": "1.2.2"
+        },
+        {
+          "name": "iniconfig",
+          "version": "2.3.0"
+        },
+        {
+          "name": "interface_meta",
+          "version": "2.0.1"
+        },
+        {
+          "name": "joblib",
+          "version": "1.6.0"
+        },
+        {
+          "name": "jsonschema",
+          "version": "4.26.0"
+        },
+        {
+          "name": "jsonschema-specifications",
+          "version": "2025.9.1"
+        },
+        {
+          "name": "narwhals",
+          "version": "2.25.0"
+        },
+        {
+          "name": "numpy",
+          "version": "2.4.6"
+        },
+        {
+          "name": "openpyxl",
+          "version": "3.1.5"
+        },
+        {
+          "name": "packaging",
+          "version": "26.3"
+        },
+        {
+          "name": "pandas",
+          "version": "2.3.3"
+        },
+        {
+          "name": "patsy",
+          "version": "1.0.3"
+        },
+        {
+          "name": "pip",
+          "version": "24.0"
+        },
+        {
+          "name": "pluggy",
+          "version": "1.6.0"
+        },
+        {
+          "name": "pygments",
+          "version": "2.21.0"
+        },
+        {
+          "name": "pytest",
+          "version": "8.4.2"
+        },
+        {
+          "name": "python-dateutil",
+          "version": "2.9.0.post0"
+        },
+        {
+          "name": "pytz",
+          "version": "2026.3.post1"
+        },
+        {
+          "name": "pyyaml",
+          "version": "6.0.3"
+        },
+        {
+          "name": "referencing",
+          "version": "0.37.0"
+        },
+        {
+          "name": "rpds-py",
+          "version": "2026.6.3"
+        },
+        {
+          "name": "ruff",
+          "version": "0.16.5"
+        },
+        {
+          "name": "scikit-learn",
+          "version": "1.9.0"
+        },
+        {
+          "name": "scipy",
+          "version": "1.17.1"
+        },
+        {
+          "name": "setuptools",
+          "version": "79.0.1"
+        },
+        {
+          "name": "six",
+          "version": "1.17.0"
+        },
+        {
+          "name": "statsmodels",
+          "version": "0.15.0"
+        },
+        {
+          "name": "threadpoolctl",
+          "version": "3.6.0"
+        },
+        {
+          "name": "typing_extensions",
+          "version": "4.16.0"
+        },
+        {
+          "name": "tzdata",
+          "version": "2026.3"
+        },
+        {
+          "name": "wrapt",
+          "version": "2.4.0"
+        }
+      ],
+      "sha256": "3c8baa2f717b4c35bb56f6dc0db88886b66c2802a9e4d0b715c10b92dc9a50fe"
+    },
+    "executable": ".venv/bin/python",
+    "implementation": "CPython",
+    "python_version": "3.11.14"
+  },
+  "fallback_rule": {
+    "activation_deadline": "BEFORE_ANY_POSITION_3_CANDIDATE_RESULT",
+    "case_id": "CUMCM-2019-C-DEVELOPMENT-BATCH-003F",
+    "decision": "NOT_ACTIVATED",
+    "reason": "OFFICIAL_2020_C_INPUT_AVAILABLE_AND_NO_PRIOR_C_CONTENT_ACCESS_FOUND"
+  },
+  "formal_skill": {
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "capability": "COMPETITION_RC",
+    "commit": "8a2a813ff34d8c2701c64ff9d959848e7b88c27c",
+    "deterministic_listing_sha256": "6b4df65ddae6ba03468d8aa313681f5eb8bafb71e335c5da64ed53b2b1f7dbff",
+    "git_tree_sha1": "a4551c8aa0b6b119823f6ce9df3f0f948339bb33",
+    "name": "cumcm-modeling-evidence",
+    "version": "0.2.0-competition-rc3"
+  },
+  "freeze_id": "C-TARGET-BATCH-001-PRE-RUN-FREEZE-001",
+  "freeze_payload_sha256": "1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09",
+  "hard_failures": [
+    "MAIN_QUESTION_MISSED",
+    "UNEXECUTED_CODE_CLAIMED_AS_RESULT",
+    "TEST_FUTURE_TARGET_OR_GROUP_LEAKAGE",
+    "INFEASIBLE_SOLUTION_ACCEPTED",
+    "NONCONVERGED_RUN_ACCEPTED",
+    "RAW_INPUT_OVERWRITTEN",
+    "RESULT_NOT_BOUND_TO_CODE_AND_INPUT",
+    "CLAIM_WITHOUT_EVIDENCE",
+    "REFERENCE_ANSWER_EXPOSED_PRE_FREEZE",
+    "UNCAPTURED_NUMBER_MANUALLY_INSERTED",
+    "FORMAL_SKILL_MUTATED_DURING_BATCH_FIRST_RUN"
+  ],
+  "input_registration": {
+    "path": "evals/results/phase-004c-c-batch/input_registration.json",
+    "sha256": "ddde33d63548bc39c3594aec76840683a47d3bb07a9810c9b4240bd75dda9f2f"
+  },
+  "manual_intervention_policy": {
+    "initial_count_per_case": 0,
+    "must_be_captured": true,
+    "result_number_insertion": "PROHIBITED",
+    "retry_until_success": "PROHIBITED"
+  },
+  "parallelism": {
+    "case_worker_freshness": "FRESH_NATIVE_SUBAGENT_SESSION_PER_CASE",
+    "maximum_concurrent_case_workers": 2,
+    "peer_output_access": "PROHIBITED",
+    "shared_state_writers": [
+      "modeling_orchestrator"
+    ],
+    "worker_write_scope": "OWN_CASE_DIRECTORY_ONLY",
+    "worktree_use": "PROHIBITED"
+  },
+  "phase": "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+  "raw_inputs_git_ignored": true,
+  "runner": {
+    "path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+    "sha256": "1cdeeb04219e91dddf73eeb730782e31bef6a669061d2873137ad181b6a86f06"
+  },
+  "schema_version": "1.0.0",
+  "scoring_rubric": [
+    "first_pass_completion",
+    "requirement_coverage",
+    "main_question_coverage",
+    "time_to_requirement_trace",
+    "time_to_data_audit",
+    "time_to_first_baseline",
+    "time_to_first_valid_result",
+    "time_to_final_candidate",
+    "time_to_handoff",
+    "valid_run_ratio",
+    "failed_run_count",
+    "manual_intervention_count",
+    "recovery_count",
+    "hard_failure_count",
+    "model_portfolio_quality",
+    "data_audit_completeness",
+    "mathematical_validity",
+    "numerical_validity",
+    "feasibility",
+    "robustness_completeness",
+    "claim_evidence_completeness",
+    "handoff_completeness",
+    "reproducibility",
+    "search_quality",
+    "contest_efficiency"
+  ],
+  "search_policy": {
+    "allowed": [
+      "OFFICIAL_INPUT_ACQUISITION",
+      "GENERAL_DOMAIN_SOURCE",
+      "GENERAL_METHOD_SOURCE"
+    ],
+    "path": "docs/SEARCH_POLICY.md",
+    "prohibited_query_components": [
+      "YEAR",
+      "PROBLEM_NUMBER",
+      "FULL_PROBLEM_TITLE",
+      "UNIQUE_ATTACHMENT_FIELD",
+      "SOLUTION",
+      "ANSWER",
+      "AWARDED_PAPER",
+      "CODE"
+    ],
+    "sha256": "b7336e9f4ad20dfbf667b29cd0a2773626c9e8ecc87695488f081557132df9a5"
+  },
+  "subject_commit": "1196689281704d7dcc801952f6b2ce4f5e958624",
+  "subject_git_tree": "00093c7adb4b2a423b99676c2f440417237aa9a9",
+  "target_policy": {
+    "path": "rules/target_problem_policy.yaml",
+    "sha256": "4451a0e804ef7ea3fbf74ca2ca0d86e9b47038af4e4ea60ebd0f78b8868b8f33"
+  }
+}

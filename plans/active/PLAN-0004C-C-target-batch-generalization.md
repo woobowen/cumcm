@@ -54,7 +54,7 @@ Policy, decision, docs, plan, registry metadata, state/schema, generated report,
 branch pointer are consistent. Focused checks and full CI pass; one atomic content commit is pushed;
 one Draft PR is created and remains Draft.
 
-### M2 — Official inputs and batch pre-run freeze (`PENDING`)
+### M2 — Official inputs and batch pre-run freeze (`PENDING_REMOTE_DELIVERY`)
 
 Only official archives are acquired. Raw files remain ignored and immutable. Exact problem/data
 hashes, no-solution-exposure results, environment, runner, RC3 tree, case order/fallback, search
@@ -155,6 +155,13 @@ git diff --check
 - The 2020 archive matches the previously cached official package. Prior extracted raw files are
   confined to `A/`, and no prior C registration/result was found, so the 2019 fallback was not
   activated before results. The model-prior limitation remains unverifiable.
+- Batch freeze `C-TARGET-BATCH-001-PRE-RUN-FREEZE-001` binds input-registration commit
+  `1196689281704d7dcc801952f6b2ce4f5e958624`, all three `SEALED` cases, RC3 tree
+  `a4551c8aa0b6b119823f6ce9df3f0f948339bb33`, the deterministic runner, Python 3.11.14, a
+  35-package name/version snapshot, target/search policies, the 25-metric rubric, 11 hard failures,
+  four formal roles, two-worker maximum, per-case timebox, and zero initial interventions. Its
+  canonical payload SHA-256 is `1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09`;
+  no case state has advanced beyond `CREATED` and no Run exists. Remote delivery remains pending.
 
 ## Next step
 
