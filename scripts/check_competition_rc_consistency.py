@@ -30,6 +30,7 @@ DEVELOPMENT_STATUSES = {
 }
 C_TARGET_STATUSES = {
     "C_TARGET_BATCH_IN_PROGRESS",
+    "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
     "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
     "C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE",
     "C_TARGET_VALIDATION_PASSED",
@@ -135,6 +136,7 @@ def evaluate() -> dict[str, Any]:
             "CUMCM-2020-A-RC3-DEVELOPMENT-REGRESSION",
             "CUMCM-2020-A-DEVELOPMENT-RC3",
             "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS",
+            "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES, *C_TARGET_STATUSES},
@@ -161,7 +163,8 @@ def evaluate() -> dict[str, Any]:
             and state.get("next_phase_allowed") is None
         )
         or (
-            state.get("technical_adjudication_status") == "C_TARGET_BATCH_IN_PROGRESS"
+            state.get("technical_adjudication_status")
+            in {"C_TARGET_BATCH_IN_PROGRESS", "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"}
             and state.get("next_phase_allowed") is None
         ),
         "state_has_no_blockers": state.get("blockers") == [],

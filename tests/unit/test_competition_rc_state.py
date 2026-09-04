@@ -19,8 +19,8 @@ def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_roo
 
     Draft202012Validator(schema).validate(state)
     assert state["phase"] == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
-    assert state["technical_adjudication_status"] == "C_TARGET_BATCH_IN_PROGRESS"
-    assert state["subphase"] == "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS"
+    assert state["technical_adjudication_status"] == "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"
+    assert state["subphase"] == "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM"
     assert state["current_plan"] == "plans/active/PLAN-0004C-C-target-batch-generalization.md"
     assert state["current_branch"] == "feat/phase004c-c-target-batch-generalization"
     assert state["next_phase_allowed"] is None
@@ -28,7 +28,7 @@ def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_roo
     assert state["primary_target_problem_type"] == "C"
     assert state["current_batch_id"] == "C-TARGET-BATCH-001"
     assert state["batch_skill_frozen"] is True
-    assert state["batch_reference_unlocked"] is False
+    assert state["batch_reference_unlocked"] is True
     assert state["development_eval"]["case_id"] == "CUMCM-2020-A-DEVELOPMENT-002"
     assert state["development_eval"]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
     assert state["development_eval"]["first_run_status"] == "FROZEN"
@@ -55,7 +55,7 @@ def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_roo
         (("primary_target_problem_type",), "A"),
         (("current_batch_id",), "C-TARGET-BATCH-999"),
         (("batch_skill_frozen",), False),
-        (("batch_reference_unlocked",), True),
+        (("batch_reference_unlocked",), False),
         (("base_selected",), True),
         (("third_party_integrated",), True),
         (("blockers",), ["fabricated"]),

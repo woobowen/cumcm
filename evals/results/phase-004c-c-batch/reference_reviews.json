@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_type": "c_target_batch_reference_reviews",
+  "batch_id": "C-TARGET-BATCH-001",
+  "unlock_receipt": {
+    "path": "evals/results/phase-004c-c-batch/batch_reference_unlock.json",
+    "sha256": "d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a",
+    "unlock_time": "2026-09-05T00:59:00+08:00",
+    "remote_delivery_commit": "a4739c96af5a7b01ff3113add88d8c696427e1f7"
+  },
+  "evaluation_criteria": [
+    "requirement_satisfaction",
+    "mathematical_validity",
+    "numerical_credibility",
+    "actual_execution",
+    "evidence_sufficiency",
+    "contest_time_reasonableness"
+  ],
+  "reference_policy": {
+    "maximum_per_case": 3,
+    "actual_per_case": 2,
+    "mass_solution_collection": false,
+    "reference_bodies_tracked": false,
+    "reference_bodies_git_ignored": true,
+    "code_copied": false,
+    "parameters_copied": false,
+    "formulas_copied": false,
+    "passages_copied": false,
+    "first_run_overwritten": false,
+    "no_copy_declaration": "PASS_NO_CODE_PARAMETER_FORMULA_OR_PASSAGE_COPIED"
+  },
+  "cases": [
+    {
+      "case_id": "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+      "first_run_freeze": {
+        "path": "evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.v2.json",
+        "sha256": "5de34dec79b8b8aa0273b16d6ce0f1d4115178cd9e8410cc241adcaa79c61a87",
+        "freeze_commit": "7688b6a3f55052a5ba55396783c48eb5dc12d409"
+      },
+      "references": [
+        {
+          "class": "OFFICIAL_PROBLEM_PAGE",
+          "title": "2022年高教社杯全国大学生数学建模竞赛赛题",
+          "publisher": "全国大学生数学建模竞赛",
+          "url": "https://www.mcm.edu.cn/html_cn/node/388239ded4b057d37b7b8e51e33fe903.html",
+          "body_sha256": "e9766ccea4746493b915113e2b83107df0b868bef6448a95dc50792fb6cbce06",
+          "accessed_at": "2026-09-05T01:00:40+08:00",
+          "evaluation_use": "Confirm official provenance and the bounded official reference channel; no solution method adopted."
+        },
+        {
+          "class": "PUBLISHED_FOLLOW_UP_ANALYSIS",
+          "title": "古代玻璃制品的成分分析与鉴别",
+          "authors": ["项辉", "金乐", "王可", "李霁昊", "李响"],
+          "publisher": "Modeling and Simulation",
+          "doi": "10.12677/MOS.2023.121007",
+          "url": "https://doi.org/10.12677/MOS.2023.121007",
+          "body_sha256": "65262b474cc0ec615203da5329d8f32f07c33666bc03e20934c3152288dff18b",
+          "accessed_at": "2026-09-05T01:04:26+08:00",
+          "evaluation_use": "Contrast broad coverage of classification, correlation, discrimination and sensitivity only; no method, parameter, formula or result copied."
+        }
+      ],
+      "gap_summary": [
+        "The first run covered all four questions and used composition-aware candidates, group-disjoint validation and quantitative perturbations.",
+        "The published analysis used a different valid portfolio; disagreement in model family is not treated as failure.",
+        "The frozen run could not promote its results because six generic downstream output fields were absent.",
+        "Weathering back-cast identifiability and sparse contingency inference remain explicit case-specific limitations."
+      ]
+    },
+    {
+      "case_id": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+      "first_run_freeze": {
+        "path": "evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.v2.json",
+        "sha256": "a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d",
+        "freeze_commit": "7688b6a3f55052a5ba55396783c48eb5dc12d409"
+      },
+      "references": [
+        {
+          "class": "OFFICIAL_PROBLEM_PAGE",
+          "title": "2021年高教社杯全国大学生数学建模竞赛赛题",
+          "publisher": "全国大学生数学建模竞赛",
+          "url": "https://www.mcm.edu.cn/html_cn/node/90d223833c1eb50f899aa096a66c6896.html",
+          "body_sha256": "7c541c0807054f1047e3121ee6d7292208ffcbdfdbe958a16fd1442ae0a02aff",
+          "accessed_at": "2026-09-05T01:00:41+08:00",
+          "evaluation_use": "Confirm official provenance and the bounded official reference channel; no solution method adopted."
+        },
+        {
+          "class": "PUBLISHED_FOLLOW_UP_ANALYSIS",
+          "title": "Research on the Optimal Scheme of Raw Material Ordering and Transportation in Production Enterprises",
+          "authors": ["Yuxuan Liao", "Zhenhao Huang", "Yihe Zhang"],
+          "publisher": "Academic Journal of Computing & Information Science",
+          "doi": "10.25236/AJCIS.2021.040802",
+          "url": "https://doi.org/10.25236/AJCIS.2021.040802",
+          "body_sha256": "720aa4e639be34c13ad8fda53b37013fb6cd34c8cf15ed94e9c326cf10898929",
+          "accessed_at": "2026-09-05T01:03:32+08:00",
+          "evaluation_use": "Contrast evaluation, temporal loss forecasting and constrained allocation coverage only; no method, parameter, formula or result copied."
+        }
+      ],
+      "gap_summary": [
+        "Four non-baseline runs produced independently rechecked feasible multi-question plans; two baseline failures were preserved.",
+        "The published analysis confirms that ranking, loss dynamics and constrained allocation are legitimate coverage axes, but its specific portfolio is not an oracle.",
+        "The frozen comparison correctly blocked because the baseline had no success and post-selection test access was not authorized.",
+        "The generic downstream output contract needed a pre-run repair, independently repeating the same contract-discovery problem seen in the other cases."
+      ]
+    },
+    {
+      "case_id": "CUMCM-2020-C-DEVELOPMENT-BATCH-003",
+      "first_run_freeze": {
+        "path": "evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/first_run/first_run_freeze.v2.json",
+        "sha256": "a5016b6336001bf840247aa6135b4beba15d3a695da498ac1e9149afe332ccfb",
+        "freeze_commit": "29ad3c3f3971e23a36dc7094abdfe86dc5fc6505"
+      },
+      "references": [
+        {
+          "class": "OFFICIAL_PROBLEM_PAGE",
+          "title": "2020年高教社杯全国大学生数学建模竞赛赛题",
+          "publisher": "全国大学生数学建模竞赛",
+          "url": "https://www.mcm.edu.cn/html_cn/node/10405905647c52abfd6377c0311632b5.html",
+          "body_sha256": "bb491139bfbbdd78d8acd2f50485007a89f502be85f3a5b11a37d8818aae5e36",
+          "accessed_at": "2026-09-05T01:00:41+08:00",
+          "evaluation_use": "Confirm official provenance and the bounded official reference channel; no solution method adopted."
+        },
+        {
+          "class": "PUBLISHED_FOLLOW_UP_ANALYSIS",
+          "title": "中小微企业的信贷决策",
+          "authors": ["宋世杰", "庄雯心", "任思淼", "张元标"],
+          "publisher": "Advances in Applied Mathematics",
+          "doi": "10.12677/AAM.2021.102053",
+          "url": "https://doi.org/10.12677/AAM.2021.102053",
+          "body_sha256": "4fb24d0c3a5a933febaf3655c7fba8409cf3134095848358d0865f93af959d6f",
+          "accessed_at": "2026-09-05T01:04:46+08:00",
+          "evaluation_use": "Contrast risk prediction and loan amount/rate decision coverage only; no method, parameter, formula or result copied."
+        }
+      ],
+      "gap_summary": [
+        "The first run passed all 14 stages with held-out post-selection risk metrics, explicit feasibility, scenario analysis, Claims and handoff.",
+        "The published analysis used a different predictor and decision construction; model-family disagreement is not treated as failure.",
+        "The first-run evidence is stronger on leakage-safe model comparison and independent post-selection testing than the bounded reference review can establish.",
+        "Two pre-run output/handoff contract recoveries show the same discoverability and timing defect that became terminal in the 2022 case."
+      ]
+    }
+  ]
+}
