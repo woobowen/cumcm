@@ -579,7 +579,11 @@ cases:
   batch_position: 3
   answer_access_status: SEALED
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
-  first_run_freeze: null
+  first_run_freeze:
+    freeze_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003-FIRST-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/first_run/first_run_freeze.json
+    sha256: 5805595385da986b6c811f0ce9e88ef1495c54ce4e397dc73d7643d0a3d5c75c
+    subject_commit: 372e818166f72a9dbebdcb89f5bfcc495af6635b
   reference_unlock: LOCKED
   formal_skill_version: 0.2.0-competition-rc3
   formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
@@ -639,14 +643,49 @@ cases:
     raw/case_files/附件1：123家有信贷记录企业的相关数据.xlsx: 450df5f7184aa43b3b1cddaa4387cceb91d4881a666e667b7c84c480a8b2b600
     raw/case_files/附件2：302家无信贷记录企业的相关数据.xlsx: 1399075d2b39a05da6d7722af16cb96ed322cf13b96dd780d5d42a7686bc634b
     raw/case_files/附件3：银行贷款年利率与客户流失率关系的统计数据.xlsx: abdbdf684b76d2ea2675233662d5e3db346314716ffd911d1389599410624056
-  first_run_status: IN_PROGRESS
+  first_run_status: FROZEN
   skill_version: 0.2.0-competition-rc3
   skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
   model: gpt-5
   reasoning: UNKNOWN
   start_time: '2026-09-04T22:59:00+08:00'
-  freeze_time: null
+  freeze_time: '2026-09-05T00:40:15+08:00'
   unlock_time: null
   generalizable_failures: []
   problem_specific_findings: []
   no_solution_exposure_result: PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED
+  first_run_evidence:
+    skill_version: 0.2.0-competition-rc3
+    skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+    case_state: READY_FOR_PAPER_HANDOFF
+    case_state_sha256: 06e54b4d0502ae117414d2a5a05d61523693e4221928b3e4ec11aead9f420628
+    run_manifest_hashes:
+      runs/RUN-2020C-BASELINE-S20200905/manifest.json: 7a3fd858cdd079e34f60c0328d4e2c704594ee82816b46e0ebbe9faf99cf6436
+      runs/RUN-2020C-BASELINE-S20202020/manifest.json: 52d6056a6fc98254fa3ceaa4d28e44509e30ab28b95c3e5b68a5380d60f1fec6
+      runs/RUN-2020C-FOREST-S20200905/manifest.json: 659d2d74d15f9f43c35f56670324ab27a60d90e8b4724ea9749890a306dae1fd
+      runs/RUN-2020C-FOREST-S20202020/manifest.json: 6e35fb76e6b377fa004e2c0cbd61c164d3d68925a63f5ee1559753f5cd698ba4
+      runs/RUN-2020C-RIDGE-S20200905/manifest.json: 7acaaabaee4f25e5ba95910aa70ee2ec3c24496aacdfad49300246f1e0b639a7
+      runs/RUN-2020C-RIDGE-S20202020/manifest.json: 1ab13d4de2a4f0fd036a38aa25a332a92ecb06a08f50ab7fcc1274d98a8c0ea9
+    blocked_reason_code: null
+    first_run_artifact_hashes:
+      data/data_audit.json: c6aecad753224b25aca85c034e2a98138b1d1520651bb97abbfb1b0a103c82ef
+      evidence/claim_evidence.json: 9c96840f43d8470d84f3040dd7980e7f51adc520c69c463776788b48791a9f39
+      evidence/first_run_failures.json: b319329bf4c88c1bc684961d03cd878be9b109ae5cb099513b35f3e1fdc31f64
+      evidence/first_run_metrics.json: 7d36c5ce47c9562ea9dc6a7dfa0040a259befbed82c619486f3427a2a5389b76
+      evidence/first_run_stage_status.json: 8c3089ff6fdfaca795981e0c49a0151b4cfac66901b45607beca4a28b96b579c
+      evidence/first_run_timing.json: 54b5b6eacaa331508427d01cce9b312a447a5852f742fb2b9f336cb2d1783460
+      experiments/experiment_plan.json: 73b8ba366d2cd9b6e0da88b4371d13e371bc46eead346761c3614c294b353c9a
+      handoff/modeling_to_paper.json: a2ee23f5289c7f171fbf3ef05b3c9b6a97767cea9eaeca43480c4ad3f66e2401
+      models/assumptions_and_symbols.json: 2885e804e6ab3850567a69013e0fc1ffbfca06c551e4b924b3af8083ba587f79
+      models/model_candidates.json: 989f8e2697b843ba2ba33d4d6110ab6f996df7e96dfd41d3831298049f485dcc
+      problem/problem_requirements.json: 836f4ceda977d914ad5cf0fdf8d1eb84f4197a0fe0fef7879ce3fada44e273bc
+      research/pre_freeze_search_log.jsonl: 78b0c2fca600addea71a2c037a8ae22be7e448e74c80b1cd6eae65ed77978364
+      research/research_plan.json: 38b520eafb740e7489eff01e8777a22b60a0ba389cf07a78441f7b3befc328dd
+      research/source_ledger.json: af39cb11255139e83449d6847ac958538a4859ae0de8ff3c6dbe38356c74f3fb
+      results/final_result.json: 14807d457e555475edc4c878403d3e2c14be41ddff2c2172201cf23a71a916f5
+      results/model_comparison.json: 7f4a1a5490c1d38ed3c67fb501c207b4dda640a6acce88a470b20c652784d4aa
+      results/robustness.json: b7763352bc8b32f12a22391dea703a503ebbef7b4c85273d4d94dfbd79eb3732
+      state/development_eval_binding.json: d9f9876a65cb5d1a14ac29ecc65898d80bc902d03f8cb238b75715a08a3a1a4b
+    freeze_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003-FIRST-RUN-FREEZE-001
+    freeze_sha256: 5805595385da986b6c811f0ce9e88ef1495c54ce4e397dc73d7643d0a3d5c75c
+    worktree_commit: 372e818166f72a9dbebdcb89f5bfcc495af6635b
