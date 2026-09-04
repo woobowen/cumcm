@@ -1,0 +1,162 @@
+{
+  "actual_execution": true,
+  "api_calls": 0,
+  "artifact_hashes": {
+    "case_state.json": "5d4f72c26e42dddd0ab13d80a08224e975be78929f53313b01e69aea8a48452d",
+    "data/data_audit.json": "e20f976918732fc026709162dbb22176195820f5e918daff7bfae1cae8b0b15e",
+    "evidence/claim_evidence.json": "8ec49b3892d38104fb23156f5e9809331c4fa0e8bbe91fc8bb716fc398390714",
+    "experiments/experiment_plan.json": "80714bffc4db0ef75cab8f013ef9a77c17cbeacaa6ffed9a3f3aace4eef03598",
+    "handoff/modeling_to_paper.json": "81e05c3b2877b5e7228ead89670fbfc816f4d9e63f5d3d9cd5a832ccb1737ae8",
+    "models/assumptions_and_symbols.json": "a615cb3b0a431414b5520f7695c502b89e371d4bdb99a4395c3c5a6b6ef699a2",
+    "models/model_candidates.json": "9077a248fdb66269f2ab697d1b86bf0fda14d31ed486d897ac5f0fceb765e7e1",
+    "problem/problem_requirements.json": "a2d8369db18c77ce3ea7a22a4ce78a20febca2923cd780560bd6b70dc49eea2e",
+    "research/research_plan.json": "a4a9ffe8d759dd57c909c70d7cc03d44b71f1847e2642200eea18e1604db4708",
+    "research/source_ledger.json": "37983b2aeda1718df7b9d8c89466692a48d75a85a16dc74538d8c35511d52b72",
+    "results/final_result.json": "1b5c84ab8f047b7d60a82138027834cd550e11eec10147f12e0498acc0bae66f",
+    "results/model_comparison.json": "683b1ed570ad8c1649d6be35ea2861d48115bad0f145fb0c6f0e1ebd51903b66",
+    "results/robustness.json": "0e1c1534ee604ae466c82d637c85abcce4f4b79df4765d2e6b7f47be711199b5"
+  },
+  "case_id": "SYNTH-RC1-OPTIMIZATION-002",
+  "cli_result": {
+    "case_id": "SYNTH-RC1-OPTIMIZATION-002",
+    "case_state_hash": "5d4f72c26e42dddd0ab13d80a08224e975be78929f53313b01e69aea8a48452d",
+    "final_state": "READY_FOR_PAPER_HANDOFF",
+    "handoff_hash": "81e05c3b2877b5e7228ead89670fbfc816f4d9e63f5d3d9cd5a832ccb1737ae8",
+    "kind": "optimization",
+    "objective": 22,
+    "run_ids": [
+      "RUN-O-BASELINE-A-ONLY",
+      "RUN-O-ENUMERATION",
+      "RUN-O-INFEASIBLE-PROPOSAL"
+    ],
+    "selected_model": "O-ENUMERATION",
+    "transition_count": 13
+  },
+  "command": "python <skill>/scripts/cumcm_case.py smoke --case-root <TEMP>/optimization --case-id SYNTH-RC1-OPTIMIZATION-002 --kind optimization",
+  "evidence_hash": "1254caf8512915d91b957f8ec14d63825084bdbd605c34cc96b24ae350b25048",
+  "exit_code": 0,
+  "failure_cases": [
+    "资源或利润系数改变时需重新枚举"
+  ],
+  "final_metrics": {
+    "profit": 22,
+    "x_A": 3,
+    "x_B": 2
+  },
+  "final_run_id": "RUN-O-ENUMERATION",
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "gate_sequence": [
+    "GATE_PROBLEM_INTAKE",
+    "GATE_REQUIREMENT_COVERAGE",
+    "GATE_SOURCE_PLAN",
+    "GATE_ASSUMPTIONS_AND_DATA",
+    "GATE_MODEL_PORTFOLIO",
+    "GATE_EXPERIMENT_PLAN",
+    "GATE_EXECUTION_AUTHORIZED",
+    "GATE_RUN_COMPLETION",
+    "GATE_REPRODUCIBILITY_MANIFEST",
+    "GATE_COMPARISON_AND_ROBUSTNESS",
+    "GATE_FINAL_RUN",
+    "GATE_CLAIM_EVIDENCE",
+    "GATE_MODELING_TO_PAPER"
+  ],
+  "handoff_contract_result": "PASS",
+  "handoff_generated_fields": [
+    "approved_by",
+    "assumptions",
+    "claim_evidence",
+    "contract_version",
+    "data_dictionary",
+    "data_quality_report",
+    "failure_cases",
+    "figure_ready_data",
+    "final_metrics",
+    "final_runs",
+    "formulas",
+    "generated_at",
+    "limitations",
+    "problem_requirements",
+    "reproduction",
+    "requirement_traceability",
+    "result_tables",
+    "robustness_results",
+    "selected_models",
+    "sources",
+    "symbols",
+    "uncertainty",
+    "validation_results"
+  ],
+  "handoff_hash": "81e05c3b2877b5e7228ead89670fbfc816f4d9e63f5d3d9cd5a832ccb1737ae8",
+  "handoff_required_fields": [
+    "approved_by",
+    "assumptions",
+    "claim_evidence",
+    "contract_version",
+    "data_dictionary",
+    "data_quality_report",
+    "failure_cases",
+    "figure_ready_data",
+    "final_metrics",
+    "final_runs",
+    "formulas",
+    "generated_at",
+    "limitations",
+    "problem_requirements",
+    "reproduction",
+    "requirement_traceability",
+    "result_tables",
+    "robustness_results",
+    "selected_models",
+    "sources",
+    "symbols",
+    "uncertainty",
+    "validation_results"
+  ],
+  "historical_answer_accesses": 0,
+  "kind": "optimization",
+  "raw_input_hashes": {
+    "data/raw/optimization_problem.json": "4de8afacf87ff197ed49f1c301b17e6cc230098b456bf2c72181af9aea887fc7"
+  },
+  "robustness_perturbation_count": 2,
+  "run_manifests": {
+    "RUN-O-BASELINE-A-ONLY": {
+      "outcome": "SUCCESS",
+      "output_hash": "50ec2c361a2c0baabd9582a728c51f1bcc836fbeca97e9e05a7624821fcd8272",
+      "sha256": "06542cd649b816982cc36f2d6082e21d186a20f64806bd87da151a46930f3aba"
+    },
+    "RUN-O-ENUMERATION": {
+      "outcome": "SUCCESS",
+      "output_hash": "d57632106b0ab4de99ad76d5056988ea58b17649cd46d9cde5fd6b94c054b531",
+      "sha256": "cdfcbc22423732d79cf9a72b0cf2f5348899cc48f05896fb7ad1af311d8c7322"
+    },
+    "RUN-O-INFEASIBLE-PROPOSAL": {
+      "outcome": "INFEASIBLE",
+      "output_hash": "a3b8973bc15e733963118debe320411e8b02bbb70fcbd1c5b685759abc1005ac",
+      "sha256": "83cb3f70885c54b9348976e1093159891556b00eb6b0367191b655a6cb2c7ad7"
+    }
+  },
+  "schema_version": "1.0.0",
+  "selected_model": "O-ENUMERATION",
+  "state_sequence": [
+    "CREATED",
+    "INTAKE_COMPLETE",
+    "REQUIREMENTS_VALIDATED",
+    "SOURCES_PLANNED",
+    "DATA_AUDITED",
+    "MODELS_PROPOSED",
+    "EXPERIMENT_PLAN_VALIDATED",
+    "RUNNING",
+    "RUN_COMPLETED",
+    "RUN_VALIDATED",
+    "ROBUSTNESS_VALIDATED",
+    "FINAL_CANDIDATE",
+    "EVIDENCE_VALIDATED",
+    "READY_FOR_PAPER_HANDOFF"
+  ],
+  "test_access": {
+    "authorized": true,
+    "count": 1,
+    "used_for_selection": false
+  },
+  "third_party_executions": 0
+}

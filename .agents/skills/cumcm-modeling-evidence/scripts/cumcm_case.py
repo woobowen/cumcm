@@ -731,9 +731,29 @@ def read_artifact(case_root: Path, key: str) -> dict[str, Any]:
 
 
 def trusted_freezes(case_root: Path) -> dict[str, str]:
-    value = read_artifact(case_root, "experiment_plan")["content"].get("trusted_freeze_registry")
-    if not isinstance(value, dict) or not value:
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    value = plan.get("trusted_freeze_registry")
+    candidate_ids = plan.get("candidate_ids")
+    metric = plan.get("metric")
+    direction = plan.get("metric_direction")
+    seeds = plan.get("random_seeds")
+    if (
+        not isinstance(value, dict)
+        or not isinstance(candidate_ids, list)
+        or not candidate_ids
+        or not isinstance(metric, str)
+        or direction not in {"MIN", "MAX"}
+        or not isinstance(seeds, list)
+        or not seeds
+    ):
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
+    expected = {
+        "candidate_set": canonical_hash(candidate_ids),
+        "metric": canonical_hash({"name": metric, "direction": direction}),
+        "seed_schedule": canonical_hash(seeds),
+    }
+    if value != expected:
+        raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_INVALID")
     return value
 
 
@@ -847,11 +867,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         plan = read_artifact(case_root, "experiment_plan")["content"]
         if not plan.get("preregistered") or not plan.get("execution_prepared"):
             raise ValueError("RC_EXPERIMENT_PLAN_NOT_PREREGISTERED")
-        if (
-            not isinstance(plan.get("trusted_freeze_registry"), dict)
-            or not plan["trusted_freeze_registry"]
-        ):
-            raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
+        trusted_freezes(case_root)
         return record_transition(
             case_root,
             state,

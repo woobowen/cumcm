@@ -1,0 +1,154 @@
+{
+  "actual_execution": true,
+  "api_calls": 0,
+  "artifact_hashes": {
+    "case_state.json": "95a4a5f0e3fe1ea39fb2f2a683f5e01c09d4b636f4dfa25c4266c8144397ee37",
+    "data/data_audit.json": "d2ddb423fd33a52be1470db5660365de899c19122eb22d45ce5339eae0ccedd8",
+    "evidence/claim_evidence.json": "245c7eca6a5995cd5b076b83f66fef3a1606765249da9d6a2a2a4fa70f381f32",
+    "experiments/experiment_plan.json": "b7ee54d09eefb6c1a5b1a6dbebb449ad69d5ce90f549598a2b11289dddb8a459",
+    "handoff/modeling_to_paper.json": "5c35407c8265314f1d126246fe963835f203528c7fc199a8149e121939d86203",
+    "models/assumptions_and_symbols.json": "b02300282f3b91582219a3d84589d30f85d4e3d9f5c2859971bef9d913a6110d",
+    "models/model_candidates.json": "4a038eb53d10b6ef5a5fa47b15d9fd565711aed49702c05523f840cbf3e2db2a",
+    "problem/problem_requirements.json": "efd1075435c9530b94c9d7357dcb614629b001975f27dbf23bdb1efa1f268245",
+    "research/research_plan.json": "65408d64996327dd98cc4456ed5e592af72dbfc3284432bdd210beb44260d7a1",
+    "research/source_ledger.json": "37983b2aeda1718df7b9d8c89466692a48d75a85a16dc74538d8c35511d52b72",
+    "results/final_result.json": "9904fe34d152d7e519cf49a47c10cccf5a1960f8d83b62582eb36fbbc9378c72",
+    "results/model_comparison.json": "283d6a07e67df39c6feefcb3dc16e9885a827ba7caff415414aa0ee477d86d6e",
+    "results/robustness.json": "717e20bf6831225410918957a29cb5b823cd4a659052d32860a8685dc5e02ae4"
+  },
+  "case_id": "SYNTH-RC1-PREDICTION-001",
+  "cli_result": {
+    "case_id": "SYNTH-RC1-PREDICTION-001",
+    "case_state_hash": "95a4a5f0e3fe1ea39fb2f2a683f5e01c09d4b636f4dfa25c4266c8144397ee37",
+    "final_metric": 0.0,
+    "final_state": "READY_FOR_PAPER_HANDOFF",
+    "handoff_hash": "5c35407c8265314f1d126246fe963835f203528c7fc199a8149e121939d86203",
+    "kind": "prediction",
+    "run_ids": [
+      "RUN-P-BASELINE-MEAN",
+      "RUN-P-LINEAR-TREND"
+    ],
+    "selected_model": "P-LINEAR-TREND",
+    "transition_count": 13
+  },
+  "command": "python <skill>/scripts/cumcm_case.py smoke --case-root <TEMP>/prediction --case-id SYNTH-RC1-PREDICTION-001 --kind prediction",
+  "evidence_hash": "b3edbad0564fb23dd75c852100a5d761ad8dadb5fb33601169d0ac9728cbe2d7",
+  "exit_code": 0,
+  "failure_cases": [
+    "线性趋势外推不保证适用于结构突变"
+  ],
+  "final_metrics": {
+    "test_mae": 0.0
+  },
+  "final_run_id": "RUN-P-LINEAR-TREND",
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "gate_sequence": [
+    "GATE_PROBLEM_INTAKE",
+    "GATE_REQUIREMENT_COVERAGE",
+    "GATE_SOURCE_PLAN",
+    "GATE_ASSUMPTIONS_AND_DATA",
+    "GATE_MODEL_PORTFOLIO",
+    "GATE_EXPERIMENT_PLAN",
+    "GATE_EXECUTION_AUTHORIZED",
+    "GATE_RUN_COMPLETION",
+    "GATE_REPRODUCIBILITY_MANIFEST",
+    "GATE_COMPARISON_AND_ROBUSTNESS",
+    "GATE_FINAL_RUN",
+    "GATE_CLAIM_EVIDENCE",
+    "GATE_MODELING_TO_PAPER"
+  ],
+  "handoff_contract_result": "PASS",
+  "handoff_generated_fields": [
+    "approved_by",
+    "assumptions",
+    "claim_evidence",
+    "contract_version",
+    "data_dictionary",
+    "data_quality_report",
+    "failure_cases",
+    "figure_ready_data",
+    "final_metrics",
+    "final_runs",
+    "formulas",
+    "generated_at",
+    "limitations",
+    "problem_requirements",
+    "reproduction",
+    "requirement_traceability",
+    "result_tables",
+    "robustness_results",
+    "selected_models",
+    "sources",
+    "symbols",
+    "uncertainty",
+    "validation_results"
+  ],
+  "handoff_hash": "5c35407c8265314f1d126246fe963835f203528c7fc199a8149e121939d86203",
+  "handoff_required_fields": [
+    "approved_by",
+    "assumptions",
+    "claim_evidence",
+    "contract_version",
+    "data_dictionary",
+    "data_quality_report",
+    "failure_cases",
+    "figure_ready_data",
+    "final_metrics",
+    "final_runs",
+    "formulas",
+    "generated_at",
+    "limitations",
+    "problem_requirements",
+    "reproduction",
+    "requirement_traceability",
+    "result_tables",
+    "robustness_results",
+    "selected_models",
+    "sources",
+    "symbols",
+    "uncertainty",
+    "validation_results"
+  ],
+  "historical_answer_accesses": 0,
+  "kind": "prediction",
+  "raw_input_hashes": {
+    "data/raw/prediction_rows.json": "adb4b0fb38d4dd88a7ae1e0c9fdc04bdf2b49191beef1f6b8332f63d426a3428"
+  },
+  "robustness_perturbation_count": 2,
+  "run_manifests": {
+    "RUN-P-BASELINE-MEAN": {
+      "outcome": "SUCCESS",
+      "output_hash": "0af00812f97dc6cc0f02ed7150b29a5dbc566aaf96c2acff9d126124bb1ccc1e",
+      "sha256": "2f961f41553c3d86014a96a240a9dff58bc9f4c5406f55fa56951ce459256d18"
+    },
+    "RUN-P-LINEAR-TREND": {
+      "outcome": "SUCCESS",
+      "output_hash": "b73e08284759824913611918203e9f8ed50997fc9e202dd54d1ace646522126a",
+      "sha256": "20b4c3b7318ae11bf26c59f108c419d3f43411b2f8bb497f28ae453cd46bd228"
+    }
+  },
+  "schema_version": "1.0.0",
+  "selected_model": "P-LINEAR-TREND",
+  "state_sequence": [
+    "CREATED",
+    "INTAKE_COMPLETE",
+    "REQUIREMENTS_VALIDATED",
+    "SOURCES_PLANNED",
+    "DATA_AUDITED",
+    "MODELS_PROPOSED",
+    "EXPERIMENT_PLAN_VALIDATED",
+    "RUNNING",
+    "RUN_COMPLETED",
+    "RUN_VALIDATED",
+    "ROBUSTNESS_VALIDATED",
+    "FINAL_CANDIDATE",
+    "EVIDENCE_VALIDATED",
+    "READY_FOR_PAPER_HANDOFF"
+  ],
+  "test_access": {
+    "authorized": true,
+    "count": 1,
+    "used_for_selection": false
+  },
+  "third_party_executions": 0
+}

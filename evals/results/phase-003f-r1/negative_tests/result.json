@@ -1,0 +1,416 @@
+{
+  "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "cases": [
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CONTEXT_INVALID",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CONTEXT_INVALID"
+      ],
+      "scenario_id": "01_MALFORMED_CONTEXT",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CONTEXT_ENABLED_COMPONENTS_INVALID",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CONTEXT_ENABLED_COMPONENTS_INVALID"
+      ],
+      "scenario_id": "02_MALFORMED_ENABLED_COMPONENTS",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_NONFINITE_OR_NONJSON",
+        "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
+        "RC_COMPARISON_SELECTION_MISMATCH"
+      ],
+      "scenario_id": "03_NAN_SCORE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_NONFINITE_OR_NONJSON",
+        "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
+        "RC_COMPARISON_SELECTION_MISMATCH"
+      ],
+      "scenario_id": "04_INF_SCORE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
+        "RC_COMPARISON_SELECTION_MISMATCH"
+      ],
+      "scenario_id": "05_NUMERIC_STRING_SCORE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_EMPTY_CANDIDATE_SET",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_BASELINE_MISSING",
+        "RC_COMPARISON_EMPTY_CANDIDATE_SET"
+      ],
+      "scenario_id": "06_EMPTY_CANDIDATE_SET",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_EMPTY_SPLIT",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_EMPTY_SPLIT"
+      ],
+      "scenario_id": "07_EMPTY_SPLIT",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_NON_SUCCESS_ATTEMPT_SCORED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_NON_SUCCESS_ATTEMPT_SCORED",
+        "RC_COMPARISON_SELECTION_MISMATCH"
+      ],
+      "scenario_id": "08_FAILED_ATTEMPT_SCORED",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_LEAKAGE:test_used_for_candidate_generation",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_LEAKAGE:test_used_for_candidate_generation"
+      ],
+      "scenario_id": "09_TEST_LEAKAGE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_LEAKAGE:future_information",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_LEAKAGE:future_information"
+      ],
+      "scenario_id": "10_FUTURE_LEAKAGE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_LEAKAGE:group_overlap",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_LEAKAGE:group_overlap"
+      ],
+      "scenario_id": "11_GROUP_LEAKAGE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_LEAKAGE:target_in_features",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_LEAKAGE:target_in_features"
+      ],
+      "scenario_id": "12_TARGET_LEAKAGE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_UNAUTHORIZED_TEST_ACCESS",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_UNAUTHORIZED_TEST_ACCESS"
+      ],
+      "scenario_id": "13_UNAUTHORIZED_TEST_ACCESS",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_COMPARISON_UNTRUSTED_FREEZE",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_COMPARISON_UNTRUSTED_FREEZE"
+      ],
+      "scenario_id": "14_ARBITRARY_FREEZE_HASH",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_SECRET_FIELD_REJECTED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_SECRET_FIELD_REJECTED"
+      ],
+      "scenario_id": "15_PRIVATE_KEY",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_SECRET_FIELD_REJECTED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_SECRET_FIELD_REJECTED"
+      ],
+      "scenario_id": "16_REFRESH_TOKEN",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_PRIVATE_ABSOLUTE_PATH_REJECTED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_PRIVATE_ABSOLUTE_PATH_REJECTED"
+      ],
+      "scenario_id": "17_UNC_PATH",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_MANIFEST_OUTPUT_MUTATION",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_MANIFEST_OUTPUT_MUTATION"
+      ],
+      "scenario_id": "18_MANIFEST_MUTATION",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_MANIFEST_OUTPUT_HASH_MISMATCH",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_MANIFEST_OUTPUT_HASH_MISMATCH"
+      ],
+      "scenario_id": "19_OUTPUT_HASH_MISMATCH",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CLAIM_REQUIRED_BINDING_MISSING",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CLAIM_FINAL_RESULT_BINDING_MISMATCH",
+        "RC_CLAIM_HASH_INVALID:decision_hash",
+        "RC_CLAIM_REQUIRED_BINDING_MISSING",
+        "RC_CLAIM_RUN_BINDING_MISMATCH"
+      ],
+      "scenario_id": "20_UNBOUND_VERIFIED_RUN_DECISION",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CLAIM_STALE_EVIDENCE",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CLAIM_STALE_EVIDENCE"
+      ],
+      "scenario_id": "21_STALE_EVIDENCE",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CLAIM_CONTRADICTED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CLAIM_CONTRADICTED"
+      ],
+      "scenario_id": "22_CONTRADICTORY_CLAIM",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CLAIM_OVERBROAD_OR_UNSUPPORTED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CLAIM_OVERBROAD_OR_UNSUPPORTED"
+      ],
+      "scenario_id": "23_UNSUPPORTED_CLAIM",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_ARTIFACT_NOT_ACCEPTED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_ARTIFACT_NOT_ACCEPTED"
+      ],
+      "scenario_id": "24_DONE_WITHOUT_VALIDATION",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_FORMAL_STATE_WRITE_PROHIBITED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_FORMAL_STATE_WRITE_PROHIBITED"
+      ],
+      "scenario_id": "25_FORMAL_STATE_WRITE_ATTEMPT",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_SECOND_STATE_TRUTH_PROHIBITED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_SECOND_STATE_TRUTH_PROHIBITED"
+      ],
+      "scenario_id": "26_SECOND_STATE_TRUTH_ATTEMPT",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CONTEXT_EXECUTION_SCOPE_PROHIBITED",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CONTEXT_EXECUTION_SCOPE_PROHIBITED"
+      ],
+      "scenario_id": "27_PRODUCTION_STAGE_ATTEMPT",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_CLAIM_RUN_BINDING_MISMATCH",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_CLAIM_FINAL_RESULT_BINDING_MISMATCH",
+        "RC_CLAIM_RUN_BINDING_MISMATCH"
+      ],
+      "scenario_id": "28_CROSS_COMPONENT_RUN_HASH_MISMATCH",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "STALE",
+      "expected_reason_code": "RC_UPSTREAM_DEPENDENCY_STALE",
+      "expected_status": "STALE",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_UPSTREAM_DEPENDENCY_STALE"
+      ],
+      "scenario_id": "29_UPSTREAM_STALE_PROPAGATION",
+      "unhandled_exception": false
+    },
+    {
+      "actual_status": "BLOCK",
+      "expected_reason_code": "RC_HANDOFF_REQUIRED_FIELDS_MISSING",
+      "expected_status": "BLOCK",
+      "input_unchanged": true,
+      "pass": true,
+      "ready_for_paper_handoff": false,
+      "reason_codes": [
+        "RC_HANDOFF_APPROVAL_SCOPE_INVALID",
+        "RC_HANDOFF_CLAIM_EVIDENCE_MISSING",
+        "RC_HANDOFF_FINAL_RUNS_MISSING",
+        "RC_HANDOFF_REQUIRED_FIELDS_MISSING"
+      ],
+      "scenario_id": "30_INCOMPLETE_MODELING_TO_PAPER_PACKAGE",
+      "unhandled_exception": false
+    }
+  ],
+  "failed": 0,
+  "passed": 30,
+  "scenario_count": 30,
+  "schema_version": "1.0.0",
+  "sensitive_values_reported": 0,
+  "skill_version": "0.2.0-competition-rc1",
+  "unhandled_exceptions": 0
+}
