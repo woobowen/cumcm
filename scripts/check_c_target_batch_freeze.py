@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FREEZE_PATH = ROOT / "evals/results/phase-004c-c-batch/batch_pre_run_freeze.json"
 REGISTRY_PATH = ROOT / "benchmarks/case_registry.yaml"
 STATE_PATH = ROOT / "state/project_state.json"
+RECEIPT_PATH = ROOT / "evals/results/phase-004c-c-batch/batch_freeze_delivery_receipt.json"
 EXPECTED_CASES = [
     "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
     "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
@@ -213,11 +214,29 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     ):
         errors.append("BATCH_FREEZE_SUBJECT_COMMIT_INVALID")
     state = load_json(root / STATE_PATH.relative_to(ROOT))
+    state_freeze = state.get("batch_pre_run_freeze", {})
+    receipt = load_json(root / RECEIPT_PATH.relative_to(ROOT))
     if (
         state.get("phase") != "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
         or state.get("current_batch_id") != "C-TARGET-BATCH-001"
+        or not isinstance(state_freeze, dict)
+        or state_freeze.get("freeze_id") != freeze.get("freeze_id")
+        or state_freeze.get("file_sha256") != file_hash(freeze_path)
+        or state_freeze.get("payload_sha256") != freeze.get("freeze_payload_sha256")
+        or state_freeze.get("status") != "REMOTE_DELIVERED"
+        or state_freeze.get("freeze_commit") != state_freeze.get("remote_sha")
     ):
         errors.append("BATCH_FREEZE_PROJECT_STATE_DRIFT")
+    if (
+        receipt.get("status") != "REMOTE_DELIVERED"
+        or receipt.get("freeze_id") != freeze.get("freeze_id")
+        or receipt.get("freeze_file_sha256") != file_hash(freeze_path)
+        or receipt.get("freeze_payload_sha256") != freeze.get("freeze_payload_sha256")
+        or receipt.get("freeze_commit") != state_freeze.get("freeze_commit")
+        or receipt.get("remote_sha") != state_freeze.get("remote_sha")
+        or receipt.get("subject_commit") != freeze.get("subject_commit")
+    ):
+        errors.append("BATCH_FREEZE_DELIVERY_RECEIPT_INVALID")
     return {
         "batch_id": freeze.get("batch_id"),
         "case_count": len(freeze.get("cases", [])),

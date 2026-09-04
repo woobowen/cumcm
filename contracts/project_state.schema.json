@@ -46,6 +46,34 @@
     },
     "batch_skill_frozen": {"type": "boolean"},
     "batch_reference_unlocked": {"type": "boolean"},
+    "batch_pre_run_freeze": {
+      "type": "object",
+      "required": [
+        "status",
+        "freeze_id",
+        "path",
+        "file_sha256",
+        "payload_sha256",
+        "subject_commit",
+        "freeze_commit",
+        "remote",
+        "remote_sha",
+        "verified_at"
+      ],
+      "properties": {
+        "status": {"const": "REMOTE_DELIVERED"},
+        "freeze_id": {"const": "C-TARGET-BATCH-001-PRE-RUN-FREEZE-001"},
+        "path": {"const": "evals/results/phase-004c-c-batch/batch_pre_run_freeze.json"},
+        "file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "subject_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "freeze_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "remote": {"const": "origin"},
+        "remote_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "verified_at": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
     "technical_adjudication_status": {
       "enum": [
         "AUTOMATED_ADJUDICATION_PENDING",
@@ -573,7 +601,8 @@
           "primary_target_problem_type",
           "current_batch_id",
           "batch_skill_frozen",
-          "batch_reference_unlocked"
+          "batch_reference_unlocked",
+          "batch_pre_run_freeze"
         ]
       }
     },

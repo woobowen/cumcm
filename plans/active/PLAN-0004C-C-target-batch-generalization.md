@@ -54,7 +54,7 @@ Policy, decision, docs, plan, registry metadata, state/schema, generated report,
 branch pointer are consistent. Focused checks and full CI pass; one atomic content commit is pushed;
 one Draft PR is created and remains Draft.
 
-### M2 — Official inputs and batch pre-run freeze (`PENDING_REMOTE_DELIVERY`)
+### M2 — Official inputs and batch pre-run freeze (`COMPLETE`)
 
 Only official archives are acquired. Raw files remain ignored and immutable. Exact problem/data
 hashes, no-solution-exposure results, environment, runner, RC3 tree, case order/fallback, search
@@ -161,13 +161,15 @@ git diff --check
   35-package name/version snapshot, target/search policies, the 25-metric rubric, 11 hard failures,
   four formal roles, two-worker maximum, per-case timebox, and zero initial interventions. Its
   canonical payload SHA-256 is `1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09`;
-  no case state has advanced beyond `CREATED` and no Run exists. Remote delivery remains pending.
+  no case state had advanced beyond `CREATED` and no Run existed when frozen. Freeze commit
+  `af1e0c158cbce131cab8c6f193167b79fe021a7e` is pushed and verified at the same remote SHA.
 
 ## Next step
 
-Finish the M2 batch pre-run freeze, commit and push it, verify the remote SHA, then start at most two
-isolated fresh case workers. Do not start a case worker before the M2 freeze commit is remotely
-verified.
+Run M3 with at most two isolated fresh case workers. Each worker must pause before formal execution
+until its case-local code has been serially committed and returned as the experiment-plan code
+binding; each frozen first run is then checked, committed, pushed, and remotely verified by the
+main Orchestrator while all answers remain sealed.
 
 ## Rollback and update rule
 
