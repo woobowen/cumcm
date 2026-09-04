@@ -1,6 +1,6 @@
 # C-Target Strategy Migration
 
-Status: `PASS_PENDING_ATOMIC_COMMIT_PUSH_AND_DRAFT_PR`
+Status: `PASS_REMOTE_DELIVERED`
 Decision: `DECISION-C-TARGET-TRAINING-POLICY-004C`
 Phase: `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`
 Batch: `C-TARGET-BATCH-001`
@@ -53,5 +53,11 @@ authorized task-branch field. `reports/current_state.md` is generated from proje
 - Contract fixtures: 78 valid accepted and 68 invalid rejected.
 - Leakage, private-path, and secret findings: 0.
 
-Remote commit verification and Draft PR identity are recorded after the atomic content commit is
-pushed; no delivery claim is made by this pre-commit report.
+## Delivery
+
+- Content commit: `e62fdbc034487589f8da4865967c644bae989ee5`
+- Verified remote SHA: `e62fdbc034487589f8da4865967c644bae989ee5`
+- Draft PR: `https://github.com/woobowen/cumcm/pull/9`
+- PR state: `OPEN`, `DRAFT`
+- Old branch: preserved
+- Formal Skill mutation: none

@@ -48,7 +48,7 @@ Root, clean status, expected commit/tree, remote identity, old-branch equality, 
 registry evidence, formal RC3 identity, one-Skill invariant, historical evidence cleanliness, and
 baseline CI all pass. New branch exists locally/remotely at the starting SHA; old branch is retained.
 
-### M1 — C-target strategy migration (`IN_PROGRESS`)
+### M1 — C-target strategy migration (`COMPLETE`)
 
 Policy, decision, docs, plan, registry metadata, state/schema, generated report, checker/tests, and
 branch pointer are consistent. Focused checks and full CI pass; one atomic content commit is pushed;
@@ -146,12 +146,13 @@ git diff --check
 - M1 pre-delivery validation: target policy PASS at planned C share 0.80 with realized share 0.50
   reported separately; 130 focused tests passed; full CI passed with 1,834 tests and one skip;
   strict repository validation reported 0 errors and 0 warnings.
+- M1 content commit `e62fdbc034487589f8da4865967c644bae989ee5` is pushed and matches the
+  remote branch. Draft PR 9 is open and remains Draft.
 
 ## Next step
 
-Finish M1 focused checks, atomically commit/push the strategy migration, create the Draft PR, then
-start M2 official-input acquisition and pre-run freeze. Do not start a case worker before M2 is
-remotely verified.
+Start M2 official-input acquisition and batch pre-run freeze. Do not start a case worker before the
+M2 freeze commit is remotely verified.
 
 ## Rollback and update rule
 
