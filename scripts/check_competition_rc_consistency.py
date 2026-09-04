@@ -106,6 +106,7 @@ def evaluate() -> dict[str, Any]:
             "CUMCM-2023-C-POST-FREEZE-DIAGNOSIS",
             "CUMCM-2023-C-RC2-DEVELOPMENT-REGRESSION",
             "CUMCM-2023-C-DEVELOPMENT-RC2",
+            "CUMCM-2020-A-DEVELOPMENT-FIRST-RUN",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES},
@@ -204,13 +205,23 @@ def evaluate() -> dict[str, Any]:
     )
     registry = yaml.safe_load((ROOT / "benchmarks/case_registry.yaml").read_text(encoding="utf-8"))
     cases = registry.get("cases", [])
+    cases_by_id = (
+        {case.get("case_id"): case for case in cases if isinstance(case, dict)}
+        if isinstance(cases, list)
+        else {}
+    )
+    first_case = cases_by_id.get("CUMCM-2023-C-DEVELOPMENT-001", {})
+    second_case = cases_by_id.get("CUMCM-2020-A-DEVELOPMENT-002", {})
     checks["development_registry_answer_sealed_case"] = (
         isinstance(cases, list)
-        and len(cases) == 1
-        and cases[0].get("case_id") == "CUMCM-2023-C-DEVELOPMENT-001"
-        and cases[0].get("set_type") == "DEVELOPMENT"
-        and cases[0].get("answer_access_status") in {"SEALED", "UNLOCKED_AFTER_FIRST_RUN"}
-        and cases[0].get("skill_version") == SKILL_VERSION
+        and len(cases) == 2
+        and first_case.get("set_type") == "DEVELOPMENT"
+        and first_case.get("answer_access_status") == "UNLOCKED_AFTER_FIRST_RUN"
+        and first_case.get("skill_version") == SKILL_VERSION
+        and second_case.get("set_type") == "DEVELOPMENT"
+        and second_case.get("answer_access_status") == "SEALED"
+        and second_case.get("first_run_status") == "IN_PROGRESS"
+        and second_case.get("skill_version") == "0.2.0-competition-rc2"
     )
     failed = sorted(name for name, value in checks.items() if not value)
     return {

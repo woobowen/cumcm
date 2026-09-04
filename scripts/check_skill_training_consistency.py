@@ -158,7 +158,14 @@ def check() -> dict[str, Any]:
             errors.append(f"CASE_FINDINGS_INVALID:{case_id}")
     if len(ids) != len(set(ids)):
         errors.append("CASE_ID_DUPLICATE")
-    first_run_case = cases[0] if len(cases) == 1 and isinstance(cases[0], dict) else {}
+    first_run_case = next(
+        (
+            case
+            for case in cases
+            if isinstance(case, dict) and case.get("case_id") == "CUMCM-2023-C-DEVELOPMENT-001"
+        ),
+        {},
+    )
     freeze = first_run_case.get("first_run_freeze")
     if not isinstance(freeze, dict):
         errors.append("FIRST_RUN_FREEZE_RECORD_MISSING")
@@ -315,6 +322,24 @@ def check() -> dict[str, Any]:
         != {"A": "PASS", "B": "PASS", "C": "PASS"}
     ):
         errors.append("RC2_READY_STATE_EVIDENCE_MISMATCH")
+    if state.get("technical_adjudication_status") == "DEVELOPMENT_FIRST_RUN_IN_PROGRESS":
+        active_case = next(
+            (
+                case
+                for case in cases
+                if isinstance(case, dict)
+                and case.get("case_id") == state.get("development_eval", {}).get("case_id")
+            ),
+            {},
+        )
+        if (
+            active_case.get("case_id") != "CUMCM-2020-A-DEVELOPMENT-002"
+            or active_case.get("answer_access_status") != "SEALED"
+            or active_case.get("first_run_status") != "IN_PROGRESS"
+            or active_case.get("skill_version") != EXPECTED_VERSION
+            or state.get("next_phase_allowed") is not None
+        ):
+            errors.append("PHASE004B_SEALED_START_STATE_MISMATCH")
     return {
         "ok": not errors,
         "error_count": len(errors),

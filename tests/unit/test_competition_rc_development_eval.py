@@ -64,6 +64,23 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     project_state.write_text(json.dumps(ready) + "\n", encoding="utf-8")
     start.require_competition_rc_ready(project_state)
 
+    cross_type_ready = json.loads(json.dumps(ready))
+    cross_type_ready.update(
+        {
+            "phase": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+            "technical_adjudication_status": "DEVELOPMENT_EVAL_RC2_READY",
+            "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004-B",
+        }
+    )
+    project_state.write_text(json.dumps(cross_type_ready) + "\n", encoding="utf-8")
+    start.require_competition_rc_ready(project_state)
+
+    wrong_route = json.loads(json.dumps(cross_type_ready))
+    wrong_route["next_phase_allowed"] = "PHASE-SKILL-VALIDATION-EVAL-004-C"
+    project_state.write_text(json.dumps(wrong_route) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"):
+        start.require_competition_rc_ready(project_state)
+
     for wrong_type in ([], True, "PASS", 0):
         wrong = json.loads(json.dumps(ready))
         wrong["competition_rc1"]["integration_audit"] = wrong_type
@@ -112,10 +129,13 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     registry = yaml.safe_load(
         (repo_root / "benchmarks/case_registry.yaml").read_text(encoding="utf-8")
     )
-    assert len(registry["cases"]) == 1
+    assert len(registry["cases"]) == 2
     assert registry["cases"][0]["case_id"] == "CUMCM-2023-C-DEVELOPMENT-001"
     assert registry["cases"][0]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
     assert registry["cases"][0]["first_run_status"] == "FROZEN"
+    assert registry["cases"][1]["case_id"] == "CUMCM-2020-A-DEVELOPMENT-002"
+    assert registry["cases"][1]["answer_access_status"] == "SEALED"
+    assert registry["cases"][1]["first_run_status"] == "IN_PROGRESS"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",

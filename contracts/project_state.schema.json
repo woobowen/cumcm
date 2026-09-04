@@ -355,7 +355,9 @@
         "stress_statuses"
       ],
       "properties": {
-        "case_id": {"const": "CUMCM-2023-C-DEVELOPMENT-001"},
+        "case_id": {
+          "enum": ["CUMCM-2023-C-DEVELOPMENT-001", "CUMCM-2020-A-DEVELOPMENT-002"]
+        },
         "set_type": {"const": "DEVELOPMENT"},
         "answer_access_status": {
           "enum": ["SEALED", "UNLOCKED_AFTER_FIRST_RUN", "PERMANENTLY_DEVELOPMENT"]
@@ -885,7 +887,12 @@
         "properties": {
           "phase": {"const": "PHASE-SKILL-DEVELOPMENT-EVAL-004"},
           "status": {"const": "IN_PROGRESS"},
-          "current_plan": {"const": "plans/active/PLAN-0004A-2023c-development-eval.md"},
+          "current_plan": {
+            "enum": [
+              "plans/active/PLAN-0004A-2023c-development-eval.md",
+              "plans/active/PLAN-0004B-2020a-development-eval.md"
+            ]
+          },
           "selected_architecture": {
             "const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
           },
@@ -913,29 +920,52 @@
         "required": ["technical_adjudication_status"]
       },
       "then": {
-        "properties": {
-          "subphase": {"const": "CUMCM-2023-C-DEVELOPMENT-FIRST-RUN"},
-          "active_skill_version": {"const": "0.2.0-competition-rc1"},
-          "next_phase_allowed": {"type": "null"},
-          "development_eval": {
+        "oneOf": [
+          {
             "properties": {
-              "answer_access_status": {"const": "SEALED"},
-              "first_run_status": {"const": "IN_PROGRESS"},
-              "first_run_freeze_status": {"const": "NOT_RUN"},
-              "unlock_status": {"const": "LOCKED"},
-              "revision_cycles_used": {"const": 0}
+              "subphase": {"const": "CUMCM-2023-C-DEVELOPMENT-FIRST-RUN"},
+              "current_plan": {"const": "plans/active/PLAN-0004A-2023c-development-eval.md"},
+              "active_skill_version": {"const": "0.2.0-competition-rc1"},
+              "next_phase_allowed": {"type": "null"},
+              "development_eval": {
+                "properties": {
+                  "case_id": {"const": "CUMCM-2023-C-DEVELOPMENT-001"},
+                  "answer_access_status": {"const": "SEALED"},
+                  "first_run_status": {"const": "IN_PROGRESS"},
+                  "first_run_freeze_status": {"const": "NOT_RUN"},
+                  "unlock_status": {"const": "LOCKED"},
+                  "revision_cycles_used": {"const": 0}
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "subphase": {"const": "CUMCM-2020-A-DEVELOPMENT-FIRST-RUN"},
+              "current_plan": {"const": "plans/active/PLAN-0004B-2020a-development-eval.md"},
+              "active_skill_version": {"const": "0.2.0-competition-rc2"},
+              "next_phase_allowed": {"type": "null"},
+              "development_eval": {
+                "properties": {
+                  "case_id": {"const": "CUMCM-2020-A-DEVELOPMENT-002"},
+                  "answer_access_status": {"const": "SEALED"},
+                  "first_run_status": {"const": "IN_PROGRESS"},
+                  "first_run_freeze_status": {"const": "NOT_RUN"},
+                  "unlock_status": {"const": "LOCKED"},
+                  "revision_cycles_used": {"const": 0}
+                }
+              }
             }
           }
-        }
+        ]
       }
     },
     {
       "if": {
         "properties": {
-          "phase": {"const": "PHASE-SKILL-DEVELOPMENT-EVAL-004"},
-          "active_skill_version": {"const": "0.2.0-competition-rc2"}
+          "technical_adjudication_status": {"const": "DEVELOPMENT_EVAL_RC2_READY"}
         },
-        "required": ["phase", "active_skill_version"]
+        "required": ["technical_adjudication_status"]
       },
       "then": {
         "properties": {

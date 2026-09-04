@@ -127,10 +127,16 @@ def require_competition_rc_ready(path: Path, *, allow_active_eval: bool = False)
     integration_audit = (
         competition.get("integration_audit") if isinstance(competition, dict) else None
     )
-    ready_to_start = (
-        isinstance(value, dict)
-        and value.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
-        and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+    ready_to_start = isinstance(value, dict) and (
+        (
+            value.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
+            and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        )
+        or (
+            value.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+            and value.get("technical_adjudication_status") == "DEVELOPMENT_EVAL_RC2_READY"
+            and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+        )
     )
     isolated_test_during_active_eval = (
         allow_active_eval
