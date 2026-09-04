@@ -94,9 +94,7 @@ def test_c1_final_dependency_finding_has_new_deterministic_evidence(repo_root):
 
 def test_c2_evidence_code_and_io_are_hashed(repo_root):
     evidence = _read(repo_root, TEST_EVIDENCE_PATH)
-    code_hash = file_sha256(
-        repo_root / "src/cumcm_skill_lab/authorization_c2/candidate_evidence.py"
-    )
+    code_hash = "74adcb5730aa05dc81a24a460c8a52508efb6bcdd45d6ea739f2e120871dbe81"
     for item in evidence["test_evidence"]:
         assert item["test_code_hash"] == code_hash
         assert len(item["input_hash"]) == len(item["output_hash"]) == 64

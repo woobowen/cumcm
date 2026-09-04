@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "validation_subject_commit": "441759024bb7a0742ed91d8813ac1b8ad65413c8",
+  "validation_scope": "COMPETITION_RC1_FINAL_LOCAL_ACCEPTANCE",
+  "commands": [
+    {
+      "command": ".venv/bin/python -m ruff check .",
+      "status": "PASS",
+      "result": "All checks passed"
+    },
+    {
+      "command": ".venv/bin/python -m ruff format --check .",
+      "status": "PASS",
+      "result": "670 files already formatted"
+    },
+    {
+      "command": "PYTHONPATH=src:. .venv/bin/python -m pytest -q tests/unit/test_phase003f_r1_k1.py tests/unit/test_phase003f_r1_w1.py tests/unit/test_phase003f_r1_common.py tests/unit/test_phase002d_r3_k1.py tests/unit/test_phase002d_r3_w1.py tests/unit/test_phase002d_r3_shadow_harness.py tests/unit/test_competition_architecture_gate_r1.py",
+      "status": "PASS",
+      "result": "198 passed"
+    },
+    {
+      "command": "PYTHONPATH=src:. .venv/bin/python -m pytest -q tests/unit/test_competition_rc_skill.py tests/unit/test_competition_rc_audit_regressions.py tests/unit/test_competition_rc_state.py tests/unit/test_competition_rc_development_eval.py",
+      "status": "PASS",
+      "result": "116 passed"
+    },
+    {
+      "command": "PYTHONPATH=src:. .venv/bin/python -m pytest -q tests/unit/test_competition_rc_end_to_end.py tests/unit/test_competition_rc_negative.py",
+      "status": "PASS",
+      "result": "3 passed"
+    },
+    {
+      "command": "PYTHONPATH=src:. .venv/bin/python -m pytest -q --tb=short",
+      "status": "PASS",
+      "result": "1804 passed, 1 skipped"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_instruction_budget.py",
+      "status": "PASS",
+      "result": "total project AGENTS bytes: 6833"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_skill_discovery.py --expected-name cumcm-modeling-evidence --expected-count 1",
+      "status": "PASS",
+      "result": "one discoverable formal Skill"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_contracts.py",
+      "status": "PASS",
+      "result": "schemas=78 valid=78 invalid_rejected=68"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_answer_leakage.py",
+      "status": "PASS",
+      "result": "leakage_findings=0"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_secrets.py",
+      "status": "PASS",
+      "result": "secret_findings=0 private_path_findings=0"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_competition_rc_consistency.py --check",
+      "status": "PASS",
+      "result": "37/37 checks passed"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_skill_training_consistency.py --check",
+      "status": "PASS",
+      "result": "case_count=0 error_count=0 formal_skill_count=1"
+    },
+    {
+      "command": ".venv/bin/python scripts/validate_repo.py --strict",
+      "status": "PASS",
+      "result": "errors=0 warnings=0"
+    },
+    {
+      "command": ".venv/bin/python scripts/render_status.py --check",
+      "status": "PASS",
+      "result": "status_report=current"
+    },
+    {
+      "command": "bash scripts/ci.sh",
+      "status": "PASS",
+      "result": "ruff PASS; 1804 passed, 1 skipped; strict errors=0 warnings=0"
+    },
+    {
+      "command": "git diff --exit-code 131823092a2e8c33c677419d45ed54b381a9948e -- evals/results/phase-003f evals/prospective/phase-003f",
+      "status": "PASS",
+      "result": "old Phase 003F evidence byte-for-byte unchanged"
+    }
+  ],
+  "prohibited_execution": {
+    "api_calls": 0,
+    "hidden_benchmark_accesses": 0,
+    "historical_answer_accesses": 0,
+    "model_training": false,
+    "real_comparison_model_starts": 0,
+    "third_party_executions": 0
+  }
+}

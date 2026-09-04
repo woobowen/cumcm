@@ -3,6 +3,7 @@ import copy
 import pytest
 
 from cumcm_skill_lab.adjudication.models import read_json, sha256_json
+from cumcm_skill_lab.historical_compat import historical_json_if_successor
 from cumcm_skill_lab.specification.authorization import candidate as candidate_module
 from cumcm_skill_lab.specification.authorization.candidate import (
     CANDIDATE_PATH,
@@ -137,10 +138,10 @@ def test_candidate_boundary_mutations_fail_closed(repo_root, field, invalid):
 
 
 def test_historical_candidate_does_not_replace_c2_active_decision(repo_root):
-    state = read_json(repo_root / "state/project_state.json")
+    state = historical_json_if_successor(repo_root, "state/project_state.json")
     candidate = read_json(repo_root / CANDIDATE_PATH)
-    assert state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE"
-    assert state["next_phase_allowed"] == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"
+    assert state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_VALIDATION_INCOMPLETE"
+    assert state["next_phase_allowed"] is None
     assert candidate["proposed_authorization_id"] not in state["automated_decision_ids"]
     assert state["shadow_authorization"]["candidate_id"] != candidate["candidate_id"]
     assert state["shadow_authorization"]["active_decision_id"].endswith("R2A-C2")

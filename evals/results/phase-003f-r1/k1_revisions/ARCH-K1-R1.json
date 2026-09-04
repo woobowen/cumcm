@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "revision_id": "ARCH-K1-R1",
+  "parent_commit": "5e6440e05945ef00d0424c3235530d5d6de1a3ea",
+  "status": "GATE_ELIGIBLE",
+  "repair_budget": 5,
+  "repair_cycles_used": 3,
+  "tree_hash": "35caf2809815e06a8f7d41840adddfe2d1600c1169d7e59d742b021be5df0ea8",
+  "changed_files": [
+    "experiments/shadow_prototypes/arch_k1/revision_r1.py",
+    "tests/unit/test_phase003f_r1_k1.py"
+  ],
+  "cycles": [
+    {
+      "cycle": 1,
+      "failing_gate": ["G1", "G3", "G4", "G5", "G6", "G8"],
+      "failing_test": [
+        "strict context and nested-input boundary probes",
+        "verified-run decision mutation",
+        "recursive secret/private-path probes",
+        "strict numeric and failed-attempt probes",
+        "composer state-boundary and lineage probes"
+      ],
+      "root_cause": "The frozen implementation validated context too late, under-bound verified decisions, normalized score types too broadly, scanned secrets and paths incompletely, and composed independent payloads without a state boundary, exact lineage, transitive STALE, or contract-complete handoff.",
+      "changed_files": [
+        "experiments/shadow_prototypes/arch_k1/revision_r1.py",
+        "tests/unit/test_phase003f_r1_k1.py"
+      ],
+      "focused_test": "89 passed, 6 failed",
+      "full_gate_result": "NOT_RUN_UNTIL_FOCUSED_FAILURES_CLOSED",
+      "tree_hash": "35caf2809815e06a8f7d41840adddfe2d1600c1169d7e59d742b021be5df0ea8",
+      "tree_hash_scope": "FINAL_FORMAL_REVISION; intra-revision working tree was not frozen"
+    },
+    {
+      "cycle": 2,
+      "failing_gate": ["G3", "G4", "G8"],
+      "failing_test": [
+        "exact-profile sentinel collision",
+        "immutable payload/state sequence normalization"
+      ],
+      "root_cause": "The first strict profile triggered on a diagnostic sentinel and compared tuple-frozen state against list-shaped public registries without semantic normalization.",
+      "changed_files": [
+        "experiments/shadow_prototypes/arch_k1/revision_r1.py",
+        "tests/unit/test_phase003f_r1_k1.py"
+      ],
+      "focused_test": "95 passed, 0 failed",
+      "full_gate_result": "K1 G4 retained two unregistered freeze-hash failures",
+      "tree_hash": "35caf2809815e06a8f7d41840adddfe2d1600c1169d7e59d742b021be5df0ea8",
+      "tree_hash_scope": "FINAL_FORMAL_REVISION; intra-revision working tree was not frozen"
+    },
+    {
+      "cycle": 3,
+      "failing_gate": ["G4"],
+      "failing_test": [
+        "G4-UNKNOWN_FREEZE_HASH",
+        "G4-ARBITRARY_FREEZE_HASH"
+      ],
+      "root_cause": "A top-level freeze_hash was not required to resolve through the trusted freeze registry.",
+      "changed_files": [
+        "experiments/shadow_prototypes/arch_k1/revision_r1.py",
+        "tests/unit/test_phase003f_r1_k1.py"
+      ],
+      "focused_test": "K1 focused 100 passed; shared focused 198 passed",
+      "full_gate_result": "8/8 PASS; 117/117 cases; zero unhandled exceptions",
+      "tree_hash": "35caf2809815e06a8f7d41840adddfe2d1600c1169d7e59d742b021be5df0ea8",
+      "tree_hash_scope": "FINAL_FORMAL_REVISION"
+    }
+  ],
+  "repaired_gates": ["G1", "G3", "G4", "G5", "G6", "G8"],
+  "retained_passes": ["G2", "G7"],
+  "remaining_gates": [],
+  "candidate_case_count": 117,
+  "input_immutability": true,
+  "unhandled_exceptions": 0,
+  "third_party_executions": 0,
+  "hidden_benchmark_accesses": 0
+}

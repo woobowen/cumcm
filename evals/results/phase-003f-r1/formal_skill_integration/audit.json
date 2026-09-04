@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "AUDIT-COMPETITION-RC1-FORMAL-SKILL-INTEGRATION-001",
+  "auditor_role": "formal_skill_integration_auditor",
+  "mode": "READ_ONLY_INDEPENDENT_REPLAY_AND_ADVERSARIAL_FAULT_INJECTION",
+  "subject_commit": "6dfaa0d938ada59fb4fa408c8e540cf8e51f7965",
+  "remote_commit_verified": true,
+  "status": "PASS",
+  "blockers": [],
+  "major_findings": [],
+  "repaired_findings": [
+    "manifest declarations were not initially bound to actual input files, code blobs and an existing Git commit",
+    "comparison initially lacked an exact candidate-by-seed ledger and fully re-derived freeze registry",
+    "Claim, final result, robustness and handoff initially lacked complete output-bound exact lineage",
+    "case state initially lacked authenticated history, evidence and transitive input/output/code STALE checks",
+    "Phase 004 entry initially trusted shallow registry and timing declarations",
+    "direct comparison validation initially raised for non-finite decision fields",
+    "case state validation initially raised for malformed terminal history records",
+    "STALE dependency_chain initially was not exactly bound to terminal history evidence and current mismatches",
+    "public claim-check and compare-check initially bypassed artifact wrapper acceptance and hash integrity",
+    "raw public Claim and comparison checks initially allowed unknown sensitive extensions"
+  ],
+  "architecture": {
+    "selection_rule": "K1_8_OF_8_ELSE_W1_8_OF_8_ELSE_BLOCK",
+    "k1_passed_gates": 8,
+    "w1_passed_gates": 8,
+    "selected": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "majority_vote_used": false,
+    "gate_result_sha256": "07d4362f0c2d0c6b502bcae99748e18f825ded4662554fb860d4db483376b971",
+    "case_evaluations": 234,
+    "unhandled_exceptions": 0
+  },
+  "formal_skill": {
+    "path": ".agents/skills/cumcm-modeling-evidence",
+    "name": "cumcm-modeling-evidence",
+    "version": "0.2.0-competition-rc1",
+    "capability": "COMPETITION_RC",
+    "assurance": "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES",
+    "discoverable_count": 1,
+    "workflow_count": 14,
+    "template_count": 14,
+    "role_count": 4,
+    "w1_code_in_formal_skill": false,
+    "tree_hash_algorithm": "sha256 of sorted repo-relative sha256sum records, excluding __pycache__",
+    "tree_hash": "76dce0d6a63ab78bd38a21c27d40fba0b2d5242e3283ade8cdc0b7dfd809b8d8"
+  },
+  "independent_execution": {
+    "focused_tests_passed": 104,
+    "focused_tests_failed": 0,
+    "hostile_validator_count": 10,
+    "hostile_calls": 5960,
+    "hostile_unhandled_exceptions": 0,
+    "hostile_input_mutations": 0,
+    "invalid_extensions_accepted": 0,
+    "prediction_transitions": 13,
+    "optimization_transitions": 13,
+    "prediction_final_state": "READY_FOR_PAPER_HANDOFF",
+    "optimization_final_state": "READY_FOR_PAPER_HANDOFF",
+    "historical_regressions_blocked_at_earliest_gate": 5,
+    "public_wrapper_bypasses_remaining": 0
+  },
+  "evidence": {
+    "end_to_end_result_path": "evals/results/phase-003f-r1/end_to_end/result.json",
+    "end_to_end_result_sha256": "3beefd5190547246a361e6829a2236224927af8a9673cc0344ff62f78676fa99",
+    "prediction_result_sha256": "587c8b5061ba4b2d96ab3965fd5c890c4141cc39f279cf8ad798ebbdec01073e",
+    "optimization_result_sha256": "a18223c6692ad1846d8de147d0493939042bb7364ade72a010a65e883bdc0f85",
+    "prediction_evidence_hash": "ec744f61f5efac91c5017245921a5cfd427b45a6231dde1ed9225d10468fe791",
+    "optimization_evidence_hash": "15fe6fc0c6d6de92c5cfdfcc38b997eb69ab3b6527ac961e792a59c3be563160",
+    "combined_evidence_hash": "6f42defe1c537ffc2a812b8f1b5fd97889898d51a1a79dee48821c6a3e68256c",
+    "negative_result_path": "evals/results/phase-003f-r1/negative_tests/result.json",
+    "negative_result_sha256": "5c46849aee853b1bb1d9af43f7ea22d827681852e6a2150da6ad4bd0cd2f5f60",
+    "negative_passed": 30,
+    "negative_failed": 0,
+    "negative_unhandled_exceptions": 0,
+    "negative_sensitive_values_reported": 0
+  },
+  "prohibited_activity": {
+    "historical_answer_accesses": 0,
+    "hidden_benchmark_accesses": 0,
+    "api_calls": 0,
+    "real_comparison_model_starts": 0,
+    "model_training": false,
+    "third_party_executions": 0,
+    "second_project_state_truth_created": false,
+    "full_r3_claimed": false
+  },
+  "limitations": [
+    "assurance is limited to public deterministic Gates and two project-original end-to-end smoke cases",
+    "the formal executor registry is fixed to the bundled deterministic runner; a custom executor needs a future trusted capture design",
+    "full sealed Stage 1, Stage 2 comparison, ablation, external validity, production fitness and monetary cost remain deferred and not passed"
+  ],
+  "conclusion": "The selected K1 architecture, formal Skill implementation, two end-to-end cases and fixed negative matrix satisfy the Competition RC1 integration scope without expanding assurance beyond the recorded public deterministic evidence."
+}

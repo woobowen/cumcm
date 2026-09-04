@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "PHASE-002D-R3-W1-IMPLEMENTATION-AUDIT-001",
+  "role": "w1_implementation_auditor",
+  "architecture_id": "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+  "execution_type": "NATIVE_READ_ONLY_SUBAGENT",
+  "independent": true,
+  "read_only": true,
+  "writes_observed": false,
+  "peer_output_access": "NONE",
+  "hidden_evidence_access": "PROHIBITED_NOT_ACCESSED",
+  "repair_limit": 3,
+  "repair_loops_used": 3,
+  "rounds": [
+    {
+      "round": 1,
+      "verdict": "FAIL",
+      "blocker_count": 6,
+      "error_count": 2
+    },
+    {
+      "round": 2,
+      "verdict": "FAIL",
+      "blocker_count": 4,
+      "error_count": 1
+    },
+    {
+      "round": 3,
+      "verdict": "FAIL",
+      "blocker_count": 1,
+      "error_count": 0
+    }
+  ],
+  "prototype_tree_hash": "04c46e57b8dfe79afddaffbe6b9dcca33bcbdbb8bc190d59584aff4c062cd30e",
+  "verdict": "FAIL",
+  "stage1_eligible": false,
+  "unresolved_blockers": [
+    {
+      "finding_id": "W1-FINAL-001",
+      "classification": "BLOCKER",
+      "summary": "Malformed comparison inputs are not universally converted to a reason-coded fail-closed result.",
+      "evidence": [
+        "experiments/shadow_prototypes/arch_w1/guards.py:389",
+        "experiments/shadow_prototypes/arch_w1/guards.py:459",
+        "experiments/shadow_prototypes/arch_w1/guards.py:488",
+        "experiments/shadow_prototypes/arch_w1/adapter.py:63",
+        "tests/unit/test_phase002d_r3_w1.py:257"
+      ],
+      "counterexamples": [
+        "splits=[] raises uncaught AttributeError after immutable input conversion",
+        "validation score 'nan' can create an empty tie set and uncaught IndexError"
+      ],
+      "disposition": "UNRESOLVED_REPAIR_LIMIT_EXHAUSTED"
+    }
+  ],
+  "warnings": [
+    {
+      "finding_id": "W1-FINAL-W001",
+      "classification": "WARNING",
+      "summary": "The stateless W1 validator surface is materially larger than a thin existing-validator workflow adapter."
+    }
+  ],
+  "closed_findings": [
+    "HASH_BOUND_CLAIM_SEMANTICS",
+    "TRUSTED_WORKFLOW_STAGE_AND_GATE_BINDING",
+    "EXACT_ATTEMPT_AND_MANIFEST_BIJECTION",
+    "FROZEN_COMPARISON_POLICY",
+    "NONEMPTY_REGISTERED_RUN_ID",
+    "RUNTIME_PAYLOAD_HASH_BINDING",
+    "SUPPORTED_CHALLENGE_CLOSURE",
+    "SAFE_EVIDENCE_LOCATOR",
+    "CAUSAL_SUPPORT_REJECTION",
+    "ONE_TIME_TEST_ACCESS"
+  ],
+  "checks": {
+    "four_component_dispatch": "PASS",
+    "cross_component_trusted_bindings": "PASS",
+    "workflow_only": "PASS_WITH_WARNING",
+    "formal_state_write_boundary": "PASS",
+    "formal_skill_unchanged": "PASS",
+    "vault_network_subprocess_third_party_access": "PASS",
+    "input_immutability": "PASS",
+    "result_hashing": "PASS",
+    "ablation_disable_behavior": "PASS",
+    "malformed_input_fail_closed": "FAIL"
+  },
+  "validation": [
+    {
+      "command": ".venv/bin/python -m pytest -q tests/unit/test_phase002d_r3_w1.py tests/unit/test_phase002d_r3_shadow_harness.py",
+      "result": "39 passed"
+    },
+    {
+      "command": ".venv/bin/python scripts/validate_shadow_prototypes.py --check --architectures ARCH-S0-RETAIN-SCAFFOLD-ONLY ARCH-W1-WORKFLOW-ONLY-GUARDS",
+      "result": "PASS; 32 executions"
+    },
+    {
+      "command": ".venv/bin/ruff check focused W1 paths",
+      "result": "PASS"
+    },
+    {
+      "command": ".venv/bin/ruff format --check focused W1 paths",
+      "result": "PASS"
+    }
+  ],
+  "hidden_generalization": "ABSTAIN",
+  "majority_vote_used": false,
+  "fourth_repair_performed": false,
+  "output_hash": "d1e2f9e492295bd049560a579c0344ef52cbaecd82fc2874b4161dc340dbac23"
+}

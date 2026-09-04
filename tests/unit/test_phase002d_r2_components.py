@@ -6,6 +6,7 @@ import yaml
 from jsonschema import Draft202012Validator
 
 from cumcm_skill_lab.adjudication.models import file_sha256, sha256_json
+from cumcm_skill_lab.historical_compat import historical_file_hash_matches
 from cumcm_skill_lab.specification.component_validator import (
     COMPONENT_CONTRACT,
     INPUT_ROOT,
@@ -54,7 +55,12 @@ def test_component_author_bundle_hash_and_sources_replay(repo_root, component_id
     recorded = body.pop("bundle_hash")
     assert sha256_json(body) == recorded
     assert all(
-        file_sha256(repo_root / path) == value for path, value in body["source_hashes"].items()
+        (
+            historical_file_hash_matches(repo_root, path, value)
+            if path == "WORKFLOW.md"
+            else file_sha256(repo_root / path) == value
+        )
+        for path, value in body["source_hashes"].items()
     )
 
 

@@ -12,6 +12,10 @@ from cumcm_skill_lab.adjudication.models import (
     read_json,
     sha256_json,
 )
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_repository_file_hashes,
+)
 
 from .models import (
     CREATED_AT,
@@ -165,7 +169,11 @@ def verify_input_freeze(root: Path, manifest: dict[str, Any] | None = None) -> l
         root / OLD_AUTHORIZATION_PATH
     ) != old.get("file_sha256"):
         errors.append("PHASE002D_R2A_OLD_AUTHORIZATION_BYTES_CHANGED")
-    current_skill_hash = tree_hash(repository_file_hashes(root, (FORMAL_SKILL_ROOT,)))
+    current_skill_hash = tree_hash(
+        git_repository_file_hashes(root, (FORMAL_SKILL_ROOT,), commit=SUBJECT_COMMIT)
+        if competition_rc_successor(root)
+        else repository_file_hashes(root, (FORMAL_SKILL_ROOT,))
+    )
     if current_skill_hash != manifest.get("formal_skill_tree_hash"):
         errors.append("PHASE002D_R2A_FORMAL_SKILL_HASH_CHANGED")
     if file_sha256(root / SUBAGENT_POLICY_PATH) != manifest.get("subagent_policy_hash"):

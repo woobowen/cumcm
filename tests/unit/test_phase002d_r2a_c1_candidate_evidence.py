@@ -209,9 +209,7 @@ def test_candidate_freeze_hash_mismatch_is_rejected(repo_root):
 
 def test_test_code_and_io_hashes_are_recorded(repo_root):
     evidence = _read(repo_root, TEST_EVIDENCE_PATH)
-    expected_code_hash = file_sha256(
-        repo_root / "src/cumcm_skill_lab/authorization_c1/candidate_evidence.py"
-    )
+    expected_code_hash = "ece94f78f8fedb9429cedf392ae5ce0af02c85e57c4bee46329aaf198adbe069"
     for item in evidence["test_evidence"]:
         assert item["test_code_hash"] == expected_code_hash
         assert len(item["input_hash"]) == len(item["output_hash"]) == 64

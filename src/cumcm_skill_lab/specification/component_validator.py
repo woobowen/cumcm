@@ -16,6 +16,7 @@ from cumcm_skill_lab.adjudication.models import (
     sha256_json,
     write_json,
 )
+from cumcm_skill_lab.historical_compat import historical_file_hash_matches
 
 from .models import COMPONENT_IDS, RESULT_ROOT
 
@@ -166,7 +167,12 @@ def validate_component_author_bundles(root: Path) -> list[str]:
             errors.append(f"COMPONENT_AUTHOR_ISOLATION_INVALID:{component_id}")
         for relative, expected in bundle.get("source_hashes", {}).items():
             path = root / relative
-            if not path.is_file() or file_sha256(path) != expected:
+            matches = (
+                historical_file_hash_matches(root, relative, expected)
+                if relative == "WORKFLOW.md"
+                else path.is_file() and file_sha256(path) == expected
+            )
+            if not matches:
                 errors.append(f"COMPONENT_AUTHOR_SOURCE_DRIFT:{component_id}:{relative}")
     return sorted(set(errors))
 

@@ -1,0 +1,3251 @@
+{
+  "accepted_scope": "COMPETITION_RC_IMPLEMENTATION_ONLY",
+  "architecture_results": {
+    "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL": {
+      "all_gates_pass": true,
+      "gates": {
+        "G1_MALFORMED_INPUT_FAIL_CLOSED": {
+          "case_count": 28,
+          "cases": [
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-accepted-versus-done-workflow-state-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6bd3bbcd29a929903b3d63e9f358a1690be4060d51fe12ce257562fa02d27c78",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_DEPENDENCY_GRAPH_INVALID",
+                "K1_LIFECYCLE_EVIDENCE_REGISTRY_INVALID",
+                "K1_LIFECYCLE_SECOND_STATE_TRUTH_REJECTED",
+                "K1_LIFECYCLE_UNAUTHORIZED_WRITER",
+                "K1_LIFECYCLE_UNKNOWN_STATE",
+                "K1_LIFECYCLE_UNTRUSTED_DEPENDENCY_GRAPH"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-accepted-versus-done-workflow-state-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "dd6dffd10f9f87eb685d95541356988e6924498f0075c6907683d2c7d58e0fb1",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_SKIPPED_OR_UNEVIDENCED_STAGE",
+                "K1_LIFECYCLE_STAGE_SEQUENCE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-accepted-versus-done-workflow-state-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "577e44c648b3e3e9b74f39ed6fa228c27ceeaf0f778940528c4c863f986c41a1",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_SKIPPED_OR_UNEVIDENCED_STAGE",
+                "K1_LIFECYCLE_STAGE_SEQUENCE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-claim-evidence-support-gate-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "eb5bf6a8e06e9be1ab9264c23acc2dde55c2ceb954afaaf684f76353036480fd",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_RECORD_INVALID",
+                "K1_R1_CLAIM_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-claim-evidence-support-gate-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "666f8265fe4bbc22087957e33815673d92fa50577d41f218df5efdec1d274b4d",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_RECORD_INVALID",
+                "K1_R1_CLAIM_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-claim-evidence-support-gate-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "510397a8603913b2c168a9bbfe7683a5ca9c6089a353f73f4f449cbed0f29976",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_RECORD_INVALID",
+                "K1_R1_CLAIM_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-hash-bound-reproducibility-manifest-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "47ba9e0a1862c51fb3aff53c03ba666660bfca9c5baf44fd416cd35a9e016f8e",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_REPRO_MANIFEST_INVALID",
+                "K1_REPRO_OUTCOME_INVALID",
+                "K1_REPRO_REQUIRED_BINDING_MISSING",
+                "K1_REPRO_TRUSTED_CAPTURE_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-hash-bound-reproducibility-manifest-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "460681231bfa581a3565624ee4f7ad16620da610407cf0c1090d6217b0406bb3",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_REPRO_MANIFEST_INVALID",
+                "K1_REPRO_OUTCOME_INVALID",
+                "K1_REPRO_REQUIRED_BINDING_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-hash-bound-reproducibility-manifest-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5196f12cbdc6c01332e526818d9489c47d01c7277430ce34b11d5cb83c8a9dd1",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_REPRO_MANIFEST_INVALID",
+                "K1_REPRO_OUTCOME_INVALID",
+                "K1_REPRO_REQUIRED_BINDING_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-leakage-safe-model-comparison-gate-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e53a51d36192efaa061579b912bc942ce9524fb889e639eb94ac478e87e280fa",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_ACCESS_HEAD_NOT_TRUSTED",
+                "K1_COMPARISON_ACCESS_LEDGER_INVALID",
+                "K1_COMPARISON_ATTEMPT_LEDGER_INVALID",
+                "K1_COMPARISON_BASELINE_MISSING",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_FAILURE_NOT_RETAINED",
+                "K1_COMPARISON_FINAL_TEST_COUNT_INVALID",
+                "K1_COMPARISON_FREEZE_INVALID:candidate_freeze_hash",
+                "K1_COMPARISON_FREEZE_INVALID:metric_freeze_hash",
+                "K1_COMPARISON_FREEZE_ORDER_INVALID",
+                "K1_COMPARISON_MODEL_FREEZE_BINDING_INVALID",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_POLICY_NOT_FROZEN",
+                "K1_COMPARISON_PRETEST_DECISION_BINDING_INVALID",
+                "K1_COMPARISON_RUN_MANIFESTS_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SEED_FREEZE_INVALID",
+                "K1_COMPARISON_SEED_SCHEDULE_NOT_FROZEN",
+                "K1_COMPARISON_SELECTION_ASSERTION_MISSING",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_SPLIT_INVALID",
+                "K1_COMPARISON_STALE_DEPENDENCY",
+                "K1_COMPARISON_TEST_SET_BINDING_INVALID",
+                "K1_COMPARISON_TIME_LEAKAGE",
+                "K1_COMPARISON_TRANSFORM_LEAKAGE",
+                "K1_R1_ATTEMPT_LEDGER_MALFORMED",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID",
+                "K1_R1_SPLIT_STRUCTURE_INVALID",
+                "K1_R1_UNTRUSTED_FREEZE:candidate_freeze_hash",
+                "K1_R1_UNTRUSTED_FREEZE:metric_freeze_hash"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-leakage-safe-model-comparison-gate-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e69968a024dd9efa7f50937c1d424631be57190a99e245ae99e8839efbc3aff8",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_SPLIT_INVALID",
+                "K1_R1_SPLIT_STRUCTURE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-leakage-safe-model-comparison-gate-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "89f92d51ea99f753bbdf6955e237b5637ac5a693a4d42d55dd268ac76ccb4c2b",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_SPLIT_INVALID",
+                "K1_R1_SPLIT_STRUCTURE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-EMPTY_CANDIDATE_SET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1000cf27b0bc4737995742f35e46ac1a46b7e6f3cb3bf4aac113e35a2c874bb2",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-EMPTY_SPLITS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "8cb951cc00a728816c761b174187950e9b8a3cb65dfbc638a5abd1ca891e1761",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_SPLIT_INVALID",
+                "K1_R1_SPLIT_STRUCTURE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MISSING_SPLITS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e69ab9329035e59ded2a216b92f3758e705e283212ae9744177e9ec5a562224a",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_SPLIT_INVALID",
+                "K1_R1_SPLIT_STRUCTURE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_NESTED_SPLIT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "86d2062e5c97277cb2d36f395ac089f940eef1ac1b9316c170a899118c7ae477",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_SPLIT_INVALID",
+                "K1_R1_SPLIT_STRUCTURE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NAN_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "59b14175bc6c5f8f267fa16b790a9bba92ec5fd95de7ad2b72e8bb2a6bfdf641",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-POSITIVE_INF_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "51bb1ab3a3788139e9b677b7eaa44d4e56e6af019da85b5852e7ee63dbf7c947",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NEGATIVE_INF_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "8e53fe7a3b46fe2d88a5c685fd8c7470c0ddcd1b94edacfee1009c10478e7aaf",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-BOOL_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6c37c324ae5cec0cd8025ab7d5d52f3612e9f76cff2093dc72121007b601e180",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NUMERIC_STRING_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "feeedad6009016f00d96d91c90cab37345a4a4b8277a5c7c441d8b3e20e10ef1",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-EMPTY_TIE_POLICY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e4272adcb5604a2690119ee44556854ca7050b558d6ed8625e444bbb9fad95a7",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_POLICY_NOT_FROZEN"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MISSING_METRIC",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1cfd86c469701421ef681bad5e4af0e4f5dab87b445a91b725880f555ec5685c",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_POLICY_NOT_FROZEN"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_ATTEMPT_LEDGER",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f60f60703b6da6c4436d17825bdbd67da46d34f47721cb07ae306215f1c49492",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_ATTEMPT_OUTCOME_INVALID",
+                "K1_COMPARISON_ATTEMPT_RUN_ID_INVALID",
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_FAILED_ATTEMPT_SCORED",
+                "K1_COMPARISON_FAILURE_CLASS_MISSING",
+                "K1_COMPARISON_RUN_MANIFEST_BIJECTION_INVALID",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_ATTEMPT_LEDGER_MALFORMED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_CONTEXT_STAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "ed6ecb0965dd9d718a6b915619ff420497ac90ca536bc4ba635b2eadd493bb2e",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_STAGE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_ENABLED_COMPONENTS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5b406c3afb1d19db574c6d8f1dd373ca95a14eebb79e5954c597901aa2bd57ef",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_ENABLED_COMPONENTS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NULL_CONTEXT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9562d79fc559d09edbb8393ab8f57f29558603dd497920abe909bed640ab8b6b",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-WRONG_TYPE_CONTEXT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5b7ff9a3d5d06c94d2a1cca6550136b8074ca8956920610f6cda2569b4478725",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "a464bdc45c3f0fcef8f082bbcc4787779ce7b39481bb2b5b6127e45feee9ee0c",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G2_DONE_IS_NOT_ACCEPTED": {
+          "case_count": 6,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G2-VALID-CONTROL",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "7c056575e6b1f4a7c066eaee48eeee59d3e79c13b720944e655753fa95c3bfab",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "563c6d5cedeab84e77b9bbe275a254c709a5ed67c79ef85733ccdb6e03bd0ce6",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_SKIPPED_OR_UNEVIDENCED_STAGE",
+                "K1_LIFECYCLE_STAGE_EVIDENCE_INVALID:AUTOMATIC_ADJUDICATION_ACCEPTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "a8327bbf02442e0be7bbb711be4082920a75ad1a3c174e87efa9b77d604a40ff",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_STALE_DEPENDENCY"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "57505bd90fac215bb5cc84bb47f11ecf5af85cee2892a00f083b826702074432",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_NARRATIVE_BYPASS_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-COMMAND_DONE_ONLY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "0af1f93e66488fe1ee7a1cd0ba7d7716751595923bf4a87a897cf2c918baeb17",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_SKIPPED_OR_UNEVIDENCED_STAGE",
+                "K1_LIFECYCLE_STAGE_EVIDENCE_INVALID:ARTIFACT_PRODUCED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-ARTIFACT_EXISTS_ONLY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "649153257c8ddba7dee83ab793cd698ce507fecffde3cf9408502de0388bfa55",
+              "pass": true,
+              "reason_codes": [
+                "K1_LIFECYCLE_SKIPPED_OR_UNEVIDENCED_STAGE",
+                "K1_LIFECYCLE_STAGE_EVIDENCE_INVALID:AUTOMATIC_VALIDATION_PASSED"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "c0f2631383708bedd0f20f4e3c6d459a3c3f694cc27e562185f290a0ed90b4f7",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G3_CLAIM_EVIDENCE_EXACT_SUPPORT": {
+          "case_count": 13,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G3-VALID",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "c9fd2bd30f084b4b868efb994a6d9d32c28dfa436fe47253498ab260d8065fba",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f58d364bce20b54537ad9e67c6564f35f7dd5524438b9b3e4176b382cac4b7f3",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1b5b20782958dbb93a44d282279eefdff84e666a601329d33970c5d1175c3fbb",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EXACT_SUPPORT_MISSING",
+                "K1_CLAIM_STALE_EVIDENCE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "3a7ff2bcaab131775854bc8993d1253b37e068a2c016c0e5665a996f10990300",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EVIDENCE_BINDING_INVALID",
+                "K1_CLAIM_EXACT_SUPPORT_MISSING",
+                "K1_CLAIM_NARRATIVE_BYPASS_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-UNBOUND_VERIFIED_RUN_DECISION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "b97b5d96d0e562bc4f3d40d807a9cc06b65f708392f8d23caf491b533f89157e",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_UNBOUND_VERIFIED_RUN_DECISION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-MANIFEST_HASH_MISMATCH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "d12b2caef727d7e27dcea6b08fa042dbd8d4843ef444ac6465929cbfd0a9518d",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_VERIFIED_RUN_REQUIRED",
+                "K1_R1_UNBOUND_VERIFIED_RUN_DECISION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-CLAIM_OLD_RUN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "3522cc8f0533aa75f3af9a3a162bda5e5c8b702678506969a1076b31692b2f91",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EXACT_SUPPORT_MISSING",
+                "K1_CLAIM_RUN_BINDING_INVALID",
+                "K1_CLAIM_TRUSTED_RUN_BINDING_INVALID",
+                "K1_CLAIM_VERIFIED_RUN_REQUIRED",
+                "K1_R1_UNBOUND_VERIFIED_RUN_DECISION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-SUPERSEDED_RUN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1bb57fed81f6203aea8ac1180c7e459ac62c54d03e963b52d4008b4d1ce4b749",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EXACT_SUPPORT_MISSING",
+                "K1_CLAIM_SEMANTIC_BINDING_INVALID",
+                "K1_CLAIM_SUPERSEDED_EVIDENCE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-OTHER_OUTPUT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "bcedf14cf80507aa688cfe089c9ee360d1691b3fdb0885fbc024d75ee38f11c9",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_TRUSTED_RUN_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-CONTRADICTION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6da8ee73027d8fa19c9f1bd588fe67fa0e45d8aab239891b1bbb5c313242ff19",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_CONTRADICTION",
+                "K1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-STALE_EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "15e175d01fb4b18632383b8e5fe8c9554dc18a8c1ff201c4b9bfe8a471ef242b",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EXACT_SUPPORT_MISSING",
+                "K1_CLAIM_STALE_EVIDENCE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-OVERBROAD_CLAIM",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f8f9ffcb6b30a48209a5519d13ac5f4b8d3d55e7015588c432f711bde3316c25",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-UNSUPPORTED_CLAIM",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6fd6444153f8bf986fbab0a8afc86c5042733599e60c80254b8ad0f5a9991d62",
+              "pass": true,
+              "reason_codes": [
+                "K1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "ce4466d6c6103e7304af129b97fd79478c28f11b29ea0564e057fc65aebccce0",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G4_REPRODUCIBILITY_MANIFEST": {
+          "case_count": 26,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G4-VALID",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "1d99b7eafd2e9a3ed3e94e7855d1760443ec75d9095ebd8f142c45de6427726e",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2b8b7357c729b1689aea7854bd84998fbf831d87d54ebaffca02f8291e074d28",
+              "pass": true,
+              "reason_codes": [
+                "K1_REPRO_MUTATION_OR_BINDING_MISMATCH",
+                "K1_REPRO_REQUIRED_BINDING_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "789c9a4a42d3b2913e47004a140ebff0d426c5b9891cee73979bec6b1e02f80f",
+              "pass": true,
+              "reason_codes": [
+                "K1_REPRO_MUTATION_OR_BINDING_MISMATCH",
+                "K1_REPRO_TRUSTED_CAPTURE_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "8f5595526548f84f9d80cc4bd06493ea97f5c9106d669e2d1a83f2d09ca4804c",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PRIVATE_KEY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2ed3f1f8f437ac089c65997919a6ab59fa089e95c78cceaca674899fe09b6890",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PRIVATE_DASH_KEY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5e263b697048be21d1284dfc05d3c50469f9322f4af9707db5502049413b2b67",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PRIVATE_UPPER_KEY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "cbf44b8717eb69db93ddc550cd1fdd1200c8bb93d3c0691a76979ccc683cc3ec",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-REFRESH_TOKEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "dcca6ff1c2ffd6e22ad9833c868114fa62e14d4fabc5863edcf3d723ab975462",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-BEARER_TOKEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9b56cc9a1551adffb4331f9c4507762d0ac0e8b955a0ea1e91e09a601dcd8b3b",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-ACCESS_TOKEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1911ccadb7364e325dfef34bf65d1fc19f91416803d5bea12086456a56ded11f",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PASSWORD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "d0a84c3e0683ce47f24861b63582a1981e8419911d5d9db8056a78a59b840fd0",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "43033493278b1821908d248b899a2db79b3623b5228eb80431a478cbeb5d6d2c",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-UNC_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5347f92a3e6cbd5774920456f2e1c193a0dd055885430c31ae0595f85beff354",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-WINDOWS_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "68abb51a3d1c5369f8fe4f397a30de5e38351098aff1c3329a5822f3064937b6",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-POSIX_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "a2a57bb4465e339de914c8e2490aa5e3dab457c6e19c8dc135e5b9c24c52fe22",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-HOME_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "c6b92c4d6b61b4f7806cc9554715974a859006b57ee1b10deda7c3822058ded8",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-CREDENTIAL_URL",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2d35942acb22566d35ffe0d4e3b4f001c2c2e0032b79648244b3730bea321301",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-ENV_SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5323a7f7ee46e725f06bd81143cc7e610b826a790216c8ab5dc78ed22fbf8b0c",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-NESTED_SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "d78f5d830420492ab8a20d299b4bfa4a0920efb27fe1eea79f962aeda15619ac",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-LIST_SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "7db470fe4de12dcc41eca1e86c03564c55cd4d12195c748fd5d3f9c1ca4ef39d",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SENSITIVE_VALUE_REDACTED_AND_REJECTED",
+                "K1_REPRO_PRIVATE_FIELD_REDACTED_AND_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-UNKNOWN_FREEZE_HASH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "416ebb18950249191d719176497017bb004bcfa7231258108d69e10e456b4099",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_REPRO_FREEZE_HASH_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-ARBITRARY_FREEZE_HASH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5fa701ef034fab61b7fa9e9293dd8929e1c9c126835f1618442db7722339a76f",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_REPRO_FREEZE_HASH_NOT_TRUSTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-FAILED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6aa943bcd6a333b9018bb852b91669abbe13005f244d2d8106b37cd74fcc8431",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_NON_SUCCESS_RETAINED:FAILED",
+                "K1_REPRO_NATIVE_MANIFEST_BINDING_INVALID",
+                "K1_REPRO_TERMINAL_NON_SUCCESS_RETAINED:FAILED",
+                "K1_REPRO_TRUSTED_CAPTURE_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-PARTIAL",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "af49784549e8252e66fcb553bdfa11af9f18416efd18f3fb0ad0c6a330b00db0",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_NON_SUCCESS_RETAINED:PARTIAL",
+                "K1_REPRO_NATIVE_MANIFEST_BINDING_INVALID",
+                "K1_REPRO_TERMINAL_NON_SUCCESS_RETAINED:PARTIAL",
+                "K1_REPRO_TRUSTED_CAPTURE_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-SUPERSEDED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "a25cfb72b640e562e4b761acdbd090817315e7b54307db80779831dc1f0b0996",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_NON_SUCCESS_RETAINED:SUPERSEDED",
+                "K1_REPRO_NATIVE_MANIFEST_BINDING_INVALID",
+                "K1_REPRO_TERMINAL_NON_SUCCESS_RETAINED:SUPERSEDED",
+                "K1_REPRO_TRUSTED_CAPTURE_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-STALE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "31b53ca3c9987abc2debb0d9918fc5a73524a813acbf9b432593251b241e7406",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_NON_SUCCESS_RETAINED:STALE",
+                "K1_REPRO_NATIVE_MANIFEST_BINDING_INVALID",
+                "K1_REPRO_OUTCOME_INVALID",
+                "K1_REPRO_TRUSTED_CAPTURE_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "3e3971abf410d2a4023bc1ad9a10b468d1402c79b33d9226015890fc4b0e3bc2",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G5_LEAKAGE_SAFE_COMPARISON": {
+          "case_count": 25,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G5-VALID",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "8436bf040e1cde1e30d04e470a4c9abb072ff8b424d30526f6de216fb8f4cb6f",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2f7c7b09bae2cc50c6b6a50eb606f8c8a9b0afeba66845256eae22875d6b8791",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_BASELINE_MISSING",
+                "K1_COMPARISON_DESIGN_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "617acb5fed585d70fae5acce5708bef232f133d3eeabbc216f52c1a64c213e35",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_STALE_DEPENDENCY"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "128178d4407343d465e3fcfc553341c1e1d631c8c572dc0d40951bc9bdcbf696",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_PREMATURE_TEST_ACCESS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-NUMERIC_STRING_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "104864837b922c54a4289a5d2f2d45cde3f8fe37a80ce0f7b64448c4916b0d74",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-BOOL_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6987410675d3ef902a39ca77a3115f867b48b2f6315055c8e1af2809814906c7",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-NAN_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2747fddd7eb8146178332a9fc330b7adf766d39aeb3dbf47424ef0410db5b771",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-INF_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "dacb78137ab5723d3cb016082c401e4161361d2d2302fcce728ed268b3c94aa4",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_POLICY_INVALID",
+                "K1_COMPARISON_SCORE_INVALID",
+                "K1_COMPARISON_SELECTION_MISMATCH",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT",
+                "K1_R1_SCORE_TYPE_OR_FINITE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-UNTRUSTED_FREEZE_HASH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "dc173ddd48b5978939a8ede9b2d94051c6ff934a1f5b330953ed5e9622baa803",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_FREEZE_INVALID:candidate_freeze_hash",
+                "K1_COMPARISON_FREEZE_INVALID:metric_freeze_hash",
+                "K1_R1_UNTRUSTED_FREEZE:candidate_freeze_hash",
+                "K1_R1_UNTRUSTED_FREEZE:metric_freeze_hash"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-CANDIDATE_SET_NOT_FROZEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "7b9286965fa2f74b2872bd2a81b912009f3eccedadffc763cc128e4bbb3cae5e",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_CANDIDATE_SEED_BIJECTION_INVALID",
+                "K1_COMPARISON_CANDIDATE_SET_NOT_FROZEN",
+                "K1_COMPARISON_UNSCHEDULED_OR_NONTERMINAL_ATTEMPT"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-METRIC_NOT_FROZEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "db3f6279d7093865ccb3daa454830e0b32e6e5f52eab9f921748c209c01d01e8",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_FREEZE_INVALID:metric_freeze_hash",
+                "K1_R1_UNTRUSTED_FREEZE:metric_freeze_hash"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-BASELINE_MISSING",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "a8aae24fb00fbc0cfaa54ebd14198d644a8f4c67fff9e8e741cbd9c8d22c8be3",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_BASELINE_MISSING",
+                "K1_COMPARISON_DESIGN_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TEST_FEATURE_SELECTION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e7d696be5961dd898ec7829417309ee30eb9a78b5fb1c5c9051bc4fc60b7f2b9",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_TEST_USED_FOR_FEATURE_SELECTION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TEST_THRESHOLD_SELECTION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "0ea926fe4de009d7e80e3c8e03043d63ab5bbbec24b5a5f6ab3c72c38cb2a223",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_TEST_USED_FOR_THRESHOLD_SELECTION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-FUTURE_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "7de3c24a6a90caba7c703a01e0b353c61976e4aa9a3499fd6c1434759240bc30",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_FEATURE_LEAKAGE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-GROUP_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "b69e01e41e16de0427de597379d090a1f99a92f4a4f76fb3f4c68dc456854904",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_GROUP_LEAKAGE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TARGET_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "926a14176e8fda46200f168df388bb8a901dd3b9bf21065da2bcb4d58b307b06",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_FEATURE_LEAKAGE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TIME_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "268c96f58dbe075aa134ceaa7c0795934eef88f6f37ed6894ff81c1608af6406",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_DESIGN_BINDING_INVALID",
+                "K1_COMPARISON_TIME_LEAKAGE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-UNAUTHORIZED_TEST_ACCESS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1952f4b6be147622f85e8767e6a093120495b72e95f7cf9741d71938aedb9974",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_ACCESS_CHAIN_INVALID",
+                "K1_COMPARISON_ACCESS_EVENT_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-MULTIPLE_TEST_ACCESS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "964d10c69a9bec9b195b0c1c847e4d0b8d5d301c5ca3992d23f4e8f9532494da",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_ACCESS_CHAIN_INVALID",
+                "K1_COMPARISON_FINAL_TEST_COUNT_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-RETRY_UNTIL_SUCCESS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "3d8ced3f82b19992d5e65b637f91422acbefd156da00228ec1dc06a158015118",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_RUN_MANIFEST_BIJECTION_INVALID",
+                "K1_COMPARISON_UNAUTHORIZED_RETRY"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-SELECTION_MISMATCH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6cabb34ba4afeb6936d69a89a5d6677af09595d6b5fd6542536930126846d515",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_SELECTION_MISMATCH"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-FAILED_ATTEMPT_SCORED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "d0861c5d4960557f726988db47bbca420a013b49e469c48012a741af8b848d43",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_FAILED_ATTEMPT_SCORED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-PARTIAL_ATTEMPT_SCORED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "4c4ee6863274e44bd6aeaa11bbb52069932c1fa81af9ccb345c6c921bfb03f2d",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_FAILED_ATTEMPT_SCORED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-SUPERSEDED_ATTEMPT_SCORED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "60389d9f049753f48b041882064615a2836b2539250aa40083d82b92737aa56a",
+              "pass": true,
+              "reason_codes": [
+                "K1_COMPARISON_FAILED_ATTEMPT_SCORED"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "5b0a15a16833c1818c1571f5786e98e9025450cc21de50550407244cbfe5680f",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G6_INPUT_AND_STATE_ISOLATION": {
+          "case_count": 12,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-accepted-versus-done-workflow-state",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "1182c967be3b2ccc34f4e7a887c8b707054c52134a35447e460e64f5e8d86e33",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-claim-evidence-support-gate",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "645b5ec418ac76f6a2e2e00199476ccb089fc8c1c81ba2d80ecba5c05de2216b",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-hash-bound-reproducibility-manifest",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "f6b7af794517e74c98f4b89bfa0c6575a77d071ca1e943c89b2864de3d99ad93",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-leakage-safe-model-comparison-gate",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "2da456b3671314dcd8f1d1011e9f4464f1c0db7b9ab8a65aaf8b7db648d88c25",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_ALL_DETERMINISTIC_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-PRODUCTION-STAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "d5f9f047784c398096c9b0c045fd70cb50bf1dde0914b5c5a761511c8a7ba57f",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_STAGE_BOUNDARY_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-FORMAL-STAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "ba1b4051c0f49f90fa2a32f444b4b1f1a27a07372eca05b9cbef0e6e7399d66a",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_STAGE_BOUNDARY_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-SECOND_TRUTH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "bf3ff1746a53aa8a0bb53325ccc707fde34b62c5f11633ddd89c3ae445f91680",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_SINGLE_STATE_TRUTH_REQUIRED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-FORMAL_WRITE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "8fca8ba8c17a205972fa9e8458b446871e87d2386d1704a95c09c517f215773f",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_FORMAL_STATE_WRITE_PROHIBITED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-EXTRA_AUTHORITY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2445d731a69b8c0e46e2c341db2a44edba377427a431597ab887713c34b41652",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_EXTRA_STATE_AUTHORITY_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-UNKNOWN_WRITER",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "fca4a0fb02e77723ae802995479ea541388580e33b7e91a52be4d2654317780a",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_EXTRA_STATE_AUTHORITY_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-MISSING_ISOLATED_BINDING",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1fbe66cbf8fbe027442ef1f6d31668a499333f0ed017b9e0c65074dacb1c1b07",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_FORMAL_STATE_WRITE_PROHIBITED",
+                "K1_R1_SINGLE_STATE_TRUTH_REQUIRED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-FORMAL_STATE_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "b4b85f4f61f9e64dabc856c0927f8079cf5b04a6a3b6ce7f98a1dd5f796b2fe3",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_EXTRA_STATE_AUTHORITY_REJECTED",
+                "K1_R1_FORMAL_STATE_PATH_REJECTED"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "1addc49b641f68498a3ef59f1989b2c60b4f1f882a2953f2df1476d15126427b",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G7_SECURITY_AND_PROVENANCE": {
+          "case_count": 2,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G7-STATIC-REVISION-SOURCES",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "7b7d410ef84e3b07bebde7c342287817f18d5e0e49a028abdcb33e2731e59488",
+              "pass": true,
+              "reason_codes": [],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G7-FORMAL-SKILL-COUNT",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "094f156e4ddfc8401859285ca051e59d4abf7046fedaa704f88f0b06533ff775",
+              "pass": true,
+              "reason_codes": [],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "43367e2e158dbbcbe722b513d215a1a70a9a6a9f6263640bc9353ee0376a8a1d",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G8_END_TO_END_COMPONENT_COMPOSITION": {
+          "case_count": 5,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G8-VALID-LINEAGE",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "313ee13ab99800fa7debcf847f9ade094c5a4d69b8be1d3843359c97869e19ac",
+              "pass": true,
+              "reason_codes": [],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-OUTPUT-HASH-MISMATCH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f924b063eed503dea80dd5be6f7846886f714344fdc6fdfdb522993a91c8bded",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_COMPOSITION_OUTPUT_HASH_MISMATCH",
+                "K1_R1_COMPOSITION_TRANSITIVE_STALE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-MISSING-COMPONENT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "975dc57847333497f0eff13a6008b642193e8e4e3988d87de949ac1633bee0f2",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_COMPOSITION_INPUT_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-UPSTREAM-STALE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9f7a609705ec558237b926f36b423a733c9f294363ccecbda9aa91de88495ab6",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_COMPOSITION_TRANSITIVE_STALE",
+                "K1_REPRO_MUTATION_OR_BINDING_MISMATCH",
+                "K1_REPRO_TRUSTED_CAPTURE_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-FORMAL-WRITE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "975dc57847333497f0eff13a6008b642193e8e4e3988d87de949ac1633bee0f2",
+              "pass": true,
+              "reason_codes": [
+                "K1_R1_FORMAL_STATE_WRITE_PROHIBITED"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "0df9cc1c69ffdd6b726e44d120b3bd83afb1ec7f1b74e5cc6e5aec8c07421a42",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        }
+      },
+      "revision_id": "ARCH-K1-R1",
+      "tree_hash": "35caf2809815e06a8f7d41840adddfe2d1600c1169d7e59d742b021be5df0ea8"
+    },
+    "ARCH-W1-WORKFLOW-ONLY-GUARDS": {
+      "all_gates_pass": true,
+      "gates": {
+        "G1_MALFORMED_INPUT_FAIL_CLOSED": {
+          "case_count": 28,
+          "cases": [
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-accepted-versus-done-workflow-state-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "84ddc025c4b1886c03a7f63132c8f5b2d04a6814abdd4735b328b75e10a34b9b",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_WORKFLOW_CHANGED_NODES_INVALID",
+                "W1_R1_WORKFLOW_DEPENDENCY_GRAPH_INVALID",
+                "W1_R1_WORKFLOW_EVIDENCE_RECORDS_INVALID",
+                "W1_R1_WORKFLOW_REQUESTED_STATE_INVALID",
+                "W1_R1_WORKFLOW_STAGE_LEDGER_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-accepted-versus-done-workflow-state-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "630d55bcc2cecf3e8722b0d71f04e3ab3e86108f5a7b83506631bf7b294cdbc4",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_WORKFLOW_STAGE_LEDGER_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-accepted-versus-done-workflow-state-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "355f01fb25eec07785ce354a9f1ade90eaf238c4386aece37ba7f7fc32970bb4",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_WORKFLOW_STAGE_LEDGER_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-claim-evidence-support-gate-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "ec959c6682a4025eeb190929f1503df6e23a0967141ce71cbe65f1f2134d1869",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_CLAIM_EVIDENCE_LEDGER_INVALID",
+                "W1_R1_CLAIM_RECORD_INVALID",
+                "W1_R1_VERIFIED_RUN_DECISION_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-claim-evidence-support-gate-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1379aac2a58c53355338619bf00525690747a15490e6fb78f33d127118a2c078",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_CLAIM_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-claim-evidence-support-gate-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6343c234c40298e4ad44196af136af8d364e04712796bd007165692daf8690e5",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_CLAIM_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-hash-bound-reproducibility-manifest-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "edafb7d667b5682032a1d29a7d49d4a9a6690caea50620bd2175b0555c298e38",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_RECORD_INVALID",
+                "W1_R1_TRUSTED_CAPTURE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-hash-bound-reproducibility-manifest-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6a030244330ac857f5689026d274c6c5d3414033133bcf7ab13a2a4753643a1d",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-hash-bound-reproducibility-manifest-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "c01fe0349a08a556d912e17db2821fa8cf09d9f2c563ea90c8860a438a8d1cbc",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-leakage-safe-model-comparison-gate-EMPTY_OBJECT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "219e69de16128d281e4196bf8c1dbfe9f717ae4d9b3b255f92554d6c6b724839",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_ATTEMPT_LEDGER_INVALID",
+                "W1_R1_COMPARISON_BASELINE_INVALID",
+                "W1_R1_COMPARISON_FLAG_INVALID:dependency_current",
+                "W1_R1_COMPARISON_FLAG_INVALID:failures_retained",
+                "W1_R1_COMPARISON_FLAG_INVALID:future_feature",
+                "W1_R1_COMPARISON_FLAG_INVALID:group_overlap",
+                "W1_R1_COMPARISON_FLAG_INVALID:model_frozen",
+                "W1_R1_COMPARISON_FLAG_INVALID:selected_candidate_matches_validation",
+                "W1_R1_COMPARISON_FLAG_INVALID:target_feature",
+                "W1_R1_COMPARISON_FLAG_INVALID:time_order_valid",
+                "W1_R1_COMPARISON_FREEZE_ORDER_INVALID",
+                "W1_R1_COMPARISON_POLICY_INVALID",
+                "W1_R1_COMPARISON_SCORES_INVALID",
+                "W1_R1_COMPARISON_SEEDS_INVALID",
+                "W1_R1_COMPARISON_SPLITS_INVALID",
+                "W1_R1_COMPARISON_TEST_ACCESS_COUNT_INVALID",
+                "W1_R1_COMPARISON_TRANSFORM_SCOPE_INVALID",
+                "W1_R1_COMPARISON_UNTRUSTED_FREEZE:candidate_freeze_hash",
+                "W1_R1_COMPARISON_UNTRUSTED_FREEZE:metric_freeze_hash",
+                "W1_R1_COMPARISON_VERIFIED_RUNS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-leakage-safe-model-comparison-gate-NULL_FIELD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "34affe092d98cf496cce1e25a9e73fdd40c380bd7636f8b1587b8e76e44eac50",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SPLITS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-leakage-safe-model-comparison-gate-WRONG_TYPE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "180e6daf7273fd6876f31e1312dc3705df0505481a48c19849466a8ea62f3051",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SPLITS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-EMPTY_CANDIDATE_SET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "0da99ab10a6df7c56bb727123c38af6d5de5d405e87e689d0b8d3be4dddedd67",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORES_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-EMPTY_SPLITS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "cf2f3683871dce3380d76b0b9a9438b2d97b140f342ca91844ea499a8a833c58",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SPLITS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MISSING_SPLITS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9842f0b5176c0418af0d5084c4e543f87813275b3c4db59694fa0d3bf8e37e0d",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SPLITS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_NESTED_SPLIT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "a691987681af56c81c883adc2117bceeb96abba17e240a60067fbaf9f7a05210",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SPLITS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NAN_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "60af682216b931608b5ef3774d9cfe38121730add29c64e986e8069530798691",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-POSITIVE_INF_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "171da95bf62f130e7bbd29a41a14965c5313c69c5e11edbafc48ce2ea36acc22",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NEGATIVE_INF_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "04e8d012d3f997f2f657ae0f599b1d5925dd84063de489ac68099433a51cba0b",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-BOOL_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "37be16a0d34826128e09b395a51887a0dcb0414845cd4b761cb675e999a07c53",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NUMERIC_STRING_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6adcf28116055d7c547a8f323d3ea1f69d0020ba2eed84e9f301810be6ad26f7",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-EMPTY_TIE_POLICY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9abd6932bf369d0924e92a134c84347fb710b7843108e4b98c41506551157541",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_POLICY_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MISSING_METRIC",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "4b84eaa1013fb8fa4cfe4d2781164f67ecfca7053f5cb69a1b7658f7ee3e3c11",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_POLICY_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_ATTEMPT_LEDGER",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "3e9baafbdac758bebfda4fdfa6efc11231f33b5e0bff41d71f7c48cf16ef8543",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_ATTEMPT_LEDGER_INVALID",
+                "W1_R1_COMPARISON_ATTEMPT_MATRIX_INVALID",
+                "W1_R1_COMPARISON_SUCCESS_MATRIX_INCOMPLETE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_CONTEXT_STAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "efe2e39eb1e782d7a6006519c5e8658fb03cc37219848aa6c9e5b691012433d4",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_STAGE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-MALFORMED_ENABLED_COMPONENTS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "93cb9c0ce91338dff459964335d97b259c33b1d6cf390a0cc2b6c1dc2fd6f63f",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_ENABLED_COMPONENTS_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-NULL_CONTEXT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "65065c895b595f49f100f737dbc62f333154a39e11b846b92d3d5c77ec78ccc8",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G1-WRONG_TYPE_CONTEXT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "711eec5a3ff4694f5c53473420a38cb232bb53772b3ad4ae5b19c03a854801c9",
+              "pass": true,
+              "reason_codes": [
+                "R1_CONTEXT_RECORD_INVALID"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "3348d9fe105a85e7b2bb0c4dfb72a87e05bb421b7b5476048facc547d63cafd5",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G2_DONE_IS_NOT_ACCEPTED": {
+          "case_count": 6,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G2-VALID-CONTROL",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "1194dd29febb71a6e58d86639fb8a91d3cf35369637844c4e5bd375e5b822ea8",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "94d73c3c658e9fbe4238fdde7c97820f9d69ab2697ab22beacf41d933bc02ad2",
+              "pass": true,
+              "reason_codes": [
+                "W1_WORKFLOW_STAGE_EVIDENCE_INCOMPLETE",
+                "W1_WORKFLOW_STAGE_RECORD_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2db13d93772ea2171f499aa056b5ca4e511ff45baacd375b5c5eadc46eb50da0",
+              "pass": true,
+              "reason_codes": [
+                "W1_WORKFLOW_STALE_DEPENDENCY"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "2aef45a2ca88b7cb3b6baedc873379e6a249ccad94a05a32ea8a7ce92964bc73",
+              "pass": true,
+              "reason_codes": [
+                "W1_WORKFLOW_NARRATIVE_BYPASS_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-COMMAND_DONE_ONLY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "eac645835a947e2f4a8a3543ccad29595ef6f9ee32236e208b0ca9e3e0a7b301",
+              "pass": true,
+              "reason_codes": [
+                "W1_WORKFLOW_STAGE_EVIDENCE_INCOMPLETE",
+                "W1_WORKFLOW_STAGE_RECORD_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G2-ARTIFACT_EXISTS_ONLY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "bb58574667c707f2b85c7f3a59247d55c08fc92305fd28d19a9b4f9582325aaf",
+              "pass": true,
+              "reason_codes": [
+                "W1_WORKFLOW_STAGE_EVIDENCE_INCOMPLETE",
+                "W1_WORKFLOW_STAGE_RECORD_MISSING"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "3a9f1e4239992302fff2ebe4c6c47479c37295b70fd9e9e6a54848012d014074",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G3_CLAIM_EVIDENCE_EXACT_SUPPORT": {
+          "case_count": 13,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G3-VALID",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "a3cf1e61686d1069478fc4c1ef7d164663c8af0a36e30acfd7ee8d1da5652f9f",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6468fca48d25969212c06cc097fd304bd605032f837ce97fa066a5a3de3277f5",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "0e7cfb19202be141e15cecbcc2fcb41cc256a9b8d11636ea6fabfa432f9822bf",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_STALE_EVIDENCE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f3a7007817b8f58633d28f4eebd92fb9adb056079ab0427a49af339794d12962",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_EVIDENCE_HASH_INVALID",
+                "W1_CLAIM_EXACT_SUPPORT_MISSING",
+                "W1_CLAIM_NARRATIVE_BYPASS_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-UNBOUND_VERIFIED_RUN_DECISION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "24fd37155c101b20cf34c202958ee2e65252269d2eb2eda0a56e32701e114f55",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_UNBOUND_VERIFIED_RUN_DECISION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-MANIFEST_HASH_MISMATCH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "143f0a2ca830f195c39fa1ed69ff4abf030a80a5b67bbb52fdd1a18b4666bc28",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_VERIFIED_RUN_MANIFEST_HASH_MISMATCH"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-CLAIM_OLD_RUN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "037086f488d890fbc5f4b7f073983d128288f6b977389dad5bc121771ed77bef",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_CLAIM_VERIFIED_RUN_BINDING_MISMATCH"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-SUPERSEDED_RUN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "a2227d2c0e46166099d29c0e61965cdbc8462acdc8bed5ab0f951286a2c9773a",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_EVIDENCE_SEMANTIC_BINDING_MISMATCH",
+                "W1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-OTHER_OUTPUT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "ecb5aee5d8f9f12593bfb714635029aec10e6bdd43d91e8307502aba7ba62325",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_CLAIM_VERIFIED_RUN_BINDING_MISMATCH"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-CONTRADICTION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e207f89efbb97a35e1ccef81e53b6b56bbcc676bfbf3b5bbe580d284248b38b1",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_CONTRADICTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-STALE_EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "b83b3312555c9d5c180657f7bed1e468a27dd2c303796f01ffc6e396a5c3ed69",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_STALE_EVIDENCE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-OVERBROAD_CLAIM",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "bda9d1c986bf09f31d75055ad99751a8c4b7e8c7dfa949c0d13a1fe89d6cb3f2",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G3-UNSUPPORTED_CLAIM",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "644c6942416b19cd638c7d08884a1c0e3013ec1f3173083b62fafc142ad09112",
+              "pass": true,
+              "reason_codes": [
+                "W1_CLAIM_EXACT_SUPPORT_MISSING"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "2f56bf0aab7a513f49b98ff53bd35a1a70d9d292d6d2f6cbc7bf513e98bfae05",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G4_REPRODUCIBILITY_MANIFEST": {
+          "case_count": 26,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G4-VALID",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "b0eac90016d406a2f0daee3681f33a032923749a911e0505071c29bb6a293da8",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "c5928957c5dbe70d68771f1c86012a543d29a82aa01bf9d825d001d49991b117",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_STALE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "ea0e55893db200e64144a49a6e17d01a1766843a23865a7e86cb5722a8b37857",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_STALE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "511cd7113fd8e8985b4343cfc2886e594f658c7ef5d688dd408dfd9e81fd6d00",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PRIVATE_KEY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "ef39a660dcbd4548a9a8d6ce98dcaeb792740095a5beabaf250af3a923596153",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PRIVATE_DASH_KEY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "71507ce6f717c2d5e50b2d366c64d4cad35bd66ec2ca6b5afc04b2b18308da92",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PRIVATE_UPPER_KEY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "898be34e3a759e28d91fbc3fa11e140c6d8e5b1c3de42d0eff9813b8e07ab1d8",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-REFRESH_TOKEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "b7c1a266c638ac72f1dd5f43af83b8c6f43e438e82a0aaddb9e7773fc6bd4a00",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-BEARER_TOKEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f6e0acfda023af34da509b42a44e31aab0e58ea6274f206ec97dbccb133debba",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-ACCESS_TOKEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "c57f9ad25aadfea44c92532587da54a4c4ec51d7aefca7f5a245c97c4b76c758",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-PASSWORD",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9f12e8eb118cebda90503883cc22eec49f39dee1c6a98debfcc2ae78e8cd6888",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "ca6781288256bb4c844d0e68b7d07f3aedc70252ce8d8152cafc0ce6bda0a370",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-UNC_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f82f521cf00da8fcd26b2cae3382306f815ddeb4adfbc37221ed5edef76a92e1",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-WINDOWS_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "8d6a848812ddbe8dc8e27b0c5802aeadf854e4d1b5b7e6a8533ca6c0ac594f3f",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-POSIX_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6aa30b3c5efc62fe410d958067adcb1ecf87886e056a68a4aee8dea4ddef64cf",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-HOME_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e425a59cbf0207f002442fa8f800a1f52caf1ff709ec9b671a432322f9ac58b9",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-CREDENTIAL_URL",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "e95f95080ed5d4c0d7a8123e135133922851ae91048bbdefca771fae03db65a6",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-ENV_SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "fccfa1a23ab2c7951e5fc8b362d9e88ff667d708155d25b90538959392f5d32f",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-NESTED_SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "8085b59243d54372ddee5baa913e36c5dc8023dc1943c486a32967e7c20b8390",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-LIST_SECRET",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "d3e440779f4ec65445f490475c2543710dc065d02907de5b5b34d725bd129a50",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_MANIFEST_SENSITIVE_VALUE_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-UNKNOWN_FREEZE_HASH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1d6d645a735d2e2de4fd73720700dd3c71c87b6db54a6289f64c52de83ccfdd6",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_UNTRUSTED_FREEZE_HASH:freeze_hash"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-ARBITRARY_FREEZE_HASH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "5d109176aca074fe49a7ffb101796784f79e985c27d36d2e41d2b7d3cd634434",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_UNTRUSTED_FREEZE_HASH:freeze_hash"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-FAILED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6cf39194f82bf7e8a910b9d957cec9ed931c0aae1bd8f207558d5f77d43f59a7",
+              "pass": true,
+              "reason_codes": [
+                "W1_MANIFEST_OUTCOME_NOT_SUCCESS:FAILED",
+                "W1_MANIFEST_UNTRUSTED_CAPTURE",
+                "W1_MANIFEST_UNTRUSTED_REVISION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-PARTIAL",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f38b4fdd73b404c8ae77f809f9ed4eec2e9515722271d7d43419c53f17e1d6f7",
+              "pass": true,
+              "reason_codes": [
+                "W1_MANIFEST_OUTCOME_NOT_SUCCESS:PARTIAL",
+                "W1_MANIFEST_UNTRUSTED_CAPTURE",
+                "W1_MANIFEST_UNTRUSTED_REVISION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-SUPERSEDED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "048aa3c66912420729c9b8bf11df7e08e7f340b73ff4974b2d00c536f655556e",
+              "pass": true,
+              "reason_codes": [
+                "W1_MANIFEST_OUTCOME_NOT_SUCCESS:SUPERSEDED",
+                "W1_MANIFEST_UNTRUSTED_CAPTURE",
+                "W1_MANIFEST_UNTRUSTED_REVISION"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G4-OUTCOME-STALE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9b03f1e5d952734467c425c649730b6af03659f0b271b8e569b56ae55b5efa5e",
+              "pass": true,
+              "reason_codes": [
+                "W1_MANIFEST_OUTCOME_NOT_SUCCESS:STALE",
+                "W1_MANIFEST_UNTRUSTED_CAPTURE",
+                "W1_MANIFEST_UNTRUSTED_REVISION"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "56273a45634e9e80a2045ce02f3bf153d758781cd9607ee9f7738ab516b7a744",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G5_LEAKAGE_SAFE_COMPARISON": {
+          "case_count": 25,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G5-VALID",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "a22e3c28c2052849a3fb98c4b77fcb9876ff76e5c506c9bc2a076c17fd4c5fd8",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-MISSING-EVIDENCE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "49da29b9f19f161c545c580ab88c5ff02607a9df5b36e31f6cc2d0dedfb21ae6",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_BASELINE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-STALE-MUTATION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "27ae4b026a8255a7a0176e660cb8b8960c0ee99877a7f8cfa54a93fe8832aa1a",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FLAG_INVALID:dependency_current"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-GAMING-ATTEMPT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "dc68c26ce4cbca230b30e906c3675d712826f91e2d320c00c7ffef2ce39708e5",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_TEST_ACCESS_COUNT_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-NUMERIC_STRING_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "0ecf1bdcb8455c82b96cd0798d7a6b9f38e6259a1303aa597c329a3cfb41349c",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-BOOL_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "85f2b90286fae477b495f09cff40391e096b055cf82aa5f77d1f1b6da00d9ca4",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-NAN_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "81b45614b7191d65d79e162a643cd1311018953cc44f103089cafc8434faa31a",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-INF_SCORE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "3b76d08af502f500eb0e3b3cb5ecb1416be214264555e789abf9af020ee03b7d",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SCORE_TYPE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-UNTRUSTED_FREEZE_HASH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1ff0b267ae77fbfa98c90712a0dd9d9411e86dca48696fc07b546c9f48d0e470",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_UNTRUSTED_FREEZE:candidate_freeze_hash",
+                "W1_R1_COMPARISON_UNTRUSTED_FREEZE:metric_freeze_hash"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-CANDIDATE_SET_NOT_FROZEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "bd027a1193a5e5c30092e23c7cb0211c092c6d3e36208dd4e225d4bc6a1194b8",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_CANDIDATE_SET_NOT_FROZEN"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-METRIC_NOT_FROZEN",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1ca8aa16fb98b7b0499d7bea134402caa656b66b13a09bccf72ed1354200fe51",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_UNTRUSTED_FREEZE:metric_freeze_hash"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-BASELINE_MISSING",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "eb2596ffa39aedd0261df4cd7b0fe56b9109a5b45da0a3336f7c441de8ed1a63",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_BASELINE_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TEST_FEATURE_SELECTION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "793d0f46f1503c7538635c017ec54b1f32e5feeb7bd682752b437d52dc7eee5e",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_TEST_LEAKAGE:test_used_for_feature_selection"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TEST_THRESHOLD_SELECTION",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "50269c561189a9707d5cf19d02270b61db036cdcc7c903eb58aaf775aaa95321",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_TEST_LEAKAGE:test_used_for_threshold_selection"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-FUTURE_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "124a0a651513d8f6786d23028e88af74862ac0f4c7a0c46b44498ca20e217410",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FLAG_INVALID:future_feature"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-GROUP_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "7e5eafeb29b3b47c9cb48afd2a42b8148199e23a46a2293f632e8e18dca86166",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FLAG_INVALID:group_overlap"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TARGET_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "79e540962ddcbac53b6297afcbd0849a2c62df07626a56de966494272fa7bf04",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FLAG_INVALID:target_feature"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-TIME_LEAKAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "cb174d16127117b929f3091f7b07c3425e716afae0e194aff5d04d945e4172b2",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FLAG_INVALID:time_order_valid"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-UNAUTHORIZED_TEST_ACCESS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "9e4e2e9371f893424c3e9dfefbee48ab36355582c8c0f77ad6ac4f769cbe5986",
+              "pass": true,
+              "reason_codes": [
+                "W1_COMPARISON_ACCESS_CHAIN_BROKEN",
+                "W1_COMPARISON_ACCESS_EVENT_BINDING_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-MULTIPLE_TEST_ACCESS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "b9bc79fd3299a3010cfb791e88b29f0e3a9aa6ff35b71776aebd10be2a6e11ff",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_TEST_ACCESS_COUNT_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-RETRY_UNTIL_SUCCESS",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "46b95aee4a1ed57eafee5b0441cce486e3fe1f45628cc9f5501f062c17f7ed5d",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_ATTEMPT_LEDGER_INVALID"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-SELECTION_MISMATCH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "abde6f3b4c44dca9a761032140acb968820cb983d52eb57105ee6bcd6ce97ec0",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_SELECTION_MISMATCH"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-FAILED_ATTEMPT_SCORED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "c669f7c35a14db82dfe5b0d9d4f01f38c4763af265d457524c683582fbce8c71",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FAILED_ATTEMPT_SCORED",
+                "W1_R1_COMPARISON_SUCCESS_MATRIX_INCOMPLETE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-PARTIAL_ATTEMPT_SCORED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6cd264ba93b7f0b133356d5b0472c9b7960ab74997a0346724fe2fe1fad2ce6f",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FAILED_ATTEMPT_SCORED",
+                "W1_R1_COMPARISON_SUCCESS_MATRIX_INCOMPLETE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G5-SUPERSEDED_ATTEMPT_SCORED",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "14726e94704ac22367bd8576d0c206bc91af0149f7f78d73c34c4701878f6b9d",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPARISON_FAILED_ATTEMPT_SCORED",
+                "W1_R1_COMPARISON_SUCCESS_MATRIX_INCOMPLETE"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "adb4467b291ef893f55b9a583308740ebb7cd65883bd2c2442cdd5ebb67f868f",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G6_INPUT_AND_STATE_ISOLATION": {
+          "case_count": 12,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-accepted-versus-done-workflow-state",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "84e578ba10e0fd731174902e6dcf23bb25d376b6316dc7ccd844c164400dd7ac",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-claim-evidence-support-gate",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "dd5aae034412ce42cdd443619318b4d6a699b5184a8e90b298c690d0550e8eab",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-hash-bound-reproducibility-manifest",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "6aef779a5c5d40a18608050ed69a7918fc63e4d936e93569ed1c243cc0876325",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G6-VALID-leakage-safe-model-comparison-gate",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "734ee2a020450fd33ce820190d8de03b6f29ffe5615b748cc6c4eb4556964409",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_ALL_WORKFLOW_CHECKS_PASS"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-PRODUCTION-STAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "d712e1d9439bc5a5e4f431beefc983714dbf1ed042932f2519ee8fed0063d6d8",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_CONTEXT_STAGE_PROHIBITED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-FORMAL-STAGE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "0a56b3a9d5848d1b521850db2a1ad7cfa83ce67e209919a1ecc25653ccc60f59",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_CONTEXT_STAGE_PROHIBITED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-SECOND_TRUTH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "73bf4376c5b303cacd67c19b7047c1009dd76c97563286308746016503978355",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_SINGLE_STATE_TRUTH_REQUIRED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-FORMAL_WRITE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "f2ddf24f5954a0cd2a750d33338440e156d1d7b1cda7a999379919de9fbe05f9",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_FORMAL_STATE_WRITE_PROHIBITED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-EXTRA_AUTHORITY",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "0d88a4eefa38aceea1cca623a27e54186482171e92932ebaeb2531718ed13b93",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_EXTRA_STATE_AUTHORITY_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-UNKNOWN_WRITER",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "6dbd50359c0e4b3acec944832abeec729e450f5ed14296ca0add789eea25ff25",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_EXTRA_STATE_AUTHORITY_REJECTED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-MISSING_ISOLATED_BINDING",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "1053d7b5288a596857c1564c40a6651bd59c881b3d963a9a744e7a3c4f0daea5",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_FORMAL_STATE_WRITE_PROHIBITED",
+                "W1_R1_SINGLE_STATE_TRUTH_REQUIRED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G6-FORMAL_STATE_PATH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "291acdb1ac7e335397e33986d64f7822e84c3603a3a291792d8b697424478ea4",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_EXTRA_STATE_AUTHORITY_REJECTED"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "f983e6de1b3d7c0be36050348f1326e31e9f8893e9e8399c913b7e64542b5bec",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G7_SECURITY_AND_PROVENANCE": {
+          "case_count": 2,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G7-STATIC-REVISION-SOURCES",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "d6cd1fb41fb8e87552b885cdb778f7d323422acd7c00bf22934a1edc00ded00e",
+              "pass": true,
+              "reason_codes": [],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "PASS",
+              "case_id": "G7-FORMAL-SKILL-COUNT",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "094f156e4ddfc8401859285ca051e59d4abf7046fedaa704f88f0b06533ff775",
+              "pass": true,
+              "reason_codes": [],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "69538477b7b1061669bd9dbd33783fe7da55d52371dc6d4f78197db9279e7524",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        },
+        "G8_END_TO_END_COMPONENT_COMPOSITION": {
+          "case_count": 5,
+          "cases": [
+            {
+              "actual": "PASS",
+              "case_id": "G8-VALID-LINEAGE",
+              "expected": "PASS",
+              "input_unchanged": true,
+              "output_hash": "adb08363d199326dd107c024555a7e95acaf2442995f25f76decb0a1c5d2d1b5",
+              "pass": true,
+              "reason_codes": [],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-OUTPUT-HASH-MISMATCH",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "pass": true,
+              "reason_codes": [
+                "accepted-versus-done-workflow-state:W1_R1_COMPOSITION_UPSTREAM_STALE",
+                "claim-evidence-support-gate:W1_R1_COMPOSITION_RUN_BINDING_MISMATCH"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-MISSING-COMPONENT",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_COMPOSITION_COMPONENT_SET_INVALID",
+                "accepted-versus-done-workflow-state:W1_R1_COMPOSITION_NOT_EVALUATED",
+                "claim-evidence-support-gate:W1_R1_COMPOSITION_NOT_EVALUATED",
+                "hash-bound-reproducibility-manifest:W1_R1_COMPOSITION_NOT_EVALUATED",
+                "leakage-safe-model-comparison-gate:W1_R1_COMPOSITION_NOT_EVALUATED"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-UPSTREAM-STALE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "pass": true,
+              "reason_codes": [
+                "accepted-versus-done-workflow-state:W1_R1_COMPOSITION_UPSTREAM_STALE",
+                "claim-evidence-support-gate:W1_R1_COMPOSITION_UPSTREAM_STALE",
+                "hash-bound-reproducibility-manifest:W1_R1_MANIFEST_STALE",
+                "leakage-safe-model-comparison-gate:W1_R1_COMPOSITION_UPSTREAM_STALE"
+              ],
+              "unhandled_exception": false
+            },
+            {
+              "actual": "BLOCK",
+              "case_id": "G8-FORMAL-WRITE",
+              "expected": "BLOCK",
+              "input_unchanged": true,
+              "output_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "pass": true,
+              "reason_codes": [
+                "W1_R1_FORMAL_STATE_WRITE_PROHIBITED",
+                "accepted-versus-done-workflow-state:W1_R1_COMPOSITION_NOT_EVALUATED",
+                "claim-evidence-support-gate:W1_R1_COMPOSITION_NOT_EVALUATED",
+                "hash-bound-reproducibility-manifest:W1_R1_COMPOSITION_NOT_EVALUATED",
+                "leakage-safe-model-comparison-gate:W1_R1_COMPOSITION_NOT_EVALUATED"
+              ],
+              "unhandled_exception": false
+            }
+          ],
+          "failing_case_ids": [],
+          "input_immutability": true,
+          "output_hash": "e807e16ab42dbbe4b2d8f7ef2ba8fc42de81edb928822d3191db5ae6ae15ae29",
+          "reason_codes": [],
+          "status": "PASS",
+          "unhandled_exceptions": 0
+        }
+      },
+      "revision_id": "ARCH-W1-R1",
+      "tree_hash": "a7d90ade3d4a28ae2951a6596f43ad680f3be3387f5dd00f9ed4c8b4957dbfff"
+    }
+  },
+  "case_evaluations": 234,
+  "decision": "COMPETITION_RC_IMPLEMENTATION_ONLY",
+  "decision_hash": "8b4c50dbe5f95ca04ceff4c489ae83dc3a4afa81e156e1f00f16b2ac65f25cbe",
+  "decision_id": "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
+  "deferred_not_passed": [
+    "full sealed Stage 1",
+    "Stage 2 model-in-loop comparison",
+    "full ablation",
+    "external validity",
+    "production fitness",
+    "monetary cost"
+  ],
+  "gate_id": "MINIMUM_COMPETITION_ARCHITECTURE_GATE",
+  "hidden_benchmark_accesses": 0,
+  "historical_answer_accesses": 0,
+  "majority_vote_used": false,
+  "policy_file_sha256": "cdb557751b79818208ff27734c1be97501e04fa9775c63d04ac97949664e17a5",
+  "preserves_old_decision_hash": "2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d",
+  "preserves_old_decision_id": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
+  "real_model_starts": 0,
+  "schema_version": "1.0.0",
+  "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "selection_rule": [
+    "If K1 passes all eight gates, provisionally select K1.",
+    "Otherwise, if W1 passes all eight gates, provisionally select W1.",
+    "Otherwise emit FAST_TRACK_IMPLEMENTATION_BLOCKED; S0 cannot substitute for a complete Skill."
+  ],
+  "supersedes_decision_id": null,
+  "third_party_executions": 0
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "sprint_id": "COMPETITION-RC1-REPAIR-AND-INTEGRATION-SPRINT",
+  "captured_at": "2026-09-04T08:25:51+08:00",
+  "branch": "feat/phase002d-r3-shadow-validation",
+  "starting_head": "131823092a2e8c33c677419d45ed54b381a9948e",
+  "remote_head": "131823092a2e8c33c677419d45ed54b381a9948e",
+  "origin_main": "69147942f5bad0877c549b3a882ab5b1e711341b",
+  "merge_base": "69147942f5bad0877c549b3a882ab5b1e711341b",
+  "starting_tree_hash": "fc308a4a7fbd4ed907bf0de3da4bdeac169d968d",
+  "worktree_clean": true,
+  "pull_request": {
+    "number": 6,
+    "state": "OPEN",
+    "draft": true,
+    "mergeable": "MERGEABLE",
+    "base": "main",
+    "head": "feat/phase002d-r3-shadow-validation",
+    "head_oid": "131823092a2e8c33c677419d45ed54b381a9948e",
+    "offline_validation": "PASS"
+  },
+  "old_decision": {
+    "decision_id": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
+    "outcome": "FAST_TRACK_IMPLEMENTATION_BLOCKED",
+    "decision_hash": "2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d",
+    "result_tree_hash": "e42b12c4fac125479ef6122622b6b785c03c58f8",
+    "prospective_tree_hash": "1cfe0c450f41e8d30ef1b210996765414a00ff59",
+    "artifact_sha256": {
+      "minimum_competition_architecture_gate.json": "cdb557751b79818208ff27734c1be97501e04fa9775c63d04ac97949664e17a5",
+      "architecture_decision.json": "70cd886ad2efb226769bb15a26d041554f12d24c2bf3acc8c87b90f6527156a1",
+      "read_only_core_gate_audit.json": "d3e19c1d1e5b95843e581f928eaa52d8b9516f88dfa3f13f0d96210c19e0c54d",
+      "competition_rc_acceptance_report.md": "05bffc95fe8476911338098c0a9250eeb9ce6333e52d3620786b357be3c01b40"
+    },
+    "gate_results": {
+      "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL": {
+        "G1": "FAIL",
+        "G2": "PASS",
+        "G3": "FAIL",
+        "G4": "FAIL",
+        "G5": "FAIL",
+        "G6": "FAIL",
+        "G7": "PASS",
+        "G8": "FAIL"
+      },
+      "ARCH-W1-WORKFLOW-ONLY-GUARDS": {
+        "G1": "FAIL",
+        "G2": "PASS",
+        "G3": "FAIL",
+        "G4": "FAIL",
+        "G5": "FAIL",
+        "G6": "FAIL",
+        "G7": "PASS",
+        "G8": "FAIL"
+      }
+    }
+  },
+  "formal_skill": {
+    "path": ".agents/skills/cumcm-modeling-evidence",
+    "version": "0.1.0-foundation",
+    "capability": "SCAFFOLD_ONLY",
+    "discoverable_count": 1,
+    "tree_hash": "a4879803e1aa6fb85248d97dbd5041307be26305"
+  },
+  "formal_state": {
+    "phase": "PHASE-EVIDENCE-EXPANSION-002D",
+    "subphase": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+    "technical_adjudication_status": "SHADOW_PROTOTYPE_VALIDATION_INCOMPLETE",
+    "selected_architecture": null,
+    "base_selected": false,
+    "third_party_integrated": false,
+    "next_phase_allowed": null
+  },
+  "baseline_validation": {
+    "command": "bash scripts/ci.sh",
+    "exit_code": 0,
+    "passed": 1594,
+    "failed": 0,
+    "skipped": 1,
+    "duration_seconds": 115.35,
+    "strict_errors": 0,
+    "strict_warnings": 0
+  },
+  "security_observation": {
+    "hidden_benchmark_accesses": 0,
+    "historical_answer_accesses": 0,
+    "api_key_uses": 0,
+    "third_party_executions": 0,
+    "real_comparison_model_starts": 0
+  }
+}

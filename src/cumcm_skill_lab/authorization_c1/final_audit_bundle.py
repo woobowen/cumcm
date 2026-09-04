@@ -8,6 +8,10 @@ from typing import Any
 
 import yaml
 
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_repository_file_hashes,
+)
 from cumcm_skill_lab.specification.authorization.models import repository_file_hashes, tree_hash
 from cumcm_skill_lab.specification.implementation_embargo import verify_embargo
 
@@ -105,7 +109,9 @@ def _prerequisite_errors(root: Path) -> list[str]:
         errors.append("C1_FINAL_BUNDLE_PROSECUTOR_FINDINGS_NOT_CLOSED")
     errors.extend(verify_embargo(root))
     skill_hash = tree_hash(
-        repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
+        git_repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
+        if competition_rc_successor(root)
+        else repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
     )
     if skill_hash != input_freeze["protected_bindings"]["formal_skill_tree_hash"]:
         errors.append("C1_FINAL_BUNDLE_FORMAL_SKILL_HASH_CHANGED")

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "revision_id": "FORMAL-SKILL-COMPETITION-RC1-REVISION-001",
+  "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "selected_architecture_revision": "ARCH-K1-R1",
+  "skill_version": "0.2.0-competition-rc1",
+  "capability": "COMPETITION_RC",
+  "assurance_target": "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES",
+  "integration_scope": [
+    "single per-case state truth",
+    "strict JSON and numeric boundary",
+    "hash-bound reproducibility manifest",
+    "leakage-safe comparison",
+    "exact claim support",
+    "transitive STALE propagation",
+    "modeling-to-paper contract gate"
+  ],
+  "excluded_shadow_content": [
+    "candidate identity adapters",
+    "shadow-only evaluator fixtures",
+    "architecture selection logic",
+    "audit-only report generation",
+    "W1 fallback implementation"
+  ],
+  "repair_cycles": [
+    {
+      "cycle": 1,
+      "failing_gate": "FORMAL_SKILL_FOCUSED_TEST",
+      "failing_test": "tests/unit/test_competition_rc_skill.py fixture setup",
+      "root_cause": "A module-scoped fixture depended on the repository's function-scoped repo_root fixture.",
+      "changed_files": [
+        "tests/unit/test_competition_rc_skill.py"
+      ],
+      "focused_test": "9 passed",
+      "full_gate_result": "SKILL_QUICK_VALIDATE_PASS; DISCOVERY_ONE_PASS; STRICT_PASS",
+      "tree_hash": "359a7c537fdf894e4b4f663805a6e5aa984aff7a26294372205521aefeac3f7b"
+    }
+  ],
+  "formal_skill_file_count": 40,
+  "workflow_count": 14,
+  "primary_role_count": 4,
+  "template_count": 14,
+  "cli_commands": [
+    "init",
+    "status",
+    "validate",
+    "manifest",
+    "claim-check",
+    "compare-check",
+    "stale-check",
+    "finalize",
+    "handoff",
+    "smoke"
+  ],
+  "focused_validation": {
+    "pytest": "9 passed",
+    "ruff": "PASS",
+    "py_compile": "PASS",
+    "skill_quick_validate": "PASS",
+    "skill_discovery": "PASS:1",
+    "instruction_budget": "PASS",
+    "strict_repository_validation": "PASS"
+  },
+  "remaining_for_assurance_target": [
+    "prediction end-to-end smoke",
+    "optimization end-to-end smoke",
+    "thirty negative scenarios"
+  ]
+}

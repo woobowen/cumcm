@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "revision_id": "FORMAL-SKILL-COMPETITION-RC1-REVISION-002",
+  "parent_revision": "FORMAL-SKILL-COMPETITION-RC1-REVISION-001",
+  "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "skill_version": "0.2.0-competition-rc1",
+  "capability": "COMPETITION_RC",
+  "repair_cycle": {
+    "cycle": 2,
+    "failing_gate": "NEGATIVE-14-ARBITRARY-FREEZE-HASH",
+    "failing_test": "scripts/run_competition_rc_negative_tests.py: 29/30 passed",
+    "root_cause": "The negative fixture aliased freeze_bindings to the trusted registry, and the formal CLI validated registry equality without independently deriving its semantics from candidate, metric, direction, and seed inputs.",
+    "changed_files": [
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+      "scripts/run_competition_rc_negative_tests.py"
+    ],
+    "focused_test": "30/30 negative scenarios passed; 12 formal Skill/E2E/negative tests passed",
+    "full_gate_result": "PREDICTION_READY; OPTIMIZATION_READY; HANDOFF_CONTRACTS_PASS; NEGATIVE_30_OF_30_PASS",
+    "tree_hash": "4a636646c75eb0ac035e8b897b5e83797910e5cd10c38c07e9664e08b6bf06b4"
+  },
+  "end_to_end": {
+    "summary_path": "evals/results/phase-003f-r1/end_to_end/result.json",
+    "summary_sha256": "320badacc3201ebe99ce736b356bb2bfc570f00839ff0e30039bc05a640dc73d",
+    "prediction_evidence_hash": "b3edbad0564fb23dd75c852100a5d761ad8dadb5fb33601169d0ac9728cbe2d7",
+    "optimization_evidence_hash": "1254caf8512915d91b957f8ec14d63825084bdbd605c34cc96b24ae350b25048",
+    "ready_for_paper_handoff": 2,
+    "failed": 0
+  },
+  "negative_tests": {
+    "path": "evals/results/phase-003f-r1/negative_tests/result.json",
+    "sha256": "f9c88d995aff6ed4d3c34abcb2246c5f1c952e172f138b12395c9721e8dbc820",
+    "passed": 30,
+    "failed": 0,
+    "unhandled_exceptions": 0,
+    "sensitive_values_reported": 0
+  },
+  "assurance_result": "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES",
+  "deferred_not_passed": [
+    "full sealed Stage 1",
+    "Stage 2 model comparison",
+    "full ablation",
+    "external validity",
+    "production fitness",
+    "monetary cost"
+  ],
+  "historical_answer_accesses": 0,
+  "api_calls": 0,
+  "real_comparison_model_starts": 0,
+  "third_party_executions": 0
+}

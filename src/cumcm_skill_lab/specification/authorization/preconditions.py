@@ -13,6 +13,11 @@ from cumcm_skill_lab.adjudication.models import (
     read_yaml,
     sha256_json,
 )
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_repository_file_hashes,
+    historical_json_if_successor,
+)
 from cumcm_skill_lab.specification.implementation_embargo import verify_embargo
 from cumcm_skill_lab.specification.vault_manifest import check_benchmark_vault
 
@@ -86,7 +91,7 @@ def _decision_check(root: Path, check_id: str) -> dict[str, Any]:
 
 def build_preconditions(root: Path) -> dict[str, Any]:
     freeze = read_json(root / FREEZE_PATH)
-    state = read_json(root / "state/project_state.json")
+    state = historical_json_if_successor(root, "state/project_state.json")
     audit = read_json(root / R2_ROOT / "decision_audit/audit.json")
     replay = read_json(root / R2_ROOT / "replay/replay.json")
     r2_findings = read_json(root / R2_ROOT / "adversarial_findings/findings.json")["findings"]
@@ -102,7 +107,11 @@ def build_preconditions(root: Path) -> dict[str, Any]:
     r2_serious = {
         item["finding_id"] for item in r2_findings if item["severity"] in {"BLOCKER", "ERROR"}
     }
-    current_skill_hash = tree_hash(repository_file_hashes(root, (FORMAL_SKILL_ROOT,)))
+    current_skill_hash = tree_hash(
+        git_repository_file_hashes(root, (FORMAL_SKILL_ROOT,))
+        if competition_rc_successor(root)
+        else repository_file_hashes(root, (FORMAL_SKILL_ROOT,))
+    )
     skill_files = sorted((root / ".agents/skills").glob("*/SKILL.md"))
     candidate_ids = [item["architecture_id"] for item in architecture["candidates"]]
     stage_ids = {item["stage"] for item in protocol["stages"]}

@@ -90,8 +90,20 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         assert shadow["active_decision_id"] in state["automated_decision_ids"]
         assert shadow["final_audit_result"] == "PASS"
         assert shadow["final_replay_stable"] is True
+    elif state["technical_adjudication_status"] == "COMPETITION_SKILL_RC_READY":
+        assert state["subphase"] == "COMPETITION-RC1-REPAIR-AND-INTEGRATION"
+        assert state["next_phase_allowed"] == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        assert state["selected_architecture"] == (
+            "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+        )
+        assert state["active_skill_version"] == "0.2.0-competition-rc1"
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False
     assert state["third_party_integrated"] is False
-    assert state["skill_capability_status"] == "SCAFFOLD_ONLY"
+    expected_capability = (
+        "COMPETITION_RC"
+        if state["technical_adjudication_status"] == "COMPETITION_SKILL_RC_READY"
+        else "SCAFFOLD_ONLY"
+    )
+    assert state["skill_capability_status"] == expected_capability

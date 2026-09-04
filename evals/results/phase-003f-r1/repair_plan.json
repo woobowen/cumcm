@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "sprint_id": "COMPETITION-RC1-REPAIR-AND-INTEGRATION-SPRINT",
+  "status": "IN_PROGRESS",
+  "mode": "COMPETITION_IMPLEMENTATION_SPRINT",
+  "starting_state": "evals/results/phase-003f-r1/starting_state.json",
+  "frozen_gate_policy": "evals/prospective/phase-003f/minimum_competition_architecture_gate.json",
+  "immutable_old_results": [
+    "evals/results/phase-003f/",
+    "evals/prospective/phase-003f/"
+  ],
+  "candidate_order": [
+    "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "ARCH-W1-WORKFLOW-ONLY-GUARDS"
+  ],
+  "selection_rule": [
+    "Select K1 only if K1 passes all eight gates.",
+    "Otherwise select W1 only if W1 passes all eight gates.",
+    "Otherwise emit COMPETITION_RC_REPAIR_BLOCKED."
+  ],
+  "repair_budgets": {
+    "K1": 5,
+    "W1": 4,
+    "COMMON_HARNESS": 3,
+    "FORMAL_SKILL_INTEGRATION": 3,
+    "INTEGRATION_AUDIT_REPAIR": 2
+  },
+  "target_gates": [
+    "G1_MALFORMED_INPUT_FAIL_CLOSED",
+    "G2_DONE_IS_NOT_ACCEPTED",
+    "G3_CLAIM_EVIDENCE_EXACT_SUPPORT",
+    "G4_REPRODUCIBILITY_MANIFEST",
+    "G5_LEAKAGE_SAFE_COMPARISON",
+    "G6_INPUT_AND_STATE_ISOLATION",
+    "G7_SECURITY_AND_PROVENANCE",
+    "G8_END_TO_END_COMPONENT_COMPOSITION"
+  ],
+  "authorized_changes": [
+    "New K1 and W1 candidate revisions under the existing shadow prototype paths",
+    "Symmetric common-harness corrections",
+    "New phase-003f-r1 evidence without changing phase-003f history",
+    "Formal integration only after an architecture reaches eight of eight gates",
+    "Two project-authored synthetic end-to-end cases and thirty negative paths",
+    "Minimal Phase 004 Development Eval entrypoint",
+    "Required state, documentation, version, report, and Draft PR synchronization"
+  ],
+  "deferred_not_passed": [
+    "full sealed Stage 1",
+    "Stage 2 model-in-loop comparison",
+    "full ablation",
+    "external validity",
+    "production fitness",
+    "monetary cost"
+  ],
+  "prohibited": {
+    "hidden_benchmark_access": true,
+    "historical_answer_access": true,
+    "api_key_use": true,
+    "model_training_or_fine_tuning": true,
+    "third_party_code_copy_or_execution": true,
+    "formal_gate_relaxation": true,
+    "majority_vote": true,
+    "main_branch_change": true
+  },
+  "milestones": [
+    "M1_START_AND_FREEZE",
+    "M2_K1_W1_REPAIR",
+    "M3_EIGHT_GATE_READMISSION",
+    "M4_FORMAL_SKILL_INTEGRATION",
+    "M5_TWO_END_TO_END_CASES",
+    "M6_PHASE004_ENTRYPOINT",
+    "M7_FINAL_AUDIT_AND_DOCUMENTATION",
+    "M8_REMOTE_DELIVERY"
+  ]
+}

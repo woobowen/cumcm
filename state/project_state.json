@@ -5,7 +5,7 @@
     "hash-bound-reproducibility-manifest",
     "leakage-safe-model-comparison-gate"
   ],
-  "active_skill_version": "0.1.0-foundation",
+  "active_skill_version": "0.2.0-competition-rc1",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -16,6 +16,8 @@
     "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2",
     "DECISION-COMPONENT-READINESS-002D-R1",
     "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
+    "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
+    "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
     "DECISION-FAILURE-SEMANTICS-002D-R1",
     "DECISION-INTERACTION-CONTRACT-002D-R2",
     "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2",
@@ -29,9 +31,70 @@
   ],
   "base_selected": false,
   "blockers": [],
+  "competition_rc1": {
+    "old_blocked_decision": {
+      "decision_id": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
+      "decision_hash": "2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d",
+      "result": "FAST_TRACK_IMPLEMENTATION_BLOCKED",
+      "artifact_sha256": "70cd886ad2efb226769bb15a26d041554f12d24c2bf3acc8c87b90f6527156a1"
+    },
+    "architecture_decision": {
+      "decision_id": "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
+      "decision_hash": "8b4c50dbe5f95ca04ceff4c489ae83dc3a4afa81e156e1f00f16b2ac65f25cbe",
+      "artifact_sha256": "20b6d4c0086c8ab8e3a81f442fba63977db3d557f2143d91db86d0a4993bfa03",
+      "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+    },
+    "minimum_gate": {
+      "result_sha256": "07d4362f0c2d0c6b502bcae99748e18f825ded4662554fb860d4db483376b971",
+      "k1_passed": 8,
+      "w1_passed": 8,
+      "case_evaluations": 234,
+      "unhandled_exceptions": 0
+    },
+    "formal_skill": {
+      "name": "cumcm-modeling-evidence",
+      "version": "0.2.0-competition-rc1",
+      "capability": "COMPETITION_RC",
+      "discoverable_count": 1,
+      "workflow_count": 14,
+      "role_count": 4
+    },
+    "end_to_end": {
+      "result_sha256": "3beefd5190547246a361e6829a2236224927af8a9673cc0344ff62f78676fa99",
+      "passed": 2,
+      "prediction_state": "READY_FOR_PAPER_HANDOFF",
+      "optimization_state": "READY_FOR_PAPER_HANDOFF"
+    },
+    "negative_tests": {
+      "result_sha256": "5c46849aee853b1bb1d9af43f7ea22d827681852e6a2150da6ad4bd0cd2f5f60",
+      "passed": 30,
+      "failed": 0,
+      "unhandled_exceptions": 0
+    },
+    "integration_audit": {
+      "status": "PASS",
+      "path": "evals/results/phase-003f-r1/formal_skill_integration/audit.json",
+      "sha256": "31df3fc5292e7b0d6110dab03f5848a2591472700bf51694cd200b8861c6c638"
+    },
+    "assurance": "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES",
+    "full_r3_status": "DEFERRED_NOT_PASSED",
+    "deferred_validation": [
+      "full sealed Stage 1",
+      "Stage 2 model comparison",
+      "full ablation",
+      "external validity",
+      "production fitness",
+      "monetary cost"
+    ],
+    "api_calls": 0,
+    "model_training": false,
+    "real_comparison_model_starts": 0,
+    "native_subagent_runs": 3,
+    "third_party_executions": 0
+  },
   "content_verified_commit": null,
-  "current_branch": "feat/phase002d-r2a-shadow-authorization",
-  "current_plan": "plans/active/PLAN-0002D-R2A-C1-historical-compatibility-and-candidate-binding.md",
+  "current_branch": "feat/phase002d-r3-shadow-validation",
+  "current_plan": "plans/active/PLAN-0002D-R3-shadow-prototype-validation.md",
   "delivery_receipt_for_commit": null,
   "evidence_expansion": {
     "attempts": 28,
@@ -77,8 +140,8 @@
     "transport_profile": "PROXY_INHERITED",
     "unknown_slots": 0
   },
-  "next_phase_allowed": "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
-  "phase": "PHASE-EVIDENCE-EXPANSION-002D",
+  "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+  "phase": "PHASE-SKILL-INTEGRATION-003",
   "project_id": "cumcm-skill-lab",
   "risks": [
     "Phase 002 technical proposals remain historical evidence and are not selected by the Phase 002C insufficiency result.",
@@ -100,11 +163,14 @@
     "The hidden Benchmark vault is policy/workspace isolated and not OS-enforced.",
     "Clean-room provenance is evidence of process controls, not proof of legal compliance.",
     "Phase 002D-R2A may authorize only an isolated future experimental shadow scope; it is not architecture selection, formal Skill integration, prototype effectiveness evidence, legal proof, or OS-enforced vault isolation.",
-    "The C2 active authorization permits only a future isolated experimental shadow prototype; it is not architecture selection, formal Skill integration, effectiveness evidence, production authorization, or Phase 003 entry."
+    "The C2 active authorization permits only a future isolated experimental shadow prototype; it is not architecture selection, formal Skill integration, effectiveness evidence, production authorization, or Phase 003 entry.",
+    "Competition RC1 assurance is limited to unchanged public deterministic Gates and two project-original end-to-end smoke cases.",
+    "Full sealed Stage 1, Stage 2 model comparison, full ablation, external validity, production fitness, and monetary cost remain deferred and not passed.",
+    "Trusted execution-code capture is fixed to the bundled deterministic runner; caller-supplied custom executors are outside RC1 assurance."
   ],
   "schema_version": "2.4.0",
-  "selected_architecture": null,
-  "skill_capability_status": "SCAFFOLD_ONLY",
+  "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "skill_capability_status": "COMPETITION_RC",
   "shadow_authorization": {
     "input_freeze_id": "PHASE-002D-R2A-C1-INPUT-FREEZE-001",
     "input_freeze_hash": "db2e56eb21b22e65db3ede08b0b68f23f60ed3ba7d4d5148647fda509a518132",
@@ -131,6 +197,19 @@
     "replay_decision_hash": "ed5ab9b1d850ecc84b09020ae9af58358dfebd2ff1b08c1913c1b00a7cff2473",
     "replay_audit_checkpoint_hash": "e33c59a489bbce09a4984c92a34812afc2d43c6ba10ee0c952f63178eb8ae125"
   },
+  "shadow_validation": {
+    "starting_authorization_id": "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
+    "input_freeze_id": "PHASE-002D-R3-INPUT-FREEZE-001",
+    "input_freeze_hash": "325f5a26959e1006b382a709abdc75e40244853f64941a10f8e0863a8aae2bb2",
+    "prototype_implementation_count": 2,
+    "prototype_execution_count": 150,
+    "real_model_starts": 0,
+    "native_subagent_runs": 4,
+    "stage1_status": "NOT_RUN",
+    "stage2_status": "NOT_RUN",
+    "decision_audit_status": "NOT_RUN",
+    "replay_stable": false
+  },
   "specification_protocol": {
     "benchmark_freeze_status": "BENCHMARK_FROZEN",
     "decision_audit_status": "PASS",
@@ -145,11 +224,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "PHASE-002D-R2A-C1-HISTORICAL-COMPATIBILITY-AND-CANDIDATE-BOUND-AUTHORIZATION-CLOSURE",
+  "subphase": "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE",
+  "technical_adjudication_status": "COMPETITION_SKILL_RC_READY",
   "third_party_integrated": false,
-  "updated_at": "2026-09-03T17:14:25+08:00",
+  "updated_at": "2026-09-04T11:33:19+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

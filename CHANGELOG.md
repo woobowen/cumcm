@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.3.0-competition-rc1 — 2026-09-04
+
+- Preserved the original `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision byte-for-byte and created
+  additive K1/W1 R1 revisions. Both repaired candidates pass all eight unchanged public hard Gates;
+  K1 is selected by the frozen K1-first rule for `COMPETITION_RC_IMPLEMENTATION_ONLY`.
+- Repaired malformed/nonfinite boundaries, verified Run/Claim bindings, recursive secret/private-path
+  rejection, trusted reproducibility freezes, leakage-safe strict scoring, case-state isolation and
+  candidate-owned transitive composition without copying third-party code.
+- Upgraded the sole formal Skill from `0.1.0-foundation`/`SCAFFOLD_ONLY` to
+  `0.2.0-competition-rc1`/`COMPETITION_RC`; added 14 workflows, four roles, 14 templates and one
+  offline CLI for lifecycle, manifest, comparison, Claim, STALE, Final Run and handoff Gates.
+- Actually ran a project-original prediction case and bounded integer optimization case through all
+  case-state transitions to `READY_FOR_PAPER_HANDOFF`; both `modeling-to-paper/v1` packages validate.
+  All 30 fixed negative scenarios fail closed with stable reason codes and no unhandled exceptions.
+- Closed seven independent integration-audit bypass classes in the final directed revision 003:
+  actual input/code/output and Git-commit verification, raw-to-processed execution lineage, complete
+  candidate-by-seed comparison, authenticated state history/evidence, automatic STALE checks,
+  measured secret-canary non-disclosure, and full Phase004 workspace/first-run freeze binding.
+- Hardened the experiment-plan authorization Gate against recomputed illegal freezes (candidate
+  registry mismatch, duplicate or wrong-type seeds, empty/overlapping splits and empty metrics),
+  made direct comparison/Claim validators total over hostile container types, enforced Claim IDs,
+  and fail-closed the Phase004 integration-audit type boundary.
+- Bound the exact input, output, configuration, attempt and fixed execution-code registries through
+  every Run Gate; bound robustness and per-requirement Claims to selected output evidence; made
+  terminal STALE chains exact; and closed public wrapper/raw-contract integrity bypasses. Independent
+  replay completed 5,960 hostile validator calls without an exception, mutation or invalid accept.
+- Added an empty answer-sealed case registry, blind-run start/freeze tools, consistency checker and
+  Phase 004 Development Eval protocol. No historical problem or answer was selected/read.
+- Known limits: full sealed Stage 1, Stage 2 model comparison, full ablation, external validity,
+  production fitness and monetary cost are deferred and not passed. API calls, model training,
+  fine-tuning, real comparison starts and third-party executions are zero. Next phase is
+  `PHASE-SKILL-DEVELOPMENT-EVAL-004`. Trusted code capture is currently limited to the bundled
+  deterministic runner; arbitrary custom executors are outside RC1 assurance.
+
 ## 0.2.6-specification-protocol — 2026-09-02
 
 - Started Phase 002D-R2 from the audited R1 `SPECIFICATION_ONLY` authorization and preserved null
