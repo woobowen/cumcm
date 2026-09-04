@@ -970,7 +970,7 @@ def test_manifest_rejects_unregistered_top_level_freeze_reference(
     assert "RC_MANIFEST_ADDITIONAL_FIELDS_REJECTED" in result.reason_codes
 
 
-def test_post_ready_case_root_code_mutation_reports_chain_without_state_write(
+def test_manifest_detects_frozen_case_root_code_mutation(
     repo_root: Path, case_cli, tmp_path: Path
 ) -> None:
     case_root = tmp_path / "prediction"
@@ -978,31 +978,33 @@ def test_post_ready_case_root_code_mutation_reports_chain_without_state_write(
     copied_code = case_root / "code/model.py"
     copied_code.parent.mkdir(parents=True)
     copied_code.write_bytes((repo_root / "THIRD_PARTY_NOTICES.md").read_bytes())
-    state_path = case_root / "case_state.json"
-    state = case_cli.load_state(case_root)
-    for manifest_path in case_root.glob("runs/*/manifest.json"):
-        manifest = case_cli.load_json(manifest_path)
-        manifest["code_files"].append(
-            {
-                "scope": "CASE_ROOT",
-                "path": "code/model.py",
-                "repository_path": "THIRD_PARTY_NOTICES.md",
-                "sha256": case_cli.file_hash(copied_code),
-            }
-        )
-        manifest["code_tree_hash"] = case_cli.canonical_hash(
-            [item["sha256"] for item in manifest["code_files"]]
-        )
-        case_cli.write_json(manifest_path, manifest)
-        relative = str(manifest_path.relative_to(case_root))
-        state["evidence_bindings"][relative] = case_cli.file_hash(manifest_path)
-    case_cli.write_json(state_path, state)
-    assert case_cli.stale_check(case_root, mutate=False).accepted is True
+    manifest_path = next(case_root.glob("runs/*/manifest.json"))
+    manifest = case_cli.load_json(manifest_path)
+    manifest["code_files"].append(
+        {
+            "scope": "CASE_ROOT",
+            "path": "code/model.py",
+            "repository_path": "THIRD_PARTY_NOTICES.md",
+            "sha256": case_cli.file_hash(copied_code),
+        }
+    )
+    manifest["code_tree_hash"] = case_cli.canonical_hash(
+        [item["sha256"] for item in manifest["code_files"]]
+    )
+    freezes = copy.deepcopy(manifest["freeze_bindings"])
+    freezes["code_set"] = case_cli.canonical_hash(manifest["code_files"])
+    manifest["freeze_bindings"] = freezes
+    assert case_cli.validate_manifest(
+        manifest,
+        case_root=case_root,
+        trusted_freezes=freezes,
+    ).accepted is True
 
     copied_code.write_text("mutated code dependency\n", encoding="utf-8")
-    state_before = state_path.read_bytes()
-    result = case_cli.stale_check(case_root, mutate=False)
-    assert result.status == "STALE"
-    assert result.dependency_chain
-    assert all(path.endswith("manifest.json") for path in result.dependency_chain)
-    assert state_path.read_bytes() == state_before
+    result = case_cli.validate_manifest(
+        manifest,
+        case_root=case_root,
+        trusted_freezes=freezes,
+    )
+    assert result.accepted is False
+    assert "RC_MANIFEST_CODE_MUTATION" in result.reason_codes
