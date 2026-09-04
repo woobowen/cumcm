@@ -71,7 +71,7 @@ PHASE004B_REPORTS = tuple(
 )
 EXPECTED_VERSION = "0.2.0-competition-rc3"
 PHASE004A_VERSION = "0.2.0-competition-rc2"
-ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", PHASE004A_VERSION}
+ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", PHASE004A_VERSION, EXPECTED_VERSION}
 REQUIRED_FIELDS = {
     "case_id",
     "set_type",

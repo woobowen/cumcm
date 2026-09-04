@@ -15,13 +15,32 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 K1 = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
 SKILL_VERSION = "0.2.0-competition-rc1"
-ACTIVE_SKILL_VERSIONS = {SKILL_VERSION, "0.2.0-competition-rc2", "0.2.0-competition-rc3"}
+ACTIVE_SKILL_VERSIONS = {
+    SKILL_VERSION,
+    "0.2.0-competition-rc2",
+    "0.2.0-competition-rc3",
+    "0.2.0-competition-rc4",
+}
 DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
     "DEVELOPMENT_EVAL_RC2_READY",
     "DEVELOPMENT_EVAL_RC3_READY",
     "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
     "DEVELOPMENT_EVAL_INCOMPLETE",
+}
+C_TARGET_STATUSES = {
+    "C_TARGET_BATCH_IN_PROGRESS",
+    "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
+    "C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE",
+    "C_TARGET_VALIDATION_PASSED",
+    "C_TARGET_VALIDATION_FAILED",
+    "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+    "C_TARGET_VALIDATION_INCOMPLETE",
+    "C_TARGET_BATCH_INCOMPLETE",
+    "OFFICIAL_INPUTS_REQUIRED",
+    "FIRST_RUN_CONTAMINATION_SUSPECTED",
+    "INFRASTRUCTURE_BLOCKED",
+    "VALIDATION_CANDIDATE_DRIFT",
 }
 DEFERRED = {
     "full sealed Stage 1",
@@ -99,7 +118,11 @@ def evaluate() -> dict[str, Any]:
             in workflow
         ),
         "state_phase": state.get("phase")
-        in {"PHASE-SKILL-INTEGRATION-003", "PHASE-SKILL-DEVELOPMENT-EVAL-004"},
+        in {
+            "PHASE-SKILL-INTEGRATION-003",
+            "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+            "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+        },
         "state_subphase": state.get("subphase")
         in {
             "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
@@ -111,9 +134,10 @@ def evaluate() -> dict[str, Any]:
             "CUMCM-2020-A-POST-FREEZE-DIAGNOSIS",
             "CUMCM-2020-A-RC3-DEVELOPMENT-REGRESSION",
             "CUMCM-2020-A-DEVELOPMENT-RC3",
+            "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS",
         },
         "state_technical_status": state.get("technical_adjudication_status")
-        in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES},
+        in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES, *C_TARGET_STATUSES},
         "state_skill_version": state.get("active_skill_version") in ACTIVE_SKILL_VERSIONS,
         "state_capability": state.get("skill_capability_status") == "COMPETITION_RC",
         "state_architecture": state.get("selected_architecture") == K1,
@@ -134,6 +158,10 @@ def evaluate() -> dict[str, Any]:
         or (
             state.get("technical_adjudication_status")
             in DEVELOPMENT_STATUSES - {"DEVELOPMENT_EVAL_RC2_READY"}
+            and state.get("next_phase_allowed") is None
+        )
+        or (
+            state.get("technical_adjudication_status") == "C_TARGET_BATCH_IN_PROGRESS"
             and state.get("next_phase_allowed") is None
         ),
         "state_has_no_blockers": state.get("blockers") == [],
@@ -222,7 +250,7 @@ def evaluate() -> dict[str, Any]:
     second_case = cases_by_id.get("CUMCM-2020-A-DEVELOPMENT-002", {})
     checks["development_registry_answer_sealed_case"] = (
         isinstance(cases, list)
-        and len(cases) == 2
+        and len(cases) >= 2
         and first_case.get("set_type") == "DEVELOPMENT"
         and first_case.get("answer_access_status") == "UNLOCKED_AFTER_FIRST_RUN"
         and first_case.get("skill_version") == SKILL_VERSION

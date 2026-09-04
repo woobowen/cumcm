@@ -43,3 +43,25 @@ def test_generated_status_and_staleness(tmp_path: Path):
     changed["status"] = "STALE"
     state_path.write_text(json.dumps(changed), encoding="utf-8")
     assert generate_status(tmp_path, check=True)[0] is False
+
+
+def test_generated_status_includes_c_target_batch_fields(tmp_path: Path):
+    (tmp_path / "state").mkdir()
+    (tmp_path / "reports").mkdir()
+    state = _state()
+    state.update(
+        {
+            "primary_target_problem_type": "C",
+            "current_batch_id": "C-TARGET-BATCH-001",
+            "batch_skill_frozen": True,
+            "batch_reference_unlocked": False,
+        }
+    )
+    (tmp_path / "state/project_state.json").write_text(json.dumps(state), encoding="utf-8")
+
+    assert generate_status(tmp_path)[0] is True
+    text = (tmp_path / "reports/current_state.md").read_text(encoding="utf-8")
+    assert "- Primary target problem type: `C`" in text
+    assert "- Current batch: `C-TARGET-BATCH-001`" in text
+    assert "- Batch Skill frozen: `true`" in text
+    assert "- Batch references unlocked: `false`" in text

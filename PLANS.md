@@ -26,9 +26,13 @@ Skill, executes a prototype/model/API experiment, or opens Phase 003.
 
 ## Current sprint and next execution
 
-`PHASE-SKILL-DEVELOPMENT-EVAL-004-A` is the active real-problem sprint in
-`plans/active/PLAN-0004A-2023c-development-eval.md`. It binds the merged RC1 commit to one official,
-answer-sealed historical Development case, freezes the first run before any reference unlock, and
-accepts at most two evidence-backed, problem-independent RC2 revisions. It then runs a same-case
-Development regression and three semantics-preserving Stress checks. This case is never promoted to
-Validation/Held-out evidence, and one problem cannot prove generalization.
+Phase 004A (2023 C Development) and Phase 004B (2020 A auxiliary Development) are complete. The
+planned 2024 A Validation was cancelled before registration and produced no formal execution
+evidence or commit (`CANCELLED_BEFORE_REGISTRATION_NO_EXECUTION_EVIDENCE`).
+
+The only active execution is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C` in
+`plans/active/PLAN-0004C-C-target-batch-generalization.md`. It freezes RC3 across three structurally
+different, answer-sealed C Development first runs, unlocks references only after all three remote
+freezes, admits at most one unified RC4 revision, performs unified regression, and then runs one
+fresh answer-sealed C Validation once. The next eligible project phase is a C Held-out phase only if
+the formal Validation decision permits it; otherwise the route is C batch repair or null.

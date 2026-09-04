@@ -1,0 +1,84 @@
+version: 1.0.0
+decision_id: DECISION-C-TARGET-TRAINING-POLICY-004C
+policy_name: TARGET_PROBLEM_POLICY
+primary_target: C
+minimum_independent_c_share: 0.80
+share_scope: HISTORICAL_AND_PRE_REGISTERED_INDEPENDENT_DEVELOPMENT_ALLOCATION
+realized_evidence_reported_separately: true
+validation_target: C
+held_out_target: C
+final_simulation_target: C
+a_problem_role: AUXILIARY_TRANSFER_ONLY
+b_problem_role: EXCLUDED_BY_DEFAULT
+stress_counts_as_independent: false
+same_case_regression_counts_as_independent: false
+answer_sealing_required: true
+batch_skill_freeze_required: true
+post_result_same_case_validation_rerun: PROHIBITED
+model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+active_phase:
+  phase: PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C
+  initial_subphase: C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS
+  initial_technical_status: C_TARGET_BATCH_IN_PROGRESS
+  allowed_terminal_statuses:
+  - C_TARGET_VALIDATION_PASSED
+  - C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING
+  - C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE
+  - C_TARGET_VALIDATION_FAILED
+  - C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+  - C_TARGET_VALIDATION_INCOMPLETE
+  - C_TARGET_BATCH_INCOMPLETE
+  - OFFICIAL_INPUTS_REQUIRED
+  - FIRST_RUN_CONTAMINATION_SUSPECTED
+  - INFRASTRUCTURE_BLOCKED
+  - VALIDATION_CANDIDATE_DRIFT
+  next_phase_by_terminal_status:
+    C_TARGET_VALIDATION_PASSED: PHASE-SKILL-C-TARGET-HELDOUT-004D
+    C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING: null
+    C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE: null
+    C_TARGET_VALIDATION_FAILED: PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2
+    C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT: null
+    C_TARGET_VALIDATION_INCOMPLETE: null
+    C_TARGET_BATCH_INCOMPLETE: null
+    OFFICIAL_INPUTS_REQUIRED: null
+    FIRST_RUN_CONTAMINATION_SUSPECTED: null
+    INFRASTRUCTURE_BLOCKED: null
+    VALIDATION_CANDIDATE_DRIFT: null
+batch:
+  batch_id: C-TARGET-BATCH-001
+  formal_skill_version: 0.2.0-competition-rc3
+  formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  formal_skill_tree: a4551c8aa0b6b119823f6ce9df3f0f948339bb33
+  batch_skill_frozen: true
+  batch_reference_unlocked: false
+  case_count: 3
+  problem_type: C
+  all_cases_before_unlock: true
+  maximum_skill_revision_cycles: 2
+  allowed_skill_change_classes:
+  - CROSS_CASE_REPEATED_FAILURE
+  - UNIVERSAL_HARD_FAILURE
+  forbidden_skill_content:
+  - YEAR
+  - PROBLEM_NUMBER
+  - PROBLEM_TITLE
+  - ATTACHMENT_NAME
+  - FIELD_NAME
+  - ENTITY_NAME
+  - ANSWER
+  - OPTIMAL_VALUE
+  - PROBLEM_SPECIFIC_PARAMETER
+evidence_accounting:
+  independent_problem_required: true
+  planned_allocation_may_not_be_reported_as_realized_evidence: true
+  a_problem_counts_as_c_validation: false
+  stress_counts_as_c_generalization: false
+  same_case_regression_counts_as_c_generalization: false
+  contaminated_case_counts_as_strict_first_run: false
+held_out_reservation:
+  reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
+  status: SEALED_NOT_ACCESSED
+  archive_accessed: false
+  title_accessed: false
+  problem_accessed: false
+  answer_accessed: false

@@ -30,9 +30,127 @@ required_case_fields:
 - unlock_time
 - generalizable_failures
 - problem_specific_findings
+target_case_fields:
+- target_problem_type
+- evidence_role
+- independent_problem
+- batch_id
+- batch_position
+- answer_access_status
+- first_run_freeze
+- reference_unlock
+- formal_skill_version
+- formal_skill_commit
+- contamination_status
+- generalization_axis
+planned_cases:
+- case_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001
+  set_type: DEVELOPMENT
+  registration_status: PRE_ACQUISITION_REGISTERED
+  target_problem_type: C
+  evidence_role: DEVELOPMENT_BATCH
+  independent_problem: true
+  batch_id: C-TARGET-BATCH-001
+  batch_position: 1
+  answer_access_status: SEALED
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  first_run_freeze: null
+  reference_unlock: LOCKED
+  formal_skill_version: 0.2.0-competition-rc3
+  formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  contamination_status: PENDING_PRE_FREEZE_REVIEW
+  strict_first_run_eligibility: PENDING_INPUT_AND_CONTAMINATION_CHECK
+  official_page_url_sha256: 4dcd31da4dfd2a3fb4c7e5ff93a77ee7901fef54f9eaa4dfdacc1bef92c16ad5
+  official_archive_url_sha256: d57c5c806d6c60a450a360d4c3278d8044dd09fa5b384e92ed27948c1e19d8c4
+  official_archive_filename: 5eWlbmTt28f88a0815a79d555da8b7072f971633.rar
+  generalization_axis:
+  - COMPOSITIONAL_DATA
+  - STATISTICAL_INFERENCE
+  - CLASSIFICATION
+  - CLUSTERING
+  - MISSING_AND_ANOMALOUS_DATA
+  - FEATURE_STABILITY
+- case_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002
+  set_type: DEVELOPMENT
+  registration_status: PRE_ACQUISITION_REGISTERED
+  target_problem_type: C
+  evidence_role: DEVELOPMENT_BATCH
+  independent_problem: true
+  batch_id: C-TARGET-BATCH-001
+  batch_position: 2
+  answer_access_status: SEALED
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  first_run_freeze: null
+  reference_unlock: LOCKED
+  formal_skill_version: 0.2.0-competition-rc3
+  formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  contamination_status: PENDING_PRE_FREEZE_REVIEW
+  strict_first_run_eligibility: PENDING_INPUT_AND_CONTAMINATION_CHECK
+  official_page_url_sha256: 38910ce2a1897e397d149a031e870149bf8a6ecb29f0da0af40cc86ffb1615be
+  official_archive_url_sha256: b5684a6a0fa6ee33c04fe506bea0210f8414b94d4b765a7cb4dba1fa74f0bea1
+  official_archive_filename: HtbJEt9Nb655e46bebfa2a66ec63f940e2da156b.rar
+  generalization_axis:
+  - MULTI_TABLE_TIME_SERIES
+  - SUPPLIER_EVALUATION
+  - ORDERING_OPTIMIZATION
+  - TRANSPORT_ALLOCATION
+  - ROBUST_FEASIBILITY
+  - MULTI_STAGE_DECISION
+- case_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003
+  set_type: DEVELOPMENT
+  registration_status: PRE_ACQUISITION_REGISTERED
+  target_problem_type: C
+  evidence_role: DEVELOPMENT_BATCH
+  independent_problem: true
+  batch_id: C-TARGET-BATCH-001
+  batch_position: 3
+  answer_access_status: SEALED
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  first_run_freeze: null
+  reference_unlock: LOCKED
+  formal_skill_version: 0.2.0-competition-rc3
+  formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  contamination_status: COLOCATED_ARCHIVE_PREVIOUSLY_USED_FOR_2020A_PENDING_C_CONTENT_REVIEW
+  strict_first_run_eligibility: PENDING_INPUT_AND_CONTAMINATION_CHECK
+  official_page_url_sha256: ecb01de2d24679d4cb9051f36967c49b18e5cc56fd975520d64bbb2dbeeb6bcd
+  official_archive_url_sha256: fbe7716317b57c1fea89a9230c4c2765579903e573e2bd3b43e80ef046a2242c
+  official_archive_filename: 05k6B8WT92d3955f5c5e95dd086e59163e5f584b.rar
+  generalization_axis:
+  - CREDIT_RISK
+  - ENTERPRISE_SCORING
+  - CLASSIFICATION
+  - DECISION_UNDER_UNCERTAINTY
+  - RISK_RETURN_TRADEOFF
+  - POLICY_SCENARIO_ANALYSIS
+  fallback_case:
+    case_id: CUMCM-2019-C-DEVELOPMENT-BATCH-003F
+    activation_conditions:
+    - OFFICIAL_INPUT_UNAVAILABLE
+    - C_PROBLEM_CONTENT_CONTAMINATION_CONFIRMED
+    activation_deadline: BEFORE_ANY_POSITION_3_CANDIDATE_RESULT
+    official_page_url_sha256: b60f681e2742708a082a998bba80b708cbd6e7a8a6ab253bed11a6827e85a17f
+    official_archive_url_sha256: 7b5480dee2029631a50eb32e05dfc2dd0a60f39895c00c379d2cb724e16d1f2e
+    official_archive_filename: TSIsGxZuf258d48a22a7c7e628cd90482e1c25a2.rar
+held_out_reservations:
+- reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
+  set_type: HELD_OUT
+  target_problem_type: C
+  status: SEALED_NOT_ACCESSED
+  official_annual_page_url_sha256: 83e2b2a88e81213252c4aa8212558a738a95f44d2d03de80e849b154d31a468f
+  archive_accessed: false
+  title_accessed: false
+  problem_accessed: false
+  attachments_accessed: false
+  references_accessed: false
+  answer_accessed: false
 cases:
 - case_id: CUMCM-2023-C-DEVELOPMENT-001
   set_type: DEVELOPMENT
+  target_problem_type: C
+  evidence_role: HISTORICAL_DEVELOPMENT
+  independent_problem: true
+  batch_id: null
+  batch_position: null
   official_title: 2023 年全国大学生数学建模竞赛 C 题《蔬菜类商品的自动定价与补货决策》
   problem_source: raw/case_files/C题.pdf
   problem_source_domain: mcm.edu.cn
@@ -45,7 +163,16 @@ cases:
     raw/case_files/附件3.xlsx: 3a383a51148c8d94afdd1a4a395a88d14dc06a507f4120185066fae92d1405e9
     raw/case_files/附件4.xlsx: d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c
   answer_access_status: UNLOCKED_AFTER_FIRST_RUN
+  reference_unlock: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  formal_skill_version: 0.2.0-competition-rc1
+  formal_skill_commit: a93a96d79890f6774552dc5ff333f833099edf83
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  generalization_axis:
+  - MULTI_TABLE_TIME_SERIES
+  - DEMAND_FORECASTING
+  - PRICING_AND_REPLENISHMENT_DECISION
+  - UNCERTAINTY_PROPAGATION
   first_run_status: FROZEN
   first_run_freeze:
     freeze_id: CUMCM-2023-C-DEVELOPMENT-001-FIRST-RUN-FREEZE-001
@@ -155,6 +282,11 @@ cases:
     verified_remote_sha: 8e7b7ced55789232bb5d6f8ec64e1ac4926778f8
 - case_id: CUMCM-2020-A-DEVELOPMENT-002
   set_type: DEVELOPMENT
+  target_problem_type: A
+  evidence_role: AUXILIARY_TRANSFER_ONLY
+  independent_problem: true
+  batch_id: null
+  batch_position: null
   official_title: 2020 年全国大学生数学建模竞赛 A 题《炉温曲线》
   problem_source: problem/case_files/2020A-炉温曲线.docx
   problem_source_domain: mcm.edu.cn
@@ -167,8 +299,15 @@ cases:
     data/raw/case_files/附件.xlsx: fc42c478d1b37796de5157125d9ea9e33c75d29ba7d7af9885b340fd41ab1e7c
     data/raw/case_files/result.csv: 2b995aa4a1f3e24ff0e88755ab56091bb68b8bebbaa473c884ab01963e521137
   answer_access_status: UNLOCKED_AFTER_FIRST_RUN
+  reference_unlock: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
-  generalization_axis: MECHANISTIC_MODELING_NUMERICAL_SOLVER_CONSTRAINED_OPTIMIZATION
+  formal_skill_version: 0.2.0-competition-rc2
+  formal_skill_commit: 1d842a45403370916ce2c36297876e9cd1ddde1f
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  generalization_axis:
+  - MECHANISTIC_MODELING
+  - NUMERICAL_SOLVER
+  - CONSTRAINED_OPTIMIZATION
   first_run_status: FROZEN
   skill_version: 0.2.0-competition-rc2
   skill_commit: 1d842a45403370916ce2c36297876e9cd1ddde1f

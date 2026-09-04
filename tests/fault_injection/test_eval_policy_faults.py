@@ -115,13 +115,26 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
             "C": "PASS",
         }
         assert state["active_skill_version"] == "0.2.0-competition-rc3"
+    elif state["technical_adjudication_status"] == "C_TARGET_BATCH_IN_PROGRESS":
+        assert state["subphase"] == "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS"
+        assert state["primary_target_problem_type"] == "C"
+        assert state["current_batch_id"] == "C-TARGET-BATCH-001"
+        assert state["batch_skill_frozen"] is True
+        assert state["batch_reference_unlocked"] is False
+        assert state["next_phase_allowed"] is None
+        assert state["active_skill_version"] == "0.2.0-competition-rc3"
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False
     assert state["third_party_integrated"] is False
     expected_capability = (
         "COMPETITION_RC"
-        if state["phase"] in {"PHASE-SKILL-INTEGRATION-003", "PHASE-SKILL-DEVELOPMENT-EVAL-004"}
+        if state["phase"]
+        in {
+            "PHASE-SKILL-INTEGRATION-003",
+            "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+            "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+        }
         else "SCAFFOLD_ONLY"
     )
     assert state["skill_capability_status"] == expected_capability

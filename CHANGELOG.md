@@ -157,6 +157,11 @@
 ### Changed
 
 - Added persistent, machine-readable Git remote-delivery policy, tracked-path redaction, and remote SHA verification requirements.
+- Adopted `DECISION-C-TARGET-TRAINING-POLICY-004C`: C is the primary target; A is auxiliary
+  transfer only; B is excluded by default; Validation, Held-out, and final simulation must use C.
+- Replaced the cancelled, unregistered 2024 A Validation route with a frozen-RC3 three-C batch,
+  all-cases-before-unlock, one unified evidence-based revision, unified regression, and one-shot C
+  Validation. The cancelled route produced no unique commit or tracked execution evidence.
 
 ## 0.1.0-foundation — 2026-08-31
 

@@ -5,6 +5,12 @@ requirements, sources, data audit, model portfolio/baseline, experiment executio
 robustness, Final Run, Claim validation, and a reproducible evidence package for a separate paper
 team.
 
+The primary competition target is the C problem. Prior evidence contains one 2023 C Development run
+and one 2020 A auxiliary-transfer Development run; it does not prove broad C-problem generalization.
+The active phase therefore freezes the same RC3 across three structurally different C Development
+first runs, postpones all Skill changes and reference access until every first run is frozen, and
+permits only one unified cross-case revision.
+
 Current project version: `0.3.0-competition-rc3`. The sole formal Skill is
 `cumcm-modeling-evidence` `0.2.0-competition-rc3` with capability `COMPETITION_RC`. New K1 and W1
 revisions both pass the unchanged eight public hard Gates (117 symmetric cases each); the frozen
@@ -53,9 +59,10 @@ third-party base.
 
 Start with `AGENTS.md`, then read `GOALS.md`, `WORKFLOW.md`, the active plan, and `state/project_state.json`. Run `bash scripts/bootstrap_dev_env.sh` and `bash scripts/ci.sh` for local validation.
 
-The exact next task is `PHASE-SKILL-VALIDATION-EVAL-004-C`: use the frozen RC3 commit/tree on one
-structurally different answer-sealed historical problem under the one-shot, no-post-result-tuning
-policy. Validation has not started. See `docs/DEVELOPMENT_EVAL_PROTOCOL.md` and
-`reports/phase004c_validation_handoff.md`.
+The active task is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`. Validation cannot start until
+the three answer-sealed C first runs, unified postmortem, RC4-or-no-change freeze, unified
+regression, and Validation rubric freeze are complete. The cancelled 2024 A attempt had no case
+registration or execution evidence and is not Validation. See `docs/TARGET_PROBLEM_POLICY.md`,
+`docs/DEVELOPMENT_EVAL_PROTOCOL.md`, and `plans/active/PLAN-0004C-C-target-batch-generalization.md`.
 
 No project license has been selected. Third-party repositories remain isolated under ignored `.cache/upstream/` and are not part of this repository.

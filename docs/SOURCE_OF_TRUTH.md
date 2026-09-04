@@ -6,6 +6,7 @@
 | Formal state machine | `WORKFLOW.md` | state, status report |
 | Machine contracts | `contracts/` | fixtures, validators |
 | Mandatory rules | `rules/` | scripts, tests, Skill |
+| Target-problem policy and evidence accounting | `rules/target_problem_policy.yaml` | `docs/TARGET_PROBLEM_POLICY.md`, registry, plan, reports |
 | Architecture decisions | `docs/adr/` | architecture summary |
 | Current execution plan | `plans/active/` | status/report |
 | Runtime state/ledgers | `state/` | `reports/current_state.md` |

@@ -96,14 +96,13 @@ class SchemaVersionResolver:
                 schema_bytes = path.read_bytes()
                 schema_commit = "CURRENT_TREE"
                 live_project_state = _read_json(self.root / "state/project_state.json")
-                r3_successor = (
-                    live_project_state.get("subphase")
-                    in {
-                        "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
-                        "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
-                    }
-                    or live_project_state.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
-                )
+                r3_successor = live_project_state.get("subphase") in {
+                    "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+                    "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
+                } or live_project_state.get("phase") in {
+                    "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+                    "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+                }
                 if not r3_successor and sha256_bytes(schema_bytes) != current["file_sha256"]:
                     errors.append("CURRENT_PROJECT_STATE_SCHEMA_HASH_MISMATCH")
         elif source == "SUBJECT_COMMIT_BLOB":
@@ -148,7 +147,11 @@ class SchemaVersionResolver:
                 "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
                 "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
             }
-            or state.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+            or state.get("phase")
+            in {
+                "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+                "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+            }
         ):
             shadow = state.get("shadow_authorization")
             if not isinstance(shadow, dict):

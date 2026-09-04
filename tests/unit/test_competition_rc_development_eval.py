@@ -35,6 +35,13 @@ def command(repo_root: Path, script: str, *arguments: str) -> subprocess.Complet
     )
 
 
+def legacy_development_start_is_locked(state: dict) -> bool:
+    return (
+        state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C"
+        or state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
+    )
+
+
 def load_script(repo_root: Path, name: str):
     path = repo_root / "scripts" / name
     spec = importlib.util.spec_from_file_location(f"test_{path.stem}", path)
@@ -201,7 +208,7 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
     )
     started = command(repo_root, "start_skill_development_eval.py", *arguments)
     state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
-    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+    if legacy_development_start_is_locked(state):
         assert started.returncode == 3
         assert json.loads(started.stdout)["reason_codes"] == [
             "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
@@ -253,7 +260,7 @@ def test_start_rejects_nonexistent_skill_commit(repo_root: Path, tmp_path: Path)
     )
 
     state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
-    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+    if legacy_development_start_is_locked(state):
         assert rejected.returncode == 3
         assert json.loads(rejected.stdout)["reason_codes"] == [
             "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
@@ -318,7 +325,7 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "prediction",
     )
     state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
-    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+    if legacy_development_start_is_locked(state):
         assert started.returncode == 3
         assert json.loads(started.stdout)["reason_codes"] == [
             "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
