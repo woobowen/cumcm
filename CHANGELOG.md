@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0-competition-rc2 — 2026-09-04
+
+- Added a case-local Python execution path that accepts only preregistered files matching an exact
+  Git blob, captures timing/exit/stdout/stderr/output evidence, and refuses overwrite.
+- Added a separate `seal-run` step that revalidates captured evidence before setting
+  `trusted_capture` and writing a Run manifest. This change addresses the frozen Development first
+  run failure `RC_CUSTOM_EXECUTOR_UNAVAILABLE`; it contains no problem-specific field, date, model
+  parameter, or answer-derived branch.
+- Preserved the RC1 deterministic smoke runner and all fail-closed manifest, comparison, Claim,
+  handoff, STALE, leakage, privacy, and secret gates.
+
 ## 0.3.0-competition-rc1 — 2026-09-04
 
 - Preserved the original `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision byte-for-byte and created

@@ -12,11 +12,13 @@ import os
 import re
 import subprocess
 import sys
+import time
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0-competition-rc1"
+VERSION = "0.2.0-competition-rc2"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -483,10 +485,11 @@ def validate_manifest(
         "freeze_bindings",
         "decision_hash",
     }
+    allowed = required | {"capture_record"}
     if set(manifest) != required:
         if not required <= set(manifest):
             codes.add("RC_MANIFEST_REQUIRED_BINDING_MISSING")
-        if set(manifest) - required:
+        if set(manifest) - allowed:
             codes.add("RC_MANIFEST_ADDITIONAL_FIELDS_REJECTED")
     if not isinstance(manifest.get("run_id"), str) or not manifest.get("run_id"):
         codes.add("RC_MANIFEST_RUN_ID_INVALID")
@@ -683,9 +686,152 @@ def validate_manifest(
                 codes.add("RC_MANIFEST_OUTPUT_MUTATION")
         if hashes and manifest.get("output_hash") != canonical_hash(hashes):
             codes.add("RC_MANIFEST_OUTPUT_HASH_MISMATCH")
+    has_case_code = isinstance(code_files, list) and any(
+        isinstance(record, dict) and record.get("scope") == "CASE_ROOT"
+        for record in code_files
+    )
+    capture_binding = manifest.get("capture_record")
+    if has_case_code:
+        capture_result = validate_execution_capture(
+            capture_binding,
+            manifest,
+            case_root=case_root,
+        )
+        codes.update(capture_result.reason_codes if not capture_result.accepted else ())
+    elif capture_binding is not None:
+        codes.add("RC_EXECUTION_CAPTURE_UNEXPECTED")
     if manifest != original:
         codes.add("RC_INPUT_MUTATION_DETECTED")
     return blocked(*codes) if codes else passed("RC_REPRODUCIBILITY_MANIFEST_VALID")
+
+
+def parse_utc_timestamp(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.endswith("Z"):
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return parsed if parsed.utcoffset() is not None else None
+
+
+def validate_execution_capture(
+    binding: Any,
+    manifest: dict[str, Any],
+    *,
+    case_root: Path | None,
+) -> GateResult:
+    codes: set[str] = set()
+    if not isinstance(binding, dict) or set(binding) != {"path", "sha256"}:
+        return blocked("RC_EXECUTION_CAPTURE_BINDING_INVALID")
+    if case_root is None:
+        return blocked("RC_EXECUTION_CAPTURE_CONTEXT_MISSING")
+    run_id = manifest.get("run_id")
+    expected_path = f"runs/{run_id}/execution_capture.json"
+    capture_path = relative_case_path(case_root, binding.get("path"))
+    if binding.get("path") != expected_path or capture_path is None or not capture_path.is_file():
+        return blocked("RC_EXECUTION_CAPTURE_MISSING")
+    if binding.get("sha256") != file_hash(capture_path):
+        codes.add("RC_EXECUTION_CAPTURE_MUTATION")
+    try:
+        capture = load_json(capture_path)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return blocked("RC_EXECUTION_CAPTURE_INVALID")
+    required = {
+        "schema_version",
+        "capture_mode",
+        "runner_version",
+        "run_id",
+        "candidate_id",
+        "seed",
+        "started_at",
+        "ended_at",
+        "elapsed_seconds",
+        "exit_code",
+        "argv",
+        "environment_allowlist",
+        "stdout",
+        "stderr",
+        "output",
+        "outcome",
+        "failure",
+        "freeze_bindings",
+        "input_files",
+        "code_files",
+        "code_commit",
+        "configuration",
+        "configuration_hash",
+    }
+    if not isinstance(capture, dict) or set(capture) != required:
+        return blocked("RC_EXECUTION_CAPTURE_FIELDS_INVALID")
+    configuration = manifest.get("configuration")
+    relational_bindings = {
+        "run_id": run_id,
+        "candidate_id": configuration.get("candidate_id")
+        if isinstance(configuration, dict)
+        else None,
+        "seed": manifest.get("random_seed"),
+        "argv": manifest.get("argv"),
+        "environment_allowlist": manifest.get("environment_allowlist"),
+        "outcome": manifest.get("outcome"),
+        "failure": manifest.get("failure"),
+        "freeze_bindings": manifest.get("freeze_bindings"),
+        "input_files": manifest.get("input_files"),
+        "code_files": manifest.get("code_files"),
+        "code_commit": manifest.get("code_commit"),
+        "configuration": configuration,
+        "configuration_hash": manifest.get("configuration_hash"),
+    }
+    if any(capture.get(key) != value for key, value in relational_bindings.items()):
+        codes.add("RC_EXECUTION_CAPTURE_MANIFEST_MISMATCH")
+    if (
+        capture.get("schema_version") != "1.0.0"
+        or capture.get("capture_mode") != "CONTROLLED_CASE_SUBPROCESS"
+        or capture.get("runner_version") != VERSION
+    ):
+        codes.add("RC_EXECUTION_CAPTURE_IDENTITY_INVALID")
+    started = parse_utc_timestamp(capture.get("started_at"))
+    ended = parse_utc_timestamp(capture.get("ended_at"))
+    elapsed = capture.get("elapsed_seconds")
+    if (
+        started is None
+        or ended is None
+        or ended < started
+        or not strict_score(elapsed)
+        or float(elapsed) < 0
+    ):
+        codes.add("RC_EXECUTION_CAPTURE_TIMING_INVALID")
+    exit_code = capture.get("exit_code")
+    outcome = capture.get("outcome")
+    if (
+        not isinstance(exit_code, int)
+        or isinstance(exit_code, bool)
+        or (exit_code == 0) != (outcome == "SUCCESS")
+    ):
+        codes.add("RC_EXECUTION_CAPTURE_EXIT_OUTCOME_MISMATCH")
+    for stream in ("stdout", "stderr"):
+        record = capture.get(stream)
+        if not isinstance(record, dict) or set(record) != {"path", "sha256"}:
+            codes.add(f"RC_EXECUTION_CAPTURE_{stream.upper()}_INVALID")
+            continue
+        path = relative_case_path(case_root, record.get("path"))
+        if (
+            path is None
+            or Path(str(record.get("path"))).parts[:2] != ("runs", str(run_id))
+            or not path.is_file()
+            or record.get("sha256") != file_hash(path)
+        ):
+            codes.add(f"RC_EXECUTION_CAPTURE_{stream.upper()}_MUTATION")
+    output = capture.get("output")
+    manifest_outputs = manifest.get("output_files")
+    if (
+        not isinstance(output, dict)
+        or set(output) != {"path", "sha256"}
+        or not isinstance(manifest_outputs, list)
+        or manifest_outputs != [output]
+    ):
+        codes.add("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+    return blocked(*codes) if codes else passed("RC_EXECUTION_CAPTURE_VALID")
 
 
 def validate_comparison(
@@ -2012,23 +2158,14 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         for left in range(3)
         for right in range(left + 1, 3)
     )
-    expected_code_files = [
-        {
-            "scope": "SKILL_ROOT",
-            "path": relative,
-            "repository_path": f".agents/skills/cumcm-modeling-evidence/{relative}",
-            "sha256": file_hash(SKILL_ROOT / relative),
-        }
-        for relative in TRUSTED_EXECUTION_CODE_PATHS
-    ]
     required_code_valid = (
         isinstance(required_code_files, list)
         and bool(required_code_files)
         and isinstance(code_commit, str)
         and git_commit_exists(code_commit)
-        and required_code_files == expected_code_files
     )
     code_identities: set[tuple[str, str]] = set()
+    core_runner_present = False
     if required_code_valid:
         for record in required_code_files:
             if not isinstance(record, dict) or set(record) != {
@@ -2054,10 +2191,21 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
                 or not HEX64.fullmatch(str(record.get("sha256", "")))
                 or file_hash(code_path) != record.get("sha256")
                 or git_blob_hash(code_commit, repository_path) != record.get("sha256")
+                or (
+                    scope == "SKILL_ROOT"
+                    and (
+                        relative not in TRUSTED_EXECUTION_CODE_PATHS
+                        or repository_path
+                        != f".agents/skills/cumcm-modeling-evidence/{relative}"
+                    )
+                )
             ):
                 required_code_valid = False
                 break
+            if scope == "SKILL_ROOT" and relative == "scripts/cumcm_case.py":
+                core_runner_present = True
             code_identities.add(identity)
+    required_code_valid = required_code_valid and core_runner_present
     if (
         not isinstance(value, dict)
         or not isinstance(candidate_ids, list)
@@ -2125,6 +2273,228 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     if value != expected:
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_INVALID")
     return value
+
+
+def utc_now() -> str:
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def execute_case_code(
+    case_root: Path,
+    *,
+    run_id: str,
+    candidate_id: str,
+    seed: int,
+    code_path: str,
+    timeout_seconds: int,
+) -> dict[str, Any]:
+    state = load_state(case_root)
+    if state.get("state") != "RUNNING":
+        raise ValueError("RC_EXECUTE_STATE_INVALID")
+    if not re.fullmatch(r"RUN-[A-Z0-9][A-Z0-9_-]{2,95}", run_id):
+        raise ValueError("RC_RUN_ID_INVALID")
+    if not isinstance(seed, int) or isinstance(seed, bool):
+        raise ValueError("RC_EXECUTION_SEED_INVALID")
+    if timeout_seconds < 1 or timeout_seconds > 900:
+        raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    freezes = trusted_freezes(case_root)
+    if candidate_id not in plan["candidate_ids"] or seed not in plan["random_seeds"]:
+        raise ValueError("RC_EXECUTION_NOT_PREREGISTERED")
+    matches = [
+        record
+        for record in plan["required_code_files"]
+        if isinstance(record, dict)
+        and record.get("scope") == "CASE_ROOT"
+        and record.get("path") == code_path
+    ]
+    if len(matches) != 1:
+        raise ValueError("RC_CASE_EXECUTION_CODE_NOT_FROZEN")
+    resolved_code = relative_case_path(case_root, code_path)
+    if resolved_code is None or not resolved_code.is_file():
+        raise ValueError("RC_CASE_EXECUTION_CODE_MISSING")
+    run_dir = case_root / "runs" / run_id
+    if run_dir.exists():
+        raise FileExistsError(run_dir)
+    run_dir.mkdir(parents=True)
+    output_relative = f"runs/{run_id}/output.json"
+    stdout_relative = f"runs/{run_id}/stdout.txt"
+    stderr_relative = f"runs/{run_id}/stderr.txt"
+    output_path = case_root / output_relative
+    stdout_path = case_root / stdout_relative
+    stderr_path = case_root / stderr_relative
+    configuration = {"candidate_id": candidate_id, "seed": seed}
+    logical_argv = [
+        code_path,
+        "--case-root",
+        ".",
+        "--candidate-id",
+        candidate_id,
+        "--seed",
+        str(seed),
+        "--output",
+        output_relative,
+    ]
+    environment = {"PYTHONHASHSEED": str(seed), "TZ": "UTC"}
+    started_at = utc_now()
+    started_clock = time.monotonic()
+    failure: dict[str, Any] | None = None
+    try:
+        completed = subprocess.run(
+            [sys.executable, *logical_argv],
+            cwd=case_root,
+            env=environment,
+            check=False,
+            capture_output=True,
+            timeout=timeout_seconds,
+        )
+        exit_code = completed.returncode
+        stdout_bytes = completed.stdout
+        stderr_bytes = completed.stderr
+    except subprocess.TimeoutExpired as exc:
+        exit_code = 124
+        stdout_bytes = exc.stdout or b""
+        stderr_bytes = exc.stderr or b""
+        failure = {"reason_code": "RC_EXECUTION_TIMEOUT", "retained": True}
+    elapsed_seconds = round(time.monotonic() - started_clock, 6)
+    ended_at = utc_now()
+    stdout_path.write_bytes(stdout_bytes)
+    stderr_path.write_bytes(stderr_bytes)
+    if exit_code == 0:
+        try:
+            output = load_json(output_path)
+        except (OSError, json.JSONDecodeError, ValueError):
+            output = None
+        if not isinstance(output, dict) or output.get("candidate_id") != candidate_id:
+            exit_code = 65
+            failure = {"reason_code": "RC_EXECUTION_OUTPUT_INVALID", "retained": True}
+            write_json(
+                output_path,
+                {
+                    "candidate_id": candidate_id,
+                    "status": "FAILED",
+                    "reason_code": "RC_EXECUTION_OUTPUT_INVALID",
+                },
+            )
+    elif not output_path.is_file():
+        if failure is None:
+            failure = {"reason_code": "RC_EXECUTION_NONZERO_EXIT", "retained": True}
+        write_json(
+            output_path,
+            {
+                "candidate_id": candidate_id,
+                "status": "FAILED",
+                "reason_code": failure["reason_code"],
+            },
+        )
+    outcome = "SUCCESS" if exit_code == 0 else "FAILED"
+    input_files = [
+        {"path": relative, "sha256": digest}
+        for relative, digest in sorted(plan["required_input_hashes"].items())
+    ]
+    output_record = {"path": output_relative, "sha256": file_hash(output_path)}
+    capture = {
+        "schema_version": "1.0.0",
+        "capture_mode": "CONTROLLED_CASE_SUBPROCESS",
+        "runner_version": VERSION,
+        "run_id": run_id,
+        "candidate_id": candidate_id,
+        "seed": seed,
+        "started_at": started_at,
+        "ended_at": ended_at,
+        "elapsed_seconds": elapsed_seconds,
+        "exit_code": exit_code,
+        "argv": logical_argv,
+        "environment_allowlist": environment,
+        "stdout": {"path": stdout_relative, "sha256": file_hash(stdout_path)},
+        "stderr": {"path": stderr_relative, "sha256": file_hash(stderr_path)},
+        "output": output_record,
+        "outcome": outcome,
+        "failure": failure,
+        "freeze_bindings": freezes,
+        "input_files": input_files,
+        "code_files": plan["required_code_files"],
+        "code_commit": plan["code_commit"],
+        "configuration": configuration,
+        "configuration_hash": canonical_hash(configuration),
+    }
+    capture_path = run_dir / "execution_capture.json"
+    write_json(capture_path, capture, overwrite=False)
+    return {
+        "run_id": run_id,
+        "outcome": outcome,
+        "exit_code": exit_code,
+        "capture_path": str(capture_path.relative_to(case_root)),
+        "capture_sha256": file_hash(capture_path),
+        "output": output_record,
+    }
+
+
+def seal_captured_run(case_root: Path, *, run_id: str, decision_hash: str) -> dict[str, Any]:
+    state = load_state(case_root)
+    if state.get("state") != "RUNNING":
+        raise ValueError("RC_SEAL_RUN_STATE_INVALID")
+    if not HEX64.fullmatch(decision_hash):
+        raise ValueError("RC_RUN_DECISION_HASH_INVALID")
+    capture_path = case_root / "runs" / run_id / "execution_capture.json"
+    manifest_path = case_root / "runs" / run_id / "manifest.json"
+    if not capture_path.is_file():
+        raise ValueError("RC_EXECUTION_CAPTURE_MISSING")
+    if manifest_path.exists():
+        raise FileExistsError(manifest_path)
+    capture = load_json(capture_path)
+    if not isinstance(capture, dict):
+        raise ValueError("RC_EXECUTION_CAPTURE_INVALID")
+    input_files = capture.get("input_files")
+    code_files = capture.get("code_files")
+    output = capture.get("output")
+    if not isinstance(input_files, list) or not isinstance(code_files, list):
+        raise ValueError("RC_EXECUTION_CAPTURE_INVALID")
+    if not isinstance(output, dict):
+        raise ValueError("RC_EXECUTION_CAPTURE_INVALID")
+    manifest = {
+        "run_id": run_id,
+        "input_files": input_files,
+        "input_hash": canonical_hash([item["sha256"] for item in input_files]),
+        "code_commit": capture.get("code_commit"),
+        "code_files": code_files,
+        "code_tree_hash": canonical_hash([item["sha256"] for item in code_files]),
+        "configuration": capture.get("configuration"),
+        "configuration_hash": capture.get("configuration_hash"),
+        "random_seed": capture.get("seed"),
+        "argv": capture.get("argv"),
+        "cwd_policy": "CASE_ROOT_RELATIVE",
+        "environment_allowlist": capture.get("environment_allowlist"),
+        "output_files": [output],
+        "output_hash": canonical_hash([output["sha256"]]),
+        "outcome": capture.get("outcome"),
+        "failure": capture.get("failure"),
+        "supersession": None,
+        "trusted_capture": True,
+        "freeze_bindings": capture.get("freeze_bindings"),
+        "decision_hash": decision_hash,
+        "capture_record": {
+            "path": str(capture_path.relative_to(case_root)),
+            "sha256": file_hash(capture_path),
+        },
+    }
+    result = validate_manifest(
+        manifest,
+        case_root=case_root,
+        trusted_freezes=trusted_freezes(case_root),
+    )
+    allowed_failure = manifest["outcome"] == "FAILED" and set(result.reason_codes) == {
+        "RC_MANIFEST_NOT_SUCCESS:FAILED"
+    }
+    if not result.accepted and not allowed_failure:
+        raise ValueError(";".join(result.reason_codes))
+    write_json(manifest_path, manifest, overwrite=False)
+    return {
+        "run_id": run_id,
+        "outcome": manifest["outcome"],
+        "manifest_path": str(manifest_path.relative_to(case_root)),
+        "manifest_sha256": file_hash(manifest_path),
+    }
 
 
 def record_transition(
@@ -2567,6 +2937,17 @@ def build_parser() -> argparse.ArgumentParser:
     smoke.add_argument("--case-id", required=True)
     smoke.add_argument("--kind", choices=("prediction", "optimization"), required=True)
     smoke.add_argument("--dry-run", action="store_true")
+    execute = subparsers.add_parser("execute", help="执行已冻结的 case-local Python 模型")
+    execute.add_argument("--case-root", type=Path, required=True)
+    execute.add_argument("--run-id", required=True)
+    execute.add_argument("--candidate-id", required=True)
+    execute.add_argument("--seed", type=int, required=True)
+    execute.add_argument("--code-path", required=True)
+    execute.add_argument("--timeout-seconds", type=int, default=600)
+    seal = subparsers.add_parser("seal-run", help="复核 capture 后生成 Run manifest")
+    seal.add_argument("--case-root", type=Path, required=True)
+    seal.add_argument("--run-id", required=True)
+    seal.add_argument("--decision-hash", required=True)
     return parser
 
 
@@ -2697,6 +3078,23 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "smoke":
             result = run_smoke(args.case_root, args.case_id, args.kind, args.dry_run)
             return emit({"command": "smoke", "status": "PASS", "result": result})
+        if args.command == "execute":
+            result = execute_case_code(
+                args.case_root,
+                run_id=args.run_id,
+                candidate_id=args.candidate_id,
+                seed=args.seed,
+                code_path=args.code_path,
+                timeout_seconds=args.timeout_seconds,
+            )
+            return emit({"command": "execute", "status": "PASS", "result": result})
+        if args.command == "seal-run":
+            result = seal_captured_run(
+                args.case_root,
+                run_id=args.run_id,
+                decision_hash=args.decision_hash,
+            )
+            return emit({"command": "seal-run", "status": "PASS", "result": result})
     except FileExistsError:
         return emit(
             {

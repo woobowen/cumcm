@@ -6,7 +6,7 @@ robustness, Final Run, Claim validation, and a reproducible evidence package for
 team.
 
 Current project version: `0.3.0-competition-rc1`. The sole formal Skill is
-`cumcm-modeling-evidence` `0.2.0-competition-rc1` with capability `COMPETITION_RC`. New K1 and W1
+`cumcm-modeling-evidence` `0.2.0-competition-rc2` with capability `COMPETITION_RC`. New K1 and W1
 revisions both pass the unchanged eight public hard Gates (117 symmetric cases each); the frozen
 K1-first rule selects the project-authored deterministic evidence kernel. The formal Skill provides
 14 workflows, four bounded roles, 14 templates, an offline case CLI, strict Run/Claim/comparison
@@ -32,6 +32,10 @@ establish full sealed Stage 1, Stage 2 effectiveness, full ablation, external va
 fitness, or monetary cost. No API call, model training, historical-answer access, or third-party
 integration occurred. Trusted execution-code capture is limited to the bundled deterministic runner;
 caller-supplied custom executors are outside RC1 assurance.
+
+RC2 adds a Git-blob-bound case-local Python executor with automatic subprocess capture and a
+separate manifest-sealing step. It was derived from a frozen Development failure and adds no
+problem-specific modeling recipe.
 
 The old `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision and all `phase-003f` evidence remain immutable.
 RC1 is a new implementation revision, not a rewrite of that history and not proof of a selected

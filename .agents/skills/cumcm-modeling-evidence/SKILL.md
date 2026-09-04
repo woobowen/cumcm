@@ -5,13 +5,13 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc1`
+Version: `0.2.0-competition-rc2`
 
 Capability: `COMPETITION_RC`
 
 Architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 
-Assurance: `PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES`
+Assurance: `PUBLIC_DETERMINISTIC_TWO_END_TO_END_SMOKES_AND_CAPTURED_CASE_EXECUTION`
 
 用于数学建模竞赛中从题目接收到冻结 Final Run、Claim 验证和结构化论文组交接的工作。默认中文输出。不要用于最终论文文笔、图形美化、LaTeX/Word 排版或提交打包；这些交给论文组。本 RC 未通过 sealed Stage 1、Stage 2、大规模消融、外部效度、生产适用性或成本评估。
 
@@ -63,7 +63,7 @@ Assurance: `PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES`
 
 `init` 创建 `problem/ research/ data/{raw,processed}/ models/ experiments/ runs/ results/ evidence/ handoff/ state/`，以及根级 `case_state.json`。模板在 `templates/`；不能另建冲突 schema。
 
-集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、`manifest`、`claim-check`、`compare-check`、`stale-check`、`finalize`、`handoff`、`smoke`。先用 `--help`；会写状态的命令支持 `--check` 或 `--dry-run`。成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
+集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、`execute`、`seal-run`、`manifest`、`claim-check`、`compare-check`、`stale-check`、`finalize`、`handoff`、`smoke`。`execute` 只运行实验计划中已冻结、与 Git blob 一致的 case-local Python 文件，自动捕获起止时间、exit、stdout/stderr/output hash；`seal-run` 重验 capture 后才写 manifest，调用方不得手填 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
 
 ## 四个角色
 
