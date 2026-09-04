@@ -11,12 +11,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 CORE_PATH = ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
 MODEL_SOURCE = (
-    ROOT
-    / "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/"
+    ROOT / "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/"
     "development_regression/code/mechanistic_model.py"
 )
 MODEL_REPOSITORY_PATH = (
@@ -165,8 +163,7 @@ def prepare(case_root: Path, code_commit: str) -> dict[str, Any]:
     accepted(case_root, "problem_requirements", {"case_id": CASE_ID, "requirements": requirements})
     advance_to(case_root, "REQUIREMENTS_VALIDATED")
     freeze_hash = core.file_hash(
-        ROOT
-        / "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/first_run/"
+        ROOT / "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/first_run/"
         "first_run_freeze.json"
     )
     accepted(
@@ -223,7 +220,9 @@ def prepare(case_root: Path, code_commit: str) -> dict[str, Any]:
             "row_count": 709,
             "missing_cells": 0,
             "unit_checks": ["cm/min converted once to cm/s", "time is seconds"],
-            "leakage": ["A-type auxiliary evidence is excluded from C-target generalization credit"],
+            "leakage": [
+                "A-type auxiliary evidence is excluded from C-target generalization credit"
+            ],
         },
     )
     advance_to(case_root, "DATA_AUDITED")
@@ -354,7 +353,9 @@ def finalize(case_root: Path, summary_path: Path) -> dict[str, Any]:
     manifests: dict[str, dict[str, Any]] = {}
     attempts: list[dict[str, Any]] = []
     for candidate in CANDIDATES:
-        sealed = core.seal_captured_run(case_root, run_id=run_id(candidate), decision_hash=decision_hash)
+        sealed = core.seal_captured_run(
+            case_root, run_id=run_id(candidate), decision_hash=decision_hash
+        )
         manifests[candidate] = core.load_json(case_root / sealed["manifest_path"])
         attempts.append(
             {
@@ -470,7 +471,9 @@ def finalize(case_root: Path, summary_path: Path) -> dict[str, Any]:
                 "selection_score": successful_scores.get(candidate),
                 "capture_sha256": core.file_hash(capture_path),
                 "manifest_sha256": core.file_hash(manifest_path),
-                "output_sha256": core.file_hash(case_root / f"runs/{run_id(candidate)}/output.json"),
+                "output_sha256": core.file_hash(
+                    case_root / f"runs/{run_id(candidate)}/output.json"
+                ),
             }
         )
     summary = {
@@ -510,7 +513,7 @@ def finalize(case_root: Path, summary_path: Path) -> dict[str, Any]:
                 "failure_reason": "RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID",
                 "preserved": True,
                 "ranking_eligible": False,
-            }
+            },
         ],
         "seal_run_status": "PASS_ALL_CAPTURES",
         "claim_gate": "PASS",

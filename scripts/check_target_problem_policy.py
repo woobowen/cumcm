@@ -23,6 +23,7 @@ PHASE = "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
 PLAN = "plans/active/PLAN-0004C-C-target-batch-generalization.md"
 BRANCH = "feat/phase004c-c-target-batch-generalization"
 RC3 = "0.2.0-competition-rc3"
+RC4 = "0.2.0-competition-rc4"
 RC3_COMMIT = "8a2a813ff34d8c2701c64ff9d959848e7b88c27c"
 RC3_TREE = "a4551c8aa0b6b119823f6ce9df3f0f948339bb33"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -296,10 +297,23 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     skills = list((root / FORMAL_SKILLS.relative_to(ROOT)).glob("*/SKILL.md"))
     if len(skills) != 1 or skills[0].parent.name != "cumcm-modeling-evidence":
         errors.append("TARGET_FORMAL_SKILL_COUNT_INVALID")
-    elif RC3 not in skills[0].read_text(encoding="utf-8") or ARCHITECTURE not in skills[
-        0
-    ].read_text(encoding="utf-8"):
-        errors.append("TARGET_FORMAL_SKILL_IDENTITY_INVALID")
+    else:
+        skill_text = skills[0].read_text(encoding="utf-8")
+        candidate_path = root / "evals/results/phase-004c-c-batch/rc4/candidate_freeze.json"
+        unified_path = (
+            root / "evals/results/phase-004c-c-batch/rc4/unified_regression_evidence.json"
+        )
+        candidate = _json(candidate_path) if candidate_path.is_file() else {}
+        unified = _json(unified_path) if unified_path.is_file() else {}
+        staged_rc4 = (
+            RC4 in skill_text
+            and candidate.get("formal_release") is False
+            and candidate.get("status")
+            == "CANDIDATE_IMPLEMENTED_FOCUSED_TESTS_PASS_RELEASE_PENDING_UNIFIED_REGRESSION"
+            and unified.get("release_gate") == "PASS_READY_TO_FREEZE_RC4"
+        )
+        if ARCHITECTURE not in skill_text or (RC3 not in skill_text and not staged_rc4):
+            errors.append("TARGET_FORMAL_SKILL_IDENTITY_INVALID")
 
     return {
         "ok": not errors,

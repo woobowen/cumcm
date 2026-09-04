@@ -1,0 +1,101 @@
+{
+  "answer_leakage_count": 0,
+  "api_calls": 0,
+  "artifact_type": "c_target_rc4_unified_regression_evidence",
+  "batch_cases": [
+    {
+      "case_id": "CUMCM-2022-C-DEVELOPMENT-RC4-REGRESSION",
+      "evidence_path": "evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/rc4/development_regression_evidence.json",
+      "evidence_sha256": "4d733b767efcb69f8397f37c02cfb3e3676d86c028607ab0a6f3e5513bd8adec",
+      "failed_runs": 0,
+      "terminal_state": "READY_FOR_PAPER_HANDOFF",
+      "universal_hard_failure": false,
+      "valid_runs": 3
+    },
+    {
+      "case_id": "CUMCM-2021-C-DEVELOPMENT-RC4-REGRESSION",
+      "evidence_path": "evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/rc4/development_regression_evidence.json",
+      "evidence_sha256": "8abb43bb383cdb679576e5b88ba30f66e5817745b6f00db114e03fab59d182a1",
+      "failed_runs": 0,
+      "terminal_state": "READY_FOR_PAPER_HANDOFF",
+      "universal_hard_failure": false,
+      "valid_runs": 3
+    },
+    {
+      "case_id": "CUMCM-2020-C-DEVELOPMENT-RC4-REGRESSION",
+      "evidence_path": "evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/rc4/development_regression_evidence.json",
+      "evidence_sha256": "033df43f4b3d1ac100655750c9a84f8368743a1979db0b6b134e384401057041",
+      "failed_runs": 0,
+      "terminal_state": "READY_FOR_PAPER_HANDOFF",
+      "universal_hard_failure": false,
+      "valid_runs": 3
+    }
+  ],
+  "batch_regression_status": "PASS",
+  "formal_skill_count": 1,
+  "model_training": false,
+  "negative_scenarios": {
+    "failed": 0,
+    "path": "evals/results/phase-004c-c-batch/rc4/original_negative_scenarios.json",
+    "passed": 30,
+    "scenario_count": 30,
+    "sha256": "31f0876e885a1d6aa3ebef6bfa063bbf681bef46d824bc0232edbc124ec3ce90",
+    "status": "PASS"
+  },
+  "new_neutral_contract_tests": {
+    "case_specific_literals": false,
+    "status": "PASS",
+    "test_file": "tests/unit/test_competition_rc_output_contract.py"
+  },
+  "rc4_candidate": {
+    "implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "skill_tree": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "version": "0.2.0-competition-rc4"
+  },
+  "release_gate": "PASS_READY_TO_FREEZE_RC4",
+  "schema_version": "1.0.0",
+  "secret_count": 0,
+  "synthetic_e2e": [
+    {
+      "case_id": "RC4-SYNTHETIC-PREDICTION-001",
+      "case_state_sha256": "14a3514c99e1e7318e0994faeb918d746194346ca3cc9802e54525175db81658",
+      "final_state": "READY_FOR_PAPER_HANDOFF",
+      "handoff_sha256": "feed62539935421c2979e4ab61c5c12ba6040604b507fca19713c0f89ac9ffc5",
+      "kind": "prediction",
+      "run_count": 2,
+      "workspace_relative": ".cache/phase004c/rc4_synthetic/prediction_e2e_001"
+    },
+    {
+      "case_id": "RC4-SYNTHETIC-OPTIMIZATION-002",
+      "case_state_sha256": "869a53ecaed06e1fe145f829a40bef7a295b46d3aacade62937bd4e00569d718",
+      "final_state": "READY_FOR_PAPER_HANDOFF",
+      "handoff_sha256": "d0a0b911a0abdf9d96c4c29a78fe1ac4256b07357a61ce7e433f0ce503294a3f",
+      "kind": "optimization",
+      "run_count": 3,
+      "workspace_relative": ".cache/phase004c/rc4_synthetic/optimization_e2e_002"
+    }
+  ],
+  "synthetic_e2e_status": "PASS",
+  "third_party_integrated": false,
+  "twenty_twenty_a_auxiliary": {
+    "c_target_evidence_credit": false,
+    "evidence_path": "evals/results/phase-004c-c-batch/rc4/2020a_auxiliary_regression.json",
+    "evidence_sha256": "256ec6c1ffb63f3974059d634f4afc0420880c646a8ddabec94460bc77b7060d",
+    "failed_runs": 1,
+    "handoff_gate": "PASS",
+    "nonzero_failure_retained": true,
+    "selection_scope": "SUCCESS_OUTCOMES_ONLY",
+    "status": "PASS",
+    "successful_runs": 2
+  },
+  "twenty_twenty_three_c": {
+    "evidence_path": "evals/results/phase-004c-c-batch/rc4/2023c_main_chain_regression.json",
+    "evidence_sha256": "842e90f4bf1f30603d009fca8b63069b2c5b1b4efd966c62a377d37c44145d6b",
+    "handoff_gate": "PASS",
+    "run_count": 3,
+    "stale_probe": "PASS",
+    "status": "PASS",
+    "terminal_state": "READY_FOR_PAPER_HANDOFF"
+  },
+  "universal_hard_failure_count": 0
+}

@@ -1,0 +1,91 @@
+{
+  "api_calls": 0,
+  "artifact_type": "rc4_auxiliary_cross_type_regression_evidence",
+  "c_target_evidence_credit": false,
+  "case_id": "CUMCM-2020-A-RC4-AUXILIARY-REGRESSION",
+  "case_state_sha256": "0ce4920c1e6c35b5613b3949a6e7ffdc0a926fc612bc07c55e6f6f3c41e4faac",
+  "claim_gate": "PASS",
+  "decision_hash": "e61f2fc355136eedf2f18ad5b8d376a65672a2b2055305d9259621f01913322d",
+  "evidence_class": "AUXILIARY_CROSS_TYPE_NOT_C_TARGET_EVIDENCE",
+  "execution_code_commit": "553958173f697fa1d4dbf6c7f874d0023707a015",
+  "failed_run_count": 1,
+  "handoff_gate": "PASS",
+  "handoff_sha256": "8a9004ed0aa2139161b65705b017394f834e615d6a160deab12176de18b7f9ab",
+  "model_training": false,
+  "nonzero_failure_retained": true,
+  "output_contract_preflight": {
+    "path": "experiments/selected_output_contract_probe.json",
+    "reason_codes": [
+      "RC_OUTPUT_CONTRACT_VALID"
+    ],
+    "status": "PASS"
+  },
+  "preserved_prior_attempts": [
+    {
+      "attempt": 1,
+      "failure_reason": "RC_COMPARISON_TEST_ACCESS_COUNT_INVALID",
+      "preserved": true,
+      "ranking_eligible": false,
+      "terminal_state": "RUN_VALIDATED",
+      "workspace_relative": ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_001"
+    },
+    {
+      "attempt": 2,
+      "failure_reason": "RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID",
+      "preserved": true,
+      "ranking_eligible": false,
+      "terminal_state": "FINAL_CANDIDATE",
+      "workspace_relative": ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_002"
+    }
+  ],
+  "runs": [
+    {
+      "candidate_id": "BASELINE_FIRST_ORDER",
+      "capture_sha256": "67e3630878dc57044ddc87fb9c1b6853b042ef7a2fd27efa46e9ac042ae568a9",
+      "exit_code": 0,
+      "failure": null,
+      "manifest_sha256": "44a5cb28064f167e736083710707451b78f6264d843433646147bd2abb307b47",
+      "outcome": "SUCCESS",
+      "output_sha256": "4b8d499113c45b37088fa56936b9bfeae0a7a803d79853fc63d313338b97a5bf",
+      "run_id": "RUN-RC4-AUX-BASELINE_FIRST_ORDER-20260904",
+      "selection_score": 1000027.8673994
+    },
+    {
+      "candidate_id": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+      "capture_sha256": "48da3d70d380a0a5dc277dbd5d41be88aa5e355686418b661a48e29faeb12f74",
+      "exit_code": 0,
+      "failure": null,
+      "manifest_sha256": "07f592479fcafcca061f7238f94eda4f342e11f0d71d937519c23dd6a4d8330c",
+      "outcome": "SUCCESS",
+      "output_sha256": "79c2cfce86840eca50aaea2716230b3f950e33383793b83f230e245393c99586",
+      "run_id": "RUN-RC4-AUX-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260904",
+      "selection_score": 5.80972512
+    },
+    {
+      "candidate_id": "AUXILIARY_NONZERO_DIAGNOSTIC",
+      "capture_sha256": "09e004bca5e9114109cf870e88627a9cdde1054e753cda08cfc101c97bdf0bf1",
+      "exit_code": 23,
+      "failure": {
+        "reason_code": "RC_EXECUTION_NONZERO_EXIT",
+        "retained": true
+      },
+      "manifest_sha256": "638d51bfeca0edb32235ed842211f2edc4a20e4b2c7090250a0a8e8bdecf6dea",
+      "outcome": "FAILED",
+      "output_sha256": "a1dc32dc903761383fbab15786113b13cb4a3181ef9e58b211bdf867e4389397",
+      "run_id": "RUN-RC4-AUX-AUXILIARY_NONZERO_DIAGNOSTIC-20260904",
+      "selection_score": null
+    }
+  ],
+  "schema_version": "1.0.0",
+  "seal_run_status": "PASS_ALL_CAPTURES",
+  "selected_candidate_id": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+  "selected_run_scientifically_eligible": true,
+  "selection_scope": "SUCCESS_OUTCOMES_ONLY",
+  "skill_candidate_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+  "skill_version": "0.2.0-competition-rc4",
+  "source_case_id": "CUMCM-2020-A-DEVELOPMENT-002",
+  "successful_run_count": 2,
+  "terminal_state": "READY_FOR_PAPER_HANDOFF",
+  "third_party_executions": 0,
+  "workspace_relative": ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_003"
+}
