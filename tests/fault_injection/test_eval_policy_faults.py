@@ -97,13 +97,22 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
             "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
         )
         assert state["active_skill_version"] == "0.2.0-competition-rc1"
+    elif state["technical_adjudication_status"] == "DEVELOPMENT_EVAL_RC2_READY":
+        assert state["subphase"] == "CUMCM-2023-C-DEVELOPMENT-RC2"
+        assert state["next_phase_allowed"] == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+        assert state["development_eval"]["stress_statuses"] == {
+            "A": "PASS",
+            "B": "PASS",
+            "C": "PASS",
+        }
+        assert state["active_skill_version"] == "0.2.0-competition-rc2"
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False
     assert state["third_party_integrated"] is False
     expected_capability = (
         "COMPETITION_RC"
-        if state["technical_adjudication_status"] == "COMPETITION_SKILL_RC_READY"
+        if state["phase"] in {"PHASE-SKILL-INTEGRATION-003", "PHASE-SKILL-DEVELOPMENT-EVAL-004"}
         else "SCAFFOLD_ONLY"
     )
     assert state["skill_capability_status"] == expected_capability

@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.0-competition-rc2 — 2026-09-04
+
+- Upgraded the sole formal Skill to `0.2.0-competition-rc2` while preserving one discoverable
+  `COMPETITION_RC` Skill and the frozen RC1 first-run evidence.
+- Added a case-local Python execution path that accepts only preregistered files matching an exact
+  Git blob, captures timing/exit/stdout/stderr/output evidence, and refuses overwrite.
+- Added a separate `seal-run` step that revalidates captured evidence before setting
+  `trusted_capture` and writing a Run manifest. This change addresses the frozen Development first
+  run failure `RC_CUSTOM_EXECUTOR_UNAVAILABLE`; it contains no problem-specific field, date, model
+  parameter, or answer-derived branch.
+- Preserved the RC1 deterministic smoke runner and all fail-closed manifest, comparison, Claim,
+  handoff, STALE, leakage, privacy, and secret gates.
+- Froze the blocked answer-sealed RC1 historical first run before reference access, classified the
+  observable failure, and rejected problem-specific/reference-only method differences from the
+  formal Skill.
+- Completed one same-case `DEVELOPMENT_REGRESSION` and Stress A/B/C with 12 controlled successful
+  Runs, exact input/code/output/capture hashes, four final handoffs and two explicit STALE probes.
+  Full regression is `1808 passed, 1 skipped`; the next route is Phase 004-B on a structurally
+  different answer-sealed problem.
+
 ## 0.3.0-competition-rc1 — 2026-09-04
 
 - Preserved the original `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision byte-for-byte and created

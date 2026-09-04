@@ -13,13 +13,23 @@ def _load(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def test_competition_rc_ready_state_is_schema_valid_and_bounded(repo_root) -> None:
+def test_development_eval_state_is_schema_valid_and_preserves_rc1_evidence(repo_root) -> None:
     state = _load(repo_root / "state/project_state.json")
     schema = _load(repo_root / "contracts/project_state.schema.json")
 
     Draft202012Validator(schema).validate(state)
-    assert state["technical_adjudication_status"] == "COMPETITION_SKILL_RC_READY"
-    assert state["next_phase_allowed"] == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+    assert state["technical_adjudication_status"] == "DEVELOPMENT_EVAL_RC2_READY"
+    assert state["subphase"] == "CUMCM-2023-C-DEVELOPMENT-RC2"
+    assert state["next_phase_allowed"] == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+    assert state["active_skill_version"] == "0.2.0-competition-rc2"
+    assert state["development_eval"]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
+    assert state["development_eval"]["first_run_status"] == "FROZEN"
+    assert state["development_eval"]["revision_cycles_used"] == 1
+    assert state["development_eval"]["stress_statuses"] == {
+        "A": "PASS",
+        "B": "PASS",
+        "C": "PASS",
+    }
     assert state["blockers"] == []
     assert state["competition_rc1"]["full_r3_status"] == "DEFERRED_NOT_PASSED"
     assert state["competition_rc1"]["real_comparison_model_starts"] == 0
@@ -29,7 +39,7 @@ def test_competition_rc_ready_state_is_schema_valid_and_bounded(repo_root) -> No
     "path,value",
     [
         (("active_skill_version",), "0.1.0-foundation"),
-        (("next_phase_allowed",), None),
+        (("next_phase_allowed",), "PHASE-SKILL-DEVELOPMENT-EVAL-004"),
         (("base_selected",), True),
         (("third_party_integrated",), True),
         (("blockers",), ["fabricated"]),
@@ -39,7 +49,7 @@ def test_competition_rc_ready_state_is_schema_valid_and_bounded(repo_root) -> No
         (("competition_rc1", "integration_audit", "status"), "BLOCK"),
     ],
 )
-def test_competition_rc_ready_state_mutations_fail_schema_closed(
+def test_development_first_run_state_mutations_fail_schema_closed(
     repo_root, path: tuple[str, ...], value: object
 ) -> None:
     state = copy.deepcopy(_load(repo_root / "state/project_state.json"))

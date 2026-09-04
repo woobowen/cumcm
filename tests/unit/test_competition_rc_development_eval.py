@@ -58,7 +58,7 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     ready = {
         "technical_adjudication_status": "COMPETITION_SKILL_RC_READY",
         "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
-        "active_skill_version": "0.2.0-competition-rc1",
+        "active_skill_version": "0.2.0-competition-rc2",
         "competition_rc1": {"integration_audit": {"status": "PASS"}},
     }
     project_state.write_text(json.dumps(ready) + "\n", encoding="utf-8")
@@ -76,15 +76,23 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     with pytest.raises(ValueError, match="FREEZE_TIME_TIMEZONE_REQUIRED"):
         freeze.iso_time("2026-09-04T01:00:00", "FREEZE_TIME_INVALID")
     with pytest.raises(ValueError, match="FREEZE_TIME_BEFORE_START"):
-        freeze.validate_timeline("2026-09-04T02:00:00Z", "2026-09-04T01:00:00Z", None)
-    with pytest.raises(ValueError, match="UNLOCK_TIME_BEFORE_FREEZE"):
-        freeze.validate_timeline(
-            "2026-09-04T00:00:00Z",
-            "2026-09-04T02:00:00Z",
-            "2026-09-04T01:00:00Z",
-        )
+        freeze.validate_timeline("2026-09-04T02:00:00Z", "2026-09-04T01:00:00Z")
+    freeze.validate_timeline("2026-09-04T00:00:00Z", "2026-09-04T02:00:00Z")
     assert freeze.REASON_CODE.fullmatch("RC_MODEL_FAILED:TIMEOUT")
     assert freeze.REASON_CODE.fullmatch("arbitrary sensitive explanation") is None
+
+    active = json.loads(json.dumps(ready))
+    active.update(
+        {
+            "phase": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+            "technical_adjudication_status": "DEVELOPMENT_EVAL_INCOMPLETE",
+            "next_phase_allowed": None,
+        }
+    )
+    project_state.write_text(json.dumps(active) + "\n", encoding="utf-8")
+    start.require_competition_rc_ready(project_state, allow_active_eval=True)
+    with pytest.raises(ValueError, match="COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"):
+        start.require_competition_rc_ready(project_state, allow_active_eval=False)
 
 
 def test_phase004_registry_readers_fail_closed_on_non_object_case(
@@ -104,7 +112,10 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     registry = yaml.safe_load(
         (repo_root / "benchmarks/case_registry.yaml").read_text(encoding="utf-8")
     )
-    assert registry["cases"] == []
+    assert len(registry["cases"]) == 1
+    assert registry["cases"][0]["case_id"] == "CUMCM-2023-C-DEVELOPMENT-001"
+    assert registry["cases"][0]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
+    assert registry["cases"][0]["first_run_status"] == "FROZEN"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",
@@ -134,6 +145,9 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
 def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_path: Path) -> None:
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+    isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+    isolated["cases"] = []
+    registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
     case_root = tmp_path / "case"
     problem = case_root / "problem/original.md"
     data = case_root / "data/raw/input.dat"
@@ -170,7 +184,7 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
     record = yaml.safe_load(registry.read_text(encoding="utf-8"))["cases"][0]
     assert record["answer_access_status"] == "SEALED"
     assert record["first_run_status"] == "IN_PROGRESS"
-    assert record["skill_version"] == "0.2.0-competition-rc1"
+    assert record["skill_version"] == "0.2.0-competition-rc2"
     assert (case_root / "case_state.json").is_file()
     duplicate = command(repo_root, "start_skill_development_eval.py", *arguments)
     assert duplicate.returncode == 3
@@ -180,6 +194,9 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
 def test_start_rejects_nonexistent_skill_commit(repo_root: Path, tmp_path: Path) -> None:
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+    isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+    isolated["cases"] = []
+    registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
     case_root = tmp_path / "case"
     problem = case_root / "problem/original.md"
     problem.parent.mkdir(parents=True)
@@ -218,6 +235,9 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
 ) -> None:
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+    isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+    isolated["cases"] = []
+    registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
     case_root = tmp_path / "case"
     problem = case_root / "problem/original.md"
     raw = case_root / "data/raw/prediction_rows.json"
@@ -304,6 +324,10 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "DEV-FREEZE-002",
         "--case-root",
         str(case_root),
+        "--freeze-output",
+        str(tmp_path / "first_run_freeze.json"),
+        "--worktree-commit",
+        commit,
         "--freeze-time",
         "2026-09-04T01:00:00Z",
         "--dry-run",
@@ -323,6 +347,10 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "DEV-FREEZE-002",
         "--case-root",
         str(case_root),
+        "--freeze-output",
+        str(repo_root / "evals/results/phase-004a/test-first-run-freeze.json"),
+        "--worktree-commit",
+        commit,
         "--freeze-time",
         "2026-09-04T01:00:00Z",
     )
@@ -333,3 +361,28 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
     assert record["first_run_evidence"]["skill_commit"] == commit
     assert record["first_run_evidence"]["case_state"] == "READY_FOR_PAPER_HANDOFF"
     assert record["first_run_evidence"]["run_manifest_hashes"]
+    (repo_root / "evals/results/phase-004a/test-first-run-freeze.json").unlink()
+
+
+def test_blocked_freeze_requires_failure_evidence_and_writes_no_fake_run(
+    repo_root: Path, tmp_path: Path
+) -> None:
+    freeze = load_script(repo_root, "freeze_skill_first_run.py")
+    case_root = tmp_path / "case"
+    case_root.mkdir()
+    with pytest.raises(ValueError, match="FIRST_RUN_EVIDENCE_MISSING"):
+        freeze.evidence_hashes(case_root, blocked=True)
+    for relative in freeze.REQUIRED_BLOCKED_EVIDENCE:
+        path = case_root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("{}\n", encoding="utf-8")
+    hashes = freeze.evidence_hashes(case_root, blocked=True)
+    assert set(hashes) == set(freeze.REQUIRED_BLOCKED_EVIDENCE)
+    assert not list(case_root.glob("runs/*/manifest.json"))
+
+
+def test_unlock_rejects_unverified_remote_freeze(repo_root: Path, tmp_path: Path) -> None:
+    unlock = load_script(repo_root, "unlock_skill_first_run.py")
+    assert unlock.parsed_time("2026-09-04T02:00:00Z", "UNLOCK_TIME_INVALID")
+    with pytest.raises(ValueError, match="UNLOCK_TIME_TIMEZONE_REQUIRED"):
+        unlock.parsed_time("2026-09-04T02:00:00", "UNLOCK_TIME_INVALID")

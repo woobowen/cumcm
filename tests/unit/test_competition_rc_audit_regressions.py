@@ -1156,14 +1156,13 @@ def test_manifest_detects_frozen_case_root_code_mutation(
     freezes = copy.deepcopy(manifest["freeze_bindings"])
     freezes["code_set"] = case_cli.canonical_hash(manifest["code_files"])
     manifest["freeze_bindings"] = freezes
-    assert (
-        case_cli.validate_manifest(
-            manifest,
-            case_root=case_root,
-            trusted_freezes=freezes,
-        ).accepted
-        is True
+    uncaptured = case_cli.validate_manifest(
+        manifest,
+        case_root=case_root,
+        trusted_freezes=freezes,
     )
+    assert uncaptured.accepted is False
+    assert "RC_EXECUTION_CAPTURE_BINDING_INVALID" in uncaptured.reason_codes
 
     copied_code.write_text("mutated code dependency\n", encoding="utf-8")
     result = case_cli.validate_manifest(

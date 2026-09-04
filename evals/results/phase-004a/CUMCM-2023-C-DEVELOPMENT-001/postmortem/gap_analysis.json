@@ -1,0 +1,78 @@
+{
+  "case_id": "CUMCM-2023-C-DEVELOPMENT-001",
+  "gaps": [
+    {
+      "accepted_or_rejected": "ACCEPTED",
+      "classification": "GENERALIZABLE_SKILL_FAILURE",
+      "failure_id": "GAP-004A-001",
+      "first_run_evidence": "RC_CUSTOM_EXECUTOR_UNAVAILABLE; zero Run manifests; Stage 8 blocked",
+      "generalizable": true,
+      "proposed_change": "Add a bounded case-local Python executor with preregistered Git-blob identity and immutable capture.",
+      "reference_evidence": "Reference review confirms that real data analysis requires executable model code; it does not prescribe the mechanism.",
+      "risk_of_overfitting": "LOW: the rule contains no problem year, title, field, date, quantity, price, or method parameter.",
+      "root_cause": "RC1 trusted code registry was fixed to bundled synthetic runners and exposed no custom execute path.",
+      "severity": "CRITICAL",
+      "verification_test": "Generic unrelated case executes, seals, validates, and rejects capture/log mutation."
+    },
+    {
+      "accepted_or_rejected": "ACCEPTED_AS_PART_OF_GAP-004A-001",
+      "classification": "EVIDENCE_FAILURE",
+      "failure_id": "GAP-004A-002",
+      "first_run_evidence": "RC1 had no way to bind subprocess start/end, exit, stdout, stderr, output, and code blob for real-case code.",
+      "generalizable": true,
+      "proposed_change": "Separate execute capture from seal-run and revalidate every captured byte before manifest acceptance.",
+      "reference_evidence": "Not reference-derived.",
+      "risk_of_overfitting": "LOW: generic hash and process evidence only.",
+      "root_cause": "trusted_capture was a manifest assertion rather than a captured real-case execution relation.",
+      "severity": "CRITICAL",
+      "verification_test": "Mutating stdout after seal yields RC_EXECUTION_CAPTURE_STDOUT_MUTATION."
+    },
+    {
+      "accepted_or_rejected": "REJECTED_FROM_SKILL",
+      "classification": "PROBLEM_SPECIFIC_INSIGHT",
+      "failure_id": "GAP-004A-003",
+      "first_run_evidence": "RC1 portfolio already contained seasonal, hierarchical, robust, and optimization families but had no results.",
+      "generalizable": false,
+      "proposed_change": "Keep broad method observations in this Development postmortem only.",
+      "reference_evidence": "The official display mentions visualization, clustering, Prophet, genetic algorithms, simulated annealing, seasonality, and periodicity.",
+      "risk_of_overfitting": "HIGH if named methods or parameters become mandatory Skill rules.",
+      "root_cause": "Method-name differences are not evidence that the preregistered portfolio was invalid.",
+      "severity": "INFORMATIONAL",
+      "verification_test": "Anti-hardcoding scan of the formal Skill."
+    },
+    {
+      "accepted_or_rejected": "REJECTED_AS_FAILURE",
+      "classification": "REFERENCE_DISAGREEMENT",
+      "failure_id": "GAP-004A-004",
+      "first_run_evidence": "RC1 proposed three complete pipelines with time-order, leakage, feasibility, and robustness conditions.",
+      "generalizable": false,
+      "proposed_change": "Judge the current pipelines by execution and validation evidence, not by matching a displayed method list.",
+      "reference_evidence": "One official display is an example of a successful approach, not a uniqueness or optimality certificate.",
+      "risk_of_overfitting": "HIGH if reference conformity substitutes for evidence.",
+      "root_cause": "Multiple defensible model families can satisfy the problem.",
+      "severity": "INFORMATIONAL",
+      "verification_test": "Development regression compares preregistered baseline and two structurally different candidates."
+    },
+    {
+      "accepted_or_rejected": "REJECTED_FROM_SKILL",
+      "classification": "MODEL_KNOWLEDGE_GAP",
+      "failure_id": "GAP-004A-005",
+      "first_run_evidence": "The first run correctly flagged stockout censoring, endogenous price, packaged-unit ambiguity, and missing future outcomes.",
+      "generalizable": false,
+      "proposed_change": "Retain these as case limitations and future-data priorities; do not invent unavailable identification evidence.",
+      "reference_evidence": "No accessed official source resolves the missing stockout, shelf, promotion, or realized-future data.",
+      "risk_of_overfitting": "MEDIUM if domain assumptions are promoted without data.",
+      "root_cause": "The supplied data cannot identify latent demand or causal elasticity.",
+      "severity": "HIGH",
+      "verification_test": "Handoff limitations and uncertainty must preserve these non-identifiability statements."
+    }
+  ],
+  "reference_overfit_suspected": false,
+  "revision_cycles_accepted": 1,
+  "skill_change_scope": [
+    "controlled case-local execution",
+    "immutable execution capture",
+    "separate manifest sealing",
+    "explicit unlocked Development regression boundary"
+  ]
+}

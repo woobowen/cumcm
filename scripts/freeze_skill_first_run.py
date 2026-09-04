@@ -9,6 +9,7 @@ import importlib.util
 import json
 import os
 import re
+import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -20,6 +21,24 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
 CASE_CORE = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
 REASON_CODE = re.compile(r"^RC_[A-Z0-9_]+(?::[A-Z0-9_]+)*$")
+GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
+REQUIRED_BLOCKED_EVIDENCE = (
+    "evidence/first_run_failure.json",
+    "evidence/first_run_stage_status.json",
+    "evidence/first_run_timing.json",
+    "experiments/experiment_plan.json",
+)
+OPTIONAL_FIRST_RUN_EVIDENCE = (
+    "data/data_audit.json",
+    "models/assumptions_and_symbols.json",
+    "models/model_candidates.json",
+    "problem/problem_requirements.json",
+    "research/pre_freeze_search_log.jsonl",
+    "research/source_ledger.json",
+    "research/research_plan.json",
+    "state/development_eval_binding.json",
+    "state/first_run_start_freeze.json",
+)
 
 
 def file_hash(path: Path) -> str:
@@ -47,15 +66,58 @@ def parsed_time(value: str, code: str) -> datetime:
     return datetime.fromisoformat(checked.replace("Z", "+00:00"))
 
 
-def validate_timeline(start_time: str, freeze_time: str, unlock_time: str | None) -> None:
+def validate_timeline(start_time: str, freeze_time: str) -> None:
     if parsed_time(freeze_time, "FREEZE_TIME_INVALID") < parsed_time(
         start_time, "START_TIME_INVALID"
     ):
         raise ValueError("FREEZE_TIME_BEFORE_START")
-    if unlock_time and parsed_time(unlock_time, "UNLOCK_TIME_INVALID") < parsed_time(
-        freeze_time, "FREEZE_TIME_INVALID"
-    ):
-        raise ValueError("UNLOCK_TIME_BEFORE_FREEZE")
+
+
+def git_output(*arguments: str) -> str:
+    completed = subprocess.run(
+        ["git", *arguments],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode != 0:
+        raise ValueError("GIT_EVIDENCE_UNAVAILABLE")
+    return completed.stdout.strip()
+
+
+def skill_tree_evidence(commit: str) -> dict[str, str]:
+    tree = git_output("rev-parse", f"{commit}:.agents/skills/cumcm-modeling-evidence")
+    listing = git_output("ls-tree", "-r", commit, ".agents/skills/cumcm-modeling-evidence")
+    return {
+        "git_tree_sha1": tree,
+        "deterministic_listing_sha256": hashlib.sha256(
+            (listing + "\n").encode("utf-8")
+        ).hexdigest(),
+    }
+
+
+def evidence_hashes(case_root: Path, blocked: bool) -> dict[str, str]:
+    required = REQUIRED_BLOCKED_EVIDENCE if blocked else ()
+    missing = [relative for relative in required if not (case_root / relative).is_file()]
+    if missing:
+        raise ValueError(f"FIRST_RUN_EVIDENCE_MISSING:{missing[0]}")
+    paths = sorted(set(required) | set(OPTIONAL_FIRST_RUN_EVIDENCE))
+    return {
+        relative: file_hash(case_root / relative)
+        for relative in paths
+        if (case_root / relative).is_file()
+    }
+
+
+def write_json(path: Path, value: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp")
+    temporary.write_text(
+        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    os.replace(temporary, path)
 
 
 def read_registry(path: Path) -> dict[str, Any]:
@@ -141,11 +203,11 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     ):
         raise ValueError("DEVELOPMENT_STATE_BINDING_MISMATCH")
     manifests = sorted(args.case_root.glob("runs/*/manifest.json"))
-    if not manifests:
+    if not manifests and not args.blocked_reason_code:
         raise ValueError("FIRST_RUN_MANIFEST_MISSING")
     manifest_hashes: dict[str, str] = {}
     consumed_inputs: dict[str, str] = {}
-    freezes = core.trusted_freezes(args.case_root)
+    freezes = core.trusted_freezes(args.case_root) if manifests else {}
     for path in manifests:
         manifest = json.loads(path.read_text(encoding="utf-8"))
         if manifest.get("code_commit") != record.get("skill_commit"):
@@ -165,7 +227,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         for item in manifest["input_files"]:
             consumed_inputs[item["path"]] = item["sha256"]
         manifest_hashes[str(path.relative_to(args.case_root))] = file_hash(path)
-    if any(
+    if manifests and any(
         consumed_inputs.get(path) != digest
         for path, digest in record.get("data_hashes", {}).items()
     ):
@@ -173,10 +235,40 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     if not core.stale_check(args.case_root, mutate=False).accepted:
         raise ValueError("CASE_WORKSPACE_STALE")
     freeze_time = iso_time(args.freeze_time, "FREEZE_TIME_INVALID")
-    unlock_time: str | None = None
-    if args.unlock_time:
-        unlock_time = iso_time(args.unlock_time, "UNLOCK_TIME_INVALID")
-    validate_timeline(str(record.get("start_time", "")), freeze_time, unlock_time)
+    validate_timeline(str(record.get("start_time", "")), freeze_time)
+    if not GIT_SHA.fullmatch(args.worktree_commit):
+        raise ValueError("WORKTREE_COMMIT_INVALID")
+    git_output("cat-file", "-e", f"{args.worktree_commit}^{{commit}}")
+    artifact_hashes = evidence_hashes(args.case_root, blocked=bool(args.blocked_reason_code))
+    freeze_id = f"{args.case_id}-FIRST-RUN-FREEZE-001"
+    freeze_artifact = {
+        "schema_version": "1.0.0",
+        "artifact_type": "development_first_run_freeze",
+        "freeze_id": freeze_id,
+        "case_id": args.case_id,
+        "set_type": record["set_type"],
+        "answer_access_status": "SEALED",
+        "first_run_status": "FROZEN",
+        "start_time": record["start_time"],
+        "freeze_time": freeze_time,
+        "blocked_reason_code": args.blocked_reason_code,
+        "model": record["model"],
+        "reasoning": record["reasoning"],
+        "problem_hash": record["problem_hash"],
+        "data_hashes": record["data_hashes"],
+        "skill": {
+            "version": record["skill_version"],
+            "commit": record["skill_commit"],
+            **skill_tree_evidence(str(record["skill_commit"])),
+        },
+        "worktree_commit": args.worktree_commit,
+        "case_state": state["state"],
+        "case_state_sha256": file_hash(state_path),
+        "run_manifest_hashes": manifest_hashes,
+        "first_run_artifact_hashes": artifact_hashes,
+    }
+    serialized = json.dumps(freeze_artifact, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    freeze_sha256 = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
     evidence = {
         "skill_version": record["skill_version"],
         "skill_commit": record["skill_commit"],
@@ -184,24 +276,34 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         "case_state_sha256": file_hash(state_path),
         "run_manifest_hashes": manifest_hashes,
         "blocked_reason_code": args.blocked_reason_code,
+        "first_run_artifact_hashes": artifact_hashes,
+        "freeze_id": freeze_id,
+        "freeze_sha256": freeze_sha256,
+        "worktree_commit": args.worktree_commit,
     }
     if not args.dry_run:
+        write_json(args.freeze_output, freeze_artifact)
+        if file_hash(args.freeze_output) != freeze_sha256:
+            raise ValueError("FREEZE_ARTIFACT_HASH_MISMATCH")
         record["first_run_status"] = "FROZEN"
         record["freeze_time"] = freeze_time
         record["first_run_evidence"] = evidence
-        if unlock_time:
-            record["unlock_time"] = unlock_time
-            record["answer_access_status"] = "UNLOCKED_AFTER_FIRST_RUN"
-            if record.get("set_type") != "DEVELOPMENT":
-                record["set_type"] = "DEVELOPMENT"
+        record["first_run_freeze"] = {
+            "freeze_id": freeze_id,
+            "path": str(args.freeze_output.resolve().relative_to(REPO_ROOT)),
+            "sha256": freeze_sha256,
+            "subject_commit": args.worktree_commit,
+        }
         write_registry(args.registry, registry)
     return {
         "status": "PASS",
         "dry_run": args.dry_run,
         "case_id": args.case_id,
         "first_run_status": "FROZEN",
-        "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN" if args.unlock_time else "SEALED",
+        "answer_access_status": "SEALED",
         "freeze_time": freeze_time,
+        "freeze_output": str(args.freeze_output),
+        "freeze_sha256": freeze_sha256,
         "evidence": evidence,
     }
 
@@ -211,8 +313,9 @@ def main() -> int:
     parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--case-id", required=True)
     parser.add_argument("--case-root", type=Path, required=True)
+    parser.add_argument("--freeze-output", type=Path, required=True)
+    parser.add_argument("--worktree-commit", required=True)
     parser.add_argument("--freeze-time")
-    parser.add_argument("--unlock-time")
     parser.add_argument("--blocked-reason-code")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()

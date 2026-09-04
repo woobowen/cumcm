@@ -11,6 +11,15 @@ from typing import Any
 
 RC1_START_COMMIT = "131823092a2e8c33c677419d45ed54b381a9948e"
 RC1_SUCCESSOR_STATUS = "COMPETITION_SKILL_RC_READY"
+DEVELOPMENT_EVAL_STATUSES = {
+    "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
+    "DEVELOPMENT_EVAL_RC2_READY",
+    "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
+    "DEVELOPMENT_EVAL_INCOMPLETE",
+    "OFFICIAL_INPUTS_REQUIRED",
+    "FIRST_RUN_CONTAMINATION_SUSPECTED",
+    "INFRASTRUCTURE_BLOCKED",
+}
 
 
 def git_file_bytes(root: Path, relative: str, *, commit: str = RC1_START_COMMIT) -> bytes:
@@ -39,11 +48,18 @@ def competition_rc_successor(root: Path) -> bool:
         state = json.loads((root / "state/project_state.json").read_text(encoding="utf-8"))
     except (OSError, ValueError, json.JSONDecodeError):
         return False
-    return (
+    rc1_ready = (
         isinstance(state, dict)
         and state.get("technical_adjudication_status") == RC1_SUCCESSOR_STATUS
         and state.get("active_skill_version") == "0.2.0-competition-rc1"
     )
+    development_successor = (
+        isinstance(state, dict)
+        and state.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        and state.get("technical_adjudication_status") in DEVELOPMENT_EVAL_STATUSES
+        and state.get("active_skill_version") in {"0.2.0-competition-rc1", "0.2.0-competition-rc2"}
+    )
+    return rc1_ready or development_successor
 
 
 def historical_file_hash_matches(root: Path, relative: str, expected: str) -> bool:

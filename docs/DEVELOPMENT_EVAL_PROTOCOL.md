@@ -9,15 +9,25 @@
 - 唯一前置状态来源是仓库规范路径 `state/project_state.json`；其状态必须为
   `COMPETITION_SKILL_RC_READY`、`next_phase_allowed=PHASE-SKILL-DEVELOPMENT-EVAL-004`，正式 Skill
   必须为 `0.2.0-competition-rc1`/`COMPETITION_RC`，且 integration audit 必须是结构化 `PASS`。
-- `benchmarks/case_registry.yaml` 中 case ID 尚未存在，`set_type=DEVELOPMENT`，`answer_access_status=SEALED`。
+- 启动前 `benchmarks/case_registry.yaml` 中 case ID 尚未存在；注册后必须保持
+  `set_type=DEVELOPMENT`、`answer_access_status=SEALED` 到 first-run freeze 远端核验完成。
 - 只登记题面来源和 hashes；在首跑冻结前不得读取答案、优秀论文、题解、代码、博客、视频或讨论。
 - Validation/Held-out 的 Skill commit 必须在运行前冻结；其答案一旦可见，case 永久降为 Development。
 
 ## 首跑流程
 
-1. 人工选择一道允许使用、答案未看过的历史 Development 题；本仓库任务不预选题目。
-2. 在私有 case workspace 中放置题面和 raw data，计算 SHA-256，不把私有题面/答案写入 Git。`problem-source` 与每个 `data-hash` 名称必须是该 workspace 内的相对路径；launcher 会读取并逐文件核验。
-3. 运行：
+1. 人工选择一道允许使用、答案未看过的历史 Development 题。首个正式 case 为
+   `CUMCM-2023-C-DEVELOPMENT-001`；模型先验暴露不可验证，因此它只产生 Development 证据。
+2. 输入只允许来自用户提供的合法原始文件或官方原始赛题入口。仓库 policy 禁止读取
+   `benchmark-vault`，因此不得把该路径作为运行时输入。若必须在线取得，只能从不含题号、标题、
+   附件名或答案词的官方历年赛题索引导航，所有查询/访问写入
+   `research/pre_freeze_search_log.jsonl`。任何讲评、优秀论文、解析、代码、博客、视频或讨论在
+   first-run freeze 前均禁止访问。
+3. 在 ignored、非 vault 的私有 case workspace 中放置题面和 raw data，计算 SHA-256，不把题面、
+   raw data 或答案写入 Git。`problem-source` 与每个 `data-hash` 名称必须是该 workspace 内的相对
+   路径；launcher 会读取并逐文件核验。Tracked registry 只保留来源域、文件名、大小、media type、
+   SHA-256、取得时间和转载许可未知项。
+4. 运行：
 
    ```text
    .venv/bin/python scripts/start_skill_development_eval.py \
@@ -28,16 +38,31 @@
      --case-root <PRIVATE-WORKSPACE>
    ```
 
-4. launcher 仅接受仓库中真实存在、且其正式 Skill tree 与当前工作区一致的 commit，并把 problem/data/commit 写入 `state/development_eval_binding.json` 和 case evidence chain。随后用正式 Skill 的 14 阶段与集中 CLI 完整盲跑。所有搜索、人工 intervention、失败 Run 和 evidence gap 都保留；不得因将看答案而重试。
-5. 在任何答案解封前运行：
+5. launcher 仅接受仓库中真实存在、且其正式 Skill tree 与当前工作区一致的 commit，并把
+   problem/data/commit 写入 `state/development_eval_binding.json` 和 case evidence chain。开始建模前
+   冻结 Skill tree、Git commit、模型/reasoning visibility、工具边界、12 小时时限、搜索政策与以下
+   rubric：Requirement Coverage、Data Audit、Model Design、Execution、Validation、Evidence and
+   Handoff、Contest Efficiency。主问题遗漏、声称未运行代码、test leakage、不可复现 Final Run、
+   无证据 Claim、raw 覆盖、hash mismatch 和虚构来源是不可补偿硬门。
+6. 随后用正式 Skill 的 14 阶段与集中 CLI 完整盲跑。所有搜索、人工 intervention、失败 Run 和
+   evidence gap 都保留；不得因将看答案而重试。达到 6 小时时限仍应如实冻结当前状态。
+7. 在任何答案解封前运行：
 
    ```text
    .venv/bin/python scripts/freeze_skill_first_run.py \
-     --case-id <ID> --case-root <PRIVATE-WORKSPACE>
+     --case-id <ID> --case-root <PRIVATE-WORKSPACE> \
+     --freeze-output <TRACKED-FREEZE.json> --worktree-commit <GIT-SHA>
    ```
 
-6. 核验冻结 hash 后，若确需诊断才用 `--unlock-time <ISO-8601>` 记录答案解封；解封后只允许更新 generalizable failures 与 problem-specific findings，不改首跑证据。
-7. 运行 `.venv/bin/python scripts/check_skill_training_consistency.py --check`。
+8. 冻结文件至少绑定 problem/data、RC1 Skill version/tree/commit、search/source、case state、代码树、
+   所有 Run manifests/results、handoff/failure/timing 和 worktree commit。first run 无论 READY、STALE、
+   REJECTED 或 blocked 都原样冻结，形成独立提交并在远端 SHA 核验后才允许 unlock。
+9. 将冻结文件、registry 和状态作为独立提交推送；远端分支 SHA 必须等于该提交。核验后若确需诊断，
+   才单独运行 `scripts/unlock_skill_first_run.py`，并传入 freeze commit、远端和分支以及
+   `--unlock-time <ISO-8601>`。冻结命令本身没有解锁能力。解封后只允许更新
+   generalizable failures 与 problem-specific findings，不改首跑证据。最多读取官方讲评、一份合法
+   高质量获奖/官方展示材料和一篇正式出版方法分析；不复制代码、参数、公式或段落。
+10. 运行 `.venv/bin/python scripts/check_skill_training_consistency.py --check`。
 
 所有 start/freeze/unlock 时间必须携带 timezone，且严格满足
 `start_time <= freeze_time <= unlock_time`。阻塞原因只接受机器 reason code 形式，禁止把任意解释、
@@ -55,3 +80,19 @@
 当前只有 public deterministic Gates、两个项目原创 E2E 和完整回归保证。sealed Stage 1、Stage 2 effectiveness、消融、外部效度、生产适用性和 monetary cost 仍 deferred。
 当前 Run code registry 固定为正式 Skill 内置 deterministic runner；任意 custom executor 的可信
 动态 capture 尚未设计，因此不在 RC1 assurance 内，Phase 004 不得用其替换冻结执行入口。
+若真实 case 因此不能产生可信 Run，必须保留失败并以结构化 reason code 冻结；该事实可以在 unlock
+后作为通用缺陷候选，但不得在 RC1 first run 内修改 Skill 或伪造已执行结果。
+
+## RC2 Development regression 与 Stress 规则
+
+RC2 的 case-local executor 只接受 `RUNNING` 状态、预注册 candidate/seed、1–900 秒 timeout，且代码
+文件必须与冻结 commit 的 Git blob 一致。`execute` 捕获时间、exit、stdout/stderr/output、输入、代码、
+配置和 freeze；`seal-run` 在选择 decision hash 已确定后复验 capture，禁止调用者自行声明
+`trusted_capture`。capture 或绑定文件变化必须拒绝或传播 `STALE`。
+
+答案解封后的同题只允许 `DEVELOPMENT_REGRESSION`：research plan 必须绑定已验证的 first-run freeze
+SHA，source ledger 必须记录 `UNLOCKED_AFTER_FIRST_RUN`。该路径以及由其派生的 Stress A/B/C 都不是
+Blind、Validation、Held-out 或泛化证明。Validation/Held-out 仍必须保持答案 `SEALED`。
+
+Phase 004A 的同题回归与三个 Stress 已分别保存 hash-only/aggregate evidence；raw workbook、题面和
+参考正文仍在 ignored private cache。下一题必须结构不同且答案保持封存。

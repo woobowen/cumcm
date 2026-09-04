@@ -4,3 +4,7 @@
 并仅在显式指定的 case workspace 内读写。运行 `python cumcm_case.py --help` 查看命令。
 
 退出码：`0` 成功，`2` 输入错误，`3` Gate 拒绝，`4` STALE，`5` 状态冲突，`6` I/O 错误。
+
+真实 case 代码必须先以 `CASE_ROOT` record 写入 accepted experiment plan，并与真实 Git blob
+逐字节一致。`execute` 生成 `execution_capture.json`、stdout/stderr 和 output；全部候选运行完成并
+形成选择决策 hash 后，`seal-run` 才生成不可覆盖的 manifest。两步都要求 case state 为 `RUNNING`。

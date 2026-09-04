@@ -26,12 +26,9 @@ Skill, executes a prototype/model/API experiment, or opens Phase 003.
 
 ## Current sprint and next execution
 
-`COMPETITION_RC1_REPAIR_AND_INTEGRATION_SPRINT` is the active bounded implementation continuation in
-`plans/active/PLAN-0002D-R3-shadow-prototype-validation.md`. It preserves the old blocked Phase 003F
-decision, repairs new K1/W1 revisions under the unchanged eight hard Gates, selects K1 by the frozen
-K1-first rule, integrates exactly one formal Skill, and accepts only public deterministic plus two
-project-original E2E assurance. It does not retroactively complete full R3.
-
-After RC1 acceptance, the sole next task is `PHASE-SKILL-DEVELOPMENT-EVAL-004`: choose one historical
-Development problem whose answer remains sealed, bind the RC1 commit, perform a full blind run,
-freeze it before answer access, and use evidence-backed generalizable failures to plan RC2.
+`PHASE-SKILL-DEVELOPMENT-EVAL-004-A` is the active real-problem sprint in
+`plans/active/PLAN-0004A-2023c-development-eval.md`. It binds the merged RC1 commit to one official,
+answer-sealed historical Development case, freezes the first run before any reference unlock, and
+accepts at most two evidence-backed, problem-independent RC2 revisions. It then runs a same-case
+Development regression and three semantics-preserving Stress checks. This case is never promoted to
+Validation/Held-out evidence, and one problem cannot prove generalization.

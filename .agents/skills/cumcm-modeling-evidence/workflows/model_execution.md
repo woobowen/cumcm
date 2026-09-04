@@ -7,3 +7,12 @@
 - Complete：至少 baseline 与一个 candidate 成功，依次 `RUNNING → RUN_COMPLETED → RUN_VALIDATED`；Reject：异常、缺 hash、mutation、非成功冒充成功。
 - STALE/recovery：失败/部分/旧 Run 保留且不排名；新 Run ID 重跑并传播 STALE。
 - Next：`MODEL_COMPARISON`。
+
+非内置 smoke 必须使用集中 CLI 的 `execute`，不得直接把手工 subprocess 结果标记为
+`trusted_capture=true`。case-local Python 必须预注册并绑定 Git blob；runner 自动保留起止时间、
+exit code、stdout/stderr/output hashes 和冻结集合。全部候选完成、选择决策 hash 计算后，再用
+`seal-run` 生成 manifest。capture 或日志发生任何变化都必须拒绝 manifest 或传播 STALE。
+
+已解封同题只允许显式标记为 `DEVELOPMENT_REGRESSION`，research plan 必须绑定不可变的首跑
+freeze SHA，source ledger 必须记录 `UNLOCKED_AFTER_FIRST_RUN`。除此之外仍只接受
+`NOT_ACCESSED`；该例外不得表述为 Validation、Held-out 或 blind evidence。

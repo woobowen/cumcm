@@ -2,24 +2,24 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-INTEGRATION-003`
-- Subphase: `COMPETITION-RC1-REPAIR-AND-INTEGRATION`
+- Phase: `PHASE-SKILL-DEVELOPMENT-EVAL-004`
+- Subphase: `CUMCM-2023-C-DEVELOPMENT-RC2`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0002D-R3-shadow-prototype-validation.md`
-- Branch: `feat/phase002d-r3-shadow-validation`
-- Skill version: `0.2.0-competition-rc1`
+- Active plan: `plans/active/PLAN-0004A-2023c-development-eval.md`
+- Branch: `feat/phase004-development-eval-2023c`
+- Skill version: `0.2.0-competition-rc2`
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `COMPETITION_SKILL_RC_READY`
+- Technical adjudication: `DEVELOPMENT_EVAL_RC2_READY`
 - Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `PHASE-SKILL-DEVELOPMENT-EVAL-004`
-- Content-verified commit: `UNVERIFIED`
-- Delivery receipt commit: `UNVERIFIED`
+- Next phase allowed: `PHASE-SKILL-DEVELOPMENT-EVAL-004-B`
+- Content-verified commit: `d6233b7fd8980e0f2f8dcf386ccc81c05d1e7f03`
+- Delivery receipt commit: `d6233b7fd8980e0f2f8dcf386ccc81c05d1e7f03`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-04T11:33:19+08:00` by `main-agent`
+- Updated: `2026-09-04T15:57:41+08:00` by `main-agent`
 
 ## Blockers
 
@@ -50,3 +50,5 @@
 - Competition RC1 assurance is limited to unchanged public deterministic Gates and two project-original end-to-end smoke cases.
 - Full sealed Stage 1, Stage 2 model comparison, full ablation, external validity, production fitness, and monetary cost remain deferred and not passed.
 - Trusted execution-code capture is fixed to the bundled deterministic runner; caller-supplied custom executors are outside RC1 assurance.
+- This Development case cannot establish Validation, Held-out, or single-problem generalization evidence; model prior exposure is unverifiable.
+- The current runtime exposes no exact reasoning-effort identifier, so the first-run binding records reasoning as UNKNOWN.

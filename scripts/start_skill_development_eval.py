@@ -20,7 +20,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
 DEFAULT_PROJECT_STATE = REPO_ROOT / "state/project_state.json"
 CASE_CLI = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
-SKILL_VERSION = "0.2.0-competition-rc1"
+SKILL_VERSION = "0.2.0-competition-rc2"
 ALLOWED_SET_TYPES = {"DEVELOPMENT", "VALIDATION", "HELD_OUT", "STRESS"}
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -121,17 +121,36 @@ def iso_time(value: str | None) -> str:
     return value
 
 
-def require_competition_rc_ready(path: Path) -> None:
+def require_competition_rc_ready(path: Path, *, allow_active_eval: bool = False) -> None:
     value = json.loads(path.read_text(encoding="utf-8"))
     competition = value.get("competition_rc1") if isinstance(value, dict) else None
     integration_audit = (
         competition.get("integration_audit") if isinstance(competition, dict) else None
     )
+    ready_to_start = (
+        isinstance(value, dict)
+        and value.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
+        and value.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+    )
+    isolated_test_during_active_eval = (
+        allow_active_eval
+        and isinstance(value, dict)
+        and value.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        and value.get("technical_adjudication_status")
+        in {
+            "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
+            "DEVELOPMENT_EVAL_INCOMPLETE",
+            "DEVELOPMENT_EVAL_RC2_READY",
+            "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
+        }
+    )
+    version_valid = value.get("active_skill_version") == SKILL_VERSION or (
+        isolated_test_during_active_eval and allow_active_eval
+    )
     if (
         not isinstance(value, dict)
-        or value.get("technical_adjudication_status") != "COMPETITION_SKILL_RC_READY"
-        or value.get("next_phase_allowed") != "PHASE-SKILL-DEVELOPMENT-EVAL-004"
-        or value.get("active_skill_version") != SKILL_VERSION
+        or not (ready_to_start or isolated_test_during_active_eval)
+        or not version_valid
         or not isinstance(competition, dict)
         or not isinstance(integration_audit, dict)
         or integration_audit.get("status") != "PASS"
@@ -140,7 +159,10 @@ def require_competition_rc_ready(path: Path) -> None:
 
 
 def register(args: argparse.Namespace) -> dict[str, Any]:
-    require_competition_rc_ready(DEFAULT_PROJECT_STATE)
+    require_competition_rc_ready(
+        DEFAULT_PROJECT_STATE,
+        allow_active_eval=args.registry.resolve() != DEFAULT_REGISTRY.resolve(),
+    )
     registry = read_registry(args.registry)
     if args.set_type not in ALLOWED_SET_TYPES:
         raise ValueError("SET_TYPE_INVALID")

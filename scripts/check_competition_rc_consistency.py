@@ -15,6 +15,13 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 K1 = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
 SKILL_VERSION = "0.2.0-competition-rc1"
+ACTIVE_SKILL_VERSIONS = {SKILL_VERSION, "0.2.0-competition-rc2"}
+DEVELOPMENT_STATUSES = {
+    "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
+    "DEVELOPMENT_EVAL_RC2_READY",
+    "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
+    "DEVELOPMENT_EVAL_INCOMPLETE",
+}
 DEFERRED = {
     "full sealed Stage 1",
     "Stage 2 model comparison",
@@ -62,7 +69,7 @@ def evaluate() -> dict[str, Any]:
     negative = load_json("evals/results/phase-003f-r1/negative_tests/result.json")
     revision = load_json("evals/results/phase-003f-r1/formal_skill_integration/revision-003.json")
     skill = (ROOT / ".agents/skills/cumcm-modeling-evidence/SKILL.md").read_text(encoding="utf-8")
-    plan = (ROOT / "plans/active/PLAN-0002D-R3-shadow-prototype-validation.md").read_text(
+    plan = (ROOT / "plans/completed/PLAN-0002D-R3-shadow-prototype-validation.md").read_text(
         encoding="utf-8"
     )
     workflow = (ROOT / "WORKFLOW.md").read_text(encoding="utf-8")
@@ -90,16 +97,36 @@ def evaluate() -> dict[str, Any]:
             "FORMAL_SKILL_RC → DEVELOPMENT_EVAL → VALIDATION → HELD_OUT → COMPETITION_CANDIDATE"
             in workflow
         ),
-        "state_phase": state.get("phase") == "PHASE-SKILL-INTEGRATION-003",
-        "state_subphase": state.get("subphase") == "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
+        "state_phase": state.get("phase")
+        in {"PHASE-SKILL-INTEGRATION-003", "PHASE-SKILL-DEVELOPMENT-EVAL-004"},
+        "state_subphase": state.get("subphase")
+        in {
+            "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
+            "CUMCM-2023-C-DEVELOPMENT-FIRST-RUN",
+            "CUMCM-2023-C-POST-FREEZE-DIAGNOSIS",
+            "CUMCM-2023-C-RC2-DEVELOPMENT-REGRESSION",
+            "CUMCM-2023-C-DEVELOPMENT-RC2",
+        },
         "state_technical_status": state.get("technical_adjudication_status")
-        == "COMPETITION_SKILL_RC_READY",
-        "state_skill_version": state.get("active_skill_version") == SKILL_VERSION,
+        in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES},
+        "state_skill_version": state.get("active_skill_version") in ACTIVE_SKILL_VERSIONS,
         "state_capability": state.get("skill_capability_status") == "COMPETITION_RC",
         "state_architecture": state.get("selected_architecture") == K1,
         "state_base_unselected": state.get("base_selected") is False,
         "state_third_party_false": state.get("third_party_integrated") is False,
-        "state_next_phase": state.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+        "state_next_phase": (
+            state.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
+            and state.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        )
+        or (
+            state.get("technical_adjudication_status") == "DEVELOPMENT_EVAL_RC2_READY"
+            and state.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+        )
+        or (
+            state.get("technical_adjudication_status")
+            in DEVELOPMENT_STATUSES - {"DEVELOPMENT_EVAL_RC2_READY"}
+            and state.get("next_phase_allowed") is None
+        ),
         "state_has_no_blockers": state.get("blockers") == [],
         "decision_id": decision.get("decision_id")
         == "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
@@ -139,7 +166,8 @@ def evaluate() -> dict[str, Any]:
         and revision.get("repair_cycle", {}).get("focused_test") == "104 passed"
         and revision.get("repair_cycle", {}).get("tree_hash")
         == "76dce0d6a63ab78bd38a21c27d40fba0b2d5242e3283ade8cdc0b7dfd809b8d8",
-        "formal_skill_version": SKILL_VERSION in skill,
+        "formal_skill_version": state.get("active_skill_version") in skill
+        and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
         "formal_skill_capability": "Capability: `COMPETITION_RC`" in skill,
         "formal_skill_count_one": len(list((ROOT / ".agents/skills").glob("*/SKILL.md"))) == 1,
         "workflow_count_14": len(
@@ -161,7 +189,8 @@ def evaluate() -> dict[str, Any]:
             and state.get("competition_rc1", {}).get("third_party_executions") == 0
         ),
         "project_version_relationship": (
-            (ROOT / "VERSION").read_text(encoding="utf-8").strip() == "0.3.0-competition-rc1"
+            (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+            in {"0.3.0-competition-rc1", "0.3.0-competition-rc2"}
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),
     }
@@ -174,7 +203,15 @@ def evaluate() -> dict[str, Any]:
         and audit.get("sha256") == sha256(audit_path)
     )
     registry = yaml.safe_load((ROOT / "benchmarks/case_registry.yaml").read_text(encoding="utf-8"))
-    checks["development_registry_no_preselected_case"] = registry.get("cases") == []
+    cases = registry.get("cases", [])
+    checks["development_registry_answer_sealed_case"] = (
+        isinstance(cases, list)
+        and len(cases) == 1
+        and cases[0].get("case_id") == "CUMCM-2023-C-DEVELOPMENT-001"
+        and cases[0].get("set_type") == "DEVELOPMENT"
+        and cases[0].get("answer_access_status") in {"SEALED", "UNLOCKED_AFTER_FIRST_RUN"}
+        and cases[0].get("skill_version") == SKILL_VERSION
+    )
     failed = sorted(name for name, value in checks.items() if not value)
     return {
         "ok": not failed,
