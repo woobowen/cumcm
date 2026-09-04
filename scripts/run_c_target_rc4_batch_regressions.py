@@ -324,24 +324,27 @@ def run_case(config: CaseConfig, attempt: int) -> dict[str, Any]:
     )
     aggregation = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
     selection_rule = "ARGMIN_THEN_ID" if direction == "MIN" else "ARGMAX_THEN_ID"
-    plan = {
-        "preregistered": True,
-        "execution_prepared": True,
-        "splits": splits,
-        "metric": metric,
-        "metric_direction": direction,
-        "aggregation_rule": aggregation,
-        "selection_rule": selection_rule,
-        "baseline_id": baseline_id,
-        "handoff_generated_at": GENERATED_AT,
-        "random_seeds": seeds,
-        "candidate_ids": candidate_ids,
-        "required_input_hashes": prepared["audit"]["data_hashes"],
-        "required_code_files": code_files,
-        "code_commit": code_commit,
-        "trusted_freeze_registry": freezes,
-        "stop_rule": stop_rule,
-    }
+    plan = dict(source_plan)
+    plan.update(
+        {
+            "preregistered": True,
+            "execution_prepared": True,
+            "splits": splits,
+            "metric": metric,
+            "metric_direction": direction,
+            "aggregation_rule": aggregation,
+            "selection_rule": selection_rule,
+            "baseline_id": baseline_id,
+            "handoff_generated_at": GENERATED_AT,
+            "random_seeds": seeds,
+            "candidate_ids": candidate_ids,
+            "required_input_hashes": prepared["audit"]["data_hashes"],
+            "required_code_files": code_files,
+            "code_commit": code_commit,
+            "trusted_freeze_registry": freezes,
+            "stop_rule": stop_rule,
+        }
+    )
     accepted(core, case_root, "experiment_plan", plan)
     preflight = write_probe(
         core, case_root, prepared["requirements"], metric=metric, direction=direction
@@ -524,6 +527,9 @@ def run_case(config: CaseConfig, attempt: int) -> dict[str, Any]:
                     "preserved": True,
                     "terminal_observed_state": load_json(prior_state_path).get("state"),
                     "run_count": len(list((prior_root / "runs").glob("*/manifest.json"))),
+                    "capture_count": len(
+                        list((prior_root / "runs").glob("*/execution_capture.json"))
+                    ),
                     "failure_scope": "REGRESSION_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
                 }
             )
