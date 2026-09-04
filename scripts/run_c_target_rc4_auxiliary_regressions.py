@@ -24,7 +24,7 @@ MODEL_REPOSITORY_PATH = (
     "development_regression/code/mechanistic_model.py"
 )
 SOURCE_CASE = ROOT / ".cache/official_inputs/CUMCM-2020-A/development_regression_v2"
-DEFAULT_CASE = ROOT / ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_001"
+DEFAULT_CASE = ROOT / ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_002"
 DEFAULT_SUMMARY = ROOT / "evals/results/phase-004c-c-batch/rc4/2020a_auxiliary_regression.json"
 CASE_ID = "CUMCM-2020-A-RC4-AUXILIARY-REGRESSION"
 SEED = 20260904
@@ -393,7 +393,7 @@ def finalize(case_root: Path, summary_path: Path) -> dict[str, Any]:
             "target_in_features": False,
             "time_order_valid": True,
         },
-        "test_access": {"authorized": True, "count": 0, "used_for_selection": False},
+        "test_access": {"authorized": True, "count": 1, "used_for_selection": False},
         "reliability": {"attempts": 3, "successful": 2, "failed_or_infeasible": 1},
     }
     accepted(case_root, "model_comparison", comparison)
@@ -490,6 +490,18 @@ def finalize(case_root: Path, summary_path: Path) -> dict[str, Any]:
         "nonzero_failure_retained": True,
         "failed_run_count": 1,
         "successful_run_count": 2,
+        "preserved_prior_attempts": [
+            {
+                "attempt": 1,
+                "workspace_relative": (
+                    ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_001"
+                ),
+                "terminal_state": "RUN_VALIDATED",
+                "failure_reason": "RC_COMPARISON_TEST_ACCESS_COUNT_INVALID",
+                "preserved": True,
+                "ranking_eligible": False,
+            }
+        ],
         "seal_run_status": "PASS_ALL_CAPTURES",
         "claim_gate": "PASS",
         "handoff_gate": "PASS",
