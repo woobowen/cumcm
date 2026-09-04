@@ -469,6 +469,17 @@ def check() -> dict[str, Any]:
         for path in PHASE004B_REPORTS
     ):
         errors.append("PHASE004B_REPORT_SET_INCOMPLETE")
+    else:
+        acceptance_004b = (REPO_ROOT / "reports/phase004b_acceptance.md").read_text(
+            encoding="utf-8"
+        )
+        if (
+            "DEVELOPMENT_EVAL_RC3_READY" not in acceptance_004b
+            or "PHASE-SKILL-VALIDATION-EVAL-004-C" not in acceptance_004b
+            or "1816 passed, 1 skipped" not in acceptance_004b
+            or "FINAL_VERIFICATION_PENDING" in acceptance_004b
+        ):
+            errors.append("PHASE004B_ACCEPTANCE_REPORT_INCONSISTENT")
 
     problem_specific_tokens = (
         "2023 C",

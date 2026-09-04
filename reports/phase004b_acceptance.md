@@ -2,9 +2,9 @@
 
 ## Decision
 
-Provisional status: `FINAL_VERIFICATION_PENDING`. Scientific, execution, regression, Stress and
-handoff evidence supports `DEVELOPMENT_EVAL_RC3_READY`; final acceptance is withheld until the
-complete local and remote CI batch is observed. Validation has not started.
+Final status: `DEVELOPMENT_EVAL_RC3_READY`. Scientific, execution, regression, Stress and handoff
+evidence passed the complete local CI batch and the Draft PR's offline remote validation. Validation
+has not started.
 
 ## Starting boundary
 
@@ -138,9 +138,25 @@ Validation, the same hard gates and offline execution. Validation status is
 
 ## Verification and delivery
 
-Starting baseline: `1808 passed, 1 skipped`. Final local and remote verification are pending and
-must replace this paragraph before acceptance. The Draft PR remains open and must not be readied,
-approved or merged by this task.
+Starting baseline: `1808 passed, 1 skipped`. Final independent pytest is `1816 passed, 1 skipped in
+283.25s`; the captured command duration is `306.609089s`, log SHA-256
+`de7f60ba5af3171e89ec73dcd3b6ba6f9ca61ffa36d5300f5d83c35ba1599582`. Final project CI is
+`1816 passed, 1 skipped`, strict `0 errors / 0 warnings`, duration `312.716023s`, log SHA-256
+`396b26593a283b971377591a4093d8a19efe08c3f8c98b1386b12160ce08a463`.
+
+Focused RC3/004B tests are `28 passed`; both synthetic E2E pass; all 30 negative scenarios fail
+closed; contracts report 78 valid and 68 invalid rejected; Competition consistency is 37/37;
+training consistency has 0 errors; discovery finds exactly one Skill; leakage, secret and private
+path findings are zero. Historical 004A evidence remains hash-bound.
+
+Three bounded full-regression attempts were required. The first exposed an unnecessary schema hash
+change and RC3 omission in the historical successor allowlist; restoring the schema and adding exact
+RC3 compatibility reduced the second attempt to one old fault-test routing assertion. The third
+passed. Failed attempts are retained in the timing report.
+
+Content commit `b4f35cafa4816d255e832ec86b8ff5a65aa2484b` is remotely verified. GitHub
+`offline-validation` run `33872400050` passed in 6m21s. The Draft PR remains OPEN/DRAFT and was not
+readied, approved or merged.
 
 ## Limitations
 
@@ -152,5 +168,5 @@ ablation, production fitness or independent external evidence.
 
 ## Acceptance status
 
-`FINAL_VERIFICATION_PENDING`. Exact next step after acceptance can only be
+`DEVELOPMENT_EVAL_RC3_READY`. There are no blockers. Exact next step is
 `PHASE-SKILL-VALIDATION-EVAL-004-C`; it was not executed here.
