@@ -137,3 +137,14 @@ outcome 为 `FAILED` 的 manifest。该 manifest 只能作为失败证据；comp
 Phase 004B 的 2020 A 同题回归、2023 C 跨题回归和三个机理 Stress 均属于 Development/Stress
 证据，不是 Validation 或泛化证明。交给 Validation 的版本必须冻结到明确的 Skill commit/tree；新题
 答案保持 `SEALED`，一次运行结果冻结后不得修改 Skill 并在同题重跑后继续称为 Validation。
+
+## RC4 与 2024 C Validation 终局
+
+RC4 的唯一修改是通用 selected-output preflight，并已通过统一回归。2024 C 在冻结 Skill、rubric、
+输入、环境和答案状态后由 fresh worker 一次执行：2 个候选 × 2 个 seed 共 4 个实际 Run 全部成功，
+六项主要求的数值输出、独立可行性复算和三项 perturbation 均存在。Final 后的 frozen Claim Gate
+同时要求顶层 claim scope 等于整体 Final scope 和第一项 requirement-specific claim text；两者不等，
+因此只返回 `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID`。case 终止为 `REJECTED`，handoff 未达，
+正式决策为 `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`。terminal freeze 后不得新增 Run；同题后续
+永久只可作为 Development，修复必须在 `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` 用新的冻结 C题
+验证。

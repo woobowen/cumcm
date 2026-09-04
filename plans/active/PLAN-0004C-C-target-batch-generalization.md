@@ -1,8 +1,8 @@
 # PLAN-0004C — C-Target Batch Generalization and One-Shot Validation
 
-Status: `IN_PROGRESS`
+Status: `TERMINAL_EVIDENCE_INSUFFICIENT`
 Phase: `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`
-Subphase: `C-TARGET-RC4-FROZEN-VALIDATION-PENDING`
+Subphase: `C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT`
 Owner: main agent / `modeling_orchestrator`
 Started: `2026-09-04T22:14:48+08:00`
 Branch: `feat/phase004c-c-target-batch-generalization`
@@ -80,14 +80,16 @@ Three non-blind batch regressions, 2023 C, 2020 A auxiliary execution, two synth
 negative cases, new neutral tests, anti-hardcoding, leakage, secrets, strict validation, and full CI
 all pass without a universal hard failure.
 
-### M6 — 2024 C one-shot Validation (`IN_PROGRESS`)
+### M6 — 2024 C one-shot Validation (`TERMINAL_EVIDENCE_INSUFFICIENT`)
 
-Candidate/rubric/input/answer state are pre-frozen. A fresh isolated worker runs once within four
-hours, covers all main requirements with real Runs, independent feasibility checks, robustness,
-Claims and handoff, then writes a terminal freeze. No post-freeze Validation Run or Skill mutation
-is allowed; the decision may fail or remain insufficient.
+Candidate/rubric/input/answer state were pre-frozen. A fresh isolated worker completed four actual
+Runs within four hours; all six main requirements, independent feasibility and robustness have
+valid outputs. The frozen Claim Gate is contradictory, so Claim acceptance failed and handoff was
+not reached. The remotely delivered terminal decision is
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`. No post-freeze Validation Run or Skill mutation is
+allowed.
 
-### M7 — Final audit and delivery (`PENDING`)
+### M7 — Final audit and delivery (`IN_PROGRESS`)
 
 2025 C access flags remain false; scorecard/professional audit/acceptance/handoff reports match
 machine truth; final validation and remote CI pass; local and remote SHA match; Draft PR stays open.
@@ -203,12 +205,32 @@ git diff --check
   `297cad0a29c659b18484d4f3b67d69a942ad415c`, Skill tree
   `d041ca38de030ae04813ef02dbe12f7f2b7a1c22`, and release evidence subject commit is
   `9607e7f6f85c4af2ce0423bdca4f52019d68e649`.
+- M6 registered the official 2024 C title and six input/template hashes, then remotely froze the
+  answer-sealed protocol, rubric, RC4 tree, environment and fresh-worker boundary before results.
+  The pre-run freeze payload is `d1b5456f...`, and its remote CI passed.
+- The fresh worker wrote pre-result code, which the main Orchestrator bound at commit
+  `f12aa707cdf756c657dde0d69556b9f575b748ed`. The frozen grid contained baseline and primary
+  candidates at seeds 104729 and 130363. All four attempts were executed and sealed once, with no
+  retry, recovery, run-phase manual intervention or result-driven code change.
+- The primary candidate won the frozen validation metric (`169264118.00319` versus baseline
+  `110079957.9191615`). Post-selection test access was exactly one and not used for selection. The
+  selected output covered 6/6 requirements, four independent feasibility records with zero
+  violations, three structure-preserved workbooks and three quantitative perturbations.
+- Final reached `FINAL_CANDIDATE`, but `claim-check` and `validate --check` each returned only
+  `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID`. RC4 requires the top-level Claim text to equal
+  both the global Final scope and the first requirement-specific claim text; those frozen strings
+  differ. The case was formally recorded as `REJECTED`; no accepted handoff was generated.
+- Terminal freeze `CUMCM-2024-C-VALIDATION-001-TERMINAL-FREEZE-001` and decision
+  `DECISION-C-TARGET-VALIDATION-004C` were committed and remotely verified at
+  `197f62bc75ebe832e9dd3ced0306740f336b80d6`. Answer state remains `SEALED`, RC4 is unchanged, and
+  the terminal decision is `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`.
 
 ## Next step
 
-Acquire and register only the official 2024 C inputs, freeze the Validation protocol/rubric/RC4
-tree/answer state before results, remotely verify that freeze, then start exactly one restricted
-fresh worker. Do not modify RC4 or access solution material during or after that Validation run.
+After final report/CI delivery, start only
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`: freeze a generic Claim-scope repair and neutral tests,
+then validate it on a different answer-sealed C case. Do not rerun 2024 C as Validation and do not
+access the reserved 2025 C in this phase.
 
 ## Rollback and update rule
 

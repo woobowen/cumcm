@@ -188,9 +188,19 @@ After unified regression, the active status may be
 `C-TARGET-RC4-FROZEN-VALIDATION-PENDING`, active Skill RC4, and `next_phase_allowed=null`. Terminal
 routes are `C_TARGET_VALIDATION_PASSED`, `C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING`,
 `C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE`, `C_TARGET_VALIDATION_FAILED`,
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, `C_TARGET_VALIDATION_INCOMPLETE`,
 `C_TARGET_BATCH_INCOMPLETE`, `OFFICIAL_INPUTS_REQUIRED`,
 `FIRST_RUN_CONTAMINATION_SUSPECTED`, or `INFRASTRUCTURE_BLOCKED`. Technical hard failures cannot be
 averaged away by a score or Agent vote.
+
+The 2024 C one-shot terminal path is
+`FINAL_CANDIDATE → REJECTED(GATE_CLAIM_EVIDENCE)`. Although all four frozen Runs succeeded and all
+six main requirements have feasible numeric outputs, RC4 requires the top-level Claim text to equal
+both the global Final scope and the first requirement-specific claim text. Those frozen strings
+differ, so `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID` is deterministic and no accepted handoff
+can exist. `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT` routes only to
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`; the 2024 C case is terminal and any later same-case work
+is Development only.
 
 ## Contest-run lifecycle
 

@@ -147,6 +147,7 @@ def evaluate() -> dict[str, Any]:
             "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS",
             "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM",
             "C-TARGET-RC4-FROZEN-VALIDATION-PENDING",
+            "C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES, *C_TARGET_STATUSES},
@@ -182,8 +183,21 @@ def evaluate() -> dict[str, Any]:
             == "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING"
             and state.get("active_skill_version") == "0.2.0-competition-rc4"
             and state.get("next_phase_allowed") is None
+        )
+        or (
+            state.get("technical_adjudication_status")
+            == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+            and state.get("active_skill_version") == "0.2.0-competition-rc4"
+            and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
         ),
-        "state_has_no_blockers": state.get("blockers") == [],
+        "state_blockers_match_outcome": (
+            state.get("blockers") == []
+            or (
+                state.get("technical_adjudication_status")
+                == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+                and state.get("blockers") == ["RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"]
+            )
+        ),
         "decision_id": decision.get("decision_id")
         == "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
         "decision_architecture": decision.get("selected_architecture") == K1,

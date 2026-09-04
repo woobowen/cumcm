@@ -37,7 +37,7 @@ active_phase:
     C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING: null
     C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE: null
     C_TARGET_VALIDATION_FAILED: PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2
-    C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT: null
+    C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT: PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2
     C_TARGET_VALIDATION_INCOMPLETE: null
     C_TARGET_BATCH_INCOMPLETE: null
     OFFICIAL_INPUTS_REQUIRED: null
@@ -74,7 +74,21 @@ released_skill:
   formal_skill_tree: d041ca38de030ae04813ef02dbe12f7f2b7a1c22
   release_subject_commit: 9607e7f6f85c4af2ce0423bdca4f52019d68e649
   release_manifest: evals/results/phase-004c-c-batch/rc4/skill_release.json
-  status: FROZEN_FOR_2024C_ONE_SHOT_VALIDATION
+  status: FROZEN_AFTER_2024C_EVIDENCE_INSUFFICIENT
+validation_outcome:
+  case_id: CUMCM-2024-C-VALIDATION-001
+  decision_id: DECISION-C-TARGET-VALIDATION-004C
+  status: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+  answer_state: SEALED
+  run_count: 4
+  successful_run_count: 4
+  main_requirement_coverage: 1.0
+  claim_gate: BLOCK
+  claim_gate_reason: RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID
+  handoff_complete: false
+  formal_skill_mutated: false
+  same_case_future_role: DEVELOPMENT_ONLY
+  next_phase_allowed: PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2
 evidence_accounting:
   independent_problem_required: true
   planned_allocation_may_not_be_reported_as_realized_evidence: true

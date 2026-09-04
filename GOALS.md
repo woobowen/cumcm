@@ -66,6 +66,9 @@ RC3, one unified evidence-based revision at most, unified regression, and a sepa
 Validation. Existing 2023 C and 2020 A results remain Development evidence and do not establish
 broad C-problem generalization.
 
-The single evidence-admitted revision is now frozen as `0.2.0-competition-rc4` after unified
-regression. The immediate boundary is an answer-sealed, rubric-frozen, one-shot 2024 C Validation;
-its outcome may pass, fail, remain insufficient, or remain incomplete without changing RC4.
+The single evidence-admitted revision is frozen as `0.2.0-competition-rc4` after unified
+regression. The answer-sealed, rubric-frozen 2024 C one-shot produced 4/4 successful actual Runs
+and valid outputs for all six main requirements, but the frozen Claim Gate imposed contradictory
+global-scope and first-requirement-scope equalities. The terminal result is therefore
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, not a pass; no handoff was accepted and RC4 was not
+changed. The only authorized next route is a newly frozen C batch repair using a different C case.

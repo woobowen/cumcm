@@ -56,8 +56,12 @@ cases, not Validation or a generalization proof.
 RC4 adds one neutral selected-output contract preflight and applies the identical validator to each
 exit-zero captured output. Its unified regression passed all three C batch cases, the preserved
 2023 C main chain, the 2020 A auxiliary execution path, two synthetic E2E cases, the original 30
-negative scenarios, and full CI. RC4 is now frozen for the separate answer-sealed one-shot 2024 C
-Validation; no Development regression is counted as that Validation result.
+negative scenarios, and full CI. In the separate answer-sealed one-shot 2024 C Validation, 4/4
+actual Runs succeeded and all six main requirements had feasible outputs, but RC4's frozen Claim
+Gate required one scope to equal two different frozen strings. The Gate blocked with
+`RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID`; no handoff was accepted and the terminal decision is
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`. No Development regression is counted as that
+Validation result.
 
 The old `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision and all `phase-003f` evidence remain immutable.
 RC1 is a new implementation revision, not a rewrite of that history and not proof of a selected
@@ -66,9 +70,10 @@ third-party base.
 Start with `AGENTS.md`, then read `GOALS.md`, `WORKFLOW.md`, the active plan, and `state/project_state.json`. Run `bash scripts/bootstrap_dev_env.sh` and `bash scripts/ci.sh` for local validation.
 
 The active task is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`. RC4 and its unified regression
-are frozen; Validation remains pending until the 2024 C official inputs and rubric are separately
-pre-frozen. The cancelled 2024 A attempt had no case registration or execution evidence and is not
-Validation. See `docs/TARGET_PROBLEM_POLICY.md`,
+are frozen; the 2024 C terminal outcome is remotely frozen and the same case cannot be rerun as
+Validation. The next authorized phase is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`. The cancelled
+2024 A attempt had no case registration or execution evidence and is not Validation. See
+`docs/TARGET_PROBLEM_POLICY.md`,
 `docs/DEVELOPMENT_EVAL_PROTOCOL.md`, and `plans/active/PLAN-0004C-C-target-batch-generalization.md`.
 
 No project license has been selected. Third-party repositories remain isolated under ignored `.cache/upstream/` and are not part of this repository.

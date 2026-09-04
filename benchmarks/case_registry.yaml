@@ -48,7 +48,7 @@ active_skill_release:
   implementation_commit: 297cad0a29c659b18484d4f3b67d69a942ad415c
   tree: d041ca38de030ae04813ef02dbe12f7f2b7a1c22
   release_manifest: evals/results/phase-004c-c-batch/rc4/skill_release.json
-  validation_status: FROZEN_PENDING_2024C_ONE_SHOT
+  validation_status: FROZEN_2024C_EVIDENCE_INSUFFICIENT
 planned_cases: []
 held_out_reservations:
 - reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
@@ -479,8 +479,28 @@ cases:
   - UNCERTAIN_DEMAND
   - ROBUST_OR_SCENARIO_DECISION
   - LARGE_RESULT_TABLE
-  first_run_status: IN_PROGRESS
-  first_run_freeze: null
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2024-C-VALIDATION-001-TERMINAL-FREEZE-001
+    path: evals/results/phase-004c-c-validation/terminal_validation_freeze.json
+    sha256: 6e78a9c047b0c2673c17c1e9b055dfa342f681ca5aa86c7b789929aadd138373
+    payload_sha256: d53c4280f09b369c4ab09a66c6bbba454c8b739e710f21f7481a375454523033
+    subject_commit: f12aa707cdf756c657dde0d69556b9f575b748ed
+    freeze_commit: 197f62bc75ebe832e9dd3ced0306740f336b80d6
+    remote: origin
+    remote_sha: 197f62bc75ebe832e9dd3ced0306740f336b80d6
+    status: REMOTE_DELIVERED
+  first_run_evidence:
+    skill_commit: 46e13d31a3d22fe12a2cffe65a52558da3ecfa82
+    terminal_case_state: REJECTED
+    run_count: 4
+    successful_run_count: 4
+    requirement_coverage: 1.0
+    claim_gate_status: BLOCK
+    claim_gate_reason: RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID
+    handoff_complete: false
+    terminal_freeze_path: evals/results/phase-004c-c-validation/terminal_validation_freeze.json
+    terminal_freeze_sha256: 6e78a9c047b0c2673c17c1e9b055dfa342f681ca5aa86c7b789929aadd138373
   pre_run_freeze:
     freeze_id: CUMCM-2024-C-VALIDATION-001-PRE-RUN-FREEZE-001
     path: evals/results/phase-004c-c-validation/pre_run_validation_freeze.json
@@ -497,16 +517,28 @@ cases:
   reasoning: UNKNOWN
   start_time: '2026-09-05T02:52:09+08:00'
   pre_run_freeze_time: '2026-09-05T02:52:09+08:00'
-  freeze_time: null
+  freeze_time: '2026-09-05T03:45:48+08:00'
   unlock_time: null
-  generalizable_failures: []
-  problem_specific_findings: []
+  generalizable_failures:
+  - failure_id: C004C-RC4-CLAIM-SCOPE-CONTRADICTION-001
+    gate: GATE_CLAIM_EVIDENCE
+    reason_code: RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID
+    disposition: FROZEN_VALIDATION_FAILURE_REPAIR_IN_NEW_C_CASE_ONLY
+  problem_specific_findings:
+  - WHOLE_PLOT_HEURISTIC_NOT_GLOBALLY_OPTIMAL
+  - Q3_DEPENDENCE_PARAMETERS_ARE_REGISTERED_SIMULATION_ASSUMPTIONS
   official_page_url_sha256: 6c8e9f42a2f61f8b2ee69ee44a4a4860abf85e33d6fb5fbcde6ec1f1cf7ece93
   official_archive_url_sha256: 5989711f4f8ea4efc104f3e84904781391adb6f612fc824e4c1c71ddf86b44e0
   official_package_sha256: 38d9effcede947354f9e9a9c2b4fc68947d83a77c2ff75737e9a662888158726
   input_registration:
     path: evals/results/phase-004c-c-validation/input_registration.json
     sha256: fff7e4f2b0dfb913f0ef586eb467f2d1d3ffe1f6b9a14359486e41fd19178c40
+  validation_decision: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+  validation_decision_record:
+    decision_id: DECISION-C-TARGET-VALIDATION-004C
+    path: evals/results/phase-004c-c-validation/DECISION-C-TARGET-VALIDATION-004C.json
+    sha256: b0f9b813d036ac7db11af0c810cd081b19f9af9430d6f1be25e60ced46fd8ac4
+  same_case_future_role: DEVELOPMENT_ONLY
 - case_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002
   set_type: DEVELOPMENT
   registration_status: INPUT_REGISTERED

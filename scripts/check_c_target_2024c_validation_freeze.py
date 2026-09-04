@@ -328,12 +328,18 @@ def evaluate(*, verify_workspace: bool, require_delivery: bool) -> dict[str, Any
         ]
         current_record = current_matches[0] if len(current_matches) == 1 else {}
         current_pre_run_freeze = current_record.get("pre_run_freeze", {})
+        current_first_run_status = current_record.get("first_run_status")
+        current_first_run_freeze = current_record.get("first_run_freeze")
         if (
             len(current_matches) != 1
             or current_record.get("answer_access_status") != "SEALED"
             or current_record.get("reference_unlock") != "LOCKED"
-            or current_record.get("first_run_status") != "IN_PROGRESS"
-            or current_record.get("first_run_freeze") is not None
+            or current_first_run_status not in {"IN_PROGRESS", "FROZEN"}
+            or (current_first_run_status == "IN_PROGRESS" and current_first_run_freeze is not None)
+            or (
+                current_first_run_status == "FROZEN"
+                and not isinstance(current_first_run_freeze, dict)
+            )
             or not current_record.get("start_time")
             or not isinstance(current_pre_run_freeze, dict)
             or current_pre_run_freeze.get("freeze_id") != freeze.get("freeze_id")

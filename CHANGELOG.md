@@ -18,6 +18,17 @@
 - Froze Skill tree `d041ca38de030ae04813ef02dbe12f7f2b7a1c22` for the separate answer-sealed,
   one-shot 2024 C Validation. These Development regressions are not a Validation result or broad
   generalization proof.
+- Executed the preregistered 2024 C one-shot without Skill mutation: four of four actual Runs
+  succeeded, six of six main requirements produced feasible outputs, test access occurred once
+  after selection, and three quantitative robustness perturbations were bound to the selected Run.
+- Preserved the terminal Claim Gate rejection. RC4 requires the top-level Claim scope to equal both
+  the global Final scope and the first requirement-specific claim; the two frozen strings differ,
+  so `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID` blocks Claim acceptance and handoff. The formal
+  result is `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, not a Validation pass.
+- Froze the answer-sealed terminal outcome at commit
+  `197f62bc75ebe832e9dd3ced0306740f336b80d6`; no later 2024 C Validation Run is permitted. RC4 is
+  unchanged, 2025 C remains reserved and unaccessed, and the next route is
+  `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` using a different C case.
 
 ## 0.3.0-competition-rc3 — 2026-09-04
 

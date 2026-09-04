@@ -30,10 +30,11 @@ Phase 004A (2023 C Development) and Phase 004B (2020 A auxiliary Development) ar
 planned 2024 A Validation was cancelled before registration and produced no formal execution
 evidence or commit (`CANCELLED_BEFORE_REGISTRATION_NO_EXECUTION_EVIDENCE`).
 
-The only active execution is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C` in
+The active record is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C` in
 `plans/active/PLAN-0004C-C-target-batch-generalization.md`. It froze RC3 across three structurally
 different, answer-sealed C Development first runs, unlocked references only after all three remote
-freezes, admitted one unified RC4 revision, and passed unified regression. RC4 is frozen while the
-2024 C inputs and rubric are prepared for one fresh answer-sealed Validation run. The next eligible
-project phase is a C Held-out phase only if the formal Validation decision permits it; otherwise the
-route is C batch repair or null.
+freezes, admitted one unified RC4 revision, and passed unified regression. The fresh answer-sealed
+2024 C Validation is terminal `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`: all Runs and main outputs
+succeeded, but the frozen Claim Gate is contradictory and blocked handoff. RC4 and the 2024 C
+terminal evidence remain immutable. The exact next route is
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` with a newly frozen design and a different C case.

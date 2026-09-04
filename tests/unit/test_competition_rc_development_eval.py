@@ -158,10 +158,12 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     )
     assert validation["set_type"] == "VALIDATION"
     assert validation["answer_access_status"] == "SEALED"
-    assert validation["first_run_status"] == "IN_PROGRESS"
-    assert validation["first_run_freeze"] is None
+    assert validation["first_run_status"] == "FROZEN"
+    assert validation["first_run_freeze"]["status"] == "REMOTE_DELIVERED"
     assert validation["pre_run_freeze"]["status"] == "REMOTE_DELIVERED"
     assert validation["skill_version"] == "0.2.0-competition-rc4"
+    assert validation["validation_decision"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+    assert validation["same_case_future_role"] == "DEVELOPMENT_ONLY"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",

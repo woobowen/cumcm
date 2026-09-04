@@ -22,6 +22,7 @@ BATCH_ID = "C-TARGET-BATCH-001"
 PHASE = "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
 PLAN = "plans/active/PLAN-0004C-C-target-batch-generalization.md"
 BRANCH = "feat/phase004c-c-target-batch-generalization"
+EXPECTED_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
 RC3 = "0.2.0-competition-rc3"
 RC4 = "0.2.0-competition-rc4"
 RC4_COMMIT = "297cad0a29c659b18484d4f3b67d69a942ad415c"
@@ -262,8 +263,8 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     postmortem = state.get("batch_reference_unlocked") is True
     expected_state = {
         "phase": PHASE,
-        "subphase": "C-TARGET-RC4-FROZEN-VALIDATION-PENDING",
-        "technical_adjudication_status": "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
+        "subphase": "C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT",
+        "technical_adjudication_status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
         "current_plan": PLAN,
         "current_branch": BRANCH,
         "active_skill_version": RC4,
@@ -271,7 +272,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         "current_batch_id": BATCH_ID,
         "batch_skill_frozen": True,
         "batch_reference_unlocked": postmortem,
-        "next_phase_allowed": None,
+        "next_phase_allowed": EXPECTED_REPAIR_PHASE,
         "third_party_integrated": False,
         "skill_capability_status": "COMPETITION_RC",
         "selected_architecture": ARCHITECTURE,
@@ -287,13 +288,37 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         released_skill.get("version") != RC4
         or released_skill.get("implementation_commit") != RC4_COMMIT
         or released_skill.get("formal_skill_tree") != RC4_TREE
-        or released_skill.get("status") != "FROZEN_FOR_2024C_ONE_SHOT_VALIDATION"
+        or released_skill.get("status") != "FROZEN_AFTER_2024C_EVIDENCE_INSUFFICIENT"
         or release.get("release_status") != "FROZEN_FOR_2024C_ONE_SHOT_VALIDATION"
         or release.get("formal_skill", {}).get("version") != RC4
         or release.get("formal_skill", {}).get("implementation_commit") != RC4_COMMIT
         or release.get("formal_skill", {}).get("git_tree") != RC4_TREE
     ):
         errors.append("TARGET_RC4_RELEASE_INVALID")
+
+    validation = policy.get("validation_outcome", {})
+    validation_case = next(
+        (item for item in cases if item.get("case_id") == "CUMCM-2024-C-VALIDATION-001"),
+        {},
+    )
+    if (
+        not isinstance(validation, dict)
+        or validation.get("decision_id") != "DECISION-C-TARGET-VALIDATION-004C"
+        or validation.get("status") != "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+        or validation.get("answer_state") != "SEALED"
+        or validation.get("run_count") != 4
+        or validation.get("successful_run_count") != 4
+        or validation.get("main_requirement_coverage") != 1.0
+        or validation.get("claim_gate") != "BLOCK"
+        or validation.get("claim_gate_reason") != "RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"
+        or validation.get("handoff_complete") is not False
+        or validation.get("formal_skill_mutated") is not False
+        or validation.get("same_case_future_role") != "DEVELOPMENT_ONLY"
+        or validation.get("next_phase_allowed") != EXPECTED_REPAIR_PHASE
+        or validation_case.get("first_run_status") != "FROZEN"
+        or validation_case.get("validation_decision") != "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+    ):
+        errors.append("TARGET_VALIDATION_OUTCOME_INVALID")
 
     plan_path = root / PLAN
     plan_text = plan_path.read_text(encoding="utf-8") if plan_path.is_file() else ""

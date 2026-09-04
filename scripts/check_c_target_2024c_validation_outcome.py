@@ -330,7 +330,7 @@ def validate_delivery(freeze: dict[str, Any]) -> list[str]:
         len(matches) != 1
         or record.get("answer_access_status") != "SEALED"
         or record.get("reference_unlock") != "LOCKED"
-        or record.get("first_run_status") != "FROZEN_EVIDENCE_INSUFFICIENT"
+        or record.get("first_run_status") != "FROZEN"
         or record.get("validation_decision") != EXPECTED_DECISION
         or record.get("same_case_future_role") != "DEVELOPMENT_ONLY"
         or not isinstance(registered_freeze, dict)

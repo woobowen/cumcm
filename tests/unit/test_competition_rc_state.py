@@ -19,11 +19,11 @@ def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_roo
 
     Draft202012Validator(schema).validate(state)
     assert state["phase"] == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
-    assert state["technical_adjudication_status"] == "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING"
-    assert state["subphase"] == "C-TARGET-RC4-FROZEN-VALIDATION-PENDING"
+    assert state["technical_adjudication_status"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+    assert state["subphase"] == "C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT"
     assert state["current_plan"] == "plans/active/PLAN-0004C-C-target-batch-generalization.md"
     assert state["current_branch"] == "feat/phase004c-c-target-batch-generalization"
-    assert state["next_phase_allowed"] is None
+    assert state["next_phase_allowed"] == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
     assert state["active_skill_version"] == "0.2.0-competition-rc4"
     assert state["primary_target_problem_type"] == "C"
     assert state["current_batch_id"] == "C-TARGET-BATCH-001"
@@ -38,7 +38,7 @@ def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_roo
         "B": "PASS",
         "C": "PASS",
     }
-    assert state["blockers"] == []
+    assert state["blockers"] == ["RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"]
     assert state["competition_rc1"]["full_r3_status"] == "DEFERRED_NOT_PASSED"
     assert state["competition_rc1"]["real_comparison_model_starts"] == 0
 

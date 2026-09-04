@@ -673,6 +673,34 @@
       "if": {
         "properties": {
           "technical_adjudication_status": {
+            "const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"},
+          "subphase": {
+            "const": "C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT"
+          },
+          "active_skill_version": {"const": "0.2.0-competition-rc4"},
+          "batch_skill_frozen": {"const": true},
+          "batch_reference_unlocked": {"const": true},
+          "next_phase_allowed": {
+            "const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
+          },
+          "blockers": {
+            "minItems": 1,
+            "contains": {"const": "RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"}
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
             "const": "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS"
           }
         },

@@ -47,6 +47,15 @@ fresh isolated worker, sealed answer, preregistered rubric, and one terminal fir
 terminal freeze, a new Run is prohibited; later work on that problem is Development only. Answer or
 solution exposure before freeze invalidates strict Validation eligibility.
 
+`CUMCM-2024-C-VALIDATION-001` is terminal
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`. Its four preregistered actual Runs succeeded and all six
+main requirements have feasible selected-output evidence, but the frozen RC4 Claim Gate requires
+the same top-level text to equal both the global Final scope and the first requirement-specific
+claim. The strings differ, so the Gate blocks with `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID`
+and a canonical handoff cannot be generated. This is not overridden by numeric success. RC4 stays
+unchanged; the same case is Development-only after freeze, and the next route is a new frozen repair
+batch using another C problem.
+
 The 2025 C Held-out is reserved in this phase by the hash of its official annual-page URL only. Its
 title, archive, problem, attachments, references, and answer remain unaccessed. The reservation is
 not Development or Validation evidence.
