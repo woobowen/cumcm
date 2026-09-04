@@ -774,6 +774,12 @@ def test_experiment_plan_gate_rejects_invalid_recomputed_freezes(
         "split_assignment": case_cli.canonical_hash(plan["splits"]),
         "baseline": case_cli.canonical_hash(plan["baseline_id"]),
         "input_set": case_cli.canonical_hash(plan["required_input_hashes"]),
+        "execution_policy": case_cli.canonical_hash(
+            {
+                "stop_rule": plan["stop_rule"],
+                "handoff_generated_at": plan["handoff_generated_at"],
+            }
+        ),
     }
     plan_record["content_hash"] = case_cli.canonical_hash(plan)
     case_cli.write_json(plan_path, plan_record)

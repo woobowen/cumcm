@@ -45,6 +45,8 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
     aggregation_rule = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
     selection_rule = "ARGMIN_THEN_ID"
     required_input_hashes = {"data/raw/input.json": "8" * 64}
+    stop_rule = "one deterministic run per candidate"
+    handoff_generated_at = "2026-09-04T00:00:00Z"
     freezes = {
         "candidate_set": core.canonical_hash(["BASE", "CAND"]),
         "metric": core.canonical_hash(
@@ -59,6 +61,12 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
         "split_assignment": core.canonical_hash(splits),
         "baseline": core.canonical_hash("BASE"),
         "input_set": core.canonical_hash(required_input_hashes),
+        "execution_policy": core.canonical_hash(
+            {
+                "stop_rule": stop_rule,
+                "handoff_generated_at": handoff_generated_at,
+            }
+        ),
     }
     validation_scores = {"BASE": 2.0, "CAND": 1.0}
     comparison = {
@@ -71,6 +79,8 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
         "selection_rule": selection_rule,
         "random_seeds": [7],
         "required_input_hashes": required_input_hashes,
+        "stop_rule": stop_rule,
+        "handoff_generated_at": handoff_generated_at,
         "attempts": [
             {
                 "candidate_id": "BASE",

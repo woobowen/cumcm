@@ -91,6 +91,22 @@ def test_init_creates_isolated_workspace_and_draft_templates(case_cli, tmp_path:
         assert (case_root / relative).is_dir()
     for relative in case_cli.ARTIFACT_PATHS.values():
         assert (case_root / relative).is_file()
+    final_template = json.loads((case_root / "results/final_result.json").read_text())
+    assert set(final_template["content"]) == {
+        "status",
+        "selected_model",
+        "run_id",
+        "output_hash",
+        "decision_hash",
+        "final_metrics",
+        "claim_scope",
+    }
+    plan_template = json.loads((case_root / "experiments/experiment_plan.json").read_text())
+    assert {"required_input_hashes", "handoff_generated_at", "stop_rule"} <= set(
+        plan_template["content"]
+    )
+    problem_template = json.loads((case_root / "problem/problem_requirements.json").read_text())
+    assert problem_template["content"]["case_id"] == "SYNTH-UNIT-001"
     with pytest.raises(ValueError, match="RC_CASE_ALREADY_INITIALIZED"):
         case_cli.initialize_case(case_root, "SYNTH-UNIT-001", "general")
 

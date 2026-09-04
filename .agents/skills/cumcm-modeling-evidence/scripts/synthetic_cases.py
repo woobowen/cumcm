@@ -26,6 +26,8 @@ def _freezes(
     splits: dict[str, list[Any]],
     baseline_id: str,
     required_input_hashes: dict[str, str],
+    stop_rule: str,
+    handoff_generated_at: str,
     direction: str = "MIN",
 ) -> dict[str, str]:
     return {
@@ -42,6 +44,12 @@ def _freezes(
         "split_assignment": core.canonical_hash(splits),
         "baseline": core.canonical_hash(baseline_id),
         "input_set": core.canonical_hash(required_input_hashes),
+        "execution_policy": core.canonical_hash(
+            {
+                "stop_rule": stop_rule,
+                "handoff_generated_at": handoff_generated_at,
+            }
+        ),
     }
 
 
@@ -308,6 +316,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         splits,
         "P-BASELINE-MEAN",
         required_input_hashes,
+        "one deterministic run per candidate",
+        "2026-09-04T00:00:00Z",
     )
     _accepted(
         core,
@@ -491,6 +501,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
         "required_input_hashes": required_input_hashes,
+        "stop_rule": "one deterministic run per candidate",
+        "handoff_generated_at": "2026-09-04T00:00:00Z",
         "attempts": attempts,
         "selected_candidate_id": selected,
         "selection_decision_hash": decision_hash,
@@ -708,6 +720,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         splits,
         "O-BASELINE-A-ONLY",
         required_input_hashes,
+        "enumerate bounded integer feasible region once",
+        "2026-09-04T00:00:00Z",
     )
     _accepted(
         core,
@@ -890,6 +904,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
         "required_input_hashes": required_input_hashes,
+        "stop_rule": "enumerate bounded integer feasible region once",
+        "handoff_generated_at": "2026-09-04T00:00:00Z",
         "attempts": attempts,
         "selected_candidate_id": selected,
         "selection_decision_hash": decision_hash,

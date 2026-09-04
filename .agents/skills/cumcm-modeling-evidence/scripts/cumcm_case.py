@@ -101,6 +101,12 @@ ARTIFACT_PATHS = {
     "modeling_to_paper_handoff": "handoff/modeling_to_paper.json",
 }
 
+TEMPLATE_FILES = {
+    **{key: f"{key}.json" for key in ARTIFACT_PATHS},
+    "robustness_analysis": "robustness_analysis.json",
+    "modeling_to_paper_handoff": "modeling_to_paper_handoff.json",
+}
+
 REQUIRED_HANDOFF_FIELDS = {
     "contract_version",
     "problem_requirements",
@@ -743,6 +749,14 @@ def validate_comparison(
     seeds = comparison.get("random_seeds")
     seed_items = seeds if isinstance(seeds, list) else []
     required_inputs = comparison.get("required_input_hashes")
+    stop_rule = comparison.get("stop_rule")
+    handoff_generated_at = comparison.get("handoff_generated_at")
+    execution_policy_valid = (
+        isinstance(stop_rule, str)
+        and bool(stop_rule.strip())
+        and isinstance(handoff_generated_at, str)
+        and re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", handoff_generated_at) is not None
+    )
     required_inputs_valid = (
         isinstance(required_inputs, dict)
         and bool(required_inputs)
@@ -767,6 +781,7 @@ def validate_comparison(
         and all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
         and len(set(seeds)) == len(seeds)
         and required_inputs_valid
+        and execution_policy_valid
         and comparison_json_safe
     ):
         derived_freezes = {
@@ -783,6 +798,12 @@ def validate_comparison(
             "split_assignment": canonical_hash(splits),
             "baseline": canonical_hash(baseline),
             "input_set": canonical_hash(required_inputs),
+            "execution_policy": canonical_hash(
+                {
+                    "stop_rule": stop_rule,
+                    "handoff_generated_at": handoff_generated_at,
+                }
+            ),
         }
     else:
         codes.add("RC_COMPARISON_FREEZE_INPUT_INVALID")
@@ -1823,11 +1844,16 @@ def initialize_case(
             (case_root / relative).mkdir(parents=True, exist_ok=True)
         write_json(state_path(case_root), state, overwrite=False)
         for key, relative in ARTIFACT_PATHS.items():
-            value: dict[str, Any]
-            if key == "modeling_to_paper_handoff":
-                value = {"status": "DRAFT", "template": key}
-            else:
-                value = artifact(key, {"template": True}, status="DRAFT")
+            template_path = SKILL_ROOT / "templates" / TEMPLATE_FILES[key]
+            value = load_json(template_path)
+            if not isinstance(value, dict):
+                raise ValueError("RC_BUNDLED_TEMPLATE_INVALID")
+            if key == "problem_requirements":
+                content = value.get("content")
+                if not isinstance(content, dict):
+                    raise ValueError("RC_BUNDLED_TEMPLATE_INVALID")
+                value = copy.deepcopy(value)
+                value["content"]["case_id"] = case_id
             write_json(case_root / relative, value, overwrite=False)
     return state
 
@@ -1851,6 +1877,8 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     baseline_id = plan.get("baseline_id")
     splits = plan.get("splits")
     seeds = plan.get("random_seeds")
+    stop_rule = plan.get("stop_rule")
+    handoff_generated_at = plan.get("handoff_generated_at")
     required_inputs = plan.get("required_input_hashes")
     audited_inputs = read_artifact(case_root, "data_audit")["content"].get("data_hashes")
     candidate_records = read_artifact(case_root, "model_candidates")["content"].get("candidates")
@@ -1905,6 +1933,10 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         or not seeds
         or not all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
         or len(set(seeds)) != len(seeds)
+        or not isinstance(stop_rule, str)
+        or not stop_rule.strip()
+        or not isinstance(handoff_generated_at, str)
+        or not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", handoff_generated_at)
         or not isinstance(required_inputs, dict)
         or not required_inputs
         or required_inputs != audited_inputs
@@ -1932,6 +1964,12 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         "split_assignment": canonical_hash(splits),
         "baseline": canonical_hash(baseline_id),
         "input_set": canonical_hash(required_inputs),
+        "execution_policy": canonical_hash(
+            {
+                "stop_rule": stop_rule,
+                "handoff_generated_at": handoff_generated_at,
+            }
+        ),
     }
     if value != expected:
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_INVALID")
