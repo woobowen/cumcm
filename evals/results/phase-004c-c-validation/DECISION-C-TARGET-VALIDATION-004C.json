@@ -1,0 +1,29 @@
+{
+  "answer_state": "SEALED",
+  "case_id": "CUMCM-2024-C-VALIDATION-001",
+  "decision_basis": {
+    "all_main_requirements_have_valid_outputs": true,
+    "claim_evidence_complete": false,
+    "claim_gate_reason_codes": [
+      "RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"
+    ],
+    "formal_case_state": "REJECTED",
+    "formal_skill_unchanged": true,
+    "handoff_complete": false,
+    "hard_failure_count": 0,
+    "run_success_count": 4,
+    "run_total": 4,
+    "terminal_rule": "MISSING_OR_UNREPLAYABLE_REQUIRED_EVIDENCE_YIELDS_EVIDENCE_INSUFFICIENT"
+  },
+  "decision_id": "DECISION-C-TARGET-VALIDATION-004C",
+  "decision_time": "2026-09-05T03:45:48+08:00",
+  "next_phase_allowed": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+  "schema_version": "1.0.0",
+  "same_case_future_role": "DEVELOPMENT_ONLY",
+  "status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+  "terminal_freeze": {
+    "path": "evals/results/phase-004c-c-validation/terminal_validation_freeze.json",
+    "payload_sha256": "d53c4280f09b369c4ab09a66c6bbba454c8b739e710f21f7481a375454523033",
+    "sha256": "6e78a9c047b0c2673c17c1e9b055dfa342f681ca5aa86c7b789929aadd138373"
+  }
+}
