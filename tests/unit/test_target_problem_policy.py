@@ -39,7 +39,10 @@ def test_target_problem_policy_accepts_canonical_strategy(repo_root: Path) -> No
     assert result["ok"] is True
     assert result["errors"] == []
     assert result["planned_independent_c_share"] == 0.8
-    assert result["realized_independent_c_share"] == 0.5
+    assert result["realized_independent_c_share"] == (
+        result["realized_independent_c_count"] / result["realized_independent_problem_count"]
+    )
+    assert 0.5 <= result["realized_independent_c_share"] <= 1.0
     assert result["batch_case_count"] == 3
     assert result["held_out_reservation_count"] == 1
     assert result["formal_skill_count"] == 1

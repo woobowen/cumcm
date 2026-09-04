@@ -10,5 +10,6 @@ fi
 .venv/bin/python -m ruff format --check .
 .venv/bin/python -m pytest -q
 .venv/bin/python scripts/check_c_target_batch_freeze.py --check
+.venv/bin/python scripts/check_c_target_first_run_freezes.py --check
 .venv/bin/python scripts/validate_repo.py --strict
 git diff --check

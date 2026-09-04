@@ -146,7 +146,12 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     batch = [case for case in registry["cases"] if case.get("batch_id") == "C-TARGET-BATCH-001"]
     assert len(batch) == 3
     assert all(case["answer_access_status"] == "SEALED" for case in batch)
-    assert all(case["first_run_status"] == "IN_PROGRESS" for case in batch)
+    assert all(case["first_run_status"] in {"IN_PROGRESS", "FROZEN"} for case in batch)
+    assert any(case["first_run_status"] == "FROZEN" for case in batch)
+    assert all(
+        (case["first_run_status"] == "FROZEN") == isinstance(case["first_run_freeze"], dict)
+        for case in batch
+    )
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",
