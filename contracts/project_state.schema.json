@@ -98,6 +98,7 @@
         "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
         "DEVELOPMENT_EVAL_INCOMPLETE",
         "C_TARGET_BATCH_IN_PROGRESS",
+        "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
         "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
         "C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE",
         "C_TARGET_VALIDATION_PASSED",
@@ -553,6 +554,7 @@
           "technical_adjudication_status": {
             "enum": [
               "C_TARGET_BATCH_IN_PROGRESS",
+              "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
               "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
               "C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE",
               "C_TARGET_VALIDATION_PASSED",
@@ -620,6 +622,27 @@
           "active_skill_version": {"const": "0.2.0-competition-rc3"},
           "batch_skill_frozen": {"const": true},
           "batch_reference_unlocked": {"const": false},
+          "next_phase_allowed": {"type": "null"},
+          "blockers": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
+            "const": "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"},
+          "subphase": {"const": "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM"},
+          "active_skill_version": {"const": "0.2.0-competition-rc3"},
+          "batch_skill_frozen": {"const": true},
+          "batch_reference_unlocked": {"const": true},
           "next_phase_allowed": {"type": "null"},
           "blockers": {"maxItems": 0}
         }

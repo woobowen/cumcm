@@ -155,13 +155,16 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         errors.append("TARGET_BATCH_POSITION_SET_INVALID")
     for item in batch_records:
         case_id = item.get("case_id")
+        unlocked = state.get("batch_reference_unlocked") is True
+        expected_answer = "UNLOCKED_AFTER_FIRST_RUN" if unlocked else "SEALED"
+        expected_reference = "UNLOCKED_AFTER_ALL_FIRST_RUN_FREEZES" if unlocked else "LOCKED"
         if (
             item.get("set_type") != "DEVELOPMENT"
             or item.get("target_problem_type") != "C"
             or item.get("evidence_role") != "DEVELOPMENT_BATCH"
             or item.get("independent_problem") is not True
-            or item.get("answer_access_status") != "SEALED"
-            or item.get("reference_unlock") != "LOCKED"
+            or item.get("answer_access_status") != expected_answer
+            or item.get("reference_unlock") != expected_reference
             or item.get("formal_skill_version") != RC3
             or item.get("formal_skill_commit") != RC3_COMMIT
             or item.get("model_prior_status") != "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE"
@@ -253,17 +256,26 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     if forbidden_present:
         errors.append(f"TARGET_HELD_OUT_FORBIDDEN_FIELD:{forbidden_present[0]}")
 
+    postmortem = state.get("technical_adjudication_status") == (
+        "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"
+    )
     expected_state = {
         "phase": PHASE,
-        "subphase": "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS",
-        "technical_adjudication_status": "C_TARGET_BATCH_IN_PROGRESS",
+        "subphase": (
+            "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM"
+            if postmortem
+            else "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS"
+        ),
+        "technical_adjudication_status": (
+            "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS" if postmortem else "C_TARGET_BATCH_IN_PROGRESS"
+        ),
         "current_plan": PLAN,
         "current_branch": BRANCH,
         "active_skill_version": RC3,
         "primary_target_problem_type": "C",
         "current_batch_id": BATCH_ID,
         "batch_skill_frozen": True,
-        "batch_reference_unlocked": False,
+        "batch_reference_unlocked": postmortem,
         "next_phase_allowed": None,
         "third_party_integrated": False,
         "skill_capability_status": "COMPETITION_RC",
