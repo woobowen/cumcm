@@ -166,7 +166,7 @@ cases:
   data_hashes:
     data/raw/case_files/附件.xlsx: fc42c478d1b37796de5157125d9ea9e33c75d29ba7d7af9885b340fd41ab1e7c
     data/raw/case_files/result.csv: 2b995aa4a1f3e24ff0e88755ab56091bb68b8bebbaa473c884ab01963e521137
-  answer_access_status: SEALED
+  answer_access_status: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   generalization_axis: MECHANISTIC_MODELING_NUMERICAL_SOLVER_CONSTRAINED_OPTIMIZATION
   first_run_status: FROZEN
@@ -176,9 +176,12 @@ cases:
   reasoning: UNKNOWN
   start_time: '2026-09-04T10:53:46Z'
   freeze_time: '2026-09-04T11:16:00Z'
-  unlock_time: null
-  generalizable_failures: []
-  problem_specific_findings: []
+  unlock_time: '2026-09-04T11:19:44Z'
+  generalizable_failures:
+  - GAP-004B-001
+  problem_specific_findings:
+  - GAP-004B-003
+  - GAP-004B-004
   cross_case_regression_status: NOT_RUN
   raw_storage: PRIVATE_IGNORED_CACHE_NON_VAULT
   acquired_at: '2026-09-04T18:51:10+08:00'
@@ -227,3 +230,13 @@ cases:
     path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/first_run/first_run_freeze.json
     sha256: cadb774025ae30dc871fb67bdc4ffb8ffa409773be8e01247c8fea21bf8286ff
     subject_commit: f8e1ad479ca3282e23c3b58b25393e0f3a894847
+  unlock_status: UNLOCKED_AFTER_FIRST_RUN
+  unlock_receipt:
+    freeze_commit: b742e8e042a1e9f0c161806c89c1b5917abe5693
+    remote: origin
+    branch: feat/phase004b-development-eval-2020a
+    verified_remote_sha: b742e8e042a1e9f0c161806c89c1b5917abe5693
+  postmortem:
+    reference_review_path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/postmortem/reference_review.json
+    gap_analysis_path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/postmortem/gap_analysis.json
+    skill_change_decision: ONE_GENERALIZABLE_EXECUTOR_FAILURE_ACCEPTED_FOR_RC3
