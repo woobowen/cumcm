@@ -54,9 +54,7 @@ def write_registry(path: Path, value: dict[str, Any]) -> None:
 
 
 def git_bytes(*arguments: str) -> bytes:
-    completed = subprocess.run(
-        ["git", *arguments], cwd=REPO_ROOT, check=False, capture_output=True
-    )
+    completed = subprocess.run(["git", *arguments], cwd=REPO_ROOT, check=False, capture_output=True)
     if completed.returncode != 0:
         raise ValueError("FREEZE_COMMIT_EVIDENCE_UNAVAILABLE")
     return completed.stdout
@@ -91,9 +89,11 @@ def unlock(args: argparse.Namespace) -> dict[str, Any]:
     committed = git_bytes("show", f"{args.freeze_commit}:{relative}")
     if hashlib.sha256(committed).hexdigest() != expected_hash:
         raise ValueError("FREEZE_COMMIT_CONTENT_MISMATCH")
-    remote_lines = git_bytes(
-        "ls-remote", "--heads", args.remote, f"refs/heads/{args.branch}"
-    ).decode("utf-8").splitlines()
+    remote_lines = (
+        git_bytes("ls-remote", "--heads", args.remote, f"refs/heads/{args.branch}")
+        .decode("utf-8")
+        .splitlines()
+    )
     remote_shas = [line.split()[0] for line in remote_lines if line.split()]
     if remote_shas != [args.freeze_commit]:
         raise ValueError("FREEZE_REMOTE_SHA_MISMATCH")

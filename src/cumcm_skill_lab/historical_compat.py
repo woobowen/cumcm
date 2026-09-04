@@ -57,8 +57,7 @@ def competition_rc_successor(root: Path) -> bool:
         isinstance(state, dict)
         and state.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
         and state.get("technical_adjudication_status") in DEVELOPMENT_EVAL_STATUSES
-        and state.get("active_skill_version")
-        in {"0.2.0-competition-rc1", "0.2.0-competition-rc2"}
+        and state.get("active_skill_version") in {"0.2.0-competition-rc1", "0.2.0-competition-rc2"}
     )
     return rc1_ready or development_successor
 

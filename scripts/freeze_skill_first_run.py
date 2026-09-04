@@ -87,12 +87,8 @@ def git_output(*arguments: str) -> str:
 
 
 def skill_tree_evidence(commit: str) -> dict[str, str]:
-    tree = git_output(
-        "rev-parse", f"{commit}:.agents/skills/cumcm-modeling-evidence"
-    )
-    listing = git_output(
-        "ls-tree", "-r", commit, ".agents/skills/cumcm-modeling-evidence"
-    )
+    tree = git_output("rev-parse", f"{commit}:.agents/skills/cumcm-modeling-evidence")
+    listing = git_output("ls-tree", "-r", commit, ".agents/skills/cumcm-modeling-evidence")
     return {
         "git_tree_sha1": tree,
         "deterministic_listing_sha256": hashlib.sha256(
@@ -243,9 +239,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     if not GIT_SHA.fullmatch(args.worktree_commit):
         raise ValueError("WORKTREE_COMMIT_INVALID")
     git_output("cat-file", "-e", f"{args.worktree_commit}^{{commit}}")
-    artifact_hashes = evidence_hashes(
-        args.case_root, blocked=bool(args.blocked_reason_code)
-    )
+    artifact_hashes = evidence_hashes(args.case_root, blocked=bool(args.blocked_reason_code))
     freeze_id = f"{args.case_id}-FIRST-RUN-FREEZE-001"
     freeze_artifact = {
         "schema_version": "1.0.0",
@@ -273,9 +267,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         "run_manifest_hashes": manifest_hashes,
         "first_run_artifact_hashes": artifact_hashes,
     }
-    serialized = json.dumps(
-        freeze_artifact, ensure_ascii=False, indent=2, sort_keys=True
-    ) + "\n"
+    serialized = json.dumps(freeze_artifact, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     freeze_sha256 = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
     evidence = {
         "skill_version": record["skill_version"],

@@ -950,6 +950,32 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {"const": "DEVELOPMENT_EVAL_RC2_READY"}
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "subphase": {"const": "CUMCM-2023-C-DEVELOPMENT-RC2"},
+          "active_skill_version": {"const": "0.2.0-competition-rc2"},
+          "next_phase_allowed": {"const": "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"},
+          "development_eval": {
+            "properties": {
+              "stress_statuses": {
+                "properties": {
+                  "A": {"const": "PASS"},
+                  "B": {"const": "PASS"},
+                  "C": {"const": "PASS"}
+                }
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "additionalProperties": false

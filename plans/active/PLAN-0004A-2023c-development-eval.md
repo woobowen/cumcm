@@ -1,8 +1,8 @@
 # PLAN-0004A — 2023 C Development Eval
 
-Status: `IN_PROGRESS`
+Status: `COMPLETE`
 Phase: `PHASE-SKILL-DEVELOPMENT-EVAL-004`
-Subphase: `CUMCM-2023-C-DEVELOPMENT-FIRST-RUN`
+Subphase: `CUMCM-2023-C-DEVELOPMENT-RC2`
 Owner: main agent / `modeling_orchestrator`
 Started: `2026-09-04T05:51:52Z`
 Branch: `feat/phase004-development-eval-2023c`
@@ -107,6 +107,16 @@ no force push, ready-for-review transition, merge, or direct feature push to `ma
   because `sudo` required a terminal password. A local ignored `libarchive-tools` package was used
   instead. The existing `.venv` was bootstrapped with pip and received the data/modeling libraries
   listed in the final dependency report.
+- RC1 stopped honestly at Stage 8 with `RC_CUSTOM_EXECUTOR_UNAVAILABLE`; the answer-sealed freeze
+  was independently committed as `8e7b7ce`, pushed, and remotely verified before unlock.
+- Post-unlock review accepted only the general execution/capture defect. RC2 adds Git-blob-bound
+  case execution, immutable capture, separate sealing, and an explicit unlocked Development
+  regression boundary; no problem-specific model recipe entered the Skill.
+- The original Development regression and Stress A/B/C each completed three controlled Runs and
+  reached `READY_FOR_PAPER_HANDOFF`. A/B preserve expected semantic metrics; C reports degraded
+  inputs and changed precision. B/C old-binding probes propagated `STALE`.
+- Focused regression passed at `152 passed`; full pytest passed at `1808 passed, 1 skipped` in
+  `305.78s`. Static, contract, discovery, leakage, secret, consistency and strict checks pass.
 
 ## 8. Update, rollback, and exact next step
 
@@ -115,4 +125,5 @@ unlock, and delivery receipt. Preserve factual failures; never rewrite the first
 Before publication, remove only uncommitted scoped work; published corrections use `git revert` and
 retain frozen evidence.
 
-Exact next step while this plan is active: `继续 PHASE-SKILL-DEVELOPMENT-EVAL-004-A`.
+Exact next step: `PHASE-SKILL-DEVELOPMENT-EVAL-004-B`, using a structurally different historical
+problem whose answer remains sealed.

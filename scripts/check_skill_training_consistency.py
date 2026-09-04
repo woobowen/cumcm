@@ -26,6 +26,20 @@ STRESS_EVIDENCE = {
 }
 REFERENCE_REVIEW = CASE_EVIDENCE_ROOT / "postmortem/reference_review.json"
 GAP_ANALYSIS = CASE_EVIDENCE_ROOT / "postmortem/gap_analysis.json"
+REQUIRED_REPORTS = tuple(
+    REPO_ROOT / f"reports/phase004a_{name}.md"
+    for name in (
+        "first_run",
+        "first_run_freeze",
+        "postmortem",
+        "generalizable_failures",
+        "skill_changes",
+        "rc2_regression",
+        "stress_results",
+        "timing_and_cost",
+        "acceptance",
+    )
+)
 EXPECTED_VERSION = "0.2.0-competition-rc2"
 ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", EXPECTED_VERSION}
 REQUIRED_FIELDS = {
@@ -264,6 +278,19 @@ def check() -> dict[str, Any]:
                     or record.get("status") != "PASS"
                 ):
                     errors.append(f"STRESS_{key}_REGISTRY_MISMATCH")
+    if any(
+        not path.is_file() or not path.read_text(encoding="utf-8").strip()
+        for path in REQUIRED_REPORTS
+    ):
+        errors.append("PHASE004A_REPORT_SET_INCOMPLETE")
+    else:
+        acceptance = (REPO_ROOT / "reports/phase004a_acceptance.md").read_text(encoding="utf-8")
+        if (
+            "DEVELOPMENT_EVAL_RC2_READY" not in acceptance
+            or "PHASE-SKILL-DEVELOPMENT-EVAL-004-B" not in acceptance
+            or "1808 passed, 1 skipped" not in acceptance
+        ):
+            errors.append("PHASE004A_ACCEPTANCE_REPORT_INCONSISTENT")
 
     problem_specific_tokens = (
         "2023 C",

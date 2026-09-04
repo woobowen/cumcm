@@ -12,6 +12,13 @@
   parameter, or answer-derived branch.
 - Preserved the RC1 deterministic smoke runner and all fail-closed manifest, comparison, Claim,
   handoff, STALE, leakage, privacy, and secret gates.
+- Froze the blocked answer-sealed RC1 historical first run before reference access, classified the
+  observable failure, and rejected problem-specific/reference-only method differences from the
+  formal Skill.
+- Completed one same-case `DEVELOPMENT_REGRESSION` and Stress A/B/C with 12 controlled successful
+  Runs, exact input/code/output/capture hashes, four final handoffs and two explicit STALE probes.
+  Full regression is `1808 passed, 1 skipped`; the next route is Phase 004-B on a structurally
+  different answer-sealed problem.
 
 ## 0.3.0-competition-rc1 — 2026-09-04
 

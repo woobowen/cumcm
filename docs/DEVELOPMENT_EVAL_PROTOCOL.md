@@ -82,3 +82,17 @@
 动态 capture 尚未设计，因此不在 RC1 assurance 内，Phase 004 不得用其替换冻结执行入口。
 若真实 case 因此不能产生可信 Run，必须保留失败并以结构化 reason code 冻结；该事实可以在 unlock
 后作为通用缺陷候选，但不得在 RC1 first run 内修改 Skill 或伪造已执行结果。
+
+## RC2 Development regression 与 Stress 规则
+
+RC2 的 case-local executor 只接受 `RUNNING` 状态、预注册 candidate/seed、1–900 秒 timeout，且代码
+文件必须与冻结 commit 的 Git blob 一致。`execute` 捕获时间、exit、stdout/stderr/output、输入、代码、
+配置和 freeze；`seal-run` 在选择 decision hash 已确定后复验 capture，禁止调用者自行声明
+`trusted_capture`。capture 或绑定文件变化必须拒绝或传播 `STALE`。
+
+答案解封后的同题只允许 `DEVELOPMENT_REGRESSION`：research plan 必须绑定已验证的 first-run freeze
+SHA，source ledger 必须记录 `UNLOCKED_AFTER_FIRST_RUN`。该路径以及由其派生的 Stress A/B/C 都不是
+Blind、Validation、Held-out 或泛化证明。Validation/Held-out 仍必须保持答案 `SEALED`。
+
+Phase 004A 的同题回归与三个 Stress 已分别保存 hash-only/aggregate evidence；raw workbook、题面和
+参考正文仍在 ignored private cache。下一题必须结构不同且答案保持封存。

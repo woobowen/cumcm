@@ -105,6 +105,7 @@ def evaluate() -> dict[str, Any]:
             "CUMCM-2023-C-DEVELOPMENT-FIRST-RUN",
             "CUMCM-2023-C-POST-FREEZE-DIAGNOSIS",
             "CUMCM-2023-C-RC2-DEVELOPMENT-REGRESSION",
+            "CUMCM-2023-C-DEVELOPMENT-RC2",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES},
@@ -118,7 +119,12 @@ def evaluate() -> dict[str, Any]:
             and state.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
         )
         or (
-            state.get("technical_adjudication_status") in DEVELOPMENT_STATUSES
+            state.get("technical_adjudication_status") == "DEVELOPMENT_EVAL_RC2_READY"
+            and state.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+        )
+        or (
+            state.get("technical_adjudication_status")
+            in DEVELOPMENT_STATUSES - {"DEVELOPMENT_EVAL_RC2_READY"}
             and state.get("next_phase_allowed") is None
         ),
         "state_has_no_blockers": state.get("blockers") == [],
@@ -203,8 +209,7 @@ def evaluate() -> dict[str, Any]:
         and len(cases) == 1
         and cases[0].get("case_id") == "CUMCM-2023-C-DEVELOPMENT-001"
         and cases[0].get("set_type") == "DEVELOPMENT"
-        and cases[0].get("answer_access_status")
-        in {"SEALED", "UNLOCKED_AFTER_FIRST_RUN"}
+        and cases[0].get("answer_access_status") in {"SEALED", "UNLOCKED_AFTER_FIRST_RUN"}
         and cases[0].get("skill_version") == SKILL_VERSION
     )
     failed = sorted(name for name, value in checks.items() if not value)
