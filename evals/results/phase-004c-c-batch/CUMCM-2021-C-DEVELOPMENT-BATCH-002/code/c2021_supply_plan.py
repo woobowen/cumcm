@@ -441,6 +441,10 @@ def validation_score(
     plan: dict[str, Any],
     estimates: dict[str, np.ndarray],
     forecast_losses: np.ndarray,
+    *,
+    delivery_ratio_scale: float = 1.0,
+    loss_addition: float = 0.0,
+    carrier_capacity_scale: float = 1.0,
 ) -> dict[str, float]:
     supplier_index = {value: index for index, value in enumerate(data.supplier_ids)}
     carrier_index = {value: index for index, value in enumerate(data.carrier_ids)}
@@ -466,7 +470,7 @@ def validation_score(
                 if historical_order > 0
                 else float(estimates["delivery_ratio"][i])
             )
-            actual_supply = ordered_volume * actual_ratio
+            actual_supply = ordered_volume * actual_ratio * delivery_ratio_scale
             for carrier in data.carrier_ids:
                 share = transport_share.get((supplier, carrier), 0.0)
                 if share <= 0.0:
@@ -475,12 +479,21 @@ def validation_score(
                 shipped = actual_supply * share
                 carrier_load[j] += shipped
                 observed_loss = data.loss_pct[j, week] / 100.0
-                loss = float(observed_loss if observed_loss > 0 else forecast_losses[j])
+                loss = min(
+                    0.999999,
+                    float(observed_loss if observed_loss > 0 else forecast_losses[j])
+                    + loss_addition,
+                )
                 effective_received += shipped * (1.0 - loss) / CONSUMPTION[data.supplier_types[i]]
         weekly_shortage.append(max(0.0, WEEKLY_DEMAND - effective_received) / WEEKLY_DEMAND)
         weekly_capacity_excess.append(
-            float(np.maximum(carrier_load - CARRIER_CAPACITY, 0.0).sum())
-            / (CARRIER_CAPACITY * len(data.carrier_ids))
+            float(
+                np.maximum(
+                    carrier_load - CARRIER_CAPACITY * carrier_capacity_scale,
+                    0.0,
+                ).sum()
+            )
+            / (CARRIER_CAPACITY * carrier_capacity_scale * len(data.carrier_ids))
         )
     purchase_cost = sum(
         volume * PURCHASE_PRICE[data.supplier_types[supplier_index[supplier]]]
@@ -498,6 +511,36 @@ def validation_score(
         "mean_shortage_fraction": round(float(np.mean(weekly_shortage)), 9),
         "maximum_shortage_fraction": round(float(np.max(weekly_shortage)), 9),
         "mean_carrier_excess_fraction": round(float(np.mean(weekly_capacity_excess)), 9),
+    }
+
+
+def requirement_claims(output_path: str) -> dict[str, dict[str, Any]]:
+    statements = {
+        "REQ-Q1-IMPORTANCE-MODEL": "Run-derived four-factor supplier importance scores.",
+        "REQ-Q1-TOP50": "Exactly fifty ranked suppliers under the frozen tie rule.",
+        "REQ-Q2-MINIMUM-SUPPLIERS": "Supplier count with exact-MILP or upper-bound status.",
+        "REQ-Q2-ORDER-PLAN": "Nonnegative 24-week repeated question-2 order plan.",
+        "REQ-Q2-TRANSPORT-PLAN": "Nonnegative question-2 supplier-carrier allocation.",
+        "REQ-Q2-EFFECT": "Independently recomputed question-2 feasibility metrics.",
+        "REQ-Q3-MATERIAL-PREFERENCE": "Declared A-priority and C-penalty objective.",
+        "REQ-Q3-ORDER-PLAN": "Nonnegative 24-week repeated question-3 order plan.",
+        "REQ-Q3-TRANSPORT-PLAN": "Nonnegative question-3 supplier-carrier allocation.",
+        "REQ-Q3-EFFECT": "Independently recomputed question-3 feasibility metrics.",
+        "REQ-Q4-CAPACITY-INCREASE": "Modeled weekly capacity and increase from 28200 m3.",
+        "REQ-Q4-ORDER-PLAN": "Order plan associated with modeled maximum capacity.",
+        "REQ-Q4-TRANSPORT-PLAN": "Transport plan associated with modeled maximum capacity.",
+        "REQ-OUTPUT-ATTACHMENT-A": "Supplier-indexed records for the order template.",
+        "REQ-OUTPUT-ATTACHMENT-B": "Supplier-carrier records for the transport template.",
+        "REQ-INVENTORY-PRODUCTION": "Independent 24-week inventory recurrence check.",
+        "REQ-TRANSPORT-BUSINESS-RULES": "Independent shipment and carrier-capacity checks.",
+    }
+    return {
+        requirement_id: {
+            "claim_id": f"CLAIM-C2021-{index:02d}",
+            "claim_text": statement,
+            "evidence_artifact_ids": [output_path],
+        }
+        for index, (requirement_id, statement) in enumerate(statements.items(), start=1)
     }
 
 
@@ -548,6 +591,51 @@ def solve(case_root: Path, candidate_id: str, seed: int) -> dict[str, Any]:
     if not all(record["feasible"] for record in feasibility.values()):
         raise ValueError("INDEPENDENT_FEASIBILITY_RECALCULATION_FAILED")
     validation = validation_score(data, plans["question_2"], estimates, losses)
+    primary_metric = "validation_penalized_cost_per_effective_m3"
+    perturbations = [
+        {
+            "perturbation_id": "DELIVERY_RATIO_MINUS_10_PERCENT",
+            "metric": primary_metric,
+            "result": validation_score(
+                data,
+                plans["question_2"],
+                estimates,
+                losses,
+                delivery_ratio_scale=0.90,
+            )[primary_metric],
+            "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        },
+        {
+            "perturbation_id": "LOSS_PLUS_1_PERCENTAGE_POINT",
+            "metric": primary_metric,
+            "result": validation_score(
+                data,
+                plans["question_2"],
+                estimates,
+                losses,
+                loss_addition=0.01,
+            )[primary_metric],
+            "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        },
+        {
+            "perturbation_id": "CARRIER_CAPACITY_MINUS_10_PERCENT",
+            "metric": primary_metric,
+            "result": validation_score(
+                data,
+                plans["question_2"],
+                estimates,
+                losses,
+                carrier_capacity_scale=0.90,
+            )[primary_metric],
+            "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        },
+    ]
+    failure_cases = [
+        "A structural break in supplier delivery behavior can invalidate historical ratios.",
+        "A hard prohibition on supplier splitting is outside the continuous allocation model.",
+        "Absolute economic optimality is unidentified without transport and storage tariffs.",
+    ]
+    claim_scope = "Run-derived four-factor supplier importance scores."
     return {
         "candidate_id": candidate_id,
         "status": "SUCCESS",
@@ -581,8 +669,48 @@ def solve(case_root: Path, candidate_id: str, seed: int) -> dict[str, Any]:
         },
         "independent_feasibility": feasibility,
         "validation": validation,
-        "metric_name": "validation_penalized_cost_per_effective_m3",
-        "metric_value": validation["validation_penalized_cost_per_effective_m3"],
+        "validation_metrics": {primary_metric: validation[primary_metric]},
+        "metric_name": primary_metric,
+        "metric_value": validation[primary_metric],
+        "robustness_evidence": {
+            "metric": primary_metric,
+            "metric_direction": "MIN",
+            "perturbations": perturbations,
+            "failure_cases": failure_cases,
+        },
+        "final_metrics": {
+            primary_metric: validation[primary_metric],
+            "question_2_supplier_count": int(len(selected)),
+            "question_2_weekly_effective_received_product_m3": feasibility["question_2"][
+                "weekly_effective_received_product_m3"
+            ],
+            "question_4_weekly_capacity_product_m3": feasibility["question_4"][
+                "weekly_effective_received_product_m3"
+            ],
+        },
+        "claim_scope": claim_scope,
+        "figure_ready_data": [
+            {"figure_id": "FIG-SUPPLIER-TOP50", "rows": top50},
+            {"figure_id": "FIG-VALIDATION-SUMMARY", "rows": [validation]},
+            {
+                "figure_id": "FIG-CAPACITY-SUMMARY",
+                "rows": [
+                    {
+                        "baseline_product_m3": WEEKLY_DEMAND,
+                        "modeled_capacity_product_m3": feasibility["question_4"][
+                            "weekly_effective_received_product_m3"
+                        ],
+                    }
+                ],
+            },
+        ],
+        "uncertainty": {
+            "supplier_delivery": (
+                "conditional historical fulfillment with candidate-specific tail treatment"
+            ),
+            "carrier_loss": "positive historical losses with candidate-specific tail treatment",
+            "initial_inventory": "assumed equal to two weeks of target production",
+        },
         "limitations": [
             "Future supplier behavior is assumed stable relative to answer-sealed "
             "historical observations.",
@@ -608,6 +736,7 @@ def main() -> int:
     output_path = (case_root / args.output).resolve()
     output_path.relative_to(case_root)
     result = solve(case_root, args.candidate_id, args.seed)
+    result["requirement_claims"] = requirement_claims(str(Path(args.output)))
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n",
