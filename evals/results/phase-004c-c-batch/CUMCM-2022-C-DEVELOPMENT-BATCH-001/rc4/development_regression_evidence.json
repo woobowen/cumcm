@@ -1,0 +1,137 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "api_calls": 0,
+  "artifact_type": "c_target_rc4_development_regression_evidence",
+  "attempt_number": 2,
+  "baseline_success": true,
+  "case_id": "CUMCM-2022-C-DEVELOPMENT-RC4-REGRESSION",
+  "claim_gate": "PASS",
+  "elapsed_seconds": 6.881178,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "final_output_sha256": "d8d79fcf6a2b504a2613d7fb4ac632045f3ec8c94c16d6f964ddf33d401b8360",
+  "final_run_id": "RUN-RC4-HELLINGER_KNN_COMPLETE-S20220904",
+  "first_run_freeze": {
+    "path": "evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.v2.json",
+    "sha256": "5de34dec79b8b8aa0273b16d6ce0f1d4115178cd9e8410cc241adcaa79c61a87"
+  },
+  "handoff_gate": "PASS",
+  "model_training": false,
+  "output_contract_preflight": {
+    "path": "experiments/selected_output_contract_probe.json",
+    "reason_codes": [
+      "RC_OUTPUT_CONTRACT_VALID"
+    ],
+    "status": "PASS"
+  },
+  "preserved_prior_attempts": [
+    {
+      "attempt": 1,
+      "failure_scope": "REGRESSION_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
+      "preserved": true,
+      "run_count": 3,
+      "terminal_observed_state": "EVIDENCE_VALIDATED",
+      "workspace_relative": ".cache/official_inputs/CUMCM-2022-C-DEVELOPMENT-RC4-REGRESSION-ATTEMPT-001"
+    }
+  ],
+  "requirements_total": 13,
+  "requirements_with_output_claims": 13,
+  "robustness_perturbation_count": 2,
+  "runs": [
+    {
+      "candidate_id": "BASELINE_RAW_CENTROID",
+      "capture_sha256": "f98350433a87334dee42ff7e73f9382a2293adef2a48af33ee67ec74f9489247",
+      "outcome": "SUCCESS",
+      "random_seed": 20220904,
+      "run_id": "RUN-RC4-BASELINE_RAW_CENTROID-S20220904"
+    },
+    {
+      "candidate_id": "CLR_RIDGE_WARD",
+      "capture_sha256": "54847ec341a47b939e706486ac134cf428e7d3752557fe2f5e0feb732bfaa1cb",
+      "outcome": "SUCCESS",
+      "random_seed": 20220904,
+      "run_id": "RUN-RC4-CLR_RIDGE_WARD-S20220904"
+    },
+    {
+      "candidate_id": "HELLINGER_KNN_COMPLETE",
+      "capture_sha256": "ad2735fd67fd388d3210da8b15352836d5d3b48b218a684cbdc67f3bd5682ce3",
+      "outcome": "SUCCESS",
+      "random_seed": 20220904,
+      "run_id": "RUN-RC4-HELLINGER_KNN_COMPLETE-S20220904"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selected_candidate_id": "HELLINGER_KNN_COMPLETE",
+  "selected_validation_score": 0.0,
+  "selection_decision_hash": "102b0db41af0c2599db2e05987bafa3ea13f581cbfeba4e98387be87caf9e631",
+  "skill": {
+    "candidate_implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "execution_code_commit": "2d64d7fa8b17a9b9c7847b18e6a21dc3767967ba",
+    "git_tree_sha1": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "version": "0.2.0-competition-rc4"
+  },
+  "source_first_run_case_id": "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+  "stage_status": [
+    {
+      "stage": "PROBLEM_INTAKE",
+      "status": "PASS"
+    },
+    {
+      "stage": "REQUIREMENT_DECOMPOSITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "RESEARCH_AND_SOURCE_PLANNING",
+      "status": "PASS"
+    },
+    {
+      "stage": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "DATA_AUDIT",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODEL_PORTFOLIO_GENERATION",
+      "status": "PASS"
+    },
+    {
+      "stage": "BASELINE_DEFINITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "EXPERIMENT_DESIGN",
+      "status": "PASS"
+    },
+    {
+      "stage": "IMPLEMENTATION_AND_EXECUTION",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODEL_COMPARISON",
+      "status": "PASS"
+    },
+    {
+      "stage": "ROBUSTNESS_AND_SENSITIVITY",
+      "status": "PASS"
+    },
+    {
+      "stage": "FINAL_RUN",
+      "status": "PASS"
+    },
+    {
+      "stage": "CLAIM_EVIDENCE_VALIDATION",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODELING_TO_PAPER_HANDOFF",
+      "status": "PASS"
+    }
+  ],
+  "terminal_state": "READY_FOR_PAPER_HANDOFF",
+  "third_party_executions": 0,
+  "universal_hard_failure": false,
+  "valid_run_count": 3,
+  "workspace_relative": ".cache/official_inputs/CUMCM-2022-C-DEVELOPMENT-RC4-REGRESSION-ATTEMPT-002"
+}

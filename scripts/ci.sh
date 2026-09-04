@@ -13,5 +13,6 @@ fi
 .venv/bin/python scripts/check_c_target_first_run_freezes.py --check
 .venv/bin/python scripts/check_c_target_postmortem.py --check
 .venv/bin/python scripts/check_c_target_rc4_candidate.py --check
+.venv/bin/python scripts/check_c_target_rc4_batch_regressions.py --check
 .venv/bin/python scripts/validate_repo.py --strict
 git diff --check
