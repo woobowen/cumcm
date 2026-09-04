@@ -135,7 +135,7 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     assert registry["cases"][0]["first_run_status"] == "FROZEN"
     assert registry["cases"][1]["case_id"] == "CUMCM-2020-A-DEVELOPMENT-002"
     assert registry["cases"][1]["answer_access_status"] == "SEALED"
-    assert registry["cases"][1]["first_run_status"] == "IN_PROGRESS"
+    assert registry["cases"][1]["first_run_status"] == "FROZEN"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",

@@ -107,6 +107,7 @@ def evaluate() -> dict[str, Any]:
             "CUMCM-2023-C-RC2-DEVELOPMENT-REGRESSION",
             "CUMCM-2023-C-DEVELOPMENT-RC2",
             "CUMCM-2020-A-DEVELOPMENT-FIRST-RUN",
+            "CUMCM-2020-A-POST-FREEZE-DIAGNOSIS",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES},
@@ -220,7 +221,7 @@ def evaluate() -> dict[str, Any]:
         and first_case.get("skill_version") == SKILL_VERSION
         and second_case.get("set_type") == "DEVELOPMENT"
         and second_case.get("answer_access_status") == "SEALED"
-        and second_case.get("first_run_status") == "IN_PROGRESS"
+        and second_case.get("first_run_status") == "FROZEN"
         and second_case.get("skill_version") == "0.2.0-competition-rc2"
     )
     failed = sorted(name for name, value in checks.items() if not value)
