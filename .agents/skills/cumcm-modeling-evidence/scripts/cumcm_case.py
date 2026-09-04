@@ -1,0 +1,1194 @@
+#!/usr/bin/env python3
+"""离线、确定性的 CUMCM Competition RC case 编排器。"""
+
+from __future__ import annotations
+
+import argparse
+import copy
+import hashlib
+import json
+import math
+import os
+import re
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+VERSION = "0.2.0-competition-rc1"
+CAPABILITY = "COMPETITION_RC"
+ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
+ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+
+EXIT_OK = 0
+EXIT_INPUT = 2
+EXIT_GATE = 3
+EXIT_STALE = 4
+EXIT_STATE = 5
+EXIT_IO = 6
+
+STAGES = (
+    "PROBLEM_INTAKE",
+    "REQUIREMENT_DECOMPOSITION",
+    "RESEARCH_AND_SOURCE_PLANNING",
+    "ASSUMPTION_AND_SYMBOL_DEFINITION",
+    "DATA_AUDIT",
+    "MODEL_PORTFOLIO_GENERATION",
+    "BASELINE_DEFINITION",
+    "EXPERIMENT_DESIGN",
+    "IMPLEMENTATION_AND_EXECUTION",
+    "MODEL_COMPARISON",
+    "ROBUSTNESS_AND_SENSITIVITY",
+    "FINAL_RUN",
+    "CLAIM_EVIDENCE_VALIDATION",
+    "MODELING_TO_PAPER_HANDOFF",
+)
+
+STATES = (
+    "CREATED",
+    "INTAKE_COMPLETE",
+    "REQUIREMENTS_VALIDATED",
+    "SOURCES_PLANNED",
+    "DATA_AUDITED",
+    "MODELS_PROPOSED",
+    "EXPERIMENT_PLAN_VALIDATED",
+    "RUNNING",
+    "RUN_COMPLETED",
+    "RUN_VALIDATED",
+    "ROBUSTNESS_VALIDATED",
+    "FINAL_CANDIDATE",
+    "EVIDENCE_VALIDATED",
+    "READY_FOR_PAPER_HANDOFF",
+)
+TERMINAL_STATES = {"STALE", "REJECTED"}
+
+CASE_DIRS = (
+    "problem",
+    "research",
+    "data/raw",
+    "data/processed",
+    "models",
+    "experiments",
+    "runs",
+    "results",
+    "evidence",
+    "handoff",
+    "state",
+)
+
+ARTIFACT_PATHS = {
+    "problem_requirements": "problem/problem_requirements.json",
+    "research_plan": "research/research_plan.json",
+    "source_ledger": "research/source_ledger.json",
+    "assumptions_and_symbols": "models/assumptions_and_symbols.json",
+    "data_audit": "data/data_audit.json",
+    "model_candidates": "models/model_candidates.json",
+    "experiment_plan": "experiments/experiment_plan.json",
+    "model_comparison": "results/model_comparison.json",
+    "robustness_analysis": "results/robustness.json",
+    "claim_evidence": "evidence/claim_evidence.json",
+    "final_result": "results/final_result.json",
+    "modeling_to_paper_handoff": "handoff/modeling_to_paper.json",
+}
+
+REQUIRED_HANDOFF_FIELDS = {
+    "contract_version",
+    "problem_requirements",
+    "requirement_traceability",
+    "data_dictionary",
+    "data_quality_report",
+    "assumptions",
+    "symbols",
+    "formulas",
+    "sources",
+    "selected_models",
+    "final_runs",
+    "final_metrics",
+    "result_tables",
+    "figure_ready_data",
+    "validation_results",
+    "robustness_results",
+    "uncertainty",
+    "failure_cases",
+    "limitations",
+    "claim_evidence",
+    "reproduction",
+    "generated_at",
+    "approved_by",
+}
+
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+WINDOWS_ABS = re.compile(r"^[A-Za-z]:[\\/]")
+CREDENTIAL_URL = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://[^/@\s]+:[^/@\s]+@")
+SENSITIVE_PARTS = (
+    "apikey",
+    "accesstoken",
+    "refreshtoken",
+    "bearertoken",
+    "privatekey",
+    "password",
+    "passwd",
+    "credential",
+    "clientsecret",
+    "secretkey",
+)
+
+
+@dataclass(frozen=True)
+class GateResult:
+    status: str
+    reason_codes: tuple[str, ...]
+    accepted: bool = False
+    final: bool = False
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "status": self.status,
+            "accepted": self.accepted,
+            "final": self.final,
+            "reason_codes": list(self.reason_codes),
+        }
+
+
+def passed(code: str) -> GateResult:
+    return GateResult("PASS", (code,), accepted=True)
+
+
+def blocked(*codes: str, status: str = "BLOCK") -> GateResult:
+    return GateResult(status, tuple(sorted(set(codes))))
+
+
+def reject_constant(value: str) -> None:
+    raise ValueError(f"non-finite JSON constant: {value}")
+
+
+def load_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"), parse_constant=reject_constant)
+
+
+def assert_json_safe(value: Any, location: str = "$") -> None:
+    if isinstance(value, float) and not math.isfinite(value):
+        raise ValueError(f"non-finite number at {location}")
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if not isinstance(key, str):
+                raise ValueError(f"non-string key at {location}")
+            assert_json_safe(item, f"{location}.{key}")
+    elif isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            assert_json_safe(item, f"{location}[{index}]")
+
+
+def canonical_bytes(value: Any) -> bytes:
+    assert_json_safe(value)
+    return json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    ).encode()
+
+
+def canonical_hash(value: Any) -> str:
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
+
+
+def file_hash(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def normalize_key(value: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", value.casefold())
+
+
+def sensitive_findings(value: Any) -> set[str]:
+    findings: set[str] = set()
+
+    def walk(item: Any) -> None:
+        if isinstance(item, dict):
+            for key, nested in item.items():
+                normalized = normalize_key(str(key))
+                if any(part in normalized for part in SENSITIVE_PARTS):
+                    findings.add("RC_SECRET_FIELD_REJECTED")
+                walk(nested)
+        elif isinstance(item, (list, tuple)):
+            for nested in item:
+                walk(nested)
+        elif isinstance(item, str):
+            if (
+                item.startswith(("/home/", "/Users/", "/root/", "~/", "~\\"))
+                or item.startswith(("\\\\", "//"))
+                or WINDOWS_ABS.match(item)
+            ):
+                findings.add("RC_PRIVATE_ABSOLUTE_PATH_REJECTED")
+            if CREDENTIAL_URL.match(item):
+                findings.add("RC_CREDENTIAL_URL_REJECTED")
+            if re.search(
+                r"(?i)(bearer\s+[a-z0-9._-]{8,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)",
+                item,
+            ):
+                findings.add("RC_SECRET_VALUE_REJECTED")
+
+    walk(value)
+    return findings
+
+
+def boundary_validate(payload: Any, context: Any) -> GateResult:
+    original = copy.deepcopy((payload, context))
+    codes: set[str] = set()
+    try:
+        assert_json_safe(payload)
+        assert_json_safe(context)
+    except (TypeError, ValueError):
+        codes.add("RC_BOUNDARY_NONFINITE_OR_NONJSON")
+    if not isinstance(payload, dict):
+        codes.add("RC_BOUNDARY_PAYLOAD_INVALID")
+    if not isinstance(context, dict):
+        codes.add("RC_CONTEXT_INVALID")
+    else:
+        if context.get("stage") not in STAGES:
+            codes.add("RC_CONTEXT_STAGE_INVALID")
+        components = context.get("enabled_components")
+        if (
+            not isinstance(components, list)
+            or not components
+            or not all(isinstance(item, str) and item for item in components)
+        ):
+            codes.add("RC_CONTEXT_ENABLED_COMPONENTS_INVALID")
+        if context.get("execution_scope") in {"PRODUCTION", "FORMAL"}:
+            codes.add("RC_CONTEXT_EXECUTION_SCOPE_PROHIBITED")
+    codes.update(sensitive_findings(payload))
+    if (payload, context) != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return blocked(*codes) if codes else passed("RC_BOUNDARY_VALID")
+
+
+def write_json(path: Path, value: Any, *, overwrite: bool = True) -> None:
+    assert_json_safe(value)
+    if path.exists() and not overwrite:
+        raise FileExistsError(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp")
+    temporary.write_text(
+        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
+    os.replace(temporary, path)
+
+
+def artifact(kind: str, content: dict[str, Any], *, status: str = "ACCEPTED") -> dict[str, Any]:
+    return {
+        "artifact_type": kind,
+        "status": status,
+        "content_hash": canonical_hash(content),
+        "content": content,
+    }
+
+
+def validate_artifact(value: Any, kind: str) -> GateResult:
+    if not isinstance(value, dict):
+        return blocked("RC_ARTIFACT_RECORD_INVALID")
+    if value.get("artifact_type") != kind:
+        return blocked("RC_ARTIFACT_TYPE_MISMATCH")
+    if value.get("status") != "ACCEPTED":
+        return blocked("RC_ARTIFACT_NOT_ACCEPTED")
+    content = value.get("content")
+    if not isinstance(content, dict):
+        return blocked("RC_ARTIFACT_CONTENT_INVALID")
+    try:
+        actual_hash = canonical_hash(content)
+    except (TypeError, ValueError):
+        return blocked("RC_ARTIFACT_CONTENT_NONFINITE_OR_NONJSON")
+    if value.get("content_hash") != actual_hash:
+        return blocked("RC_ARTIFACT_HASH_MISMATCH")
+    findings = sensitive_findings(value)
+    return blocked(*findings) if findings else passed("RC_ARTIFACT_ACCEPTED")
+
+
+def strict_score(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def relative_case_path(case_root: Path, value: str) -> Path | None:
+    if (
+        not isinstance(value, str)
+        or not value
+        or Path(value).is_absolute()
+        or ".." in Path(value).parts
+    ):
+        return None
+    candidate = (case_root / value).resolve()
+    try:
+        candidate.relative_to(case_root.resolve())
+    except ValueError:
+        return None
+    return candidate
+
+
+def validate_manifest(
+    manifest: Any,
+    *,
+    case_root: Path | None = None,
+    trusted_freezes: dict[str, str] | None = None,
+) -> GateResult:
+    original = copy.deepcopy(manifest)
+    codes: set[str] = set()
+    try:
+        assert_json_safe(manifest)
+    except (TypeError, ValueError):
+        codes.add("RC_MANIFEST_NONFINITE_OR_NONJSON")
+    if not isinstance(manifest, dict):
+        return blocked("RC_MANIFEST_INVALID")
+    required = {
+        "run_id",
+        "input_files",
+        "input_hash",
+        "code_commit",
+        "code_tree_hash",
+        "configuration_hash",
+        "random_seed",
+        "argv",
+        "cwd_policy",
+        "environment_allowlist",
+        "output_files",
+        "output_hash",
+        "outcome",
+        "failure",
+        "supersession",
+        "trusted_capture",
+        "freeze_bindings",
+        "decision_hash",
+    }
+    if not required <= set(manifest):
+        codes.add("RC_MANIFEST_REQUIRED_BINDING_MISSING")
+    for name in (
+        "input_hash",
+        "code_tree_hash",
+        "configuration_hash",
+        "output_hash",
+        "decision_hash",
+    ):
+        if not HEX64.fullmatch(str(manifest.get(name, ""))):
+            codes.add(f"RC_MANIFEST_HASH_INVALID:{name}")
+    seed = manifest.get("random_seed")
+    if not isinstance(seed, int) or isinstance(seed, bool):
+        codes.add("RC_MANIFEST_SEED_INVALID")
+    argv = manifest.get("argv")
+    if not isinstance(argv, list) or not argv or not all(isinstance(item, str) for item in argv):
+        codes.add("RC_MANIFEST_ARGV_INVALID")
+    if manifest.get("cwd_policy") != "CASE_ROOT_RELATIVE":
+        codes.add("RC_MANIFEST_CWD_POLICY_INVALID")
+    environment = manifest.get("environment_allowlist")
+    if not isinstance(environment, dict) or set(environment) - {"PYTHONHASHSEED", "TZ"}:
+        codes.add("RC_MANIFEST_ENVIRONMENT_INVALID")
+    outcome = manifest.get("outcome")
+    allowed_outcomes = {"SUCCESS", "FAILED", "PARTIAL", "SUPERSEDED", "STALE", "INFEASIBLE"}
+    if outcome not in allowed_outcomes:
+        codes.add("RC_MANIFEST_OUTCOME_INVALID")
+    elif outcome != "SUCCESS":
+        codes.add(f"RC_MANIFEST_NOT_SUCCESS:{outcome}")
+    if manifest.get("trusted_capture") is not True:
+        codes.add("RC_MANIFEST_TRUSTED_CAPTURE_REQUIRED")
+    if not isinstance(manifest.get("failure"), (dict, type(None))):
+        codes.add("RC_MANIFEST_FAILURE_INVALID")
+    if not isinstance(manifest.get("supersession"), (dict, type(None))):
+        codes.add("RC_MANIFEST_SUPERSESSION_INVALID")
+    codes.update(sensitive_findings(manifest))
+    bindings = manifest.get("freeze_bindings")
+    if (
+        not isinstance(bindings, dict)
+        or not bindings
+        or trusted_freezes is None
+        or any(trusted_freezes.get(key) != value for key, value in bindings.items())
+    ):
+        codes.add("RC_MANIFEST_UNTRUSTED_FREEZE")
+    output_files = manifest.get("output_files")
+    if not isinstance(output_files, list) or not output_files:
+        codes.add("RC_MANIFEST_OUTPUT_FILES_INVALID")
+    elif case_root is not None:
+        hashes: list[str] = []
+        for record in output_files:
+            if not isinstance(record, dict):
+                codes.add("RC_MANIFEST_OUTPUT_RECORD_INVALID")
+                continue
+            path = relative_case_path(case_root, record.get("path", ""))
+            if path is None or not path.is_file():
+                codes.add("RC_MANIFEST_OUTPUT_MISSING")
+                continue
+            actual = file_hash(path)
+            hashes.append(actual)
+            if record.get("sha256") != actual:
+                codes.add("RC_MANIFEST_OUTPUT_MUTATION")
+        if hashes and manifest.get("output_hash") != canonical_hash(hashes):
+            codes.add("RC_MANIFEST_OUTPUT_HASH_MISMATCH")
+    if manifest != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return blocked(*codes) if codes else passed("RC_REPRODUCIBILITY_MANIFEST_VALID")
+
+
+def validate_comparison(
+    comparison: Any,
+    trusted_freezes: dict[str, str] | None = None,
+) -> GateResult:
+    original = copy.deepcopy(comparison)
+    codes: set[str] = set()
+    try:
+        assert_json_safe(comparison)
+    except (TypeError, ValueError):
+        codes.add("RC_COMPARISON_NONFINITE_OR_NONJSON")
+    if not isinstance(comparison, dict):
+        return blocked("RC_COMPARISON_INVALID")
+    candidates = comparison.get("candidate_ids")
+    baseline = comparison.get("baseline_id")
+    if not isinstance(candidates, list) or not candidates:
+        codes.add("RC_COMPARISON_EMPTY_CANDIDATE_SET")
+    elif not all(isinstance(item, str) and item for item in candidates):
+        codes.add("RC_COMPARISON_CANDIDATE_SET_INVALID")
+    if not isinstance(baseline, str) or baseline not in (candidates or []):
+        codes.add("RC_COMPARISON_BASELINE_MISSING")
+    splits = comparison.get("splits")
+    if not isinstance(splits, dict) or set(splits) != {"train", "validation", "test"}:
+        codes.add("RC_COMPARISON_SPLIT_INVALID")
+    else:
+        split_sets: list[set[Any]] = []
+        for values in splits.values():
+            if not isinstance(values, list) or not values:
+                codes.add("RC_COMPARISON_EMPTY_SPLIT")
+                break
+            try:
+                split_sets.append(set(values))
+            except TypeError:
+                codes.add("RC_COMPARISON_SPLIT_INVALID")
+        if len(split_sets) == 3 and any(
+            split_sets[left] & split_sets[right]
+            for left in range(3)
+            for right in range(left + 1, 3)
+        ):
+            codes.add("RC_COMPARISON_SPLIT_OVERLAP")
+    flags = comparison.get("leakage_checks")
+    false_flags = {
+        "test_used_for_candidate_generation",
+        "test_used_for_feature_selection",
+        "test_used_for_threshold_selection",
+        "future_information",
+        "group_overlap",
+        "target_in_features",
+    }
+    if not isinstance(flags, dict):
+        codes.add("RC_COMPARISON_LEAKAGE_CHECKS_MISSING")
+    else:
+        for name in false_flags:
+            if flags.get(name) is not False:
+                codes.add(f"RC_COMPARISON_LEAKAGE:{name}")
+        if flags.get("time_order_valid") is not True:
+            codes.add("RC_COMPARISON_TIME_LEAKAGE")
+    access = comparison.get("test_access")
+    if not isinstance(access, dict) or access.get("authorized") is not True:
+        codes.add("RC_COMPARISON_UNAUTHORIZED_TEST_ACCESS")
+    else:
+        if access.get("count") != 1:
+            codes.add("RC_COMPARISON_TEST_ACCESS_COUNT_INVALID")
+        if access.get("used_for_selection") is not False:
+            codes.add("RC_COMPARISON_TEST_USED_FOR_SELECTION")
+    bindings = comparison.get("freeze_bindings")
+    if (
+        not isinstance(bindings, dict)
+        or trusted_freezes is None
+        or any(trusted_freezes.get(key) != value for key, value in (bindings or {}).items())
+    ):
+        codes.add("RC_COMPARISON_UNTRUSTED_FREEZE")
+    attempts = comparison.get("attempts")
+    successful: dict[str, float] = {}
+    if not isinstance(attempts, list) or not attempts:
+        codes.add("RC_COMPARISON_ATTEMPT_LEDGER_INVALID")
+    else:
+        for attempt in attempts:
+            if not isinstance(attempt, dict):
+                codes.add("RC_COMPARISON_ATTEMPT_LEDGER_INVALID")
+                continue
+            score = attempt.get("validation_score")
+            outcome = attempt.get("outcome")
+            candidate_id = attempt.get("candidate_id")
+            if outcome == "SUCCESS":
+                if not strict_score(score):
+                    codes.add("RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID")
+                elif isinstance(candidate_id, str):
+                    successful[candidate_id] = float(score)
+            elif score is not None:
+                codes.add("RC_COMPARISON_NON_SUCCESS_ATTEMPT_SCORED")
+    direction = comparison.get("metric_direction")
+    selected = comparison.get("selected_candidate_id")
+    if successful and direction in {"MIN", "MAX"}:
+        target = min(successful.values()) if direction == "MIN" else max(successful.values())
+        expected = min(key for key, value in successful.items() if value == target)
+        if selected != expected:
+            codes.add("RC_COMPARISON_SELECTION_MISMATCH")
+    else:
+        codes.add("RC_COMPARISON_METRIC_OR_SUCCESS_SET_INVALID")
+    if comparison != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return blocked(*codes) if codes else passed("RC_LEAKAGE_SAFE_COMPARISON_VALID")
+
+
+def validate_claim(
+    claim: Any,
+    manifest: Any | None = None,
+    final_result: Any | None = None,
+) -> GateResult:
+    original = copy.deepcopy((claim, manifest, final_result))
+    codes: set[str] = set()
+    if not isinstance(claim, dict):
+        return blocked("RC_CLAIM_INVALID")
+    required = {
+        "claim_id",
+        "claim_text",
+        "supported_scope",
+        "run_id",
+        "run_manifest_hash",
+        "input_hash",
+        "code_hash",
+        "configuration_hash",
+        "output_hash",
+        "decision_hash",
+        "evidence_artifact_ids",
+        "evidence_status",
+        "contradiction_status",
+    }
+    if not required <= set(claim):
+        codes.add("RC_CLAIM_REQUIRED_BINDING_MISSING")
+    for name in (
+        "run_manifest_hash",
+        "input_hash",
+        "code_hash",
+        "configuration_hash",
+        "output_hash",
+        "decision_hash",
+    ):
+        if not HEX64.fullmatch(str(claim.get(name, ""))):
+            codes.add(f"RC_CLAIM_HASH_INVALID:{name}")
+    if claim.get("evidence_status") != "CURRENT":
+        codes.add("RC_CLAIM_STALE_EVIDENCE")
+    if claim.get("contradiction_status") != "NONE":
+        codes.add("RC_CLAIM_CONTRADICTED")
+    if claim.get("claim_text") != claim.get("supported_scope"):
+        codes.add("RC_CLAIM_OVERBROAD_OR_UNSUPPORTED")
+    artifacts = claim.get("evidence_artifact_ids")
+    if (
+        not isinstance(artifacts, list)
+        or not artifacts
+        or not all(isinstance(item, str) and item for item in artifacts)
+    ):
+        codes.add("RC_CLAIM_EXACT_SUPPORT_MISSING")
+    if manifest is not None:
+        if not isinstance(manifest, dict):
+            codes.add("RC_CLAIM_MANIFEST_INVALID")
+        else:
+            bindings = {
+                "run_id": "run_id",
+                "input_hash": "input_hash",
+                "code_hash": "code_tree_hash",
+                "configuration_hash": "configuration_hash",
+                "output_hash": "output_hash",
+                "decision_hash": "decision_hash",
+            }
+            if any(claim.get(left) != manifest.get(right) for left, right in bindings.items()):
+                codes.add("RC_CLAIM_RUN_BINDING_MISMATCH")
+            if claim.get("run_manifest_hash") != canonical_hash(manifest):
+                codes.add("RC_CLAIM_MANIFEST_HASH_MISMATCH")
+            if manifest.get("outcome") != "SUCCESS" or manifest.get("supersession") is not None:
+                codes.add("RC_CLAIM_RUN_NOT_CURRENT_SUCCESS")
+    if final_result is not None and (
+        not isinstance(final_result, dict)
+        or any(
+            claim.get(name) != final_result.get(name)
+            for name in ("run_id", "output_hash", "decision_hash")
+        )
+    ):
+        codes.add("RC_CLAIM_FINAL_RESULT_BINDING_MISMATCH")
+    if (claim, manifest, final_result) != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return blocked(*codes) if codes else passed("RC_CLAIM_EXACT_SUPPORT_VALID")
+
+
+def validate_state_boundary(context: Any) -> GateResult:
+    if not isinstance(context, dict):
+        return blocked("RC_STATE_CONTEXT_INVALID")
+    codes: set[str] = set()
+    if context.get("writer") != "modeling_orchestrator":
+        codes.add("RC_STATE_UNAUTHORIZED_WRITER")
+    if context.get("formal_project_state_write") is not False:
+        codes.add("RC_FORMAL_STATE_WRITE_PROHIBITED")
+    if context.get("second_state_truth") is not False:
+        codes.add("RC_SECOND_STATE_TRUTH_PROHIBITED")
+    if context.get("execution_scope") in {"PRODUCTION", "FORMAL"}:
+        codes.add("RC_CONTEXT_EXECUTION_SCOPE_PROHIBITED")
+    if context.get("state_path") != "case_state.json":
+        codes.add("RC_CASE_STATE_BINDING_INVALID")
+    return blocked(*codes) if codes else passed("RC_CASE_STATE_BOUNDARY_VALID")
+
+
+def validate_handoff(handoff: Any) -> GateResult:
+    if not isinstance(handoff, dict):
+        return blocked("RC_HANDOFF_INVALID")
+    codes: set[str] = set()
+    if REQUIRED_HANDOFF_FIELDS - set(handoff):
+        codes.add("RC_HANDOFF_REQUIRED_FIELDS_MISSING")
+    if set(handoff) - REQUIRED_HANDOFF_FIELDS:
+        codes.add("RC_HANDOFF_ADDITIONAL_FIELDS_REJECTED")
+    if handoff.get("contract_version") != "modeling-to-paper/v1":
+        codes.add("RC_HANDOFF_CONTRACT_VERSION_INVALID")
+    if handoff.get("approved_by") != ["MACHINE_TECHNICAL_GATES"]:
+        codes.add("RC_HANDOFF_APPROVAL_SCOPE_INVALID")
+    if not isinstance(handoff.get("final_runs"), list) or not handoff.get("final_runs"):
+        codes.add("RC_HANDOFF_FINAL_RUNS_MISSING")
+    if not isinstance(handoff.get("claim_evidence"), dict) or not handoff.get("claim_evidence"):
+        codes.add("RC_HANDOFF_CLAIM_EVIDENCE_MISSING")
+    try:
+        assert_json_safe(handoff)
+    except (TypeError, ValueError):
+        codes.add("RC_HANDOFF_NONFINITE_OR_NONJSON")
+    codes.update(sensitive_findings(handoff))
+    return blocked(*codes) if codes else passed("RC_MODELING_TO_PAPER_HANDOFF_VALID")
+
+
+def state_path(case_root: Path) -> Path:
+    return case_root / "case_state.json"
+
+
+def load_state(case_root: Path) -> dict[str, Any]:
+    path = state_path(case_root)
+    if not path.is_file():
+        raise ValueError("RC_CASE_STATE_MISSING")
+    value = load_json(path)
+    if (
+        not isinstance(value, dict)
+        or value.get("state") not in set(STATES) | TERMINAL_STATES
+        or value.get("skill_version") != VERSION
+    ):
+        raise ValueError("RC_CASE_STATE_INVALID")
+    return value
+
+
+def initialize_case(
+    case_root: Path,
+    case_id: str,
+    kind: str,
+    *,
+    dry_run: bool = False,
+) -> dict[str, Any]:
+    if not re.fullmatch(r"[A-Z0-9][A-Z0-9_-]{2,63}", case_id):
+        raise ValueError("RC_CASE_ID_INVALID")
+    if kind not in {"prediction", "optimization", "general"}:
+        raise ValueError("RC_CASE_KIND_INVALID")
+    if state_path(case_root).exists():
+        raise ValueError("RC_CASE_ALREADY_INITIALIZED")
+    state = {
+        "schema_version": "1.0.0",
+        "case_id": case_id,
+        "case_kind": kind,
+        "skill_version": VERSION,
+        "capability": CAPABILITY,
+        "architecture": ARCHITECTURE,
+        "state": "CREATED",
+        "last_gate": "INIT",
+        "evidence_bindings": {},
+        "history": [
+            {
+                "sequence": 0,
+                "from": None,
+                "to": "CREATED",
+                "gate": "INIT",
+                "status": "PASS",
+                "evidence": [],
+            }
+        ],
+    }
+    if not dry_run:
+        for relative in CASE_DIRS:
+            (case_root / relative).mkdir(parents=True, exist_ok=True)
+        write_json(state_path(case_root), state, overwrite=False)
+        for key, relative in ARTIFACT_PATHS.items():
+            value: dict[str, Any]
+            if key == "modeling_to_paper_handoff":
+                value = {"status": "DRAFT", "template": key}
+            else:
+                value = artifact(key, {"template": True}, status="DRAFT")
+            write_json(case_root / relative, value, overwrite=False)
+    return state
+
+
+def read_artifact(case_root: Path, key: str) -> dict[str, Any]:
+    value = load_json(case_root / ARTIFACT_PATHS[key])
+    result = validate_artifact(value, key)
+    if not result.accepted:
+        raise ValueError(";".join(result.reason_codes))
+    return value
+
+
+def trusted_freezes(case_root: Path) -> dict[str, str]:
+    value = read_artifact(case_root, "experiment_plan")["content"].get("trusted_freeze_registry")
+    if not isinstance(value, dict) or not value:
+        raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
+    return value
+
+
+def record_transition(
+    case_root: Path,
+    state: dict[str, Any],
+    next_state: str,
+    gate: str,
+    evidence: list[str],
+    *,
+    check: bool,
+) -> dict[str, Any]:
+    previous = state["state"]
+    if previous not in STATES:
+        raise ValueError("RC_TERMINAL_STATE_TRANSITION_PROHIBITED")
+    index = STATES.index(previous) + 1
+    if index >= len(STATES) or STATES[index] != next_state:
+        raise ValueError("RC_STATE_TRANSITION_INVALID")
+    updated = copy.deepcopy(state)
+    updated["state"] = next_state
+    updated["last_gate"] = gate
+    updated["evidence_bindings"].update(
+        {path: file_hash(case_root / path) for path in evidence if (case_root / path).is_file()}
+    )
+    updated["history"].append(
+        {
+            "sequence": len(updated["history"]),
+            "from": previous,
+            "to": next_state,
+            "gate": gate,
+            "status": "PASS",
+            "evidence": evidence,
+        }
+    )
+    if not check:
+        write_json(state_path(case_root), updated)
+    return updated
+
+
+def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
+    state = load_state(case_root)
+    current = state["state"]
+    if current == "CREATED":
+        content = read_artifact(case_root, "problem_requirements")["content"]
+        if content.get("case_id") != state["case_id"] or not content.get("requirements"):
+            raise ValueError("RC_INTAKE_REQUIREMENTS_INVALID")
+        return record_transition(
+            case_root,
+            state,
+            "INTAKE_COMPLETE",
+            "GATE_PROBLEM_INTAKE",
+            [ARTIFACT_PATHS["problem_requirements"]],
+            check=check,
+        )
+    if current == "INTAKE_COMPLETE":
+        requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
+        if not all(isinstance(item, dict) and item.get("requirement_id") for item in requirements):
+            raise ValueError("RC_REQUIREMENT_TRACE_INVALID")
+        return record_transition(
+            case_root,
+            state,
+            "REQUIREMENTS_VALIDATED",
+            "GATE_REQUIREMENT_COVERAGE",
+            [ARTIFACT_PATHS["problem_requirements"]],
+            check=check,
+        )
+    if current == "REQUIREMENTS_VALIDATED":
+        read_artifact(case_root, "research_plan")
+        ledger = read_artifact(case_root, "source_ledger")
+        if ledger["content"].get("answer_access_status") != "NOT_ACCESSED":
+            raise ValueError("RC_ANSWER_ACCESS_PROHIBITED")
+        return record_transition(
+            case_root,
+            state,
+            "SOURCES_PLANNED",
+            "GATE_SOURCE_PLAN",
+            [ARTIFACT_PATHS["research_plan"], ARTIFACT_PATHS["source_ledger"]],
+            check=check,
+        )
+    if current == "SOURCES_PLANNED":
+        read_artifact(case_root, "assumptions_and_symbols")
+        audit = read_artifact(case_root, "data_audit")["content"]
+        if not audit.get("raw_immutable") or not audit.get("data_hashes"):
+            raise ValueError("RC_DATA_AUDIT_INVALID")
+        return record_transition(
+            case_root,
+            state,
+            "DATA_AUDITED",
+            "GATE_ASSUMPTIONS_AND_DATA",
+            [ARTIFACT_PATHS["assumptions_and_symbols"], ARTIFACT_PATHS["data_audit"]],
+            check=check,
+        )
+    if current == "DATA_AUDITED":
+        candidates = read_artifact(case_root, "model_candidates")["content"].get("candidates")
+        baselines = (
+            sum(bool(item.get("baseline")) for item in candidates if isinstance(item, dict))
+            if isinstance(candidates, list)
+            else 0
+        )
+        if not isinstance(candidates, list) or len(candidates) < 2 or baselines != 1:
+            raise ValueError("RC_MODEL_PORTFOLIO_OR_BASELINE_INVALID")
+        return record_transition(
+            case_root,
+            state,
+            "MODELS_PROPOSED",
+            "GATE_MODEL_PORTFOLIO",
+            [ARTIFACT_PATHS["model_candidates"]],
+            check=check,
+        )
+    if current == "MODELS_PROPOSED":
+        plan = read_artifact(case_root, "experiment_plan")["content"]
+        if not plan.get("preregistered") or not plan.get("execution_prepared"):
+            raise ValueError("RC_EXPERIMENT_PLAN_NOT_PREREGISTERED")
+        if (
+            not isinstance(plan.get("trusted_freeze_registry"), dict)
+            or not plan["trusted_freeze_registry"]
+        ):
+            raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
+        return record_transition(
+            case_root,
+            state,
+            "EXPERIMENT_PLAN_VALIDATED",
+            "GATE_EXPERIMENT_PLAN",
+            [ARTIFACT_PATHS["experiment_plan"]],
+            check=check,
+        )
+    if current == "EXPERIMENT_PLAN_VALIDATED":
+        return record_transition(
+            case_root,
+            state,
+            "RUNNING",
+            "GATE_EXECUTION_AUTHORIZED",
+            [ARTIFACT_PATHS["experiment_plan"]],
+            check=check,
+        )
+    if current in {"RUNNING", "RUN_COMPLETED"}:
+        manifests = sorted(case_root.glob("runs/*/manifest.json"))
+        if not manifests:
+            raise ValueError("RC_RUN_MANIFEST_MISSING")
+        freezes = trusted_freezes(case_root)
+        successes: list[Path] = []
+        for path in manifests:
+            manifest = load_json(path)
+            result = validate_manifest(
+                manifest,
+                case_root=case_root,
+                trusted_freezes=freezes,
+            )
+            if result.accepted:
+                successes.append(path)
+            elif not (
+                isinstance(manifest, dict)
+                and manifest.get("outcome")
+                in {"FAILED", "PARTIAL", "SUPERSEDED", "STALE", "INFEASIBLE"}
+                and all(code.startswith("RC_MANIFEST_NOT_SUCCESS:") for code in result.reason_codes)
+            ):
+                raise ValueError(";".join(result.reason_codes))
+        if len(successes) < 2:
+            raise ValueError("RC_VERIFIED_RUNS_INSUFFICIENT")
+        target = "RUN_COMPLETED" if current == "RUNNING" else "RUN_VALIDATED"
+        gate = "GATE_RUN_COMPLETION" if current == "RUNNING" else "GATE_REPRODUCIBILITY_MANIFEST"
+        evidence = [str(path.relative_to(case_root)) for path in manifests]
+        return record_transition(
+            case_root,
+            state,
+            target,
+            gate,
+            evidence,
+            check=check,
+        )
+    if current == "RUN_VALIDATED":
+        comparison = read_artifact(case_root, "model_comparison")["content"]
+        result = validate_comparison(comparison, trusted_freezes(case_root))
+        if not result.accepted:
+            raise ValueError(";".join(result.reason_codes))
+        robustness = read_artifact(case_root, "robustness_analysis")["content"]
+        if robustness.get("status") != "VALIDATED" or not robustness.get("perturbations"):
+            raise ValueError("RC_ROBUSTNESS_EVIDENCE_INVALID")
+        return record_transition(
+            case_root,
+            state,
+            "ROBUSTNESS_VALIDATED",
+            "GATE_COMPARISON_AND_ROBUSTNESS",
+            [ARTIFACT_PATHS["model_comparison"], ARTIFACT_PATHS["robustness_analysis"]],
+            check=check,
+        )
+    if current == "ROBUSTNESS_VALIDATED":
+        final = read_artifact(case_root, "final_result")["content"]
+        if final.get("status") != "FINAL_CANDIDATE" or not final.get("run_id"):
+            raise ValueError("RC_FINAL_CANDIDATE_INVALID")
+        return record_transition(
+            case_root,
+            state,
+            "FINAL_CANDIDATE",
+            "GATE_FINAL_RUN",
+            [ARTIFACT_PATHS["final_result"]],
+            check=check,
+        )
+    if current == "FINAL_CANDIDATE":
+        claim = read_artifact(case_root, "claim_evidence")["content"]
+        final = read_artifact(case_root, "final_result")["content"]
+        manifest_path = case_root / "runs" / str(claim.get("run_id", "")) / "manifest.json"
+        if not manifest_path.is_file():
+            raise ValueError("RC_CLAIM_MANIFEST_MISSING")
+        result = validate_claim(claim, load_json(manifest_path), final)
+        if not result.accepted:
+            raise ValueError(";".join(result.reason_codes))
+        return record_transition(
+            case_root,
+            state,
+            "EVIDENCE_VALIDATED",
+            "GATE_CLAIM_EVIDENCE",
+            [ARTIFACT_PATHS["claim_evidence"], str(manifest_path.relative_to(case_root))],
+            check=check,
+        )
+    if current == "EVIDENCE_VALIDATED":
+        handoff_path = case_root / ARTIFACT_PATHS["modeling_to_paper_handoff"]
+        result = validate_handoff(load_json(handoff_path))
+        if not result.accepted:
+            raise ValueError(";".join(result.reason_codes))
+        return record_transition(
+            case_root,
+            state,
+            "READY_FOR_PAPER_HANDOFF",
+            "GATE_MODELING_TO_PAPER",
+            [ARTIFACT_PATHS["modeling_to_paper_handoff"]],
+            check=check,
+        )
+    raise ValueError("RC_NO_FORWARD_TRANSITION_AVAILABLE")
+
+
+def stale_check(case_root: Path, *, mutate: bool) -> GateResult:
+    state = load_state(case_root)
+    mismatches = [
+        path
+        for path, expected in state.get("evidence_bindings", {}).items()
+        if not (case_root / path).is_file() or file_hash(case_root / path) != expected
+    ]
+    if not mismatches:
+        return passed("RC_DEPENDENCY_HASHES_CURRENT")
+    if mutate:
+        updated = copy.deepcopy(state)
+        updated["state"] = "STALE"
+        updated["last_gate"] = "GATE_STALE_PROPAGATION"
+        updated["stale"] = {
+            "reason_code": "RC_UPSTREAM_DEPENDENCY_STALE",
+            "dependency_chain": sorted(mismatches),
+        }
+        updated["history"].append(
+            {
+                "sequence": len(updated["history"]),
+                "from": state["state"],
+                "to": "STALE",
+                "gate": "GATE_STALE_PROPAGATION",
+                "status": "BLOCK",
+                "evidence": sorted(mismatches),
+            }
+        )
+        write_json(state_path(case_root), updated)
+    return blocked("RC_UPSTREAM_DEPENDENCY_STALE", status="STALE")
+
+
+def emit(payload: dict[str, Any], exit_code: int = EXIT_OK) -> int:
+    print(json.dumps(payload, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    return exit_code
+
+
+def command_result(command: str, result: GateResult, **extra: Any) -> int:
+    code = EXIT_OK if result.accepted else (EXIT_STALE if result.status == "STALE" else EXIT_GATE)
+    return emit({"command": command, **result.as_dict(), **extra}, code)
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="CUMCM Modeling Evidence Competition RC case CLI（默认离线）"
+    )
+    parser.add_argument("--version", action="version", version=VERSION)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    init = subparsers.add_parser("init", help="初始化隔离 case workspace")
+    init.add_argument("--case-root", type=Path, required=True)
+    init.add_argument("--case-id", required=True)
+    init.add_argument(
+        "--kind",
+        choices=("prediction", "optimization", "general"),
+        default="general",
+    )
+    init.add_argument("--dry-run", action="store_true")
+    for name in ("status", "validate", "stale-check", "finalize", "handoff"):
+        command = subparsers.add_parser(name)
+        command.add_argument("--case-root", type=Path, required=True)
+        if name != "status":
+            command.add_argument("--check", action="store_true")
+    manifest = subparsers.add_parser("manifest", help="检查复现 manifest")
+    manifest.add_argument("--case-root", type=Path, required=True)
+    manifest.add_argument("--path", type=Path, required=True)
+    claim = subparsers.add_parser("claim-check", help="检查 Claim 精确绑定")
+    claim.add_argument("--case-root", type=Path, required=True)
+    claim.add_argument("--path", type=Path)
+    compare = subparsers.add_parser("compare-check", help="检查无泄漏比较")
+    compare.add_argument("--case-root", type=Path, required=True)
+    compare.add_argument("--path", type=Path)
+    smoke = subparsers.add_parser("smoke", help="运行项目原创合成 E2E")
+    smoke.add_argument("--case-root", type=Path, required=True)
+    smoke.add_argument("--case-id", required=True)
+    smoke.add_argument("--kind", choices=("prediction", "optimization"), required=True)
+    smoke.add_argument("--dry-run", action="store_true")
+    return parser
+
+
+def run_smoke(case_root: Path, case_id: str, kind: str, dry_run: bool) -> dict[str, Any]:
+    if dry_run:
+        return {"dry_run": True, "case_id": case_id, "kind": kind, "stages": list(STAGES)}
+    scripts_dir = str(Path(__file__).resolve().parent)
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    from synthetic_cases import run_synthetic_case  # noqa: PLC0415
+
+    return run_synthetic_case(sys.modules[__name__], case_root, case_id, kind)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    try:
+        if args.command == "init":
+            state = initialize_case(
+                args.case_root,
+                args.case_id,
+                args.kind,
+                dry_run=args.dry_run,
+            )
+            return emit(
+                {
+                    "command": "init",
+                    "status": "PASS",
+                    "dry_run": args.dry_run,
+                    "state": state,
+                }
+            )
+        if args.command == "status":
+            return emit(
+                {"command": "status", "status": "PASS", "state": load_state(args.case_root)}
+            )
+        if args.command == "validate":
+            state = advance_once(args.case_root, check=args.check)
+            return emit(
+                {
+                    "command": "validate",
+                    "status": "PASS",
+                    "check": args.check,
+                    "state": state,
+                }
+            )
+        if args.command == "stale-check":
+            return command_result(
+                "stale-check",
+                stale_check(args.case_root, mutate=not args.check),
+                check=args.check,
+            )
+        if args.command in {"finalize", "handoff"}:
+            current = load_state(args.case_root)["state"]
+            required = (
+                "ROBUSTNESS_VALIDATED" if args.command == "finalize" else "EVIDENCE_VALIDATED"
+            )
+            if current != required:
+                raise ValueError(f"RC_{args.command.upper()}_STATE_INVALID")
+            state = advance_once(args.case_root, check=args.check)
+            return emit(
+                {
+                    "command": args.command,
+                    "status": "PASS",
+                    "check": args.check,
+                    "state": state,
+                }
+            )
+        if args.command == "manifest":
+            path = args.path if args.path.is_absolute() else args.case_root / args.path
+            return command_result(
+                "manifest",
+                validate_manifest(
+                    load_json(path),
+                    case_root=args.case_root,
+                    trusted_freezes=trusted_freezes(args.case_root),
+                ),
+            )
+        if args.command == "compare-check":
+            path = args.path or Path(ARTIFACT_PATHS["model_comparison"])
+            value = load_json(path if path.is_absolute() else args.case_root / path)
+            if isinstance(value, dict) and value.get("artifact_type") == "model_comparison":
+                value = value.get("content")
+            return command_result(
+                "compare-check",
+                validate_comparison(value, trusted_freezes(args.case_root)),
+            )
+        if args.command == "claim-check":
+            path = args.path or Path(ARTIFACT_PATHS["claim_evidence"])
+            value = load_json(path if path.is_absolute() else args.case_root / path)
+            if isinstance(value, dict) and value.get("artifact_type") == "claim_evidence":
+                value = value.get("content")
+            if not isinstance(value, dict):
+                return command_result("claim-check", blocked("RC_CLAIM_INVALID"))
+            manifest_path = args.case_root / "runs" / str(value.get("run_id", "")) / "manifest.json"
+            final = read_artifact(args.case_root, "final_result")["content"]
+            manifest_value = load_json(manifest_path) if manifest_path.is_file() else None
+            return command_result(
+                "claim-check",
+                validate_claim(value, manifest_value, final),
+            )
+        if args.command == "smoke":
+            result = run_smoke(args.case_root, args.case_id, args.kind, args.dry_run)
+            return emit({"command": "smoke", "status": "PASS", "result": result})
+    except FileExistsError:
+        return emit(
+            {
+                "command": args.command,
+                "status": "BLOCK",
+                "accepted": False,
+                "final": False,
+                "reason_codes": ["RC_IMMUTABLE_OUTPUT_ALREADY_EXISTS"],
+            },
+            EXIT_IO,
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        return emit(
+            {
+                "command": args.command,
+                "status": "BLOCK",
+                "accepted": False,
+                "final": False,
+                "reason_codes": [f"RC_IO_OR_JSON_ERROR:{type(exc).__name__}"],
+            },
+            EXIT_IO,
+        )
+    except (ImportError, TypeError, ValueError) as exc:
+        codes = sorted(set(str(exc).split(";"))) if str(exc) else ["RC_INPUT_INVALID"]
+        return emit(
+            {
+                "command": args.command,
+                "status": "BLOCK",
+                "accepted": False,
+                "final": False,
+                "reason_codes": codes,
+            },
+            EXIT_GATE,
+        )
+    return emit(
+        {
+            "command": args.command,
+            "status": "BLOCK",
+            "accepted": False,
+            "final": False,
+            "reason_codes": ["RC_COMMAND_NOT_IMPLEMENTED"],
+        },
+        EXIT_INPUT,
+    )
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
