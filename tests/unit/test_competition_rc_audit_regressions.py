@@ -38,6 +38,7 @@ def test_manifest_rejects_missing_input_fake_commit_and_incomplete_code_tree(
             {
                 "scope": "SKILL_ROOT",
                 "path": "scripts/missing.py",
+                "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/missing.py",
                 "sha256": "5" * 64,
             }
         ],
@@ -107,6 +108,24 @@ def test_comparison_rejects_empty_freezes_and_missing_baseline_attempt(case_cli)
         "RC_COMPARISON_ATTEMPT_MATRIX_INCOMPLETE",
         "RC_COMPARISON_BASELINE_SUCCESS_MISSING",
     } <= set(result.reason_codes)
+
+
+def test_manifest_rejects_existing_but_mismatched_git_commit(case_cli, tmp_path: Path) -> None:
+    case_root = tmp_path / "prediction"
+    case_cli.run_smoke(case_root, "AUDIT-COMMIT-001", "prediction", False)
+    final = case_cli.read_artifact(case_root, "final_result")["content"]
+    manifest_path = case_root / "runs" / final["run_id"] / "manifest.json"
+    manifest = case_cli.load_json(manifest_path)
+    manifest["code_commit"] = "23e6b4aa4f4e1003ef782be7317479ed98e558aa"
+
+    result = case_cli.validate_manifest(
+        manifest,
+        case_root=case_root,
+        trusted_freezes=case_cli.trusted_freezes(case_root),
+    )
+
+    assert result.accepted is False
+    assert "RC_MANIFEST_CODE_COMMIT_MISMATCH" in result.reason_codes
 
 
 def test_state_jump_and_sensitive_extension_are_rejected_without_echo(

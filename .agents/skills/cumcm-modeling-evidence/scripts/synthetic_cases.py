@@ -92,6 +92,7 @@ def _write_run(
         {
             "scope": "SKILL_ROOT",
             "path": relative,
+            "repository_path": f".agents/skills/cumcm-modeling-evidence/{relative}",
             "sha256": core.file_hash(core.SKILL_ROOT / relative),
         }
         for relative in code_paths

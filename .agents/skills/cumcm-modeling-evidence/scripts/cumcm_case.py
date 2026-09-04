@@ -263,6 +263,22 @@ def current_git_commit() -> str:
     return commit
 
 
+def git_blob_hash(commit: str, repository_path: str) -> str | None:
+    path = relative_case_path(REPO_ROOT, repository_path)
+    if path is None:
+        return None
+    normalized = str(path.relative_to(REPO_ROOT))
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{normalized}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+    )
+    if completed.returncode != 0:
+        return None
+    return hashlib.sha256(completed.stdout).hexdigest()
+
+
 def normalize_key(value: str) -> str:
     return re.sub(r"[^a-z0-9]", "", value.casefold())
 
@@ -506,11 +522,17 @@ def validate_manifest(
         code_hashes: list[str] = []
         code_paths: set[tuple[str, str]] = set()
         for record in code_files:
-            if not isinstance(record, dict) or set(record) != {"scope", "path", "sha256"}:
+            if not isinstance(record, dict) or set(record) != {
+                "scope",
+                "path",
+                "repository_path",
+                "sha256",
+            }:
                 codes.add("RC_MANIFEST_CODE_RECORD_INVALID")
                 continue
             scope = record.get("scope")
             relative = record.get("path")
+            repository_path = record.get("repository_path")
             root = SKILL_ROOT if scope == "SKILL_ROOT" else case_root
             identity = (str(scope), str(relative))
             if scope not in {"SKILL_ROOT", "CASE_ROOT"} or identity in code_paths:
@@ -525,6 +547,13 @@ def validate_manifest(
             code_hashes.append(actual)
             if record.get("sha256") != actual:
                 codes.add("RC_MANIFEST_CODE_MUTATION")
+            expected_repository_path = f".agents/skills/cumcm-modeling-evidence/{relative}"
+            if (
+                not isinstance(repository_path, str)
+                or (scope == "SKILL_ROOT" and repository_path != expected_repository_path)
+                or git_blob_hash(str(commit), repository_path) != actual
+            ):
+                codes.add("RC_MANIFEST_CODE_COMMIT_MISMATCH")
         if code_hashes and manifest.get("code_tree_hash") != canonical_hash(code_hashes):
             codes.add("RC_MANIFEST_CODE_TREE_HASH_MISMATCH")
     output_files = manifest.get("output_files")

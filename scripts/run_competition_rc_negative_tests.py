@@ -106,6 +106,7 @@ def valid_manifest(core: Any, case_root: Path) -> tuple[dict[str, Any], dict[str
             {
                 "scope": "SKILL_ROOT",
                 "path": "scripts/cumcm_case.py",
+                "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
                 "sha256": core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py"),
             }
         ],
