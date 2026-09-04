@@ -114,8 +114,6 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         and not args.blocked_reason_code
     ):
         raise ValueError("FIRST_RUN_NOT_TERMINAL_OR_BLOCKED")
-    if not core.stale_check(args.case_root, mutate=False).accepted:
-        raise ValueError("CASE_WORKSPACE_STALE")
     binding_relative = "state/development_eval_binding.json"
     binding_path = args.case_root / binding_relative
     if not binding_path.is_file():
@@ -172,6 +170,8 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         for path, digest in record.get("data_hashes", {}).items()
     ):
         raise ValueError("RUN_INPUTS_NOT_BOUND_TO_REGISTRY")
+    if not core.stale_check(args.case_root, mutate=False).accepted:
+        raise ValueError("CASE_WORKSPACE_STALE")
     freeze_time = iso_time(args.freeze_time, "FREEZE_TIME_INVALID")
     unlock_time: str | None = None
     if args.unlock_time:

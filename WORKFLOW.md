@@ -103,9 +103,38 @@ review evidence, and an audited automated decision. Missing evidence yields `RET
 `EVIDENCE_INSUFFICIENT`, `AUTOMATED_ABSTAINED`, or `STALE`; no state requires a subjective human
 technical gate.
 
+## Competition RC to contest-candidate route
+
+The post-shadow capability route is:
+
+`FORMAL_SKILL_RC → DEVELOPMENT_EVAL → VALIDATION → HELD_OUT → COMPETITION_CANDIDATE`.
+
+- `FORMAL_SKILL_RC` requires one discoverable project-owned Skill, an unchanged architecture selection
+  rule, all eight public hard Gates, two structurally different project-original E2E cases, the fixed
+  negative matrix, full CI, and a read-only integration audit. It authorizes only
+  `COMPETITION_RC_IMPLEMENTATION_ONLY`.
+- `DEVELOPMENT_EVAL` selects an answer-sealed historical Development problem, binds the exact Skill
+  commit/model/reasoning, freezes the first run before answer access, and separates generalizable
+  failures from problem-specific findings.
+- `VALIDATION` and `HELD_OUT` use frozen Skills and sealed answers. Any answer exposure permanently
+  demotes the case to Development; results cannot tune the same frozen candidate.
+- `COMPETITION_CANDIDATE` requires later validation/held-out contracts and decisions. RC readiness,
+  file existence, two smokes, or Agent claims cannot substitute for those gates.
+
+For RC1, `COMPETITION_SKILL_RC_READY` permits only
+`PHASE-SKILL-DEVELOPMENT-EVAL-004`. Full R3 sealed Stage 1/Stage 2, ablation, external validity,
+production fitness, and monetary cost remain `DEFERRED_NOT_PASSED`.
+
 ## Contest-run lifecycle
 
-`PROBLEM_INGESTED → PROBLEM_ANALYZED → DATA_VALIDATED → BASELINE_READY → MODEL_CANDIDATES_READY → MODEL_SELECTED → IMPLEMENTED → PILOT_RUN_READY → EXPERIMENTS_RUNNING → VALIDATED → ROBUSTNESS_CHECKED → FINAL_RUN_READY → EVIDENCE_PACKAGE_READY`.
+The formal RC case state is:
+
+`CREATED → INTAKE_COMPLETE → REQUIREMENTS_VALIDATED → SOURCES_PLANNED → DATA_AUDITED → MODELS_PROPOSED → EXPERIMENT_PLAN_VALIDATED → RUNNING → RUN_COMPLETED → RUN_VALIDATED → ROBUSTNESS_VALIDATED → FINAL_CANDIDATE → EVIDENCE_VALIDATED → READY_FOR_PAPER_HANDOFF`, with terminal `STALE` and `REJECTED`.
+
+The case state is accepted only when its exact fields, ordered history, transition Gates and evidence
+bindings form one chain. Raw and processed inputs are bound at data audit; every forward transition
+first recomputes existing dependency hashes. A mismatch records or reports `STALE` before any later
+Gate may run. Run manifests and handoffs are verified against actual files, not declarations alone.
 
 Problem interpretation, model selection, Final Run freeze, and evidence-package readiness use the
 same automated evidence sequence at the appropriate scope. Before external submission, record

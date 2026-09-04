@@ -6,7 +6,9 @@
 
 ## 前置条件
 
-- 项目全局 state 为 `COMPETITION_SKILL_RC_READY`，Skill 为 `0.2.0-competition-rc1`/`COMPETITION_RC`。
+- 唯一前置状态来源是仓库规范路径 `state/project_state.json`；其状态必须为
+  `COMPETITION_SKILL_RC_READY`、`next_phase_allowed=PHASE-SKILL-DEVELOPMENT-EVAL-004`，正式 Skill
+  必须为 `0.2.0-competition-rc1`/`COMPETITION_RC`，且 integration audit 必须是结构化 `PASS`。
 - `benchmarks/case_registry.yaml` 中 case ID 尚未存在，`set_type=DEVELOPMENT`，`answer_access_status=SEALED`。
 - 只登记题面来源和 hashes；在首跑冻结前不得读取答案、优秀论文、题解、代码、博客、视频或讨论。
 - Validation/Held-out 的 Skill commit 必须在运行前冻结；其答案一旦可见，case 永久降为 Development。
@@ -37,6 +39,10 @@
 6. 核验冻结 hash 后，若确需诊断才用 `--unlock-time <ISO-8601>` 记录答案解封；解封后只允许更新 generalizable failures 与 problem-specific findings，不改首跑证据。
 7. 运行 `.venv/bin/python scripts/check_skill_training_consistency.py --check`。
 
+所有 start/freeze/unlock 时间必须携带 timezone，且严格满足
+`start_time <= freeze_time <= unlock_time`。阻塞原因只接受机器 reason code 形式，禁止把任意解释、
+路径或敏感输入写入结构化结果。launcher 不接受替代的 project-state 路径。
+
 ## 泛化与污染规则
 
 - `generalizable_failures` 可进入 RC2 backlog；`problem_specific_findings` 只留在 Development case，不能直接固化为通用方法。
@@ -47,3 +53,5 @@
 ## RC1 保证边界
 
 当前只有 public deterministic Gates、两个项目原创 E2E 和完整回归保证。sealed Stage 1、Stage 2 effectiveness、消融、外部效度、生产适用性和 monetary cost 仍 deferred。
+当前 Run code registry 固定为正式 Skill 内置 deterministic runner；任意 custom executor 的可信
+动态 capture 尚未设计，因此不在 RC1 assurance 内，Phase 004 不得用其替换冻结执行入口。

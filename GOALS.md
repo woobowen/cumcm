@@ -4,6 +4,10 @@
 
 Create a durable, evidence-first modeling system for a three-person CUMCM team. The repository owns the chain from contest inputs through validated models, experiments, frozen final runs, and a structured evidence package consumed by a separate paper team.
 
+## Current priority
+
+Deliver one runnable Competition RC Skill quickly, then spend the primary effort on answer-sealed historical Development problems to expose real generalization failures. RC1 is the starting instrument, not proof of unseen-problem effectiveness: each blind first run is frozen before answer access, generalizable failures feed RC2, and problem-specific findings remain isolated.
+
 ## Success criteria
 
 - One formal Skill routes every stage and can recover from repository state without chat memory.
@@ -21,7 +25,7 @@ Problem decomposition, mechanism/source research, data audit, formalization, bas
 
 ## Non-goals
 
-Final paper prose, figure styling, table beautification, typesetting, submission packaging, human-only websites, automatic paid resources, and unreviewed integration of third-party Skills. Foundation phase excludes complete modeling capability, historical-problem execution, dynamic upstream evaluation, and final base selection.
+Final paper prose, figure styling, table beautification, typesetting, submission packaging, human-only websites, automatic paid resources, unreviewed integration of third-party Skills, answer leakage, model/API training, and claims of production readiness. RC1 does not establish sealed Stage 1, Stage 2 effectiveness, full ablation, external validity, production fitness, or monetary cost.
 
 ## Safety and reproducibility
 
@@ -33,8 +37,8 @@ This repository supplies facts, formulas, tables, figure-ready data, validation,
 
 ## Undecided
 
-- Upstream architecture/base: `EVIDENCE_INSUFFICIENT`; Phase 002D-R1 accepts four component
-  specifications only, without implementation, integration or a positive performance claim.
+- Base/third-party adoption remains unset. The project-authored K1 architecture is selected only for
+  `COMPETITION_RC_IMPLEMENTATION_ONLY`; this is not upstream superiority or third-party integration.
 - Project license: `PROJECT_LICENSE_UNDECIDED`.
 - Production modeling methods, reviewer thresholds, and benchmark cases: `NEEDS_REVIEW`.
 - Official 2026 rule extraction: registered but `NEEDS_EXTRACTION`.
@@ -46,3 +50,8 @@ Phase 002D acquisition; it cannot integrate a candidate, select a base, or start
 Phase 002D-R2 uses that bounded authorization only to freeze four clean-room specifications and a
 prospective architecture-comparison protocol. It may authorize a later isolated shadow prototype,
 but cannot implement components, select an architecture, change the formal Skill, or enter Phase 003.
+
+The later Competition RC1 repair sprint preserves that historical boundary and old blocked decision,
+then accepts new project-owned K1/W1 revisions through the unchanged eight public hard Gates. K1 is
+integrated under the frozen K1-first rule. The next authorized task is
+`PHASE-SKILL-DEVELOPMENT-EVAL-004`, not additional meta-governance.

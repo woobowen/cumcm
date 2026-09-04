@@ -1,8 +1,8 @@
 # PLAN-0002D-R3 — Shadow Prototype Validation
 
 Status: `IN_PROGRESS`
-Phase: `PHASE-EVIDENCE-EXPANSION-002D`
-Subphase: `PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION`
+Phase: `PHASE-SKILL-INTEGRATION-003`
+Subphase: `COMPETITION-RC1-REPAIR-AND-INTEGRATION`
 Owner: main agent
 Started: `2026-09-03T20:59:57+08:00`
 Branch: `feat/phase002d-r3-shadow-validation`
@@ -188,3 +188,43 @@ change; preserve factual history.
   `PHASE-SKILL-DEVELOPMENT-EVAL-004`: select one answer-sealed historical Development problem, freeze
   the first run under the RC1 Skill version/commit, and use observed failures to design RC2 without
   contaminating Validation or Held-out sets.
+
+### Sprint progress and acceptance
+
+- M1 committed the clean starting state and new bounded repair plan at `5e6440e`; baseline CI was
+  `1594 passed, 1 skipped`. All old `phase-003f`/prospective artifacts remain byte-identical.
+- M2 created additive `ARCH-K1-R1` and `ARCH-W1-R1` revisions plus an identity-symmetric harness.
+  K1 used three targeted repair cycles, W1 four, and common harness one; focused tests and strict
+  validation pass. No old candidate/frozen Gate file was edited.
+- M3 executed 117 cases per candidate (234 total). K1 and W1 each pass G1–G8 with zero unhandled
+  exceptions; the unchanged K1-first rule selected K1 in
+  `DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1`. The old blocked decision is not superseded.
+- M4/M5 upgraded the only formal Skill to `0.2.0-competition-rc1` / `COMPETITION_RC`, extracted the
+  minimal K1 behavior, added 14 workflows, four roles, 14 templates and one offline CLI. Prediction
+  and optimization smokes each advanced through 13 deterministic transitions to
+  `READY_FOR_PAPER_HANDOFF`; the fixed 30-case negative matrix passed with no exception or READY.
+- M6 added an empty historical case registry, sealed-first-run start/freeze commands, consistency
+  check and direct Phase 004 protocol. No historical problem or answer was selected/read.
+- The read-only formal integration audit first reproduced seven declaration-trust classes, then
+  adversarially found residual exact-claim, score/decision, retry-ledger, canonical-handoff,
+  selected-K1 parity, direct-type, STALE-code and Phase004-entry bypasses. Revision 003 converted
+  every finding into deterministic fault replay and replaced smoke-specific checks with one generic
+  hash-bound output evidence contract. The final replay also closed recomputed illegal experiment
+  plans, exact input/code/attempt ledgers, robustness/requirement-Claim lineage, direct validator
+  type/nonfinite exceptions, terminal STALE-chain authenticity, public wrapper integrity, raw
+  sensitive extensions, and the Phase004 audit-field type boundary. Independent hostile fuzz made
+  5,960 calls across ten validators with zero exception, mutation or invalid-extension acceptance.
+  The implementation-focused suite is `104 passed`; after global state activation the combined
+  RC/Phase004/state suite is `119 passed`. Both E2E cases consume bound
+  files and emit a nonempty dependency chain on post-READY raw mutation, a `general` contract
+  regression reaches final/handoff validation, and Phase004 enforces global RC readiness plus
+  timezone-aware monotonic freeze/unlock times. Repair commits from `7bb45d9` through
+  `6dfaa0d938ada59fb4fa408c8e540cf8e51f7965` are remotely verified. The first-run freeze now
+  validates full manifests before returning any generic workspace-stale result. The independent
+  implementation audit is `PASS`; final state/document/hash/remote consistency review remains the
+  acceptance gate.
+- Acceptance remains limited to `PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES`. Full sealed Stage 1,
+  Stage 2 model comparison, full ablation, external validity, production fitness and monetary cost
+  are `DEFERRED_NOT_PASSED`; real comparison model starts, API calls, training and third-party
+  executions remain zero.
+- Exact next step: `PHASE-SKILL-DEVELOPMENT-EVAL-004`.

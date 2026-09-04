@@ -2,27 +2,27 @@
   "actual_execution": true,
   "api_calls": 0,
   "artifact_hashes": {
-    "case_state.json": "95a4a5f0e3fe1ea39fb2f2a683f5e01c09d4b636f4dfa25c4266c8144397ee37",
-    "data/data_audit.json": "d2ddb423fd33a52be1470db5660365de899c19122eb22d45ce5339eae0ccedd8",
-    "evidence/claim_evidence.json": "245c7eca6a5995cd5b076b83f66fef3a1606765249da9d6a2a2a4fa70f381f32",
-    "experiments/experiment_plan.json": "b7ee54d09eefb6c1a5b1a6dbebb449ad69d5ce90f549598a2b11289dddb8a459",
-    "handoff/modeling_to_paper.json": "5c35407c8265314f1d126246fe963835f203528c7fc199a8149e121939d86203",
+    "case_state.json": "bb6db37ad0e363c9fcf5ef18fae23fbe0a99851863a79a61002cd3921081d8d3",
+    "data/data_audit.json": "c53240678497f9edef011fed0d713e950e1f700d52edfbbdea73156763c83791",
+    "evidence/claim_evidence.json": "58821b63457411e5c01770900fcdd95720d7b52199038ea448d049907fc386fd",
+    "experiments/experiment_plan.json": "836360d08c21297aa802f3e7fd452dc5dcb95421b3c009679ddd05ab2d191c95",
+    "handoff/modeling_to_paper.json": "429f7153a93813f6aef42c214e5b1d5f7cf69300b506687d5b52312c5665b41d",
     "models/assumptions_and_symbols.json": "b02300282f3b91582219a3d84589d30f85d4e3d9f5c2859971bef9d913a6110d",
     "models/model_candidates.json": "4a038eb53d10b6ef5a5fa47b15d9fd565711aed49702c05523f840cbf3e2db2a",
     "problem/problem_requirements.json": "efd1075435c9530b94c9d7357dcb614629b001975f27dbf23bdb1efa1f268245",
     "research/research_plan.json": "65408d64996327dd98cc4456ed5e592af72dbfc3284432bdd210beb44260d7a1",
     "research/source_ledger.json": "37983b2aeda1718df7b9d8c89466692a48d75a85a16dc74538d8c35511d52b72",
-    "results/final_result.json": "9904fe34d152d7e519cf49a47c10cccf5a1960f8d83b62582eb36fbbc9378c72",
-    "results/model_comparison.json": "283d6a07e67df39c6feefcb3dc16e9885a827ba7caff415414aa0ee477d86d6e",
-    "results/robustness.json": "717e20bf6831225410918957a29cb5b823cd4a659052d32860a8685dc5e02ae4"
+    "results/final_result.json": "3f551e825a8477bdfa8d611537af137554b92d1a8f3590293e493e5b58bb8c4b",
+    "results/model_comparison.json": "ee09471e7021a353ec257f8d9d783cae2948cbd7eadbd301896928fb29a35600",
+    "results/robustness.json": "c01c74218ecd28e59b404bb88d371c0fa246e9ca8f7b721de2893831e487fdfa"
   },
   "case_id": "SYNTH-RC1-PREDICTION-001",
   "cli_result": {
     "case_id": "SYNTH-RC1-PREDICTION-001",
-    "case_state_hash": "95a4a5f0e3fe1ea39fb2f2a683f5e01c09d4b636f4dfa25c4266c8144397ee37",
+    "case_state_hash": "bb6db37ad0e363c9fcf5ef18fae23fbe0a99851863a79a61002cd3921081d8d3",
     "final_metric": 0.0,
     "final_state": "READY_FOR_PAPER_HANDOFF",
-    "handoff_hash": "5c35407c8265314f1d126246fe963835f203528c7fc199a8149e121939d86203",
+    "handoff_hash": "429f7153a93813f6aef42c214e5b1d5f7cf69300b506687d5b52312c5665b41d",
     "kind": "prediction",
     "run_ids": [
       "RUN-P-BASELINE-MEAN",
@@ -32,7 +32,7 @@
     "transition_count": 13
   },
   "command": "python <skill>/scripts/cumcm_case.py smoke --case-root <TEMP>/prediction --case-id SYNTH-RC1-PREDICTION-001 --kind prediction",
-  "evidence_hash": "b3edbad0564fb23dd75c852100a5d761ad8dadb5fb33601169d0ac9728cbe2d7",
+  "evidence_hash": "ec744f61f5efac91c5017245921a5cfd427b45a6231dde1ed9225d10468fe791",
   "exit_code": 0,
   "failure_cases": [
     "线性趋势外推不保证适用于结构突变"
@@ -83,7 +83,7 @@
     "uncertainty",
     "validation_results"
   ],
-  "handoff_hash": "5c35407c8265314f1d126246fe963835f203528c7fc199a8149e121939d86203",
+  "handoff_hash": "429f7153a93813f6aef42c214e5b1d5f7cf69300b506687d5b52312c5665b41d",
   "handoff_required_fields": [
     "approved_by",
     "assumptions",
@@ -111,20 +111,120 @@
   ],
   "historical_answer_accesses": 0,
   "kind": "prediction",
+  "post_ready_raw_mutation_probe": {
+    "dependency_chain": [
+      "data/raw/prediction_rows.json",
+      "experiments/experiment_plan.json",
+      "runs/RUN-P-BASELINE-MEAN/manifest.json",
+      "runs/RUN-P-LINEAR-TREND/manifest.json"
+    ],
+    "exit_code": 4,
+    "reason_codes": [
+      "RC_UPSTREAM_DEPENDENCY_STALE"
+    ],
+    "state_mutated": false,
+    "status": "STALE"
+  },
+  "processed_input_hashes": {
+    "data/processed/prediction_clean.json": "c1f9024bb052ee993b3b264153324dc02b30998ce886d1bbdfcac61854846fa8"
+  },
+  "processing_lineage": {
+    "discarded_fields": [
+      "future_target"
+    ],
+    "imputed_times": [
+      5
+    ],
+    "method": "THEIL_SEN_TREND_IMPUTE_AND_RESIDUAL_REPLACE_V1",
+    "outlier_times": [
+      6
+    ],
+    "raw_path": "data/raw/prediction_rows.json",
+    "raw_sha256": "adb4b0fb38d4dd88a7ae1e0c9fdc04bdf2b49191beef1f6b8332f63d426a3428",
+    "residual_threshold": 1.0,
+    "robust_intercept": 1.0,
+    "robust_slope": 2.0
+  },
   "raw_input_hashes": {
     "data/raw/prediction_rows.json": "adb4b0fb38d4dd88a7ae1e0c9fdc04bdf2b49191beef1f6b8332f63d426a3428"
   },
   "robustness_perturbation_count": 2,
   "run_manifests": {
     "RUN-P-BASELINE-MEAN": {
+      "code_commit": "6dfaa0d938ada59fb4fa408c8e540cf8e51f7965",
+      "code_files": [
+        {
+          "path": "scripts/cumcm_case.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "a029b7784bf5183446c7c7de5c286a693f8b688004a008ad24a8fcb649b52fc8"
+        },
+        {
+          "path": "scripts/synthetic_cases.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "9945edccdc88e9873c151f5e70a9e8102f87258e16fa14b6114798964202de74"
+        }
+      ],
+      "code_tree_hash": "847e79fb8cfd31d9f14c81d69cbca1939b7b4b4bab48cd03ac0d661489f0fbb9",
+      "configuration": {
+        "candidate_id": "P-BASELINE-MEAN",
+        "seed": 20260904
+      },
+      "configuration_hash": "916f8423ad87ce1118a7a2353ed8ed6d82549438f685fd06c78238957c3c3360",
+      "input_files": [
+        {
+          "path": "data/raw/prediction_rows.json",
+          "sha256": "adb4b0fb38d4dd88a7ae1e0c9fdc04bdf2b49191beef1f6b8332f63d426a3428"
+        },
+        {
+          "path": "data/processed/prediction_clean.json",
+          "sha256": "c1f9024bb052ee993b3b264153324dc02b30998ce886d1bbdfcac61854846fa8"
+        }
+      ],
+      "input_hash": "aa32cca16511fbd8f5dd97eb75ddf3199a83dee1510ce2fc2792b4fd2748625c",
       "outcome": "SUCCESS",
-      "output_hash": "0af00812f97dc6cc0f02ed7150b29a5dbc566aaf96c2acff9d126124bb1ccc1e",
-      "sha256": "2f961f41553c3d86014a96a240a9dff58bc9f4c5406f55fa56951ce459256d18"
+      "output_hash": "7200b77c40b9601424ed61cfa5c651f1031c69ce6b6321f8c80f09915978f861",
+      "random_seed": 20260904,
+      "sha256": "0d876641183f829e683d641d8bc218c937e8342b6d1b92264dbe8bc24ef83b3b"
     },
     "RUN-P-LINEAR-TREND": {
+      "code_commit": "6dfaa0d938ada59fb4fa408c8e540cf8e51f7965",
+      "code_files": [
+        {
+          "path": "scripts/cumcm_case.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "a029b7784bf5183446c7c7de5c286a693f8b688004a008ad24a8fcb649b52fc8"
+        },
+        {
+          "path": "scripts/synthetic_cases.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "9945edccdc88e9873c151f5e70a9e8102f87258e16fa14b6114798964202de74"
+        }
+      ],
+      "code_tree_hash": "847e79fb8cfd31d9f14c81d69cbca1939b7b4b4bab48cd03ac0d661489f0fbb9",
+      "configuration": {
+        "candidate_id": "P-LINEAR-TREND",
+        "seed": 20260904
+      },
+      "configuration_hash": "95abe87b9a196e5f8b23c3ef4b8bb3eae68d926d511387499ef032d2b4c3be26",
+      "input_files": [
+        {
+          "path": "data/raw/prediction_rows.json",
+          "sha256": "adb4b0fb38d4dd88a7ae1e0c9fdc04bdf2b49191beef1f6b8332f63d426a3428"
+        },
+        {
+          "path": "data/processed/prediction_clean.json",
+          "sha256": "c1f9024bb052ee993b3b264153324dc02b30998ce886d1bbdfcac61854846fa8"
+        }
+      ],
+      "input_hash": "aa32cca16511fbd8f5dd97eb75ddf3199a83dee1510ce2fc2792b4fd2748625c",
       "outcome": "SUCCESS",
-      "output_hash": "b73e08284759824913611918203e9f8ed50997fc9e202dd54d1ace646522126a",
-      "sha256": "20b4c3b7318ae11bf26c59f108c419d3f43411b2f8bb497f28ae453cd46bd228"
+      "output_hash": "6108c0ac8286684295a99d563afab03eb688fc2d690ce8739786da58f04503a0",
+      "random_seed": 20260904,
+      "sha256": "e03ca57fe18ffee2f8b511f919cb4daa526e6c3e50fcebfb90ac628e5fb31681"
     }
   },
   "schema_version": "1.0.0",
@@ -150,5 +250,10 @@
     "count": 1,
     "used_for_selection": false
   },
-  "third_party_executions": 0
+  "third_party_executions": 0,
+  "zero_count_sources": {
+    "api_calls": "offline subprocess harness with no network operation",
+    "historical_answer_accesses": "accepted source_ledger.answer_access_status",
+    "third_party_executions": "project-original deterministic code path only"
+  }
 }

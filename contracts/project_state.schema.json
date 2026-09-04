@@ -56,6 +56,7 @@
         "SHADOW_PROTOTYPE_VALIDATION_IN_PROGRESS",
         "SHADOW_PROTOTYPE_VALIDATION_COMPLETE",
         "SHADOW_PROTOTYPE_VALIDATION_INCOMPLETE",
+        "COMPETITION_SKILL_RC_READY",
         "MODEL_INFRASTRUCTURE_BLOCKED",
         "EVIDENCE_EXPANSION_INCOMPLETE",
         "AUTOMATED_ADJUDICATION_INCOMPLETE",
@@ -205,6 +206,129 @@
       },
       "additionalProperties": false
     },
+    "competition_rc1": {
+      "type": "object",
+      "required": [
+        "old_blocked_decision",
+        "architecture_decision",
+        "minimum_gate",
+        "formal_skill",
+        "end_to_end",
+        "negative_tests",
+        "integration_audit",
+        "assurance",
+        "full_r3_status",
+        "deferred_validation",
+        "api_calls",
+        "model_training",
+        "real_comparison_model_starts",
+        "native_subagent_runs",
+        "third_party_executions"
+      ],
+      "properties": {
+        "old_blocked_decision": {
+          "type": "object",
+          "required": ["decision_id", "decision_hash", "result", "artifact_sha256"],
+          "properties": {
+            "decision_id": {"const": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F"},
+            "decision_hash": {"const": "2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d"},
+            "result": {"const": "FAST_TRACK_IMPLEMENTATION_BLOCKED"},
+            "artifact_sha256": {"const": "70cd886ad2efb226769bb15a26d041554f12d24c2bf3acc8c87b90f6527156a1"}
+          },
+          "additionalProperties": false
+        },
+        "architecture_decision": {
+          "type": "object",
+          "required": ["decision_id", "decision_hash", "artifact_sha256", "selected_architecture"],
+          "properties": {
+            "decision_id": {"const": "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1"},
+            "decision_hash": {"const": "8b4c50dbe5f95ca04ceff4c489ae83dc3a4afa81e156e1f00f16b2ac65f25cbe"},
+            "artifact_sha256": {"const": "20b6d4c0086c8ab8e3a81f442fba63977db3d557f2143d91db86d0a4993bfa03"},
+            "selected_architecture": {"const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"}
+          },
+          "additionalProperties": false
+        },
+        "minimum_gate": {
+          "type": "object",
+          "required": ["result_sha256", "k1_passed", "w1_passed", "case_evaluations", "unhandled_exceptions"],
+          "properties": {
+            "result_sha256": {"const": "07d4362f0c2d0c6b502bcae99748e18f825ded4662554fb860d4db483376b971"},
+            "k1_passed": {"const": 8},
+            "w1_passed": {"const": 8},
+            "case_evaluations": {"const": 234},
+            "unhandled_exceptions": {"const": 0}
+          },
+          "additionalProperties": false
+        },
+        "formal_skill": {
+          "type": "object",
+          "required": ["name", "version", "capability", "discoverable_count", "workflow_count", "role_count"],
+          "properties": {
+            "name": {"const": "cumcm-modeling-evidence"},
+            "version": {"const": "0.2.0-competition-rc1"},
+            "capability": {"const": "COMPETITION_RC"},
+            "discoverable_count": {"const": 1},
+            "workflow_count": {"const": 14},
+            "role_count": {"const": 4}
+          },
+          "additionalProperties": false
+        },
+        "end_to_end": {
+          "type": "object",
+          "required": ["result_sha256", "passed", "prediction_state", "optimization_state"],
+          "properties": {
+            "result_sha256": {"const": "3beefd5190547246a361e6829a2236224927af8a9673cc0344ff62f78676fa99"},
+            "passed": {"const": 2},
+            "prediction_state": {"const": "READY_FOR_PAPER_HANDOFF"},
+            "optimization_state": {"const": "READY_FOR_PAPER_HANDOFF"}
+          },
+          "additionalProperties": false
+        },
+        "negative_tests": {
+          "type": "object",
+          "required": ["result_sha256", "passed", "failed", "unhandled_exceptions"],
+          "properties": {
+            "result_sha256": {"const": "5c46849aee853b1bb1d9af43f7ea22d827681852e6a2150da6ad4bd0cd2f5f60"},
+            "passed": {"const": 30},
+            "failed": {"const": 0},
+            "unhandled_exceptions": {"const": 0}
+          },
+          "additionalProperties": false
+        },
+        "integration_audit": {
+          "type": "object",
+          "required": ["status", "path", "sha256"],
+          "properties": {
+            "status": {"const": "PASS"},
+            "path": {"const": "evals/results/phase-003f-r1/formal_skill_integration/audit.json"},
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          },
+          "additionalProperties": false
+        },
+        "assurance": {"const": "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"},
+        "full_r3_status": {"const": "DEFERRED_NOT_PASSED"},
+        "deferred_validation": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "allOf": [
+            {"contains": {"const": "full sealed Stage 1"}},
+            {"contains": {"const": "Stage 2 model comparison"}},
+            {"contains": {"const": "full ablation"}},
+            {"contains": {"const": "external validity"}},
+            {"contains": {"const": "production fitness"}},
+            {"contains": {"const": "monetary cost"}}
+          ]
+        },
+        "api_calls": {"const": 0},
+        "model_training": {"const": false},
+        "real_comparison_model_starts": {"const": 0},
+        "native_subagent_runs": {"const": 3},
+        "third_party_executions": {"const": 0}
+      },
+      "additionalProperties": false
+    },
     "next_phase_allowed": {"type": ["string", "null"]},
     "content_verified_commit": {
       "type": ["string", "null"],
@@ -298,7 +422,7 @@
     "risks": {"type": "array", "items": {"type": "string"}},
     "base_selected": {"type": "boolean"},
     "third_party_integrated": {"const": false},
-    "skill_capability_status": {"const": "SCAFFOLD_ONLY"},
+    "skill_capability_status": {"enum": ["SCAFFOLD_ONLY", "COMPETITION_RC"]},
     "updated_at": {"type": "string", "minLength": 1},
     "updated_by": {"type": "string", "minLength": 1}
   },
@@ -646,6 +770,40 @@
             }
           }
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {"const": "COMPETITION_SKILL_RC_READY"}
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-SKILL-INTEGRATION-003"},
+          "subphase": {"const": "COMPETITION-RC1-REPAIR-AND-INTEGRATION"},
+          "status": {"const": "IN_PROGRESS"},
+          "current_plan": {"const": "plans/active/PLAN-0002D-R3-shadow-prototype-validation.md"},
+          "active_skill_version": {"const": "0.2.0-competition-rc1"},
+          "selected_architecture": {"const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"},
+          "accepted_component_specifications": {
+            "minItems": 4,
+            "maxItems": 4,
+            "allOf": [
+              {"contains": {"const": "accepted-versus-done-workflow-state"}},
+              {"contains": {"const": "claim-evidence-support-gate"}},
+              {"contains": {"const": "hash-bound-reproducibility-manifest"}},
+              {"contains": {"const": "leakage-safe-model-comparison-gate"}}
+            ]
+          },
+          "next_phase_allowed": {"const": "PHASE-SKILL-DEVELOPMENT-EVAL-004"},
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "skill_capability_status": {"const": "COMPETITION_RC"},
+          "blockers": {"maxItems": 0}
+        },
+        "required": ["competition_rc1"]
       }
     }
   ],

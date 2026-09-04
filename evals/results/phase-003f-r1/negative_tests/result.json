@@ -35,9 +35,11 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_COMPARISON_FREEZE_INPUT_INVALID",
+        "RC_COMPARISON_METRIC_OR_SUCCESS_SET_INVALID",
         "RC_COMPARISON_NONFINITE_OR_NONJSON",
         "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
-        "RC_COMPARISON_SELECTION_MISMATCH"
+        "RC_COMPARISON_UNTRUSTED_FREEZE"
       ],
       "scenario_id": "03_NAN_SCORE",
       "unhandled_exception": false
@@ -50,9 +52,11 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_COMPARISON_FREEZE_INPUT_INVALID",
+        "RC_COMPARISON_METRIC_OR_SUCCESS_SET_INVALID",
         "RC_COMPARISON_NONFINITE_OR_NONJSON",
         "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
-        "RC_COMPARISON_SELECTION_MISMATCH"
+        "RC_COMPARISON_UNTRUSTED_FREEZE"
       ],
       "scenario_id": "04_INF_SCORE",
       "unhandled_exception": false
@@ -65,6 +69,7 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_COMPARISON_DECISION_HASH_MISMATCH",
         "RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID",
         "RC_COMPARISON_SELECTION_MISMATCH"
       ],
@@ -79,8 +84,13 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_COMPARISON_ATTEMPT_BINDING_INVALID",
         "RC_COMPARISON_BASELINE_MISSING",
-        "RC_COMPARISON_EMPTY_CANDIDATE_SET"
+        "RC_COMPARISON_BASELINE_SUCCESS_MISSING",
+        "RC_COMPARISON_EMPTY_CANDIDATE_SET",
+        "RC_COMPARISON_FREEZE_INPUT_INVALID",
+        "RC_COMPARISON_METRIC_OR_SUCCESS_SET_INVALID",
+        "RC_COMPARISON_UNTRUSTED_FREEZE"
       ],
       "scenario_id": "06_EMPTY_CANDIDATE_SET",
       "unhandled_exception": false
@@ -93,7 +103,8 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
-        "RC_COMPARISON_EMPTY_SPLIT"
+        "RC_COMPARISON_EMPTY_SPLIT",
+        "RC_COMPARISON_UNTRUSTED_FREEZE"
       ],
       "scenario_id": "07_EMPTY_SPLIT",
       "unhandled_exception": false
@@ -106,6 +117,7 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_COMPARISON_DECISION_HASH_MISMATCH",
         "RC_COMPARISON_NON_SUCCESS_ATTEMPT_SCORED",
         "RC_COMPARISON_SELECTION_MISMATCH"
       ],
@@ -198,6 +210,7 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_MANIFEST_ADDITIONAL_FIELDS_REJECTED",
         "RC_SECRET_FIELD_REJECTED"
       ],
       "scenario_id": "15_PRIVATE_KEY",
@@ -211,6 +224,7 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_MANIFEST_ADDITIONAL_FIELDS_REJECTED",
         "RC_SECRET_FIELD_REJECTED"
       ],
       "scenario_id": "16_REFRESH_TOKEN",
@@ -224,6 +238,7 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_MANIFEST_ADDITIONAL_FIELDS_REJECTED",
         "RC_PRIVATE_ABSOLUTE_PATH_REJECTED"
       ],
       "scenario_id": "17_UNC_PATH",
@@ -263,6 +278,7 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_CLAIM_EVIDENCE_CONTEXT_MISSING",
         "RC_CLAIM_FINAL_RESULT_BINDING_MISMATCH",
         "RC_CLAIM_HASH_INVALID:decision_hash",
         "RC_CLAIM_REQUIRED_BINDING_MISSING",
@@ -279,6 +295,8 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_CLAIM_EVIDENCE_CONTEXT_MISSING",
+        "RC_CLAIM_REQUIRED_BINDING_MISSING",
         "RC_CLAIM_STALE_EVIDENCE"
       ],
       "scenario_id": "21_STALE_EVIDENCE",
@@ -292,7 +310,9 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
-        "RC_CLAIM_CONTRADICTED"
+        "RC_CLAIM_CONTRADICTED",
+        "RC_CLAIM_EVIDENCE_CONTEXT_MISSING",
+        "RC_CLAIM_REQUIRED_BINDING_MISSING"
       ],
       "scenario_id": "22_CONTRADICTORY_CLAIM",
       "unhandled_exception": false
@@ -305,7 +325,10 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
-        "RC_CLAIM_OVERBROAD_OR_UNSUPPORTED"
+        "RC_CLAIM_EVIDENCE_CONTEXT_MISSING",
+        "RC_CLAIM_FINAL_SCOPE_MISMATCH",
+        "RC_CLAIM_OVERBROAD_OR_UNSUPPORTED",
+        "RC_CLAIM_REQUIRED_BINDING_MISSING"
       ],
       "scenario_id": "23_UNSUPPORTED_CLAIM",
       "unhandled_exception": false
@@ -370,7 +393,9 @@
       "pass": true,
       "ready_for_paper_handoff": false,
       "reason_codes": [
+        "RC_CLAIM_EVIDENCE_CONTEXT_MISSING",
         "RC_CLAIM_FINAL_RESULT_BINDING_MISMATCH",
+        "RC_CLAIM_REQUIRED_BINDING_MISSING",
         "RC_CLAIM_RUN_BINDING_MISMATCH"
       ],
       "scenario_id": "28_CROSS_COMPONENT_RUN_HASH_MISMATCH",
@@ -399,6 +424,7 @@
       "reason_codes": [
         "RC_HANDOFF_APPROVAL_SCOPE_INVALID",
         "RC_HANDOFF_CLAIM_EVIDENCE_MISSING",
+        "RC_HANDOFF_EVIDENCE_CONTEXT_MISSING",
         "RC_HANDOFF_FINAL_RUNS_MISSING",
         "RC_HANDOFF_REQUIRED_FIELDS_MISSING"
       ],
