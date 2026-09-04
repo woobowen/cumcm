@@ -825,7 +825,7 @@ def test_run_inputs_must_exactly_match_preregistered_audited_input_set(
         ("prediction", "wrong_seed", "RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID"),
         ("prediction", "wrong_run_id", "RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID"),
         ("optimization", "missing_attempt", "RC_RUN_ATTEMPT_LEDGER_NOT_EXACT"),
-        ("prediction", "hidden_attempt", "RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID"),
+        ("prediction", "hidden_attempt", "RC_RUN_OUTPUT_IDENTITY_INVALID"),
     ],
 )
 def test_run_gates_reject_nonexact_frozen_attempt_ledger_before_state_progress(
