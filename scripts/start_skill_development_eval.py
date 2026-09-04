@@ -18,6 +18,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
+DEFAULT_PROJECT_STATE = REPO_ROOT / "state/project_state.json"
 CASE_CLI = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
 SKILL_VERSION = "0.2.0-competition-rc1"
 ALLOWED_SET_TYPES = {"DEVELOPMENT", "VALIDATION", "HELD_OUT", "STRESS"}
@@ -108,13 +109,30 @@ def iso_time(value: str | None) -> str:
     if value is None:
         return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     try:
-        datetime.fromisoformat(value.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError as exc:
         raise ValueError("START_TIME_INVALID") from exc
+    if parsed.utcoffset() is None:
+        raise ValueError("START_TIME_TIMEZONE_REQUIRED")
     return value
 
 
+def require_competition_rc_ready(path: Path) -> None:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    competition = value.get("competition_rc1") if isinstance(value, dict) else None
+    if (
+        not isinstance(value, dict)
+        or value.get("technical_adjudication_status") != "COMPETITION_SKILL_RC_READY"
+        or value.get("next_phase_allowed") != "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        or value.get("active_skill_version") != SKILL_VERSION
+        or not isinstance(competition, dict)
+        or competition.get("integration_audit", {}).get("status") != "PASS"
+    ):
+        raise ValueError("COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL")
+
+
 def register(args: argparse.Namespace) -> dict[str, Any]:
+    require_competition_rc_ready(DEFAULT_PROJECT_STATE)
     registry = read_registry(args.registry)
     if args.set_type not in ALLOWED_SET_TYPES:
         raise ValueError("SET_TYPE_INVALID")

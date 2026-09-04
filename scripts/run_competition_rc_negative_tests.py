@@ -35,23 +35,38 @@ def load_core():
 def valid_context(core: Any) -> dict[str, Any]:
     return {
         "stage": core.STAGES[0],
-        "enabled_components": ["workflow", "manifest", "comparison", "claim"],
+        "enabled_components": sorted(core.COMPONENT_IDS),
         "execution_scope": "CASE",
     }
 
 
 def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
+    splits = {"train": [1], "validation": [2], "test": [3]}
+    aggregation_rule = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
+    selection_rule = "ARGMIN_THEN_ID"
     freezes = {
         "candidate_set": core.canonical_hash(["BASE", "CAND"]),
-        "metric": core.canonical_hash({"name": "MAE", "direction": "MIN"}),
+        "metric": core.canonical_hash(
+            {
+                "name": "MAE",
+                "direction": "MIN",
+                "aggregation_rule": aggregation_rule,
+                "selection_rule": selection_rule,
+            }
+        ),
         "seed_schedule": core.canonical_hash([7]),
+        "split_assignment": core.canonical_hash(splits),
+        "baseline": core.canonical_hash("BASE"),
     }
+    validation_scores = {"BASE": 2.0, "CAND": 1.0}
     comparison = {
         "candidate_ids": ["BASE", "CAND"],
         "baseline_id": "BASE",
-        "splits": {"train": [1], "validation": [2], "test": [3]},
+        "splits": splits,
         "metric": "MAE",
         "metric_direction": "MIN",
+        "aggregation_rule": aggregation_rule,
+        "selection_rule": selection_rule,
         "random_seeds": [7],
         "attempts": [
             {
@@ -70,6 +85,15 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
             },
         ],
         "selected_candidate_id": "CAND",
+        "selection_decision_hash": core.canonical_hash(
+            {
+                "selected_candidate_id": "CAND",
+                "validation_scores": validation_scores,
+                "metric": "MAE",
+                "rule": selection_rule,
+                "aggregation_rule": aggregation_rule,
+            }
+        ),
         "freeze_bindings": copy.deepcopy(freezes),
         "leakage_checks": {
             "test_used_for_candidate_generation": False,
@@ -81,6 +105,7 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
             "time_order_valid": True,
         },
         "test_access": {"authorized": True, "count": 1, "used_for_selection": False},
+        "reliability": {"attempts": 2, "successful": 2, "failed_or_infeasible": 0},
     }
     return comparison, freezes
 
@@ -194,6 +219,7 @@ def claim_case(
         "run_id": manifest["run_id"],
         "output_hash": manifest["output_hash"],
         "decision_hash": manifest["decision_hash"],
+        "claim_scope": claim["supported_scope"],
     }
     before = copy.deepcopy((claim, manifest, final))
     result = core.validate_claim(claim, manifest, final)
@@ -306,6 +332,7 @@ def run_scenario(core: Any, case_root: Path, scenario_id: str) -> tuple[Any, boo
             context["formal_project_state_write"] = True
         else:
             context["second_state_truth"] = True
+        context["isolated_state_binding_hash"] = core.canonical_hash(context)
         before = copy.deepcopy(context)
         return core.validate_state_boundary(context), context == before, "NONE"
     if scenario_id == "27_PRODUCTION_STAGE_ATTEMPT":

@@ -202,3 +202,429 @@ def test_smoke_consumes_bound_inputs_and_raw_mutation_is_stale(
     stale = case_cli.stale_check(case_root, mutate=False)
     assert stale.status == "STALE"
     assert "RC_UPSTREAM_DEPENDENCY_STALE" in stale.reason_codes
+    assert stale.dependency_chain
+    case_cli.stale_check(case_root, mutate=True)
+    frozen_state = (case_root / "case_state.json").read_bytes()
+    repeated = case_cli.stale_check(case_root, mutate=True)
+    assert repeated.dependency_chain == stale.dependency_chain
+    assert (case_root / "case_state.json").read_bytes() == frozen_state
+
+
+def test_claim_scope_and_registered_evidence_are_exactly_bound(case_cli, tmp_path: Path) -> None:
+    case_root = tmp_path / "prediction"
+    case_cli.run_smoke(case_root, "AUDIT-CLAIM-001", "prediction", False)
+    state = case_cli.load_state(case_root)
+    claim = case_cli.read_artifact(case_root, "claim_evidence")["content"]
+    final = case_cli.read_artifact(case_root, "final_result")["content"]
+    manifest = case_cli.load_json(case_root / "runs" / claim["run_id"] / "manifest.json")
+
+    overbroad = copy.deepcopy(claim)
+    overbroad["claim_text"] = "This model is universally optimal for all problems"
+    overbroad["supported_scope"] = overbroad["claim_text"]
+    result = case_cli.validate_claim(
+        overbroad,
+        manifest,
+        final,
+        case_root=case_root,
+        state=state,
+    )
+    assert result.accepted is False
+    assert "RC_CLAIM_FINAL_SCOPE_MISMATCH" in result.reason_codes
+
+    nonexistent = copy.deepcopy(claim)
+    nonexistent["evidence_artifact_ids"] = ["DOES-NOT-EXIST"]
+    result = case_cli.validate_claim(
+        nonexistent,
+        manifest,
+        final,
+        case_root=case_root,
+        state=state,
+    )
+    assert result.accepted is False
+    assert {
+        "RC_CLAIM_EVIDENCE_REGISTRY_MISMATCH",
+        "RC_CLAIM_EVIDENCE_NOT_CURRENT_OR_MISSING",
+    } <= set(result.reason_codes)
+
+
+def test_comparison_decision_scores_splits_and_run_ledger_are_exactly_bound(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "prediction"
+    case_cli.run_smoke(case_root, "AUDIT-COMPARISON-001", "prediction", False)
+    comparison = case_cli.read_artifact(case_root, "model_comparison")["content"]
+    freezes = case_cli.trusted_freezes(case_root)
+
+    missing = copy.deepcopy(comparison)
+    missing.pop("selection_decision_hash")
+    assert (
+        "RC_COMPARISON_DECISION_HASH_MISMATCH"
+        in case_cli.validate_comparison(missing, freezes, case_root=case_root).reason_codes
+    )
+
+    fabricated = copy.deepcopy(comparison)
+    fabricated["attempts"][0]["validation_score"] = 0.0
+    fabricated["selected_candidate_id"] = fabricated["baseline_id"]
+    fabricated["selection_decision_hash"] = case_cli.canonical_hash(
+        {
+            "selected_candidate_id": fabricated["baseline_id"],
+            "validation_scores": {
+                item["candidate_id"]: item["validation_score"] for item in fabricated["attempts"]
+            },
+            "metric": fabricated["metric"],
+            "rule": fabricated["selection_rule"],
+            "aggregation_rule": fabricated["aggregation_rule"],
+        }
+    )
+    reasons = case_cli.validate_comparison(fabricated, freezes, case_root=case_root).reason_codes
+    assert "RC_COMPARISON_SCORE_OUTPUT_MISMATCH" in reasons
+    assert "RC_COMPARISON_MANIFEST_DECISION_MISMATCH" in reasons
+
+    swapped = copy.deepcopy(comparison)
+    swapped["splits"]["validation"], swapped["splits"]["test"] = (
+        swapped["splits"]["test"],
+        swapped["splits"]["validation"],
+    )
+    assert (
+        "RC_COMPARISON_UNTRUSTED_FREEZE"
+        in case_cli.validate_comparison(swapped, freezes, case_root=case_root).reason_codes
+    )
+
+    source_manifest = next(case_root.glob("runs/*/manifest.json"))
+    hidden = case_cli.load_json(source_manifest)
+    hidden["run_id"] = "RUN-HIDDEN-RETRY"
+    case_cli.write_json(case_root / "runs/RUN-HIDDEN-RETRY/manifest.json", hidden)
+    assert (
+        "RC_COMPARISON_RUN_LEDGER_NOT_EXACT"
+        in case_cli.validate_comparison(comparison, freezes, case_root=case_root).reason_codes
+    )
+
+
+def test_final_result_selected_run_metrics_and_scope_are_exactly_bound(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "optimization"
+    case_cli.run_smoke(case_root, "AUDIT-FINAL-001", "optimization", False)
+    comparison = case_cli.read_artifact(case_root, "model_comparison")["content"]
+    final = case_cli.read_artifact(case_root, "final_result")["content"]
+    changed = copy.deepcopy(final)
+    changed["selected_model"] = comparison["baseline_id"]
+    changed["final_metrics"]["profit"] += 1
+    result = case_cli.validate_final_result(
+        changed,
+        comparison,
+        case_root=case_root,
+    )
+    assert result.accepted is False
+    assert {
+        "RC_FINAL_RESULT_SELECTION_BINDING_MISMATCH",
+        "RC_FINAL_RESULT_METRICS_OR_SCOPE_MISMATCH",
+    } <= set(result.reason_codes)
+
+
+@pytest.mark.parametrize(
+    "field,replacement",
+    [
+        ("selected_models", [{"candidate_id": "FABRICATED"}]),
+        ("sources", [{"source_id": "FABRICATED"}]),
+        (
+            "validation_results",
+            {
+                "comparison_decision_hash": "0" * 64,
+                "selected_model": "FABRICATED",
+                "test_used_for_selection": True,
+            },
+        ),
+        ("robustness_results", {"status": "FABRICATED"}),
+        ("result_tables", [{"table_id": "FABRICATED", "rows": []}]),
+        ("figure_ready_data", [{"figure_id": "FABRICATED", "series": []}]),
+    ],
+)
+def test_handoff_all_paper_facts_are_canonically_bound(
+    case_cli, tmp_path: Path, field: str, replacement
+) -> None:
+    case_root = tmp_path / field
+    case_cli.run_smoke(case_root, f"AUDIT-HANDOFF-{field.upper()}", "prediction", False)
+    handoff = case_cli.load_json(case_root / case_cli.ARTIFACT_PATHS["modeling_to_paper_handoff"])
+    handoff[field] = replacement
+    result = case_cli.validate_handoff(
+        handoff,
+        case_root=case_root,
+        state=case_cli.load_state(case_root),
+    )
+    assert result.accepted is False
+    assert "RC_HANDOFF_CANONICAL_BINDING_MISMATCH" in result.reason_codes
+
+
+@pytest.mark.parametrize(
+    ("key", "value"),
+    [
+        ("path", "/private/run"),
+        ("path", "/etc/shadow"),
+        ("path", "${HOME}/private/run"),
+        ("path", "~other/.ssh/id_rsa"),
+        ("secret", "SYNTHETIC_SECRET_CANARY"),
+        ("token", "SYNTHETIC_TOKEN_CANARY"),
+    ],
+)
+def test_formal_sensitive_scan_matches_selected_k1(case_cli, key: str, value: str) -> None:
+    findings = case_cli.sensitive_findings({"nested": {"items": [{key: value}]}})
+    assert findings
+    assert value not in str(findings)
+
+
+def test_public_status_converts_malformed_nested_state_to_structured_block(
+    repo_root: Path, case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "case"
+    state = case_cli.initialize_case(case_root, "AUDIT-MALFORMED-STATE", "general")
+    state["history"][-1] = 7
+    case_cli.write_json(case_root / "case_state.json", state)
+    cli = repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+
+    result = subprocess.run(
+        [sys.executable, str(cli), "status", "--case-root", str(case_root)],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    payload = json.loads(result.stdout)
+    assert result.returncode != 0
+    assert payload["status"] == "BLOCK"
+    assert payload["accepted"] is False
+    assert payload["final"] is False
+    assert "Traceback" not in result.stderr
+
+
+def test_component_and_isolated_state_boundaries_are_exact(case_cli) -> None:
+    for components in (["BOGUS"], [next(iter(case_cli.COMPONENT_IDS))] * 2):
+        result = case_cli.boundary_validate(
+            {},
+            {
+                "stage": "PROBLEM_INTAKE",
+                "enabled_components": components,
+                "execution_scope": "CASE",
+            },
+        )
+        assert "RC_CONTEXT_ENABLED_COMPONENTS_INVALID" in result.reason_codes
+
+    context = {
+        "writer": "modeling_orchestrator",
+        "formal_project_state_write": False,
+        "second_state_truth": False,
+        "execution_scope": "CASE",
+        "state_path": "case_state.json",
+    }
+    context["isolated_state_binding_hash"] = case_cli.canonical_hash(context)
+    assert case_cli.validate_state_boundary(context).accepted is True
+    context["extra_state_authority"] = True
+    assert (
+        "RC_EXTRA_OR_MISSING_STATE_AUTHORITY_REJECTED"
+        in case_cli.validate_state_boundary(context).reason_codes
+    )
+
+
+def test_general_case_final_and_handoff_use_generic_evidence_contract(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "general"
+
+    def accepted(key: str, content: dict) -> None:
+        case_cli.write_json(
+            case_root / case_cli.ARTIFACT_PATHS[key], case_cli.artifact(key, content)
+        )
+
+    requirements = [{"requirement_id": "REQ-G-1", "text": "generic evidence"}]
+    accepted("problem_requirements", {"requirements": requirements})
+    accepted(
+        "source_ledger",
+        {"sources": [{"source_id": "SRC-GENERIC", "kind": "PROJECT_ORIGINAL"}]},
+    )
+    accepted(
+        "assumptions_and_symbols",
+        {
+            "assumptions": ["generic assumption"],
+            "symbols": {"q": "quality"},
+            "formulas": ["q=score"],
+        },
+    )
+    accepted(
+        "data_audit",
+        {"raw_immutable": True, "data_hashes": {"data/raw/generic.json": "1" * 64}},
+    )
+    candidates = [
+        {"candidate_id": "G-BASE", "baseline": True},
+        {"candidate_id": "G-CAND", "baseline": False},
+    ]
+    accepted("model_candidates", {"candidates": candidates})
+    accepted(
+        "experiment_plan",
+        {"handoff_generated_at": "2026-09-04T00:00:00Z"},
+    )
+    comparison = {
+        "selected_candidate_id": "G-CAND",
+        "selection_decision_hash": "2" * 64,
+        "attempts": [
+            {
+                "candidate_id": "G-CAND",
+                "run_id": "RUN-G-CAND",
+                "outcome": "SUCCESS",
+                "random_seed": 17,
+                "validation_score": 1.0,
+            }
+        ],
+        "test_access": {"used_for_selection": False},
+    }
+    accepted("model_comparison", comparison)
+    robustness = {
+        "status": "VALIDATED",
+        "perturbations": [{"name": "generic", "quality": 9.0}],
+        "failure_cases": ["generic limitation"],
+    }
+    accepted("robustness_analysis", robustness)
+    output_relative = "runs/RUN-G-CAND/output.json"
+    output = {
+        "candidate_id": "G-CAND",
+        "validation_metrics": {"custom_loss": 1.0},
+        "final_metrics": {"quality": 9.0},
+        "claim_scope": "generic frozen evidence",
+        "figure_ready_data": [{"figure_id": "GENERIC_QUALITY", "series": [{"quality": 9.0}]}],
+        "limitations": ["generic synthetic contract only"],
+        "uncertainty": {"scope": "deterministic", "quantified": True},
+    }
+    case_cli.write_json(case_root / output_relative, output)
+    output_file_hash = case_cli.file_hash(case_root / output_relative)
+    manifest = {
+        "run_id": "RUN-G-CAND",
+        "output_hash": case_cli.canonical_hash([output_file_hash]),
+        "decision_hash": "2" * 64,
+        "configuration": {"candidate_id": "G-CAND", "seed": 17},
+        "output_files": [{"path": output_relative, "sha256": output_file_hash}],
+    }
+    case_cli.write_json(case_root / "runs/RUN-G-CAND/manifest.json", manifest)
+    final = {
+        "status": "FINAL_CANDIDATE",
+        "selected_model": "G-CAND",
+        "run_id": "RUN-G-CAND",
+        "output_hash": manifest["output_hash"],
+        "decision_hash": manifest["decision_hash"],
+        "final_metrics": output["final_metrics"],
+        "claim_scope": output["claim_scope"],
+    }
+    accepted("final_result", final)
+    claim = {"claim_id": "CLAIM-G-1", "claim_text": output["claim_scope"]}
+    accepted("claim_evidence", claim)
+
+    assert case_cli.validate_final_result(final, comparison, case_root=case_root).accepted is True
+    state = {"case_kind": "general", "evidence_bindings": {}}
+    expected = case_cli.build_expected_handoff(case_root, state)
+    for key in (
+        "problem_requirements",
+        "source_ledger",
+        "assumptions_and_symbols",
+        "data_audit",
+        "model_candidates",
+        "experiment_plan",
+        "model_comparison",
+        "robustness_analysis",
+        "final_result",
+        "claim_evidence",
+    ):
+        relative = case_cli.ARTIFACT_PATHS[key]
+        state["evidence_bindings"][relative] = case_cli.file_hash(case_root / relative)
+    result = case_cli.validate_handoff(expected, case_root=case_root, state=state)
+    assert result.accepted is True
+    assert expected["final_metrics"] == {"quality": 9.0}
+
+
+def test_direct_validators_fail_closed_on_nested_enum_type_fuzz(case_cli, tmp_path: Path) -> None:
+    case_root = tmp_path / "prediction"
+    case_cli.run_smoke(case_root, "AUDIT-TYPE-FUZZ", "prediction", False)
+    comparison = case_cli.read_artifact(case_root, "model_comparison")["content"]
+    freezes = case_cli.trusted_freezes(case_root)
+    mutations = (
+        lambda value: value.update(candidate_ids=[[]]),
+        lambda value: value.update(random_seeds=[[]]),
+        lambda value: value.update(metric_direction=[]),
+    )
+    for mutate in mutations:
+        value = copy.deepcopy(comparison)
+        mutate(value)
+        before = copy.deepcopy(value)
+        result = case_cli.validate_comparison(value, freezes)
+        assert result.accepted is False
+        assert value == before
+    boundary = case_cli.boundary_validate(
+        {},
+        {
+            "stage": "PROBLEM_INTAKE",
+            "enabled_components": sorted(case_cli.COMPONENT_IDS),
+            "execution_scope": [],
+        },
+    )
+    assert boundary.accepted is False
+    state = case_cli.initialize_case(tmp_path / "state", "AUDIT-TYPE-STATE", "general")
+    state["state"] = []
+    assert case_cli.validate_case_state(state).accepted is False
+    manifest = case_cli.load_json(next(case_root.glob("runs/*/manifest.json")))
+    manifest["outcome"] = []
+    assert (
+        case_cli.validate_manifest(manifest, case_root=case_root, trusted_freezes=freezes).accepted
+        is False
+    )
+
+
+@pytest.mark.parametrize("freeze_hash", ["unknown", "a" * 64])
+def test_manifest_rejects_unregistered_top_level_freeze_reference(
+    case_cli, tmp_path: Path, freeze_hash: str
+) -> None:
+    case_root = tmp_path / freeze_hash[:8]
+    case_cli.run_smoke(case_root, "AUDIT-FREEZE-REFERENCE", "prediction", False)
+    manifest = case_cli.load_json(next(case_root.glob("runs/*/manifest.json")))
+    manifest["freeze_hash"] = freeze_hash
+    result = case_cli.validate_manifest(
+        manifest,
+        case_root=case_root,
+        trusted_freezes=case_cli.trusted_freezes(case_root),
+    )
+    assert result.accepted is False
+    assert "RC_MANIFEST_ADDITIONAL_FIELDS_REJECTED" in result.reason_codes
+
+
+def test_post_ready_case_root_code_mutation_reports_chain_without_state_write(
+    repo_root: Path, case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "prediction"
+    case_cli.run_smoke(case_root, "AUDIT-CODE-STALE", "prediction", False)
+    copied_code = case_root / "code/model.py"
+    copied_code.parent.mkdir(parents=True)
+    copied_code.write_bytes((repo_root / "THIRD_PARTY_NOTICES.md").read_bytes())
+    state_path = case_root / "case_state.json"
+    state = case_cli.load_state(case_root)
+    for manifest_path in case_root.glob("runs/*/manifest.json"):
+        manifest = case_cli.load_json(manifest_path)
+        manifest["code_files"].append(
+            {
+                "scope": "CASE_ROOT",
+                "path": "code/model.py",
+                "repository_path": "THIRD_PARTY_NOTICES.md",
+                "sha256": case_cli.file_hash(copied_code),
+            }
+        )
+        manifest["code_tree_hash"] = case_cli.canonical_hash(
+            [item["sha256"] for item in manifest["code_files"]]
+        )
+        case_cli.write_json(manifest_path, manifest)
+        relative = str(manifest_path.relative_to(case_root))
+        state["evidence_bindings"][relative] = case_cli.file_hash(manifest_path)
+    case_cli.write_json(state_path, state)
+    assert case_cli.stale_check(case_root, mutate=False).accepted is True
+
+    copied_code.write_text("mutated code dependency\n", encoding="utf-8")
+    state_before = state_path.read_bytes()
+    result = case_cli.stale_check(case_root, mutate=False)
+    assert result.status == "STALE"
+    assert result.dependency_chain
+    assert all(path.endswith("manifest.json") for path in result.dependency_chain)
+    assert state_path.read_bytes() == state_before

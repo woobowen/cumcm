@@ -23,12 +23,23 @@ def _freezes(
     core: Any,
     candidate_ids: list[str],
     metric: str,
+    splits: dict[str, list[Any]],
+    baseline_id: str,
     direction: str = "MIN",
 ) -> dict[str, str]:
     return {
         "candidate_set": core.canonical_hash(candidate_ids),
-        "metric": core.canonical_hash({"name": metric, "direction": direction}),
+        "metric": core.canonical_hash(
+            {
+                "name": metric,
+                "direction": direction,
+                "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+                "selection_rule": "ARGMIN_THEN_ID" if direction == "MIN" else "ARGMAX_THEN_ID",
+            }
+        ),
         "seed_schedule": core.canonical_hash([20260904]),
+        "split_assignment": core.canonical_hash(splits),
+        "baseline": core.canonical_hash(baseline_id),
     }
 
 
@@ -145,59 +156,9 @@ def _handoff(
     figures: list[dict[str, Any]],
     limitations: list[str],
 ) -> dict[str, Any]:
-    state = core.load_state(case_root)
-    audit = core.read_artifact(case_root, "data_audit")["content"]
-    assumptions = core.read_artifact(case_root, "assumptions_and_symbols")["content"]
-    selected = final["selected_model"]
-    manifest = manifests[selected]
-    return {
-        "contract_version": "modeling-to-paper/v1",
-        "problem_requirements": requirements,
-        "requirement_traceability": {
-            item["requirement_id"]: claim["claim_id"] for item in requirements
-        },
-        "data_dictionary": {
-            "case_kind": state["case_kind"],
-            "raw_files": sorted(audit.get("raw_data_hashes", audit["data_hashes"])),
-        },
-        "data_quality_report": audit,
-        "assumptions": assumptions["assumptions"],
-        "symbols": assumptions["symbols"],
-        "formulas": formulas,
-        "sources": core.read_artifact(case_root, "source_ledger")["content"]["sources"],
-        "selected_models": [item for item in candidates if item["candidate_id"] == selected],
-        "final_runs": [
-            {
-                "run_id": manifest["run_id"],
-                "manifest_hash": core.canonical_hash(manifest),
-                "output_hash": manifest["output_hash"],
-            }
-        ],
-        "final_metrics": final["final_metrics"],
-        "result_tables": tables,
-        "figure_ready_data": figures,
-        "validation_results": {
-            "comparison_decision_hash": final["decision_hash"],
-            "selected_model": selected,
-            "test_used_for_selection": comparison["test_access"]["used_for_selection"],
-        },
-        "robustness_results": robustness,
-        "uncertainty": {
-            "scope": "deterministic synthetic perturbations",
-            "quantified": True,
-        },
-        "failure_cases": robustness["failure_cases"],
-        "limitations": limitations,
-        "claim_evidence": {claim["claim_id"]: claim},
-        "reproduction": {
-            "skill_version": core.VERSION,
-            "architecture": core.ARCHITECTURE,
-            "run_manifest_hash": core.canonical_hash(manifest),
-            "offline": True,
-        },
-        "generated_at": "2026-09-04T00:00:00Z",
-        "approved_by": ["MACHINE_TECHNICAL_GATES"],
-    }
+    del requirements, claim, final, comparison, robustness, candidates, manifests
+    del formulas, tables, figures, limitations
+    return core.build_expected_handoff(case_root, core.load_state(case_root))
 
 
 def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
@@ -329,12 +290,12 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
     )
     _advance_to(core, case_root, "MODELS_PROPOSED")
     candidate_ids = [item["candidate_id"] for item in candidates]
-    freezes = _freezes(core, candidate_ids, "MAE")
     splits = {
         "train": list(range(1, 7)),
         "validation": list(range(7, 10)),
         "test": list(range(10, 13)),
     }
+    freezes = _freezes(core, candidate_ids, "MAE", splits, "P-BASELINE-MEAN")
     _accepted(
         core,
         case_root,
@@ -345,6 +306,10 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             "splits": splits,
             "metric": "MAE",
             "metric_direction": "MIN",
+            "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+            "selection_rule": "ARGMIN_THEN_ID",
+            "baseline_id": "P-BASELINE-MEAN",
+            "handoff_generated_at": "2026-09-04T00:00:00Z",
             "random_seeds": [20260904],
             "candidate_ids": candidate_ids,
             "trusted_freeze_registry": freezes,
@@ -399,18 +364,44 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             "validation_scores": validation_scores,
             "metric": "MAE",
             "rule": "ARGMIN_THEN_ID",
+            "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
         }
     )
     attempts: list[dict[str, Any]] = []
     manifests: dict[str, dict[str, Any]] = {}
     for candidate in candidate_ids:
+        test_mae_for_candidate = sum(abs(y - predictors[candidate](t)) for t, y in test) / len(test)
+        claim_scope_for_candidate = (
+            f"在本合成数据冻结 test split 上，{candidate} 的 MAE 为 {test_mae_for_candidate:.6g}"
+        )
         output = {
             "candidate_id": candidate,
+            "validation_metrics": {"MAE": validation_scores[candidate]},
+            "final_metrics": {"test_mae": test_mae_for_candidate},
+            "claim_scope": claim_scope_for_candidate,
             "predictions": [
                 {"time": t, "actual": y, "prediction": predictors[candidate](t)}
                 for t, y in validation + test
             ],
             "validation_mae": validation_scores[candidate],
+            "figure_ready_data": [
+                {
+                    "figure_id": "TEST_PREDICTIONS",
+                    "series": [
+                        {
+                            "time": t,
+                            "actual": y,
+                            "prediction": predictors[candidate](t),
+                        }
+                        for t, y in test
+                    ],
+                }
+            ],
+            "limitations": ["仅验证项目原创小样本；不代表外部效度或生产适用性"],
+            "uncertainty": {
+                "scope": "deterministic synthetic perturbations",
+                "quantified": True,
+            },
         }
         manifest = _write_run(
             core,
@@ -437,6 +428,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "splits": splits,
         "metric": "MAE",
         "metric_direction": "MIN",
+        "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+        "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
         "attempts": attempts,
         "selected_candidate_id": selected,
@@ -452,6 +445,7 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             "time_order_valid": True,
         },
         "test_access": {"authorized": True, "count": 1, "used_for_selection": False},
+        "reliability": {"attempts": 2, "successful": 2, "failed_or_infeasible": 0},
     }
     _accepted(core, case_root, "model_comparison", comparison)
     _advance_to(core, case_root, "RUN_VALIDATED")
@@ -497,9 +491,10 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "output_hash": manifest["output_hash"],
         "decision_hash": decision_hash,
         "evidence_artifact_ids": [
-            "model_comparison",
-            "robustness_analysis",
-            "final_result",
+            "results/model_comparison.json",
+            "results/robustness.json",
+            "results/final_result.json",
+            manifest["output_files"][0]["path"],
         ],
         "evidence_status": "CURRENT",
         "contradiction_status": "NONE",
@@ -641,12 +636,18 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
     )
     _advance_to(core, case_root, "MODELS_PROPOSED")
     candidate_ids = [item["candidate_id"] for item in candidates]
-    freezes = _freezes(core, candidate_ids, "negative_profit")
     splits = {
         "train": ["problem-definition"],
         "validation": ["feasibility-and-objective"],
         "test": ["complete-enumeration-certificate"],
     }
+    freezes = _freezes(
+        core,
+        candidate_ids,
+        "negative_profit",
+        splits,
+        "O-BASELINE-A-ONLY",
+    )
     _accepted(
         core,
         case_root,
@@ -657,6 +658,10 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "splits": splits,
             "metric": "negative_profit",
             "metric_direction": "MIN",
+            "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+            "selection_rule": "ARGMIN_THEN_ID",
+            "baseline_id": "O-BASELINE-A-ONLY",
+            "handoff_generated_at": "2026-09-04T00:00:00Z",
             "random_seeds": [20260904],
             "candidate_ids": candidate_ids,
             "trusted_freeze_registry": freezes,
@@ -676,18 +681,21 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
     optimum = max(feasible, key=lambda item: (item[2], -item[0], -item[1]))
     outcomes = {
         "O-BASELINE-A-ONLY": {
+            "candidate_id": "O-BASELINE-A-ONLY",
             "x_A": max_a,
             "x_B": 0,
             "profit": a_profit * max_a,
             "feasible": True,
         },
         "O-ENUMERATION": {
+            "candidate_id": "O-ENUMERATION",
             "x_A": optimum[0],
             "x_B": optimum[1],
             "profit": optimum[2],
             "feasible": True,
         },
         "O-INFEASIBLE-PROPOSAL": {
+            "candidate_id": "O-INFEASIBLE-PROPOSAL",
             "x_A": max_a + 1,
             "x_B": max_b + 1,
             "profit": a_profit * (max_a + 1) + b_profit * (max_b + 1),
@@ -695,6 +703,35 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         },
     }
     scores = {key: -float(value["profit"]) for key, value in outcomes.items() if value["feasible"]}
+    for candidate, output in outcomes.items():
+        output["validation_metrics"] = (
+            {"negative_profit": scores[candidate]} if output["feasible"] else {}
+        )
+        output["final_metrics"] = {
+            "profit": output["profit"],
+            "x_A": output["x_A"],
+            "x_B": output["x_B"],
+        }
+        output["claim_scope"] = (
+            f"在给定整数约束与完整枚举域内，候选 {candidate} 的利润为 {output['profit']}"
+        )
+        output["figure_ready_data"] = [
+            {
+                "figure_id": "SELECTED_SOLUTION",
+                "series": [
+                    {
+                        "x_A": output["x_A"],
+                        "x_B": output["x_B"],
+                        "profit": output["profit"],
+                    }
+                ],
+            }
+        ]
+        output["limitations"] = ["只证明冻结的小规模整数域；未建立外部效度或生产性能"]
+        output["uncertainty"] = {
+            "scope": "deterministic synthetic perturbations",
+            "quantified": True,
+        }
     selected = min(scores, key=lambda key: (scores[key], key))
     decision_hash = core.canonical_hash(
         {
@@ -702,6 +739,7 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "validation_scores": scores,
             "metric": "negative_profit",
             "rule": "ARGMIN_THEN_ID",
+            "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
         }
     )
     attempts: list[dict[str, Any]] = []
@@ -735,6 +773,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "splits": splits,
         "metric": "negative_profit",
         "metric_direction": "MIN",
+        "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+        "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
         "attempts": attempts,
         "selected_candidate_id": selected,
@@ -775,18 +815,15 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
     _accepted(core, case_root, "robustness_analysis", robustness)
     manifest = manifests[selected]
     result = outcomes[selected]
-    scope = f"在给定整数约束与完整枚举域内，最优利润为 {result['profit']}"
+    selected_output = core.load_json(case_root / manifest["output_files"][0]["path"])
+    scope = selected_output["claim_scope"]
     final = {
         "status": "FINAL_CANDIDATE",
         "selected_model": selected,
         "run_id": manifest["run_id"],
         "output_hash": manifest["output_hash"],
         "decision_hash": decision_hash,
-        "final_metrics": {
-            "profit": result["profit"],
-            "x_A": result["x_A"],
-            "x_B": result["x_B"],
-        },
+        "final_metrics": selected_output["final_metrics"],
         "claim_scope": scope,
     }
     _accepted(core, case_root, "final_result", final)
@@ -803,10 +840,10 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "output_hash": manifest["output_hash"],
         "decision_hash": decision_hash,
         "evidence_artifact_ids": [
-            "complete_enumeration",
-            "model_comparison",
-            "robustness_analysis",
-            "final_result",
+            "results/model_comparison.json",
+            "results/robustness.json",
+            "results/final_result.json",
+            manifest["output_files"][0]["path"],
         ],
         "evidence_status": "CURRENT",
         "contradiction_status": "NONE",

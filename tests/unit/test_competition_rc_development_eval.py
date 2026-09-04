@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
+import pytest
 import yaml
 
 
@@ -31,6 +33,51 @@ def command(repo_root: Path, script: str, *arguments: str) -> subprocess.Complet
         capture_output=True,
         text=True,
     )
+
+
+def load_script(repo_root: Path, name: str):
+    path = repo_root / "scripts" / name
+    spec = importlib.util.spec_from_file_location(f"test_{path.stem}", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
+    repo_root: Path, tmp_path: Path
+) -> None:
+    start = load_script(repo_root, "start_skill_development_eval.py")
+    freeze = load_script(repo_root, "freeze_skill_first_run.py")
+    project_state = tmp_path / "project_state.json"
+    project_state.write_text("{}\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"):
+        start.require_competition_rc_ready(project_state)
+    ready = {
+        "technical_adjudication_status": "COMPETITION_SKILL_RC_READY",
+        "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+        "active_skill_version": "0.2.0-competition-rc1",
+        "competition_rc1": {"integration_audit": {"status": "PASS"}},
+    }
+    project_state.write_text(json.dumps(ready) + "\n", encoding="utf-8")
+    start.require_competition_rc_ready(project_state)
+
+    with pytest.raises(ValueError, match="START_TIME_TIMEZONE_REQUIRED"):
+        start.iso_time("2026-09-04T00:00:00")
+    with pytest.raises(ValueError, match="FREEZE_TIME_TIMEZONE_REQUIRED"):
+        freeze.iso_time("2026-09-04T01:00:00", "FREEZE_TIME_INVALID")
+    with pytest.raises(ValueError, match="FREEZE_TIME_BEFORE_START"):
+        freeze.validate_timeline("2026-09-04T02:00:00Z", "2026-09-04T01:00:00Z", None)
+    with pytest.raises(ValueError, match="UNLOCK_TIME_BEFORE_FREEZE"):
+        freeze.validate_timeline(
+            "2026-09-04T00:00:00Z",
+            "2026-09-04T02:00:00Z",
+            "2026-09-04T01:00:00Z",
+        )
+    assert freeze.REASON_CODE.fullmatch("RC_MODEL_FAILED:TIMEOUT")
+    assert freeze.REASON_CODE.fullmatch("arbitrary sensitive explanation") is None
 
 
 def test_case_registry_declares_required_training_fields(repo_root: Path) -> None:

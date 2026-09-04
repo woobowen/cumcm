@@ -113,6 +113,7 @@ def run_case(
     raw_files = sorted((case_root / "data/raw").glob("*"))
     processed_files = sorted((case_root / "data/processed").glob("*"))
     data_audit = load_json(case_root / "data/data_audit.json")["content"]
+    state_bytes_before_probe = (case_root / "case_state.json").read_bytes()
     raw_before = raw_files[0].read_bytes()
     raw_files[0].write_bytes(raw_before + b"\n")
     stale_command = subprocess.run(
@@ -129,6 +130,7 @@ def run_case(
         text=True,
     )
     stale_result = json.loads(stale_command.stdout)
+    state_bytes_after_probe = (case_root / "case_state.json").read_bytes()
     summary = {
         "schema_version": "1.0.0",
         "case_id": case_id,
@@ -157,7 +159,8 @@ def run_case(
             "exit_code": stale_command.returncode,
             "status": stale_result["status"],
             "reason_codes": stale_result["reason_codes"],
-            "state_mutated": False,
+            "dependency_chain": stale_result["dependency_chain"],
+            "state_mutated": state_bytes_after_probe != state_bytes_before_probe,
         },
         "run_manifests": manifests,
         "selected_model": final["selected_model"],
@@ -174,6 +177,11 @@ def run_case(
         "historical_answer_accesses": 0,
         "api_calls": 0,
         "third_party_executions": 0,
+        "zero_count_sources": {
+            "historical_answer_accesses": "accepted source_ledger.answer_access_status",
+            "api_calls": "offline subprocess harness with no network operation",
+            "third_party_executions": "project-original deterministic code path only",
+        },
     }
     summary["evidence_hash"] = canonical_hash(summary)
     return summary

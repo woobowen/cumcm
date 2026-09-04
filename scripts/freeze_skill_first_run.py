@@ -8,6 +8,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -18,6 +19,7 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
 CASE_CORE = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+REASON_CODE = re.compile(r"^RC_[A-Z0-9_]+(?::[A-Z0-9_]+)*$")
 
 
 def file_hash(path: Path) -> str:
@@ -32,10 +34,28 @@ def iso_time(value: str | None, code: str) -> str:
     if value is None:
         return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     try:
-        datetime.fromisoformat(value.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError as exc:
         raise ValueError(code) from exc
+    if parsed.utcoffset() is None:
+        raise ValueError(f"{code.removesuffix('_INVALID')}_TIMEZONE_REQUIRED")
     return value
+
+
+def parsed_time(value: str, code: str) -> datetime:
+    checked = iso_time(value, code)
+    return datetime.fromisoformat(checked.replace("Z", "+00:00"))
+
+
+def validate_timeline(start_time: str, freeze_time: str, unlock_time: str | None) -> None:
+    if parsed_time(freeze_time, "FREEZE_TIME_INVALID") < parsed_time(
+        start_time, "START_TIME_INVALID"
+    ):
+        raise ValueError("FREEZE_TIME_BEFORE_START")
+    if unlock_time and parsed_time(unlock_time, "UNLOCK_TIME_INVALID") < parsed_time(
+        freeze_time, "FREEZE_TIME_INVALID"
+    ):
+        raise ValueError("UNLOCK_TIME_BEFORE_FREEZE")
 
 
 def read_registry(path: Path) -> dict[str, Any]:
@@ -75,6 +95,8 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         raise ValueError("ANSWER_ALREADY_UNLOCKED")
     if record.get("first_run_status") != "IN_PROGRESS":
         raise ValueError("FIRST_RUN_NOT_IN_PROGRESS")
+    if args.blocked_reason_code and not REASON_CODE.fullmatch(args.blocked_reason_code):
+        raise ValueError("BLOCKED_REASON_CODE_INVALID")
     state_path = args.case_root / "case_state.json"
     if not state_path.is_file():
         raise ValueError("CASE_STATE_MISSING")
@@ -147,6 +169,10 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     ):
         raise ValueError("RUN_INPUTS_NOT_BOUND_TO_REGISTRY")
     freeze_time = iso_time(args.freeze_time, "FREEZE_TIME_INVALID")
+    unlock_time: str | None = None
+    if args.unlock_time:
+        unlock_time = iso_time(args.unlock_time, "UNLOCK_TIME_INVALID")
+    validate_timeline(str(record.get("start_time", "")), freeze_time, unlock_time)
     evidence = {
         "skill_version": record["skill_version"],
         "skill_commit": record["skill_commit"],
@@ -159,8 +185,8 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         record["first_run_status"] = "FROZEN"
         record["freeze_time"] = freeze_time
         record["first_run_evidence"] = evidence
-        if args.unlock_time:
-            record["unlock_time"] = iso_time(args.unlock_time, "UNLOCK_TIME_INVALID")
+        if unlock_time:
+            record["unlock_time"] = unlock_time
             record["answer_access_status"] = "UNLOCKED_AFTER_FIRST_RUN"
             if record.get("set_type") != "DEVELOPMENT":
                 record["set_type"] = "DEVELOPMENT"
