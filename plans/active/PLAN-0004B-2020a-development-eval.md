@@ -1,8 +1,8 @@
 # PLAN-0004B — 2020 A Cross-Type Development Eval
 
-Status: `IN_PROGRESS`
+Status: `COMPLETE`
 Phase: `PHASE-SKILL-DEVELOPMENT-EVAL-004`
-Subphase: `CUMCM-2020-A-RC3-DEVELOPMENT-REGRESSION`
+Subphase: `CUMCM-2020-A-DEVELOPMENT-RC3`
 Owner: main agent / `modeling_orchestrator`
 Started: `2026-09-04T10:53:46Z`
 Branch: `feat/phase004b-development-eval-2020a`
@@ -52,8 +52,18 @@ The RC2 first run is frozen at `cadb774025ae30dc871fb67bdc4ffb8ffa409773be8e0124
 and its independent commit `b742e8e042a1e9f0c161806c89c1b5917abe5693` is remotely verified. Answer
 access was unlocked at `2026-09-04T11:19:44Z`; no reference body was accessed. Gap classification
 accepted only the generic nonzero-exit evidence defect for one RC3 revision cycle.
-RC3 implements only that generic failure-evidence invariant; its Development and cross-case
-regressions remain required before the version can be frozen for Validation handoff.
+RC3 implements only that generic failure-evidence invariant. The clean 2020 A Development
+regression completed six captured and sealed Runs through all 14 stages; the selected feasible
+primary candidate has held-out calibration RMSE `5.80972512` °C. The preserved 2023 C pipeline was
+re-executed under RC3 with three captured/sealed Runs and reproduced the RC2 selection, decision and
+output hashes. Mechanistic Stress A/B/C all reached `READY_FOR_PAPER_HANDOFF`, and each mutation
+probe propagated `STALE` from its changed variant metadata.
+
+The formal Skill is frozen for Validation at version `0.2.0-competition-rc3`, commit
+`8a2a813ff34d8c2701c64ff9d959848e7b88c27c`, Git tree
+`a4551c8aa0b6b119823f6ce9df3f0f948339bb33`. Phase 004B therefore closes as
+`DEVELOPMENT_EVAL_RC3_READY`; the only permitted next phase is
+`PHASE-SKILL-VALIDATION-EVAL-004-C`, which was not started here.
 
 Stop with the exact bounded status for unsafe official input acquisition, solution exposure before
 freeze, raw mutation, uncaptured execution, nonconverged or infeasible Final selection,

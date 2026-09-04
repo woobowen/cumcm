@@ -96,3 +96,16 @@ Blind、Validation、Held-out 或泛化证明。Validation/Held-out 仍必须保
 
 Phase 004A 的同题回归与三个 Stress 已分别保存 hash-only/aggregate evidence；raw workbook、题面和
 参考正文仍在 ignored private cache。下一题必须结构不同且答案保持封存。
+
+## RC3 非零退出证据规则
+
+Phase 004B 的答案封存首跑暴露出一个通用执行证据缺陷：case-local 程序可以先写出结构化诊断
+`output.json` 再以非零状态退出；RC2 保留了 output 和 exit code，却未必填充 `failure`，导致该失败
+capture 不能被 `seal-run` 原样封存。RC3 对任意非零退出统一补充
+`RC_EXECUTION_NONZERO_EXIT`（timeout 等更具体原因仍优先），保留已经写出的 output，并允许生成
+outcome 为 `FAILED` 的 manifest。该 manifest 只能作为失败证据；comparison、Final、Claim 和 handoff
+仍拒绝非 `SUCCESS` Run。此修订不改变成功路径、输入/代码/output hash 绑定或 STALE 传播。
+
+Phase 004B 的 2020 A 同题回归、2023 C 跨题回归和三个机理 Stress 均属于 Development/Stress
+证据，不是 Validation 或泛化证明。交给 Validation 的版本必须冻结到明确的 Skill commit/tree；新题
+答案保持 `SEALED`，一次运行结果冻结后不得修改 Skill 并在同题重跑后继续称为 Validation。

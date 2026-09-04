@@ -39,14 +39,23 @@ problem-specific modeling recipe. The answer-sealed RC1 first run was remotely f
 reference unlock; the RC2 same-case Development regression and Stress A/B/C now reach
 `READY_FOR_PAPER_HANDOFF`, while remaining explicitly non-Validation and non-Held-out evidence.
 
+RC3 is the single bounded Phase 004B revision. It makes every nonzero case subprocess exit carry a
+retained failure reason even when the program already wrote diagnostic output; failed manifests
+remain sealable but ineligible for comparison, Final, Claims or handoff. The answer-sealed RC2
+first run was independently committed and remotely verified before unlock. A clean six-Run 2020 A
+Development regression, a three-Run 2023 C cross-case replay, and mechanistic Stress A/B/C all
+completed with bound capture/manifest evidence and explicit STALE probes. These are two Development
+cases, not Validation or a generalization proof.
+
 The old `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision and all `phase-003f` evidence remain immutable.
 RC1 is a new implementation revision, not a rewrite of that history and not proof of a selected
 third-party base.
 
 Start with `AGENTS.md`, then read `GOALS.md`, `WORKFLOW.md`, the active plan, and `state/project_state.json`. Run `bash scripts/bootstrap_dev_env.sh` and `bash scripts/ci.sh` for local validation.
 
-The exact next task is `PHASE-SKILL-DEVELOPMENT-EVAL-004-B`: select a structurally different
-answer-sealed historical problem and preserve the Development/Validation/Held-out boundary. See
-`docs/DEVELOPMENT_EVAL_PROTOCOL.md`.
+The exact next task is `PHASE-SKILL-VALIDATION-EVAL-004-C`: use the frozen RC3 commit/tree on one
+structurally different answer-sealed historical problem under the one-shot, no-post-result-tuning
+policy. Validation has not started. See `docs/DEVELOPMENT_EVAL_PROTOCOL.md` and
+`reports/phase004c_validation_handoff.md`.
 
 No project license has been selected. Third-party repositories remain isolated under ignored `.cache/upstream/` and are not part of this repository.
