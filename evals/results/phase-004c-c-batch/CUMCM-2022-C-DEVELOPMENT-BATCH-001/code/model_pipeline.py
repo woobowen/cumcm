@@ -28,7 +28,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-PIPELINE_VERSION = "2022-c-first-run-v1"
+PIPELINE_VERSION = "2022-c-rc4-development-regression-v1"
 CANDIDATES = (
     "BASELINE_RAW_CENTROID",
     "CLR_RIDGE_WARD",
@@ -590,9 +590,13 @@ def association_matrices(known: list[dict[str, Any]], fraction: float = 0.50) ->
 
 
 def validation_score(
-    metadata: list[dict[str, Any]], known: list[dict[str, Any]], candidate_id: str, seed: int
+    metadata: list[dict[str, Any]],
+    known: list[dict[str, Any]],
+    candidate_id: str,
+    seed: int,
+    fraction: float = 0.50,
 ) -> tuple[float, dict[str, Any]]:
-    ids, matrix, labels = artifact_level_dataset(metadata, known, candidate_id)
+    ids, matrix, labels = artifact_level_dataset(metadata, known, candidate_id, fraction)
     split = deterministic_split(metadata)
     train_ids = set(split["train"])
     validation_ids = set(split["validation"])
@@ -621,13 +625,52 @@ def validation_score(
     }
 
 
+def requirement_claims(output_path: str) -> dict[str, dict[str, Any]]:
+    statements = {
+        "REQ-VALIDITY": "Composition totals and invalid samples are explicitly audited.",
+        "REQ-COMPOSITION": "The pipeline treats component vectors as constrained compositions.",
+        "REQ-1A": "Weathering associations are computed with sparse-table guards.",
+        "REQ-1B": "Type-conditioned component effects are computed from valid samples.",
+        "REQ-1C": "Pre-weathering values are bounded backcasts with an identifiability limitation.",
+        "REQ-2A": "A grouped validation classifier distinguishes the registered types.",
+        "REQ-2B": "Within-type subgroups are selected by a frozen clustering rule.",
+        "REQ-2C": "Subgroup stability is recomputed under zero-replacement perturbations.",
+        "REQ-3A": "Every unknown valid sample receives a type prediction.",
+        "REQ-3B": "Unknown predictions include seeded perturbation intervals and stability.",
+        "REQ-4A": "Within-type component associations are reported descriptively.",
+        "REQ-4B": "Between-type association differences are reported without causal claims.",
+        "REQ-EVIDENCE": "The output includes finite metrics, robustness and downstream evidence.",
+    }
+    return {
+        requirement_id: {
+            "claim_id": f"CLAIM-RC4-{index:02d}",
+            "claim_text": statement,
+            "evidence_artifact_ids": [output_path],
+        }
+        for index, (requirement_id, statement) in enumerate(statements.items(), start=1)
+    }
+
+
 def main() -> int:
     args = parse_args()
     case_root = Path(args.case_root).resolve()
     output_path = safe_path(case_root, args.output)
     metadata, known, unknown = load_official_workbook(case_root)
     loss, validation = validation_score(metadata, known, args.candidate_id, args.seed)
+    robustness_losses = {
+        fraction: validation_score(
+            metadata,
+            known,
+            args.candidate_id,
+            args.seed,
+            fraction,
+        )[0]
+        for fraction in (0.25, 0.75)
+    }
     invalid_known = [item["sample_id"] for item in known if not item["valid"]]
+    output_relative = str(Path(args.output))
+    claims = requirement_claims(output_relative)
+    scope = claims["REQ-VALIDITY"]["claim_text"]
 
     payload = {
         "schema_version": "1.0.0",
@@ -672,6 +715,47 @@ def main() -> int:
             "answer_labels_available": False,
         },
         "question_4": association_matrices(known),
+        "final_metrics": {
+            "validation_composite_loss": loss,
+            "validation_accuracy_diagnostic": validation["validation_accuracy_diagnostic"],
+            "valid_known_rows": sum(item["valid"] for item in known),
+            "unknown_valid_rows": sum(item["valid"] for item in unknown),
+        },
+        "claim_scope": scope,
+        "requirement_claims": claims,
+        "figure_ready_data": [
+            {
+                "figure_id": "UNKNOWN-TYPE-PREDICTIONS",
+                "rows": predict_unknown(metadata, known, unknown, args.candidate_id, args.seed),
+            },
+            {
+                "figure_id": "SUBTYPE-SENSITIVITY",
+                "rows": cluster_sensitivity(metadata, known, args.candidate_id),
+            },
+        ],
+        "uncertainty": {
+            "classification": "grouped validation plus seeded simplex perturbations",
+            "subtyping": "zero-replacement sensitivity with adjusted Rand indices",
+            "backcast_identifiability": "type-level exchangeability assumption required",
+        },
+        "robustness_evidence": {
+            "metric": "validation_composite_loss",
+            "metric_direction": "MIN",
+            "perturbations": [
+                {
+                    "perturbation_id": f"ZERO-REPLACEMENT-FRACTION-{fraction:.2f}",
+                    "metric": "validation_composite_loss",
+                    "result": value,
+                    "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+                }
+                for fraction, value in sorted(robustness_losses.items())
+            ],
+            "failure_cases": [
+                "Sparse grouped validation cannot establish external validity.",
+                "Pre-weathering backcasts are not causally identified from the available pairs.",
+                "Subtype assignments can change under zero replacement or new observations.",
+            ],
+        },
         "limitations": [
             "Historical model-prior exposure is unverifiable.",
             "Blank cells are nondetections, not ordinary missing-at-random values.",
