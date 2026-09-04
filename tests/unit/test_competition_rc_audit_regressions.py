@@ -492,6 +492,13 @@ def test_general_case_final_and_handoff_use_generic_evidence_contract(
         "figure_ready_data": [{"figure_id": "GENERIC_QUALITY", "series": [{"quality": 9.0}]}],
         "limitations": ["generic synthetic contract only"],
         "uncertainty": {"scope": "deterministic", "quantified": True},
+        "requirement_claims": {
+            "REQ-G-1": {
+                "claim_id": "CLAIM-G-1",
+                "claim_text": "generic frozen evidence",
+                "evidence_artifact_ids": [output_relative],
+            }
+        },
     }
     case_cli.write_json(case_root / output_relative, output)
     output_file_hash = case_cli.file_hash(case_root / output_relative)
@@ -513,7 +520,23 @@ def test_general_case_final_and_handoff_use_generic_evidence_contract(
         "claim_scope": output["claim_scope"],
     }
     accepted("final_result", final)
-    claim = {"claim_id": "CLAIM-G-1", "claim_text": output["claim_scope"]}
+    claim = {
+        "claim_id": "CLAIM-G-1",
+        "claim_text": output["claim_scope"],
+        "supported_scope": output["claim_scope"],
+        "run_id": manifest["run_id"],
+        "run_manifest_hash": case_cli.canonical_hash(manifest),
+        "input_hash": "3" * 64,
+        "code_hash": "4" * 64,
+        "configuration_hash": "5" * 64,
+        "output_hash": manifest["output_hash"],
+        "decision_hash": manifest["decision_hash"],
+        "evidence_artifact_ids": [output_relative],
+        "supported_requirement_ids": ["REQ-G-1"],
+        "requirement_claims": output["requirement_claims"],
+        "evidence_status": "CURRENT",
+        "contradiction_status": "NONE",
+    }
     accepted("claim_evidence", claim)
 
     assert case_cli.validate_final_result(final, comparison, case_root=case_root).accepted is True
@@ -689,12 +712,106 @@ def test_experiment_plan_gate_rejects_invalid_recomputed_freezes(
         "seed_schedule": case_cli.canonical_hash(plan["random_seeds"]),
         "split_assignment": case_cli.canonical_hash(plan["splits"]),
         "baseline": case_cli.canonical_hash(plan["baseline_id"]),
+        "input_set": case_cli.canonical_hash(plan["required_input_hashes"]),
     }
     plan_record["content_hash"] = case_cli.canonical_hash(plan)
     case_cli.write_json(plan_path, plan_record)
 
     with pytest.raises(ValueError, match="RC_TRUSTED_FREEZE_REGISTRY_MISSING"):
         case_cli.advance_once(case_root)
+
+
+def test_run_inputs_must_exactly_match_preregistered_audited_input_set(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "input-lineage"
+    case_cli.run_smoke(case_root, "AUDIT-INPUT-LINEAGE", "prediction", False)
+    state = case_cli.load_state(case_root)
+    history = state["history"][:8]
+    evidence = {relative for record in history for relative in record["evidence"]}
+    state.update(
+        state="RUNNING",
+        last_gate="GATE_EXECUTION_AUTHORIZED",
+        history=history,
+        evidence_bindings={
+            relative: digest
+            for relative, digest in state["evidence_bindings"].items()
+            if relative in evidence
+        },
+    )
+    case_cli.write_json(case_root / "case_state.json", state)
+    unrelated = "problem/problem_requirements.json"
+    unrelated_hash = case_cli.file_hash(case_root / unrelated)
+    for manifest_path in case_root.glob("runs/*/manifest.json"):
+        manifest = case_cli.load_json(manifest_path)
+        manifest["input_files"] = [{"path": unrelated, "sha256": unrelated_hash}]
+        manifest["input_hash"] = case_cli.canonical_hash([unrelated_hash])
+        case_cli.write_json(manifest_path, manifest)
+
+    with pytest.raises(ValueError, match="RC_MANIFEST_INPUT_FREEZE_MISMATCH"):
+        case_cli.advance_once(case_root)
+
+
+def test_robustness_gate_requires_selected_run_and_output_evidence(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "robustness-lineage"
+    case_cli.run_smoke(case_root, "AUDIT-ROBUSTNESS-LINEAGE", "prediction", False)
+    state = case_cli.load_state(case_root)
+    history = state["history"][:10]
+    evidence = {relative for record in history for relative in record["evidence"]}
+    state.update(
+        state="RUN_VALIDATED",
+        last_gate="GATE_REPRODUCIBILITY_MANIFEST",
+        history=history,
+        evidence_bindings={
+            relative: digest
+            for relative, digest in state["evidence_bindings"].items()
+            if relative in evidence
+        },
+    )
+    case_cli.write_json(case_root / "case_state.json", state)
+    robustness_path = case_root / case_cli.ARTIFACT_PATHS["robustness_analysis"]
+    fabricated = case_cli.artifact(
+        "robustness_analysis",
+        {
+            "status": "VALIDATED",
+            "perturbations": [{"unrelated": "fabricated"}],
+            "failure_cases": [],
+        },
+    )
+    case_cli.write_json(robustness_path, fabricated)
+
+    with pytest.raises(ValueError, match="RC_ROBUSTNESS_"):
+        case_cli.advance_once(case_root)
+
+
+def test_requirement_traceability_uses_distinct_output_bound_claims(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "requirements"
+    case_cli.run_smoke(case_root, "AUDIT-REQUIREMENT-CLAIMS", "prediction", False)
+    handoff = case_cli.load_json(case_root / "handoff/modeling_to_paper.json")
+    claim = case_cli.read_artifact(case_root, "claim_evidence")["content"]
+    trace = handoff["requirement_traceability"]
+
+    assert set(trace) == {"REQ-P-1", "REQ-P-2", "REQ-P-3"}
+    assert len(set(trace.values())) == 3
+    assert set(handoff["claim_evidence"]) == set(trace.values())
+
+    tampered = copy.deepcopy(claim)
+    tampered["requirement_claims"]["REQ-P-2"] = tampered["requirement_claims"]["REQ-P-1"]
+    final = case_cli.read_artifact(case_root, "final_result")["content"]
+    manifest = case_cli.load_json(case_root / "runs" / claim["run_id"] / "manifest.json")
+    result = case_cli.validate_claim(
+        tampered,
+        manifest,
+        final,
+        case_root=case_root,
+        state=case_cli.load_state(case_root),
+    )
+    assert result.accepted is False
+    assert "RC_CLAIM_REQUIREMENT_COVERAGE_INVALID" in result.reason_codes
 
 
 @pytest.mark.parametrize("freeze_hash", ["unknown", "a" * 64])

@@ -555,6 +555,7 @@ def validate_manifest(
     ):
         codes.add("RC_MANIFEST_UNTRUSTED_FREEZE")
     input_files = manifest.get("input_files")
+    declared_input_registry: dict[str, Any] = {}
     if not isinstance(input_files, list) or not input_files:
         codes.add("RC_MANIFEST_INPUT_FILES_INVALID")
     elif case_root is not None:
@@ -570,6 +571,7 @@ def validate_manifest(
                 codes.add("RC_MANIFEST_INPUT_RECORD_INVALID")
                 continue
             input_paths.add(relative)
+            declared_input_registry[relative] = record.get("sha256")
             if path is None or not path.is_file():
                 codes.add("RC_MANIFEST_INPUT_MISSING")
                 continue
@@ -579,6 +581,18 @@ def validate_manifest(
                 codes.add("RC_MANIFEST_INPUT_MUTATION")
         if input_hashes and manifest.get("input_hash") != canonical_hash(input_hashes):
             codes.add("RC_MANIFEST_INPUT_HASH_MISMATCH")
+    try:
+        declared_input_freeze = (
+            canonical_hash(declared_input_registry) if declared_input_registry else None
+        )
+    except (TypeError, ValueError):
+        declared_input_freeze = None
+    if (
+        not isinstance(trusted_freezes, dict)
+        or not declared_input_registry
+        or trusted_freezes.get("input_set") != declared_input_freeze
+    ):
+        codes.add("RC_MANIFEST_INPUT_FREEZE_MISMATCH")
     code_files = manifest.get("code_files")
     if not isinstance(code_files, list) or not code_files:
         codes.add("RC_MANIFEST_CODE_FILES_INVALID")
@@ -726,6 +740,17 @@ def validate_comparison(
     selection_rule = comparison.get("selection_rule")
     seeds = comparison.get("random_seeds")
     seed_items = seeds if isinstance(seeds, list) else []
+    required_inputs = comparison.get("required_input_hashes")
+    required_inputs_valid = (
+        isinstance(required_inputs, dict)
+        and bool(required_inputs)
+        and all(
+            isinstance(relative, str)
+            and relative_case_path(Path("."), relative) is not None
+            and HEX64.fullmatch(str(digest))
+            for relative, digest in required_inputs.items()
+        )
+    )
     derived_freezes: dict[str, str] | None = None
     if (
         isinstance(candidates, list)
@@ -739,6 +764,7 @@ def validate_comparison(
         and seeds
         and all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
         and len(set(seeds)) == len(seeds)
+        and required_inputs_valid
     ):
         derived_freezes = {
             "candidate_set": canonical_hash(candidates),
@@ -753,6 +779,7 @@ def validate_comparison(
             "seed_schedule": canonical_hash(seeds),
             "split_assignment": canonical_hash(splits),
             "baseline": canonical_hash(baseline),
+            "input_set": canonical_hash(required_inputs),
         }
     else:
         codes.add("RC_COMPARISON_FREEZE_INPUT_INVALID")
@@ -921,6 +948,12 @@ def validate_comparison(
     else:
         codes.add("RC_COMPARISON_METRIC_OR_SUCCESS_SET_INVALID")
     if case_root is not None:
+        try:
+            audited_inputs = read_artifact(case_root, "data_audit")["content"].get("data_hashes")
+        except (OSError, ValueError, json.JSONDecodeError):
+            audited_inputs = None
+        if not required_inputs_valid or required_inputs != audited_inputs:
+            codes.add("RC_COMPARISON_INPUT_LINEAGE_MISMATCH")
         attempt_items = attempts if isinstance(attempts, list) else []
         ledger_run_ids = {
             attempt.get("run_id")
@@ -1063,6 +1096,140 @@ def validate_final_result(
     return blocked(*codes) if codes else passed("RC_FINAL_RESULT_EXACTLY_BOUND")
 
 
+def validate_robustness(
+    robustness: Any,
+    comparison: Any,
+    *,
+    case_root: Path,
+) -> GateResult:
+    original = copy.deepcopy((robustness, comparison))
+    codes: set[str] = set()
+    if not isinstance(robustness, dict) or not isinstance(comparison, dict):
+        return blocked("RC_ROBUSTNESS_EVIDENCE_INVALID")
+    required = {
+        "status",
+        "selected_model",
+        "run_id",
+        "input_hash",
+        "configuration_hash",
+        "output_hash",
+        "decision_hash",
+        "metric",
+        "metric_direction",
+        "perturbations",
+        "failure_cases",
+    }
+    if set(robustness) != required:
+        codes.add("RC_ROBUSTNESS_FIELDS_INVALID")
+    selected = comparison.get("selected_candidate_id")
+    attempts = comparison.get("attempts")
+    selected_attempts = (
+        sorted(
+            [
+                attempt
+                for attempt in attempts
+                if isinstance(attempt, dict)
+                and attempt.get("candidate_id") == selected
+                and attempt.get("outcome") == "SUCCESS"
+            ],
+            key=lambda item: (str(item.get("random_seed")), str(item.get("run_id"))),
+        )
+        if isinstance(attempts, list)
+        else []
+    )
+    expected_run_id = selected_attempts[0].get("run_id") if selected_attempts else None
+    if (
+        robustness.get("status") != "VALIDATED"
+        or not isinstance(selected, str)
+        or robustness.get("selected_model") != selected
+        or not isinstance(expected_run_id, str)
+        or robustness.get("run_id") != expected_run_id
+        or robustness.get("decision_hash") != comparison.get("selection_decision_hash")
+    ):
+        codes.add("RC_ROBUSTNESS_SELECTION_BINDING_MISMATCH")
+    metric = robustness.get("metric")
+    direction = robustness.get("metric_direction")
+    perturbations = robustness.get("perturbations")
+    if (
+        not isinstance(metric, str)
+        or not metric
+        or direction not in ("MIN", "MAX")
+        or not isinstance(perturbations, list)
+        or not perturbations
+    ):
+        codes.add("RC_ROBUSTNESS_METRIC_OR_PERTURBATIONS_INVALID")
+    else:
+        perturbation_ids: set[str] = set()
+        for item in perturbations:
+            if not isinstance(item, dict) or set(item) != {
+                "perturbation_id",
+                "metric",
+                "result",
+                "evidence",
+            }:
+                codes.add("RC_ROBUSTNESS_PERTURBATION_INVALID")
+                continue
+            perturbation_id = item.get("perturbation_id")
+            if (
+                not isinstance(perturbation_id, str)
+                or not perturbation_id
+                or perturbation_id in perturbation_ids
+                or item.get("metric") != metric
+                or not strict_score(item.get("result"))
+                or item.get("evidence") != "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+            ):
+                codes.add("RC_ROBUSTNESS_PERTURBATION_INVALID")
+            else:
+                perturbation_ids.add(perturbation_id)
+    failures = robustness.get("failure_cases")
+    if (
+        not isinstance(failures, list)
+        or not failures
+        or not all(isinstance(item, str) and item for item in failures)
+    ):
+        codes.add("RC_ROBUSTNESS_FAILURE_CASES_INVALID")
+    manifest_path = case_root / "runs" / str(expected_run_id or "") / "manifest.json"
+    try:
+        manifest = load_json(manifest_path) if manifest_path.is_file() else None
+    except (OSError, ValueError, json.JSONDecodeError):
+        manifest = None
+    if not isinstance(manifest, dict):
+        codes.add("RC_ROBUSTNESS_MANIFEST_MISSING")
+    else:
+        configuration = manifest.get("configuration")
+        if (
+            robustness.get("input_hash") != manifest.get("input_hash")
+            or robustness.get("configuration_hash") != manifest.get("configuration_hash")
+            or robustness.get("output_hash") != manifest.get("output_hash")
+            or robustness.get("decision_hash") != manifest.get("decision_hash")
+            or not isinstance(configuration, dict)
+            or configuration.get("candidate_id") != selected
+        ):
+            codes.add("RC_ROBUSTNESS_RUN_BINDING_MISMATCH")
+        output_files = manifest.get("output_files")
+        output_path = None
+        if isinstance(output_files, list) and len(output_files) == 1:
+            output_path = relative_case_path(case_root, output_files[0].get("path"))
+        try:
+            output = (
+                load_json(output_path)
+                if output_path is not None and output_path.is_file()
+                else None
+            )
+        except (OSError, ValueError, json.JSONDecodeError):
+            output = None
+        expected_evidence = output.get("robustness_evidence") if isinstance(output, dict) else None
+        observed_evidence = {
+            name: robustness.get(name)
+            for name in ("metric", "metric_direction", "perturbations", "failure_cases")
+        }
+        if not isinstance(expected_evidence, dict) or observed_evidence != expected_evidence:
+            codes.add("RC_ROBUSTNESS_OUTPUT_EVIDENCE_MISMATCH")
+    if (robustness, comparison) != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return blocked(*codes) if codes else passed("RC_ROBUSTNESS_EXACTLY_BOUND")
+
+
 def validate_claim(
     claim: Any,
     manifest: Any | None = None,
@@ -1087,6 +1254,8 @@ def validate_claim(
         "output_hash",
         "decision_hash",
         "evidence_artifact_ids",
+        "supported_requirement_ids",
+        "requirement_claims",
         "evidence_status",
         "contradiction_status",
     }
@@ -1187,6 +1356,90 @@ def validate_claim(
                 path = relative_case_path(case_root, relative)
                 if path is None or not path.is_file() or bindings.get(relative) != file_hash(path):
                     codes.add("RC_CLAIM_EVIDENCE_NOT_CURRENT_OR_MISSING")
+        try:
+            requirements = read_artifact(case_root, "problem_requirements")["content"].get(
+                "requirements"
+            )
+            output_files = manifest.get("output_files")
+            selected_output_path = (
+                relative_case_path(case_root, output_files[0].get("path"))
+                if isinstance(output_files, list) and len(output_files) == 1
+                else None
+            )
+            selected_output = (
+                load_json(selected_output_path)
+                if selected_output_path is not None and selected_output_path.is_file()
+                else None
+            )
+        except (OSError, TypeError, ValueError, json.JSONDecodeError):
+            requirements = None
+            selected_output = None
+        requirement_ids = (
+            [item.get("requirement_id") for item in requirements]
+            if isinstance(requirements, list)
+            and requirements
+            and all(isinstance(item, dict) for item in requirements)
+            else []
+        )
+        requirement_claims = claim.get("requirement_claims")
+        supported_requirement_ids = claim.get("supported_requirement_ids")
+        expected_requirement_claims = (
+            selected_output.get("requirement_claims") if isinstance(selected_output, dict) else None
+        )
+        if (
+            not requirement_ids
+            or not all(isinstance(item, str) and item for item in requirement_ids)
+            or len(set(requirement_ids)) != len(requirement_ids)
+            or supported_requirement_ids != requirement_ids
+            or not isinstance(requirement_claims, dict)
+            or set(requirement_claims) != set(requirement_ids)
+            or requirement_claims != expected_requirement_claims
+        ):
+            codes.add("RC_CLAIM_REQUIREMENT_COVERAGE_INVALID")
+        else:
+            nested_claim_ids: set[str] = set()
+            for requirement_id in requirement_ids:
+                record = requirement_claims.get(requirement_id)
+                if not isinstance(record, dict) or set(record) != {
+                    "claim_id",
+                    "claim_text",
+                    "evidence_artifact_ids",
+                }:
+                    codes.add("RC_CLAIM_REQUIREMENT_SUPPORT_INVALID")
+                    continue
+                nested_id = record.get("claim_id")
+                nested_text = record.get("claim_text")
+                nested_evidence = record.get("evidence_artifact_ids")
+                if (
+                    not isinstance(nested_id, str)
+                    or not re.fullmatch(r"CLAIM-[A-Z0-9][A-Z0-9_-]{0,63}", nested_id)
+                    or nested_id in nested_claim_ids
+                    or not isinstance(nested_text, str)
+                    or not nested_text
+                    or not isinstance(nested_evidence, list)
+                    or not nested_evidence
+                    or not all(isinstance(item, str) and item for item in nested_evidence)
+                    or len(set(nested_evidence)) != len(nested_evidence)
+                ):
+                    codes.add("RC_CLAIM_REQUIREMENT_SUPPORT_INVALID")
+                    continue
+                nested_claim_ids.add(nested_id)
+                for relative in nested_evidence:
+                    path = relative_case_path(case_root, relative)
+                    if (
+                        path is None
+                        or not path.is_file()
+                        or not isinstance(bindings, dict)
+                        or bindings.get(relative) != file_hash(path)
+                    ):
+                        codes.add("RC_CLAIM_REQUIREMENT_EVIDENCE_NOT_CURRENT")
+            first_record = requirement_claims.get(requirement_ids[0], {})
+            if (
+                claim.get("claim_id") != first_record.get("claim_id")
+                or claim.get("claim_text") != first_record.get("claim_text")
+                or claim.get("supported_scope") != first_record.get("claim_text")
+            ):
+                codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID")
     if (claim, manifest, final_result) != original:
         codes.add("RC_INPUT_MUTATION_DETECTED")
     return blocked(*codes) if codes else passed("RC_CLAIM_EXACT_SUPPORT_VALID")
@@ -1233,6 +1486,7 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
     robustness = read_artifact(case_root, "robustness_analysis")["content"]
     final = read_artifact(case_root, "final_result")["content"]
     claim = read_artifact(case_root, "claim_evidence")["content"]
+    requirement_claims = claim["requirement_claims"]
     selected = final["selected_model"]
     selected_candidates = [item for item in candidates if item.get("candidate_id") == selected]
     manifest_path = case_root / "runs" / str(final["run_id"]) / "manifest.json"
@@ -1272,7 +1526,8 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
         "contract_version": "modeling-to-paper/v1",
         "problem_requirements": requirements,
         "requirement_traceability": {
-            item["requirement_id"]: claim["claim_id"] for item in requirements
+            item["requirement_id"]: requirement_claims[item["requirement_id"]]["claim_id"]
+            for item in requirements
         },
         "data_dictionary": {
             "case_kind": case_kind,
@@ -1303,7 +1558,23 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
         "uncertainty": uncertainty,
         "failure_cases": robustness["failure_cases"],
         "limitations": limitations,
-        "claim_evidence": {claim["claim_id"]: claim},
+        "claim_evidence": {
+            record["claim_id"]: {
+                "requirement_id": requirement_id,
+                "claim_text": record["claim_text"],
+                "run_id": claim["run_id"],
+                "run_manifest_hash": claim["run_manifest_hash"],
+                "input_hash": claim["input_hash"],
+                "code_hash": claim["code_hash"],
+                "configuration_hash": claim["configuration_hash"],
+                "output_hash": claim["output_hash"],
+                "decision_hash": claim["decision_hash"],
+                "evidence_artifact_ids": record["evidence_artifact_ids"],
+                "evidence_status": claim["evidence_status"],
+                "contradiction_status": claim["contradiction_status"],
+            }
+            for requirement_id, record in requirement_claims.items()
+        },
         "reproduction": {
             "skill_version": VERSION,
             "architecture": ARCHITECTURE,
@@ -1567,6 +1838,8 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     baseline_id = plan.get("baseline_id")
     splits = plan.get("splits")
     seeds = plan.get("random_seeds")
+    required_inputs = plan.get("required_input_hashes")
+    audited_inputs = read_artifact(case_root, "data_audit")["content"].get("data_hashes")
     candidate_records = read_artifact(case_root, "model_candidates")["content"].get("candidates")
     registered_ids = (
         [item.get("candidate_id") for item in candidate_records]
@@ -1619,6 +1892,17 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         or not seeds
         or not all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
         or len(set(seeds)) != len(seeds)
+        or not isinstance(required_inputs, dict)
+        or not required_inputs
+        or required_inputs != audited_inputs
+        or not all(
+            isinstance(relative, str)
+            and relative_case_path(case_root, relative) is not None
+            and (case_root / relative).is_file()
+            and HEX64.fullmatch(str(digest))
+            and file_hash(case_root / relative) == digest
+            for relative, digest in required_inputs.items()
+        )
     ):
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
     expected = {
@@ -1634,6 +1918,7 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         "seed_schedule": canonical_hash(seeds),
         "split_assignment": canonical_hash(splits),
         "baseline": canonical_hash(baseline_id),
+        "input_set": canonical_hash(required_inputs),
     }
     if value != expected:
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_INVALID")
@@ -1834,8 +2119,13 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         if not result.accepted:
             raise ValueError(";".join(result.reason_codes))
         robustness = read_artifact(case_root, "robustness_analysis")["content"]
-        if robustness.get("status") != "VALIDATED" or not robustness.get("perturbations"):
-            raise ValueError("RC_ROBUSTNESS_EVIDENCE_INVALID")
+        robustness_result = validate_robustness(
+            robustness,
+            comparison,
+            case_root=case_root,
+        )
+        if not robustness_result.accepted:
+            raise ValueError(";".join(robustness_result.reason_codes))
         return record_transition(
             case_root,
             state,

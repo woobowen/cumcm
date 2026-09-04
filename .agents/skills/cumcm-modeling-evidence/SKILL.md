@@ -47,9 +47,9 @@ Assurance: `PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES`
 ## 四个核心 Gate
 
 - `GATE_WORKFLOW_STATE`：只允许 `modeling_orchestrator` 按固定序列推进独立 case state；严格校验字段、完整 history/evidence chain，并在每次推进前自动检查 STALE；`RUN_COMPLETED != RUN_VALIDATED`。
-- `GATE_REPRODUCIBILITY_MANIFEST`：Run 绑定实际存在且 hash 匹配的 input/code/output files、真实 Git commit、该 commit 中逐个 code blob、聚合 hash、配置、seed、argv、allowlisted environment、outcome、failure/supersession、trusted capture/freeze；FAILED/PARTIAL/SUPERSEDED/STALE 保留但不排名。
+- `GATE_REPRODUCIBILITY_MANIFEST`：实验计划冻结 `data_audit` 的 required input hash registry；每个 Run 的实际 input 集合必须与其精确相等，并绑定实际存在且 hash 匹配的 code/output files、真实 Git commit、该 commit 中逐个 code blob、聚合 hash、配置、seed、argv、allowlisted environment、outcome、failure/supersession、trusted capture/freeze；FAILED/PARTIAL/SUPERSEDED/STALE 保留但不排名。
 - `GATE_LEAKAGE_SAFE_COMPARISON`：候选、metric、seed 和 split 先冻结；每个候选×seed 必须恰有一条 attempt，baseline 必须成功；test 只在选择后授权访问一次；bool、字符串、NaN、Inf 和非成功 attempt 不得评分。
-- `GATE_CLAIM_EVIDENCE_AND_HANDOFF`：Claim 精确绑定 current successful Run 的 manifest/input/code/config/output/decision hash 与证据 IDs；handoff 的 Run、Claim、metric、reproduction 必须回连 case evidence chain，并通过 `modeling-to-paper/v1`。
+- `GATE_CLAIM_EVIDENCE_AND_HANDOFF`：稳健性结果必须由选中 Run output 携带定量 perturbation evidence，并精确绑定 selected model/run/input/config/output/decision；每个 requirement 有不同的 output-bound Claim ID 与 current evidence IDs；handoff 的 trace、Run、Claim、metric、reproduction 必须回连 case evidence chain，并通过 `modeling-to-paper/v1`。
 
 任一 Gate 返回 BLOCK/STALE/REJECTED 时不得推进。Orchestrator 和 Auditor 都无权覆盖 Gate。
 

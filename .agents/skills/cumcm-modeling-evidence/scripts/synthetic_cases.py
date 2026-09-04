@@ -25,6 +25,7 @@ def _freezes(
     metric: str,
     splits: dict[str, list[Any]],
     baseline_id: str,
+    required_input_hashes: dict[str, str],
     direction: str = "MIN",
 ) -> dict[str, str]:
     return {
@@ -40,6 +41,7 @@ def _freezes(
         "seed_schedule": core.canonical_hash([20260904]),
         "split_assignment": core.canonical_hash(splits),
         "baseline": core.canonical_hash(baseline_id),
+        "input_set": core.canonical_hash(required_input_hashes),
     }
 
 
@@ -295,7 +297,18 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "validation": list(range(7, 10)),
         "test": list(range(10, 13)),
     }
-    freezes = _freezes(core, candidate_ids, "MAE", splits, "P-BASELINE-MEAN")
+    required_input_hashes = {
+        raw_relative: raw_hash,
+        processed_relative: processed_hash,
+    }
+    freezes = _freezes(
+        core,
+        candidate_ids,
+        "MAE",
+        splits,
+        "P-BASELINE-MEAN",
+        required_input_hashes,
+    )
     _accepted(
         core,
         case_root,
@@ -312,6 +325,7 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             "handoff_generated_at": "2026-09-04T00:00:00Z",
             "random_seeds": [20260904],
             "candidate_ids": candidate_ids,
+            "required_input_hashes": required_input_hashes,
             "trusted_freeze_registry": freezes,
             "stop_rule": "one deterministic run per candidate",
         },
@@ -374,6 +388,49 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         claim_scope_for_candidate = (
             f"在本合成数据冻结 test split 上，{candidate} 的 MAE 为 {test_mae_for_candidate:.6g}"
         )
+        run_output_relative = f"runs/RUN-{candidate}/output.json"
+        requirement_claims = {
+            "REQ-P-1": {
+                "claim_id": "CLAIM-P-1",
+                "claim_text": claim_scope_for_candidate,
+                "evidence_artifact_ids": [
+                    "results/model_comparison.json",
+                    run_output_relative,
+                ],
+            },
+            "REQ-P-2": {
+                "claim_id": "CLAIM-P-2",
+                "claim_text": "future_target 已从冻结的处理数据与模型输入中排除",
+                "evidence_artifact_ids": [
+                    "data/data_audit.json",
+                    "results/model_comparison.json",
+                    run_output_relative,
+                ],
+            },
+            "REQ-P-3": {
+                "claim_id": "CLAIM-P-3",
+                "claim_text": f"{candidate} 已记录两项定量目标扰动与结构突变 failure case",
+                "evidence_artifact_ids": [
+                    "results/robustness.json",
+                    run_output_relative,
+                ],
+            },
+        }
+        robustness_evidence = {
+            "metric": "test_mae",
+            "metric_direction": "MIN",
+            "perturbations": [
+                {
+                    "perturbation_id": f"TARGET_{'PLUS' if delta > 0 else 'MINUS'}_0_5",
+                    "metric": "test_mae",
+                    "result": sum(abs((y + delta) - predictors[candidate](t)) for t, y in test)
+                    / len(test),
+                    "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+                }
+                for delta in (0.5, -0.5)
+            ],
+            "failure_cases": ["线性趋势外推不保证适用于结构突变"],
+        }
         output = {
             "candidate_id": candidate,
             "validation_metrics": {"MAE": validation_scores[candidate]},
@@ -402,6 +459,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
                 "scope": "deterministic synthetic perturbations",
                 "quantified": True,
             },
+            "robustness_evidence": robustness_evidence,
+            "requirement_claims": requirement_claims,
         }
         manifest = _write_run(
             core,
@@ -431,6 +490,7 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
         "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
+        "required_input_hashes": required_input_hashes,
         "attempts": attempts,
         "selected_candidate_id": selected,
         "selection_decision_hash": decision_hash,
@@ -451,22 +511,19 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
     _advance_to(core, case_root, "RUN_VALIDATED")
     selected_predictor = predictors[selected]
     test_mae = sum(abs(y - selected_predictor(t)) for t, y in test) / len(test)
+    manifest = manifests[selected]
+    selected_output = core.load_json(case_root / manifest["output_files"][0]["path"])
     robustness = {
         "status": "VALIDATED",
-        "perturbations": [
-            {
-                "name": "target_plus_0.5",
-                "mae": sum(abs((y + 0.5) - selected_predictor(t)) for t, y in test) / len(test),
-            },
-            {
-                "name": "target_minus_0.5",
-                "mae": sum(abs((y - 0.5) - selected_predictor(t)) for t, y in test) / len(test),
-            },
-        ],
-        "failure_cases": ["线性趋势外推不保证适用于结构突变"],
+        "selected_model": selected,
+        "run_id": manifest["run_id"],
+        "input_hash": manifest["input_hash"],
+        "configuration_hash": manifest["configuration_hash"],
+        "output_hash": manifest["output_hash"],
+        "decision_hash": decision_hash,
+        **selected_output["robustness_evidence"],
     }
     _accepted(core, case_root, "robustness_analysis", robustness)
-    manifest = manifests[selected]
     scope = f"在本合成数据冻结 test split 上，{selected} 的 MAE 为 {test_mae:.6g}"
     final = {
         "status": "FINAL_CANDIDATE",
@@ -496,6 +553,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             "results/final_result.json",
             manifest["output_files"][0]["path"],
         ],
+        "supported_requirement_ids": [item["requirement_id"] for item in requirements],
+        "requirement_claims": selected_output["requirement_claims"],
         "evidence_status": "CURRENT",
         "contradiction_status": "NONE",
     }
@@ -641,12 +700,14 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "validation": ["feasibility-and-objective"],
         "test": ["complete-enumeration-certificate"],
     }
+    required_input_hashes = {raw_relative: raw_hash}
     freezes = _freezes(
         core,
         candidate_ids,
         "negative_profit",
         splits,
         "O-BASELINE-A-ONLY",
+        required_input_hashes,
     )
     _accepted(
         core,
@@ -664,6 +725,7 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "handoff_generated_at": "2026-09-04T00:00:00Z",
             "random_seeds": [20260904],
             "candidate_ids": candidate_ids,
+            "required_input_hashes": required_input_hashes,
             "trusted_freeze_registry": freezes,
             "stop_rule": "enumerate bounded integer feasible region once",
         },
@@ -732,7 +794,58 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "scope": "deterministic synthetic perturbations",
             "quantified": True,
         }
+        run_output_relative = f"runs/RUN-{candidate}/output.json"
+        output["requirement_claims"] = {
+            "REQ-O-1": {
+                "claim_id": "CLAIM-O-1",
+                "claim_text": output["claim_scope"],
+                "evidence_artifact_ids": [
+                    "results/model_comparison.json",
+                    run_output_relative,
+                ],
+            },
+            "REQ-O-2": {
+                "claim_id": "CLAIM-O-2",
+                "claim_text": "完整整数枚举保留不可行负控并按可行域选择目标值",
+                "evidence_artifact_ids": [
+                    "results/model_comparison.json",
+                    run_output_relative,
+                ],
+            },
+            "REQ-O-3": {
+                "claim_id": "CLAIM-O-3",
+                "claim_text": f"{candidate} 的证据链包含资源容量定量敏感性结果",
+                "evidence_artifact_ids": [
+                    "results/robustness.json",
+                    run_output_relative,
+                ],
+            },
+        }
     selected = min(scores, key=lambda key: (scores[key], key))
+    optimization_perturbations = []
+    for labor in (labor_capacity - 1, labor_capacity + 1):
+        variants = [
+            (a, b, a_profit * a + b_profit * b)
+            for a in range(labor // a_labor + 1)
+            for b in range(labor // b_labor + 1)
+            if a_labor * a + b_labor * b <= labor
+            and a_material * a + b_material * b <= material_capacity
+        ]
+        best = max(variants, key=lambda item: (item[2], -item[0], -item[1]))
+        optimization_perturbations.append(
+            {
+                "perturbation_id": f"LABOR_CAPACITY_{labor}",
+                "metric": "profit",
+                "result": best[2],
+                "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+            }
+        )
+    outcomes[selected]["robustness_evidence"] = {
+        "metric": "profit",
+        "metric_direction": "MAX",
+        "perturbations": optimization_perturbations,
+        "failure_cases": ["资源或利润系数改变时需重新枚举"],
+    }
     decision_hash = core.canonical_hash(
         {
             "selected_candidate_id": selected,
@@ -776,6 +889,7 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
         "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
+        "required_input_hashes": required_input_hashes,
         "attempts": attempts,
         "selected_candidate_id": selected,
         "selection_decision_hash": decision_hash,
@@ -794,28 +908,20 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
     }
     _accepted(core, case_root, "model_comparison", comparison)
     _advance_to(core, case_root, "RUN_VALIDATED")
-    perturbations = []
-    for labor in (labor_capacity - 1, labor_capacity + 1):
-        variants = [
-            (a, b, a_profit * a + b_profit * b)
-            for a in range(labor // a_labor + 1)
-            for b in range(labor // b_labor + 1)
-            if a_labor * a + b_labor * b <= labor
-            and a_material * a + b_material * b <= material_capacity
-        ]
-        best = max(variants, key=lambda item: (item[2], -item[0], -item[1]))
-        perturbations.append(
-            {"labor_capacity": labor, "x_A": best[0], "x_B": best[1], "profit": best[2]}
-        )
+    manifest = manifests[selected]
+    selected_output = core.load_json(case_root / manifest["output_files"][0]["path"])
     robustness = {
         "status": "VALIDATED",
-        "perturbations": perturbations,
-        "failure_cases": ["资源或利润系数改变时需重新枚举"],
+        "selected_model": selected,
+        "run_id": manifest["run_id"],
+        "input_hash": manifest["input_hash"],
+        "configuration_hash": manifest["configuration_hash"],
+        "output_hash": manifest["output_hash"],
+        "decision_hash": decision_hash,
+        **selected_output["robustness_evidence"],
     }
     _accepted(core, case_root, "robustness_analysis", robustness)
-    manifest = manifests[selected]
     result = outcomes[selected]
-    selected_output = core.load_json(case_root / manifest["output_files"][0]["path"])
     scope = selected_output["claim_scope"]
     final = {
         "status": "FINAL_CANDIDATE",
@@ -845,6 +951,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "results/final_result.json",
             manifest["output_files"][0]["path"],
         ],
+        "supported_requirement_ids": [item["requirement_id"] for item in requirements],
+        "requirement_claims": selected_output["requirement_claims"],
         "evidence_status": "CURRENT",
         "contradiction_status": "NONE",
     }
@@ -868,7 +976,7 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             },
         ],
         tables=[{"table_id": "T-O-1", "rows": attempts}],
-        figures=[{"figure_id": "FIG-O-1", "series": perturbations}],
+        figures=[{"figure_id": "FIG-O-1", "series": optimization_perturbations}],
         limitations=["只证明冻结的小规模整数域；未建立外部效度或生产性能"],
     )
     core.write_json(case_root / core.ARTIFACT_PATHS["modeling_to_paper_handoff"], handoff)

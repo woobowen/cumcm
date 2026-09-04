@@ -87,6 +87,19 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     assert freeze.REASON_CODE.fullmatch("arbitrary sensitive explanation") is None
 
 
+def test_phase004_registry_readers_fail_closed_on_non_object_case(
+    repo_root: Path, tmp_path: Path
+) -> None:
+    start = load_script(repo_root, "start_skill_development_eval.py")
+    freeze = load_script(repo_root, "freeze_skill_first_run.py")
+    registry = tmp_path / "registry.yaml"
+    registry.write_text("cases:\n  - true\n", encoding="utf-8")
+
+    for module in (start, freeze):
+        with pytest.raises(ValueError, match="DEVELOPMENT_REGISTRY_INVALID"):
+            module.read_registry(registry)
+
+
 def test_case_registry_declares_required_training_fields(repo_root: Path) -> None:
     registry = yaml.safe_load(
         (repo_root / "benchmarks/case_registry.yaml").read_text(encoding="utf-8")

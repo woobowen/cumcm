@@ -60,7 +60,11 @@ def validate_timeline(start_time: str, freeze_time: str, unlock_time: str | None
 
 def read_registry(path: Path) -> dict[str, Any]:
     value = yaml.safe_load(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict) or not isinstance(value.get("cases"), list):
+    if (
+        not isinstance(value, dict)
+        or not isinstance(value.get("cases"), list)
+        or not all(isinstance(case, dict) for case in value.get("cases", []))
+    ):
         raise ValueError("DEVELOPMENT_REGISTRY_INVALID")
     return value
 

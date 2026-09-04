@@ -44,6 +44,7 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
     splits = {"train": [1], "validation": [2], "test": [3]}
     aggregation_rule = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
     selection_rule = "ARGMIN_THEN_ID"
+    required_input_hashes = {"data/raw/input.json": "8" * 64}
     freezes = {
         "candidate_set": core.canonical_hash(["BASE", "CAND"]),
         "metric": core.canonical_hash(
@@ -57,6 +58,7 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
         "seed_schedule": core.canonical_hash([7]),
         "split_assignment": core.canonical_hash(splits),
         "baseline": core.canonical_hash("BASE"),
+        "input_set": core.canonical_hash(required_input_hashes),
     }
     validation_scores = {"BASE": 2.0, "CAND": 1.0}
     comparison = {
@@ -68,6 +70,7 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
         "aggregation_rule": aggregation_rule,
         "selection_rule": selection_rule,
         "random_seeds": [7],
+        "required_input_hashes": required_input_hashes,
         "attempts": [
             {
                 "candidate_id": "BASE",
@@ -121,6 +124,7 @@ def valid_manifest(core: Any, case_root: Path) -> tuple[dict[str, Any], dict[str
         "candidate_set": core.canonical_hash(["BASE", "CAND"]),
         "metric": core.canonical_hash("MAE"),
         "seed_schedule": core.canonical_hash([7]),
+        "input_set": core.canonical_hash({"data/raw/input.json": input_file_hash}),
     }
     configuration = {"candidate_id": "CAND", "seed": 7}
     manifest = {
