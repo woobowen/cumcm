@@ -24,7 +24,7 @@ MODEL_REPOSITORY_PATH = (
     "development_regression/code/mechanistic_model.py"
 )
 SOURCE_CASE = ROOT / ".cache/official_inputs/CUMCM-2020-A/development_regression_v2"
-DEFAULT_CASE = ROOT / ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_002"
+DEFAULT_CASE = ROOT / ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_003"
 DEFAULT_SUMMARY = ROOT / "evals/results/phase-004c-c-batch/rc4/2020a_auxiliary_regression.json"
 CASE_ID = "CUMCM-2020-A-RC4-AUXILIARY-REGRESSION"
 SEED = 20260904
@@ -429,7 +429,7 @@ def finalize(case_root: Path, summary_path: Path) -> dict[str, Any]:
         for item in core.read_artifact(case_root, "problem_requirements")["content"]["requirements"]
     ]
     claim = {
-        "claim_id": "CLAIM-2020A-AUXILIARY-RC4",
+        "claim_id": selected_output["requirement_claims"]["REQ-2020A-Q1"]["claim_id"],
         "claim_text": selected_output["claim_scope"],
         "supported_scope": selected_output["claim_scope"],
         "run_id": selected_manifest["run_id"],
@@ -498,6 +498,16 @@ def finalize(case_root: Path, summary_path: Path) -> dict[str, Any]:
                 ),
                 "terminal_state": "RUN_VALIDATED",
                 "failure_reason": "RC_COMPARISON_TEST_ACCESS_COUNT_INVALID",
+                "preserved": True,
+                "ranking_eligible": False,
+            },
+            {
+                "attempt": 2,
+                "workspace_relative": (
+                    ".cache/official_inputs/CUMCM-2020-A/rc4_auxiliary_attempt_002"
+                ),
+                "terminal_state": "FINAL_CANDIDATE",
+                "failure_reason": "RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID",
                 "preserved": True,
                 "ranking_eligible": False,
             }
