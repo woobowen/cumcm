@@ -433,6 +433,52 @@ def test_blocked_freeze_requires_failure_evidence_and_writes_no_fake_run(
     assert not list(case_root.glob("runs/*/manifest.json"))
 
 
+def test_batch_freeze_requires_complete_evidence_and_hashes_case_code_tree(
+    repo_root: Path, tmp_path: Path
+) -> None:
+    freeze = load_script(repo_root, "freeze_skill_first_run.py")
+    case_root = tmp_path / "case"
+    case_root.mkdir()
+    with pytest.raises(ValueError, match="FIRST_RUN_EVIDENCE_MISSING"):
+        freeze.evidence_hashes(case_root, blocked=False, batch_case=True)
+
+    for relative in freeze.BATCH_SUCCESS_EVIDENCE:
+        path = case_root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("{}\n", encoding="utf-8")
+    code = case_root / "models/model.py"
+    code.parent.mkdir(parents=True, exist_ok=True)
+    code.write_text("print('model')\n", encoding="utf-8")
+    plan = {
+        "content": {
+            "required_code_files": [
+                {
+                    "scope": "CASE_ROOT",
+                    "path": "models/model.py",
+                    "repository_path": "evals/results/case/code/model.py",
+                    "sha256": file_hash(code),
+                }
+            ]
+        }
+    }
+    plan_path = case_root / "experiments/experiment_plan.json"
+    plan_path.write_text(json.dumps(plan) + "\n", encoding="utf-8")
+    metrics_path = case_root / "evidence/first_run_metrics.json"
+    metrics_path.write_text(
+        json.dumps({"content": {"manual_intervention_count": 0}}) + "\n",
+        encoding="utf-8",
+    )
+
+    hashes = freeze.evidence_hashes(case_root, blocked=False, batch_case=True)
+    assert set(freeze.BATCH_SUCCESS_EVIDENCE).issubset(hashes)
+    assert len(freeze.case_code_tree_hash(case_root, plan_path)) == 64
+    assert freeze.manual_intervention_count(metrics_path) == 0
+
+    code.write_text("print('drift')\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="CASE_CODE_HASH_MISMATCH"):
+        freeze.case_code_tree_hash(case_root, plan_path)
+
+
 def test_freeze_separates_skill_commit_from_case_execution_commit(repo_root: Path) -> None:
     freeze = load_script(repo_root, "freeze_skill_first_run.py")
     core = freeze.load_core()
