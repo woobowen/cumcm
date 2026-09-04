@@ -819,6 +819,62 @@ def test_run_inputs_must_exactly_match_preregistered_audited_input_set(
         case_cli.advance_once(case_root)
 
 
+@pytest.mark.parametrize(
+    "kind,mutation,reason",
+    [
+        ("prediction", "wrong_seed", "RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID"),
+        ("prediction", "wrong_run_id", "RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID"),
+        ("optimization", "missing_attempt", "RC_RUN_ATTEMPT_LEDGER_NOT_EXACT"),
+        ("prediction", "hidden_attempt", "RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID"),
+    ],
+)
+def test_run_gates_reject_nonexact_frozen_attempt_ledger_before_state_progress(
+    case_cli, tmp_path: Path, kind: str, mutation: str, reason: str
+) -> None:
+    case_root = tmp_path / mutation
+    case_cli.run_smoke(case_root, f"AUDIT-RUN-{mutation.upper()}", kind, False)
+    state = case_cli.load_state(case_root)
+    history = state["history"][:8]
+    evidence = {relative for record in history for relative in record["evidence"]}
+    state.update(
+        state="RUNNING",
+        last_gate="GATE_EXECUTION_AUTHORIZED",
+        history=history,
+        evidence_bindings={
+            relative: digest
+            for relative, digest in state["evidence_bindings"].items()
+            if relative in evidence
+        },
+    )
+    state_path = case_root / "case_state.json"
+    case_cli.write_json(state_path, state)
+    manifest_paths = sorted(case_root.glob("runs/*/manifest.json"))
+    if mutation == "wrong_seed":
+        for path in manifest_paths:
+            manifest = case_cli.load_json(path)
+            manifest["random_seed"] = 0
+            manifest["configuration"]["seed"] = 0
+            manifest["configuration_hash"] = case_cli.canonical_hash(manifest["configuration"])
+            case_cli.write_json(path, manifest)
+    elif mutation == "wrong_run_id":
+        for index, path in enumerate(manifest_paths):
+            manifest = case_cli.load_json(path)
+            manifest["run_id"] = f"WRONG-RUN-{index}"
+            case_cli.write_json(path, manifest)
+    elif mutation == "missing_attempt":
+        infeasible = next(path for path in manifest_paths if "INFEASIBLE" in path.parent.name)
+        infeasible.rename(infeasible.with_suffix(".removed"))
+    elif mutation == "hidden_attempt":
+        source = case_cli.load_json(manifest_paths[0])
+        source["run_id"] = "RUN-HIDDEN-ATTEMPT"
+        case_cli.write_json(case_root / "runs/RUN-HIDDEN-ATTEMPT/manifest.json", source)
+    before = state_path.read_bytes()
+
+    with pytest.raises(ValueError, match=reason):
+        case_cli.advance_once(case_root)
+    assert state_path.read_bytes() == before
+
+
 def test_robustness_gate_requires_selected_run_and_output_evidence(
     case_cli, tmp_path: Path
 ) -> None:

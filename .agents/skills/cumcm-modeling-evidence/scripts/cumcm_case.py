@@ -2125,9 +2125,45 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         if not manifests:
             raise ValueError("RC_RUN_MANIFEST_MISSING")
         freezes = trusted_freezes(case_root)
+        plan = read_artifact(case_root, "experiment_plan")["content"]
+        plan_candidates = plan["candidate_ids"]
+        plan_seeds = plan["random_seeds"]
+        expected_attempts = {
+            (candidate_id, seed) for candidate_id in plan_candidates for seed in plan_seeds
+        }
+        observed_attempts: set[tuple[str, int]] = set()
         successes: list[Path] = []
         for path in manifests:
             manifest = load_json(path)
+            run_id = manifest.get("run_id") if isinstance(manifest, dict) else None
+            configuration = manifest.get("configuration") if isinstance(manifest, dict) else None
+            candidate_id = (
+                configuration.get("candidate_id") if isinstance(configuration, dict) else None
+            )
+            configured_seed = configuration.get("seed") if isinstance(configuration, dict) else None
+            manifest_seed = manifest.get("random_seed") if isinstance(manifest, dict) else None
+            attempt_key = (candidate_id, configured_seed)
+            if (
+                not isinstance(run_id, str)
+                or run_id != path.parent.name
+                or not isinstance(candidate_id, str)
+                or candidate_id not in plan_candidates
+                or not isinstance(configured_seed, int)
+                or isinstance(configured_seed, bool)
+                or configured_seed not in plan_seeds
+                or manifest_seed != configured_seed
+                or attempt_key in observed_attempts
+            ):
+                raise ValueError("RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID")
+            observed_attempts.add(attempt_key)
+            output_files = manifest.get("output_files")
+            if not isinstance(output_files, list) or any(
+                not isinstance(record, dict)
+                or not isinstance(record.get("path"), str)
+                or Path(record["path"]).parts[:2] != ("runs", run_id)
+                for record in output_files
+            ):
+                raise ValueError("RC_RUN_OUTPUT_IDENTITY_INVALID")
             result = validate_manifest(
                 manifest,
                 case_root=case_root,
@@ -2142,6 +2178,8 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
                 and all(code.startswith("RC_MANIFEST_NOT_SUCCESS:") for code in result.reason_codes)
             ):
                 raise ValueError(";".join(result.reason_codes))
+        if observed_attempts != expected_attempts:
+            raise ValueError("RC_RUN_ATTEMPT_LEDGER_NOT_EXACT")
         if len(successes) < 2:
             raise ValueError("RC_VERIFIED_RUNS_INSUFFICIENT")
         target = "RUN_COMPLETED" if current == "RUNNING" else "RUN_VALIDATED"
