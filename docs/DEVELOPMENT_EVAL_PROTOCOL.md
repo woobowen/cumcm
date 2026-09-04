@@ -50,13 +50,16 @@
 
    ```text
    .venv/bin/python scripts/freeze_skill_first_run.py \
-     --case-id <ID> --case-root <PRIVATE-WORKSPACE>
+     --case-id <ID> --case-root <PRIVATE-WORKSPACE> \
+     --freeze-output <TRACKED-FREEZE.json> --worktree-commit <GIT-SHA>
    ```
 
 8. 冻结文件至少绑定 problem/data、RC1 Skill version/tree/commit、search/source、case state、代码树、
    所有 Run manifests/results、handoff/failure/timing 和 worktree commit。first run 无论 READY、STALE、
    REJECTED 或 blocked 都原样冻结，形成独立提交并在远端 SHA 核验后才允许 unlock。
-9. 核验冻结 hash 后，若确需诊断才用 `--unlock-time <ISO-8601>` 记录答案解封；解封后只允许更新
+9. 将冻结文件、registry 和状态作为独立提交推送；远端分支 SHA 必须等于该提交。核验后若确需诊断，
+   才单独运行 `scripts/unlock_skill_first_run.py`，并传入 freeze commit、远端和分支以及
+   `--unlock-time <ISO-8601>`。冻结命令本身没有解锁能力。解封后只允许更新
    generalizable failures 与 problem-specific findings，不改首跑证据。最多读取官方讲评、一份合法
    高质量获奖/官方展示材料和一篇正式出版方法分析；不复制代码、参数、公式或段落。
 10. 运行 `.venv/bin/python scripts/check_skill_training_consistency.py --check`。

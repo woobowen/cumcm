@@ -76,13 +76,8 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     with pytest.raises(ValueError, match="FREEZE_TIME_TIMEZONE_REQUIRED"):
         freeze.iso_time("2026-09-04T01:00:00", "FREEZE_TIME_INVALID")
     with pytest.raises(ValueError, match="FREEZE_TIME_BEFORE_START"):
-        freeze.validate_timeline("2026-09-04T02:00:00Z", "2026-09-04T01:00:00Z", None)
-    with pytest.raises(ValueError, match="UNLOCK_TIME_BEFORE_FREEZE"):
-        freeze.validate_timeline(
-            "2026-09-04T00:00:00Z",
-            "2026-09-04T02:00:00Z",
-            "2026-09-04T01:00:00Z",
-        )
+        freeze.validate_timeline("2026-09-04T02:00:00Z", "2026-09-04T01:00:00Z")
+    freeze.validate_timeline("2026-09-04T00:00:00Z", "2026-09-04T02:00:00Z")
     assert freeze.REASON_CODE.fullmatch("RC_MODEL_FAILED:TIMEOUT")
     assert freeze.REASON_CODE.fullmatch("arbitrary sensitive explanation") is None
 
@@ -315,6 +310,10 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "DEV-FREEZE-002",
         "--case-root",
         str(case_root),
+        "--freeze-output",
+        str(tmp_path / "first_run_freeze.json"),
+        "--worktree-commit",
+        commit,
         "--freeze-time",
         "2026-09-04T01:00:00Z",
         "--dry-run",
@@ -334,6 +333,10 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "DEV-FREEZE-002",
         "--case-root",
         str(case_root),
+        "--freeze-output",
+        str(repo_root / "evals/results/phase-004a/test-first-run-freeze.json"),
+        "--worktree-commit",
+        commit,
         "--freeze-time",
         "2026-09-04T01:00:00Z",
     )
@@ -344,3 +347,28 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
     assert record["first_run_evidence"]["skill_commit"] == commit
     assert record["first_run_evidence"]["case_state"] == "READY_FOR_PAPER_HANDOFF"
     assert record["first_run_evidence"]["run_manifest_hashes"]
+    (repo_root / "evals/results/phase-004a/test-first-run-freeze.json").unlink()
+
+
+def test_blocked_freeze_requires_failure_evidence_and_writes_no_fake_run(
+    repo_root: Path, tmp_path: Path
+) -> None:
+    freeze = load_script(repo_root, "freeze_skill_first_run.py")
+    case_root = tmp_path / "case"
+    case_root.mkdir()
+    with pytest.raises(ValueError, match="FIRST_RUN_EVIDENCE_MISSING"):
+        freeze.evidence_hashes(case_root, blocked=True)
+    for relative in freeze.REQUIRED_BLOCKED_EVIDENCE:
+        path = case_root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("{}\n", encoding="utf-8")
+    hashes = freeze.evidence_hashes(case_root, blocked=True)
+    assert set(hashes) == set(freeze.REQUIRED_BLOCKED_EVIDENCE)
+    assert not list(case_root.glob("runs/*/manifest.json"))
+
+
+def test_unlock_rejects_unverified_remote_freeze(repo_root: Path, tmp_path: Path) -> None:
+    unlock = load_script(repo_root, "unlock_skill_first_run.py")
+    assert unlock.parsed_time("2026-09-04T02:00:00Z", "UNLOCK_TIME_INVALID")
+    with pytest.raises(ValueError, match="UNLOCK_TIME_TIMEZONE_REQUIRED"):
+        unlock.parsed_time("2026-09-04T02:00:00", "UNLOCK_TIME_INVALID")
