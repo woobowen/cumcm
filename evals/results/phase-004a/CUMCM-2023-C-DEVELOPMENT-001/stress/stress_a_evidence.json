@@ -1,0 +1,117 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "case_id": "CUMCM-2023-C-STRESS-A-001",
+  "case_state_sha256": "bf61a3b3f0c1b0761639efb15da22c224e8cb171cda845c3db9a50db53a6de7d",
+  "code_commit": "21bcf1bf4659cad6880d5a73973d0c1f8f8f1642",
+  "data_quality": {
+    "date_shift_days": 0,
+    "loss_rows": 251,
+    "loss_source_available": true,
+    "master_rows": 251,
+    "missing_loss_rows": 0,
+    "missing_wholesale_rows": 0,
+    "positive_sales_rows": 878042,
+    "quantity_scale_to_kg": 1.0,
+    "unmatched_category_rows": 0,
+    "wholesale_rows": 55982
+  },
+  "decision_hash": "39c62b36f2fb4b28c10ce62722d5834f92b3348ea9abbf76345ef542626f880e",
+  "evidence_class": "DEVELOPMENT_REGRESSION_OR_STRESS",
+  "final_metrics": {
+    "expected_profit_proxy_yuan": 5230.45542049,
+    "forecast_total_kg": 3076.35706056,
+    "selected_item_count": 27,
+    "validation_wape": 0.31407446
+  },
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "handoff_sha256": "b5f36b6949f8fe2e662741688ed18a571b9d2f1b0c34cb8baff0409e93e34cd4",
+  "input_hashes": {
+    "raw/case_files/附件1.xlsx": "8feb76203277ee7590db4c1fbd79983c70e44175408f5a4a36ca3d346e3cc30f",
+    "raw/case_files/附件2.xlsx": "e0fcc8dc46b7ce6a8d011073e4a3c9d5a3bc370906b4af0dd57705c16f3167b1",
+    "raw/case_files/附件3.xlsx": "aebe421066a6aef7ffc91bb28fac04ce181b789da32621ad1294ee5388ff2481",
+    "raw/case_files/附件4.xlsx": "d26039713faf62c550974c496ee43c0a3a5aa10a8d55a35c9727fd0d740de1cc",
+    "state/variant_metadata.json": "78672950ab160431d55d54e186d30ebcc5c3e1f6485e40133b51bead609cb458"
+  },
+  "limitations": [
+    "Development regression after reference unlock; not blind, Validation, or Held-out.",
+    "Single historical problem cannot establish generalization.",
+    "The item assortment is a feasible heuristic, not a global optimality certificate.",
+    "Future realized outcomes are unavailable, so plans are not ex-post profit claims."
+  ],
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "robustness": {
+    "failure_cases": [
+      "No stockout indicator; observed sales can understate latent demand.",
+      "Price-demand association is endogenous and is not a causal elasticity estimate.",
+      "Profit is a planning proxy without shelf-capacity or inventory carryover data."
+    ],
+    "metric": "baseline_normalized_decision_loss",
+    "metric_direction": "MIN",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "baseline_normalized_decision_loss",
+        "perturbation_id": "RECENT_WINDOW_SHORTER",
+        "result": 0.88074853
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "baseline_normalized_decision_loss",
+        "perturbation_id": "VALIDATION_DEMAND_SCALE_UP",
+        "result": 0.98239919
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "baseline_normalized_decision_loss",
+        "perturbation_id": "VALIDATION_TAIL_REMOVED",
+        "result": 0.94844323
+      }
+    ]
+  },
+  "runs": [
+    {
+      "candidate_id": "PIPELINE-SEASONAL-BASELINE",
+      "capture_sha256": "6da51ec3b121b936c710d845345af994aee9a56c41a30065f9e007b670769e03",
+      "elapsed_seconds": 43.452471,
+      "exit_code": 0,
+      "manifest_sha256": "6c12a6417151cbdceab4f247934af99f089a7600d5c50919b7c6e2e93a3e7cf8",
+      "output_sha256": "5abb5fbdb22b8bfee58ca4933c30f645b80386b7ef212b18e609daac18789447",
+      "run_id": "RUN-PIPELINE-SEASONAL-BASELINE-20260904",
+      "seed": 20260904,
+      "validation_score": 1.0
+    },
+    {
+      "candidate_id": "PIPELINE-HIERARCHICAL-STOCHASTIC",
+      "capture_sha256": "39a8a0140de45b796895c355ecd47149841fd22a579289f3ca96a64044b8833b",
+      "elapsed_seconds": 44.310012,
+      "exit_code": 0,
+      "manifest_sha256": "122b64f1fe4476f5150277c8d67d4cd6f83bd864890ea2d0e1a8cae6bbdc2bbe",
+      "output_sha256": "2de4f32afcbdac37518c734836a74d01625412591862675e6de6585d101fef6b",
+      "run_id": "RUN-PIPELINE-HIERARCHICAL-STOCHASTIC-20260904",
+      "seed": 20260904,
+      "validation_score": 0.95115654
+    },
+    {
+      "candidate_id": "PIPELINE-NONPARAMETRIC-ROBUST",
+      "capture_sha256": "7eb7c4c2a7af8f310e025662e98c547e64ba8c48333fc234edb4be46a68f2544",
+      "elapsed_seconds": 43.823099,
+      "exit_code": 0,
+      "manifest_sha256": "f87ff367ff9a845e770e96ab3657d41fa56cfc1a262aa5e70e355751883af535",
+      "output_sha256": "cc65cdcd812669f034f0e0c7e7d6a77d66766631991048d71bc4543d72423bb7",
+      "run_id": "RUN-PIPELINE-NONPARAMETRIC-ROBUST-20260904",
+      "seed": 20260904,
+      "validation_score": 1.1392707
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selected_model": "PIPELINE-HIERARCHICAL-STOCHASTIC",
+  "skill_version": "0.2.0-competition-rc2",
+  "stale_probe": null,
+  "variant_metadata": {
+    "date_shift_days": 0,
+    "loss_source_available": true,
+    "quantity_column": "销量(千克)",
+    "quantity_scale_to_kg": 1.0,
+    "variant_id": "STRESS_A_SCHEMA_ORDERING"
+  }
+}

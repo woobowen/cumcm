@@ -1,0 +1,42 @@
+{
+  "aggregate_score": null,
+  "answer_access_status": "SEALED",
+  "case_id": "CUMCM-2023-C-DEVELOPMENT-001",
+  "dimensions": {
+    "contest_efficiency": {
+      "evidence": "requirements, audit, and portfolio reached in 1387 seconds; no valid baseline Run",
+      "status": "PARTIAL"
+    },
+    "data_audit": {
+      "evidence": "7247b953402455291f5b5820cfee5f15b9e07f2fcb4a35fa289c458a6b71c8ed",
+      "status": "PASS"
+    },
+    "evidence_and_handoff": {
+      "evidence": "no verified Run, Claim, or handoff was created",
+      "status": "BLOCK"
+    },
+    "execution": {
+      "evidence": "RC_CUSTOM_EXECUTOR_UNAVAILABLE; manifest count 0",
+      "status": "HARD_GATE_BLOCK"
+    },
+    "model_design": {
+      "evidence": "1513b565c5f7d0c7be755919d18d90d6433170661900dbdcbb6af554888fc150",
+      "status": "PASS"
+    },
+    "requirement_coverage": {
+      "evidence": "755f90ced0a068feb606f93cd524aa0920b0506da6fafa2770db671b246b9675",
+      "status": "PASS"
+    },
+    "validation": {
+      "evidence": "experiment execution was not authorized",
+      "status": "NOT_RUN"
+    }
+  },
+  "hard_gate_failures": [
+    "CODE_NOT_EXECUTED",
+    "FINAL_RUN_ABSENT",
+    "CLAIM_EVIDENCE_ABSENT"
+  ],
+  "result": "BLOCKED_NONCOMPENSATORY",
+  "rubric_frozen_before_run": true
+}

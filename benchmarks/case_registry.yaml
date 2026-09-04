@@ -60,8 +60,45 @@ cases:
   start_time: '2026-09-04T05:51:52Z'
   freeze_time: '2026-09-04T06:16:39Z'
   unlock_time: '2026-09-04T06:18:44Z'
-  generalizable_failures: []
-  problem_specific_findings: []
+  generalizable_failures:
+  - failure_id: GAP-004A-001
+    classification: GENERALIZABLE_SKILL_FAILURE
+    summary: RC1 could not execute and capture preregistered case-local model code.
+    accepted_change: CONTROLLED_CASE_EXECUTION_AND_IMMUTABLE_CAPTURE
+  - failure_id: GAP-004A-002
+    classification: EVIDENCE_FAILURE
+    summary: RC1 could not evidence subprocess timing, exit, logs, output, and Git blob as one relation.
+    accepted_change: SEPARATE_EXECUTE_CAPTURE_AND_SEAL_RUN
+  problem_specific_findings:
+  - failure_id: GAP-004A-003
+    classification: PROBLEM_SPECIFIC_INSIGHT
+    disposition: REJECTED_FROM_SKILL
+  - failure_id: GAP-004A-004
+    classification: REFERENCE_DISAGREEMENT
+    disposition: REJECTED_AS_FAILURE
+  - failure_id: GAP-004A-005
+    classification: MODEL_KNOWLEDGE_GAP
+    disposition: RETAINED_AS_CASE_LIMITATION
+  rc2_development_regression:
+    evidence_path: evals/results/phase-004a/CUMCM-2023-C-DEVELOPMENT-001/rc2/development_regression_evidence.json
+    evidence_sha256: 78c0c79c4190425ac5e335bc717911121cea4e9c5f76ce81c35ce0499c87237e
+    skill_version: 0.2.0-competition-rc2
+    code_commit: 21bcf1bf4659cad6880d5a73973d0c1f8f8f1642
+    evidence_class: DEVELOPMENT_REGRESSION
+    final_state: READY_FOR_PAPER_HANDOFF
+  stress_evidence:
+    A:
+      path: evals/results/phase-004a/CUMCM-2023-C-DEVELOPMENT-001/stress/stress_a_evidence.json
+      sha256: 001dd3ad182a1a90602c2e423b7b2a4ffc7028091564fce071c7008b3bb6f9dd
+      status: PASS
+    B:
+      path: evals/results/phase-004a/CUMCM-2023-C-DEVELOPMENT-001/stress/stress_b_evidence.json
+      sha256: 6a25670e6e3508c83da7566b9712b03b627df6aba5a757594422d729487ae02f
+      status: PASS
+    C:
+      path: evals/results/phase-004a/CUMCM-2023-C-DEVELOPMENT-001/stress/stress_c_evidence.json
+      sha256: 73e340bfdcc1ba8db50196cb4473b9044747f36d6b9dec032af98adbc85cdf15
+      status: PASS
   raw_storage: PRIVATE_IGNORED_CACHE_NON_VAULT
   acquired_at: '2026-09-04T13:52:03+08:00'
   license_or_redistribution: OFFICIAL_PUBLIC_DOWNLOAD_REDISTRIBUTION_NOT_ESTABLISHED
