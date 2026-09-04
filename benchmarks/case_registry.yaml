@@ -1,0 +1,33 @@
+schema_version: 1.0.0
+purpose: PHASE_SKILL_DEVELOPMENT_EVAL_004
+allowed_set_types:
+  - DEVELOPMENT
+  - VALIDATION
+  - HELD_OUT
+  - STRESS
+allowed_answer_access_statuses:
+  - SEALED
+  - UNLOCKED_AFTER_FIRST_RUN
+  - PERMANENTLY_DEVELOPMENT
+allowed_first_run_statuses:
+  - NOT_STARTED
+  - IN_PROGRESS
+  - FROZEN
+required_case_fields:
+  - case_id
+  - set_type
+  - problem_source
+  - problem_hash
+  - data_hashes
+  - answer_access_status
+  - first_run_status
+  - skill_version
+  - skill_commit
+  - model
+  - reasoning
+  - start_time
+  - freeze_time
+  - unlock_time
+  - generalizable_failures
+  - problem_specific_findings
+cases: []

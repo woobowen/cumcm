@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "handoff_id": "PHASE-004-DEVELOPMENT-EVAL-ENTRY-RC1",
+  "status": "READY_FOR_NEXT_TASK",
+  "skill_version": "0.2.0-competition-rc1",
+  "required_next_phase": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+  "registry": {
+    "path": "benchmarks/case_registry.yaml",
+    "sha256": "c06633f8ed61f658c25dbbe8dbf79a659c0426228ea5d15e6891d0bbd5ac8748",
+    "registered_cases": 0,
+    "reason": "No historical problem is selected or read during the RC1 integration sprint."
+  },
+  "protocol": {
+    "path": "docs/DEVELOPMENT_EVAL_PROTOCOL.md",
+    "sha256": "8f62777eab834ac253685b793b175ad47bb99f6244a5bb45648a2b140eb936e5"
+  },
+  "report": {
+    "path": "reports/phase004_development_eval_handoff.md",
+    "sha256": "3b7f1483fd39c1d86fdc73940d98e35f718573d2a9cb9e20ef4cf4325fe5c16f"
+  },
+  "entry_commands": {
+    "start": {
+      "path": "scripts/start_skill_development_eval.py",
+      "sha256": "533035265304a74b54b11574f5916b983efdde6feb710c111049d8365e295cb2",
+      "help": "PASS"
+    },
+    "freeze": {
+      "path": "scripts/freeze_skill_first_run.py",
+      "sha256": "69bf02a87c93a5039f42d1679787c79410936851692b0735ccbeabcc89d60088",
+      "help": "PASS"
+    },
+    "consistency": {
+      "path": "scripts/check_skill_training_consistency.py",
+      "sha256": "732b926cf7b187b77a918106f0c0d9a5088865ab3f2c4253cd28b58d8ee54139",
+      "final_check_deferred_until_formal_state_update": true
+    }
+  },
+  "focused_tests": "3 passed",
+  "answer_accesses": 0,
+  "historical_problem_reads": 0,
+  "third_party_executions": 0,
+  "exact_next_action": "Select one answer-sealed DEVELOPMENT problem, run RC1 blind, freeze the first run before answer access, and derive RC2 only from evidence-backed generalizable failures."
+}
