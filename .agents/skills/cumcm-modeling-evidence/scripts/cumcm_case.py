@@ -973,7 +973,16 @@ def validate_comparison(
     if isinstance(baseline, str) and baseline not in aggregated_scores:
         codes.add("RC_COMPARISON_BASELINE_SUCCESS_MISSING")
     selected = comparison.get("selected_candidate_id")
-    if aggregated_scores and direction in ("MIN", "MAX"):
+    decision_fields_valid = (
+        comparison_json_safe
+        and isinstance(metric, str)
+        and bool(metric)
+        and isinstance(aggregation_rule, str)
+        and aggregation_rule == "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
+        and isinstance(selection_rule, str)
+        and selection_rule
+    )
+    if aggregated_scores and direction in ("MIN", "MAX") and decision_fields_valid:
         target = (
             min(aggregated_scores.values())
             if direction == "MIN"
@@ -1785,7 +1794,9 @@ def validate_case_state(value: Any) -> GateResult:
     evidence_in_history: set[str] = set()
     for index, record in enumerate(normal_history):
         target = expected_states[index] if index < len(expected_states) else None
-        previous = expected_states[index - 1] if index else None
+        previous = (
+            expected_states[index - 1] if index and index - 1 < len(expected_states) else None
+        )
         if (
             not isinstance(record, dict)
             or set(record) != {"sequence", "from", "to", "gate", "status", "evidence"}

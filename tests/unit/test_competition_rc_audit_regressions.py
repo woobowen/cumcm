@@ -623,6 +623,52 @@ def test_direct_comparison_validator_blocks_nonfinite_split_values_without_raisi
     assert comparison == before
 
 
+@pytest.mark.parametrize("field", ["metric", "aggregation_rule", "selection_rule"])
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), float("-inf")])
+def test_direct_comparison_validator_blocks_nonfinite_decision_fields_without_raising(
+    case_cli, tmp_path: Path, field: str, value: float
+) -> None:
+    case_root = tmp_path / f"prediction-{field}-{str(value)}"
+    case_cli.run_smoke(case_root, "AUDIT-NONFINITE-DECISION", "prediction", False)
+    comparison = case_cli.read_artifact(case_root, "model_comparison")["content"]
+    comparison[field] = value
+    before = copy.deepcopy(comparison)
+
+    result = case_cli.validate_comparison(
+        comparison,
+        case_cli.trusted_freezes(case_root),
+        case_root=case_root,
+    )
+
+    assert result.accepted is False
+    assert "RC_COMPARISON_NONFINITE_OR_NONJSON" in result.reason_codes
+    assert comparison == before
+
+
+@pytest.mark.parametrize("target", ["record", "to"])
+@pytest.mark.parametrize(
+    "value",
+    [None, True, "bad", [], {}, float("nan"), float("inf"), float("-inf")],
+)
+def test_direct_case_state_validator_blocks_malformed_final_history_without_raising(
+    case_cli, tmp_path: Path, target: str, value: object
+) -> None:
+    case_root = tmp_path / f"state-{target}-{type(value).__name__}"
+    case_cli.run_smoke(case_root, "AUDIT-STATE-HISTORY", "prediction", False)
+    state = case_cli.load_json(case_root / "case_state.json")
+    if target == "record":
+        state["history"][-1] = value
+    else:
+        state["history"][-1]["to"] = value
+    before = json.dumps(state, sort_keys=True)
+
+    result = case_cli.validate_case_state(state)
+
+    assert result.accepted is False
+    assert "RC_CASE_STATE_HISTORY_INVALID" in result.reason_codes
+    assert json.dumps(state, sort_keys=True) == before
+
+
 def test_direct_state_and_claim_validators_block_nested_nonfinite_values(
     case_cli, tmp_path: Path
 ) -> None:
