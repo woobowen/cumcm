@@ -780,6 +780,8 @@ def test_experiment_plan_gate_rejects_invalid_recomputed_freezes(
                 "handoff_generated_at": plan["handoff_generated_at"],
             }
         ),
+        "code_set": case_cli.canonical_hash(plan["required_code_files"]),
+        "code_commit": case_cli.canonical_hash(plan["code_commit"]),
     }
     plan_record["content_hash"] = case_cli.canonical_hash(plan)
     case_cli.write_json(plan_path, plan_record)
@@ -826,6 +828,7 @@ def test_run_inputs_must_exactly_match_preregistered_audited_input_set(
         ("prediction", "wrong_run_id", "RC_RUN_FROZEN_ATTEMPT_BINDING_INVALID"),
         ("optimization", "missing_attempt", "RC_RUN_ATTEMPT_LEDGER_NOT_EXACT"),
         ("prediction", "hidden_attempt", "RC_RUN_OUTPUT_IDENTITY_INVALID"),
+        ("prediction", "unrelated_code_registry", "RC_MANIFEST_CODE_FREEZE_MISMATCH"),
     ],
 )
 def test_run_gates_reject_nonexact_frozen_attempt_ledger_before_state_progress(
@@ -868,6 +871,19 @@ def test_run_gates_reject_nonexact_frozen_attempt_ledger_before_state_progress(
         source = case_cli.load_json(manifest_paths[0])
         source["run_id"] = "RUN-HIDDEN-ATTEMPT"
         case_cli.write_json(case_root / "runs/RUN-HIDDEN-ATTEMPT/manifest.json", source)
+    elif mutation == "unrelated_code_registry":
+        relative = "templates/README.md"
+        record = {
+            "scope": "SKILL_ROOT",
+            "path": relative,
+            "repository_path": f".agents/skills/cumcm-modeling-evidence/{relative}",
+            "sha256": case_cli.file_hash(case_cli.SKILL_ROOT / relative),
+        }
+        for path in manifest_paths:
+            manifest = case_cli.load_json(path)
+            manifest["code_files"] = [record]
+            manifest["code_tree_hash"] = case_cli.canonical_hash([record["sha256"]])
+            case_cli.write_json(path, manifest)
     before = state_path.read_bytes()
 
     with pytest.raises(ValueError, match=reason):

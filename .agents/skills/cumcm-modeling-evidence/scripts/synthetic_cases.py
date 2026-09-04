@@ -14,6 +14,18 @@ def _accepted(core: Any, case_root: Path, key: str, content: dict[str, Any]) -> 
     )
 
 
+def _required_code_files(core: Any) -> list[dict[str, str]]:
+    return [
+        {
+            "scope": "SKILL_ROOT",
+            "path": relative,
+            "repository_path": f".agents/skills/cumcm-modeling-evidence/{relative}",
+            "sha256": core.file_hash(core.SKILL_ROOT / relative),
+        }
+        for relative in ("scripts/cumcm_case.py", "scripts/synthetic_cases.py")
+    ]
+
+
 def _advance_to(core: Any, case_root: Path, target: str) -> None:
     while core.load_state(case_root)["state"] != target:
         core.advance_once(case_root)
@@ -28,6 +40,8 @@ def _freezes(
     required_input_hashes: dict[str, str],
     stop_rule: str,
     handoff_generated_at: str,
+    required_code_files: list[dict[str, str]],
+    code_commit: str,
     direction: str = "MIN",
 ) -> dict[str, str]:
     return {
@@ -50,6 +64,8 @@ def _freezes(
                 "handoff_generated_at": handoff_generated_at,
             }
         ),
+        "code_set": core.canonical_hash(required_code_files),
+        "code_commit": core.canonical_hash(code_commit),
     }
 
 
@@ -108,16 +124,7 @@ def _write_run(
         {"path": relative, "sha256": core.file_hash(case_root / relative)}
         for relative in input_paths
     ]
-    code_paths = ["scripts/cumcm_case.py", "scripts/synthetic_cases.py"]
-    code_files = [
-        {
-            "scope": "SKILL_ROOT",
-            "path": relative,
-            "repository_path": f".agents/skills/cumcm-modeling-evidence/{relative}",
-            "sha256": core.file_hash(core.SKILL_ROOT / relative),
-        }
-        for relative in code_paths
-    ]
+    code_files = _required_code_files(core)
     configuration = {"candidate_id": candidate_id, "seed": 20260904}
     manifest = {
         "run_id": run_id,
@@ -309,6 +316,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         raw_relative: raw_hash,
         processed_relative: processed_hash,
     }
+    required_code_files = _required_code_files(core)
+    code_commit = core.current_git_commit()
     freezes = _freezes(
         core,
         candidate_ids,
@@ -318,6 +327,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         required_input_hashes,
         "one deterministic run per candidate",
         "2026-09-04T00:00:00Z",
+        required_code_files,
+        code_commit,
     )
     _accepted(
         core,
@@ -336,6 +347,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             "random_seeds": [20260904],
             "candidate_ids": candidate_ids,
             "required_input_hashes": required_input_hashes,
+            "required_code_files": required_code_files,
+            "code_commit": code_commit,
             "trusted_freeze_registry": freezes,
             "stop_rule": "one deterministic run per candidate",
         },
@@ -501,6 +514,8 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
         "required_input_hashes": required_input_hashes,
+        "required_code_files": required_code_files,
+        "code_commit": code_commit,
         "stop_rule": "one deterministic run per candidate",
         "handoff_generated_at": "2026-09-04T00:00:00Z",
         "attempts": attempts,
@@ -713,6 +728,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "test": ["complete-enumeration-certificate"],
     }
     required_input_hashes = {raw_relative: raw_hash}
+    required_code_files = _required_code_files(core)
+    code_commit = core.current_git_commit()
     freezes = _freezes(
         core,
         candidate_ids,
@@ -722,6 +739,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         required_input_hashes,
         "enumerate bounded integer feasible region once",
         "2026-09-04T00:00:00Z",
+        required_code_files,
+        code_commit,
     )
     _accepted(
         core,
@@ -740,6 +759,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "random_seeds": [20260904],
             "candidate_ids": candidate_ids,
             "required_input_hashes": required_input_hashes,
+            "required_code_files": required_code_files,
+            "code_commit": code_commit,
             "trusted_freeze_registry": freezes,
             "stop_rule": "enumerate bounded integer feasible region once",
         },
@@ -904,6 +925,8 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [20260904],
         "required_input_hashes": required_input_hashes,
+        "required_code_files": required_code_files,
+        "code_commit": code_commit,
         "stop_rule": "enumerate bounded integer feasible region once",
         "handoff_generated_at": "2026-09-04T00:00:00Z",
         "attempts": attempts,

@@ -47,6 +47,15 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
     required_input_hashes = {"data/raw/input.json": "8" * 64}
     stop_rule = "one deterministic run per candidate"
     handoff_generated_at = "2026-09-04T00:00:00Z"
+    code_commit = core.current_git_commit()
+    required_code_files = [
+        {
+            "scope": "SKILL_ROOT",
+            "path": "scripts/cumcm_case.py",
+            "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+            "sha256": core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py"),
+        }
+    ]
     freezes = {
         "candidate_set": core.canonical_hash(["BASE", "CAND"]),
         "metric": core.canonical_hash(
@@ -67,6 +76,8 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
                 "handoff_generated_at": handoff_generated_at,
             }
         ),
+        "code_set": core.canonical_hash(required_code_files),
+        "code_commit": core.canonical_hash(code_commit),
     }
     validation_scores = {"BASE": 2.0, "CAND": 1.0}
     comparison = {
@@ -79,6 +90,8 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
         "selection_rule": selection_rule,
         "random_seeds": [7],
         "required_input_hashes": required_input_hashes,
+        "required_code_files": required_code_files,
+        "code_commit": code_commit,
         "stop_rule": stop_rule,
         "handoff_generated_at": handoff_generated_at,
         "attempts": [
@@ -130,26 +143,30 @@ def valid_manifest(core: Any, case_root: Path) -> tuple[dict[str, Any], dict[str
     output_path = case_root / "runs/RUN-CAND/output.json"
     core.write_json(output_path, {"metric": 1.0})
     output_file_hash = core.file_hash(output_path)
+    code_commit = core.current_git_commit()
+    code_files = [
+        {
+            "scope": "SKILL_ROOT",
+            "path": "scripts/cumcm_case.py",
+            "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+            "sha256": core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py"),
+        }
+    ]
     freezes = {
         "candidate_set": core.canonical_hash(["BASE", "CAND"]),
         "metric": core.canonical_hash("MAE"),
         "seed_schedule": core.canonical_hash([7]),
         "input_set": core.canonical_hash({"data/raw/input.json": input_file_hash}),
+        "code_set": core.canonical_hash(code_files),
+        "code_commit": core.canonical_hash(code_commit),
     }
     configuration = {"candidate_id": "CAND", "seed": 7}
     manifest = {
         "run_id": "RUN-CAND",
         "input_files": [{"path": "data/raw/input.json", "sha256": input_file_hash}],
         "input_hash": core.canonical_hash([input_file_hash]),
-        "code_commit": core.current_git_commit(),
-        "code_files": [
-            {
-                "scope": "SKILL_ROOT",
-                "path": "scripts/cumcm_case.py",
-                "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
-                "sha256": core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py"),
-            }
-        ],
+        "code_commit": code_commit,
+        "code_files": code_files,
         "code_tree_hash": core.canonical_hash(
             [core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py")]
         ),

@@ -640,6 +640,18 @@ def validate_manifest(
                 codes.add("RC_MANIFEST_CODE_COMMIT_MISMATCH")
         if code_hashes and manifest.get("code_tree_hash") != canonical_hash(code_hashes):
             codes.add("RC_MANIFEST_CODE_TREE_HASH_MISMATCH")
+    try:
+        declared_code_freeze = canonical_hash(code_files) if isinstance(code_files, list) else None
+        declared_commit_freeze = canonical_hash(commit) if isinstance(commit, str) else None
+    except (TypeError, ValueError):
+        declared_code_freeze = None
+        declared_commit_freeze = None
+    if (
+        not isinstance(trusted_freezes, dict)
+        or trusted_freezes.get("code_set") != declared_code_freeze
+        or trusted_freezes.get("code_commit") != declared_commit_freeze
+    ):
+        codes.add("RC_MANIFEST_CODE_FREEZE_MISMATCH")
     output_files = manifest.get("output_files")
     if not isinstance(output_files, list) or not output_files:
         codes.add("RC_MANIFEST_OUTPUT_FILES_INVALID")
@@ -749,6 +761,23 @@ def validate_comparison(
     seeds = comparison.get("random_seeds")
     seed_items = seeds if isinstance(seeds, list) else []
     required_inputs = comparison.get("required_input_hashes")
+    required_code_files = comparison.get("required_code_files")
+    code_commit = comparison.get("code_commit")
+    required_code_valid = (
+        isinstance(required_code_files, list)
+        and bool(required_code_files)
+        and isinstance(code_commit, str)
+        and GIT_SHA.fullmatch(code_commit) is not None
+        and all(
+            isinstance(record, dict)
+            and set(record) == {"scope", "path", "repository_path", "sha256"}
+            and record.get("scope") in ("SKILL_ROOT", "CASE_ROOT")
+            and isinstance(record.get("path"), str)
+            and isinstance(record.get("repository_path"), str)
+            and HEX64.fullmatch(str(record.get("sha256", ""))) is not None
+            for record in required_code_files
+        )
+    )
     stop_rule = comparison.get("stop_rule")
     handoff_generated_at = comparison.get("handoff_generated_at")
     execution_policy_valid = (
@@ -781,6 +810,7 @@ def validate_comparison(
         and all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
         and len(set(seeds)) == len(seeds)
         and required_inputs_valid
+        and required_code_valid
         and execution_policy_valid
         and comparison_json_safe
     ):
@@ -804,6 +834,8 @@ def validate_comparison(
                     "handoff_generated_at": handoff_generated_at,
                 }
             ),
+            "code_set": canonical_hash(required_code_files),
+            "code_commit": canonical_hash(code_commit),
         }
     else:
         codes.add("RC_COMPARISON_FREEZE_INPUT_INVALID")
@@ -978,6 +1010,17 @@ def validate_comparison(
             audited_inputs = None
         if not required_inputs_valid or required_inputs != audited_inputs:
             codes.add("RC_COMPARISON_INPUT_LINEAGE_MISMATCH")
+        try:
+            frozen_plan = read_artifact(case_root, "experiment_plan")["content"]
+        except (OSError, ValueError, json.JSONDecodeError):
+            frozen_plan = None
+        if (
+            not required_code_valid
+            or not isinstance(frozen_plan, dict)
+            or required_code_files != frozen_plan.get("required_code_files")
+            or code_commit != frozen_plan.get("code_commit")
+        ):
+            codes.add("RC_COMPARISON_CODE_LINEAGE_MISMATCH")
         attempt_items = attempts if isinstance(attempts, list) else []
         ledger_run_ids = {
             attempt.get("run_id")
@@ -1880,6 +1923,8 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     stop_rule = plan.get("stop_rule")
     handoff_generated_at = plan.get("handoff_generated_at")
     required_inputs = plan.get("required_input_hashes")
+    required_code_files = plan.get("required_code_files")
+    code_commit = plan.get("code_commit")
     audited_inputs = read_artifact(case_root, "data_audit")["content"].get("data_hashes")
     candidate_records = read_artifact(case_root, "model_candidates")["content"].get("candidates")
     registered_ids = (
@@ -1910,6 +1955,42 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         for left in range(3)
         for right in range(left + 1, 3)
     )
+    required_code_valid = (
+        isinstance(required_code_files, list)
+        and bool(required_code_files)
+        and isinstance(code_commit, str)
+        and git_commit_exists(code_commit)
+    )
+    code_identities: set[tuple[str, str]] = set()
+    if required_code_valid:
+        for record in required_code_files:
+            if not isinstance(record, dict) or set(record) != {
+                "scope",
+                "path",
+                "repository_path",
+                "sha256",
+            }:
+                required_code_valid = False
+                break
+            scope = record.get("scope")
+            relative = record.get("path")
+            repository_path = record.get("repository_path")
+            identity = (str(scope), str(relative))
+            root = SKILL_ROOT if scope == "SKILL_ROOT" else case_root
+            code_path = relative_case_path(root, relative)
+            if (
+                scope not in ("SKILL_ROOT", "CASE_ROOT")
+                or identity in code_identities
+                or code_path is None
+                or not code_path.is_file()
+                or not isinstance(repository_path, str)
+                or not HEX64.fullmatch(str(record.get("sha256", "")))
+                or file_hash(code_path) != record.get("sha256")
+                or git_blob_hash(code_commit, repository_path) != record.get("sha256")
+            ):
+                required_code_valid = False
+                break
+            code_identities.add(identity)
     if (
         not isinstance(value, dict)
         or not isinstance(candidate_ids, list)
@@ -1948,6 +2029,7 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
             and file_hash(case_root / relative) == digest
             for relative, digest in required_inputs.items()
         )
+        or not required_code_valid
     ):
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
     expected = {
@@ -1970,6 +2052,8 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
                 "handoff_generated_at": handoff_generated_at,
             }
         ),
+        "code_set": canonical_hash(required_code_files),
+        "code_commit": canonical_hash(code_commit),
     }
     if value != expected:
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_INVALID")
