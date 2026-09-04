@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0-competition-rc3 — 2026-09-04
+
+- Advanced the sole formal Skill to `0.2.0-competition-rc3` from the remotely frozen, answer-sealed
+  2020 A Development first run.
+- Made every nonzero case-process exit carry a deterministic fallback failure while retaining any
+  structured diagnostic output, so failed Runs remain sealable and excluded from ranking.
+- Added a generic regression in which a case-local program writes output and exits nonzero; no
+  Development-case constants, equations, parameters, or conclusions entered the formal Skill.
+
 ## 0.3.0-competition-rc2 — 2026-09-04
 
 - Upgraded the sole formal Skill to `0.2.0-competition-rc2` while preserving one discoverable

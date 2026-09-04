@@ -59,6 +59,7 @@
         "COMPETITION_SKILL_RC_READY",
         "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
         "DEVELOPMENT_EVAL_RC2_READY",
+        "DEVELOPMENT_EVAL_RC3_READY",
         "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
         "DEVELOPMENT_EVAL_INCOMPLETE",
         "OFFICIAL_INPUTS_REQUIRED",
@@ -873,6 +874,7 @@
             "enum": [
               "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
               "DEVELOPMENT_EVAL_RC2_READY",
+              "DEVELOPMENT_EVAL_RC3_READY",
               "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
               "DEVELOPMENT_EVAL_INCOMPLETE",
               "OFFICIAL_INPUTS_REQUIRED",
@@ -903,10 +905,10 @@
           ,
           "blockers": {"maxItems": 0},
           "active_skill_version": {
-            "enum": ["0.2.0-competition-rc1", "0.2.0-competition-rc2"]
+            "enum": ["0.2.0-competition-rc1", "0.2.0-competition-rc2", "0.2.0-competition-rc3"]
           },
           "next_phase_allowed": {
-            "enum": [null, "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"]
+            "enum": [null, "PHASE-SKILL-DEVELOPMENT-EVAL-004-B", "PHASE-SKILL-VALIDATION-EVAL-004-C"]
           }
         },
         "required": ["competition_rc1", "development_eval"]

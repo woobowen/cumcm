@@ -5,8 +5,8 @@ requirements, sources, data audit, model portfolio/baseline, experiment executio
 robustness, Final Run, Claim validation, and a reproducible evidence package for a separate paper
 team.
 
-Current project version: `0.3.0-competition-rc2`. The sole formal Skill is
-`cumcm-modeling-evidence` `0.2.0-competition-rc2` with capability `COMPETITION_RC`. New K1 and W1
+Current project version: `0.3.0-competition-rc3`. The sole formal Skill is
+`cumcm-modeling-evidence` `0.2.0-competition-rc3` with capability `COMPETITION_RC`. New K1 and W1
 revisions both pass the unchanged eight public hard Gates (117 symmetric cases each); the frozen
 K1-first rule selects the project-authored deterministic evidence kernel. The formal Skill provides
 14 workflows, four bounded roles, 14 templates, an offline case CLI, strict Run/Claim/comparison

@@ -2,7 +2,7 @@
 
 Status: `IN_PROGRESS`
 Phase: `PHASE-SKILL-DEVELOPMENT-EVAL-004`
-Subphase: `CUMCM-2020-A-POST-FREEZE-DIAGNOSIS`
+Subphase: `CUMCM-2020-A-RC3-DEVELOPMENT-REGRESSION`
 Owner: main agent / `modeling_orchestrator`
 Started: `2026-09-04T10:53:46Z`
 Branch: `feat/phase004b-development-eval-2020a`
@@ -52,6 +52,8 @@ The RC2 first run is frozen at `cadb774025ae30dc871fb67bdc4ffb8ffa409773be8e0124
 and its independent commit `b742e8e042a1e9f0c161806c89c1b5917abe5693` is remotely verified. Answer
 access was unlocked at `2026-09-04T11:19:44Z`; no reference body was accessed. Gap classification
 accepted only the generic nonzero-exit evidence defect for one RC3 revision cycle.
+RC3 implements only that generic failure-evidence invariant; its Development and cross-case
+regressions remain required before the version can be frozen for Validation handoff.
 
 Stop with the exact bounded status for unsafe official input acquisition, solution exposure before
 freeze, raw mutation, uncaptured execution, nonconverged or infeasible Final selection,

@@ -40,8 +40,9 @@ REQUIRED_REPORTS = tuple(
         "acceptance",
     )
 )
-EXPECTED_VERSION = "0.2.0-competition-rc2"
-ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", EXPECTED_VERSION}
+EXPECTED_VERSION = "0.2.0-competition-rc3"
+PHASE004A_VERSION = "0.2.0-competition-rc2"
+ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", PHASE004A_VERSION}
 REQUIRED_FIELDS = {
     "case_id",
     "set_type",
@@ -193,7 +194,7 @@ def check() -> dict[str, Any]:
         stress = {key: load_json(path) for key, path in STRESS_EVIDENCE.items()}
         if (
             development.get("final_state") != "READY_FOR_PAPER_HANDOFF"
-            or development.get("skill_version") != EXPECTED_VERSION
+            or development.get("skill_version") != PHASE004A_VERSION
             or development.get("answer_access_status") != "UNLOCKED_AFTER_FIRST_RUN"
             or len(development.get("runs", [])) != 3
             or any(run.get("exit_code") != 0 for run in development.get("runs", []))
@@ -209,7 +210,7 @@ def check() -> dict[str, Any]:
             metadata = value.get("variant_metadata")
             if (
                 value.get("final_state") != "READY_FOR_PAPER_HANDOFF"
-                or value.get("skill_version") != EXPECTED_VERSION
+                or value.get("skill_version") != PHASE004A_VERSION
                 or not isinstance(metadata, dict)
                 or metadata.get("variant_id") != expected_variant
                 or len(value.get("runs", [])) != 3
@@ -308,6 +309,9 @@ def check() -> dict[str, Any]:
         "附件4.xlsx",
         "销量(千克)",
         "销售日期",
+        "2020 A",
+        "炉温曲线",
+        "2020A-炉温曲线.docx",
     )
     formal_skill_text = "\n".join(
         path.read_text(encoding="utf-8")

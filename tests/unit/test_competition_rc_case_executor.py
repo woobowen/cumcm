@@ -88,7 +88,8 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         "p.add_argument('--candidate-id'); p.add_argument('--seed'); "
         "p.add_argument('--output'); a=p.parse_args(); "
         "json.dump({'candidate_id':a.candidate_id,'validation_metrics':{'loss':1.0}}, "
-        "open(a.output,'w'), sort_keys=True)\n",
+        "open(a.output,'w'), sort_keys=True); "
+        "raise SystemExit(2 if a.candidate_id == 'BASE' else 0)\n",
         encoding="utf-8",
     )
     commit = case_cli.current_git_commit()
@@ -179,6 +180,37 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
     assert case_cli.validate_manifest(
         manifest, case_root=case_root, trusted_freezes=freezes
     ).accepted
+
+    failed_capture = case_cli.execute_case_code(
+        case_root,
+        run_id="RUN-BASE-11",
+        candidate_id="BASE",
+        seed=11,
+        code_path=model_relative,
+        timeout_seconds=30,
+    )
+    assert failed_capture["outcome"] == "FAILED"
+    failed_capture_record = case_cli.load_json(
+        case_root / failed_capture["capture_path"]
+    )
+    assert failed_capture_record["failure"] == {
+        "reason_code": "RC_EXECUTION_NONZERO_EXIT",
+        "retained": True,
+    }
+    failed_seal = case_cli.seal_captured_run(
+        case_root, run_id="RUN-BASE-11", decision_hash="b" * 64
+    )
+    failed_manifest = case_cli.load_json(case_root / failed_seal["manifest_path"])
+    assert failed_manifest["outcome"] == "FAILED"
+    assert failed_manifest["failure"] == {
+        "reason_code": "RC_EXECUTION_NONZERO_EXIT",
+        "retained": True,
+    }
+    failed_gate = case_cli.validate_manifest(
+        failed_manifest, case_root=case_root, trusted_freezes=freezes
+    )
+    assert not failed_gate.accepted
+    assert failed_gate.reason_codes == ("RC_MANIFEST_NOT_SUCCESS:FAILED",)
 
     stdout = case_root / "runs/RUN-CAND-11/stdout.txt"
     stdout.write_text("tampered", encoding="utf-8")
