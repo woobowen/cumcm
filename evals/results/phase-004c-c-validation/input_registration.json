@@ -1,0 +1,86 @@
+{
+  "answer_access_status": "SEALED",
+  "archive": {
+    "filename": "pmkWxf8H9cfe9984c1a1a5b1263e5dd3b5596ed5.zip",
+    "mime_type": "application/zip",
+    "sha256": "38d9effcede947354f9e9a9c2b4fc68947d83a77c2ff75737e9a662888158726",
+    "size_bytes": 105537539,
+    "url_sha256": "5989711f4f8ea4efc104f3e84904781391adb6f612fc824e4c1c71ddf86b44e0"
+  },
+  "archive_accessed": true,
+  "artifact_type": "c_target_validation_input_registration",
+  "case_id": "CUMCM-2024-C-VALIDATION-001",
+  "contamination_status": "NO_KNOWN_SOLUTION_OR_REFERENCE_EXPOSURE",
+  "extracted_files": [
+    {
+      "mime_type": "application/pdf",
+      "path": "raw/case_files/C题.pdf",
+      "role": "PROBLEM",
+      "sha256": "c7b5e58bff4189b8afba5505f7bff7d4f08280fc291c51ef3f46134ebbf74f9a",
+      "size_bytes": 558863
+    },
+    {
+      "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "path": "raw/case_files/附件1.xlsx",
+      "role": "DATA",
+      "sha256": "b799a137294a5c5497fed9667c5dfed6c967f1fb180316c5adc8509cfa6f0932",
+      "size_bytes": 17147
+    },
+    {
+      "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "path": "raw/case_files/附件2.xlsx",
+      "role": "DATA",
+      "sha256": "869081a3ab47d3bf8d0955106b622aaf0fd2c068fada7948da69b20ebf1d00ce",
+      "size_bytes": 21976
+    },
+    {
+      "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "path": "raw/case_files/附件3/result1_1.xlsx",
+      "role": "OUTPUT_TEMPLATE",
+      "sha256": "4f2484c0d70a5c4d047163f2ee6ef486949e813330466f46def4bd7d98af06af",
+      "size_bytes": 81837
+    },
+    {
+      "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "path": "raw/case_files/附件3/result1_2.xlsx",
+      "role": "OUTPUT_TEMPLATE",
+      "sha256": "6166d43f5a64bf9d1657e80d4aee7f10f54bb1a5695b81a28a0ac5e657297649",
+      "size_bytes": 81836
+    },
+    {
+      "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "path": "raw/case_files/附件3/result2.xlsx",
+      "role": "OUTPUT_TEMPLATE",
+      "sha256": "6a1ba9fc28d14d0a4a795e5f0b7261fb6e32165517afee62bcd1931aba5bee8a",
+      "size_bytes": 81836
+    }
+  ],
+  "generalization_axis": [
+    "MULTI_YEAR_PLANNING",
+    "MIXED_INTEGER_OPTIMIZATION",
+    "MULTI_SEASON_LAND_CONSTRAINTS",
+    "UNCERTAIN_DEMAND",
+    "ROBUST_OR_SCENARIO_DECISION",
+    "LARGE_RESULT_TABLE"
+  ],
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "official_page": {
+    "domain": "mcm.edu.cn",
+    "title_verified_from_official_problem_pdf": true,
+    "url_sha256": "6c8e9f42a2f61f8b2ee69ee44a4a4860abf85e33d6fb5fbcde6ec1f1cf7ece93"
+  },
+  "official_title": "农作物的种植策略",
+  "raw_inputs_git_ignored": true,
+  "references_accessed": false,
+  "registered_at": "2026-09-05T02:31:40+08:00",
+  "safe_extraction": {
+    "archive_member_count": 25,
+    "extracted_only_c_problem_members": true,
+    "path_traversal_members": 0,
+    "tool": "system zipinfo/unzip"
+  },
+  "schema_version": "1.0.0",
+  "set_type": "VALIDATION",
+  "solution_material_accessed": false,
+  "target_problem_type": "C"
+}

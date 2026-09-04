@@ -1,0 +1,88 @@
+version: 1.0.0
+rubric_id: CUMCM-2024-C-VALIDATION-001-RUBRIC
+case_id: CUMCM-2024-C-VALIDATION-001
+frozen_before_results: true
+result_independent: true
+score_is_not_gate_override: true
+main_requirements:
+- requirement_id: REQ-2024C-Q1-WASTE
+  acceptance:
+  - feasible 2024-2030 plan under unsold-surplus waste assumption
+  - result1_1 template populated without structural mutation
+- requirement_id: REQ-2024C-Q1-DISCOUNT
+  acceptance:
+  - feasible 2024-2030 plan under half-price surplus assumption
+  - result1_2 template populated without structural mutation
+- requirement_id: REQ-2024C-Q2-UNCERTAINTY
+  acceptance:
+  - registered demand yield cost and price uncertainty model
+  - feasible risk-aware 2024-2030 plan in result2 template
+  - quantitative scenario or robustness comparison
+- requirement_id: REQ-2024C-Q3-DEPENDENCE
+  acceptance:
+  - simulated substitutability complementarity and economic correlation assumptions
+  - feasible correlated-scenario strategy
+  - quantitative comparison with Question 2
+- requirement_id: REQ-2024C-CONSTRAINTS
+  acceptance:
+  - land-type and season compatibility recomputed
+  - plot-season capacity recomputed
+  - no consecutive same-crop planting recomputed
+  - rolling three-year legume coverage recomputed
+  - allocation nonnegativity and template years recomputed
+- requirement_id: REQ-2024C-MANAGEMENT
+  acceptance:
+  - dispersion and minimum-area assumptions are explicit
+  - any claimed management constraint is enforced and recomputed
+hard_failures:
+- MAIN_QUESTION_MISSED
+- UNEXECUTED_CODE_CLAIMED_AS_RESULT
+- INFEASIBLE_SOLUTION_ACCEPTED
+- NONCONVERGED_RUN_ACCEPTED
+- RAW_INPUT_OVERWRITTEN
+- RESULT_NOT_BOUND_TO_CODE_AND_INPUT
+- CLAIM_WITHOUT_EVIDENCE
+- REFERENCE_ANSWER_EXPOSED_PRE_FREEZE
+- UNCAPTURED_NUMBER_MANUALLY_INSERTED
+- FORMAL_SKILL_MUTATED_DURING_VALIDATION
+- TERMINAL_FREEZE_FOLLOWED_BY_NEW_VALIDATION_RUN
+- OUTPUT_TEMPLATE_STRUCTURALLY_CORRUPTED
+evidence_requirements:
+  baseline_actual_run: true
+  primary_candidate_actual_run: true
+  success_only_selection: true
+  final_selected_from_frozen_candidates: true
+  independent_feasibility_recomputation: true
+  quantitative_robustness: true
+  uncertainty_disclosed: true
+  limitations_disclosed: true
+  requirement_claim_ids_unique: true
+  handoff_contract: modeling-to-paper/v1
+metrics:
+- first_pass_completion
+- requirement_coverage
+- main_question_coverage
+- time_to_requirement_trace
+- time_to_data_audit
+- time_to_first_baseline
+- time_to_first_valid_result
+- time_to_final_candidate
+- time_to_handoff
+- valid_run_ratio
+- failed_run_count
+- manual_intervention_count
+- recovery_count
+- hard_failure_count
+- model_portfolio_quality
+- data_audit_completeness
+- mathematical_validity
+- numerical_validity
+- feasibility
+- robustness_completeness
+- claim_evidence_completeness
+- handoff_completeness
+- reproducibility
+- search_quality
+- contest_efficiency
+pass_rule: ALL_HARD_GATES_AND_ALL_MAIN_REQUIREMENTS_PASS
+abstention_rule: MISSING_OR_UNREPLAYABLE_REQUIRED_EVIDENCE_YIELDS_EVIDENCE_INSUFFICIENT
