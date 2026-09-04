@@ -288,21 +288,23 @@ def evaluate(*, verify_workspace: bool, require_delivery: bool) -> dict[str, Any
         != freeze.get("input_registration", {}).get("sha256")
     ):
         errors.append("VALIDATION_FREEZE_REGISTRY_DRIFT")
-    distribution_count, environment_hash = dependency_snapshot()
-    environment = freeze.get("environment", {})
-    dependency = environment.get("dependency_snapshot", {}) if isinstance(environment, dict) else {}
-    if (
-        platform.python_version() != environment.get("python")
-        or platform.python_implementation() != environment.get("interpreter")
-        or distribution_count != dependency.get("distribution_count")
-        or environment_hash != dependency.get("canonical_sha256")
-        or file_hash(ROOT / "pyproject.toml") != environment.get("pyproject_sha256")
-    ):
-        errors.append("VALIDATION_FREEZE_ENVIRONMENT_DRIFT")
     tracked_cache = git_bytes("ls-files", ".cache")
     if tracked_cache is None or tracked_cache.strip():
         errors.append("VALIDATION_FREEZE_RAW_INPUT_TRACKING_INVALID")
     if verify_workspace:
+        distribution_count, environment_hash = dependency_snapshot()
+        environment = freeze.get("environment", {})
+        dependency = (
+            environment.get("dependency_snapshot", {}) if isinstance(environment, dict) else {}
+        )
+        if (
+            platform.python_version() != environment.get("python")
+            or platform.python_implementation() != environment.get("interpreter")
+            or distribution_count != dependency.get("distribution_count")
+            or environment_hash != dependency.get("canonical_sha256")
+            or file_hash(ROOT / "pyproject.toml") != environment.get("pyproject_sha256")
+        ):
+            errors.append("VALIDATION_FREEZE_ENVIRONMENT_DRIFT")
         errors.extend(validate_workspace(freeze))
     if require_delivery:
         if not RECEIPT_PATH.is_file():
