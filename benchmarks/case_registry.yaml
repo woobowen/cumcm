@@ -479,13 +479,24 @@ cases:
   - UNCERTAIN_DEMAND
   - ROBUST_OR_SCENARIO_DECISION
   - LARGE_RESULT_TABLE
-  first_run_status: NOT_STARTED
+  first_run_status: IN_PROGRESS
   first_run_freeze: null
+  pre_run_freeze:
+    freeze_id: CUMCM-2024-C-VALIDATION-001-PRE-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-validation/pre_run_validation_freeze.json
+    sha256: 6b2573912d0736c84cff0f3bdfa3afffbe6ea4cc5dfd9c418a8624bfb1916b77
+    payload_sha256: d1b5456fbf174b01bc9e9b67f6e2fbf7f9894f6de2a54c9632ab2e0f2ddf4c86
+    subject_commit: 936970391697b1a9362bf59749c96e645812c778
+    freeze_commit: e45d0679d1f129496fedcd8eaf8b0823e4543ce1
+    remote: origin
+    remote_sha: e45d0679d1f129496fedcd8eaf8b0823e4543ce1
+    status: REMOTE_DELIVERED
   skill_version: 0.2.0-competition-rc4
   skill_commit: 46e13d31a3d22fe12a2cffe65a52558da3ecfa82
   model: gpt-5
   reasoning: UNKNOWN
-  start_time: null
+  start_time: '2026-09-05T02:52:09+08:00'
+  pre_run_freeze_time: '2026-09-05T02:52:09+08:00'
   freeze_time: null
   unlock_time: null
   generalizable_failures: []

@@ -265,7 +265,10 @@ def evaluate(*, verify_workspace: bool, require_delivery: bool) -> dict[str, Any
     subject = str(freeze.get("subject_commit", ""))
     if not HEX40.fullmatch(subject) or git_bytes("cat-file", "-e", f"{subject}^{{commit}}") is None:
         errors.append("VALIDATION_FREEZE_SUBJECT_COMMIT_INVALID")
-    registry = load_yaml(REGISTRY_PATH)
+    registry_content = git_bytes("show", f"{subject}:benchmarks/case_registry.yaml")
+    registry = (
+        yaml.safe_load(registry_content.decode("utf-8")) if registry_content is not None else {}
+    )
     matches = [
         item
         for item in registry.get("cases", [])
@@ -315,6 +318,33 @@ def evaluate(*, verify_workspace: bool, require_delivery: bool) -> dict[str, Any
                 or receipt.get("freeze_commit") != receipt.get("remote_sha")
             ):
                 errors.append("VALIDATION_FREEZE_DELIVERY_INVALID")
+        current_registry = load_yaml(REGISTRY_PATH)
+        current_matches = [
+            item
+            for item in current_registry.get("cases", [])
+            if isinstance(item, dict) and item.get("case_id") == CASE_ID
+        ]
+        current_record = current_matches[0] if len(current_matches) == 1 else {}
+        current_pre_run_freeze = current_record.get("pre_run_freeze", {})
+        if (
+            len(current_matches) != 1
+            or current_record.get("answer_access_status") != "SEALED"
+            or current_record.get("reference_unlock") != "LOCKED"
+            or current_record.get("first_run_status") != "IN_PROGRESS"
+            or current_record.get("first_run_freeze") is not None
+            or not current_record.get("start_time")
+            or not isinstance(current_pre_run_freeze, dict)
+            or current_pre_run_freeze.get("freeze_id") != freeze.get("freeze_id")
+            or current_pre_run_freeze.get("path") != str(FREEZE_PATH.relative_to(ROOT))
+            or current_pre_run_freeze.get("sha256") != file_hash(FREEZE_PATH)
+            or current_pre_run_freeze.get("payload_sha256") != freeze.get("freeze_payload_sha256")
+            or current_pre_run_freeze.get("freeze_commit")
+            != "e45d0679d1f129496fedcd8eaf8b0823e4543ce1"
+            or current_pre_run_freeze.get("remote_sha")
+            != "e45d0679d1f129496fedcd8eaf8b0823e4543ce1"
+            or current_pre_run_freeze.get("status") != "REMOTE_DELIVERED"
+        ):
+            errors.append("VALIDATION_FREEZE_CURRENT_REGISTRY_INVALID")
     errors = sorted(set(errors))
     return {
         "case_id": freeze.get("case_id"),
