@@ -131,7 +131,13 @@ def evidence_hashes(case_root: Path, blocked: bool, *, batch_case: bool = False)
     missing = [relative for relative in required if not (case_root / relative).is_file()]
     if missing:
         raise ValueError(f"FIRST_RUN_EVIDENCE_MISSING:{missing[0]}")
-    paths = sorted(set(required) | set(OPTIONAL_FIRST_RUN_EVIDENCE))
+    discovered = {
+        str(path.relative_to(case_root))
+        for pattern in ("results/*.json", "evidence/first_run*.json")
+        for path in case_root.glob(pattern)
+        if path.is_file()
+    }
+    paths = sorted(set(required) | set(OPTIONAL_FIRST_RUN_EVIDENCE) | discovered)
     return {
         relative: file_hash(case_root / relative)
         for relative in paths
