@@ -190,9 +190,7 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         timeout_seconds=30,
     )
     assert failed_capture["outcome"] == "FAILED"
-    failed_capture_record = case_cli.load_json(
-        case_root / failed_capture["capture_path"]
-    )
+    failed_capture_record = case_cli.load_json(case_root / failed_capture["capture_path"])
     assert failed_capture_record["failure"] == {
         "reason_code": "RC_EXECUTION_NONZERO_EXIT",
         "retained": True,
