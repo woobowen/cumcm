@@ -235,6 +235,87 @@ def test_stale_dependency_chain_is_exactly_bound_to_terminal_history(
         case_cli.load_state(case_root)
 
 
+@pytest.mark.parametrize(
+    "command,artifact_key",
+    [("claim-check", "claim_evidence"), ("compare-check", "model_comparison")],
+)
+@pytest.mark.parametrize("mutation", ["draft", "bad_hash"])
+def test_public_check_cli_rejects_unaccepted_or_corrupt_artifact_wrappers(
+    repo_root: Path,
+    case_cli,
+    tmp_path: Path,
+    command: str,
+    artifact_key: str,
+    mutation: str,
+) -> None:
+    case_root = tmp_path / f"{command}-{mutation}"
+    case_cli.run_smoke(case_root, "AUDIT-WRAPPER-INTEGRITY", "prediction", False)
+    wrapper = case_cli.load_json(case_root / case_cli.ARTIFACT_PATHS[artifact_key])
+    if mutation == "draft":
+        wrapper["status"] = "DRAFT"
+        expected_reason = "RC_ARTIFACT_NOT_ACCEPTED"
+    else:
+        wrapper["content_hash"] = "0" * 64
+        expected_reason = "RC_ARTIFACT_HASH_MISMATCH"
+    probe = case_root / f"{artifact_key}-{mutation}.json"
+    case_cli.write_json(probe, wrapper)
+    cli = repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(cli),
+            command,
+            "--case-root",
+            str(case_root),
+            "--path",
+            str(probe),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    payload = json.loads(result.stdout)
+    assert result.returncode != 0
+    assert payload["accepted"] is False
+    assert expected_reason in payload["reason_codes"]
+
+
+def test_direct_claim_and_comparison_reject_unknown_sensitive_extensions(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "sensitive-extension"
+    case_cli.run_smoke(case_root, "AUDIT-SENSITIVE-EXTENSION", "prediction", False)
+    state = case_cli.load_state(case_root)
+    comparison = case_cli.read_artifact(case_root, "model_comparison")["content"]
+    claim = case_cli.read_artifact(case_root, "claim_evidence")["content"]
+    final = case_cli.read_artifact(case_root, "final_result")["content"]
+    manifest = case_cli.load_json(case_root / "runs" / claim["run_id"] / "manifest.json")
+    comparison["private_key"] = "SYNTHETIC_CANARY"
+    claim["private_key"] = "SYNTHETIC_CANARY"
+
+    comparison_result = case_cli.validate_comparison(
+        comparison,
+        case_cli.trusted_freezes(case_root),
+        case_root=case_root,
+    )
+    claim_result = case_cli.validate_claim(
+        claim,
+        manifest,
+        final,
+        case_root=case_root,
+        state=state,
+    )
+
+    assert comparison_result.accepted is False
+    assert claim_result.accepted is False
+    assert "RC_SECRET_FIELD_REJECTED" in comparison_result.reason_codes
+    assert "RC_SECRET_FIELD_REJECTED" in claim_result.reason_codes
+    assert "SYNTHETIC_CANARY" not in json.dumps(comparison_result.as_dict())
+    assert "SYNTHETIC_CANARY" not in json.dumps(claim_result.as_dict())
+
+
 def test_claim_scope_and_registered_evidence_are_exactly_bound(case_cli, tmp_path: Path) -> None:
     case_root = tmp_path / "prediction"
     case_cli.run_smoke(case_root, "AUDIT-CLAIM-001", "prediction", False)

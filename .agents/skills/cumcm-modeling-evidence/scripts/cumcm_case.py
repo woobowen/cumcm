@@ -412,6 +412,8 @@ def validate_artifact(value: Any, kind: str) -> GateResult:
         return blocked("RC_ARTIFACT_TYPE_MISMATCH")
     if value.get("status") != "ACCEPTED":
         return blocked("RC_ARTIFACT_NOT_ACCEPTED")
+    if set(value) != {"artifact_type", "status", "content_hash", "content"}:
+        return blocked("RC_ARTIFACT_RECORD_FIELDS_INVALID")
     content = value.get("content")
     if not isinstance(content, dict):
         return blocked("RC_ARTIFACT_CONTENT_INVALID")
@@ -702,6 +704,31 @@ def validate_comparison(
         codes.add("RC_COMPARISON_NONFINITE_OR_NONJSON")
     if not isinstance(comparison, dict):
         return blocked("RC_COMPARISON_INVALID")
+    allowed_fields = {
+        "aggregation_rule",
+        "attempts",
+        "baseline_id",
+        "candidate_ids",
+        "code_commit",
+        "freeze_bindings",
+        "handoff_generated_at",
+        "leakage_checks",
+        "metric",
+        "metric_direction",
+        "random_seeds",
+        "reliability",
+        "required_code_files",
+        "required_input_hashes",
+        "selected_candidate_id",
+        "selection_decision_hash",
+        "selection_rule",
+        "splits",
+        "stop_rule",
+        "test_access",
+    }
+    if set(comparison) != allowed_fields:
+        codes.add("RC_COMPARISON_FIELDS_INVALID")
+    codes.update(sensitive_findings(comparison))
     candidates = comparison.get("candidate_ids")
     candidate_items = candidates if isinstance(candidates, list) else []
     baseline = comparison.get("baseline_id")
@@ -1339,8 +1366,13 @@ def validate_claim(
         "evidence_status",
         "contradiction_status",
     }
-    if not required <= set(claim):
+    if set(claim) != required:
         codes.add("RC_CLAIM_REQUIRED_BINDING_MISSING")
+    try:
+        assert_json_safe(claim)
+    except (TypeError, ValueError):
+        codes.add("RC_CLAIM_NONFINITE_OR_NONJSON")
+    codes.update(sensitive_findings(claim))
     claim_id = claim.get("claim_id")
     if not isinstance(claim_id, str) or not re.fullmatch(
         r"CLAIM-[A-Z0-9][A-Z0-9_-]{0,63}", claim_id
@@ -2616,7 +2648,15 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "compare-check":
             path = args.path or Path(ARTIFACT_PATHS["model_comparison"])
             value = load_json(path if path.is_absolute() else args.case_root / path)
-            if isinstance(value, dict) and value.get("artifact_type") == "model_comparison":
+            if isinstance(value, dict) and set(value) & {
+                "artifact_type",
+                "status",
+                "content_hash",
+                "content",
+            }:
+                wrapper_result = validate_artifact(value, "model_comparison")
+                if not wrapper_result.accepted:
+                    return command_result("compare-check", wrapper_result)
                 value = value.get("content")
             return command_result(
                 "compare-check",
@@ -2629,7 +2669,15 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "claim-check":
             path = args.path or Path(ARTIFACT_PATHS["claim_evidence"])
             value = load_json(path if path.is_absolute() else args.case_root / path)
-            if isinstance(value, dict) and value.get("artifact_type") == "claim_evidence":
+            if isinstance(value, dict) and set(value) & {
+                "artifact_type",
+                "status",
+                "content_hash",
+                "content",
+            }:
+                wrapper_result = validate_artifact(value, "claim_evidence")
+                if not wrapper_result.accepted:
+                    return command_result("claim-check", wrapper_result)
                 value = value.get("content")
             if not isinstance(value, dict):
                 return command_result("claim-check", blocked("RC_CLAIM_INVALID"))
