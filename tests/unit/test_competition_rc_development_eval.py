@@ -401,6 +401,35 @@ def test_blocked_freeze_requires_failure_evidence_and_writes_no_fake_run(
     assert not list(case_root.glob("runs/*/manifest.json"))
 
 
+def test_freeze_separates_skill_commit_from_case_execution_commit(repo_root: Path) -> None:
+    freeze = load_script(repo_root, "freeze_skill_first_run.py")
+    core = freeze.load_core()
+    skill_commit = "1d842a45403370916ce2c36297876e9cd1ddde1f"
+    runner_path = ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+    runner_sha256 = core.git_blob_hash(skill_commit, runner_path)
+    manifest = {
+        "code_commit": head_commit(repo_root),
+        "code_files": [
+            {
+                "scope": "SKILL_ROOT",
+                "path": "scripts/cumcm_case.py",
+                "repository_path": runner_path,
+                "sha256": runner_sha256,
+            },
+            {
+                "scope": "CASE_ROOT",
+                "path": "models/case_model.py",
+                "repository_path": "case/code.py",
+                "sha256": "a" * 64,
+            },
+        ],
+    }
+    freeze.validate_manifest_skill_binding(core, {"skill_commit": skill_commit}, manifest)
+    manifest["code_files"][0]["sha256"] = "b" * 64
+    with pytest.raises(ValueError, match="RUN_SKILL_COMMIT_MISMATCH"):
+        freeze.validate_manifest_skill_binding(core, {"skill_commit": skill_commit}, manifest)
+
+
 def test_unlock_rejects_unverified_remote_freeze(repo_root: Path, tmp_path: Path) -> None:
     unlock = load_script(repo_root, "unlock_skill_first_run.py")
     assert unlock.parsed_time("2026-09-04T02:00:00Z", "UNLOCK_TIME_INVALID")

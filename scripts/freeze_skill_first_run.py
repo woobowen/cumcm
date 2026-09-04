@@ -150,6 +150,28 @@ def load_core():
     return module
 
 
+def validate_manifest_skill_binding(
+    core: Any, record: dict[str, Any], manifest: dict[str, Any]
+) -> None:
+    code_files = manifest.get("code_files")
+    runner_path = ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+    runner_records = (
+        [
+            item
+            for item in code_files
+            if isinstance(item, dict)
+            and item.get("scope") == "SKILL_ROOT"
+            and item.get("repository_path") == runner_path
+        ]
+        if isinstance(code_files, list)
+        else []
+    )
+    if len(runner_records) != 1 or core.git_blob_hash(
+        str(record.get("skill_commit", "")), runner_path
+    ) != runner_records[0].get("sha256"):
+        raise ValueError("RUN_SKILL_COMMIT_MISMATCH")
+
+
 def freeze(args: argparse.Namespace) -> dict[str, Any]:
     core = load_core()
     registry = read_registry(args.registry)
@@ -210,8 +232,6 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     freezes = core.trusted_freezes(args.case_root) if manifests else {}
     for path in manifests:
         manifest = json.loads(path.read_text(encoding="utf-8"))
-        if manifest.get("code_commit") != record.get("skill_commit"):
-            raise ValueError("RUN_SKILL_COMMIT_MISMATCH")
         if manifest.get("run_id") != path.parent.name:
             raise ValueError("RUN_ID_PATH_MISMATCH")
         validation = core.validate_manifest(
@@ -224,6 +244,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         )
         if not validation.accepted and not non_success_only:
             raise ValueError(";".join(validation.reason_codes))
+        validate_manifest_skill_binding(core, record, manifest)
         for item in manifest["input_files"]:
             consumed_inputs[item["path"]] = item["sha256"]
         manifest_hashes[str(path.relative_to(args.case_root))] = file_hash(path)
