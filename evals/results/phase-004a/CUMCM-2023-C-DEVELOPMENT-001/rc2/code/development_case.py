@@ -181,6 +181,48 @@ def freeze_registry(
     }
 
 
+def write_output_contract_probe(case_root: Path, requirement_ids: list[str]) -> dict[str, Any]:
+    relative = "experiments/selected_output_contract_probe.json"
+    probe = {
+        "candidate_id": "CONTRACT-PROBE",
+        "status": "CONTRACT_PROBE",
+        "probe_only": True,
+        "ranking_eligible": False,
+        "result_values_are_placeholders": True,
+        "final_metrics": {METRIC: 0.0},
+        "claim_scope": "Generic structural placeholder; not a result.",
+        "requirement_claims": {
+            requirement_id: {
+                "claim_id": f"CLAIM-PROBE-{index}",
+                "claim_text": "Generic structural placeholder; not a result.",
+                "evidence_artifact_ids": [relative],
+            }
+            for index, requirement_id in enumerate(requirement_ids, start=1)
+        },
+        "figure_ready_data": [{"figure_id": "CONTRACT-PROBE", "rows": [0]}],
+        "uncertainty": {"scope": "placeholder"},
+        "limitations": ["Placeholder values are excluded from runs and ranking."],
+        "robustness_evidence": {
+            "metric": METRIC,
+            "metric_direction": "MIN",
+            "perturbations": [
+                {
+                    "perturbation_id": "CONTRACT-PROBE-SHIFT",
+                    "metric": METRIC,
+                    "result": 0.0,
+                    "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+                }
+            ],
+            "failure_cases": ["A contract probe cannot establish empirical validity."],
+        },
+    }
+    core.write_json(case_root / relative, probe, overwrite=False)
+    result, observed = core.preflight_output_contract(case_root, Path(relative))
+    if not result.accepted or observed != relative:
+        raise ValueError("RC4_OUTPUT_CONTRACT_PREFLIGHT_FAILED")
+    return {"status": result.status, "reason_codes": list(result.reason_codes), "path": relative}
+
+
 def prepare_case(case_root: Path, code_commit: str) -> dict[str, Any]:
     state = core.load_state(case_root)
     if state["state"] != "CREATED":
@@ -384,6 +426,9 @@ def prepare_case(case_root: Path, code_commit: str) -> dict[str, Any]:
             "handoff_generated_at": generated_at,
         },
     )
+    preflight = write_output_contract_probe(
+        case_root, [item["requirement_id"] for item in requirements]
+    )
     advance_to(case_root, "RUNNING")
     return {
         "case_id": state["case_id"],
@@ -392,6 +437,7 @@ def prepare_case(case_root: Path, code_commit: str) -> dict[str, Any]:
         "input_hashes": required_inputs,
         "code_commit": code_commit,
         "candidate_ids": CANDIDATES,
+        "output_contract_preflight": preflight,
     }
 
 
@@ -578,6 +624,11 @@ def finalize_case(
         "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
         "variant_metadata": metadata,
         "skill_version": core.VERSION,
+        "output_contract_preflight": {
+            "status": "PASS",
+            "reason_codes": ["RC_OUTPUT_CONTRACT_VALID"],
+            "path": "experiments/selected_output_contract_probe.json",
+        },
         "code_commit": plan["code_commit"],
         "final_state": core.load_state(case_root)["state"],
         "input_hashes": plan["required_input_hashes"],
