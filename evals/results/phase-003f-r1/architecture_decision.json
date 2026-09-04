@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
+  "decision": "COMPETITION_RC_IMPLEMENTATION_ONLY",
+  "accepted_scope": "COMPETITION_RC_IMPLEMENTATION_ONLY",
+  "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "selected_revision": "ARCH-K1-R1",
+  "selection_basis": {
+    "rule": "K1_FIRST_IF_ALL_EIGHT_GATES_PASS_ELSE_W1_IF_ALL_EIGHT_GATES_PASS_ELSE_BLOCK",
+    "k1_all_gates_pass": true,
+    "w1_all_gates_pass": true,
+    "majority_vote_used": false,
+    "reason": "Both repaired revisions pass all eight symmetric gates; the frozen K1-first rule therefore selects K1 and retains W1 only as an eligible fallback."
+  },
+  "gate_evidence": {
+    "path": "evals/results/phase-003f-r1/minimum_competition_architecture_gate_result.json",
+    "sha256": "07d4362f0c2d0c6b502bcae99748e18f825ded4662554fb860d4db483376b971",
+    "decision_hash": "8b4c50dbe5f95ca04ceff4c489ae83dc3a4afa81e156e1f00f16b2ac65f25cbe",
+    "case_evaluations": 234,
+    "symmetric_case_evaluations_per_candidate": 117,
+    "unhandled_exceptions": 0,
+    "gate_statuses": {
+      "G1_MALFORMED_INPUT_FAIL_CLOSED": "PASS",
+      "G2_DONE_IS_NOT_ACCEPTED": "PASS",
+      "G3_CLAIM_EVIDENCE_EXACT_SUPPORT": "PASS",
+      "G4_REPRODUCIBILITY_MANIFEST": "PASS",
+      "G5_LEAKAGE_SAFE_COMPARISON": "PASS",
+      "G6_INPUT_AND_STATE_ISOLATION": "PASS",
+      "G7_SECURITY_AND_PROVENANCE": "PASS",
+      "G8_END_TO_END_COMPONENT_COMPOSITION": "PASS"
+    }
+  },
+  "revision_evidence": {
+    "ARCH-K1-R1": {
+      "tree_hash": "35caf2809815e06a8f7d41840adddfe2d1600c1169d7e59d742b021be5df0ea8",
+      "role": "SELECTED"
+    },
+    "ARCH-W1-R1": {
+      "tree_hash": "a7d90ade3d4a28ae2951a6596f43ad680f3be3387f5dd00f9ed4c8b4957dbfff",
+      "role": "ELIGIBLE_FALLBACK_NOT_INTEGRATED"
+    },
+    "COMMON-HARNESS-R1": {
+      "tree_hash": "567a422fca5c2439762d39e1f58238a2f193584a17500468f207d33e8c026c21",
+      "role": "IDENTITY_SYMMETRIC_EVALUATOR"
+    }
+  },
+  "preserved_prior_decision": {
+    "decision_id": "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
+    "decision_hash": "2ed22c0e6ba08159077ae891bfb310947fa007e84dd38fdde2af54beeef25b5d",
+    "result_sha256": "70cd886ad2efb226769bb15a26d041554f12d24c2bf3acc8c87b90f6527156a1",
+    "status": "HISTORICAL_BLOCK_REMAINS_IMMUTABLE",
+    "superseded": false
+  },
+  "frozen_policy": {
+    "path": "evals/prospective/phase-003f/minimum_competition_architecture_gate.json",
+    "sha256": "cdb557751b79818208ff27734c1be97501e04fa9775c63d04ac97949664e17a5"
+  },
+  "provenance": {
+    "source_commit": "74b6fcc18e05bbe1c354e6bc867142aec0fa04cf",
+    "historical_answer_accesses": 0,
+    "hidden_benchmark_accesses": 0,
+    "real_model_starts": 0,
+    "third_party_executions": 0
+  },
+  "deferred_not_passed": [
+    "full sealed Stage 1",
+    "Stage 2 model-in-loop comparison",
+    "full ablation",
+    "external validity",
+    "production fitness",
+    "monetary cost"
+  ]
+}
