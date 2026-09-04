@@ -181,6 +181,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         history = record.get("first_run_freeze_history", [])
         supersedes = freeze.get("supersedes_freeze")
         if history:
+            history_status = history[0].get("status") if isinstance(history, list) else None
             if (
                 not isinstance(history, list)
                 or len(history) != 1
@@ -189,7 +190,6 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                 or supersedes.get("path") != history[0].get("path")
                 or supersedes.get("sha256") != history[0].get("sha256")
                 or supersedes.get("commit") != history[0].get("freeze_commit")
-                or history[0].get("status") != "SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED"
             ):
                 errors.append(f"FIRST_RUN_FREEZE_HISTORY_INVALID:{case_id}")
             else:
@@ -198,15 +198,41 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                     "sha256"
                 ):
                     errors.append(f"FIRST_RUN_FREEZE_HISTORY_FILE_DRIFT:{case_id}")
-            correction = freeze.get("metadata_correction", {})
-            if (
-                not isinstance(correction, dict)
-                or correction.get("reason_code") != "RC_BATCH_SKILL_VERSION_SHORT_ALIAS_REJECTED"
-                or correction.get("case_evidence_changed") is not False
-                or correction.get("run_evidence_changed") is not False
-                or correction.get("answer_state_changed") is not False
-                or correction.get("original_freeze_preserved") is not True
+            if history_status == "SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED":
+                correction = freeze.get("metadata_correction", {})
+                valid_correction = (
+                    isinstance(correction, dict)
+                    and correction.get("reason_code")
+                    == "RC_BATCH_SKILL_VERSION_SHORT_ALIAS_REJECTED"
+                    and correction.get("case_evidence_changed") is False
+                    and correction.get("run_evidence_changed") is False
+                    and correction.get("answer_state_changed") is False
+                    and correction.get("original_freeze_preserved") is True
+                )
+            elif (
+                history_status
+                == "SUPERSEDED_POST_FREEZE_SUMMARY_HASH_CORRECTION_ORIGINAL_PRESERVED"
             ):
+                correction = freeze.get("evidence_correction", {})
+                valid_correction = (
+                    isinstance(correction, dict)
+                    and correction.get("reason_code") == "RC_PREMATURE_FREEZE_SUMMARY_HASH_DRIFT"
+                    and set(correction.get("changed_artifacts", {}))
+                    == {
+                        "evidence/first_run_failures.json",
+                        "evidence/first_run_metrics.json",
+                        "evidence/first_run_stage_status.json",
+                        "evidence/first_run_timing.json",
+                    }
+                    and correction.get("run_evidence_changed") is False
+                    and correction.get("result_evidence_changed") is False
+                    and correction.get("claim_or_handoff_evidence_changed") is False
+                    and correction.get("answer_state_changed") is False
+                    and correction.get("original_freeze_preserved") is True
+                )
+            else:
+                valid_correction = False
+            if not valid_correction:
                 errors.append(f"FIRST_RUN_FREEZE_CORRECTION_INVALID:{case_id}")
         evidence = record.get("first_run_evidence", {})
         if (
