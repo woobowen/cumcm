@@ -230,6 +230,8 @@ def assert_json_safe(value: Any, location: str = "$") -> None:
     elif isinstance(value, (list, tuple)):
         for index, item in enumerate(value):
             assert_json_safe(item, f"{location}[{index}]")
+    elif value is not None and not isinstance(value, (str, int, float, bool)):
+        raise ValueError(f"non-JSON value at {location}")
 
 
 def canonical_bytes(value: Any) -> bytes:
@@ -256,7 +258,7 @@ def file_hash(path: Path) -> str:
 
 
 def git_commit_exists(commit: str) -> bool:
-    if not GIT_SHA.fullmatch(commit):
+    if not isinstance(commit, str) or not GIT_SHA.fullmatch(commit):
         return False
     completed = subprocess.run(
         ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
@@ -850,7 +852,11 @@ def validate_comparison(
                 expected_score: Any = None
                 if outcome == "SUCCESS":
                     metrics = output.get("validation_metrics")
-                    if not isinstance(metrics, dict) or not strict_score(metrics.get(metric)):
+                    if (
+                        not isinstance(metric, str)
+                        or not isinstance(metrics, dict)
+                        or not strict_score(metrics.get(metric))
+                    ):
                         codes.add("RC_COMPARISON_RUN_OUTPUT_METRIC_INVALID")
                     else:
                         expected_score = float(metrics[metric])
@@ -981,15 +987,20 @@ def validate_final_result(
     if set(final_result) != required:
         codes.add("RC_FINAL_RESULT_FIELDS_INVALID")
     selected = comparison.get("selected_candidate_id")
-    selected_attempts = sorted(
-        [
-            attempt
-            for attempt in comparison.get("attempts", [])
-            if isinstance(attempt, dict)
-            and attempt.get("candidate_id") == selected
-            and attempt.get("outcome") == "SUCCESS"
-        ],
-        key=lambda item: (item.get("random_seed"), item.get("run_id")),
+    attempts = comparison.get("attempts")
+    selected_attempts = (
+        sorted(
+            [
+                attempt
+                for attempt in attempts
+                if isinstance(attempt, dict)
+                and attempt.get("candidate_id") == selected
+                and attempt.get("outcome") == "SUCCESS"
+            ],
+            key=lambda item: (str(item.get("random_seed")), str(item.get("run_id"))),
+        )
+        if isinstance(attempts, list)
+        else []
     )
     if (
         final_result.get("status") != "FINAL_CANDIDATE"
@@ -1000,7 +1011,10 @@ def validate_final_result(
     ):
         codes.add("RC_FINAL_RESULT_SELECTION_BINDING_MISMATCH")
     manifest_path = case_root / "runs" / str(final_result.get("run_id", "")) / "manifest.json"
-    manifest: Any = load_json(manifest_path) if manifest_path.is_file() else None
+    try:
+        manifest: Any = load_json(manifest_path) if manifest_path.is_file() else None
+    except (OSError, ValueError, json.JSONDecodeError):
+        manifest = None
     if not isinstance(manifest, dict):
         codes.add("RC_FINAL_RESULT_MANIFEST_MISSING")
     else:
@@ -1020,7 +1034,10 @@ def validate_final_result(
         if output_path is None or not output_path.is_file():
             codes.add("RC_FINAL_RESULT_OUTPUT_MISSING")
         else:
-            output = load_json(output_path)
+            try:
+                output = load_json(output_path)
+            except (OSError, ValueError, json.JSONDecodeError):
+                output = None
             if not isinstance(output, dict) or output.get("candidate_id") != selected:
                 codes.add("RC_FINAL_RESULT_OUTPUT_BINDING_MISMATCH")
             else:
@@ -1138,7 +1155,11 @@ def validate_claim(
                 for item in output_files
                 if isinstance(item, dict) and isinstance(item.get("path"), str)
             )
-        if not isinstance(artifacts, list) or set(artifacts) != expected_artifacts:
+        if (
+            not isinstance(artifacts, list)
+            or not all(isinstance(item, str) for item in artifacts)
+            or set(artifacts) != expected_artifacts
+        ):
             codes.add("RC_CLAIM_EVIDENCE_REGISTRY_MISMATCH")
         bindings = state.get("evidence_bindings") if isinstance(state, dict) else None
         if not isinstance(bindings, dict):
