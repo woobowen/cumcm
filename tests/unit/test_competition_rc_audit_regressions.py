@@ -211,6 +211,30 @@ def test_smoke_consumes_bound_inputs_and_raw_mutation_is_stale(
     assert (case_root / "case_state.json").read_bytes() == frozen_state
 
 
+def test_stale_dependency_chain_is_exactly_bound_to_terminal_history(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "stale-chain"
+    case_cli.run_smoke(case_root, "AUDIT-STALE-CHAIN", "prediction", False)
+    audit = case_cli.read_artifact(case_root, "data_audit")["content"]
+    raw_relative = sorted(audit.get("raw_data_hashes", audit["data_hashes"]))[0]
+    raw_path = case_root / raw_relative
+    changed = copy.deepcopy(case_cli.load_json(raw_path))
+    changed[0]["target"] = -999
+    case_cli.write_json(raw_path, changed)
+    case_cli.stale_check(case_root, mutate=True)
+
+    state_path = case_root / "case_state.json"
+    state = case_cli.load_json(state_path)
+    actual_chain = state["stale"]["dependency_chain"]
+    assert actual_chain == state["history"][-1]["evidence"]
+    state["stale"]["dependency_chain"] = ["fabricated/not-bound.json"]
+    case_cli.write_json(state_path, state)
+
+    with pytest.raises(ValueError, match="RC_CASE_STATE_STALE_RECORD_INVALID"):
+        case_cli.load_state(case_root)
+
+
 def test_claim_scope_and_registered_evidence_are_exactly_bound(case_cli, tmp_path: Path) -> None:
     case_root = tmp_path / "prediction"
     case_cli.run_smoke(case_root, "AUDIT-CLAIM-001", "prediction", False)

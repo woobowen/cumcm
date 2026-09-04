@@ -1811,6 +1811,7 @@ def validate_case_state(value: Any) -> GateResult:
             codes.add("RC_CASE_STATE_HISTORY_INVALID")
             continue
         evidence_in_history.update(record["evidence"])
+    terminal_record_evidence: list[str] | None = None
     if terminal and history:
         record = history[-1]
         previous = (
@@ -1830,7 +1831,8 @@ def validate_case_state(value: Any) -> GateResult:
         ):
             codes.add("RC_CASE_STATE_HISTORY_INVALID")
         else:
-            evidence_in_history.update(record["evidence"])
+            terminal_record_evidence = record["evidence"]
+            evidence_in_history.update(terminal_record_evidence)
         if current == "STALE" and record.get("gate") != "GATE_STALE_PROPAGATION":
             codes.add("RC_CASE_STATE_HISTORY_INVALID")
     if evidence_in_history - set(bindings):
@@ -1841,12 +1843,20 @@ def validate_case_state(value: Any) -> GateResult:
         codes.add("RC_CASE_STATE_LAST_GATE_INVALID")
     if current == "STALE":
         stale = value.get("stale")
+        dependency_chain = stale.get("dependency_chain") if isinstance(stale, dict) else None
         if (
             not isinstance(stale, dict)
             or set(stale) != {"reason_code", "dependency_chain"}
             or stale.get("reason_code") != "RC_UPSTREAM_DEPENDENCY_STALE"
-            or not isinstance(stale.get("dependency_chain"), list)
-            or not stale.get("dependency_chain")
+            or not isinstance(dependency_chain, list)
+            or not dependency_chain
+            or not all(
+                isinstance(relative, str) and relative_case_path(Path("."), relative) is not None
+                for relative in dependency_chain
+            )
+            or dependency_chain != sorted(set(dependency_chain))
+            or terminal_record_evidence is None
+            or dependency_chain != terminal_record_evidence
         ):
             codes.add("RC_CASE_STATE_STALE_RECORD_INVALID")
     return blocked(*codes) if codes else passed("RC_CASE_STATE_VALID")
@@ -2439,10 +2449,18 @@ def dependency_mismatches(case_root: Path, state: dict[str, Any]) -> list[str]:
 def stale_check(case_root: Path, *, mutate: bool) -> GateResult:
     state = load_state(case_root)
     if state["state"] == "STALE":
+        stored_chain = tuple(state["stale"]["dependency_chain"])
+        current_chain = tuple(dependency_mismatches(case_root, state))
+        if stored_chain != current_chain:
+            return GateResult(
+                "BLOCK",
+                ("RC_CASE_STATE_STALE_CHAIN_MISMATCH",),
+                dependency_chain=current_chain,
+            )
         return GateResult(
             "STALE",
             ("RC_UPSTREAM_DEPENDENCY_STALE",),
-            dependency_chain=tuple(state["stale"]["dependency_chain"]),
+            dependency_chain=stored_chain,
         )
     mismatches = dependency_mismatches(case_root, state)
     if not mismatches:
