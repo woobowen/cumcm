@@ -10,7 +10,7 @@
 
 ## Exact next task
 
-选择一道答案仍为 `SEALED` 的历史 `DEVELOPMENT` 题，记录 problem/data hashes 与冻结 Skill commit，使用 RC1 从 intake 到 handoff 完整盲跑；在读取任何答案前冻结 first run。随后只把跨题可复现的失败纳入 RC2，把题目特异发现隔离。
+选择一道答案仍为 `SEALED` 的历史 `DEVELOPMENT` 题，把题面/data 放入不受 Git 跟踪的私有 case workspace，登记实际相对路径与 hashes，并使用与当前正式 Skill tree 一致的冻结 commit。launcher 会建立 workspace evidence binding；使用 RC1 从 intake 到 handoff 完整盲跑，并在读取任何答案前用完整 state/history/manifest 校验冻结 first run。随后只把跨题可复现的失败纳入 RC2，把题目特异发现隔离。
 
 ## Non-authorization
 

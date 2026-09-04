@@ -14,18 +14,19 @@
 ## 首跑流程
 
 1. 人工选择一道允许使用、答案未看过的历史 Development 题；本仓库任务不预选题目。
-2. 计算题面与数据 SHA-256，不把私有题面/答案写入 Git。
+2. 在私有 case workspace 中放置题面和 raw data，计算 SHA-256，不把私有题面/答案写入 Git。`problem-source` 与每个 `data-hash` 名称必须是该 workspace 内的相对路径；launcher 会读取并逐文件核验。
 3. 运行：
 
    ```text
    .venv/bin/python scripts/start_skill_development_eval.py \
      --case-id <ID> --set-type DEVELOPMENT \
-     --problem-source <OPAQUE-REGISTERED-SOURCE> --problem-hash <SHA256> \
-     --data-hash <RELATIVE-NAME>=<SHA256> --skill-commit <GIT-SHA> \
-     --model <MODEL> --reasoning <EFFORT> --case-root <PRIVATE-WORKSPACE>
+     --problem-source <RELATIVE-PROBLEM-PATH> --problem-hash <SHA256> \
+     --data-hash <RELATIVE-DATA-PATH>=<SHA256> --skill-commit <GIT-SHA> \
+     --model <MODEL> --reasoning <EFFORT> --case-kind <KIND> \
+     --case-root <PRIVATE-WORKSPACE>
    ```
 
-4. 用正式 Skill 的 14 阶段与集中 CLI 完整盲跑。所有搜索、人工 intervention、失败 Run 和 evidence gap 都保留；不得因将看答案而重试。
+4. launcher 仅接受仓库中真实存在、且其正式 Skill tree 与当前工作区一致的 commit，并把 problem/data/commit 写入 `state/development_eval_binding.json` 和 case evidence chain。随后用正式 Skill 的 14 阶段与集中 CLI 完整盲跑。所有搜索、人工 intervention、失败 Run 和 evidence gap 都保留；不得因将看答案而重试。
 5. 在任何答案解封前运行：
 
    ```text
@@ -40,7 +41,7 @@
 
 - `generalizable_failures` 可进入 RC2 backlog；`problem_specific_findings` 只留在 Development case，不能直接固化为通用方法。
 - Validation/Held-out 不接受 `UNLOCKED_AFTER_FIRST_RUN` 或 `PERMANENTLY_DEVELOPMENT`；答案可见即重新标为 Development。
-- Run manifest 必须绑定 registry 中的 `skill_version` 和 `skill_commit`。模型、reasoning、搜索与干预记录不能后补。
+- Run manifest 必须通过实际 input/code/output 文件、聚合 hashes、registry 中的 `skill_version`/`skill_commit` 与完整 case history 校验；freeze 会重验 workspace binding 与 manifest，而非接受浅层声明。模型、reasoning、搜索与干预记录不能后补。
 - 首跑失败、STALE 或未 READY 都是真实结果；冻结脚本保留状态，不能把 “done” 改成 accepted。
 
 ## RC1 保证边界

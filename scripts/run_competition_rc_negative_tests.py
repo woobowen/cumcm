@@ -16,6 +16,10 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CORE_PATH = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+SENSITIVE_CANARIES = (
+    "SYNTHETIC_PRIVATE_KEY_CANARY_DO_NOT_EMIT",
+    "SYNTHETIC_REFRESH_TOKEN_CANARY_DO_NOT_EMIT",
+)
 
 
 def load_core():
@@ -46,19 +50,23 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
         "candidate_ids": ["BASE", "CAND"],
         "baseline_id": "BASE",
         "splits": {"train": [1], "validation": [2], "test": [3]},
+        "metric": "MAE",
         "metric_direction": "MIN",
+        "random_seeds": [7],
         "attempts": [
             {
                 "candidate_id": "BASE",
                 "run_id": "RUN-BASE",
                 "outcome": "SUCCESS",
                 "validation_score": 2.0,
+                "random_seed": 7,
             },
             {
                 "candidate_id": "CAND",
                 "run_id": "RUN-CAND",
                 "outcome": "SUCCESS",
                 "validation_score": 1.0,
+                "random_seed": 7,
             },
         ],
         "selected_candidate_id": "CAND",
@@ -78,6 +86,9 @@ def valid_comparison(core: Any) -> tuple[dict[str, Any], dict[str, str]]:
 
 
 def valid_manifest(core: Any, case_root: Path) -> tuple[dict[str, Any], dict[str, str]]:
+    input_path = case_root / "data/raw/input.json"
+    core.write_json(input_path, {"value": 1})
+    input_file_hash = core.file_hash(input_path)
     output_path = case_root / "runs/RUN-CAND/output.json"
     core.write_json(output_path, {"metric": 1.0})
     output_file_hash = core.file_hash(output_path)
@@ -88,10 +99,19 @@ def valid_manifest(core: Any, case_root: Path) -> tuple[dict[str, Any], dict[str
     }
     manifest = {
         "run_id": "RUN-CAND",
-        "input_files": [{"path": "data/raw/input.json", "sha256": "1" * 64}],
-        "input_hash": "1" * 64,
-        "code_commit": "TEST-COMMIT",
-        "code_tree_hash": "2" * 64,
+        "input_files": [{"path": "data/raw/input.json", "sha256": input_file_hash}],
+        "input_hash": core.canonical_hash([input_file_hash]),
+        "code_commit": core.current_git_commit(),
+        "code_files": [
+            {
+                "scope": "SKILL_ROOT",
+                "path": "scripts/cumcm_case.py",
+                "sha256": core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py"),
+            }
+        ],
+        "code_tree_hash": core.canonical_hash(
+            [core.file_hash(core.SKILL_ROOT / "scripts/cumcm_case.py")]
+        ),
         "configuration_hash": "3" * 64,
         "random_seed": 7,
         "argv": ["model.py", "--run"],
@@ -226,9 +246,11 @@ def run_scenario(core: Any, case_root: Path, scenario_id: str) -> tuple[Any, boo
     if scenario_id in comparison_mutations:
         return comparison_case(core, comparison_mutations[scenario_id])
     manifest_mutations: dict[str, Callable[[dict[str, Any], dict[str, str]], None]] = {
-        "15_PRIVATE_KEY": lambda value, _freeze: value.update({"private-key": "[negative-test]"}),
+        "15_PRIVATE_KEY": lambda value, _freeze: value.update(
+            {"private-key": SENSITIVE_CANARIES[0]}
+        ),
         "16_REFRESH_TOKEN": lambda value, _freeze: value.update(
-            {"Refresh_Token": "[negative-test]"}
+            {"Refresh_Token": SENSITIVE_CANARIES[1]}
         ),
         "17_UNC_PATH": lambda value, _freeze: value.update(
             {"artifact_location": "\\\\server\\share"}
@@ -387,6 +409,10 @@ def evaluate(output: Path) -> dict[str, Any]:
                     "pass": passed_case,
                 }
             )
+    serialized_records = json.dumps(records, ensure_ascii=False, sort_keys=True)
+    sensitive_values_reported = sum(
+        serialized_records.count(canary) for canary in SENSITIVE_CANARIES
+    )
     payload = {
         "schema_version": "1.0.0",
         "skill_version": core.VERSION,
@@ -395,7 +421,7 @@ def evaluate(output: Path) -> dict[str, Any]:
         "passed": sum(record["pass"] for record in records),
         "failed": sum(not record["pass"] for record in records),
         "unhandled_exceptions": sum(record["unhandled_exception"] for record in records),
-        "sensitive_values_reported": 0,
+        "sensitive_values_reported": sensitive_values_reported,
         "cases": records,
     }
     core.write_json(output, payload)

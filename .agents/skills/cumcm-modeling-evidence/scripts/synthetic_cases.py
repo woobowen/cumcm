@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from statistics import median
 from typing import Any
 
 
@@ -71,8 +72,7 @@ def _write_run(
     case_root: Path,
     *,
     candidate_id: str,
-    raw_path: str,
-    raw_hash: str,
+    input_paths: list[str],
     output: dict[str, Any],
     freezes: dict[str, str],
     decision_hash: str,
@@ -83,12 +83,26 @@ def _write_run(
     output_path = case_root / f"runs/{run_id}/output.json"
     core.write_json(output_path, output)
     output_file_hash = core.file_hash(output_path)
+    input_files = [
+        {"path": relative, "sha256": core.file_hash(case_root / relative)}
+        for relative in input_paths
+    ]
+    code_paths = ["scripts/cumcm_case.py", "scripts/synthetic_cases.py"]
+    code_files = [
+        {
+            "scope": "SKILL_ROOT",
+            "path": relative,
+            "sha256": core.file_hash(core.SKILL_ROOT / relative),
+        }
+        for relative in code_paths
+    ]
     manifest = {
         "run_id": run_id,
-        "input_files": [{"path": raw_path, "sha256": raw_hash}],
-        "input_hash": core.canonical_hash([raw_hash]),
-        "code_commit": "SKILL-0.2.0-COMPETITION-RC1",
-        "code_tree_hash": core.file_hash(Path(core.__file__)),
+        "input_files": input_files,
+        "input_hash": core.canonical_hash([item["sha256"] for item in input_files]),
+        "code_commit": core.current_git_commit(),
+        "code_files": code_files,
+        "code_tree_hash": core.canonical_hash([item["sha256"] for item in code_files]),
         "configuration_hash": core.canonical_hash({"candidate_id": candidate_id, "seed": 20260904}),
         "random_seed": 20260904,
         "argv": ["cumcm_case.py", "smoke", "--kind", core.load_state(case_root)["case_kind"]],
@@ -141,7 +155,7 @@ def _handoff(
         },
         "data_dictionary": {
             "case_kind": state["case_kind"],
-            "raw_files": sorted(audit["data_hashes"]),
+            "raw_files": sorted(audit.get("raw_data_hashes", audit["data_hashes"])),
         },
         "data_quality_report": audit,
         "assumptions": assumptions["assumptions"],
@@ -195,8 +209,67 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
     rows[5]["target"] = 99
     raw_relative = "data/raw/prediction_rows.json"
     raw_path = case_root / raw_relative
-    core.write_json(raw_path, rows, overwrite=False)
+    if raw_path.is_file():
+        if core.load_json(raw_path) != rows:
+            raise ValueError("RC_PREDICTION_BOUND_RAW_INPUT_MISMATCH")
+    else:
+        core.write_json(raw_path, rows, overwrite=False)
     raw_hash = core.file_hash(raw_path)
+    consumed_rows = core.load_json(raw_path)
+    if not isinstance(consumed_rows, list) or len(consumed_rows) < 6:
+        raise ValueError("RC_PREDICTION_RAW_INPUT_INVALID")
+    observed = sorted(
+        (int(row["time"]), float(row["target"]))
+        for row in consumed_rows
+        if isinstance(row, dict)
+        and isinstance(row.get("time"), int)
+        and isinstance(row.get("target"), (int, float))
+        and not isinstance(row.get("target"), bool)
+    )
+    slopes = [
+        (right_y - left_y) / (right_t - left_t)
+        for index, (left_t, left_y) in enumerate(observed)
+        for right_t, right_y in observed[index + 1 :]
+        if right_t != left_t
+    ]
+    robust_slope = median(slopes)
+    robust_intercept = median(y - robust_slope * t for t, y in observed)
+    residuals = [abs(y - (robust_intercept + robust_slope * t)) for t, y in observed]
+    residual_threshold = max(1.0, 6.0 * median(residuals))
+    cleaned: list[dict[str, float | int]] = []
+    imputed_times: list[int] = []
+    outlier_times: list[int] = []
+    for row in sorted(consumed_rows, key=lambda item: item["time"]):
+        time = int(row["time"])
+        target = row.get("target")
+        expected = robust_intercept + robust_slope * time
+        if target is None:
+            imputed_times.append(time)
+            value = expected
+        elif abs(float(target) - expected) > residual_threshold:
+            outlier_times.append(time)
+            value = expected
+        else:
+            value = float(target)
+        cleaned.append({"time": time, "target": value})
+    processed_relative = "data/processed/prediction_clean.json"
+    processed_path = case_root / processed_relative
+    processing = {
+        "records": cleaned,
+        "lineage": {
+            "raw_path": raw_relative,
+            "raw_sha256": raw_hash,
+            "method": "THEIL_SEN_TREND_IMPUTE_AND_RESIDUAL_REPLACE_V1",
+            "robust_slope": robust_slope,
+            "robust_intercept": robust_intercept,
+            "residual_threshold": residual_threshold,
+            "imputed_times": imputed_times,
+            "outlier_times": outlier_times,
+            "discarded_fields": ["future_target"],
+        },
+    }
+    core.write_json(processed_path, processing, overwrite=False)
+    processed_hash = core.file_hash(processed_path)
     requirements = [
         {"requirement_id": "REQ-P-1", "text": "按时间顺序比较预测模型"},
         {"requirement_id": "REQ-P-2", "text": "拒绝 future_target 泄漏字段"},
@@ -219,7 +292,13 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "data_audit",
         {
             "raw_immutable": True,
-            "data_hashes": {raw_relative: raw_hash},
+            "data_hashes": {
+                raw_relative: raw_hash,
+                processed_relative: processed_hash,
+            },
+            "raw_data_hashes": {raw_relative: raw_hash},
+            "processed_data_hashes": {processed_relative: processed_hash},
+            "processing_lineage": processing["lineage"],
             "missing_values": 1,
             "outliers": 1,
             "rejected_leakage_fields": ["future_target"],
@@ -270,9 +349,28 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         },
     )
     _advance_to(core, case_root, "RUNNING")
-    train = [(1, 3), (2, 5), (3, 7), (4, 9), (5, 11), (6, 13)]
-    validation = [(7, 15), (8, 17), (9, 19)]
-    test = [(10, 21), (11, 23), (12, 25)]
+    model_input = core.load_json(processed_path)
+    if (
+        not isinstance(model_input, dict)
+        or model_input.get("lineage", {}).get("raw_sha256") != raw_hash
+        or core.file_hash(processed_path) != processed_hash
+    ):
+        raise ValueError("RC_PREDICTION_PROCESSED_INPUT_INVALID")
+    points = {
+        int(row["time"]): float(row["target"])
+        for row in model_input.get("records", [])
+        if isinstance(row, dict)
+    }
+
+    def split_points(name: str) -> list[tuple[int, float]]:
+        try:
+            return [(time, points[time]) for time in splits[name]]
+        except KeyError as exc:
+            raise ValueError("RC_PREDICTION_SPLIT_INPUT_MISSING") from exc
+
+    train = split_points("train")
+    validation = split_points("validation")
+    test = split_points("test")
     mean_y = sum(y for _, y in train) / len(train)
     mean_t = sum(t for t, _ in train) / len(train)
     slope = sum((t - mean_t) * (y - mean_y) for t, y in train) / sum(
@@ -315,8 +413,7 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             core,
             case_root,
             candidate_id=candidate,
-            raw_path=raw_relative,
-            raw_hash=raw_hash,
+            input_paths=[raw_relative, processed_relative],
             output=output,
             freezes=freezes,
             decision_hash=decision_hash,
@@ -328,6 +425,7 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
                 "run_id": manifest["run_id"],
                 "outcome": "SUCCESS",
                 "validation_score": validation_scores[candidate],
+                "random_seed": 20260904,
             }
         )
     comparison = {
@@ -336,6 +434,7 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "splits": splits,
         "metric": "MAE",
         "metric_direction": "MIN",
+        "random_seeds": [20260904],
         "attempts": attempts,
         "selected_candidate_id": selected,
         "selection_decision_hash": decision_hash,
@@ -450,8 +549,38 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
     }
     raw_relative = "data/raw/optimization_problem.json"
     raw_path = case_root / raw_relative
-    core.write_json(raw_path, problem, overwrite=False)
+    if raw_path.is_file():
+        if core.load_json(raw_path) != problem:
+            raise ValueError("RC_OPTIMIZATION_BOUND_RAW_INPUT_MISMATCH")
+    else:
+        core.write_json(raw_path, problem, overwrite=False)
     raw_hash = core.file_hash(raw_path)
+    consumed_problem = core.load_json(raw_path)
+    try:
+        labor_capacity = int(consumed_problem["capacity"]["labor"])
+        material_capacity = int(consumed_problem["capacity"]["material"])
+        product_a = consumed_problem["products"]["A"]
+        product_b = consumed_problem["products"]["B"]
+        a_labor = int(product_a["labor"])
+        a_material = int(product_a["material"])
+        a_profit = int(product_a["profit"])
+        b_labor = int(product_b["labor"])
+        b_material = int(product_b["material"])
+        b_profit = int(product_b["profit"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError("RC_OPTIMIZATION_RAW_INPUT_INVALID") from exc
+    if (
+        min(
+            labor_capacity,
+            material_capacity,
+            a_labor,
+            a_material,
+            b_labor,
+            b_material,
+        )
+        <= 0
+    ):
+        raise ValueError("RC_OPTIMIZATION_RAW_INPUT_INVALID")
     requirements = [
         {"requirement_id": "REQ-O-1", "text": "最大化资源约束下利润"},
         {"requirement_id": "REQ-O-2", "text": "拒绝不可行方案并验证最优性"},
@@ -532,15 +661,23 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         },
     )
     _advance_to(core, case_root, "RUNNING")
+    max_a = min(labor_capacity // a_labor, material_capacity // a_material)
+    max_b = min(labor_capacity // b_labor, material_capacity // b_material)
     feasible = [
-        (a, b, 4 * a + 5 * b)
-        for a in range(6)
-        for b in range(6)
-        if 2 * a + b <= 8 and a + 3 * b <= 10
+        (a, b, a_profit * a + b_profit * b)
+        for a in range(max_a + 1)
+        for b in range(max_b + 1)
+        if a_labor * a + b_labor * b <= labor_capacity
+        and a_material * a + b_material * b <= material_capacity
     ]
     optimum = max(feasible, key=lambda item: (item[2], -item[0], -item[1]))
     outcomes = {
-        "O-BASELINE-A-ONLY": {"x_A": 4, "x_B": 0, "profit": 16, "feasible": True},
+        "O-BASELINE-A-ONLY": {
+            "x_A": max_a,
+            "x_B": 0,
+            "profit": a_profit * max_a,
+            "feasible": True,
+        },
         "O-ENUMERATION": {
             "x_A": optimum[0],
             "x_B": optimum[1],
@@ -548,9 +685,9 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "feasible": True,
         },
         "O-INFEASIBLE-PROPOSAL": {
-            "x_A": 5,
-            "x_B": 5,
-            "profit": 45,
+            "x_A": max_a + 1,
+            "x_B": max_b + 1,
+            "profit": a_profit * (max_a + 1) + b_profit * (max_b + 1),
             "feasible": False,
         },
     }
@@ -572,8 +709,7 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             core,
             case_root,
             candidate_id=candidate,
-            raw_path=raw_relative,
-            raw_hash=raw_hash,
+            input_paths=[raw_relative],
             output=outcomes[candidate],
             freezes=freezes,
             decision_hash=decision_hash,
@@ -587,6 +723,7 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
                 "run_id": manifest["run_id"],
                 "outcome": manifest["outcome"],
                 "validation_score": scores.get(candidate),
+                "random_seed": 20260904,
             }
         )
     comparison = {
@@ -595,6 +732,7 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "splits": splits,
         "metric": "negative_profit",
         "metric_direction": "MIN",
+        "random_seeds": [20260904],
         "attempts": attempts,
         "selected_candidate_id": selected,
         "selection_decision_hash": decision_hash,
@@ -614,12 +752,13 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
     _accepted(core, case_root, "model_comparison", comparison)
     _advance_to(core, case_root, "RUN_VALIDATED")
     perturbations = []
-    for labor in (7, 9):
+    for labor in (labor_capacity - 1, labor_capacity + 1):
         variants = [
-            (a, b, 4 * a + 5 * b)
-            for a in range(6)
-            for b in range(6)
-            if 2 * a + b <= labor and a + 3 * b <= 10
+            (a, b, a_profit * a + b_profit * b)
+            for a in range(labor // a_labor + 1)
+            for b in range(labor // b_labor + 1)
+            if a_labor * a + b_labor * b <= labor
+            and a_material * a + b_material * b <= material_capacity
         ]
         best = max(variants, key=lambda item: (item[2], -item[0], -item[1]))
         perturbations.append(
@@ -712,7 +851,12 @@ def run_synthetic_case(
     case_id: str,
     kind: str,
 ) -> dict[str, Any]:
-    core.initialize_case(case_root, case_id, kind)
+    if core.state_path(case_root).is_file():
+        state = core.load_state(case_root)
+        if state["state"] != "CREATED" or state["case_id"] != case_id or state["case_kind"] != kind:
+            raise ValueError("RC_SMOKE_PREINITIALIZED_CASE_MISMATCH")
+    else:
+        core.initialize_case(case_root, case_id, kind)
     result = (
         _prediction(core, case_root) if kind == "prediction" else _optimization(core, case_root)
     )

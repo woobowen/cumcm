@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import subprocess
@@ -7,6 +8,20 @@ import sys
 from pathlib import Path
 
 import yaml
+
+
+def file_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def head_commit(repo_root: Path) -> str:
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=repo_root,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
 
 
 def command(repo_root: Path, script: str, *arguments: str) -> subprocess.CompletedProcess[str]:
@@ -53,6 +68,12 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
     case_root = tmp_path / "case"
+    problem = case_root / "problem/original.md"
+    data = case_root / "data/raw/input.dat"
+    problem.parent.mkdir(parents=True)
+    data.parent.mkdir(parents=True)
+    problem.write_text("opaque synthetic problem", encoding="utf-8")
+    data.write_text("opaque synthetic data", encoding="utf-8")
     arguments = (
         "--registry",
         str(registry),
@@ -61,13 +82,13 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
         "--set-type",
         "DEVELOPMENT",
         "--problem-source",
-        "OPAQUE-SOURCE-001",
+        "problem/original.md",
         "--problem-hash",
-        "1" * 64,
+        file_hash(problem),
         "--data-hash",
-        f"input.dat={'2' * 64}",
+        f"data/raw/input.dat={file_hash(data)}",
         "--skill-commit",
-        "3" * 40,
+        head_commit(repo_root),
         "--model",
         "MODEL-ID",
         "--reasoning",
@@ -89,29 +110,64 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
     assert json.loads(duplicate.stdout)["reason_codes"] == ["CASE_ID_ALREADY_REGISTERED"]
 
 
+def test_start_rejects_nonexistent_skill_commit(repo_root: Path, tmp_path: Path) -> None:
+    registry = tmp_path / "registry.yaml"
+    shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+    case_root = tmp_path / "case"
+    problem = case_root / "problem/original.md"
+    problem.parent.mkdir(parents=True)
+    problem.write_text("opaque synthetic problem", encoding="utf-8")
+
+    rejected = command(
+        repo_root,
+        "start_skill_development_eval.py",
+        "--registry",
+        str(registry),
+        "--case-id",
+        "DEV-COMMIT-003",
+        "--set-type",
+        "DEVELOPMENT",
+        "--problem-source",
+        "problem/original.md",
+        "--problem-hash",
+        file_hash(problem),
+        "--skill-commit",
+        "f" * 40,
+        "--model",
+        "MODEL-ID",
+        "--reasoning",
+        "medium",
+        "--case-root",
+        str(case_root),
+    )
+
+    assert rejected.returncode == 3
+    assert json.loads(rejected.stdout)["reason_codes"] == ["SKILL_COMMIT_NOT_FOUND"]
+    assert yaml.safe_load(registry.read_text(encoding="utf-8"))["cases"] == []
+
+
 def test_freeze_binds_terminal_first_run_before_optional_unlock(
     repo_root: Path, tmp_path: Path
 ) -> None:
     registry = tmp_path / "registry.yaml"
     shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
     case_root = tmp_path / "case"
-    run_dir = case_root / "runs/RUN-FAILED"
-    run_dir.mkdir(parents=True)
-    commit = "4" * 40
-    (case_root / "case_state.json").write_text(
-        json.dumps(
-            {
-                "case_id": "DEV-FREEZE-002",
-                "skill_version": "0.2.0-competition-rc1",
-                "state": "REJECTED",
-            }
-        ),
-        encoding="utf-8",
-    )
-    (run_dir / "manifest.json").write_text(
-        json.dumps({"run_id": "RUN-FAILED", "code_commit": commit}),
-        encoding="utf-8",
-    )
+    problem = case_root / "problem/original.md"
+    raw = case_root / "data/raw/prediction_rows.json"
+    problem.parent.mkdir(parents=True)
+    raw.parent.mkdir(parents=True)
+    problem.write_text("project-original synthetic prediction", encoding="utf-8")
+    rows = [
+        {
+            "time": index,
+            "target": 2 * index + 1 if index != 5 else None,
+            "future_target": 2 * (index + 1) + 1,
+        }
+        for index in range(1, 13)
+    ]
+    rows[5]["target"] = 99
+    raw.write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    commit = head_commit(repo_root)
     started = command(
         repo_root,
         "start_skill_development_eval.py",
@@ -122,9 +178,11 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "--set-type",
         "DEVELOPMENT",
         "--problem-source",
-        "OPAQUE-SOURCE-002",
+        "problem/original.md",
         "--problem-hash",
-        "5" * 64,
+        file_hash(problem),
+        "--data-hash",
+        f"data/raw/prediction_rows.json={file_hash(raw)}",
         "--skill-commit",
         commit,
         "--model",
@@ -135,8 +193,60 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "2026-09-04T00:00:00Z",
         "--case-root",
         str(case_root),
+        "--case-kind",
+        "prediction",
     )
     assert started.returncode == 0, started.stdout + started.stderr
+    smoke = subprocess.run(
+        [
+            sys.executable,
+            str(repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"),
+            "smoke",
+            "--case-root",
+            str(case_root),
+            "--case-id",
+            "DEV-FREEZE-002",
+            "--kind",
+            "prediction",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert smoke.returncode == 0, smoke.stdout + smoke.stderr
+    manifest_path = sorted(case_root.glob("runs/*/manifest.json"))[0]
+    manifest_original = manifest_path.read_text(encoding="utf-8")
+    state_path = case_root / "case_state.json"
+    state_original = state_path.read_text(encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps({"run_id": manifest_path.parent.name, "code_commit": commit}) + "\n",
+        encoding="utf-8",
+    )
+    tampered_state = json.loads(state_original)
+    relative_manifest = str(manifest_path.relative_to(case_root))
+    tampered_state["evidence_bindings"][relative_manifest] = file_hash(manifest_path)
+    state_path.write_text(
+        json.dumps(tampered_state, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    shallow = command(
+        repo_root,
+        "freeze_skill_first_run.py",
+        "--registry",
+        str(registry),
+        "--case-id",
+        "DEV-FREEZE-002",
+        "--case-root",
+        str(case_root),
+        "--freeze-time",
+        "2026-09-04T01:00:00Z",
+        "--dry-run",
+    )
+    assert shallow.returncode == 3
+    assert "RC_MANIFEST_REQUIRED_BINDING_MISSING" in " ".join(
+        json.loads(shallow.stdout)["reason_codes"]
+    )
+    manifest_path.write_text(manifest_original, encoding="utf-8")
+    state_path.write_text(state_original, encoding="utf-8")
     frozen = command(
         repo_root,
         "freeze_skill_first_run.py",
@@ -154,5 +264,5 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
     assert record["first_run_status"] == "FROZEN"
     assert record["answer_access_status"] == "SEALED"
     assert record["first_run_evidence"]["skill_commit"] == commit
-    assert record["first_run_evidence"]["case_state"] == "REJECTED"
+    assert record["first_run_evidence"]["case_state"] == "READY_FOR_PAPER_HANDOFF"
     assert record["first_run_evidence"]["run_manifest_hashes"]

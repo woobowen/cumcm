@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -15,6 +17,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
+CASE_CORE = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
 
 
 def file_hash(path: Path) -> str:
@@ -51,7 +54,18 @@ def write_registry(path: Path, value: dict[str, Any]) -> None:
     os.replace(temporary, path)
 
 
+def load_core():
+    spec = importlib.util.spec_from_file_location("cumcm_case_freeze", CASE_CORE)
+    if spec is None or spec.loader is None:
+        raise ValueError("FORMAL_SKILL_CORE_UNAVAILABLE")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
 def freeze(args: argparse.Namespace) -> dict[str, Any]:
+    core = load_core()
     registry = read_registry(args.registry)
     matches = [case for case in registry["cases"] if case.get("case_id") == args.case_id]
     if len(matches) != 1:
@@ -64,7 +78,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     state_path = args.case_root / "case_state.json"
     if not state_path.is_file():
         raise ValueError("CASE_STATE_MISSING")
-    state = json.loads(state_path.read_text(encoding="utf-8"))
+    state = core.load_state(args.case_root)
     if state.get("case_id") != args.case_id:
         raise ValueError("CASE_STATE_ID_MISMATCH")
     if state.get("skill_version") != record.get("skill_version"):
@@ -74,15 +88,64 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         and not args.blocked_reason_code
     ):
         raise ValueError("FIRST_RUN_NOT_TERMINAL_OR_BLOCKED")
+    if not core.stale_check(args.case_root, mutate=False).accepted:
+        raise ValueError("CASE_WORKSPACE_STALE")
+    binding_relative = "state/development_eval_binding.json"
+    binding_path = args.case_root / binding_relative
+    if not binding_path.is_file():
+        raise ValueError("DEVELOPMENT_BINDING_MISSING")
+    binding = json.loads(binding_path.read_text(encoding="utf-8"))
+    expected_binding = {
+        "case_id": args.case_id,
+        "problem_source": record.get("problem_source"),
+        "problem_hash": record.get("problem_hash"),
+        "data_hashes": record.get("data_hashes"),
+        "skill_version": record.get("skill_version"),
+        "skill_commit": record.get("skill_commit"),
+        "answer_access_status": "SEALED",
+    }
+    if binding != expected_binding:
+        raise ValueError("DEVELOPMENT_BINDING_MISMATCH")
+    expected_workspace = {
+        str(record["problem_source"]): str(record["problem_hash"]),
+        **{str(key): str(value) for key, value in record.get("data_hashes", {}).items()},
+        binding_relative: file_hash(binding_path),
+    }
+    if any(
+        state["evidence_bindings"].get(path) != digest
+        for path, digest in expected_workspace.items()
+    ):
+        raise ValueError("DEVELOPMENT_STATE_BINDING_MISMATCH")
     manifests = sorted(args.case_root.glob("runs/*/manifest.json"))
     if not manifests:
         raise ValueError("FIRST_RUN_MANIFEST_MISSING")
     manifest_hashes: dict[str, str] = {}
+    consumed_inputs: dict[str, str] = {}
+    freezes = core.trusted_freezes(args.case_root)
     for path in manifests:
         manifest = json.loads(path.read_text(encoding="utf-8"))
         if manifest.get("code_commit") != record.get("skill_commit"):
             raise ValueError("RUN_SKILL_COMMIT_MISMATCH")
+        if manifest.get("run_id") != path.parent.name:
+            raise ValueError("RUN_ID_PATH_MISMATCH")
+        validation = core.validate_manifest(
+            manifest,
+            case_root=args.case_root,
+            trusted_freezes=freezes,
+        )
+        non_success_only = validation.reason_codes and all(
+            code.startswith("RC_MANIFEST_NOT_SUCCESS:") for code in validation.reason_codes
+        )
+        if not validation.accepted and not non_success_only:
+            raise ValueError(";".join(validation.reason_codes))
+        for item in manifest["input_files"]:
+            consumed_inputs[item["path"]] = item["sha256"]
         manifest_hashes[str(path.relative_to(args.case_root))] = file_hash(path)
+    if any(
+        consumed_inputs.get(path) != digest
+        for path, digest in record.get("data_hashes", {}).items()
+    ):
+        raise ValueError("RUN_INPUTS_NOT_BOUND_TO_REGISTRY")
     freeze_time = iso_time(args.freeze_time, "FREEZE_TIME_INVALID")
     evidence = {
         "skill_version": record["skill_version"],

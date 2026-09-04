@@ -10,6 +10,7 @@ import json
 import math
 import os
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -19,6 +20,8 @@ VERSION = "0.2.0-competition-rc1"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+SKILL_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[4]
 
 EXIT_OK = 0
 EXIT_INPUT = 2
@@ -118,6 +121,7 @@ REQUIRED_HANDOFF_FIELDS = {
 }
 
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 WINDOWS_ABS = re.compile(r"^[A-Za-z]:[\\/]")
 CREDENTIAL_URL = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://[^/@\s]+:[^/@\s]+@")
 SENSITIVE_PARTS = (
@@ -132,6 +136,36 @@ SENSITIVE_PARTS = (
     "clientsecret",
     "secretkey",
 )
+
+STATE_FIELDS = {
+    "schema_version",
+    "case_id",
+    "case_kind",
+    "skill_version",
+    "capability",
+    "architecture",
+    "state",
+    "last_gate",
+    "evidence_bindings",
+    "history",
+}
+
+TRANSITION_GATES = {
+    "CREATED": "INIT",
+    "INTAKE_COMPLETE": "GATE_PROBLEM_INTAKE",
+    "REQUIREMENTS_VALIDATED": "GATE_REQUIREMENT_COVERAGE",
+    "SOURCES_PLANNED": "GATE_SOURCE_PLAN",
+    "DATA_AUDITED": "GATE_ASSUMPTIONS_AND_DATA",
+    "MODELS_PROPOSED": "GATE_MODEL_PORTFOLIO",
+    "EXPERIMENT_PLAN_VALIDATED": "GATE_EXPERIMENT_PLAN",
+    "RUNNING": "GATE_EXECUTION_AUTHORIZED",
+    "RUN_COMPLETED": "GATE_RUN_COMPLETION",
+    "RUN_VALIDATED": "GATE_REPRODUCIBILITY_MANIFEST",
+    "ROBUSTNESS_VALIDATED": "GATE_COMPARISON_AND_ROBUSTNESS",
+    "FINAL_CANDIDATE": "GATE_FINAL_RUN",
+    "EVIDENCE_VALIDATED": "GATE_CLAIM_EVIDENCE",
+    "READY_FOR_PAPER_HANDOFF": "GATE_MODELING_TO_PAPER",
+}
 
 
 @dataclass(frozen=True)
@@ -200,6 +234,33 @@ def file_hash(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def git_commit_exists(commit: str) -> bool:
+    if not GIT_SHA.fullmatch(commit):
+        return False
+    completed = subprocess.run(
+        ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    return completed.returncode == 0
+
+
+def current_git_commit() -> str:
+    completed = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=REPO_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    commit = completed.stdout.strip()
+    if not git_commit_exists(commit):
+        raise ValueError("RC_GIT_COMMIT_UNAVAILABLE")
+    return commit
 
 
 def normalize_key(value: str) -> str:
@@ -349,6 +410,7 @@ def validate_manifest(
         "input_files",
         "input_hash",
         "code_commit",
+        "code_files",
         "code_tree_hash",
         "configuration_hash",
         "random_seed",
@@ -366,6 +428,8 @@ def validate_manifest(
     }
     if not required <= set(manifest):
         codes.add("RC_MANIFEST_REQUIRED_BINDING_MISSING")
+    if not isinstance(manifest.get("run_id"), str) or not manifest.get("run_id"):
+        codes.add("RC_MANIFEST_RUN_ID_INVALID")
     for name in (
         "input_hash",
         "code_tree_hash",
@@ -375,6 +439,9 @@ def validate_manifest(
     ):
         if not HEX64.fullmatch(str(manifest.get(name, ""))):
             codes.add(f"RC_MANIFEST_HASH_INVALID:{name}")
+    commit = manifest.get("code_commit")
+    if not isinstance(commit, str) or not git_commit_exists(commit):
+        codes.add("RC_MANIFEST_GIT_COMMIT_INVALID")
     seed = manifest.get("random_seed")
     if not isinstance(seed, int) or isinstance(seed, bool):
         codes.add("RC_MANIFEST_SEED_INVALID")
@@ -404,19 +471,78 @@ def validate_manifest(
         not isinstance(bindings, dict)
         or not bindings
         or trusted_freezes is None
-        or any(trusted_freezes.get(key) != value for key, value in bindings.items())
+        or bindings != trusted_freezes
     ):
         codes.add("RC_MANIFEST_UNTRUSTED_FREEZE")
+    input_files = manifest.get("input_files")
+    if not isinstance(input_files, list) or not input_files:
+        codes.add("RC_MANIFEST_INPUT_FILES_INVALID")
+    elif case_root is not None:
+        input_hashes: list[str] = []
+        input_paths: set[str] = set()
+        for record in input_files:
+            if not isinstance(record, dict) or set(record) != {"path", "sha256"}:
+                codes.add("RC_MANIFEST_INPUT_RECORD_INVALID")
+                continue
+            relative = record.get("path")
+            path = relative_case_path(case_root, relative)
+            if not isinstance(relative, str) or relative in input_paths:
+                codes.add("RC_MANIFEST_INPUT_RECORD_INVALID")
+                continue
+            input_paths.add(relative)
+            if path is None or not path.is_file():
+                codes.add("RC_MANIFEST_INPUT_MISSING")
+                continue
+            actual = file_hash(path)
+            input_hashes.append(actual)
+            if record.get("sha256") != actual:
+                codes.add("RC_MANIFEST_INPUT_MUTATION")
+        if input_hashes and manifest.get("input_hash") != canonical_hash(input_hashes):
+            codes.add("RC_MANIFEST_INPUT_HASH_MISMATCH")
+    code_files = manifest.get("code_files")
+    if not isinstance(code_files, list) or not code_files:
+        codes.add("RC_MANIFEST_CODE_FILES_INVALID")
+    else:
+        code_hashes: list[str] = []
+        code_paths: set[tuple[str, str]] = set()
+        for record in code_files:
+            if not isinstance(record, dict) or set(record) != {"scope", "path", "sha256"}:
+                codes.add("RC_MANIFEST_CODE_RECORD_INVALID")
+                continue
+            scope = record.get("scope")
+            relative = record.get("path")
+            root = SKILL_ROOT if scope == "SKILL_ROOT" else case_root
+            identity = (str(scope), str(relative))
+            if scope not in {"SKILL_ROOT", "CASE_ROOT"} or identity in code_paths:
+                codes.add("RC_MANIFEST_CODE_RECORD_INVALID")
+                continue
+            code_paths.add(identity)
+            path = relative_case_path(root, relative) if root is not None else None
+            if path is None or not path.is_file():
+                codes.add("RC_MANIFEST_CODE_MISSING")
+                continue
+            actual = file_hash(path)
+            code_hashes.append(actual)
+            if record.get("sha256") != actual:
+                codes.add("RC_MANIFEST_CODE_MUTATION")
+        if code_hashes and manifest.get("code_tree_hash") != canonical_hash(code_hashes):
+            codes.add("RC_MANIFEST_CODE_TREE_HASH_MISMATCH")
     output_files = manifest.get("output_files")
     if not isinstance(output_files, list) or not output_files:
         codes.add("RC_MANIFEST_OUTPUT_FILES_INVALID")
     elif case_root is not None:
         hashes: list[str] = []
+        output_paths: set[str] = set()
         for record in output_files:
-            if not isinstance(record, dict):
+            if not isinstance(record, dict) or set(record) != {"path", "sha256"}:
                 codes.add("RC_MANIFEST_OUTPUT_RECORD_INVALID")
                 continue
-            path = relative_case_path(case_root, record.get("path", ""))
+            relative = record.get("path")
+            path = relative_case_path(case_root, relative)
+            if not isinstance(relative, str) or relative in output_paths:
+                codes.add("RC_MANIFEST_OUTPUT_RECORD_INVALID")
+                continue
+            output_paths.add(relative)
             if path is None or not path.is_file():
                 codes.add("RC_MANIFEST_OUTPUT_MISSING")
                 continue
@@ -447,7 +573,9 @@ def validate_comparison(
     baseline = comparison.get("baseline_id")
     if not isinstance(candidates, list) or not candidates:
         codes.add("RC_COMPARISON_EMPTY_CANDIDATE_SET")
-    elif not all(isinstance(item, str) and item for item in candidates):
+    elif not all(isinstance(item, str) and item for item in candidates) or len(
+        set(candidates)
+    ) != len(candidates):
         codes.add("RC_COMPARISON_CANDIDATE_SET_INVALID")
     if not isinstance(baseline, str) or baseline not in (candidates or []):
         codes.add("RC_COMPARISON_BASELINE_MISSING")
@@ -496,14 +624,40 @@ def validate_comparison(
         if access.get("used_for_selection") is not False:
             codes.add("RC_COMPARISON_TEST_USED_FOR_SELECTION")
     bindings = comparison.get("freeze_bindings")
+    direction = comparison.get("metric_direction")
+    metric = comparison.get("metric")
+    seeds = comparison.get("random_seeds")
+    derived_freezes: dict[str, str] | None = None
+    if (
+        isinstance(candidates, list)
+        and candidates
+        and isinstance(metric, str)
+        and metric
+        and direction in {"MIN", "MAX"}
+        and isinstance(seeds, list)
+        and seeds
+        and all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
+        and len(set(seeds)) == len(seeds)
+    ):
+        derived_freezes = {
+            "candidate_set": canonical_hash(candidates),
+            "metric": canonical_hash({"name": metric, "direction": direction}),
+            "seed_schedule": canonical_hash(seeds),
+        }
+    else:
+        codes.add("RC_COMPARISON_FREEZE_INPUT_INVALID")
     if (
         not isinstance(bindings, dict)
+        or not bindings
         or trusted_freezes is None
-        or any(trusted_freezes.get(key) != value for key, value in (bindings or {}).items())
+        or bindings != trusted_freezes
+        or derived_freezes is None
+        or bindings != derived_freezes
     ):
         codes.add("RC_COMPARISON_UNTRUSTED_FREEZE")
     attempts = comparison.get("attempts")
     successful: dict[str, float] = {}
+    attempt_keys: set[tuple[str, int]] = set()
     if not isinstance(attempts, list) or not attempts:
         codes.add("RC_COMPARISON_ATTEMPT_LEDGER_INVALID")
     else:
@@ -514,6 +668,21 @@ def validate_comparison(
             score = attempt.get("validation_score")
             outcome = attempt.get("outcome")
             candidate_id = attempt.get("candidate_id")
+            run_id = attempt.get("run_id")
+            random_seed = attempt.get("random_seed")
+            if (
+                not isinstance(candidate_id, str)
+                or candidate_id not in (candidates or [])
+                or not isinstance(run_id, str)
+                or not run_id
+                or not isinstance(random_seed, int)
+                or isinstance(random_seed, bool)
+                or random_seed not in (seeds or [])
+                or (candidate_id, random_seed) in attempt_keys
+            ):
+                codes.add("RC_COMPARISON_ATTEMPT_BINDING_INVALID")
+                continue
+            attempt_keys.add((candidate_id, random_seed))
             if outcome == "SUCCESS":
                 if not strict_score(score):
                     codes.add("RC_COMPARISON_SCORE_TYPE_OR_FINITE_INVALID")
@@ -521,7 +690,15 @@ def validate_comparison(
                     successful[candidate_id] = float(score)
             elif score is not None:
                 codes.add("RC_COMPARISON_NON_SUCCESS_ATTEMPT_SCORED")
-    direction = comparison.get("metric_direction")
+    expected_attempts = (
+        {(candidate, seed) for candidate in candidates for seed in seeds}
+        if isinstance(candidates, list) and isinstance(seeds, list)
+        else set()
+    )
+    if attempt_keys != expected_attempts:
+        codes.add("RC_COMPARISON_ATTEMPT_MATRIX_INCOMPLETE")
+    if isinstance(baseline, str) and baseline not in successful:
+        codes.add("RC_COMPARISON_BASELINE_SUCCESS_MISSING")
     selected = comparison.get("selected_candidate_id")
     if successful and direction in {"MIN", "MAX"}:
         target = min(successful.values()) if direction == "MIN" else max(successful.values())
@@ -632,7 +809,12 @@ def validate_state_boundary(context: Any) -> GateResult:
     return blocked(*codes) if codes else passed("RC_CASE_STATE_BOUNDARY_VALID")
 
 
-def validate_handoff(handoff: Any) -> GateResult:
+def validate_handoff(
+    handoff: Any,
+    *,
+    case_root: Path | None = None,
+    state: dict[str, Any] | None = None,
+) -> GateResult:
     if not isinstance(handoff, dict):
         return blocked("RC_HANDOFF_INVALID")
     codes: set[str] = set()
@@ -653,6 +835,48 @@ def validate_handoff(handoff: Any) -> GateResult:
     except (TypeError, ValueError):
         codes.add("RC_HANDOFF_NONFINITE_OR_NONJSON")
     codes.update(sensitive_findings(handoff))
+    if case_root is not None and state is not None:
+        final_runs = handoff.get("final_runs")
+        claim_evidence = handoff.get("claim_evidence")
+        reproduction = handoff.get("reproduction")
+        final = read_artifact(case_root, "final_result")["content"]
+        claim = read_artifact(case_root, "claim_evidence")["content"]
+        expected_run_path = case_root / "runs" / str(final.get("run_id", "")) / "manifest.json"
+        manifest = load_json(expected_run_path) if expected_run_path.is_file() else None
+        if (
+            not isinstance(final_runs, list)
+            or len(final_runs) != 1
+            or not isinstance(manifest, dict)
+        ):
+            codes.add("RC_HANDOFF_RUN_BINDING_INVALID")
+        else:
+            run = final_runs[0]
+            expected = {
+                "run_id": manifest.get("run_id"),
+                "manifest_hash": canonical_hash(manifest),
+                "output_hash": manifest.get("output_hash"),
+            }
+            if run != expected:
+                codes.add("RC_HANDOFF_RUN_BINDING_INVALID")
+        if claim_evidence != {claim.get("claim_id"): claim}:
+            codes.add("RC_HANDOFF_CLAIM_BINDING_INVALID")
+        if (
+            not isinstance(reproduction, dict)
+            or not isinstance(manifest, dict)
+            or reproduction.get("run_manifest_hash") != canonical_hash(manifest)
+            or reproduction.get("skill_version") != VERSION
+            or reproduction.get("architecture") != ARCHITECTURE
+            or reproduction.get("offline") is not True
+        ):
+            codes.add("RC_HANDOFF_REPRODUCTION_BINDING_INVALID")
+        if handoff.get("final_metrics") != final.get("final_metrics"):
+            codes.add("RC_HANDOFF_FINAL_METRICS_BINDING_INVALID")
+        expected_evidence = {
+            ARTIFACT_PATHS["claim_evidence"],
+            str(expected_run_path.relative_to(case_root)),
+        }
+        if expected_evidence - set(state.get("evidence_bindings", {})):
+            codes.add("RC_HANDOFF_STATE_EVIDENCE_CHAIN_INVALID")
     return blocked(*codes) if codes else passed("RC_MODELING_TO_PAPER_HANDOFF_VALID")
 
 
@@ -660,17 +884,119 @@ def state_path(case_root: Path) -> Path:
     return case_root / "case_state.json"
 
 
+def validate_case_state(value: Any) -> GateResult:
+    if not isinstance(value, dict):
+        return blocked("RC_CASE_STATE_INVALID")
+    codes = sensitive_findings(value)
+    current = value.get("state")
+    allowed_fields = STATE_FIELDS | ({"stale"} if current == "STALE" else set())
+    if set(value) != allowed_fields:
+        codes.add("RC_CASE_STATE_FIELDS_INVALID")
+    if (
+        value.get("schema_version") != "1.0.0"
+        or not isinstance(value.get("case_id"), str)
+        or not re.fullmatch(r"[A-Z0-9][A-Z0-9_-]{2,63}", value.get("case_id", ""))
+        or value.get("case_kind") not in {"prediction", "optimization", "general"}
+        or value.get("skill_version") != VERSION
+        or value.get("capability") != CAPABILITY
+        or value.get("architecture") != ARCHITECTURE
+        or current not in set(STATES) | TERMINAL_STATES
+    ):
+        codes.add("RC_CASE_STATE_IDENTITY_INVALID")
+    bindings = value.get("evidence_bindings")
+    if not isinstance(bindings, dict):
+        codes.add("RC_CASE_STATE_EVIDENCE_BINDINGS_INVALID")
+        bindings = {}
+    else:
+        for relative, digest in bindings.items():
+            if (
+                not isinstance(relative, str)
+                or relative_case_path(Path("."), relative) is None
+                or not HEX64.fullmatch(str(digest))
+            ):
+                codes.add("RC_CASE_STATE_EVIDENCE_BINDINGS_INVALID")
+    history = value.get("history")
+    if not isinstance(history, list) or not history:
+        codes.add("RC_CASE_STATE_HISTORY_INVALID")
+        history = []
+    terminal = current in TERMINAL_STATES
+    normal_history = history[:-1] if terminal and history else history
+    expected_states: list[str] = []
+    if normal_history:
+        normal_current = (
+            normal_history[-1].get("to") if isinstance(normal_history[-1], dict) else None
+        )
+        if normal_current in STATES:
+            expected_states = list(STATES[: STATES.index(normal_current) + 1])
+    if len(normal_history) != len(expected_states):
+        codes.add("RC_CASE_STATE_HISTORY_INVALID")
+    if not terminal and (
+        not normal_history
+        or not isinstance(normal_history[-1], dict)
+        or normal_history[-1].get("to") != current
+    ):
+        codes.add("RC_CASE_STATE_HISTORY_INVALID")
+    evidence_in_history: set[str] = set()
+    for index, record in enumerate(normal_history):
+        target = expected_states[index] if index < len(expected_states) else None
+        previous = expected_states[index - 1] if index else None
+        if (
+            not isinstance(record, dict)
+            or set(record) != {"sequence", "from", "to", "gate", "status", "evidence"}
+            or record.get("sequence") != index
+            or record.get("from") != previous
+            or record.get("to") != target
+            or record.get("gate") != TRANSITION_GATES.get(str(target))
+            or record.get("status") != "PASS"
+            or not isinstance(record.get("evidence"), list)
+            or not all(isinstance(item, str) for item in record.get("evidence", []))
+        ):
+            codes.add("RC_CASE_STATE_HISTORY_INVALID")
+            continue
+        evidence_in_history.update(record["evidence"])
+    if terminal and history:
+        record = history[-1]
+        previous = normal_history[-1].get("to") if normal_history else None
+        if (
+            not isinstance(record, dict)
+            or set(record) != {"sequence", "from", "to", "gate", "status", "evidence"}
+            or record.get("sequence") != len(history) - 1
+            or record.get("from") != previous
+            or record.get("to") != current
+            or record.get("status") != "BLOCK"
+            or not isinstance(record.get("evidence"), list)
+            or not all(isinstance(item, str) for item in record.get("evidence", []))
+        ):
+            codes.add("RC_CASE_STATE_HISTORY_INVALID")
+        else:
+            evidence_in_history.update(record["evidence"])
+        if current == "STALE" and record.get("gate") != "GATE_STALE_PROPAGATION":
+            codes.add("RC_CASE_STATE_HISTORY_INVALID")
+    if evidence_in_history - set(bindings):
+        codes.add("RC_CASE_STATE_EVIDENCE_CHAIN_INCOMPLETE")
+    if history and value.get("last_gate") != history[-1].get("gate"):
+        codes.add("RC_CASE_STATE_LAST_GATE_INVALID")
+    if current == "STALE":
+        stale = value.get("stale")
+        if (
+            not isinstance(stale, dict)
+            or set(stale) != {"reason_code", "dependency_chain"}
+            or stale.get("reason_code") != "RC_UPSTREAM_DEPENDENCY_STALE"
+            or not isinstance(stale.get("dependency_chain"), list)
+            or not stale.get("dependency_chain")
+        ):
+            codes.add("RC_CASE_STATE_STALE_RECORD_INVALID")
+    return blocked(*codes) if codes else passed("RC_CASE_STATE_VALID")
+
+
 def load_state(case_root: Path) -> dict[str, Any]:
     path = state_path(case_root)
     if not path.is_file():
         raise ValueError("RC_CASE_STATE_MISSING")
     value = load_json(path)
-    if (
-        not isinstance(value, dict)
-        or value.get("state") not in set(STATES) | TERMINAL_STATES
-        or value.get("skill_version") != VERSION
-    ):
-        raise ValueError("RC_CASE_STATE_INVALID")
+    result = validate_case_state(value)
+    if not result.accepted:
+        raise ValueError(";".join(result.reason_codes))
     return value
 
 
@@ -772,12 +1098,13 @@ def record_transition(
     index = STATES.index(previous) + 1
     if index >= len(STATES) or STATES[index] != next_state:
         raise ValueError("RC_STATE_TRANSITION_INVALID")
+    missing = [path for path in evidence if not (case_root / path).is_file()]
+    if missing:
+        raise ValueError("RC_TRANSITION_EVIDENCE_MISSING")
     updated = copy.deepcopy(state)
     updated["state"] = next_state
     updated["last_gate"] = gate
-    updated["evidence_bindings"].update(
-        {path: file_hash(case_root / path) for path in evidence if (case_root / path).is_file()}
-    )
+    updated["evidence_bindings"].update({path: file_hash(case_root / path) for path in evidence})
     updated["history"].append(
         {
             "sequence": len(updated["history"]),
@@ -795,6 +1122,9 @@ def record_transition(
 
 def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
     state = load_state(case_root)
+    if dependency_mismatches(case_root, state):
+        stale_check(case_root, mutate=not check)
+        raise ValueError("RC_UPSTREAM_DEPENDENCY_STALE")
     current = state["state"]
     if current == "CREATED":
         content = read_artifact(case_root, "problem_requirements")["content"]
@@ -838,12 +1168,24 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         audit = read_artifact(case_root, "data_audit")["content"]
         if not audit.get("raw_immutable") or not audit.get("data_hashes"):
             raise ValueError("RC_DATA_AUDIT_INVALID")
+        data_paths: list[str] = []
+        if not isinstance(audit["data_hashes"], dict):
+            raise ValueError("RC_DATA_AUDIT_INVALID")
+        for relative, expected in audit["data_hashes"].items():
+            path = relative_case_path(case_root, relative)
+            if path is None or not path.is_file() or file_hash(path) != expected:
+                raise ValueError("RC_DATA_AUDIT_HASH_MISMATCH")
+            data_paths.append(relative)
         return record_transition(
             case_root,
             state,
             "DATA_AUDITED",
             "GATE_ASSUMPTIONS_AND_DATA",
-            [ARTIFACT_PATHS["assumptions_and_symbols"], ARTIFACT_PATHS["data_audit"]],
+            [
+                ARTIFACT_PATHS["assumptions_and_symbols"],
+                ARTIFACT_PATHS["data_audit"],
+                *sorted(data_paths),
+            ],
             check=check,
         )
     if current == "DATA_AUDITED":
@@ -925,6 +1267,17 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         result = validate_comparison(comparison, trusted_freezes(case_root))
         if not result.accepted:
             raise ValueError(";".join(result.reason_codes))
+        for attempt in comparison["attempts"]:
+            manifest_path = case_root / "runs" / attempt["run_id"] / "manifest.json"
+            if not manifest_path.is_file():
+                raise ValueError("RC_COMPARISON_RUN_MANIFEST_MISSING")
+            manifest = load_json(manifest_path)
+            if (
+                manifest.get("run_id") != attempt["run_id"]
+                or manifest.get("random_seed") != attempt["random_seed"]
+                or manifest.get("outcome") != attempt["outcome"]
+            ):
+                raise ValueError("RC_COMPARISON_RUN_BINDING_MISMATCH")
         robustness = read_artifact(case_root, "robustness_analysis")["content"]
         if robustness.get("status") != "VALIDATED" or not robustness.get("perturbations"):
             raise ValueError("RC_ROBUSTNESS_EVIDENCE_INVALID")
@@ -967,7 +1320,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         )
     if current == "EVIDENCE_VALIDATED":
         handoff_path = case_root / ARTIFACT_PATHS["modeling_to_paper_handoff"]
-        result = validate_handoff(load_json(handoff_path))
+        result = validate_handoff(load_json(handoff_path), case_root=case_root, state=state)
         if not result.accepted:
             raise ValueError(";".join(result.reason_codes))
         return record_transition(
@@ -981,13 +1334,17 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
     raise ValueError("RC_NO_FORWARD_TRANSITION_AVAILABLE")
 
 
-def stale_check(case_root: Path, *, mutate: bool) -> GateResult:
-    state = load_state(case_root)
-    mismatches = [
+def dependency_mismatches(case_root: Path, state: dict[str, Any]) -> list[str]:
+    return sorted(
         path
         for path, expected in state.get("evidence_bindings", {}).items()
         if not (case_root / path).is_file() or file_hash(case_root / path) != expected
-    ]
+    )
+
+
+def stale_check(case_root: Path, *, mutate: bool) -> GateResult:
+    state = load_state(case_root)
+    mismatches = dependency_mismatches(case_root, state)
     if not mismatches:
         return passed("RC_DEPENDENCY_HASHES_CURRENT")
     if mutate:

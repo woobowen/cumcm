@@ -46,10 +46,10 @@ Assurance: `PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES`
 
 ## 四个核心 Gate
 
-- `GATE_WORKFLOW_STATE`：只允许 `modeling_orchestrator` 按固定序列推进独立 case state；`RUN_COMPLETED != RUN_VALIDATED`。
-- `GATE_REPRODUCIBILITY_MANIFEST`：Run 绑定输入、代码、配置、seed、argv、allowlisted environment、输出、outcome、failure/supersession、trusted capture/freeze；FAILED/PARTIAL/SUPERSEDED/STALE 保留但不排名。
-- `GATE_LEAKAGE_SAFE_COMPARISON`：候选、metric、seed 和 split 先冻结；baseline 必须存在；test 只在选择后授权访问一次；bool、字符串、NaN、Inf 和非成功 attempt 不得评分。
-- `GATE_CLAIM_EVIDENCE_AND_HANDOFF`：Claim 精确绑定 current successful Run 的 manifest/input/code/config/output/decision hash 与证据 IDs；完整包必须通过 `modeling-to-paper/v1`。
+- `GATE_WORKFLOW_STATE`：只允许 `modeling_orchestrator` 按固定序列推进独立 case state；严格校验字段、完整 history/evidence chain，并在每次推进前自动检查 STALE；`RUN_COMPLETED != RUN_VALIDATED`。
+- `GATE_REPRODUCIBILITY_MANIFEST`：Run 绑定实际存在且 hash 匹配的 input/code/output files、真实 Git commit、聚合 hash、配置、seed、argv、allowlisted environment、outcome、failure/supersession、trusted capture/freeze；FAILED/PARTIAL/SUPERSEDED/STALE 保留但不排名。
+- `GATE_LEAKAGE_SAFE_COMPARISON`：候选、metric、seed 和 split 先冻结；每个候选×seed 必须恰有一条 attempt，baseline 必须成功；test 只在选择后授权访问一次；bool、字符串、NaN、Inf 和非成功 attempt 不得评分。
+- `GATE_CLAIM_EVIDENCE_AND_HANDOFF`：Claim 精确绑定 current successful Run 的 manifest/input/code/config/output/decision hash 与证据 IDs；handoff 的 Run、Claim、metric、reproduction 必须回连 case evidence chain，并通过 `modeling-to-paper/v1`。
 
 任一 Gate 返回 BLOCK/STALE/REJECTED 时不得推进。Orchestrator 和 Auditor 都无权覆盖 Gate。
 
@@ -57,7 +57,7 @@ Assurance: `PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES`
 
 合法主链：`CREATED → INTAKE_COMPLETE → REQUIREMENTS_VALIDATED → SOURCES_PLANNED → DATA_AUDITED → MODELS_PROPOSED → EXPERIMENT_PLAN_VALIDATED → RUNNING → RUN_COMPLETED → RUN_VALIDATED → ROBUSTNESS_VALIDATED → FINAL_CANDIDATE → EVIDENCE_VALIDATED → READY_FOR_PAPER_HANDOFF`。另有终止态 `STALE`、`REJECTED`。
 
-输入、数据、代码、配置、seed、冻结集合或结果 hash 改变时运行 `stale-check`，必须传播 `STALE` 和 dependency chain；恢复时保留旧 Run，新建 Run ID，重做所有下游 Gate。
+原始与处理后数据都进入 `evidence_bindings`。输入、数据、代码、配置、seed、冻结集合或结果 hash 改变时，显式 `stale-check` 或下一次状态推进必须传播 `STALE` 和 dependency chain；恢复时保留旧 Run，新建 Run ID，重做所有下游 Gate。
 
 ## Case workspace 与命令
 

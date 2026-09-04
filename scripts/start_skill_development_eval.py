@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -55,6 +56,54 @@ def parse_data_hash(values: list[str]) -> dict[str, str]:
     return parsed
 
 
+def file_hash(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def safe_workspace_file(case_root: Path, relative: str) -> Path:
+    path = Path(relative)
+    if not relative or path.is_absolute() or ".." in path.parts:
+        raise ValueError("WORKSPACE_PATH_INVALID")
+    resolved = (case_root / path).resolve()
+    try:
+        resolved.relative_to(case_root.resolve())
+    except ValueError as exc:
+        raise ValueError("WORKSPACE_PATH_INVALID") from exc
+    if not resolved.is_file():
+        raise ValueError("WORKSPACE_INPUT_MISSING")
+    return resolved
+
+
+def verify_skill_commit(commit: str) -> None:
+    exists = subprocess.run(
+        ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if exists.returncode != 0:
+        raise ValueError("SKILL_COMMIT_NOT_FOUND")
+    current_matches = subprocess.run(
+        [
+            "git",
+            "diff",
+            "--quiet",
+            commit,
+            "--",
+            ".agents/skills/cumcm-modeling-evidence",
+        ],
+        cwd=REPO_ROOT,
+        check=False,
+    )
+    if current_matches.returncode != 0:
+        raise ValueError("SKILL_COMMIT_TREE_MISMATCH")
+
+
 def iso_time(value: str | None) -> str:
     if value is None:
         return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -78,6 +127,13 @@ def register(args: argparse.Namespace) -> dict[str, Any]:
     if not args.problem_source or not args.model or not args.reasoning:
         raise ValueError("REGISTRATION_FIELD_MISSING")
     data_hashes = parse_data_hash(args.data_hash)
+    verify_skill_commit(args.skill_commit)
+    problem_path = safe_workspace_file(args.case_root, args.problem_source)
+    if file_hash(problem_path) != args.problem_hash:
+        raise ValueError("PROBLEM_HASH_MISMATCH")
+    for relative, expected in data_hashes.items():
+        if file_hash(safe_workspace_file(args.case_root, relative)) != expected:
+            raise ValueError("DATA_HASH_MISMATCH")
     if any(case.get("case_id") == args.case_id for case in registry["cases"]):
         raise ValueError("CASE_ID_ALREADY_REGISTERED")
     record = {
@@ -101,8 +157,26 @@ def register(args: argparse.Namespace) -> dict[str, Any]:
     if not args.dry_run:
         state_path = args.case_root / "case_state.json"
         if state_path.exists():
-            state = json.loads(state_path.read_text(encoding="utf-8"))
-            if state.get("case_id") != args.case_id or state.get("skill_version") != SKILL_VERSION:
+            checked = subprocess.run(
+                [
+                    sys.executable,
+                    str(CASE_CLI),
+                    "status",
+                    "--case-root",
+                    str(args.case_root),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            if checked.returncode != 0:
+                raise ValueError("CASE_WORKSPACE_STATE_INVALID")
+            state = json.loads(checked.stdout)["state"]
+            if (
+                state.get("case_id") != args.case_id
+                or state.get("skill_version") != SKILL_VERSION
+                or state.get("state") != "CREATED"
+            ):
                 raise ValueError("CASE_WORKSPACE_BINDING_MISMATCH")
         else:
             completed = subprocess.run(
@@ -115,7 +189,7 @@ def register(args: argparse.Namespace) -> dict[str, Any]:
                     "--case-id",
                     args.case_id,
                     "--kind",
-                    "general",
+                    args.case_kind,
                 ],
                 check=False,
                 capture_output=True,
@@ -123,6 +197,40 @@ def register(args: argparse.Namespace) -> dict[str, Any]:
             )
             if completed.returncode != 0:
                 raise ValueError("CASE_WORKSPACE_INITIALIZATION_FAILED")
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+        binding_relative = "state/development_eval_binding.json"
+        binding_path = args.case_root / binding_relative
+        if binding_path.exists():
+            raise ValueError("CASE_WORKSPACE_BINDING_ALREADY_EXISTS")
+        binding = {
+            "case_id": args.case_id,
+            "problem_source": args.problem_source,
+            "problem_hash": args.problem_hash,
+            "data_hashes": data_hashes,
+            "skill_version": SKILL_VERSION,
+            "skill_commit": args.skill_commit,
+            "answer_access_status": "SEALED",
+        }
+        binding_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = binding_path.with_name(f".{binding_path.name}.tmp")
+        temporary.write_text(
+            json.dumps(binding, sort_keys=True, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary, binding_path)
+        bound_files = {
+            args.problem_source: args.problem_hash,
+            **data_hashes,
+            binding_relative: file_hash(binding_path),
+        }
+        state["evidence_bindings"].update(bound_files)
+        state["history"][0]["evidence"] = sorted(bound_files)
+        temporary_state = state_path.with_name(f".{state_path.name}.tmp")
+        temporary_state.write_text(
+            json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary_state, state_path)
         registry["cases"].append(record)
         write_registry(args.registry, registry)
     return {
@@ -150,6 +258,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--reasoning", required=True)
     parser.add_argument("--start-time")
     parser.add_argument("--case-root", type=Path, required=True)
+    parser.add_argument(
+        "--case-kind",
+        choices=("prediction", "optimization", "general"),
+        default="general",
+    )
     parser.add_argument("--dry-run", action="store_true")
     return parser
 
