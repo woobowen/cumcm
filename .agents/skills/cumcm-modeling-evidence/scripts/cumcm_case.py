@@ -1830,15 +1830,22 @@ def dependency_mismatches(case_root: Path, state: dict[str, Any]) -> list[str]:
         for path, expected in state.get("evidence_bindings", {}).items()
         if not (case_root / path).is_file() or file_hash(case_root / path) != expected
     }
+    manifest_bindings = [
+        relative
+        for relative in state.get("evidence_bindings", {})
+        if len(Path(relative).parts) == 3
+        and Path(relative).parts[0] == "runs"
+        and Path(relative).name == "manifest.json"
+    ]
+    if not manifest_bindings:
+        return sorted(mismatches)
     try:
         freezes = trusted_freezes(case_root)
     except (KeyError, OSError, TypeError, ValueError, json.JSONDecodeError):
         mismatches.add(ARTIFACT_PATHS["experiment_plan"])
         freezes = None
-    for relative in state.get("evidence_bindings", {}):
+    for relative in manifest_bindings:
         path = Path(relative)
-        if len(path.parts) != 3 or path.parts[0] != "runs" or path.name != "manifest.json":
-            continue
         manifest_path = case_root / path
         if not manifest_path.is_file() or freezes is None:
             mismatches.add(relative)
