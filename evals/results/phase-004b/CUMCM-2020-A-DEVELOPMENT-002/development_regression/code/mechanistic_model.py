@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +39,9 @@ MODEL_IDS = {
         "single-capacitance thermal balance with separate heating and cooling time constants"
     ),
     "CONTROL_TWO_NODE": "two-capacitance surface-core thermal network",
+    "AUXILIARY_NONZERO_DIAGNOSTIC": (
+        "registered auxiliary process-exit diagnostic; excluded from scientific ranking"
+    ),
 }
 REQUIREMENT_CLAIMS = {
     "REQ-2020A-Q1": (
@@ -588,6 +592,12 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     case_root = Path(args.case_root)
+    if args.candidate_id == "AUXILIARY_NONZERO_DIAGNOSTIC":
+        print(
+            "AUXILIARY_NONZERO_DIAGNOSTIC: deliberate registered exit for capture retention",
+            file=sys.stderr,
+        )
+        return 23
     VARIANT_CONFIG = load_variant_config(case_root)
     measured_time_s, measured_temperature_c = load_measurements(case_root)
     parameters, calibration = calibrated_parameters(
@@ -696,9 +706,10 @@ def main() -> int:
         "seed": args.seed,
         "scientifically_eligible_for_final": scientifically_eligible,
         "solver_status": "CONVERGED" if calibration["solver_success"] else "NONCONVERGED",
-        "status": (
-            "SCIENTIFICALLY_ELIGIBLE" if scientifically_eligible else "EXECUTED_NOT_FINAL_ELIGIBLE"
-        ),
+        # SUCCESS means the declared computation completed and emitted a valid
+        # selected-output contract. Scientific eligibility remains an explicit,
+        # independent field and is enforced by success-only final selection.
+        "status": "SUCCESS",
         "validation_metrics": {
             "rmse_c": round(calibration["validation_rmse_c"], 8),
             "selection_score": round(selection_score, 8),

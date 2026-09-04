@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.3.0-competition-rc4 — 2026-09-05
+
+- Advanced the sole formal Skill to `0.2.0-competition-rc4` from one failure independently observed
+  across all three frozen C-problem first runs: selected outputs could reach execution without a
+  complete downstream Final/Claim/figure/uncertainty/limitation/robustness contract.
+- Added a generic, non-result, non-ranking selected-output contract probe before experiment freeze
+  and reused the same fail-closed validator for every exit-zero captured output. Invalid outputs are
+  retained as failed evidence; no case identifier, title, field, entity, answer, or optimum entered
+  the Skill.
+- Completed non-blind RC4 regressions for the 2022/2021/2020 C batch, the full 2023 C main chain with
+  STALE propagation, and the 2020 A auxiliary executor with a sealed exit-23 Run and success-only
+  selection. The A case receives no C-target evidence credit.
+- Re-ran two synthetic E2E cases and all 30 original fail-closed negatives. The release gate passed
+  with `1865 passed, 1 skipped`, zero universal batch hard failures, one formal Skill, no answer
+  leakage, no secrets, and no third-party execution.
+- Froze Skill tree `d041ca38de030ae04813ef02dbe12f7f2b7a1c22` for the separate answer-sealed,
+  one-shot 2024 C Validation. These Development regressions are not a Validation result or broad
+  generalization proof.
+- Executed the preregistered 2024 C one-shot without Skill mutation: four of four actual Runs
+  succeeded, six of six main requirements produced feasible outputs, test access occurred once
+  after selection, and three quantitative robustness perturbations were bound to the selected Run.
+- Preserved the terminal Claim Gate rejection. RC4 requires the top-level Claim scope to equal both
+  the global Final scope and the first requirement-specific claim; the two frozen strings differ,
+  so `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID` blocks Claim acceptance and handoff. The formal
+  result is `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, not a Validation pass.
+- Froze the answer-sealed terminal outcome at commit
+  `197f62bc75ebe832e9dd3ced0306740f336b80d6`; no later 2024 C Validation Run is permitted. RC4 is
+  unchanged, 2025 C remains reserved and unaccessed, and the next route is
+  `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` using a different C case.
+
 ## 0.3.0-competition-rc3 — 2026-09-04
 
 - Advanced the sole formal Skill to `0.2.0-competition-rc3` from the remotely frozen, answer-sealed
@@ -157,6 +187,11 @@
 ### Changed
 
 - Added persistent, machine-readable Git remote-delivery policy, tracked-path redaction, and remote SHA verification requirements.
+- Adopted `DECISION-C-TARGET-TRAINING-POLICY-004C`: C is the primary target; A is auxiliary
+  transfer only; B is excluded by default; Validation, Held-out, and final simulation must use C.
+- Replaced the cancelled, unregistered 2024 A Validation route with a frozen-RC3 three-C batch,
+  all-cases-before-unlock, one unified evidence-based revision, unified regression, and one-shot C
+  Validation. The cancelled route produced no unique commit or tracked execution evidence.
 
 ## 0.1.0-foundation — 2026-08-31
 

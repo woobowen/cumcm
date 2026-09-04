@@ -1,0 +1,268 @@
+{
+  "answer_state": "SEALED",
+  "artifact_type": "c_target_validation_terminal_freeze",
+  "case_id": "CUMCM-2024-C-VALIDATION-001",
+  "case_workspace": {
+    "case_state": "REJECTED",
+    "case_state_sha256": "f3644552aa1c8bdd23236a74d5d1dd3037f21f95395fb87ab4f9ec7f41c64232",
+    "initial_run_count": 0,
+    "path": ".cache/official_inputs/CUMCM-2024-C/validation_001",
+    "raw_inputs_git_ignored": true,
+    "run_count": 4,
+    "run_ids": [
+      "RUN-BASELINE_RULE_ROTATION-104729",
+      "RUN-BASELINE_RULE_ROTATION-130363",
+      "RUN-PRIMARY_RISK_GREEDY-104729",
+      "RUN-PRIMARY_RISK_GREEDY-130363"
+    ]
+  },
+  "contamination_status": "NO_KNOWN_SOLUTION_OR_REFERENCE_EXPOSURE",
+  "decision": {
+    "decision_id": "DECISION-C-TARGET-VALIDATION-004C",
+    "next_phase_allowed": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+    "status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+  },
+  "failure": {
+    "classification": "FROZEN_GENERIC_CLAIM_GATE_CONTRADICTION",
+    "first_requirement_claim_text": "Q1 waste plan is feasible and its objective is recomputed from registered inputs.",
+    "formal_gate": "GATE_CLAIM_EVIDENCE",
+    "formal_reason_codes": [
+      "RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"
+    ],
+    "formal_state_after": "REJECTED",
+    "global_final_claim_scope": "Feasible 2024-2030 whole-plot planting strategies under registered input interpretations and simulation assumptions; no causal claim or out-of-sample guarantee.",
+    "handoff_status": "NOT_REACHED_BECAUSE_CLAIM_GATE_BLOCKED",
+    "mutually_exclusive_equalities": true,
+    "passing_claim_artifact_exists": false
+  },
+  "formal_skill": {
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "capability": "COMPETITION_RC",
+    "git_tree_sha1_after_validation": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "git_tree_sha1_before_validation": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "mutation_result": "UNCHANGED",
+    "name": "cumcm-modeling-evidence",
+    "release_commit": "46e13d31a3d22fe12a2cffe65a52558da3ecfa82",
+    "runner_sha256": "2a38546e2bf97250e82f2d02d8dc62890a9f89a790a849dfaace81c42d6309b3",
+    "version": "0.2.0-competition-rc4"
+  },
+  "freeze_id": "CUMCM-2024-C-VALIDATION-001-TERMINAL-FREEZE-001",
+  "freeze_payload_sha256": "d53c4280f09b369c4ab09a66c6bbba454c8b739e710f21f7481a375454523033",
+  "freeze_time": "2026-09-05T03:45:48+08:00",
+  "hard_failure_audit": {
+    "not_observed": [
+      "MAIN_QUESTION_MISSED",
+      "UNEXECUTED_CODE_CLAIMED_AS_RESULT",
+      "INFEASIBLE_SOLUTION_ACCEPTED",
+      "NONCONVERGED_RUN_ACCEPTED",
+      "RAW_INPUT_OVERWRITTEN",
+      "RESULT_NOT_BOUND_TO_CODE_AND_INPUT",
+      "CLAIM_WITHOUT_EVIDENCE",
+      "REFERENCE_ANSWER_EXPOSED_PRE_FREEZE",
+      "UNCAPTURED_NUMBER_MANUALLY_INSERTED",
+      "FORMAL_SKILL_MUTATED_DURING_VALIDATION",
+      "TERMINAL_FREEZE_FOLLOWED_BY_NEW_VALIDATION_RUN",
+      "OUTPUT_TEMPLATE_STRUCTURALLY_CORRUPTED"
+    ],
+    "observed": [],
+    "observed_count": 0
+  },
+  "input_hashes": {
+    "raw/case_files/C题.pdf": "c7b5e58bff4189b8afba5505f7bff7d4f08280fc291c51ef3f46134ebbf74f9a",
+    "raw/case_files/附件1.xlsx": "b799a137294a5c5497fed9667c5dfed6c967f1fb180316c5adc8509cfa6f0932",
+    "raw/case_files/附件2.xlsx": "869081a3ab47d3bf8d0955106b622aaf0fd2c068fada7948da69b20ebf1d00ce",
+    "raw/case_files/附件3/result1_1.xlsx": "4f2484c0d70a5c4d047163f2ee6ef486949e813330466f46def4bd7d98af06af",
+    "raw/case_files/附件3/result1_2.xlsx": "6166d43f5a64bf9d1657e80d4aee7f10f54bb1a5695b81a28a0ac5e657297649",
+    "raw/case_files/附件3/result2.xlsx": "6a1ba9fc28d14d0a4a795e5f0b7261fb6e32165517afee62bcd1931aba5bee8a"
+  },
+  "model_code": {
+    "case_local_sha256": "4602b194d44a9888e0ddef031bb29066c1fec35ce14678ca03a0a9aac59f9b6b",
+    "commit": "f12aa707cdf756c657dde0d69556b9f575b748ed",
+    "path": "evals/validation_code/phase-004c/CUMCM-2024-C-VALIDATION-001/validation_pipeline.py",
+    "sha256": "4602b194d44a9888e0ddef031bb29066c1fec35ce14678ca03a0a9aac59f9b6b",
+    "tree_sha1": "6060d053685070962b80435b373d717391029e71"
+  },
+  "models_and_selection": {
+    "aggregation_rule": "MEAN_ACROSS_FROZEN_SEEDS",
+    "baseline_aggregate": 110079957.9191615,
+    "baseline_id": "BASELINE_RULE_ROTATION",
+    "candidate_ids": [
+      "BASELINE_RULE_ROTATION",
+      "PRIMARY_RISK_GREEDY"
+    ],
+    "metric": "validation_risk_adjusted_profit_yuan",
+    "metric_direction": "maximize",
+    "primary_aggregate": 169264118.00319,
+    "random_seeds": [
+      104729,
+      130363
+    ],
+    "selected_candidate_id": "PRIMARY_RISK_GREEDY",
+    "selected_run_id": "RUN-PRIMARY_RISK_GREEDY-104729",
+    "selection_decision_hash": "5a464ea240a2f8b6a08dbf4e2fefc2e0a676d543c3393240732caf750162b79c",
+    "test_access_count": 1,
+    "test_used_for_selection": false
+  },
+  "pass_requirement_results": {
+    "ALL_MAIN_PROBLEMS_HAVE_VALID_OUTPUTS": "PASS_6_OF_6",
+    "ANSWER_SEALED_AT_FREEZE_AND_TERMINAL": "PASS",
+    "BASELINE_AND_PRIMARY_ACTUALLY_RUN": "PASS",
+    "CLAIM_EVIDENCE_COMPLETE": "FAIL_FROZEN_GATE_CONTRADICTION",
+    "FINAL_RUN_FEASIBLE": "PASS_ZERO_RECOMPUTED_VIOLATIONS",
+    "FORMAL_SKILL_UNCHANGED": "PASS",
+    "HANDOFF_COMPLETE": "FAIL_NOT_REACHED",
+    "NO_HARD_FAILURE": "PASS",
+    "OPTIMIZATION_CONSTRAINTS_INDEPENDENTLY_RECOMPUTED": "PASS",
+    "TERMINAL_FREEZE_REPLAYABLE": "PASS_BY_TERMINAL_CHECKER",
+    "TIME_BOUND_RESPECTED": "PASS_3219_OF_14400_SECONDS",
+    "UNCERTAINTY_OR_SCENARIO_ANALYSIS_COMPLETE": "PASS"
+  },
+  "requirement_result": {
+    "requirement_ids": [
+      "REQ-2024C-Q1-WASTE",
+      "REQ-2024C-Q1-DISCOUNT",
+      "REQ-2024C-Q2-UNCERTAINTY",
+      "REQ-2024C-Q3-DEPENDENCE",
+      "REQ-2024C-CONSTRAINTS",
+      "REQ-2024C-MANAGEMENT"
+    ],
+    "requirements_failed": 0,
+    "requirements_passed": 6,
+    "requirements_total": 6,
+    "selected_plan_feasibility_records": 4,
+    "selected_plan_total_violation_count": 0,
+    "template_artifacts_structure_preserved": 3
+  },
+  "result_summary": {
+    "q1_discount_profit_yuan": 54436325.625,
+    "q1_waste_profit_yuan": 37599028.25,
+    "q2_risk_adjusted_profit_yuan": 38654170.051186,
+    "q3_minus_q2_plan_under_dependence_yuan": -80154.715582,
+    "q3_risk_adjusted_profit_yuan": 38549231.473884,
+    "robustness_perturbation_count": 3
+  },
+  "run_records": [
+    {
+      "candidate_id": "BASELINE_RULE_ROTATION",
+      "capture_sha256": "4bc4fc3f9726497fab064bcf1886a5cef120a43a89657441bdc1f91fe7518311",
+      "elapsed_seconds": 0.374512,
+      "manifest_sha256": "094cd115a6c4fd2ecf787bfa0ede89db9943496e9a442d751cd79a0fca2dbf23",
+      "outcome": "SUCCESS",
+      "output_sha256": "5b9a3921903aea3647059ab7e71e8ab5c60f5d7f79c3c112c27290f6961cdc47",
+      "result1_1_sha256": "50544b60abc0cb85556c72ad87e661046a3beac69a27a150c0f353ac999aeb82",
+      "result1_2_sha256": "803be522fb34aa448bc155048cc6ba7c850186f976234851810457675a4f7242",
+      "result2_sha256": "12dba0d2f5b82c0da1ff72a2d7acb678b9fa389af1a044ceeb374ee3a5bd64ad",
+      "retry_count": 0,
+      "run_id": "RUN-BASELINE_RULE_ROTATION-104729",
+      "seed": 104729
+    },
+    {
+      "candidate_id": "BASELINE_RULE_ROTATION",
+      "capture_sha256": "0beff8eddc2c6697b3b68453c79d2e9cde1846bcdf8bc4dbe30cbb3d1cead49b",
+      "elapsed_seconds": 0.357827,
+      "manifest_sha256": "2182646bfe38a5d1fbc914fc566e4086f15b6676356bd21343774ecd272714af",
+      "outcome": "SUCCESS",
+      "output_sha256": "dfc2b669b2b8083794148ae156aef30c905dec7f312028e7b690ea6193df74a7",
+      "result1_1_sha256": "50544b60abc0cb85556c72ad87e661046a3beac69a27a150c0f353ac999aeb82",
+      "result1_2_sha256": "803be522fb34aa448bc155048cc6ba7c850186f976234851810457675a4f7242",
+      "result2_sha256": "12dba0d2f5b82c0da1ff72a2d7acb678b9fa389af1a044ceeb374ee3a5bd64ad",
+      "retry_count": 0,
+      "run_id": "RUN-BASELINE_RULE_ROTATION-130363",
+      "seed": 130363
+    },
+    {
+      "candidate_id": "PRIMARY_RISK_GREEDY",
+      "capture_sha256": "3dcfdd5542c5f2bb4e06c8053fa5e5b41619fe31b6dea7bec5e0ae7d137ad858",
+      "elapsed_seconds": 1.754398,
+      "manifest_sha256": "62fd13618221aed102cb640dc5bf5c9253630049ca3963059261685f61d558bc",
+      "outcome": "SUCCESS",
+      "output_sha256": "42bbd2a2bc97c94921c9dafab4ec7eac464a267f1cdbc7d80876a15f33b036b7",
+      "result1_1_sha256": "cd1fded84a20fb3daae3a1272b21b0f21e4d902ccc5d84624895a17861553320",
+      "result1_2_sha256": "a186fe5c3b3584c31e48fa3fa6c4002161fafe1aa8f43ea5121b7069998e5a8e",
+      "result2_sha256": "dada185d2d65dbf312efe1c306374daab6f4181bf97d0d1948f6a30765eeb66a",
+      "retry_count": 0,
+      "run_id": "RUN-PRIMARY_RISK_GREEDY-104729",
+      "seed": 104729
+    },
+    {
+      "candidate_id": "PRIMARY_RISK_GREEDY",
+      "capture_sha256": "4938d04121a7a98cc4d826ac03433265c1d60b8d9ca44a2a11ab57f6e08c2149",
+      "elapsed_seconds": 1.761809,
+      "manifest_sha256": "bbdbd198466a0734b54e26d87b2920b59609ff64aa412a44e2e80232d79ae19c",
+      "outcome": "SUCCESS",
+      "output_sha256": "8b3d7987e2f027ab17afc63bff8999a3af1b3d971064ae050c4b4fdd899c5477",
+      "result1_1_sha256": "cd1fded84a20fb3daae3a1272b21b0f21e4d902ccc5d84624895a17861553320",
+      "result1_2_sha256": "a186fe5c3b3584c31e48fa3fa6c4002161fafe1aa8f43ea5121b7069998e5a8e",
+      "result2_sha256": "00cab3e3de6d0a79135b997fa70503fcd07d057dc42bd6caf736b4ec82d01470",
+      "retry_count": 0,
+      "run_id": "RUN-PRIMARY_RISK_GREEDY-130363",
+      "seed": 130363
+    }
+  ],
+  "schema_version": "1.0.0",
+  "stage_result": {
+    "blocked": [
+      "CLAIM_EVIDENCE_VALIDATION"
+    ],
+    "not_reached": [
+      "MODELING_TO_PAPER_HANDOFF"
+    ],
+    "passed": [
+      "PROBLEM_INTAKE",
+      "REQUIREMENT_DECOMPOSITION",
+      "RESEARCH_AND_SOURCE_PLANNING",
+      "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "DATA_AUDIT",
+      "MODEL_PORTFOLIO_GENERATION",
+      "BASELINE_DEFINITION",
+      "EXPERIMENT_DESIGN",
+      "IMPLEMENTATION_AND_EXECUTION",
+      "MODEL_COMPARISON",
+      "ROBUSTNESS_AND_SENSITIVITY",
+      "FINAL_RUN"
+    ]
+  },
+  "subject_commit": "f12aa707cdf756c657dde0d69556b9f575b748ed",
+  "supporting_artifact_hashes": {
+    "data/data_audit.json": "01f50f7b19745fcb6153f124504083306df3c6114447cb690e6b0f021252e205",
+    "evidence/claim_evidence.json": "8b9ed8afb38c887449e8e26a83c69746e4399900cce67d83abf2323f9bf3a2f3",
+    "evidence/validation_attempts.json": "dfc8f73702a3f22345f797625d25161078b7a9aa296ada409a3a4af7ba7e7332",
+    "evidence/validation_claim_gate_failure.json": "56d68b449e67de398cd54a58f4f0556944d41a75b11dd0977115d8b840467df4",
+    "evidence/validation_requirement_audit.json": "d4a5549b9e9489bb4cec1dd34e3cbe5bbc20f24552ee8871fd25ca5c5f32aa5d",
+    "evidence/validation_timing.json": "999fc7a365c7079b97abf20fa2c54a3de010511d17eeb604f32fac306850b5a1",
+    "experiments/experiment_plan.json": "0f6f7e3807841a701561123ea8529d8512af3864025f1221dc8e86079b318bbd",
+    "experiments/selected_output_contract_probe.json": "358f30413fe2609f96d442c105dadd5a66cfbd268d5ab4a0b389c8187284d931",
+    "handoff/modeling_to_paper.json": "892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f",
+    "models/assumptions_and_symbols.json": "e259aeb22daa4d760163e7eb9a9d600ae82467c44e7295fa619049336b0ad9de",
+    "models/model_candidates.json": "e2396d9d5703b46c4b62be0d9b37094531cda8f4d78fe81e75df39ca071d6b9f",
+    "models/validation_pipeline.py": "4602b194d44a9888e0ddef031bb29066c1fec35ce14678ca03a0a9aac59f9b6b",
+    "problem/problem_requirements.json": "e0f2e42119a0a10c4dee60853712cf719041f7c1ad87b0bd62d5cccb36d6e9c3",
+    "research/research_plan.json": "e21aeca3d7116cf8e44289ccd7f55e141ecc03a4e62734534a24324597932390",
+    "research/source_ledger.json": "d80936d6459b5a629135c92aa7a2e89c93f784cbc7756388977613114456ccc7",
+    "results/final_result.json": "178dd3365c4a49387a946f3cd53f2844db3c22d024362174207c12de6edcf8fe",
+    "results/model_comparison.json": "15c165948d522318a19b9a94d3fe3edbd08ac9c1afe98e6c3438b746ae8eb423",
+    "results/robustness.json": "c656973c4bccfc1c04145637fb8c4206ca2cc9ee8b3be5a620cdf73598c374f7"
+  },
+  "target_problem_type": "C",
+  "terminal_invariants": {
+    "accepted_handoff_created": false,
+    "all_runs_actual": true,
+    "all_template_files_structure_preserved": true,
+    "answer_remains_sealed": true,
+    "formal_skill_mutated": false,
+    "manual_intervention_count_during_run_phase": 0,
+    "new_run_after_terminal_freeze": false,
+    "recovery_count": 0,
+    "result_driven_change_count": 0,
+    "retry_count": 0,
+    "same_case_future_role": "DEVELOPMENT_ONLY"
+  },
+  "timing": {
+    "elapsed_to_terminal_freeze_seconds": 3219,
+    "maximum_wall_seconds": 14400,
+    "registry_start": "2026-09-05T02:52:09+08:00",
+    "time_bound_respected": true,
+    "total_model_subprocess_elapsed_seconds": 4.248546
+  }
+}

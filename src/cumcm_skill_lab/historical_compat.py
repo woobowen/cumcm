@@ -21,6 +21,21 @@ DEVELOPMENT_EVAL_STATUSES = {
     "FIRST_RUN_CONTAMINATION_SUSPECTED",
     "INFRASTRUCTURE_BLOCKED",
 }
+C_TARGET_STATUSES = {
+    "C_TARGET_BATCH_IN_PROGRESS",
+    "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
+    "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
+    "C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE",
+    "C_TARGET_VALIDATION_PASSED",
+    "C_TARGET_VALIDATION_FAILED",
+    "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+    "C_TARGET_VALIDATION_INCOMPLETE",
+    "C_TARGET_BATCH_INCOMPLETE",
+    "OFFICIAL_INPUTS_REQUIRED",
+    "FIRST_RUN_CONTAMINATION_SUSPECTED",
+    "INFRASTRUCTURE_BLOCKED",
+    "VALIDATION_CANDIDATE_DRIFT",
+}
 
 
 def git_file_bytes(root: Path, relative: str, *, commit: str = RC1_START_COMMIT) -> bytes:
@@ -65,7 +80,13 @@ def competition_rc_successor(root: Path) -> bool:
             "0.2.0-competition-rc3",
         }
     )
-    return rc1_ready or development_successor
+    c_target_successor = (
+        isinstance(state, dict)
+        and state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
+        and state.get("technical_adjudication_status") in C_TARGET_STATUSES
+        and state.get("active_skill_version") in {"0.2.0-competition-rc3", "0.2.0-competition-rc4"}
+    )
+    return rc1_ready or development_successor or c_target_successor
 
 
 def historical_file_hash_matches(root: Path, relative: str, expected: str) -> bool:

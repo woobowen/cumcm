@@ -2,28 +2,32 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-DEVELOPMENT-EVAL-004`
-- Subphase: `CUMCM-2020-A-DEVELOPMENT-RC3`
+- Phase: `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`
+- Subphase: `C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0004B-2020a-development-eval.md`
-- Branch: `feat/phase004b-development-eval-2020a`
-- Skill version: `0.2.0-competition-rc3`
+- Active plan: `plans/active/PLAN-0004C-C-target-batch-generalization.md`
+- Branch: `feat/phase004c-c-target-batch-generalization`
+- Skill version: `0.2.0-competition-rc4`
+- Primary target problem type: `C`
+- Current batch: `C-TARGET-BATCH-001`
+- Batch Skill frozen: `true`
+- Batch references unlocked: `true`
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `DEVELOPMENT_EVAL_RC3_READY`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
+- Technical adjudication: `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-C-TARGET-VALIDATION-004C, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `PHASE-SKILL-VALIDATION-EVAL-004-C`
-- Content-verified commit: `b4f35cafa4816d255e832ec86b8ff5a65aa2484b`
-- Delivery receipt commit: `b4f35cafa4816d255e832ec86b8ff5a65aa2484b`
+- Next phase allowed: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`
+- Content-verified commit: `3e24835c354b1e316783fa9bf50e8f1679bb1003`
+- Delivery receipt commit: `3e24835c354b1e316783fa9bf50e8f1679bb1003`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-04T20:28:39+08:00` by `main-agent`
+- Updated: `2026-09-05T04:33:42+08:00` by `main-agent`
 
 ## Blockers
 
-- None
+- RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID
 
 ## Risks
 
@@ -52,3 +56,5 @@
 - Trusted execution-code capture is fixed to the bundled deterministic runner; caller-supplied custom executors are outside RC1 assurance.
 - This Development case cannot establish Validation, Held-out, or single-problem generalization evidence; model prior exposure is unverifiable.
 - The current runtime exposes no exact reasoning-effort identifier, so the first-run binding records reasoning as UNKNOWN.
+- The frozen RC4 Claim Gate requires one top-level claim scope to equal both the global Final scope and the first requirement-specific claim text; the 2024 C one-shot Validation therefore terminated at Claim evidence with no accepted handoff.
+- The 2024 C selected method is a deterministic feasible whole-plot heuristic, not a proof of global mixed-integer optimality; Question 3 dependence values are registered simulation assumptions rather than estimated causal parameters.

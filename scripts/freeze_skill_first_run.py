@@ -38,6 +38,33 @@ OPTIONAL_FIRST_RUN_EVIDENCE = (
     "research/research_plan.json",
     "state/development_eval_binding.json",
     "state/first_run_start_freeze.json",
+    "results/model_comparison.json",
+    "results/robustness.json",
+    "results/final_result.json",
+    "evidence/claim_evidence.json",
+    "handoff/modeling_to_paper.json",
+    "evidence/first_run_metrics.json",
+    "evidence/first_run_stage_status.json",
+    "evidence/first_run_timing.json",
+    "evidence/first_run_failures.json",
+)
+BATCH_SUCCESS_EVIDENCE = (
+    "data/data_audit.json",
+    "models/assumptions_and_symbols.json",
+    "models/model_candidates.json",
+    "problem/problem_requirements.json",
+    "research/pre_freeze_search_log.jsonl",
+    "research/source_ledger.json",
+    "experiments/experiment_plan.json",
+    "results/model_comparison.json",
+    "results/robustness.json",
+    "results/final_result.json",
+    "evidence/claim_evidence.json",
+    "handoff/modeling_to_paper.json",
+    "evidence/first_run_metrics.json",
+    "evidence/first_run_stage_status.json",
+    "evidence/first_run_timing.json",
+    "evidence/first_run_failures.json",
 )
 
 
@@ -97,17 +124,81 @@ def skill_tree_evidence(commit: str) -> dict[str, str]:
     }
 
 
-def evidence_hashes(case_root: Path, blocked: bool) -> dict[str, str]:
-    required = REQUIRED_BLOCKED_EVIDENCE if blocked else ()
+def evidence_hashes(case_root: Path, blocked: bool, *, batch_case: bool = False) -> dict[str, str]:
+    required = (
+        REQUIRED_BLOCKED_EVIDENCE if blocked else BATCH_SUCCESS_EVIDENCE if batch_case else ()
+    )
     missing = [relative for relative in required if not (case_root / relative).is_file()]
     if missing:
         raise ValueError(f"FIRST_RUN_EVIDENCE_MISSING:{missing[0]}")
-    paths = sorted(set(required) | set(OPTIONAL_FIRST_RUN_EVIDENCE))
+    discovered = {
+        str(path.relative_to(case_root))
+        for pattern in ("results/*.json", "evidence/first_run*.json")
+        for path in case_root.glob(pattern)
+        if path.is_file()
+    }
+    paths = sorted(set(required) | set(OPTIONAL_FIRST_RUN_EVIDENCE) | discovered)
     return {
         relative: file_hash(case_root / relative)
         for relative in paths
         if (case_root / relative).is_file()
     }
+
+
+def canonical_hash(value: Any) -> str:
+    serialized = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
+def load_json_object(path: Path, reason_code: str) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(reason_code)
+    return value
+
+
+def case_code_tree_hash(case_root: Path, experiment_plan: Path) -> str:
+    plan = load_json_object(experiment_plan, "EXPERIMENT_PLAN_INVALID")
+    content = plan.get("content")
+    records = content.get("required_code_files") if isinstance(content, dict) else None
+    case_records = (
+        [item for item in records if isinstance(item, dict) and item.get("scope") == "CASE_ROOT"]
+        if isinstance(records, list)
+        else []
+    )
+    if not case_records:
+        raise ValueError("CASE_CODE_SET_MISSING")
+    normalized: list[dict[str, str]] = []
+    for item in case_records:
+        relative = item.get("path")
+        expected = item.get("sha256")
+        repository_path = item.get("repository_path")
+        if not all(
+            isinstance(value, str) and value for value in (relative, expected, repository_path)
+        ):
+            raise ValueError("CASE_CODE_RECORD_INVALID")
+        path = case_root / str(relative)
+        if not path.is_file() or file_hash(path) != expected:
+            raise ValueError("CASE_CODE_HASH_MISMATCH")
+        normalized.append(
+            {
+                "path": str(relative),
+                "repository_path": str(repository_path),
+                "sha256": str(expected),
+            }
+        )
+    return canonical_hash(sorted(normalized, key=lambda item: item["path"]))
+
+
+def manual_intervention_count(metrics_path: Path) -> int:
+    metrics = load_json_object(metrics_path, "FIRST_RUN_METRICS_INVALID")
+    content = metrics.get("content")
+    value = metrics.get("manual_intervention_count")
+    if value is None and isinstance(content, dict):
+        value = content.get("manual_intervention_count")
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        raise ValueError("MANUAL_INTERVENTION_COUNT_INVALID")
+    return value
 
 
 def write_json(path: Path, value: dict[str, Any]) -> None:
@@ -260,15 +351,48 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     if not GIT_SHA.fullmatch(args.worktree_commit):
         raise ValueError("WORKTREE_COMMIT_INVALID")
     git_output("cat-file", "-e", f"{args.worktree_commit}^{{commit}}")
-    artifact_hashes = evidence_hashes(args.case_root, blocked=bool(args.blocked_reason_code))
+    batch_case = record.get("batch_id") == "C-TARGET-BATCH-001"
+    artifact_hashes = evidence_hashes(
+        args.case_root,
+        blocked=bool(args.blocked_reason_code),
+        batch_case=batch_case,
+    )
+    experiment_plan_path = args.case_root / "experiments/experiment_plan.json"
+    code_tree_hash = (
+        case_code_tree_hash(args.case_root, experiment_plan_path)
+        if experiment_plan_path.is_file()
+        else None
+    )
+    metrics_path = args.case_root / "evidence/first_run_metrics.json"
+    intervention_count = manual_intervention_count(metrics_path) if metrics_path.is_file() else None
+    result_hashes = {
+        path: digest for path, digest in artifact_hashes.items() if path.startswith("results/")
+    }
+    failure_hashes = {
+        path: digest
+        for path, digest in artifact_hashes.items()
+        if path in {"evidence/first_run_failure.json", "evidence/first_run_failures.json"}
+    }
+    for path in manifests:
+        manifest = load_json_object(path, "RUN_MANIFEST_INVALID")
+        if manifest.get("status") != "SUCCESS":
+            relative = str(path.relative_to(args.case_root))
+            failure_hashes[relative] = manifest_hashes[relative]
     freeze_id = f"{args.case_id}-FIRST-RUN-FREEZE-001"
+    skill_tree = skill_tree_evidence(str(record["skill_commit"]))
     freeze_artifact = {
         "schema_version": "1.0.0",
         "artifact_type": "development_first_run_freeze",
         "freeze_id": freeze_id,
         "case_id": args.case_id,
+        "batch_id": record.get("batch_id"),
+        "batch_position": record.get("batch_position"),
+        "batch_skill_version": record["skill_version"] if batch_case else None,
         "set_type": record["set_type"],
+        "problem_type": record.get("target_problem_type"),
+        "answer_state_at_freeze": "SEALED",
         "answer_access_status": "SEALED",
+        "model_prior_status": record.get("model_prior_status"),
         "first_run_status": "FROZEN",
         "start_time": record["start_time"],
         "freeze_time": freeze_time,
@@ -277,17 +401,35 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         "reasoning": record["reasoning"],
         "problem_hash": record["problem_hash"],
         "data_hashes": record["data_hashes"],
+        "formal_skill_version": record.get("formal_skill_version", record["skill_version"]),
+        "formal_skill_commit": record.get("formal_skill_commit", record["skill_commit"]),
+        "formal_skill_tree": skill_tree["git_tree_sha1"],
         "skill": {
             "version": record["skill_version"],
             "commit": record["skill_commit"],
-            **skill_tree_evidence(str(record["skill_commit"])),
+            **skill_tree,
         },
         "worktree_commit": args.worktree_commit,
         "case_state": state["state"],
         "case_state_sha256": file_hash(state_path),
+        "search_log_hash": artifact_hashes.get("research/pre_freeze_search_log.jsonl"),
+        "source_ledger_hash": artifact_hashes.get("research/source_ledger.json"),
+        "requirement_trace_hash": artifact_hashes.get("problem/problem_requirements.json"),
+        "data_audit_hash": artifact_hashes.get("data/data_audit.json"),
+        "model_portfolio_hash": artifact_hashes.get("models/model_candidates.json"),
+        "experiment_plan_hash": artifact_hashes.get("experiments/experiment_plan.json"),
+        "case_code_tree_hash": code_tree_hash,
         "run_manifest_hashes": manifest_hashes,
+        "failure_hashes": failure_hashes,
+        "result_hashes": result_hashes,
+        "robustness_hash": artifact_hashes.get("results/robustness.json"),
+        "claim_evidence_hash": artifact_hashes.get("evidence/claim_evidence.json"),
+        "handoff_hash": artifact_hashes.get("handoff/modeling_to_paper.json"),
+        "timing_hash": artifact_hashes.get("evidence/first_run_timing.json"),
+        "manual_intervention_count": intervention_count,
         "first_run_artifact_hashes": artifact_hashes,
     }
+    freeze_artifact["freeze_hash"] = canonical_hash(freeze_artifact)
     serialized = json.dumps(freeze_artifact, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     freeze_sha256 = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
     evidence = {

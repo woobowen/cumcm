@@ -11,6 +11,15 @@ def render_status_text(state: dict) -> str:
     receipt = state.get("delivery_receipt_for_commit")
     receipt_commit = receipt["commit"] if receipt else "UNVERIFIED"
     accepted_components = ", ".join(state.get("accepted_component_specifications", [])) or "None"
+    target_lines = ""
+    if "primary_target_problem_type" in state:
+        target_lines = (
+            f"- Primary target problem type: `{state['primary_target_problem_type']}`\n"
+            f"- Current batch: `{state.get('current_batch_id') or 'None'}`\n"
+            f"- Batch Skill frozen: `{str(state.get('batch_skill_frozen', False)).lower()}`\n"
+            "- Batch references unlocked: "
+            f"`{str(state.get('batch_reference_unlocked', False)).lower()}`\n"
+        )
     return f"""<!-- GENERATED FILE — DO NOT EDIT -->
 # Current project state
 
@@ -21,7 +30,7 @@ def render_status_text(state: dict) -> str:
 - Active plan: `{state["current_plan"]}`
 - Branch: `{state["current_branch"]}`
 - Skill version: `{state["active_skill_version"]}`
-- Skill capability: `{state.get("skill_capability_status", "UNKNOWN")}`
+{target_lines}- Skill capability: `{state.get("skill_capability_status", "UNKNOWN")}`
 - Base selected: `{str(state.get("base_selected", False)).lower()}`
 - Third-party integrated: `{str(state.get("third_party_integrated", False)).lower()}`
 - Technical adjudication: `{state.get("technical_adjudication_status", "UNVERIFIED")}`

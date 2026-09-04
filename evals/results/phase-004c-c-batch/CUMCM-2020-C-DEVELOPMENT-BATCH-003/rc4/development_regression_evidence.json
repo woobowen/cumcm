@@ -1,0 +1,138 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "api_calls": 0,
+  "artifact_type": "c_target_rc4_development_regression_evidence",
+  "attempt_number": 2,
+  "baseline_success": true,
+  "case_id": "CUMCM-2020-C-DEVELOPMENT-RC4-REGRESSION",
+  "claim_gate": "PASS",
+  "elapsed_seconds": 100.415984,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "final_output_sha256": "a43567c2ff484175bd29dd98866b8ea9d9809baf2b3eb3a9a7068bf5789299e2",
+  "final_run_id": "RUN-RC4-RANDOM_FOREST_SCENARIO_ALLOCATOR-S20200905",
+  "first_run_freeze": {
+    "path": "evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/first_run/first_run_freeze.v2.json",
+    "sha256": "a5016b6336001bf840247aa6135b4beba15d3a695da498ac1e9149afe332ccfb"
+  },
+  "handoff_gate": "PASS",
+  "model_training": false,
+  "output_contract_preflight": {
+    "path": "experiments/selected_output_contract_probe.json",
+    "reason_codes": [
+      "RC_OUTPUT_CONTRACT_VALID"
+    ],
+    "status": "PASS"
+  },
+  "preserved_prior_attempts": [
+    {
+      "attempt": 1,
+      "capture_count": 3,
+      "failure_scope": "REGRESSION_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
+      "preserved": true,
+      "run_count": 0,
+      "terminal_observed_state": "RUNNING",
+      "workspace_relative": ".cache/official_inputs/CUMCM-2020-C-DEVELOPMENT-RC4-REGRESSION-ATTEMPT-001"
+    }
+  ],
+  "requirements_total": 6,
+  "requirements_with_output_claims": 6,
+  "robustness_perturbation_count": 3,
+  "runs": [
+    {
+      "candidate_id": "BASELINE_ROBUST_SCORE_ALLOCATOR",
+      "capture_sha256": "135c7a8aa334a36f209e9db5407cd79a0b2c3a243f96dc1230681b32fe514bd6",
+      "outcome": "SUCCESS",
+      "random_seed": 20200905,
+      "run_id": "RUN-RC4-BASELINE_ROBUST_SCORE_ALLOCATOR-S20200905"
+    },
+    {
+      "candidate_id": "RIDGE_LOGIT_EXPECTED_VALUE_ALLOCATOR",
+      "capture_sha256": "ba88e393bd6626741d91c446baa3fca50264b9f3350b7f2ff14aee83bdd57e2e",
+      "outcome": "SUCCESS",
+      "random_seed": 20200905,
+      "run_id": "RUN-RC4-RIDGE_LOGIT_EXPECTED_VALUE_ALLOCATOR-S20200905"
+    },
+    {
+      "candidate_id": "RANDOM_FOREST_SCENARIO_ALLOCATOR",
+      "capture_sha256": "996d608eb7df4529858cc47e0d7d47d0371f97c174bffbcbc25c9594ff4e7b59",
+      "outcome": "SUCCESS",
+      "random_seed": 20200905,
+      "run_id": "RUN-RC4-RANDOM_FOREST_SCENARIO_ALLOCATOR-S20200905"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selected_candidate_id": "RANDOM_FOREST_SCENARIO_ALLOCATOR",
+  "selected_validation_score": 0.1076873293,
+  "selection_decision_hash": "563b333a57b2a3c233a11f3ede0879621a7ac4b9e2f41bcd5414452ac11502c0",
+  "skill": {
+    "candidate_implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "execution_code_commit": "4a438f13400ee27399916085836e2caccde8f5a0",
+    "git_tree_sha1": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "version": "0.2.0-competition-rc4"
+  },
+  "source_first_run_case_id": "CUMCM-2020-C-DEVELOPMENT-BATCH-003",
+  "stage_status": [
+    {
+      "stage": "PROBLEM_INTAKE",
+      "status": "PASS"
+    },
+    {
+      "stage": "REQUIREMENT_DECOMPOSITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "RESEARCH_AND_SOURCE_PLANNING",
+      "status": "PASS"
+    },
+    {
+      "stage": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "DATA_AUDIT",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODEL_PORTFOLIO_GENERATION",
+      "status": "PASS"
+    },
+    {
+      "stage": "BASELINE_DEFINITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "EXPERIMENT_DESIGN",
+      "status": "PASS"
+    },
+    {
+      "stage": "IMPLEMENTATION_AND_EXECUTION",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODEL_COMPARISON",
+      "status": "PASS"
+    },
+    {
+      "stage": "ROBUSTNESS_AND_SENSITIVITY",
+      "status": "PASS"
+    },
+    {
+      "stage": "FINAL_RUN",
+      "status": "PASS"
+    },
+    {
+      "stage": "CLAIM_EVIDENCE_VALIDATION",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODELING_TO_PAPER_HANDOFF",
+      "status": "PASS"
+    }
+  ],
+  "terminal_state": "READY_FOR_PAPER_HANDOFF",
+  "third_party_executions": 0,
+  "universal_hard_failure": false,
+  "valid_run_count": 3,
+  "workspace_relative": ".cache/official_inputs/CUMCM-2020-C-DEVELOPMENT-RC4-REGRESSION-ATTEMPT-002"
+}

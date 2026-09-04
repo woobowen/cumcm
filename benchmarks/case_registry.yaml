@@ -30,9 +30,46 @@ required_case_fields:
 - unlock_time
 - generalizable_failures
 - problem_specific_findings
+target_case_fields:
+- target_problem_type
+- evidence_role
+- independent_problem
+- batch_id
+- batch_position
+- answer_access_status
+- first_run_freeze
+- reference_unlock
+- formal_skill_version
+- formal_skill_commit
+- contamination_status
+- generalization_axis
+active_skill_release:
+  version: 0.2.0-competition-rc4
+  implementation_commit: 297cad0a29c659b18484d4f3b67d69a942ad415c
+  tree: d041ca38de030ae04813ef02dbe12f7f2b7a1c22
+  release_manifest: evals/results/phase-004c-c-batch/rc4/skill_release.json
+  validation_status: FROZEN_2024C_EVIDENCE_INSUFFICIENT
+planned_cases: []
+held_out_reservations:
+- reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
+  set_type: HELD_OUT
+  target_problem_type: C
+  status: SEALED_NOT_ACCESSED
+  official_annual_page_url_sha256: 83e2b2a88e81213252c4aa8212558a738a95f44d2d03de80e849b154d31a468f
+  archive_accessed: false
+  title_accessed: false
+  problem_accessed: false
+  attachments_accessed: false
+  references_accessed: false
+  answer_accessed: false
 cases:
 - case_id: CUMCM-2023-C-DEVELOPMENT-001
   set_type: DEVELOPMENT
+  target_problem_type: C
+  evidence_role: HISTORICAL_DEVELOPMENT
+  independent_problem: true
+  batch_id: null
+  batch_position: null
   official_title: 2023 年全国大学生数学建模竞赛 C 题《蔬菜类商品的自动定价与补货决策》
   problem_source: raw/case_files/C题.pdf
   problem_source_domain: mcm.edu.cn
@@ -45,7 +82,16 @@ cases:
     raw/case_files/附件3.xlsx: 3a383a51148c8d94afdd1a4a395a88d14dc06a507f4120185066fae92d1405e9
     raw/case_files/附件4.xlsx: d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c
   answer_access_status: UNLOCKED_AFTER_FIRST_RUN
+  reference_unlock: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  formal_skill_version: 0.2.0-competition-rc1
+  formal_skill_commit: a93a96d79890f6774552dc5ff333f833099edf83
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  generalization_axis:
+  - MULTI_TABLE_TIME_SERIES
+  - DEMAND_FORECASTING
+  - PRICING_AND_REPLENISHMENT_DECISION
+  - UNCERTAINTY_PROPAGATION
   first_run_status: FROZEN
   first_run_freeze:
     freeze_id: CUMCM-2023-C-DEVELOPMENT-001-FIRST-RUN-FREEZE-001
@@ -155,6 +201,11 @@ cases:
     verified_remote_sha: 8e7b7ced55789232bb5d6f8ec64e1ac4926778f8
 - case_id: CUMCM-2020-A-DEVELOPMENT-002
   set_type: DEVELOPMENT
+  target_problem_type: A
+  evidence_role: AUXILIARY_TRANSFER_ONLY
+  independent_problem: true
+  batch_id: null
+  batch_position: null
   official_title: 2020 年全国大学生数学建模竞赛 A 题《炉温曲线》
   problem_source: problem/case_files/2020A-炉温曲线.docx
   problem_source_domain: mcm.edu.cn
@@ -167,8 +218,15 @@ cases:
     data/raw/case_files/附件.xlsx: fc42c478d1b37796de5157125d9ea9e33c75d29ba7d7af9885b340fd41ab1e7c
     data/raw/case_files/result.csv: 2b995aa4a1f3e24ff0e88755ab56091bb68b8bebbaa473c884ab01963e521137
   answer_access_status: UNLOCKED_AFTER_FIRST_RUN
+  reference_unlock: UNLOCKED_AFTER_FIRST_RUN
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
-  generalization_axis: MECHANISTIC_MODELING_NUMERICAL_SOLVER_CONSTRAINED_OPTIMIZATION
+  formal_skill_version: 0.2.0-competition-rc2
+  formal_skill_commit: 1d842a45403370916ce2c36297876e9cd1ddde1f
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  generalization_axis:
+  - MECHANISTIC_MODELING
+  - NUMERICAL_SOLVER
+  - CONSTRAINED_OPTIMIZATION
   first_run_status: FROZEN
   skill_version: 0.2.0-competition-rc2
   skill_commit: 1d842a45403370916ce2c36297876e9cd1ddde1f
@@ -270,3 +328,487 @@ cases:
       path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/stress/stress_c_evidence.json
       sha256: b9f9d69c619fd537afab52922e8845b69d15c8680585fd52fd089901e6a5483d
       status: PASS
+- case_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001
+  set_type: DEVELOPMENT
+  registration_status: INPUT_REGISTERED
+  target_problem_type: C
+  evidence_role: DEVELOPMENT_BATCH
+  independent_problem: true
+  batch_id: C-TARGET-BATCH-001
+  batch_position: 1
+  answer_access_status: UNLOCKED_AFTER_FIRST_RUN
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  first_run_freeze:
+    freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.v2.json
+    sha256: 5de34dec79b8b8aa0273b16d6ce0f1d4115178cd9e8410cc241adcaa79c61a87
+    subject_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
+  reference_unlock: UNLOCKED_AFTER_ALL_FIRST_RUN_FREEZES
+  formal_skill_version: 0.2.0-competition-rc3
+  formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  strict_first_run_eligibility: ELIGIBLE_MODEL_PRIOR_UNVERIFIABLE
+  official_page_url_sha256: 4dcd31da4dfd2a3fb4c7e5ff93a77ee7901fef54f9eaa4dfdacc1bef92c16ad5
+  official_archive_url_sha256: d57c5c806d6c60a450a360d4c3278d8044dd09fa5b384e92ed27948c1e19d8c4
+  official_archive_filename: 5eWlbmTt28f88a0815a79d555da8b7072f971633.rar
+  generalization_axis:
+  - COMPOSITIONAL_DATA
+  - STATISTICAL_INFERENCE
+  - CLASSIFICATION
+  - CLUSTERING
+  - MISSING_AND_ANOMALOUS_DATA
+  - FEATURE_STABILITY
+  official_title: 古代玻璃制品的成分分析与鉴别
+  official_package_sha256: c27eb1b665f070341e134f5dc13bb2af469230424ff2eedabf594eee708bfee4
+  official_archive_mime_type: application/x-rar
+  official_archive_size_bytes: 10856296
+  official_archive_retrieved_at: '2026-09-04T22:51:02+08:00'
+  extracted_c_files:
+  - mime_type: application/pdf
+    path: raw/case_files/C题.pdf
+    role: PROBLEM
+    sha256: 573ee0f2865af13f8b2fbd12dab7f8efa68cf61ec6b8edf132a2120424480dbd
+    size_bytes: 708530
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件.xlsx
+    role: DATA
+    sha256: ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c
+    size_bytes: 94507
+  input_registration:
+    path: evals/results/phase-004c-c-batch/input_registration.json
+    sha256: ddde33d63548bc39c3594aec76840683a47d3bb07a9810c9b4240bd75dda9f2f
+  problem_source: raw/case_files/C题.pdf
+  problem_hash: 573ee0f2865af13f8b2fbd12dab7f8efa68cf61ec6b8edf132a2120424480dbd
+  data_hashes:
+    raw/case_files/附件.xlsx: ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c
+  first_run_status: FROZEN
+  skill_version: 0.2.0-competition-rc3
+  skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  model: gpt-5
+  reasoning: UNKNOWN
+  start_time: '2026-09-04T22:59:00+08:00'
+  freeze_time: '2026-09-04T23:55:00+08:00'
+  unlock_time: '2026-09-05T00:59:00+08:00'
+  generalizable_failures: []
+  problem_specific_findings: []
+  no_solution_exposure_result: PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED
+  first_run_evidence:
+    skill_version: 0.2.0-competition-rc3
+    skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+    case_state: REJECTED
+    case_state_sha256: ac9cdab1f1fb59795037866d7f97d71a985dd3e1712346954d403a1bfab24512
+    run_manifest_hashes:
+      runs/RUN-2022C-BASELINE-S20220904/manifest.json: 9365fb329de7b516eb8e82b7f4e187b93b3d88380a44bc1ec0a62223b454bb93
+      runs/RUN-2022C-BASELINE-S20220917/manifest.json: a063ea4642f114e656ecc7e65fe2d005f1a87a3b145a65133197024dad5c976a
+      runs/RUN-2022C-BASELINE-S20220929/manifest.json: f1aefc099bfd6a1c53bdd28f8a77602b84f8c0b05bdb7c040ff67916fa197815
+      runs/RUN-2022C-CLR-S20220904/manifest.json: 5acc7fbc2a18510fb64bf8a533882053c324910a7abdaaa01ba285e7651809ee
+      runs/RUN-2022C-CLR-S20220917/manifest.json: 34ee204eb8a654884d32b8cdb369c9fefbf4876e7b04b2c5576ccbc8a4d1c5b6
+      runs/RUN-2022C-CLR-S20220929/manifest.json: 98471adea6988c2de579e6fd478959642d9dc77f699543ce44a6bbdf84e1983b
+      runs/RUN-2022C-HELLINGER-S20220904/manifest.json: 45f1959822d36a659ee115e60ca2c78da32d3ab46d5fb6d59af59783f0cd97ce
+      runs/RUN-2022C-HELLINGER-S20220917/manifest.json: 4d35c97305e02e811f1dc17562d69d651f082f62571cc4aeec19922485279ff0
+      runs/RUN-2022C-HELLINGER-S20220929/manifest.json: c0364be868d5d82d48703c5590520a573870c863fdc800ac5167efe0e54ac906
+    blocked_reason_code: RC_UNIVERSAL_NONCOMPENSABLE_OUTPUT_CONTRACT_FAILURE
+    first_run_artifact_hashes:
+      data/data_audit.json: 24ae9d20ce517bbf39a63dce0100344057eae34dd2a222d9bc600755f32ab68a
+      evidence/claim_evidence.json: 8eeb48141662b354d0038e27b70157f2ec6225a57534f8eed8848fbc6037e4ed
+      evidence/first_run_failure.json: 573428c3227b86aa5912bbf01e059109263aeee07cb067a0625abd2651faf557
+      evidence/first_run_failures.json: 1334d1c90b55f6398e0f77c7eba5371861d4356ccc2f929f7dd8754a93e8d1f5
+      evidence/first_run_metrics.json: 23a25309961db1153be6ffa35c931ab0f835c130994e04e655e23356a4580fff
+      evidence/first_run_stage_status.json: 990f710a4a5e90ba7042cb3241221b8163288cae599a687ab7452818ead7d97c
+      evidence/first_run_timing.json: 0c5192903d0756182d3ee0f2f30d21d7f7a34a5b295d6334eaf512340ae2b205
+      experiments/experiment_plan.json: b1e0d77034edb1d799ece7148e924c2e173a2bb3bbfe4704c44243711664564f
+      handoff/modeling_to_paper.json: 892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f
+      models/assumptions_and_symbols.json: b0568aa4c7a5b20c49da9ee5cbf5967e5b3baa71d27354eee51b660822d056fd
+      models/model_candidates.json: 0f3ee7ca41b68fb6c3ca232a9e508e0d046793d6267c48f71b64c036636dbf72
+      problem/problem_requirements.json: 552e2be4656b1f16aaa71c62901cf6ec6308ac5deef49d79dc8ad71bc4a914de
+      research/pre_freeze_search_log.jsonl: 373075599b13eb6de9fa2f82b3ea13991901a638dbeef75ba40cde5f5936067d
+      research/research_plan.json: c825029f31b904b3cf6162f639dbfe67e185497d22e76a67f7f0487e8bd66db5
+      research/source_ledger.json: 93ddd7b90ac6299700287cc30a4898bf1022f2575d3b168f338574b323124b70
+      results/final_result.json: 42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848
+      results/model_comparison.json: 25cf4f2c023f8c6afd71eb5a1398f9d950254adc6779ec100993670db3b2da11
+      results/post_selection_test.json: 89063c560ad1f07ac361a2e409b449839de23fa221a6b7d2f1924c867e5df5d8
+      results/robustness.json: 7a84fd65b8e0463f7b48c88df8a8ec5d8ef14df26c9b3204cec1d1f693e21b99
+      state/development_eval_binding.json: 42c9056277daf3addc54805694f36554f4a5ce076a395ab5fac498f594856748
+    freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    freeze_sha256: 5de34dec79b8b8aa0273b16d6ce0f1d4115178cd9e8410cc241adcaa79c61a87
+    worktree_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
+    supersedes_freeze:
+      freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001
+      path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.json
+      sha256: d9aae11a12ef1cc51d11889fe2d797b6d07f87b495111f4cac4e129ec58f5a1f
+      commit: cbd8dd9c4d840cc6a92bc98689f03eafef9645dc
+  first_run_freeze_history:
+  - freeze_id: CUMCM-2022-C-DEVELOPMENT-BATCH-001-FIRST-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/first_run/first_run_freeze.json
+    sha256: d9aae11a12ef1cc51d11889fe2d797b6d07f87b495111f4cac4e129ec58f5a1f
+    subject_commit: 414624deade0c36e898cd325e18728736578aeb8
+    freeze_commit: cbd8dd9c4d840cc6a92bc98689f03eafef9645dc
+    status: SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED
+  first_run_freeze_correction_count: 1
+  unlock_status: UNLOCKED_AFTER_FIRST_RUN
+  unlock_receipt:
+    path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
+    sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
+    verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0
+- case_id: CUMCM-2024-C-VALIDATION-001
+  set_type: VALIDATION
+  target_problem_type: C
+  evidence_role: STRICT_ONE_SHOT_VALIDATION
+  independent_problem: true
+  batch_id: null
+  batch_position: null
+  official_title: 农作物的种植策略
+  problem_source: raw/case_files/C题.pdf
+  problem_hash: c7b5e58bff4189b8afba5505f7bff7d4f08280fc291c51ef3f46134ebbf74f9a
+  data_hashes:
+    raw/case_files/附件1.xlsx: b799a137294a5c5497fed9667c5dfed6c967f1fb180316c5adc8509cfa6f0932
+    raw/case_files/附件2.xlsx: 869081a3ab47d3bf8d0955106b622aaf0fd2c068fada7948da69b20ebf1d00ce
+    raw/case_files/附件3/result1_1.xlsx: 4f2484c0d70a5c4d047163f2ee6ef486949e813330466f46def4bd7d98af06af
+    raw/case_files/附件3/result1_2.xlsx: 6166d43f5a64bf9d1657e80d4aee7f10f54bb1a5695b81a28a0ac5e657297649
+    raw/case_files/附件3/result2.xlsx: 6a1ba9fc28d14d0a4a795e5f0b7261fb6e32165517afee62bcd1931aba5bee8a
+  answer_access_status: SEALED
+  reference_unlock: LOCKED
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  formal_skill_version: 0.2.0-competition-rc4
+  formal_skill_commit: 46e13d31a3d22fe12a2cffe65a52558da3ecfa82
+  contamination_status: NO_KNOWN_SOLUTION_OR_REFERENCE_EXPOSURE
+  generalization_axis:
+  - MULTI_YEAR_PLANNING
+  - MIXED_INTEGER_OPTIMIZATION
+  - MULTI_SEASON_LAND_CONSTRAINTS
+  - UNCERTAIN_DEMAND
+  - ROBUST_OR_SCENARIO_DECISION
+  - LARGE_RESULT_TABLE
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2024-C-VALIDATION-001-TERMINAL-FREEZE-001
+    path: evals/results/phase-004c-c-validation/terminal_validation_freeze.json
+    sha256: 6e78a9c047b0c2673c17c1e9b055dfa342f681ca5aa86c7b789929aadd138373
+    payload_sha256: d53c4280f09b369c4ab09a66c6bbba454c8b739e710f21f7481a375454523033
+    subject_commit: f12aa707cdf756c657dde0d69556b9f575b748ed
+    freeze_commit: 197f62bc75ebe832e9dd3ced0306740f336b80d6
+    remote: origin
+    remote_sha: 197f62bc75ebe832e9dd3ced0306740f336b80d6
+    status: REMOTE_DELIVERED
+  first_run_evidence:
+    skill_commit: 46e13d31a3d22fe12a2cffe65a52558da3ecfa82
+    terminal_case_state: REJECTED
+    run_count: 4
+    successful_run_count: 4
+    requirement_coverage: 1.0
+    claim_gate_status: BLOCK
+    claim_gate_reason: RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID
+    handoff_complete: false
+    terminal_freeze_path: evals/results/phase-004c-c-validation/terminal_validation_freeze.json
+    terminal_freeze_sha256: 6e78a9c047b0c2673c17c1e9b055dfa342f681ca5aa86c7b789929aadd138373
+  pre_run_freeze:
+    freeze_id: CUMCM-2024-C-VALIDATION-001-PRE-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-validation/pre_run_validation_freeze.json
+    sha256: 6b2573912d0736c84cff0f3bdfa3afffbe6ea4cc5dfd9c418a8624bfb1916b77
+    payload_sha256: d1b5456fbf174b01bc9e9b67f6e2fbf7f9894f6de2a54c9632ab2e0f2ddf4c86
+    subject_commit: 936970391697b1a9362bf59749c96e645812c778
+    freeze_commit: e45d0679d1f129496fedcd8eaf8b0823e4543ce1
+    remote: origin
+    remote_sha: e45d0679d1f129496fedcd8eaf8b0823e4543ce1
+    status: REMOTE_DELIVERED
+  skill_version: 0.2.0-competition-rc4
+  skill_commit: 46e13d31a3d22fe12a2cffe65a52558da3ecfa82
+  model: gpt-5
+  reasoning: UNKNOWN
+  start_time: '2026-09-05T02:52:09+08:00'
+  pre_run_freeze_time: '2026-09-05T02:52:09+08:00'
+  freeze_time: '2026-09-05T03:45:48+08:00'
+  unlock_time: null
+  generalizable_failures:
+  - failure_id: C004C-RC4-CLAIM-SCOPE-CONTRADICTION-001
+    gate: GATE_CLAIM_EVIDENCE
+    reason_code: RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID
+    disposition: FROZEN_VALIDATION_FAILURE_REPAIR_IN_NEW_C_CASE_ONLY
+  problem_specific_findings:
+  - WHOLE_PLOT_HEURISTIC_NOT_GLOBALLY_OPTIMAL
+  - Q3_DEPENDENCE_PARAMETERS_ARE_REGISTERED_SIMULATION_ASSUMPTIONS
+  official_page_url_sha256: 6c8e9f42a2f61f8b2ee69ee44a4a4860abf85e33d6fb5fbcde6ec1f1cf7ece93
+  official_archive_url_sha256: 5989711f4f8ea4efc104f3e84904781391adb6f612fc824e4c1c71ddf86b44e0
+  official_package_sha256: 38d9effcede947354f9e9a9c2b4fc68947d83a77c2ff75737e9a662888158726
+  input_registration:
+    path: evals/results/phase-004c-c-validation/input_registration.json
+    sha256: fff7e4f2b0dfb913f0ef586eb467f2d1d3ffe1f6b9a14359486e41fd19178c40
+  validation_decision: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+  validation_decision_record:
+    decision_id: DECISION-C-TARGET-VALIDATION-004C
+    path: evals/results/phase-004c-c-validation/DECISION-C-TARGET-VALIDATION-004C.json
+    sha256: b0f9b813d036ac7db11af0c810cd081b19f9af9430d6f1be25e60ced46fd8ac4
+  same_case_future_role: DEVELOPMENT_ONLY
+- case_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002
+  set_type: DEVELOPMENT
+  registration_status: INPUT_REGISTERED
+  target_problem_type: C
+  evidence_role: DEVELOPMENT_BATCH
+  independent_problem: true
+  batch_id: C-TARGET-BATCH-001
+  batch_position: 2
+  answer_access_status: UNLOCKED_AFTER_FIRST_RUN
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  first_run_freeze:
+    freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.v2.json
+    sha256: a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d
+    subject_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
+  reference_unlock: UNLOCKED_AFTER_ALL_FIRST_RUN_FREEZES
+  formal_skill_version: 0.2.0-competition-rc3
+  formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  strict_first_run_eligibility: ELIGIBLE_MODEL_PRIOR_UNVERIFIABLE
+  official_page_url_sha256: 38910ce2a1897e397d149a031e870149bf8a6ecb29f0da0af40cc86ffb1615be
+  official_archive_url_sha256: b5684a6a0fa6ee33c04fe506bea0210f8414b94d4b765a7cb4dba1fa74f0bea1
+  official_archive_filename: HtbJEt9Nb655e46bebfa2a66ec63f940e2da156b.rar
+  generalization_axis:
+  - MULTI_TABLE_TIME_SERIES
+  - SUPPLIER_EVALUATION
+  - ORDERING_OPTIMIZATION
+  - TRANSPORT_ALLOCATION
+  - ROBUST_FEASIBILITY
+  - MULTI_STAGE_DECISION
+  official_title: 生产企业原材料的订购与运输
+  official_package_sha256: 3391573f546fce4511e9a99c24c386e28203d8fee3d29bb2dccada5921cefe7b
+  official_archive_mime_type: application/x-rar
+  official_archive_size_bytes: 46206197
+  official_archive_retrieved_at: '2026-09-04T22:51:05+08:00'
+  extracted_c_files:
+  - mime_type: application/pdf
+    path: raw/case_files/CUMCM2021-C.pdf
+    role: PROBLEM
+    sha256: 4a592c20adad12d4f0678a783bfb47995bda03b1c7484adf254d96327f534056
+    size_bytes: 217723
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件1 近5年402家供应商的相关数据.xlsx
+    role: DATA
+    sha256: 1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b
+    size_bytes: 673200
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件2 近5年8家转运商的相关数据.xlsx
+    role: DATA
+    sha256: 29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685
+    size_bytes: 22122
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件A 订购方案数据结果.xlsx
+    role: DATA
+    sha256: 3119bcd215c20dc660417fb7da226e60e82ee8f17f5d538ca336871a79e467b6
+    size_bytes: 99251
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件B 转运方案数据结果.xlsx
+    role: DATA
+    sha256: 807187bf799da3183c0ec81dad3c496869c19565b8dde44dccadc65c648d7d98
+    size_bytes: 620902
+  input_registration:
+    path: evals/results/phase-004c-c-batch/input_registration.json
+    sha256: ddde33d63548bc39c3594aec76840683a47d3bb07a9810c9b4240bd75dda9f2f
+  problem_source: raw/case_files/CUMCM2021-C.pdf
+  problem_hash: 4a592c20adad12d4f0678a783bfb47995bda03b1c7484adf254d96327f534056
+  data_hashes:
+    raw/case_files/附件1 近5年402家供应商的相关数据.xlsx: 1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b
+    raw/case_files/附件2 近5年8家转运商的相关数据.xlsx: 29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685
+    raw/case_files/附件A 订购方案数据结果.xlsx: 3119bcd215c20dc660417fb7da226e60e82ee8f17f5d538ca336871a79e467b6
+    raw/case_files/附件B 转运方案数据结果.xlsx: 807187bf799da3183c0ec81dad3c496869c19565b8dde44dccadc65c648d7d98
+  first_run_status: FROZEN
+  skill_version: 0.2.0-competition-rc3
+  skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  model: gpt-5
+  reasoning: UNKNOWN
+  start_time: '2026-09-04T22:59:00+08:00'
+  freeze_time: '2026-09-05T00:12:00+08:00'
+  unlock_time: '2026-09-05T00:59:00+08:00'
+  generalizable_failures: []
+  problem_specific_findings: []
+  no_solution_exposure_result: PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED
+  first_run_evidence:
+    skill_version: 0.2.0-competition-rc3
+    skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+    case_state: RUN_VALIDATED
+    case_state_sha256: 386a04a285d865adec91e35c4986633cf69358361c646e72388c169bee423bca
+    run_manifest_hashes:
+      runs/RUN-C2021-BASELINE-104729/manifest.json: cb27ffcacc4ec7f769a64f9e9ebcb292a3c8ff953f4ad1dcbe0f3e2f4a3e44f6
+      runs/RUN-C2021-BASELINE-130363/manifest.json: a443cfce77302fa7968ccf68453a0a48d098076d8b64fb1d6c8769359c0a979e
+      runs/RUN-C2021-ROBUST-104729/manifest.json: 28492ff94afc96e5af5b3b8ebb71d41f4ada8610d66d145c97aa632d48a4cd86
+      runs/RUN-C2021-ROBUST-130363/manifest.json: 7445eeab85f9375029c049d5f34d56a8f13d873647d31e9c5b8829a4592207bc
+      runs/RUN-C2021-SCENARIO-104729/manifest.json: 27e4a5eea25b3f8e4770e2e5742c0778488ef58f97b2f33ba961e4b266b96c46
+      runs/RUN-C2021-SCENARIO-130363/manifest.json: 0f662b198176885e2d38dcab64d59f960d5a3e8afaa3fead03b2d7ae4a97f5fc
+    blocked_reason_code: RC_COMPARISON_BASELINE_SUCCESS_MISSING
+    first_run_artifact_hashes:
+      data/data_audit.json: c28379e86b7f4f243a43915103cb9ab6d05a1b13270069d66bd381b9bdefc440
+      evidence/claim_evidence.json: 8eeb48141662b354d0038e27b70157f2ec6225a57534f8eed8848fbc6037e4ed
+      evidence/first_run_failure.json: 4fe05a2145820dc1754bf882655138975357b2b16fc59ada7aaafa511813c141
+      evidence/first_run_metrics.json: cd821182ca72cfb47e20ff066eee37ef1b4209f94d4303048b4c3fc685e7f527
+      evidence/first_run_stage_status.json: 9c895ba4520738ed83ead9f70c05c0ce93ca6178b3d56afcaa31d84c0340e3d9
+      evidence/first_run_timing.json: 0b199c3ebd4d18fb9191b3aab064e195326ad9f0e4ae91830398213b581fe6b1
+      experiments/experiment_plan.json: f63b4504485cd3d92aa63148b44fe157019d0e1a8532e4d165b1ae99a706e5d9
+      handoff/modeling_to_paper.json: 892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f
+      models/assumptions_and_symbols.json: ffe01eb769367e1f26b682f5fc1981599cb14a5adbdc6e7caec77ff70a663750
+      models/model_candidates.json: d61b045b077b32c38fe61cc3adb16a6c71186b5713c6f8ed05e08b5146acd9ac
+      problem/problem_requirements.json: 8d3f87e9990d36dc8c8120ac8b18481003a6d0794d44fc53cb25579c66bb60cf
+      research/pre_freeze_search_log.jsonl: f124b4890bc9fa9011baad8bd5a9a6b62fc38b935cbe44a136ba5f6b89cab2ba
+      research/research_plan.json: 5bb1d07776589607d24b16fd19515594553cfd59b5faa27485d7eb04c35b09cd
+      research/source_ledger.json: 904dd3f070cd865a44cb1f331271dd56eefff7d90df9f0e9cb9e881b033bffc9
+      results/final_result.json: 42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848
+      results/model_comparison.json: 1d68ffcddadf3965ac279f17815b252fa36e0d1abeab967ac5d735879a726ab3
+      results/robustness.json: 52d93aded9eaa12cba54e97c0c616baf13892cdc885274adf6da98a78f9fd411
+      state/development_eval_binding.json: 25ccea757ee2ef4a2b44b6d335b3ae44fbbec059ffc84b96551226a43b8dff80
+    freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001-METADATA-CORRECTION-002
+    freeze_sha256: a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d
+    worktree_commit: 71910c38adf87818a8a68ce6eac47ffe2fd856fa
+    supersedes_freeze:
+      freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001
+      path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.json
+      sha256: fcb8b6bc97d5f8c6fb935f410cd1f910ca2f34f38891163d622e5ad11c694426
+      commit: 2208dff7ab0ee89f7946f3cfb83d399586cc3338
+  first_run_freeze_history:
+  - freeze_id: CUMCM-2021-C-DEVELOPMENT-BATCH-002-FIRST-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.json
+    sha256: fcb8b6bc97d5f8c6fb935f410cd1f910ca2f34f38891163d622e5ad11c694426
+    subject_commit: cbd4132848841c099e54322ffbca95df944a1cc2
+    freeze_commit: 2208dff7ab0ee89f7946f3cfb83d399586cc3338
+    status: SUPERSEDED_METADATA_ONLY_ORIGINAL_PRESERVED
+  first_run_freeze_correction_count: 1
+  unlock_status: UNLOCKED_AFTER_FIRST_RUN
+  unlock_receipt:
+    path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
+    sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
+    verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0
+- case_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003
+  set_type: DEVELOPMENT
+  registration_status: INPUT_REGISTERED
+  target_problem_type: C
+  evidence_role: DEVELOPMENT_BATCH
+  independent_problem: true
+  batch_id: C-TARGET-BATCH-001
+  batch_position: 3
+  answer_access_status: UNLOCKED_AFTER_FIRST_RUN
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  first_run_freeze:
+    freeze_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003-FIRST-RUN-FREEZE-001-EVIDENCE-CORRECTION-002
+    path: evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/first_run/first_run_freeze.v2.json
+    sha256: a5016b6336001bf840247aa6135b4beba15d3a695da498ac1e9149afe332ccfb
+    subject_commit: 7f0b67f94fb49213d5d05e5d75828e1075e2009a
+  reference_unlock: UNLOCKED_AFTER_ALL_FIRST_RUN_FREEZES
+  formal_skill_version: 0.2.0-competition-rc3
+  formal_skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  contamination_status: COLOCATED_ARCHIVE_PREVIOUSLY_USED_FOR_2020A_NO_C_CONTENT_EXPOSURE_FOUND
+  strict_first_run_eligibility: ELIGIBLE_MODEL_PRIOR_UNVERIFIABLE
+  official_page_url_sha256: ecb01de2d24679d4cb9051f36967c49b18e5cc56fd975520d64bbb2dbeeb6bcd
+  official_archive_url_sha256: fbe7716317b57c1fea89a9230c4c2765579903e573e2bd3b43e80ef046a2242c
+  official_archive_filename: 05k6B8WT92d3955f5c5e95dd086e59163e5f584b.rar
+  generalization_axis:
+  - CREDIT_RISK
+  - ENTERPRISE_SCORING
+  - CLASSIFICATION
+  - DECISION_UNDER_UNCERTAINTY
+  - RISK_RETURN_TRADEOFF
+  - POLICY_SCENARIO_ANALYSIS
+  fallback_case:
+    case_id: CUMCM-2019-C-DEVELOPMENT-BATCH-003F
+    activation_conditions:
+    - OFFICIAL_INPUT_UNAVAILABLE
+    - C_PROBLEM_CONTENT_CONTAMINATION_CONFIRMED
+    activation_deadline: BEFORE_ANY_POSITION_3_CANDIDATE_RESULT
+    official_page_url_sha256: b60f681e2742708a082a998bba80b708cbd6e7a8a6ab253bed11a6827e85a17f
+    official_archive_url_sha256: 7b5480dee2029631a50eb32e05dfc2dd0a60f39895c00c379d2cb724e16d1f2e
+    official_archive_filename: TSIsGxZuf258d48a22a7c7e628cd90482e1c25a2.rar
+  official_title: 中小微企业的信贷决策
+  official_package_sha256: 04ea454f8a1559dac2dc5b7cf599bceb10cd6a0b6f2df55a35ca4450814239dd
+  official_archive_mime_type: application/x-rar
+  official_archive_size_bytes: 196604373
+  official_archive_retrieved_at: '2026-09-04T22:51:22+08:00'
+  extracted_c_files:
+  - mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    path: raw/case_files/2020C-中小微企业的信贷决策.docx
+    role: PROBLEM
+    sha256: d16b3e230eb616ac88ae5d5c172a4434d1814322d158e975c0959c95d49bb67d
+    size_bytes: 23624
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件1：123家有信贷记录企业的相关数据.xlsx
+    role: DATA
+    sha256: 450df5f7184aa43b3b1cddaa4387cceb91d4881a666e667b7c84c480a8b2b600
+    size_bytes: 21273447
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件2：302家无信贷记录企业的相关数据.xlsx
+    role: DATA
+    sha256: 1399075d2b39a05da6d7722af16cb96ed322cf13b96dd780d5d42a7686bc634b
+    size_bytes: 41682618
+  - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    path: raw/case_files/附件3：银行贷款年利率与客户流失率关系的统计数据.xlsx
+    role: DATA
+    sha256: abdbdf684b76d2ea2675233662d5e3db346314716ffd911d1389599410624056
+    size_bytes: 13576
+  input_registration:
+    path: evals/results/phase-004c-c-batch/input_registration.json
+    sha256: ddde33d63548bc39c3594aec76840683a47d3bb07a9810c9b4240bd75dda9f2f
+  problem_source: raw/case_files/2020C-中小微企业的信贷决策.docx
+  problem_hash: d16b3e230eb616ac88ae5d5c172a4434d1814322d158e975c0959c95d49bb67d
+  data_hashes:
+    raw/case_files/附件1：123家有信贷记录企业的相关数据.xlsx: 450df5f7184aa43b3b1cddaa4387cceb91d4881a666e667b7c84c480a8b2b600
+    raw/case_files/附件2：302家无信贷记录企业的相关数据.xlsx: 1399075d2b39a05da6d7722af16cb96ed322cf13b96dd780d5d42a7686bc634b
+    raw/case_files/附件3：银行贷款年利率与客户流失率关系的统计数据.xlsx: abdbdf684b76d2ea2675233662d5e3db346314716ffd911d1389599410624056
+  first_run_status: FROZEN
+  skill_version: 0.2.0-competition-rc3
+  skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+  model: gpt-5
+  reasoning: UNKNOWN
+  start_time: '2026-09-04T22:59:00+08:00'
+  freeze_time: '2026-09-05T00:40:15+08:00'
+  unlock_time: '2026-09-05T00:59:00+08:00'
+  generalizable_failures: []
+  problem_specific_findings: []
+  no_solution_exposure_result: PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED
+  first_run_evidence:
+    skill_version: 0.2.0-competition-rc3
+    skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+    case_state: READY_FOR_PAPER_HANDOFF
+    case_state_sha256: 37b7388e351f3344bfea68634f92b6ccdef7b1dcd281112896ba3e33db765d76
+    run_manifest_hashes:
+      runs/RUN-2020C-BASELINE-S20200905/manifest.json: 7a3fd858cdd079e34f60c0328d4e2c704594ee82816b46e0ebbe9faf99cf6436
+      runs/RUN-2020C-BASELINE-S20202020/manifest.json: 52d6056a6fc98254fa3ceaa4d28e44509e30ab28b95c3e5b68a5380d60f1fec6
+      runs/RUN-2020C-FOREST-S20200905/manifest.json: 659d2d74d15f9f43c35f56670324ab27a60d90e8b4724ea9749890a306dae1fd
+      runs/RUN-2020C-FOREST-S20202020/manifest.json: 6e35fb76e6b377fa004e2c0cbd61c164d3d68925a63f5ee1559753f5cd698ba4
+      runs/RUN-2020C-RIDGE-S20200905/manifest.json: 7acaaabaee4f25e5ba95910aa70ee2ec3c24496aacdfad49300246f1e0b639a7
+      runs/RUN-2020C-RIDGE-S20202020/manifest.json: 1ab13d4de2a4f0fd036a38aa25a332a92ecb06a08f50ab7fcc1274d98a8c0ea9
+    blocked_reason_code: null
+    first_run_artifact_hashes:
+      data/data_audit.json: c6aecad753224b25aca85c034e2a98138b1d1520651bb97abbfb1b0a103c82ef
+      evidence/claim_evidence.json: 9c96840f43d8470d84f3040dd7980e7f51adc520c69c463776788b48791a9f39
+      evidence/first_run_failures.json: 948f0ad2d91f04b727e15a50d4e7a848428a8cd33fc300bb12fe104fbe5ad4ec
+      evidence/first_run_metrics.json: dbd72f561aea852d93eea5812732f337a440e28c1f41f1e3b68e2b3c4bb5241b
+      evidence/first_run_stage_status.json: 4dda7f0c082758d180f3e7fe30e4e36519d6f23c18c28b768f0cc494ee4a2256
+      evidence/first_run_timing.json: 2d7ef30d235ac39192a41e0fdac8fc58c704ff876c5a740ec65494f6a10668c8
+      experiments/experiment_plan.json: 73b8ba366d2cd9b6e0da88b4371d13e371bc46eead346761c3614c294b353c9a
+      handoff/modeling_to_paper.json: a2ee23f5289c7f171fbf3ef05b3c9b6a97767cea9eaeca43480c4ad3f66e2401
+      models/assumptions_and_symbols.json: 2885e804e6ab3850567a69013e0fc1ffbfca06c551e4b924b3af8083ba587f79
+      models/model_candidates.json: 989f8e2697b843ba2ba33d4d6110ab6f996df7e96dfd41d3831298049f485dcc
+      problem/problem_requirements.json: 836f4ceda977d914ad5cf0fdf8d1eb84f4197a0fe0fef7879ce3fada44e273bc
+      research/pre_freeze_search_log.jsonl: 78b0c2fca600addea71a2c037a8ae22be7e448e74c80b1cd6eae65ed77978364
+      research/research_plan.json: 38b520eafb740e7489eff01e8777a22b60a0ba389cf07a78441f7b3befc328dd
+      research/source_ledger.json: af39cb11255139e83449d6847ac958538a4859ae0de8ff3c6dbe38356c74f3fb
+      results/final_result.json: 14807d457e555475edc4c878403d3e2c14be41ddff2c2172201cf23a71a916f5
+      results/model_comparison.json: 7f4a1a5490c1d38ed3c67fb501c207b4dda640a6acce88a470b20c652784d4aa
+      results/robustness.json: b7763352bc8b32f12a22391dea703a503ebbef7b4c85273d4d94dfbd79eb3732
+      state/development_eval_binding.json: d9f9876a65cb5d1a14ac29ecc65898d80bc902d03f8cb238b75715a08a3a1a4b
+    freeze_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003-FIRST-RUN-FREEZE-001-EVIDENCE-CORRECTION-002
+    freeze_sha256: a5016b6336001bf840247aa6135b4beba15d3a695da498ac1e9149afe332ccfb
+    worktree_commit: 7f0b67f94fb49213d5d05e5d75828e1075e2009a
+    supersedes_freeze:
+      freeze_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003-FIRST-RUN-FREEZE-001
+      path: evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/first_run/first_run_freeze.json
+      sha256: 5805595385da986b6c811f0ce9e88ef1495c54ce4e397dc73d7643d0a3d5c75c
+      commit: 474c1241f67d31fd50deaae727e93ec213b558c5
+  first_run_freeze_history:
+  - freeze_id: CUMCM-2020-C-DEVELOPMENT-BATCH-003-FIRST-RUN-FREEZE-001
+    path: evals/results/phase-004c-c-batch/CUMCM-2020-C-DEVELOPMENT-BATCH-003/first_run/first_run_freeze.json
+    sha256: 5805595385da986b6c811f0ce9e88ef1495c54ce4e397dc73d7643d0a3d5c75c
+    subject_commit: 372e818166f72a9dbebdcb89f5bfcc495af6635b
+    freeze_commit: 474c1241f67d31fd50deaae727e93ec213b558c5
+    status: SUPERSEDED_POST_FREEZE_SUMMARY_HASH_CORRECTION_ORIGINAL_PRESERVED
+  first_run_freeze_correction_count: 1
+  unlock_status: UNLOCKED_AFTER_FIRST_RUN
+  unlock_receipt:
+    path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
+    sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
+    verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0

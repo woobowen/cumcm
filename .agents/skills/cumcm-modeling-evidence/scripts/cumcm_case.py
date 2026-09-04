@@ -18,7 +18,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0-competition-rc3"
+VERSION = "0.2.0-competition-rc4"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -431,6 +431,235 @@ def validate_artifact(value: Any, kind: str) -> GateResult:
 
 def strict_score(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def contains_strict_score(value: Any) -> bool:
+    if strict_score(value):
+        return True
+    if isinstance(value, dict):
+        return any(contains_strict_score(item) for item in value.values())
+    if isinstance(value, (list, tuple)):
+        return any(contains_strict_score(item) for item in value)
+    return False
+
+
+def validate_selected_output_contract(
+    output: Any,
+    *,
+    expected_candidate_id: str | None = None,
+    required_requirement_ids: list[str] | None = None,
+    allow_probe: bool = False,
+) -> GateResult:
+    """Validate the downstream evidence contract shared by all successful case outputs."""
+
+    original = copy.deepcopy(output)
+    codes: set[str] = set()
+    if not isinstance(output, dict):
+        return blocked("RC_OUTPUT_CONTRACT_INVALID")
+    try:
+        assert_json_safe(output)
+    except (TypeError, ValueError):
+        codes.add("RC_OUTPUT_CONTRACT_NONFINITE_OR_NONJSON")
+    codes.update(sensitive_findings(output))
+
+    candidate_id = output.get("candidate_id")
+    if (
+        not isinstance(candidate_id, str)
+        or not candidate_id
+        or (expected_candidate_id is not None and candidate_id != expected_candidate_id)
+    ):
+        codes.add("RC_OUTPUT_CONTRACT_CANDIDATE_INVALID")
+
+    if allow_probe:
+        if (
+            output.get("status") != "CONTRACT_PROBE"
+            or output.get("probe_only") is not True
+            or output.get("ranking_eligible") is not False
+            or output.get("result_values_are_placeholders") is not True
+        ):
+            codes.add("RC_OUTPUT_CONTRACT_PROBE_IDENTITY_INVALID")
+    elif output.get("status") != "SUCCESS":
+        codes.add("RC_OUTPUT_CONTRACT_STATUS_INVALID")
+
+    required = {
+        "final_metrics",
+        "claim_scope",
+        "requirement_claims",
+        "figure_ready_data",
+        "uncertainty",
+        "limitations",
+        "robustness_evidence",
+    }
+    if not required <= set(output):
+        codes.add("RC_OUTPUT_CONTRACT_REQUIRED_FIELDS_MISSING")
+
+    final_metrics = output.get("final_metrics")
+    if (
+        not isinstance(final_metrics, dict)
+        or not final_metrics
+        or not contains_strict_score(final_metrics)
+    ):
+        codes.add("RC_OUTPUT_CONTRACT_FINAL_METRICS_INVALID")
+    if not isinstance(output.get("claim_scope"), str) or not output.get("claim_scope"):
+        codes.add("RC_OUTPUT_CONTRACT_CLAIM_SCOPE_INVALID")
+
+    requirement_claims = output.get("requirement_claims")
+    expected_requirements_valid = required_requirement_ids is None or (
+        bool(required_requirement_ids)
+        and all(isinstance(item, str) and item for item in required_requirement_ids)
+        and len(set(required_requirement_ids)) == len(required_requirement_ids)
+    )
+    if not expected_requirements_valid:
+        codes.add("RC_OUTPUT_CONTRACT_REQUIREMENT_REGISTRY_INVALID")
+    if (
+        not isinstance(requirement_claims, dict)
+        or not requirement_claims
+        or (
+            required_requirement_ids is not None
+            and set(requirement_claims) != set(required_requirement_ids)
+        )
+    ):
+        codes.add("RC_OUTPUT_CONTRACT_REQUIREMENT_CLAIMS_INVALID")
+    else:
+        claim_ids: set[str] = set()
+        for requirement_id, record in requirement_claims.items():
+            if (
+                not isinstance(requirement_id, str)
+                or not requirement_id
+                or not isinstance(record, dict)
+                or set(record) != {"claim_id", "claim_text", "evidence_artifact_ids"}
+            ):
+                codes.add("RC_OUTPUT_CONTRACT_REQUIREMENT_CLAIMS_INVALID")
+                continue
+            claim_id = record.get("claim_id")
+            evidence_ids = record.get("evidence_artifact_ids")
+            if (
+                not isinstance(claim_id, str)
+                or not re.fullmatch(r"CLAIM-[A-Z0-9][A-Z0-9_-]{0,63}", claim_id)
+                or claim_id in claim_ids
+                or not isinstance(record.get("claim_text"), str)
+                or not record.get("claim_text")
+                or not isinstance(evidence_ids, list)
+                or not evidence_ids
+                or not all(isinstance(item, str) and item for item in evidence_ids)
+                or len(set(evidence_ids)) != len(evidence_ids)
+            ):
+                codes.add("RC_OUTPUT_CONTRACT_REQUIREMENT_CLAIMS_INVALID")
+            else:
+                claim_ids.add(claim_id)
+
+    figure_ready_data = output.get("figure_ready_data")
+    if (
+        not isinstance(figure_ready_data, list)
+        or not figure_ready_data
+        or not all(isinstance(item, dict) and item for item in figure_ready_data)
+    ):
+        codes.add("RC_OUTPUT_CONTRACT_FIGURE_DATA_INVALID")
+    uncertainty = output.get("uncertainty")
+    if not isinstance(uncertainty, dict) or not uncertainty:
+        codes.add("RC_OUTPUT_CONTRACT_UNCERTAINTY_INVALID")
+    limitations = output.get("limitations")
+    if (
+        not isinstance(limitations, list)
+        or not limitations
+        or not all(isinstance(item, str) and item for item in limitations)
+    ):
+        codes.add("RC_OUTPUT_CONTRACT_LIMITATIONS_INVALID")
+
+    robustness = output.get("robustness_evidence")
+    if not isinstance(robustness, dict) or set(robustness) != {
+        "metric",
+        "metric_direction",
+        "perturbations",
+        "failure_cases",
+    }:
+        codes.add("RC_OUTPUT_CONTRACT_ROBUSTNESS_INVALID")
+    else:
+        metric = robustness.get("metric")
+        perturbations = robustness.get("perturbations")
+        if (
+            not isinstance(metric, str)
+            or not metric
+            or robustness.get("metric_direction") not in ("MIN", "MAX")
+            or not isinstance(perturbations, list)
+            or not perturbations
+        ):
+            codes.add("RC_OUTPUT_CONTRACT_ROBUSTNESS_INVALID")
+        else:
+            perturbation_ids: set[str] = set()
+            for item in perturbations:
+                if not isinstance(item, dict) or set(item) != {
+                    "perturbation_id",
+                    "metric",
+                    "result",
+                    "evidence",
+                }:
+                    codes.add("RC_OUTPUT_CONTRACT_ROBUSTNESS_INVALID")
+                    continue
+                perturbation_id = item.get("perturbation_id")
+                if (
+                    not isinstance(perturbation_id, str)
+                    or not perturbation_id
+                    or perturbation_id in perturbation_ids
+                    or item.get("metric") != metric
+                    or not strict_score(item.get("result"))
+                    or item.get("evidence") != "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+                ):
+                    codes.add("RC_OUTPUT_CONTRACT_ROBUSTNESS_INVALID")
+                else:
+                    perturbation_ids.add(perturbation_id)
+        failures = robustness.get("failure_cases")
+        if (
+            not isinstance(failures, list)
+            or not failures
+            or not all(isinstance(item, str) and item for item in failures)
+        ):
+            codes.add("RC_OUTPUT_CONTRACT_ROBUSTNESS_INVALID")
+
+    if output != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return blocked(*codes) if codes else passed("RC_OUTPUT_CONTRACT_VALID")
+
+
+def required_requirement_ids(case_root: Path) -> list[str]:
+    requirements = read_artifact(case_root, "problem_requirements")["content"].get("requirements")
+    if not isinstance(requirements, list) or not requirements:
+        raise ValueError("RC_OUTPUT_CONTRACT_REQUIREMENT_REGISTRY_INVALID")
+    identifiers = [
+        item.get("requirement_id") if isinstance(item, dict) else None for item in requirements
+    ]
+    if not all(isinstance(item, str) and item for item in identifiers) or len(
+        set(identifiers)
+    ) != len(identifiers):
+        raise ValueError("RC_OUTPUT_CONTRACT_REQUIREMENT_REGISTRY_INVALID")
+    return identifiers
+
+
+def preflight_output_contract(case_root: Path, probe_path: Path) -> tuple[GateResult, str]:
+    state = load_state(case_root)
+    if state.get("state") != "MODELS_PROPOSED":
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_STATE_INVALID"), ""
+    resolved = (
+        probe_path.resolve() if probe_path.is_absolute() else (case_root / probe_path).resolve()
+    )
+    try:
+        relative = resolved.relative_to(case_root.resolve())
+    except ValueError:
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), ""
+    if not relative.parts or relative.parts[0] != "experiments" or not resolved.is_file():
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), str(relative)
+    try:
+        output = load_json(resolved)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_JSON_INVALID"), str(relative)
+    return (
+        validate_selected_output_contract(
+            output,
+            required_requirement_ids=required_requirement_ids(case_root),
+            allow_probe=True,
+        ),
+        str(relative),
+    )
 
 
 def relative_case_path(case_root: Path, value: str) -> Path | None:
@@ -2363,17 +2592,27 @@ def execute_case_code(
             output = load_json(output_path)
         except (OSError, json.JSONDecodeError, ValueError):
             output = None
-        if not isinstance(output, dict) or output.get("candidate_id") != candidate_id:
+        contract_result = validate_selected_output_contract(
+            output,
+            expected_candidate_id=candidate_id,
+            required_requirement_ids=required_requirement_ids(case_root),
+        )
+        if not contract_result.accepted:
             exit_code = 65
-            failure = {"reason_code": "RC_EXECUTION_OUTPUT_INVALID", "retained": True}
-            write_json(
-                output_path,
-                {
-                    "candidate_id": candidate_id,
-                    "status": "FAILED",
-                    "reason_code": "RC_EXECUTION_OUTPUT_INVALID",
-                },
-            )
+            failure = {
+                "reason_code": "RC_EXECUTION_OUTPUT_CONTRACT_INVALID",
+                "reason_codes": list(contract_result.reason_codes),
+                "retained": True,
+            }
+            if not output_path.is_file():
+                write_json(
+                    output_path,
+                    {
+                        "candidate_id": candidate_id,
+                        "status": "FAILED",
+                        "reason_code": "RC_EXECUTION_OUTPUT_CONTRACT_INVALID",
+                    },
+                )
     else:
         if failure is None:
             failure = {"reason_code": "RC_EXECUTION_NONZERO_EXIT", "retained": True}
@@ -2625,6 +2864,11 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             check=check,
         )
     if current == "MODELS_PROPOSED":
+        probe_result, probe_relative = preflight_output_contract(
+            case_root, Path("experiments/selected_output_contract_probe.json")
+        )
+        if not probe_result.accepted:
+            raise ValueError(";".join(probe_result.reason_codes))
         plan = read_artifact(case_root, "experiment_plan")["content"]
         if not plan.get("preregistered") or not plan.get("execution_prepared"):
             raise ValueError("RC_EXPERIMENT_PLAN_NOT_PREREGISTERED")
@@ -2634,7 +2878,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             state,
             "EXPERIMENT_PLAN_VALIDATED",
             "GATE_EXPERIMENT_PLAN",
-            [ARTIFACT_PATHS["experiment_plan"]],
+            [ARTIFACT_PATHS["experiment_plan"], probe_relative],
             check=check,
         )
     if current == "EXPERIMENT_PLAN_VALIDATED":
@@ -2942,6 +3186,12 @@ def build_parser() -> argparse.ArgumentParser:
     smoke.add_argument("--case-id", required=True)
     smoke.add_argument("--kind", choices=("prediction", "optimization"), required=True)
     smoke.add_argument("--dry-run", action="store_true")
+    preflight = subparsers.add_parser(
+        "preflight-output",
+        help="在实验冻结前校验非结果 selected-output contract probe",
+    )
+    preflight.add_argument("--case-root", type=Path, required=True)
+    preflight.add_argument("--path", type=Path, required=True)
     execute = subparsers.add_parser("execute", help="执行已冻结的 case-local Python 模型")
     execute.add_argument("--case-root", type=Path, required=True)
     execute.add_argument("--run-id", required=True)
@@ -3083,6 +3333,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "smoke":
             result = run_smoke(args.case_root, args.case_id, args.kind, args.dry_run)
             return emit({"command": "smoke", "status": "PASS", "result": result})
+        if args.command == "preflight-output":
+            result, relative = preflight_output_contract(args.case_root, args.path)
+            return command_result("preflight-output", result, path=relative, result_recorded=False)
         if args.command == "execute":
             result = execute_case_code(
                 args.case_root,

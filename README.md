@@ -5,8 +5,14 @@ requirements, sources, data audit, model portfolio/baseline, experiment executio
 robustness, Final Run, Claim validation, and a reproducible evidence package for a separate paper
 team.
 
-Current project version: `0.3.0-competition-rc3`. The sole formal Skill is
-`cumcm-modeling-evidence` `0.2.0-competition-rc3` with capability `COMPETITION_RC`. New K1 and W1
+The primary competition target is the C problem. Prior evidence contains one 2023 C Development run
+and one 2020 A auxiliary-transfer Development run; it does not prove broad C-problem generalization.
+The active phase froze the same RC3 across three structurally different C Development first runs,
+postponed every Skill change and reference access until all three runs were independently frozen,
+and admitted one unified cross-case revision after the bounded postmortem.
+
+Current project version: `0.3.0-competition-rc4`. The sole formal Skill is
+`cumcm-modeling-evidence` `0.2.0-competition-rc4` with capability `COMPETITION_RC`. New K1 and W1
 revisions both pass the unchanged eight public hard Gates (117 symmetric cases each); the frozen
 K1-first rule selects the project-authored deterministic evidence kernel. The formal Skill provides
 14 workflows, four bounded roles, 14 templates, an offline case CLI, strict Run/Claim/comparison
@@ -47,15 +53,27 @@ Development regression, a three-Run 2023 C cross-case replay, and mechanistic St
 completed with bound capture/manifest evidence and explicit STALE probes. These are two Development
 cases, not Validation or a generalization proof.
 
+RC4 adds one neutral selected-output contract preflight and applies the identical validator to each
+exit-zero captured output. Its unified regression passed all three C batch cases, the preserved
+2023 C main chain, the 2020 A auxiliary execution path, two synthetic E2E cases, the original 30
+negative scenarios, and full CI. In the separate answer-sealed one-shot 2024 C Validation, 4/4
+actual Runs succeeded and all six main requirements had feasible outputs, but RC4's frozen Claim
+Gate required one scope to equal two different frozen strings. The Gate blocked with
+`RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID`; no handoff was accepted and the terminal decision is
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`. No Development regression is counted as that
+Validation result.
+
 The old `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision and all `phase-003f` evidence remain immutable.
 RC1 is a new implementation revision, not a rewrite of that history and not proof of a selected
 third-party base.
 
 Start with `AGENTS.md`, then read `GOALS.md`, `WORKFLOW.md`, the active plan, and `state/project_state.json`. Run `bash scripts/bootstrap_dev_env.sh` and `bash scripts/ci.sh` for local validation.
 
-The exact next task is `PHASE-SKILL-VALIDATION-EVAL-004-C`: use the frozen RC3 commit/tree on one
-structurally different answer-sealed historical problem under the one-shot, no-post-result-tuning
-policy. Validation has not started. See `docs/DEVELOPMENT_EVAL_PROTOCOL.md` and
-`reports/phase004c_validation_handoff.md`.
+The active task is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`. RC4 and its unified regression
+are frozen; the 2024 C terminal outcome is remotely frozen and the same case cannot be rerun as
+Validation. The next authorized phase is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`. The cancelled
+2024 A attempt had no case registration or execution evidence and is not Validation. See
+`docs/TARGET_PROBLEM_POLICY.md`,
+`docs/DEVELOPMENT_EVAL_PROTOCOL.md`, and `plans/active/PLAN-0004C-C-target-batch-generalization.md`.
 
 No project license has been selected. Third-party repositories remain isolated under ignored `.cache/upstream/` and are not part of this repository.

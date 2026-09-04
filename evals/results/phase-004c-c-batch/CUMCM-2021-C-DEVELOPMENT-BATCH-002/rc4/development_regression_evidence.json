@@ -1,0 +1,128 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "api_calls": 0,
+  "artifact_type": "c_target_rc4_development_regression_evidence",
+  "attempt_number": 1,
+  "baseline_success": true,
+  "case_id": "CUMCM-2021-C-DEVELOPMENT-RC4-REGRESSION",
+  "claim_gate": "PASS",
+  "elapsed_seconds": 4.890946,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "final_output_sha256": "798db93ea6f075f5aac662fdda756428fbfa107ece7631ba666bdc88fbd86c47",
+  "final_run_id": "RUN-RC4-BASELINE_MEAN_GREEDY-S20210904",
+  "first_run_freeze": {
+    "path": "evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.v2.json",
+    "sha256": "a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d"
+  },
+  "handoff_gate": "PASS",
+  "model_training": false,
+  "output_contract_preflight": {
+    "path": "experiments/selected_output_contract_probe.json",
+    "reason_codes": [
+      "RC_OUTPUT_CONTRACT_VALID"
+    ],
+    "status": "PASS"
+  },
+  "preserved_prior_attempts": [],
+  "requirements_total": 17,
+  "requirements_with_output_claims": 17,
+  "robustness_perturbation_count": 3,
+  "runs": [
+    {
+      "candidate_id": "BASELINE_MEAN_GREEDY",
+      "capture_sha256": "c57f0c4bc0b2db128b40d9934fa853562e43143b2bb6db8d3d0151e5c86afbd4",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC4-BASELINE_MEAN_GREEDY-S20210904"
+    },
+    {
+      "candidate_id": "ROBUST_QUANTILE_LEXICOGRAPHIC",
+      "capture_sha256": "1b9272b50976720ef27d2b14ec66fe00b81c04e1c28968000117f94caa285003",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC4-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+    },
+    {
+      "candidate_id": "SCENARIO_CVAR_PORTFOLIO",
+      "capture_sha256": "623dbbdc42879063047a942e1d0608061c85407a8f659f3a5fea232dc64baef9",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC4-SCENARIO_CVAR_PORTFOLIO-S20210904"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selected_candidate_id": "BASELINE_MEAN_GREEDY",
+  "selected_validation_score": 2.137602596,
+  "selection_decision_hash": "5d58221f506117ee0905e9b9227fb7298ca94e9b27dc2d0478ee668cd629df8e",
+  "skill": {
+    "candidate_implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "execution_code_commit": "2d64d7fa8b17a9b9c7847b18e6a21dc3767967ba",
+    "git_tree_sha1": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "version": "0.2.0-competition-rc4"
+  },
+  "source_first_run_case_id": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+  "stage_status": [
+    {
+      "stage": "PROBLEM_INTAKE",
+      "status": "PASS"
+    },
+    {
+      "stage": "REQUIREMENT_DECOMPOSITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "RESEARCH_AND_SOURCE_PLANNING",
+      "status": "PASS"
+    },
+    {
+      "stage": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "DATA_AUDIT",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODEL_PORTFOLIO_GENERATION",
+      "status": "PASS"
+    },
+    {
+      "stage": "BASELINE_DEFINITION",
+      "status": "PASS"
+    },
+    {
+      "stage": "EXPERIMENT_DESIGN",
+      "status": "PASS"
+    },
+    {
+      "stage": "IMPLEMENTATION_AND_EXECUTION",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODEL_COMPARISON",
+      "status": "PASS"
+    },
+    {
+      "stage": "ROBUSTNESS_AND_SENSITIVITY",
+      "status": "PASS"
+    },
+    {
+      "stage": "FINAL_RUN",
+      "status": "PASS"
+    },
+    {
+      "stage": "CLAIM_EVIDENCE_VALIDATION",
+      "status": "PASS"
+    },
+    {
+      "stage": "MODELING_TO_PAPER_HANDOFF",
+      "status": "PASS"
+    }
+  ],
+  "terminal_state": "READY_FOR_PAPER_HANDOFF",
+  "third_party_executions": 0,
+  "universal_hard_failure": false,
+  "valid_run_count": 3,
+  "workspace_relative": ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC4-REGRESSION-ATTEMPT-001"
+}

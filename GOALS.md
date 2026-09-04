@@ -6,7 +6,12 @@ Create a durable, evidence-first modeling system for a three-person CUMCM team. 
 
 ## Current priority
 
-Deliver one runnable Competition RC Skill quickly, then spend the primary effort on answer-sealed historical Development problems to expose real generalization failures. RC1 is the starting instrument, not proof of unseen-problem effectiveness: each blind first run is frozen before answer access, generalizable failures feed RC2, and problem-specific findings remain isolated.
+Within finite contest time, improve the formal Skill's first-pass completion rate, professional
+modeling quality, real execution, robustness, and paper-team handoff completeness on unfamiliar
+C problems. Freeze one RC across a diverse C-problem batch, finish and independently freeze every
+answer-sealed first run before any Skill change or reference unlock, then admit only repeated
+cross-case failures or universal hard failures into one unified revision. A problems are auxiliary
+transfer/regression evidence only; B problems are excluded by default.
 
 ## Success criteria
 
@@ -18,6 +23,8 @@ Deliver one runnable Competition RC Skill quickly, then spend the primary effort
 - Development, validation, held-out, and live-contest modes prevent answer leakage.
 - Upstream mechanisms are evaluated in isolation before adoption and remain license/security traceable.
 - A versioned modeling-to-paper contract prevents prose edits from rewriting experimental facts.
+- C-problem evidence accounting never treats same-case regression, Stress, or A-problem success as
+  an independent C Validation result.
 
 ## Scope
 
@@ -54,4 +61,14 @@ but cannot implement components, select an architecture, change the formal Skill
 The later Competition RC1 repair sprint preserves that historical boundary and old blocked decision,
 then accepts new project-owned K1/W1 revisions through the unchanged eight public hard Gates. K1 is
 integrated under the frozen K1-first rule. The next authorized task is
-`PHASE-SKILL-DEVELOPMENT-EVAL-004`, not additional meta-governance.
+`PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`: three diverse C Development first runs on frozen
+RC3, one unified evidence-based revision at most, unified regression, and a separate one-shot C
+Validation. Existing 2023 C and 2020 A results remain Development evidence and do not establish
+broad C-problem generalization.
+
+The single evidence-admitted revision is frozen as `0.2.0-competition-rc4` after unified
+regression. The answer-sealed, rubric-frozen 2024 C one-shot produced 4/4 successful actual Runs
+and valid outputs for all six main requirements, but the frozen Claim Gate imposed contradictory
+global-scope and first-requirement-scope equalities. The terminal result is therefore
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, not a pass; no handoff was accepted and RC4 was not
+changed. The only authorized next route is a newly frozen C batch repair using a different C case.

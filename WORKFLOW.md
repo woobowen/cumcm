@@ -155,6 +155,53 @@ Unresolved core work after the revision cap terminates at `DEVELOPMENT_EVAL_INCO
 completion may route only to `PHASE-SKILL-DEVELOPMENT-EVAL-004-B`, using a structurally different
 answer-sealed Development problem; this case never becomes Validation or Held-out evidence.
 
+## Phase 004C C-target batch generalization route
+
+The C-target route is:
+
+`RC3_FROZEN → THREE_C_BATCH_FIRST_RUNS → ALL_FIRST_RUNS_FROZEN → UNIFIED_CROSS_CASE_POSTMORTEM → SINGLE_RC4_OR_NO_CHANGE → UNIFIED_REGRESSION → C_VALIDATION → C_HELD_OUT → C_FULL_SIMULATION`.
+
+`PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C` starts only from the remotely delivered RC3
+checkpoint, one discoverable formal Skill, clean baseline CI, an answer-sealed three-case C batch,
+and a frozen batch policy/rubric. All three Development cases bind the same formal Skill
+version/commit/tree. Every first run is independently frozen and remotely verified, including
+partial, blocked, rejected, or failed outcomes. Until all three freezes pass, the formal Skill tree
+must not change and references for every batch case remain locked.
+
+After all three freezes, a bounded reference review may produce one cross-case failure matrix. A
+formal Skill change is eligible only when the same defect independently occurs in at least two C
+cases, or when one observed defect is a universal non-compensable hard failure. Every accepted
+change needs a neutral, case-independent test and must contain no year, problem number, title,
+attachment name, field, entity, answer, optimum, or case-specific parameter. At most two revision
+cycles may produce `0.2.0-competition-rc4`; lack of an eligible general change retains RC3.
+
+Unified regression covers the three batch cases as non-blind Development regressions, the preserved
+2023 C main chain, 2020 A only as auxiliary transfer evidence, the two synthetic E2E cases, the 30
+negative cases, and new neutral tests. Only after that evidence and the Validation rubric are frozen
+may a fresh worker run one answer-sealed 2024 C case once. A terminal Validation freeze forbids any
+new Validation Run; a failed or contaminated case is permanently non-Validation. The 2025 C
+Held-out is registered only by annual-page hash in this phase and its archive, title, problem,
+attachments, references, and answers remain unaccessed.
+
+After unified regression, the active status may be
+`C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING` with subphase
+`C-TARGET-RC4-FROZEN-VALIDATION-PENDING`, active Skill RC4, and `next_phase_allowed=null`. Terminal
+routes are `C_TARGET_VALIDATION_PASSED`, `C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING`,
+`C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE`, `C_TARGET_VALIDATION_FAILED`,
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, `C_TARGET_VALIDATION_INCOMPLETE`,
+`C_TARGET_BATCH_INCOMPLETE`, `OFFICIAL_INPUTS_REQUIRED`,
+`FIRST_RUN_CONTAMINATION_SUSPECTED`, or `INFRASTRUCTURE_BLOCKED`. Technical hard failures cannot be
+averaged away by a score or Agent vote.
+
+The 2024 C one-shot terminal path is
+`FINAL_CANDIDATE → REJECTED(GATE_CLAIM_EVIDENCE)`. Although all four frozen Runs succeeded and all
+six main requirements have feasible numeric outputs, RC4 requires the top-level Claim text to equal
+both the global Final scope and the first requirement-specific claim text. Those frozen strings
+differ, so `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID` is deterministic and no accepted handoff
+can exist. `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT` routes only to
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`; the 2024 C case is terminal and any later same-case work
+is Development only.
+
 ## Contest-run lifecycle
 
 The formal RC case state is:

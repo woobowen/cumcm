@@ -18,6 +18,7 @@ def test_project_state_schema_is_legal_status_truth_source(repo_root):
     assert len(statuses) == len(set(statuses))
     assert "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS" in statuses
     assert "FAILURE_AWARE_ADJUDICATION_COMPLETE" in statuses
+    assert "C_TARGET_BATCH_IN_PROGRESS" in statuses
 
 
 def test_failure_aware_state_fixture_is_valid(repo_root):

@@ -31,6 +31,51 @@ def _advance_to(core: Any, case_root: Path, target: str) -> None:
         core.advance_once(case_root)
 
 
+def _write_output_contract_probe(
+    core: Any,
+    case_root: Path,
+    requirement_ids: list[str],
+    *,
+    metric: str,
+    direction: str = "MIN",
+) -> None:
+    relative = "experiments/selected_output_contract_probe.json"
+    probe = {
+        "candidate_id": "CONTRACT-PROBE",
+        "status": "CONTRACT_PROBE",
+        "probe_only": True,
+        "ranking_eligible": False,
+        "result_values_are_placeholders": True,
+        "final_metrics": {metric: 0.0},
+        "claim_scope": "Generic placeholder scope for structural validation only.",
+        "requirement_claims": {
+            requirement_id: {
+                "claim_id": f"CLAIM-PROBE-{index}",
+                "claim_text": "Generic placeholder claim for structural validation only.",
+                "evidence_artifact_ids": [relative],
+            }
+            for index, requirement_id in enumerate(requirement_ids, start=1)
+        },
+        "figure_ready_data": [{"figure_id": "GENERIC-PROBE", "series": [0.0]}],
+        "uncertainty": {"scope": "placeholder"},
+        "limitations": ["Contract probe values are placeholders and are not results."],
+        "robustness_evidence": {
+            "metric": metric,
+            "metric_direction": direction,
+            "perturbations": [
+                {
+                    "perturbation_id": "GENERIC-PROBE-SHIFT",
+                    "metric": metric,
+                    "result": 0.0,
+                    "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+                }
+            ],
+            "failure_cases": ["This probe does not establish empirical robustness."],
+        },
+    }
+    core.write_json(case_root / relative, probe, overwrite=False)
+
+
 def _freezes(
     core: Any,
     candidate_ids: list[str],
@@ -352,6 +397,12 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
             "trusted_freeze_registry": freezes,
             "stop_rule": "one deterministic run per candidate",
         },
+    )
+    _write_output_contract_probe(
+        core,
+        case_root,
+        ["REQ-P-1", "REQ-P-2", "REQ-P-3"],
+        metric="test_mae",
     )
     _advance_to(core, case_root, "RUNNING")
     model_input = core.load_json(processed_path)
@@ -764,6 +815,13 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
             "trusted_freeze_registry": freezes,
             "stop_rule": "enumerate bounded integer feasible region once",
         },
+    )
+    _write_output_contract_probe(
+        core,
+        case_root,
+        ["REQ-O-1", "REQ-O-2", "REQ-O-3"],
+        metric="profit",
+        direction="MAX",
     )
     _advance_to(core, case_root, "RUNNING")
     max_a = min(labor_capacity // a_labor, material_capacity // a_material)

@@ -5,7 +5,7 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc3`
+Version: `0.2.0-competition-rc4`
 
 Capability: `COMPETITION_RC`
 
@@ -63,7 +63,7 @@ Assurance: `PUBLIC_DETERMINISTIC_TWO_END_TO_END_SMOKES_AND_CAPTURED_CASE_EXECUTI
 
 `init` 创建 `problem/ research/ data/{raw,processed}/ models/ experiments/ runs/ results/ evidence/ handoff/ state/`，以及根级 `case_state.json`。模板在 `templates/`；不能另建冲突 schema。
 
-集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、`execute`、`seal-run`、`manifest`、`claim-check`、`compare-check`、`stale-check`、`finalize`、`handoff`、`smoke`。`execute` 只运行实验计划中已冻结、与 Git blob 一致的 case-local Python 文件，自动捕获起止时间、exit、stdout/stderr/output hash；任何非零 exit 都必须带显式 failure reason，即使程序已写出诊断 output，也应保留并允许 `seal-run` 形成 FAILED manifest。`seal-run` 重验 capture 后才写 manifest，调用方不得手填 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
+集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、`preflight-output`、`execute`、`seal-run`、`manifest`、`claim-check`、`compare-check`、`stale-check`、`finalize`、`handoff`、`smoke`。在实验计划冻结前，先于 `MODELS_PROPOSED` 状态用 `preflight-output` 校验 `experiments/` 内明确标记为非结果、不可排名、数值仅为占位符的 contract probe；它必须覆盖每个已接受 requirement，并具有 Final、Claim、figure-ready、uncertainty、limitation 与定量 robustness 所需的通用结构，且不得登记为 Run 或结果。`execute` 复用同一校验器检查每个成功 output，只运行实验计划中已冻结、与 Git blob 一致的 case-local Python 文件，并自动捕获起止时间、exit、stdout/stderr/output hash；任何非零 exit 或 output contract failure 都必须带显式 failure reason并保留原 output，允许 `seal-run` 形成 FAILED manifest。`seal-run` 重验 capture 后才写 manifest，调用方不得手填 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
 
 ## 四个角色
 

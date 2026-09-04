@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_type": "c_target_cross_case_failure_matrix",
+  "batch_id": "C-TARGET-BATCH-001",
+  "source_first_run_count": 3,
+  "reference_review_path": "evals/results/phase-004c-c-batch/reference_reviews.json",
+  "reference_policy_result": "PASS_BOUNDED_TWO_PER_CASE_NO_COPY",
+  "formal_skill_at_analysis": {
+    "version": "0.2.0-competition-rc3",
+    "commit": "8a2a813ff34d8c2701c64ff9d959848e7b88c27c",
+    "git_tree_sha1": "a4551c8aa0b6b119823f6ce9df3f0f948339bb33"
+  },
+  "findings": [
+    {
+      "failure_id": "C004C-CROSS-OUTPUT-CONTRACT-PREFLIGHT-001",
+      "classification": [
+        "CROSS_CASE_REPEATED_FAILURE",
+        "UNIVERSAL_HARD_FAILURE",
+        "EXECUTION_EVIDENCE_FAILURE",
+        "ROBUSTNESS_FAILURE",
+        "CLAIM_EVIDENCE_FAILURE",
+        "HANDOFF_FAILURE"
+      ],
+      "affected_cases": [
+        "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+        "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+        "CUMCM-2020-C-DEVELOPMENT-BATCH-003"
+      ],
+      "first_run_evidence": [
+        ".cache/official_inputs/CUMCM-2022-C-BATCH-001/evidence/first_run_failures.json#FAIL-2022C-OUTPUT-CONTRACT-001",
+        ".cache/official_inputs/CUMCM-2021-C-BATCH-002/evidence/pre_run_recovery_ledger.json#RECOVERY-OUTPUT-CONTRACT-001",
+        ".cache/official_inputs/CUMCM-2020-C-BATCH-003/evidence/pre_run_recovery_ledger.json#PRE-RUN-RECOVERY-002",
+        ".cache/official_inputs/CUMCM-2020-C-BATCH-003/evidence/pre_run_recovery_ledger.json#PRE-RUN-RECOVERY-004"
+      ],
+      "reference_evidence": [
+        "reference_reviews.json#cases/0/gap_summary/2",
+        "reference_reviews.json#cases/1/gap_summary/3",
+        "reference_reviews.json#cases/2/gap_summary/3"
+      ],
+      "severity": "HARD_NONCOMPENSABLE_WHEN_DISCOVERED_AFTER_SEAL",
+      "root_cause": "RC3 validates the full selected-output-to-robustness-to-Claim-to-handoff contract only after formal attempts are captured and sealed; it exposes no reusable pre-run structural probe and execute accepts a shallow candidate/status identity.",
+      "repeat_count": 3,
+      "universal_hard_failure": true,
+      "generalizable": true,
+      "proposed_skill_change": "Add one generic selected-output contract validator, expose a preflight-output command for a non-result contract probe before experiment freeze, and reuse the validator inside execute for every successful output.",
+      "risk_of_overfitting": "LOW: required fields and shapes are architecture-level and contain no year, problem title, attachment, entity, field name, model family, parameter or answer.",
+      "neutral_test": "Generic prediction and optimization probes pass; removing each required downstream field, using a nonfinite metric, empty requirement Claims, malformed perturbations, or missing figure/uncertainty/limitation evidence blocks before a formal Run; execute applies the same validator.",
+      "expected_cross_case_benefit": "Prevents late evidence loss across descriptive classification, constrained optimization and prediction-to-decision C problems while preserving fail-closed semantics.",
+      "maintenance_cost": "LOW: one validator, one CLI route, one workflow instruction and focused fault tests.",
+      "decision": "AUTHORIZE_SINGLE_RC4_CHANGE_SET"
+    },
+    {
+      "failure_id": "C004C-2021-BASELINE-INFEASIBLE-002",
+      "classification": ["OPTIMIZATION_FAILURE", "PROBLEM_SPECIFIC_INSIGHT"],
+      "affected_cases": ["CUMCM-2021-C-DEVELOPMENT-BATCH-002"],
+      "first_run_evidence": [
+        ".cache/official_inputs/CUMCM-2021-C-BATCH-002/evidence/first_run_failure.json#retained_execution_failures"
+      ],
+      "reference_evidence": ["reference_reviews.json#cases/1/gap_summary/0"],
+      "severity": "CASE_TERMINAL_COMPARISON_BLOCK",
+      "root_cause": "The frozen naive greedy baseline could not construct a feasible minimum supplier set for either seed.",
+      "repeat_count": 1,
+      "universal_hard_failure": false,
+      "generalizable": false,
+      "proposed_skill_change": "NONE; keep the existing mandatory successful-baseline Gate and design a feasible baseline in the Development regression.",
+      "risk_of_overfitting": "HIGH if a particular supplier-selection heuristic were embedded in the Skill.",
+      "neutral_test": "Existing comparison tests continue to reject zero-success baselines and exclude failed attempts from ranking.",
+      "expected_cross_case_benefit": "Existing Gate already supplies the general benefit without new instructions.",
+      "maintenance_cost": "NONE",
+      "decision": "NO_SKILL_CHANGE_EXISTING_GATE_CORRECT"
+    },
+    {
+      "failure_id": "C004C-2021-TEST-AUTHORIZATION-003",
+      "classification": ["EXPERIMENT_DESIGN_FAILURE", "EXECUTION_EVIDENCE_FAILURE"],
+      "affected_cases": ["CUMCM-2021-C-DEVELOPMENT-BATCH-002"],
+      "first_run_evidence": [
+        ".cache/official_inputs/CUMCM-2021-C-BATCH-002/results/model_comparison.json#content/test_access"
+      ],
+      "reference_evidence": ["reference_reviews.json#cases/1/gap_summary/2"],
+      "severity": "CASE_TERMINAL_COMPARISON_BLOCK",
+      "root_cause": "Because the baseline failed, the first run never authorized the single post-selection test access required by the frozen comparison contract.",
+      "repeat_count": 1,
+      "universal_hard_failure": false,
+      "generalizable": false,
+      "proposed_skill_change": "NONE; do not weaken the test-access Gate or invent test evidence after a failed comparison.",
+      "risk_of_overfitting": "HIGH if authorization were inferred from problem-specific circumstances.",
+      "neutral_test": "Existing leakage tests continue to reject zero, early, repeated or selection-used test access under the formal comparison path.",
+      "expected_cross_case_benefit": "Existing fail-closed behavior prevents leakage.",
+      "maintenance_cost": "NONE",
+      "decision": "NO_SKILL_CHANGE_EXISTING_GATE_CORRECT"
+    },
+    {
+      "failure_id": "C004C-2022-INVERSE-IDENTIFIABILITY-004",
+      "classification": ["STATISTICAL_VALIDITY_FAILURE", "PROBLEM_SPECIFIC_INSIGHT"],
+      "affected_cases": ["CUMCM-2022-C-DEVELOPMENT-BATCH-001"],
+      "first_run_evidence": [
+        ".cache/official_inputs/CUMCM-2022-C-BATCH-001/results/robustness.json#content/failure_cases"
+      ],
+      "reference_evidence": ["reference_reviews.json#cases/0/gap_summary/3"],
+      "severity": "LIMITATION_NOT_PROVEN_FALSE_RESULT",
+      "root_cause": "Only sparse apparent within-object paired observations are available for reversing an observational transformation, so the inverse is not identifiable without an exchangeability assumption.",
+      "repeat_count": 1,
+      "universal_hard_failure": false,
+      "generalizable": false,
+      "proposed_skill_change": "NONE; preserve the explicit uncertainty and avoid encoding a domain-specific inverse model.",
+      "risk_of_overfitting": "HIGH",
+      "neutral_test": "NON_TESTABLE from the other batch cases; retained as a limitation and cannot support positive release.",
+      "expected_cross_case_benefit": "NONE ESTABLISHED",
+      "maintenance_cost": "NONE",
+      "decision": "NO_SKILL_CHANGE_PROBLEM_SPECIFIC"
+    },
+    {
+      "failure_id": "C004C-2022-SMALL-SPLIT-PERFECT-SCORE-005",
+      "classification": ["STATISTICAL_VALIDITY_FAILURE", "MODEL_KNOWLEDGE_GAP"],
+      "affected_cases": ["CUMCM-2022-C-DEVELOPMENT-BATCH-001"],
+      "first_run_evidence": [
+        ".cache/official_inputs/CUMCM-2022-C-BATCH-001/results/model_comparison.json#content/attempts"
+      ],
+      "reference_evidence": ["reference_reviews.json#cases/0/references/1"],
+      "severity": "CAUTION_NOT_HARD_FAILURE",
+      "root_cause": "A perfect score on a small grouped validation split is not, by itself, external-validity evidence; the alternative published portfolio also reports very high in-sample discrimination.",
+      "repeat_count": 1,
+      "universal_hard_failure": false,
+      "generalizable": false,
+      "proposed_skill_change": "NONE; RC3 already requires bounded claims, uncertainty and robustness, and the terminal output-contract failure prevented promotion.",
+      "risk_of_overfitting": "MEDIUM",
+      "neutral_test": "NON_TESTABLE as a universal threshold without inventing a domain/sample-size rule.",
+      "expected_cross_case_benefit": "NONE ESTABLISHED",
+      "maintenance_cost": "NONE",
+      "decision": "RETAIN_LIMITATION_NO_POSITIVE_RELEASE_SUPPORT"
+    },
+    {
+      "failure_id": "C004C-REFERENCE-MODEL-DISAGREEMENT-006",
+      "classification": ["REFERENCE_DISAGREEMENT"],
+      "affected_cases": [
+        "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+        "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+        "CUMCM-2020-C-DEVELOPMENT-BATCH-003"
+      ],
+      "first_run_evidence": [
+        ".cache/official_inputs/CUMCM-2022-C-BATCH-001/models/model_candidates.json",
+        ".cache/official_inputs/CUMCM-2021-C-BATCH-002/models/model_candidates.json",
+        ".cache/official_inputs/CUMCM-2020-C-BATCH-003/models/model_candidates.json"
+      ],
+      "reference_evidence": [
+        "reference_reviews.json#cases/0/references/1",
+        "reference_reviews.json#cases/1/references/1",
+        "reference_reviews.json#cases/2/references/1"
+      ],
+      "severity": "NOT_A_FAILURE",
+      "root_cause": "Published analyses chose different model families, but method-name agreement is not an acceptance criterion and the references are not mathematical or experimental oracles.",
+      "repeat_count": 3,
+      "universal_hard_failure": false,
+      "generalizable": false,
+      "proposed_skill_change": "NONE; preserve portfolio freedom and judge requirement coverage, mathematics, execution and evidence.",
+      "risk_of_overfitting": "CRITICAL if reference model names were embedded in the Skill.",
+      "neutral_test": "Anti-hardcoding scan rejects years, titles, attachment names, entity names, reference formulas and fixed case-specific model portfolios.",
+      "expected_cross_case_benefit": "Avoids reference imitation and case memorization.",
+      "maintenance_cost": "NONE",
+      "decision": "NO_SKILL_CHANGE_REFERENCE_DIFFERENCE_NOT_FAILURE"
+    }
+  ],
+  "decision": {
+    "status": "RC4_CHANGE_AUTHORIZED",
+    "authorized_change_sets": 1,
+    "maximum_revision_cycles": 2,
+    "planned_revision_cycle": 1,
+    "authorized_failure_ids": ["C004C-CROSS-OUTPUT-CONTRACT-PREFLIGHT-001"],
+    "prohibited_case_specific_content": true,
+    "references_are_not_oracles": true
+  }
+}

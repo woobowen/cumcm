@@ -15,6 +15,11 @@ exit code、stdout/stderr/output hashes 和冻结集合。全部候选完成、�
 非零 exit 即使已经产生可解析的诊断 output，也必须绑定显式 failure reason 并保留原 output；
 不得因 output 存在而生成 `failure=null` 的 FAILED capture，也不得把该 Run 纳入排名。
 
+每个 exit 0 output 必须再次通过与 `preflight-output` 相同的通用 selected-output contract：
+覆盖全部 requirement 的唯一 Claim、至少一个有限数值 Final metric、非空 claim scope、
+figure-ready data、uncertainty、limitations，以及可复算的定量 robustness perturbations。
+执行时失败必须保留原 output，capture 标记 `RC_EXECUTION_OUTPUT_CONTRACT_INVALID`，不得排名。
+
 已解封同题只允许显式标记为 `DEVELOPMENT_REGRESSION`，research plan 必须绑定不可变的首跑
 freeze SHA，source ledger 必须记录 `UNLOCKED_AFTER_FIRST_RUN`。除此之外仍只接受
 `NOT_ACCESSED`；该例外不得表述为 Validation、Held-out 或 blind evidence。

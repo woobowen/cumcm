@@ -1,8 +1,36 @@
-# Phase 004 Development Eval Protocol
+# Phase 004 Development and C-Target Batch Eval Protocol
 
 ## 目的
 
 直接用 `cumcm-modeling-evidence` Competition RC1 对一道答案仍封存的历史 Development 题做完整盲跑，以真实失败形成 RC2。这里不重新设计 Benchmark，也不以历史答案训练 Validation/Held-out。
+
+Phase 004C 将单题迭代扩展为 batch-first-run：同一个冻结 RC3 依次运行三道结构不同的 C
+Development 题；三题全部形成独立、远端核验的 first-run freeze 前，禁止修改正式 Skill 或解封任一
+case 的参考材料。之后只进行一次统一 cross-case 修改决策，并用 C 题执行正式 Validation。
+
+## C-target batch-first-run 规则
+
+- Batch ID 固定为 `C-TARGET-BATCH-001`，三个 position 在结果出现前冻结；fallback 只能因官方输入
+  不可用或预先确认污染而触发，不能按结果难易选择。
+- 每个 fresh worker 只读冻结 RC3 和自己的 ignored case workspace，只写自己的 case 目录；不得读取
+  peer case、共享 state、registry、Plan、Skill 或 peer 输出。共享状态和 Git 里程碑只由主
+  Orchestrator 串行写入。
+- 三题均按 14 阶段完成 Requirement Trace、问题依赖、Data Audit、baseline、主要候选、结构不同的
+  对照/校验器、预注册实验、真实 execution、比较、稳健性、Final、Claim 和 handoff。失败、部分、
+  STALE、不可行与未收敛结果原样保留。
+- `all-cases-before-unlock` 是硬门：三个 freeze check、三个独立 freeze commit、三个 remote SHA、
+  Skill tree 不变、search log 无未处理暴露、raw input hash 不变全部通过后，才允许统一有限解封。
+- Skill 修改只接受至少两个 C case 独立重复的缺陷，或一个 universal hard failure；同题回归、Stress、
+  参考方法差异和 problem-specific insight 不具有修改准入资格。
+- C-target evidence accounting 分开记录 independent C first run、strict blind C first run、Development
+  regression、Stress、A auxiliary transfer、Validation 和 Held-out。A 成功、同题回归或 Stress 均不得
+  计入独立 C 泛化分母。
+- Validation/Held-out/final simulation 必须为 C；Validation 是 frozen Skill、SEALED answer、fresh
+  worker、one-shot，terminal freeze 后禁止新建 Run 或在同题调 Skill 后继续称为 Validation。
+
+统一回归通过后，RC4 的 exact Skill tree、正式输入、rubric、answer state、环境和时间界限必须在
+2024 C 任一模型结果前分别冻结并远端核验。Validation worker 不得读取 batch postmortem、RC4 修改
+理由或其他题答案；terminal freeze 之后不得新增同题 Validation Run。
 
 ## 前置条件
 
@@ -109,3 +137,14 @@ outcome 为 `FAILED` 的 manifest。该 manifest 只能作为失败证据；comp
 Phase 004B 的 2020 A 同题回归、2023 C 跨题回归和三个机理 Stress 均属于 Development/Stress
 证据，不是 Validation 或泛化证明。交给 Validation 的版本必须冻结到明确的 Skill commit/tree；新题
 答案保持 `SEALED`，一次运行结果冻结后不得修改 Skill 并在同题重跑后继续称为 Validation。
+
+## RC4 与 2024 C Validation 终局
+
+RC4 的唯一修改是通用 selected-output preflight，并已通过统一回归。2024 C 在冻结 Skill、rubric、
+输入、环境和答案状态后由 fresh worker 一次执行：2 个候选 × 2 个 seed 共 4 个实际 Run 全部成功，
+六项主要求的数值输出、独立可行性复算和三项 perturbation 均存在。Final 后的 frozen Claim Gate
+同时要求顶层 claim scope 等于整体 Final scope 和第一项 requirement-specific claim text；两者不等，
+因此只返回 `RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID`。case 终止为 `REJECTED`，handoff 未达，
+正式决策为 `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`。terminal freeze 后不得新增 Run；同题后续
+永久只可作为 Development，修复必须在 `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` 用新的冻结 C题
+验证。

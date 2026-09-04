@@ -7,3 +7,10 @@
 - Complete：`MODELS_PROPOSED → EXPERIMENT_PLAN_VALIDATED → RUNNING`；Reject：post-hoc metric、任意 freeze hash、无 stop rule。
 - STALE/recovery：设计改变使 Run/结果 STALE；新 plan revision 与新 Run ID。
 - Next：`IMPLEMENTATION_AND_EXECUTION`。
+
+在冻结 experiment plan 前，必须先以 `MODELS_PROPOSED` 状态对
+`experiments/selected_output_contract_probe.json` 运行 `preflight-output`。probe 必须显式声明
+`status=CONTRACT_PROBE`、`probe_only=true`、
+`ranking_eligible=false`、`result_values_are_placeholders=true`；它只验证所有 requirement 的
+下游 output/evidence 结构，不是 Run、结果、评分或可用于模型选择的证据。实验计划 Gate 会
+重新校验并把 probe hash 绑定到 case state；预检 BLOCK 时不得冻结计划。
