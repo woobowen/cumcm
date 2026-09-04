@@ -55,6 +55,14 @@ REQUIREMENT_CLAIMS = {
         "The selected run reports a feasible area-bounded solution minimizing the registered "
         "peak-centered symmetry metric, with settings, speed, curve and residuals."
     ),
+    "REQ-2020A-MECHANISM": (
+        "The selected run binds the implemented thermal-balance equations, states, boundary "
+        "profile, fitted parameters, residuals, and numerical diagnostics."
+    ),
+    "REQ-2020A-CONSTRAINTS": (
+        "The selected run recomputes every registered process limit from generated curves and "
+        "reports explicit feasibility residuals."
+    ),
 }
 
 
@@ -541,15 +549,71 @@ def main() -> int:
     q1 = q1_result(args.candidate_id, parameters)
     q2 = maximum_feasible_speed(args.candidate_id, parameters)
     q3, q4 = constrained_search(args.candidate_id, parameters, args.seed)
+    numerical = numerical_validation(args.candidate_id, parameters, q3)
     scientifically_eligible = (
         calibration["solver_success"]
         and q2.get("status") == "SUCCESS"
         and q3.get("feasible") is True
         and q4.get("feasible") is True
+        and numerical["max_abs_temperature_difference_c"] <= 0.75
     )
     selection_score = calibration["validation_rmse_c"] + (
         0.0 if scientifically_eligible else 1_000_000.0
     )
+    final_metrics = {
+        "q2_maximum_feasible_speed_cm_per_min": q2.get("speed_cm_per_min"),
+        "q3_area_above_217_c_s": q3.get("metrics", {}).get("area_above_217_c_s"),
+        "q4_symmetry_rmse_c": q4.get("symmetry_rmse_c"),
+        "validation_rmse_c": round(calibration["validation_rmse_c"], 8),
+    }
+    evidence_artifact_ids = [
+        "results/model_comparison.json",
+        "results/robustness.json",
+        "results/final_result.json",
+        args.output,
+    ]
+    requirement_claims = {
+        requirement_id: {
+            "claim_id": f"CLAIM-{index:03d}-{requirement_id}",
+            "claim_text": claim_text,
+            "evidence_artifact_ids": evidence_artifact_ids,
+        }
+        for index, (requirement_id, claim_text) in enumerate(REQUIREMENT_CLAIMS.items(), start=1)
+    }
+    figure_ready_data = [
+        {
+            "figure_id": "FIGURE-Q1-CENTER-TEMPERATURE",
+            "records": q1["curve_0_5s"],
+            "x_field": "time_s",
+            "y_field": "temperature_c",
+        }
+    ]
+    if q3.get("feasible") is True:
+        figure_ready_data.append(
+            {
+                "figure_id": "FIGURE-Q3-SELECTED-PROCESS",
+                "records": q3["curve_0_5s"],
+                "x_field": "time_s",
+                "y_field": "temperature_c",
+            }
+        )
+    robustness_evidence = {
+        "failure_cases": [
+            "parameter bound activity limits structural identifiability",
+            "no global optimum proof for seeded bounded direct search",
+            "one calibration board does not establish external validity",
+        ],
+        "metric": "selection_score",
+        "metric_direction": "MIN",
+        "perturbations": [
+            {
+                "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+                "metric": "selection_score",
+                "perturbation_id": "TIME_STEP_REFINEMENT",
+                "result": round(selection_score + numerical["rmse_temperature_difference_c"], 8),
+            }
+        ],
+    }
     output = {
         "candidate_id": args.candidate_id,
         "actual_implemented_method": MODEL_IDS[args.candidate_id],
@@ -566,14 +630,18 @@ def main() -> int:
             "time-step sensitivity above the registered tolerance",
             "unmodeled board-specific heat transfer invalidates fitted parameters",
         ],
+        "figure_ready_data": figure_ready_data,
+        "final_metrics": final_metrics,
+        "claim_scope": REQUIREMENT_CLAIMS["REQ-2020A-Q1"],
         "model_id": args.candidate_id,
-        "numerical_validation": numerical_validation(args.candidate_id, parameters, q3),
+        "numerical_validation": numerical,
         "process_limits": PROCESS_LIMITS,
         "q1": q1,
         "q2": q2,
         "q3": q3,
         "q4": q4,
-        "requirement_claims": REQUIREMENT_CLAIMS,
+        "requirement_claims": requirement_claims,
+        "robustness_evidence": robustness_evidence,
         "seed": args.seed,
         "scientifically_eligible_for_final": scientifically_eligible,
         "solver_status": "CONVERGED" if calibration["solver_success"] else "NONCONVERGED",
@@ -583,6 +651,13 @@ def main() -> int:
         "validation_metrics": {
             "rmse_c": round(calibration["validation_rmse_c"], 8),
             "selection_score": round(selection_score, 8),
+        },
+        "limitations": robustness_evidence["failure_cases"],
+        "uncertainty": {
+            "global_optimum_proven": False,
+            "held_out_validation_rmse_c": round(calibration["validation_rmse_c"], 8),
+            "maximum_time_step_difference_c": numerical["max_abs_temperature_difference_c"],
+            "single_board_external_validity": "UNVERIFIED",
         },
     }
     output_path = case_root / args.output
