@@ -64,6 +64,13 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     project_state.write_text(json.dumps(ready) + "\n", encoding="utf-8")
     start.require_competition_rc_ready(project_state)
 
+    for wrong_type in ([], True, "PASS", 0):
+        wrong = json.loads(json.dumps(ready))
+        wrong["competition_rc1"]["integration_audit"] = wrong_type
+        project_state.write_text(json.dumps(wrong) + "\n", encoding="utf-8")
+        with pytest.raises(ValueError, match="COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"):
+            start.require_competition_rc_ready(project_state)
+
     with pytest.raises(ValueError, match="START_TIME_TIMEZONE_REQUIRED"):
         start.iso_time("2026-09-04T00:00:00")
     with pytest.raises(ValueError, match="FREEZE_TIME_TIMEZONE_REQUIRED"):

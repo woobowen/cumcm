@@ -575,6 +575,128 @@ def test_direct_validators_fail_closed_on_nested_enum_type_fuzz(case_cli, tmp_pa
     )
 
 
+@pytest.mark.parametrize(
+    "field,replacement",
+    [
+        ("attempts", True),
+        ("candidate_ids", True),
+        ("random_seeds", True),
+        ("random_seeds", "bad"),
+    ],
+)
+def test_direct_comparison_validator_never_raises_on_container_type_fuzz(
+    case_cli, tmp_path: Path, field: str, replacement: object
+) -> None:
+    case_root = tmp_path / f"prediction-{field}-{type(replacement).__name__}"
+    case_cli.run_smoke(case_root, "AUDIT-CONTAINER-TYPE-FUZZ", "prediction", False)
+    comparison = case_cli.read_artifact(case_root, "model_comparison")["content"]
+    comparison[field] = replacement
+    before = copy.deepcopy(comparison)
+
+    result = case_cli.validate_comparison(
+        comparison,
+        case_cli.trusted_freezes(case_root),
+        case_root=case_root,
+    )
+
+    assert result.accepted is False
+    assert comparison == before
+
+
+@pytest.mark.parametrize("claim_id", [None, 0, True, [], {}, "bad"])
+def test_claim_validator_rejects_invalid_claim_ids(
+    case_cli, tmp_path: Path, claim_id: object
+) -> None:
+    case_root = tmp_path / f"claim-{type(claim_id).__name__}"
+    case_cli.run_smoke(case_root, "AUDIT-CLAIM-ID-FUZZ", "prediction", False)
+    state = case_cli.load_state(case_root)
+    claim = case_cli.read_artifact(case_root, "claim_evidence")["content"]
+    final = case_cli.read_artifact(case_root, "final_result")["content"]
+    manifest = case_cli.load_json(case_root / "runs" / claim["run_id"] / "manifest.json")
+    claim["claim_id"] = claim_id
+
+    result = case_cli.validate_claim(
+        claim,
+        manifest,
+        final,
+        case_root=case_root,
+        state=state,
+    )
+
+    assert result.accepted is False
+    assert "RC_CLAIM_ID_INVALID" in result.reason_codes
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "duplicate_candidates",
+        "unregistered_candidates",
+        "string_seed",
+        "duplicate_seeds",
+        "overlapping_splits",
+        "empty_splits",
+        "empty_metric",
+    ],
+)
+def test_experiment_plan_gate_rejects_invalid_recomputed_freezes(
+    case_cli, tmp_path: Path, mutation: str
+) -> None:
+    case_root = tmp_path / mutation
+    case_cli.run_smoke(case_root, "AUDIT-PLAN-GATE", "prediction", False)
+    state = case_cli.load_state(case_root)
+    history = state["history"][:6]
+    evidence = {relative for record in history for relative in record["evidence"]}
+    state.update(
+        state="MODELS_PROPOSED",
+        last_gate="GATE_MODEL_PORTFOLIO",
+        history=history,
+        evidence_bindings={
+            relative: digest
+            for relative, digest in state["evidence_bindings"].items()
+            if relative in evidence
+        },
+    )
+    case_cli.write_json(case_root / "case_state.json", state)
+    plan_path = case_root / case_cli.ARTIFACT_PATHS["experiment_plan"]
+    plan_record = case_cli.load_json(plan_path)
+    plan = plan_record["content"]
+    if mutation == "duplicate_candidates":
+        plan["candidate_ids"] = ["P-BASELINE-MEAN", "P-BASELINE-MEAN"]
+    elif mutation == "unregistered_candidates":
+        plan["candidate_ids"] = ["UNREGISTERED-BASE", "UNREGISTERED-CANDIDATE"]
+        plan["baseline_id"] = "UNREGISTERED-BASE"
+    elif mutation == "string_seed":
+        plan["random_seeds"] = ["20260904"]
+    elif mutation == "duplicate_seeds":
+        plan["random_seeds"] = [20260904, 20260904]
+    elif mutation == "overlapping_splits":
+        plan["splits"]["test"] = [plan["splits"]["validation"][0]]
+    elif mutation == "empty_splits":
+        plan["splits"] = {"train": [], "validation": [], "test": []}
+    elif mutation == "empty_metric":
+        plan["metric"] = ""
+    plan["trusted_freeze_registry"] = {
+        "candidate_set": case_cli.canonical_hash(plan["candidate_ids"]),
+        "metric": case_cli.canonical_hash(
+            {
+                "name": plan["metric"],
+                "direction": plan["metric_direction"],
+                "aggregation_rule": plan["aggregation_rule"],
+                "selection_rule": plan["selection_rule"],
+            }
+        ),
+        "seed_schedule": case_cli.canonical_hash(plan["random_seeds"]),
+        "split_assignment": case_cli.canonical_hash(plan["splits"]),
+        "baseline": case_cli.canonical_hash(plan["baseline_id"]),
+    }
+    plan_record["content_hash"] = case_cli.canonical_hash(plan)
+    case_cli.write_json(plan_path, plan_record)
+
+    with pytest.raises(ValueError, match="RC_TRUSTED_FREEZE_REGISTRY_MISSING"):
+        case_cli.advance_once(case_root)
+
+
 @pytest.mark.parametrize("freeze_hash", ["unknown", "a" * 64])
 def test_manifest_rejects_unregistered_top_level_freeze_reference(
     case_cli, tmp_path: Path, freeze_hash: str

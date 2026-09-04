@@ -120,13 +120,17 @@ def iso_time(value: str | None) -> str:
 def require_competition_rc_ready(path: Path) -> None:
     value = json.loads(path.read_text(encoding="utf-8"))
     competition = value.get("competition_rc1") if isinstance(value, dict) else None
+    integration_audit = (
+        competition.get("integration_audit") if isinstance(competition, dict) else None
+    )
     if (
         not isinstance(value, dict)
         or value.get("technical_adjudication_status") != "COMPETITION_SKILL_RC_READY"
         or value.get("next_phase_allowed") != "PHASE-SKILL-DEVELOPMENT-EVAL-004"
         or value.get("active_skill_version") != SKILL_VERSION
         or not isinstance(competition, dict)
-        or competition.get("integration_audit", {}).get("status") != "PASS"
+        or not isinstance(integration_audit, dict)
+        or integration_audit.get("status") != "PASS"
     ):
         raise ValueError("COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL")
 

@@ -665,6 +665,7 @@ def validate_comparison(
     if not isinstance(comparison, dict):
         return blocked("RC_COMPARISON_INVALID")
     candidates = comparison.get("candidate_ids")
+    candidate_items = candidates if isinstance(candidates, list) else []
     baseline = comparison.get("baseline_id")
     if not isinstance(candidates, list) or not candidates:
         codes.add("RC_COMPARISON_EMPTY_CANDIDATE_SET")
@@ -672,7 +673,7 @@ def validate_comparison(
         set(candidates)
     ) != len(candidates):
         codes.add("RC_COMPARISON_CANDIDATE_SET_INVALID")
-    if not isinstance(baseline, str) or baseline not in (candidates or []):
+    if not isinstance(baseline, str) or baseline not in candidate_items:
         codes.add("RC_COMPARISON_BASELINE_MISSING")
     splits = comparison.get("splits")
     if not isinstance(splits, dict) or set(splits) != {"train", "validation", "test"}:
@@ -724,6 +725,7 @@ def validate_comparison(
     aggregation_rule = comparison.get("aggregation_rule")
     selection_rule = comparison.get("selection_rule")
     seeds = comparison.get("random_seeds")
+    seed_items = seeds if isinstance(seeds, list) else []
     derived_freezes: dict[str, str] | None = None
     if (
         isinstance(candidates, list)
@@ -780,12 +782,12 @@ def validate_comparison(
             random_seed = attempt.get("random_seed")
             if (
                 not isinstance(candidate_id, str)
-                or candidate_id not in (candidates or [])
+                or candidate_id not in candidate_items
                 or not isinstance(run_id, str)
                 or not run_id
                 or not isinstance(random_seed, int)
                 or isinstance(random_seed, bool)
-                or random_seed not in (seeds or [])
+                or random_seed not in seed_items
                 or (candidate_id, random_seed) in attempt_keys
             ):
                 codes.add("RC_COMPARISON_ATTEMPT_BINDING_INVALID")
@@ -867,7 +869,7 @@ def validate_comparison(
                 ):
                     codes.add("RC_COMPARISON_SCORE_OUTPUT_MISMATCH")
     expected_attempts = (
-        {(candidate, seed) for candidate in candidates for seed in seeds}
+        {(candidate, seed) for candidate in candidate_items for seed in seed_items}
         if isinstance(candidates, list)
         and all(isinstance(candidate, str) for candidate in candidates)
         and isinstance(seeds, list)
@@ -919,9 +921,10 @@ def validate_comparison(
     else:
         codes.add("RC_COMPARISON_METRIC_OR_SUCCESS_SET_INVALID")
     if case_root is not None:
+        attempt_items = attempts if isinstance(attempts, list) else []
         ledger_run_ids = {
             attempt.get("run_id")
-            for attempt in attempts or []
+            for attempt in attempt_items
             if isinstance(attempt, dict) and isinstance(attempt.get("run_id"), str)
         }
         manifest_run_ids = {path.parent.name for path in case_root.glob("runs/*/manifest.json")}
@@ -929,14 +932,14 @@ def validate_comparison(
             codes.add("RC_COMPARISON_RUN_LEDGER_NOT_EXACT")
         reliability = comparison.get("reliability")
         expected_reliability = {
-            "attempts": len(attempts) if isinstance(attempts, list) else 0,
+            "attempts": len(attempt_items),
             "successful": sum(
                 isinstance(attempt, dict) and attempt.get("outcome") == "SUCCESS"
-                for attempt in attempts or []
+                for attempt in attempt_items
             ),
             "failed_or_infeasible": sum(
                 isinstance(attempt, dict) and attempt.get("outcome") != "SUCCESS"
-                for attempt in attempts or []
+                for attempt in attempt_items
             ),
         }
         if reliability != expected_reliability:
@@ -1089,6 +1092,20 @@ def validate_claim(
     }
     if not required <= set(claim):
         codes.add("RC_CLAIM_REQUIRED_BINDING_MISSING")
+    claim_id = claim.get("claim_id")
+    if not isinstance(claim_id, str) or not re.fullmatch(
+        r"CLAIM-[A-Z0-9][A-Z0-9_-]{0,63}", claim_id
+    ):
+        codes.add("RC_CLAIM_ID_INVALID")
+    if (
+        not isinstance(claim.get("claim_text"), str)
+        or not claim.get("claim_text")
+        or not isinstance(claim.get("supported_scope"), str)
+        or not claim.get("supported_scope")
+        or not isinstance(claim.get("run_id"), str)
+        or not claim.get("run_id")
+    ):
+        codes.add("RC_CLAIM_IDENTITY_OR_SCOPE_INVALID")
     for name in (
         "run_manifest_hash",
         "input_hash",
@@ -1110,6 +1127,7 @@ def validate_claim(
         not isinstance(artifacts, list)
         or not artifacts
         or not all(isinstance(item, str) and item for item in artifacts)
+        or len(set(artifacts)) != len(artifacts)
     ):
         codes.add("RC_CLAIM_EXACT_SUPPORT_MISSING")
     if manifest is not None:
@@ -1549,20 +1567,58 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     baseline_id = plan.get("baseline_id")
     splits = plan.get("splits")
     seeds = plan.get("random_seeds")
+    candidate_records = read_artifact(case_root, "model_candidates")["content"].get("candidates")
+    registered_ids = (
+        [item.get("candidate_id") for item in candidate_records]
+        if isinstance(candidate_records, list)
+        and all(isinstance(item, dict) for item in candidate_records)
+        else []
+    )
+    registered_baselines = (
+        [
+            item.get("candidate_id")
+            for item in candidate_records
+            if isinstance(item, dict) and item.get("baseline") is True
+        ]
+        if isinstance(candidate_records, list)
+        else []
+    )
+    split_items = list(splits.values()) if isinstance(splits, dict) else []
+    split_values_valid = len(split_items) == 3 and all(
+        isinstance(items, list)
+        and items
+        and all((isinstance(item, (str, int)) and not isinstance(item, bool)) for item in items)
+        and len(set(items)) == len(items)
+        for items in split_items
+    )
+    splits_disjoint = split_values_valid and not any(
+        set(split_items[left]) & set(split_items[right])
+        for left in range(3)
+        for right in range(left + 1, 3)
+    )
     if (
         not isinstance(value, dict)
         or not isinstance(candidate_ids, list)
         or not candidate_ids
+        or not all(isinstance(item, str) and item for item in candidate_ids)
+        or len(set(candidate_ids)) != len(candidate_ids)
+        or candidate_ids != registered_ids
         or not isinstance(metric, str)
+        or not metric.strip()
         or direction not in ("MIN", "MAX")
         or aggregation_rule != "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
         or selection_rule != ("ARGMIN_THEN_ID" if direction == "MIN" else "ARGMAX_THEN_ID")
         or not isinstance(baseline_id, str)
         or baseline_id not in candidate_ids
+        or registered_baselines != [baseline_id]
         or not isinstance(splits, dict)
         or set(splits) != {"train", "validation", "test"}
+        or not split_values_valid
+        or not splits_disjoint
         or not isinstance(seeds, list)
         or not seeds
+        or not all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
+        or len(set(seeds)) != len(seeds)
     ):
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
     expected = {
