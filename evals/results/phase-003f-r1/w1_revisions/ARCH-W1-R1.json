@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "architecture": "ARCH-W1-WORKFLOW-ONLY-GUARDS",
+  "revision_id": "ARCH-W1-R1",
+  "parent_commit": "5e6440e05945ef00d0424c3235530d5d6de1a3ea",
+  "status": "GATE_ELIGIBLE_FALLBACK",
+  "repair_budget": 4,
+  "repair_cycles_used": 4,
+  "tree_hash": "a7d90ade3d4a28ae2951a6596f43ad680f3be3387f5dd00f9ed4c8b4957dbfff",
+  "changed_files": [
+    "experiments/shadow_prototypes/arch_w1/revision_r1.py",
+    "experiments/shadow_prototypes/arch_w1/composer_r1.py",
+    "tests/unit/test_phase003f_r1_w1.py"
+  ],
+  "cycles": [
+    {
+      "cycle": 1,
+      "failing_gate": ["G1", "G3", "G4", "G5", "G6", "G8"],
+      "failing_test": [
+        "camelCase secret variant",
+        "verified decision registry",
+        "STALE propagation",
+        "immutable sequence normalization"
+      ],
+      "root_cause": "The workflow-only boundary lacked normalized secret keys, exact decision registry binding, candidate-owned composition, and consistent immutable sequence comparison.",
+      "changed_files": [
+        "experiments/shadow_prototypes/arch_w1/revision_r1.py",
+        "experiments/shadow_prototypes/arch_w1/composer_r1.py",
+        "tests/unit/test_phase003f_r1_w1.py"
+      ],
+      "focused_test": "80 passed, 4 failed",
+      "full_gate_result": "NOT_RUN_UNTIL_FOCUSED_FAILURES_CLOSED",
+      "tree_hash": "a7d90ade3d4a28ae2951a6596f43ad680f3be3387f5dd00f9ed4c8b4957dbfff",
+      "tree_hash_scope": "FINAL_FORMAL_REVISION; intra-revision working tree was not frozen"
+    },
+    {
+      "cycle": 2,
+      "failing_gate": ["G3", "G8"],
+      "failing_test": ["immutable state list/tuple normalization"],
+      "root_cause": "Deep-frozen state registries were tuple-shaped while workflow checks compared them as mutable lists.",
+      "changed_files": [
+        "experiments/shadow_prototypes/arch_w1/revision_r1.py",
+        "experiments/shadow_prototypes/arch_w1/composer_r1.py",
+        "tests/unit/test_phase003f_r1_w1.py"
+      ],
+      "focused_test": "83 passed, 1 failed",
+      "full_gate_result": "NOT_RUN_UNTIL_FOCUSED_FAILURE_CLOSED",
+      "tree_hash": "a7d90ade3d4a28ae2951a6596f43ad680f3be3387f5dd00f9ed4c8b4957dbfff",
+      "tree_hash_scope": "FINAL_FORMAL_REVISION; intra-revision working tree was not frozen"
+    },
+    {
+      "cycle": 3,
+      "failing_gate": [],
+      "failing_test": [],
+      "root_cause": "Focused workflow-only behavior was closed; shared R1 transport had not yet been exercised.",
+      "changed_files": [
+        "experiments/shadow_prototypes/arch_w1/revision_r1.py",
+        "experiments/shadow_prototypes/arch_w1/composer_r1.py",
+        "tests/unit/test_phase003f_r1_w1.py"
+      ],
+      "focused_test": "84 passed, 0 failed",
+      "full_gate_result": "PENDING_SHARED_R1_RUNNER",
+      "tree_hash": "a7d90ade3d4a28ae2951a6596f43ad680f3be3387f5dd00f9ed4c8b4957dbfff",
+      "tree_hash_scope": "FINAL_FORMAL_REVISION; intra-revision working tree was not frozen"
+    },
+    {
+      "cycle": 4,
+      "failing_gate": ["G1", "G2", "G3", "G4", "G5", "G6"],
+      "failing_test": ["R1CaseInput result binding mismatch"],
+      "root_cause": "The adapter accepted only the frozen ShadowCaseInput class, rewrote the R1 case identity to a fallback, and violated the shared runner result binding.",
+      "changed_files": [
+        "experiments/shadow_prototypes/arch_w1/revision_r1.py",
+        "tests/unit/test_phase003f_r1_w1.py"
+      ],
+      "focused_test": "W1 focused 86 passed; shared focused 198 passed",
+      "full_gate_result": "8/8 PASS; 117/117 cases; zero unhandled exceptions",
+      "tree_hash": "a7d90ade3d4a28ae2951a6596f43ad680f3be3387f5dd00f9ed4c8b4957dbfff",
+      "tree_hash_scope": "FINAL_FORMAL_REVISION"
+    }
+  ],
+  "repaired_gates": ["G1", "G3", "G4", "G5", "G6", "G8"],
+  "retained_passes": ["G2", "G7"],
+  "remaining_gates": [],
+  "candidate_case_count": 117,
+  "input_immutability": true,
+  "unhandled_exceptions": 0,
+  "third_party_executions": 0,
+  "hidden_benchmark_accesses": 0
+}

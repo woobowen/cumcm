@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "revision_id": "COMMON-HARNESS-R1-001",
+  "parent_commit": "5e6440e05945ef00d0424c3235530d5d6de1a3ea",
+  "repair_budget": 3,
+  "repair_cycles_used": 1,
+  "status": "PASS",
+  "changed_files": [
+    "experiments/shadow_prototypes/common/r1_interface.py",
+    "src/cumcm_skill_lab/shadow_validation/runner_r1.py",
+    "src/cumcm_skill_lab/shadow_validation/competition_gate_r1.py",
+    "scripts/evaluate_competition_architecture_gate_r1.py",
+    "tests/unit/test_phase003f_r1_common.py",
+    "tests/unit/test_competition_architecture_gate_r1.py"
+  ],
+  "cycle": {
+    "failing_gate": ["G1"],
+    "failing_test": ["NaN and Inf could not cross the frozen ShadowCaseInput JSON encoder"],
+    "root_cause": "The old frozen transport correctly rejected non-JSON numbers before candidate evaluation, but RC1 needed a separate deterministic untrusted-input snapshot to carry those values to candidate fail-closed boundaries.",
+    "initial_attempt_result": "Rejected because editing frozen common/interface.py and runner.py triggered R3_FROZEN_FILE_MUTATED.",
+    "implementation": "Restored both frozen files byte-for-byte and added versioned R1CaseInput, boundary_json, runner_r1, and an independent R1 Gate evaluator.",
+    "focused_test": "198 passed, 0 failed",
+    "full_gate_result": "K1 8/8 and W1 8/8; 117 symmetric cases per candidate",
+    "tree_hash": "567a422fca5c2439762d39e1f58238a2f193584a17500468f207d33e8c026c21"
+  },
+  "fairness": {
+    "same_gate_policy": true,
+    "same_semantic_case_count": true,
+    "k1_case_count": 117,
+    "w1_case_count": 117,
+    "same_isolated_state": true,
+    "same_permissions": true,
+    "candidate_diagnostics_trusted": false,
+    "harness_completed_missing_evidence": false,
+    "harness_selected_architecture": false
+  },
+  "old_frozen_files_modified": false,
+  "input_immutability": true,
+  "unhandled_exceptions": 0
+}
