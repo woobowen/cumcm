@@ -8,6 +8,7 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from cumcm_skill_lab.adjudication.models import read_json, read_yaml, sha256_json
+from cumcm_skill_lab.historical_compat import competition_rc_successor
 from cumcm_skill_lab.specification.architecture_validator import (
     BASELINE_ID,
     validate_architecture_candidates,
@@ -194,7 +195,11 @@ def validate_scope_value(root: Path, value: dict[str, Any]) -> list[str]:
         root / "experiments/shadow_prototypes",
         root / "evals/results/phase-002d-r3",
     )
-    if not r3_shadow_authorized(root) and any(path.exists() for path in prohibited_existing_roots):
+    if (
+        not r3_shadow_authorized(root)
+        and not competition_rc_successor(root)
+        and any(path.exists() for path in prohibited_existing_roots)
+    ):
         errors.append("SHADOW_SCOPE_PROTOTYPE_IMPLEMENTATION_ALREADY_EXISTS")
     errors.extend(verify_input_freeze(root))
     errors.extend(verify_embargo(root))

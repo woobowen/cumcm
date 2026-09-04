@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from cumcm_skill_lab.historical_compat import competition_rc_successor
+
 from .models import (
     CREATED_AT,
     INPUT_FREEZE_PATH,
@@ -166,7 +168,9 @@ def validate_input_freeze(root: Path, value: dict[str, Any]) -> list[str]:
     if recorded != sha256_json(body):
         errors.append("INPUT_FREEZE_BROKEN:MANIFEST_HASH")
     live_state = _read_json(root / "state/project_state.json")
-    if live_state.get("subphase") == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION":
+    if live_state.get(
+        "subphase"
+    ) == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION" or competition_rc_successor(root):
         # The C1 input is historical after its accepted C2 successor enters R3. Validate the
         # immutable bindings without rebuilding fields that were explicitly live at C1 (the
         # workflow branch pointer and then-current project-state Schema).

@@ -6,6 +6,11 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_repository_file_hashes,
+)
+
 from .io import file_sha256, read_json, sha256_bytes, sha256_json, tree_hash, write_json_atomic
 
 FREEZE_PATH = Path("evals/results/phase-002d-r3/input_freeze_manifest.json")
@@ -144,7 +149,19 @@ def verify_input_freeze(root: Path) -> list[str]:
     for relative, expected in manifest.get("historical_tree_hashes", {}).items():
         if tree_hash(root, Path(relative)) != expected:
             errors.append(f"R3_HISTORICAL_TREE_MUTATED:{relative}")
-    if tree_hash(root, FORMAL_SKILL_ROOT) != manifest.get("formal_skill_tree_hash"):
+    subject_commit = manifest.get("subject_commit")
+    formal_skill_hash = (
+        sha256_json(
+            git_repository_file_hashes(
+                root,
+                (FORMAL_SKILL_ROOT,),
+                commit=subject_commit,
+            )
+        )
+        if competition_rc_successor(root) and isinstance(subject_commit, str)
+        else tree_hash(root, FORMAL_SKILL_ROOT)
+    )
+    if formal_skill_hash != manifest.get("formal_skill_tree_hash"):
         errors.append("R3_FORMAL_SKILL_TREE_MUTATED")
     commit = manifest.get("state_snapshot", {}).get("commit")
     try:

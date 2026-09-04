@@ -7,6 +7,13 @@ from pathlib import Path
 from typing import Any
 
 from cumcm_skill_lab.adjudication.models import check_or_write, file_sha256, read_json, sha256_json
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_repository_file_hashes,
+)
+from cumcm_skill_lab.historical_compat import (
+    git_file_sha256 as historical_git_file_sha256,
+)
 
 from .models import RESULT_ROOT, SUBJECT_COMMIT, file_hashes, tree_hash
 
@@ -106,6 +113,38 @@ def verify_embargo(root: Path, embargo: dict[str, Any] | None = None) -> list[st
     recorded_hash = body.pop("embargo_hash", None)
     if sha256_json(body) != recorded_hash:
         errors.append("IMPLEMENTATION_EMBARGO_HASH_MISMATCH")
+    if competition_rc_successor(root):
+        expected_skill = embargo.get("formal_skill_file_hashes", {})
+        for relative, expected in expected_skill.items():
+            try:
+                observed = historical_git_file_sha256(root, relative)
+            except subprocess.CalledProcessError:
+                observed = None
+            if observed != expected:
+                errors.append(f"FORMAL_SKILL_EMBARGO_SUBJECT_MISMATCH:{relative}")
+        subject_skill = git_repository_file_hashes(root, (FORMAL_SKILL_ROOT,))
+        if set(subject_skill) != set(expected_skill):
+            errors.append("FORMAL_SKILL_EMBARGO_SUBJECT_MEMBERSHIP_MISMATCH")
+        expected_protected = {
+            path: digest
+            for path, digest in embargo.get("protected_src_file_hashes", {}).items()
+            if path not in C1_COMPATIBILITY_ADAPTERS
+        }
+        subject_protected = git_repository_file_hashes(
+            root,
+            (SRC_ROOT,),
+            excluded_prefixes=ALLOWED_PREFIXES,
+        )
+        subject_protected = {
+            path: digest
+            for path, digest in subject_protected.items()
+            if path not in C1_COMPATIBILITY_ADAPTERS
+            and not any(path.startswith(prefix) for prefix in AUTHORIZATION_GOVERNANCE_PREFIXES)
+            and not path.startswith(R3_SHADOW_PREFIX)
+        }
+        if subject_protected != expected_protected:
+            errors.append("PROTECTED_SRC_SUBJECT_TREE_CHANGED")
+        return sorted(set(errors))
     for relative, expected in embargo.get("formal_skill_file_hashes", {}).items():
         path = root / relative
         if not path.is_file() or file_sha256(path) != expected:

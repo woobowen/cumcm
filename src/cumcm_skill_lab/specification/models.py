@@ -20,6 +20,11 @@ from cumcm_skill_lab.authorization_c1.historical_verification import (
     policy_entry,
     verify_file_entry,
 )
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_file_bytes,
+    historical_file_hash_matches,
+)
 
 RESULT_ROOT = Path("evals/results/phase-002d-r2")
 FREEZE_PATH = RESULT_ROOT / "input_freeze_manifest.json"
@@ -191,11 +196,15 @@ def verify_input_freeze(root: Path, manifest: dict[str, Any] | None = None) -> l
         errors.append("PHASE002D_R2_MANIFEST_HASH_MISMATCH")
     if manifest.get("subject_commit") != SUBJECT_COMMIT:
         errors.append("PHASE002D_R2_SUBJECT_COMMIT_MISMATCH")
-    if manifest.get("project_version") != (root / "VERSION").read_text(encoding="utf-8").strip():
+    observed_version = (
+        git_file_bytes(root, "VERSION").decode().strip()
+        if competition_rc_successor(root)
+        else (root / "VERSION").read_text(encoding="utf-8").strip()
+    )
+    if manifest.get("project_version") != observed_version:
         errors.append("PHASE002D_R2_PROJECT_VERSION_MISMATCH")
     for relative, expected in manifest.get("formal_skill_file_hashes", {}).items():
-        path = root / relative
-        if not path.is_file() or file_sha256(path) != expected:
+        if not historical_file_hash_matches(root, relative, expected):
             errors.append(f"FORMAL_SKILL_INPUT_MUTATED:{relative}")
     for group in ("phase002d_r1_automated_decision_hashes", "historical_component_card_hashes"):
         for relative, expected in manifest.get(group, {}).items():

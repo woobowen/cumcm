@@ -17,6 +17,10 @@ from cumcm_skill_lab.authorization_c1.models import (
     file_sha256,
     sha256_json,
 )
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_repository_file_hashes,
+)
 from cumcm_skill_lab.specification.authorization.models import repository_file_hashes, tree_hash
 from cumcm_skill_lab.specification.implementation_embargo import verify_embargo
 
@@ -129,7 +133,9 @@ def _prerequisite_errors(root: Path) -> list[str]:
         errors.append("C2_FINAL_BUNDLE_C1_FAILURE_INPUT_INVALID")
     errors.extend(verify_embargo(root))
     skill_hash = tree_hash(
-        repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
+        git_repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
+        if competition_rc_successor(root)
+        else repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
     )
     if skill_hash != input_freeze["protected_bindings"]["formal_skill_tree_hash"]:
         errors.append("C2_FINAL_BUNDLE_FORMAL_SKILL_HASH_CHANGED")

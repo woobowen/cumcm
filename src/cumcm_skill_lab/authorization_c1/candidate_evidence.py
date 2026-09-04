@@ -7,6 +7,11 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
+from cumcm_skill_lab.historical_compat import (
+    competition_rc_successor,
+    git_repository_file_hashes,
+    historical_json_if_successor,
+)
 from cumcm_skill_lab.specification.authorization.models import repository_file_hashes, tree_hash
 from cumcm_skill_lab.specification.implementation_embargo import (
     r3_shadow_authorized,
@@ -424,7 +429,7 @@ def build_preconditions(root: Path) -> dict[str, Any]:
     freeze = _read_json(root / FREEZE_PATH)
     input_freeze = _read_json(root / INPUT_FREEZE_PATH)
     compatibility = _read_json(root / RESULT_ROOT / "compatibility_tests/closure.json")
-    state = _read_json(root / "state/project_state.json")
+    state = historical_json_if_successor(root, "state/project_state.json")
     old_preconditions = _read_json(
         root / "evals/results/phase-002d-r2a/authorization_preconditions.json"
     )
@@ -437,7 +442,7 @@ def build_preconditions(root: Path) -> dict[str, Any]:
     r2a_closure = _read_json(root / r2a_closure_path)
     embargo_errors = verify_embargo(root)
     prohibited_runtime_files = []
-    if not r3_shadow_authorized(root):
+    if not r3_shadow_authorized(root) and not competition_rc_successor(root):
         prohibited_runtime_files = [
             path
             for relative in (
@@ -449,7 +454,9 @@ def build_preconditions(root: Path) -> dict[str, Any]:
             if path.is_file()
         ]
     skill_hash = tree_hash(
-        repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
+        git_repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
+        if competition_rc_successor(root)
+        else repository_file_hashes(root, (Path(".agents/skills/cumcm-modeling-evidence"),))
     )
     checks = [
         _check(
@@ -812,7 +819,9 @@ def build_test_evidence(root: Path) -> dict[str, Any]:
     freeze = _read_json(root / FREEZE_PATH)
     plan = _read_json(root / TEST_PLAN_PATH)
     code_hash = (
-        HISTORICAL_TEST_CODE_HASH if r3_shadow_authorized(root) else file_sha256(Path(__file__))
+        HISTORICAL_TEST_CODE_HASH
+        if r3_shadow_authorized(root) or competition_rc_successor(root)
+        else file_sha256(Path(__file__))
     )
     items = []
     for ordinal, spec in enumerate(MUTATION_SPECS, start=1):

@@ -14,6 +14,7 @@ from cumcm_skill_lab.adjudication.models import (
     read_json,
     sha256_json,
 )
+from cumcm_skill_lab.historical_compat import historical_file_hash_matches
 
 from .adjudication import (
     DECISION_FILES,
@@ -38,6 +39,7 @@ RAW_AUDIT_PATH = RESULT_ROOT / "subagent_outputs/decision_auditor.json"
 BUNDLE_ID = "PHASE-002D-R2-NATIVE-DECISION-AUDITOR"
 AUDIT_ID = "DECISION-AUDIT-PHASE-002D-R2"
 POST_AUDIT_MUTABLE_PATHS = {"state/project_state.json"}
+SUCCESSOR_DOCUMENT_PATHS = {"GOALS.md", "WORKFLOW.md"}
 AUDITOR_CHECKS = (
     "historical_input_integrity",
     "decision_set_complete",
@@ -296,7 +298,12 @@ def validate_bundle_snapshot(root: Path, bundle: dict[str, Any]) -> list[str]:
         if relative in POST_AUDIT_MUTABLE_PATHS:
             continue
         path = root / relative
-        if not path.is_file() or file_sha256(path) != expected:
+        matches = (
+            historical_file_hash_matches(root, relative, expected)
+            if relative in SUCCESSOR_DOCUMENT_PATHS
+            else path.is_file() and file_sha256(path) == expected
+        )
+        if not matches:
             errors.append(f"PHASE002D_R2_AUDITOR_SOURCE_DRIFT:{relative}")
     return errors
 

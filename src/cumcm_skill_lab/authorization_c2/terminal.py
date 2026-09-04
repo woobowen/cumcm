@@ -24,6 +24,7 @@ from cumcm_skill_lab.authorization_c1.models import (
     sha256_json,
 )
 from cumcm_skill_lab.authorization_c1.schema_resolution import build_schema_resolution_record
+from cumcm_skill_lab.historical_compat import competition_rc_successor
 
 from .candidate_evidence import CLOSURE_PATH, PRECONDITIONS_PATH, TEST_EVIDENCE_PATH, TEST_PLAN_PATH
 from .candidate_freeze import (
@@ -340,7 +341,9 @@ def _historical_schema_replay(root: Path) -> dict[str, Any]:
     recorded = _read_json(root / RESULT_ROOT / "schema_resolution/record.json")
     errors: list[str] = []
     live_state = _read_json(root / PROJECT_STATE_PATH)
-    if live_state.get("subphase") == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION":
+    if live_state.get(
+        "subphase"
+    ) == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION" or competition_rc_successor(root):
         # C2 is immutable history once R3 starts. Replaying it against the R3 live state would
         # retarget the historical current-state observation, so use its committed resolution.
         rebuilt = recorded
@@ -560,7 +563,9 @@ def check_or_write_authorization_replay(root: Path, *, check: bool) -> dict[str,
 def build_final_project_state(root: Path) -> dict[str, Any]:
     """Return the idempotent C2 terminal state; no next-phase work is performed."""
     live_state = _read_json(root / PROJECT_STATE_PATH)
-    if live_state.get("subphase") == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION":
+    if live_state.get(
+        "subphase"
+    ) == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION" or competition_rc_successor(root):
         state = json.loads(
             git_file_bytes(root, C2_FINAL_STATE_COMMIT, PROJECT_STATE_PATH.as_posix())
         )

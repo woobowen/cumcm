@@ -18,7 +18,7 @@ def _json(path):
 
 
 def _in_progress_state(repo_root):
-    state = _json(repo_root / "state/project_state.json")
+    state = _r2a_start_state(repo_root)
     state["technical_adjudication_status"] = "SPECIFICATION_PROTOCOL_IN_PROGRESS"
     state["subphase"] = "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL"
     state["current_plan"] = "plans/active/PLAN-0002D-R2-specification-and-protocol.md"
