@@ -1008,6 +1008,38 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {"const": "DEVELOPMENT_EVAL_RC3_READY"}
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "subphase": {"const": "CUMCM-2020-A-DEVELOPMENT-RC3"},
+          "active_skill_version": {"const": "0.2.0-competition-rc3"},
+          "next_phase_allowed": {"const": "PHASE-SKILL-VALIDATION-EVAL-004-C"},
+          "development_eval": {
+            "properties": {
+              "case_id": {"const": "CUMCM-2020-A-DEVELOPMENT-002"},
+              "first_run_status": {"const": "FROZEN"},
+              "first_run_freeze_status": {"const": "PASS"},
+              "answer_access_status": {"const": "UNLOCKED_AFTER_FIRST_RUN"},
+              "unlock_status": {"const": "UNLOCKED_AFTER_FIRST_RUN"},
+              "revision_cycles_used": {"minimum": 1, "maximum": 2},
+              "stress_statuses": {
+                "properties": {
+                  "A": {"const": "PASS"},
+                  "B": {"const": "PASS"},
+                  "C": {"const": "PASS"}
+                }
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "additionalProperties": false

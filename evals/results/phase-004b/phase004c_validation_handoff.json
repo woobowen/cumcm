@@ -1,0 +1,125 @@
+{
+  "answer_access_policy": "SEALED_UNTIL_VALIDATION_RESULT_FREEZE",
+  "cross_case_confirmed_improvements": [
+    {
+      "failure_id": "GAP-004A-001",
+      "improvement": "Git-blob-bound case-local execution with immutable capture and separate sealing",
+      "verified_cases": [
+        "CUMCM-2023-C-DEVELOPMENT-001",
+        "CUMCM-2020-A-DEVELOPMENT-002"
+      ]
+    },
+    {
+      "failure_id": "GAP-004B-001",
+      "improvement": "Every nonzero subprocess exit receives deterministic retained failure evidence",
+      "verified_cases": [
+        "GENERIC_NONZERO_OUTPUT_REGRESSION",
+        "CUMCM-2023-C-CROSS-CASE-RC3"
+      ]
+    }
+  ],
+  "development_cases": [
+    {
+      "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+      "case_id": "CUMCM-2023-C-DEVELOPMENT-001",
+      "evidence_path": "evals/results/phase-004a/CUMCM-2023-C-DEVELOPMENT-001/rc2/development_regression_evidence.json",
+      "evidence_sha256": "78c0c79c4190425ac5e335bc717911121cea4e9c5f76ce81c35ce0499c87237e",
+      "evidence_type": "DEVELOPMENT_REGRESSION",
+      "final_state": "READY_FOR_PAPER_HANDOFF"
+    },
+    {
+      "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+      "case_id": "CUMCM-2020-A-DEVELOPMENT-002",
+      "evidence_path": "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/rc3/development_regression_evidence.json",
+      "evidence_sha256": "1a506fe1189b7fc0e63813a7e66daa57d13a1a4ae7c05861f9fd60b13936fe6e",
+      "evidence_type": "DEVELOPMENT_REGRESSION",
+      "final_state": "READY_FOR_PAPER_HANDOFF"
+    }
+  ],
+  "evaluation_rubric": [
+    "requirement_coverage",
+    "physical_and_mathematical_validity",
+    "numerical_validity",
+    "model_portfolio",
+    "execution_evidence",
+    "robustness_and_sensitivity",
+    "claim_and_handoff",
+    "contest_efficiency"
+  ],
+  "frozen_skill": {
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "capability": "COMPETITION_RC",
+    "commit": "8a2a813ff34d8c2701c64ff9d959848e7b88c27c",
+    "git_tree": "a4551c8aa0b6b119823f6ce9df3f0f948339bb33",
+    "name": "cumcm-modeling-evidence",
+    "runner_sha256": "1cdeeb04219e91dddf73eeb730782e31bef6a669061d2873137ad181b6a86f06",
+    "version": "0.2.0-competition-rc3"
+  },
+  "hard_gates": [
+    "no_main_question_omission",
+    "code_actually_executed",
+    "dimensionally_and_physically_valid",
+    "selected_final_is_converged_and_feasible",
+    "exact_input_code_output_binding",
+    "raw_inputs_immutable",
+    "claims_evidence_bound",
+    "runs_reproducible",
+    "no_answer_exposure_before_freeze",
+    "no_uncaptured_manual_numbers"
+  ],
+  "known_failure_taxonomy": [
+    "GENERALIZABLE_SKILL_FAILURE",
+    "MODEL_KNOWLEDGE_GAP",
+    "SEARCH_FAILURE",
+    "REQUIREMENT_DECOMPOSITION_FAILURE",
+    "PHYSICAL_MODELING_FAILURE",
+    "PARAMETER_IDENTIFICATION_FAILURE",
+    "NUMERICAL_METHOD_FAILURE",
+    "OPTIMIZATION_FAILURE",
+    "EXPERIMENT_FAILURE",
+    "EXECUTION_EVIDENCE_FAILURE",
+    "CLAIM_EVIDENCE_FAILURE",
+    "HANDOFF_FAILURE",
+    "CONTEST_EFFICIENCY_FAILURE",
+    "PROBLEM_SPECIFIC_INSIGHT",
+    "REFERENCE_DISAGREEMENT"
+  ],
+  "next_branch_naming": "feat/phase004c-validation-eval-<case-slug>",
+  "next_phase": "PHASE-SKILL-VALIDATION-EVAL-004-C",
+  "next_state": "VALIDATION_NOT_STARTED",
+  "no_post_result_tuning": true,
+  "one_shot_policy": "ONE_VALIDATION_ATTEMPT;RESULT_FREEZE_BEFORE_ANY_SKILL_CHANGE;NO_SAME_CASE_RETUNING_AS_VALIDATION",
+  "required_environment": {
+    "dependency_snapshot_sha256": "954006bbd50c203779ee9ac2307b8935c802ca999f1c8a3c7f3c256e3ba10c36",
+    "network_during_execution": "OFFLINE",
+    "python": "3.11.14",
+    "required_packages": [
+      "numpy==2.4.6",
+      "pandas==2.3.3",
+      "scipy==1.17.1",
+      "openpyxl==3.1.5",
+      "scikit-learn==1.9.0",
+      "statsmodels==0.15.0"
+    ]
+  },
+  "schema_version": "1.0.0",
+  "status": "READY_FOR_VALIDATION_INTAKE_NOT_STARTED",
+  "time_budget": {
+    "full_validation_run_max_hours": 6,
+    "total_phase_max_hours": 12
+  },
+  "unverified_improvements": [
+    "nonzero-exit fallback was exercised generically but not by a successful Validation case",
+    "mechanistic parameter-identifiability and optimization-globality guidance remains case-level evidence",
+    "external validity, production fitness, full ablation, and monetary cost remain unverified"
+  ],
+  "validation_set_rules": [
+    "select a historical problem structurally different from both Development cases",
+    "register it as VALIDATION with answer access SEALED",
+    "use the frozen RC3 commit and tree without post-result tuning",
+    "do not reuse a visible-answer case or call a rerun Validation",
+    "freeze every terminal outcome including BLOCKED or REJECTED",
+    "do not start Validation during Phase 004B"
+  ],
+  "validation_started": false
+}

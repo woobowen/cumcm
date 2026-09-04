@@ -182,7 +182,7 @@ cases:
   problem_specific_findings:
   - GAP-004B-003
   - GAP-004B-004
-  cross_case_regression_status: NOT_RUN
+  cross_case_regression_status: PASS
   raw_storage: PRIVATE_IGNORED_CACHE_NON_VAULT
   acquired_at: '2026-09-04T18:51:10+08:00'
   license_or_redistribution: OFFICIAL_PUBLIC_DOWNLOAD_REDISTRIBUTION_NOT_ESTABLISHED
@@ -240,3 +240,33 @@ cases:
     reference_review_path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/postmortem/reference_review.json
     gap_analysis_path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/postmortem/gap_analysis.json
     skill_change_decision: ONE_GENERALIZABLE_EXECUTOR_FAILURE_ACCEPTED_FOR_RC3
+  rc3_release:
+    path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/rc3/skill_release.json
+    sha256: 322d8dc30d8950278fbca020bc1ca60b8b974df7cfbd84c11013578b9783c292
+    skill_version: 0.2.0-competition-rc3
+    skill_commit: 8a2a813ff34d8c2701c64ff9d959848e7b88c27c
+    skill_tree: a4551c8aa0b6b119823f6ce9df3f0f948339bb33
+  rc3_development_regression:
+    evidence_path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/rc3/development_regression_evidence.json
+    evidence_sha256: 1a506fe1189b7fc0e63813a7e66daa57d13a1a4ae7c05861f9fd60b13936fe6e
+    evidence_class: DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION
+    final_state: READY_FOR_PAPER_HANDOFF
+    selected_model: PRIMARY_ASYMMETRIC_FIRST_ORDER
+  cross_case_regression:
+    case_id: CUMCM-2023-C-CROSS-CASE-RC3
+    evidence_path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/cross_case_regression/cumcm_2023c_rc3.json
+    evidence_sha256: 3d538c35983d9413bbe34df6654f0cc21bc68a8451938b5e43b844fdaab6ac56
+    status: PASS
+  stress_evidence:
+    A:
+      path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/stress/stress_a_evidence.json
+      sha256: c648e785063a01a1596ad4d4793692dbe192ce46d719aa5baf055bc28f3b4507
+      status: PASS
+    B:
+      path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/stress/stress_b_evidence.json
+      sha256: 32d37ebfe0761468096bcf65b302006bb13917de6cac29cc992d5acca2ad8b40
+      status: PASS
+    C:
+      path: evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002/stress/stress_c_evidence.json
+      sha256: b9f9d69c619fd537afab52922e8845b69d15c8680585fd52fd089901e6a5483d
+      status: PASS

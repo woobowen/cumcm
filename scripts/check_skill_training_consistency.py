@@ -40,6 +40,35 @@ REQUIRED_REPORTS = tuple(
         "acceptance",
     )
 )
+PHASE004B_ROOT = REPO_ROOT / "evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002"
+PHASE004B_FREEZE = PHASE004B_ROOT / "first_run/first_run_freeze.json"
+PHASE004B_REGRESSION = PHASE004B_ROOT / "rc3/development_regression_evidence.json"
+PHASE004B_RELEASE = PHASE004B_ROOT / "rc3/skill_release.json"
+PHASE004B_CROSS_CASE = PHASE004B_ROOT / "cross_case_regression/cumcm_2023c_rc3.json"
+PHASE004B_STRESS = {
+    "A": PHASE004B_ROOT / "stress/stress_a_evidence.json",
+    "B": PHASE004B_ROOT / "stress/stress_b_evidence.json",
+    "C": PHASE004B_ROOT / "stress/stress_c_evidence.json",
+}
+PHASE004C_HANDOFF = REPO_ROOT / "evals/results/phase-004b/phase004c_validation_handoff.json"
+PHASE004B_REPORTS = tuple(
+    REPO_ROOT / f"reports/{name}.md"
+    for name in (
+        "phase004b_first_run",
+        "phase004b_first_run_freeze",
+        "phase004b_scientific_validity",
+        "phase004b_postmortem",
+        "phase004b_generalizable_failures",
+        "phase004b_skill_changes",
+        "phase004b_development_regression",
+        "phase004b_cross_case_regression",
+        "phase004b_stress_results",
+        "phase004b_timing_and_cost",
+        "phase004b_cross_case_generalization",
+        "phase004c_validation_handoff",
+        "phase004b_acceptance",
+    )
+)
 EXPECTED_VERSION = "0.2.0-competition-rc3"
 PHASE004A_VERSION = "0.2.0-competition-rc2"
 ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", PHASE004A_VERSION}
@@ -300,6 +329,147 @@ def check() -> dict[str, Any]:
         ):
             errors.append("PHASE004A_ACCEPTANCE_REPORT_INCONSISTENT")
 
+    phase004b_case = next(
+        (
+            case
+            for case in cases
+            if isinstance(case, dict) and case.get("case_id") == "CUMCM-2020-A-DEVELOPMENT-002"
+        ),
+        {},
+    )
+    phase004b_paths = [
+        PHASE004B_FREEZE,
+        PHASE004B_REGRESSION,
+        PHASE004B_RELEASE,
+        PHASE004B_CROSS_CASE,
+        *PHASE004B_STRESS.values(),
+        PHASE004C_HANDOFF,
+    ]
+    if any(not path.is_file() for path in phase004b_paths):
+        errors.append("PHASE004B_EVIDENCE_MISSING")
+    else:
+        freeze_004b = load_json(PHASE004B_FREEZE)
+        regression_004b = load_json(PHASE004B_REGRESSION)
+        release_004b = load_json(PHASE004B_RELEASE)
+        cross_case_004b = load_json(PHASE004B_CROSS_CASE)
+        stress_004b = {key: load_json(path) for key, path in PHASE004B_STRESS.items()}
+        handoff_004c = load_json(PHASE004C_HANDOFF)
+        freeze_record = phase004b_case.get("first_run_freeze", {})
+        if (
+            freeze_004b.get("answer_access_status") != "SEALED"
+            or freeze_004b.get("first_run_status") != "FROZEN"
+            or freeze_004b.get("blocked_reason_code") != "RC_RUN_SUCCESS_SET_INSUFFICIENT"
+            or freeze_record.get("path") != str(PHASE004B_FREEZE.relative_to(REPO_ROOT))
+            or freeze_record.get("sha256") != sha256_file(PHASE004B_FREEZE)
+        ):
+            errors.append("PHASE004B_FIRST_RUN_FREEZE_INVALID")
+        release_skill = release_004b.get("formal_skill", {})
+        if (
+            release_004b.get("release_status") != "FROZEN_FOR_PHASE004C_VALIDATION"
+            or release_skill.get("version") != EXPECTED_VERSION
+            or not GIT_SHA.fullmatch(str(release_skill.get("commit", "")))
+            or not GIT_SHA.fullmatch(str(release_skill.get("git_tree", "")))
+            or release_004b.get("evidence_basis", {}).get("accepted_failure_id") != "GAP-004B-001"
+        ):
+            errors.append("PHASE004B_RC3_RELEASE_INVALID")
+        if (
+            regression_004b.get("evidence_class")
+            != "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION"
+            or regression_004b.get("final_state") != "READY_FOR_PAPER_HANDOFF"
+            or regression_004b.get("skill", {}).get("version") != EXPECTED_VERSION
+            or regression_004b.get("selected_model") != "PRIMARY_ASYMMETRIC_FIRST_ORDER"
+            or len(regression_004b.get("runs", [])) != 6
+            or any(run.get("exit_code") != 0 for run in regression_004b.get("runs", []))
+            or regression_004b.get("handoff", {}).get("status") != "PASS"
+        ):
+            errors.append("PHASE004B_DEVELOPMENT_REGRESSION_INVALID")
+        expected_stress_variants = {
+            "A": "STRESS_A_UNITS_TIME",
+            "B": "STRESS_B_EQUIVALENT_SEGMENTS",
+            "C": "STRESS_C_DEGRADED_OBSERVATIONS",
+        }
+        for key, expected_variant in expected_stress_variants.items():
+            value = stress_004b[key]
+            if (
+                value.get("variant_id") != expected_variant
+                or value.get("result") != "PASS"
+                or value.get("final_state") != "READY_FOR_PAPER_HANDOFF"
+                or value.get("skill_version") != EXPECTED_VERSION
+                or len(value.get("runs", [])) != 2
+                or any(run.get("exit_code") != 0 for run in value.get("runs", []))
+                or value.get("stale_probe", {}).get("status") != "STALE"
+            ):
+                errors.append(f"PHASE004B_STRESS_{key}_INVALID")
+        if (
+            stress_004b["A"].get("conversion_metadata", {}).get("time_to_seconds") != 60.0
+            or stress_004b["A"].get("reference_comparison", {}).get("tolerance_pass") is not True
+            or stress_004b["B"].get("process_representation", {}).get("coordinate_sort_required")
+            is not True
+            or stress_004b["B"].get("reference_comparison", {}).get("tolerance_pass") is not True
+            or stress_004b["C"].get("uncertainty", {}).get("reported_parameter_significant_digits")
+            != 4
+            or stress_004b["C"].get("final_metrics", {}).get("validation_rmse_c")
+            == regression_004b.get("final_metrics", {}).get("validation_rmse_c")
+        ):
+            errors.append("PHASE004B_STRESS_SEMANTICS_INVALID")
+        if (
+            cross_case_004b.get("result") != "PASS"
+            or cross_case_004b.get("skill_version") != EXPECTED_VERSION
+            or cross_case_004b.get("final_state") != "READY_FOR_PAPER_HANDOFF"
+            or len(cross_case_004b.get("runs", [])) != 3
+            or not all(
+                cross_case_004b.get("executor_checks", {}).get(name) == "PASS"
+                for name in (
+                    "case_local_execute",
+                    "capture_immutable",
+                    "custom_code_manifest_binding",
+                    "development_unlock_boundary",
+                    "seal_run",
+                )
+            )
+            or not all(cross_case_004b.get("comparison_to_rc2", {}).values())
+            or cross_case_004b.get("stale_probe", {}).get("status") != "STALE"
+            or cross_case_004b.get("handoff", {}).get("status") != "PASS"
+        ):
+            errors.append("PHASE004B_CROSS_CASE_REGRESSION_INVALID")
+        registered_regression = phase004b_case.get("rc3_development_regression", {})
+        if (
+            registered_regression.get("evidence_path")
+            != str(PHASE004B_REGRESSION.relative_to(REPO_ROOT))
+            or registered_regression.get("evidence_sha256") != sha256_file(PHASE004B_REGRESSION)
+            or phase004b_case.get("cross_case_regression_status") != "PASS"
+        ):
+            errors.append("PHASE004B_REGISTRY_EVIDENCE_MISMATCH")
+        registered_stress = phase004b_case.get("stress_evidence", {})
+        for key, path in PHASE004B_STRESS.items():
+            record = registered_stress.get(key, {})
+            if (
+                record.get("path") != str(path.relative_to(REPO_ROOT))
+                or record.get("sha256") != sha256_file(path)
+                or record.get("status") != "PASS"
+            ):
+                errors.append(f"PHASE004B_STRESS_{key}_REGISTRY_MISMATCH")
+        frozen_skill = handoff_004c.get("frozen_skill", {})
+        if (
+            handoff_004c.get("status") != "READY_FOR_VALIDATION_INTAKE_NOT_STARTED"
+            or handoff_004c.get("validation_started") is not False
+            or handoff_004c.get("answer_access_policy") != "SEALED_UNTIL_VALIDATION_RESULT_FREEZE"
+            or handoff_004c.get("next_phase") != "PHASE-SKILL-VALIDATION-EVAL-004-C"
+            or frozen_skill
+            != release_skill
+            | {
+                "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+                "capability": "COMPETITION_RC",
+            }
+            or len(handoff_004c.get("development_cases", [])) != 2
+        ):
+            errors.append("PHASE004C_VALIDATION_HANDOFF_INVALID")
+    if any(
+        not path.is_file() or not path.read_text(encoding="utf-8").strip()
+        for path in PHASE004B_REPORTS
+    ):
+        errors.append("PHASE004B_REPORT_SET_INCOMPLETE")
+
     problem_specific_tokens = (
         "2023 C",
         "蔬菜类商品",
@@ -344,6 +514,18 @@ def check() -> dict[str, Any]:
             or state.get("next_phase_allowed") is not None
         ):
             errors.append("PHASE004B_SEALED_START_STATE_MISMATCH")
+    if state.get("technical_adjudication_status") == "DEVELOPMENT_EVAL_RC3_READY" and (
+        state.get("subphase") != "CUMCM-2020-A-DEVELOPMENT-RC3"
+        or state.get("active_skill_version") != EXPECTED_VERSION
+        or state.get("next_phase_allowed") != "PHASE-SKILL-VALIDATION-EVAL-004-C"
+        or state.get("development_eval", {}).get("case_id") != "CUMCM-2020-A-DEVELOPMENT-002"
+        or state.get("development_eval", {}).get("answer_access_status")
+        != "UNLOCKED_AFTER_FIRST_RUN"
+        or state.get("development_eval", {}).get("stress_statuses")
+        != {"A": "PASS", "B": "PASS", "C": "PASS"}
+        or state.get("third_party_integrated") is not False
+    ):
+        errors.append("PHASE004B_RC3_READY_STATE_EVIDENCE_MISMATCH")
     return {
         "ok": not errors,
         "error_count": len(errors),

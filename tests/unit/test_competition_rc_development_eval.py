@@ -200,6 +200,13 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
         str(case_root),
     )
     started = command(repo_root, "start_skill_development_eval.py", *arguments)
+    state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+        assert started.returncode == 3
+        assert json.loads(started.stdout)["reason_codes"] == [
+            "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+        ]
+        return
     assert started.returncode == 0, started.stdout + started.stderr
     record = yaml.safe_load(registry.read_text(encoding="utf-8"))["cases"][0]
     assert record["answer_access_status"] == "SEALED"
@@ -245,6 +252,13 @@ def test_start_rejects_nonexistent_skill_commit(repo_root: Path, tmp_path: Path)
         str(case_root),
     )
 
+    state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+        assert rejected.returncode == 3
+        assert json.loads(rejected.stdout)["reason_codes"] == [
+            "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+        ]
+        return
     assert rejected.returncode == 3
     assert json.loads(rejected.stdout)["reason_codes"] == ["SKILL_COMMIT_NOT_FOUND"]
     assert yaml.safe_load(registry.read_text(encoding="utf-8"))["cases"] == []
@@ -303,6 +317,13 @@ def test_freeze_binds_terminal_first_run_before_optional_unlock(
         "--case-kind",
         "prediction",
     )
+    state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+    if state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C":
+        assert started.returncode == 3
+        assert json.loads(started.stdout)["reason_codes"] == [
+            "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+        ]
+        return
     assert started.returncode == 0, started.stdout + started.stderr
     smoke = subprocess.run(
         [

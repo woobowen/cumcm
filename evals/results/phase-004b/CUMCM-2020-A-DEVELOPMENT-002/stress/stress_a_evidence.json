@@ -1,0 +1,62 @@
+{
+  "case_id": "CUMCM-2020-A-DEVELOPMENT-002",
+  "code_commit": "24be0026336b3352c4f360b4708e9bb5cf77cead",
+  "conversion_metadata": {
+    "inverse": "time_s=time_min*60; temperature_c=temperature_k-273.15",
+    "temperature_offset_to_celsius": -273.15,
+    "time_to_seconds": 60.0
+  },
+  "decision_hash": "8245252bcd5ac3591db9b46b5ce5630a53ec1d27ee411407eabd646cbe391e56",
+  "evidence_class": "STRESS_NOT_INDEPENDENT_GENERALIZATION",
+  "final_metrics": {
+    "q2_maximum_feasible_speed_cm_per_min": 67.79449749,
+    "q3_area_above_217_c_s": 712.59265725,
+    "q4_symmetry_rmse_c": 6.19500332,
+    "validation_rmse_c": 5.80972511
+  },
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "handoff_sha256": "f23f13542d2f6496ee6060a20ba5ada353603f2f0945f003bbb59467d30b99f0",
+  "input_hashes": {
+    "measurement": "64d77315e4e38e87db31080fcef33a596ef5d7d6b579aff56c5cdb434c5be3b6",
+    "variant_config": "5fccb4928014f0f0cc74d7681ff8c851e7e80b384bca98be5cf7d4357a42137d"
+  },
+  "reference_comparison": {
+    "q2_absolute_difference_cm_per_min": 0.0,
+    "selection_score_absolute_difference": 1e-08,
+    "selected_model_identical": true,
+    "tolerance_pass": true
+  },
+  "result": "PASS",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_FIRST_ORDER",
+      "capture_sha256": "e84e4705a85ba0e6bb61151b18a12ceb1ff02474a1d68ce7b7ffa4386263161f",
+      "exit_code": 0,
+      "manifest_sha256": "38d9a34c4af732239ff00b98adcfc3321ce9373ff18b053b4ac0ac7c34247db2",
+      "output_sha256": "239fee78fbb54efc3af43a42a6f46480094ea11be2a81cbe317b9d63c1692506",
+      "run_id": "RUN-STRESS-A-BASELINE_FIRST_ORDER-20260906"
+    },
+    {
+      "candidate_id": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+      "capture_sha256": "5f1378f7543e92ddc8ac4360e1b480381473e797e91fe6c8a29e892c50b7e02b",
+      "exit_code": 0,
+      "manifest_sha256": "f597fa8bac3253d631cdbfd6203f6f73d8960831ba9103136d2964c42f9a6443",
+      "output_sha256": "8cc5b57b01f6f0429deb106903a1fb9fbdb8485538209c18a6b34bae5a06eb77",
+      "run_id": "RUN-STRESS-A-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260906"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selected_model": "PRIMARY_ASYMMETRIC_FIRST_ORDER",
+  "skill_version": "0.2.0-competition-rc3",
+  "stale_probe": {
+    "dependency_chain": [
+      "data/raw/case_files/variant_config.json",
+      "experiments/experiment_plan.json",
+      "runs/RUN-STRESS-A-BASELINE_FIRST_ORDER-20260906/manifest.json",
+      "runs/RUN-STRESS-A-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260906/manifest.json"
+    ],
+    "reason_code": "RC_UPSTREAM_DEPENDENCY_STALE",
+    "status": "STALE"
+  },
+  "variant_id": "STRESS_A_UNITS_TIME"
+}

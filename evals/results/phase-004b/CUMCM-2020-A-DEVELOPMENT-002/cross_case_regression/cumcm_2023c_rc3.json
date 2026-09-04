@@ -1,0 +1,92 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "case_id": "CUMCM-2023-C-CROSS-CASE-RC3",
+  "case_state_sha256": "9d657c8fb9e460adfef7af252f518c71ca2e051d4d55a4f21ea8ab1760e3b7b0",
+  "code_commit": "24be0026336b3352c4f360b4708e9bb5cf77cead",
+  "comparison_to_rc2": {
+    "input_hashes_identical": true,
+    "output_hashes_identical": true,
+    "selected_model_identical": true,
+    "selection_decision_hash_identical": true
+  },
+  "decision_hash": "39c62b36f2fb4b28c10ce62722d5834f92b3348ea9abbf76345ef542626f880e",
+  "evidence_class": "CROSS_CASE_DEVELOPMENT_REGRESSION_NOT_VALIDATION",
+  "executor_checks": {
+    "case_local_execute": "PASS",
+    "capture_immutable": "PASS",
+    "custom_code_manifest_binding": "PASS",
+    "development_unlock_boundary": "PASS",
+    "seal_run": "PASS"
+  },
+  "final_metrics": {
+    "expected_profit_proxy_yuan": 5230.45542049,
+    "forecast_total_kg": 3076.35706056,
+    "selected_item_count": 27,
+    "validation_wape": 0.31407446
+  },
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "handoff": {
+    "contract": "modeling-to-paper/v1",
+    "sha256": "51c2cc8d9533543406faf80ee5d8d878d5380804efbe4092b4c8a606ccb63a77",
+    "status": "PASS"
+  },
+  "input_hashes": {
+    "raw/case_files/附件1.xlsx": "311bcf788c9131f88064e1ceb1c2f56496af6a390c7940029ae89e3967433bd7",
+    "raw/case_files/附件2.xlsx": "d10ad4125a37a0a335d1f3a3932caaa386367ccf9452cfbf9e280d65817a0d5b",
+    "raw/case_files/附件3.xlsx": "3a383a51148c8d94afdd1a4a395a88d14dc06a507f4120185066fae92d1405e9",
+    "raw/case_files/附件4.xlsx": "d91923cc389ff3077974e9f1ccb1c2b78251f23ef17b8a6a557e681ccca1c18c",
+    "state/variant_metadata.json": "307724cb9997e954e50c94045f031db7e27c0bfb17ad86233a4b79e4cddc8a1d"
+  },
+  "preexisting_rc2_evidence_sha256": "78c0c79c4190425ac5e335bc717911121cea4e9c5f76ce81c35ce0499c87237e",
+  "result": "PASS",
+  "runs": [
+    {
+      "candidate_id": "PIPELINE-SEASONAL-BASELINE",
+      "capture_sha256": "1d34fcf0bdeaa32277a5c1652a60a950a77ad5be77b880da48856c16080ef50a",
+      "elapsed_seconds": 33.868089,
+      "exit_code": 0,
+      "manifest_sha256": "e181bbfb1dcdfcc1f42589f1b952061f5918713f1bc8ccad7a3060e5445b7d6d",
+      "output_sha256": "0453c5b98ef3791dca03b12b78a2f59f0caa69c0d3747bca2f1de7a0343879b5",
+      "run_id": "RUN-PIPELINE-SEASONAL-BASELINE-20260904",
+      "seed": 20260904,
+      "validation_score": 1.0
+    },
+    {
+      "candidate_id": "PIPELINE-HIERARCHICAL-STOCHASTIC",
+      "capture_sha256": "287e02cfb92f2844e2b70d87d7f7dd731cfa858f497632566697a73686242fd6",
+      "elapsed_seconds": 32.876047,
+      "exit_code": 0,
+      "manifest_sha256": "b3b701d09209106df6c70e7be9bbfa7005462253edbc6081da478735d0c4d0ba",
+      "output_sha256": "a8d98b9ab33b617e374230338249b4c7c7ec43425aca0338eb4cd29237ea4148",
+      "run_id": "RUN-PIPELINE-HIERARCHICAL-STOCHASTIC-20260904",
+      "seed": 20260904,
+      "validation_score": 0.95115654
+    },
+    {
+      "candidate_id": "PIPELINE-NONPARAMETRIC-ROBUST",
+      "capture_sha256": "2a2ff4286ef03c0174f55e4e4af7b0e4a91c11a3aaca8922ef94e88705bbe80d",
+      "elapsed_seconds": 33.104216,
+      "exit_code": 0,
+      "manifest_sha256": "d78cb39d928e183eef7d7ac9c4811300c58f610c5a408b5597cac4203948e8b5",
+      "output_sha256": "12cb0b3bcbb5989a98cd0bae52506f432e6f862e32fe4044a67b9dea211b0cc0",
+      "run_id": "RUN-PIPELINE-NONPARAMETRIC-ROBUST-20260904",
+      "seed": 20260904,
+      "validation_score": 1.1392707
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selected_model": "PIPELINE-HIERARCHICAL-STOCHASTIC",
+  "skill_version": "0.2.0-competition-rc3",
+  "stale_probe": {
+    "dependency_chain": [
+      "experiments/experiment_plan.json",
+      "runs/RUN-PIPELINE-HIERARCHICAL-STOCHASTIC-20260904/manifest.json",
+      "runs/RUN-PIPELINE-NONPARAMETRIC-ROBUST-20260904/manifest.json",
+      "runs/RUN-PIPELINE-SEASONAL-BASELINE-20260904/manifest.json",
+      "state/variant_metadata.json"
+    ],
+    "reason_code": "RC_UPSTREAM_DEPENDENCY_STALE",
+    "status": "STALE"
+  },
+  "workspace_summary_sha256": "edb41c84fb1c31bc346f2aa733d07b746bd44dc0b8a6c235a187b3f9fdd5f23c"
+}
