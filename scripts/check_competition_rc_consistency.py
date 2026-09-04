@@ -146,6 +146,7 @@ def evaluate() -> dict[str, Any]:
             "CUMCM-2020-A-DEVELOPMENT-RC3",
             "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS",
             "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM",
+            "C-TARGET-RC4-FROZEN-VALIDATION-PENDING",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES, *C_TARGET_STATUSES},
@@ -174,6 +175,12 @@ def evaluate() -> dict[str, Any]:
         or (
             state.get("technical_adjudication_status")
             in {"C_TARGET_BATCH_IN_PROGRESS", "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"}
+            and state.get("next_phase_allowed") is None
+        )
+        or (
+            state.get("technical_adjudication_status")
+            == "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING"
+            and state.get("active_skill_version") == "0.2.0-competition-rc4"
             and state.get("next_phase_allowed") is None
         ),
         "state_has_no_blockers": state.get("blockers") == [],
@@ -242,7 +249,12 @@ def evaluate() -> dict[str, Any]:
         ),
         "project_version_relationship": (
             (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-            in {"0.3.0-competition-rc1", "0.3.0-competition-rc2", "0.3.0-competition-rc3"}
+            in {
+                "0.3.0-competition-rc1",
+                "0.3.0-competition-rc2",
+                "0.3.0-competition-rc3",
+                "0.3.0-competition-rc4",
+            }
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),
     }

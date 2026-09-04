@@ -34,6 +34,12 @@ formal Skill may not contain a historical year, problem number/title, attachment
 entity, answer, optimum, or case-specific parameter. No acceptable general change means RC3 is
 retained; producing RC4 is not itself a success criterion.
 
+The frozen batch produced one eligible repeated failure and exactly one revision cycle. The sole
+formal Skill is now `0.2.0-competition-rc4`, implementation commit
+`297cad0a29c659b18484d4f3b67d69a942ad415c`, tree
+`d041ca38de030ae04813ef02dbe12f7f2b7a1c22`. RC4 remains case-neutral and is frozen for the 2024 C
+one-shot Validation; the original RC3 batch identity and first-run evidence remain unchanged.
+
 ## Validation and Held-out
 
 Validation, Held-out, and final simulation must all use C problems. Validation uses a frozen Skill,

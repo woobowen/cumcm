@@ -19,12 +19,12 @@ def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_roo
 
     Draft202012Validator(schema).validate(state)
     assert state["phase"] == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
-    assert state["technical_adjudication_status"] == "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"
-    assert state["subphase"] == "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM"
+    assert state["technical_adjudication_status"] == "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING"
+    assert state["subphase"] == "C-TARGET-RC4-FROZEN-VALIDATION-PENDING"
     assert state["current_plan"] == "plans/active/PLAN-0004C-C-target-batch-generalization.md"
     assert state["current_branch"] == "feat/phase004c-c-target-batch-generalization"
     assert state["next_phase_allowed"] is None
-    assert state["active_skill_version"] == "0.2.0-competition-rc3"
+    assert state["active_skill_version"] == "0.2.0-competition-rc4"
     assert state["primary_target_problem_type"] == "C"
     assert state["current_batch_id"] == "C-TARGET-BATCH-001"
     assert state["batch_skill_frozen"] is True

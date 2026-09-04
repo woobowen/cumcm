@@ -65,3 +65,7 @@ integrated under the frozen K1-first rule. The next authorized task is
 RC3, one unified evidence-based revision at most, unified regression, and a separate one-shot C
 Validation. Existing 2023 C and 2020 A results remain Development evidence and do not establish
 broad C-problem generalization.
+
+The single evidence-admitted revision is now frozen as `0.2.0-competition-rc4` after unified
+regression. The immediate boundary is an answer-sealed, rubric-frozen, one-shot 2024 C Validation;
+its outcome may pass, fail, remain insufficient, or remain incomplete without changing RC4.

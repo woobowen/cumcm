@@ -183,7 +183,9 @@ new Validation Run; a failed or contaminated case is permanently non-Validation.
 Held-out is registered only by annual-page hash in this phase and its archive, title, problem,
 attachments, references, and answers remain unaccessed.
 
-The active batch status is `C_TARGET_BATCH_IN_PROGRESS`, with `next_phase_allowed=null`. Terminal
+After unified regression, the active status may be
+`C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING` with subphase
+`C-TARGET-RC4-FROZEN-VALIDATION-PENDING`, active Skill RC4, and `next_phase_allowed=null`. Terminal
 routes are `C_TARGET_VALIDATION_PASSED`, `C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING`,
 `C_TARGET_BATCH_COMPLETE_NO_SKILL_CHANGE`, `C_TARGET_VALIDATION_FAILED`,
 `C_TARGET_BATCH_INCOMPLETE`, `OFFICIAL_INPUTS_REQUIRED`,

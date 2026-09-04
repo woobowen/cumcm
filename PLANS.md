@@ -31,8 +31,9 @@ planned 2024 A Validation was cancelled before registration and produced no form
 evidence or commit (`CANCELLED_BEFORE_REGISTRATION_NO_EXECUTION_EVIDENCE`).
 
 The only active execution is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C` in
-`plans/active/PLAN-0004C-C-target-batch-generalization.md`. It freezes RC3 across three structurally
-different, answer-sealed C Development first runs, unlocks references only after all three remote
-freezes, admits at most one unified RC4 revision, performs unified regression, and then runs one
-fresh answer-sealed C Validation once. The next eligible project phase is a C Held-out phase only if
-the formal Validation decision permits it; otherwise the route is C batch repair or null.
+`plans/active/PLAN-0004C-C-target-batch-generalization.md`. It froze RC3 across three structurally
+different, answer-sealed C Development first runs, unlocked references only after all three remote
+freezes, admitted one unified RC4 revision, and passed unified regression. RC4 is frozen while the
+2024 C inputs and rubric are prepared for one fresh answer-sealed Validation run. The next eligible
+project phase is a C Held-out phase only if the formal Validation decision permits it; otherwise the
+route is C batch repair or null.

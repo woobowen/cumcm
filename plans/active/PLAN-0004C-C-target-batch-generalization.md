@@ -2,7 +2,7 @@
 
 Status: `IN_PROGRESS`
 Phase: `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`
-Subphase: `C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM`
+Subphase: `C-TARGET-RC4-FROZEN-VALIDATION-PENDING`
 Owner: main agent / `modeling_orchestrator`
 Started: `2026-09-04T22:14:48+08:00`
 Branch: `feat/phase004c-c-target-batch-generalization`
@@ -74,13 +74,13 @@ All-case unlock preconditions pass. Limited references are hash-logged with no-c
 The cross-case matrix classifies every finding. Only eligible general failures enter at most two
 revision cycles; otherwise the decision explicitly retains RC3.
 
-### M5 — Unified regression (`IN_PROGRESS`)
+### M5 — Unified regression (`COMPLETE`)
 
 Three non-blind batch regressions, 2023 C, 2020 A auxiliary execution, two synthetic E2E, 30
 negative cases, new neutral tests, anti-hardcoding, leakage, secrets, strict validation, and full CI
 all pass without a universal hard failure.
 
-### M6 — 2024 C one-shot Validation (`PENDING`)
+### M6 — 2024 C one-shot Validation (`IN_PROGRESS`)
 
 Candidate/rubric/input/answer state are pre-frozen. A fresh isolated worker runs once within four
 hours, covers all main requirements with real Runs, independent feasibility checks, robustness,
@@ -193,15 +193,22 @@ git diff --check
   selected-output preflight before experiment freeze and reuses the exact Gate in `execute`, while
   retaining invalid output as failed evidence. Focused tests passed 21/21; the full Competition RC
   unit set passed 144/144 after the version-aware candidate receipt. Added-line anti-hardcoding,
-  one-Skill, no-second-state, and no-third-party checks pass. This is a remotely verified candidate,
-  not a formal release; release remains conditional on M5.
+  one-Skill, no-second-state, and no-third-party checks pass. At that checkpoint it was a remotely
+  verified candidate rather than a formal release; M5 subsequently satisfied its release gate.
+- M5 completed three clean non-blind C batch regressions, the 2023 C main chain with STALE probe,
+  the 2020 A auxiliary executor path with one sealed exit-23 failure and success-only selection, two
+  synthetic E2E cases, and all 30 original negatives. Full CI passed with 1,865 tests and one skip;
+  strict validation reported zero errors/warnings and no batch universal hard failure was found.
+- RC4 (`0.2.0-competition-rc4`) is formally frozen for one-shot 2024 C Validation. Its implementation commit is
+  `297cad0a29c659b18484d4f3b67d69a942ad415c`, Skill tree
+  `d041ca38de030ae04813ef02dbe12f7f2b7a1c22`, and release evidence subject commit is
+  `9607e7f6f85c4af2ce0423bdca4f52019d68e649`.
 
 ## Next step
 
-Freeze the RC4 candidate receipt, then run M5: three non-blind batch Development regressions,
-the 2023 C main chain with STALE probe, the 2020 A auxiliary executor path, two synthetic E2E cases,
-the original 30 negatives, neutral failures, anti-hardcoding, leakage/secrets checks, and full CI.
-Do not mark RC4 released until every release condition passes.
+Acquire and register only the official 2024 C inputs, freeze the Validation protocol/rubric/RC4
+tree/answer state before results, remotely verify that freeze, then start exactly one restricted
+fresh worker. Do not modify RC4 or access solution material during or after that Validation run.
 
 ## Rollback and update rule
 

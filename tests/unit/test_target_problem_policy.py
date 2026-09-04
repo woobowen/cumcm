@@ -18,6 +18,7 @@ def _copy_target_inputs(repo_root: Path, target: Path) -> Path:
         "state/project_state.json",
         "plans/active/PLAN-0004C-C-target-batch-generalization.md",
         ".agents/skills/cumcm-modeling-evidence/SKILL.md",
+        "evals/results/phase-004c-c-batch/rc4/skill_release.json",
     ):
         destination = target / relative
         destination.parent.mkdir(parents=True, exist_ok=True)

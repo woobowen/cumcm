@@ -24,6 +24,8 @@ PLAN = "plans/active/PLAN-0004C-C-target-batch-generalization.md"
 BRANCH = "feat/phase004c-c-target-batch-generalization"
 RC3 = "0.2.0-competition-rc3"
 RC4 = "0.2.0-competition-rc4"
+RC4_COMMIT = "297cad0a29c659b18484d4f3b67d69a942ad415c"
+RC4_TREE = "d041ca38de030ae04813ef02dbe12f7f2b7a1c22"
 RC3_COMMIT = "8a2a813ff34d8c2701c64ff9d959848e7b88c27c"
 RC3_TREE = "a4551c8aa0b6b119823f6ce9df3f0f948339bb33"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -257,22 +259,14 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     if forbidden_present:
         errors.append(f"TARGET_HELD_OUT_FORBIDDEN_FIELD:{forbidden_present[0]}")
 
-    postmortem = state.get("technical_adjudication_status") == (
-        "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"
-    )
+    postmortem = state.get("batch_reference_unlocked") is True
     expected_state = {
         "phase": PHASE,
-        "subphase": (
-            "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM"
-            if postmortem
-            else "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS"
-        ),
-        "technical_adjudication_status": (
-            "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS" if postmortem else "C_TARGET_BATCH_IN_PROGRESS"
-        ),
+        "subphase": "C-TARGET-RC4-FROZEN-VALIDATION-PENDING",
+        "technical_adjudication_status": "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
         "current_plan": PLAN,
         "current_branch": BRANCH,
-        "active_skill_version": RC3,
+        "active_skill_version": RC4,
         "primary_target_problem_type": "C",
         "current_batch_id": BATCH_ID,
         "batch_skill_frozen": True,
@@ -286,9 +280,24 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         if state.get(field) != expected:
             errors.append(f"TARGET_STATE_FIELD_MISMATCH:{field}")
 
+    released_skill = policy.get("released_skill", {})
+    release_path = root / str(released_skill.get("release_manifest", ""))
+    release = _json(release_path) if release_path.is_file() else {}
+    if (
+        released_skill.get("version") != RC4
+        or released_skill.get("implementation_commit") != RC4_COMMIT
+        or released_skill.get("formal_skill_tree") != RC4_TREE
+        or released_skill.get("status") != "FROZEN_FOR_2024C_ONE_SHOT_VALIDATION"
+        or release.get("release_status") != "FROZEN_FOR_2024C_ONE_SHOT_VALIDATION"
+        or release.get("formal_skill", {}).get("version") != RC4
+        or release.get("formal_skill", {}).get("implementation_commit") != RC4_COMMIT
+        or release.get("formal_skill", {}).get("git_tree") != RC4_TREE
+    ):
+        errors.append("TARGET_RC4_RELEASE_INVALID")
+
     plan_path = root / PLAN
     plan_text = plan_path.read_text(encoding="utf-8") if plan_path.is_file() else ""
-    for token in (PHASE, BATCH_ID, RC3, "DECISION-C-TARGET-TRAINING-POLICY-004C"):
+    for token in (PHASE, BATCH_ID, RC3, RC4, "DECISION-C-TARGET-TRAINING-POLICY-004C"):
         if token not in plan_text:
             errors.append(f"TARGET_ACTIVE_PLAN_TOKEN_MISSING:{token}")
     if workflow_rules.get("git_delivery", {}).get("preferred_task_branch") != BRANCH:
@@ -299,20 +308,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         errors.append("TARGET_FORMAL_SKILL_COUNT_INVALID")
     else:
         skill_text = skills[0].read_text(encoding="utf-8")
-        candidate_path = root / "evals/results/phase-004c-c-batch/rc4/candidate_freeze.json"
-        unified_path = (
-            root / "evals/results/phase-004c-c-batch/rc4/unified_regression_evidence.json"
-        )
-        candidate = _json(candidate_path) if candidate_path.is_file() else {}
-        unified = _json(unified_path) if unified_path.is_file() else {}
-        staged_rc4 = (
-            RC4 in skill_text
-            and candidate.get("formal_release") is False
-            and candidate.get("status")
-            == "CANDIDATE_IMPLEMENTED_FOCUSED_TESTS_PASS_RELEASE_PENDING_UNIFIED_REGRESSION"
-            and unified.get("release_gate") == "PASS_READY_TO_FREEZE_RC4"
-        )
-        if ARCHITECTURE not in skill_text or (RC3 not in skill_text and not staged_rc4):
+        if ARCHITECTURE not in skill_text or RC4 not in skill_text:
             errors.append("TARGET_FORMAL_SKILL_IDENTITY_INVALID")
 
     return {

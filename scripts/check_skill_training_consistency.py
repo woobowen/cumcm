@@ -71,8 +71,14 @@ PHASE004B_REPORTS = tuple(
     )
 )
 EXPECTED_VERSION = "0.2.0-competition-rc3"
+ACTIVE_VERSIONS = {EXPECTED_VERSION, "0.2.0-competition-rc4"}
 PHASE004A_VERSION = "0.2.0-competition-rc2"
-ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", PHASE004A_VERSION, EXPECTED_VERSION}
+ALLOWED_CASE_VERSIONS = {
+    "0.2.0-competition-rc1",
+    PHASE004A_VERSION,
+    EXPECTED_VERSION,
+    "0.2.0-competition-rc4",
+}
 REQUIRED_FIELDS = {
     "case_id",
     "set_type",
@@ -136,11 +142,12 @@ def check() -> dict[str, Any]:
         and rc4_candidate.get("candidate_skill", {}).get("implementation_commit")
         == "297cad0a29c659b18484d4f3b67d69a942ad415c"
     )
-    if state.get("active_skill_version") != EXPECTED_VERSION:
+    active_version = state.get("active_skill_version")
+    if active_version not in ACTIVE_VERSIONS:
         errors.append("PROJECT_STATE_SKILL_VERSION_MISMATCH")
     if state.get("skill_capability_status") != "COMPETITION_RC":
         errors.append("PROJECT_STATE_CAPABILITY_MISMATCH")
-    if EXPECTED_VERSION not in skill_text and not (
+    if active_version not in skill_text and not (
         rc4_candidate_staged and "0.2.0-competition-rc4" in skill_text
     ):
         errors.append("FORMAL_SKILL_VERSION_MISMATCH")
@@ -555,7 +562,7 @@ def check() -> dict[str, Any]:
         "errors": sorted(errors),
         "case_count": len(cases),
         "formal_skill_count": len(skills),
-        "skill_version": EXPECTED_VERSION,
+        "skill_version": active_version,
     }
 
 

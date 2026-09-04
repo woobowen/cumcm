@@ -1,0 +1,42 @@
+{
+  "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "capability": "COMPETITION_RC",
+  "evidence_basis": {
+    "accepted_failure_id": "C004C-CROSS-OUTPUT-CONTRACT-PREFLIGHT-001",
+    "candidate_freeze_path": "evals/results/phase-004c-c-batch/rc4/candidate_freeze.json",
+    "candidate_freeze_sha256": "b5f0d1c9a00827051c036e49c562c009bc87bfdb609ef16cdd4c0df85f4025a9",
+    "revision_cycles_allowed": 2,
+    "revision_cycles_used": 1,
+    "unified_regression_path": "evals/results/phase-004c-c-batch/rc4/unified_regression_evidence.json",
+    "unified_regression_sha256": "192a23f6d07fa15d3e2f14f346a31610925a52b7113f3ecbeac08a9ff874a244"
+  },
+  "formal_skill": {
+    "implementation_commit": "297cad0a29c659b18484d4f3b67d69a942ad415c",
+    "git_tree": "d041ca38de030ae04813ef02dbe12f7f2b7a1c22",
+    "name": "cumcm-modeling-evidence",
+    "runner_sha256": "2a38546e2bf97250e82f2d02d8dc62890a9f89a790a849dfaace81c42d6309b3",
+    "version": "0.2.0-competition-rc4"
+  },
+  "release_checks": {
+    "answer_leakage_count": 0,
+    "batch_case_count": 3,
+    "batch_universal_hard_failure_count": 0,
+    "full_ci": {
+      "failed": 0,
+      "passed": 1865,
+      "skipped": 1,
+      "status": "PASS"
+    },
+    "formal_skill_count": 1,
+    "negative_scenarios_passed": 30,
+    "secret_count": 0,
+    "synthetic_e2e_passed": 2,
+    "third_party_integrated": false,
+    "twenty_twenty_a_auxiliary": "PASS_NOT_C_TARGET_EVIDENCE",
+    "twenty_twenty_three_c": "PASS"
+  },
+  "release_status": "FROZEN_FOR_2024C_ONE_SHOT_VALIDATION",
+  "release_subject_commit": "9607e7f6f85c4af2ce0423bdca4f52019d68e649",
+  "released_at": "2026-09-05T02:24:26+08:00",
+  "schema_version": "1.0.0"
+}

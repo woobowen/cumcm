@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.3.0-competition-rc4 — 2026-09-05
+
+- Advanced the sole formal Skill to `0.2.0-competition-rc4` from one failure independently observed
+  across all three frozen C-problem first runs: selected outputs could reach execution without a
+  complete downstream Final/Claim/figure/uncertainty/limitation/robustness contract.
+- Added a generic, non-result, non-ranking selected-output contract probe before experiment freeze
+  and reused the same fail-closed validator for every exit-zero captured output. Invalid outputs are
+  retained as failed evidence; no case identifier, title, field, entity, answer, or optimum entered
+  the Skill.
+- Completed non-blind RC4 regressions for the 2022/2021/2020 C batch, the full 2023 C main chain with
+  STALE propagation, and the 2020 A auxiliary executor with a sealed exit-23 Run and success-only
+  selection. The A case receives no C-target evidence credit.
+- Re-ran two synthetic E2E cases and all 30 original fail-closed negatives. The release gate passed
+  with `1865 passed, 1 skipped`, zero universal batch hard failures, one formal Skill, no answer
+  leakage, no secrets, and no third-party execution.
+- Froze Skill tree `d041ca38de030ae04813ef02dbe12f7f2b7a1c22` for the separate answer-sealed,
+  one-shot 2024 C Validation. These Development regressions are not a Validation result or broad
+  generalization proof.
+
 ## 0.3.0-competition-rc3 — 2026-09-04
 
 - Advanced the sole formal Skill to `0.2.0-competition-rc3` from the remotely frozen, answer-sealed

@@ -652,6 +652,27 @@
       "if": {
         "properties": {
           "technical_adjudication_status": {
+            "const": "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING"
+          }
+        },
+        "required": ["technical_adjudication_status"]
+      },
+      "then": {
+        "properties": {
+          "phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"},
+          "subphase": {"const": "C-TARGET-RC4-FROZEN-VALIDATION-PENDING"},
+          "active_skill_version": {"const": "0.2.0-competition-rc4"},
+          "batch_skill_frozen": {"const": true},
+          "batch_reference_unlocked": {"const": true},
+          "next_phase_allowed": {"type": "null"},
+          "blockers": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "technical_adjudication_status": {
             "const": "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS"
           }
         },

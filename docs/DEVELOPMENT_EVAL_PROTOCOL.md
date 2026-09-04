@@ -28,6 +28,10 @@ case 的参考材料。之后只进行一次统一 cross-case 修改决策，并
 - Validation/Held-out/final simulation 必须为 C；Validation 是 frozen Skill、SEALED answer、fresh
   worker、one-shot，terminal freeze 后禁止新建 Run 或在同题调 Skill 后继续称为 Validation。
 
+统一回归通过后，RC4 的 exact Skill tree、正式输入、rubric、answer state、环境和时间界限必须在
+2024 C 任一模型结果前分别冻结并远端核验。Validation worker 不得读取 batch postmortem、RC4 修改
+理由或其他题答案；terminal freeze 之后不得新增同题 Validation Run。
+
 ## 前置条件
 
 - 唯一前置状态来源是仓库规范路径 `state/project_state.json`；其状态必须为
