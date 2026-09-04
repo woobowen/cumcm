@@ -162,3 +162,29 @@ change; preserve factual history.
   full-test count. The expected Gate CLI exit is 1 because no architecture is selectable.
 - This decision does not assert full R3 validation, sealed Benchmark passage, Stage 2
   effectiveness, production readiness, or generalization to unseen CUMCM problems.
+
+## 11. COMPETITION_RC1_REPAIR_AND_INTEGRATION_SPRINT
+
+- `2026-09-04T08:25:51+08:00`: a new, bounded implementation revision starts from clean commit
+  `131823092a2e8c33c677419d45ed54b381a9948e` under the same task branch and Draft PR #6. The prior
+  `FAST_TRACK_IMPLEMENTATION_BLOCKED` decision, its K1/W1 failures, its decision hash, and every
+  artifact under `evals/results/phase-003f/` and `evals/prospective/phase-003f/` remain immutable.
+- This is `COMPETITION_IMPLEMENTATION_SPRINT`, not a new governance Phase, Benchmark design, full R3
+  Stage 1/2 rerun, or model comparison. It creates new candidate revisions with budgets K1 5, W1 4,
+  common harness 3, and formal integration 3; every loop is tied to a real failing Gate/test and an
+  immutable revision record under `evals/results/phase-003f-r1/`.
+- The unchanged eight noncompensatory Gates and frozen order control selection: K1 at 8/8; otherwise
+  W1 at 8/8; otherwise `COMPETITION_RC_REPAIR_BLOCKED`. Formal Skill integration is permitted only
+  after that deterministic result and must keep exactly one discoverable project-authored Skill.
+- Acceptance scope is only `COMPETITION_RC_IMPLEMENTATION_ONLY` with public deterministic assurance,
+  two project-authored end-to-end smokes, thirty fail-closed negative paths, full repository CI, and
+  a read-only integration audit. Full sealed Stage 1, Stage 2, full ablation, external validity,
+  production fitness, and monetary cost remain explicitly deferred and not passed.
+- Baseline `bash scripts/ci.sh` passed at `1594 passed, 1 skipped` in 115.35 seconds with strict
+  validation at zero errors and zero warnings. One formal Skill remains at
+  `0.1.0-foundation / SCAFFOLD_ONLY`; architecture is null, no API/model training/third-party
+  execution occurred, and no hidden or historical answer content was accessed.
+- On successful Competition RC integration, the next legal task is
+  `PHASE-SKILL-DEVELOPMENT-EVAL-004`: select one answer-sealed historical Development problem, freeze
+  the first run under the RC1 Skill version/commit, and use observed failures to design RC2 without
+  contaminating Validation or Held-out sets.
