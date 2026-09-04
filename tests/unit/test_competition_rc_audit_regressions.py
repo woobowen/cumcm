@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -596,6 +597,66 @@ def test_direct_validators_fail_closed_on_nested_enum_type_fuzz(case_cli, tmp_pa
         case_cli.validate_manifest(manifest, case_root=case_root, trusted_freezes=freezes).accepted
         is False
     )
+
+
+@pytest.mark.parametrize(
+    "split_name,value",
+    [("train", float("nan")), ("validation", float("inf")), ("test", float("-inf"))],
+)
+def test_direct_comparison_validator_blocks_nonfinite_split_values_without_raising(
+    case_cli, tmp_path: Path, split_name: str, value: float
+) -> None:
+    case_root = tmp_path / split_name
+    case_cli.run_smoke(case_root, "AUDIT-NONFINITE-SPLIT", "prediction", False)
+    comparison = case_cli.read_artifact(case_root, "model_comparison")["content"]
+    comparison["splits"][split_name] = [value]
+    before = copy.deepcopy(comparison)
+
+    result = case_cli.validate_comparison(
+        comparison,
+        case_cli.trusted_freezes(case_root),
+        case_root=case_root,
+    )
+
+    assert result.accepted is False
+    assert "RC_COMPARISON_NONFINITE_OR_NONJSON" in result.reason_codes
+    assert comparison == before
+
+
+def test_direct_state_and_claim_validators_block_nested_nonfinite_values(
+    case_cli, tmp_path: Path
+) -> None:
+    context = {
+        "writer": "modeling_orchestrator",
+        "formal_project_state_write": False,
+        "second_state_truth": False,
+        "execution_scope": "CASE",
+        "state_path": "case_state.json",
+        "isolated_state_binding_hash": "0" * 64,
+        "unexpected": float("nan"),
+    }
+    state_result = case_cli.validate_state_boundary(context)
+    assert state_result.accepted is False
+    assert "RC_STATE_CONTEXT_NONFINITE_OR_NONJSON" in state_result.reason_codes
+    assert math.isnan(context["unexpected"])
+
+    case_root = tmp_path / "claim"
+    case_cli.run_smoke(case_root, "AUDIT-NONFINITE-CLAIM", "prediction", False)
+    state = case_cli.load_state(case_root)
+    claim = case_cli.read_artifact(case_root, "claim_evidence")["content"]
+    final = case_cli.read_artifact(case_root, "final_result")["content"]
+    manifest = case_cli.load_json(case_root / "runs" / claim["run_id"] / "manifest.json")
+    manifest["unexpected"] = {"score": float("nan")}
+    claim_result = case_cli.validate_claim(
+        claim,
+        manifest,
+        final,
+        case_root=case_root,
+        state=state,
+    )
+    assert claim_result.accepted is False
+    assert "RC_CLAIM_MANIFEST_NONFINITE_OR_NONJSON" in claim_result.reason_codes
+    assert math.isnan(manifest["unexpected"]["score"])
 
 
 @pytest.mark.parametrize(

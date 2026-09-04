@@ -672,9 +672,11 @@ def validate_comparison(
 ) -> GateResult:
     original = copy.deepcopy(comparison)
     codes: set[str] = set()
+    comparison_json_safe = True
     try:
         assert_json_safe(comparison)
     except (TypeError, ValueError):
+        comparison_json_safe = False
         codes.add("RC_COMPARISON_NONFINITE_OR_NONJSON")
     if not isinstance(comparison, dict):
         return blocked("RC_COMPARISON_INVALID")
@@ -765,6 +767,7 @@ def validate_comparison(
         and all(isinstance(seed, int) and not isinstance(seed, bool) for seed in seeds)
         and len(set(seeds)) == len(seeds)
         and required_inputs_valid
+        and comparison_json_safe
     ):
         derived_freezes = {
             "candidate_set": canonical_hash(candidates),
@@ -1313,7 +1316,12 @@ def validate_claim(
             }
             if any(claim.get(left) != manifest.get(right) for left, right in bindings.items()):
                 codes.add("RC_CLAIM_RUN_BINDING_MISMATCH")
-            if claim.get("run_manifest_hash") != canonical_hash(manifest):
+            try:
+                actual_manifest_hash = canonical_hash(manifest)
+            except (TypeError, ValueError):
+                actual_manifest_hash = None
+                codes.add("RC_CLAIM_MANIFEST_NONFINITE_OR_NONJSON")
+            if claim.get("run_manifest_hash") != actual_manifest_hash:
                 codes.add("RC_CLAIM_MANIFEST_HASH_MISMATCH")
             if manifest.get("outcome") != "SUCCESS" or manifest.get("supersession") is not None:
                 codes.add("RC_CLAIM_RUN_NOT_CURRENT_SUCCESS")
@@ -1470,7 +1478,12 @@ def validate_state_boundary(context: Any) -> GateResult:
     if context.get("state_path") != "case_state.json":
         codes.add("RC_CASE_STATE_BINDING_INVALID")
     body = {key: value for key, value in context.items() if key != "isolated_state_binding_hash"}
-    if context.get("isolated_state_binding_hash") != canonical_hash(body):
+    try:
+        expected_binding_hash = canonical_hash(body)
+    except (TypeError, ValueError):
+        expected_binding_hash = None
+        codes.add("RC_STATE_CONTEXT_NONFINITE_OR_NONJSON")
+    if context.get("isolated_state_binding_hash") != expected_binding_hash:
         codes.add("RC_ISOLATED_STATE_BINDING_INVALID")
     return blocked(*codes) if codes else passed("RC_CASE_STATE_BOUNDARY_VALID")
 
