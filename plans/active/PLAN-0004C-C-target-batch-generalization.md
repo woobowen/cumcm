@@ -148,11 +148,19 @@ git diff --check
   strict repository validation reported 0 errors and 0 warnings.
 - M1 content commit `e62fdbc034487589f8da4865967c644bae989ee5` is pushed and matches the
   remote branch. Draft PR 9 is open and remains Draft.
+- M2 input acquisition is complete: all three official archives and only their C members are in
+  ignored isolated workspaces; titles, archive/problem/data hashes, MIME, sizes, retrieval times,
+  answer state, and no-solution-exposure results are registered. All three runnable records remain
+  `IN_PROGRESS` only in the registration sense; no candidate Run or modeling result exists.
+- The 2020 archive matches the previously cached official package. Prior extracted raw files are
+  confined to `A/`, and no prior C registration/result was found, so the 2019 fallback was not
+  activated before results. The model-prior limitation remains unverifiable.
 
 ## Next step
 
-Start M2 official-input acquisition and batch pre-run freeze. Do not start a case worker before the
-M2 freeze commit is remotely verified.
+Finish the M2 batch pre-run freeze, commit and push it, verify the remote SHA, then start at most two
+isolated fresh case workers. Do not start a case worker before the M2 freeze commit is remotely
+verified.
 
 ## Rollback and update rule
 

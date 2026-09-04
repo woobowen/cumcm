@@ -97,13 +97,32 @@ def test_target_problem_policy_rejects_batch_position_and_skill_drift(
     root = _copy_target_inputs(repo_root, tmp_path / "project")
     path = root / "benchmarks/case_registry.yaml"
     registry = _yaml(path)
-    registry["planned_cases"][1]["batch_position"] = 1
-    registry["planned_cases"][2]["formal_skill_commit"] = "0" * 40
+    batch = [
+        item
+        for item in [*registry["planned_cases"], *registry["cases"]]
+        if item.get("batch_id") == "C-TARGET-BATCH-001"
+    ]
+    batch[1]["batch_position"] = 1
+    batch[2]["formal_skill_commit"] = "0" * 40
     _write_yaml(path, registry)
 
     errors = evaluate(root)["errors"]
     assert "TARGET_BATCH_POSITION_SET_INVALID" in errors
     assert any(error.startswith("TARGET_BATCH_CASE_CONTRACT_INVALID:") for error in errors)
+
+
+def test_target_problem_policy_rejects_registered_input_evidence_drift(
+    repo_root: Path, tmp_path: Path
+) -> None:
+    root = _copy_target_inputs(repo_root, tmp_path / "project")
+    path = root / "benchmarks/case_registry.yaml"
+    registry = _yaml(path)
+    batch = [item for item in registry["cases"] if item.get("batch_id") == "C-TARGET-BATCH-001"]
+    batch[0]["official_package_sha256"] = "UNKNOWN"
+    _write_yaml(path, registry)
+
+    errors = evaluate(root)["errors"]
+    assert any(error.startswith("TARGET_BATCH_REGISTERED_INPUT_INVALID:") for error in errors)
 
 
 def test_target_problem_policy_rejects_held_out_access_or_metadata(

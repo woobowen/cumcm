@@ -174,6 +174,27 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         for hash_field in ("official_page_url_sha256", "official_archive_url_sha256"):
             if not HEX64.fullmatch(str(item.get(hash_field, ""))):
                 errors.append(f"TARGET_BATCH_SOURCE_HASH_INVALID:{case_id}:{hash_field}")
+        if item in cases:
+            extracted = item.get("extracted_c_files")
+            input_registration = item.get("input_registration")
+            if (
+                item.get("registration_status") != "INPUT_REGISTERED"
+                or item.get("first_run_status") not in {"IN_PROGRESS", "FROZEN"}
+                or item.get("strict_first_run_eligibility") != "ELIGIBLE_MODEL_PRIOR_UNVERIFIABLE"
+                or item.get("no_solution_exposure_result")
+                != "PASS_NO_SOLUTION_OR_REFERENCE_ACCESSED"
+                or not HEX64.fullmatch(str(item.get("official_package_sha256", "")))
+                or not HEX64.fullmatch(str(item.get("problem_hash", "")))
+                or not isinstance(item.get("data_hashes"), dict)
+                or not item.get("data_hashes")
+                or not isinstance(extracted, list)
+                or not extracted
+                or not isinstance(input_registration, dict)
+                or input_registration.get("path")
+                != "evals/results/phase-004c-c-batch/input_registration.json"
+                or not HEX64.fullmatch(str(input_registration.get("sha256", "")))
+            ):
+                errors.append(f"TARGET_BATCH_REGISTERED_INPUT_INVALID:{case_id}")
 
     allocation_by_id = {
         str(item.get("case_id")): item

@@ -136,13 +136,17 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     registry = yaml.safe_load(
         (repo_root / "benchmarks/case_registry.yaml").read_text(encoding="utf-8")
     )
-    assert len(registry["cases"]) == 2
+    assert len(registry["cases"]) == 5
     assert registry["cases"][0]["case_id"] == "CUMCM-2023-C-DEVELOPMENT-001"
     assert registry["cases"][0]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
     assert registry["cases"][0]["first_run_status"] == "FROZEN"
     assert registry["cases"][1]["case_id"] == "CUMCM-2020-A-DEVELOPMENT-002"
     assert registry["cases"][1]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
     assert registry["cases"][1]["first_run_status"] == "FROZEN"
+    batch = [case for case in registry["cases"] if case.get("batch_id") == "C-TARGET-BATCH-001"]
+    assert len(batch) == 3
+    assert all(case["answer_access_status"] == "SEALED" for case in batch)
+    assert all(case["first_run_status"] == "IN_PROGRESS" for case in batch)
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",
