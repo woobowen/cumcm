@@ -240,6 +240,15 @@ def prepare_case(core: Any, config: CaseConfig, case_root: Path) -> dict[str, An
     core.advance_once(case_root)
 
     assumptions = load_json(source / "models/assumptions_and_symbols.json")["content"]
+    formulas = assumptions.get("formulas")
+    if (
+        isinstance(formulas, list)
+        and formulas
+        and all(
+            isinstance(item, dict) and isinstance(item.get("expression"), str) for item in formulas
+        )
+    ):
+        assumptions["formulas"] = [item["expression"] for item in formulas]
     audit = load_json(source / "data/data_audit.json")["content"]
     required_inputs = audit["data_hashes"]
     copy_bound_files(source, case_root, required_inputs, core)
@@ -503,6 +512,21 @@ def run_case(config: CaseConfig, attempt: int) -> dict[str, Any]:
         raise ValueError("REGRESSION_TERMINAL_STATE_INVALID")
 
     elapsed = round(time.time() - started_wall, 6)
+    prior_attempts = []
+    for prior in range(1, attempt):
+        prior_root = CACHE_ROOT / f"{config.case_id}-ATTEMPT-{prior:03d}"
+        prior_state_path = prior_root / "case_state.json"
+        if prior_state_path.is_file():
+            prior_attempts.append(
+                {
+                    "attempt": prior,
+                    "workspace_relative": str(prior_root.relative_to(ROOT)),
+                    "preserved": True,
+                    "terminal_observed_state": load_json(prior_state_path).get("state"),
+                    "run_count": len(list((prior_root / "runs").glob("*/manifest.json"))),
+                    "failure_scope": "REGRESSION_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
+                }
+            )
     stage_status = [{"stage": stage, "status": "PASS"} for stage in core.STAGES]
     evidence = {
         "schema_version": "1.0.0",
@@ -525,6 +549,8 @@ def run_case(config: CaseConfig, attempt: int) -> dict[str, Any]:
             ),
         },
         "workspace_relative": str(case_root.relative_to(ROOT)),
+        "attempt_number": attempt,
+        "preserved_prior_attempts": prior_attempts,
         "output_contract_preflight": preflight,
         "stage_status": stage_status,
         "requirements_total": len(prepared["requirements"]),
