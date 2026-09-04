@@ -5,7 +5,7 @@
     "hash-bound-reproducibility-manifest",
     "leakage-safe-model-comparison-gate"
   ],
-  "active_skill_version": "0.2.0-competition-rc1",
+  "active_skill_version": "0.2.0-competition-rc2",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -97,7 +97,7 @@
   "current_plan": "plans/active/PLAN-0004A-2023c-development-eval.md",
   "delivery_receipt_for_commit": null,
   "development_eval": {
-    "answer_access_status": "SEALED",
+    "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
     "case_id": "CUMCM-2023-C-DEVELOPMENT-001",
     "data_hashes": {
       "raw/case_files/附件1.xlsx": "311bcf788c9131f88064e1ceb1c2f56496af6a390c7940029ae89e3967433bd7",
@@ -109,7 +109,7 @@
     "first_run_status": "FROZEN",
     "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
     "problem_hash": "f94818a4f1d84d2aaad2bcbfeb4a7047335a54dccc3a5a632ac2264bcf3d89e5",
-    "revision_cycles_used": 0,
+    "revision_cycles_used": 1,
     "search_log_path": "research/pre_freeze_search_log.jsonl",
     "set_type": "DEVELOPMENT",
     "skill_start_commit": "a93a96d79890f6774552dc5ff333f833099edf83",
@@ -119,7 +119,7 @@
       "B": "NOT_RUN",
       "C": "NOT_RUN"
     },
-    "unlock_status": "LOCKED"
+    "unlock_status": "UNLOCKED_AFTER_FIRST_RUN"
   },
   "evidence_expansion": {
     "attempts": 28,
@@ -252,11 +252,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "CUMCM-2023-C-POST-FREEZE-DIAGNOSIS",
+  "subphase": "CUMCM-2023-C-RC2-DEVELOPMENT-REGRESSION",
   "team_compliance_review_status": "NOT_RUN",
   "technical_adjudication_status": "DEVELOPMENT_EVAL_INCOMPLETE",
   "third_party_integrated": false,
-  "updated_at": "2026-09-04T14:16:39+08:00",
+  "updated_at": "2026-09-04T14:35:00+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

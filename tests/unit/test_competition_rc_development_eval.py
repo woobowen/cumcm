@@ -58,7 +58,7 @@ def test_development_eval_requires_accepted_rc_and_aware_monotonic_times(
     ready = {
         "technical_adjudication_status": "COMPETITION_SKILL_RC_READY",
         "next_phase_allowed": "PHASE-SKILL-DEVELOPMENT-EVAL-004",
-        "active_skill_version": "0.2.0-competition-rc1",
+        "active_skill_version": "0.2.0-competition-rc2",
         "competition_rc1": {"integration_audit": {"status": "PASS"}},
     }
     project_state.write_text(json.dumps(ready) + "\n", encoding="utf-8")
@@ -114,7 +114,8 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     )
     assert len(registry["cases"]) == 1
     assert registry["cases"][0]["case_id"] == "CUMCM-2023-C-DEVELOPMENT-001"
-    assert registry["cases"][0]["answer_access_status"] == "SEALED"
+    assert registry["cases"][0]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
+    assert registry["cases"][0]["first_run_status"] == "FROZEN"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",
@@ -183,7 +184,7 @@ def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_
     record = yaml.safe_load(registry.read_text(encoding="utf-8"))["cases"][0]
     assert record["answer_access_status"] == "SEALED"
     assert record["first_run_status"] == "IN_PROGRESS"
-    assert record["skill_version"] == "0.2.0-competition-rc1"
+    assert record["skill_version"] == "0.2.0-competition-rc2"
     assert (case_root / "case_state.json").is_file()
     duplicate = command(repo_root, "start_skill_development_eval.py", *arguments)
     assert duplicate.returncode == 3

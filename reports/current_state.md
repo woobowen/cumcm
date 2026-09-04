@@ -3,11 +3,11 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-SKILL-DEVELOPMENT-EVAL-004`
-- Subphase: `CUMCM-2023-C-POST-FREEZE-DIAGNOSIS`
+- Subphase: `CUMCM-2023-C-RC2-DEVELOPMENT-REGRESSION`
 - Status: `IN_PROGRESS`
 - Active plan: `plans/active/PLAN-0004A-2023c-development-eval.md`
 - Branch: `feat/phase004-development-eval-2023c`
-- Skill version: `0.2.0-competition-rc1`
+- Skill version: `0.2.0-competition-rc2`
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
@@ -19,7 +19,7 @@
 - Content-verified commit: `UNVERIFIED`
 - Delivery receipt commit: `UNVERIFIED`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-04T14:16:39+08:00` by `main-agent`
+- Updated: `2026-09-04T14:35:00+08:00` by `main-agent`
 
 ## Blockers
 

@@ -103,7 +103,8 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
     assert state["third_party_integrated"] is False
     expected_capability = (
         "COMPETITION_RC"
-        if state["technical_adjudication_status"] == "COMPETITION_SKILL_RC_READY"
+        if state["phase"]
+        in {"PHASE-SKILL-INTEGRATION-003", "PHASE-SKILL-DEVELOPMENT-EVAL-004"}
         else "SCAFFOLD_ONLY"
     )
     assert state["skill_capability_status"] == expected_capability

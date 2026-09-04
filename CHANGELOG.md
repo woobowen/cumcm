@@ -2,6 +2,8 @@
 
 ## 0.3.0-competition-rc2 — 2026-09-04
 
+- Upgraded the sole formal Skill to `0.2.0-competition-rc2` while preserving one discoverable
+  `COMPETITION_RC` Skill and the frozen RC1 first-run evidence.
 - Added a case-local Python execution path that accepts only preregistered files matching an exact
   Git blob, captures timing/exit/stdout/stderr/output evidence, and refuses overwrite.
 - Added a separate `seal-run` step that revalidates captured evidence before setting

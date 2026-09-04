@@ -687,8 +687,7 @@ def validate_manifest(
         if hashes and manifest.get("output_hash") != canonical_hash(hashes):
             codes.add("RC_MANIFEST_OUTPUT_HASH_MISMATCH")
     has_case_code = isinstance(code_files, list) and any(
-        isinstance(record, dict) and record.get("scope") == "CASE_ROOT"
-        for record in code_files
+        isinstance(record, dict) and record.get("scope") == "CASE_ROOT" for record in code_files
     )
     capture_binding = manifest.get("capture_record")
     if has_case_code:
@@ -2195,8 +2194,7 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
                     scope == "SKILL_ROOT"
                     and (
                         relative not in TRUSTED_EXECUTION_CODE_PATHS
-                        or repository_path
-                        != f".agents/skills/cumcm-modeling-evidence/{relative}"
+                        or repository_path != f".agents/skills/cumcm-modeling-evidence/{relative}"
                     )
                 )
             ):
@@ -2565,9 +2563,15 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             check=check,
         )
     if current == "REQUIREMENTS_VALIDATED":
-        read_artifact(case_root, "research_plan")
+        research = read_artifact(case_root, "research_plan")["content"]
         ledger = read_artifact(case_root, "source_ledger")
-        if ledger["content"].get("answer_access_status") != "NOT_ACCESSED":
+        answer_status = ledger["content"].get("answer_access_status")
+        unlocked_development_regression = (
+            answer_status == "UNLOCKED_AFTER_FIRST_RUN"
+            and research.get("mode") == "DEVELOPMENT_REGRESSION"
+            and HEX64.fullmatch(str(research.get("first_run_freeze_sha256", ""))) is not None
+        )
+        if answer_status != "NOT_ACCESSED" and not unlocked_development_regression:
             raise ValueError("RC_ANSWER_ACCESS_PROHIBITED")
         return record_transition(
             case_root,

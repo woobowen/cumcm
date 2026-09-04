@@ -99,7 +99,7 @@ class SchemaVersionResolver:
                 r3_successor = live_project_state.get("subphase") in {
                     "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
                     "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
-                }
+                } or live_project_state.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
                 if not r3_successor and sha256_bytes(schema_bytes) != current["file_sha256"]:
                     errors.append("CURRENT_PROJECT_STATE_SCHEMA_HASH_MISMATCH")
         elif source == "SUBJECT_COMMIT_BLOB":
@@ -137,11 +137,15 @@ class SchemaVersionResolver:
                 f"{item.message}"
                 for item in Draft202012Validator(schema).iter_errors(state)
             )
-        if source == "CURRENT_TREE" and state.get("subphase") in {
-            C1_SUBPHASE,
-            "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
-            "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
-        }:
+        if source == "CURRENT_TREE" and (
+            state.get("subphase")
+            in {
+                C1_SUBPHASE,
+                "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+                "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
+            }
+            or state.get("phase") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+        ):
             shadow = state.get("shadow_authorization")
             if not isinstance(shadow, dict):
                 errors.append("C1_PROJECT_STATE_SHADOW_AUTHORIZATION_REQUIRED")

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check RC1 project state and Development/Validation case isolation."""
+"""Check active Skill state and Development/Validation case isolation."""
 
 from __future__ import annotations
 
@@ -16,7 +16,8 @@ REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
 SKILL = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/SKILL.md"
 STATE = REPO_ROOT / "state/project_state.json"
 CHANGELOG = REPO_ROOT / "CHANGELOG.md"
-EXPECTED_VERSION = "0.2.0-competition-rc1"
+EXPECTED_VERSION = "0.2.0-competition-rc2"
+ALLOWED_CASE_VERSIONS = {"0.2.0-competition-rc1", EXPECTED_VERSION}
 REQUIRED_FIELDS = {
     "case_id",
     "set_type",
@@ -84,7 +85,7 @@ def check() -> dict[str, Any]:
             errors.append(f"CASE_ANSWER_STATUS_INVALID:{case_id}")
         if case.get("first_run_status") not in RUN_STATES:
             errors.append(f"CASE_FIRST_RUN_STATUS_INVALID:{case_id}")
-        if case.get("skill_version") != EXPECTED_VERSION:
+        if case.get("skill_version") not in ALLOWED_CASE_VERSIONS:
             errors.append(f"CASE_SKILL_VERSION_MISMATCH:{case_id}")
         if not GIT_SHA.fullmatch(str(case.get("skill_commit", ""))):
             errors.append(f"CASE_SKILL_COMMIT_INVALID:{case_id}")

@@ -45,12 +45,24 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
     )
     case_cli.advance_once(case_root)
     case_cli.advance_once(case_root)
-    accepted(case_cli, case_root, "research_plan", {"external_search": False})
+    accepted(
+        case_cli,
+        case_root,
+        "research_plan",
+        {
+            "mode": "DEVELOPMENT_REGRESSION",
+            "external_search": False,
+            "first_run_freeze_sha256": "a" * 64,
+        },
+    )
     accepted(
         case_cli,
         case_root,
         "source_ledger",
-        {"sources": [{"source_id": "SRC-1"}], "answer_access_status": "NOT_ACCESSED"},
+        {
+            "sources": [{"source_id": "SRC-1"}],
+            "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+        },
     )
     case_cli.advance_once(case_root)
     accepted(case_cli, case_root, "assumptions_and_symbols", {"assumptions": ["finite"]})
@@ -71,12 +83,12 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
     model_relative = "models/generic_model.py"
     model_path = case_root / model_relative
     model_path.write_text(
-        """import argparse, json\n"
+        "import argparse, json\n"
         "p=argparse.ArgumentParser(); p.add_argument('--case-root'); "
         "p.add_argument('--candidate-id'); p.add_argument('--seed'); "
         "p.add_argument('--output'); a=p.parse_args(); "
         "json.dump({'candidate_id':a.candidate_id,'validation_metrics':{'loss':1.0}}, "
-        "open(a.output,'w'), sort_keys=True)\n""",
+        "open(a.output,'w'), sort_keys=True)\n",
         encoding="utf-8",
     )
     commit = case_cli.current_git_commit()
@@ -98,9 +110,9 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
     monkeypatch.setattr(
         case_cli,
         "git_blob_hash",
-        lambda observed_commit, repository_path: blob_hashes.get(repository_path)
-        if observed_commit == commit
-        else None,
+        lambda observed_commit, repository_path: (
+            blob_hashes.get(repository_path) if observed_commit == commit else None
+        ),
     )
     splits = {"train": [1], "validation": [2], "test": [3]}
     required_inputs = {raw_relative: raw_hash}
@@ -162,9 +174,7 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         timeout_seconds=30,
     )
     assert captured["outcome"] == "SUCCESS"
-    sealed = case_cli.seal_captured_run(
-        case_root, run_id="RUN-CAND-11", decision_hash="a" * 64
-    )
+    sealed = case_cli.seal_captured_run(case_root, run_id="RUN-CAND-11", decision_hash="a" * 64)
     manifest = case_cli.load_json(case_root / sealed["manifest_path"])
     assert case_cli.validate_manifest(
         manifest, case_root=case_root, trusted_freezes=freezes
@@ -172,7 +182,36 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
 
     stdout = case_root / "runs/RUN-CAND-11/stdout.txt"
     stdout.write_text("tampered", encoding="utf-8")
-    rejected = case_cli.validate_manifest(
-        manifest, case_root=case_root, trusted_freezes=freezes
-    )
+    rejected = case_cli.validate_manifest(manifest, case_root=case_root, trusted_freezes=freezes)
     assert "RC_EXECUTION_CAPTURE_STDOUT_MUTATION" in rejected.reason_codes
+
+
+def test_unlocked_answer_status_requires_bound_development_regression(
+    case_cli, tmp_path: Path
+) -> None:
+    case_root = tmp_path / "case"
+    case_cli.initialize_case(case_root, "EXECUTOR-GENERIC-BOUNDARY-001", "general")
+    accepted(
+        case_cli,
+        case_root,
+        "problem_requirements",
+        {
+            "case_id": "EXECUTOR-GENERIC-BOUNDARY-001",
+            "requirements": [{"requirement_id": "REQ-1", "text": "fit"}],
+        },
+    )
+    case_cli.advance_once(case_root)
+    case_cli.advance_once(case_root)
+    accepted(case_cli, case_root, "research_plan", {"external_search": False})
+    accepted(
+        case_cli,
+        case_root,
+        "source_ledger",
+        {
+            "sources": [{"source_id": "SRC-1"}],
+            "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+        },
+    )
+
+    with pytest.raises(ValueError, match="RC_ANSWER_ACCESS_PROHIBITED"):
+        case_cli.advance_once(case_root)
