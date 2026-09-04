@@ -8,6 +8,8 @@ from pathlib import Path
 
 import yaml
 
+from cumcm_skill_lab.historical_compat import competition_rc_successor
+
 CASE_ROOT = Path("evals/results/phase-004b/CUMCM-2020-A-DEVELOPMENT-002")
 
 
@@ -140,3 +142,7 @@ def test_phase004b_training_checker_accepts_complete_evidence(repo_root: Path) -
 
     assert completed.returncode == 0, completed.stdout + completed.stderr
     assert json.loads(completed.stdout)["ok"] is True
+
+
+def test_rc3_ready_state_replays_frozen_predecessors_from_git(repo_root: Path) -> None:
+    assert competition_rc_successor(repo_root) is True
