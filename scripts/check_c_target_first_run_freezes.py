@@ -108,7 +108,8 @@ def validate_freeze(freeze: dict[str, Any], record: dict[str, Any]) -> list[str]
         or freeze.get("formal_skill_tree") != FORMAL_SKILL_TREE
         or freeze.get("problem_hash") != record.get("problem_hash")
         or freeze.get("data_hashes") != record.get("data_hashes")
-        or freeze.get("case_state") not in {"READY_FOR_PAPER_HANDOFF", "REJECTED", "STALE"}
+        or freeze.get("case_state")
+        not in {"RUN_VALIDATED", "READY_FOR_PAPER_HANDOFF", "REJECTED", "STALE"}
         or not isinstance(freeze.get("manual_intervention_count"), int)
         or isinstance(freeze.get("manual_intervention_count"), bool)
         or freeze.get("manual_intervention_count", -1) < 0
