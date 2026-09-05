@@ -111,3 +111,12 @@ compatibility probes and an ineffective hardcoded global completion path. The tw
 exhausted. Therefore neither preferred nor fallback Validation input was accessed, no Validation
 case was registered, 004D remains locked, all six 2025 flags remain false, and the exact next phase
 is `null`.
+
+## Phase 004C4 runtime-pipeline closure
+
+004C4 is an independently budgeted repair phase that preserves every 004C3 terminal fact. Its
+release evidence is controller-level: frozen probes invoke the real CLI/workspace/state/finalization
+and handoff path and require a bound gate trace. RC7 must pass three neutral end-to-end cases,
+independent adversarial replay and all C/history regressions before candidate/live consistency and
+remote freeze. Fresh Validation remains answer-sealed and inaccessible before that freeze; 2025 C
+remains reserved with all access flags false.

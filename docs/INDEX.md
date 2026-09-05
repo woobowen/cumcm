@@ -9,7 +9,8 @@
 - Upstream governance: `UPSTREAM_EVALUATION_POLICY.md`, `THIRD_PARTY_POLICY.md`, `upstream_reviews/`
 - Evidence and review: `REVIEW_POLICY.md`, `SEARCH_POLICY.md`, `BENCHMARK_POLICY.md`, `EVAL_POLICY.md`
 - C-target training: `TARGET_PROBLEM_POLICY.md`, `DEVELOPMENT_EVAL_PROTOCOL.md`,
-  `RC6_REQUIREMENT_EVIDENCE_DESIGN.md`
+  `RC6_REQUIREMENT_EVIDENCE_DESIGN.md`; active runtime closure is specified by
+  `../plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`
 - Phase 002D expansion: `PHASE002D_EVIDENCE_EXPANSION.md`, `EXPERIMENT_COHORT_POLICY.md`,
   `CODEX_RUN_BUDGET_POLICY.md`, `INDEPENDENT_REPEAT_POLICY.md`, `EXPANSION_RECOVERY.md`
 - Phase 002D-R1: `FAILURE_AWARE_EVIDENCE_POLICY.md`, `RETRY_UNTIL_SUCCESS_BIAS.md`,

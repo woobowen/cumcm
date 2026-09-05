@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import copy
 import json
-import subprocess
 
 import pytest
 from jsonschema import Draft202012Validator, ValidationError
@@ -12,34 +11,23 @@ def _load(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _terminal_state(repo_root):
-    return json.loads(
-        subprocess.run(
-            [
-                "git",
-                "show",
-                "7060ab136b88a158be6dfe3b46801e6cc2c65c64:state/project_state.json",
-            ],
-            cwd=repo_root,
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout
-    )
-
-
-def test_phase004c3_terminal_block_state_is_schema_valid_and_preserves_boundaries(
-    repo_root,
-) -> None:
-    state = _terminal_state(repo_root)
+def test_phase004c4_start_state_is_schema_valid_and_preserves_blocked_history(repo_root) -> None:
+    state = _load(repo_root / "state/project_state.json")
     schema = _load(repo_root / "contracts/project_state.schema.json")
 
     Draft202012Validator(schema).validate(state)
     assert state["schema_version"] == "2.4.0"
-    assert state["phase"] == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
-    assert state["subphase"] == "C-TARGET-FRESH-VALIDATION-BLOCKED"
-    assert state["technical_adjudication_status"] == "RC6_RELEASE_REPAIR_BLOCKED"
+    assert state["phase"] == "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+    assert state["subphase"] == "ACTUAL-CONTROLLER-BLACK-BOX-REPAIR"
+    assert state["technical_adjudication_status"] == (
+        "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS"
+    )
+    assert state["current_plan"] == (
+        "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md"
+    )
     assert state["active_skill_version"] == "0.2.0-competition-rc5-blocked"
+    assert state["blocked_candidate_version"] == "0.2.0-competition-rc6"
+    assert state["target_candidate_version"] == "0.2.0-competition-rc7"
     assert state["previous_validation_cases"] == [
         "CUMCM-2024-C-VALIDATION-001",
         "CUMCM-2019-C-VALIDATION-002",
@@ -54,18 +42,18 @@ def test_phase004c3_terminal_block_state_is_schema_valid_and_preserves_boundarie
         "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
         "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING",
     ]
-    assert state["selected_architecture"] == "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
-    assert state["skill_capability_status"] == "COMPETITION_RC"
+    assert state["selected_architecture"] == ("ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL")
     assert state["third_party_integrated"] is False
 
 
 @pytest.mark.parametrize(
     ("field", "value"),
     [
-        ("schema_version", "2.3.0"),
         ("current_plan", "plans/active/another-plan.md"),
         ("current_branch", "main"),
-        ("active_skill_version", "0.2.0-competition-rc6"),
+        ("active_skill_version", "0.2.0-competition-rc7"),
+        ("blocked_candidate_version", "0.2.0-competition-rc7"),
+        ("target_candidate_version", "0.2.0-competition-rc6"),
         ("current_validation_case", "CUMCM-2018-C-VALIDATION-003"),
         ("next_phase_allowed", "PHASE-SKILL-C-TARGET-HELDOUT-004D"),
         ("base_selected", True),
@@ -73,8 +61,8 @@ def test_phase004c3_terminal_block_state_is_schema_valid_and_preserves_boundarie
         ("blockers", []),
     ],
 )
-def test_phase004c3_terminal_block_state_mutations_fail_closed(repo_root, field, value) -> None:
-    state = copy.deepcopy(_terminal_state(repo_root))
+def test_phase004c4_start_state_mutations_fail_closed(repo_root, field, value) -> None:
+    state = copy.deepcopy(_load(repo_root / "state/project_state.json"))
     schema = _load(repo_root / "contracts/project_state.schema.json")
     state[field] = value
 

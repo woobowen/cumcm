@@ -28,7 +28,10 @@ def read(path):
 def evaluate(root=ROOT):
     errors = []
     state = read(root / "state/project_state.json")
-    successor = state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+    successor = state.get("phase") in {
+        "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+        "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+    }
     preflight = read(root / RESULTS / "preflight.json")
     for path, expected in preflight["historical_file_hashes"].items():
         if not (root / path).is_file() or digest(root / path) != expected:

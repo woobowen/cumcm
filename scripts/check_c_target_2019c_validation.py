@@ -70,7 +70,10 @@ def terminal_outcome(facts):
 def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
     errors = []
     state = read(root / "state/project_state.json")
-    successor = state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+    successor = state.get("phase") in {
+        "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+        "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+    }
     release = read(root / RESULTS / "rc5_release.json")
     receipt = read(root / RESULTS / "rc5_release_delivery.json")
     if (

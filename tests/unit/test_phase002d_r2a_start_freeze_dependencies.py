@@ -218,8 +218,11 @@ def test_r2_to_r2a_state_transition_is_registered(repo_root):
 def test_r3_plan_is_preserved_after_successor_advances(repo_root):
     plans = list((repo_root / "plans/active").glob("*.md"))
     assert [item.name for item in plans] == [
-        "PLAN-0004C3-release-evidence-repair-and-fresh-validation.md"
+        "PLAN-0004C4-actual-controller-closure-and-fresh-validation.md"
     ]
+    assert (
+        repo_root / "plans/completed/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md"
+    ).is_file()
     assert (
         repo_root / "plans/completed/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"
     ).is_file()

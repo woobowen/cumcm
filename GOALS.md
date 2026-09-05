@@ -79,6 +79,20 @@ cycles are exhausted, so RC6 is not released and no third repair is permitted in
 2018/2017 official input or answer was accessed; 2025 remains fully sealed. The exact next phase is
 `null`.
 
+## Phase 004C4 active objective
+
+Phase 004C4 preserves that terminal block and opens a separate bounded repair window for the actual
+completion controller. Thirteen controller-level CLI probes must be frozen before implementation;
+the formal chain must execute hash-bound data, selection, Run, compatibility, semantic, aggregate,
+finalization and handoff Gates and emit a replayable gate trace. Three neutral end-to-end cases and
+an independent adversarial audit are required before RC7 release eligibility.
+
+Only a candidate/live-consistent, fully regressed and remotely frozen RC7 may access the fresh
+official C Validation input. The answer remains sealed, the one-shot remains four hours, and 2025 C
+remains wholly unaccessed. A released RC7 with a non-PASS fresh result routes to 004C5; release
+failure remains in 004C4 with no next phase. This work does not prove full generalization,
+production readiness or a 2026 solution.
+
 The later Competition RC1 repair sprint preserves that historical boundary and old blocked decision,
 then accepts new project-owned K1/W1 revisions through the unchanged eight public hard Gates. K1 is
 integrated under the frozen K1-first rule. That checkpoint authorized

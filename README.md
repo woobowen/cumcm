@@ -20,6 +20,12 @@ K1-first rule selects the project-authored deterministic evidence kernel. The fo
 14 workflows, four bounded roles, 14 templates, an offline case CLI, strict Run/Claim/comparison
 bindings and STALE propagation.
 
+Phase 004C4 is now active under a separate bounded repair budget. It preserves the blocked RC6
+history, freezes controller-level CLI counterexamples before implementation, and requires the real
+completion path to execute ten hash-bound Gates with a machine-checkable trace. RC7 is only a target;
+fresh official Validation input remains inaccessible until candidate/live checks and remote freeze
+pass.
+
 The final directed integration repair validates actual input/code/output files and a resolvable Git
 commit, executes models from manifest-bound raw/processed artifacts, authenticates the full case
 history/evidence chain, requires a complete candidate-by-seed comparison with successful baseline,
@@ -94,7 +100,7 @@ or portfolio selection. Both formal revision cycles are exhausted. RC6 is not re
 2018/2017 input, worker or Run was started, and formal status is `RC6_RELEASE_REPAIR_BLOCKED` with
 `next_phase_allowed=null`.
 Release truth: `evals/results/phase-004c2/rc5_release.json`; execution record:
-`plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
+`plans/completed/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
 The 2024 terminal verdict and original artifacts remain unchanged.
 RC5 release `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` was remotely verified before
 2019 official input access. The pre-run freeze was remotely delivered before all nine actual Runs.

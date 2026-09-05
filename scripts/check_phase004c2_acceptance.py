@@ -12,7 +12,10 @@ CASE_ID = "CUMCM-2019-C-VALIDATION-002"
 
 def assess(version_file, release, block, decision, state):
     errors = []
-    successor = state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+    successor = state.get("phase") in {
+        "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+        "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+    }
     historical_version = block.get("version_file_value") if successor else version_file.strip()
     mismatch = historical_version != release["skill_version"]
     historical_blocker_reported = "RC5_VERSION_FILE_MISMATCH" in state.get("blockers", []) or any(
@@ -33,7 +36,11 @@ def assess(version_file, release, block, decision, state):
         and state.get("next_phase_allowed") == decision["next_phase_allowed"]
     )
     successor_preserves_terminal = (
-        state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+        state.get("phase")
+        in {
+            "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+            "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+        }
         and state.get("previous_validation_cases") == ["CUMCM-2024-C-VALIDATION-001", CASE_ID]
         and "DECISION-C-TARGET-VALIDATION-004C2" in state.get("automated_decision_ids", [])
         and any(

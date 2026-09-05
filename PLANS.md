@@ -76,3 +76,10 @@ neutral/historical regression. Auditor 1 then reproduced 13 fail-open probes and
 hardcoded global completion path. The revision cap forbids another Skill change, so the phase is
 terminal `RC6_RELEASE_REPAIR_BLOCKED`; RC6 was not released and the fresh official input was not
 accessed. The exact next route is `null`.
+
+Phase 004C3 is archived under `plans/completed/`. The sole active execution is
+`plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`. It is a new bounded
+window that first freezes the 13 actual-controller CLI counterexamples, then wires every evidence,
+selection, Run, compatibility, semantic, aggregate, finalization and handoff Gate into the real
+completion path. Three neutral E2E cases, an independent adversarial audit, full history regression
+and separate candidate/live release checks precede any RC7 freeze or fresh official-input access.

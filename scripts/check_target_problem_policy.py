@@ -25,6 +25,7 @@ PLAN = "plans/completed/PLAN-0004C-C-target-batch-generalization.md"
 BRANCH = "feat/phase004c-c-target-batch-generalization"
 EXPECTED_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
 EXPECTED_EVIDENCE_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+EXPECTED_RUNTIME_CLOSURE_PHASE = "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
 RC3 = "0.2.0-competition-rc3"
 RC4 = "0.2.0-competition-rc4"
 RC4_COMMIT = "297cad0a29c659b18484d4f3b67d69a942ad415c"
@@ -279,7 +280,11 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         "skill_capability_status": "COMPETITION_RC",
         "selected_architecture": ARCHITECTURE,
     }
-    repair = state.get("phase") in {EXPECTED_REPAIR_PHASE, EXPECTED_EVIDENCE_REPAIR_PHASE}
+    repair = state.get("phase") in {
+        EXPECTED_REPAIR_PHASE,
+        EXPECTED_EVIDENCE_REPAIR_PHASE,
+        EXPECTED_RUNTIME_CLOSURE_PHASE,
+    }
     if repair:
         for field in (
             "subphase",
@@ -290,11 +295,17 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
             expected_state.pop(field)
         expected_state.update(
             phase=state["phase"],
-            current_plan=(
-                "plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md"
-                if state["phase"] == EXPECTED_EVIDENCE_REPAIR_PHASE
-                else "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"
-            ),
+            current_plan={
+                EXPECTED_REPAIR_PHASE: (
+                    "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"
+                ),
+                EXPECTED_EVIDENCE_REPAIR_PHASE: (
+                    "plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md"
+                ),
+                EXPECTED_RUNTIME_CLOSURE_PHASE: (
+                    "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md"
+                ),
+            }[state["phase"]],
             current_branch="feat/phase004c2-claim-scope-repair-validation-2019c",
         )
         schema = _json(root / "contracts/project_state.schema.json")
@@ -367,6 +378,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                     for version in (
                         "0.2.0-competition-rc5",
                         "0.2.0-competition-rc6",
+                        "0.2.0-competition-rc7",
                     )
                 )
             )

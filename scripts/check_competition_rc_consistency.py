@@ -23,6 +23,7 @@ ACTIVE_SKILL_VERSIONS = {
     "0.2.0-competition-rc5",
     "0.2.0-competition-rc5-blocked",
     "0.2.0-competition-rc6",
+    "0.2.0-competition-rc7",
 }
 DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
@@ -34,10 +35,13 @@ DEVELOPMENT_STATUSES = {
 C_TARGET_STATUSES = {
     "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE",
     "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS",
+    "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS",
     "C_TARGET_RC6_READY_VALIDATION_PENDING",
+    "C_TARGET_RC7_READY_VALIDATION_PENDING",
     "C_TARGET_VALIDATION_IN_PROGRESS",
     "CLAIM_SCOPE_REPAIR_BLOCKED",
     "RC6_RELEASE_REPAIR_BLOCKED",
+    "RC7_RELEASE_REPAIR_BLOCKED",
     "VALIDATION_PREFLIGHT_DISQUALIFIED",
     "VALIDATION_CASE_CONTAMINATED",
     "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
@@ -133,6 +137,16 @@ def evaluate() -> dict[str, Any]:
         and "Version: `0.2.0-competition-rc6`" in skill
         and (ROOT / "VERSION").read_text(encoding="utf-8").strip() == "0.3.0-competition-rc6"
     )
+    rc7_repair_staged = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+        and state.get("technical_adjudication_status")
+        in {"C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS", "RC7_RELEASE_REPAIR_BLOCKED"}
+        and state.get("active_skill_version") == "0.2.0-competition-rc5-blocked"
+        and any(
+            f"Version: `{version}`" in skill
+            for version in ("0.2.0-competition-rc6", "0.2.0-competition-rc7")
+        )
+    )
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -164,6 +178,7 @@ def evaluate() -> dict[str, Any]:
             "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
             "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+            "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
         },
         "state_subphase": state.get("subphase")
         in {
@@ -191,6 +206,8 @@ def evaluate() -> dict[str, Any]:
             "RC6-FROZEN-PENDING-FRESH-C-VALIDATION",
             "C-TARGET-FRESH-VALIDATION-IN-PROGRESS",
             "C-TARGET-FRESH-VALIDATION-TERMINAL",
+            "ACTUAL-CONTROLLER-BLACK-BOX-REPAIR",
+            "RC7-FROZEN-PENDING-FRESH-C-VALIDATION",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES, *C_TARGET_STATUSES},
@@ -269,6 +286,40 @@ def evaluate() -> dict[str, Any]:
             )
         )
         or (
+            state.get("phase") == "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+            and (
+                (
+                    state.get("technical_adjudication_status")
+                    in {
+                        "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS",
+                        "C_TARGET_RC7_READY_VALIDATION_PENDING",
+                        "C_TARGET_VALIDATION_IN_PROGRESS",
+                        "RC7_RELEASE_REPAIR_BLOCKED",
+                        "VALIDATION_PREFLIGHT_DISQUALIFIED",
+                        "VALIDATION_CASE_CONTAMINATED",
+                        "FIRST_RUN_CONTAMINATION_SUSPECTED",
+                        "OFFICIAL_INPUTS_REQUIRED",
+                        "INFRASTRUCTURE_BLOCKED",
+                        "VALIDATION_CANDIDATE_DRIFT",
+                    }
+                    and state.get("next_phase_allowed") is None
+                )
+                or (
+                    state.get("technical_adjudication_status") == "C_TARGET_VALIDATION_PASSED"
+                    and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-HELDOUT-004D"
+                )
+                or (
+                    state.get("technical_adjudication_status")
+                    in {
+                        "C_TARGET_VALIDATION_FAILED",
+                        "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+                        "C_TARGET_VALIDATION_INCOMPLETE",
+                    }
+                    and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+                )
+            )
+        )
+        or (
             state.get("technical_adjudication_status")
             == "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING"
             and state.get("active_skill_version") == "0.2.0-competition-rc4"
@@ -296,6 +347,19 @@ def evaluate() -> dict[str, Any]:
             or (
                 state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
                 and state.get("technical_adjudication_status") == "RC6_RELEASE_REPAIR_BLOCKED"
+                and state.get("blockers")
+                == [
+                    "RC6_COMPATIBILITY_GATE_VACUOUS",
+                    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+                    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+                    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+                    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING",
+                ]
+            )
+            or (
+                state.get("phase") == "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+                and state.get("technical_adjudication_status")
+                == "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS"
                 and state.get("blockers")
                 == [
                     "RC6_COMPATIBILITY_GATE_VACUOUS",
@@ -358,6 +422,7 @@ def evaluate() -> dict[str, Any]:
             or rc5_candidate_staged
             or rc5_blocked_successor
             or rc6_candidate_staged
+            or rc7_repair_staged
         )
         and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
         "formal_skill_capability": "Capability: `COMPETITION_RC`" in skill,

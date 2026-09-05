@@ -199,3 +199,13 @@ deterministic probes reproduced fail-open RC6 data-sufficiency, selection, seman
 behavior, and the generic completion controller did not operationalize per-requirement/portfolio
 semantics. Both formal revision cycles were already used, so RC6 remains unreleased and no fresh
 Validation worker, Run, answer access or fallback decision occurred.
+
+## Phase 004C4 RC7 fresh-Validation protocol
+
+004C4 must first close those same failures through actual-controller black-box tests and a
+machine-checkable gate trace; helper-level evidence is insufficient. After three neutral E2E cases,
+independent adversarial replay, historical regression and both release check stages pass, RC7 is
+frozen and remotely verified. Only then may the official 2018 C input be acquired into ignored
+storage and hash-registered. The answer-sealed preflight/freeze and four-hour one-shot requirements
+are unchanged; 2017 is fallback only for the enumerated input/contamination conditions, never for
+difficulty or an unfavorable result.

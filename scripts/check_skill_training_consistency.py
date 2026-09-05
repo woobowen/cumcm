@@ -77,6 +77,7 @@ ACTIVE_VERSIONS = {
     "0.2.0-competition-rc5",
     "0.2.0-competition-rc5-blocked",
     "0.2.0-competition-rc6",
+    "0.2.0-competition-rc7",
 }
 PHASE004A_VERSION = "0.2.0-competition-rc2"
 ALLOWED_CASE_VERSIONS = {
@@ -157,6 +158,16 @@ def check() -> dict[str, Any]:
         and active_version == "0.2.0-competition-rc5-blocked"
         and "Version: `0.2.0-competition-rc6`" in skill_text
     )
+    rc7_repair_staged = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+        and state.get("technical_adjudication_status")
+        in {"C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS", "RC7_RELEASE_REPAIR_BLOCKED"}
+        and active_version == "0.2.0-competition-rc5-blocked"
+        and any(
+            f"Version: `{version}`" in skill_text
+            for version in ("0.2.0-competition-rc6", "0.2.0-competition-rc7")
+        )
+    )
     if active_version not in ACTIVE_VERSIONS:
         errors.append("PROJECT_STATE_SKILL_VERSION_MISMATCH")
     if state.get("skill_capability_status") != "COMPETITION_RC":
@@ -172,6 +183,7 @@ def check() -> dict[str, Any]:
             and "Version: `0.2.0-competition-rc5`" in skill_text
         )
         or rc6_candidate_staged
+        or rc7_repair_staged
     ):
         errors.append("FORMAL_SKILL_VERSION_MISMATCH")
     if EXPECTED_VERSION not in changelog:

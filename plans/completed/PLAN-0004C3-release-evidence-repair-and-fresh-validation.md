@@ -250,3 +250,6 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   Draft PR 10 remained OPEN/DRAFT/MERGEABLE. The Node.js 20 deprecation annotation belongs to the
   GitHub Actions dependencies and did not fail the job. RC6 remains blocked; no release or
   Validation path was reopened.
+- `2026-09-05T18:59:02+08:00` — The terminal 004C3 plan was archived unchanged in meaning after
+  004C4 preflight revalidated the blocked release, all 13 Auditor probes, historical preservation,
+  the sealed 2025 reservation and a clean passing baseline. No 004C3 cycle was reopened.

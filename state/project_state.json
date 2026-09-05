@@ -6,6 +6,8 @@
     "leakage-safe-model-comparison-gate"
   ],
   "active_skill_version": "0.2.0-competition-rc5-blocked",
+  "blocked_candidate_version": "0.2.0-competition-rc6",
+  "target_candidate_version": "0.2.0-competition-rc7",
   "answer_access_status": "SEALED_NOT_ACCESSED",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
@@ -119,7 +121,7 @@
   "content_verified_commit": "b02d3ac276e6971f56f66d7b6af97b091b3b7c38",
   "current_batch_id": "C-TARGET-BATCH-001",
   "current_branch": "feat/phase004c2-claim-scope-repair-validation-2019c",
-  "current_plan": "plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md",
+  "current_plan": "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md",
   "current_validation_case": null,
   "delivery_receipt_for_commit": {
     "commit": "b02d3ac276e6971f56f66d7b6af97b091b3b7c38",
@@ -195,7 +197,7 @@
     "unknown_slots": 0
   },
   "next_phase_allowed": null,
-  "phase": "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+  "phase": "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
   "previous_validation_case": "CUMCM-2024-C-VALIDATION-001",
   "previous_validation_cases": [
     "CUMCM-2024-C-VALIDATION-001",
@@ -237,7 +239,8 @@
     "2019 answers remained sealed; exact model prior is unverifiable and test payload isolation is policy-based rather than cryptographic or OS-enforced.",
     "RC5_VERSION_FILE_MISMATCH: post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in that one-shot.",
     "Phase 004C3 froze 56 case-neutral release, data-sufficiency, selection, semantic-support and compatibility expectations before RC6 implementation.",
-    "Auditor 1 reproduced 13 fail-open probes across RC6 data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted, so RC6 is not released and fresh Validation was not started."
+    "Auditor 1 reproduced 13 fail-open probes across RC6 data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted, so RC6 is not released and fresh Validation was not started.",
+    "Phase 004C4 is a new bounded repair window. RC7 cannot be released until actual-controller black-box probes, ordered gate traces, neutral end-to-end cases, adversarial audit, historical regressions and candidate/live consistency all pass."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
@@ -295,11 +298,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "C-TARGET-FRESH-VALIDATION-BLOCKED",
+  "subphase": "ACTUAL-CONTROLLER-BLACK-BOX-REPAIR",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "RC6_RELEASE_REPAIR_BLOCKED",
+  "technical_adjudication_status": "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS",
   "third_party_integrated": false,
-  "updated_at": "2026-09-05T16:35:11+08:00",
+  "updated_at": "2026-09-05T18:59:02+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

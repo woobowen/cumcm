@@ -2,10 +2,10 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3`
-- Subphase: `C-TARGET-FRESH-VALIDATION-BLOCKED`
+- Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
+- Subphase: `ACTUAL-CONTROLLER-BLACK-BOX-REPAIR`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md`
+- Active plan: `plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`
 - Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
 - Skill version: `0.2.0-competition-rc5-blocked`
 - Primary target problem type: `C`
@@ -15,7 +15,7 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `RC6_RELEASE_REPAIR_BLOCKED`
+- Technical adjudication: `C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS`
 - Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
@@ -23,7 +23,7 @@
 - Content-verified commit: `b02d3ac276e6971f56f66d7b6af97b091b3b7c38`
 - Delivery receipt commit: `b02d3ac276e6971f56f66d7b6af97b091b3b7c38`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-05T16:35:11+08:00` by `main-agent`
+- Updated: `2026-09-05T18:59:02+08:00` by `main-agent`
 
 ## Blockers
 
@@ -68,3 +68,4 @@
 - RC5_VERSION_FILE_MISMATCH: post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in that one-shot.
 - Phase 004C3 froze 56 case-neutral release, data-sufficiency, selection, semantic-support and compatibility expectations before RC6 implementation.
 - Auditor 1 reproduced 13 fail-open probes across RC6 data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted, so RC6 is not released and fresh Validation was not started.
+- Phase 004C4 is a new bounded repair window. RC7 cannot be released until actual-controller black-box probes, ordered gate traces, neutral end-to-end cases, adversarial audit, historical regressions and candidate/live consistency all pass.

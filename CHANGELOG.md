@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 004C4 actual-controller closure started
+
+- Preserved the terminal RC6 release block, five blocker classes, 13 Auditor probes, both negative
+  Validation histories and the fully sealed 2025 C reservation.
+- Opened a separately budgeted controller-level repair phase targeting Competition RC7; no RC7
+  release or fresh Validation result is claimed at phase start.
+- Recorded a clean serial baseline of `2009 passed, 1 skipped` plus strict 0/0 before any formal
+  Skill implementation change.
+
 ## 0.3.0-competition-rc6 — 2026-09-05 (release blocked)
 
 - Reconciles the project and sole formal Skill at `0.3.0-competition-rc6` /

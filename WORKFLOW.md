@@ -285,3 +285,23 @@ fail-open acquisition/scope, portfolio/hash/dependency, semantic binding/eligibi
 compatibility cases, while the fresh-completion controller hardcodes a global descriptive path.
 Because both formal revision cycles are exhausted, no third Skill repair, RC6 release, fresh input
 access, Validation worker or Run is permitted in this phase. `next_phase_allowed` is `null`.
+
+## Phase 004C4 actual-controller and RC7 route
+
+`RC6_RELEASE_REPAIR_BLOCKED -> C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS` is a new phase, not a
+third 004C3 cycle. It preserves RC5, blocked RC6, both old Validation freezes and all 13 audit
+findings. The observable top-level completion command must fail closed through ordered,
+input/output-hash-bound Gates; helper-only calls cannot satisfy release evidence. The expected
+counterexamples are frozen before code, then three neutral actual-controller workspaces exercise
+per-requirement selection, joint portfolio compatibility and partial data completion.
+
+`C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS -> C_TARGET_RC7_READY_VALIDATION_PENDING` requires
+all frozen/new controller probes, independent adversarial replay, neutral E2E traces, historical
+diagnostics/regressions, candidate checking, live checking, full offline CI and remote RC7 delivery.
+Until then, RC7 is a candidate only and fresh official input access is prohibited.
+
+After the remotely verified RC7 pre-run freeze, exactly one fresh worker runs the sealed 2018 C
+case, with 2017 allowed only for input failure/corruption/unrecognizable input or pre-result
+contamination. PASS routes to 004D; failed, insufficient or incomplete evidence routes to 004C5;
+release failure keeps 004C4 with `next_phase_allowed=null`. Terminal freeze prohibits later Runs or
+same-case Validation repair. The 2025 reservation remains untouched throughout.
