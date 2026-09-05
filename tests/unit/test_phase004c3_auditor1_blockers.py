@@ -23,6 +23,12 @@ def test_auditor1_rc6_release_blockers_reproduce_without_skill_mutation(repo_roo
     assert result["release_verdict"] == "BLOCK"
     assert result["probe_count"] == 13
     assert result["reproduced_probe_count"] == 13
+    assert result["core_sha256"] == (
+        "2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879"
+    )
+    assert result["controller_sha256"] == (
+        "fc3a5abae33cd13e23ae8f26d2e7d41488b625ab28eb2dc4f7ee2284311cb753"
+    )
     assert len(result["reason_codes"]) == 5
     assert all(result["controller_checks"].values())
     assert result["formal_revision_cycles_remaining"] == 0

@@ -6,9 +6,10 @@ from __future__ import annotations
 import argparse
 import copy
 import hashlib
-import importlib.util
 import json
+import subprocess
 import sys
+import types
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -22,12 +23,12 @@ HEX_B = "b" * 64
 
 
 def load_core():
-    spec = importlib.util.spec_from_file_location("phase004c3_auditor1_core", CORE_PATH)
-    if spec is None or spec.loader is None:
-        raise ValueError("RC6_CORE_IMPORT_FAILED")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
+    source = _git_blob(".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py")
+    name = "phase004c3_auditor1_core"
+    module = types.ModuleType(name)
+    module.__file__ = str(CORE_PATH)
+    sys.modules[name] = module
+    exec(compile(source, f"{AUDITED_COMMIT}:cumcm_case.py", "exec"), module.__dict__)
     return module
 
 
@@ -36,8 +37,12 @@ def canonical_sha256(value: Any) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def _git_blob(relative: str) -> bytes:
+    return subprocess.check_output(["git", "show", f"{AUDITED_COMMIT}:{relative}"], cwd=ROOT)
+
+
+def _blob_sha256(relative: str) -> str:
+    return hashlib.sha256(_git_blob(relative)).hexdigest()
 
 
 def requirement(requirement_id: str = "R-A") -> dict[str, Any]:
@@ -317,7 +322,7 @@ def evaluate() -> dict[str, Any]:
                 "defect_reproduced": actual.get("status") != expected_status,
             }
         )
-    controller = CONTROLLER_PATH.read_text(encoding="utf-8")
+    controller = _git_blob("scripts/finalize_fresh_c_validation.py").decode("utf-8")
     controller_checks = {
         "hardcoded_global_joint": '"selection_mode": "GLOBAL_JOINT"' in controller,
         "hardcoded_descriptive_claim": '"claim_type": "DESCRIPTIVE"' in controller,
@@ -347,8 +352,8 @@ def evaluate() -> dict[str, Any]:
         "reproduced_probe_count": sum(item["defect_reproduced"] for item in results),
         "probes": results,
         "controller_checks": controller_checks,
-        "core_sha256": sha256(CORE_PATH),
-        "controller_sha256": sha256(CONTROLLER_PATH),
+        "core_sha256": _blob_sha256(".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"),
+        "controller_sha256": _blob_sha256("scripts/finalize_fresh_c_validation.py"),
         "formal_revision_cycles_used": 2,
         "formal_revision_cycles_remaining": 0,
         "third_cycle_permitted": False,
