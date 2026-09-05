@@ -51,7 +51,7 @@ no changed verdict, no answer access and no independent Validation credit.
   Skill/test/rubric mutation, and no success-forcing retries. Record actual terminal decision;
   Auditor 2 reads only after decision. Freeze/check/commit/push the terminal outcome before
   references; no post-freeze Run or verdict change.
-- M8 DELIVERY PENDING: minimal docs/state/registry/reports/acceptance, full local and remote CI,
+- M8 CONTENT_REMOTE_DELIVERED_RELEASE_ACCEPTANCE_BLOCKED: minimal docs/state/registry/reports/acceptance, full local and remote CI,
   exact remote SHA; single PR remains OPEN/DRAFT. 2025 six access flags remain false.
 
 ## Validation and Git checkpoints
@@ -144,3 +144,10 @@ prior-content-commit rule while its verified terminal receipt still referenced c
 Committing the receipt makes the reference a predecessor; strict and final CI will then be checked.
 The first terminal CI failures (phase-specific assertion and missing registry evidence index) are
 resolved without changing any frozen evaluation artifact.
+
+Final verified content checkpoint: `77c38237f09b86eb0944a69d5074cf6e3da67c80`, remote SHA equal.
+Full local CI exit 0, 1940 passed / 1 skipped (305.56 s pytest), strict 0/0. Remote CI
+33945912145 success, 1940 passed / 1 skipped (487.25 s), strict 0/0. Generated status, terminal
+workspace hashes and exact Run set, historical protections and diff checks pass. The follow-up
+receipt records this already-verified content checkpoint. Overall release acceptance remains
+BLOCKED_VERSION_METADATA; there is no authorized next phase and no post-freeze numerical work.

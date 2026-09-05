@@ -36,9 +36,9 @@ Q2 明确要求真实机场与城市数据，本次注册输入无此数据。�
 
 ## 验证与交付
 
-完整 pytest 已实测 1940 passed / 1 skipped（304.00 秒）。strict 的待提交回执引用检查及最终本地/远程 CI 正在收尾。检查通过只表示负向记录一致，不消除 `RC5_VERSION_FILE_MISMATCH`。Draft PR #10 保持 OPEN/DRAFT，禁止自动合并。
+验证主体提交 `77c38237f09b86eb0944a69d5074cf6e3da67c80` 已远端核验。本地完整 `bash scripts/ci.sh` exit 0：1940 passed / 1 skipped（pytest 305.56 秒），strict 0 errors / 0 warnings。远程 CI #33945912145 为 success：1940 passed / 1 skipped（487.25 秒），strict 0/0。render-status、终局哈希/Run 集合和 diff 检查通过。唯一 skip 用于保护已有不可变 Batch 1 证据。检查通过只表示负向记录一致，不消除 `RC5_VERSION_FILE_MISMATCH`。Draft PR #10 保持 OPEN/DRAFT，禁止自动合并。
 
-中间失败已保留：旧阶段/登记表测试的兼容性错误、历史回放环境上下文错误、预结果 controller evidence-list 修正，以及导出/建目录的记账错误。上述错误未导致 2019 模型重试、Skill 漂移或失败 Run 删除。
+中间失败已保留：旧阶段/登记表测试的兼容性错误、历史回放环境上下文错误、预结果 controller evidence-list 修正、导出/建目录的记账错误，以及回执引用尚未成为前序提交时的 strict 拒绝。上述错误未导致 2019 模型重试、Skill 漂移或失败 Run 删除。
 
 ## 未知、环境与下一步
 
