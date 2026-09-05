@@ -104,3 +104,11 @@ Progress:
   pre-repair run yielded `1 passed / 13 failed`: AC-001/002 blocked with only the coarse legacy
   handoff reason, while AC-003 through AC-013 exited zero. This is the frozen expected-failure
   baseline; implementation loop 1 may now begin.
+- `2026-09-05T19:44:00+08:00` — Implementation loop 1 wires the actual completion entrypoint to
+  ordered, hash-bound requirement, source, data-sufficiency, selection, Run eligibility,
+  compatibility, semantic, aggregate, finalization and handoff Gates. Runtime-only strict
+  validators add complete acquisition plans, conjunctive source coverage, manifest-backed
+  portfolio hashes/dependency bridges, allowlisted bijective compatibility, Run/output/metric
+  ownership, bounded scope and exact aggregate mappings. Formatting, compilation and the preserved
+  RC6 neutral contract matrix passed (`57 passed`). The production files must now be Git-bound
+  before the real subprocess matrix can be evaluated.

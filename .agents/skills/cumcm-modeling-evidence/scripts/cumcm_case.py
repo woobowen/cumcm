@@ -244,6 +244,33 @@ EVIDENCE_CLASSES = EMPIRICAL_EVIDENCE_CLASSES | {
     "UNKNOWN",
 }
 
+ACQUISITION_PLAN_FIELDS = {
+    "requirement_id",
+    "required_fields",
+    "required_time_scope",
+    "required_entity_scope",
+    "authoritative_source_candidates",
+    "acquisition_method",
+    "provenance_plan",
+    "license_or_usage_plan",
+    "validation_plan",
+    "time_budget",
+    "fallback_disposition",
+}
+SOURCE_COMPOSITION_FIELDS = {
+    "composition_id",
+    "source_ids",
+    "join_keys",
+    "join_cardinality",
+    "entity_alignment",
+    "time_alignment",
+    "field_ownership",
+    "deduplication_policy",
+    "conflict_resolution",
+    "provenance",
+    "composition_hash",
+}
+
 
 def _string_set(value: Any) -> set[str] | None:
     if not isinstance(value, list) or not all(isinstance(item, str) and item for item in value):
@@ -273,6 +300,150 @@ def _source_provenance_complete(source: dict[str, Any]) -> bool:
     )
 
 
+def _complete_acquisition_plan(plan: Any, requirement: dict[str, Any]) -> bool:
+    if not isinstance(plan, dict) or not set(plan) >= ACQUISITION_PLAN_FIELDS:
+        return False
+    list_fields = (
+        "required_fields",
+        "required_time_scope",
+        "required_entity_scope",
+        "authoritative_source_candidates",
+    )
+    text_fields = tuple(ACQUISITION_PLAN_FIELDS - set(list_fields) - {"requirement_id"})
+    return (
+        plan.get("requirement_id") == requirement.get("requirement_id")
+        and all(
+            _string_set(plan.get(field)) is not None and plan.get(field) for field in list_fields
+        )
+        and all(isinstance(plan.get(field), str) and plan.get(field) for field in text_fields)
+        and set(plan["required_fields"]) == set(requirement.get("minimum_data_fields") or [])
+        and set(plan["required_time_scope"]) == set(requirement.get("required_time_scope") or [])
+        and set(plan["required_entity_scope"])
+        == set(requirement.get("required_entity_scope") or [])
+    )
+
+
+def _validated_composition_sources(
+    composition: Any,
+    source_index: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]] | None:
+    if not isinstance(composition, dict) or set(composition) != SOURCE_COMPOSITION_FIELDS:
+        return None
+    source_ids = composition.get("source_ids")
+    body = {key: value for key, value in composition.items() if key != "composition_hash"}
+    if (
+        not isinstance(composition.get("composition_id"), str)
+        or not composition["composition_id"]
+        or _string_set(source_ids) is None
+        or not source_ids
+        or len(source_ids) != len(set(source_ids))
+        or any(source_id not in source_index for source_id in source_ids)
+        or _string_set(composition.get("join_keys")) is None
+        or not composition.get("join_keys")
+        or not isinstance(composition.get("field_ownership"), dict)
+        or not composition.get("field_ownership")
+        or any(
+            not isinstance(composition.get(field), str) or not composition.get(field)
+            for field in (
+                "join_cardinality",
+                "entity_alignment",
+                "time_alignment",
+                "deduplication_policy",
+                "conflict_resolution",
+                "provenance",
+            )
+        )
+        or composition.get("entity_alignment") not in {"EXACT", "VERIFIED_CROSSWALK"}
+        or composition.get("time_alignment") not in {"EXACT", "VERIFIED_RESAMPLING"}
+        or not HEX64.fullmatch(str(composition.get("composition_hash", "")))
+        or composition.get("composition_hash") != canonical_hash(body)
+    ):
+        return None
+    return [source_index[source_id] for source_id in source_ids]
+
+
+def validate_runtime_requirements(requirements: Any) -> dict[str, Any]:
+    """Validate the explicit requirement/evidence contract used by completion."""
+    if not isinstance(requirements, list) or not requirements:
+        return contract_result("BLOCK", "RC_REQUIREMENT_CONTRACT_INVALID")
+    identifiers: set[str] = set()
+    codes: set[str] = set()
+    for requirement in requirements:
+        if not isinstance(requirement, dict):
+            codes.add("RC_REQUIREMENT_CONTRACT_INVALID")
+            continue
+        requirement_id = requirement.get("requirement_id")
+        required = _string_set(requirement.get("required_evidence_classes"))
+        allowed = _string_set(requirement.get("allowed_evidence_classes"))
+        if (
+            not isinstance(requirement_id, str)
+            or not requirement_id
+            or requirement_id in identifiers
+            or requirement.get("role", "PRIMARY") not in {"PRIMARY", "AUXILIARY"}
+            or not required
+            or allowed is None
+            or not required <= allowed <= EVIDENCE_CLASSES
+            or any(
+                _string_set(requirement.get(field)) is None
+                for field in (
+                    "minimum_data_fields",
+                    "required_time_scope",
+                    "required_entity_scope",
+                    "dependency_requirements",
+                )
+            )
+            or any(
+                not isinstance(requirement.get(field), bool)
+                for field in (
+                    "external_data_allowed",
+                    "external_data_required",
+                    "simulation_substitution_allowed",
+                    "partial_completion_allowed",
+                )
+            )
+            or not isinstance(requirement.get("completion_rule"), str)
+            or not requirement.get("completion_rule")
+        ):
+            codes.add("RC_REQUIREMENT_CONTRACT_INVALID")
+            continue
+        identifiers.add(requirement_id)
+    if identifiers:
+        for requirement in requirements:
+            dependencies = (
+                requirement.get("dependency_requirements") if isinstance(requirement, dict) else []
+            )
+            if isinstance(dependencies, list) and set(dependencies) - identifiers:
+                codes.add("RC_REQUIREMENT_DEPENDENCY_UNKNOWN")
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
+def validate_runtime_sources(sources: Any, requirement_ids: Any) -> dict[str, Any]:
+    """Reject unregistered, unknown, duplicate or provenance-incomplete sources."""
+    if not isinstance(sources, list) or not isinstance(requirement_ids, list):
+        return contract_result("BLOCK", "RC_SOURCE_EVIDENCE_REGISTRY_INVALID")
+    known = set(requirement_ids)
+    source_ids: set[str] = set()
+    codes: set[str] = set()
+    for source in sources:
+        source_id = source.get("source_id") if isinstance(source, dict) else None
+        supports = source.get("supports_requirement_ids") if isinstance(source, dict) else None
+        if (
+            not isinstance(source, dict)
+            or not isinstance(source_id, str)
+            or not source_id
+            or source_id in source_ids
+            or _string_set(supports) is None
+            or set(supports) - known
+            or source.get("evidence_class") not in EVIDENCE_CLASSES
+        ):
+            codes.add("RC_SOURCE_EVIDENCE_REGISTRY_INVALID")
+            continue
+        source_ids.add(source_id)
+        if not _source_provenance_complete(source):
+            codes.add("RC_DATA_PROVENANCE_INCOMPLETE")
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
 def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
     """Evaluate requirement-level data sufficiency before expensive modeling.
 
@@ -292,6 +463,23 @@ def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
         return contract_result("BLOCK", "RC_DATA_ACQUISITION_PLAN_INVALID")
 
     codes: set[str] = set()
+    strict_runtime = "coverage_mode_by_requirement" in payload or "source_compositions" in payload
+    coverage_modes = payload.get("coverage_mode_by_requirement")
+    compositions = payload.get("source_compositions")
+    if strict_runtime and (
+        not isinstance(coverage_modes, dict) or not isinstance(compositions, list)
+    ):
+        return contract_result("BLOCK", "RC_DATA_SUFFICIENCY_INPUT_INVALID")
+    source_index = {
+        item.get("source_id"): item
+        for item in sources
+        if isinstance(item, dict) and isinstance(item.get("source_id"), str)
+    }
+    composition_index = {
+        item.get("composition_id"): item
+        for item in compositions or []
+        if isinstance(item, dict) and isinstance(item.get("composition_id"), str)
+    }
     requirement_ids: set[str] = set()
     incomplete: list[tuple[dict[str, Any], str]] = []
     acquisition_required = False
@@ -341,6 +529,30 @@ def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
             if isinstance(item, dict)
             and requirement_id in (item.get("supports_requirement_ids") or [])
         ]
+        if (
+            strict_runtime
+            and requirement.get("external_data_allowed") is False
+            and any(item.get("evidence_class") == "ACQUIRED_EMPIRICAL" for item in relevant)
+        ):
+            codes.add("RC_EXTERNAL_DATA_POLICY_FORBIDDEN")
+            incomplete.append((requirement, "EXTERNAL_DATA_FORBIDDEN"))
+            continue
+        matching_plans = [
+            item
+            for item in plans
+            if isinstance(item, dict) and item.get("requirement_id") == requirement_id
+        ]
+        if (
+            strict_runtime
+            and requirement.get("external_data_required") is True
+            and (
+                len(matching_plans) != 1
+                or not _complete_acquisition_plan(matching_plans[0], requirement)
+            )
+        ):
+            codes.add("RC_DATA_ACQUISITION_PLAN_INCOMPLETE")
+            incomplete.append((requirement, "PLAN_INCOMPLETE"))
+            continue
         if any(not _source_provenance_complete(item) for item in relevant):
             codes.add("RC_DATA_PROVENANCE_INCOMPLETE")
             incomplete.append((requirement, "PROVENANCE"))
@@ -364,11 +576,6 @@ def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
                 incomplete.append((requirement, "EVIDENCE_CLASS"))
                 continue
 
-            matching_plans = [
-                item
-                for item in plans
-                if isinstance(item, dict) and item.get("requirement_id") == requirement_id
-            ]
             external = requirement.get("external_data_required") is True
             if external and not matching_plans:
                 codes.add("RC_DATA_ACQUISITION_PLAN_MISSING")
@@ -381,17 +588,53 @@ def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
                 incomplete.append((requirement, "DATA_MISSING"))
             continue
 
-        fields_ok = any(
-            required_fields <= (_string_set(item.get("field_schema")) or set())
-            for item in class_matches
+        coverage_sources = class_matches
+        if strict_runtime:
+            coverage = coverage_modes.get(requirement_id)
+            if not isinstance(coverage, dict):
+                codes.add("RC_DATA_SOURCE_COMPOSITION_UNREGISTERED")
+                incomplete.append((requirement, "COVERAGE_UNREGISTERED"))
+                continue
+            mode = coverage.get("mode")
+            if mode == "SINGLE_SOURCE":
+                source_id = coverage.get("source_id")
+                selected_source = source_index.get(source_id)
+                if selected_source not in class_matches:
+                    codes.add("RC_DATA_SOURCE_COMPOSITION_UNREGISTERED")
+                    incomplete.append((requirement, "COVERAGE_UNREGISTERED"))
+                    continue
+                coverage_sources = [selected_source]
+            elif mode == "REGISTERED_COMPOSITION":
+                composition = composition_index.get(coverage.get("composition_id"))
+                selected_sources = _validated_composition_sources(composition, source_index)
+                if selected_sources is None or any(
+                    item not in class_matches for item in selected_sources
+                ):
+                    codes.add("RC_DATA_SOURCE_COMPOSITION_INVALID")
+                    incomplete.append((requirement, "COMPOSITION_INVALID"))
+                    continue
+                ownership = composition.get("field_ownership")
+                if set(ownership) != required_fields or any(
+                    owner not in {item["source_id"] for item in selected_sources}
+                    for owner in ownership.values()
+                ):
+                    codes.add("RC_DATA_SOURCE_COMPOSITION_INVALID")
+                    incomplete.append((requirement, "COMPOSITION_INVALID"))
+                    continue
+                coverage_sources = selected_sources
+            else:
+                codes.add("RC_DATA_SOURCE_COMPOSITION_UNREGISTERED")
+                incomplete.append((requirement, "COVERAGE_UNREGISTERED"))
+                continue
+
+        fields_ok = required_fields <= set().union(
+            *(_string_set(item.get("field_schema")) or set() for item in coverage_sources)
         )
-        time_ok = any(
-            required_time <= (_string_set(item.get("time_scope")) or set())
-            for item in class_matches
+        time_ok = required_time <= set.intersection(
+            *(_string_set(item.get("time_scope")) or set() for item in coverage_sources)
         )
-        entities_ok = any(
-            required_entities <= (_string_set(item.get("entity_scope")) or set())
-            for item in class_matches
+        entities_ok = required_entities <= set.intersection(
+            *(_string_set(item.get("entity_scope")) or set() for item in coverage_sources)
         )
         if not fields_ok:
             codes.add("RC_REQUIREMENT_MINIMUM_FIELDS_INSUFFICIENT")
@@ -409,6 +652,10 @@ def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
         "RC_DATA_PROVENANCE_INCOMPLETE",
         "RC_DATA_ACQUISITION_PLAN_INVALID",
         "RC_DATA_ACQUISITION_PLAN_MISSING",
+        "RC_DATA_ACQUISITION_PLAN_INCOMPLETE",
+        "RC_DATA_SOURCE_COMPOSITION_INVALID",
+        "RC_DATA_SOURCE_COMPOSITION_UNREGISTERED",
+        "RC_EXTERNAL_DATA_POLICY_FORBIDDEN",
     }
     if codes & hard_block:
         return contract_result("BLOCK", *codes)
@@ -699,6 +946,411 @@ def validate_evidence_compatibility(payload: Any) -> dict[str, Any]:
     if payload != original:
         return contract_result("BLOCK", "RC_INPUT_MUTATION_DETECTED")
     return contract_result("PASS")
+
+
+RUNTIME_COMPATIBILITY_KINDS = {
+    "RUN_PORTFOLIO_V1",
+    "REQUIREMENT_ORDER_PERMUTATION_V1",
+    "SINGLE_RUN_V1",
+}
+RUNTIME_COMPATIBILITY_VERSIONS = {"compatibility/v1"}
+
+
+def validate_runtime_run_eligibility(
+    selection_record: Any,
+    semantic_record: Any,
+    manifest_registry: Any,
+) -> dict[str, Any]:
+    """Bind selected run status to sealed manifests without inferring semantic coverage."""
+    if (
+        not isinstance(selection_record, dict)
+        or not isinstance(semantic_record, dict)
+        or not isinstance(manifest_registry, dict)
+        or not manifest_registry
+    ):
+        return contract_result("BLOCK", "RC_ACTUAL_RUN_REGISTRY_MISSING")
+    selection = selection_record.get("selection")
+    if not isinstance(selection, dict) or not isinstance(
+        selection.get("requirement_to_run_map"), dict
+    ):
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+    selected_ids = {
+        run_id
+        for run_ids in selection["requirement_to_run_map"].values()
+        if isinstance(run_ids, list)
+        for run_id in run_ids
+        if isinstance(run_id, str)
+    }
+    selection_runs = {
+        item.get("run_id"): item
+        for item in selection_record.get("runs", [])
+        if isinstance(item, dict) and isinstance(item.get("run_id"), str)
+    }
+    semantic_runs = {
+        item.get("run_id"): item
+        for item in semantic_record.get("runs", [])
+        if isinstance(item, dict) and isinstance(item.get("run_id"), str)
+    }
+    codes: set[str] = set()
+    for run_id in selected_ids:
+        manifest = manifest_registry.get(run_id)
+        descriptors = (selection_runs.get(run_id), semantic_runs.get(run_id))
+        if not isinstance(manifest, dict) or any(
+            not isinstance(item, dict) for item in descriptors
+        ):
+            codes.add("RC_REQUIREMENT_SELECTED_RUN_MISSING")
+            continue
+        if (
+            manifest.get("outcome") != "SUCCESS"
+            or manifest.get("trusted_capture") is not True
+            or manifest.get("supersession") is not None
+            or any(
+                item.get("outcome") != "SUCCESS"
+                or item.get("sealed") is not True
+                or item.get("current") is not True
+                for item in descriptors
+            )
+        ):
+            codes.add("RC_REQUIREMENT_SELECTED_RUN_INVALID_STATUS")
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
+def _valid_dependency_bridge(
+    bridge: Any,
+    *,
+    dependency_id: str,
+    dependent_id: str,
+    upstream_run_ids: list[str],
+    downstream_run_ids: list[str],
+) -> bool:
+    required = {
+        "dependency_requirement_id",
+        "dependent_requirement_id",
+        "upstream_run_ids",
+        "downstream_run_ids",
+        "input_hash",
+        "scenario_hash",
+        "lineage_hash",
+    }
+    if not isinstance(bridge, dict) or set(bridge) != required:
+        return False
+    body = {key: value for key, value in bridge.items() if key != "lineage_hash"}
+    return (
+        bridge.get("dependency_requirement_id") == dependency_id
+        and bridge.get("dependent_requirement_id") == dependent_id
+        and bridge.get("upstream_run_ids") == upstream_run_ids
+        and bridge.get("downstream_run_ids") == downstream_run_ids
+        and HEX64.fullmatch(str(bridge.get("input_hash", ""))) is not None
+        and HEX64.fullmatch(str(bridge.get("scenario_hash", ""))) is not None
+        and bridge.get("lineage_hash") == canonical_hash(body)
+    )
+
+
+def validate_runtime_selection_compatibility(
+    selection_record: Any,
+    manifest_registry: Any,
+    *,
+    scenario_hash: Any,
+) -> dict[str, Any]:
+    """Validate selected portfolios against the actual sealed manifest registry."""
+    if not isinstance(selection_record, dict) or not isinstance(manifest_registry, dict):
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+    requirements = selection_record.get("requirements")
+    runs = selection_record.get("runs")
+    selection = selection_record.get("selection")
+    if (
+        not isinstance(requirements, list)
+        or not requirements
+        or not isinstance(runs, list)
+        or not isinstance(selection, dict)
+        or not manifest_registry
+    ):
+        return contract_result("BLOCK", "RC_ACTUAL_RUN_REGISTRY_MISSING")
+    mode = selection.get("selection_mode")
+    if mode not in {"GLOBAL_JOINT", "PER_REQUIREMENT", "JOINT_PORTFOLIO"}:
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_MODE_INVALID")
+    run_map = selection.get("requirement_to_run_map")
+    output_map = selection.get("requirement_to_output_map")
+    if not isinstance(run_map, dict) or not isinstance(output_map, dict):
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+    run_index = {
+        item.get("run_id"): item
+        for item in runs
+        if isinstance(item, dict) and isinstance(item.get("run_id"), str)
+    }
+    selected_ids = {
+        run_id
+        for run_ids in run_map.values()
+        if isinstance(run_ids, list)
+        for run_id in run_ids
+        if isinstance(run_id, str)
+    }
+    codes: set[str] = set()
+    actual_input_hashes: set[str] = set()
+    actual_scenario_hashes: set[str] = set()
+    for run_id in selected_ids:
+        declared = run_index.get(run_id)
+        manifest = manifest_registry.get(run_id)
+        if not isinstance(declared, dict) or not isinstance(manifest, dict):
+            codes.add("RC_ACTUAL_RUN_REGISTRY_MISSING")
+            continue
+        declared_hashes = (
+            declared.get("input_hash"),
+            declared.get("scenario_hash"),
+            declared.get("configuration_hash"),
+        )
+        if any(HEX64.fullmatch(str(item or "")) is None for item in declared_hashes):
+            codes.add("RC_SELECTION_PORTFOLIO_HASHES_MISSING")
+            continue
+        actual_input_hashes.add(str(manifest.get("input_hash")))
+        actual_scenario_hashes.add(str(scenario_hash))
+        if (
+            declared["input_hash"] != manifest.get("input_hash")
+            or declared["scenario_hash"] != scenario_hash
+            or declared["configuration_hash"] != manifest.get("configuration_hash")
+        ):
+            codes.add("RC_SELECTION_PORTFOLIO_HASH_MISMATCH")
+
+    shared_inputs = selection.get("shared_input_hashes")
+    shared_scenarios = selection.get("shared_scenario_hashes")
+    if mode == "JOINT_PORTFOLIO":
+        if (
+            not isinstance(shared_inputs, list)
+            or not shared_inputs
+            or not isinstance(shared_scenarios, list)
+            or not shared_scenarios
+            or any(HEX64.fullmatch(str(item)) is None for item in shared_inputs + shared_scenarios)
+        ):
+            codes.add("RC_SELECTION_PORTFOLIO_HASHES_MISSING")
+        elif (
+            set(shared_inputs) != actual_input_hashes
+            or set(shared_scenarios) != actual_scenario_hashes
+        ):
+            codes.add("RC_SELECTION_PORTFOLIO_HASH_MISMATCH")
+
+    compatibility = selection.get("compatibility")
+    if not isinstance(compatibility, dict):
+        codes.add("RC_EVIDENCE_COMPATIBILITY_KIND_INVALID")
+    else:
+        ordered = compatibility.get("ordered_ids")
+        permuted = compatibility.get("permuted_ids")
+        if compatibility.get("kind") not in RUNTIME_COMPATIBILITY_KINDS:
+            codes.add("RC_EVIDENCE_COMPATIBILITY_KIND_INVALID")
+        if compatibility.get("version") not in RUNTIME_COMPATIBILITY_VERSIONS:
+            codes.add("RC_EVIDENCE_COMPATIBILITY_VERSION_INVALID")
+        if (
+            not isinstance(ordered, list)
+            or not isinstance(permuted, list)
+            or len(ordered) != len(set(ordered))
+            or len(permuted) != len(set(permuted))
+            or set(ordered) != set(permuted)
+        ):
+            codes.add("RC_EVIDENCE_COMPATIBILITY_PERMUTATION_INVALID")
+
+    bridges = selection.get("dependency_bridges")
+    if not isinstance(bridges, list):
+        codes.add("RC_SELECTION_DEPENDENCY_BRIDGE_MISSING")
+        bridges = []
+    for requirement in requirements:
+        if not isinstance(requirement, dict):
+            continue
+        dependent_id = requirement.get("requirement_id")
+        downstream_ids = run_map.get(dependent_id)
+        for dependency_id in requirement.get("dependency_requirements") or []:
+            upstream_ids = run_map.get(dependency_id)
+            if (
+                isinstance(upstream_ids, list)
+                and isinstance(downstream_ids, list)
+                and upstream_ids != downstream_ids
+                and not any(
+                    _valid_dependency_bridge(
+                        bridge,
+                        dependency_id=dependency_id,
+                        dependent_id=dependent_id,
+                        upstream_run_ids=upstream_ids,
+                        downstream_run_ids=downstream_ids,
+                    )
+                    for bridge in bridges
+                )
+            ):
+                codes.add("RC_SELECTION_DEPENDENCY_BRIDGE_MISSING")
+    constraints = selection.get("cross_requirement_constraints")
+    if not isinstance(constraints, list) or any(
+        not isinstance(item, dict) or item.get("status") == "CONFLICT" for item in constraints or []
+    ):
+        codes.add("RC_PORTFOLIO_CROSS_REQUIREMENT_INCONSISTENT")
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
+def validate_runtime_semantic_claims(
+    record: Any,
+    selection_record: Any,
+    manifest_registry: Any,
+    output_registry: Any,
+    requirements: Any,
+    sources: Any,
+) -> dict[str, Any]:
+    """Cross-bind semantic Claims to requirements, Runs, outputs, metrics and sources."""
+    if not all(
+        isinstance(item, expected)
+        for item, expected in (
+            (record, dict),
+            (selection_record, dict),
+            (manifest_registry, dict),
+            (output_registry, dict),
+            (requirements, list),
+            (sources, list),
+        )
+    ):
+        return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_INPUT_INVALID")
+    claims = record.get("claims")
+    semantic_runs = {
+        item.get("run_id"): item
+        for item in record.get("runs", [])
+        if isinstance(item, dict) and isinstance(item.get("run_id"), str)
+    }
+    outputs = {
+        item.get("output_id"): item
+        for item in record.get("outputs", [])
+        if isinstance(item, dict) and isinstance(item.get("output_id"), str)
+    }
+    requirement_index = {
+        item.get("requirement_id"): item
+        for item in requirements
+        if isinstance(item, dict) and isinstance(item.get("requirement_id"), str)
+    }
+    selection_requirements = {
+        item.get("requirement_id"): item
+        for item in selection_record.get("requirements", [])
+        if isinstance(item, dict) and isinstance(item.get("requirement_id"), str)
+    }
+    selection = selection_record.get("selection") or {}
+    run_map = selection.get("requirement_to_run_map") or {}
+    output_map = selection.get("requirement_to_output_map") or {}
+    codes: set[str] = set()
+    if not isinstance(claims, list) or not claims:
+        return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_BUNDLE_INVALID")
+    for claim in claims:
+        if not isinstance(claim, dict):
+            codes.add("RC_SEMANTIC_CLAIM_INPUT_INVALID")
+            continue
+        requirement_id = claim.get("requirement_id")
+        requirement = requirement_index.get(requirement_id)
+        if not isinstance(requirement, dict):
+            codes.add("RC_CLAIM_REQUIREMENT_UNKNOWN")
+            continue
+        run_ids = claim.get("selected_run_ids")
+        output_ids = claim.get("selected_output_ids")
+        metric_ids = claim.get("metric_ids")
+        if run_ids != run_map.get(requirement_id):
+            codes.add("RC_REQUIREMENT_SELECTED_RUN_SEMANTIC_MISMATCH")
+        if output_ids != output_map.get(requirement_id):
+            codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_NOT_OWNED")
+        selected_runs = [semantic_runs.get(item) for item in run_ids or []]
+        if not selected_runs or any(
+            not isinstance(item, dict)
+            or requirement_id not in (item.get("supported_requirement_ids") or [])
+            for item in selected_runs
+        ):
+            codes.add("RC_REQUIREMENT_SELECTED_RUN_SEMANTIC_MISMATCH")
+        for output_id in output_ids or []:
+            output = outputs.get(output_id)
+            if (
+                not isinstance(output, dict)
+                or output.get("owner_run_id") not in (run_ids or [])
+                or output.get("requirement_id") != requirement_id
+            ):
+                codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_NOT_OWNED")
+                continue
+            run_output = output_registry.get(output.get("owner_run_id"))
+            if not isinstance(run_output, dict) or requirement_id not in (
+                run_output.get("requirement_claims") or {}
+            ):
+                codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_NOT_OWNED")
+        selection_metric = (selection_requirements.get(requirement_id) or {}).get(
+            "selection_metric"
+        )
+        if (
+            not isinstance(metric_ids, list)
+            or not metric_ids
+            or not isinstance(selection_metric, str)
+            or selection_metric not in metric_ids
+            or any(
+                selection_metric not in (outputs.get(output_id) or {}).get("metric_ids", [])
+                for output_id in output_ids or []
+            )
+            or any(
+                selection_metric
+                not in {
+                    *(output_registry.get(run_id) or {}).get("validation_metrics", {}),
+                    *(output_registry.get(run_id) or {}).get("final_metrics", {}),
+                }
+                for run_id in run_ids or []
+            )
+        ):
+            codes.add("RC_CLAIM_METRIC_BINDING_MISSING")
+        scope = claim.get("scope")
+        if (
+            not isinstance(scope, dict)
+            or any(not _string_set(scope.get(key)) for key in ("fields", "time", "entities"))
+            or (claim.get("support_predicates") or {}).get("scope_bounded") is not True
+        ):
+            codes.add("RC_CLAIM_SCOPE_UNBOUNDED")
+        evidence_class = claim.get("evidence_class")
+        if evidence_class not in (requirement.get("allowed_evidence_classes") or []) or not any(
+            isinstance(source, dict)
+            and requirement_id in (source.get("supports_requirement_ids") or [])
+            and source.get("evidence_class") == evidence_class
+            for source in sources
+        ):
+            codes.add("RC_CLAIM_EVIDENCE_CLASS_INVALID")
+        outcome = validate_semantic_claim_support(
+            {
+                "claim": claim,
+                "runs": record.get("runs"),
+                "outputs": record.get("outputs"),
+                "comparators": record.get("comparators"),
+                "validation": record.get("validation"),
+            }
+        )
+        codes.update(outcome.get("reason_codes", []))
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
+def validate_runtime_aggregate_mapping(record: Any, primary_ids: Any) -> dict[str, Any]:
+    """Require an exact, duplicate-free requirement-to-Claim aggregate mapping."""
+    if not isinstance(record, dict) or not isinstance(primary_ids, list):
+        return contract_result("BLOCK", "RC_AGGREGATE_CLAIM_MAPPING_INVALID")
+    aggregate = record.get("aggregate")
+    claims = record.get("claims")
+    if not isinstance(aggregate, dict) or not isinstance(claims, list):
+        return contract_result("BLOCK", "RC_AGGREGATE_CLAIM_MAPPING_INVALID")
+    claim_map = {
+        claim.get("requirement_id"): claim.get("claim_id")
+        for claim in claims
+        if isinstance(claim, dict)
+    }
+    expected = set(primary_ids)
+    declared_primary = aggregate.get("primary_requirement_ids")
+    supported = aggregate.get("supported_requirement_ids")
+    mapping = aggregate.get("requirement_claim_ids")
+    valid = (
+        isinstance(declared_primary, list)
+        and isinstance(supported, list)
+        and len(declared_primary) == len(set(declared_primary))
+        and len(supported) == len(set(supported))
+        and set(declared_primary) == expected
+        and set(supported) == expected
+        and isinstance(mapping, dict)
+        and set(mapping) == expected
+        and mapping == claim_map
+        and len(set(mapping.values())) == len(mapping)
+    )
+    return (
+        contract_result("PASS")
+        if valid
+        else contract_result("BLOCK", "RC_AGGREGATE_CLAIM_MAPPING_INVALID")
+    )
 
 
 DATA_SUFFICIENCY_STATUSES = {
