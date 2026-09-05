@@ -1,5 +1,9 @@
 # CUMCM Modeling Evidence Lab
 
+研发当前暂停。团队与接手者先读 [`HANDOVER.md`](HANDOVER.md)；独立 Codex 启动提示词见
+[`CODEX_TAKEOVER.md`](CODEX_TAKEOVER.md)，环境、运行手册和后续任务见
+[`docs/handover/`](docs/handover/)。交接就绪不表示 RC8 已实施或 fresh C Validation 已通过。
+
 Evidence-first repository for one executable CUMCM modeling Skill, covering problem intake,
 requirements, sources, data audit, model portfolio/baseline, experiment execution and comparison,
 robustness, Final Run, Claim validation, and a reproducible evidence package for a separate paper

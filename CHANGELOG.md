@@ -2,6 +2,9 @@
 
 ## 0.3.0-competition-rc7 — 2026-09-05
 
+- Added a docs-only honest handover, environment/reproduction inventory, bounded continuation cards,
+  and a self-contained Codex takeover prompt; RC8 remains unimplemented and the failed Validation
+  state is unchanged.
 - Releases the sole formal Skill as `0.2.0-competition-rc7` after closing all five inherited RC6
   actual-controller fail-open classes and five independently found adversarial defects.
 - Binds ten ordered Gates, effective `GLOBAL_JOINT`/`PER_REQUIREMENT`/`JOINT_PORTFOLIO` execution,

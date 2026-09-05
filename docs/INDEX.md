@@ -1,5 +1,6 @@
 # Documentation index
 
+- RC7 暂停与诚实交接：`../HANDOVER.md`、`../CODEX_TAKEOVER.md`、`handover/`
 - Architecture and truth: `ARCHITECTURE.md`, `SOURCE_OF_TRUTH.md`, `adr/`
 - Operation and recovery: `RUNBOOK.md`, `RECOVERY.md`, `TRANSPORT_RECOVERY_POLICY.md`,
   `RELEASE_POLICY.md`

@@ -1,0 +1,163 @@
+{
+  "handover_format_version": "1.0.0",
+  "snapshot_role": "DOCUMENTATION_INDEX_NOT_FORMAL_RUNTIME_STATE",
+  "repository": "woobowen/cumcm",
+  "code_baseline_commit": {
+    "algorithm": "git-sha1-commit",
+    "value": "f194c5c0e46708a4b084e63d0beab0ec05b21c09",
+    "meaning": "origin/main at handover task start and PR 10 merge commit"
+  },
+  "code_baseline_tree": {
+    "algorithm": "git-sha1-tree",
+    "value": "7560624f563fbe3bc2530a9a304eb70b7daa1ace"
+  },
+  "project_version": "0.3.0-competition-rc7",
+  "skill_version": "0.2.0-competition-rc7",
+  "skill_identity": {
+    "name": "cumcm-modeling-evidence",
+    "capability": "COMPETITION_RC",
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "path": ".agents/skills/cumcm-modeling-evidence/"
+  },
+  "technical_state_source": "state/project_state.json",
+  "latest_validation_source": "evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/validation/DECISION-C-TARGET-VALIDATION-004C4.json",
+  "latest_validation_verdict": "C_TARGET_VALIDATION_FAILED",
+  "known_blocker_sources": [
+    {
+      "blockers": [
+        "VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE",
+        "VALIDATION_FINAL_RUN_NOT_COMPLETED",
+        "VALIDATION_HANDOFF_NOT_REACHED"
+      ],
+      "path": "evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/validation/controller_outcome.json"
+    },
+    {
+      "blockers": [
+        "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION"
+      ],
+      "path": "evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/validation/challenges/HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION.json"
+    }
+  ],
+  "rc8_implementation_status": "NOT_IMPLEMENTED",
+  "heldout_reservation_source": {
+    "case_id": "CUMCM-2025-C-HELDOUT-RESERVED",
+    "path": "state/project_state.json",
+    "status": "SEALED_NOT_ACCESSED",
+    "all_six_access_flags_false": true
+  },
+  "document_paths": [
+    "HANDOVER.md",
+    "CODEX_TAKEOVER.md",
+    "docs/handover/STATUS_AND_EVIDENCE.md",
+    "docs/handover/ENVIRONMENT_AND_ASSETS.md",
+    "docs/handover/RUNBOOK.md",
+    "docs/handover/NEXT_STEPS.md",
+    "docs/handover/handover_manifest.json",
+    "reports/handover_acceptance.md"
+  ],
+  "document_hashes": {
+    "algorithm": "sha256-file-bytes",
+    "self_excluded_reason": "A manifest cannot contain a stable hash of its own bytes without an external receipt.",
+    "values": {
+      "HANDOVER.md": "f254d6cda3ac036ef21d7a5aa8eba72e71895d20cbce363c5a3197278ab65651",
+      "CODEX_TAKEOVER.md": "6b0d2393c89130bd891fcfb59aea9b12c7bab27da09419b0c88cff7884e266a8",
+      "docs/handover/STATUS_AND_EVIDENCE.md": "919b0768768a89afae40deeefab0a498a72322a734e1d2fff5ceec4616dbd869",
+      "docs/handover/ENVIRONMENT_AND_ASSETS.md": "b33e7b50735cf0062b1b32778f4310d92118b4bed92fb5daba741f9bbd40488b",
+      "docs/handover/RUNBOOK.md": "8686b19437ef176400527e7ae36ec83c61cf96f728bec424cd450d17b8c6d2fc",
+      "docs/handover/NEXT_STEPS.md": "8f6873ab8f6f292afaaedb4fe34987e449686ec39c11477dca77c676f405bfa5",
+      "reports/handover_acceptance.md": "f7419d2f07e728ea3f0c35f1efb8a98d9e143f3a3ed67b04b7bf3f1cd9254447"
+    }
+  },
+  "environment_inventory_scope": {
+    "captured": [
+      "declared core and dev dependencies",
+      "allowlisted current package versions",
+      "2017 C numerical runtime imports and historical versions",
+      "local tool versions",
+      "known ignored asset directory existence without raw-content traversal",
+      "Git shallow status and selected required object existence"
+    ],
+    "excluded": [
+      "raw pip freeze",
+      "environment variables",
+      "credential files or tokens",
+      "private package indexes or proxy configuration",
+      "benchmark-vault and answers",
+      "2025 C filesystem probing",
+      "raw official-input contents"
+    ],
+    "path": "docs/handover/ENVIRONMENT_AND_ASSETS.md"
+  },
+  "checks_performed": [
+    {
+      "id": "GIT_PREFLIGHT_AND_FETCH",
+      "result": "PASS",
+      "detail": "clean start; current HEAD equals fetched origin/main; no unique commits/files; PR 10 merged; no open PR or handover branch"
+    },
+    {
+      "id": "CLI_VERSION_AND_HELP",
+      "result": "PASS",
+      "detail": "formal CLI version/help, status help and actual-controller help exited 0; no case command executed"
+    },
+    {
+      "id": "SAFE_ENVIRONMENT_METADATA",
+      "result": "PASS_WITH_LIMITATIONS",
+      "detail": "allowlisted package/tool metadata and known path existence only; numerical dependency declaration and distribution-version gaps retained"
+    },
+    {
+      "id": "OFFICIAL_2026_AI_RULE_PAGE",
+      "result": "PASS",
+      "detail": "HTTP 200 on 2026-09-06; page dated 2026-08-03 and states trial effect from 2026-09-01"
+    },
+    {
+      "id": "DOCUMENT_LINK_PATH_AND_HASH_CHECK",
+      "result": "PASS",
+      "detail": "106 local Markdown links, 8 document paths and 7 non-self SHA-256 file bindings checked; privacy and takeover-authorization scans passed"
+    },
+    {
+      "id": "PROTECTED_PATH_DIFF_CHECK",
+      "result": "PASS",
+      "detail": "formal Skill, source, experiments, scripts, tests, workflows, contracts, state, generated status, historical evidence, case registry, versions, dependencies and workflow rules have zero diff from baseline"
+    },
+    {
+      "id": "LOCAL_FULL_CI_SINGLE_RUN",
+      "result": "FAIL_THEN_BOUNDED_FOCUSED_REPAIR",
+      "detail": "2066 passed, 2 failed, 1 skipped; both failures were caused by duplicated remote URL documentation and a temporary frozen task-branch mismatch"
+    },
+    {
+      "id": "FOCUSED_FAILURE_RETEST",
+      "result": "PASS",
+      "detail": "the two exact formerly failing tests passed after documentation/config restoration; full pytest was not repeated"
+    },
+    {
+      "id": "STRICT_TARGET_STATUS_AND_DIFF_CHECKS",
+      "result": "PASS",
+      "detail": "validate_repo strict 0 errors/0 warnings; target policy 0 errors; generated status current; git diff check passed"
+    }
+  ],
+  "checks_not_performed": [
+    "CURRENT_FINAL_TREE_FULL_LOCAL_CI_NOT_REPEATED_AFTER_BOUNDED_DOC_FIX",
+    "CURRENT_PR_HEAD_REMOTE_CI_PENDING",
+    "INDEPENDENT_HANDOVER_AUDIT_NOT_RUN",
+    "HISTORICAL_OR_NEW_CASE_NUMERICAL_RUN_NOT_RUN",
+    "RC8_IMPLEMENTATION_NOT_RUN",
+    "HELDOUT_2025_NOT_ACCESSED"
+  ],
+  "limitations": [
+    "This snapshot does not drive WORKFLOW.md or state/project_state.json.",
+    "A successful RC7 release and CI do not change the failed fresh Validation verdict.",
+    "The Python distribution metadata version 0.2.3 has no documented synchronization rule with the formal competition Project version.",
+    "The current virtual environment is not a portable or locked environment; numerical case dependencies are incompletely declared.",
+    "Ignored official inputs and caches are not publication artifacts and are not included in this handover.",
+    "Complete Git history may be required for commit/blob-bound replay.",
+    "Project license remains PROJECT_LICENSE_UNDECIDED.",
+    "The single local full CI run preceded the bounded documentation/config correction and failed two tests; exact current-head full coverage must come from PR CI.",
+    "No merge commit is recorded here because it has not occurred and must be proven externally."
+  ],
+  "publication_evidence_location": {
+    "status": "NOT_CREATED_YET",
+    "pull_request_url": null,
+    "verified_head": null,
+    "merge_receipt": "Use the actual GitHub PR state and final PR comment after merge; do not create a self-referential document commit."
+  }
+}
