@@ -141,3 +141,12 @@ Progress:
   than the live successor files. The stored record is unchanged; its hash remains
   `e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037`, with 20 fixed historical
   failures, and the focused controller/historical suite passes (`22 passed`).
+- `2026-09-05T20:43:00+08:00` — Identity-separated read-only prosecutor
+  `actual_controller_adversarial_prosecutor_final/Gauss` reported five static findings against
+  subject commit `557f0972e14773fdf362c9549adb7d54c5abae6b`. Each was translated into a
+  project-original actual-CLI test before production repair and all five reproduced (`5 failed`):
+  three false successful handoffs, one untraced late payload-decode crash after durable writes, and
+  one correct BLOCK that retained two new manifests. Matrix
+  `PHASE-004C4-ACTUAL-CONTROLLER-ADVERSARIAL-FREEZE-001` binds the auditor report, test and
+  pre-repair observation. Audit-triggered repair usage remains `0/3` until the freeze is remotely
+  bound.

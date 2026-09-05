@@ -1,0 +1,16 @@
+{
+  "observation_id": "PHASE-004C4-ACTUAL-CONTROLLER-ADVERSARIAL-PRE-REPAIR-001",
+  "subject_commit": "557f0972e14773fdf362c9549adb7d54c5abae6b",
+  "command": "PYTHONPATH=. .venv/bin/pytest -q tests/integration/test_actual_controller_adversarial.py -k 'not frozen_adversarial_probe_matrix'",
+  "expected_failure_count": 5,
+  "observed_failure_count": 5,
+  "observed_pass_count": 0,
+  "findings": {
+    "AP-001-SELECTION-COMPARISON-SPLIT-BRAIN": "EXIT_ZERO_READY_FOR_PAPER_HANDOFF",
+    "AP-002-LATE-TEST-DECODE-UNTRACED-MUTATION": "UNSTRUCTURED_EXCEPTION_AFTER_DURABLE_MANIFEST_WRITE",
+    "AP-003-BLOCK-PATH-SEALS-MANIFESTS": "BLOCK_WITH_TWO_NEW_MANIFESTS",
+    "AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND": "EXIT_ZERO_READY_FOR_PAPER_HANDOFF",
+    "AP-005-POLICY-EVIDENCE-SELF-ATTESTATION": "EXIT_ZERO_READY_FOR_PAPER_HANDOFF"
+  },
+  "disposition": "EXPECTED_FAILURE_BASELINE_CONFIRMED"
+}
