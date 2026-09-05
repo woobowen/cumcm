@@ -1,0 +1,244 @@
+{
+  "contract_version": "claim-evidence/v2",
+  "expectations": [
+    {
+      "case": "single",
+      "expected": "PASS",
+      "primary_count": 1,
+      "reason_code": null
+    },
+    {
+      "case": "two_scopes",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "six_scopes",
+      "expected": "PASS",
+      "primary_count": 6,
+      "reason_code": null
+    },
+    {
+      "case": "claim_order",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "support_order",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "different_statement",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "same_statement",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "missing",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_PRIMARY_REQUIREMENT_MISSING"
+    },
+    {
+      "case": "duplicate",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_PRIMARY_REQUIREMENT_DUPLICATE"
+    },
+    {
+      "case": "unknown",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_PRIMARY_REQUIREMENT_UNKNOWN"
+    },
+    {
+      "case": "optional_missing",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "optional_as_primary",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_AGGREGATE_COVERAGE_INVALID"
+    },
+    {
+      "case": "output_hash",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_OUTPUT_BINDING_MISMATCH"
+    },
+    {
+      "case": "manifest_hash",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_MANIFEST_HASH_MISMATCH"
+    },
+    {
+      "case": "decision_hash",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_FINAL_DECISION_BINDING_MISMATCH"
+    },
+    {
+      "case": "stale",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_EVIDENCE_STALE"
+    },
+    {
+      "case": "superseded",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_RUN_NOT_CURRENT_SUCCESS"
+    },
+    {
+      "case": "failed",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_RUN_NOT_CURRENT_SUCCESS"
+    },
+    {
+      "case": "unsealed",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_RUN_UNSEALED"
+    },
+    {
+      "case": "contradiction",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_CONTRADICTED"
+    },
+    {
+      "case": "overreach",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_AGGREGATE_SCOPE_OVERREACH"
+    },
+    {
+      "case": "coverage_subset",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_AGGREGATE_COVERAGE_INVALID"
+    },
+    {
+      "case": "coverage_extra",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_AGGREGATE_COVERAGE_INVALID"
+    },
+    {
+      "case": "trace_order",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "file_order",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "first_changed",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "legacy_single",
+      "expected": "PASS",
+      "primary_count": 1,
+      "reason_code": null
+    },
+    {
+      "case": "legacy_invalid",
+      "expected": "BLOCK",
+      "primary_count": 1,
+      "reason_code": "RC_CLAIM_PRIMARY_REQUIREMENT_MISSING"
+    },
+    {
+      "case": "handoff_complete",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "handoff_missing",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_PRIMARY_REQUIREMENT_MISSING"
+    },
+    {
+      "case": "wrong_run",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_RUN_BINDING_MISMATCH"
+    },
+    {
+      "case": "coverage_order",
+      "expected": "PASS",
+      "primary_count": 2,
+      "reason_code": null
+    },
+    {
+      "case": "coverage_duplicate",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_AGGREGATE_COVERAGE_INVALID"
+    },
+    {
+      "case": "support_duplicate",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_AGGREGATE_COVERAGE_INVALID"
+    },
+    {
+      "case": "output_missing",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_EVIDENCE_NOT_CURRENT_OR_MISSING"
+    },
+    {
+      "case": "output_mutation",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_EVIDENCE_NOT_CURRENT_OR_MISSING"
+    },
+    {
+      "case": "final_lineage",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_FINAL_RESULT_BINDING_MISMATCH"
+    },
+    {
+      "case": "statement_overclaim",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_FINAL_SCOPE_MISMATCH"
+    },
+    {
+      "case": "uncaptured_claim",
+      "expected": "BLOCK",
+      "primary_count": 2,
+      "reason_code": "RC_CLAIM_OUTPUT_BINDING_MISMATCH"
+    }
+  ],
+  "freeze_before_implementation": true,
+  "fresh_validation_inputs_accessed": false,
+  "schema_version": "1.0.0",
+  "test_file": "tests/unit/test_competition_rc_claim_scope.py",
+  "test_sha256": "9da7396bb5929f682adfa5a2a0248f4588e1e811c68f05661ef743979c1aa8d0"
+}
