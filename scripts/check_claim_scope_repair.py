@@ -27,6 +27,8 @@ def read(path):
 
 def evaluate(root=ROOT):
     errors = []
+    state = read(root / "state/project_state.json")
+    successor = state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
     preflight = read(root / RESULTS / "preflight.json")
     for path, expected in preflight["historical_file_hashes"].items():
         if not (root / path).is_file() or digest(root / path) != expected:
@@ -61,16 +63,35 @@ def evaluate(root=ROOT):
     release_path = root / RESULTS / "rc5_release.json"
     if release_path.is_file():
         release = read(release_path)
-        actual_files = set(
-            subprocess.check_output(["git", "ls-files", SKILL], cwd=root, text=True).splitlines()
-        )
+        release_commit = release["implementation_commit"]
+        if successor:
+            actual_files = set(
+                subprocess.check_output(
+                    ["git", "ls-tree", "-r", "--name-only", release_commit, "--", SKILL],
+                    cwd=root,
+                    text=True,
+                ).splitlines()
+            )
+        else:
+            actual_files = set(
+                subprocess.check_output(
+                    ["git", "ls-files", SKILL], cwd=root, text=True
+                ).splitlines()
+            )
         if actual_files != set(release["skill_file_hashes"]):
             errors.append("RC5_RELEASE_FILE_SET_DRIFT")
         for path, expected in release["skill_file_hashes"].items():
-            if not (root / path).is_file() or digest(root / path) != expected:
+            actual = (
+                hashlib.sha256(
+                    subprocess.check_output(["git", "show", f"{release_commit}:{path}"], cwd=root)
+                ).hexdigest()
+                if successor
+                else digest(root / path)
+            )
+            if actual != expected:
                 errors.append("RC5_RELEASE_SKILL_DRIFT:" + path)
         tree = subprocess.check_output(
-            ["git", "rev-parse", f"{release['implementation_commit']}:{SKILL}"], cwd=root, text=True
+            ["git", "rev-parse", f"{release_commit}:{SKILL}"], cwd=root, text=True
         ).strip()
         if tree != release["skill_tree"]:
             errors.append("RC5_RELEASE_COMMIT_TREE_MISMATCH")

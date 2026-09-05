@@ -203,12 +203,14 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   confirm both frozen chains are unchanged and no post-freeze numerical Run exists. RC4 batch
   regressions passed 3/3, unified coverage passed three batch plus two synthetic cases, and RC6
   negative coverage passed 30/30 with zero unhandled exceptions or sensitive values. Leakage,
-  secret/private-path, provenance, one-Skill and target-policy checks passed. Legacy RC5 whole-file
-  integrity checkers predictably report authorized RC6 code drift and are recorded as non-Gates;
-  frozen case-path diffs are the immutability evidence. Focused RC6/historical tests passed 136/136;
-  full CI passed Ruff and pytest `2008 passed / 1 skipped` in 310.90s, strict validation returned
-  0 errors / 0 warnings, generated status was current, and `git diff --check` passed. The frozen
-  neutral-test SHA and RC6 Skill tree stayed unchanged. Auditor 1 remains pending before RC6 freeze.
+  secret/private-path, provenance, one-Skill and target-policy checks passed. Focused
+  RC6/historical tests passed 136/136; full pytest passed `2008 passed / 1 skipped` in 310.90s,
+  strict validation returned 0 errors / 0 warnings, generated status was current, and
+  `git diff --check` passed. A later exit-code audit established that the enclosing `scripts/ci.sh`
+  had nevertheless exited nonzero after pytest because two legacy whole-current-tree checkers
+  mistook authorized RC6 successor code for RC5/2019 history drift. Frozen case-path diffs remained
+  the immutability evidence. The frozen neutral-test SHA and RC6 Skill tree stayed unchanged.
+  Auditor 1 remained pending before RC6 freeze.
 - `2026-09-05T16:08:07+08:00` — M4 terminated `BLOCK`; M5–M8 Validation execution paths were not
   entered. Identity-separated Auditor 1 verified release surfaces, frozen-test/tree/runner hashes,
   two-cycle chronology, historical immutability, regressions, one Skill, leakage/secrets/provenance
@@ -227,9 +229,14 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   `2008 passed / 1 skipped / 1 failed` because replacing the live blocker list removed the literal
   RC5 historical reason code expected by its reporting checker. The state risk was corrected to
   preserve `RC5_VERSION_FILE_MISMATCH` explicitly; no historical artifact or Skill file changed.
-  The second full pytest passed `2009/1 skipped` in 307.33s, and `bash scripts/ci.sh` passed Ruff,
-  formatting, pytest `2009/1 skipped` in 304.68s and all expected historical checks. The live RC6
-  release checker separately and correctly returns exit 3 / `BLOCK`.
+  The second full pytest passed `2009/1 skipped` in 307.33s. The first terminal
+  `bash scripts/ci.sh` invocation passed Ruff, formatting and pytest `2009/1 skipped` in 304.68s,
+  but then exited 1 at the stale RC5 whole-current-tree checker. Remote run `33955748397` reproduced
+  the same post-pytest failure. The non-Skill closure repair time-qualified the RC5 and 2019
+  checkers at their recorded commits; both then returned zero errors. Final local `scripts/ci.sh`
+  exited 0 with pytest `2009/1 skipped` in 306.25s and every historical/strict check passing. This
+  does not spend a third formal Skill cycle or alter the Auditor verdict. The live RC6 release
+  checker separately and correctly returns exit 3 / `BLOCK`.
 - Terminal BLOCK commit `b02d3ac276e6971f56f66d7b6af97b091b3b7c38` was pushed to `origin`
   and the remote branch returned the exact same SHA at `2026-09-05T16:35:11+08:00`. Delivery
   receipt `evals/results/phase-004c3/rc6_release_block_delivery.json` has SHA-256

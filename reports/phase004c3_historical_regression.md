@@ -18,11 +18,13 @@ terminal freeze are byte-identical, with no later commit touching its Runs. Rela
 are byte-identical; the only later commit under that case added the delivery receipt and did not
 create or rerun a model Run.
 
-Two legacy integrity commands are intentionally not RC6 acceptance Gates.
-`check_claim_scope_repair.py --check` binds the full RC5 release file set and therefore reports RC5
-Skill drift after an authorized RC6 revision. `check_c_target_2019c_validation.py --check
---require-delivery` binds the old generic completion-controller bytes and therefore reports those
-authorized RC6 controller changes. Neither result indicates mutation of frozen case inputs, Runs,
+The two legacy integrity commands are now time-qualified for successor phases.
+`check_claim_scope_repair.py --check` resolves the RC5 Skill file set and bytes at the recorded RC5
+implementation commit. `check_c_target_2019c_validation.py --check --require-delivery` resolves
+freeze-bound generic artifacts at the recorded 2019 terminal-freeze commit. Both commands pass
+without comparing authorized RC6 successor code to historical bytes. Before this harness repair,
+they reported successor drift after pytest had passed and made the first terminal local and remote
+CI runs exit nonzero; those failures did not indicate mutation of frozen case inputs, Runs,
 decisions or terminal freezes. The older Phase 002D-R2A-C1 historical verification record also
 embeds the then-current generated status report, so its live-workspace replay is stale after later
 phases and is not rewritten here.

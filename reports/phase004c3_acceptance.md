@@ -33,8 +33,10 @@ Candidate capabilities added `requirement-evidence/v1`, `data-sufficiency/v1`,
 `requirement-selection/v1`, and `claim-evidence/v3`; declared evidence classes and source
 provenance; `GLOBAL_JOINT`, `PER_REQUIREMENT`, and `JOINT_PORTFOLIO`; and bounded semantic Claim
 types. Frozen neutral tests passed 57/57. Historical regression passed three RC4 batch cases, two
-synthetic E2E cases and 30/30 original negatives. Full pre-audit CI passed pytest
-`2008 passed / 1 skipped`; strict validation was 0/0.
+synthetic E2E cases and 30/30 original negatives. Full pre-audit pytest passed
+`2008 passed / 1 skipped`; strict validation was 0/0. A later exit-code audit found that the
+enclosing CI invocation had continued past pytest and failed on stale historical-checker bindings;
+the delivery section records that harness correction.
 
 ## Independent Auditor 1
 
@@ -171,8 +173,15 @@ Terminal-state verification passed 68 focused tests. The first full run retained
 failure because the new live blocker list no longer carried the literal historical RC5 reason code;
 the state risk record was corrected to preserve `RC5_VERSION_FILE_MISMATCH` without changing any
 frozen artifact or Skill file. The second full pytest passed `2009 passed / 1 skipped` in 307.33s.
-Local `scripts/ci.sh` passed Ruff, format and pytest `2009 passed / 1 skipped` in 304.68s plus its
-historical checks. The separate release checker correctly returns exit 3 / `BLOCK`.
+The initial terminal `scripts/ci.sh` run passed Ruff, format and pytest
+`2009 passed / 1 skipped` in 304.68s but then exited 1 because the legacy RC5 and 2019 checkers
+compared current authorized RC6 successor files to historical bytes. Remote run `33955748397`
+reproduced the same post-pytest failure. Those two non-Skill checkers were then time-qualified: RC5
+Skill bytes are read at the recorded RC5 implementation commit, and 2019 freeze artifacts are read
+at the recorded terminal-freeze commit. Both checkers returned zero errors, and final local
+`scripts/ci.sh` exited 0 after pytest `2009 passed / 1 skipped` in 306.25s plus every historical and
+strict check. This repair does not alter the frozen neutral test, formal Skill, frozen decisions or
+`BLOCK` verdict. The separate release checker correctly returns exit 3 / `BLOCK`.
 
 ## Unknowns and limitations
 

@@ -69,6 +69,8 @@ def terminal_outcome(facts):
 
 def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
     errors = []
+    state = read(root / "state/project_state.json")
+    successor = state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
     release = read(root / RESULTS / "rc5_release.json")
     receipt = read(root / RESULTS / "rc5_release_delivery.json")
     if (
@@ -91,6 +93,11 @@ def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
         errors.append("VALIDATION_INPUT_ANSWER_NOT_SEALED")
     pre_path = root / CASE / "pre_run/pre_run_validation_freeze.json"
     terminal_path = root / CASE / "terminal_freeze/terminal_validation_freeze.json"
+    historical_commit = (
+        read(terminal_path.with_name(terminal_path.stem + "_delivery.json"))["commit"]
+        if successor
+        else None
+    )
     for path in (pre_path, terminal_path):
         if not path.is_file():
             continue
@@ -109,7 +116,16 @@ def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
         ):
             errors.append("VALIDATION_FREEZE_IDENTITY_INVALID:" + path.name)
         for relative, expected_hash in freeze["artifact_hashes"].items():
-            if not (root / relative).is_file() or digest(root / relative) != expected_hash:
+            actual_hash = (
+                hashlib.sha256(
+                    subprocess.check_output(
+                        ["git", "show", f"{historical_commit}:{relative}"], cwd=root
+                    )
+                ).hexdigest()
+                if historical_commit is not None
+                else digest(root / relative)
+            )
+            if actual_hash != expected_hash:
                 errors.append("VALIDATION_ARTIFACT_DRIFT:" + relative)
         for relative, expected_hash in freeze["case_code_hashes"].items():
             blob = subprocess.check_output(
