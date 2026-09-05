@@ -196,3 +196,16 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   test SHA remains unchanged. RC5 historical artifacts and all 2025 access flags remain unchanged;
   no dependency, package, toolchain or configuration was installed. RC6 remains unreleased until
   M3 regressions and M4 Auditor 1/release consistency pass.
+- `2026-09-05T15:46:09+08:00` — M3 read-only historical diagnostics and regression checks passed.
+  The 2019 diagnostic identifies an empirical-data pre-execution stop and rejects a policy Claim
+  bound to the selected Run's zero priority exposure. The 2024 bounded descriptive view and v2
+  compatibility adapter pass without changing the evidence-insufficient verdict. Exact Git diffs
+  confirm both frozen chains are unchanged and no post-freeze numerical Run exists. RC4 batch
+  regressions passed 3/3, unified coverage passed three batch plus two synthetic cases, and RC6
+  negative coverage passed 30/30 with zero unhandled exceptions or sensitive values. Leakage,
+  secret/private-path, provenance, one-Skill and target-policy checks passed. Legacy RC5 whole-file
+  integrity checkers predictably report authorized RC6 code drift and are recorded as non-Gates;
+  frozen case-path diffs are the immutability evidence. Focused RC6/historical tests passed 136/136;
+  full CI passed Ruff and pytest `2008 passed / 1 skipped` in 310.90s, strict validation returned
+  0 errors / 0 warnings, generated status was current, and `git diff --check` passed. The frozen
+  neutral-test SHA and RC6 Skill tree stayed unchanged. Auditor 1 remains pending before RC6 freeze.
