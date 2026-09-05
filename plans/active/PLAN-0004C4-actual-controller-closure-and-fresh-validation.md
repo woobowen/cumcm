@@ -195,3 +195,10 @@ Progress:
   remains PASS and the frozen Skill tree hash remains
   `0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056`. This receipt must be
   remotely delivered before official 2018 C acquisition.
+- After that receipt was remote-verified at `f68f7802fcce8e3d531c0d2154d08f87a05933d2`, the
+  preferred 2018 official archive was acquired into ignored storage. Its official C title and five
+  requirements are recognizable, but its C directory contains only the problem DOCX and an
+  official notice directing teams to a separate committee channel; the five data attachments named
+  by the problem are absent and the annual page exposes no second download. No model Run started.
+  Preflight reason `C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE` authorizes the frozen
+  2017 fallback as an official-input failure, not for difficulty, result or time pressure.
