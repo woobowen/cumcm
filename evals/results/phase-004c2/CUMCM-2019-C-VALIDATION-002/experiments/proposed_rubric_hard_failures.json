@@ -1,0 +1,33 @@
+{
+  "status": "PROPOSAL_ONLY_MAIN_RUBRIC_IS_AUTHORITATIVE",
+  "non_compensable_primary_gap": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+  "hard_failures": [
+    "RAW_INPUT_OR_SKILL_DRIFT",
+    "ANSWER_CONTAMINATION",
+    "NONFINITE_NUMERICS",
+    "FAILED_BASELINE_OR_PRIMARY",
+    "SAFETY_INTERLOCK_FAILURE",
+    "GEOMETRIC_INFEASIBILITY",
+    "INCOME_OR_RETURN_LEDGER_FAILURE",
+    "PASSENGER_REFUSAL_OR_REORDERING",
+    "PRIORITY_QUOTA_OR_AGING_FAILURE",
+    "TEST_USED_FOR_SELECTION",
+    "UNFROZEN_OR_RESULT_DRIVEN_RETRY",
+    "TIMEBOX_EXCEEDED"
+  ],
+  "quantitative_checks": {
+    "queue_inverse_residual_max": 1e-08,
+    "accounting_residual_max": 1e-08,
+    "all_lane_and_priority_violation_counts": 0,
+    "robustness_perturbations_q1": 5,
+    "robustness_perturbations_q3": 2,
+    "robustness_perturbations_q4": 2,
+    "independent_outer_repeats": 3
+  },
+  "quality_reports_without_forced_threshold": [
+    "Q1 opportunity loss and conditional uncertainty",
+    "Q3 empirical batch capacity and enumerated geometry",
+    "Q4 Gini, bottom decile income rate, throughput and max waiting; retain adverse results"
+  ],
+  "terminal_rule": "Evaluate every hard failure as well as Q2 insufficiency; never suppress model failures using the known empirical gap."
+}

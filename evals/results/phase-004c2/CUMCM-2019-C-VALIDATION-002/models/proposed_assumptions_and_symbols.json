@@ -1,0 +1,138 @@
+{
+  "artifact_type": "assumptions_and_symbols",
+  "status": "DRAFT",
+  "content_hash": "c645e0dc99bef5a423b837b612f2cf460447da973cd22a86c4f87754a57fe550",
+  "content": {
+    "assumptions": [
+      {
+        "assumption_id": "A1",
+        "text": "Passenger parties follow a piecewise-constant NHPP induced by assumed flight-exit pulses; taxis ahead depart one per party in FCFS order.",
+        "challenge": "Correlated batches, abandonment and matching bottlenecks violate the waiting model.",
+        "requirements": [
+          "REQ-Q1",
+          "REQ-Q2"
+        ]
+      },
+      {
+        "assumption_id": "A2",
+        "text": "Taxi destination mix is independent of queue waiting; city net opportunity cost is constant, A/B compared relative to future city earning.",
+        "challenge": "Congestion, shifts and risk aversion can alter the decision.",
+        "requirements": [
+          "REQ-Q1"
+        ]
+      },
+      {
+        "assumption_id": "A3",
+        "text": "Q3 has two 35m lanes, 7m bay pitch, protected holding and fenced crossings; passenger access and all vehicle motion are mutually exclusive.",
+        "challenge": "These are assumed design conditions, not surveyed facts; real geometry or violations invalidate safety applicability.",
+        "requirements": [
+          "REQ-Q3"
+        ]
+      },
+      {
+        "assumption_id": "A4",
+        "text": "Q3 saturated passenger and taxi queues give a capacity bound; batch boarding durations are independent lognormal variables.",
+        "challenge": "Insufficient demand/supply or correlated boarding changes achieved throughput.",
+        "requirements": [
+          "REQ-Q3"
+        ]
+      },
+      {
+        "assumption_id": "A5",
+        "text": "Q4 closed fleet returns empty, destinations exogenous, credits cannot be sold or split and expire after one return visit.",
+        "challenge": "Outside drivers, fraud and refusal require operating controls outside this simulation.",
+        "requirements": [
+          "REQ-Q4"
+        ]
+      },
+      {
+        "assumption_id": "A6",
+        "text": "Every numeric scenario value is an explicit modeling assumption; no real airport/urban taxi observations are supplied.",
+        "challenge": "Actual calibration and external validation cannot be replaced by simulation.",
+        "requirements": [
+          "REQ-Q2"
+        ]
+      }
+    ],
+    "symbols": {
+      "t": "elapsed time [min]",
+      "q": "taxis ahead [vehicles]",
+      "lambda": "arriving passenger parties [groups/min]",
+      "W": "waiting time [min]",
+      "d": "distance [km]",
+      "r_city": "outside net earning opportunity [CNY/min]",
+      "Delta": "incremental net value A over B [CNY]",
+      "n": "boarding bays per lane [count]",
+      "capacity": "completed boarding [groups/hour]",
+      "credit": "priority time discount [min]",
+      "Gini": "income-rate inequality [dimensionless]"
+    },
+    "formulas": [
+      {
+        "formula_id": "F1",
+        "expression": "lambda(t)=lambda0+sum_j G_j/w_j*max(0,1-|t-c_j|/w_j); Lambda(t)=integral_0^t lambda(s) ds",
+        "requirements": [
+          "REQ-Q1",
+          "REQ-Q2"
+        ]
+      },
+      {
+        "formula_id": "F2",
+        "expression": "Lambda(t+W)-Lambda(t)~Gamma(q+1,1); Delta=margin_loaded+cost_empty+r_city*(t_empty-t_loaded-W)",
+        "requirements": [
+          "REQ-Q1"
+        ]
+      },
+      {
+        "formula_id": "F3",
+        "expression": "W_star=(E[margin_loaded]+cost_empty)/r_city+t_empty-E[t_loaded]",
+        "requirements": [
+          "REQ-Q1"
+        ]
+      },
+      {
+        "formula_id": "F4",
+        "expression": "observed_calibration_loss=(1/n)*sum_i (observed_wait_i-predicted_wait_i)^2",
+        "requirements": [
+          "REQ-Q2"
+        ]
+      },
+      {
+        "formula_id": "F5",
+        "expression": "capacity(n)=3600*sum_b(2*n)/sum_b(admit(n)+transfer(n)+max_k boarding_bk+clearance+release(n)); n*bay_pitch<=lane_length",
+        "requirements": [
+          "REQ-Q3"
+        ]
+      },
+      {
+        "formula_id": "F6",
+        "expression": "net_i=fare_intercept+(fare_per_km-2*cost_per_km)*d_i; cycle_i=2*d_i/speed+turnaround; credit_i=min(cap,60*max(0,target_rate*cycle_i/60-net_i)/target_rate)",
+        "requirements": [
+          "REQ-Q4"
+        ]
+      },
+      {
+        "formula_id": "F7",
+        "expression": "income_rate_i=60*sum_trip net_trip/max(horizon,last_return_i); Gini=sum_i(2*i-N-1)*sorted_rate_i/(N*sum_i rate_i)",
+        "requirements": [
+          "REQ-Q4"
+        ]
+      }
+    ],
+    "scenario_configuration": "experiments/scenario_assumptions.json",
+    "unit_checks": [
+      "All Q1 opportunity costs multiply CNY/min by minutes",
+      "Q3 seconds-to-hours factor 3600",
+      "Q4 hourly income uses minute exposure times factor 60"
+    ],
+    "formula_explanations": {
+      "F1": "Assumed party arrivals; G groups, t,c,w minutes, lambda groups/minute.",
+      "F2": "NHPP time-change order statistic, Δ CNY, r_city CNY/min; choose A if E[Delta]>=0.",
+      "F3": "A iff estimated E[W]<=W_star; ties choose A. Baseline static intensity, main MC, control fluid inverse.",
+      "F4": "Required empirical validation target in min²; NOT COMPUTED because no observed values exist.",
+      "F5": "Groups/hour; empirical capacity maximized over frozen n=1..5, all movement phases exclude pedestrians.",
+      "F6": "Short-trip credit in minutes, one use, expiry; priority at most every third dispatch and suspended when oldest ordinary wait reaches aging trigger.",
+      "F7": "Full round-trip tail accounting; fairness, throughput and delays reported separately without adjustable weighting."
+    }
+  }
+}

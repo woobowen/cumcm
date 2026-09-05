@@ -1,0 +1,100 @@
+{
+  "artifact_type": "experiment_plan",
+  "status": "DRAFT",
+  "content_hash": "e441c1764b78eb790b1e1bbbefb7a3015c1f7d12960af19a8ca4d3632e296e1f",
+  "content": {
+    "preregistered": false,
+    "execution_prepared": false,
+    "candidate_ids": [
+      "BASELINE_STATIC_FCFS",
+      "PRIMARY_NHPP_CREDIT",
+      "CONTROL_FLUID_AGING"
+    ],
+    "baseline_id": "BASELINE_STATIC_FCFS",
+    "metric": "opportunity_loss_cny",
+    "metric_direction": "MIN",
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "selection_rule": "ARGMIN_THEN_ID",
+    "random_seeds": [
+      101,
+      202,
+      303
+    ],
+    "splits": {
+      "train": [
+        "REGISTERED_TRAIN_STREAMS"
+      ],
+      "validation": [
+        "REGISTERED_VALIDATION_STREAMS"
+      ],
+      "test": [
+        "RESERVED_TEST_SCENARIOS"
+      ]
+    },
+    "required_input_hashes": {
+      "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+      "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca"
+    },
+    "required_code_files": [],
+    "code_commit": "MAIN_AGENT_FILL_AFTER_CODE_COMMIT",
+    "trusted_freeze_registry": {},
+    "stop_rule": "ONE_SHOT_3_CANDIDATES_X_3_SEEDS_EACH_ONCE_NO_MODEL_RETRY_900_SECONDS_PER_RUN_14400_SECONDS_TOTAL_KEEP_ALL_FAILURES_NO_RETUNING",
+    "handoff_generated_at": "MAIN_AGENT_FREEZE_UTC_BEFORE_RUN",
+    "timebox_seconds": 14400,
+    "per_run_timeout_seconds": 900,
+    "retry_policy": "No numerical/model retries. Only existing policy's bounded pure-infrastructure retries, with all attempts preserved and independently classified.",
+    "test_protocol": {
+      "generation": "Each run computes independent test evaluation streams using frozen training policy, encodes JSON in sealed_test_metrics_b64, records sealed_test_payload_sha256.",
+      "selection": "Read only validation_metrics.opportunity_loss_cny; freeze selected candidate and selection decision hash before decoding any test payload.",
+      "access": "Decode exactly once selected candidate's lexicographically minimum random_seed/run_id SUCCESS Run; verify payload hash and record actual access receipt.",
+      "boundary": "Base64 prevents accidental reading only; no cryptographic or OS isolation claim. Unselected test payloads remain undisclosed."
+    },
+    "numeric_robustness": {
+      "q1": [
+        {
+          "id": "DEMAND_MINUS_30_PERCENT",
+          "arguments": {
+            "demand_scale": 0.7
+          }
+        },
+        {
+          "id": "DEMAND_PLUS_30_PERCENT",
+          "arguments": {
+            "demand_scale": 1.3
+          }
+        },
+        {
+          "id": "FLIGHT_EXIT_DELAY_30_MIN",
+          "arguments": {
+            "delay_min": 30
+          }
+        },
+        {
+          "id": "COST_PLUS_25_PERCENT",
+          "arguments": {
+            "cost_scale": 1.25
+          }
+        },
+        {
+          "id": "COMBINED_LOW_DEMAND_DELAY_HIGH_COST",
+          "arguments": {
+            "demand_scale": 0.7,
+            "delay_min": 30,
+            "cost_scale": 1.25
+          }
+        }
+      ],
+      "boarding_scales": [
+        0.8,
+        1.3
+      ],
+      "distance_scales": [
+        0.8,
+        1.2
+      ]
+    },
+    "selection_metric_interpretation": "Mean realized oracle opportunity loss under frozen assumed scenarios; it compares Q1 policies, not empirical validity or joint Q1-Q4 optimality.",
+    "mandatory_uncompensated_check": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING independently prevents all-primary PASS regardless of rankings.",
+    "freeze_fill_instructions": "Main orchestrator accepts DRAFTs, binds copied raw/scenario bytes and both case-local code files plus exact frozen core runner; obtains real code commit and computes trusted_freeze_registry using native canonical_hash fields. Never fill placeholders with invented hashes."
+  }
+}

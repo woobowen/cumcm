@@ -47,3 +47,19 @@ RC4: 32 failed / 8 passed. Revision 1: 40 passed; no expectation changes.
 
 The additional freeze-matrix check passed. Fixtures are synthetic unit contexts, not contest Runs.
 No network, model call or historical raw input is used.
+
+
+Final RC5 revision 2: all 53 Claim/formula/identity tests passed; the unchanged selected-output
+preflight suite adds 10 passing tests (63 total). Original expectations and all three test-file
+hashes remain frozen. Supplemental tests were frozen before the second implementation cycle.
+
+| Supplemental case | Expected | Actual | Reason code | Result |
+|---|---|---|---|---|
+| legacy formula strings | PASS | PASS | exact formula preservation | PASS |
+| scoped formula objects | PASS | PASS | exact formula/requirement preservation | PASS |
+| duplicate formula ID | BLOCK | BLOCK | RC_HANDOFF_FORMULA_SCOPE_INVALID | PASS |
+| missing formula expression | BLOCK | BLOCK | RC_HANDOFF_FORMULA_SCOPE_INVALID | PASS |
+| unknown formula scope | BLOCK | BLOCK | RC_HANDOFF_FORMULA_SCOPE_INVALID | PASS |
+| aggregate/local ID collision | BLOCK | BLOCK | RC_CLAIM_AGGREGATE_ID_COLLISION | PASS |
+| joint statement/Final forgery | BLOCK | BLOCK | RC_CLAIM_FINAL_SCOPE_MISMATCH | PASS |
+| six malformed scoped-formula records | BLOCK (6) | BLOCK (6) | RC_HANDOFF_FORMULA_SCOPE_INVALID | PASS |

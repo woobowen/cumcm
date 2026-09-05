@@ -111,6 +111,12 @@ def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
         for relative, expected_hash in freeze["artifact_hashes"].items():
             if not (root / relative).is_file() or digest(root / relative) != expected_hash:
                 errors.append("VALIDATION_ARTIFACT_DRIFT:" + relative)
+        for relative, expected_hash in freeze["case_code_hashes"].items():
+            blob = subprocess.check_output(
+                ["git", "show", f"{freeze['case_code_commit']}:{relative}"], cwd=root
+            )
+            if hashlib.sha256(blob).hexdigest() != expected_hash:
+                errors.append("VALIDATION_CODE_COMMIT_BINDING_INVALID:" + relative)
         delivery_path = path.with_name(path.stem + "_delivery.json")
         if delivery_path.is_file():
             delivery = read(delivery_path)
@@ -138,6 +144,18 @@ def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
         )
         if decision["next_phase_allowed"] != expected_next:
             errors.append("VALIDATION_NEXT_PHASE_INVALID")
+        elapsed = (
+            datetime.fromisoformat(freeze["frozen_at"])
+            - datetime.fromisoformat(freeze["episode_started_at"])
+        ).total_seconds()
+        if not 0 <= elapsed <= freeze["maximum_wall_seconds"]:
+            errors.append("VALIDATION_TIMEBOX_EXCEEDED")
+        registered_empirical = any(item.get("role") == "DATA" for item in inputs["files"])
+        if (
+            decision["facts"]["empirical_primary_requirement_satisfied"]
+            and not registered_empirical
+        ):
+            errors.append("VALIDATION_EMPIRICAL_REQUIREMENT_UNSUPPORTED_BY_REGISTERED_INPUTS")
         pre_delivery = read(pre_path.with_name(pre_path.stem + "_delivery.json"))
         for record in freeze["run_records"]:
             if not (

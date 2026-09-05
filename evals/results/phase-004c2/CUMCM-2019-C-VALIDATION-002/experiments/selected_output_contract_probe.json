@@ -1,0 +1,77 @@
+{
+  "candidate_id": "BASELINE_STATIC_FCFS",
+  "status": "CONTRACT_PROBE",
+  "probe_only": true,
+  "ranking_eligible": false,
+  "result_values_are_placeholders": true,
+  "final_metrics": {
+    "opportunity_loss_cny": 0.0
+  },
+  "claim_scope": "四问的假设情景建模与可复算局部证据；REQ-Q2机场和城市实测数据缺失，不能据此主张全部主问题完成或实际部署有效。",
+  "requirement_claims": {
+    "REQ-Q1": {
+      "claim_id": "CLAIM-2019C-Q1",
+      "claim_text": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+      "evidence_artifact_ids": [
+        "models/model_candidates.json",
+        "models/assumptions_and_symbols.json",
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-Q2": {
+      "claim_id": "CLAIM-2019C-Q2",
+      "claim_text": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+      "evidence_artifact_ids": [
+        "data/data_audit.json",
+        "research/source_ledger.json",
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-Q3": {
+      "claim_id": "CLAIM-2019C-Q3",
+      "claim_text": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+      "evidence_artifact_ids": [
+        "models/model_candidates.json",
+        "models/assumptions_and_symbols.json",
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-Q4": {
+      "claim_id": "CLAIM-2019C-Q4",
+      "claim_text": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。",
+      "evidence_artifact_ids": [
+        "models/model_candidates.json",
+        "models/assumptions_and_symbols.json",
+        "experiments/selected_output_contract_probe.json"
+      ]
+    }
+  },
+  "figure_ready_data": [
+    {
+      "table_id": "STRUCTURE_ONLY",
+      "value": 0.0
+    }
+  ],
+  "uncertainty": {
+    "status": "PLACEHOLDER_NO_EXECUTION"
+  },
+  "limitations": [
+    "PROBE_ONLY_NO_RUN_NO_SCORE",
+    "REQ-Q2 empirical data missing"
+  ],
+  "robustness_evidence": {
+    "metric": "opportunity_loss_cny",
+    "metric_direction": "MIN",
+    "perturbations": [
+      {
+        "perturbation_id": "STRUCTURE_ONLY",
+        "metric": "opportunity_loss_cny",
+        "result": 0.0,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      }
+    ],
+    "failure_cases": [
+      "PLACEHOLDER_NO_EXECUTION"
+    ]
+  }
+}
