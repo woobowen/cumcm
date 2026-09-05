@@ -230,3 +230,8 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   The second full pytest passed `2009/1 skipped` in 307.33s, and `bash scripts/ci.sh` passed Ruff,
   formatting, pytest `2009/1 skipped` in 304.68s and all expected historical checks. The live RC6
   release checker separately and correctly returns exit 3 / `BLOCK`.
+- Terminal BLOCK commit `b02d3ac276e6971f56f66d7b6af97b091b3b7c38` was pushed to `origin`
+  and the remote branch returned the exact same SHA at `2026-09-05T16:35:11+08:00`. Delivery
+  receipt `evals/results/phase-004c3/rc6_release_block_delivery.json` has SHA-256
+  `c99e87fbabd788939e84bb1564fed75ddedb40c5bf6a147458b33026826cd8c1`. The receipt does not
+  reopen release or Validation; it records the remotely delivered terminal blocker.

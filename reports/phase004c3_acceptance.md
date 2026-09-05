@@ -160,9 +160,12 @@ occurred.
 ## Delivery and verification
 
 Milestone commits through historical regression were remotely delivered through
-`bf82bf4b03fb0bbd55e7ed3d010cfb6ae1352a09`. The terminal block commit and remote receipt are
-recorded after remote verification; the Draft PR remains open and unmerged. Final test/CI and exact
-remote SHA evidence are appended in the delivery receipt checkpoint.
+`bf82bf4b03fb0bbd55e7ed3d010cfb6ae1352a09`. Terminal block commit
+`b02d3ac276e6971f56f66d7b6af97b091b3b7c38` was pushed and the remote branch returned that exact
+SHA at `2026-09-05T16:35:11+08:00`. Receipt
+`evals/results/phase-004c3/rc6_release_block_delivery.json` has SHA-256
+`c99e87fbabd788939e84bb1564fed75ddedb40c5bf6a147458b33026826cd8c1`. The Draft PR remains open,
+draft and unmerged.
 
 Terminal-state verification passed 68 focused tests. The first full run retained one compatibility
 failure because the new live blocker list no longer carried the literal historical RC5 reason code;

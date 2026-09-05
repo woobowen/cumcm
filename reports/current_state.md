@@ -20,10 +20,10 @@
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `None`
-- Content-verified commit: `b289f2dfcaebe8edca5335ed4bf89f383c67eb51`
-- Delivery receipt commit: `b289f2dfcaebe8edca5335ed4bf89f383c67eb51`
+- Content-verified commit: `b02d3ac276e6971f56f66d7b6af97b091b3b7c38`
+- Delivery receipt commit: `b02d3ac276e6971f56f66d7b6af97b091b3b7c38`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-05T16:08:07+08:00` by `main-agent`
+- Updated: `2026-09-05T16:35:11+08:00` by `main-agent`
 
 ## Blockers
 

@@ -16,3 +16,7 @@ already been used; a third Skill change is prohibited.
 No `rc6_release.json` exists, the active release state remains
 `0.2.0-competition-rc5-blocked`, and the live release-consistency checker remains `BLOCK`. The
 fresh Validation input was not accessed and `next_phase_allowed` is `null`.
+
+The terminal blocker was remotely delivered at commit
+`b02d3ac276e6971f56f66d7b6af97b091b3b7c38`; local and remote branch SHAs matched. The separate
+delivery receipt records that verification without changing the frozen verdict.
