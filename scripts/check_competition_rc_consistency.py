@@ -345,6 +345,17 @@ def evaluate() -> dict[str, Any]:
                 and state.get("blockers") == ["RC5_VERSION_FILE_MISMATCH"]
             )
             or (
+                state.get("phase") == "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+                and state.get("technical_adjudication_status")
+                in {
+                    "C_TARGET_VALIDATION_FAILED",
+                    "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+                    "C_TARGET_VALIDATION_INCOMPLETE",
+                }
+                and isinstance(state.get("blockers"), list)
+                and bool(state.get("blockers"))
+            )
+            or (
                 state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
                 and state.get("technical_adjudication_status") == "RC6_RELEASE_REPAIR_BLOCKED"
                 and state.get("blockers")

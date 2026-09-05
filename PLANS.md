@@ -84,6 +84,12 @@ selection, Run, compatibility, semantic, aggregate, finalization and handoff Gat
 completion path. Three neutral E2E cases, an independent adversarial audit, full history regression
 and separate candidate/live release checks precede any RC7 freeze or fresh official-input access.
 
-Those RC7 repair and release-evidence steps now pass. The active plan is in
-`RC7-FROZEN-PENDING-FRESH-C-VALIDATION`: remote release delivery and a separate remotely frozen
-input-suitability/pre-run record precede the clean-context 2018 C one-shot.
+Those RC7 repair and release-evidence steps passed and RC7 was remotely released. The 2018 official
+archive failed input suitability because its named data attachments were absent, authorizing the
+2017 fallback. Nine frozen development Runs succeeded without answer access or retries, but the
+actual completion controller blocked at finalization before sealed-test access and handoff. The
+terminal result is `C_TARGET_VALIDATION_FAILED`; terminal delivery is frozen, the same case cannot be
+rerun as Validation, and the next plan must be `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`.
+The independent terminal integrity audit returned `CHALLENGE` with additional blocker
+`HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION`; it did not change the frozen verdict or authorize a
+same-case repair.

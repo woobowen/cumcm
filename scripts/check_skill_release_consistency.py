@@ -14,6 +14,9 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJECT_VERSION = "0.3.0-competition-rc6"
 SKILL_VERSION = "0.2.0-competition-rc6"
 RELEASE_MANIFEST = "evals/results/phase-004c3/rc6_release.json"
+LIVE_PROJECT_VERSION = "0.3.0-competition-rc7"
+LIVE_SKILL_VERSION = "0.2.0-competition-rc7"
+LIVE_RELEASE_MANIFEST = "evals/results/phase-004c4/rc7_release.json"
 VERSION_PATTERN = re.compile(r"^\d+\.\d+\.\d+-competition-rc\d+$")
 
 
@@ -21,7 +24,12 @@ def result(status: str, *reason_codes: str) -> dict[str, Any]:
     return {"status": status, "reason_codes": sorted(set(reason_codes))}
 
 
-def evaluate_release_snapshot(snapshot: Any) -> dict[str, Any]:
+def evaluate_release_snapshot(
+    snapshot: Any,
+    *,
+    expected_project_version: str = PROJECT_VERSION,
+    expected_skill_version: str = SKILL_VERSION,
+) -> dict[str, Any]:
     """Evaluate a caller-supplied release snapshot without filesystem access."""
     if not isinstance(snapshot, dict):
         return result("BLOCK", "RC_RELEASE_SNAPSHOT_INVALID")
@@ -31,9 +39,9 @@ def evaluate_release_snapshot(snapshot: Any) -> dict[str, Any]:
     manifest_project = snapshot.get("manifest_project_version")
     if not isinstance(project, str) or VERSION_PATTERN.fullmatch(project) is None:
         codes.add("RC_RELEASE_VERSION_FORMAT_INVALID")
-    elif project != PROJECT_VERSION:
+    elif project != expected_project_version:
         codes.add("RC_RELEASE_PROJECT_VERSION_MISMATCH")
-    if manifest_project != PROJECT_VERSION:
+    if manifest_project != expected_project_version:
         codes.add("RC_RELEASE_PROJECT_VERSION_MISMATCH")
 
     field_codes = {
@@ -49,18 +57,18 @@ def evaluate_release_snapshot(snapshot: Any) -> dict[str, Any]:
             codes.add("RC_RELEASE_SKILL_VERSION_MISSING")
         elif not isinstance(value, str) or VERSION_PATTERN.fullmatch(value) is None:
             codes.add("RC_RELEASE_VERSION_FORMAT_INVALID")
-        elif value != SKILL_VERSION:
+        elif value != expected_skill_version:
             codes.add(mismatch_code)
 
     changelog = snapshot.get("changelog_versions")
     if (
         not isinstance(changelog, list)
-        or PROJECT_VERSION not in changelog
-        or SKILL_VERSION not in changelog
+        or expected_project_version not in changelog
+        or expected_skill_version not in changelog
     ):
         codes.add("RC_RELEASE_CHANGELOG_VERSION_MISMATCH")
     discovered = snapshot.get("discovered_skill_versions")
-    if not isinstance(discovered, list) or discovered != [SKILL_VERSION]:
+    if not isinstance(discovered, list) or discovered != [expected_skill_version]:
         codes.add("RC_RELEASE_DISCOVERED_SKILL_VERSION_MISMATCH")
     history = snapshot.get("blocked_history_records")
     if not isinstance(history, list) or "RC5_VERSION_FILE_MISMATCH" not in history:
@@ -97,7 +105,11 @@ def build_repository_snapshot() -> dict[str, Any]:
     skill_text = _read_text(".agents/skills/cumcm-modeling-evidence/SKILL.md")
     runner_text = _read_text(".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py")
     changelog_text = _read_text("CHANGELOG.md") or ""
-    manifest = _read_json(RELEASE_MANIFEST)
+    project_version = _read_text("VERSION")
+    manifest_path = (
+        LIVE_RELEASE_MANIFEST if project_version == LIVE_PROJECT_VERSION else RELEASE_MANIFEST
+    )
+    manifest = _read_json(manifest_path)
     state = _read_json("state/project_state.json")
     discovered: list[str] = []
     for path in sorted((ROOT / ".agents/skills").glob("*/SKILL.md")):
@@ -119,7 +131,7 @@ def build_repository_snapshot() -> dict[str, Any]:
         else []
     )
     return {
-        "project_version": _read_text("VERSION"),
+        "project_version": project_version,
         "manifest_project_version": manifest.get("project_version"),
         "skill_version_file": _read_text(".agents/skills/cumcm-modeling-evidence/VERSION"),
         "skill_metadata_version": _extract(r"^Version: `([^`]+)`$", skill_text),
@@ -139,7 +151,12 @@ def main(argv: list[str] | None = None) -> int:
     if not args.check:
         parser.error("--check is required")
     snapshot = build_repository_snapshot()
-    outcome = evaluate_release_snapshot(snapshot)
+    live_rc7 = snapshot.get("project_version") == LIVE_PROJECT_VERSION
+    outcome = evaluate_release_snapshot(
+        snapshot,
+        expected_project_version=LIVE_PROJECT_VERSION if live_rc7 else PROJECT_VERSION,
+        expected_skill_version=LIVE_SKILL_VERSION if live_rc7 else SKILL_VERSION,
+    )
     print(
         json.dumps(
             {"check": "skill_release_consistency", **outcome, "snapshot": snapshot},

@@ -310,3 +310,14 @@ case, with 2017 allowed only for input failure/corruption/unrecognizable input o
 contamination. PASS routes to 004D; failed, insufficient or incomplete evidence routes to 004C5;
 release failure keeps 004C4 with `next_phase_allowed=null`. Terminal freeze prohibits later Runs or
 same-case Validation repair. The 2025 reservation remains untouched throughout.
+
+The preferred 2018 input failed suitability because its official C archive omitted the five named
+attachments; zero model Runs occurred. The answer-sealed 2017 fallback then executed exactly nine
+frozen development Runs and selected different valid Runs by requirement. The sole actual controller
+invocation passed Gates 1–8 and blocked at `GATE_FINALIZATION` because no authorized selected-output
+sealed-test payload could be produced through RC7 `execute`; `GATE_HANDOFF` was not reached. The
+terminal decision is `C_TARGET_VALIDATION_FAILED`, same-case future use is Development only, and the
+route is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`.
+The post-freeze read-only integrity audit adds HF22 without rewriting that decision: semantic
+support declared held-out validity contrary to the selected Run's development boundary and zero
+authorized test access. The successor route must enforce predicate-to-output cross-binding.

@@ -10,8 +10,17 @@
 - Passes 14 frozen known-controller probes, 6 frozen adversarial probes, 17 neutral actual-controller
   cases, the 57-case RC6 neutral matrix, 239 focused regressions, six immutable C/A history replays,
   two synthetic E2E cases, 30 negative cases and full pytest (`2063 passed, 1 skipped`).
-- Preserves RC5/RC6 release blocks and both terminal Validation histories. The fresh 2018 C one-shot
-  has not started at release mutation time; 2017 is fallback-only and 2025 remains unaccessed.
+- Preserves RC5/RC6 release blocks and both prior terminal Validation histories. After remote RC7
+  delivery, the official 2018 C package failed input suitability because its five named attachments
+  were absent; the preregistered 2017 fallback ran answer-sealed.
+- The exact 3-candidate by 3-seed batch completed 9/9 with independent checks and valid manifests;
+  PER_REQUIREMENT selection chose Ridge for REQ1 and kernel ridge for REQ2/REQ3. The single actual
+  controller call then blocked at finalization because RC7 `execute` outputs cannot carry the
+  controller-required authorized sealed-test payload. No test access or handoff occurred. Terminal
+  verdict: `C_TARGET_VALIDATION_FAILED`; next route: 004C5; 2025 remains unaccessed.
+- The identity-separated read-only integrity audit preserved that verdict and raised
+  `HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION`: REQ2's generated held-out predicate contradicted the
+  selected Run's development-only boundary and `NOT_AUTHORIZED/0` test-access evidence.
 
 ## Phase 004C4 actual-controller closure started
 

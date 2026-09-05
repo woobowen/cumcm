@@ -20,10 +20,16 @@ K1-first rule selects the project-authored deterministic evidence kernel. The fo
 14 workflows, four bounded roles, 14 templates, an offline case CLI, strict Run/Claim/comparison
 bindings and STALE propagation.
 
-Phase 004C4 remains active for the fresh Validation leg. Its candidate/live RC7 release checks bind
-the repaired ten-Gate actual completion path, all frozen controller/adversarial probes, neutral E2E,
-historical regressions and full offline CI. Fresh official Validation input remains inaccessible
-until the RC7 release commit is remotely verified; 2025 C remains sealed.
+Phase 004C4 is terminal for its fresh Validation leg. RC7 was remotely released after candidate/live
+checks, controller/adversarial probes, neutral E2E, history regressions and full offline CI. The 2018
+archive lacked its named C attachments, so the answer-sealed 2017 fallback ran exactly nine frozen
+development attempts. All succeeded, but the actual controller blocked at finalization because the
+released execute/output interface cannot provide its required authorized sealed-test payload.
+Handoff was not reached, the verdict is `C_TARGET_VALIDATION_FAILED`, 004D remains locked, and 2025 C
+remains completely unaccessed.
+The read-only integrity auditor preserved the verdict and added HF22: a REQ2 held-out-support
+declaration contradicted the selected development-only Run output and zero authorized test access;
+repair is routed to 004C5.
 
 The final directed integration repair validates actual input/code/output files and a resolvable Git
 commit, executes models from manifest-bound raw/processed artifacts, authenticates the full case

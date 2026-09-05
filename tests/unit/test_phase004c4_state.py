@@ -39,6 +39,7 @@ def test_phase004c4_fresh_validation_state_is_schema_valid_and_preserves_blocked
         "VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE",
         "VALIDATION_FINAL_RUN_NOT_COMPLETED",
         "VALIDATION_HANDOFF_NOT_REACHED",
+        "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION",
     ]
     assert state["selected_architecture"] == ("ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL")
     assert state["third_party_integrated"] is False

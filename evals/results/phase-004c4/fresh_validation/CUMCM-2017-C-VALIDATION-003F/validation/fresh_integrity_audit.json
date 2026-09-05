@@ -1,0 +1,100 @@
+{
+  "schema_version": "phase-004c4-fresh-validation-integrity-audit/v1",
+  "audit_id": "AUDIT-CUMCM-2017-C-VALIDATION-003F-INTEGRITY-001",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "subject_commit": "2f3b5b8a5668f37194bc180daeaaf4475b57034e",
+  "subject_terminal_freeze_sha256": "984ccfe2616769020443c4f873303f9d5f584793f8b865e3c3b1e159d316559a",
+  "auditor": {
+    "canonical_task": "/root/fresh_c_validation_integrity_auditor",
+    "identity": "McClintock",
+    "mode": "READ_ONLY_IDENTITY_SEPARATED"
+  },
+  "recorded_at": "2026-09-05T22:57:50+08:00",
+  "audit_status": "CHALLENGE",
+  "terminal_verdict": "C_TARGET_VALIDATION_FAILED",
+  "terminal_verdict_preserved": true,
+  "next_phase_preserved": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+  "checks": [
+    {
+      "check_id": "RC7_IDENTITY_AND_TREE",
+      "result": "PASS"
+    },
+    {
+      "check_id": "FREEZE_AND_DELIVERY_CHRONOLOGY",
+      "result": "PASS"
+    },
+    {
+      "check_id": "ONE_SHOT_AND_TIMEBOX",
+      "observed_attempts": 9,
+      "observed_wall_seconds": 592,
+      "maximum_wall_seconds": 14400,
+      "result": "PASS"
+    },
+    {
+      "check_id": "THREE_REQUIREMENTS_AND_DATA_SUFFICIENCY",
+      "result": "PASS"
+    },
+    {
+      "check_id": "PER_REQUIREMENT_SELECTION",
+      "result": "PASS"
+    },
+    {
+      "check_id": "NINE_RUN_CAPTURE_MANIFEST_INTEGRITY",
+      "observed_runs": 9,
+      "passing_runs": 9,
+      "result": "PASS"
+    },
+    {
+      "check_id": "CONTROLLER_TERMINAL_AND_HANDOFF_REJECTION",
+      "result": "PASS"
+    },
+    {
+      "check_id": "NO_TUNING_OR_POST_FREEZE_RUN",
+      "result": "PASS"
+    },
+    {
+      "check_id": "2025_RESERVATION_UNACCESSED",
+      "result": "PASS"
+    },
+    {
+      "check_id": "SEMANTIC_SUPPORT_CROSS_BINDING",
+      "result": "CHALLENGE",
+      "finding_id": "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION"
+    }
+  ],
+  "additional_deterministic_blocker": {
+    "finding_id": "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION",
+    "classification": "GENERALIZABLE_SKILL_FAILURE",
+    "claim_support_path": ".cache/official_inputs/CUMCM-2017-C-VALIDATION-003F/workspace/evidence/semantic_claim_support.json",
+    "claim_support_sha256": "afa6ffbc6b5928a410cb2190bbc1c8d3416e3c4067e441e7aafde885387b0157",
+    "selected_output_path": ".cache/official_inputs/CUMCM-2017-C-VALIDATION-003F/workspace/runs/RUN-KERNEL_RBF_RIDGE-17001/output.json",
+    "selected_output_sha256": "78408903d0dc49c801c12c6fb76c8c0c81af86f7e587be5089aa76c800acb57e",
+    "builder_path": "evals/validation_code/phase-004c4/CUMCM-2017-C-VALIDATION-003F/build_post_selection.py",
+    "builder_sha256": "f854056e0521f176e4d7ab37b80a883621f2869200de8f596230e7c6a21cf9f7",
+    "declared_support": {
+      "requirement_id": "REQ-2-DATA2-CONCENTRATION-MODEL",
+      "held_out_test_valid": true,
+      "validation_boundary_frozen": true
+    },
+    "authoritative_selected_output": {
+      "evaluation_boundary": "DEVELOPMENT_GROUPED_OOS",
+      "test_access_count": 0,
+      "test_access_status": "NOT_AUTHORIZED",
+      "held_out_test_valid": false
+    },
+    "root_cause": "The frozen post-selection builder unconditionally asserted held_out_test_valid for REQ2, and the semantic validator accepted the declaration without cross-binding it to the selected Run output, evaluation boundary, and test-access record.",
+    "effect": "SEMANTIC_AND_AGGREGATE_GATE_PASS_NOT_VALID_FINAL_TEST_SUPPORT",
+    "verdict_effect": "ADDITIONAL_BLOCKER_NO_TERMINAL_VERDICT_CHANGE",
+    "disposition": "ROUTE_TO_004C5_NO_SAME_CASE_REPAIR"
+  },
+  "restrictions_confirmed": {
+    "read_only_audit": true,
+    "no_model_rerun": true,
+    "no_raw_input_access": true,
+    "no_answer_access": true,
+    "no_2025_access": true,
+    "no_network_access": true,
+    "no_terminal_freeze_mutation": true,
+    "no_decision_mutation": true
+  }
+}

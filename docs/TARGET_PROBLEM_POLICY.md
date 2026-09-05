@@ -126,3 +126,13 @@ Run because its C directory omitted all five data attachments named by the offic
 official notice pointed to a separate unavailable committee channel. The policy-authorized 2017 C
 fallback is registered with a complete official problem, two empirical workbooks and a variable
 dictionary; its answer remains sealed and its model-prior exposure is unverifiable.
+
+The fallback terminal is `C_TARGET_VALIDATION_FAILED`. All nine frozen development attempts and
+per-requirement selections are valid, but RC7 cannot express the authorized final-test payload
+through its execute/output interface; the actual controller blocks at finalization and never reaches
+handoff. This is non-compensable under HF14/HF21/HF23. The answer stays sealed, the case is
+Development-only after freeze, 004D is not authorized, and 004C5 is the sole next route.
+The required read-only integrity audit additionally records HF22: generated semantic support must
+not declare held-out validity unless it is cross-bound to a selected Run/output with the matching
+evaluation boundary and authorized test-access evidence. This challenge cannot reopen the frozen
+case.

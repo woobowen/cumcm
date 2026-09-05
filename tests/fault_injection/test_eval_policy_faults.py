@@ -131,6 +131,19 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         assert state["batch_reference_unlocked"] is True
         assert state["next_phase_allowed"] is None
         assert state["active_skill_version"] == "0.2.0-competition-rc3"
+    elif state["technical_adjudication_status"] == "C_TARGET_VALIDATION_FAILED":
+        assert state["phase"] == "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+        assert state["subphase"] == "C-TARGET-FRESH-VALIDATION-TERMINAL"
+        assert state["current_validation_case"] == "CUMCM-2017-C-VALIDATION-003F"
+        assert state["answer_access_status"] == "SEALED_AT_TERMINAL_FREEZE"
+        assert state["active_skill_version"] == "0.2.0-competition-rc7"
+        assert state["next_phase_allowed"] == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+        assert state["blockers"] == [
+            "VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE",
+            "VALIDATION_FINAL_RUN_NOT_COMPLETED",
+            "VALIDATION_HANDOFF_NOT_REACHED",
+            "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION",
+        ]
     elif (
         state["technical_adjudication_status"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
         and state["phase"] == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"

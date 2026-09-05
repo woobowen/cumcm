@@ -215,3 +215,14 @@ data attachments required by its problem were absent; no model Run began. That o
 failure authorizes the 2017 C fallback. Its official problem, `Data1.xls`, `Data2.xls` and variable
 dictionary are hash-registered in ignored storage, with no answer/solution search or exposure. The
 pre-run freeze and remote receipt still precede every formal Run.
+
+The remotely unlocked fallback ran the frozen nine-attempt matrix once. Development comparison,
+independent recomputation, Run sealing and PER_REQUIREMENT selection passed; no adaptive retry or
+test access occurred. The actual RC7 controller was invoked once and passed the first eight Gates,
+then blocked at finalization because the selected output lacks the controller-required authorized
+sealed-test payload and `execute` has no final/test-authorization interface. The handoff Gate was not
+reached. HF14/HF21/HF23 fix the terminal status at `C_TARGET_VALIDATION_FAILED`; no post-freeze Run,
+case-code edit, Skill edit or same-case Validation retry is permitted.
+The read-only integrity audit added HF22: REQ2's held-out-support declaration was not cross-bound to
+its selected development-only output and zero authorized test access. The frozen verdict is
+unchanged; the repair belongs to 004C5.

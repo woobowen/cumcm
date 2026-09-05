@@ -148,6 +148,7 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
         "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
         "CUMCM-2020-C-DEVELOPMENT-BATCH-003",
         "CUMCM-2019-C-VALIDATION-002",
+        "CUMCM-2017-C-VALIDATION-003F",
     }
     assert len(registry["cases"]) == len(expected_case_ids)
     assert {case["case_id"] for case in registry["cases"]} == expected_case_ids
@@ -184,6 +185,16 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     assert validation["skill_version"] == "0.2.0-competition-rc4"
     assert validation["validation_decision"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
     assert validation["same_case_future_role"] == "DEVELOPMENT_ONLY"
+    fresh_rc7 = next(
+        case for case in registry["cases"] if case.get("case_id") == "CUMCM-2017-C-VALIDATION-003F"
+    )
+    assert fresh_rc7["set_type"] == "VALIDATION"
+    assert fresh_rc7["answer_access_status"] == "SEALED"
+    assert fresh_rc7["first_run_status"] == "FROZEN"
+    assert fresh_rc7["skill_version"] == "0.2.0-competition-rc7"
+    assert fresh_rc7["validation_decision"] == "C_TARGET_VALIDATION_FAILED"
+    assert fresh_rc7["same_case_future_role"] == "DEVELOPMENT_ONLY"
+    assert fresh_rc7["integrity_audit"]["status"] == "CHALLENGE"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",

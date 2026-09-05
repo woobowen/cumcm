@@ -19,6 +19,10 @@ CASE_RELATIVE = Path("evals/results/phase-004c4/fresh_validation") / CASE_ID
 FREEZE_RELATIVE = CASE_RELATIVE / "terminal_freeze/terminal_validation_freeze.json"
 DELIVERY_RELATIVE = CASE_RELATIVE / "terminal_freeze/terminal_validation_freeze_delivery.json"
 DECISION_RELATIVE = CASE_RELATIVE / "validation/DECISION-C-TARGET-VALIDATION-004C4.json"
+AUDIT_RELATIVE = CASE_RELATIVE / "validation/fresh_integrity_audit.json"
+CHALLENGE_RELATIVE = (
+    CASE_RELATIVE / "validation/challenges/HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION.json"
+)
 EXPECTED_VERDICT = "C_TARGET_VALIDATION_FAILED"
 EXPECTED_REASONS = [
     "VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE",
@@ -27,6 +31,7 @@ EXPECTED_REASONS = [
 ]
 EXPECTED_HARD_FAILURES = ["HF14", "HF21", "HF23"]
 EXPECTED_NEXT = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+EXPECTED_AUDIT_FINDING = "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION"
 EXPECTED_RUN_IDS = {
     f"RUN-{candidate}-{seed}"
     for candidate in ("BASELINE_MEDIAN", "KERNEL_RBF_RIDGE", "RIDGE_LINEAR")
@@ -171,6 +176,10 @@ def validate_decision_and_summaries(freeze: dict[str, Any]) -> list[str]:
 
 def validate_state_and_registry() -> list[str]:
     errors: list[str] = []
+    audit_path = ROOT / AUDIT_RELATIVE
+    challenge_path = ROOT / CHALLENGE_RELATIVE
+    audit_sha256 = file_hash(audit_path) if audit_path.is_file() else None
+    challenge_sha256 = file_hash(challenge_path) if challenge_path.is_file() else None
     state = load_json(ROOT / "state/project_state.json")
     if (
         state.get("phase") != "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
@@ -180,6 +189,7 @@ def validate_state_and_registry() -> list[str]:
         or state.get("current_validation_case") != CASE_ID
         or state.get("answer_access_status") != "SEALED_AT_TERMINAL_FREEZE"
         or state.get("next_phase_allowed") != EXPECTED_NEXT
+        or EXPECTED_AUDIT_FINDING not in state.get("blockers", [])
         or state.get("third_party_integrated") is not False
     ):
         errors.append("PHASE004C4_TERMINAL_STATE_INVALID")
@@ -194,6 +204,9 @@ def validate_state_and_registry() -> list[str]:
         or record.get("paper_dispatch_accepted") is not False
         or record.get("same_case_future_role") != "DEVELOPMENT_ONLY"
         or record.get("terminal_freeze", {}).get("path") != str(FREEZE_RELATIVE)
+        or record.get("integrity_audit", {}).get("status") != "CHALLENGE"
+        or record.get("integrity_audit", {}).get("sha256") != audit_sha256
+        or record.get("integrity_audit", {}).get("challenge_sha256") != challenge_sha256
     ):
         errors.append("PHASE004C4_TERMINAL_REGISTRY_INVALID")
     reservations = registry.get("held_out_reservations", [])
@@ -216,6 +229,36 @@ def validate_state_and_registry() -> list[str]:
     if heldout.get("status") != "SEALED_NOT_ACCESSED" or any(heldout.get(key) for key in flags):
         errors.append("PHASE004C4_HELDOUT_2025_ACCESSED")
     return errors
+
+
+def validate_integrity_audit(freeze: dict[str, Any]) -> list[str]:
+    if not (ROOT / AUDIT_RELATIVE).is_file() or not (ROOT / CHALLENGE_RELATIVE).is_file():
+        return ["PHASE004C4_FRESH_INTEGRITY_AUDIT_MISSING"]
+    audit = load_json(ROOT / AUDIT_RELATIVE)
+    challenge = load_json(ROOT / CHALLENGE_RELATIVE)
+    finding = audit.get("additional_deterministic_blocker", {})
+    if (
+        audit.get("audit_status") != "CHALLENGE"
+        or audit.get("terminal_verdict") != EXPECTED_VERDICT
+        or audit.get("terminal_verdict_preserved") is not True
+        or audit.get("next_phase_preserved") != EXPECTED_NEXT
+        or audit.get("subject_terminal_freeze_sha256") != file_hash(ROOT / FREEZE_RELATIVE)
+        or finding.get("finding_id") != EXPECTED_AUDIT_FINDING
+        or finding.get("verdict_effect") != "ADDITIONAL_BLOCKER_NO_TERMINAL_VERDICT_CHANGE"
+        or finding.get("selected_output_sha256")
+        != "78408903d0dc49c801c12c6fb76c8c0c81af86f7e587be5089aa76c800acb57e"
+        or finding.get("claim_support_sha256")
+        != "afa6ffbc6b5928a410cb2190bbc1c8d3416e3c4067e441e7aafde885387b0157"
+        or challenge.get("finding_id") != EXPECTED_AUDIT_FINDING
+        or challenge.get("status") != "ACCEPTED_AS_POST_FREEZE_CHALLENGE"
+        or challenge.get("next_phase") != EXPECTED_NEXT
+        or challenge.get("subject_terminal_freeze_sha256") != file_hash(ROOT / FREEZE_RELATIVE)
+    ):
+        return ["PHASE004C4_FRESH_INTEGRITY_AUDIT_INVALID"]
+    builder = ROOT / str(finding.get("builder_path", ""))
+    if not builder.is_file() or file_hash(builder) != finding.get("builder_sha256"):
+        return ["PHASE004C4_FRESH_INTEGRITY_AUDIT_BUILDER_DRIFT"]
+    return []
 
 
 def validate_workspace(freeze: dict[str, Any]) -> list[str]:
@@ -251,6 +294,23 @@ def validate_workspace(freeze: dict[str, Any]) -> list[str]:
     state = load_json(workspace / "case_state.json")
     if native.get("test_access_count") != 0 or state.get("state") != "RUNNING":
         errors.append("PHASE004C4_WORKSPACE_TERMINAL_BOUNDARY_INVALID")
+    semantic = load_json(workspace / "evidence/semantic_claim_support.json")
+    selected = load_json(workspace / "runs/RUN-KERNEL_RBF_RIDGE-17001/output.json")
+    req2_claims = [
+        item
+        for item in semantic.get("content", {}).get("claims", [])
+        if item.get("requirement_id") == "REQ-2-DATA2-CONCENTRATION-MODEL"
+    ]
+    selected_req2 = selected.get("requirements", {}).get("REQ-2-DATA2-CONCENTRATION-MODEL", {})
+    if (
+        len(req2_claims) != 1
+        or req2_claims[0].get("support_predicates", {}).get("held_out_test_valid") is not True
+        or selected.get("evaluation_boundary") != "DEVELOPMENT_GROUPED_OOS"
+        or selected.get("test_access", {}).get("status") != "NOT_AUTHORIZED"
+        or selected.get("test_access", {}).get("access_count") != 0
+        or selected_req2.get("support_predicates", {}).get("held_out_test_valid") is not False
+    ):
+        errors.append("PHASE004C4_HF22_EVIDENCE_RELATION_DRIFT")
     return errors
 
 
@@ -292,6 +352,7 @@ def evaluate(*, verify_workspace: bool, require_delivery: bool) -> dict[str, Any
     errors.extend(validate_tracked_bindings(freeze))
     errors.extend(validate_decision_and_summaries(freeze))
     errors.extend(validate_state_and_registry())
+    errors.extend(validate_integrity_audit(freeze))
     if verify_workspace:
         errors.extend(validate_workspace(freeze))
     if require_delivery:

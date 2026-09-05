@@ -87,10 +87,16 @@ the formal chain must execute hash-bound data, selection, Run, compatibility, se
 finalization and handoff Gates and emit a replayable gate trace. Three neutral end-to-end cases and
 an independent adversarial audit are required before RC7 release eligibility.
 
-That repair and its independent audit are now complete. The candidate snapshot passed full pytest,
-strict validation and local CI, and the live release advances RC7 to
-`C_TARGET_RC7_READY_VALIDATION_PENDING`; release delivery remains the final prerequisite before
-official 2018 C input access.
+That repair and its independent audit are complete. Candidate/live checks, full pytest, strict,
+local CI and remote delivery released RC7. The preferred 2018 archive lacked all five named C data
+attachments, so the preregistered input-failure rule selected the complete official 2017 fallback.
+Its answer-sealed 3-candidate by 3-seed development batch succeeded, but the actual RC7 controller
+blocked at finalization: honest execute outputs cannot supply its required sealed-test field and the
+handoff Gate was never reached. The terminal verdict is `C_TARGET_VALIDATION_FAILED`; the Skill and
+answer stay frozen, same-case retries are prohibited, and the next route is 004C5 rather than 004D.
+The required read-only integrity audit preserved that verdict and added HF22: REQ2's declared
+held-out-test support contradicted its selected development-only output and zero authorized test
+access, so 004C5 must also cross-bind semantic predicates to authoritative Run facts.
 
 Only a candidate/live-consistent, fully regressed and remotely frozen RC7 may access the fresh
 official C Validation input. The answer remains sealed, the one-shot remains four hours, and 2025 C

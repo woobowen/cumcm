@@ -1,6 +1,6 @@
 # PLAN-0004C4 — actual-controller closure, Competition RC7 and fresh C Validation
 
-Status: `TERMINAL_VALIDATION_FAILED_PENDING_AUDIT_AND_ACCEPTANCE`
+Status: `TERMINAL_VALIDATION_FAILED_PENDING_REMOTE_CI`
 Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
 Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
 Owner: main agent / `modeling_orchestrator`
@@ -242,3 +242,20 @@ Progress:
   `984ccfe2616769020443c4f873303f9d5f584793f8b865e3c3b1e159d316559a`; canonical payload hash is
   `5f840eb821c8e58215f276baf0e2be86c122f13f55690800cf5ea7886437ccf1`. No post-freeze Run or
   code mutation occurred. The successor receipt records delivery without changing the freeze.
+- `2026-09-05T22:57:50+08:00` — Identity-separated read-only integrity auditor
+  `fresh_c_validation_integrity_auditor/McClintock` independently confirmed RC7 identity,
+  chronology, one-shot/timebox, three requirements, data sufficiency, PER_REQUIREMENT selection,
+  9/9 Run integrity, terminal controller rejection, no tuning, no post-freeze Run and six false
+  2025 access flags. It returned `CHALLENGE` with additional blocker
+  `HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION`: REQ2 semantic support asserted
+  `held_out_test_valid=true` despite the selected output's `DEVELOPMENT_GROUPED_OOS`,
+  `NOT_AUTHORIZED/0` test-access record and `held_out_test_valid=false`. The terminal verdict and
+  freeze remain unchanged; 004C5 must cross-bind semantic predicates to authoritative Run facts.
+- `2026-09-05T23:28:53+08:00` — Final local acceptance verification is PASS after one bounded
+  test-contract repair. Known/RC6/adversarial/neutral controller matrices pass 14/57/6/17; output
+  and multi-requirement Claim tests pass 63/63; live release, regression, historical diagnostic and
+  fresh terminal/audit checkers pass. Final full pytest is `2068 passed / 1 skipped` in 310.20
+  seconds, strict is 0 errors / 0 warnings, and local CI repeats `2068 passed / 1 skipped` plus
+  strict 0/0 in 373.78 seconds. The initial full run's two failures were stale tests that omitted
+  the terminal 004C4 route and eighth registry case; exact assertions were added without Skill,
+  case-code, Run, answer or 2025 mutation. Final remote delivery and CI remain pending.

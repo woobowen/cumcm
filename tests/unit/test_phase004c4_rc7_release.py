@@ -96,9 +96,7 @@ def test_rc7_candidate_snapshot_passes_without_live_state(repo_root) -> None:
         },
     ],
 )
-def test_rc7_live_state_remains_valid_across_frozen_validation_lifecycle(
-    repo_root, state
-) -> None:
+def test_rc7_live_state_remains_valid_across_frozen_validation_lifecycle(repo_root, state) -> None:
     module = _module(repo_root)
     assert module._live_state_is_valid(state)
 

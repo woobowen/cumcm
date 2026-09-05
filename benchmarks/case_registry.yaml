@@ -936,6 +936,13 @@ cases:
     freeze_commit: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
     remote_sha: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
     status: REMOTE_DELIVERED
+  first_run_evidence:
+    skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+    run_count: 9
+    successful_run_count: 9
+    controller_status: BLOCK_NATIVE_CONTRACTS
+    validation_decision: C_TARGET_VALIDATION_FAILED
+    terminal_freeze_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/terminal_freeze/terminal_validation_freeze.json
   skill_version: 0.2.0-competition-rc7
   formal_skill_version: 0.2.0-competition-rc7
   skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
@@ -960,6 +967,12 @@ cases:
     summary: RC7 execute outputs cannot carry the controller-required authorized sealed-test
       payload, so the actual completion chain blocks at GATE_FINALIZATION before handoff.
     terminal_effect: C_TARGET_VALIDATION_FAILED
+  - failure_id: HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION
+    classification: GENERALIZABLE_SKILL_FAILURE
+    summary: The post-selection builder declared REQ2 held-out-test support although the selected
+      Run was DEVELOPMENT_GROUPED_OOS with test access NOT_AUTHORIZED/0 and
+      held_out_test_valid=false; the semantic Gate did not cross-bind the predicate.
+    terminal_effect: ADDITIONAL_BLOCKER_NO_TERMINAL_VERDICT_CHANGE
   problem_specific_findings:
   - finding_id: CUMCM-2017-C-DEVELOPMENT-SELECTION-001
     classification: DEVELOPMENT_ONLY_NOT_FINAL_VALIDATION_CREDIT
@@ -974,6 +987,14 @@ cases:
     delivery_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze_delivery.json
     status: REMOTE_DELIVERED
   validation_decision: C_TARGET_VALIDATION_FAILED
+  integrity_audit:
+    audit_id: AUDIT-CUMCM-2017-C-VALIDATION-003F-INTEGRITY-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/validation/fresh_integrity_audit.json
+    sha256: 57f682820e0280d510bc0468f2269f86fa5901fe19737cd54521c7dbbbaf63d3
+    status: CHALLENGE
+    challenge_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/validation/challenges/HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION.json
+    challenge_sha256: 140228ebd1c499c98319eff4ef663e428636d3ff634d1db72ad9318894e68cbf
+    verdict_preserved: C_TARGET_VALIDATION_FAILED
   case_state: RUNNING_BLOCKED_NOT_READY_FOR_PAPER_HANDOFF
   paper_dispatch_accepted: false
   same_case_future_role: DEVELOPMENT_ONLY

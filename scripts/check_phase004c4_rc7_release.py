@@ -216,8 +216,7 @@ def _live_state_is_valid(state: dict[str, Any]) -> bool:
         return (
             state.get("subphase") == "C-TARGET-FRESH-VALIDATION-TERMINAL"
             and current_case in valid_cases
-            and state.get("next_phase_allowed")
-            == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+            and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
             and state.get("answer_access_status") == "SEALED_AT_TERMINAL_FREEZE"
         )
     if status in {
