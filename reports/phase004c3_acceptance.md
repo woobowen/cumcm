@@ -169,6 +169,13 @@ SHA at `2026-09-05T16:35:11+08:00`. Receipt
 `c99e87fbabd788939e84bb1564fed75ddedb40c5bf6a147458b33026826cd8c1`. The Draft PR remains open,
 draft and unmerged.
 
+The time-qualified checker repair commit
+`766f337eac848477759f531de54e988d99085e7a` was pushed and matched the remote branch SHA. Remote CI
+`33956588893` completed successfully in 8m24s: Ruff and 796-file formatting passed, pytest passed
+`2009 passed / 1 skipped` in 487.24s, both repaired historical checkers returned zero errors, and
+strict validation returned 0 errors / 0 warnings. Its sole annotation is the GitHub Actions
+Node.js 20 deprecation notice; it did not fail the job. Draft PR 10 remained OPEN/DRAFT/MERGEABLE.
+
 Terminal-state verification passed 68 focused tests. The first full run retained one compatibility
 failure because the new live blocker list no longer carried the literal historical RC5 reason code;
 the state risk record was corrected to preserve `RC5_VERSION_FILE_MISMATCH` without changing any

@@ -242,3 +242,11 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   receipt `evals/results/phase-004c3/rc6_release_block_delivery.json` has SHA-256
   `c99e87fbabd788939e84bb1564fed75ddedb40c5bf6a147458b33026826cd8c1`. The receipt does not
   reopen release or Validation; it records the remotely delivered terminal blocker.
+- `2026-09-05T17:04:07+08:00` — Non-Skill CI-harness repair commit
+  `766f337eac848477759f531de54e988d99085e7a` was pushed and matched the remote branch SHA.
+  Remote CI `33956588893` passed the sole command: Ruff and 796-file formatting passed, pytest
+  passed `2009/1 skipped` in 487.24s, both time-qualified historical checkers returned zero errors,
+  and strict validation returned 0 errors / 0 warnings. The job completed successfully in 8m24s.
+  Draft PR 10 remained OPEN/DRAFT/MERGEABLE. The Node.js 20 deprecation annotation belongs to the
+  GitHub Actions dependencies and did not fail the job. RC6 remains blocked; no release or
+  Validation path was reopened.
