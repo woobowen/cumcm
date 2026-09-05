@@ -547,12 +547,13 @@ def worst_group_failure(records: list[dict[str, Any]]) -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--case-root", type=Path, default=Path("."))
     parser.add_argument("--candidate-id", required=True, choices=CANDIDATE_IDS)
     parser.add_argument("--seed", required=True, type=int)
-    parser.add_argument("--raw-dir", required=True, type=Path)
-    parser.add_argument("--phase", required=True, choices=["selection", "final"])
-    parser.add_argument("--split-payload", required=True, type=Path)
-    parser.add_argument("--split-payload-sha256", required=True)
+    parser.add_argument("--raw-dir", type=Path)
+    parser.add_argument("--phase", default="selection", choices=["selection", "final"])
+    parser.add_argument("--split-payload", type=Path)
+    parser.add_argument("--split-payload-sha256")
     parser.add_argument("--authorization-payload", type=Path)
     parser.add_argument("--authorization-payload-sha256")
     parser.add_argument("--output", required=True, type=Path)
@@ -563,11 +564,14 @@ def main() -> int:
     args = parse_args()
     if args.seed < 0 or isinstance(args.seed, bool):
         raise ValueError("seed must be a non-negative strict integer")
-    raw_dir = args.raw_dir.resolve()
+    case_root = args.case_root.resolve()
+    raw_dir = (args.raw_dir or case_root / "data/raw").resolve()
     input_hashes = verify_raw_inputs(raw_dir)
     data1 = read_data1(raw_dir)
     data2 = read_data2(raw_dir)
-    split, split_hash = load_bound_json(args.split_payload.resolve(), args.split_payload_sha256)
+    split_path = args.split_payload or case_root / "splits/development_payload.json"
+    expected_split_hash = args.split_payload_sha256 or sha256_file(split_path.resolve())
+    split, split_hash = load_bound_json(split_path.resolve(), expected_split_hash)
     authorization: dict[str, Any] | None = None
     authorization_hash: str | None = None
     if args.phase == "selection":
