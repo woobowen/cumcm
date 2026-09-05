@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = ROOT / "rules/target_problem_policy.yaml"
@@ -279,14 +280,21 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     }
     repair = state.get("phase") == EXPECTED_REPAIR_PHASE
     if repair:
+        for field in (
+            "subphase",
+            "technical_adjudication_status",
+            "active_skill_version",
+            "next_phase_allowed",
+        ):
+            expected_state.pop(field)
         expected_state.update(
             phase=EXPECTED_REPAIR_PHASE,
-            subphase="MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR",
-            technical_adjudication_status="C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
             current_plan="plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md",
             current_branch="feat/phase004c2-claim-scope-repair-validation-2019c",
-            next_phase_allowed=None,
         )
+        schema = _json(root / "contracts/project_state.schema.json")
+        if list(Draft202012Validator(schema).iter_errors(state)):
+            errors.append("TARGET_REPAIR_STATE_SCHEMA_INVALID")
     for field, expected in expected_state.items():
         if state.get(field) != expected:
             errors.append(f"TARGET_STATE_FIELD_MISMATCH:{field}")

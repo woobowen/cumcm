@@ -71,13 +71,14 @@ PHASE004B_REPORTS = tuple(
     )
 )
 EXPECTED_VERSION = "0.2.0-competition-rc3"
-ACTIVE_VERSIONS = {EXPECTED_VERSION, "0.2.0-competition-rc4"}
+ACTIVE_VERSIONS = {EXPECTED_VERSION, "0.2.0-competition-rc4", "0.2.0-competition-rc5"}
 PHASE004A_VERSION = "0.2.0-competition-rc2"
 ALLOWED_CASE_VERSIONS = {
     "0.2.0-competition-rc1",
     PHASE004A_VERSION,
     EXPECTED_VERSION,
     "0.2.0-competition-rc4",
+    "0.2.0-competition-rc5",
 }
 REQUIRED_FIELDS = {
     "case_id",

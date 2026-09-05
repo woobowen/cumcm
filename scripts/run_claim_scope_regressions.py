@@ -37,7 +37,7 @@ def replay(core, source, destination, *, diagnostic=False):
     manifest = core.load_json(source / "runs" / claim["run_id"] / "manifest.json")
     derived = core.derive_claim_contract(claim, requirements)
     claim_result = core.validate_claim(derived, manifest, final, case_root=source, state=state)
-    destination.mkdir(parents=True, exist_ok=False)
+    destination.mkdir(parents=True, exist_ok=True)
     core.write_json(destination / "derived_claim.json", core.artifact("claim_evidence", derived))
     # The builder consumes the unchanged legacy artifact via its pure migration path.
     handoff = core.build_expected_handoff(source, state)
@@ -193,7 +193,9 @@ def main():
         json.dumps(result, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
     core.write_json(
-        ROOT / "evals/results/phase-004c2/historical_regressions.json", result, overwrite=False
+        ROOT / f"evals/results/phase-004c2/historical_regressions.{checkpoint}.json",
+        result,
+        overwrite=False,
     )
     return 0 if result["status"] == "PASS" else 1
 

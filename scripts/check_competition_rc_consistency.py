@@ -20,6 +20,7 @@ ACTIVE_SKILL_VERSIONS = {
     "0.2.0-competition-rc2",
     "0.2.0-competition-rc3",
     "0.2.0-competition-rc4",
+    "0.2.0-competition-rc5",
 }
 DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
@@ -29,6 +30,10 @@ DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_EVAL_INCOMPLETE",
 }
 C_TARGET_STATUSES = {
+    "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE",
+    "C_TARGET_VALIDATION_IN_PROGRESS",
+    "CLAIM_SCOPE_REPAIR_BLOCKED",
+    "VALIDATION_CASE_CONTAMINATED",
     "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
     "C_TARGET_BATCH_IN_PROGRESS",
     "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
@@ -142,6 +147,12 @@ def evaluate() -> dict[str, Any]:
         },
         "state_subphase": state.get("subphase")
         in {
+            "CLAIM-SCOPE-REPAIR-TERMINAL-BLOCKED",
+            "C-TARGET-FRESH-VALIDATION-BLOCKED",
+            "C-TARGET-2019C-VALIDATION-TERMINAL",
+            "C-TARGET-2019C-VALIDATION-PASSED",
+            "C-TARGET-2019C-VALIDATION-IN-PROGRESS",
+            "RC5-FROZEN-PENDING-FRESH-C-VALIDATION",
             "MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR",
             "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
             "CUMCM-2023-C-DEVELOPMENT-FIRST-RUN",
@@ -165,6 +176,15 @@ def evaluate() -> dict[str, Any]:
         "state_base_unselected": state.get("base_selected") is False,
         "state_third_party_false": state.get("third_party_integrated") is False,
         "state_next_phase": (
+            state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
+            and state.get("next_phase_allowed")
+            == (
+                "PHASE-SKILL-C-TARGET-HELDOUT-004D"
+                if state.get("technical_adjudication_status") == "C_TARGET_VALIDATION_PASSED"
+                else None
+            )
+        )
+        or (
             state.get("technical_adjudication_status") == "COMPETITION_SKILL_RC_READY"
             and state.get("next_phase_allowed") == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
         )
@@ -204,6 +224,11 @@ def evaluate() -> dict[str, Any]:
         ),
         "state_blockers_match_outcome": (
             state.get("blockers") == []
+            or (
+                state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
+                and state.get("technical_adjudication_status") != "C_TARGET_VALIDATION_PASSED"
+                and isinstance(state.get("blockers"), list)
+            )
             or (
                 state.get("technical_adjudication_status")
                 in {
@@ -284,6 +309,7 @@ def evaluate() -> dict[str, Any]:
                 "0.3.0-competition-rc2",
                 "0.3.0-competition-rc3",
                 "0.3.0-competition-rc4",
+                "0.3.0-competition-rc5",
             }
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),

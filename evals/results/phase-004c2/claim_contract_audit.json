@@ -1,4 +1,12 @@
 {
+  "closure": {
+    "additional_deterministic_probes": 4,
+    "independent_tests": 63,
+    "remaining_blockers": 0,
+    "role": "multi_requirement_claim_contract_auditor",
+    "subject_commit": "5673aab61a648be1cd9b87364110cb01c13cd033",
+    "test_duration_seconds": 0.51
+  },
   "findings": [
     {
       "expected_reason": "RC_CLAIM_AGGREGATE_ID_COLLISION",
@@ -14,12 +22,13 @@
     "duration_seconds": 0.27,
     "passed": 40
   },
+  "initial_status": "BLOCK_FINDING_PRESERVED",
   "limitations": [
     "Artifact replay is not fresh numerical RC5 execution.",
     "Arbitrary natural-language entailment is outside this structural contract."
   ],
   "read_only": true,
   "role": "multi_requirement_claim_contract_auditor",
-  "status": "BLOCK_FINDING_PENDING_RECHECK",
+  "status": "PASS",
   "subject_commit": "b98ad79e81e8d3a5712b6bd2c6d49fb17b497b24"
 }

@@ -40,6 +40,7 @@
     "active_skill_version": {"type": "string", "minLength": 1},
     "current_branch": {"type": "string", "minLength": 1},
     "primary_target_problem_type": {"const": "C"},
+    "answer_access_status": {"type": ["string", "null"]},
     "previous_validation_case": {"const": "CUMCM-2024-C-VALIDATION-001"},
     "previous_validation_result": {"const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"},
     "current_validation_case": {"type": ["string", "null"]},
@@ -101,6 +102,10 @@
         "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
         "DEVELOPMENT_EVAL_INCOMPLETE",
         "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
+        "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE",
+        "C_TARGET_VALIDATION_IN_PROGRESS",
+        "CLAIM_SCOPE_REPAIR_BLOCKED",
+        "VALIDATION_CASE_CONTAMINATED",
         "C_TARGET_BATCH_IN_PROGRESS",
         "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
         "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
@@ -537,6 +542,8 @@
     "updated_by": {"type": "string", "minLength": 1}
   },
   "allOf": [
+    {"if": {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"phase": {"enum": ["PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C", "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"]}}}},
+    {"if": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"}}, "required": ["phase"]}, "then": {"required": ["previous_validation_case", "previous_validation_result", "current_validation_case"], "properties": {"current_plan": {"const": "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"}, "current_branch": {"const": "feat/phase004c2-claim-scope-repair-validation-2019c"}, "primary_target_problem_type": {"const": "C"}, "selected_architecture": {"const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"}, "skill_capability_status": {"const": "COMPETITION_RC"}, "base_selected": {"const": false}, "third_party_integrated": {"const": false}}, "oneOf": [{"properties": {"technical_adjudication_status": {"const": "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS"}, "subphase": {"const": "MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR"}, "active_skill_version": {"const": "0.2.0-competition-rc4"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"type": "null"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE"}, "subphase": {"const": "RC5-FROZEN-PENDING-FRESH-C-VALIDATION"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"type": "null"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_IN_PROGRESS"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-IN-PROGRESS"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_PASSED"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-PASSED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": "PHASE-SKILL-C-TARGET-HELDOUT-004D"}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}, "answer_access_status": {"const": "SEALED_AT_TERMINAL_FREEZE"}, "blockers": {"const": []}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_FAILED"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-TERMINAL"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-TERMINAL"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_INCOMPLETE"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-TERMINAL"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "VALIDATION_CASE_CONTAMINATED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "OFFICIAL_INPUTS_REQUIRED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "FIRST_RUN_CONTAMINATION_SUSPECTED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "INFRASTRUCTURE_BLOCKED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "CLAIM_SCOPE_REPAIR_BLOCKED"}, "subphase": {"const": "CLAIM-SCOPE-REPAIR-TERMINAL-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc4"}, "next_phase_allowed": {"const": null}}}]}},
     {"if": {"properties": {"technical_adjudication_status": {"const": "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS"}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"}, "subphase": {"const": "MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR"}, "current_plan": {"const": "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"}, "current_branch": {"const": "feat/phase004c2-claim-scope-repair-validation-2019c"}, "active_skill_version": {"const": "0.2.0-competition-rc4"}, "next_phase_allowed": {"type": "null"}, "current_validation_case": {"type": "null"}, "primary_target_problem_type": {"const": "C"}, "batch_skill_frozen": {"const": true}, "batch_reference_unlocked": {"const": true}, "current_batch_id": {"const": "C-TARGET-BATCH-001"}, "base_selected": {"const": false}, "blockers": {"const": ["RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"]}}, "required": ["previous_validation_case", "previous_validation_result", "current_validation_case"]}},
     {
       "if": {"properties": {"phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"}}},
@@ -679,9 +686,10 @@
         "properties": {
           "technical_adjudication_status": {
             "const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
-          }
+          },
+          "phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"}
         },
-        "required": ["technical_adjudication_status"]
+        "required": ["technical_adjudication_status", "phase"]
       },
       "then": {
         "properties": {

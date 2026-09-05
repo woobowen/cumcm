@@ -1,0 +1,271 @@
+{
+  "actual_execution": true,
+  "api_calls": 0,
+  "artifact_hashes": {
+    "case_state.json": "d9cb6bd667e561d7aa67ed53677f0a4a552ce7cc96e09470f3edcf22b0942c2c",
+    "data/data_audit.json": "e20f976918732fc026709162dbb22176195820f5e918daff7bfae1cae8b0b15e",
+    "evidence/claim_evidence.json": "5cfb2ce1368939cb1e4d513f0f870eecbbb34a49df100a5ac72a65ea656e1880",
+    "experiments/experiment_plan.json": "12f45beabf9ac952d4478579ca4a651b1ad94759c113c18d1e0e085ff4958f48",
+    "handoff/modeling_to_paper.json": "48bb96282848ca3fd19fac2230558fbf58d754762cfcd39777f3c867fcaee248",
+    "models/assumptions_and_symbols.json": "a615cb3b0a431414b5520f7695c502b89e371d4bdb99a4395c3c5a6b6ef699a2",
+    "models/model_candidates.json": "9077a248fdb66269f2ab697d1b86bf0fda14d31ed486d897ac5f0fceb765e7e1",
+    "problem/problem_requirements.json": "a2d8369db18c77ce3ea7a22a4ce78a20febca2923cd780560bd6b70dc49eea2e",
+    "research/research_plan.json": "a4a9ffe8d759dd57c909c70d7cc03d44b71f1847e2642200eea18e1604db4708",
+    "research/source_ledger.json": "37983b2aeda1718df7b9d8c89466692a48d75a85a16dc74538d8c35511d52b72",
+    "results/final_result.json": "846412e90cc1fdef31ba966ceb9052f5f41589c67dfef366cc67a7d9dd21bdf0",
+    "results/model_comparison.json": "1da4745ab3abb818eefffb0e832b7b344ba6496bb9bfb179def51a51af0d70af",
+    "results/robustness.json": "b0fc6d05c99f32886e4f9a3b704ab18c1cd49cbd15ed0acb7d2d5c0698b57e8e"
+  },
+  "case_id": "SYNTH-RC1-OPTIMIZATION-002",
+  "cli_result": {
+    "case_id": "SYNTH-RC1-OPTIMIZATION-002",
+    "case_state_hash": "d9cb6bd667e561d7aa67ed53677f0a4a552ce7cc96e09470f3edcf22b0942c2c",
+    "final_state": "READY_FOR_PAPER_HANDOFF",
+    "handoff_hash": "48bb96282848ca3fd19fac2230558fbf58d754762cfcd39777f3c867fcaee248",
+    "kind": "optimization",
+    "objective": 22,
+    "run_ids": [
+      "RUN-O-BASELINE-A-ONLY",
+      "RUN-O-ENUMERATION",
+      "RUN-O-INFEASIBLE-PROPOSAL"
+    ],
+    "selected_model": "O-ENUMERATION",
+    "transition_count": 13
+  },
+  "command": "python <skill>/scripts/cumcm_case.py smoke --case-root <TEMP>/optimization --case-id SYNTH-RC1-OPTIMIZATION-002 --kind optimization",
+  "evidence_hash": "4c2f5fa643ecf1196153dee6e50d288ddbe946dd44a41ac567f09f9a19fb3ae9",
+  "exit_code": 0,
+  "failure_cases": [
+    "资源或利润系数改变时需重新枚举"
+  ],
+  "final_metrics": {
+    "profit": 22,
+    "x_A": 3,
+    "x_B": 2
+  },
+  "final_run_id": "RUN-O-ENUMERATION",
+  "final_state": "READY_FOR_PAPER_HANDOFF",
+  "gate_sequence": [
+    "GATE_PROBLEM_INTAKE",
+    "GATE_REQUIREMENT_COVERAGE",
+    "GATE_SOURCE_PLAN",
+    "GATE_ASSUMPTIONS_AND_DATA",
+    "GATE_MODEL_PORTFOLIO",
+    "GATE_EXPERIMENT_PLAN",
+    "GATE_EXECUTION_AUTHORIZED",
+    "GATE_RUN_COMPLETION",
+    "GATE_REPRODUCIBILITY_MANIFEST",
+    "GATE_COMPARISON_AND_ROBUSTNESS",
+    "GATE_FINAL_RUN",
+    "GATE_CLAIM_EVIDENCE",
+    "GATE_MODELING_TO_PAPER"
+  ],
+  "handoff_contract_result": "PASS",
+  "handoff_generated_fields": [
+    "approved_by",
+    "assumptions",
+    "claim_evidence",
+    "contract_version",
+    "data_dictionary",
+    "data_quality_report",
+    "failure_cases",
+    "figure_ready_data",
+    "final_metrics",
+    "final_runs",
+    "formulas",
+    "generated_at",
+    "limitations",
+    "problem_requirements",
+    "reproduction",
+    "requirement_traceability",
+    "result_tables",
+    "robustness_results",
+    "selected_models",
+    "sources",
+    "symbols",
+    "uncertainty",
+    "validation_results"
+  ],
+  "handoff_hash": "48bb96282848ca3fd19fac2230558fbf58d754762cfcd39777f3c867fcaee248",
+  "handoff_required_fields": [
+    "approved_by",
+    "assumptions",
+    "claim_evidence",
+    "contract_version",
+    "data_dictionary",
+    "data_quality_report",
+    "failure_cases",
+    "figure_ready_data",
+    "final_metrics",
+    "final_runs",
+    "formulas",
+    "generated_at",
+    "limitations",
+    "problem_requirements",
+    "reproduction",
+    "requirement_traceability",
+    "result_tables",
+    "robustness_results",
+    "selected_models",
+    "sources",
+    "symbols",
+    "uncertainty",
+    "validation_results"
+  ],
+  "historical_answer_accesses": 0,
+  "kind": "optimization",
+  "post_ready_raw_mutation_probe": {
+    "dependency_chain": [
+      "data/raw/optimization_problem.json",
+      "experiments/experiment_plan.json",
+      "runs/RUN-O-BASELINE-A-ONLY/manifest.json",
+      "runs/RUN-O-ENUMERATION/manifest.json",
+      "runs/RUN-O-INFEASIBLE-PROPOSAL/manifest.json"
+    ],
+    "exit_code": 4,
+    "reason_codes": [
+      "RC_UPSTREAM_DEPENDENCY_STALE"
+    ],
+    "state_mutated": false,
+    "status": "STALE"
+  },
+  "processed_input_hashes": {},
+  "processing_lineage": null,
+  "raw_input_hashes": {
+    "data/raw/optimization_problem.json": "4de8afacf87ff197ed49f1c301b17e6cc230098b456bf2c72181af9aea887fc7"
+  },
+  "robustness_perturbation_count": 2,
+  "run_manifests": {
+    "RUN-O-BASELINE-A-ONLY": {
+      "code_commit": "5673aab61a648be1cd9b87364110cb01c13cd033",
+      "code_files": [
+        {
+          "path": "scripts/cumcm_case.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "b251ecab6fc74b2c99c8034866f701ad08f22da31d12e1b19d3550299e7f979c"
+        },
+        {
+          "path": "scripts/synthetic_cases.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "7580ffbfe425a96cfe69c5c346f0ba829eaf9162e580f4e18989bc57afc4195d"
+        }
+      ],
+      "code_tree_hash": "c28c006fdc071f2152d4c25b24908045a816c5579db2cf620b402b31778f534d",
+      "configuration": {
+        "candidate_id": "O-BASELINE-A-ONLY",
+        "seed": 20260904
+      },
+      "configuration_hash": "67897bab58062a50ae913f671c45c00ab4df1b26010f4bd84e31ed0ad2a5f617",
+      "input_files": [
+        {
+          "path": "data/raw/optimization_problem.json",
+          "sha256": "4de8afacf87ff197ed49f1c301b17e6cc230098b456bf2c72181af9aea887fc7"
+        }
+      ],
+      "input_hash": "23b11bf82c042feed079fac5337cd22df5bc054c2162469142975fdd35127683",
+      "outcome": "SUCCESS",
+      "output_hash": "dad12e992b7ec108ae33b2d4a35816a6f58b663e829254f5fdac7547a1f9ca31",
+      "random_seed": 20260904,
+      "sha256": "0ee74a95dd45e73557a02ec7e643960c7976ea44f178cbd3913d5cf8a4c0e5f5"
+    },
+    "RUN-O-ENUMERATION": {
+      "code_commit": "5673aab61a648be1cd9b87364110cb01c13cd033",
+      "code_files": [
+        {
+          "path": "scripts/cumcm_case.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "b251ecab6fc74b2c99c8034866f701ad08f22da31d12e1b19d3550299e7f979c"
+        },
+        {
+          "path": "scripts/synthetic_cases.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "7580ffbfe425a96cfe69c5c346f0ba829eaf9162e580f4e18989bc57afc4195d"
+        }
+      ],
+      "code_tree_hash": "c28c006fdc071f2152d4c25b24908045a816c5579db2cf620b402b31778f534d",
+      "configuration": {
+        "candidate_id": "O-ENUMERATION",
+        "seed": 20260904
+      },
+      "configuration_hash": "2ddd494b1d25dce8a39818d6fa26e7bd73079a8a73e3e1925833713ccc18b9d1",
+      "input_files": [
+        {
+          "path": "data/raw/optimization_problem.json",
+          "sha256": "4de8afacf87ff197ed49f1c301b17e6cc230098b456bf2c72181af9aea887fc7"
+        }
+      ],
+      "input_hash": "23b11bf82c042feed079fac5337cd22df5bc054c2162469142975fdd35127683",
+      "outcome": "SUCCESS",
+      "output_hash": "febe2b112158d0810e5153bcdbf294a688ab48956df5355ad56ce290102bb3d8",
+      "random_seed": 20260904,
+      "sha256": "e56836f355c3d8e18d03e91ea9c5d7a56383f72dfd97cbe32199a0ff52e56397"
+    },
+    "RUN-O-INFEASIBLE-PROPOSAL": {
+      "code_commit": "5673aab61a648be1cd9b87364110cb01c13cd033",
+      "code_files": [
+        {
+          "path": "scripts/cumcm_case.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "b251ecab6fc74b2c99c8034866f701ad08f22da31d12e1b19d3550299e7f979c"
+        },
+        {
+          "path": "scripts/synthetic_cases.py",
+          "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+          "scope": "SKILL_ROOT",
+          "sha256": "7580ffbfe425a96cfe69c5c346f0ba829eaf9162e580f4e18989bc57afc4195d"
+        }
+      ],
+      "code_tree_hash": "c28c006fdc071f2152d4c25b24908045a816c5579db2cf620b402b31778f534d",
+      "configuration": {
+        "candidate_id": "O-INFEASIBLE-PROPOSAL",
+        "seed": 20260904
+      },
+      "configuration_hash": "58130dddca01dc430c118e6c14e068722b8e237d991322699c121cf6752308d0",
+      "input_files": [
+        {
+          "path": "data/raw/optimization_problem.json",
+          "sha256": "4de8afacf87ff197ed49f1c301b17e6cc230098b456bf2c72181af9aea887fc7"
+        }
+      ],
+      "input_hash": "23b11bf82c042feed079fac5337cd22df5bc054c2162469142975fdd35127683",
+      "outcome": "INFEASIBLE",
+      "output_hash": "331a20e30e8b5ec59e28bc5c30b17dec8050a5fd1ed4410bc990c83012d188be",
+      "random_seed": 20260904,
+      "sha256": "6f42c4712f805a6ff746ed905bdbd9aea1be253de94c4d54446d72bac0edcfa6"
+    }
+  },
+  "schema_version": "1.0.0",
+  "selected_model": "O-ENUMERATION",
+  "state_sequence": [
+    "CREATED",
+    "INTAKE_COMPLETE",
+    "REQUIREMENTS_VALIDATED",
+    "SOURCES_PLANNED",
+    "DATA_AUDITED",
+    "MODELS_PROPOSED",
+    "EXPERIMENT_PLAN_VALIDATED",
+    "RUNNING",
+    "RUN_COMPLETED",
+    "RUN_VALIDATED",
+    "ROBUSTNESS_VALIDATED",
+    "FINAL_CANDIDATE",
+    "EVIDENCE_VALIDATED",
+    "READY_FOR_PAPER_HANDOFF"
+  ],
+  "test_access": {
+    "authorized": true,
+    "count": 1,
+    "used_for_selection": false
+  },
+  "third_party_executions": 0,
+  "zero_count_sources": {
+    "api_calls": "offline subprocess harness with no network operation",
+    "historical_answer_accesses": "accepted source_ledger.answer_access_status",
+    "third_party_executions": "project-original deterministic code path only"
+  }
+}

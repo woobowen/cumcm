@@ -22,6 +22,10 @@ DEVELOPMENT_EVAL_STATUSES = {
     "INFRASTRUCTURE_BLOCKED",
 }
 C_TARGET_STATUSES = {
+    "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE",
+    "C_TARGET_VALIDATION_IN_PROGRESS",
+    "CLAIM_SCOPE_REPAIR_BLOCKED",
+    "VALIDATION_CASE_CONTAMINATED",
     "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
     "C_TARGET_BATCH_IN_PROGRESS",
     "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
@@ -89,7 +93,8 @@ def competition_rc_successor(root: Path) -> bool:
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
         }
         and state.get("technical_adjudication_status") in C_TARGET_STATUSES
-        and state.get("active_skill_version") in {"0.2.0-competition-rc3", "0.2.0-competition-rc4"}
+        and state.get("active_skill_version")
+        in {"0.2.0-competition-rc3", "0.2.0-competition-rc4", "0.2.0-competition-rc5"}
     )
     return rc1_ready or development_successor or c_target_successor
 

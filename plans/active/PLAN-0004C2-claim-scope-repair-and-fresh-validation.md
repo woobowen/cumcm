@@ -32,11 +32,11 @@ no changed verdict, no answer access and no independent Validation credit.
 - M2 NEUTRAL TEST FREEZE COMPLETE: freeze at least 30 deterministic, offline case-neutral
   expectations before implementation and before new Validation input. Never change expected
   PASS criteria to match implementation.
-- M3 REPAIR CANDIDATE_IMPLEMENTED: at most two formal Skill revision cycles; independent aggregate identity,
+- M3 REPAIR COMPLETE_TWO_CYCLES: at most two formal Skill revision cycles; independent aggregate identity,
   order-independent exact primary coverage, explicit optional/diagnostic/supporting roles,
   local Run/output/decision binding, scope containment and old-format compatibility.
   Keep execute/capture/seal and selected-output evidence semantics intact.
-- M4 REGRESSION PENDING: existing 2020/2021/2022/2023 C and auxiliary 2020 A artifacts,
+- M4 REGRESSION COMPLETE: existing 2020/2021/2022/2023 C and auxiliary 2020 A artifacts,
   two synthetic E2E, 30 original negatives, RC4 preflight, STALE and leakage checks.
   Derive a separate 2024 diagnostic bundle. Auditor 1 reads only after these results exist.
 - M5 RELEASE PENDING: all required tests, anti-hardcoding, discovery, strict and local CI pass;
@@ -90,3 +90,9 @@ Auditor identified aggregate/local ID collision. Diagnostic also exposed structu
 handoff incompatibility. Supplemental neutral tests were frozen before revision 2: five formula
 cases and eight identity/scope faults; original 40-test file is byte-identical. Revision 2 focused
 validation passed 63/63 including output preflight. This exhausts the two formal revision cycles.
+
+Revision 2 implementation `5673aab61a648be1cd9b87364110cb01c13cd033`, tree
+`0c27a6aa25d5f591277707fd2343b34e65a703fb`, is remotely verified. Auditor 1 independently
+passed 63 tests and four fault probes. All six artifact regressions, two synthetic E2E and
+30 negatives pass; source histories unchanged. Full CI: 1921 passed / 1 skipped,
+313.67 s pytest; strict 0 errors / 0 warnings. No new Validation input has been acquired.
