@@ -179,3 +179,20 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   or one of four declared contract functions was absent. Test SHA-256 is
   `242963976022ba7449fbd8ea8488cd65acd4a05744d3f7ee88344c81a76c7adc`; RC5 Skill tree remained
   `0c27a6aa25d5f591277707fd2343b34e65a703fb`. Frozen expectations may not be edited during M2.
+- `2026-09-05T15:38:10+08:00` — M2 completed in exactly two formal revision cycles; the Skill
+  modification window is closed. Cycle 1 implemented the four pure contract evaluators, three
+  hash-bound supporting artifacts/CLI Gates, release checker and RC6 surfaces. Its first focused
+  run was `56 passed / 1 failed`; the lone selection failure was corrected by short-circuiting
+  derivative metric/output findings behind the wrong-Run semantic root cause. Both E2E cases then
+  exposed the expected Git-blob precondition while the candidate was uncommitted.
+- Candidate commit `12ecd586fd46ae7a63037435b7fef6b697d85a21` supplied the required Git identity.
+  Both synthetic E2E cases passed, then the first full suite reported `1998 passed / 1 skipped /
+  9 failed`. Cycle 2 fixed four successor-compatibility checks, three RC6 test fixtures/helper
+  callers, and one leakage-scanner phrase; it also integrated generic selection/semantic artifacts
+  into the captured-episode completion controller. Focused compatibility passed `125/125`, E2E and
+  controller passed `4/4`, and the final full pytest passed `2007/1 skipped` in 311.78s.
+- RC6 candidate Skill tree is `0d0d65a7148d146424e31318ba003bdab80db6e5`; runner SHA-256 is
+  `2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879`. The frozen neutral
+  test SHA remains unchanged. RC5 historical artifacts and all 2025 access flags remain unchanged;
+  no dependency, package, toolchain or configuration was installed. RC6 remains unreleased until
+  M3 regressions and M4 Auditor 1/release consistency pass.
