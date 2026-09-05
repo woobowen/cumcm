@@ -77,3 +77,11 @@ Validation. The next authorized phase is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C
 `docs/DEVELOPMENT_EVAL_PROTOCOL.md`, and `plans/active/PLAN-0004C-C-target-batch-generalization.md`.
 
 No project license has been selected. Third-party repositories remain isolated under ignored `.cache/upstream/` and are not part of this repository.
+
+## Phase 004C2 current execution
+
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` is now in case-neutral Claim-scope repair.
+The active plan is `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`. The old 004C outcome remains
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`; its completed plan and terminal evidence are preserved.
+RC4 remains active until neutral tests, historical regressions and diagnostic-only replay pass.
+RC5 must be remotely frozen before fresh 2019 C Validation; the reserved 2025 C remains untouched.

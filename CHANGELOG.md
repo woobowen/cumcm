@@ -220,3 +220,7 @@
 - The formal Skill is `SCAFFOLD_ONLY` and lacks complete modeling capability.
 - Upstream candidates have only provisional static reviews; no historical or dynamic evaluation is complete.
 - No final base Skill has been selected and the project license remains undecided.
+
+## 004C2 — in progress
+
+Start case-neutral Claim-scope repair from merged RC4. No RC5 release or new Validation result yet.

@@ -20,7 +20,7 @@ FORMAL_SKILLS = ROOT / ".agents/skills"
 
 BATCH_ID = "C-TARGET-BATCH-001"
 PHASE = "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
-PLAN = "plans/active/PLAN-0004C-C-target-batch-generalization.md"
+PLAN = "plans/completed/PLAN-0004C-C-target-batch-generalization.md"
 BRANCH = "feat/phase004c-c-target-batch-generalization"
 EXPECTED_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
 RC3 = "0.2.0-competition-rc3"
@@ -277,6 +277,16 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         "skill_capability_status": "COMPETITION_RC",
         "selected_architecture": ARCHITECTURE,
     }
+    repair = state.get("phase") == EXPECTED_REPAIR_PHASE
+    if repair:
+        expected_state.update(
+            phase=EXPECTED_REPAIR_PHASE,
+            subphase="MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR",
+            technical_adjudication_status="C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
+            current_plan="plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md",
+            current_branch="feat/phase004c2-claim-scope-repair-validation-2019c",
+            next_phase_allowed=None,
+        )
     for field, expected in expected_state.items():
         if state.get(field) != expected:
             errors.append(f"TARGET_STATE_FIELD_MISMATCH:{field}")
@@ -325,7 +335,9 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     for token in (PHASE, BATCH_ID, RC3, RC4, "DECISION-C-TARGET-TRAINING-POLICY-004C"):
         if token not in plan_text:
             errors.append(f"TARGET_ACTIVE_PLAN_TOKEN_MISSING:{token}")
-    if workflow_rules.get("git_delivery", {}).get("preferred_task_branch") != BRANCH:
+    if workflow_rules.get("git_delivery", {}).get("preferred_task_branch") != (
+        "feat/phase004c2-claim-scope-repair-validation-2019c" if repair else BRANCH
+    ):
         errors.append("TARGET_WORKFLOW_BRANCH_MISMATCH")
 
     skills = list((root / FORMAL_SKILLS.relative_to(ROOT)).glob("*/SKILL.md"))

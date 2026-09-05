@@ -22,6 +22,7 @@ DEVELOPMENT_EVAL_STATUSES = {
     "INFRASTRUCTURE_BLOCKED",
 }
 C_TARGET_STATUSES = {
+    "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
     "C_TARGET_BATCH_IN_PROGRESS",
     "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
     "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
@@ -82,7 +83,11 @@ def competition_rc_successor(root: Path) -> bool:
     )
     c_target_successor = (
         isinstance(state, dict)
-        and state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
+        and state.get("phase")
+        in {
+            "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+        }
         and state.get("technical_adjudication_status") in C_TARGET_STATUSES
         and state.get("active_skill_version") in {"0.2.0-competition-rc3", "0.2.0-competition-rc4"}
     )

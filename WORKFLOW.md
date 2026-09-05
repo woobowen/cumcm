@@ -227,3 +227,11 @@ runs. A superseded Final Run invalidates downstream tables, figures, claims, and
 policy/evidence/Judge output invalidates Meta, Audit, decisions, state, and reports. Clear `STALE` only
 by recomputing from the earliest affected predecessor; editing a report or team-review record never
 clears it.
+
+## Phase 004C2 current execution
+
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` is now in case-neutral Claim-scope repair.
+The active plan is `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`. The old 004C outcome remains
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`; its completed plan and terminal evidence are preserved.
+RC4 remains active until neutral tests, historical regressions and diagnostic-only replay pass.
+RC5 must be remotely frozen before fresh 2019 C Validation; the reserved 2025 C remains untouched.

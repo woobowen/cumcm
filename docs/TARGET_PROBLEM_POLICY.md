@@ -66,3 +66,11 @@ This is a training-target and evidence-accounting decision, not an architecture 
 not prove broad C generalization, production readiness, or a 2026 solution. Technical acceptance
 continues to depend on deterministic Gates, captured Runs, feasible Finals, Claim evidence,
 reproducible handoffs, and the formal state machine; Agent votes cannot override a rejection.
+
+## Phase 004C2 current execution
+
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` is now in case-neutral Claim-scope repair.
+The active plan is `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`. The old 004C outcome remains
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`; its completed plan and terminal evidence are preserved.
+RC4 remains active until neutral tests, historical regressions and diagnostic-only replay pass.
+RC5 must be remotely frozen before fresh 2019 C Validation; the reserved 2025 C remains untouched.

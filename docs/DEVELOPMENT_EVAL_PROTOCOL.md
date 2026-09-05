@@ -148,3 +148,11 @@ RC4 的唯一修改是通用 selected-output preflight，并已通过统一回�
 正式决策为 `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`。terminal freeze 后不得新增 Run；同题后续
 永久只可作为 Development，修复必须在 `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` 用新的冻结 C题
 验证。
+
+## Phase 004C2 current execution
+
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` is now in case-neutral Claim-scope repair.
+The active plan is `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`. The old 004C outcome remains
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`; its completed plan and terminal evidence are preserved.
+RC4 remains active until neutral tests, historical regressions and diagnostic-only replay pass.
+RC5 must be remotely frozen before fresh 2019 C Validation; the reserved 2025 C remains untouched.

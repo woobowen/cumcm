@@ -72,3 +72,11 @@ and valid outputs for all six main requirements, but the frozen Claim Gate impos
 global-scope and first-requirement-scope equalities. The terminal result is therefore
 `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, not a pass; no handoff was accepted and RC4 was not
 changed. The only authorized next route is a newly frozen C batch repair using a different C case.
+
+## Phase 004C2 current execution
+
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` is now in case-neutral Claim-scope repair.
+The active plan is `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`. The old 004C outcome remains
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`; its completed plan and terminal evidence are preserved.
+RC4 remains active until neutral tests, historical regressions and diagnostic-only replay pass.
+RC5 must be remotely frozen before fresh 2019 C Validation; the reserved 2025 C remains untouched.

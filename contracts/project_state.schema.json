@@ -40,6 +40,9 @@
     "active_skill_version": {"type": "string", "minLength": 1},
     "current_branch": {"type": "string", "minLength": 1},
     "primary_target_problem_type": {"const": "C"},
+    "previous_validation_case": {"const": "CUMCM-2024-C-VALIDATION-001"},
+    "previous_validation_result": {"const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"},
+    "current_validation_case": {"type": ["string", "null"]},
     "current_batch_id": {
       "type": "string",
       "pattern": "^C-TARGET-BATCH-[0-9]{3}$"
@@ -97,6 +100,7 @@
         "DEVELOPMENT_EVAL_RC3_READY",
         "DEVELOPMENT_EVAL_COMPLETE_NO_SKILL_CHANGE",
         "DEVELOPMENT_EVAL_INCOMPLETE",
+        "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
         "C_TARGET_BATCH_IN_PROGRESS",
         "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
         "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
@@ -533,6 +537,7 @@
     "updated_by": {"type": "string", "minLength": 1}
   },
   "allOf": [
+    {"if": {"properties": {"technical_adjudication_status": {"const": "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS"}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"}, "subphase": {"const": "MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR"}, "current_plan": {"const": "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"}, "current_branch": {"const": "feat/phase004c2-claim-scope-repair-validation-2019c"}, "active_skill_version": {"const": "0.2.0-competition-rc4"}, "next_phase_allowed": {"type": "null"}, "current_validation_case": {"type": "null"}, "primary_target_problem_type": {"const": "C"}, "batch_skill_frozen": {"const": true}, "batch_reference_unlocked": {"const": true}, "current_batch_id": {"const": "C-TARGET-BATCH-001"}, "base_selected": {"const": false}, "blockers": {"const": ["RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"]}}, "required": ["previous_validation_case", "previous_validation_result", "current_validation_case"]}},
     {
       "if": {"properties": {"phase": {"const": "PHASE-EVIDENCE-EXPANSION-002D"}}},
       "then": {"required": ["evidence_expansion"]}

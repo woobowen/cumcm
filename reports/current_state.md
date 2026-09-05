@@ -2,11 +2,11 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`
-- Subphase: `C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT`
+- Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`
+- Subphase: `MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0004C-C-target-batch-generalization.md`
-- Branch: `feat/phase004c-c-target-batch-generalization`
+- Active plan: `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`
+- Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
 - Skill version: `0.2.0-competition-rc4`
 - Primary target problem type: `C`
 - Current batch: `C-TARGET-BATCH-001`
@@ -15,15 +15,15 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`
+- Technical adjudication: `C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS`
 - Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-C-TARGET-VALIDATION-004C, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`
+- Next phase allowed: `None`
 - Content-verified commit: `3e24835c354b1e316783fa9bf50e8f1679bb1003`
 - Delivery receipt commit: `3e24835c354b1e316783fa9bf50e8f1679bb1003`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-05T04:33:42+08:00` by `main-agent`
+- Updated: `2026-09-05T11:04:30+08:00` by `main-agent`
 
 ## Blockers
 

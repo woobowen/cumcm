@@ -16,7 +16,7 @@ def _copy_target_inputs(repo_root: Path, target: Path) -> Path:
         "rules/workflow_rules.yaml",
         "benchmarks/case_registry.yaml",
         "state/project_state.json",
-        "plans/active/PLAN-0004C-C-target-batch-generalization.md",
+        "plans/completed/PLAN-0004C-C-target-batch-generalization.md",
         ".agents/skills/cumcm-modeling-evidence/SKILL.md",
         "evals/results/phase-004c-c-batch/rc4/skill_release.json",
     ):
@@ -153,7 +153,7 @@ def test_target_problem_policy_rejects_state_and_plan_drift(
     state = json.loads(state_path.read_text(encoding="utf-8"))
     state["batch_skill_frozen"] = False
     state_path.write_text(json.dumps(state), encoding="utf-8")
-    plan_path = root / "plans/active/PLAN-0004C-C-target-batch-generalization.md"
+    plan_path = root / "plans/completed/PLAN-0004C-C-target-batch-generalization.md"
     plan_path.write_text("missing bindings\n", encoding="utf-8")
 
     errors = evaluate(root)["errors"]

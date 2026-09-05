@@ -29,6 +29,7 @@ DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_EVAL_INCOMPLETE",
 }
 C_TARGET_STATUSES = {
+    "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
     "C_TARGET_BATCH_IN_PROGRESS",
     "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
     "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
@@ -132,9 +133,11 @@ def evaluate() -> dict[str, Any]:
             "PHASE-SKILL-INTEGRATION-003",
             "PHASE-SKILL-DEVELOPMENT-EVAL-004",
             "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
         },
         "state_subphase": state.get("subphase")
         in {
+            "MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR",
             "COMPETITION-RC1-REPAIR-AND-INTEGRATION",
             "CUMCM-2023-C-DEVELOPMENT-FIRST-RUN",
             "CUMCM-2023-C-POST-FREEZE-DIAGNOSIS",
@@ -175,7 +178,11 @@ def evaluate() -> dict[str, Any]:
         )
         or (
             state.get("technical_adjudication_status")
-            in {"C_TARGET_BATCH_IN_PROGRESS", "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS"}
+            in {
+                "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
+                "C_TARGET_BATCH_IN_PROGRESS",
+                "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
+            }
             and state.get("next_phase_allowed") is None
         )
         or (
@@ -194,7 +201,10 @@ def evaluate() -> dict[str, Any]:
             state.get("blockers") == []
             or (
                 state.get("technical_adjudication_status")
-                == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+                in {
+                    "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+                    "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
+                }
                 and state.get("blockers") == ["RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"]
             )
         ),
