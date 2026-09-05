@@ -3,6 +3,7 @@
 ## Goal and startup order
 
 Build one evidence-first CUMCM modeling Skill from problem intake through frozen final runs and a versioned handoff to a separate paper team. Before work, read `GOALS.md`, `WORKFLOW.md`, the current file in `plans/active/`, `state/project_state.json`, then the policy relevant to the target directory.
+Development is currently paused; a new maintainer reads `HANDOVER.md` and `CODEX_TAKEOVER.md` before proposing 004C5/RC8 work.
 
 ## Map and sources of truth
 
