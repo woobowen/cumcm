@@ -190,3 +190,8 @@ Progress:
   existing test failed closed. Repair attempt 1 adds only project `0.3.0-competition-rc7` to that
   checker. The frozen Skill tree, release manifest, controller probes and Validation rubric remain
   byte-identical; official input remains locked until the repaired full CI passes.
+- Post-freeze full CI repair attempt 2 passes: pytest `2063 passed / 1 skipped` in 309.12 seconds,
+  every historical checker passes, and strict reports 0 errors / 0 warnings. The live RC7 checker
+  remains PASS and the frozen Skill tree hash remains
+  `0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056`. This receipt must be
+  remotely delivered before official 2018 C acquisition.
