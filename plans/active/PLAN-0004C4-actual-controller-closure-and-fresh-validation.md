@@ -150,3 +150,16 @@ Progress:
   `PHASE-004C4-ACTUAL-CONTROLLER-ADVERSARIAL-FREEZE-001` binds the auditor report, test and
   pre-repair observation. Audit-triggered repair usage remains `0/3` until the freeze is remotely
   bound.
+- `2026-09-05T20:55:00+08:00` — Audit-triggered repair loop 1/3 is remotely bound at
+  `cd02e61994b906364789c65609de695b6912f1c7`. It removes comparison/selection split truth,
+  moves manifest persistence after all pre-final and selected-payload validation, binds scenario
+  identity through execution capture and manifest, and requires actual selected-output policy
+  exposure/benefit/cost evidence. The frozen adversarial suite passes (`6 passed`) and the combined
+  known, adversarial, neutral E2E and RC6 matrix passes (`94 passed`); no second audit loop is open.
+- `2026-09-05T21:02:00+08:00` — Current-Skill historical and auxiliary regressions pass: six
+  immutable C/A replays report PASS with zero new model Runs and no source-tree writes; two
+  project-original synthetic E2E cases reach handoff; the fixed negative matrix is 30/30 with zero
+  exceptions or sensitive emissions; RC4 unified and RC5 preservation checkers pass. An expanded
+  pytest scope covering output preflight, Claim/aggregate, failure retention, state and all
+  controller matrices passes (`239 passed`). The Phase 004C4 regression evidence checker is
+  read-only PASS.
