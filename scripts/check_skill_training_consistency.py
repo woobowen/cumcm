@@ -148,7 +148,11 @@ def check() -> dict[str, Any]:
     if state.get("skill_capability_status") != "COMPETITION_RC":
         errors.append("PROJECT_STATE_CAPABILITY_MISMATCH")
     if active_version not in skill_text and not (
-        rc4_candidate_staged and "0.2.0-competition-rc4" in skill_text
+        (rc4_candidate_staged and "0.2.0-competition-rc4" in skill_text)
+        or (
+            state.get("technical_adjudication_status") == "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS"
+            and "Version: `0.2.0-competition-rc5`" in skill_text
+        )
     ):
         errors.append("FORMAL_SKILL_VERSION_MISMATCH")
     if EXPECTED_VERSION not in changelog:

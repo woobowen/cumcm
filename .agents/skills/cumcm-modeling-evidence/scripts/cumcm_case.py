@@ -18,7 +18,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0-competition-rc4"
+VERSION = "0.2.0-competition-rc5"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -621,18 +621,32 @@ def validate_selected_output_contract(
     return blocked(*codes) if codes else passed("RC_OUTPUT_CONTRACT_VALID")
 
 
-def required_requirement_ids(case_root: Path) -> list[str]:
-    requirements = read_artifact(case_root, "problem_requirements")["content"].get("requirements")
+def requirement_roles(requirements: Any) -> dict[str, str]:
+    """Old traces default to PRIMARY; auxiliary roles never satisfy the primary gate."""
     if not isinstance(requirements, list) or not requirements:
         raise ValueError("RC_OUTPUT_CONTRACT_REQUIREMENT_REGISTRY_INVALID")
-    identifiers = [
-        item.get("requirement_id") if isinstance(item, dict) else None for item in requirements
-    ]
-    if not all(isinstance(item, str) and item for item in identifiers) or len(
-        set(identifiers)
-    ) != len(identifiers):
+    roles: dict[str, str] = {}
+    for item in requirements:
+        if not isinstance(item, dict):
+            raise ValueError("RC_OUTPUT_CONTRACT_REQUIREMENT_REGISTRY_INVALID")
+        identifier = item.get("requirement_id")
+        role = item.get("role", "PRIMARY")
+        if (
+            not isinstance(identifier, str)
+            or not identifier
+            or identifier in roles
+            or role not in ("PRIMARY", "OPTIONAL", "DIAGNOSTIC", "SUPPORTING")
+        ):
+            raise ValueError("RC_OUTPUT_CONTRACT_REQUIREMENT_REGISTRY_INVALID")
+        roles[identifier] = role
+    if "PRIMARY" not in roles.values():
         raise ValueError("RC_OUTPUT_CONTRACT_REQUIREMENT_REGISTRY_INVALID")
-    return identifiers
+    return roles
+
+
+def required_requirement_ids(case_root: Path) -> list[str]:
+    requirements = read_artifact(case_root, "problem_requirements")["content"].get("requirements")
+    return sorted(key for key, role in requirement_roles(requirements).items() if role == "PRIMARY")
 
 
 def preflight_output_contract(case_root: Path, probe_path: Path) -> tuple[GateResult, str]:
@@ -1711,6 +1725,166 @@ def validate_robustness(
     return blocked(*codes) if codes else passed("RC_ROBUSTNESS_EXACTLY_BOUND")
 
 
+CLAIM_CONTRACT_VERSION = "claim-evidence/v2"
+CLAIM_BINDING_FIELDS = (
+    "run_id",
+    "run_manifest_hash",
+    "input_hash",
+    "code_hash",
+    "configuration_hash",
+    "output_hash",
+    "decision_hash",
+    "evidence_status",
+    "contradiction_status",
+)
+CLAIM_V2_FIELDS = {
+    "contract_version",
+    "claim_kind",
+    "scope_type",
+    "aggregate_scope",
+    "supporting_requirement_claim_ids",
+    "requirement_bindings",
+    "non_primary_requirements",
+}
+
+
+def derive_claim_contract(claim: dict[str, Any], requirements: Any) -> dict[str, Any]:
+    """Pure legacy migration: derives a bundle; never rewrites the source artifact."""
+    derived = copy.deepcopy(claim)
+    if "contract_version" in derived:
+        return derived
+    roles = requirement_roles(requirements)
+    records = derived.get("requirement_claims", {})
+    if not isinstance(records, dict) or not all(isinstance(v, dict) for v in records.values()):
+        raise ValueError("RC_CLAIM_REQUIREMENT_SUPPORT_INVALID")
+    # Aggregate identity depends on canonical lineage and coverage, never list position.
+    derived["claim_id"] = (
+        "CLAIM-AGGREGATE-"
+        + canonical_hash(
+            {
+                "run_id": derived.get("run_id"),
+                "decision_hash": derived.get("decision_hash"),
+                "requirements": sorted(records),
+            }
+        )[:24].upper()
+    )
+    derived.update(
+        contract_version=CLAIM_CONTRACT_VERSION,
+        claim_kind="AGGREGATE_FINAL",
+        scope_type="REQUIREMENT_UNION",
+        aggregate_scope={key: record.get("claim_text") for key, record in records.items()},
+        supporting_requirement_claim_ids=[record.get("claim_id") for record in records.values()],
+        requirement_bindings={
+            key: {
+                **{field: derived.get(field) for field in CLAIM_BINDING_FIELDS},
+                "claim_kind": "REQUIREMENT",
+                "requirement_id": key,
+                "status": "ACCEPTED",
+            }
+            for key in records
+        },
+        non_primary_requirements={
+            key: {"role": role, "status": "NOT_CLAIMED"}
+            for key, role in roles.items()
+            if role != "PRIMARY"
+        },
+    )
+    return derived
+
+
+def validate_aggregate_claim(claim: dict[str, Any], requirements: Any) -> set[str]:
+    """Exact coverage and scope containment, with no natural-language identity shortcut."""
+    codes: set[str] = set()
+    try:
+        roles = requirement_roles(requirements)
+        value = derive_claim_contract(claim, requirements)
+    except (KeyError, TypeError, ValueError):
+        return {"RC_CLAIM_REQUIREMENT_COVERAGE_INVALID"}
+    primary = {key for key, role in roles.items() if role == "PRIMARY"}
+    records = value.get("requirement_claims")
+    if not isinstance(records, dict):
+        return {"RC_CLAIM_PRIMARY_REQUIREMENT_MISSING"}
+    if primary - set(records):
+        codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_MISSING")
+    if set(records) - primary:
+        codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_UNKNOWN")
+    nested_ids = [
+        record.get("claim_id") if isinstance(record, dict) else None for record in records.values()
+    ]
+    ids_valid = all(isinstance(item, str) and item for item in nested_ids)
+    if not ids_valid or len(set(nested_ids)) != len(nested_ids):
+        codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_DUPLICATE")
+    coverage = value.get("supported_requirement_ids")
+    support = value.get("supporting_requirement_claim_ids")
+
+    def exact_set(items: Any, expected: set[str]) -> bool:
+        return (
+            isinstance(items, list)
+            and all(isinstance(item, str) for item in items)
+            and len(items) == len(set(items))
+            and set(items) == expected
+        )
+
+    if (
+        not exact_set(coverage, primary)
+        or not ids_valid
+        or not exact_set(support, set(nested_ids) if ids_valid else set())
+    ):
+        codes.add("RC_CLAIM_AGGREGATE_COVERAGE_INVALID")
+    expected_scope = {
+        key: record.get("claim_text") for key, record in records.items() if isinstance(record, dict)
+    }
+    if (
+        value.get("contract_version") != CLAIM_CONTRACT_VERSION
+        or value.get("claim_kind") != "AGGREGATE_FINAL"
+        or value.get("scope_type") != "REQUIREMENT_UNION"
+        or value.get("aggregate_scope") != expected_scope
+    ):
+        codes.add("RC_CLAIM_AGGREGATE_SCOPE_OVERREACH")
+    expected_auxiliary = {
+        key: {"role": role, "status": "NOT_CLAIMED"}
+        for key, role in roles.items()
+        if role != "PRIMARY"
+    }
+    if value.get("non_primary_requirements") != expected_auxiliary:
+        codes.add("RC_CLAIM_NON_PRIMARY_REQUIREMENT_STATUS_INVALID")
+    bindings = value.get("requirement_bindings")
+    if not isinstance(bindings, dict) or set(bindings) != primary:
+        codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_MISSING")
+    else:
+        reasons = {
+            "output_hash": "RC_CLAIM_OUTPUT_BINDING_MISMATCH",
+            "run_manifest_hash": "RC_CLAIM_MANIFEST_HASH_MISMATCH",
+            "decision_hash": "RC_CLAIM_FINAL_DECISION_BINDING_MISMATCH",
+            "evidence_status": "RC_CLAIM_EVIDENCE_STALE",
+            "contradiction_status": "RC_CLAIM_CONTRADICTED",
+        }
+        for key, binding in bindings.items():
+            if not isinstance(binding, dict) or set(binding) != set(CLAIM_BINDING_FIELDS) | {
+                "claim_kind",
+                "requirement_id",
+                "status",
+            }:
+                codes.add("RC_CLAIM_REQUIREMENT_SUPPORT_INVALID")
+                continue
+            if (
+                binding.get("requirement_id") != key
+                or binding.get("claim_kind") != "REQUIREMENT"
+                or binding.get("status") != "ACCEPTED"
+            ):
+                codes.add("RC_CLAIM_REQUIREMENT_SUPPORT_INVALID")
+            for field in CLAIM_BINDING_FIELDS:
+                if binding.get(field) != claim.get(field):
+                    codes.add(reasons.get(field, "RC_CLAIM_RUN_BINDING_MISMATCH"))
+            if binding.get("evidence_status") != "CURRENT":
+                codes.add("RC_CLAIM_EVIDENCE_STALE")
+            if binding.get("contradiction_status") != "NONE":
+                codes.add("RC_CLAIM_CONTRADICTED")
+    if codes:
+        codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID")
+    return codes
+
+
 def validate_claim(
     claim: Any,
     manifest: Any | None = None,
@@ -1740,6 +1914,8 @@ def validate_claim(
         "evidence_status",
         "contradiction_status",
     }
+    if "contract_version" in claim:
+        required |= CLAIM_V2_FIELDS
     if set(claim) != required:
         codes.add("RC_CLAIM_REQUIRED_BINDING_MISSING")
     try:
@@ -1808,6 +1984,8 @@ def validate_claim(
                 codes.add("RC_CLAIM_MANIFEST_HASH_MISMATCH")
             if manifest.get("outcome") != "SUCCESS" or manifest.get("supersession") is not None:
                 codes.add("RC_CLAIM_RUN_NOT_CURRENT_SUCCESS")
+            if manifest.get("trusted_capture") is not True:
+                codes.add("RC_CLAIM_RUN_UNSEALED")
     if final_result is not None:
         if not isinstance(final_result, dict) or any(
             claim.get(name) != final_result.get(name)
@@ -1865,13 +2043,12 @@ def validate_claim(
         except (OSError, TypeError, ValueError, json.JSONDecodeError):
             requirements = None
             selected_output = None
-        requirement_ids = (
-            [item.get("requirement_id") for item in requirements]
-            if isinstance(requirements, list)
-            and requirements
-            and all(isinstance(item, dict) for item in requirements)
-            else []
-        )
+        try:
+            roles = requirement_roles(requirements)
+            requirement_ids = sorted(key for key, role in roles.items() if role == "PRIMARY")
+        except (TypeError, ValueError):
+            requirement_ids = []
+        codes.update(validate_aggregate_claim(claim, requirements))
         requirement_claims = claim.get("requirement_claims")
         supported_requirement_ids = claim.get("supported_requirement_ids")
         expected_requirement_claims = (
@@ -1881,12 +2058,17 @@ def validate_claim(
             not requirement_ids
             or not all(isinstance(item, str) and item for item in requirement_ids)
             or len(set(requirement_ids)) != len(requirement_ids)
-            or supported_requirement_ids != requirement_ids
+            or not isinstance(supported_requirement_ids, list)
+            or not all(isinstance(item, str) for item in supported_requirement_ids)
+            or len(supported_requirement_ids) != len(set(supported_requirement_ids))
+            or set(supported_requirement_ids) != set(requirement_ids)
             or not isinstance(requirement_claims, dict)
             or set(requirement_claims) != set(requirement_ids)
             or requirement_claims != expected_requirement_claims
         ):
             codes.add("RC_CLAIM_REQUIREMENT_COVERAGE_INVALID")
+            if requirement_claims != expected_requirement_claims:
+                codes.add("RC_CLAIM_OUTPUT_BINDING_MISMATCH")
         else:
             nested_claim_ids: set[str] = set()
             for requirement_id in requirement_ids:
@@ -1924,13 +2106,24 @@ def validate_claim(
                         or bindings.get(relative) != file_hash(path)
                     ):
                         codes.add("RC_CLAIM_REQUIREMENT_EVIDENCE_NOT_CURRENT")
-            first_record = requirement_claims.get(requirement_ids[0], {})
-            if (
-                claim.get("claim_id") != first_record.get("claim_id")
-                or claim.get("claim_text") != first_record.get("claim_text")
-                or claim.get("supported_scope") != first_record.get("claim_text")
-            ):
-                codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID")
+        if isinstance(bindings, dict):
+            # Detect mutations even when a changed file is not explicitly cited by the Claim.
+            for relative, digest in bindings.items():
+                path = relative_case_path(case_root, relative)
+                if path is None or not path.is_file() or file_hash(path) != digest:
+                    codes.add("RC_CLAIM_EVIDENCE_NOT_CURRENT_OR_MISSING")
+        if isinstance(output_files, list):
+            hashes = []
+            for item in output_files:
+                if not isinstance(item, dict):
+                    codes.add("RC_CLAIM_OUTPUT_BINDING_MISMATCH")
+                    continue
+                path = relative_case_path(case_root, item.get("path"))
+                if path is None or not path.is_file() or file_hash(path) != item.get("sha256"):
+                    codes.add("RC_CLAIM_OUTPUT_BINDING_MISMATCH")
+                hashes.append(item.get("sha256"))
+            if canonical_hash(hashes) != manifest.get("output_hash"):
+                codes.add("RC_CLAIM_OUTPUT_BINDING_MISMATCH")
     if (claim, manifest, final_result) != original:
         codes.add("RC_INPUT_MUTATION_DETECTED")
     return blocked(*codes) if codes else passed("RC_CLAIM_EXACT_SUPPORT_VALID")
@@ -1983,6 +2176,13 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
     final = read_artifact(case_root, "final_result")["content"]
     claim = read_artifact(case_root, "claim_evidence")["content"]
     requirement_claims = claim["requirement_claims"]
+    aggregate = derive_claim_contract(claim, requirements)
+    aggregate_codes = validate_aggregate_claim(claim, requirements)
+    if aggregate_codes:
+        raise ValueError("RC_HANDOFF_CLAIM_COVERAGE_INVALID")
+    primary_ids = sorted(
+        key for key, role in requirement_roles(requirements).items() if role == "PRIMARY"
+    )
     selected = final["selected_model"]
     selected_candidates = [item for item in candidates if item.get("candidate_id") == selected]
     manifest_path = case_root / "runs" / str(final["run_id"]) / "manifest.json"
@@ -2022,8 +2222,8 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
         "contract_version": "modeling-to-paper/v1",
         "problem_requirements": requirements,
         "requirement_traceability": {
-            item["requirement_id"]: requirement_claims[item["requirement_id"]]["claim_id"]
-            for item in requirements
+            requirement_id: requirement_claims[requirement_id]["claim_id"]
+            for requirement_id in primary_ids
         },
         "data_dictionary": {
             "case_kind": case_kind,
@@ -2047,6 +2247,25 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
         "figure_ready_data": figures,
         "validation_results": {
             "comparison_decision_hash": final["decision_hash"],
+            "aggregate_claim": {
+                "aggregate_claim_id": aggregate["claim_id"],
+                "claim_kind": "AGGREGATE_FINAL",
+                "contract_version": CLAIM_CONTRACT_VERSION,
+                "statement": aggregate["claim_text"],
+                "scope_type": aggregate["scope_type"],
+                "scope": aggregate["aggregate_scope"],
+                "covered_primary_requirement_ids": primary_ids,
+                "supporting_requirement_claim_ids": sorted(
+                    aggregate["supporting_requirement_claim_ids"]
+                ),
+                "final_decision_hash": claim["decision_hash"],
+                "selected_run_ids": [claim["run_id"]],
+                "selected_manifest_hashes": [claim["run_manifest_hash"]],
+                "selected_output_hashes": [claim["output_hash"]],
+                "limitations": limitations,
+                "non_primary_requirements": aggregate["non_primary_requirements"],
+                "status": "ACCEPTED",
+            },
             "selected_model": selected,
             "test_used_for_selection": comparison["test_access"]["used_for_selection"],
         },
@@ -2056,8 +2275,12 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
         "limitations": limitations,
         "claim_evidence": {
             record["claim_id"]: {
+                "claim_kind": "REQUIREMENT",
                 "requirement_id": requirement_id,
                 "claim_text": record["claim_text"],
+                "scope": record["claim_text"],
+                "status": "ACCEPTED",
+                "limitations": limitations,
                 "run_id": claim["run_id"],
                 "run_manifest_hash": claim["run_manifest_hash"],
                 "input_hash": claim["input_hash"],

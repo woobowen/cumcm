@@ -345,7 +345,10 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         errors.append("TARGET_FORMAL_SKILL_COUNT_INVALID")
     else:
         skill_text = skills[0].read_text(encoding="utf-8")
-        if ARCHITECTURE not in skill_text or RC4 not in skill_text:
+        if ARCHITECTURE not in skill_text or (
+            RC4 not in skill_text
+            and not (repair and "Version: `0.2.0-competition-rc5`" in skill_text)
+        ):
             errors.append("TARGET_FORMAL_SKILL_IDENTITY_INVALID")
 
     return {

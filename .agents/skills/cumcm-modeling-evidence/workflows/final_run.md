@@ -7,3 +7,5 @@
 - Complete：`ROBUSTNESS_VALIDATED → FINAL_CANDIDATE`；Reject：未验证 Run、hash mismatch、失败重标、人工叙述绕过。
 - STALE/recovery：任何上游变化传播到 final/claim/handoff；保留旧 final 并新建 revision。
 - Next：`CLAIM_EVIDENCE_VALIDATION`。
+
+- Final scope 是已捕获的总体 statement；不要求等于第一条 requirement 的局部结论。其支持范围由下游 Claim v2 的结构化 union 和 exact lineage 验证。

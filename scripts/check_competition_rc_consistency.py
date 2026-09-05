@@ -104,6 +104,11 @@ def evaluate() -> dict[str, Any]:
         and rc4_candidate.get("candidate_skill", {}).get("implementation_commit")
         == "297cad0a29c659b18484d4f3b67d69a942ad415c"
     )
+    rc5_candidate_staged = (
+        state.get("technical_adjudication_status") == "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS"
+        and state.get("active_skill_version") == "0.2.0-competition-rc4"
+        and "Version: `0.2.0-competition-rc5`" in skill
+    )
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -249,6 +254,7 @@ def evaluate() -> dict[str, Any]:
         "formal_skill_version": (
             state.get("active_skill_version") in skill
             or (rc4_candidate_staged and "0.2.0-competition-rc4" in skill)
+            or rc5_candidate_staged
         )
         and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
         "formal_skill_capability": "Capability: `COMPETITION_RC`" in skill,

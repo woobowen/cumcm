@@ -5,7 +5,7 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc4`
+Version: `0.2.0-competition-rc5`
 
 Capability: `COMPETITION_RC`
 
@@ -81,3 +81,11 @@ Final Run 必须是 current、SUCCESS、可复现且由比较/稳健性 Gate 选
 ## 搜索、泄漏与恢复
 
 外部事实需登记 Source、查询和 evidence binding；只使用当前问题允许的来源。Validation/Held-out 答案一旦可见，该 case 永久降为 Development。异常、缺失、hash mismatch、未冻结集合、非有限数值或不完整 handoff 一律 fail closed。按 `workflows/failure_recovery.md` 建新修订/Run，不覆盖 raw、失败证据或旧状态历史。
+
+## Claim contract v2
+
+新 case 使用 `claim-evidence/v2`，字段见 Claim 模板及 `workflows/claim_evidence_validation.md`。
+总体 Claim 独立于任一局部 Claim；primary coverage 和 supporting Claim IDs 按集合精确匹配，
+`REQUIREMENT_UNION` 的 scope 必须逐项等于输出已捕获的局部 scope。总体 statement 仍绑定
+captured Final scope，但不以它与局部文本是否相等判断支持。任一输入、输出、Run 或 decision
+断链仍 fail closed。旧格式通过纯函数 `derive_claim_contract` 生成派生视图，禁止原地重写历史。

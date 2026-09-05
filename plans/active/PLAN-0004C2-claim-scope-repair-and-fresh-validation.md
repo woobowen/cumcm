@@ -27,12 +27,12 @@ no changed verdict, no answer access and no independent Validation credit.
 
 - M0 PRELIGHT COMPLETE: merged PR 9, clean task branch at merged main, RC4 tree and terminal
   workspace verified; baseline 1868 passed / 1 skipped, strict 0 errors / 0 warnings.
-- M1 START IN_PROGRESS: minimal plan/state/policy/checker migration; focused checks, atomic commit,
+- M1 START COMPLETE: minimal plan/state/policy/checker migration; focused checks, atomic commit,
   push and remote SHA verification; create one open Draft PR.
-- M2 NEUTRAL TEST FREEZE PENDING: freeze at least 30 deterministic, offline case-neutral
+- M2 NEUTRAL TEST FREEZE COMPLETE: freeze at least 30 deterministic, offline case-neutral
   expectations before implementation and before new Validation input. Never change expected
   PASS criteria to match implementation.
-- M3 REPAIR PENDING: at most two formal Skill revision cycles; independent aggregate identity,
+- M3 REPAIR CANDIDATE_IMPLEMENTED: at most two formal Skill revision cycles; independent aggregate identity,
   order-independent exact primary coverage, explicit optional/diagnostic/supporting roles,
   local Run/output/decision binding, scope containment and old-format compatibility.
   Keep execute/capture/seal and selected-output evidence semantics intact.
@@ -79,3 +79,7 @@ repair route or null. Never revalidate 2024 or use 2025 in this phase.
 
 M0 verified at task start; no package or configuration installation. Update this one plan with
 observed milestone evidence and blockers. Preserve old files and decisions; no destructive rollback.
+
+Startup commit `04b5e5d629c127d181679c7aaaa513d4a71f4ee1` and neutral freeze
+`4a194b012bcf59e900552af8c75393a843ce13a8` are remotely verified. Draft PR 10 is open.
+Revision 1: neutral tests 40/40 and unchanged RC4 preflight 10/10 pass; full regression pending.
