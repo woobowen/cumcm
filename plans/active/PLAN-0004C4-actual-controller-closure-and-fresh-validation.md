@@ -125,3 +125,9 @@ Progress:
   strict data sufficiency success plus external-policy, simulation-as-empirical, unregistered
   composition and PARTIAL mutations. Collection and static checks pass. The dynamic neutral model
   fixture must be committed before behavior execution because it is part of the frozen code set.
+- `2026-09-05T20:22:00+08:00` — The first Git-bound neutral E2E run produced `8 passed / 9
+  failed`. Seven failures were test-side assumptions about the unresolved handoff template shape;
+  the correct rejection marker is an empty `approved_by`. Two runtime portfolio mutations were
+  correctly blocked but by the legacy Gate-4 compatibility shortcut. Implementation milestone 3
+  confines that shortcut to unversioned legacy payloads so versioned runtime portfolio consistency
+  is manifest-bound at Gate 6. Static checks and the immutable RC6 57-case matrix remain green.

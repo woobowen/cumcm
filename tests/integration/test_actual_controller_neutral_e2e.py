@@ -524,7 +524,7 @@ def test_neutral_per_requirement_invalid_bindings_block(repo_root, tmp_path, mut
     assert result["status"] == "BLOCK_NATIVE_CONTRACTS"
     assert core.load_state(case)["state"] == "RUNNING"
     handoff = core.load_json(case / core.ARTIFACT_PATHS["modeling_to_paper_handoff"])
-    assert handoff["status"] != "ACCEPTED"
+    assert handoff["approved_by"] == []
 
 
 def _build_portfolio_case(repo_root: Path, tmp_path: Path):
@@ -820,4 +820,4 @@ def test_neutral_data_sufficiency_invalid_or_partial_never_completes(
         assert data_gate["result"] == "BLOCK"
     assert core.load_state(case)["state"] == "RUNNING"
     handoff = core.load_json(case / core.ARTIFACT_PATHS["modeling_to_paper_handoff"])
-    assert handoff["status"] != "ACCEPTED"
+    assert handoff["approved_by"] == []

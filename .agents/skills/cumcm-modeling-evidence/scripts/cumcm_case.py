@@ -782,7 +782,7 @@ def validate_requirement_selection(payload: Any) -> dict[str, Any]:
             ):
                 codes.discard("RC_REQUIREMENT_SELECTED_OUTPUT_MISSING")
                 codes.add("RC_GLOBAL_SELECTION_REQUIREMENT_COVERAGE_INSUFFICIENT")
-    if mode == "JOINT_PORTFOLIO":
+    if mode == "JOINT_PORTFOLIO" and payload.get("contract_version") != "requirement-selection/v1":
         unique_runs = {item.get("run_id"): item for item in selected_runs}.values()
         input_hashes = {item.get("input_hash") for item in unique_runs}
         scenario_hashes = {item.get("scenario_hash") for item in unique_runs}
