@@ -1,0 +1,30 @@
+{
+  "artifact_type": "selected_output_contract",
+  "status": "FROZEN_PRE_RUN_NOT_EXECUTED",
+  "content": {
+    "contract_version": "cumcm-2017-c-selected-output/v1",
+    "required_top_level_fields": ["candidate_id", "status", "validation_metrics", "final_metrics", "claim_scope", "requirement_claims", "figure_ready_data", "uncertainty", "limitations", "robustness_evidence", "requirements", "feasibility", "test_access", "input_hashes", "split_payload_sha256"],
+    "validation_metrics": {"type": "object", "selection_metric": "REQ2_GROUPED_MAE_PPM", "strict_finite_numeric_leaf_required": true},
+    "final_metrics": {"type": "object", "strict_finite_numeric_leaf_required": true},
+    "requirement_claims": {
+      "exact_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+      "per_claim_exact_fields": ["claim_id", "claim_text", "evidence_artifact_ids"],
+      "unique_claim_ids": true
+    },
+    "requirements": {
+      "REQ-1-DATA1-RELATION-QUALITY": {"evidence_class": "PROVIDED_EMPIRICAL", "output_id": "OUTPUT-REQ1-DATA1-RELATION-QUALITY", "types": ["RELATIONSHIP_IDENTIFIABILITY_TABLE", "DATA_QUALITY_SCORECARD", "GROUPED_OOS_PREDICTIONS"]},
+      "REQ-2-DATA2-CONCENTRATION-MODEL": {"evidence_class": "PROVIDED_EMPIRICAL", "output_id": "OUTPUT-REQ2-DATA2-CONCENTRATION", "types": ["CONCENTRATION_PREDICTIONS", "GROUPED_OOS_ERROR_ANALYSIS", "FEASIBILITY_CHECKS"]},
+      "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION": {"evidence_class": "PROVIDED_EMPIRICAL", "output_id": "OUTPUT-REQ3-SAMPLE-FEATURE-ABLATIONS", "types": ["SAMPLE_SIZE_ABLATION_CURVE", "FEATURE_DIMENSION_ABLATION_TABLE", "PERTURBATION_SENSITIVITY"]}
+    },
+    "robustness_evidence": {"exact_fields": ["metric", "metric_direction", "perturbations", "failure_cases"], "perturbation_exact_fields": ["perturbation_id", "metric", "result", "evidence"], "required_evidence_literal": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"},
+    "sealed_test_protocol": {
+      "development_payload_sha256": "246a1bc38b1a7a8b5ce2fa2a8bba79d907f0959580da54a136ed5172027ea4b8",
+      "final_payload_sha256": "25a094bb006f374a84e9c06323bb2e152e7a3c908c58c65079798ece995f5dd5",
+      "final_required_authorization_fields": ["authorization_id", "candidate_id", "seed", "selection_decision_hash", "sealed_test_payload_sha256", "one_shot_authorized"],
+      "selection_test_access_count": 0,
+      "final_batch_test_access_count": 1,
+      "security_limitation": "process isolation and hash commitment; not cryptographic concealment from code that reads the official workbook"
+    },
+    "validation": "independent_checks.py recomputes metrics, raw-row binding, concentration-group leakage, ablation coverage, robustness values and feasibility"
+  }
+}

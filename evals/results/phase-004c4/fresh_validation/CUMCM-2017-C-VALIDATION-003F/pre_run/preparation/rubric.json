@@ -1,0 +1,49 @@
+{
+  "artifact_type": "fresh_validation_rubric",
+  "status": "FROZEN_PRE_RUN",
+  "content": {
+    "compensation_allowed": false,
+    "hard_failure_count": 23,
+    "hard_failures": [
+      {"id": "HF01", "condition": "answer/solution/reference material accessed or answer_access_status is not NOT_ACCESSED"},
+      {"id": "HF02", "condition": "web, search, external API, unauthorized path, other problem, benchmark-vault, repair/probe/adversarial evidence, or history accessed"},
+      {"id": "HF03", "condition": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE is omitted or misrepresented as verified clean"},
+      {"id": "HF04", "condition": "official input missing, hash mismatch, byte-copy mismatch, raw mutation, or untracked correction"},
+      {"id": "HF05", "condition": "RC7 version/content changes or formal run does not bind Version 0.2.0-competition-rc7"},
+      {"id": "HF06", "condition": "formal validation exceeds the 4-hour hard limit or timing evidence is absent"},
+      {"id": "HF07", "condition": "any of the three primary requirements lacks valid PROVIDED_EMPIRICAL evidence or sufficient scoped data"},
+      {"id": "HF08", "condition": "external data is invented/defaulted, source provenance is incomplete, or evidence class substitution occurs"},
+      {"id": "HF09", "condition": "candidate set is not pre-frozen, does not contain exactly one baseline plus at least two main candidates, or is result-derived"},
+      {"id": "HF10", "condition": "candidate_id×seed attempt matrix is incomplete, duplicated, silently retried, or baseline/main candidates are not actually run"},
+      {"id": "HF11", "condition": "model, parameters, features, split, metric, selection rule, output contract, or rubric changes after results/test are visible"},
+      {"id": "HF12", "condition": "replicates from one substance×concentration group occur in both train and evaluation or row-wise CV is used"},
+      {"id": "HF13", "condition": "sealed test is accessed before selection, outside the single authorized final batch, more than once, or without decision binding"},
+      {"id": "HF14", "condition": "pipeline is not one-candidate+one-seed executable or selected-output contract/requirement output coverage is invalid"},
+      {"id": "HF15", "condition": "Run lacks current hash-bound inputs/code/config/seed/argv/output/capture/commit manifest or is fabricated"},
+      {"id": "HF16", "condition": "metric is bool/string/NaN/Inf, direction/aggregation is wrong, or independent metric recomputation fails"},
+      {"id": "HF17", "condition": "PER_REQUIREMENT selection maps an invalid Run/output/metric, ignores REQ3→REQ2 dependency, or violates tie rule"},
+      {"id": "HF18", "condition": "Final prediction feasibility is false or independent feasibility/coverage recalculation fails"},
+      {"id": "HF19", "condition": "robustness omits sample-size, feature-dimension, bound perturbation evidence, uncertainty, or nonempty failure cases"},
+      {"id": "HF20", "condition": "heuristic/predictive/observational evidence is described as causal or globally optimal without required design/certificate"},
+      {"id": "HF21", "condition": "Final Run/portfolio is not current, SUCCESS, sealed, reproducible, selected, validated, feasible, and non-stale"},
+      {"id": "HF22", "condition": "any requirement Claim, support predicate, limitation, lineage, aggregate union, contradiction status, or primary coverage is incomplete"},
+      {"id": "HF23", "condition": "modeling-to-paper handoff is incomplete/invalid, aggregate completion is false, or case state is not READY_FOR_PAPER_HANDOFF"}
+    ],
+    "pass_rule": {
+      "all_hard_failures_absent": true,
+      "answer_access_status": "NOT_ACCESSED",
+      "baseline_and_all_main_candidates_actually_run": true,
+      "case_state": "READY_FOR_PAPER_HANDOFF",
+      "claim_aggregate_and_handoff_complete": true,
+      "final_feasible": true,
+      "max_duration_seconds": 14400,
+      "primary_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+      "provided_empirical_evidence_required_for_each_primary": true,
+      "rc7_unchanged": true,
+      "robustness_complete": true,
+      "run_output_metric_selection_bindings_valid": true
+    },
+    "selection_mode": "PER_REQUIREMENT",
+    "scoring": "PASS_ONLY_IF_ALL_NONCOMPENSATORY_CONDITIONS_PASS"
+  }
+}

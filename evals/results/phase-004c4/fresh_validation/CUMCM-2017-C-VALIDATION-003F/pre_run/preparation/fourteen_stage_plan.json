@@ -1,0 +1,27 @@
+{
+  "artifact_type": "fourteen_stage_execution_plan",
+  "status": "PREPARED_NOT_STARTED",
+  "content": {
+    "case_id": "CUMCM-2017-C-VALIDATION-003F",
+    "formal_state_written_in_preparation": false,
+    "model_run_count": 0,
+    "ordered_stages": [
+      {"order": 1, "stage": "PROBLEM_INTAKE", "planned_action": "register byte-identical official inputs and hashes without interpreting an answer", "gate": "case/input/hash/raw-immutable", "formal_output": "problem requirements and raw registry"},
+      {"order": 2, "stage": "REQUIREMENT_DECOMPOSITION", "planned_action": "accept exactly three primary requirements with evidence/output/metric predicates", "gate": "unique complete testable requirement trace", "formal_output": "accepted requirement-evidence/v1"},
+      {"order": 3, "stage": "RESEARCH_AND_SOURCE_PLANNING", "planned_action": "use only the four official local sources; acquire nothing externally", "gate": "provenance complete and answer NOT_ACCESSED", "formal_output": "accepted source ledger"},
+      {"order": 4, "stage": "ASSUMPTION_AND_SYMBOL_DEFINITION", "planned_action": "bind water=0, replicate parsing, units, symbols, formulas and claim limits", "gate": "challengeable assumptions and unit-consistent symbols", "formal_output": "accepted assumptions/symbols"},
+      {"order": 5, "stage": "DATA_AUDIT", "planned_action": "replay schema/missing/duplicate/range/replicate audit and data sufficiency", "gate": "raw immutable; all three primary requirements SUFFICIENT with limitations", "formal_output": "accepted audit and data-sufficiency/v1"},
+      {"order": 6, "stage": "MODEL_PORTFOLIO_GENERATION", "planned_action": "freeze Ridge and RBF Kernel Ridge mechanisms", "gate": "two main candidates; no test/result influence", "formal_output": "accepted candidate cards"},
+      {"order": 7, "stage": "BASELINE_DEFINITION", "planned_action": "freeze exactly one median-training-concentration baseline", "gate": "simple reproducible baseline", "formal_output": "baseline binding"},
+      {"order": 8, "stage": "EXPERIMENT_DESIGN", "planned_action": "freeze seeds, candidate matrix, grouped splits, metrics, PER_REQUIREMENT rules, ablations, budget and test commitment", "gate": "preflight output and trusted freeze registry", "formal_output": "accepted experiment plan"},
+      {"order": 9, "stage": "IMPLEMENTATION_AND_EXECUTION", "planned_action": "execute pipeline once per frozen candidate×seed via formal controller and seal every attempt", "gate": "hash-bound manifests and valid selected-output contract", "formal_output": "9 selection Run attempts"},
+      {"order": 10, "stage": "MODEL_COMPARISON", "planned_action": "independently recalculate metrics/feasibility/coverage; select REQ1 and REQ2 separately; bind REQ3 to REQ2", "gate": "complete matrix, finite scores, group leakage absent, exact tie rule", "formal_output": "comparison and requirement selection"},
+      {"order": 11, "stage": "ROBUSTNESS_AND_SENSITIVITY", "planned_action": "validate sample fractions, all feature subsets by dimension, uncertainty and failures on development groups", "gate": "quantitative bound recomputation evidence", "formal_output": "robustness analysis"},
+      {"order": 12, "stage": "FINAL_RUN", "planned_action": "open sealed test once after selection and execute selected per-requirement portfolio inside one authorized batch", "gate": "current successful feasible selected Run/output/decision hashes", "formal_output": "frozen final result/portfolio"},
+      {"order": 13, "stage": "CLAIM_EVIDENCE_VALIDATION", "planned_action": "create one narrow output-bound Claim per requirement plus aggregate union; forbid causal/global-optimum language", "gate": "claim-evidence/v2 and semantic v3 PASS", "formal_output": "validated Claims"},
+      {"order": 14, "stage": "MODELING_TO_PAPER_HANDOFF", "planned_action": "assemble modeling-to-paper/v1 with traces, data quality, Runs, metrics, figures, robustness, failures, limitations and reproduction", "gate": "handoff contract PASS and case READY_FOR_PAPER_HANDOFF", "formal_output": "versioned evidence handoff"}
+    ],
+    "sequence_policy": "strictly serial formal stage acceptance; BLOCK/STALE/REJECTED stops progression",
+    "time_budget_seconds": 14400
+  }
+}

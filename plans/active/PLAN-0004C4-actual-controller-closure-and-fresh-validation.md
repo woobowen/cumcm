@@ -208,3 +208,6 @@ Progress:
   formal Runs. The fallback is registered answer-sealed as
   `CUMCM-2017-C-VALIDATION-003F`; only clean-context preparation may proceed before the independent
   remotely verified pre-run freeze.
+- Fresh-worker schema audit corrected the preliminary Data2 observation count from 26 (which had
+  included the header) to 25. The seven concentration levels, file hash and all raw bytes are
+  unchanged; this metadata correction occurred before any model Run or pre-run freeze.

@@ -1,0 +1,40 @@
+{
+  "artifact_type": "model_candidates",
+  "status": "FROZEN_PRE_RUN_NOT_EXECUTED",
+  "content": {
+    "baseline_count": 1,
+    "candidate_set_result_dependent": false,
+    "candidates": [
+      {
+        "baseline": true,
+        "candidate_id": "BASELINE_MEDIAN",
+        "mechanism": "predict median training concentration independently within each substance",
+        "fixed_parameters": {},
+        "feasibility": "clip to [0,max(training concentration)]",
+        "supported_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+        "expected_failure_modes": ["cannot use color signal", "underfits concentration-dependent structure"]
+      },
+      {
+        "baseline": false,
+        "candidate_id": "RIDGE_LINEAR",
+        "mechanism": "StandardScaler followed by linear Ridge regression",
+        "fixed_parameters": {"alpha": 1.0, "fit_intercept": true},
+        "feasibility": "clip to [0,max(training concentration)]",
+        "supported_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+        "expected_failure_modes": ["nonlinear color-concentration relation", "collinearity and sparse concentration levels"]
+      },
+      {
+        "baseline": false,
+        "candidate_id": "KERNEL_RBF_RIDGE",
+        "mechanism": "StandardScaler followed by RBF Kernel Ridge",
+        "fixed_parameters": {"alpha": 1.0, "gamma_rule": "1/feature_count", "kernel": "rbf"},
+        "feasibility": "clip to [0,max(training concentration)]",
+        "supported_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+        "expected_failure_modes": ["poor extrapolation to held-out concentration levels", "sensitivity to small training geometry"]
+      }
+    ],
+    "model_run_count": 0,
+    "output_contract": "cumcm-2017-c-selected-output/v1",
+    "random_seeds": [17001, 17017, 17033]
+  }
+}

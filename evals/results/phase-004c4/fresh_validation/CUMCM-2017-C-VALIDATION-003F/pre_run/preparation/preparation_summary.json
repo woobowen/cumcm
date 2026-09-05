@@ -1,0 +1,92 @@
+{
+  "artifact_type": "fresh_validation_preparation_summary",
+  "status": "READY_FOR_FORMAL_CONTROLLER_NOT_RUN",
+  "content": {
+    "answer_access_status": "NOT_ACCESSED",
+    "case_id": "CUMCM-2017-C-VALIDATION-003F",
+    "code_checks": {
+      "help_entrypoints": {"independent_checks.py": "PASS", "pipeline.py": "PASS", "prepare_case.py": "PASS"},
+      "independent_checks_executed_on_model_output": false,
+      "json_parse": "PASS",
+      "py_compile": "PASS",
+      "reason_independent_checks_not_run": "no candidate output exists; model_run_count is zero"
+    },
+    "code_files": {
+      "independent_checks.py": "e6184befcff3c1e1c947bfbfd5c156ca03851de2ba46af4370056ba9dccf3ec2",
+      "pipeline.py": "41a1a832b5a502f2656f9edd0f9224cbd6b652affdc45a751e4e8fd105e999b9",
+      "prepare_case.py": "55120a3c861178c63a59670350f1f9d9d4cddfed7bdd7f2cac6a79ec8af1919c"
+    },
+    "dependency_changes": {
+      "configuration_changes": [],
+      "language_packages_installed": [
+        {
+          "environment": ".venv",
+          "package": "xlrd",
+          "reason": "read the official legacy .xls attachments without changing raw bytes",
+          "version": "2.0.2"
+        }
+      ],
+      "system_packages_installed": [],
+      "toolchains_installed": []
+    },
+    "network_activity": {"api_calls": 0, "searches": 0, "web_requests": 0},
+    "preparation_artifacts": {
+      "assumptions_and_symbols.json": "01265eba243e0dbe0d6473553c038bed028ac0d79ec6d9a015b5706683490744",
+      "data_audit.json": "8ecd4c66b3b6b3ae06fc2aba4989efed964f0b4b6d306f752a1b1aca046d7cff",
+      "experiment_plan.json": "1f86346dc6023ef63438c0edea0ffecec4427d9871348aaf1c7ba0e3e05b805c",
+      "fourteen_stage_plan.json": "c0d2089751a6a65d5b4bd6fddcaaa25eac32519a8adea72264da012c582e43be",
+      "model_candidates.json": "2c10bf99995b32abcbe64c1abbb7165a5d83c3abfc14cb1ca3cbdd7df7be856c",
+      "output_contract.json": "3c86f7a38cb6b462dd060a64cc331032286151ab2159ce6b03e125c479b3af00",
+      "problem_requirements.json": "5cdb903059aed3e4efb443f0544acee0792b1dd29558a2922182a759ceda10f8",
+      "rubric.json": "0e35f1dad4c20bb7c9578c514aef3718293749b3ef317bcbf4123b4ee00d1878",
+      "source_ledger.json": "b627e57bc66954ba8c32b5102c305a2ac2d13b1535144440a8d651425ec488dc"
+    },
+    "preparation_summary_hash_note": "this file's own hash is reported externally to avoid self-reference",
+    "primary_requirement_count": 3,
+    "raw_files": {
+      "CUMCM-2017-problem-C.docx": "f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf",
+      "Data1.xls": "ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad",
+      "Data2.xls": "6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723",
+      "readme.txt": "bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf"
+    },
+    "raw_verification": {"byte_copy_cmp": "PASS_ALL_FOUR", "sha256": "PASS_ALL_FOUR"},
+    "rc7": {"version": "0.2.0-competition-rc7", "worktree_diff": "NONE"},
+    "read_scope": {
+      "allowed_and_read": [
+        ".agents/skills/cumcm-modeling-evidence/{SKILL.md,VERSION,AGENTS.md,workflows,templates,scripts/README.md,selected contract-validator portions of scripts/cumcm_case.py}",
+        ".cache/official_inputs/CUMCM-2017-C-VALIDATION-003F/extracted/{CUMCM-2017-problem-C.docx,Data1.xls,Data2.xls,readme.txt}",
+        ".cache/official_inputs/CUMCM-2017-C-VALIDATION-003F/workspace case-owned copies and derived preparation artifacts"
+      ],
+      "explicitly_not_read": ["plans", "state", "benchmarks", "benchmark-vault", "repair evidence", "13 probes", "adversarial findings", "2019/2024 histories or postmortems", "other problems", "reference answers/papers/code", "2025 C"]
+    },
+    "replay_artifacts": {
+      "Data1.normalized.csv": "98e6a29b01c475b7433dde8ec48040eba48f4a6b9c0bbbe1e693376dff740e11",
+      "Data2.normalized.csv": "aae3d9f38c0cafd1e01c8b0fded360e5a88533ca8f945d0aef7033cb484be45a",
+      "development_payload.json": "246a1bc38b1a7a8b5ce2fa2a8bba79d907f0959580da54a136ed5172027ea4b8",
+      "one_shot_authorization.template.json": "66b54a1cc3ea3362021264e6875e1d640ace233b427c22320fff696911e24342",
+      "preparation_data_audit.json": "4e39d175e2e1cd605e5203ca358d40500c8e01d08efc07f94476d88f2ba13a73",
+      "sealed_test_payload.json": "25a094bb006f374a84e9c06323bb2e152e7a3c908c58c65079798ece995f5dd5"
+    },
+    "schema_audit_replay": {"Data1_observation_rows": 79, "Data1_substances": 5, "Data2_concentration_levels": 7, "Data2_observation_rows": 25, "model_run_count": 0},
+    "selection_design": {
+      "baseline": "BASELINE_MEDIAN",
+      "main_candidates": ["RIDGE_LINEAR", "KERNEL_RBF_RIDGE"],
+      "mode": "PER_REQUIREMENT",
+      "req1_metric": "REQ1_MACRO_GROUPED_NMAE",
+      "req2_metric": "REQ2_GROUPED_MAE_PPM",
+      "req3_rule": "inherit exact REQ2 selected Run",
+      "seeds": [17001, 17017, 17033],
+      "split_unit": "substance_x_concentration_group"
+    },
+    "unknowns_and_risks": [
+      "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+      "industrial-alkali concentration-unit semantics are not independently documented beyond the attachment header/readme",
+      "the isolated milk-urea level 5 has a 100x gap to the next positive level and is not auto-corrected",
+      "camera, illumination, paper lot and acquisition order are absent",
+      "small distinct-group counts limit uncertainty and external validity",
+      "sealed test is process-isolated and hash-committed, not cryptographically hidden from code reading the official workbook",
+      "formal Git commit/blob/run manifest/state/decision bindings must be created by the main controller after this pre-run preparation"
+    ],
+    "writes_outside_authorized_paths": 0
+  }
+}
