@@ -1,0 +1,102 @@
+{
+  "schema_version": "phase-004c4-fresh-controller-outcome/v1",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "controller_version": "0.2.0-competition-rc7",
+  "controller_entrypoint": "scripts/finalize_fresh_c_validation.py",
+  "controller_command": [
+    ".venv/bin/python",
+    "scripts/finalize_fresh_c_validation.py",
+    "--case-root",
+    "<ignored-case-root>"
+  ],
+  "started_at": "2026-09-05T22:33:20+08:00",
+  "ended_at": "2026-09-05T22:33:20+08:00",
+  "invocation_count": 1,
+  "exit_code": 1,
+  "status": "BLOCK_NATIVE_CONTRACTS",
+  "reason_codes": [
+    "RC_GATE_EXECUTION_FAILED"
+  ],
+  "gate_sequence": [
+    {
+      "gate_id": "GATE_PROBLEM_REQUIREMENT",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_SOURCE_EVIDENCE",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_DATA_SUFFICIENCY_PREFLIGHT",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_COMPARISON_SELECTION",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_RUN_ELIGIBILITY",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_COMPATIBILITY_PORTFOLIO",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_SEMANTIC_CLAIM",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_AGGREGATE_CLAIM",
+      "result": "PASS"
+    },
+    {
+      "gate_id": "GATE_FINALIZATION",
+      "result": "BLOCK",
+      "reason_codes": [
+        "RC_GATE_EXECUTION_FAILED"
+      ]
+    }
+  ],
+  "required_gate_count": 10,
+  "invoked_gate_count": 9,
+  "missing_gate_ids": [
+    "GATE_HANDOFF"
+  ],
+  "gate_trace": {
+    "trace_version": "gate-execution-trace/v1",
+    "trace_hash": "4271f4db556fab99e1342c1e3bc5893a083b85209de19cd707eb01de5f963574",
+    "file_sha256": "57ae4e788f0bfb30d53c2fa5343f2d9f49aa7707a6eb355fbc933ed5b71985da"
+  },
+  "native_completion_sha256": "f654bcc66b153df0e6a1839c221c97bed59faf0d5ba67fe499fd3adf32328fdd",
+  "state_before_sha256": "cc5c81bc50d25a07425c242e49d595fb57556be235d2e20ece391d41f91fef80",
+  "state_after_sha256": "cc5c81bc50d25a07425c242e49d595fb57556be235d2e20ece391d41f91fef80",
+  "state_after": "RUNNING",
+  "handoff_accepted": false,
+  "manifest_count_at_controller_return": 0,
+  "manifest_count_after_required_seal_run": 9,
+  "manifest_validation_after_seal": "PASS_9_OF_9",
+  "sealed_test_access_count": 0,
+  "answer_access_status": "NOT_ACCESSED",
+  "deterministic_diagnosis": {
+    "selected_outputs_contain_controller_test_field": false,
+    "controller_required_test_field": "sealed_test_metrics_b64",
+    "execute_cli_can_receive_final_phase_or_test_authorization": false,
+    "formal_attempt_ledger_has_unplanned_final_run": false,
+    "classification": "RC7_FINALIZATION_INTERFACE_CONTRACT_UNSATISFIABLE_FOR_FROZEN_HONEST_OUTPUT",
+    "evidence_basis": [
+      "frozen selected outputs omit sealed_test_metrics_b64 and report test_access.count=0",
+      "the released execute CLI accepts only case root, run ID, candidate ID, seed, code path and timeout",
+      "the controller decodes sealed_test_metrics_b64 before manifest persistence and handoff",
+      "the pre-run plan freezes exactly nine candidate-by-seed attempts and forbids result-dependent additions"
+    ]
+  },
+  "hard_failure_ids": [
+    "HF14",
+    "HF21",
+    "HF23"
+  ],
+  "retry_count": 0,
+  "recovery_attempted": false,
+  "same_case_rerun_allowed": false
+}

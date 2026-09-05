@@ -49,7 +49,7 @@ active_skill_release:
   tree: 0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056
   release_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
   release_manifest: evals/results/phase-004c4/rc7_release.json
-  validation_status: C_TARGET_VALIDATION_IN_PROGRESS
+  validation_status: C_TARGET_VALIDATION_FAILED
   release_acceptance: COMPETITION_RC_RELEASED
   unresolved_blocker: null
 planned_cases: []
@@ -943,7 +943,7 @@ cases:
   model: MODEL_ID_NOT_EXPOSED_BY_RUNTIME
   reasoning: UNKNOWN
   start_time: '2026-09-05T21:37:55+08:00'
-  freeze_time: null
+  freeze_time: '2026-09-05T22:37:38+08:00'
   unlock_time: null
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   contamination_status: PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE
@@ -954,8 +954,17 @@ cases:
   - DATASET_QUALITY_ASSESSMENT
   - SAMPLE_SIZE_SENSITIVITY
   - FEATURE_DIMENSION_ABLATION
-  generalizable_failures: []
-  problem_specific_findings: []
+  generalizable_failures:
+  - failure_id: GAP-004C4-VALIDATION-001
+    classification: GENERALIZABLE_SKILL_FAILURE
+    summary: RC7 execute outputs cannot carry the controller-required authorized sealed-test
+      payload, so the actual completion chain blocks at GATE_FINALIZATION before handoff.
+    terminal_effect: C_TARGET_VALIDATION_FAILED
+  problem_specific_findings:
+  - finding_id: CUMCM-2017-C-DEVELOPMENT-SELECTION-001
+    classification: DEVELOPMENT_ONLY_NOT_FINAL_VALIDATION_CREDIT
+    summary: Frozen development evidence selected RIDGE_LINEAR for REQ1 and KERNEL_RBF_RIDGE
+      for REQ2/REQ3; all nine planned Runs and independent checks passed.
   registration_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/registration/input_registration.json
   pre_run_freeze:
     freeze_id: CUMCM-2017-C-VALIDATION-003F-PRE-RUN-FREEZE-001
@@ -964,9 +973,14 @@ cases:
     freeze_commit: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
     delivery_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze_delivery.json
     status: REMOTE_DELIVERED
-  validation_decision: null
-  case_state: RUNNING
+  validation_decision: C_TARGET_VALIDATION_FAILED
+  case_state: RUNNING_BLOCKED_NOT_READY_FOR_PAPER_HANDOFF
   paper_dispatch_accepted: false
+  same_case_future_role: DEVELOPMENT_ONLY
+  terminal_freeze:
+    freeze_id: CUMCM-2017-C-VALIDATION-003F-TERMINAL-FREEZE-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/terminal_freeze/terminal_validation_freeze.json
+    status: PENDING_REMOTE_DELIVERY
   fallback_from:
     case_id: CUMCM-2018-C-VALIDATION-003
     reason_code: C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE

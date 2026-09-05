@@ -8,7 +8,7 @@
   "active_skill_version": "0.2.0-competition-rc7",
   "blocked_candidate_version": "0.2.0-competition-rc6",
   "target_candidate_version": "0.2.0-competition-rc7",
-  "answer_access_status": "SEALED_NOT_ACCESSED",
+  "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -50,7 +50,11 @@
   },
   "batch_reference_unlocked": true,
   "batch_skill_frozen": true,
-  "blockers": [],
+  "blockers": [
+    "VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE",
+    "VALIDATION_FINAL_RUN_NOT_COMPLETED",
+    "VALIDATION_HANDOFF_NOT_REACHED"
+  ],
   "competition_rc1": {
     "api_calls": 0,
     "architecture_decision": {
@@ -190,7 +194,7 @@
     "transport_profile": "PROXY_INHERITED",
     "unknown_slots": 0
   },
-  "next_phase_allowed": null,
+  "next_phase_allowed": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
   "phase": "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
   "previous_validation_case": "CUMCM-2024-C-VALIDATION-001",
   "previous_validation_cases": [
@@ -234,7 +238,8 @@
     "RC5_VERSION_FILE_MISMATCH: post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in that one-shot.",
     "Phase 004C3 froze 56 case-neutral release, data-sufficiency, selection, semantic-support and compatibility expectations before RC6 implementation.",
     "Auditor 1 reproduced 13 fail-open probes across RC6 data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted, so RC6 is not released and fresh Validation was not started.",
-    "Phase 004C4 is a new bounded repair window. RC7 cannot be released until actual-controller black-box probes, ordered gate traces, neutral end-to-end cases, adversarial audit, historical regressions and candidate/live consistency all pass."
+    "Phase 004C4 is a new bounded repair window. RC7 cannot be released until actual-controller black-box probes, ordered gate traces, neutral end-to-end cases, adversarial audit, historical regressions and candidate/live consistency all pass.",
+    "The answer-sealed 2017 C one-shot executed all nine frozen development attempts successfully, but released RC7 blocked at GATE_FINALIZATION because its execute output cannot supply the controller-required sealed-test payload; no test access or accepted handoff occurred."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
@@ -292,11 +297,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "C-TARGET-FRESH-VALIDATION-IN-PROGRESS",
+  "subphase": "C-TARGET-FRESH-VALIDATION-TERMINAL",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "C_TARGET_VALIDATION_IN_PROGRESS",
+  "technical_adjudication_status": "C_TARGET_VALIDATION_FAILED",
   "third_party_integrated": false,
-  "updated_at": "2026-09-05T21:50:00+08:00",
+  "updated_at": "2026-09-05T22:37:38+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

@@ -1,8 +1,8 @@
 # PLAN-0004C4 — actual-controller closure, Competition RC7 and fresh C Validation
 
-Status: `IN_PROGRESS`
+Status: `TERMINAL_VALIDATION_FAILED_PENDING_DELIVERY_AND_AUDIT`
 Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
-Subphase: `C-TARGET-FRESH-VALIDATION-IN-PROGRESS`
+Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
 Owner: main agent / `modeling_orchestrator`
 Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
 Starting commit: `7060ab136b88a158be6dfe3b46801e6cc2c65c64`
@@ -216,3 +216,24 @@ Progress:
   `9c078468da856353a7104e6eb4a6deec273f1aae81f6537deedbfc840703940b`; the case workspace is
   `RUNNING` with zero Runs, and formal execution remains locked until the successor delivery
   receipt is itself remotely delivered.
+- `2026-09-05T22:30:07+08:00` — After successor delivery commit
+  `28c87994e880500720e2686c3cfe6ade8fcfc7b8` was remote-verified, the clean-context worker ran the
+  exact frozen 3-candidate by 3-seed selection matrix. All nine first invocations exited zero with
+  no retry, tuning or sealed-test access. Independent recomputation passed 9/9. Development
+  PER_REQUIREMENT selection chose `RUN-RIDGE_LINEAR-17001` for REQ1 and
+  `RUN-KERNEL_RBF_RIDGE-17001` for REQ2/REQ3; decision hash is
+  `44805ce05649f29e855c6a043f34403e5c62585ca7955c3558ad04a0e4bdcc5b`.
+- `2026-09-05T22:33:20+08:00` — The main orchestrator invoked the actual RC7 completion controller
+  exactly once. Requirement, source, data-sufficiency, selection, Run-eligibility, compatibility,
+  semantic-Claim and aggregate-Claim Gates passed. `GATE_FINALIZATION` blocked with
+  `RC_GATE_EXECUTION_FAILED`; `GATE_HANDOFF` was not reached, state remained `RUNNING`, no accepted
+  handoff was generated and test access remained zero. The deterministic interface defect is that
+  honest frozen execute outputs cannot carry the controller-required `sealed_test_metrics_b64`
+  final payload, while the execute CLI has no final-phase/test-authorization input and the frozen
+  attempt ledger permits no result-derived extra Run.
+- `2026-09-05T22:37:38+08:00` — All nine captured Runs were sealed once and passed manifest
+  validation 9/9 without rerunning model code. The non-compensable HF14/HF21/HF23 failures freeze
+  verdict `C_TARGET_VALIDATION_FAILED`; answer remains sealed, no final-test metric exists, no same
+  case retry is allowed, and the exact next route is
+  `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`. Terminal delivery and the required read-only integrity
+  audit remain pending.

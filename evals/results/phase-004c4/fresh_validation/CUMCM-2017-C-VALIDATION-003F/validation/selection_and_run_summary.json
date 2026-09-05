@@ -1,0 +1,80 @@
+{
+  "schema_version": "phase-004c4-fresh-selection-summary/v1",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "created_at": "2026-09-05T22:37:38+08:00",
+  "answer_access_status": "NOT_ACCESSED",
+  "sealed_test_access_count": 0,
+  "selection_batch": {
+    "started_at": "2026-09-05T22:28:38.507760626+08:00",
+    "ended_at": "2026-09-05T22:30:07.996782529+08:00",
+    "wall_seconds": 89.489022903,
+    "capture_elapsed_seconds_sum": 12.523834,
+    "planned_attempt_count": 9,
+    "actual_attempt_count": 9,
+    "success_count": 9,
+    "failed_count": 0,
+    "retry_count": 0,
+    "candidate_or_parameter_changes": 0
+  },
+  "candidate_development_metrics": {
+    "BASELINE_MEDIAN": {
+      "REQ1_MACRO_GROUPED_NMAE": 0.43860877984326585,
+      "REQ2_GROUPED_MAE_PPM": 80.0
+    },
+    "KERNEL_RBF_RIDGE": {
+      "REQ1_MACRO_GROUPED_NMAE": 0.3672341340159062,
+      "REQ2_GROUPED_MAE_PPM": 30.036337386155953
+    },
+    "RIDGE_LINEAR": {
+      "REQ1_MACRO_GROUPED_NMAE": 0.28178008409123584,
+      "REQ2_GROUPED_MAE_PPM": 31.07606167479189
+    }
+  },
+  "requirement_selection": {
+    "selection_mode": "PER_REQUIREMENT",
+    "REQ-1-DATA1-RELATION-QUALITY": {
+      "selected_candidate_id": "RIDGE_LINEAR",
+      "selected_run_id": "RUN-RIDGE_LINEAR-17001",
+      "selected_output_id": "OUTPUT-REQ1-RUN-RIDGE_LINEAR-17001",
+      "metric": "REQ1_MACRO_GROUPED_NMAE",
+      "value": 0.28178008409123584,
+      "direction": "MIN",
+      "feasibility": "PASS"
+    },
+    "REQ-2-DATA2-CONCENTRATION-MODEL": {
+      "selected_candidate_id": "KERNEL_RBF_RIDGE",
+      "selected_run_id": "RUN-KERNEL_RBF_RIDGE-17001",
+      "selected_output_id": "OUTPUT-REQ2-RUN-KERNEL_RBF_RIDGE-17001",
+      "metric": "REQ2_GROUPED_MAE_PPM",
+      "value": 30.036337386155953,
+      "direction": "MIN",
+      "feasibility": "PASS"
+    },
+    "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION": {
+      "selected_candidate_id": "KERNEL_RBF_RIDGE",
+      "selected_run_id": "RUN-KERNEL_RBF_RIDGE-17001",
+      "selected_output_id": "OUTPUT-REQ3-RUN-KERNEL_RBF_RIDGE-17001",
+      "metric": "REQ2_GROUPED_MAE_PPM",
+      "value": 30.036337386155953,
+      "direction": "MIN",
+      "dependency": "INHERIT_REQ2_EXACT_RUN",
+      "feasibility": "PASS"
+    }
+  },
+  "selection_decision_hash": "44805ce05649f29e855c6a043f34403e5c62585ca7955c3558ad04a0e4bdcc5b",
+  "run_set_sha256": "db80da0a783f200fbc77727d49684ccd1572608cb0039ac4f0f7e58e7e5a8b8c",
+  "run_manifest_count": 9,
+  "run_manifest_validation": "PASS_9_OF_9",
+  "independent_check_count": 9,
+  "independent_check_status": "PASS_9_OF_9",
+  "workspace_artifact_hashes": {
+    "evidence/development_selection.json": "88dab3f2b319b7e628e0a0c028d680420970e5ac28bdcfdbd3585cb268ab5f28",
+    "results/requirement_selection.json": "4e03281732df2b37aed8f44153deb4c3089c08fb41e555f355b83d98ed7823a8",
+    "evidence/semantic_claim_support.json": "afa6ffbc6b5928a410cb2190bbc1c8d3416e3c4067e441e7aafde885387b0157",
+    "evidence/claim_evidence.json": "af0d0492b5744d491815598ac76915a8e7321b2729295a52abcb08342608a314",
+    "results/model_comparison.json": "4583319b2323385e768f4f96b2649fe298c7332f7205c08cea93a3dbee6f3daa",
+    "results/final_result.json": "42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848",
+    "results/robustness.json": "52d93aded9eaa12cba54e97c0c616baf13892cdc885274adf6da98a78f9fd411",
+    "handoff/modeling_to_paper.json": "892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f"
+  }
+}
