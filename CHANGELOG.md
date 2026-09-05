@@ -1,11 +1,13 @@
 # Changelog
 
-## 0.3.0-competition-rc5 — 2026-09-05
+## 0.3.0-competition-rc5 — 2026-09-05 (release acceptance blocked)
 
-- Released formal Skill 0.2.0-competition-rc5 with claim-evidence/v2: independent aggregate identity, exact primary coverage, per-requirement lineage and preserved fail-closed evidence gates.
+- Froze the intended formal Skill 0.2.0-competition-rc5 implementation with claim-evidence/v2: independent aggregate identity, exact primary coverage, per-requirement lineage and preserved fail-closed evidence gates.
 - Preserved legacy artifacts through pure derived migration and exact scoped-formula handoff support. Two bounded revision cycles; no execution-engine change or dependency.
 - Passed neutral tests, five historical artifact regressions, 2024 diagnostic-only replay, two synthetic E2E and 30 original negatives. Old 2024 verdict and 2025 reservation remain unchanged.
-- Fresh answer-sealed Validation remains pending verified remote release delivery.
+- Froze the intended RC5 implementation before fresh 2019 C official acquisition; remotely froze the one-shot design before 9 successful actual Runs. Native multi-requirement Claim/handoff contracts pass, but Q2 real-airport data are missing: `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, final `REJECTED`, next `null`. Adverse Q4 fairness results are retained; 2025 remains untouched.
+
+- Post-decision audit found RC5_VERSION_FILE_MISMATCH: frozen Skill VERSION remains RC4. No post-Validation correction was made. Selected baseline Q4 Claim also has incomplete semantic support; structural Claim PASS is not whole-problem completion.
 
 ## 0.3.0-competition-rc4 — 2026-09-05
 
@@ -228,6 +230,6 @@
 - Upstream candidates have only provisional static reviews; no historical or dynamic evaluation is complete.
 - No final base Skill has been selected and the project license remains undecided.
 
-## 004C2 — in progress
+## 004C2 — terminal evidence insufficient
 
-Start case-neutral Claim-scope repair from merged RC4. No RC5 release or new Validation result yet.
+RC5 Claim implementation is frozen; complete release acceptance is blocked. Fresh 2019 C Validation is terminal and rejected for missing primary empirical evidence. This is a completed negative evaluation; Held-out remains locked.

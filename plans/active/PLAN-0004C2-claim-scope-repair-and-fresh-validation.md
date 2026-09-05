@@ -1,6 +1,6 @@
 # PLAN-0004C2 — Claim scope repair and fresh C Validation
 
-Status: `IN_PROGRESS`
+Status: `TERMINAL_WITH_UNRESOLVED_RELEASE_BLOCKER`
 Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`
 Owner: main agent / `modeling_orchestrator`
 Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
@@ -39,15 +39,15 @@ no changed verdict, no answer access and no independent Validation credit.
 - M4 REGRESSION COMPLETE: existing 2020/2021/2022/2023 C and auxiliary 2020 A artifacts,
   two synthetic E2E, 30 original negatives, RC4 preflight, STALE and leakage checks.
   Derive a separate 2024 diagnostic bundle. Auditor 1 reads only after these results exist.
-- M5 RELEASE COMPLETE_REMOTE_DELIVERED: all required tests, anti-hardcoding, discovery, strict and local CI pass;
+- M5 RELEASE FREEZE_REMOTE_DELIVERED_ACCEPTANCE_BLOCKED: all required tests, anti-hardcoding, discovery, strict and local CI pass;
   freeze version/implementation commit/tree/runner/contract/tests/regressions/environment.
   Commit and remotely verify RC5 before any fresh Validation input acquisition.
-- M6 FRESH VALIDATION PRE_RUN_FROZEN_PENDING_REMOTE: only after M5, check contamination then obtain official 2019 C
+- M6 FRESH VALIDATION COMPLETE: only after M5, check contamination then obtain official 2019 C
   inputs; register `CUMCM-2019-C-VALIDATION-002`, `VALIDATION`, `SEALED`, and unverifiable model
   prior. Freeze rubric, primary requirements/output contract, environment, 4-hour timebox and
   one-shot protocol; commit/push pre-run freeze before actual model execution. One fresh worker
   owns case code/artifacts only; main agent remains sole formal-state writer.
-- M7 TERMINAL PENDING: run all 14 stages with frozen RC5, preserve failures, no result-driven
+- M7 TERMINAL COMPLETE_REMOTE_DELIVERED_WITH_AUDIT_BLOCKER: run all 14 stages with frozen RC5, preserve failures, no result-driven
   Skill/test/rubric mutation, and no success-forcing retries. Record actual terminal decision;
   Auditor 2 reads only after decision. Freeze/check/commit/push the terminal outcome before
   references; no post-freeze Run or verdict change.
@@ -82,7 +82,7 @@ observed milestone evidence and blockers. Preserve old files and decisions; no d
 
 Startup commit `04b5e5d629c127d181679c7aaaa513d4a71f4ee1` and neutral freeze
 `4a194b012bcf59e900552af8c75393a843ce13a8` are remotely verified. Draft PR 10 is open.
-Revision 1: neutral tests 40/40 and unchanged RC4 preflight 10/10 pass; full regression pending.
+At revision 1: neutral tests 40/40 and unchanged RC4 preflight 10/10 passed; full regression was then pending.
 
 Revision 1 full CI: 1898 passed, 10 failed, 1 skipped (329.14 s); failures traced to
 successor-phase compatibility checks. Focused RC audit/E2E/negative suite passed 93/93.
@@ -105,7 +105,7 @@ No fresh Validation input acquisition is permitted until the release remote rece
 RC5 release `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` remotely verified at
 2026-09-05T11:45:01+08:00, before official acquisition. 2019 contamination check passed
 with unverifiable model prior; official archive/PDF hashes registered; answers SEALED.
-Fresh worker is preparing case code only. No numerical result exists and no execution is authorized
+At that release checkpoint the fresh worker was preparing case code only. No numerical result existed; execution was not authorized
 until the separate pre-run remote freeze. Q2 actual-airport empirical data are absent from the
 official archive and cannot be replaced by assumed simulation inputs.
 
@@ -113,4 +113,34 @@ Fresh preparation code checkpoint `9cc251c9fec731c13fbb5ffc048db6af4834966a` rem
 Native stages through EXPERIMENT_PLAN_VALIDATED and stateful output preflight pass.
 Pre-run freeze now binds 4 primary requirements, 3 candidates × 3 seeds, no empirical-data substitution,
 18 passing controller/routing tests, environment, exact code/input/Skill/contract hashes,
-and a conservative whole-episode deadline 2026-09-05T15:48:24+08:00. Actual new-case Runs remain zero.
+and a conservative whole-episode deadline 2026-09-05T15:48:24+08:00. Actual new-case Runs were zero at that pre-run checkpoint.
+
+Pre-run freeze `9f7f3ed2d88d8eaffd0ce2468221f65fec4a46de` was remotely verified;
+authorization receipt `76cce42326dd88eb281a68d4b1abc95e592c8af6` followed. Nine exact frozen
+Runs completed 12:25:35–12:25:39 +08:00, all exit 0 and no retries. The deterministic native
+controller passed all six downstream Gates and decoded only the selected seed's test payload
+once after selection. All candidates tied on frozen Q1 score; baseline won lexicographically.
+Q2 actual observations are absent and Q4 primary mean Gini worsened. Decision 004C2 is
+C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT; root appended REJECTED and locked paper dispatch.
+Second read-only audit and terminal remote freeze precede final delivery. A metadata-only test
+fixed the obsolete six-case registry count with seven exact IDs; Skill, model, rubric and frozen
+neutral/controller tests are unchanged. Focused registry tests 10/10 pass.
+
+Post-decision Auditor 2 found RC5_VERSION_FILE_MISMATCH: the frozen Skill VERSION file is RC4,
+although runner/SKILL.md/manifest declare RC5. This is pre-existing release inconsistency, not
+Validation drift. Release acceptance is blocked; no third Skill cycle or post-Run edit is allowed.
+Selected baseline Q4 Claim has incomplete semantic support for priority evaluation. Decision v1
+is preserved; v2 clarifies semantic flags without changing EVIDENCE_INSUFFICIENT. Native structural
+PASS does not establish four semantically complete Claims. Overall task acceptance remains incomplete
+until a separately authorized future release correction; this episode must still be frozen/delivered.
+
+Terminal freeze b289f2dfcaebe8edca5335ed4bf89f383c67eb51 remotely verified at 2026-09-05T12:42:37+08:00.
+Freeze SHA256 d8e52a286126b2d4f6848b29c7eaa2e19e963de8d28ab95dc7df0bb0224acc64; episode elapsed 3179 s, under 14400 s.
+Auditor 2 confirmed v2 scope clarification and retained the release-version BLOCKER.
+No subsequent case/Skill/Run mutation is permitted. Full CI and final reporting follow.
+
+Full terminal pytest passed 1940/1 skipped (304.00 s). The enclosing CI stopped at the
+prior-content-commit rule while its verified terminal receipt still referenced current HEAD.
+Committing the receipt makes the reference a predecessor; strict and final CI will then be checked.
+The first terminal CI failures (phase-specific assertion and missing registry evidence index) are
+resolved without changing any frozen evaluation artifact.

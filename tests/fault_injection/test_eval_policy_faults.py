@@ -131,7 +131,10 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         assert state["batch_reference_unlocked"] is True
         assert state["next_phase_allowed"] is None
         assert state["active_skill_version"] == "0.2.0-competition-rc3"
-    elif state["technical_adjudication_status"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT":
+    elif (
+        state["technical_adjudication_status"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+        and state["phase"] == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
+    ):
         assert state["subphase"] == "C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT"
         assert state["primary_target_problem_type"] == "C"
         assert state["current_batch_id"] == "C-TARGET-BATCH-001"
@@ -140,6 +143,14 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
         assert state["next_phase_allowed"] == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
         assert state["active_skill_version"] == "0.2.0-competition-rc4"
         assert state["blockers"] == ["RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID"]
+    elif state["technical_adjudication_status"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT":
+        assert state["phase"] == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
+        assert state["subphase"] == "C-TARGET-2019C-VALIDATION-TERMINAL"
+        assert state["current_validation_case"] == "CUMCM-2019-C-VALIDATION-002"
+        assert state["answer_access_status"] == "SEALED_AT_TERMINAL_FREEZE"
+        assert state["active_skill_version"] == "0.2.0-competition-rc5"
+        assert state["next_phase_allowed"] is None
+        assert state["blockers"] == ["RC5_VERSION_FILE_MISMATCH"]
     else:
         assert state["next_phase_allowed"] is None
     assert state["base_selected"] is False

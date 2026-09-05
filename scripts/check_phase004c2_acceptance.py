@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+"""Check truthful terminal reporting, including unresolved frozen release defects."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+CASE_ID = "CUMCM-2019-C-VALIDATION-002"
+
+
+def assess(version_file, release, block, decision, state):
+    errors = []
+    mismatch = version_file.strip() != release["skill_version"]
+    if mismatch and not (
+        block["finding_id"] == "RC5_VERSION_FILE_MISMATCH"
+        and block["status"] == "BLOCK_RELEASE_ACCEPTANCE"
+        and block["version_file_value"] == version_file.strip()
+        and block["declared_release_version"] == release["skill_version"]
+        and decision["release_acceptance"] == "BLOCKED_VERSION_METADATA"
+        and "RC5_VERSION_FILE_MISMATCH" in state["blockers"]
+    ):
+        errors.append("UNREPORTED_FROZEN_RELEASE_VERSION_MISMATCH")
+    if (
+        state["technical_adjudication_status"] != decision["status"]
+        or state["current_validation_case"] != CASE_ID
+        or state["next_phase_allowed"] != decision["next_phase_allowed"]
+    ):
+        errors.append("TERMINAL_STATE_DECISION_MISMATCH")
+    semantic_gap = any(
+        finding["finding_id"] == "SELECTED_Q4_CLAIM_SCOPE_INCOMPLETE"
+        for finding in decision["scope_findings"]
+    )
+    if semantic_gap and (
+        decision["facts"]["semantic_requirement_claims_complete"] is not False
+        or decision["facts"]["pipeline_pass_requirements"]["requirement_claims_valid"] is not False
+        or decision["paper_dispatch_accepted"] is not False
+        or decision["next_phase_allowed"] is not None
+    ):
+        errors.append("SEMANTIC_GAP_FALSELY_REPORTED_AS_COMPLETION")
+    return {
+        "ok": not errors,
+        "errors": errors,
+        "release_version_consistent": not mismatch,
+        "release_acceptance": "BLOCK" if mismatch else "NO_VERSION_BLOCK",
+        "validation_status": decision["status"],
+        "meaning": "Reporting consistency only; a PASS does not accept the blocked release.",
+    }
+
+
+def main():
+    base = ROOT / "evals/results/phase-004c2"
+
+    def read(path):
+        return json.loads(path.read_text())
+
+    result = assess(
+        (ROOT / ".agents/skills/cumcm-modeling-evidence/VERSION").read_text(),
+        read(base / "rc5_release.json"),
+        read(base / "rc5_release_acceptance_block.json"),
+        read(base / CASE_ID / "validation/DECISION-C-TARGET-VALIDATION-004C2.json"),
+        read(ROOT / "state/project_state.json"),
+    )
+    print(json.dumps(result, sort_keys=True))
+    return 0 if result["ok"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

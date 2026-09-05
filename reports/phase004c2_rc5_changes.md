@@ -1,3 +1,8 @@
+> Post-decision audit: **release acceptance BLOCKED** (`RC5_VERSION_FILE_MISMATCH`).
+> Frozen Skill VERSION is RC4; runner/SKILL.md/release declare RC5. The following records the
+> attempted RC5 freeze and implementation checks; it is not complete release acceptance.
+> No frozen file was corrected after Validation.
+
 # RC5 bounded changes
 
 Version: 0.2.0-competition-rc5; Claim contract: claim-evidence/v2.

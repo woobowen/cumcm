@@ -69,24 +69,35 @@ third-party base.
 
 Start with `AGENTS.md`, then read `GOALS.md`, `WORKFLOW.md`, the active plan, and `state/project_state.json`. Run `bash scripts/bootstrap_dev_env.sh` and `bash scripts/ci.sh` for local validation.
 
-The active task is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`. RC4 and its unified regression
+The completed predecessor is `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`. RC4 and its unified regression
 are frozen; the 2024 C terminal outcome is remotely frozen and the same case cannot be rerun as
-Validation. The next authorized phase is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`. The cancelled
+Validation. Its authorized successor was `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`. The cancelled
 2024 A attempt had no case registration or execution evidence and is not Validation. See
 `docs/TARGET_PROBLEM_POLICY.md`,
-`docs/DEVELOPMENT_EVAL_PROTOCOL.md`, and `plans/active/PLAN-0004C-C-target-batch-generalization.md`.
+`docs/DEVELOPMENT_EVAL_PROTOCOL.md`, and `plans/completed/PLAN-0004C-C-target-batch-generalization.md`.
 
 No project license has been selected. Third-party repositories remain isolated under ignored `.cache/upstream/` and are not part of this repository.
 
-## Phase 004C2 current execution
+## Phase 004C2 terminal result
 
-The case-neutral Claim repair passed both bounded revision cycles and all release gates.
-The single active Skill is `0.2.0-competition-rc5`, K1, `COMPETITION_RC`.
-Release truth: `evals/results/phase-004c2/rc5_release.json`; active plan:
+The case-neutral Claim implementation passed the frozen tests within two revision cycles.
+Post-decision audit found an unresolved release blocker: the frozen Skill VERSION file still says
+RC4 while the runner, SKILL.md and manifest say RC5. Release acceptance is BLOCKED_VERSION_METADATA;
+the frozen Skill cannot be changed in this episode.
+The one Skill runs the hash-frozen `0.2.0-competition-rc5` implementation, K1, `COMPETITION_RC`;
+its inconsistent VERSION label is preserved as audited evidence.
+Release truth: `evals/results/phase-004c2/rc5_release.json`; execution record:
 `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
-The 2024 terminal verdict remains `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`.
-RC5 release commit `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` was remotely verified before
-2019 official input access. `CUMCM-2019-C-VALIDATION-002` is registered answer-sealed;
-the fresh worker is preparing its pre-run freeze. Official empirical data are absent;
-assumed simulations cannot satisfy the actual-airport data requirement. No model Run has started.
-The next phase is null and all six 2025 access flags remain false.
+The 2024 terminal verdict and original artifacts remain unchanged.
+RC5 release `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` was remotely verified before
+2019 official input access. The pre-run freeze was remotely delivered before all nine actual Runs.
+`CUMCM-2019-C-VALIDATION-002` terminated as `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`:
+Q2 requires actual airport/city observations, which are absent. Native Run/Claim/handoff contracts
+passed structurally; Q4 semantic support is incomplete in the selected baseline Claim.
+The frozen rubric rejected paper dispatch and the
+final case state is `REJECTED`. No whole-problem completion or joint optimum is claimed.
+The machine decision and terminal freeze live under
+`evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/`.
+RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
+is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
+2025 access flags remain false. Later work on this case can only be Development under new scope.

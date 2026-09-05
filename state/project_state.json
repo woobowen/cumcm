@@ -6,7 +6,7 @@
     "leakage-safe-model-comparison-gate"
   ],
   "active_skill_version": "0.2.0-competition-rc5",
-  "answer_access_status": "SEALED",
+  "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -15,11 +15,12 @@
   "automated_decision_ids": [
     "DECISION-ARCHITECTURE-002D-R1",
     "DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2",
-    "DECISION-COMPONENT-READINESS-002D-R1",
-    "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
+    "DECISION-C-TARGET-VALIDATION-004C",
+    "DECISION-C-TARGET-VALIDATION-004C2",
     "DECISION-COMPETITION-MVP-ARCHITECTURE-003F",
     "DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1",
-    "DECISION-C-TARGET-VALIDATION-004C",
+    "DECISION-COMPONENT-READINESS-002D-R1",
+    "DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2",
     "DECISION-FAILURE-SEMANTICS-002D-R1",
     "DECISION-INTERACTION-CONTRACT-002D-R2",
     "DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2",
@@ -46,7 +47,9 @@
   },
   "batch_reference_unlocked": true,
   "batch_skill_frozen": true,
-  "blockers": [],
+  "blockers": [
+    "RC5_VERSION_FILE_MISMATCH"
+  ],
   "competition_rc1": {
     "api_calls": 0,
     "architecture_decision": {
@@ -108,16 +111,16 @@
     "real_comparison_model_starts": 0,
     "third_party_executions": 0
   },
-  "content_verified_commit": "3e24835c354b1e316783fa9bf50e8f1679bb1003",
+  "content_verified_commit": "b289f2dfcaebe8edca5335ed4bf89f383c67eb51",
   "current_batch_id": "C-TARGET-BATCH-001",
   "current_branch": "feat/phase004c2-claim-scope-repair-validation-2019c",
   "current_plan": "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md",
   "current_validation_case": "CUMCM-2019-C-VALIDATION-002",
   "delivery_receipt_for_commit": {
-    "commit": "3e24835c354b1e316783fa9bf50e8f1679bb1003",
+    "commit": "b289f2dfcaebe8edca5335ed4bf89f383c67eb51",
     "remote": "origin",
-    "remote_sha": "3e24835c354b1e316783fa9bf50e8f1679bb1003",
-    "verified_at": "2026-09-05T04:33:42+08:00"
+    "remote_sha": "b289f2dfcaebe8edca5335ed4bf89f383c67eb51",
+    "verified_at": "2026-09-05T12:42:37+08:00"
   },
   "development_eval": {
     "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
@@ -219,7 +222,11 @@
     "This Development case cannot establish Validation, Held-out, or single-problem generalization evidence; model prior exposure is unverifiable.",
     "The current runtime exposes no exact reasoning-effort identifier, so the first-run binding records reasoning as UNKNOWN.",
     "The frozen RC4 Claim Gate requires one top-level claim scope to equal both the global Final scope and the first requirement-specific claim text; the 2024 C one-shot Validation therefore terminated at Claim evidence with no accepted handoff.",
-    "The 2024 C selected method is a deterministic feasible whole-plot heuristic, not a proof of global mixed-integer optimality; Question 3 dependence values are registered simulation assumptions rather than estimated causal parameters."
+    "The 2024 C selected method is a deterministic feasible whole-plot heuristic, not a proof of global mixed-integer optimality; Question 3 dependence values are registered simulation assumptions rather than estimated causal parameters.",
+    "The 2019 C terminal outcome is evidence insufficient because actual airport/city data are absent; conditional simulation and native Claim/handoff success cannot establish full primary completion.",
+    "The 2019 C ranking measures Q1 only and all candidates tied; main Q4 mean Gini worsened. No joint optimum, real-site safety or empirical generalization is established.",
+    "2019 answers remained sealed; exact model prior is unverifiable and test payload isolation is policy-based rather than cryptographic or OS-enforced.",
+    "Post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in this one-shot."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
@@ -277,11 +284,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "C-TARGET-2019C-VALIDATION-IN-PROGRESS",
+  "subphase": "C-TARGET-2019C-VALIDATION-TERMINAL",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "C_TARGET_VALIDATION_IN_PROGRESS",
+  "technical_adjudication_status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
   "third_party_integrated": false,
-  "updated_at": "2026-09-05T11:54:13+08:00",
+  "updated_at": "2026-09-05T12:42:37+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",
