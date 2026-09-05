@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "PHASE-004C3-AUDITOR-1-RC6-RELEASE-EVIDENCE-001",
+  "audited_commit": "bf82bf4b03fb0bbd55e7ed3d010cfb6ae1352a09",
+  "status": "PASS",
+  "release_verdict": "BLOCK",
+  "reason_codes": [
+    "RC6_COMPATIBILITY_GATE_VACUOUS",
+    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING"
+  ],
+  "probe_count": 13,
+  "reproduced_probe_count": 13,
+  "probes": [
+    {
+      "probe_id": "DATA_EXTERNAL_SOURCE_FORBIDDEN",
+      "payload_sha256": "be171a08a60a38a515d5621de26c28630b34a33806f1ad63af5f21d8bc593212",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "SUFFICIENT",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "DATA_ACQUISITION_PLAN_INCOMPLETE",
+      "payload_sha256": "80db3d645d3f76b4a6d71654e7bd84c6522d245e1284a22dc13d325cd167d89b",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "ACQUISITION_REQUIRED",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "DATA_SCOPE_NOT_CONJUNCTIVE",
+      "payload_sha256": "e0cd40af14479c38f7934355f9d20955c95fc0230d5d28225f34e4a56dc49bed",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "SUFFICIENT",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SELECTION_DEPENDENCY_SPLIT",
+      "payload_sha256": "f62d4d269752c75b0e3b92e076397e0ea61eb63f184db1409e75ab9e29f3cd3f",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SELECTION_PORTFOLIO_HASHES_MISSING",
+      "payload_sha256": "5c237f9350a936d82e7efafecd310838bb267a556b0e2b55dca705852bb70144",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SELECTION_DECLARED_HASH_MISMATCH",
+      "payload_sha256": "39d832baadfc76af33d52e1752363c4ca19f193ca51fd14a0b4a2ddb6be68a36",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SEMANTIC_RUN_INELIGIBLE",
+      "payload_sha256": "5be64bf11018a48029b4b4f589b1bd2f437e4e8d8232594405ecb9d077e8516a",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SEMANTIC_WRONG_REQUIREMENT",
+      "payload_sha256": "b4c7bd06192b1c6336d15754140b176191537941c625eea2eb752acbded5534d",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SEMANTIC_OUTPUT_NOT_OWNED",
+      "payload_sha256": "4787f1a1c3186fd5c753f58e227c1bf7a69414b3c97e053d94b810b4f0f41dba",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SEMANTIC_METRIC_MISSING",
+      "payload_sha256": "27d5ed4514461fcf80c08a7308c72f0b1dda37d805ac1154c3532fdfa7e1b82c",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SEMANTIC_SCOPE_UNBOUNDED",
+      "payload_sha256": "d7a2090e44576351775af716262ffecedd6a2b4cedc52e1330285f8e5d00b237",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "SEMANTIC_AGGREGATE_WRONG_CLAIM",
+      "payload_sha256": "f070d719abe4e131ad78473761d706177622eb1b7e8aa341d2b6eeb7a5271059",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    },
+    {
+      "probe_id": "COMPATIBILITY_UNKNOWN_AND_NONPERMUTATION",
+      "payload_sha256": "418d071972ba0326c66dce4cf46e17c2e58acdf595dc752177f7588dab07026d",
+      "expected_safe_status": "BLOCK",
+      "actual": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "defect_reproduced": true
+    }
+  ],
+  "controller_checks": {
+    "hardcoded_descriptive_claim": true,
+    "hardcoded_global_joint": true,
+    "hardcoded_positive_policy_exposure": true,
+    "hardcoded_provided_empirical": true,
+    "single_run_mapped_to_all_requirements": true
+  },
+  "core_sha256": "2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879",
+  "controller_sha256": "fc3a5abae33cd13e23ae8f26d2e7d41488b625ab28eb2dc4f7ee2284311cb753",
+  "formal_revision_cycles_used": 2,
+  "formal_revision_cycles_remaining": 0,
+  "third_cycle_permitted": false,
+  "fresh_validation_input_accessed": false,
+  "held_out_2025_accessed": false,
+  "writes_performed_by_auditor": false
+}

@@ -72,6 +72,13 @@ one-shot is limited to four hours, and no Skill/test/rubric change is allowed af
 2025 C Held-out remains completely unaccessed. A Validation pass may route to 004D; any other valid
 RC6 outcome routes to 004C4 or remains blocked, without a generalization or 2026-solved claim.
 
+Phase 004C3 terminated before fresh Validation. Auditor 1 reproduced 13 fail-open probes across the
+RC6 data-sufficiency, portfolio-selection, semantic-Claim and compatibility Gates and found that the
+fresh-completion controller hardcodes a global descriptive/empirical path. The two formal revision
+cycles are exhausted, so RC6 is not released and no third repair is permitted in this phase. No
+2018/2017 official input or answer was accessed; 2025 remains fully sealed. The exact next phase is
+`null`.
+
 The later Competition RC1 repair sprint preserves that historical boundary and old blocked decision,
 then accepts new project-owned K1/W1 revisions through the unchanged eight public hard Gates. K1 is
 integrated under the frozen K1-first rule. That checkpoint authorized

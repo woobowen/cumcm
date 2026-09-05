@@ -1,8 +1,8 @@
 # PLAN-0004C3 — RC6 release evidence repair and fresh C Validation
 
-Status: `IN_PROGRESS`
+Status: `TERMINAL_RC6_RELEASE_REPAIR_BLOCKED`
 Phase: `PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3`
-Subphase: `RC6-RELEASE-AND-EVIDENCE-SEMANTICS-REPAIR`
+Subphase: `C-TARGET-FRESH-VALIDATION-BLOCKED`
 Owner: main agent / `modeling_orchestrator`
 Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
 Starting commit: `fc35ab844d7256615acb15d82a8d91260945dfe2`
@@ -209,3 +209,24 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   full CI passed Ruff and pytest `2008 passed / 1 skipped` in 310.90s, strict validation returned
   0 errors / 0 warnings, generated status was current, and `git diff --check` passed. The frozen
   neutral-test SHA and RC6 Skill tree stayed unchanged. Auditor 1 remains pending before RC6 freeze.
+- `2026-09-05T16:08:07+08:00` — M4 terminated `BLOCK`; M5–M8 Validation execution paths were not
+  entered. Identity-separated Auditor 1 verified release surfaces, frozen-test/tree/runner hashes,
+  two-cycle chronology, historical immutability, regressions, one Skill, leakage/secrets/provenance
+  and six false 2025 flags, then reproduced 13 fail-open probes. Invalid acquired-data policy,
+  incomplete acquisition plans and non-conjunctive source coverage were accepted; dependent or
+  unbound-hash portfolios were accepted; failed/unsealed/stale or wrongly bound Claims were
+  accepted; unknown/non-permutation compatibility passed. The generic completion controller also
+  hardcodes global selection, descriptive/provided-empirical Claims and positive policy exposure.
+  A separate read-only blocker replay reproduced 13/13 findings. Both formal Skill cycles are
+  exhausted, so no third repair was made, `rc6_release.json` was not created, and live release
+  consistency remains `BLOCK`. Neither 2018 nor 2017 official input was accessed; no registration,
+  pre-run freeze, worker, Run, Validation Claim/handoff, terminal Validation freeze or Auditor 2
+  exists. Formal outcome is `RC6_RELEASE_REPAIR_BLOCKED`; active release remains
+  `0.2.0-competition-rc5-blocked`, 2025 remains untouched, and `next_phase_allowed=null`.
+- Terminal-state focused tests passed 68/68. The first terminal full-pytest attempt ended
+  `2008 passed / 1 skipped / 1 failed` because replacing the live blocker list removed the literal
+  RC5 historical reason code expected by its reporting checker. The state risk was corrected to
+  preserve `RC5_VERSION_FILE_MISMATCH` explicitly; no historical artifact or Skill file changed.
+  The second full pytest passed `2009/1 skipped` in 307.33s, and `bash scripts/ci.sh` passed Ruff,
+  formatting, pytest `2009/1 skipped` in 304.68s and all expected historical checks. The live RC6
+  release checker separately and correctly returns exit 3 / `BLOCK`.

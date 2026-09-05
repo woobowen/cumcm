@@ -6,7 +6,11 @@ root VERSION, Skill VERSION, SKILL metadata, runner and discovery at project
 `scripts/check_skill_release_consistency.py --check` uses the same pure snapshot evaluator as the
 frozen negative tests.
 
-Release is not yet accepted: the live project state intentionally remains
-`0.2.0-competition-rc5-blocked`, and `evals/results/phase-004c3/rc6_release.json` does not exist until
-historical regressions and Auditor 1 pass. No fresh Validation input may be read before that remote
-freeze. The historical RC5 block record is still present and checked.
+Release is rejected. Historical regressions passed, but Auditor 1 reproduced 13 fail-open probes
+across data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an
+ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted.
+
+The live project state therefore remains `0.2.0-competition-rc5-blocked`,
+`evals/results/phase-004c3/rc6_release.json` was not created, and the release checker correctly
+remains `BLOCK`. No fresh Validation input was read. The historical RC5 block record is still
+present and checked.

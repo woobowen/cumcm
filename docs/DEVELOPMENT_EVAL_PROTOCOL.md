@@ -193,3 +193,9 @@ allowed. Tracked files contain hashes/metadata only; raw official inputs stay in
 pre-run freeze binds the four-hour one-shot and must be remotely delivered before a clean-context
 worker starts the 14-stage lifecycle. After start, Skill/tests/rubric/evidence rules are immutable;
 after terminal freeze, no Run or verdict may be added or changed.
+
+The Phase 004C3 release audit ended this protocol before official-input acquisition. Thirteen
+deterministic probes reproduced fail-open RC6 data-sufficiency, selection, semantic and compatibility
+behavior, and the generic completion controller did not operationalize per-requirement/portfolio
+semantics. Both formal revision cycles were already used, so RC6 remains unreleased and no fresh
+Validation worker, Run, answer access or fallback decision occurred.

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "freeze_id": "PHASE-004C3-RC6-RELEASE-BLOCK-TERMINAL-001",
+  "status": "RC6_RELEASE_REPAIR_BLOCKED",
+  "decision": {
+    "path": "evals/results/phase-004c3/DECISION-C-TARGET-VALIDATION-004C3.json",
+    "sha256": "29f9427f0039c83a08fbc6f2aeb5a04faf5c4fca7bb5e0d96f96a15cce8e7055"
+  },
+  "release_block": {
+    "path": "evals/results/phase-004c3/rc6_release_acceptance_block.json",
+    "sha256": "a546f4c81dd41c928ff04299581123c37431d63698b57c451fc95e3cc35f56c1"
+  },
+  "auditor1": {
+    "path": "evals/results/phase-004c3/auditor1_release_evidence.json",
+    "sha256": "93ba67c90734624343dc1431090bb955d4ffeae9c63160ba581c1131cae3463b",
+    "verdict": "BLOCK"
+  },
+  "candidate_identity": {
+    "project_version": "0.3.0-competition-rc6",
+    "skill_version": "0.2.0-competition-rc6",
+    "implementation_commit": "12ecd586fd46ae7a63037435b7fef6b697d85a21",
+    "audited_commit": "bf82bf4b03fb0bbd55e7ed3d010cfb6ae1352a09",
+    "skill_tree": "0d0d65a7148d146424e31318ba003bdab80db6e5",
+    "runner_sha256": "2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879",
+    "neutral_test_sha256": "242963976022ba7449fbd8ea8488cd65acd4a05744d3f7ee88344c81a76c7adc"
+  },
+  "release_manifest_created": false,
+  "release_consistency_passed": false,
+  "formal_revision_cycles_used": 2,
+  "formal_revision_cycles_remaining": 0,
+  "formal_skill_modification_window_closed": true,
+  "fresh_validation": {
+    "registered": false,
+    "official_input_accessed": false,
+    "worker_started": false,
+    "run_count": 0,
+    "terminal_validation_freeze_created": false,
+    "auditor2_run": false
+  },
+  "historical_artifacts_mutated": false,
+  "historical_model_runs_added": 0,
+  "held_out_2025_access": {
+    "archive_accessed": false,
+    "title_accessed": false,
+    "problem_accessed": false,
+    "attachments_accessed": false,
+    "references_accessed": false,
+    "answer_accessed": false
+  },
+  "next_phase_allowed": null,
+  "terminal_commit_binding": "DELIVERY_RECEIPT_WRITTEN_ONLY_AFTER_REMOTE_SHA_VERIFICATION",
+  "frozen_at": "2026-09-05T16:08:07+08:00",
+  "frozen_by": "main-agent"
+}

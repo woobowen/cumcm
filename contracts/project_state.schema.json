@@ -628,7 +628,26 @@
           },
           {
             "properties": {
-              "technical_adjudication_status": {"enum": ["RC6_RELEASE_REPAIR_BLOCKED", "VALIDATION_PREFLIGHT_DISQUALIFIED", "VALIDATION_CASE_CONTAMINATED", "FIRST_RUN_CONTAMINATION_SUSPECTED", "OFFICIAL_INPUTS_REQUIRED", "INFRASTRUCTURE_BLOCKED", "VALIDATION_CANDIDATE_DRIFT"]},
+              "technical_adjudication_status": {"const": "RC6_RELEASE_REPAIR_BLOCKED"},
+              "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"},
+              "active_skill_version": {"const": "0.2.0-competition-rc5-blocked"},
+              "answer_access_status": {"const": "SEALED_NOT_ACCESSED"},
+              "next_phase_allowed": {"const": null},
+              "current_validation_case": {"type": "null"},
+              "blockers": {
+                "const": [
+                  "RC6_COMPATIBILITY_GATE_VACUOUS",
+                  "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+                  "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+                  "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+                  "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "technical_adjudication_status": {"enum": ["VALIDATION_PREFLIGHT_DISQUALIFIED", "VALIDATION_CASE_CONTAMINATED", "FIRST_RUN_CONTAMINATION_SUSPECTED", "OFFICIAL_INPUTS_REQUIRED", "INFRASTRUCTURE_BLOCKED", "VALIDATION_CANDIDATE_DRIFT"]},
               "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"},
               "active_skill_version": {"enum": ["0.2.0-competition-rc5-blocked", "0.2.0-competition-rc6"]},
               "next_phase_allowed": {"const": null}

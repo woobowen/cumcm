@@ -127,9 +127,9 @@ def evaluate() -> dict[str, Any]:
     )
     rc6_candidate_staged = (
         state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
-        and state.get("technical_adjudication_status") == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+        and state.get("technical_adjudication_status")
+        in {"C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS", "RC6_RELEASE_REPAIR_BLOCKED"}
         and state.get("active_skill_version") == "0.2.0-competition-rc5-blocked"
-        and state.get("blockers") == ["RC5_VERSION_FILE_MISMATCH"]
         and "Version: `0.2.0-competition-rc6`" in skill
         and (ROOT / "VERSION").read_text(encoding="utf-8").strip() == "0.3.0-competition-rc6"
     )
@@ -292,6 +292,18 @@ def evaluate() -> dict[str, Any]:
                 and state.get("technical_adjudication_status")
                 == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
                 and state.get("blockers") == ["RC5_VERSION_FILE_MISMATCH"]
+            )
+            or (
+                state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+                and state.get("technical_adjudication_status") == "RC6_RELEASE_REPAIR_BLOCKED"
+                and state.get("blockers")
+                == [
+                    "RC6_COMPATIBILITY_GATE_VACUOUS",
+                    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+                    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+                    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+                    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING",
+                ]
             )
             or (
                 state.get("technical_adjudication_status")

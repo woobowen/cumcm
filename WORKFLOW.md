@@ -279,3 +279,9 @@ read-only Auditor. `C_TARGET_VALIDATION_PASSED` may route only to
 `PHASE-SKILL-C-TARGET-HELDOUT-004D`; failed, insufficient or incomplete evidence routes to
 `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C4`; release repair failure keeps 004C3 and null. The 2025 C
 reservation remains `SEALED_NOT_ACCESSED` throughout.
+
+The Phase 004C3 pre-release audit is terminal `RC6_RELEASE_REPAIR_BLOCKED`. Auditor 1 reproduced
+fail-open acquisition/scope, portfolio/hash/dependency, semantic binding/eligibility and
+compatibility cases, while the fresh-completion controller hardcodes a global descriptive path.
+Because both formal revision cycles are exhausted, no third Skill repair, RC6 release, fresh input
+access, Validation worker or Run is permitted in this phase. `next_phase_allowed` is `null`.

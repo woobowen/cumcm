@@ -11,15 +11,17 @@ def _load(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def test_phase004c3_live_state_is_schema_valid_and_preserves_boundaries(repo_root) -> None:
+def test_phase004c3_terminal_block_state_is_schema_valid_and_preserves_boundaries(
+    repo_root,
+) -> None:
     state = _load(repo_root / "state/project_state.json")
     schema = _load(repo_root / "contracts/project_state.schema.json")
 
     Draft202012Validator(schema).validate(state)
     assert state["schema_version"] == "2.4.0"
     assert state["phase"] == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
-    assert state["subphase"] == "RC6-RELEASE-AND-EVIDENCE-SEMANTICS-REPAIR"
-    assert state["technical_adjudication_status"] == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+    assert state["subphase"] == "C-TARGET-FRESH-VALIDATION-BLOCKED"
+    assert state["technical_adjudication_status"] == "RC6_RELEASE_REPAIR_BLOCKED"
     assert state["active_skill_version"] == "0.2.0-competition-rc5-blocked"
     assert state["previous_validation_cases"] == [
         "CUMCM-2024-C-VALIDATION-001",
@@ -27,7 +29,14 @@ def test_phase004c3_live_state_is_schema_valid_and_preserves_boundaries(repo_roo
     ]
     assert state["current_validation_case"] is None
     assert state["next_phase_allowed"] is None
-    assert state["blockers"] == ["RC5_VERSION_FILE_MISMATCH"]
+    assert state["answer_access_status"] == "SEALED_NOT_ACCESSED"
+    assert state["blockers"] == [
+        "RC6_COMPATIBILITY_GATE_VACUOUS",
+        "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+        "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+        "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+        "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING",
+    ]
     assert state["selected_architecture"] == "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
     assert state["skill_capability_status"] == "COMPETITION_RC"
     assert state["third_party_integrated"] is False
@@ -47,7 +56,7 @@ def test_phase004c3_live_state_is_schema_valid_and_preserves_boundaries(repo_roo
         ("blockers", []),
     ],
 )
-def test_phase004c3_start_state_mutations_fail_closed(repo_root, field, value) -> None:
+def test_phase004c3_terminal_block_state_mutations_fail_closed(repo_root, field, value) -> None:
     state = copy.deepcopy(_load(repo_root / "state/project_state.json"))
     schema = _load(repo_root / "contracts/project_state.schema.json")
     state[field] = value

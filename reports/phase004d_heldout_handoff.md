@@ -1,16 +1,17 @@
 # 004D Held-out handoff
 
-Status: `BLOCKED_BY_VALIDATION_EVIDENCE_INSUFFICIENT`.
+Status: `BLOCKED_BY_RC6_RELEASE_REPAIR`.
 Next phase: `null`.
 
-RC5 remains 0.2.0-competition-rc5, K1, COMPETITION_RC. Fresh 2019 C cannot pass because Q2
-requires actual airport/city data that are absent. Its terminal state is REJECTED and its native
-conditional handoff is not an accepted paper dispatch. There is no authorization to enter 004D.
+The repository contains an unreleased `0.2.0-competition-rc6` candidate, but the active release
+state remains `0.2.0-competition-rc5-blocked`. Auditor 1 reproduced 13 fail-open probes and found
+that the fresh-completion controller cannot operationalize per-requirement or compatible portfolio
+selection. Both formal Skill revision cycles are exhausted, so RC6 cannot be frozen or used for a
+fresh Validation in this phase.
 
-CUMCM-2025-C-HELDOUT-RESERVED remains SEALED_NOT_ACCESSED: archive, title, problem,
-attachments, references and answer access are all false. No download or Held-out Run occurred.
-A future acquisition/repair scope requires a new authorization/design; this completed one-shot
-cannot be repaired and rerun under the same Validation label.
+No 2018 or 2017 C case was registered, downloaded or executed. No fresh worker, pre-run freeze,
+Run, Claim, handoff or terminal Validation freeze exists. Auditor 2 is correctly not run because
+there is no fresh Validation terminal decision to audit.
 
-Additional blocker: RC5_VERSION_FILE_MISMATCH; selected Q4 local semantic support is incomplete.
-The RC5 implementation is frozen but the release version carriers are inconsistent.
+`CUMCM-2025-C-HELDOUT-RESERVED` remains `SEALED_NOT_ACCESSED`: archive, title, problem,
+attachments, references and answer access are all false. There is no authorization to enter 004D.

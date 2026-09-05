@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "DECISION-C-TARGET-VALIDATION-004C3",
+  "status": "RC6_RELEASE_REPAIR_BLOCKED",
+  "decision_scope": "PRE_VALIDATION_RC6_RELEASE_GATE",
+  "release_candidate": {
+    "project_version": "0.3.0-competition-rc6",
+    "skill_version": "0.2.0-competition-rc6",
+    "implementation_commit": "12ecd586fd46ae7a63037435b7fef6b697d85a21",
+    "audited_commit": "bf82bf4b03fb0bbd55e7ed3d010cfb6ae1352a09",
+    "skill_tree": "0d0d65a7148d146424e31318ba003bdab80db6e5",
+    "runner_sha256": "2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879"
+  },
+  "evidence": {
+    "release_block_path": "evals/results/phase-004c3/rc6_release_acceptance_block.json",
+    "release_block_sha256": "a546f4c81dd41c928ff04299581123c37431d63698b57c451fc95e3cc35f56c1",
+    "auditor1_path": "evals/results/phase-004c3/auditor1_release_evidence.json",
+    "auditor1_sha256": "93ba67c90734624343dc1431090bb955d4ffeae9c63160ba581c1131cae3463b",
+    "implementation_candidate_sha256": "095a4cdcefcbe6b749f9cdf3e2e2a190e9e263c2903b92ac4732425720ed55fe",
+    "historical_diagnostics_sha256": "1276d8b95594c28eb0cfc850bd492611a543299eaf83be8acecd0d599deb6365",
+    "neutral_test_sha256": "242963976022ba7449fbd8ea8488cd65acd4a05744d3f7ee88344c81a76c7adc",
+    "rc5_block_record_sha256": "c9fb8c93a16c4a2778843ebf62673b57e839d0d850f39f07c89930900f98e60f"
+  },
+  "release_consistency_status": "BLOCK",
+  "release_consistency_reason_codes": [
+    "RC_RELEASE_PROJECT_VERSION_MISMATCH",
+    "RC_RELEASE_VERSION_FORMAT_INVALID"
+  ],
+  "auditor1_status": "BLOCK",
+  "hard_failures": [
+    "RC6_COMPATIBILITY_GATE_VACUOUS",
+    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING"
+  ],
+  "formal_revision_cycles_used": 2,
+  "formal_revision_cycles_remaining": 0,
+  "third_cycle_permitted": false,
+  "rc6_release_created": false,
+  "fresh_validation": {
+    "status": "NOT_STARTED_RELEASE_BLOCKED",
+    "case_id": null,
+    "official_input_accessed": false,
+    "fallback_considered": false,
+    "answer_accessed": false,
+    "worker_started": false,
+    "run_count": 0,
+    "auditor2_run": false
+  },
+  "historical_verdicts_changed": false,
+  "held_out_2025_accessed": false,
+  "next_phase_allowed": null,
+  "decided_at": "2026-09-05T16:07:30+08:00",
+  "decided_by": "main-agent"
+}

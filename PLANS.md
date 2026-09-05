@@ -70,3 +70,9 @@ per-requirement/portfolio selection and bounded semantic Claim support. Neutral 
 implementation; RC6 must be fully regressed, independently audited, remotely frozen and verified
 before the preregistered fresh C input is read. The fresh answer-sealed run is one-shot/four-hour and
 cannot mutate RC6. Its actual terminal evidence alone selects 004D, 004C4, continued 004C3, or null.
+
+Phase 004C3 reached the independent pre-release audit after two formal Skill cycles and successful
+neutral/historical regression. Auditor 1 then reproduced 13 fail-open probes and an ineffective
+hardcoded global completion path. The revision cap forbids another Skill change, so the phase is
+terminal `RC6_RELEASE_REPAIR_BLOCKED`; RC6 was not released and the fresh official input was not
+accessed. The exact next route is `null`.

@@ -1,14 +1,19 @@
 # Changelog
 
-## 0.3.0-competition-rc6 — 2026-09-05 (candidate; release audit pending)
+## 0.3.0-competition-rc6 — 2026-09-05 (release blocked)
 
 - Reconciles the project and sole formal Skill at `0.3.0-competition-rc6` /
   `0.2.0-competition-rc6` while retaining the immutable RC5 release-block record.
 - Adds requirement-level evidence/source classes, acquisition-aware data-sufficiency preflight,
   global/per-requirement/portfolio selection, and bounded `claim-evidence/v3` semantic predicates.
-- Preserves the 14-stage K1 architecture, four roles, v1/v2 derived compatibility, capture/seal,
-  leakage, hash lineage, failure retention and STALE behavior. RC6 is not released until the
-  frozen tests, historical diagnostics/regressions and independent read-only audit all pass.
+- Preserves the 14-stage K1 architecture, four roles, capture/seal, leakage, hash lineage, failure
+  retention and STALE behavior. Frozen tests and historical regressions passed, but independent
+  Auditor 1 reproduced 13 fail-open probes in acquisition/scope sufficiency, dependent/portfolio
+  selection, semantic Run/output/metric/aggregate binding and compatibility.
+- The generic fresh-completion controller also hardcodes a global Run, descriptive Claims,
+  provided-empirical evidence and positive policy exposure. Both formal revision cycles are
+  exhausted, so RC6 is not released, the fresh 2018/2017 Validation input was never accessed, and
+  the terminal route is `RC6_RELEASE_REPAIR_BLOCKED` with `next_phase_allowed=null`.
 
 ## 0.3.0-competition-rc5 — 2026-09-05 (release acceptance blocked)
 

@@ -10,3 +10,10 @@ Policy Claims require execution, nonzero exposure, a comparator, and recorded be
 Feasibility requires independent recalculation; global optimality requires a certificate; causal
 and predictive Claims require their declared identification/test boundaries. Counter-evidence
 cannot be silently omitted.
+
+Auditor 1 reproduced PASS results for a failed/unsealed/stale selected Run, a wrong requirement,
+output not owned by the Run, missing metric binding, `scope_bounded=false`, and an aggregate
+requirement mapped to the wrong Claim ID. The compatibility adapter also accepts an unknown kind,
+`claim-evidence/v999` and a non-permutation. The fresh controller hardcodes every Claim as
+descriptive/provided-empirical and policy exposure as positive. These fail-open paths make RC6
+unreleasable after the two-cycle cap.

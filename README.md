@@ -11,8 +11,10 @@ The active phase froze the same RC3 across three structurally different C Develo
 postponed every Skill change and reference access until all three runs were independently frozen,
 and admitted one unified cross-case revision after the bounded postmortem.
 
-Current project version: `0.3.0-competition-rc4`. The sole formal Skill is
-`cumcm-modeling-evidence` `0.2.0-competition-rc4` with capability `COMPETITION_RC`. New K1 and W1
+Current repository candidate version: `0.3.0-competition-rc6`. The sole formal Skill code is
+`cumcm-modeling-evidence` `0.2.0-competition-rc6` with capability `COMPETITION_RC`; the active
+release state remains `0.2.0-competition-rc5-blocked` because RC6 failed its independent release
+audit. New K1 and W1
 revisions both pass the unchanged eight public hard Gates (117 symmetric cases each); the frozen
 K1-first rule selects the project-authored deterministic evidence kernel. The formal Skill provides
 14 workflows, four bounded roles, 14 templates, an offline case CLI, strict Run/Claim/comparison
@@ -85,9 +87,12 @@ Post-decision audit found an unresolved release blocker: the frozen Skill VERSIO
 RC4 while the runner, SKILL.md and manifest say RC5. Release acceptance is BLOCKED_VERSION_METADATA;
 the frozen Skill cannot be changed in this episode.
 The historical RC5 freeze remains release-blocked by its inconsistent VERSION label and is
-preserved as audited evidence. Phase 004C3 is testing the sole K1 `COMPETITION_RC` Skill candidate
-`0.2.0-competition-rc6`; it is not a formal release until its consistency/regression bundle and
-read-only release audit pass and the resulting freeze is remotely verified.
+preserved as audited evidence. Phase 004C3 tested the sole K1 `COMPETITION_RC` Skill candidate
+`0.2.0-competition-rc6`. Its consistency/regression bundle passed, but Auditor 1 reproduced 13
+fail-open probes and found the fresh-completion controller does not operationalize per-requirement
+or portfolio selection. Both formal revision cycles are exhausted. RC6 is not released; no fresh
+2018/2017 input, worker or Run was started, and formal status is `RC6_RELEASE_REPAIR_BLOCKED` with
+`next_phase_allowed=null`.
 Release truth: `evals/results/phase-004c2/rc5_release.json`; execution record:
 `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
 The 2024 terminal verdict and original artifacts remain unchanged.

@@ -6,7 +6,7 @@
     "leakage-safe-model-comparison-gate"
   ],
   "active_skill_version": "0.2.0-competition-rc5-blocked",
-  "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
+  "answer_access_status": "SEALED_NOT_ACCESSED",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -30,7 +30,8 @@
     "DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2",
     "DECISION-SLOT-RESOLUTION-002D-R1",
     "DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1",
-    "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2"
+    "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2",
+    "DECISION-C-TARGET-VALIDATION-004C3"
   ],
   "base_selected": false,
   "batch_pre_run_freeze": {
@@ -48,7 +49,11 @@
   "batch_reference_unlocked": true,
   "batch_skill_frozen": true,
   "blockers": [
-    "RC5_VERSION_FILE_MISMATCH"
+    "RC6_COMPATIBILITY_GATE_VACUOUS",
+    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING"
   ],
   "competition_rc1": {
     "api_calls": 0,
@@ -230,8 +235,9 @@
     "The 2019 C terminal outcome is evidence insufficient because actual airport/city data are absent; conditional simulation and native Claim/handoff success cannot establish full primary completion.",
     "The 2019 C ranking measures Q1 only and all candidates tied; main Q4 mean Gini worsened. No joint optimum, real-site safety or empirical generalization is established.",
     "2019 answers remained sealed; exact model prior is unverifiable and test payload isolation is policy-based rather than cryptographic or OS-enforced.",
-    "Post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in this one-shot.",
-    "Phase 004C3 froze 56 case-neutral release, data-sufficiency, selection, semantic-support and compatibility expectations before RC6 implementation."
+    "RC5_VERSION_FILE_MISMATCH: post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in that one-shot.",
+    "Phase 004C3 froze 56 case-neutral release, data-sufficiency, selection, semantic-support and compatibility expectations before RC6 implementation.",
+    "Auditor 1 reproduced 13 fail-open probes across RC6 data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted, so RC6 is not released and fresh Validation was not started."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
@@ -289,11 +295,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "RC6-RELEASE-AND-EVIDENCE-SEMANTICS-REPAIR",
+  "subphase": "C-TARGET-FRESH-VALIDATION-BLOCKED",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS",
+  "technical_adjudication_status": "RC6_RELEASE_REPAIR_BLOCKED",
   "third_party_integrated": false,
-  "updated_at": "2026-09-05T15:02:10+08:00",
+  "updated_at": "2026-09-05T16:08:07+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

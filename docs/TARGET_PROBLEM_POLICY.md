@@ -105,3 +105,9 @@ must be remotely frozen before the preregistered 2018 C (or input-only 2017 fall
 That answer-sealed C Validation is one-shot with a four-hour boundary and clean-context worker.
 The 2025 reservation and six false access flags remain unchanged until an actual PASS authorizes
 004D; failed/insufficient/incomplete Validation cannot be compensated by other evidence.
+
+Auditor 1 blocked RC6 before release by reproducing 13 fail-open data, selection, semantic and
+compatibility probes and an ineffective hardcoded global completion path. The two-cycle limit is
+exhausted. Therefore neither preferred nor fallback Validation input was accessed, no Validation
+case was registered, 004D remains locked, all six 2025 flags remain false, and the exact next phase
+is `null`.

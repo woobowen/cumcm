@@ -3,7 +3,7 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3`
-- Subphase: `RC6-RELEASE-AND-EVIDENCE-SEMANTICS-REPAIR`
+- Subphase: `C-TARGET-FRESH-VALIDATION-BLOCKED`
 - Status: `IN_PROGRESS`
 - Active plan: `plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md`
 - Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
@@ -15,19 +15,23 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
+- Technical adjudication: `RC6_RELEASE_REPAIR_BLOCKED`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `None`
 - Content-verified commit: `b289f2dfcaebe8edca5335ed4bf89f383c67eb51`
 - Delivery receipt commit: `b289f2dfcaebe8edca5335ed4bf89f383c67eb51`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-05T15:02:10+08:00` by `main-agent`
+- Updated: `2026-09-05T16:08:07+08:00` by `main-agent`
 
 ## Blockers
 
-- RC5_VERSION_FILE_MISMATCH
+- RC6_COMPATIBILITY_GATE_VACUOUS
+- RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN
+- RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE
+- RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING
+- RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING
 
 ## Risks
 
@@ -61,5 +65,6 @@
 - The 2019 C terminal outcome is evidence insufficient because actual airport/city data are absent; conditional simulation and native Claim/handoff success cannot establish full primary completion.
 - The 2019 C ranking measures Q1 only and all candidates tied; main Q4 mean Gini worsened. No joint optimum, real-site safety or empirical generalization is established.
 - 2019 answers remained sealed; exact model prior is unverifiable and test payload isolation is policy-based rather than cryptographic or OS-enforced.
-- Post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in this one-shot.
+- RC5_VERSION_FILE_MISMATCH: post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in that one-shot.
 - Phase 004C3 froze 56 case-neutral release, data-sufficiency, selection, semantic-support and compatibility expectations before RC6 implementation.
+- Auditor 1 reproduced 13 fail-open probes across RC6 data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted, so RC6 is not released and fresh Validation was not started.

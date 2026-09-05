@@ -152,9 +152,9 @@ def check() -> dict[str, Any]:
     active_version = state.get("active_skill_version")
     rc6_candidate_staged = (
         state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
-        and state.get("technical_adjudication_status") == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+        and state.get("technical_adjudication_status")
+        in {"C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS", "RC6_RELEASE_REPAIR_BLOCKED"}
         and active_version == "0.2.0-competition-rc5-blocked"
-        and state.get("blockers") == ["RC5_VERSION_FILE_MISMATCH"]
         and "Version: `0.2.0-competition-rc6`" in skill_text
     )
     if active_version not in ACTIVE_VERSIONS:
