@@ -90,3 +90,10 @@ Progress:
   in 293.37 seconds and strict 0 errors / 0 warnings. One accidental non-check historical verifier
   invocation was immediately restored byte-for-byte before the valid serial baseline; final
   worktree and the historical blob matched HEAD. No dependency or configuration changed.
+- `2026-09-05T19:26:14+08:00` — Froze 13 actual-entrypoint black-box probes before any formal
+  Skill/controller edit. Matrix freeze
+  `PHASE-004C4-ACTUAL-CONTROLLER-BLACK-BOX-FREEZE-001` binds the base controller, core, test and
+  project-original deterministic fixture hashes. Static checks passed, the matrix self-hash test
+  passed, and pytest collected the expected 1 freeze-integrity test plus 13 behavioral probes.
+  Behavioral execution is intentionally deferred until the fixture is Git-bound by the freeze
+  commit; the pre-repair failures will then be recorded as expected-failure evidence.

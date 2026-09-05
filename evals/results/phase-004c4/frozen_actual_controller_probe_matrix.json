@@ -1,0 +1,138 @@
+{
+  "schema_version": "actual-controller-probe-matrix/v1",
+  "freeze_id": "PHASE-004C4-ACTUAL-CONTROLLER-BLACK-BOX-FREEZE-001",
+  "frozen_at": "2026-09-05T11:26:14Z",
+  "base_commit": "d191fb47c07ec8a8115d83909fefa53966fbcc03",
+  "controller_path": "scripts/finalize_fresh_c_validation.py",
+  "controller_sha256": "fc3a5abae33cd13e23ae8f26d2e7d41488b625ab28eb2dc4f7ee2284311cb753",
+  "core_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+  "core_sha256": "2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879",
+  "test_file": "tests/integration/test_actual_controller_black_box.py",
+  "test_sha256": "cb5d88dcbfed1943d85f69892115748f3e2bfc4a34d4e4f6e6e4175f03d733d5",
+  "fixture_file": "tests/fixtures/actual_controller_model.py",
+  "fixture_sha256": "9b9b7bd0b1b20c9b9006b19606586a57204bbceecb2aea35223418cd3369f517",
+  "entrypoint": [
+    "python",
+    "scripts/finalize_fresh_c_validation.py",
+    "--case-root",
+    "<isolated-case-root>"
+  ],
+  "probe_count": 13,
+  "probes": [
+    {
+      "probe_id": "AC-001-EXTERNAL-DATA-FORBIDDEN",
+      "mutation": "requirement forbids external data while the only declared evidence is acquired empirical data",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_DATA_SUFFICIENCY_PREFLIGHT",
+      "expected_reason_code": "RC_EXTERNAL_DATA_POLICY_FORBIDDEN"
+    },
+    {
+      "probe_id": "AC-002-ACQUISITION-PLAN-INCOMPLETE",
+      "mutation": "required external acquisition has an incomplete plan and no acquired source",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_DATA_SUFFICIENCY_PREFLIGHT",
+      "expected_reason_code": "RC_DATA_ACQUISITION_PLAN_INCOMPLETE"
+    },
+    {
+      "probe_id": "AC-003-SOURCE-SCOPE-NOT-CONJUNCTIVE",
+      "mutation": "separate sources cover fields, time, and entities without a registered conjunctive composition",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_DATA_SUFFICIENCY_PREFLIGHT",
+      "expected_reason_code": "RC_DATA_SOURCE_COMPOSITION_UNREGISTERED"
+    },
+    {
+      "probe_id": "AC-004-DEPENDENCY-SPLIT-WITHOUT-BRIDGE",
+      "mutation": "dependent requirements select different runs without a dependency bridge",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_COMPATIBILITY_PORTFOLIO",
+      "expected_reason_code": "RC_SELECTION_DEPENDENCY_BRIDGE_MISSING"
+    },
+    {
+      "probe_id": "AC-005-PORTFOLIO-HASHES-MISSING",
+      "mutation": "joint portfolio omits run input and scenario hashes and shared hash declarations",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_COMPATIBILITY_PORTFOLIO",
+      "expected_reason_code": "RC_SELECTION_PORTFOLIO_HASHES_MISSING"
+    },
+    {
+      "probe_id": "AC-006-PORTFOLIO-HASH-MISMATCH",
+      "mutation": "declared shared input and scenario hashes conflict with selected runs",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_COMPATIBILITY_PORTFOLIO",
+      "expected_reason_code": "RC_SELECTION_PORTFOLIO_HASH_MISMATCH"
+    },
+    {
+      "probe_id": "AC-007-SELECTED-RUN-INELIGIBLE",
+      "mutation": "semantic evidence marks a selected run failed, unsealed, and non-current",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_RUN_ELIGIBILITY",
+      "expected_reason_code": "RC_REQUIREMENT_SELECTED_RUN_INVALID_STATUS"
+    },
+    {
+      "probe_id": "AC-008-CLAIM-REQUIREMENT-NOT-COVERED",
+      "mutation": "selected run does not declare support for its bound requirement",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_SEMANTIC_CLAIM",
+      "expected_reason_code": "RC_REQUIREMENT_SELECTED_RUN_SEMANTIC_MISMATCH"
+    },
+    {
+      "probe_id": "AC-009-CLAIM-OUTPUT-NOT-OWNED",
+      "mutation": "selected output is attributed to a different run",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_SEMANTIC_CLAIM",
+      "expected_reason_code": "RC_REQUIREMENT_SELECTED_OUTPUT_NOT_OWNED"
+    },
+    {
+      "probe_id": "AC-010-CLAIM-METRIC-MISSING",
+      "mutation": "claim has no declared metric binding",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_SEMANTIC_CLAIM",
+      "expected_reason_code": "RC_CLAIM_METRIC_BINDING_MISSING"
+    },
+    {
+      "probe_id": "AC-011-CLAIM-SCOPE-UNBOUNDED",
+      "mutation": "claim explicitly fails its scope-bounded support predicate",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_SEMANTIC_CLAIM",
+      "expected_reason_code": "RC_CLAIM_SCOPE_UNBOUNDED"
+    },
+    {
+      "probe_id": "AC-012-AGGREGATE-MAPPING-WRONG",
+      "mutation": "aggregate requirement-to-claim map points a requirement at another requirement's claim",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_AGGREGATE_CLAIM",
+      "expected_reason_code": "RC_AGGREGATE_CLAIM_MAPPING_INVALID"
+    },
+    {
+      "probe_id": "AC-013-COMPATIBILITY-UNKNOWN-NONBIJECTION",
+      "mutation": "compatibility kind is outside the allowlist and its permutation is not bijective",
+      "expected_exit": "NONZERO",
+      "expected_final_disposition": "BLOCK",
+      "expected_gate_id": "GATE_COMPATIBILITY_PORTFOLIO",
+      "expected_reason_code": "RC_EVIDENCE_COMPATIBILITY_KIND_INVALID"
+    }
+  ],
+  "required_assertions": [
+    "actual CLI entrypoint returns nonzero",
+    "native disposition is BLOCK_NATIVE_CONTRACTS",
+    "expected stable reason code is present",
+    "case state and authoritative evidence hashes are unchanged",
+    "case remains RUNNING",
+    "gate trace is self-hash-bound and records before/after state hashes",
+    "every executed gate has input hashes and an output hash",
+    "opaque source content is absent from stdout, stderr, trace, completion, and handoff"
+  ],
+  "matrix_hash": "52bb72ef45cfbbc8cf269271f37360b0ba7b0de14841896f4091ccbf025b422d"
+}
