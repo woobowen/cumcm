@@ -113,6 +113,7 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
             "trusted_freeze_registry": freezes,
             "stop_rule": stop,
             "handoff_generated_at": generated,
+            "scenario_hash": inputs["data/raw/toy.json"],
         },
     )
     synthetic._write_output_contract_probe(core, case, ["REQ-1"], metric="loss")
@@ -127,6 +128,109 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
             code_path="models/toy.py",
             timeout_seconds=30,
         )
+    run_id = "RUN-CAND-20260904"
+    input_hash = core.canonical_hash([inputs["data/raw/toy.json"]])
+    configuration_hash = core.canonical_hash({"candidate_id": "CAND", "seed": 20260904})
+    run = {
+        "run_id": run_id,
+        "outcome": "SUCCESS",
+        "sealed": True,
+        "current": True,
+        "supported_requirement_ids": ["REQ-1"],
+        "selected_output_ids": ["OUT-REQ-1"],
+        "metric_ids": ["loss"],
+        "input_hash": input_hash,
+        "scenario_hash": inputs["data/raw/toy.json"],
+        "configuration_hash": configuration_hash,
+        "policy_exposure": 0,
+    }
+    accepted(
+        "requirement_selection",
+        {
+            "contract_version": "requirement-selection/v1",
+            "requirements": [
+                {
+                    "requirement_id": "REQ-1",
+                    "candidate_run_ids": [run_id],
+                    "selection_metric": "loss",
+                    "selection_direction": "MIN",
+                    "feasibility_gate": "PASS",
+                    "selected_run_ids": [run_id],
+                    "selected_output_ids": ["OUT-REQ-1"],
+                    "dependency_requirements": [],
+                    "dependency_bindings": [],
+                    "cross_requirement_constraints": [],
+                    "support_predicates": {"metric_bound": True},
+                }
+            ],
+            "runs": [run],
+            "selection": {
+                "selection_mode": "GLOBAL_JOINT",
+                "requirement_to_run_map": {"REQ-1": [run_id]},
+                "requirement_to_output_map": {"REQ-1": ["OUT-REQ-1"]},
+                "shared_input_hashes": [input_hash],
+                "shared_scenario_hashes": [inputs["data/raw/toy.json"]],
+                "compatibility_checks": ["INPUT", "SCENARIO", "CONSTRAINTS"],
+                "compatibility": {
+                    "kind": "SINGLE_RUN_V1",
+                    "version": "compatibility/v1",
+                    "ordered_ids": ["REQ-1"],
+                    "permuted_ids": ["REQ-1"],
+                },
+                "dependency_bridges": [],
+                "cross_requirement_constraints": [],
+                "aggregate_objective": "DECLARED_SINGLE_METRIC",
+                "tradeoff_rule": "EXPLICIT_REQUIREMENT_SELECTION",
+                "limitations": ["toy only"],
+            },
+        },
+    )
+    accepted(
+        "semantic_claim_support",
+        {
+            "contract_version": "claim-evidence/v3",
+            "claims": [
+                {
+                    "claim_id": "CLAIM-TOY-1",
+                    "requirement_id": "REQ-1",
+                    "claim_type": "DESCRIPTIVE",
+                    "statement": "local toy scope",
+                    "scope": {
+                        "fields": ["x"],
+                        "time": ["FROZEN_CASE_SCOPE"],
+                        "entities": ["SYNTHETIC_CASE"],
+                    },
+                    "evidence_class": "PROVIDED_EMPIRICAL",
+                    "selected_run_ids": [run_id],
+                    "selected_output_ids": ["OUT-REQ-1"],
+                    "metric_ids": ["loss"],
+                    "comparator_ids": [],
+                    "support_predicates": {"scope_bounded": True},
+                    "uncertainty": {"scope": "synthetic"},
+                    "counter_evidence": [],
+                    "limitations": ["toy only"],
+                    "claim_strength": "BOUNDED",
+                    "status": "SUPPORTED",
+                }
+            ],
+            "runs": [run],
+            "outputs": [
+                {
+                    "output_id": "OUT-REQ-1",
+                    "requirement_id": "REQ-1",
+                    "owner_run_id": run_id,
+                    "metric_ids": ["loss"],
+                }
+            ],
+            "comparators": [],
+            "validation": {"counter_evidence_detected": False},
+            "aggregate": {
+                "primary_requirement_ids": ["REQ-1"],
+                "supported_requirement_ids": ["REQ-1"],
+                "requirement_claim_ids": {"REQ-1": "CLAIM-TOY-1"},
+            },
+        },
+    )
     result = controller.complete(case, "sealed_test_metrics_b64")
     if all_failed:
         assert result["reason_codes"] == ["VALIDATION_NO_ELIGIBLE_SUCCESS"]
@@ -148,7 +252,7 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
     assert access["test_metrics"] == {"selected": "CAND"}
     assert access["count"] == 1
     claim = core.read_artifact(case, "claim_evidence")["content"]
-    assert claim["contract_version"] == "claim-evidence/v2"
-    assert claim["claim_text"] != claim["requirement_claims"]["REQ-1"]["claim_text"]
+    assert claim["contract_version"] == "claim-evidence/runtime-v3"
+    assert claim["claims"]["REQ-1"]["claim_type"] == "DESCRIPTIVE"
     with pytest.raises(ValueError, match="STATE_INVALID"):
         controller.complete(case, "sealed_test_metrics_b64")

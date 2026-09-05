@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from cumcm_skill_lab import historical_compat
 from cumcm_skill_lab.failure_aware.evidence_freeze import verify_input_freeze
 from cumcm_skill_lab.report_generation import render_status_text
 
@@ -28,10 +29,22 @@ from .models import (
 )
 
 RECORD_PATH = RESULT_ROOT / "historical_verification/record.json"
+ADAPTER_PATHS = (
+    "src/cumcm_skill_lab/expansion/input_freeze.py",
+    "src/cumcm_skill_lab/failure_aware/evidence_freeze.py",
+    "src/cumcm_skill_lab/specification/models.py",
+)
 
 
 def _read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _adapter_hashes(root: Path) -> dict[str, str]:
+    """Successors verify the frozen RC1 adapter blobs, never retarget the old record."""
+    if historical_compat.competition_rc_successor(root):
+        return {path: historical_compat.git_file_sha256(root, path) for path in ADAPTER_PATHS}
+    return {path: file_sha256(root / path) for path in ADAPTER_PATHS}
 
 
 def build_historical_record(root: Path) -> dict[str, Any]:
@@ -74,14 +87,7 @@ def build_historical_record(root: Path) -> dict[str, Any]:
         "verifier_file_sha256": file_sha256(
             root / "src/cumcm_skill_lab/authorization_c1/historical_verification.py"
         ),
-        "verifier_adapter_hashes": {
-            path: file_sha256(root / path)
-            for path in (
-                "src/cumcm_skill_lab/expansion/input_freeze.py",
-                "src/cumcm_skill_lab/failure_aware/evidence_freeze.py",
-                "src/cumcm_skill_lab/specification/models.py",
-            )
-        },
+        "verifier_adapter_hashes": _adapter_hashes(root),
         "verification_modes": sorted({item["verification_mode"] for item in policy["entries"]}),
         "r1_subject_commit": r1_manifest["subject_commit"],
         "immutable_paths": sorted(

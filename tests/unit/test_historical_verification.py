@@ -1,3 +1,4 @@
+import json
 from copy import deepcopy
 
 import pytest
@@ -205,3 +206,14 @@ def test_live_pointer_duplicate_yaml_key_is_rejected(repo_root, payload):
 def test_derived_observation_is_recomputed_from_authoritative_state(repo_root):
     record = build_historical_record(repo_root)
     assert record["derived_observation_errors"] == []
+
+
+def test_successor_record_keeps_frozen_adapter_blob_hashes(repo_root):
+    expected = build_historical_record(repo_root)
+    stored = json.loads(
+        (
+            repo_root / "evals/results/phase-002d-r2a-c1/historical_verification/record.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert expected["verifier_adapter_hashes"] == stored["verifier_adapter_hashes"]
+    assert expected["record_hash"] == stored["record_hash"]

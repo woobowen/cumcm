@@ -355,6 +355,7 @@ def _block_result(
     trace: GateTrace,
     event: dict[str, Any],
     attempts: list[dict[str, Any]] | None = None,
+    **extra: Any,
 ) -> dict[str, Any]:
     return trace.finish(
         "BLOCK",
@@ -363,6 +364,7 @@ def _block_result(
             "reason_codes": event["reason_codes"] or ["RC_GATE_REJECTED_WITHOUT_REASON"],
             "attempts": attempts or [],
             "test_access_count": 0,
+            **extra,
         },
     )
 
@@ -429,10 +431,16 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
     selection_record = core.read_artifact(case_root, "requirement_selection")["content"]
     try:
         selected = select_candidate(attempts, plan)
-        decision_hash = core.canonical_hash(selected)
-        manifests = _seal_attempts(core, case_root, attempts, decision_hash)
     except (KeyError, OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
-        reason = str(exc) if str(exc).startswith("RC_") else "VALIDATION_NO_ELIGIBLE_SUCCESS"
+        reason = str(exc)
+        if reason != "VALIDATION_NO_ELIGIBLE_SUCCESS" and not reason.startswith("RC_"):
+            reason = "RC_COMPARISON_SELECTION_INPUT_INVALID"
+        no_eligible = reason == "VALIDATION_NO_ELIGIBLE_SUCCESS"
+        decision_hash = core.canonical_hash(
+            {"status": "NO_ELIGIBLE_CANDIDATE", "attempts": attempts}
+        )
+        if no_eligible:
+            _seal_attempts(core, case_root, attempts, decision_hash)
         event = trace.invoke(
             "GATE_COMPARISON_SELECTION",
             "controller.capture_registry+cumcm_case.validate_requirement_selection",
@@ -441,6 +449,30 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
                 core.ARTIFACT_PATHS["requirement_selection"],
             ],
             lambda: {"status": "BLOCK", "reason_codes": [reason]},
+        )
+        return _block_result(
+            trace,
+            event,
+            attempts,
+            selected_candidate_id=None,
+            selected_run_id=None,
+            selection_decision_hash=decision_hash,
+        )
+    decision_hash = core.canonical_hash(selected)
+    try:
+        manifests = _seal_attempts(core, case_root, attempts, decision_hash)
+    except (KeyError, OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        manifest_reason = (
+            str(exc) if str(exc).startswith("RC_") else "RC_ACTUAL_RUN_REGISTRY_MISSING"
+        )
+        event = trace.invoke(
+            "GATE_COMPARISON_SELECTION",
+            "controller.capture_registry+cumcm_case.validate_requirement_selection",
+            [
+                core.ARTIFACT_PATHS["experiment_plan"],
+                core.ARTIFACT_PATHS["requirement_selection"],
+            ],
+            lambda: {"status": "BLOCK", "reason_codes": [manifest_reason]},
         )
         return _block_result(trace, event, attempts)
     comparison = _comparison_payload(plan, attempts, selected, decision_hash)

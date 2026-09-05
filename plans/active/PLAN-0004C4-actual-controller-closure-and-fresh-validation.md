@@ -131,3 +131,13 @@ Progress:
   correctly blocked but by the legacy Gate-4 compatibility shortcut. Implementation milestone 3
   confines that shortcut to unversioned legacy payloads so versioned runtime portfolio consistency
   is manifest-bound at Gate 6. Static checks and the immutable RC6 57-case matrix remain green.
+- `2026-09-05T20:31:00+08:00` — The Git-bound frozen controller, neutral E2E and RC6 matrices pass
+  together (`88 passed`). The legacy completion-controller regression fixture now supplies explicit
+  runtime-v3 requirement-selection and semantic-support artifacts; its success and all-failed
+  branches pass without relying on removed defaults, and the all-failed result carries explicit
+  null selection identifiers plus a deterministic no-eligible decision hash.
+- `2026-09-05T20:34:00+08:00` — Historical compatibility is again read-only PASS. Successor builds
+  derive the adapter hashes for the immutable RC1 historical record from the fixed Git blobs rather
+  than the live successor files. The stored record is unchanged; its hash remains
+  `e95a81fa08a4b2e2c496b9aee95cdb5eb4ac49eebd94de8d8e5ca9554aa85037`, with 20 fixed historical
+  failures, and the focused controller/historical suite passes (`22 passed`).
