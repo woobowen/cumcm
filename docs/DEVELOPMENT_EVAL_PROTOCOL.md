@@ -172,3 +172,24 @@ The machine decision and terminal freeze live under
 RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
 is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
 2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+## Phase 004C3 RC6 and fresh C Validation protocol
+
+RC6 adds a requirement-level data-sufficiency sub-Gate after Data Audit, before expensive modeling.
+Every primary requirement declares allowed/required evidence classes, fields, time/entity scope,
+external acquisition and substitution rules. `UNKNOWN` never passes, simulation never proves an
+empirical Claim, and a blocked requirement prevents aggregate-complete handoff without necessarily
+blocking independent requirements.
+
+Model comparison records `GLOBAL_JOINT`, `PER_REQUIREMENT`, or `JOINT_PORTFOLIO`. Each requirement
+binds its own metric, successful current Run, output and structured support predicates. A portfolio
+must share exact inputs/scenarios and satisfy cross-requirement constraints. Policy Claims require
+actual nonzero exposure and a comparator; causal/global-optimal/predictive Claims require their
+corresponding identification/certificate/holdout evidence.
+
+The fresh 2018/2017 Validation protocol is activated only after the RC6 remote freeze. Direct official
+URLs may be accessed, but no search for the problem, solution, paper, code, discussion or answer is
+allowed. Tracked files contain hashes/metadata only; raw official inputs stay in ignored cache. The
+pre-run freeze binds the four-hour one-shot and must be remotely delivered before a clean-context
+worker starts the 14-stage lifecycle. After start, Skill/tests/rubric/evidence rules are immutable;
+after terminal freeze, no Run or verdict may be added or changed.

@@ -103,6 +103,7 @@ class SchemaVersionResolver:
                     "PHASE-SKILL-DEVELOPMENT-EVAL-004",
                     "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
                     "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+                    "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
                 }
                 if not r3_successor and sha256_bytes(schema_bytes) != current["file_sha256"]:
                     errors.append("CURRENT_PROJECT_STATE_SCHEMA_HASH_MISMATCH")
@@ -153,6 +154,7 @@ class SchemaVersionResolver:
                 "PHASE-SKILL-DEVELOPMENT-EVAL-004",
                 "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
                 "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+                "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
             }
         ):
             shadow = state.get("shadow_authorization")

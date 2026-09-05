@@ -62,3 +62,11 @@ The machine decision and terminal freeze live under
 RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
 is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
 2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+Phase 004C2 is now preserved under `plans/completed/`. The sole active execution is
+`plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md`, authorized to produce a
+release-consistent RC6 with requirement evidence/data sufficiency, acquisition planning,
+per-requirement/portfolio selection and bounded semantic Claim support. Neutral expectations precede
+implementation; RC6 must be fully regressed, independently audited, remotely frozen and verified
+before the preregistered fresh C input is read. The fresh answer-sealed run is one-shot/four-hour and
+cannot mutate RC6. Its actual terminal evidence alone selects 004D, 004C4, continued 004C3, or null.

@@ -2,6 +2,7 @@
 
 Status: `TERMINAL_WITH_UNRESOLVED_RELEASE_BLOCKER`
 Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`
+Successor: `plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md`
 Owner: main agent / `modeling_orchestrator`
 Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
 Starting commit: `f3812dcd0b1c1bb76224168454719dd3eb112801`

@@ -251,3 +251,31 @@ The machine decision and terminal freeze live under
 RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
 is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
 2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+## Phase 004C3 RC6 evidence-repair and fresh-Validation route
+
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT + RC5_VERSION_FILE_MISMATCH ->
+C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS` is a newly frozen successor phase. It preserves RC5 and the
+2024/2019 terminal histories, then freezes neutral requirements before changing the formal Skill.
+The only implementation scope is release consistency, requirement evidence/data sufficiency,
+source acquisition planning, per-requirement or compatible portfolio selection, and structured
+semantic Claim predicates. K1, execute/capture/seal, raw immutability, failure retention, STALE,
+one formal Skill and one project state remain unchanged.
+
+`C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS -> C_TARGET_RC6_READY_VALIDATION_PENDING` requires no more
+than two implementation cycles, all neutral/historical/synthetic/negative evidence, read-only 2019
+and 2024 diagnostics, one read-only release/evidence Auditor without BLOCKER, full offline CI and a
+remotely verified RC6 freeze. New Validation inputs cannot be read before that remote receipt.
+
+The preferred 2018 C case, or input-failure/contamination-only 2017 fallback, then follows an
+answer-sealed input-suitability preflight and remotely delivered pre-run freeze. A clean-context
+worker executes the existing 14-stage lifecycle once within four hours. Requirement data status,
+evidence class, selection, selected Run/output and Claim predicates are mandatory. Missing evidence,
+zero policy exposure, incompatible portfolio, incomplete aggregate coverage, unbound source,
+answer exposure, Skill drift or post-freeze Run is a non-compensable failure.
+
+The terminal decision is independently frozen and remotely delivered before the second and final
+read-only Auditor. `C_TARGET_VALIDATION_PASSED` may route only to
+`PHASE-SKILL-C-TARGET-HELDOUT-004D`; failed, insufficient or incomplete evidence routes to
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C4`; release repair failure keeps 004C3 and null. The 2025 C
+reservation remains `SEALED_NOT_ACCESSED` throughout.

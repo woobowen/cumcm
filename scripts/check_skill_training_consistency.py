@@ -71,7 +71,13 @@ PHASE004B_REPORTS = tuple(
     )
 )
 EXPECTED_VERSION = "0.2.0-competition-rc3"
-ACTIVE_VERSIONS = {EXPECTED_VERSION, "0.2.0-competition-rc4", "0.2.0-competition-rc5"}
+ACTIVE_VERSIONS = {
+    EXPECTED_VERSION,
+    "0.2.0-competition-rc4",
+    "0.2.0-competition-rc5",
+    "0.2.0-competition-rc5-blocked",
+    "0.2.0-competition-rc6",
+}
 PHASE004A_VERSION = "0.2.0-competition-rc2"
 ALLOWED_CASE_VERSIONS = {
     "0.2.0-competition-rc1",
@@ -152,6 +158,10 @@ def check() -> dict[str, Any]:
         (rc4_candidate_staged and "0.2.0-competition-rc4" in skill_text)
         or (
             state.get("technical_adjudication_status") == "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS"
+            and "Version: `0.2.0-competition-rc5`" in skill_text
+        )
+        or (
+            active_version == "0.2.0-competition-rc5-blocked"
             and "Version: `0.2.0-competition-rc5`" in skill_text
         )
     ):

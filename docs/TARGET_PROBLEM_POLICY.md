@@ -90,3 +90,18 @@ The machine decision and terminal freeze live under
 RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
 is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
 2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+## Phase 004C3 authorization
+
+004C3 retains both negative Validation outcomes and repairs only the release/evidence semantics
+demonstrated by them. Before expensive modeling, each primary requirement must pass a structured
+data-sufficiency Gate or be isolated as partial/unsatisfiable. Simulation cannot substitute for an
+empirical requirement. Final selection may be global only with exact all-requirement support;
+otherwise it is per-requirement or a hash/scenario/constraint-compatible portfolio. Claim strength
+is bounded by structured evidence predicates, not prose confidence.
+
+After neutral tests, at most two revisions, full historical regression and a read-only audit, RC6
+must be remotely frozen before the preregistered 2018 C (or input-only 2017 fallback) is accessed.
+That answer-sealed C Validation is one-shot with a four-hour boundary and clean-context worker.
+The 2025 reservation and six false access flags remain unchanged until an actual PASS authorizes
+004D; failed/insufficient/incomplete Validation cannot be compensated by other evidence.

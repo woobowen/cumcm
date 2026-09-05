@@ -21,6 +21,8 @@ ACTIVE_SKILL_VERSIONS = {
     "0.2.0-competition-rc3",
     "0.2.0-competition-rc4",
     "0.2.0-competition-rc5",
+    "0.2.0-competition-rc5-blocked",
+    "0.2.0-competition-rc6",
 }
 DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
@@ -31,8 +33,12 @@ DEVELOPMENT_STATUSES = {
 }
 C_TARGET_STATUSES = {
     "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE",
+    "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS",
+    "C_TARGET_RC6_READY_VALIDATION_PENDING",
     "C_TARGET_VALIDATION_IN_PROGRESS",
     "CLAIM_SCOPE_REPAIR_BLOCKED",
+    "RC6_RELEASE_REPAIR_BLOCKED",
+    "VALIDATION_PREFLIGHT_DISQUALIFIED",
     "VALIDATION_CASE_CONTAMINATED",
     "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
     "C_TARGET_BATCH_IN_PROGRESS",
@@ -114,6 +120,11 @@ def evaluate() -> dict[str, Any]:
         and state.get("active_skill_version") == "0.2.0-competition-rc4"
         and "Version: `0.2.0-competition-rc5`" in skill
     )
+    rc5_blocked_successor = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+        and state.get("active_skill_version") == "0.2.0-competition-rc5-blocked"
+        and "Version: `0.2.0-competition-rc5`" in skill
+    )
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -144,6 +155,7 @@ def evaluate() -> dict[str, Any]:
             "PHASE-SKILL-DEVELOPMENT-EVAL-004",
             "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+            "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
         },
         "state_subphase": state.get("subphase")
         in {
@@ -167,6 +179,10 @@ def evaluate() -> dict[str, Any]:
             "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM",
             "C-TARGET-RC4-FROZEN-VALIDATION-PENDING",
             "C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT",
+            "RC6-RELEASE-AND-EVIDENCE-SEMANTICS-REPAIR",
+            "RC6-FROZEN-PENDING-FRESH-C-VALIDATION",
+            "C-TARGET-FRESH-VALIDATION-IN-PROGRESS",
+            "C-TARGET-FRESH-VALIDATION-TERMINAL",
         },
         "state_technical_status": state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES, *C_TARGET_STATUSES},
@@ -211,6 +227,40 @@ def evaluate() -> dict[str, Any]:
             and state.get("next_phase_allowed") is None
         )
         or (
+            state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+            and (
+                (
+                    state.get("technical_adjudication_status")
+                    in {
+                        "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS",
+                        "C_TARGET_RC6_READY_VALIDATION_PENDING",
+                        "C_TARGET_VALIDATION_IN_PROGRESS",
+                        "RC6_RELEASE_REPAIR_BLOCKED",
+                        "VALIDATION_PREFLIGHT_DISQUALIFIED",
+                        "VALIDATION_CASE_CONTAMINATED",
+                        "FIRST_RUN_CONTAMINATION_SUSPECTED",
+                        "OFFICIAL_INPUTS_REQUIRED",
+                        "INFRASTRUCTURE_BLOCKED",
+                        "VALIDATION_CANDIDATE_DRIFT",
+                    }
+                    and state.get("next_phase_allowed") is None
+                )
+                or (
+                    state.get("technical_adjudication_status") == "C_TARGET_VALIDATION_PASSED"
+                    and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-HELDOUT-004D"
+                )
+                or (
+                    state.get("technical_adjudication_status")
+                    in {
+                        "C_TARGET_VALIDATION_FAILED",
+                        "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+                        "C_TARGET_VALIDATION_INCOMPLETE",
+                    }
+                    and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C4"
+                )
+            )
+        )
+        or (
             state.get("technical_adjudication_status")
             == "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING"
             and state.get("active_skill_version") == "0.2.0-competition-rc4"
@@ -228,6 +278,12 @@ def evaluate() -> dict[str, Any]:
                 state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
                 and state.get("technical_adjudication_status") != "C_TARGET_VALIDATION_PASSED"
                 and isinstance(state.get("blockers"), list)
+            )
+            or (
+                state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+                and state.get("technical_adjudication_status")
+                == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+                and state.get("blockers") == ["RC5_VERSION_FILE_MISMATCH"]
             )
             or (
                 state.get("technical_adjudication_status")
@@ -280,6 +336,7 @@ def evaluate() -> dict[str, Any]:
             state.get("active_skill_version") in skill
             or (rc4_candidate_staged and "0.2.0-competition-rc4" in skill)
             or rc5_candidate_staged
+            or rc5_blocked_successor
         )
         and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
         "formal_skill_capability": "Capability: `COMPETITION_RC`" in skill,
@@ -310,6 +367,7 @@ def evaluate() -> dict[str, Any]:
                 "0.3.0-competition-rc3",
                 "0.3.0-competition-rc4",
                 "0.3.0-competition-rc5",
+                "0.3.0-competition-rc6",
             }
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),

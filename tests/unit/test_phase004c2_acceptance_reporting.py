@@ -21,6 +21,7 @@ def test_frozen_release_and_semantic_gaps_cannot_be_hidden(repo_root):
     actual = module.assess(version, release, block, decision, state)
     assert actual["ok"] and actual["release_acceptance"] == "BLOCK"
     state["blockers"] = []
+    state["risks"] = [item for item in state["risks"] if "RC5_VERSION_FILE_MISMATCH" not in item]
     hidden = module.assess(version, release, block, decision, state)
     assert "UNREPORTED_FROZEN_RELEASE_VERSION_MISMATCH" in hidden["errors"]
     decision["facts"]["pipeline_pass_requirements"]["requirement_claims_valid"] = True

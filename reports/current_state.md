@@ -2,12 +2,12 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`
-- Subphase: `C-TARGET-2019C-VALIDATION-TERMINAL`
+- Phase: `PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3`
+- Subphase: `RC6-RELEASE-AND-EVIDENCE-SEMANTICS-REPAIR`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`
+- Active plan: `plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md`
 - Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
-- Skill version: `0.2.0-competition-rc5`
+- Skill version: `0.2.0-competition-rc5-blocked`
 - Primary target problem type: `C`
 - Current batch: `C-TARGET-BATCH-001`
 - Batch Skill frozen: `true`
@@ -15,7 +15,7 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`
+- Technical adjudication: `C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS`
 - Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
@@ -23,7 +23,7 @@
 - Content-verified commit: `b289f2dfcaebe8edca5335ed4bf89f383c67eb51`
 - Delivery receipt commit: `b289f2dfcaebe8edca5335ed4bf89f383c67eb51`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-05T12:42:37+08:00` by `main-agent`
+- Updated: `2026-09-05T14:31:39+08:00` by `main-agent`
 
 ## Blockers
 

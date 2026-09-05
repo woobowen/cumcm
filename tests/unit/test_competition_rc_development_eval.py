@@ -41,6 +41,7 @@ def legacy_development_start_is_locked(state: dict) -> bool:
     ) in {
         "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+        "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
     }
 
 

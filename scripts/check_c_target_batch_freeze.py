@@ -226,6 +226,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         not in {
             "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+            "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
         }
         or state.get("current_batch_id") != "C-TARGET-BATCH-001"
         or not isinstance(state_freeze, dict)

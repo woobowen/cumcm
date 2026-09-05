@@ -13,20 +13,33 @@ CASE_ID = "CUMCM-2019-C-VALIDATION-002"
 def assess(version_file, release, block, decision, state):
     errors = []
     mismatch = version_file.strip() != release["skill_version"]
+    historical_blocker_reported = "RC5_VERSION_FILE_MISMATCH" in state.get("blockers", []) or any(
+        "RC5_VERSION_FILE_MISMATCH" in item for item in state.get("risks", [])
+    )
     if mismatch and not (
         block["finding_id"] == "RC5_VERSION_FILE_MISMATCH"
         and block["status"] == "BLOCK_RELEASE_ACCEPTANCE"
         and block["version_file_value"] == version_file.strip()
         and block["declared_release_version"] == release["skill_version"]
         and decision["release_acceptance"] == "BLOCKED_VERSION_METADATA"
-        and "RC5_VERSION_FILE_MISMATCH" in state["blockers"]
+        and historical_blocker_reported
     ):
         errors.append("UNREPORTED_FROZEN_RELEASE_VERSION_MISMATCH")
-    if (
-        state["technical_adjudication_status"] != decision["status"]
-        or state["current_validation_case"] != CASE_ID
-        or state["next_phase_allowed"] != decision["next_phase_allowed"]
-    ):
+    terminal_state_matches = (
+        state.get("technical_adjudication_status") == decision["status"]
+        and state.get("current_validation_case") == CASE_ID
+        and state.get("next_phase_allowed") == decision["next_phase_allowed"]
+    )
+    successor_preserves_terminal = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+        and state.get("previous_validation_cases") == ["CUMCM-2024-C-VALIDATION-001", CASE_ID]
+        and "DECISION-C-TARGET-VALIDATION-004C2" in state.get("automated_decision_ids", [])
+        and any(
+            "2019 C terminal outcome is evidence insufficient" in item
+            for item in state.get("risks", [])
+        )
+    )
+    if not terminal_state_matches and not successor_preserves_terminal:
         errors.append("TERMINAL_STATE_DECISION_MISMATCH")
     semantic_gap = any(
         finding["finding_id"] == "SELECTED_Q4_CLAIM_SCOPE_INCOMPLETE"

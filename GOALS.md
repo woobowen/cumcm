@@ -58,6 +58,20 @@ Phase 002D-R2 uses that bounded authorization only to freeze four clean-room spe
 prospective architecture-comparison protocol. It may authorize a later isolated shadow prototype,
 but cannot implement components, select an architecture, change the formal Skill, or enter Phase 003.
 
+## Phase 004C3 active objective
+
+Phase 004C3 preserves the blocked RC5 and both negative Validation histories while repairing the
+single formal Skill as RC6. The authorized scope is release metadata consistency, requirement-level
+evidence/data sufficiency, external-data acquisition planning, per-requirement or compatible
+portfolio selection, and bounded machine-checkable semantic Claim predicates. Case-neutral tests
+must be frozen before implementation; the Skill has at most two revision cycles.
+
+Only a remotely verified, fully regressed RC6 may be used for one fresh answer-sealed C Validation.
+The preferred/fallback official cases are preregistered, the worker is context-isolated, the
+one-shot is limited to four hours, and no Skill/test/rubric change is allowed after it starts. The
+2025 C Held-out remains completely unaccessed. A Validation pass may route to 004D; any other valid
+RC6 outcome routes to 004C4 or remains blocked, without a generalization or 2026-solved claim.
+
 The later Competition RC1 repair sprint preserves that historical boundary and old blocked decision,
 then accepts new project-owned K1/W1 revisions through the unchanged eight public hard Gates. K1 is
 integrated under the frozen K1-first rule. That checkpoint authorized
