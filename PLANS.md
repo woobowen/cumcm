@@ -46,5 +46,8 @@ The single active Skill is `0.2.0-competition-rc5`, K1, `COMPETITION_RC`.
 Release truth: `evals/results/phase-004c2/rc5_release.json`; active plan:
 `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
 The 2024 terminal verdict remains `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`.
-Fresh 2019 C acquisition requires verified remote RC5 delivery; no fresh case is registered yet.
+RC5 release commit `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` was remotely verified before
+2019 official input access. `CUMCM-2019-C-VALIDATION-002` is registered answer-sealed;
+the fresh worker is preparing its pre-run freeze. Official empirical data are absent;
+assumed simulations cannot satisfy the actual-airport data requirement. No model Run has started.
 The next phase is null and all six 2025 access flags remain false.

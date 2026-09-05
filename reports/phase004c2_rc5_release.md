@@ -13,3 +13,6 @@ Historical cases are artifact regressions; 2024 is POST_VALIDATION_DIAGNOSTIC_RE
 No new Validation input has been acquired. The release delivery receipt will record the
 actual release commit and matching remote SHA after the push is verified.
 No further Skill revision is permitted in the upcoming one-shot Validation.
+
+Remote delivery verified 2026-09-05T11:45:01+08:00. Release commit and remote SHA:
+`24265710b3f4b154ccf6eff19614eea7fb3fb0d4`. Receipt: `evals/results/phase-004c2/rc5_release_delivery.json`.

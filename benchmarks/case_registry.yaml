@@ -44,11 +44,12 @@ target_case_fields:
 - contamination_status
 - generalization_axis
 active_skill_release:
-  version: 0.2.0-competition-rc4
-  implementation_commit: 297cad0a29c659b18484d4f3b67d69a942ad415c
-  tree: d041ca38de030ae04813ef02dbe12f7f2b7a1c22
-  release_manifest: evals/results/phase-004c-c-batch/rc4/skill_release.json
-  validation_status: FROZEN_2024C_EVIDENCE_INSUFFICIENT
+  version: 0.2.0-competition-rc5
+  implementation_commit: 5673aab61a648be1cd9b87364110cb01c13cd033
+  tree: 0c27a6aa25d5f591277707fd2343b34e65a703fb
+  release_commit: 24265710b3f4b154ccf6eff19614eea7fb3fb0d4
+  release_manifest: evals/results/phase-004c2/rc5_release.json
+  validation_status: FROZEN_2019C_VALIDATION_PREPARATION
 planned_cases: []
 held_out_reservations:
 - reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
@@ -812,3 +813,44 @@ cases:
     path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
     sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
     verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0
+- case_id: CUMCM-2019-C-VALIDATION-002
+  set_type: VALIDATION
+  target_problem_type: C
+  evidence_role: FRESH_ANSWER_SEALED_VALIDATION
+  independent_problem: true
+  batch_id: null
+  batch_position: null
+  official_title: 机场的出租车问题
+  problem_source: data/raw/problem.pdf
+  problem_source_domain: mcm.edu.cn
+  problem_hash: e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0
+  official_package_sha256: f4d17f2dd80990680fcf00b27103b9c349bc1e943a8b852e948183fab882355f
+  data_hashes: {}
+  official_empirical_attachment_count: 0
+  answer_access_status: SEALED
+  reference_unlock: LOCKED
+  first_run_status: NOT_STARTED
+  first_run_freeze: null
+  skill_version: 0.2.0-competition-rc5
+  formal_skill_version: 0.2.0-competition-rc5
+  skill_commit: 24265710b3f4b154ccf6eff19614eea7fb3fb0d4
+  formal_skill_commit: 24265710b3f4b154ccf6eff19614eea7fb3fb0d4
+  model: MODEL_ID_NOT_EXPOSED_BY_RUNTIME
+  reasoning: UNKNOWN
+  start_time: null
+  freeze_time: null
+  unlock_time: null
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  contamination_status: PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE
+  generalization_axis:
+  - QUEUEING_AND_DISCRETE_EVENT
+  - STOCHASTIC_DEMAND
+  - SCHEDULING_AND_ALLOCATION
+  - DECISION_UNDER_UNCERTAINTY
+  - SIMULATION_OR_ANALYTIC_VALIDATION
+  - CONTEST_TIME_POLICY_DESIGN
+  generalizable_failures: []
+  problem_specific_findings:
+  - Official C directory contains problem PDF and DOC only; empirical airport and
+    taxi data are not supplied.
+  registration_path: evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/registration/input_registration.json

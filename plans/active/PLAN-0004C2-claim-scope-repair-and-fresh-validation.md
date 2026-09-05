@@ -39,10 +39,10 @@ no changed verdict, no answer access and no independent Validation credit.
 - M4 REGRESSION COMPLETE: existing 2020/2021/2022/2023 C and auxiliary 2020 A artifacts,
   two synthetic E2E, 30 original negatives, RC4 preflight, STALE and leakage checks.
   Derive a separate 2024 diagnostic bundle. Auditor 1 reads only after these results exist.
-- M5 RELEASE FROZEN_LOCAL_PENDING_REMOTE: all required tests, anti-hardcoding, discovery, strict and local CI pass;
+- M5 RELEASE COMPLETE_REMOTE_DELIVERED: all required tests, anti-hardcoding, discovery, strict and local CI pass;
   freeze version/implementation commit/tree/runner/contract/tests/regressions/environment.
   Commit and remotely verify RC5 before any fresh Validation input acquisition.
-- M6 FRESH VALIDATION PENDING: only after M5, check contamination then obtain official 2019 C
+- M6 FRESH VALIDATION PREPARING: only after M5, check contamination then obtain official 2019 C
   inputs; register `CUMCM-2019-C-VALIDATION-002`, `VALIDATION`, `SEALED`, and unverifiable model
   prior. Freeze rubric, primary requirements/output contract, environment, 4-hour timebox and
   one-shot protocol; commit/push pre-run freeze before actual model execution. One fresh worker
@@ -101,3 +101,10 @@ Release gate: final candidate full CI 1921 passed / 1 skipped (301.92 s); strict
 Release manifest `evals/results/phase-004c2/rc5_release.json` freezes the unchanged implementation.
 Release-state focused checks passed 48/48 and all three consistency checkers passed.
 No fresh Validation input acquisition is permitted until the release remote receipt exists.
+
+RC5 release `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` remotely verified at
+2026-09-05T11:45:01+08:00, before official acquisition. 2019 contamination check passed
+with unverifiable model prior; official archive/PDF hashes registered; answers SEALED.
+Fresh worker is preparing case code only. No numerical result exists and no execution is authorized
+until the separate pre-run remote freeze. Q2 actual-airport empirical data are absent from the
+official archive and cannot be replaced by assumed simulation inputs.
