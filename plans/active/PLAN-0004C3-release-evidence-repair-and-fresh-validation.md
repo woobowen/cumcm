@@ -169,3 +169,13 @@ commit and remote receipt. Preserve prior entries; append corrections rather tha
   68 invalid fixtures; release acceptance remained truthfully `BLOCK`, RC5 version consistency
   remained false, Skill discovery remained one, and all target/training/history checkers passed.
   No dependency, package, toolchain, or configuration was installed or changed.
+- Startup commit `6782c2f2b275ac7a8902ae2f3045344931f7e8f3` was pushed and local/remote
+  task-branch SHAs matched. PR 10 remained OPEN/DRAFT/MERGEABLE; its offline CI was still pending
+  when M1 test authoring began.
+- `2026-09-05T15:02:10+08:00` — M1 expectations frozen before implementation. The case-neutral
+  matrix contains all 53 requested cases plus three release faults (project version mismatch,
+  illegal prerelease, missing blocked-history record). Collection is 57 tests: the completeness/
+  anti-hardcoding meta-test passed and all 56 behavior cases failed solely because the new checker
+  or one of four declared contract functions was absent. Test SHA-256 is
+  `242963976022ba7449fbd8ea8488cd65acd4a05744d3f7ee88344c81a76c7adc`; RC5 Skill tree remained
+  `0c27a6aa25d5f591277707fd2343b34e65a703fb`. Frozen expectations may not be edited during M2.

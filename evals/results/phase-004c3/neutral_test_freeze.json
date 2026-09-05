@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "freeze_id": "PHASE-004C3-RC6-NEUTRAL-TEST-FREEZE-001",
+  "phase": "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+  "status": "FROZEN_EXPECTATIONS_IMPLEMENTATION_ABSENT",
+  "created_at": "2026-09-05T15:02:10+08:00",
+  "subject_commit": "6782c2f2b275ac7a8902ae2f3045344931f7e8f3",
+  "formal_skill_version": "0.2.0-competition-rc5",
+  "formal_skill_tree": "0c27a6aa25d5f591277707fd2343b34e65a703fb",
+  "test_path": "tests/unit/test_rc6_neutral_evidence_contracts.py",
+  "test_sha256": "242963976022ba7449fbd8ea8488cd65acd4a05744d3f7ee88344c81a76c7adc",
+  "requested_case_count": 53,
+  "additional_release_case_count": 3,
+  "frozen_case_count": 56,
+  "category_counts": {
+    "release_consistency": 11,
+    "data_evidence_and_acquisition": 17,
+    "per_requirement_selection": 10,
+    "semantic_support": 11,
+    "historical_compatibility": 7
+  },
+  "initial_execution": {
+    "command": ".venv/bin/python -m pytest -q --tb=line tests/unit/test_rc6_neutral_evidence_contracts.py",
+    "exit_code": 1,
+    "passed": 1,
+    "failed": 56,
+    "release_checker_missing_cases": 11,
+    "data_function_missing_cases": 17,
+    "selection_function_missing_cases": 10,
+    "semantic_function_missing_cases": 11,
+    "compatibility_function_missing_cases": 7
+  },
+  "constraints": {
+    "case_neutral": true,
+    "offline": true,
+    "pure_in_memory": true,
+    "historical_raw_inputs_accessed": false,
+    "model_calls": 0,
+    "expected_results_mutable_after_freeze": false,
+    "formal_skill_modified_before_freeze": false
+  },
+  "implementation_entrypoints": [
+    "scripts/check_skill_release_consistency.py:evaluate_release_snapshot",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:evaluate_data_sufficiency",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:validate_requirement_selection",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:validate_semantic_claim_support",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:validate_evidence_compatibility"
+  ]
+}
