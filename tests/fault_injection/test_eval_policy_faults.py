@@ -151,6 +151,7 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
             "PHASE-SKILL-INTEGRATION-003",
             "PHASE-SKILL-DEVELOPMENT-EVAL-004",
             "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
         }
         else "SCAFFOLD_ONLY"
     )

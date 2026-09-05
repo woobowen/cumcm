@@ -1814,6 +1814,8 @@ def validate_aggregate_claim(claim: dict[str, Any], requirements: Any) -> set[st
     ids_valid = all(isinstance(item, str) and item for item in nested_ids)
     if not ids_valid or len(set(nested_ids)) != len(nested_ids):
         codes.add("RC_CLAIM_PRIMARY_REQUIREMENT_DUPLICATE")
+    if value.get("claim_id") in nested_ids:
+        codes.add("RC_CLAIM_AGGREGATE_ID_COLLISION")
     coverage = value.get("supported_requirement_ids")
     support = value.get("supporting_requirement_claim_ids")
 
@@ -2049,6 +2051,11 @@ def validate_claim(
         except (TypeError, ValueError):
             requirement_ids = []
         codes.update(validate_aggregate_claim(claim, requirements))
+        if isinstance(selected_output, dict) and (
+            claim.get("claim_text") != selected_output.get("claim_scope")
+            or claim.get("supported_scope") != selected_output.get("claim_scope")
+        ):
+            codes.add("RC_CLAIM_FINAL_SCOPE_MISMATCH")
         requirement_claims = claim.get("requirement_claims")
         supported_requirement_ids = claim.get("supported_requirement_ids")
         expected_requirement_claims = (
@@ -2164,6 +2171,44 @@ def validate_state_boundary(context: Any) -> GateResult:
     return blocked(*codes) if codes else passed("RC_CASE_STATE_BOUNDARY_VALID")
 
 
+def normalize_handoff_formulas(formulas: list[Any], requirements: Any) -> list[dict[str, Any]]:
+    """Preserve captured formula identity and requirement scope without altering expressions."""
+    known = set(requirement_roles(requirements))
+    result: list[dict[str, Any]] = []
+    identifiers: set[str] = set()
+    for index, formula in enumerate(formulas, 1):
+        if isinstance(formula, str) and formula.strip():
+            record = {"formula_id": f"F-{index:03d}", "expression": formula}
+        elif isinstance(formula, dict) and set(formula) == {
+            "formula_id",
+            "expression",
+            "requirements",
+        }:
+            references = formula.get("requirements")
+            if (
+                not isinstance(references, list)
+                or not references
+                or not all(isinstance(item, str) and item for item in references)
+                or len(references) != len(set(references))
+                or set(references) - known
+            ):
+                raise ValueError("RC_HANDOFF_FORMULA_SCOPE_INVALID")
+            record = copy.deepcopy(formula)
+        else:
+            raise ValueError("RC_HANDOFF_FORMULA_SCOPE_INVALID")
+        if (
+            not isinstance(record.get("formula_id"), str)
+            or not record["formula_id"].strip()
+            or record["formula_id"] in identifiers
+            or not isinstance(record.get("expression"), str)
+            or not record["expression"].strip()
+        ):
+            raise ValueError("RC_HANDOFF_FORMULA_SCOPE_INVALID")
+        identifiers.add(record["formula_id"])
+        result.append(record)
+    return result
+
+
 def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, Any]:
     requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
     audit = read_artifact(case_root, "data_audit")["content"]
@@ -2202,7 +2247,6 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
     if (
         not isinstance(formulas_raw, list)
         or not formulas_raw
-        or not all(isinstance(item, str) and item for item in formulas_raw)
         or not isinstance(figures, list)
         or not figures
         or not isinstance(limitations, list)
@@ -2214,10 +2258,7 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
         or not plan["handoff_generated_at"]
     ):
         raise ValueError("RC_HANDOFF_OUTPUT_EVIDENCE_CONTRACT_INVALID")
-    formulas = [
-        {"formula_id": f"F-{index:03d}", "expression": expression}
-        for index, expression in enumerate(formulas_raw, start=1)
-    ]
+    formulas = normalize_handoff_formulas(formulas_raw, requirements)
     return {
         "contract_version": "modeling-to-paper/v1",
         "problem_requirements": requirements,

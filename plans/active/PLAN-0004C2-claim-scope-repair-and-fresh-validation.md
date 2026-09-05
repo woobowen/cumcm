@@ -83,3 +83,10 @@ observed milestone evidence and blockers. Preserve old files and decisions; no d
 Startup commit `04b5e5d629c127d181679c7aaaa513d4a71f4ee1` and neutral freeze
 `4a194b012bcf59e900552af8c75393a843ce13a8` are remotely verified. Draft PR 10 is open.
 Revision 1: neutral tests 40/40 and unchanged RC4 preflight 10/10 pass; full regression pending.
+
+Revision 1 full CI: 1898 passed, 10 failed, 1 skipped (329.14 s); failures traced to
+successor-phase compatibility checks. Focused RC audit/E2E/negative suite passed 93/93.
+Auditor identified aggregate/local ID collision. Diagnostic also exposed structured-formula
+handoff incompatibility. Supplemental neutral tests were frozen before revision 2: five formula
+cases and eight identity/scope faults; original 40-test file is byte-identical. Revision 2 focused
+validation passed 63/63 including output preflight. This exhausts the two formal revision cycles.

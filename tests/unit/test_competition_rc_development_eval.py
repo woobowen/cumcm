@@ -36,10 +36,12 @@ def command(repo_root: Path, script: str, *arguments: str) -> subprocess.Complet
 
 
 def legacy_development_start_is_locked(state: dict) -> bool:
-    return (
-        state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C"
-        or state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
-    )
+    return state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C" or state.get(
+        "phase"
+    ) in {
+        "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+    }
 
 
 def load_script(repo_root: Path, name: str):

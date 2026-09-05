@@ -12,3 +12,5 @@
   exact lineage。`validation_results.aggregate_claim` 保存独立总体 Claim、完整 primary coverage、
   supporting IDs、scope union、Final decision/Run/manifest/output hashes 及非 primary 状态。
   使用 `build_expected_handoff` 生成，再经 `handoff` Gate 验证；不得手填未 capture 的事实。
+
+- 公式支持旧字符串列表或精确的 `{formula_id, expression, requirements}` 对象；对象中的 ID、表达式、requirement 链接原样保留。拒绝空字段、重复 ID/引用、unknown requirement 或额外字段。aggregate ID 不得与任何局部 Claim ID 冲突。

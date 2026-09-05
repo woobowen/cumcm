@@ -1,0 +1,34 @@
+{
+  "diagnostic_failure": {
+    "classification": "FROZEN_SCOPED_FORMULA_HANDOFF_INCOMPATIBILITY",
+    "formula_records": 8,
+    "new_model_runs": 0,
+    "old_claim_gate_after_repair": "PASS",
+    "old_verdict_unchanged": true,
+    "reason_code": "RC_HANDOFF_OUTPUT_EVIDENCE_CONTRACT_INVALID",
+    "resolution": "Second bounded formal revision: preserve structured formula IDs, expressions and requirement links under prospectively frozen neutral tests."
+  },
+  "failures": [
+    {
+      "attempt": 1,
+      "classification": "HARNESS_CODE_CONTEXT_MISMATCH",
+      "new_model_runs": 0,
+      "original_artifacts_modified": false,
+      "reason_code": "RC_TRUSTED_FREEZE_REGISTRY_MISSING",
+      "repair": "Resolve original SKILL_ROOT code blobs from each frozen plan code_commit; do not execute any model or change any source.",
+      "root_cause": "Old captures bind original RC4 runner; current RC5 bytes cannot satisfy historical code hash."
+    },
+    {
+      "attempt": 2,
+      "classification": "HARNESS_VERSION_CONTEXT_MISMATCH",
+      "new_model_runs": 0,
+      "original_artifacts_modified": false,
+      "reason_codes": [
+        "RC_COMPARISON_RUN_MANIFEST_INVALID",
+        "RC_EXECUTION_CAPTURE_IDENTITY_INVALID"
+      ],
+      "repair": "Load the exact frozen RC4 Git kernel for old Run/capture/comparison checks; retain RC5 for derived Claim/handoff.",
+      "root_cause": "Current validator VERSION is RC5 whereas historical capture identity is RC4."
+    }
+  ]
+}
