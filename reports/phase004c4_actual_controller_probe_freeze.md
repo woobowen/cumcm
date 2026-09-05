@@ -22,3 +22,11 @@ copying opaque source content. The case must remain `RUNNING`.
 The matrix binds the exact controller, core, test, and fixture hashes. Test behavior is frozen
 before any formal Skill or controller repair. Failures against the pre-repair controller are
 expected-failure evidence, not acceptance evidence.
+
+## Pre-repair observation
+
+After the fixture became Git-bound, the complete matrix produced `1 passed / 13 failed`. The
+integrity test passed. AC-001 and AC-002 returned nonzero but only the coarse
+`RC_HANDOFF_DATA_SUFFICIENCY_INVALID`; AC-003 through AC-013 returned zero and completed. This is
+the expected failing baseline recorded in
+`evals/results/phase-004c4/pre_repair_controller_probe_observation.json`.

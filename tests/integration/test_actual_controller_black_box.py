@@ -388,6 +388,7 @@ def _build_running_case(repo_root: Path, tmp_path: Path):
         code,
         commit,
     )
+    freezes["seed_schedule"] = core.canonical_hash([20260905])
     _accepted(
         core,
         case,

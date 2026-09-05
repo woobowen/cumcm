@@ -1,0 +1,44 @@
+{
+  "schema_version": "actual-controller-probe-observation/v1",
+  "observed_at": "2026-09-05T11:29:17Z",
+  "controller_commit": "150340915858acd8271d567303fe330afbad4078",
+  "matrix_freeze_id": "PHASE-004C4-ACTUAL-CONTROLLER-BLACK-BOX-FREEZE-001",
+  "command": ".venv/bin/pytest -q --tb=line tests/integration/test_actual_controller_black_box.py",
+  "summary": {
+    "freeze_integrity_passed": 1,
+    "behavioral_probes_passed": 0,
+    "behavioral_probes_failed": 13
+  },
+  "observations": [
+    {
+      "probe_ids": [
+        "AC-001-EXTERNAL-DATA-FORBIDDEN",
+        "AC-002-ACQUISITION-PLAN-INCOMPLETE"
+      ],
+      "actual_exit": "NONZERO",
+      "actual_reason_codes": [
+        "RC_HANDOFF_DATA_SUFFICIENCY_INVALID"
+      ],
+      "failure": "controller did not emit the frozen gate-specific reason code"
+    },
+    {
+      "probe_ids": [
+        "AC-003-SOURCE-SCOPE-NOT-CONJUNCTIVE",
+        "AC-004-DEPENDENCY-SPLIT-WITHOUT-BRIDGE",
+        "AC-005-PORTFOLIO-HASHES-MISSING",
+        "AC-006-PORTFOLIO-HASH-MISMATCH",
+        "AC-007-SELECTED-RUN-INELIGIBLE",
+        "AC-008-CLAIM-REQUIREMENT-NOT-COVERED",
+        "AC-009-CLAIM-OUTPUT-NOT-OWNED",
+        "AC-010-CLAIM-METRIC-MISSING",
+        "AC-011-CLAIM-SCOPE-UNBOUNDED",
+        "AC-012-AGGREGATE-MAPPING-WRONG",
+        "AC-013-COMPATIBILITY-UNKNOWN-NONBIJECTION"
+      ],
+      "actual_exit": "ZERO",
+      "actual_reason_codes": [],
+      "failure": "controller completed instead of blocking"
+    }
+  ],
+  "disposition": "EXPECTED_FAILURE_BASELINE_CONFIRMED"
+}

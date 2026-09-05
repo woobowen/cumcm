@@ -97,3 +97,10 @@ Progress:
   passed, and pytest collected the expected 1 freeze-integrity test plus 13 behavioral probes.
   Behavioral execution is intentionally deferred until the fixture is Git-bound by the freeze
   commit; the pre-repair failures will then be recorded as expected-failure evidence.
+- `2026-09-05T19:29:17+08:00` — Remote-verified freeze commit
+  `150340915858acd8271d567303fe330afbad4078`. The first Git-bound run exposed a test-fixture seed
+  schedule mismatch before reaching the controller; the fixture builder was corrected without
+  changing probe mutations or expectations and its hash binding was renewed. The corrected full
+  pre-repair run yielded `1 passed / 13 failed`: AC-001/002 blocked with only the coarse legacy
+  handoff reason, while AC-003 through AC-013 exited zero. This is the frozen expected-failure
+  baseline; implementation loop 1 may now begin.
