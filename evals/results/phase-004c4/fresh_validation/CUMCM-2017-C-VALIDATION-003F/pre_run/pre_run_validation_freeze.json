@@ -1,0 +1,230 @@
+{
+  "schema_version": "phase-004c4-fresh-validation-pre-run-freeze/v1",
+  "freeze_id": "CUMCM-2017-C-VALIDATION-003F-PRE-RUN-FREEZE-001",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "set_type": "VALIDATION",
+  "target_problem_type": "C",
+  "status": "FROZEN_NOT_EXECUTED",
+  "created_at": "2026-09-05T22:24:41+08:00",
+  "freeze_subject_commit": "ffe890dc4afbd8a9daa54a2284d77a42bbf987f2",
+  "release_identity": {
+    "project_version": "0.3.0-competition-rc7",
+    "skill_version": "0.2.0-competition-rc7",
+    "release_subject_commit": "dff40dfd0100ee11c6cb7ddd1a8f7803313653bd",
+    "release_commit": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
+    "release_remote_sha": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
+    "implementation_commit": "cd02e61994b906364789c65609de695b6912f1c7",
+    "skill_tree_sha256": "0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056",
+    "runner_sha256": "fda1db2fbc709ea85967a1363abd649fcc0111f2bd83b72e8bd65469cc478dc4",
+    "release_manifest_sha256": "747d6c47d89855dcc0acddd96593d2076c28e26b1b3dbd90a1fad8425f058434",
+    "live_check_status": "PASS",
+    "skill_mutation_allowed_after_freeze": false
+  },
+  "controller": {
+    "entrypoint": "scripts/finalize_fresh_c_validation.py",
+    "trace_version": "gate-execution-trace/v1",
+    "actual_completion_required": true,
+    "required_gate_count": 10
+  },
+  "contract_versions": {
+    "requirement_evidence": "requirement-evidence/v1",
+    "data_sufficiency": "data-sufficiency/v1",
+    "requirement_selection": "requirement-selection/v1",
+    "semantic_claim_support": "claim-evidence/v3",
+    "runtime_claim_evidence": "claim-evidence/runtime-v3",
+    "final_result": "final-result/v2",
+    "modeling_to_paper": "modeling-to-paper/v1",
+    "gate_execution_trace": "gate-execution-trace/v1",
+    "selected_output": "cumcm-2017-c-selected-output/v1"
+  },
+  "official_inputs": {
+    "official_title": "颜色与物质浓度辨识",
+    "annual_page_url_sha256": "dc45d1f63102e6f1a9094faae7ff49ae6c0b4ffccda02db1f1f1ea032ed52721",
+    "archive_url_sha256": "74180f40b464971a49fa2ca64d780e5dfff4ea9eb7d1fd412371b8da258e0132",
+    "archive_sha256": "c4461c47cd4b8502fd789159d2e5984276583880433cabff25b19344fc047758",
+    "problem_sha256": "f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf",
+    "attachment_sha256": {
+      "Data1.xls": "ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad",
+      "Data2.xls": "6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723",
+      "readme.txt": "bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf"
+    },
+    "development_split_sha256": "246a1bc38b1a7a8b5ce2fa2a8bba79d907f0959580da54a136ed5172027ea4b8",
+    "sealed_test_split_sha256": "25a094bb006f374a84e9c06323bb2e152e7a3c908c58c65079798ece995f5dd5",
+    "raw_immutable": true,
+    "tracked_raw_content": false
+  },
+  "fallback": {
+    "preferred_case_id": "CUMCM-2018-C-VALIDATION-003",
+    "preferred_official_title": "大型百货商场会员画像描绘",
+    "reason_code": "C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE",
+    "decision_path": "evals/results/phase-004c4/fresh_validation/2018_input_preflight.json",
+    "decision_sha256": "25267c8fb29aff3556e288cdf13e050244270988a0b56a80859ce5cb6a25d5c3",
+    "result_or_difficulty_based": false
+  },
+  "answer_and_contamination": {
+    "answer_state": "SEALED",
+    "answer_access_status": "NOT_ACCESSED",
+    "reference_unlock": "LOCKED",
+    "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+    "known_solution_contamination": false,
+    "solution_search_count": 0,
+    "reference_search_count": 0,
+    "third_party_code_count": 0,
+    "contamination_status": "PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE"
+  },
+  "search_policy": {
+    "official_direct_preregistered_urls_only_before_registration": true,
+    "answer_solution_paper_code_search_allowed": false,
+    "external_data_acquisition_allowed": false,
+    "general_professional_sources_used": false,
+    "web_or_api_allowed_during_formal_run": false,
+    "benchmark_vault_access_allowed": false,
+    "other_problem_access_allowed": false,
+    "heldout_2025_access_allowed": false
+  },
+  "requirements": [
+    {
+      "requirement_id": "REQ-1-DATA1-RELATION-QUALITY",
+      "role": "PRIMARY",
+      "required_evidence_class": "PROVIDED_EMPIRICAL",
+      "data_sufficiency": "SUFFICIENT_WITH_LIMITATIONS",
+      "selection_mode": "PER_REQUIREMENT",
+      "selection_metric": "REQ1_MACRO_GROUPED_NMAE",
+      "selection_direction": "MIN"
+    },
+    {
+      "requirement_id": "REQ-2-DATA2-CONCENTRATION-MODEL",
+      "role": "PRIMARY",
+      "required_evidence_class": "PROVIDED_EMPIRICAL",
+      "data_sufficiency": "SUFFICIENT_WITH_LIMITATIONS",
+      "selection_mode": "PER_REQUIREMENT",
+      "selection_metric": "REQ2_GROUPED_MAE_PPM",
+      "selection_direction": "MIN"
+    },
+    {
+      "requirement_id": "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION",
+      "role": "PRIMARY",
+      "required_evidence_class": "PROVIDED_EMPIRICAL",
+      "data_sufficiency": "SUFFICIENT_WITH_LIMITATIONS",
+      "selection_mode": "PER_REQUIREMENT",
+      "selection_metric": "REQ2_GROUPED_MAE_PPM",
+      "selection_direction": "MIN",
+      "dependency_rule": "INHERIT_REQ2_EXACT_RUN"
+    }
+  ],
+  "data_sufficiency_plan": {
+    "external_data_required": false,
+    "external_data_allowed": false,
+    "coverage_mode_by_requirement": {
+      "REQ-1-DATA1-RELATION-QUALITY": "SINGLE_SOURCE:SRC-OFFICIAL-DATA1",
+      "REQ-2-DATA2-CONCENTRATION-MODEL": "SINGLE_SOURCE:SRC-OFFICIAL-DATA2",
+      "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION": "SINGLE_SOURCE:SRC-OFFICIAL-DATA2"
+    },
+    "registered_composition_count": 0,
+    "simulation_substitution_allowed": false,
+    "aggregate_completion_claimed_pre_run": false
+  },
+  "experiment": {
+    "baseline_id": "BASELINE_MEDIAN",
+    "main_candidate_ids": ["RIDGE_LINEAR", "KERNEL_RBF_RIDGE"],
+    "random_seeds": [17001, 17017, 17033],
+    "selection_attempt_count": 9,
+    "global_controller_metric": "REQ2_GROUPED_MAE_PPM",
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "selection_rule": "ARGMIN_THEN_ID",
+    "group_unit": "SUBSTANCE_X_CONCENTRATION",
+    "row_wise_split_allowed": false,
+    "result_dependent_retry_allowed": false,
+    "candidate_or_parameter_change_allowed": false
+  },
+  "robustness_plan": {
+    "sample_size_fractions": [0.5, 0.75, 1.0],
+    "feature_dimensions": [1, 2, 3, 4, 5],
+    "all_feature_subsets_within_each_dimension": true,
+    "prediction_domain": "ZERO_TO_MAX_TRAINING_CONCENTRATION",
+    "independent_metric_recalculation_required": true,
+    "failure_cases_required": true,
+    "uncertainty_required": true
+  },
+  "rubric": {
+    "path": "evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/preparation/rubric.json",
+    "sha256": "0e35f1dad4c20bb7c9578c514aef3718293749b3ef317bcbf4123b4ee00d1878",
+    "scoring": "PASS_ONLY_IF_ALL_NONCOMPENSATORY_CONDITIONS_PASS",
+    "hard_failure_count": 23,
+    "hard_failure_ids": [
+      "HF01", "HF02", "HF03", "HF04", "HF05", "HF06", "HF07", "HF08",
+      "HF09", "HF10", "HF11", "HF12", "HF13", "HF14", "HF15", "HF16",
+      "HF17", "HF18", "HF19", "HF20", "HF21", "HF22", "HF23"
+    ],
+    "compensation_allowed": false
+  },
+  "timebox": {
+    "hard_limit_seconds": 14400,
+    "formal_clock_starts_after_remote_freeze_verification": true,
+    "stop_on_limit": true,
+    "adaptive_extension_allowed": false
+  },
+  "one_shot_policy": {
+    "selection_test_access_count": 0,
+    "final_batch_max_access_count": 1,
+    "selection_must_precede_authorization": true,
+    "authorization_must_bind_selection_decision": true,
+    "terminal_freeze_forbids_new_runs": true,
+    "sealed_test_is_hash_committed_not_cryptographically_hidden": true
+  },
+  "environment": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "system_python": "3.12.3",
+    "runtime_python": "3.11.14",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.0",
+    "xlrd": "2.0.2",
+    "network": "OFFLINE_DURING_FORMAL_RUN",
+    "runtime_environment_allowlist": ["PYTHONHASHSEED", "TZ"]
+  },
+  "case_code": {
+    "code_commit": "ffe890dc4afbd8a9daa54a2284d77a42bbf987f2",
+    "bootstrap_formal_case.py": "a5805c2b99b3e371030fbc70cc49147111eea17b5efff35e6a4afb7b45a850d8",
+    "build_post_selection.py": "f854056e0521f176e4d7ab37b80a883621f2869200de8f596230e7c6a21cf9f7",
+    "independent_checks.py": "e6184befcff3c1e1c947bfbfd5c156ca03851de2ba46af4370056ba9dccf3ec2",
+    "pipeline.py": "bcab746f742086c6d771ff68429ed5c1d50bc5ee7b1b01972f7b16c2cf13f2d8",
+    "prepare_case.py": "55120a3c861178c63a59670350f1f9d9d4cddfed7bdd7f2cac6a79ec8af1919c",
+    "case_code_changes_allowed_after_freeze": false
+  },
+  "formal_workspace": {
+    "state": "RUNNING",
+    "state_sha256": "cc5c81bc50d25a07425c242e49d595fb57556be235d2e20ece391d41f91fef80",
+    "experiment_plan_sha256": "3259153a8a6497cf352502ceb0a9ddf0b5571d9487df2b6330848a29cd9e5ccf",
+    "trusted_freeze_registry": {
+      "baseline": "5777cbaab6285d2d7f97c63b0466f92953b86de99acd842f5ec333f96381e083",
+      "candidate_set": "88390d7212074636c786524a8d9a3235ffa0d89b492d2d5b1a7f9c0074ce26b4",
+      "code_commit": "53c2c30c412d1105f2d8646289cf65ca13ecd4cdfdcb8f111d6681852a30ffb8",
+      "code_set": "e30d49d3a25561b47fbe677ae89366801ee379fdbd17008686517b05ab115394",
+      "execution_policy": "2b1ed352e198f71ffcd8b93947d123d62dbe15bc9a21b282cfc2453b3362dafd",
+      "input_set": "1d9149f0f9c50747117aa23b81a337a122aaf33a8a0ee410c442994cdd07b555",
+      "metric": "8bf00114eca2a4d8edb8073a19607e2f316dbe9295b86f90650baaff4fe652f9",
+      "seed_schedule": "2da1755105ba4dfac5987c5e439962e1f8630629057b0aaaeada2cdb549ebd2a",
+      "split_assignment": "a8d562de76d3519cb14ccf71882a4ee8463604af6bd4ab72b6e41beafb7e6b99"
+    },
+    "model_run_count": 0,
+    "sealed_test_payload_inside_case_root": false
+  },
+  "pre_run_checks": {
+    "input_suitability": "PASS",
+    "contamination": "PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE",
+    "bootstrap_replay": "PASS_RUNNING_WITH_ZERO_RUNS",
+    "output_contract_preflight": "PASS",
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS",
+    "strict_repository_validation": "PASS_0_ERRORS_0_WARNINGS",
+    "answer_state": "SEALED",
+    "heldout_2025_accessed": false
+  },
+  "delivery": {
+    "status": "PENDING_REMOTE_FREEZE_COMMIT",
+    "remote": "origin",
+    "remote_branch": "feat/phase004c2-claim-scope-repair-validation-2019c",
+    "delivery_receipt_path": "evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze_delivery.json"
+  }
+}
