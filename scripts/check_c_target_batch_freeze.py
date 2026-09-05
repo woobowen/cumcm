@@ -222,7 +222,13 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     state_freeze = state.get("batch_pre_run_freeze", {})
     receipt = load_json(root / RECEIPT_PATH.relative_to(ROOT))
     if (
-        state.get("phase") != "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
+        state.get("phase")
+        not in {
+            "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+            "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+            "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+        }
         or state.get("current_batch_id") != "C-TARGET-BATCH-001"
         or not isinstance(state_freeze, dict)
         or state_freeze.get("freeze_id") != freeze.get("freeze_id")

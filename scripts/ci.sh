@@ -17,5 +17,8 @@ fi
 .venv/bin/python scripts/check_c_target_rc4_unified_regression.py --check
 .venv/bin/python scripts/check_c_target_2024c_validation_freeze.py --check --require-delivery
 .venv/bin/python scripts/check_c_target_2024c_validation_outcome.py --check --require-delivery
+.venv/bin/python scripts/check_claim_scope_repair.py --check
+.venv/bin/python scripts/check_c_target_2019c_validation.py --check --require-delivery
+.venv/bin/python scripts/check_phase004c2_acceptance.py
 .venv/bin/python scripts/validate_repo.py --strict
 git diff --check

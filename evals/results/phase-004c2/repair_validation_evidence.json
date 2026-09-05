@@ -1,0 +1,87 @@
+{
+  "answer_state": "FRESH_VALIDATION_NOT_ACCESSED",
+  "case_id": null,
+  "entries": [
+    {
+      "blocker": "SUCCESSOR_PHASE_COMPATIBILITY_CHECKS",
+      "checkpoint": "ci-revision-1",
+      "command": "bash scripts/ci.sh",
+      "duration_seconds": null,
+      "evidence_sha256": "1763f8003328e3f10c3ce708996aadcb336b3cf66552a3a6e1dde63db0f251ae",
+      "exit": 1,
+      "failed": 10,
+      "passed": 1898,
+      "pytest_duration_seconds": 329.14,
+      "result": "FAIL",
+      "skipped": 1,
+      "type": "FULL_OFFLINE_CI"
+    },
+    {
+      "blocker": null,
+      "checkpoint": "ci-revision-2",
+      "command": "bash scripts/ci.sh",
+      "duration_seconds": null,
+      "evidence_sha256": "5dc9a5db8eac7f8925efc648cd0f1c0d7692f380a426c7525309d34ba9424a32",
+      "exit": 0,
+      "failed": 0,
+      "passed": 1921,
+      "pytest_duration_seconds": 313.67,
+      "result": "PASS",
+      "skipped": 1,
+      "type": "FULL_OFFLINE_CI"
+    },
+    {
+      "blocker": null,
+      "command": ".venv/bin/python -m pytest -q tests/unit/test_competition_rc_claim_scope.py tests/unit/test_claim_handoff_formula_scope.py tests/unit/test_claim_aggregate_identity.py tests/unit/test_competition_rc_output_contract.py",
+      "duration_seconds": 0.48,
+      "exit": 0,
+      "result": "PASS_63",
+      "type": "FOCUSED_CONTRACT"
+    },
+    {
+      "blocker": null,
+      "command": ".venv/bin/python scripts/run_claim_scope_regressions.py",
+      "duration_seconds": null,
+      "evidence_sha256": "551d0f018ac92ca054857c0b373710682e0b7e10c7cb9886fa2b6564d7ef9fef",
+      "exit": 0,
+      "result": "PASS_6",
+      "type": "FROZEN_ARTIFACT_REPLAY"
+    },
+    {
+      "blocker": null,
+      "checkpoint": "ci-release-candidate",
+      "command": "bash scripts/ci.sh",
+      "duration_seconds": null,
+      "evidence_sha256": "1df07ff5d5263e2e21076a1e19e34a87c9681cc4c9b521a9d73a1aeb346483e6",
+      "exit": 0,
+      "failed": 0,
+      "passed": 1921,
+      "pytest_duration_seconds": 301.92,
+      "result": "PASS",
+      "skipped": 1,
+      "type": "FULL_OFFLINE_CI"
+    }
+  ],
+  "implementation_commit": "5673aab61a648be1cd9b87364110cb01c13cd033",
+  "metadata_repair_history": [
+    {
+      "attempt": "initial_schema_insertion",
+      "cause": "C2 phase condition inserted into nested array allOf",
+      "failed": 3,
+      "passed": 45
+    },
+    {
+      "attempt": "placement_corrected",
+      "cause": "Old insufficiency status needed explicit two-phase restriction",
+      "failed": 1,
+      "passed": 47
+    },
+    {
+      "attempt": "phase_restriction_corrected",
+      "failed": 0,
+      "passed": 48,
+      "result": "PASS"
+    }
+  ],
+  "skill_version": "0.2.0-competition-rc5"
+}

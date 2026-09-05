@@ -1,0 +1,226 @@
+{
+  "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "capability": "COMPETITION_RC",
+  "case_id": "CUMCM-2019-C-VALIDATION-002",
+  "case_kind": "general",
+  "evidence_bindings": {
+    "data/data_audit.json": "09f266ff83e29333d1ecb7e9421dc66ba5de188ec4ea7eec4ab0af25283fcf71",
+    "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+    "evidence/claim_evidence.json": "92c5b09c1d03d75c39fd834d545f84f9ce84e0e76b67c882c7720245ba207b5f",
+    "experiments/experiment_plan.json": "eddd9ccb0add37937aab434f2e351bcfa4e78a171c48c523442b76e04aef0c6c",
+    "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca",
+    "experiments/selected_output_contract_probe.json": "913517ceeb6c00c016fd3d35bb289392fb710e7adb85e45241bf37690b363d80",
+    "handoff/modeling_to_paper.json": "d306b70a99adf0031fd68536bee2193bfa6be68ecba7f8e776af04bfd73cd1cc",
+    "models/assumptions_and_symbols.json": "f615c9b04d2558cac15b65bef6de3edc94c509dedcf9ae396bacfc5ab3b9fc1e",
+    "models/model_candidates.json": "11dd5d82d3e52fbeebcf32c1beeb108c7e9ac5799ec6151977f8e7ce1ddf4f83",
+    "problem/problem_requirements.json": "8c8338350fc8fdccb9af57d40eb823b72621eb5845800c59af05902e614b9e58",
+    "research/research_plan.json": "d6c7664fb49e1a3bec4565899401bd843a4ebe51b70241a139d9fbd4bdb26f62",
+    "research/source_ledger.json": "8ed6edcf5294451fd353db3dd2a914a0c2923d38fb5a84e17ef1f0f8f837e5a9",
+    "results/final_result.json": "0d15aef753f57c137a0a5024113c89c73992d9f667330d1ef5a01c3091ee1e53",
+    "results/model_comparison.json": "609fdd14d286b2011005c85f3a70f707bd098d34bd1a5e61f76db84cca72c47f",
+    "results/robustness.json": "0625d6e95c4c8b4c693e641981ab656370a085e92d43e5e9a701baf0b4723d92",
+    "runs/RUN-BASELINE_STATIC_FCFS-101/manifest.json": "fb831533065427d4ce93b65cdd897f2b6f210042a89c76859523b658dd08ece6",
+    "runs/RUN-BASELINE_STATIC_FCFS-101/output.json": "7ceb3255ec6069a06e5b8a27dfecc7f284fc09eeeb3d8c839dc3595245560aca",
+    "runs/RUN-BASELINE_STATIC_FCFS-202/manifest.json": "f55ef27d83475f510414712f571e68570f00904dc613df9293f16a7aed736b1d",
+    "runs/RUN-BASELINE_STATIC_FCFS-202/output.json": "bcbdda36f15b9da9aa4f737f89ddb0de9e7cafad72e50bf8f0cbd64cc2c8e5af",
+    "runs/RUN-BASELINE_STATIC_FCFS-303/manifest.json": "82d84cc8675f3da083e0ded8f55983167e2494ee7c2f8a2a48b94eb9815a7af4",
+    "runs/RUN-BASELINE_STATIC_FCFS-303/output.json": "435ab6b080925606b5892cb71ec43adeecd89583d10160cfc77ef31b3b38d187",
+    "runs/RUN-CONTROL_FLUID_AGING-101/manifest.json": "78f032d92659c9cca12b50e42304ee5d6e077f53086db778b8f78784b8fef88d",
+    "runs/RUN-CONTROL_FLUID_AGING-101/output.json": "963504a46eb4884a6d89e99913ce0287ed4458fda68ead3c5c957940506275c3",
+    "runs/RUN-CONTROL_FLUID_AGING-202/manifest.json": "99a61968cfa9b00cc40514c3eecdc989b60bd72ed9eb4c6c094b4b4105988fdf",
+    "runs/RUN-CONTROL_FLUID_AGING-202/output.json": "5ffcd751ce2fd2c47a7082e0a01bc94739d5a8a115b125fd297fb30dc0ae0504",
+    "runs/RUN-CONTROL_FLUID_AGING-303/manifest.json": "8daccbdb9fdfa8afbabdde6b87db86198e054223c7eca421f2ee3818d36214cb",
+    "runs/RUN-CONTROL_FLUID_AGING-303/output.json": "bc6b1754f95bf9d8013819ac5756e8a51dc9856d14faf5154e7feb0a7b4def79",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-101/manifest.json": "eca670dc20f673053d7e63c474731f4de8b14e59ed920b02649ac7335fbeab39",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-101/output.json": "de2a45c372da647723adc4d0ad0340881aea55a2a981e194adc205b9a75820fe",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-202/manifest.json": "175f5eb936aa7040826331925d158eac77bd3d38c78fec2fd0b9de6ff87ad89f",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-202/output.json": "9dab1fd5e6d4dd66d6946a126897b1bd211cf8a2d3b5474c7b8b84b3a68afc50",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-303/manifest.json": "b8c60785a3554d1d0425c8036f961ff612923fe143246f7ebc262153456b0053",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-303/output.json": "952c5c80f87d5d6130927069b046c978487385dd5925afc8a9d2bf4546c028ea"
+  },
+  "history": [
+    {
+      "evidence": [],
+      "from": null,
+      "gate": "INIT",
+      "sequence": 0,
+      "status": "PASS",
+      "to": "CREATED"
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "from": "CREATED",
+      "gate": "GATE_PROBLEM_INTAKE",
+      "sequence": 1,
+      "status": "PASS",
+      "to": "INTAKE_COMPLETE"
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "from": "INTAKE_COMPLETE",
+      "gate": "GATE_REQUIREMENT_COVERAGE",
+      "sequence": 2,
+      "status": "PASS",
+      "to": "REQUIREMENTS_VALIDATED"
+    },
+    {
+      "evidence": [
+        "research/research_plan.json",
+        "research/source_ledger.json"
+      ],
+      "from": "REQUIREMENTS_VALIDATED",
+      "gate": "GATE_SOURCE_PLAN",
+      "sequence": 3,
+      "status": "PASS",
+      "to": "SOURCES_PLANNED"
+    },
+    {
+      "evidence": [
+        "models/assumptions_and_symbols.json",
+        "data/data_audit.json",
+        "data/raw/problem.pdf",
+        "experiments/scenario_assumptions.json"
+      ],
+      "from": "SOURCES_PLANNED",
+      "gate": "GATE_ASSUMPTIONS_AND_DATA",
+      "sequence": 4,
+      "status": "PASS",
+      "to": "DATA_AUDITED"
+    },
+    {
+      "evidence": [
+        "models/model_candidates.json"
+      ],
+      "from": "DATA_AUDITED",
+      "gate": "GATE_MODEL_PORTFOLIO",
+      "sequence": 5,
+      "status": "PASS",
+      "to": "MODELS_PROPOSED"
+    },
+    {
+      "evidence": [
+        "experiments/experiment_plan.json",
+        "experiments/selected_output_contract_probe.json"
+      ],
+      "from": "MODELS_PROPOSED",
+      "gate": "GATE_EXPERIMENT_PLAN",
+      "sequence": 6,
+      "status": "PASS",
+      "to": "EXPERIMENT_PLAN_VALIDATED"
+    },
+    {
+      "evidence": [
+        "experiments/experiment_plan.json"
+      ],
+      "from": "EXPERIMENT_PLAN_VALIDATED",
+      "gate": "GATE_EXECUTION_AUTHORIZED",
+      "sequence": 7,
+      "status": "PASS",
+      "to": "RUNNING"
+    },
+    {
+      "evidence": [
+        "runs/RUN-BASELINE_STATIC_FCFS-101/manifest.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-202/manifest.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-303/manifest.json",
+        "runs/RUN-CONTROL_FLUID_AGING-101/manifest.json",
+        "runs/RUN-CONTROL_FLUID_AGING-202/manifest.json",
+        "runs/RUN-CONTROL_FLUID_AGING-303/manifest.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-101/manifest.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-202/manifest.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-303/manifest.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-101/output.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-202/output.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-303/output.json",
+        "runs/RUN-CONTROL_FLUID_AGING-101/output.json",
+        "runs/RUN-CONTROL_FLUID_AGING-202/output.json",
+        "runs/RUN-CONTROL_FLUID_AGING-303/output.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-101/output.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-202/output.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-303/output.json"
+      ],
+      "from": "RUNNING",
+      "gate": "GATE_RUN_COMPLETION",
+      "sequence": 8,
+      "status": "PASS",
+      "to": "RUN_COMPLETED"
+    },
+    {
+      "evidence": [
+        "runs/RUN-BASELINE_STATIC_FCFS-101/manifest.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-202/manifest.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-303/manifest.json",
+        "runs/RUN-CONTROL_FLUID_AGING-101/manifest.json",
+        "runs/RUN-CONTROL_FLUID_AGING-202/manifest.json",
+        "runs/RUN-CONTROL_FLUID_AGING-303/manifest.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-101/manifest.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-202/manifest.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-303/manifest.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-101/output.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-202/output.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-303/output.json",
+        "runs/RUN-CONTROL_FLUID_AGING-101/output.json",
+        "runs/RUN-CONTROL_FLUID_AGING-202/output.json",
+        "runs/RUN-CONTROL_FLUID_AGING-303/output.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-101/output.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-202/output.json",
+        "runs/RUN-PRIMARY_NHPP_CREDIT-303/output.json"
+      ],
+      "from": "RUN_COMPLETED",
+      "gate": "GATE_REPRODUCIBILITY_MANIFEST",
+      "sequence": 9,
+      "status": "PASS",
+      "to": "RUN_VALIDATED"
+    },
+    {
+      "evidence": [
+        "results/model_comparison.json",
+        "results/robustness.json"
+      ],
+      "from": "RUN_VALIDATED",
+      "gate": "GATE_COMPARISON_AND_ROBUSTNESS",
+      "sequence": 10,
+      "status": "PASS",
+      "to": "ROBUSTNESS_VALIDATED"
+    },
+    {
+      "evidence": [
+        "results/final_result.json"
+      ],
+      "from": "ROBUSTNESS_VALIDATED",
+      "gate": "GATE_FINAL_RUN",
+      "sequence": 11,
+      "status": "PASS",
+      "to": "FINAL_CANDIDATE"
+    },
+    {
+      "evidence": [
+        "evidence/claim_evidence.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-101/manifest.json"
+      ],
+      "from": "FINAL_CANDIDATE",
+      "gate": "GATE_CLAIM_EVIDENCE",
+      "sequence": 12,
+      "status": "PASS",
+      "to": "EVIDENCE_VALIDATED"
+    },
+    {
+      "evidence": [
+        "handoff/modeling_to_paper.json"
+      ],
+      "from": "EVIDENCE_VALIDATED",
+      "gate": "GATE_MODELING_TO_PAPER",
+      "sequence": 13,
+      "status": "PASS",
+      "to": "READY_FOR_PAPER_HANDOFF"
+    }
+  ],
+  "last_gate": "GATE_MODELING_TO_PAPER",
+  "schema_version": "1.0.0",
+  "skill_version": "0.2.0-competition-rc5",
+  "state": "READY_FOR_PAPER_HANDOFF"
+}

@@ -1,0 +1,46 @@
+{
+  "audit_id": "PHASE-004C4-ACTUAL-CONTROLLER-ADVERSARIAL-PROSECUTOR-001",
+  "auditor_identity": "actual_controller_adversarial_prosecutor_final/Gauss",
+  "auditor_mode": "IDENTITY_SEPARATED_READ_ONLY_STATIC_REVIEW",
+  "subject_commit": "557f0972e14773fdf362c9549adb7d54c5abae6b",
+  "execution_status": "NOT_EXECUTED_BY_AUDITOR",
+  "scope": [
+    "scripts/finalize_fresh_c_validation.py",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+    "tests/integration/test_actual_controller_black_box.py",
+    "tests/integration/test_actual_controller_neutral_e2e.py"
+  ],
+  "findings": [
+    {
+      "finding_id": "AP-001-SELECTION-COMPARISON-SPLIT-BRAIN",
+      "severity": "CRITICAL",
+      "claim": "The global comparison winner and authoritative requirement-selected Run set can disagree while finalization succeeds.",
+      "auditor_status": "STATIC_FINDING"
+    },
+    {
+      "finding_id": "AP-002-LATE-TEST-DECODE-UNTRACED-MUTATION",
+      "severity": "CRITICAL",
+      "claim": "Invalid selected sealed-test base64 can raise outside GateTrace after durable files have been written.",
+      "auditor_status": "STATIC_FINDING"
+    },
+    {
+      "finding_id": "AP-003-BLOCK-PATH-SEALS-MANIFESTS",
+      "severity": "HIGH",
+      "claim": "A later Gate rejection can retain Run manifests created before the rejecting Gate.",
+      "auditor_status": "STATIC_FINDING"
+    },
+    {
+      "finding_id": "AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND",
+      "severity": "HIGH",
+      "claim": "Coordinated plan and selection scenario-hash mutation can pass because the execution capture and Run manifest do not own the scenario hash.",
+      "auditor_status": "STATIC_FINDING"
+    },
+    {
+      "finding_id": "AP-005-POLICY-EVIDENCE-SELF-ATTESTATION",
+      "severity": "CRITICAL",
+      "claim": "A policy Claim can be accepted from semantic self-attestation without policy exposure, benefit and cost evidence in the actual selected Run output.",
+      "auditor_status": "STATIC_FINDING"
+    }
+  ],
+  "formal_effect": "NONE_UNTIL_DETERMINISTIC_CLI_REPRODUCTION"
+}

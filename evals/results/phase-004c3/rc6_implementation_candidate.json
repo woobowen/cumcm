@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_id": "COMPETITION-RC6-IMPLEMENTATION-CANDIDATE-004C3",
+  "status": "IMPLEMENTED_REGRESSION_PENDING",
+  "project_version": "0.3.0-competition-rc6",
+  "skill_version": "0.2.0-competition-rc6",
+  "implementation_commit": "12ecd586fd46ae7a63037435b7fef6b697d85a21",
+  "skill_tree": "0d0d65a7148d146424e31318ba003bdab80db6e5",
+  "runner_sha256": "2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879",
+  "release_checker_sha256": "6a6a98d660fc9a1006e88b0b495653b75b57b54aef3e6d6c15c4c04b65196ca8",
+  "neutral_test_sha256": "242963976022ba7449fbd8ea8488cd65acd4a05744d3f7ee88344c81a76c7adc",
+  "contracts": [
+    "requirement-evidence/v1",
+    "data-sufficiency/v1",
+    "requirement-selection/v1",
+    "claim-evidence/v3"
+  ],
+  "formal_revision_cycles": [
+    {
+      "cycle": 1,
+      "initial_neutral_result": "56 passed, 1 failed",
+      "root_cause": "A wrong selected Run emitted derivative metric/output errors in addition to the frozen semantic-mismatch root cause.",
+      "repair": "Short-circuit derivative selection checks when requirement-to-Run semantics are invalid.",
+      "focused_result": "57 passed",
+      "synthetic_result_before_git_binding": "2 blocked: current runner/helper bytes were not yet committed Git blobs"
+    },
+    {
+      "cycle": 2,
+      "initial_full_result": "1998 passed, 1 skipped, 9 failed",
+      "root_causes": [
+        "Two legacy unit fixtures omitted mandatory RC6 data-sufficiency artifacts.",
+        "Four consistency checkers did not recognize the audited RC6-candidate/RC5-blocked transition state.",
+        "One synthetic helper caller used the pre-RC6 signature.",
+        "One policy phrase triggered the answer-platform leakage scanner."
+      ],
+      "repair": "Updated successor compatibility, neutral fixtures and the generic completion controller without weakening the new Gates.",
+      "focused_result": "125 passed; hash-bound E2E/controller 4 passed",
+      "full_result": "2007 passed, 1 skipped in 311.78s"
+    }
+  ],
+  "formal_revision_cycles_used": 2,
+  "formal_revision_cycles_remaining": 0,
+  "historical_artifacts_mutated": false,
+  "fresh_validation_input_accessed": false,
+  "held_out_2025_accessed": false,
+  "new_dependencies": [],
+  "release_status": "NOT_RELEASED",
+  "release_blockers": [
+    "RC6_RELEASE_MANIFEST_NOT_FROZEN",
+    "RC6_HISTORICAL_REGRESSION_PENDING",
+    "RC6_AUDITOR_1_PENDING"
+  ],
+  "recorded_at": "2026-09-05T15:38:10+08:00"
+}

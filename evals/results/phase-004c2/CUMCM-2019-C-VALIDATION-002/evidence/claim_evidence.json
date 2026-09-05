@@ -1,0 +1,143 @@
+{
+  "artifact_type": "claim_evidence",
+  "content": {
+    "aggregate_scope": {
+      "REQ-Q1": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+      "REQ-Q2": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+      "REQ-Q3": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+      "REQ-Q4": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。"
+    },
+    "claim_id": "CLAIM-AGGREGATE-922EF51E285043A1FCC87510",
+    "claim_kind": "AGGREGATE_FINAL",
+    "claim_text": "四问的假设情景建模与可复算局部证据；REQ-Q2机场和城市实测数据缺失，不能据此主张全部主问题完成或实际部署有效。",
+    "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+    "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+    "contract_version": "claim-evidence/v2",
+    "contradiction_status": "NONE",
+    "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+    "evidence_artifact_ids": [
+      "results/final_result.json",
+      "results/model_comparison.json",
+      "results/robustness.json",
+      "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+    ],
+    "evidence_status": "CURRENT",
+    "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+    "non_primary_requirements": {},
+    "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+    "requirement_bindings": {
+      "REQ-Q1": {
+        "claim_kind": "REQUIREMENT",
+        "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+        "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+        "contradiction_status": "NONE",
+        "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+        "evidence_status": "CURRENT",
+        "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+        "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+        "requirement_id": "REQ-Q1",
+        "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+        "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+        "status": "ACCEPTED"
+      },
+      "REQ-Q2": {
+        "claim_kind": "REQUIREMENT",
+        "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+        "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+        "contradiction_status": "NONE",
+        "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+        "evidence_status": "CURRENT",
+        "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+        "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+        "requirement_id": "REQ-Q2",
+        "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+        "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+        "status": "ACCEPTED"
+      },
+      "REQ-Q3": {
+        "claim_kind": "REQUIREMENT",
+        "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+        "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+        "contradiction_status": "NONE",
+        "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+        "evidence_status": "CURRENT",
+        "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+        "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+        "requirement_id": "REQ-Q3",
+        "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+        "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+        "status": "ACCEPTED"
+      },
+      "REQ-Q4": {
+        "claim_kind": "REQUIREMENT",
+        "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+        "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+        "contradiction_status": "NONE",
+        "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+        "evidence_status": "CURRENT",
+        "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+        "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+        "requirement_id": "REQ-Q4",
+        "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+        "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+        "status": "ACCEPTED"
+      }
+    },
+    "requirement_claims": {
+      "REQ-Q1": {
+        "claim_id": "CLAIM-2019C-Q1",
+        "claim_text": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+        "evidence_artifact_ids": [
+          "models/model_candidates.json",
+          "models/assumptions_and_symbols.json",
+          "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+        ]
+      },
+      "REQ-Q2": {
+        "claim_id": "CLAIM-2019C-Q2",
+        "claim_text": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+        "evidence_artifact_ids": [
+          "data/data_audit.json",
+          "research/source_ledger.json",
+          "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+        ]
+      },
+      "REQ-Q3": {
+        "claim_id": "CLAIM-2019C-Q3",
+        "claim_text": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+        "evidence_artifact_ids": [
+          "models/model_candidates.json",
+          "models/assumptions_and_symbols.json",
+          "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+        ]
+      },
+      "REQ-Q4": {
+        "claim_id": "CLAIM-2019C-Q4",
+        "claim_text": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。",
+        "evidence_artifact_ids": [
+          "models/model_candidates.json",
+          "models/assumptions_and_symbols.json",
+          "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+        ]
+      }
+    },
+    "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+    "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+    "scope_type": "REQUIREMENT_UNION",
+    "supported_requirement_ids": [
+      "REQ-Q1",
+      "REQ-Q2",
+      "REQ-Q3",
+      "REQ-Q4"
+    ],
+    "supported_scope": "四问的假设情景建模与可复算局部证据；REQ-Q2机场和城市实测数据缺失，不能据此主张全部主问题完成或实际部署有效。",
+    "supporting_requirement_claim_ids": [
+      "CLAIM-2019C-Q1",
+      "CLAIM-2019C-Q2",
+      "CLAIM-2019C-Q3",
+      "CLAIM-2019C-Q4"
+    ]
+  },
+  "content_hash": "2ab784d864d29e98b1a3e2d36281d6e54fa37fb3b1d9c100e2138e753f93260c",
+  "status": "ACCEPTED"
+}

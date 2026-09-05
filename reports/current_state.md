@@ -2,12 +2,12 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C`
-- Subphase: `C-TARGET-2024C-VALIDATION-TERMINAL-EVIDENCE-INSUFFICIENT`
+- Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
+- Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0004C-C-target-batch-generalization.md`
-- Branch: `feat/phase004c-c-target-batch-generalization`
-- Skill version: `0.2.0-competition-rc4`
+- Active plan: `plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`
+- Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
+- Skill version: `0.2.0-competition-rc7`
 - Primary target problem type: `C`
 - Current batch: `C-TARGET-BATCH-001`
 - Batch Skill frozen: `true`
@@ -15,19 +15,22 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-C-TARGET-VALIDATION-004C, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2`
+- Technical adjudication: `C_TARGET_VALIDATION_FAILED`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2`
-- Content-verified commit: `3e24835c354b1e316783fa9bf50e8f1679bb1003`
-- Delivery receipt commit: `3e24835c354b1e316783fa9bf50e8f1679bb1003`
+- Next phase allowed: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`
+- Content-verified commit: `22abe92d2b5da2e3f1be3161e8376fb83b0cee0a`
+- Delivery receipt commit: `22abe92d2b5da2e3f1be3161e8376fb83b0cee0a`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-05T04:33:42+08:00` by `main-agent`
+- Updated: `2026-09-05T22:57:50+08:00` by `main-agent`
 
 ## Blockers
 
-- RC_CLAIM_PRIMARY_REQUIREMENT_BINDING_INVALID
+- VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE
+- VALIDATION_FINAL_RUN_NOT_COMPLETED
+- VALIDATION_HANDOFF_NOT_REACHED
+- HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION
 
 ## Risks
 
@@ -58,3 +61,12 @@
 - The current runtime exposes no exact reasoning-effort identifier, so the first-run binding records reasoning as UNKNOWN.
 - The frozen RC4 Claim Gate requires one top-level claim scope to equal both the global Final scope and the first requirement-specific claim text; the 2024 C one-shot Validation therefore terminated at Claim evidence with no accepted handoff.
 - The 2024 C selected method is a deterministic feasible whole-plot heuristic, not a proof of global mixed-integer optimality; Question 3 dependence values are registered simulation assumptions rather than estimated causal parameters.
+- The 2019 C terminal outcome is evidence insufficient because actual airport/city data are absent; conditional simulation and native Claim/handoff success cannot establish full primary completion.
+- The 2019 C ranking measures Q1 only and all candidates tied; main Q4 mean Gini worsened. No joint optimum, real-site safety or empirical generalization is established.
+- 2019 answers remained sealed; exact model prior is unverifiable and test payload isolation is policy-based rather than cryptographic or OS-enforced.
+- RC5_VERSION_FILE_MISMATCH: post-decision audit found the frozen Skill VERSION file still says RC4 while runner/SKILL.md/release declare RC5; release acceptance is blocked and no further Skill mutation is allowed in that one-shot.
+- Phase 004C3 froze 56 case-neutral release, data-sufficiency, selection, semantic-support and compatibility expectations before RC6 implementation.
+- Auditor 1 reproduced 13 fail-open probes across RC6 data sufficiency, portfolio selection, semantic Claim binding and compatibility, plus an ineffective hardcoded global fresh-completion path. Both formal revision cycles are exhausted, so RC6 is not released and fresh Validation was not started.
+- Phase 004C4 is a new bounded repair window. RC7 cannot be released until actual-controller black-box probes, ordered gate traces, neutral end-to-end cases, adversarial audit, historical regressions and candidate/live consistency all pass.
+- The answer-sealed 2017 C one-shot executed all nine frozen development attempts successfully, but released RC7 blocked at GATE_FINALIZATION because its execute output cannot supply the controller-required sealed-test payload; no test access or accepted handoff occurred.
+- The read-only fresh Validation integrity audit found HF22: the post-selection builder asserted held_out_test_valid=true for REQ2 despite a DEVELOPMENT_GROUPED_OOS selected output with test access NOT_AUTHORIZED/0 and held_out_test_valid=false; semantic support was not cross-bound to authoritative Run facts.

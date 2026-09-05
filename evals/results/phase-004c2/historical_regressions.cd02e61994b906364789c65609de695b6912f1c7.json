@@ -1,0 +1,739 @@
+{
+  "cases": [
+    {
+      "aggregate_primary_ids": [
+        "REQ-2020C-01",
+        "REQ-2020C-02",
+        "REQ-2020C-03",
+        "REQ-2020C-04",
+        "REQ-2020C-05",
+        "REQ-2020C-06"
+      ],
+      "case_id": "CUMCM-2020-C-DEVELOPMENT-RC4-REGRESSION",
+      "claim_contract_version": "claim-evidence/v2",
+      "claim_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_CLAIM_EXACT_SUPPORT_VALID"
+        ],
+        "status": "PASS"
+      },
+      "classification": "DEVELOPMENT_ARTIFACT_REGRESSION",
+      "comparison_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_LEAKAGE_SAFE_COMPARISON_VALID"
+        ],
+        "status": "PASS"
+      },
+      "derived_claim_sha256": "95f8cbb37721e5497cfb03f20e17ac3cf5c18215f5509cc0fdc70870d9bde68b",
+      "derived_handoff_sha256": "f1ff40d16a3aee2c6e483d964de28ba30eaa6b58730d6803ee932b7bde514f67",
+      "diagnostic_id": null,
+      "elapsed_seconds": 0.464,
+      "failed_runs_retained": 0,
+      "final_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_FINAL_RESULT_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "handoff_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_MODELING_TO_PAPER_HANDOFF_VALID"
+        ],
+        "status": "PASS"
+      },
+      "new_model_runs": 0,
+      "no_validation_credit": true,
+      "old_files_unchanged": true,
+      "primary_requirement_count": 6,
+      "reason_codes": [],
+      "robustness_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_ROBUSTNESS_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "run_count": 3,
+      "run_gates": [
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "run_validation_code_context": "HASH_VERIFIED_ORIGINAL_GIT_BLOBS_NO_EXECUTION",
+      "skill_version": "0.2.0-competition-rc6",
+      "source_manifest_hashes": {
+        "RUN-RC4-BASELINE_ROBUST_SCORE_ALLOCATOR-S20200905": "8fcf591c0d7e26f62f9914c694beebd9eb04941d5691afb993391729e6475f68",
+        "RUN-RC4-RANDOM_FOREST_SCENARIO_ALLOCATOR-S20200905": "fb2e3ad71acff55472b0b1ba3a88c6d250668ae19f8942ba48334243ba83a169",
+        "RUN-RC4-RIDGE_LOGIT_EXPECTED_VALUE_ALLOCATOR-S20200905": "34c6b7f50093befe1b502b965fb428434a758d28f894063a398478695d41e75b"
+      },
+      "source_state": "READY_FOR_PAPER_HANDOFF",
+      "source_state_sha256": "a00eed24cc899eaad2003fca7e05efb75a01f3831eee18be0a65c1928b2b7c3f",
+      "source_tree_sha256": "8aff80da0fa9acc89d3f3abd9d10e09d28e6339c825def9cda210194e338cdca",
+      "stage_history": [
+        "CREATED",
+        "INTAKE_COMPLETE",
+        "REQUIREMENTS_VALIDATED",
+        "SOURCES_PLANNED",
+        "DATA_AUDITED",
+        "MODELS_PROPOSED",
+        "EXPERIMENT_PLAN_VALIDATED",
+        "RUNNING",
+        "RUN_COMPLETED",
+        "RUN_VALIDATED",
+        "ROBUSTNESS_VALIDATED",
+        "FINAL_CANDIDATE",
+        "EVIDENCE_VALIDATED",
+        "READY_FOR_PAPER_HANDOFF"
+      ],
+      "status": "PASS"
+    },
+    {
+      "aggregate_primary_ids": [
+        "REQ-INVENTORY-PRODUCTION",
+        "REQ-OUTPUT-ATTACHMENT-A",
+        "REQ-OUTPUT-ATTACHMENT-B",
+        "REQ-Q1-IMPORTANCE-MODEL",
+        "REQ-Q1-TOP50",
+        "REQ-Q2-EFFECT",
+        "REQ-Q2-MINIMUM-SUPPLIERS",
+        "REQ-Q2-ORDER-PLAN",
+        "REQ-Q2-TRANSPORT-PLAN",
+        "REQ-Q3-EFFECT",
+        "REQ-Q3-MATERIAL-PREFERENCE",
+        "REQ-Q3-ORDER-PLAN",
+        "REQ-Q3-TRANSPORT-PLAN",
+        "REQ-Q4-CAPACITY-INCREASE",
+        "REQ-Q4-ORDER-PLAN",
+        "REQ-Q4-TRANSPORT-PLAN",
+        "REQ-TRANSPORT-BUSINESS-RULES"
+      ],
+      "case_id": "CUMCM-2021-C-DEVELOPMENT-RC4-REGRESSION",
+      "claim_contract_version": "claim-evidence/v2",
+      "claim_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_CLAIM_EXACT_SUPPORT_VALID"
+        ],
+        "status": "PASS"
+      },
+      "classification": "DEVELOPMENT_ARTIFACT_REGRESSION",
+      "comparison_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_LEAKAGE_SAFE_COMPARISON_VALID"
+        ],
+        "status": "PASS"
+      },
+      "derived_claim_sha256": "b8f898750b9dcb7ec2c74f005ef84e371ec8fc591f8579ec8b07a0a8aa596b02",
+      "derived_handoff_sha256": "a3c9f82fb61a421d5f7aaa845905db38d13603909e8494ea164b83a6dd408581",
+      "diagnostic_id": null,
+      "elapsed_seconds": 0.122,
+      "failed_runs_retained": 0,
+      "final_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_FINAL_RESULT_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "handoff_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_MODELING_TO_PAPER_HANDOFF_VALID"
+        ],
+        "status": "PASS"
+      },
+      "new_model_runs": 0,
+      "no_validation_credit": true,
+      "old_files_unchanged": true,
+      "primary_requirement_count": 17,
+      "reason_codes": [],
+      "robustness_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_ROBUSTNESS_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "run_count": 3,
+      "run_gates": [
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "run_validation_code_context": "HASH_VERIFIED_ORIGINAL_GIT_BLOBS_NO_EXECUTION",
+      "skill_version": "0.2.0-competition-rc6",
+      "source_manifest_hashes": {
+        "RUN-RC4-BASELINE_MEAN_GREEDY-S20210904": "6354cc4b6557b5af464f3e1287e131364d1fb2fc92dbc8be10618245ac9ae440",
+        "RUN-RC4-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904": "df76559242ea37be23b54cfa5eaf9ddf2212efb84c9958a872795c1b3b84f122",
+        "RUN-RC4-SCENARIO_CVAR_PORTFOLIO-S20210904": "afd42805b62d2896379812c9b695da74f3301bf76e5e7a7b3718a517ffab0585"
+      },
+      "source_state": "READY_FOR_PAPER_HANDOFF",
+      "source_state_sha256": "e2b872a7367eb319690f7d7a2b053190a6b42e1455847a962d02079ae77dc3e4",
+      "source_tree_sha256": "16b0a57b0e12537f345238fe5b2e294438a28630665dd2e93d9333f0fbb00866",
+      "stage_history": [
+        "CREATED",
+        "INTAKE_COMPLETE",
+        "REQUIREMENTS_VALIDATED",
+        "SOURCES_PLANNED",
+        "DATA_AUDITED",
+        "MODELS_PROPOSED",
+        "EXPERIMENT_PLAN_VALIDATED",
+        "RUNNING",
+        "RUN_COMPLETED",
+        "RUN_VALIDATED",
+        "ROBUSTNESS_VALIDATED",
+        "FINAL_CANDIDATE",
+        "EVIDENCE_VALIDATED",
+        "READY_FOR_PAPER_HANDOFF"
+      ],
+      "status": "PASS"
+    },
+    {
+      "aggregate_primary_ids": [
+        "REQ-1A",
+        "REQ-1B",
+        "REQ-1C",
+        "REQ-2A",
+        "REQ-2B",
+        "REQ-2C",
+        "REQ-3A",
+        "REQ-3B",
+        "REQ-4A",
+        "REQ-4B",
+        "REQ-COMPOSITION",
+        "REQ-EVIDENCE",
+        "REQ-VALIDITY"
+      ],
+      "case_id": "CUMCM-2022-C-DEVELOPMENT-RC4-REGRESSION",
+      "claim_contract_version": "claim-evidence/v2",
+      "claim_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_CLAIM_EXACT_SUPPORT_VALID"
+        ],
+        "status": "PASS"
+      },
+      "classification": "DEVELOPMENT_ARTIFACT_REGRESSION",
+      "comparison_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_LEAKAGE_SAFE_COMPARISON_VALID"
+        ],
+        "status": "PASS"
+      },
+      "derived_claim_sha256": "fe1eae41af2be007d30c3ef5096e1ef4b9e3b5314da7ee2b5fc7f4ba59bd5a6a",
+      "derived_handoff_sha256": "e921884d284d3ff571ac800e7c2d457e3383589714a44b9454a0d38073e674eb",
+      "diagnostic_id": null,
+      "elapsed_seconds": 0.081,
+      "failed_runs_retained": 0,
+      "final_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_FINAL_RESULT_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "handoff_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_MODELING_TO_PAPER_HANDOFF_VALID"
+        ],
+        "status": "PASS"
+      },
+      "new_model_runs": 0,
+      "no_validation_credit": true,
+      "old_files_unchanged": true,
+      "primary_requirement_count": 13,
+      "reason_codes": [],
+      "robustness_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_ROBUSTNESS_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "run_count": 3,
+      "run_gates": [
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "run_validation_code_context": "HASH_VERIFIED_ORIGINAL_GIT_BLOBS_NO_EXECUTION",
+      "skill_version": "0.2.0-competition-rc6",
+      "source_manifest_hashes": {
+        "RUN-RC4-BASELINE_RAW_CENTROID-S20220904": "6b980af89d11dea425436d06e3f0b22a4b58489da124b6cf6cdf96b15f8acbbd",
+        "RUN-RC4-CLR_RIDGE_WARD-S20220904": "10645f57da39c6dd5dd50a3e1e6de275bb6f120a91a47f4baad7b73cb4c35b30",
+        "RUN-RC4-HELLINGER_KNN_COMPLETE-S20220904": "1b343db4106c0c29b409704a2ec11291f5f8b435be06d0e4e3363d2f5bd356be"
+      },
+      "source_state": "READY_FOR_PAPER_HANDOFF",
+      "source_state_sha256": "5a08dfbcdfbc44be401e7cbf7306617e6d9e26aa7a7b77fbb9290eb08be68b14",
+      "source_tree_sha256": "a0ccab337066d3c854f1071eca0e25ffcae79ebe467b0472f729e4581447eeac",
+      "stage_history": [
+        "CREATED",
+        "INTAKE_COMPLETE",
+        "REQUIREMENTS_VALIDATED",
+        "SOURCES_PLANNED",
+        "DATA_AUDITED",
+        "MODELS_PROPOSED",
+        "EXPERIMENT_PLAN_VALIDATED",
+        "RUNNING",
+        "RUN_COMPLETED",
+        "RUN_VALIDATED",
+        "ROBUSTNESS_VALIDATED",
+        "FINAL_CANDIDATE",
+        "EVIDENCE_VALIDATED",
+        "READY_FOR_PAPER_HANDOFF"
+      ],
+      "status": "PASS"
+    },
+    {
+      "aggregate_primary_ids": [
+        "REQ-1A",
+        "REQ-1B",
+        "REQ-2A",
+        "REQ-2B",
+        "REQ-3",
+        "REQ-4"
+      ],
+      "case_id": "CUMCM-2023-C-DEVELOPMENT-RC4-REGRESSION",
+      "claim_contract_version": "claim-evidence/v2",
+      "claim_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_CLAIM_EXACT_SUPPORT_VALID"
+        ],
+        "status": "PASS"
+      },
+      "classification": "DEVELOPMENT_ARTIFACT_REGRESSION",
+      "comparison_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_LEAKAGE_SAFE_COMPARISON_VALID"
+        ],
+        "status": "PASS"
+      },
+      "derived_claim_sha256": "955fe7e590c3f4feedb6227429229f23aa147ab0e2a21363584db78ce47aa09e",
+      "derived_handoff_sha256": "719dc7bdf23e6d73f011264e4976b77dcc880bdc2c6341a01d95b94bbbccbbde",
+      "diagnostic_id": null,
+      "elapsed_seconds": 0.316,
+      "failed_runs_retained": 0,
+      "final_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_FINAL_RESULT_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "handoff_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_MODELING_TO_PAPER_HANDOFF_VALID"
+        ],
+        "status": "PASS"
+      },
+      "new_model_runs": 0,
+      "no_validation_credit": true,
+      "old_files_unchanged": true,
+      "primary_requirement_count": 6,
+      "reason_codes": [],
+      "robustness_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_ROBUSTNESS_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "run_count": 3,
+      "run_gates": [
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "run_validation_code_context": "HASH_VERIFIED_ORIGINAL_GIT_BLOBS_NO_EXECUTION",
+      "skill_version": "0.2.0-competition-rc6",
+      "source_manifest_hashes": {
+        "RUN-PIPELINE-HIERARCHICAL-STOCHASTIC-20260904": "e20ce25386d243217518da27c3288ce36abaadb908b400f01286db1004de7571",
+        "RUN-PIPELINE-NONPARAMETRIC-ROBUST-20260904": "694f6263c2c0286c1a10311f6c69b4d191808b865c0d58a50ace92d19b00bf55",
+        "RUN-PIPELINE-SEASONAL-BASELINE-20260904": "c2961fde3d93f19b8c52a49cc165aeb1d7d8256f587d22a08c29f22f0dae265a"
+      },
+      "source_state": "READY_FOR_PAPER_HANDOFF",
+      "source_state_sha256": "742384d63c07e31a98d2a0de8cf9403a76eaa9e9326160390d5dee7955953057",
+      "source_tree_sha256": "07c4c5e382e73b6b574bcfd937c658049a17c7d2e6c5753912c64afe64f5a948",
+      "stage_history": [
+        "CREATED",
+        "INTAKE_COMPLETE",
+        "REQUIREMENTS_VALIDATED",
+        "SOURCES_PLANNED",
+        "DATA_AUDITED",
+        "MODELS_PROPOSED",
+        "EXPERIMENT_PLAN_VALIDATED",
+        "RUNNING",
+        "RUN_COMPLETED",
+        "RUN_VALIDATED",
+        "ROBUSTNESS_VALIDATED",
+        "FINAL_CANDIDATE",
+        "EVIDENCE_VALIDATED",
+        "READY_FOR_PAPER_HANDOFF"
+      ],
+      "status": "PASS"
+    },
+    {
+      "aggregate_primary_ids": [
+        "REQ-2020A-CONSTRAINTS",
+        "REQ-2020A-MECHANISM",
+        "REQ-2020A-Q1",
+        "REQ-2020A-Q2",
+        "REQ-2020A-Q3",
+        "REQ-2020A-Q4"
+      ],
+      "case_id": "CUMCM-2020-A-RC4-AUXILIARY-REGRESSION",
+      "claim_contract_version": "claim-evidence/v2",
+      "claim_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_CLAIM_EXACT_SUPPORT_VALID"
+        ],
+        "status": "PASS"
+      },
+      "classification": "DEVELOPMENT_ARTIFACT_REGRESSION",
+      "comparison_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_LEAKAGE_SAFE_COMPARISON_VALID"
+        ],
+        "status": "PASS"
+      },
+      "derived_claim_sha256": "b3a6fafefd6e207648216c0297e34170c9599929aa9b28917cf9f6e4a91a727f",
+      "derived_handoff_sha256": "6944a5737849aee52d88137303eaf07b95abf4619d0991151c8d5521a1414cdd",
+      "diagnostic_id": null,
+      "elapsed_seconds": 0.098,
+      "failed_runs_retained": 1,
+      "final_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_FINAL_RESULT_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "handoff_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_MODELING_TO_PAPER_HANDOFF_VALID"
+        ],
+        "status": "PASS"
+      },
+      "new_model_runs": 0,
+      "no_validation_credit": true,
+      "old_files_unchanged": true,
+      "primary_requirement_count": 6,
+      "reason_codes": [],
+      "robustness_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_ROBUSTNESS_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "run_count": 3,
+      "run_gates": [
+        {
+          "accepted": false,
+          "final": false,
+          "reason_codes": [
+            "RC_MANIFEST_NOT_SUCCESS:FAILED"
+          ],
+          "status": "BLOCK"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "run_validation_code_context": "HASH_VERIFIED_ORIGINAL_GIT_BLOBS_NO_EXECUTION",
+      "skill_version": "0.2.0-competition-rc6",
+      "source_manifest_hashes": {
+        "RUN-RC4-AUX-AUXILIARY_NONZERO_DIAGNOSTIC-20260904": "277fe8c8f20b2418fbb6fe363788da998fb6a9ca9c2d7771b6f69086dd76139d",
+        "RUN-RC4-AUX-BASELINE_FIRST_ORDER-20260904": "2e1044ac67bdfcb38a13ac611702a4ebfe52af515ebdc72e95ceb7073c052be3",
+        "RUN-RC4-AUX-PRIMARY_ASYMMETRIC_FIRST_ORDER-20260904": "d79ceebb5a9952049f972fbd6cc4144b24c1888b1384bd648d8830f433d05785"
+      },
+      "source_state": "READY_FOR_PAPER_HANDOFF",
+      "source_state_sha256": "0ce4920c1e6c35b5613b3949a6e7ffdc0a926fc612bc07c55e6f6f3c41e4faac",
+      "source_tree_sha256": "ccbdeba9cb1d140d84ba67ae6a9736c24f432b94afcd302e9abb34d9f62bce0f",
+      "stage_history": [
+        "CREATED",
+        "INTAKE_COMPLETE",
+        "REQUIREMENTS_VALIDATED",
+        "SOURCES_PLANNED",
+        "DATA_AUDITED",
+        "MODELS_PROPOSED",
+        "EXPERIMENT_PLAN_VALIDATED",
+        "RUNNING",
+        "RUN_COMPLETED",
+        "RUN_VALIDATED",
+        "ROBUSTNESS_VALIDATED",
+        "FINAL_CANDIDATE",
+        "EVIDENCE_VALIDATED",
+        "READY_FOR_PAPER_HANDOFF"
+      ],
+      "status": "PASS"
+    },
+    {
+      "aggregate_primary_ids": [
+        "REQ-2024C-CONSTRAINTS",
+        "REQ-2024C-MANAGEMENT",
+        "REQ-2024C-Q1-DISCOUNT",
+        "REQ-2024C-Q1-WASTE",
+        "REQ-2024C-Q2-UNCERTAINTY",
+        "REQ-2024C-Q3-DEPENDENCE"
+      ],
+      "answer_state": "SEALED",
+      "case_id": "CUMCM-2024-C-VALIDATION-001",
+      "claim_contract_version": "claim-evidence/v2",
+      "claim_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_CLAIM_EXACT_SUPPORT_VALID"
+        ],
+        "status": "PASS"
+      },
+      "classification": "POST_VALIDATION_DIAGNOSTIC_REPLAY",
+      "comparison_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_LEAKAGE_SAFE_COMPARISON_VALID"
+        ],
+        "status": "PASS"
+      },
+      "derived_claim_sha256": "e5e7083e05d0d5f30544ef7295dd2bd8b2dba1967df7d1c0c43647527ea5217a",
+      "derived_handoff_sha256": "274c9c832af045d822e27431073f214797633dcfc508618404282559ec5cdf1c",
+      "diagnostic_id": "CUMCM-2024-C-POST-VALIDATION-DEVELOPMENT-DIAGNOSTIC",
+      "elapsed_seconds": 0.137,
+      "failed_runs_retained": 0,
+      "final_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_FINAL_RESULT_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "handoff_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_MODELING_TO_PAPER_HANDOFF_VALID"
+        ],
+        "status": "PASS"
+      },
+      "new_model_runs": 0,
+      "no_validation_credit": true,
+      "old_case_state": "REJECTED",
+      "old_files_unchanged": true,
+      "old_verdict": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+      "primary_requirement_count": 6,
+      "reason_codes": [],
+      "robustness_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_ROBUSTNESS_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "run_count": 4,
+      "run_gates": [
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        },
+        {
+          "accepted": true,
+          "final": false,
+          "reason_codes": [
+            "RC_REPRODUCIBILITY_MANIFEST_VALID"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "run_validation_code_context": "HASH_VERIFIED_ORIGINAL_GIT_BLOBS_NO_EXECUTION",
+      "skill_version": "0.2.0-competition-rc6",
+      "source_manifest_hashes": {
+        "RUN-BASELINE_RULE_ROTATION-104729": "921dc61b3129a68a29c5df773878d53ba6ba7025f8c3ab45425c8dbf235740a2",
+        "RUN-BASELINE_RULE_ROTATION-130363": "a958aa38e8c3d91b9668c99c10a977b9770ed82ec183430b8218c3526e84166a",
+        "RUN-PRIMARY_RISK_GREEDY-104729": "9c651819b573598d2f9020d4f7b1cb7b0a2d1f8d4150fb990a890e6a1a244a9d",
+        "RUN-PRIMARY_RISK_GREEDY-130363": "90cde5445db52a2dd0ac23d0ca6b9be5f87d2f6df498f32d442c072b852f7e26"
+      },
+      "source_state": "REJECTED",
+      "source_state_sha256": "f3644552aa1c8bdd23236a74d5d1dd3037f21f95395fb87ab4f9ec7f41c64232",
+      "source_tree_sha256": "e7bb19c9acab80ab5c601ca5fbde08f38acf46037f1082866cbe55628dba8fdd",
+      "stage_history": [
+        "CREATED",
+        "INTAKE_COMPLETE",
+        "REQUIREMENTS_VALIDATED",
+        "SOURCES_PLANNED",
+        "DATA_AUDITED",
+        "MODELS_PROPOSED",
+        "EXPERIMENT_PLAN_VALIDATED",
+        "RUNNING",
+        "RUN_COMPLETED",
+        "RUN_VALIDATED",
+        "ROBUSTNESS_VALIDATED",
+        "FINAL_CANDIDATE",
+        "REJECTED"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "implementation_commit": "cd02e61994b906364789c65609de695b6912f1c7",
+  "payload_sha256": "95c823be459d3cecf1a7bf9581d791093d4d3a80525ad630e630efdb172229f1",
+  "schema_version": "1.0.0",
+  "status": "PASS"
+}

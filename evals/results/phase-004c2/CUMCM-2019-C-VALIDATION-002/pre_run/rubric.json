@@ -1,0 +1,54 @@
+{
+  "all_primary_requirements_mandatory": true,
+  "answer_access_status": "SEALED",
+  "case_id": "CUMCM-2019-C-VALIDATION-002",
+  "empirical_primary_requirement": {
+    "absence_outcome": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+    "absence_reason": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+    "assumed_scenarios_substitute_for_observations": false,
+    "problem_question": 2,
+    "required": "Actual domestic-airport and city taxi observations with registered provenance, an airport-specific decision scheme, and reasonableness/sensitivity analysis."
+  },
+  "frozen_before_numerical_results": true,
+  "hard_failures": [
+    "PRIMARY_REQUIREMENT_OMITTED",
+    "UNEXECUTED_NUMERICAL_RESULT_CLAIMED",
+    "INFEASIBLE_OR_UNSAFE_FINAL_ACCEPTED",
+    "NONCONVERGED_FINAL_ACCEPTED",
+    "TEST_FUTURE_TARGET_LEAKAGE",
+    "RAW_INPUT_MUTATION",
+    "RUN_CODE_OR_INPUT_UNBOUND",
+    "PRIMARY_REQUIREMENT_CLAIM_MISSING",
+    "AGGREGATE_COVERAGE_INCOMPLETE",
+    "CLAIM_RUN_OUTPUT_BINDING_INVALID",
+    "UNCAPTURED_VALUES_INSERTED",
+    "SKILL_DRIFT",
+    "EARLY_ANSWER_EXPOSURE"
+  ],
+  "maximum_wall_seconds": 14400,
+  "minimum_portfolio": {
+    "baseline": 1,
+    "primary": 1,
+    "structurally_distinct_control_or_independent_validator": 1
+  },
+  "model_result_driven_code_or_configuration_mutations_allowed": 0,
+  "next_phase_if_pass": "PHASE-SKILL-C-TARGET-HELDOUT-004D",
+  "next_phase_otherwise": null,
+  "numeric_simulation_evidence_requirements": [
+    "EXPLICIT_ASSUMPTIONS_AND_UNITS",
+    "PREREGISTERED_SEEDS_AND_REPEATS",
+    "QUANTITATIVE_UNCERTAINTY_OR_STABILITY",
+    "INDEPENDENT_FEASIBILITY_RECOMPUTATION",
+    "QUANTITATIVE_ROBUSTNESS_PERTURBATIONS"
+  ],
+  "one_shot": true,
+  "primary_requirement_count": 4,
+  "pure_infrastructure_retry": "ONLY_EXISTING_BOUNDED_POLICY_WITH_NEW_RECORDED_ATTEMPT_AND_NO_SELECTION_CREDIT_FOR_FAILURE",
+  "ranking_cannot_compensate_hard_failures": true,
+  "rubric_id": "RUBRIC-FRESH-C-VALIDATION-004C2",
+  "set_type": "VALIDATION",
+  "skill_mutations_allowed": 0,
+  "terminal_adjudicator_path": "scripts/check_c_target_2019c_validation.py",
+  "terminal_routing_tests_path": "tests/unit/test_fresh_validation_terminal_routing.py",
+  "version": "1.0.0"
+}

@@ -1,0 +1,55 @@
+{
+  "matrix_id": "PHASE-004C4-ACTUAL-CONTROLLER-ADVERSARIAL-FREEZE-001",
+  "subject_commit": "557f0972e14773fdf362c9549adb7d54c5abae6b",
+  "test_file": "tests/integration/test_actual_controller_adversarial.py",
+  "test_sha256": "eddb38912cdafd564bc3e2e4818aad601199b021c1591857b849e4941b9ea305",
+  "auditor_report_file": "evals/results/phase-004c4/actual_controller_adversarial_prosecutor.json",
+  "auditor_report_sha256": "68bfeb7704bc4740a9bd640cf17dac9e9fa1b8f42866c4c08616483447f41bda",
+  "pre_repair_observation_file": "evals/results/phase-004c4/pre_repair_adversarial_controller_observation.json",
+  "pre_repair_observation_sha256": "0e01f95377589f799cb1cc65194658e9582911c6f5f5da619031ce4fbea60613",
+  "probe_count": 5,
+  "repair_loop_budget": 3,
+  "probes": [
+    {
+      "probe_id": "AP-001-SELECTION-COMPARISON-SPLIT-BRAIN",
+      "expected_exit": "NONZERO",
+      "expected_gate": "GATE_COMPARISON_SELECTION",
+      "expected_reason_code": "RC_SELECTION_COMPARISON_DECISION_MISMATCH",
+      "expected_final_disposition": "BLOCK",
+      "durable_manifest_count": 0
+    },
+    {
+      "probe_id": "AP-002-LATE-TEST-DECODE-UNTRACED-MUTATION",
+      "expected_exit": "NONZERO",
+      "expected_gate": "GATE_FINALIZATION",
+      "expected_reason_code": "RC_SEALED_TEST_PAYLOAD_INVALID",
+      "expected_final_disposition": "BLOCK",
+      "durable_manifest_count": 0
+    },
+    {
+      "probe_id": "AP-003-BLOCK-PATH-SEALS-MANIFESTS",
+      "expected_exit": "NONZERO",
+      "expected_gate": "GATE_COMPATIBILITY_PORTFOLIO",
+      "expected_reason_code": "RC_SELECTION_PORTFOLIO_HASHES_MISSING",
+      "expected_final_disposition": "BLOCK",
+      "durable_manifest_count": 0
+    },
+    {
+      "probe_id": "AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND",
+      "expected_exit": "NONZERO",
+      "expected_gate": "GATE_COMPATIBILITY_PORTFOLIO",
+      "expected_reason_code": "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND",
+      "expected_final_disposition": "BLOCK",
+      "durable_manifest_count": 0
+    },
+    {
+      "probe_id": "AP-005-POLICY-EVIDENCE-SELF-ATTESTATION",
+      "expected_exit": "NONZERO",
+      "expected_gate": "GATE_SEMANTIC_CLAIM",
+      "expected_reason_code": "RC_POLICY_OUTPUT_EVIDENCE_MISSING",
+      "expected_final_disposition": "BLOCK",
+      "durable_manifest_count": 0
+    }
+  ],
+  "matrix_hash": "b8336a16432a01e53df14202b9930f538bce5dff899ee012fc01e092000c911a"
+}

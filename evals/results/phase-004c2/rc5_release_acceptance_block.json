@@ -1,0 +1,23 @@
+{
+  "declared_release_version": "0.2.0-competition-rc5",
+  "detected_at": "2026-09-05T12:37:04+08:00",
+  "deterministic_reproduction": [
+    "Read Skill VERSION",
+    "Read rc5_release.skill_version",
+    "Compare unequal strings",
+    "Compare release Git blob to current VERSION bytes: equal"
+  ],
+  "drift_during_validation": false,
+  "finding_id": "RC5_VERSION_FILE_MISMATCH",
+  "formal_revision_cycles_used": 2,
+  "release_blob_byte_identical": true,
+  "release_commit": "24265710b3f4b154ccf6eff19614eea7fb3fb0d4",
+  "release_manifest_sha256": "751a9550a5b3fa0cc39d3e93e7f65935894da3f970a4751bd6bd89577bf74ed4",
+  "repair_in_this_episode_allowed": false,
+  "resolution": "UNRESOLVED; PRESERVE_FROZEN_SKILL_AND_REQUEST_NEW_SCOPE_AFTER_TERMINAL_DELIVERY",
+  "skill_version_file": ".agents/skills/cumcm-modeling-evidence/VERSION",
+  "status": "BLOCK_RELEASE_ACCEPTANCE",
+  "verification_gap": "Release checker verified file hashes but did not compare VERSION file contents to declared version.",
+  "version_file_sha256": "4b92a4e3afb0ddfab8d630d458cabad1b08367ec5c1fc4f4ec5e706d69783a62",
+  "version_file_value": "0.2.0-competition-rc4"
+}

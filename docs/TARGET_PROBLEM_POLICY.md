@@ -35,9 +35,9 @@ entity, answer, optimum, or case-specific parameter. No acceptable general chang
 retained; producing RC4 is not itself a success criterion.
 
 The frozen batch produced one eligible repeated failure and exactly one revision cycle. The sole
-formal Skill is now `0.2.0-competition-rc4`, implementation commit
+formal Skill at the 004C checkpoint was `0.2.0-competition-rc4`, implementation commit
 `297cad0a29c659b18484d4f3b67d69a942ad415c`, tree
-`d041ca38de030ae04813ef02dbe12f7f2b7a1c22`. RC4 remains case-neutral and is frozen for the 2024 C
+`d041ca38de030ae04813ef02dbe12f7f2b7a1c22`. RC4 remained case-neutral and was frozen for the 2024 C
 one-shot Validation; the original RC3 batch identity and first-run evidence remain unchanged.
 
 ## Validation and Held-out
@@ -66,3 +66,73 @@ This is a training-target and evidence-accounting decision, not an architecture 
 not prove broad C generalization, production readiness, or a 2026 solution. Technical acceptance
 continues to depend on deterministic Gates, captured Runs, feasible Finals, Claim evidence,
 reproducible handoffs, and the formal state machine; Agent votes cannot override a rejection.
+
+## Phase 004C2 terminal result
+
+The case-neutral Claim implementation passed the frozen tests within two revision cycles.
+Post-decision audit found an unresolved release blocker: the frozen Skill VERSION file still says
+RC4 while the runner, SKILL.md and manifest say RC5. Release acceptance is BLOCKED_VERSION_METADATA;
+the frozen Skill cannot be changed in this episode.
+The one Skill runs the hash-frozen `0.2.0-competition-rc5` implementation, K1, `COMPETITION_RC`;
+its inconsistent VERSION label is preserved as audited evidence.
+Release truth: `evals/results/phase-004c2/rc5_release.json`; execution record:
+`plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
+The 2024 terminal verdict and original artifacts remain unchanged.
+RC5 release `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` was remotely verified before
+2019 official input access. The pre-run freeze was remotely delivered before all nine actual Runs.
+`CUMCM-2019-C-VALIDATION-002` terminated as `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`:
+Q2 requires actual airport/city observations, which are absent. Native Run/Claim/handoff contracts
+passed structurally; Q4 semantic support is incomplete in the selected baseline Claim.
+The frozen rubric rejected paper dispatch and the
+final case state is `REJECTED`. No whole-problem completion or joint optimum is claimed.
+The machine decision and terminal freeze live under
+`evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/`.
+RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
+is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
+2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+## Phase 004C3 authorization
+
+004C3 retains both negative Validation outcomes and repairs only the release/evidence semantics
+demonstrated by them. Before expensive modeling, each primary requirement must pass a structured
+data-sufficiency Gate or be isolated as partial/unsatisfiable. Simulation cannot substitute for an
+empirical requirement. Final selection may be global only with exact all-requirement support;
+otherwise it is per-requirement or a hash/scenario/constraint-compatible portfolio. Claim strength
+is bounded by structured evidence predicates, not prose confidence.
+
+After neutral tests, at most two revisions, full historical regression and a read-only audit, RC6
+must be remotely frozen before the preregistered 2018 C (or input-only 2017 fallback) is accessed.
+That answer-sealed C Validation is one-shot with a four-hour boundary and clean-context worker.
+The 2025 reservation and six false access flags remain unchanged until an actual PASS authorizes
+004D; failed/insufficient/incomplete Validation cannot be compensated by other evidence.
+
+Auditor 1 blocked RC6 before release by reproducing 13 fail-open data, selection, semantic and
+compatibility probes and an ineffective hardcoded global completion path. The two-cycle limit is
+exhausted. Therefore neither preferred nor fallback Validation input was accessed, no Validation
+case was registered, 004D remains locked, all six 2025 flags remain false, and the exact next phase
+is `null`.
+
+## Phase 004C4 runtime-pipeline closure
+
+004C4 is an independently budgeted repair phase that preserves every 004C3 terminal fact. Its
+release evidence is controller-level: frozen probes invoke the real CLI/workspace/state/finalization
+and handoff path and require a bound gate trace. RC7 must pass three neutral end-to-end cases,
+independent adversarial replay and all C/history regressions before candidate/live consistency and
+remote freeze. Fresh Validation remains answer-sealed and inaccessible before that freeze; 2025 C
+remains reserved with all access flags false.
+
+RC7 is now released and remotely frozen. The preferred 2018 archive was rejected before any model
+Run because its C directory omitted all five data attachments named by the official problem and its
+official notice pointed to a separate unavailable committee channel. The policy-authorized 2017 C
+fallback is registered with a complete official problem, two empirical workbooks and a variable
+dictionary; its answer remains sealed and its model-prior exposure is unverifiable.
+
+The fallback terminal is `C_TARGET_VALIDATION_FAILED`. All nine frozen development attempts and
+per-requirement selections are valid, but RC7 cannot express the authorized final-test payload
+through its execute/output interface; the actual controller blocks at finalization and never reaches
+handoff. This is non-compensable under HF14/HF21/HF23. The answer stays sealed, the case is
+Development-only after freeze, 004D is not authorized, and 004C5 is the sole next route.
+The required read-only integrity audit additionally records HF22: generated semantic support must
+not declare held-out validity unless it is cross-bound to a selected Run/output with the matching
+evaluation boundary and authorized test-access evidence. This challenge cannot reopen the frozen
+case.

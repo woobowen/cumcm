@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "phase": "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+  "checked_at": "2026-09-05T18:59:02+08:00",
+  "repository_root": ".",
+  "branch": "feat/phase004c2-claim-scope-repair-validation-2019c",
+  "head": "7060ab136b88a158be6dfe3b46801e6cc2c65c64",
+  "remote_head": "7060ab136b88a158be6dfe3b46801e6cc2c65c64",
+  "merge_base_main": "f3812dcd0b1c1bb76224168454719dd3eb112801",
+  "worktree_clean": true,
+  "pr_10": {
+    "state": "OPEN",
+    "is_draft": true,
+    "mergeable": "MERGEABLE",
+    "head_sha": "7060ab136b88a158be6dfe3b46801e6cc2c65c64"
+  },
+  "active_release": "0.2.0-competition-rc5-blocked",
+  "blocked_candidate": "0.2.0-competition-rc6",
+  "blocked_candidate_tree": "0d0d65a7148d146424e31318ba003bdab80db6e5",
+  "blockers": [
+    "RC6_COMPATIBILITY_GATE_VACUOUS",
+    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING"
+  ],
+  "auditor_probe_count": 13,
+  "auditor_probe_reproduced": 13,
+  "historical_2024_preserved": true,
+  "historical_2019_preserved": true,
+  "historical_rc5_preserved": true,
+  "historical_rc6_block_preserved": true,
+  "held_out_2025_access": {
+    "archive_accessed": false,
+    "title_accessed": false,
+    "problem_accessed": false,
+    "attachments_accessed": false,
+    "references_accessed": false,
+    "answer_accessed": false
+  },
+  "formal_skill_count": 1,
+  "third_party_integrated": false,
+  "baseline": {
+    "command": "bash scripts/ci.sh",
+    "exit": 0,
+    "execution_type": "LOCAL_OFFLINE_BASELINE",
+    "skill_version": "0.2.0-competition-rc6-blocked-candidate",
+    "case_id": null,
+    "answer_state": "SEALED_NOT_ACCESSED",
+    "pytest": "2009 passed, 1 skipped",
+    "pytest_duration_seconds": 293.37,
+    "strict_errors": 0,
+    "strict_warnings": 0,
+    "result": "PASS",
+    "blocker": null
+  },
+  "valid_for_phase_start": true
+}

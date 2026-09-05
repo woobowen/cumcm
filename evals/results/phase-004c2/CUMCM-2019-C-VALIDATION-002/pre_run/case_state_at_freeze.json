@@ -1,0 +1,97 @@
+{
+  "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "capability": "COMPETITION_RC",
+  "case_id": "CUMCM-2019-C-VALIDATION-002",
+  "case_kind": "general",
+  "evidence_bindings": {
+    "data/data_audit.json": "09f266ff83e29333d1ecb7e9421dc66ba5de188ec4ea7eec4ab0af25283fcf71",
+    "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+    "experiments/experiment_plan.json": "eddd9ccb0add37937aab434f2e351bcfa4e78a171c48c523442b76e04aef0c6c",
+    "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca",
+    "experiments/selected_output_contract_probe.json": "913517ceeb6c00c016fd3d35bb289392fb710e7adb85e45241bf37690b363d80",
+    "models/assumptions_and_symbols.json": "f615c9b04d2558cac15b65bef6de3edc94c509dedcf9ae396bacfc5ab3b9fc1e",
+    "models/model_candidates.json": "11dd5d82d3e52fbeebcf32c1beeb108c7e9ac5799ec6151977f8e7ce1ddf4f83",
+    "problem/problem_requirements.json": "8c8338350fc8fdccb9af57d40eb823b72621eb5845800c59af05902e614b9e58",
+    "research/research_plan.json": "d6c7664fb49e1a3bec4565899401bd843a4ebe51b70241a139d9fbd4bdb26f62",
+    "research/source_ledger.json": "8ed6edcf5294451fd353db3dd2a914a0c2923d38fb5a84e17ef1f0f8f837e5a9"
+  },
+  "history": [
+    {
+      "evidence": [],
+      "from": null,
+      "gate": "INIT",
+      "sequence": 0,
+      "status": "PASS",
+      "to": "CREATED"
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "from": "CREATED",
+      "gate": "GATE_PROBLEM_INTAKE",
+      "sequence": 1,
+      "status": "PASS",
+      "to": "INTAKE_COMPLETE"
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "from": "INTAKE_COMPLETE",
+      "gate": "GATE_REQUIREMENT_COVERAGE",
+      "sequence": 2,
+      "status": "PASS",
+      "to": "REQUIREMENTS_VALIDATED"
+    },
+    {
+      "evidence": [
+        "research/research_plan.json",
+        "research/source_ledger.json"
+      ],
+      "from": "REQUIREMENTS_VALIDATED",
+      "gate": "GATE_SOURCE_PLAN",
+      "sequence": 3,
+      "status": "PASS",
+      "to": "SOURCES_PLANNED"
+    },
+    {
+      "evidence": [
+        "models/assumptions_and_symbols.json",
+        "data/data_audit.json",
+        "data/raw/problem.pdf",
+        "experiments/scenario_assumptions.json"
+      ],
+      "from": "SOURCES_PLANNED",
+      "gate": "GATE_ASSUMPTIONS_AND_DATA",
+      "sequence": 4,
+      "status": "PASS",
+      "to": "DATA_AUDITED"
+    },
+    {
+      "evidence": [
+        "models/model_candidates.json"
+      ],
+      "from": "DATA_AUDITED",
+      "gate": "GATE_MODEL_PORTFOLIO",
+      "sequence": 5,
+      "status": "PASS",
+      "to": "MODELS_PROPOSED"
+    },
+    {
+      "evidence": [
+        "experiments/experiment_plan.json",
+        "experiments/selected_output_contract_probe.json"
+      ],
+      "from": "MODELS_PROPOSED",
+      "gate": "GATE_EXPERIMENT_PLAN",
+      "sequence": 6,
+      "status": "PASS",
+      "to": "EXPERIMENT_PLAN_VALIDATED"
+    }
+  ],
+  "last_gate": "GATE_EXPERIMENT_PLAN",
+  "schema_version": "1.0.0",
+  "skill_version": "0.2.0-competition-rc5",
+  "state": "EXPERIMENT_PLAN_VALIDATED"
+}

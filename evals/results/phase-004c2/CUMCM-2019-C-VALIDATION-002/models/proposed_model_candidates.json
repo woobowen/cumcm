@@ -1,0 +1,39 @@
+{
+  "artifact_type": "model_candidates",
+  "status": "DRAFT",
+  "content_hash": "a475f6d98b5e56b0e671faffcb79f1e6cb5a139bef16cc4bfad6e9a6bb9b0e82",
+  "content": {
+    "candidates": [
+      {
+        "candidate_id": "BASELINE_STATIC_FCFS",
+        "baseline": true,
+        "mechanism": "Static mean-intensity analytic wait; one bay per lane; ordinary FCFS recurrent fleet.",
+        "applicability": "Transparent stationary reference; intentionally ignores flight-phase variation.",
+        "failure_expectation": "Time-varying arrivals distort queue wait; safe minimum bays may underuse capacity."
+      },
+      {
+        "candidate_id": "PRIMARY_NHPP_CREDIT",
+        "baseline": false,
+        "mechanism": "NHPP Gamma inverse Monte Carlo expected wait; finite bay empirical-capacity maximization; deficit-sized short-trip credit with quota and aging.",
+        "applicability": "Conditional assumed intensity, geometry and closed-fleet scenarios.",
+        "failure_expectation": "Unobserved parameter error and demand correlation may dominate MC accuracy; credit may not improve fairness."
+      },
+      {
+        "candidate_id": "CONTROL_FLUID_AGING",
+        "baseline": false,
+        "mechanism": "Deterministic cumulative-intensity fluid threshold; fixed three bays per lane; fixed-delay short-trip aging promotion.",
+        "applicability": "Structural control without stochastic wait estimation or deficit-sized credit.",
+        "failure_expectation": "Inverse-of-mean differs from mean inverse; fixed credit promotion can trade fairness against waits."
+      }
+    ],
+    "independent_checker": "models/runtime/independent_checks.py",
+    "baseline_id": "BASELINE_STATIC_FCFS",
+    "selection_scope": "Q1_CONDITIONAL_VALIDATION_ONLY",
+    "cross_question_consistency": [
+      "Common fare, operating cost and distance units",
+      "Q1 marginal loaded-trip decision differs deliberately from Q4 complete airport round-trip income",
+      "Q3 is capacity under saturation; Q1 does not silently assume unlimited actual boarding capacity",
+      "Q4 dispatch capacity assumption is separate from Q3 maximum; comparison must check it does not exceed selected Q3 capacity"
+    ]
+  }
+}

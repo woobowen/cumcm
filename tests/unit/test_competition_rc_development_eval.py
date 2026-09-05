@@ -36,10 +36,14 @@ def command(repo_root: Path, script: str, *arguments: str) -> subprocess.Complet
 
 
 def legacy_development_start_is_locked(state: dict) -> bool:
-    return (
-        state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C"
-        or state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
-    )
+    return state.get("next_phase_allowed") == "PHASE-SKILL-VALIDATION-EVAL-004-C" or state.get(
+        "phase"
+    ) in {
+        "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+        "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+        "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+    }
 
 
 def load_script(repo_root: Path, name: str):
@@ -136,7 +140,24 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     registry = yaml.safe_load(
         (repo_root / "benchmarks/case_registry.yaml").read_text(encoding="utf-8")
     )
-    assert len(registry["cases"]) == 6
+    expected_case_ids = {
+        "CUMCM-2023-C-DEVELOPMENT-001",
+        "CUMCM-2020-A-DEVELOPMENT-002",
+        "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+        "CUMCM-2024-C-VALIDATION-001",
+        "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+        "CUMCM-2020-C-DEVELOPMENT-BATCH-003",
+        "CUMCM-2019-C-VALIDATION-002",
+        "CUMCM-2017-C-VALIDATION-003F",
+    }
+    assert len(registry["cases"]) == len(expected_case_ids)
+    assert {case["case_id"] for case in registry["cases"]} == expected_case_ids
+    fresh_validation = next(
+        case for case in registry["cases"] if case["case_id"] == "CUMCM-2019-C-VALIDATION-002"
+    )
+    assert fresh_validation["set_type"] == "VALIDATION"
+    assert fresh_validation["answer_access_status"] == "SEALED"
+    assert fresh_validation["skill_version"] == "0.2.0-competition-rc5"
     assert registry["cases"][0]["case_id"] == "CUMCM-2023-C-DEVELOPMENT-001"
     assert registry["cases"][0]["answer_access_status"] == "UNLOCKED_AFTER_FIRST_RUN"
     assert registry["cases"][0]["first_run_status"] == "FROZEN"
@@ -164,6 +185,16 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
     assert validation["skill_version"] == "0.2.0-competition-rc4"
     assert validation["validation_decision"] == "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
     assert validation["same_case_future_role"] == "DEVELOPMENT_ONLY"
+    fresh_rc7 = next(
+        case for case in registry["cases"] if case.get("case_id") == "CUMCM-2017-C-VALIDATION-003F"
+    )
+    assert fresh_rc7["set_type"] == "VALIDATION"
+    assert fresh_rc7["answer_access_status"] == "SEALED"
+    assert fresh_rc7["first_run_status"] == "FROZEN"
+    assert fresh_rc7["skill_version"] == "0.2.0-competition-rc7"
+    assert fresh_rc7["validation_decision"] == "C_TARGET_VALIDATION_FAILED"
+    assert fresh_rc7["same_case_future_role"] == "DEVELOPMENT_ONLY"
+    assert fresh_rc7["integrity_audit"]["status"] == "CHALLENGE"
     assert set(registry["allowed_set_types"]) == {
         "DEVELOPMENT",
         "VALIDATION",

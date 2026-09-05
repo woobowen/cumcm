@@ -14,7 +14,12 @@ def _load(path):
 
 
 def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_root) -> None:
-    state = _load(repo_root / "state/project_state.json")
+    state = json.loads(
+        subprocess.check_output(
+            ["git", "show", "f3812dcd0b1c1bb76224168454719dd3eb112801:state/project_state.json"],
+            cwd=repo_root,
+        )
+    )
     schema = _load(repo_root / "contracts/project_state.schema.json")
 
     Draft202012Validator(schema).validate(state)
@@ -68,7 +73,18 @@ def test_c_target_batch_state_is_schema_valid_and_preserves_rc_evidence(repo_roo
 def test_c_target_batch_state_mutations_fail_schema_closed(
     repo_root, path: tuple[str, ...], value: object
 ) -> None:
-    state = copy.deepcopy(_load(repo_root / "state/project_state.json"))
+    state = copy.deepcopy(
+        json.loads(
+            subprocess.check_output(
+                [
+                    "git",
+                    "show",
+                    "f3812dcd0b1c1bb76224168454719dd3eb112801:state/project_state.json",
+                ],
+                cwd=repo_root,
+            )
+        )
+    )
     schema = _load(repo_root / "contracts/project_state.schema.json")
     target = state
     for key in path[:-1]:

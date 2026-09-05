@@ -1,0 +1,65 @@
+{
+  "schema_version": "phase-004c4-rc7-candidate/v1",
+  "candidate_id": "CUMCM-MODELING-EVIDENCE-COMPETITION-RC7-CANDIDATE-001",
+  "candidate_status": "PASS",
+  "implementation_commit": "cd02e61994b906364789c65609de695b6912f1c7",
+  "evidence_subject_commit": "c65299a9029875ddad18836a52d5cbc4784b6f07",
+  "target_versions": {
+    "project": "0.3.0-competition-rc7",
+    "skill": "0.2.0-competition-rc7"
+  },
+  "contract_versions": {
+    "requirement_evidence": "requirement-evidence/v1",
+    "data_sufficiency": "data-sufficiency/v1",
+    "requirement_selection": "requirement-selection/v1",
+    "semantic_claim_support": "claim-evidence/v3",
+    "runtime_claim_evidence": "claim-evidence/runtime-v3",
+    "final_result": "final-result/v2",
+    "modeling_to_paper": "modeling-to-paper/v1",
+    "gate_execution_trace": "gate-execution-trace/v1"
+  },
+  "checks": {
+    "known_actual_controller_probes": {"status": "PASS", "passed": 14, "failed": 0},
+    "adversarial_actual_controller_probes": {"status": "PASS", "passed": 6, "failed": 0},
+    "neutral_actual_controller_e2e": {"status": "PASS", "passed": 17, "failed": 0},
+    "rc6_frozen_neutral": {"status": "PASS", "passed": 57, "failed": 0},
+    "focused_regression_pytest": {"status": "PASS", "passed": 239, "failed": 0},
+    "synthetic_e2e": {"status": "PASS", "passed": 2, "failed": 0},
+    "original_negative_cases": {"status": "PASS", "passed": 30, "failed": 0},
+    "historical_read_only": {"status": "PASS", "new_model_runs": 0, "historical_mutations": 0},
+    "anti_hardcoding": {"status": "PASS", "problem_hardcoding_count": 0},
+    "skill_discovery": {"status": "PASS", "formal_skill_count": 1},
+    "leakage": {"status": "PASS", "finding_count": 0},
+    "secrets": {"status": "PASS", "finding_count": 0},
+    "strict": {"status": "PASS", "errors": 0, "warnings": 0},
+    "local_ci": {"status": "PASS", "exit_code": 0},
+    "full_pytest": {"status": "PASS", "passed": 2063, "failed": 0, "skipped": 1}
+  },
+  "evidence": {
+    "known_actual_controller": {"path": "evals/results/phase-004c4/frozen_actual_controller_probe_matrix.json", "sha256": "d28276eaf6616b808c6d5700d27e66f731ed4b33e21d8796d0ea47fe36d40eb2"},
+    "adversarial_actual_controller": {"path": "evals/results/phase-004c4/frozen_adversarial_controller_probe_matrix.json", "sha256": "bb358a40d6cfe388376fe757bcabfa16382c19026e02751e908a6d2a53773736"},
+    "neutral_actual_controller_e2e": {"path": "tests/integration/test_actual_controller_neutral_e2e.py", "sha256": "1d92eadec573a81f90e18fef8a66f86d5b3e1f3fb64fd3faae0dbd5255c8969d"},
+    "historical_and_auxiliary": {"path": "evals/results/phase-004c4/historical_and_auxiliary_regressions.json", "sha256": "f15a7df4171fc7e6f6eceb8f7b4a5f58c7381eeb7c297685f73dcc21bbb033cc"},
+    "post_repair_adversarial": {"path": "evals/results/phase-004c4/post_repair_adversarial_controller_observation.json", "sha256": "ac2cadeb55c4805f15b3884ce871d5dcbcb2be126c287134f8b5ef47948ef79a"},
+    "negative_results": {"path": "evals/results/phase-004c4/original_negative_results.json", "sha256": "afc8c43e0aba80ca1a99ba96607f927ee0bc5b879c42e7f3571c03728c0fa39f"},
+    "synthetic_results": {"path": "evals/results/phase-004c4/synthetic_e2e/result.json", "sha256": "f36a9e914d6fd5b5e7a39e33e725271abd83f70da29d70ac4f44011774727444"},
+    "anti_hardcoding": {"path": "evals/results/phase-004c2/anti_hardcoding.json", "sha256": "d0bc2b802e144eb2f72a62f0f81271900bc00931a98a6ca7b67b346d5deaaaf9"},
+    "actual_controller": {"path": "scripts/finalize_fresh_c_validation.py", "sha256": "659bf37937314de2b44a3663171f33a86cc0c64b9de127e7d2df7c901263b8d7"},
+    "runtime_core": {"path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py", "sha256": "e50b0d2f1907130876023828d02a5330618f154c2c4668b1af05ef493f15c242"}
+  },
+  "verification_receipts": {
+    "full_pytest": {"path": "evals/results/phase-004c4/verification/full_pytest.json", "sha256": "e57dcaa9713c41d2d8f7d01f22b33a93112cf36eac7fbaa2865ba7956ab40b59"},
+    "strict": {"path": "evals/results/phase-004c4/verification/strict.json", "sha256": "c58ad6b8f7f0cbbb0b5083bccee9f3a2d2f5ddd894d50cb346826fa14b591a6f"},
+    "local_ci": {"path": "evals/results/phase-004c4/verification/local_ci.json", "sha256": "d743d3354f8e2973522bb50a69418ae4e232e0f953155d62507777a43f25636a"}
+  },
+  "invariants": {
+    "formal_skill_count": 1,
+    "third_party_integrated": false,
+    "historical_mutation_count": 0,
+    "answer_leakage_count": 0,
+    "secret_count": 0,
+    "problem_hardcoding_count": 0,
+    "heldout_2025_access_count": 0
+  },
+  "candidate_snapshot_hash": "22cb67607048401c2be199d4833182db2206111e1df60cfdd69dcfd25068391c"
+}

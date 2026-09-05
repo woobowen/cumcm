@@ -1,0 +1,47 @@
+{
+  "artifact_type": "data_audit",
+  "status": "PREPARED_NOT_ACCEPTED",
+  "content": {
+    "acquisition_plans": [],
+    "audit_scope": "SCHEMA_MISSING_DUPLICATE_RANGE_ONLY_NO_MODEL_RUN",
+    "data_hashes": {
+      "CUMCM-2017-problem-C.docx": "f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf",
+      "Data1.xls": "ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad",
+      "Data2.xls": "6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723",
+      "readme.txt": "bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf"
+    },
+    "datasets": {
+      "Data1": {
+        "distinct_substances": 5,
+        "feature_ranges": {"B": [7, 163], "G": [6, 142], "H": [11, 148], "R": [33, 146], "S": [27, 242]},
+        "missing_model_fields": 0,
+        "row_count_excluding_header_and_blank_rows": 79,
+        "substance_level_counts": {"工业碱": 7, "奶中尿素": 6, "溴酸钾": 5, "硫酸铝钾": 6, "组胺": 5},
+        "substance_row_counts": {"工业碱": 7, "奶中尿素": 15, "溴酸钾": 10, "硫酸铝钾": 37, "组胺": 10}
+      },
+      "Data2": {
+        "concentration_replicates": {"0": 5, "20": 3, "30": 4, "50": 3, "80": 3, "100": 3, "150": 4},
+        "distinct_concentration_levels": 7,
+        "exact_duplicate_patterns": [{"concentration": 0, "source_row_ids": ["D2-R004", "D2-R005"]}],
+        "feature_ranges": {"B": [157, 182], "G": [86, 148], "H": [14, 131], "R": [138, 154], "S": [135, 141]},
+        "missing_model_fields": 0,
+        "row_count_excluding_header_and_blank_rows": 25
+      }
+    },
+    "data_sufficiency": {
+      "REQ-1-DATA1-RELATION-QUALITY": "SUFFICIENT_WITH_LIMITATIONS",
+      "REQ-2-DATA2-CONCENTRATION-MODEL": "SUFFICIENT_WITH_LIMITATIONS",
+      "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION": "SUFFICIENT_WITH_LIMITATIONS"
+    },
+    "leakage_findings": [{"finding_id": "LEAK-GROUP-001", "required_control": "split by substance and concentration group", "status": "CONTROL_PREREGISTERED"}],
+    "model_run_count": 0,
+    "raw_immutable": true,
+    "replay_audit_artifact": {"path": ".cache/official_inputs/CUMCM-2017-C-VALIDATION-003F/workspace/data/derived/preparation_data_audit.json", "sha256": "4e39d175e2e1cd605e5203ca358d40500c8e01d08efc07f94476d88f2ba13a73"},
+    "review_flags": [
+      "工业碱 7 个浓度档均只有 1 个观测",
+      "奶中尿素 5 档仅 1 个观测，且相邻正浓度档 5 到 500 的比值为 100；仅标记复核，不自动纠正",
+      "Data2 有 1 个 exact duplicate pattern，共 2 行；保留且按浓度组隔离",
+      "附件没有相机、光照、试纸批次和采集顺序"
+    ]
+  }
+}

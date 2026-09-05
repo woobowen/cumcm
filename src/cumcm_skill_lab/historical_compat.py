@@ -22,6 +22,18 @@ DEVELOPMENT_EVAL_STATUSES = {
     "INFRASTRUCTURE_BLOCKED",
 }
 C_TARGET_STATUSES = {
+    "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE",
+    "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS",
+    "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS",
+    "C_TARGET_RC6_READY_VALIDATION_PENDING",
+    "C_TARGET_RC7_READY_VALIDATION_PENDING",
+    "C_TARGET_VALIDATION_IN_PROGRESS",
+    "CLAIM_SCOPE_REPAIR_BLOCKED",
+    "RC6_RELEASE_REPAIR_BLOCKED",
+    "RC7_RELEASE_REPAIR_BLOCKED",
+    "VALIDATION_PREFLIGHT_DISQUALIFIED",
+    "VALIDATION_CASE_CONTAMINATED",
+    "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS",
     "C_TARGET_BATCH_IN_PROGRESS",
     "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS",
     "C_TARGET_BATCH_RC4_READY_VALIDATION_PENDING",
@@ -82,9 +94,23 @@ def competition_rc_successor(root: Path) -> bool:
     )
     c_target_successor = (
         isinstance(state, dict)
-        and state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
+        and state.get("phase")
+        in {
+            "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+            "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+            "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+        }
         and state.get("technical_adjudication_status") in C_TARGET_STATUSES
-        and state.get("active_skill_version") in {"0.2.0-competition-rc3", "0.2.0-competition-rc4"}
+        and state.get("active_skill_version")
+        in {
+            "0.2.0-competition-rc3",
+            "0.2.0-competition-rc4",
+            "0.2.0-competition-rc5",
+            "0.2.0-competition-rc5-blocked",
+            "0.2.0-competition-rc6",
+            "0.2.0-competition-rc7",
+        }
     )
     return rc1_ready or development_successor or c_target_successor
 

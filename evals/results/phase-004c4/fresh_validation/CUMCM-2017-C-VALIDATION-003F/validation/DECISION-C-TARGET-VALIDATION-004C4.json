@@ -1,0 +1,104 @@
+{
+  "schema_version": "phase-004c4-fresh-validation-decision/v1",
+  "decision_id": "DECISION-C-TARGET-VALIDATION-004C4",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "set_type": "VALIDATION",
+  "decided_at": "2026-09-05T22:37:38+08:00",
+  "status": "C_TARGET_VALIDATION_FAILED",
+  "reason_codes": [
+    "VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE",
+    "VALIDATION_FINAL_RUN_NOT_COMPLETED",
+    "VALIDATION_HANDOFF_NOT_REACHED"
+  ],
+  "hard_failure_ids": [
+    "HF14",
+    "HF21",
+    "HF23"
+  ],
+  "decision_basis": {
+    "rc7_candidate_check": "PASS",
+    "rc7_live_check": "PASS",
+    "skill_unchanged": true,
+    "answer_sealed": true,
+    "one_shot_and_timebox_respected": true,
+    "all_primary_requirements_recognized": true,
+    "all_primary_data_sufficient_with_limitations": true,
+    "baseline_and_main_candidates_executed": true,
+    "run_success_count": 9,
+    "run_total": 9,
+    "run_manifests_valid": true,
+    "independent_checks_passed": true,
+    "per_requirement_selection_valid": true,
+    "development_robustness_complete": true,
+    "final_run_current_sealed_validated": false,
+    "final_feasibility_validated": false,
+    "final_claim_evidence_complete": false,
+    "aggregate_completion_accepted": false,
+    "handoff_complete": false,
+    "ready_for_paper_handoff": false,
+    "controller_exit_code": 1,
+    "controller_final_gate": "GATE_FINALIZATION",
+    "controller_final_gate_result": "BLOCK",
+    "controller_reason_codes": [
+      "RC_GATE_EXECUTION_FAILED"
+    ],
+    "controller_missing_gate_ids": [
+      "GATE_HANDOFF"
+    ],
+    "sealed_test_access_count": 0,
+    "post_result_tuning_count": 0,
+    "retry_count": 0
+  },
+  "selected_runs": {
+    "REQ-1-DATA1-RELATION-QUALITY": "RUN-RIDGE_LINEAR-17001",
+    "REQ-2-DATA2-CONCENTRATION-MODEL": "RUN-KERNEL_RBF_RIDGE-17001",
+    "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION": "RUN-KERNEL_RBF_RIDGE-17001"
+  },
+  "development_metrics": {
+    "REQ-1-DATA1-RELATION-QUALITY": {
+      "metric": "REQ1_MACRO_GROUPED_NMAE",
+      "value": 0.28178008409123584
+    },
+    "REQ-2-DATA2-CONCENTRATION-MODEL": {
+      "metric": "REQ2_GROUPED_MAE_PPM",
+      "value": 30.036337386155953
+    },
+    "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION": {
+      "metric": "REQ2_GROUPED_MAE_PPM",
+      "value": 30.036337386155953,
+      "selection_rule": "INHERIT_REQ2_EXACT_RUN"
+    }
+  },
+  "evidence_insufficiency": [
+    "no authorized one-shot sealed-test metric was produced",
+    "no current validated final Run or portfolio was accepted",
+    "no complete accepted aggregate Claim or paper handoff was produced"
+  ],
+  "supporting_evidence": {
+    "pre_run_freeze_sha256": "9c078468da856353a7104e6eb4a6deec273f1aae81f6537deedbfc840703940b",
+    "pre_run_delivery_sha256": "20696c1224807c550ce7f7c7e7796e08c1d5734bf1cb7dc71f56d531cefe4d3e",
+    "selection_decision_hash": "44805ce05649f29e855c6a043f34403e5c62585ca7955c3558ad04a0e4bdcc5b",
+    "requirement_selection_sha256": "4e03281732df2b37aed8f44153deb4c3089c08fb41e555f355b83d98ed7823a8",
+    "semantic_claim_support_sha256": "afa6ffbc6b5928a410cb2190bbc1c8d3416e3c4067e441e7aafde885387b0157",
+    "gate_trace_sha256": "57ae4e788f0bfb30d53c2fa5343f2d9f49aa7707a6eb355fbc933ed5b71985da",
+    "gate_trace_hash": "4271f4db556fab99e1342c1e3bc5893a083b85209de19cd707eb01de5f963574",
+    "native_completion_sha256": "f654bcc66b153df0e6a1839c221c97bed59faf0d5ba67fe499fd3adf32328fdd",
+    "case_state_sha256": "cc5c81bc50d25a07425c242e49d595fb57556be235d2e20ece391d41f91fef80"
+  },
+  "release_identity": {
+    "project_version": "0.3.0-competition-rc7",
+    "skill_version": "0.2.0-competition-rc7",
+    "release_commit": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
+    "implementation_commit": "cd02e61994b906364789c65609de695b6912f1c7",
+    "skill_tree_sha256": "0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056",
+    "runner_sha256": "fda1db2fbc709ea85967a1363abd649fcc0111f2bd83b72e8bd65469cc478dc4"
+  },
+  "answer_access_status": "SEALED",
+  "reference_unlock": "LOCKED",
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "paper_dispatch_accepted": false,
+  "final_case_state": "RUNNING_BLOCKED_NOT_READY_FOR_PAPER_HANDOFF",
+  "same_case_future_role": "DEVELOPMENT_ONLY",
+  "same_case_rerun_allowed": false,
+  "next_phase_allowed": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+}

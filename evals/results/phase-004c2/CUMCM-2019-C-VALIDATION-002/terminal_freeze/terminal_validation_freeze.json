@@ -1,0 +1,657 @@
+{
+  "answer_access_status": "SEALED",
+  "artifact_hashes": {
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/case_state.json": "43532d439e5371d604ab455203fde1234b8dd35d9689a4929db3e16e334ed822",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/data/data_audit.json": "09f266ff83e29333d1ecb7e9421dc66ba5de188ec4ea7eec4ab0af25283fcf71",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/evidence/claim_evidence.json": "92c5b09c1d03d75c39fd834d545f84f9ce84e0e76b67c882c7720245ba207b5f",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/evidence/execution_authorization.json": "c02afb7662fed7c21ca1ae8e268dc57a3d17fb7832b05de9ff6db625c068e206",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/evidence/native_completion.json": "48ec0424dd1f03515514d3fba7b4bce53909906e28b2c5038d9f9e41d8957cb4",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/evidence/preparation_events.json": "94d3801eb6fb41733feaccc79679884b5b8a6748e8696d3f5d49b3847561dc91",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/evidence/selected_test_access.json": "25881caf1264cbe8e91055b0f2a5cfce354afe6553adc1eb4876ec576304c434",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/evidence/selection_before_test_access.json": "1201abfde14addb7f8659ba0d9f9d09e58dd66af5d5c7e40dcf84bc4d8f00eac",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/evidence/validation_rubric_adjudication.json": "e7ab40bacaa3447ee7a97e12a2a1afcb188ac5002d2c121cb4255ed351c2b0d6",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/execution/execution_authorization.json": "c02afb7662fed7c21ca1ae8e268dc57a3d17fb7832b05de9ff6db625c068e206",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/execution/worker_execution_summary.json": "5ade096dbe13e6288972ec5da9a30bc5dc9be2e4bd572cbcab295cec389b4e75",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/experiments/experiment_plan.json": "eddd9ccb0add37937aab434f2e351bcfa4e78a171c48c523442b76e04aef0c6c",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/experiments/proposed_data_audit.json": "e3692ea743f2d0ddcd47e64971ec3b832c69c55723fe790253152a732022cc97",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/experiments/proposed_experiment_plan.json": "c4d81aacacb4011a58cf4ad80f5013afe2ef76ff39ddc9aad5ebaf68cec81971",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/experiments/proposed_output_contract.json": "9dd7e0116c3394d178bdd181baa886710b6956905c68e098f4101fe3f91e23bb",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/experiments/proposed_rubric_hard_failures.json": "927ebcdea9fa4ad6a3d9b8dc768ca0d800f6fc4507ebdb3e5a471864dbfc42e1",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/experiments/selected_output_contract_probe.json": "913517ceeb6c00c016fd3d35bb289392fb710e7adb85e45241bf37690b363d80",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/handoff/modeling_to_paper.json": "d306b70a99adf0031fd68536bee2193bfa6be68ecba7f8e776af04bfd73cd1cc",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/models/assumptions_and_symbols.json": "f615c9b04d2558cac15b65bef6de3edc94c509dedcf9ae396bacfc5ab3b9fc1e",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/models/model_candidates.json": "11dd5d82d3e52fbeebcf32c1beeb108c7e9ac5799ec6151977f8e7ce1ddf4f83",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/models/proposed_assumptions_and_symbols.json": "e3ed8425da74712bbbaf876b15de99c69ed4c4cc57fd46556acb7fff02b68f83",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/models/proposed_model_candidates.json": "bc6bef216ba6eae9b39d515dd177a2dc24edaa4904ae79ce5c82afd43044cf4f",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/accepted_artifacts/data/data_audit.json": "09f266ff83e29333d1ecb7e9421dc66ba5de188ec4ea7eec4ab0af25283fcf71",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/accepted_artifacts/experiments/experiment_plan.json": "eddd9ccb0add37937aab434f2e351bcfa4e78a171c48c523442b76e04aef0c6c",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/accepted_artifacts/models/assumptions_and_symbols.json": "f615c9b04d2558cac15b65bef6de3edc94c509dedcf9ae396bacfc5ab3b9fc1e",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/accepted_artifacts/models/model_candidates.json": "11dd5d82d3e52fbeebcf32c1beeb108c7e9ac5799ec6151977f8e7ce1ddf4f83",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/accepted_artifacts/problem/problem_requirements.json": "8c8338350fc8fdccb9af57d40eb823b72621eb5845800c59af05902e614b9e58",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/accepted_artifacts/research/research_plan.json": "d6c7664fb49e1a3bec4565899401bd843a4ebe51b70241a139d9fbd4bdb26f62",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/accepted_artifacts/research/source_ledger.json": "8ed6edcf5294451fd353db3dd2a914a0c2923d38fb5a84e17ef1f0f8f837e5a9",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/case_state_at_freeze.json": "3a71145370bedc4dd762bfe1697dae3e0aa5673783dd10d7e1a84c4d8a4f6933",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/environment.json": "7fb8ad8fb0fe5f99b6e6e5ae834959ceb2ccac160102602aa185f7efacb9f1a1",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/native_preparation_events.json": "94d3801eb6fb41733feaccc79679884b5b8a6748e8696d3f5d49b3847561dc91",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/pre_run_validation_freeze.json": "66b7c8a140481b3abc4e0d1eab82efb6340d608b00d2ce3fcb87cac4681cc655",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/pre_run_validation_freeze_delivery.json": "821ff687cf886c7b2ea411abad7b73b18c93241c6475e3fbc8bc994299f5e1c1",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/preparation_validation.json": "32b9248595a239536d064a9597ec457b1f7e26b9669009debb274a6726a53a55",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/rubric.json": "88e0e3a1c415be945d23ad5bae55c7281e24e5c3dcf694e68e3a81c76a3e51d4",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/problem/problem_requirements.json": "8c8338350fc8fdccb9af57d40eb823b72621eb5845800c59af05902e614b9e58",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/problem/proposed_problem_requirements.json": "5ecf489f627d8e032e83c429dcc38b99f397d7bf7ffaf9fbd82fda27a4c6061b",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/registration/contamination_check.json": "0389dda79b139771934af3bf7029144dbc99a6591d1a2e0a960c51649253cced",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/registration/input_registration.json": "b98aa89e860f7394dd5d531811a7b61d8336559190103b947348aa58be62b66c",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/registration/official_retrieval.json": "5db7c6b4c074fe9e46b8364f3020e7763e13bbce9d5f1ded428ed98c0f0bfe33",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/research/proposed_research_plan.json": "d310435f930680b9f2d383134e35e91a6d72795d2b1ef87d83ed1442e96970db",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/research/proposed_source_ledger.json": "8c005595227bde0893fe9190382fa89f4650c5d0d1c81319403de69bd54b506e",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/research/research_plan.json": "d6c7664fb49e1a3bec4565899401bd843a4ebe51b70241a139d9fbd4bdb26f62",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/research/source_ledger.json": "8ed6edcf5294451fd353db3dd2a914a0c2923d38fb5a84e17ef1f0f8f837e5a9",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/results/final_result.json": "0d15aef753f57c137a0a5024113c89c73992d9f667330d1ef5a01c3091ee1e53",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/results/model_comparison.json": "609fdd14d286b2011005c85f3a70f707bd098d34bd1a5e61f76db84cca72c47f",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/results/robustness.json": "0625d6e95c4c8b4c693e641981ab656370a085e92d43e5e9a701baf0b4723d92",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-101/execution_capture.json": "bd7697496e5dfa985e6df1d0f03502a43be11c90874588b4d0d4ad10ee55edcc",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-101/manifest.json": "fb831533065427d4ce93b65cdd897f2b6f210042a89c76859523b658dd08ece6",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-101/output.json": "7ceb3255ec6069a06e5b8a27dfecc7f284fc09eeeb3d8c839dc3595245560aca",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-202/execution_capture.json": "8957a5280f946113f2ee4c0e620c20ffb3486a00135e6ca8aba4069ab554b4e8",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-202/manifest.json": "f55ef27d83475f510414712f571e68570f00904dc613df9293f16a7aed736b1d",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-202/output.json": "bcbdda36f15b9da9aa4f737f89ddb0de9e7cafad72e50bf8f0cbd64cc2c8e5af",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-303/execution_capture.json": "a27ee0b40d84cf7c1f333f6af22f5e738316dbaa94e16953cb071b3ea9e34b40",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-303/manifest.json": "82d84cc8675f3da083e0ded8f55983167e2494ee7c2f8a2a48b94eb9815a7af4",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-303/output.json": "435ab6b080925606b5892cb71ec43adeecd89583d10160cfc77ef31b3b38d187",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-101/execution_capture.json": "648101347736001f0b001b26063a766c095db92070ee88beb8f15d6c6b650f55",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-101/manifest.json": "78f032d92659c9cca12b50e42304ee5d6e077f53086db778b8f78784b8fef88d",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-101/output.json": "963504a46eb4884a6d89e99913ce0287ed4458fda68ead3c5c957940506275c3",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-202/execution_capture.json": "10249e165fd7ea2d4c0cbc0cefa130e4155b3db921bdf179ced0831553de3f15",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-202/manifest.json": "99a61968cfa9b00cc40514c3eecdc989b60bd72ed9eb4c6c094b4b4105988fdf",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-202/output.json": "5ffcd751ce2fd2c47a7082e0a01bc94739d5a8a115b125fd297fb30dc0ae0504",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-303/execution_capture.json": "fd49df654a3bc9dc1106b50dd70aed82897240e7b83b80f218182345a10e3005",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-303/manifest.json": "8daccbdb9fdfa8afbabdde6b87db86198e054223c7eca421f2ee3818d36214cb",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-CONTROL_FLUID_AGING-303/output.json": "bc6b1754f95bf9d8013819ac5756e8a51dc9856d14faf5154e7feb0a7b4def79",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-101/execution_capture.json": "157e0b76fb8c4e36efd63704449b0a09ee874b5cd1df7c230da0cd981b5fca98",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-101/manifest.json": "eca670dc20f673053d7e63c474731f4de8b14e59ed920b02649ac7335fbeab39",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-101/output.json": "de2a45c372da647723adc4d0ad0340881aea55a2a981e194adc205b9a75820fe",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-202/execution_capture.json": "25de73b58735c290d8d3a22e6fc2d7110cac077b18ef9e007dc3845e2b69e50a",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-202/manifest.json": "175f5eb936aa7040826331925d158eac77bd3d38c78fec2fd0b9de6ff87ad89f",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-202/output.json": "9dab1fd5e6d4dd66d6946a126897b1bd211cf8a2d3b5474c7b8b84b3a68afc50",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-303/execution_capture.json": "062c76cda024a5e6b88f25954a62be9a5e36a0619b4a5400bd9f9aca7499a52b",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-303/manifest.json": "b8c60785a3554d1d0425c8036f961ff612923fe143246f7ebc262153456b0053",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-PRIMARY_NHPP_CREDIT-303/output.json": "952c5c80f87d5d6130927069b046c978487385dd5925afc8a9d2bf4546c028ea",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/DECISION-C-TARGET-VALIDATION-004C2.json": "62b04b3654de11f95f1df12fb2bd0dfcad31d7901b192f68f33f062cb4adf588",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/decision_history/DECISION-C-TARGET-VALIDATION-004C2-v1.json": "00d8c4b2116975fad603ebdd1e75fa74c028de33a4e8c339b94eb0606083b8f8",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/fourteen_stage_episode.json": "c36043bf2c2d9767a2bc8c43971a8d304ea11b155697b293fcb99eaec3c37a72",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/fresh_integrity_audit.json": "04b8e7231ec25de6e0573aab7f7d386a4746a0b4a5df2e78950cd9277e20013f",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/native_ready_state.json": "813fdc1c445446bdc766d41f7a7e691cee29e987ec7278a4ac57502f4a1d7830",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/run_and_gate_checks.json": "6fa8d574d620355d42556542d58f900358e18142d049b642176af3dbf825721b",
+    "evals/results/phase-004c2/final_historical_preservation.json": "0b50089ff1b52d773a4f544bac17d51f760e2f5ad3e29314d7fff9d0dfd57f05",
+    "evals/results/phase-004c2/rc5_release_acceptance_block.json": "c9fb8c93a16c4a2778843ebf62673b57e839d0d850f39f07c89930900f98e60f"
+  },
+  "case_code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+  "case_code_hashes": {
+    "evals/validation_code/phase-004c2/CUMCM-2019-C-VALIDATION-002/independent_checks.py": "23488cf53a18ba271f1c38e6a97a2bf9b08da6d8e0506e112ef699a1dfae8047",
+    "evals/validation_code/phase-004c2/CUMCM-2019-C-VALIDATION-002/pipeline.py": "c2c3612f93f71f50a4faad73e4b942faf230cd808b386095e27d387e1cbfec87",
+    "evals/validation_code/phase-004c2/CUMCM-2019-C-VALIDATION-002/prepare_proposals.py": "4133a4b647ba6441b3d983c145a167c7a0de2b60fe9322fdb5cb791185d24a45"
+  },
+  "case_id": "CUMCM-2019-C-VALIDATION-002",
+  "claim_contract_version": "claim-evidence/v2",
+  "decision_revision": 2,
+  "decision_sha256": "62b04b3654de11f95f1df12fb2bd0dfcad31d7901b192f68f33f062cb4adf588",
+  "episode_started_at": "2026-09-05T11:48:24+08:00",
+  "final_case_state": "REJECTED",
+  "freeze_id": "CUMCM-2019-C-VALIDATION-002-TERMINAL-FREEZE-001",
+  "freeze_payload_sha256": "64972527ca7c09afbacd70b98047a80d6c714c690a3dbfbdbdd1db90cf0cccad",
+  "frozen_at": "2026-09-05T12:41:23+08:00",
+  "held_out_status": "SEALED_NOT_ACCESSED",
+  "integrity_audit_sha256": "04b8e7231ec25de6e0573aab7f7d386a4746a0b4a5df2e78950cd9277e20013f",
+  "maximum_wall_seconds": 14400,
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "new_runs_after_freeze_allowed": false,
+  "next_phase_allowed": null,
+  "paper_dispatch_accepted": false,
+  "pre_run_freeze_commit": "9f7f3ed2d88d8eaffd0ce2468221f65fec4a46de",
+  "pre_run_freeze_sha256": "66b7c8a140481b3abc4e0d1eab82efb6340d608b00d2ce3fcb87cac4681cc655",
+  "reason_codes": [
+    "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING"
+  ],
+  "references_unlocked": false,
+  "release_acceptance": "BLOCKED_VERSION_METADATA",
+  "retries": 0,
+  "run_count": 9,
+  "run_records": [
+    {
+      "candidate_id": "BASELINE_STATIC_FCFS",
+      "capture_sha256": "bd7697496e5dfa985e6df1d0f03502a43be11c90874588b4d0d4ad10ee55edcc",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.184474,
+      "ended_at": "2026-09-05T04:25:35Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.04624083608953255,
+        "lane_throughput_groups_per_hour": 111.28523400597997,
+        "opportunity_loss_cny": 0.08471804854510182,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "fb831533065427d4ce93b65cdd897f2b6f210042a89c76859523b658dd08ece6",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+      "output_file_sha256": "7ceb3255ec6069a06e5b8a27dfecc7f284fc09eeeb3d8c839dc3595245560aca",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+      "seed": 101,
+      "started_at": "2026-09-05T04:25:35Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.08471804854510182
+      }
+    },
+    {
+      "candidate_id": "BASELINE_STATIC_FCFS",
+      "capture_sha256": "8957a5280f946113f2ee4c0e620c20ffb3486a00135e6ca8aba4069ab554b4e8",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "dbcb8beb2463886b8bbf04a36fff18e0d4ddf25190975d3d006f9a1e38128232",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.154473,
+      "ended_at": "2026-09-05T04:25:35Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.046269453351351374,
+        "lane_throughput_groups_per_hour": 108.28537454024784,
+        "opportunity_loss_cny": 0.0913706182892293,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "f55ef27d83475f510414712f571e68570f00904dc613df9293f16a7aed736b1d",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "1546f333ed42376de0babd53f5c08e2f2b6de02e4320e366bf431467a8d1c808",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "e13dd1dc1d47742fc7cfe1ebe1bad710684cd27003dcf2cd8a2836703928dea6",
+      "output_file_sha256": "bcbdda36f15b9da9aa4f737f89ddb0de9e7cafad72e50bf8f0cbd64cc2c8e5af",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-BASELINE_STATIC_FCFS-202",
+      "seed": 202,
+      "started_at": "2026-09-05T04:25:35Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.0913706182892293
+      }
+    },
+    {
+      "candidate_id": "BASELINE_STATIC_FCFS",
+      "capture_sha256": "a27ee0b40d84cf7c1f333f6af22f5e738316dbaa94e16953cb071b3ea9e34b40",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "585fd0344e5ed7e61d733154c9fc537e1428f98b9425d720d0701df5abeaa8bb",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.172892,
+      "ended_at": "2026-09-05T04:25:36Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.04367091826021628,
+        "lane_throughput_groups_per_hour": 109.86557169922307,
+        "opportunity_loss_cny": 0.1349360407568343,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "82d84cc8675f3da083e0ded8f55983167e2494ee7c2f8a2a48b94eb9815a7af4",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "761be140552fe286c570c9be32c5084f6bf40e8ea7066bd76abc30a3dfd8d8a8",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "b74d87c3978512412a7ddb8aff516bbac813bb65be39b5276b1b62103b8af05a",
+      "output_file_sha256": "435ab6b080925606b5892cb71ec43adeecd89583d10160cfc77ef31b3b38d187",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-BASELINE_STATIC_FCFS-303",
+      "seed": 303,
+      "started_at": "2026-09-05T04:25:35Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.1349360407568343
+      }
+    },
+    {
+      "candidate_id": "CONTROL_FLUID_AGING",
+      "capture_sha256": "648101347736001f0b001b26063a766c095db92070ee88beb8f15d6c6b650f55",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "5f77c156a18ee64c3935f7326d3f67c827e140bf0149a6679e539ce1168adc36",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.160965,
+      "ended_at": "2026-09-05T04:25:39Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.04852943732837696,
+        "lane_throughput_groups_per_hour": 237.52007748673302,
+        "opportunity_loss_cny": 0.08471804854510182,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "78f032d92659c9cca12b50e42304ee5d6e077f53086db778b8f78784b8fef88d",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "4adbe782ebfb7930d3386335c6d5c016d65a85c90cdc1585bb984f43a21f6ad0",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "cd10290e4aec2cd6af31fabf66542e830066dd3081e1b037c982bab2c3039b5c",
+      "output_file_sha256": "963504a46eb4884a6d89e99913ce0287ed4458fda68ead3c5c957940506275c3",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-CONTROL_FLUID_AGING-101",
+      "seed": 101,
+      "started_at": "2026-09-05T04:25:39Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.08471804854510182
+      }
+    },
+    {
+      "candidate_id": "CONTROL_FLUID_AGING",
+      "capture_sha256": "10249e165fd7ea2d4c0cbc0cefa130e4155b3db921bdf179ced0831553de3f15",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "f978f7bb51ecaa2b277ec1ce4c731347b7ca44cfb49503a983118081c93a681b",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.159438,
+      "ended_at": "2026-09-05T04:25:39Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.04500096218337276,
+        "lane_throughput_groups_per_hour": 237.1382042881299,
+        "opportunity_loss_cny": 0.0913706182892293,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "99a61968cfa9b00cc40514c3eecdc989b60bd72ed9eb4c6c094b4b4105988fdf",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "99c990abcc9b75b2ed504c2ba3bc0da23cb2fb3333b07ff217b3adab9beef6dc",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "37912e720b499d9898501cd8a76e464420ad04604e9e7a208674d78e1f77792b",
+      "output_file_sha256": "5ffcd751ce2fd2c47a7082e0a01bc94739d5a8a115b125fd297fb30dc0ae0504",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-CONTROL_FLUID_AGING-202",
+      "seed": 202,
+      "started_at": "2026-09-05T04:25:39Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.0913706182892293
+      }
+    },
+    {
+      "candidate_id": "CONTROL_FLUID_AGING",
+      "capture_sha256": "fd49df654a3bc9dc1106b50dd70aed82897240e7b83b80f218182345a10e3005",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "a55699017053144ab90b0ac7ef36c10af54f766d106fd4837d6003ad6157ba0a",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.158005,
+      "ended_at": "2026-09-05T04:25:39Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.04381292544591153,
+        "lane_throughput_groups_per_hour": 237.9691138478416,
+        "opportunity_loss_cny": 0.1349360407568343,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "8daccbdb9fdfa8afbabdde6b87db86198e054223c7eca421f2ee3818d36214cb",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "93db8445b7437da9dc908c723aa7263ca6e3247168985ab55bad9493f40ed598",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "4964cca09389d0b8dbdf7dafd9729ada6c624b118b08a64e4e2f2e0f38f1a64c",
+      "output_file_sha256": "bc6b1754f95bf9d8013819ac5756e8a51dc9856d14faf5154e7feb0a7b4def79",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-CONTROL_FLUID_AGING-303",
+      "seed": 303,
+      "started_at": "2026-09-05T04:25:39Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.1349360407568343
+      }
+    },
+    {
+      "candidate_id": "PRIMARY_NHPP_CREDIT",
+      "capture_sha256": "157e0b76fb8c4e36efd63704449b0a09ee874b5cd1df7c230da0cd981b5fca98",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "a0f5405b5fd0baa709c0b51a2a30b5ae762bba7fd3a60f06911b14a6a9c2888f",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.16767,
+      "ended_at": "2026-09-05T04:25:36Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.05381239091602205,
+        "lane_throughput_groups_per_hour": 332.86345034268487,
+        "opportunity_loss_cny": 0.08471804854510182,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "eca670dc20f673053d7e63c474731f4de8b14e59ed920b02649ac7335fbeab39",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "fbb3986c6d17a8c03d172acf1118d1176dc3802a185180de6cfa64414b233d5c",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "3fe9a9955412ba142e6331b82f56572233b8450d5c142512f4ac245c38fbdc3e",
+      "output_file_sha256": "de2a45c372da647723adc4d0ad0340881aea55a2a981e194adc205b9a75820fe",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-PRIMARY_NHPP_CREDIT-101",
+      "seed": 101,
+      "started_at": "2026-09-05T04:25:36Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.08471804854510182
+      }
+    },
+    {
+      "candidate_id": "PRIMARY_NHPP_CREDIT",
+      "capture_sha256": "25de73b58735c290d8d3a22e6fc2d7110cac077b18ef9e007dc3845e2b69e50a",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "496e957ce08ff21c5d2210b76c196cc4833200e0a51e45ecdeab2f3b593b9c44",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.159173,
+      "ended_at": "2026-09-05T04:25:36Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.050000411980108454,
+        "lane_throughput_groups_per_hour": 331.70131010095344,
+        "opportunity_loss_cny": 0.0913706182892293,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "175f5eb936aa7040826331925d158eac77bd3d38c78fec2fd0b9de6ff87ad89f",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "aab9f847af9ed830aab6f4306d9194dbee3bcc56fe77861c261ee1451d2c869e",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "0bf0699b93c9528b9f7799bb979086a89f244b8b3a15532ae1b81164117c700d",
+      "output_file_sha256": "9dab1fd5e6d4dd66d6946a126897b1bd211cf8a2d3b5474c7b8b84b3a68afc50",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-PRIMARY_NHPP_CREDIT-202",
+      "seed": 202,
+      "started_at": "2026-09-05T04:25:36Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.0913706182892293
+      }
+    },
+    {
+      "candidate_id": "PRIMARY_NHPP_CREDIT",
+      "capture_sha256": "062c76cda024a5e6b88f25954a62be9a5e36a0619b4a5400bd9f9aca7499a52b",
+      "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+      "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "bc1c4969497785404bcad8e532c5872c1b04466a4f23330d919f10e83782302e",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "elapsed_seconds": 0.193731,
+      "ended_at": "2026-09-05T04:25:39Z",
+      "exit_code": 0,
+      "failure": null,
+      "final_metrics": {
+        "income_rate_gini": 0.047076958493128714,
+        "lane_throughput_groups_per_hour": 333.07858115408476,
+        "opportunity_loss_cny": 0.1349360407568343,
+        "priority_throughput_groups_per_hour": 39.875
+      },
+      "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS",
+      "independent_checks": {
+        "1": "PASS",
+        "3": "PASS",
+        "4": "PASS"
+      },
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "manifest_file_sha256": "b8c60785a3554d1d0425c8036f961ff612923fe143246f7ebc262153456b0053",
+      "manifest_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_REPRODUCIBILITY_MANIFEST_VALID"
+        ],
+        "status": "PASS"
+      },
+      "manifest_payload_sha256": "822670213238c9ec385c6d62716120ffc5564c1e27d4b7728e130d0fd67f4949",
+      "outcome": "SUCCESS",
+      "output_binding_hash": "160f61de2311abfb5a54fe55cfbbff339cc5428fc1c29705ef62a46c6976154a",
+      "output_file_sha256": "952c5c80f87d5d6130927069b046c978487385dd5925afc8a9d2bf4546c028ea",
+      "primary_completion": {
+        "REQ-Q1": true,
+        "REQ-Q2": false,
+        "REQ-Q3": true,
+        "REQ-Q4": true
+      },
+      "run_id": "RUN-PRIMARY_NHPP_CREDIT-303",
+      "seed": 303,
+      "started_at": "2026-09-05T04:25:36Z",
+      "validation_metrics": {
+        "opportunity_loss_cny": 0.1349360407568343
+      }
+    }
+  ],
+  "runner_sha256": "b251ecab6fc74b2c99c8034866f701ad08f22da31d12e1b19d3550299e7f979c",
+  "schema_version": "1.0.0",
+  "semantic_requirement_claims_complete": false,
+  "set_type": "VALIDATION",
+  "skill_or_case_mutations_after_freeze_allowed": false,
+  "skill_release_commit": "24265710b3f4b154ccf6eff19614eea7fb3fb0d4",
+  "skill_tree": "0c27a6aa25d5f591277707fd2343b34e65a703fb",
+  "skill_version": "0.2.0-competition-rc5",
+  "status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+  "unresolved_release_blockers": [
+    "RC5_VERSION_FILE_MISMATCH"
+  ],
+  "verdict_changed_during_scope_clarification": false,
+  "workspace_hashes": {
+    "case_state.json": "43532d439e5371d604ab455203fde1234b8dd35d9689a4929db3e16e334ed822",
+    "data/data_audit.json": "09f266ff83e29333d1ecb7e9421dc66ba5de188ec4ea7eec4ab0af25283fcf71",
+    "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+    "evidence/claim_evidence.json": "92c5b09c1d03d75c39fd834d545f84f9ce84e0e76b67c882c7720245ba207b5f",
+    "evidence/execution_authorization.json": "c02afb7662fed7c21ca1ae8e268dc57a3d17fb7832b05de9ff6db625c068e206",
+    "evidence/native_completion.json": "48ec0424dd1f03515514d3fba7b4bce53909906e28b2c5038d9f9e41d8957cb4",
+    "evidence/preparation_events.json": "94d3801eb6fb41733feaccc79679884b5b8a6748e8696d3f5d49b3847561dc91",
+    "evidence/selected_test_access.json": "25881caf1264cbe8e91055b0f2a5cfce354afe6553adc1eb4876ec576304c434",
+    "evidence/selection_before_test_access.json": "1201abfde14addb7f8659ba0d9f9d09e58dd66af5d5c7e40dcf84bc4d8f00eac",
+    "evidence/validation_rubric_adjudication.json": "e7ab40bacaa3447ee7a97e12a2a1afcb188ac5002d2c121cb4255ed351c2b0d6",
+    "experiments/experiment_plan.json": "eddd9ccb0add37937aab434f2e351bcfa4e78a171c48c523442b76e04aef0c6c",
+    "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca",
+    "experiments/selected_output_contract_probe.json": "913517ceeb6c00c016fd3d35bb289392fb710e7adb85e45241bf37690b363d80",
+    "handoff/modeling_to_paper.json": "d306b70a99adf0031fd68536bee2193bfa6be68ecba7f8e776af04bfd73cd1cc",
+    "models/assumptions_and_symbols.json": "f615c9b04d2558cac15b65bef6de3edc94c509dedcf9ae396bacfc5ab3b9fc1e",
+    "models/model_candidates.json": "11dd5d82d3e52fbeebcf32c1beeb108c7e9ac5799ec6151977f8e7ce1ddf4f83",
+    "models/runtime/independent_checks.py": "23488cf53a18ba271f1c38e6a97a2bf9b08da6d8e0506e112ef699a1dfae8047",
+    "models/runtime/pipeline.py": "c2c3612f93f71f50a4faad73e4b942faf230cd808b386095e27d387e1cbfec87",
+    "problem/problem_requirements.json": "8c8338350fc8fdccb9af57d40eb823b72621eb5845800c59af05902e614b9e58",
+    "research/research_plan.json": "d6c7664fb49e1a3bec4565899401bd843a4ebe51b70241a139d9fbd4bdb26f62",
+    "research/source_ledger.json": "8ed6edcf5294451fd353db3dd2a914a0c2923d38fb5a84e17ef1f0f8f837e5a9",
+    "results/final_result.json": "0d15aef753f57c137a0a5024113c89c73992d9f667330d1ef5a01c3091ee1e53",
+    "results/model_comparison.json": "609fdd14d286b2011005c85f3a70f707bd098d34bd1a5e61f76db84cca72c47f",
+    "results/robustness.json": "0625d6e95c4c8b4c693e641981ab656370a085e92d43e5e9a701baf0b4723d92",
+    "runs/RUN-BASELINE_STATIC_FCFS-101/execution_capture.json": "bd7697496e5dfa985e6df1d0f03502a43be11c90874588b4d0d4ad10ee55edcc",
+    "runs/RUN-BASELINE_STATIC_FCFS-101/manifest.json": "fb831533065427d4ce93b65cdd897f2b6f210042a89c76859523b658dd08ece6",
+    "runs/RUN-BASELINE_STATIC_FCFS-101/output.json": "7ceb3255ec6069a06e5b8a27dfecc7f284fc09eeeb3d8c839dc3595245560aca",
+    "runs/RUN-BASELINE_STATIC_FCFS-101/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-BASELINE_STATIC_FCFS-101/stdout.txt": "3ee7b5df26e1745fa9bf1463cf1bb02598a25d08202bb9077d704c973c26445c",
+    "runs/RUN-BASELINE_STATIC_FCFS-202/execution_capture.json": "8957a5280f946113f2ee4c0e620c20ffb3486a00135e6ca8aba4069ab554b4e8",
+    "runs/RUN-BASELINE_STATIC_FCFS-202/manifest.json": "f55ef27d83475f510414712f571e68570f00904dc613df9293f16a7aed736b1d",
+    "runs/RUN-BASELINE_STATIC_FCFS-202/output.json": "bcbdda36f15b9da9aa4f737f89ddb0de9e7cafad72e50bf8f0cbd64cc2c8e5af",
+    "runs/RUN-BASELINE_STATIC_FCFS-202/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-BASELINE_STATIC_FCFS-202/stdout.txt": "3ee7b5df26e1745fa9bf1463cf1bb02598a25d08202bb9077d704c973c26445c",
+    "runs/RUN-BASELINE_STATIC_FCFS-303/execution_capture.json": "a27ee0b40d84cf7c1f333f6af22f5e738316dbaa94e16953cb071b3ea9e34b40",
+    "runs/RUN-BASELINE_STATIC_FCFS-303/manifest.json": "82d84cc8675f3da083e0ded8f55983167e2494ee7c2f8a2a48b94eb9815a7af4",
+    "runs/RUN-BASELINE_STATIC_FCFS-303/output.json": "435ab6b080925606b5892cb71ec43adeecd89583d10160cfc77ef31b3b38d187",
+    "runs/RUN-BASELINE_STATIC_FCFS-303/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-BASELINE_STATIC_FCFS-303/stdout.txt": "3ee7b5df26e1745fa9bf1463cf1bb02598a25d08202bb9077d704c973c26445c",
+    "runs/RUN-CONTROL_FLUID_AGING-101/execution_capture.json": "648101347736001f0b001b26063a766c095db92070ee88beb8f15d6c6b650f55",
+    "runs/RUN-CONTROL_FLUID_AGING-101/manifest.json": "78f032d92659c9cca12b50e42304ee5d6e077f53086db778b8f78784b8fef88d",
+    "runs/RUN-CONTROL_FLUID_AGING-101/output.json": "963504a46eb4884a6d89e99913ce0287ed4458fda68ead3c5c957940506275c3",
+    "runs/RUN-CONTROL_FLUID_AGING-101/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-CONTROL_FLUID_AGING-101/stdout.txt": "975106746eed2553ffb9a89cb9dd9ccab3dbf0cb7f90e93abe5fe136b1889f7b",
+    "runs/RUN-CONTROL_FLUID_AGING-202/execution_capture.json": "10249e165fd7ea2d4c0cbc0cefa130e4155b3db921bdf179ced0831553de3f15",
+    "runs/RUN-CONTROL_FLUID_AGING-202/manifest.json": "99a61968cfa9b00cc40514c3eecdc989b60bd72ed9eb4c6c094b4b4105988fdf",
+    "runs/RUN-CONTROL_FLUID_AGING-202/output.json": "5ffcd751ce2fd2c47a7082e0a01bc94739d5a8a115b125fd297fb30dc0ae0504",
+    "runs/RUN-CONTROL_FLUID_AGING-202/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-CONTROL_FLUID_AGING-202/stdout.txt": "975106746eed2553ffb9a89cb9dd9ccab3dbf0cb7f90e93abe5fe136b1889f7b",
+    "runs/RUN-CONTROL_FLUID_AGING-303/execution_capture.json": "fd49df654a3bc9dc1106b50dd70aed82897240e7b83b80f218182345a10e3005",
+    "runs/RUN-CONTROL_FLUID_AGING-303/manifest.json": "8daccbdb9fdfa8afbabdde6b87db86198e054223c7eca421f2ee3818d36214cb",
+    "runs/RUN-CONTROL_FLUID_AGING-303/output.json": "bc6b1754f95bf9d8013819ac5756e8a51dc9856d14faf5154e7feb0a7b4def79",
+    "runs/RUN-CONTROL_FLUID_AGING-303/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-CONTROL_FLUID_AGING-303/stdout.txt": "975106746eed2553ffb9a89cb9dd9ccab3dbf0cb7f90e93abe5fe136b1889f7b",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-101/execution_capture.json": "157e0b76fb8c4e36efd63704449b0a09ee874b5cd1df7c230da0cd981b5fca98",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-101/manifest.json": "eca670dc20f673053d7e63c474731f4de8b14e59ed920b02649ac7335fbeab39",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-101/output.json": "de2a45c372da647723adc4d0ad0340881aea55a2a981e194adc205b9a75820fe",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-101/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-101/stdout.txt": "fd0e1800147ee32e3d408a2d26ed328aadf5267b418b0ca99c8d6c32a389e723",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-202/execution_capture.json": "25de73b58735c290d8d3a22e6fc2d7110cac077b18ef9e007dc3845e2b69e50a",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-202/manifest.json": "175f5eb936aa7040826331925d158eac77bd3d38c78fec2fd0b9de6ff87ad89f",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-202/output.json": "9dab1fd5e6d4dd66d6946a126897b1bd211cf8a2d3b5474c7b8b84b3a68afc50",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-202/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-202/stdout.txt": "fd0e1800147ee32e3d408a2d26ed328aadf5267b418b0ca99c8d6c32a389e723",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-303/execution_capture.json": "062c76cda024a5e6b88f25954a62be9a5e36a0619b4a5400bd9f9aca7499a52b",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-303/manifest.json": "b8c60785a3554d1d0425c8036f961ff612923fe143246f7ebc262153456b0053",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-303/output.json": "952c5c80f87d5d6130927069b046c978487385dd5925afc8a9d2bf4546c028ea",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-303/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/RUN-PRIMARY_NHPP_CREDIT-303/stdout.txt": "fd0e1800147ee32e3d408a2d26ed328aadf5267b418b0ca99c8d6c32a389e723"
+  },
+  "workspace_relative": ".cache/official_inputs/CUMCM-2019-C/validation_002"
+}

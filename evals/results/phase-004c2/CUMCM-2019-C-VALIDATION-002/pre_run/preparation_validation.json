@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-09-05T12:16:39+08:00",
+  "controller_preparation_failure_retained": {
+    "initial_toy_test": "RC_CLAIM_EVIDENCE_REGISTRY_MISMATCH",
+    "repair": "Bound exact native aggregate artifact set before any contest numerical execution",
+    "retest": "PASS",
+    "root_cause": "Aggregate registry omitted comparison/robustness/final artifacts"
+  },
+  "main_controller_tests": {
+    "command": ".venv/bin/python -m pytest -q tests/unit/test_fresh_completion_controller.py tests/unit/test_fresh_validation_terminal_routing.py",
+    "duration_seconds": 0.33,
+    "exit": 0,
+    "failed": 0,
+    "passed": 18,
+    "scope": "PROJECT_ORIGINAL_TOY_AND_TERMINAL_ROUTING_NOT_CONTEST_RUNS"
+  },
+  "main_review": {
+    "all_four_primary_requirements_retained": true,
+    "candidate_numerical_executions": 0,
+    "empirical_gap_not_demoted": true,
+    "formal_skill_mutations": 0,
+    "local_claims_direct_output_links": true
+  },
+  "new_installations": [],
+  "worker_static_report": {
+    "code_and_interface_sha256": {
+      "INTERFACE.md": "b031ccbc4fa968e55c1d8c5d09df9b7aaa4bf737827da170976fd748f53cbd01",
+      "independent_checks.py": "23488cf53a18ba271f1c38e6a97a2bf9b08da6d8e0506e112ef699a1dfae8047",
+      "pipeline.py": "c2c3612f93f71f50a4faad73e4b942faf230cd808b386095e27d387e1cbfec87",
+      "prepare_proposals.py": "4133a4b647ba6441b3d983c145a167c7a0de2b60fe9322fdb5cb791185d24a45"
+    },
+    "draft_artifact_hash_checks": [
+      "proposed_problem_requirements.json",
+      "proposed_research_plan.json",
+      "proposed_source_ledger.json",
+      "proposed_assumptions_and_symbols.json",
+      "proposed_model_candidates.json",
+      "proposed_data_audit.json",
+      "proposed_experiment_plan.json"
+    ],
+    "formal_state_writes": 0,
+    "formula_contract_count": 7,
+    "git_writes": 0,
+    "installed_packages": [],
+    "local_claim_direct_output_path": "PASS_ALL_FOUR_REQUIREMENTS_NONRESULT_PROBE",
+    "model_executions": 0,
+    "native_nonresult_probe": [
+      "RC_OUTPUT_CONTRACT_VALID"
+    ],
+    "nonresult_probe_sha256": "913517ceeb6c00c016fd3d35bb289392fb710e7adb85e45241bf37690b363d80",
+    "sealed_test_field_sensitive_scan": "PASS",
+    "sensitive_scan": "PASS",
+    "status": "PREPARATION_READY_LOCAL_CLAIMS_DIRECTLY_BIND_OUTPUT_AWAITING_REMOTE_FREEZE"
+  }
+}

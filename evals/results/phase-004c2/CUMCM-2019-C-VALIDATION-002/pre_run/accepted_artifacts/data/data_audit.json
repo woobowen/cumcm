@@ -1,0 +1,46 @@
+{
+  "artifact_type": "data_audit",
+  "content": {
+    "calibration_status": "NOT_POSSIBLE_NO_OBSERVATIONS",
+    "data_dictionary": {
+      "official_pdf": "Problem statements only; no numeric observations",
+      "scenario_assumptions": "Declared simulation parameters with units in formalization; never imputed observations"
+    },
+    "data_hashes": {
+      "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+      "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca"
+    },
+    "empirical_data_available": false,
+    "empirical_validation_status": "NOT_POSSIBLE_NO_OBSERVATIONS",
+    "leakage_findings": [],
+    "lineage": [
+      {
+        "artifact": "experiments/scenario_assumptions.json",
+        "derived_from_observations": false,
+        "origin": "PROSPECTIVE_MODEL_ASSUMPTIONS"
+      }
+    ],
+    "missingness": {
+      "airport_flights_and_exit_counts": "NOT_SUPPLIED",
+      "city_fares_costs_trip_distances": "NOT_SUPPLIED",
+      "lane_geometry_and_boarding_times": "NOT_SUPPLIED",
+      "taxi_queues_and_waits": "NOT_SUPPLIED"
+    },
+    "non_compensable_primary_gaps": [
+      {
+        "reason_code": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+        "requirement_id": "REQ-Q2",
+        "status": "UNRESOLVED"
+      }
+    ],
+    "processed_data_hashes": {
+      "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca"
+    },
+    "raw_data_hashes": {
+      "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0"
+    },
+    "raw_immutable": true
+  },
+  "content_hash": "12dafe4e8acb1ca1ace1ec26ef03ca00d4dbd0c222fdaaa9e4e1765e983d5963",
+  "status": "ACCEPTED"
+}

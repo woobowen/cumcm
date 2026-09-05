@@ -1,0 +1,34 @@
+{
+  "closure": {
+    "additional_deterministic_probes": 4,
+    "independent_tests": 63,
+    "remaining_blockers": 0,
+    "role": "multi_requirement_claim_contract_auditor",
+    "subject_commit": "5673aab61a648be1cd9b87364110cb01c13cd033",
+    "test_duration_seconds": 0.51
+  },
+  "findings": [
+    {
+      "expected_reason": "RC_CLAIM_AGGREGATE_ID_COLLISION",
+      "id": "CLAIM-AGGREGATE-ID-COLLISION",
+      "reproduction": "Frozen neutral bundle; set aggregate claim_id to REQ-N-1 local claim_id. Claim and handoff accept before repair.",
+      "severity": "BLOCKER",
+      "test": "tests/unit/test_claim_aggregate_identity.py::test_aggregate_cannot_support_itself"
+    }
+  ],
+  "formal_decision": false,
+  "formula_boundary": "Preserve exact formula_id/expression/requirements in neutral handoff compatibility; no lossy normalization or old artifact mutation.",
+  "independent_neutral_result": {
+    "duration_seconds": 0.27,
+    "passed": 40
+  },
+  "initial_status": "BLOCK_FINDING_PRESERVED",
+  "limitations": [
+    "Artifact replay is not fresh numerical RC5 execution.",
+    "Arbitrary natural-language entailment is outside this structural contract."
+  ],
+  "read_only": true,
+  "role": "multi_requirement_claim_contract_auditor",
+  "status": "PASS",
+  "subject_commit": "b98ad79e81e8d3a5712b6bd2c6d49fb17b497b24"
+}

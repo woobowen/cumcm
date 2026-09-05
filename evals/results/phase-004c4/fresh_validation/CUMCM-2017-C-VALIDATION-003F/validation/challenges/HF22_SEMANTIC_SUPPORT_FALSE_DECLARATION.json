@@ -1,0 +1,31 @@
+{
+  "schema_version": "phase-004c4-fresh-validation-challenge/v1",
+  "challenge_id": "CHALLENGE-CUMCM-2017-C-VALIDATION-003F-HF22-001",
+  "finding_id": "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "raised_by_audit_id": "AUDIT-CUMCM-2017-C-VALIDATION-003F-INTEGRITY-001",
+  "subject_terminal_freeze_sha256": "984ccfe2616769020443c4f873303f9d5f584793f8b865e3c3b1e159d316559a",
+  "status": "ACCEPTED_AS_POST_FREEZE_CHALLENGE",
+  "severity": "HARD_FAILURE",
+  "evidence": {
+    "semantic_claim_support_sha256": "afa6ffbc6b5928a410cb2190bbc1c8d3416e3c4067e441e7aafde885387b0157",
+    "selected_run_output_sha256": "78408903d0dc49c801c12c6fb76c8c0c81af86f7e587be5089aa76c800acb57e",
+    "post_selection_builder_sha256": "f854056e0521f176e4d7ab37b80a883621f2869200de8f596230e7c6a21cf9f7",
+    "declared_predicate": "REQ2.support_predicates.held_out_test_valid=true",
+    "actual_boundary": "DEVELOPMENT_GROUPED_OOS",
+    "actual_test_access_status": "NOT_AUTHORIZED",
+    "actual_test_access_count": 0,
+    "actual_held_out_test_valid": false
+  },
+  "finding": "The semantic-support artifact asserts final-test validity that the selected Run output expressly denies. The builder created the assertion unconditionally, and Gate 7/8 did not cross-bind it to the selected output or test-access boundary.",
+  "terminal_effect": "The frozen C_TARGET_VALIDATION_FAILED verdict is unchanged; this is an additional independent reason PASS was forbidden.",
+  "required_004c5_repair": "Cross-bind every semantic support predicate to selected Run/output facts, evaluation boundary, authorization and test-access evidence; reject unsupported or contradictory predicates before semantic and aggregate Gate PASS.",
+  "prohibited_same_case_actions": [
+    "MODEL_RERUN",
+    "OUTPUT_MUTATION",
+    "SEMANTIC_ARTIFACT_MUTATION",
+    "TERMINAL_DECISION_MUTATION",
+    "TERMINAL_FREEZE_MUTATION"
+  ],
+  "next_phase": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+}

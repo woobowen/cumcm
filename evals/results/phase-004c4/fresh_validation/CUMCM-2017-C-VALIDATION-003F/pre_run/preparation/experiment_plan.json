@@ -1,0 +1,54 @@
+{
+  "artifact_type": "experiment_plan",
+  "status": "FROZEN_PRE_RUN_NOT_EXECUTED",
+  "content": {
+    "aggregation_rule": "MEAN_PER_CANDIDATE_ACROSS_SEEDS_THEN_DIRECTION_THEN_CANDIDATE_ID",
+    "baseline_id": "BASELINE_MEDIAN",
+    "budget": {"hard_limit_seconds": 14400, "scope": "formal_validation_from_controller_start", "stop_on_limit": true},
+    "candidate_ids": ["BASELINE_MEDIAN", "RIDGE_LINEAR", "KERNEL_RBF_RIDGE"],
+    "code_files": {
+      "bootstrap_formal_case.py": "a5805c2b99b3e371030fbc70cc49147111eea17b5efff35e6a4afb7b45a850d8",
+      "build_post_selection.py": "f854056e0521f176e4d7ab37b80a883621f2869200de8f596230e7c6a21cf9f7",
+      "independent_checks.py": "e6184befcff3c1e1c947bfbfd5c156ca03851de2ba46af4370056ba9dccf3ec2",
+      "pipeline.py": "bcab746f742086c6d771ff68429ed5c1d50bc5ee7b1b01972f7b16c2cf13f2d8",
+      "prepare_case.py": "55120a3c861178c63a59670350f1f9d9d4cddfed7bdd7f2cac6a79ec8af1919c"
+    },
+    "comparison": {
+      "attempt_matrix": "exactly one attempt for every candidate_id x seed in selection batch",
+      "failed_partial_superseded_stale_rankable": false,
+      "strict_finite_numeric_scores_only": true,
+      "test_in_selection": false,
+      "tie_rule": "candidate_id lexical order after aggregated score"
+    },
+    "execution_prepared": true,
+    "metrics_by_requirement": {
+      "REQ-1-DATA1-RELATION-QUALITY": {"direction": "MIN", "metric": "REQ1_MACRO_GROUPED_NMAE", "selection": "PER_REQUIREMENT"},
+      "REQ-2-DATA2-CONCENTRATION-MODEL": {"direction": "MIN", "metric": "REQ2_GROUPED_MAE_PPM", "selection": "PER_REQUIREMENT"},
+      "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION": {"direction": "MIN", "metric": "REQ2_GROUPED_MAE_PPM", "selection": "INHERIT_REQ2_EXACT_RUN"}
+    },
+    "preregistered": true,
+    "random_seeds": [17001, 17017, 17033],
+    "required_input_hashes": {
+      "CUMCM-2017-problem-C.docx": "f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf",
+      "Data1.xls": "ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad",
+      "Data2.xls": "6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723",
+      "readme.txt": "bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf"
+    },
+    "robustness": {
+      "feature_dimension": "evaluate all C(5,d) subsets for d=1..5, summarize median/min/max grouped MAE by d",
+      "input_perturbation": "preserve raw; numeric predictions projected to frozen feasible training domain",
+      "sample_size_fractions": [0.5, 0.75, 1.0],
+      "subsampling": "within training concentration groups only, seed-bound, at least one replicate per group"
+    },
+    "selection_rule": "REQ1 and REQ2 independently select aggregated candidate; selected seed is lowest frozen seed; REQ3 inherits REQ2",
+    "splits": {
+      "development_payload": {"path": ".cache/official_inputs/CUMCM-2017-C-VALIDATION-003F/workspace/splits/development_payload.json", "sha256": "246a1bc38b1a7a8b5ce2fa2a8bba79d907f0959580da54a136ed5172027ea4b8"},
+      "group_unit": "substance_x_concentration",
+      "selection_evaluation": "leave-one-concentration-group-out within development groups",
+      "test_batch": "single post-selection authorization event; all selected per-requirement Runs execute inside that event",
+      "test_payload_commitment": "25a094bb006f374a84e9c06323bb2e152e7a3c908c58c65079798ece995f5dd5"
+    },
+    "stop_rule": "no adaptive retries, tuning, candidate additions, split changes, metric changes, or rubric changes; preserve every failed attempt",
+    "test_access_limit": 1
+  }
+}

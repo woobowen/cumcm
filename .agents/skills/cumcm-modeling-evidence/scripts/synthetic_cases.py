@@ -117,14 +117,39 @@ def _freezes(
 def _common_intake(
     core: Any,
     case_root: Path,
-    requirements: list[dict[str, str]],
+    requirements: list[dict[str, Any]],
     questions: list[str],
+    *,
+    source_hash: str,
+    source_fields: list[str],
 ) -> None:
+    enriched_requirements = [
+        {
+            **requirement,
+            "role": requirement.get("role", "PRIMARY"),
+            "required_evidence_classes": ["PROVIDED_EMPIRICAL"],
+            "allowed_evidence_classes": ["PROVIDED_EMPIRICAL"],
+            "minimum_data_fields": source_fields,
+            "required_time_scope": ["FROZEN_CASE_SCOPE"],
+            "required_entity_scope": ["SYNTHETIC_CASE"],
+            "external_data_allowed": False,
+            "external_data_required": False,
+            "simulation_substitution_allowed": False,
+            "partial_completion_allowed": False,
+            "dependency_requirements": [],
+            "completion_rule": "ALL_REQUIRED_EVIDENCE",
+        }
+        for requirement in requirements
+    ]
     _accepted(
         core,
         case_root,
         "problem_requirements",
-        {"case_id": core.load_state(case_root)["case_id"], "requirements": requirements},
+        {
+            "contract_version": "requirement-evidence/v1",
+            "case_id": core.load_state(case_root)["case_id"],
+            "requirements": enriched_requirements,
+        },
     )
     _advance_to(core, case_root, "REQUIREMENTS_VALIDATED")
     _accepted(
@@ -142,8 +167,57 @@ def _common_intake(
         case_root,
         "source_ledger",
         {
-            "sources": [{"source_id": "SRC-PROJECT-ORIGINAL", "kind": "PROJECT_ORIGINAL"}],
+            "contract_version": "requirement-evidence/v1",
+            "sources": [
+                {
+                    "source_id": "SRC-PROJECT-ORIGINAL",
+                    "supports_requirement_ids": [
+                        item["requirement_id"] for item in enriched_requirements
+                    ],
+                    "evidence_class": "PROVIDED_EMPIRICAL",
+                    "provenance": "PROJECT_ORIGINAL_SYNTHETIC_FIXTURE",
+                    "authority": "FIRST_PARTY_TEST_FIXTURE",
+                    "retrieval_time": "2026-09-04T00:00:00Z",
+                    "license_or_usage_status": "ALLOWED",
+                    "geographic_scope": [],
+                    "time_scope": ["FROZEN_CASE_SCOPE"],
+                    "entity_scope": ["SYNTHETIC_CASE"],
+                    "field_schema": source_fields,
+                    "hash": source_hash,
+                    "freshness": "CURRENT_FOR_SCOPE",
+                    "limitations": ["Project-original synthetic fixture only."],
+                }
+            ],
             "answer_access_status": "NOT_ACCESSED",
+        },
+    )
+    sources = core.read_artifact(case_root, "source_ledger")["content"]["sources"]
+    _accepted(
+        core,
+        case_root,
+        "data_sufficiency",
+        {
+            "contract_version": "data-sufficiency/v1",
+            "requirements": enriched_requirements,
+            "sources": sources,
+            "acquisition_plans": [],
+            "aggregate_completion_claimed": False,
+            "requirement_assessments": [
+                {
+                    "requirement_id": item["requirement_id"],
+                    "data_sufficiency_status": "SUFFICIENT",
+                    "missing_fields": [],
+                    "missing_entities": [],
+                    "missing_time_scope": [],
+                    "candidate_sources": ["SRC-PROJECT-ORIGINAL"],
+                    "acquisition_cost": "NONE",
+                    "acquisition_time": "NONE",
+                    "allowed_substitutions": [],
+                    "forbidden_substitutions": ["SIMULATION", "ASSUMPTION"],
+                    "affected_downstream_stages": [],
+                }
+                for item in enriched_requirements
+            ],
         },
     )
     _advance_to(core, case_root, "SOURCES_PLANNED")
@@ -221,6 +295,143 @@ def _handoff(
     del requirements, claim, final, comparison, robustness, candidates, manifests
     del formulas, tables, figures, limitations
     return core.build_expected_handoff(case_root, core.load_state(case_root))
+
+
+def _write_requirement_selection(
+    core: Any,
+    case_root: Path,
+    *,
+    requirements: list[dict[str, Any]],
+    manifest: dict[str, Any],
+    metric: str,
+) -> None:
+    requirement_ids = [item["requirement_id"] for item in requirements]
+    output_ids = [f"OUT-{requirement_id}" for requirement_id in requirement_ids]
+    run_id = manifest["run_id"]
+    _accepted(
+        core,
+        case_root,
+        "requirement_selection",
+        {
+            "contract_version": "requirement-selection/v1",
+            "requirements": [
+                {
+                    "requirement_id": requirement_id,
+                    "selection_metric": metric,
+                    "selection_direction": "MIN",
+                    "dependency_requirements": [],
+                    "cross_requirement_constraints": [],
+                }
+                for requirement_id in requirement_ids
+            ],
+            "runs": [
+                {
+                    "run_id": run_id,
+                    "outcome": "SUCCESS",
+                    "sealed": True,
+                    "current": True,
+                    "supported_requirement_ids": requirement_ids,
+                    "selected_output_ids": output_ids,
+                    "metric_ids": [metric],
+                    "input_hash": manifest["input_hash"],
+                    "scenario_hash": manifest["input_hash"],
+                    "policy_exposure": 1,
+                }
+            ],
+            "selection": {
+                "selection_mode": "GLOBAL_JOINT",
+                "requirement_to_run_map": {
+                    requirement_id: [run_id] for requirement_id in requirement_ids
+                },
+                "requirement_to_output_map": {
+                    requirement_id: [f"OUT-{requirement_id}"] for requirement_id in requirement_ids
+                },
+                "shared_input_hashes": [manifest["input_hash"]],
+                "shared_scenario_hashes": [manifest["input_hash"]],
+                "compatibility_checks": ["INPUT", "SCENARIO", "CONSTRAINTS"],
+                "cross_requirement_constraints": [],
+                "aggregate_objective": "DECLARED_SINGLE_METRIC",
+                "tradeoff_rule": "GLOBAL_JOINT_SELECTION",
+                "limitations": ["Project-original synthetic fixture only."],
+            },
+        },
+    )
+
+
+def _write_semantic_bundle(
+    core: Any,
+    case_root: Path,
+    *,
+    requirements: list[dict[str, Any]],
+    manifest: dict[str, Any],
+    selected_output: dict[str, Any],
+    metric: str,
+) -> None:
+    requirement_ids = [item["requirement_id"] for item in requirements]
+    run_id = manifest["run_id"]
+    claims = []
+    outputs = []
+    claim_ids: dict[str, str] = {}
+    for requirement_id in requirement_ids:
+        record = selected_output["requirement_claims"][requirement_id]
+        output_id = f"OUT-{requirement_id}"
+        claim_ids[requirement_id] = record["claim_id"]
+        outputs.append({"output_id": output_id, "metric_ids": [metric]})
+        claims.append(
+            {
+                "claim_id": record["claim_id"],
+                "requirement_id": requirement_id,
+                "claim_type": "DESCRIPTIVE",
+                "statement": record["claim_text"],
+                "scope": {
+                    "fields": [],
+                    "time": ["FROZEN_CASE_SCOPE"],
+                    "entities": ["SYNTHETIC_CASE"],
+                },
+                "evidence_class": "PROVIDED_EMPIRICAL",
+                "selected_run_ids": [run_id],
+                "selected_output_ids": [output_id],
+                "metric_ids": [metric],
+                "comparator_ids": [],
+                "support_predicates": {"scope_bounded": True},
+                "uncertainty": {"status": "BOUNDED"},
+                "counter_evidence": [],
+                "limitations": ["Project-original synthetic fixture only."],
+                "claim_strength": "BOUNDED",
+                "status": "SUPPORTED",
+            }
+        )
+    _accepted(
+        core,
+        case_root,
+        "semantic_claim_support",
+        {
+            "contract_version": "claim-evidence/v3",
+            "claims": claims,
+            "runs": [
+                {
+                    "run_id": run_id,
+                    "outcome": "SUCCESS",
+                    "sealed": True,
+                    "current": True,
+                    "supported_requirement_ids": requirement_ids,
+                    "selected_output_ids": [item["output_id"] for item in outputs],
+                    "metric_ids": [metric],
+                    "input_hash": manifest["input_hash"],
+                    "scenario_hash": manifest["input_hash"],
+                    "policy_exposure": 1,
+                }
+            ],
+            "outputs": outputs,
+            "comparators": [],
+            "validation": {"counter_evidence_detected": False},
+            "aggregate": {
+                "primary_requirement_ids": requirement_ids,
+                "supported_requirement_ids": list(reversed(requirement_ids)),
+                "requirement_claim_ids": claim_ids,
+            },
+        },
+    )
 
 
 def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
@@ -301,7 +512,14 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         {"requirement_id": "REQ-P-2", "text": "拒绝 future_target 泄漏字段"},
         {"requirement_id": "REQ-P-3", "text": "输出稳健性与证据绑定"},
     ]
-    _common_intake(core, case_root, requirements, ["时间回归机制", "数据泄漏控制"])
+    _common_intake(
+        core,
+        case_root,
+        requirements,
+        ["时间回归机制", "数据泄漏控制"],
+        source_hash=raw_hash,
+        source_fields=["time", "target"],
+    )
     _accepted(
         core,
         case_root,
@@ -586,6 +804,13 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "reliability": {"attempts": 2, "successful": 2, "failed_or_infeasible": 0},
     }
     _accepted(core, case_root, "model_comparison", comparison)
+    _write_requirement_selection(
+        core,
+        case_root,
+        requirements=requirements,
+        manifest=manifests[selected],
+        metric="MAE",
+    )
     _advance_to(core, case_root, "RUN_VALIDATED")
     selected_predictor = predictors[selected]
     test_mae = sum(abs(y - selected_predictor(t)) for t, y in test) / len(test)
@@ -637,6 +862,14 @@ def _prediction(core: Any, case_root: Path) -> dict[str, Any]:
         "contradiction_status": "NONE",
     }
     _accepted(core, case_root, "claim_evidence", claim)
+    _write_semantic_bundle(
+        core,
+        case_root,
+        requirements=requirements,
+        manifest=manifest,
+        selected_output=selected_output,
+        metric="test_mae",
+    )
     _advance_to(core, case_root, "EVIDENCE_VALIDATED")
     handoff = _handoff(
         core,
@@ -721,7 +954,14 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         {"requirement_id": "REQ-O-2", "text": "拒绝不可行方案并验证最优性"},
         {"requirement_id": "REQ-O-3", "text": "输出约束敏感性"},
     ]
-    _common_intake(core, case_root, requirements, ["整数枚举", "资源敏感性"])
+    _common_intake(
+        core,
+        case_root,
+        requirements,
+        ["整数枚举", "资源敏感性"],
+        source_hash=raw_hash,
+        source_fields=["capacity", "products"],
+    )
     _accepted(
         core,
         case_root,
@@ -1004,6 +1244,13 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "reliability": {"attempts": 3, "successful": 2, "failed_or_infeasible": 1},
     }
     _accepted(core, case_root, "model_comparison", comparison)
+    _write_requirement_selection(
+        core,
+        case_root,
+        requirements=requirements,
+        manifest=manifests[selected],
+        metric="negative_profit",
+    )
     _advance_to(core, case_root, "RUN_VALIDATED")
     manifest = manifests[selected]
     selected_output = core.load_json(case_root / manifest["output_files"][0]["path"])
@@ -1054,6 +1301,14 @@ def _optimization(core: Any, case_root: Path) -> dict[str, Any]:
         "contradiction_status": "NONE",
     }
     _accepted(core, case_root, "claim_evidence", claim)
+    _write_semantic_bundle(
+        core,
+        case_root,
+        requirements=requirements,
+        manifest=manifest,
+        selected_output=selected_output,
+        metric="profit",
+    )
     _advance_to(core, case_root, "EVIDENCE_VALIDATED")
     handoff = _handoff(
         core,

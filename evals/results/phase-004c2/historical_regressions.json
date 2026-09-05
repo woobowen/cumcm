@@ -1,0 +1,128 @@
+{
+  "cases": [
+    {
+      "aggregate_primary_ids": [
+        "REQ-2020C-01",
+        "REQ-2020C-02",
+        "REQ-2020C-03",
+        "REQ-2020C-04",
+        "REQ-2020C-05",
+        "REQ-2020C-06"
+      ],
+      "case_id": "CUMCM-2020-C-DEVELOPMENT-RC4-REGRESSION",
+      "claim_contract_version": "claim-evidence/v2",
+      "claim_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_CLAIM_EXACT_SUPPORT_VALID"
+        ],
+        "status": "PASS"
+      },
+      "classification": "DEVELOPMENT_ARTIFACT_REGRESSION",
+      "comparison_gate": {
+        "accepted": false,
+        "final": false,
+        "reason_codes": [
+          "RC_COMPARISON_RUN_MANIFEST_INVALID"
+        ],
+        "status": "BLOCK"
+      },
+      "derived_claim_sha256": "95f8cbb37721e5497cfb03f20e17ac3cf5c18215f5509cc0fdc70870d9bde68b",
+      "derived_handoff_sha256": "5f1268ca81c8740f5439d47104204bd802358d477c6943b8eb4ae111b6faeecc",
+      "diagnostic_id": null,
+      "elapsed_seconds": 0.488,
+      "failed_runs_retained": 0,
+      "final_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_FINAL_RESULT_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "handoff_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_MODELING_TO_PAPER_HANDOFF_VALID"
+        ],
+        "status": "PASS"
+      },
+      "new_model_runs": 0,
+      "no_validation_credit": true,
+      "old_files_unchanged": true,
+      "primary_requirement_count": 6,
+      "reason_codes": [
+        "RC_COMPARISON_RUN_MANIFEST_INVALID",
+        "RC_EXECUTION_CAPTURE_IDENTITY_INVALID"
+      ],
+      "robustness_gate": {
+        "accepted": true,
+        "final": false,
+        "reason_codes": [
+          "RC_ROBUSTNESS_EXACTLY_BOUND"
+        ],
+        "status": "PASS"
+      },
+      "run_count": 3,
+      "run_gates": [
+        {
+          "accepted": false,
+          "final": false,
+          "reason_codes": [
+            "RC_EXECUTION_CAPTURE_IDENTITY_INVALID"
+          ],
+          "status": "BLOCK"
+        },
+        {
+          "accepted": false,
+          "final": false,
+          "reason_codes": [
+            "RC_EXECUTION_CAPTURE_IDENTITY_INVALID"
+          ],
+          "status": "BLOCK"
+        },
+        {
+          "accepted": false,
+          "final": false,
+          "reason_codes": [
+            "RC_EXECUTION_CAPTURE_IDENTITY_INVALID"
+          ],
+          "status": "BLOCK"
+        }
+      ],
+      "run_validation_code_context": "HASH_VERIFIED_ORIGINAL_GIT_BLOBS_NO_EXECUTION",
+      "skill_version": "0.2.0-competition-rc5",
+      "source_manifest_hashes": {
+        "RUN-RC4-BASELINE_ROBUST_SCORE_ALLOCATOR-S20200905": "8fcf591c0d7e26f62f9914c694beebd9eb04941d5691afb993391729e6475f68",
+        "RUN-RC4-RANDOM_FOREST_SCENARIO_ALLOCATOR-S20200905": "fb2e3ad71acff55472b0b1ba3a88c6d250668ae19f8942ba48334243ba83a169",
+        "RUN-RC4-RIDGE_LOGIT_EXPECTED_VALUE_ALLOCATOR-S20200905": "34c6b7f50093befe1b502b965fb428434a758d28f894063a398478695d41e75b"
+      },
+      "source_state": "READY_FOR_PAPER_HANDOFF",
+      "source_state_sha256": "a00eed24cc899eaad2003fca7e05efb75a01f3831eee18be0a65c1928b2b7c3f",
+      "source_tree_sha256": "8aff80da0fa9acc89d3f3abd9d10e09d28e6339c825def9cda210194e338cdca",
+      "stage_history": [
+        "CREATED",
+        "INTAKE_COMPLETE",
+        "REQUIREMENTS_VALIDATED",
+        "SOURCES_PLANNED",
+        "DATA_AUDITED",
+        "MODELS_PROPOSED",
+        "EXPERIMENT_PLAN_VALIDATED",
+        "RUNNING",
+        "RUN_COMPLETED",
+        "RUN_VALIDATED",
+        "ROBUSTNESS_VALIDATED",
+        "FINAL_CANDIDATE",
+        "EVIDENCE_VALIDATED",
+        "READY_FOR_PAPER_HANDOFF"
+      ],
+      "status": "BLOCK"
+    }
+  ],
+  "implementation_commit": "b98ad79e81e8d3a5712b6bd2c6d49fb17b497b24",
+  "payload_sha256": "8fab3e36eaea65e0bbc3a178a4ce40a1612738dad819078919994b0157c627f5",
+  "schema_version": "1.0.0",
+  "status": "BLOCK"
+}

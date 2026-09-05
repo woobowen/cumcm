@@ -1,0 +1,88 @@
+{
+  "entries": [
+    {
+      "cause": "Old registry test assumed 6 cases after registration added the seventh.",
+      "counts": {
+        "failed": 1,
+        "passed": 1936,
+        "skipped": 1
+      },
+      "exit": 1,
+      "log_name": "remote-ci-e85-failure.log",
+      "log_sha256": "796e90f8a0ef343fada53f3d4ae308cff0cc39e281d15abe5e87b3bb8b0b064e",
+      "resolution": "Metadata/test correction only; frozen Skill, case code, neutral tests, rubric and numerical Runs unchanged."
+    },
+    {
+      "cause": "Same registry cardinality mismatch, then corrected to exact seven identities.",
+      "counts": {
+        "failed": 1,
+        "passed": 1938,
+        "skipped": 1
+      },
+      "exit": 1,
+      "log_name": "remote-ci-9cc-failure.log",
+      "log_sha256": "84ff082bbd0dc8ff7fcd7a29b9cff84c952ff4f99bb9180c6f3e59281af31880",
+      "resolution": "Metadata/test correction only; frozen Skill, case code, neutral tests, rubric and numerical Runs unchanged."
+    },
+    {
+      "cause": "Historical insufficiency test omitted phase distinction; fresh FROZEN registry lacked first_run_evidence index.",
+      "counts": {
+        "failed": 2,
+        "passed": 1938,
+        "skipped": 1
+      },
+      "exit": 1,
+      "log_name": "ci-terminal-final.log",
+      "log_sha256": "a46bc783f0472d43c418032188885fbd1f1072461dd8cdd92ada091cd717af11",
+      "resolution": "Metadata/test correction only; frozen Skill, case code, neutral tests, rubric and numerical Runs unchanged."
+    },
+    {
+      "cause": "Byte-identical existing probe/scenario caused immutable export collision.",
+      "model_retries": 0,
+      "resolution": "Resume export only for absent paths and verify existing bytes equal; no overwrite or recomputation.",
+      "type": "BOOKKEEPING_ONLY"
+    },
+    {
+      "cause": "Terminal directory already existed before freeze file creation.",
+      "model_retries": 0,
+      "resolution": "Allow existing empty directory; freeze file must still be absent. No existing freeze was replaced.",
+      "type": "BOOKKEEPING_ONLY"
+    },
+    {
+      "cause": "VALIDATION_FREEZE_DELIVERY_MISSING:terminal_validation_freeze.json",
+      "commit": "b289f2dfcaebe8edca5335ed4bf89f383c67eb51",
+      "exit": 1,
+      "log_sha256": "d7794201b0fc994d97c7c3412510f574dedd13e9be07fd9d2e070302fe6a914f",
+      "model_retries": 0,
+      "remote_ci_id": 33945252754,
+      "resolution": "Freeze commit was pushed first; exact remote verification receipt is added only after observing that SHA, then committed in final delivery.",
+      "type": "REMOTE_FREEZE_RECEIPT_CHECKPOINT"
+    },
+    {
+      "answer_state": "SEALED_AT_TERMINAL_FREEZE",
+      "blocker": "PROJECT_STATE_SELF_REFERENCE_PENDING_RECEIPT_COMMIT",
+      "case_id": "CUMCM-2019-C-VALIDATION-002",
+      "command": "bash scripts/ci.sh",
+      "duration_seconds": 308.765938,
+      "ended_at": "2026-09-05T04:55:19.837405+00:00",
+      "evidence_sha256": "6a2a551fd7000022c1e74bdf14ce685b88c172d198ca80712935fbf067ac3f6a",
+      "exit": 1,
+      "passed": 1940,
+      "pytest_duration_seconds": 304.0,
+      "release_acceptance": "BLOCKED_VERSION_METADATA",
+      "resolution": "Commit verified terminal receipt as a successor of the referenced frozen content commit; no model or contract edit.",
+      "result": "FAIL",
+      "skill_version": "0.2.0-competition-rc5 (runner); VERSION-file mismatch preserved",
+      "skipped": 1,
+      "started_at": "2026-09-05T04:49:49.305371+00:00",
+      "type": "FULL_OFFLINE_CI",
+      "version_blocker_not_overridden_by_ci": true
+    }
+  ],
+  "global_configuration_changes": [],
+  "new_language_packages": [],
+  "new_system_packages": [],
+  "new_toolchains_or_fonts": [],
+  "unresolved_blocker": "RC5_VERSION_FILE_MISMATCH",
+  "unresolved_blocker_was_not_patched_after_validation": true
+}

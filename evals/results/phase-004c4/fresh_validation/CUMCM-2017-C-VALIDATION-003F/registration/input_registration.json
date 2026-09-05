@@ -1,0 +1,58 @@
+{
+  "schema_version": "phase-004c4-validation-input-registration/v1",
+  "registration_id": "CUMCM-2017-C-VALIDATION-003F-REGISTRATION-001",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "set_type": "VALIDATION",
+  "target_problem_type": "C",
+  "evidence_role": "FRESH_ANSWER_SEALED_VALIDATION_FALLBACK",
+  "official_title": "颜色与物质浓度辨识",
+  "problem": {
+    "filename": "CUMCM-2017-problem-C.docx",
+    "sha256": "f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf",
+    "size_bytes": 17043,
+    "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  },
+  "attachments": [
+    {
+      "source_id": "SOURCE-DATA1",
+      "filename": "Data1.xls",
+      "sha256": "ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad",
+      "size_bytes": 146944,
+      "mime": "application/vnd.ms-excel",
+      "evidence_class": "PROVIDED_EMPIRICAL"
+    },
+    {
+      "source_id": "SOURCE-DATA2",
+      "filename": "Data2.xls",
+      "sha256": "6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723",
+      "size_bytes": 13824,
+      "mime": "application/vnd.ms-excel",
+      "evidence_class": "PROVIDED_EMPIRICAL"
+    },
+    {
+      "source_id": "SOURCE-DICTIONARY",
+      "filename": "readme.txt",
+      "sha256": "bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf",
+      "size_bytes": 389,
+      "mime": "text/plain",
+      "evidence_class": "PROVIDED_METADATA"
+    }
+  ],
+  "official_archive_sha256": "c4461c47cd4b8502fd789159d2e5984276583880433cabff25b19344fc047758",
+  "raw_storage": "GIT_IGNORED_PRIVATE_CACHE",
+  "primary_requirement_count": 3,
+  "external_data_required": false,
+  "answer_access_status": "SEALED",
+  "reference_unlock": "LOCKED",
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "contamination_status": "PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE",
+  "input_suitability_status": "PASS",
+  "skill_version": "0.2.0-competition-rc7",
+  "skill_release_commit": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
+  "skill_tree_hash": "0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056",
+  "runner_sha256": "fda1db2fbc709ea85967a1363abd649fcc0111f2bd83b72e8bd65469cc478dc4",
+  "registration_time": "2026-09-05T21:37:55+08:00",
+  "validation_episode_started": false,
+  "formal_run_count": 0,
+  "heldout_2025_accessed": false
+}

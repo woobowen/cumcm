@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "block_id": "COMPETITION-RC6-RELEASE-ACCEPTANCE-BLOCK-004C3",
+  "status": "RC6_RELEASE_REPAIR_BLOCKED",
+  "release_verdict": "BLOCK",
+  "project_version_candidate": "0.3.0-competition-rc6",
+  "skill_version_candidate": "0.2.0-competition-rc6",
+  "active_skill_version": "0.2.0-competition-rc5-blocked",
+  "implementation_commit": "12ecd586fd46ae7a63037435b7fef6b697d85a21",
+  "audited_commit": "bf82bf4b03fb0bbd55e7ed3d010cfb6ae1352a09",
+  "skill_tree": "0d0d65a7148d146424e31318ba003bdab80db6e5",
+  "runner_sha256": "2dbc4ce2d9cb5cd1ebb22f4039011ec30d4102f08e8e794c3f22f90c46c31879",
+  "neutral_test_sha256": "242963976022ba7449fbd8ea8488cd65acd4a05744d3f7ee88344c81a76c7adc",
+  "auditor_evidence": {
+    "path": "evals/results/phase-004c3/auditor1_release_evidence.json",
+    "sha256": "93ba67c90734624343dc1431090bb955d4ffeae9c63160ba581c1131cae3463b"
+  },
+  "reason_codes": [
+    "RC6_COMPATIBILITY_GATE_VACUOUS",
+    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
+    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
+    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
+    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING"
+  ],
+  "formal_revision_cycles_used": 2,
+  "formal_revision_cycles_remaining": 0,
+  "third_cycle_permitted": false,
+  "rc6_release_manifest_created": false,
+  "fresh_validation_registered": false,
+  "fresh_validation_input_accessed": false,
+  "fresh_validation_run_count": 0,
+  "auditor2_run": false,
+  "held_out_2025_accessed": false,
+  "next_phase_allowed": null,
+  "recorded_at": "2026-09-05T16:07:21+08:00"
+}

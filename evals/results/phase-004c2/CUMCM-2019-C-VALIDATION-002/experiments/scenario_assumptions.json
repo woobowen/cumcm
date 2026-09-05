@@ -1,0 +1,233 @@
+{
+  "schema_version": "airport-scenario-assumptions/v1",
+  "source_type": "REGISTERED_ASSUMPTIONS_NOT_OBSERVATIONS",
+  "empirical_data_available": false,
+  "outer_seeds": [
+    101,
+    202,
+    303
+  ],
+  "sealed_test_evaluation_offset": 7000000,
+  "q1": {
+    "intensity_horizon_min": 720,
+    "background_groups_per_min": 0.35,
+    "assumed_flight_cohorts": [
+      {
+        "exit_center_min": 35,
+        "half_width_min": 25,
+        "taxi_groups": 60
+      },
+      {
+        "exit_center_min": 95,
+        "half_width_min": 30,
+        "taxi_groups": 100
+      },
+      {
+        "exit_center_min": 165,
+        "half_width_min": 35,
+        "taxi_groups": 80
+      },
+      {
+        "exit_center_min": 235,
+        "half_width_min": 30,
+        "taxi_groups": 50
+      }
+    ],
+    "decision_states": [
+      {
+        "id": "STATE-T0-Q0",
+        "minute": 0,
+        "taxis_ahead": 0
+      },
+      {
+        "id": "STATE-T0-Q20",
+        "minute": 0,
+        "taxis_ahead": 20
+      },
+      {
+        "id": "STATE-T0-Q80",
+        "minute": 0,
+        "taxis_ahead": 80
+      },
+      {
+        "id": "STATE-T0-Q160",
+        "minute": 0,
+        "taxis_ahead": 160
+      },
+      {
+        "id": "STATE-T60-Q0",
+        "minute": 60,
+        "taxis_ahead": 0
+      },
+      {
+        "id": "STATE-T60-Q20",
+        "minute": 60,
+        "taxis_ahead": 20
+      },
+      {
+        "id": "STATE-T60-Q80",
+        "minute": 60,
+        "taxis_ahead": 80
+      },
+      {
+        "id": "STATE-T60-Q160",
+        "minute": 60,
+        "taxis_ahead": 160
+      },
+      {
+        "id": "STATE-T120-Q0",
+        "minute": 120,
+        "taxis_ahead": 0
+      },
+      {
+        "id": "STATE-T120-Q20",
+        "minute": 120,
+        "taxis_ahead": 20
+      },
+      {
+        "id": "STATE-T120-Q80",
+        "minute": 120,
+        "taxis_ahead": 80
+      },
+      {
+        "id": "STATE-T120-Q160",
+        "minute": 120,
+        "taxis_ahead": 160
+      },
+      {
+        "id": "STATE-T180-Q0",
+        "minute": 180,
+        "taxis_ahead": 0
+      },
+      {
+        "id": "STATE-T180-Q20",
+        "minute": 180,
+        "taxis_ahead": 20
+      },
+      {
+        "id": "STATE-T180-Q80",
+        "minute": 180,
+        "taxis_ahead": 80
+      },
+      {
+        "id": "STATE-T180-Q160",
+        "minute": 180,
+        "taxis_ahead": 160
+      }
+    ],
+    "training_repeats": 256,
+    "validation_repeats": 128,
+    "static_averaging_window_min": 240,
+    "city_net_cny_per_hour": 45.0,
+    "cost_per_km_cny": 0.75,
+    "fare_intercept_cny": 9.0,
+    "fare_per_km_cny": 2.1,
+    "speed_km_per_min": 0.5,
+    "empty_return_km": 30.0,
+    "boarding_min": 2.0,
+    "distances_km": [
+      8.0,
+      25.0,
+      50.0
+    ],
+    "distance_probabilities": [
+      0.3,
+      0.45,
+      0.25
+    ]
+  },
+  "q3": {
+    "candidate_bays_per_lane": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "control_bays_per_lane": 3,
+    "lane_length_m": 35.0,
+    "bay_pitch_m": 7.0,
+    "maximum_total_bays": 10,
+    "boarding_mean_s": 35.0,
+    "boarding_cv": 0.4,
+    "admit_fixed_s": 6.0,
+    "admit_headway_s": 2.5,
+    "walk_fixed_s": 5.0,
+    "walk_per_bay_s": 1.0,
+    "clearance_s": 6.0,
+    "exit_headway_s": 2.5,
+    "training_batches": 128,
+    "validation_batches": 192
+  },
+  "q4": {
+    "fleet_size": 80,
+    "horizon_min": 480.0,
+    "dispatch_interval_min": 1.5,
+    "distances_km": [
+      8.0,
+      25.0,
+      50.0
+    ],
+    "distance_probabilities": [
+      0.3,
+      0.45,
+      0.25
+    ],
+    "fare_intercept_cny": 9.0,
+    "fare_per_km_cny": 2.1,
+    "cost_per_km_cny": 0.75,
+    "speed_km_per_min": 0.5,
+    "turnaround_min": 5.0,
+    "short_trip_km": 12.0,
+    "target_net_cny_per_hour": 45.0,
+    "credit_cap_min": 20.0,
+    "credit_expiry_min": 90.0,
+    "priority_spacing_dispatches": 3,
+    "ordinary_wait_cap_min": 60.0,
+    "control_promotion_after_min": 15.0
+  },
+  "robustness": {
+    "q1": [
+      {
+        "id": "DEMAND_MINUS_30_PERCENT",
+        "arguments": {
+          "demand_scale": 0.7
+        }
+      },
+      {
+        "id": "DEMAND_PLUS_30_PERCENT",
+        "arguments": {
+          "demand_scale": 1.3
+        }
+      },
+      {
+        "id": "FLIGHT_EXIT_DELAY_30_MIN",
+        "arguments": {
+          "delay_min": 30
+        }
+      },
+      {
+        "id": "COST_PLUS_25_PERCENT",
+        "arguments": {
+          "cost_scale": 1.25
+        }
+      },
+      {
+        "id": "COMBINED_LOW_DEMAND_DELAY_HIGH_COST",
+        "arguments": {
+          "demand_scale": 0.7,
+          "delay_min": 30,
+          "cost_scale": 1.25
+        }
+      }
+    ],
+    "boarding_scales": [
+      0.8,
+      1.3
+    ],
+    "distance_scales": [
+      0.8,
+      1.2
+    ]
+  }
+}

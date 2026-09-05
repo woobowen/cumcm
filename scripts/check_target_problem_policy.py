@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = ROOT / "rules/target_problem_policy.yaml"
@@ -20,9 +21,11 @@ FORMAL_SKILLS = ROOT / ".agents/skills"
 
 BATCH_ID = "C-TARGET-BATCH-001"
 PHASE = "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C"
-PLAN = "plans/active/PLAN-0004C-C-target-batch-generalization.md"
+PLAN = "plans/completed/PLAN-0004C-C-target-batch-generalization.md"
 BRANCH = "feat/phase004c-c-target-batch-generalization"
 EXPECTED_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
+EXPECTED_EVIDENCE_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+EXPECTED_RUNTIME_CLOSURE_PHASE = "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
 RC3 = "0.2.0-competition-rc3"
 RC4 = "0.2.0-competition-rc4"
 RC4_COMMIT = "297cad0a29c659b18484d4f3b67d69a942ad415c"
@@ -277,6 +280,37 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         "skill_capability_status": "COMPETITION_RC",
         "selected_architecture": ARCHITECTURE,
     }
+    repair = state.get("phase") in {
+        EXPECTED_REPAIR_PHASE,
+        EXPECTED_EVIDENCE_REPAIR_PHASE,
+        EXPECTED_RUNTIME_CLOSURE_PHASE,
+    }
+    if repair:
+        for field in (
+            "subphase",
+            "technical_adjudication_status",
+            "active_skill_version",
+            "next_phase_allowed",
+        ):
+            expected_state.pop(field)
+        expected_state.update(
+            phase=state["phase"],
+            current_plan={
+                EXPECTED_REPAIR_PHASE: (
+                    "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"
+                ),
+                EXPECTED_EVIDENCE_REPAIR_PHASE: (
+                    "plans/active/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md"
+                ),
+                EXPECTED_RUNTIME_CLOSURE_PHASE: (
+                    "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md"
+                ),
+            }[state["phase"]],
+            current_branch="feat/phase004c2-claim-scope-repair-validation-2019c",
+        )
+        schema = _json(root / "contracts/project_state.schema.json")
+        if list(Draft202012Validator(schema).iter_errors(state)):
+            errors.append("TARGET_REPAIR_STATE_SCHEMA_INVALID")
     for field, expected in expected_state.items():
         if state.get(field) != expected:
             errors.append(f"TARGET_STATE_FIELD_MISMATCH:{field}")
@@ -325,7 +359,9 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     for token in (PHASE, BATCH_ID, RC3, RC4, "DECISION-C-TARGET-TRAINING-POLICY-004C"):
         if token not in plan_text:
             errors.append(f"TARGET_ACTIVE_PLAN_TOKEN_MISSING:{token}")
-    if workflow_rules.get("git_delivery", {}).get("preferred_task_branch") != BRANCH:
+    if workflow_rules.get("git_delivery", {}).get("preferred_task_branch") != (
+        "feat/phase004c2-claim-scope-repair-validation-2019c" if repair else BRANCH
+    ):
         errors.append("TARGET_WORKFLOW_BRANCH_MISMATCH")
 
     skills = list((root / FORMAL_SKILLS.relative_to(ROOT)).glob("*/SKILL.md"))
@@ -333,7 +369,20 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         errors.append("TARGET_FORMAL_SKILL_COUNT_INVALID")
     else:
         skill_text = skills[0].read_text(encoding="utf-8")
-        if ARCHITECTURE not in skill_text or RC4 not in skill_text:
+        if ARCHITECTURE not in skill_text or (
+            RC4 not in skill_text
+            and not (
+                repair
+                and any(
+                    f"Version: `{version}`" in skill_text
+                    for version in (
+                        "0.2.0-competition-rc5",
+                        "0.2.0-competition-rc6",
+                        "0.2.0-competition-rc7",
+                    )
+                )
+            )
+        ):
             errors.append("TARGET_FORMAL_SKILL_IDENTITY_INVALID")
 
     return {

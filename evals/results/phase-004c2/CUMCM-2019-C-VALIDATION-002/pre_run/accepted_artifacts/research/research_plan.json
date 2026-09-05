@@ -1,0 +1,26 @@
+{
+  "artifact_type": "research_plan",
+  "content": {
+    "allowed_inputs": [
+      "OFFICIAL_PROBLEM_PDF",
+      "REGISTERED_SCENARIO_ASSUMPTIONS",
+      "FROZEN_FORMAL_SKILL_INTERFACE"
+    ],
+    "data_acquisition_gap": "Q2 needs airport/city observations absent from authorized official archive; no external acquisition authorized.",
+    "external_search": false,
+    "mode": "OFFICIAL_INPUTS_ONLY_OFFLINE",
+    "prohibited_inputs": [
+      "REFERENCE_ANSWERS",
+      "OTHER_CASE_RESULTS",
+      "AIRPORT_OBSERVATIONS_OUTSIDE_USER_ACCESS_BOUNDARY"
+    ],
+    "questions": [
+      "如何从可观察航班与排队车辆建立等待/收益比较",
+      "如何在缺实测情况下限制推论范围",
+      "如何使行人与车辆互锁可独立验证",
+      "如何使短途补偿可核查且不挤占全部普通队列机会"
+    ]
+  },
+  "content_hash": "cf39618ec835b0ce8723fa1435a3e36715b7e653fe1c46f47d365b795ad04ccb",
+  "status": "ACCEPTED"
+}

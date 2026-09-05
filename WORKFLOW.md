@@ -227,3 +227,97 @@ runs. A superseded Final Run invalidates downstream tables, figures, claims, and
 policy/evidence/Judge output invalidates Meta, Audit, decisions, state, and reports. Clear `STALE` only
 by recomputing from the earliest affected predecessor; editing a report or team-review record never
 clears it.
+
+## Phase 004C2 terminal result
+
+The case-neutral Claim implementation passed the frozen tests within two revision cycles.
+Post-decision audit found an unresolved release blocker: the frozen Skill VERSION file still says
+RC4 while the runner, SKILL.md and manifest say RC5. Release acceptance is BLOCKED_VERSION_METADATA;
+the frozen Skill cannot be changed in this episode.
+The one Skill runs the hash-frozen `0.2.0-competition-rc5` implementation, K1, `COMPETITION_RC`;
+its inconsistent VERSION label is preserved as audited evidence.
+Release truth: `evals/results/phase-004c2/rc5_release.json`; execution record:
+`plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
+The 2024 terminal verdict and original artifacts remain unchanged.
+RC5 release `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` was remotely verified before
+2019 official input access. The pre-run freeze was remotely delivered before all nine actual Runs.
+`CUMCM-2019-C-VALIDATION-002` terminated as `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`:
+Q2 requires actual airport/city observations, which are absent. Native Run/Claim/handoff contracts
+passed structurally; Q4 semantic support is incomplete in the selected baseline Claim.
+The frozen rubric rejected paper dispatch and the
+final case state is `REJECTED`. No whole-problem completion or joint optimum is claimed.
+The machine decision and terminal freeze live under
+`evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/`.
+RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
+is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
+2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+## Phase 004C3 RC6 evidence-repair and fresh-Validation route
+
+`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT + RC5_VERSION_FILE_MISMATCH ->
+C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS` is a newly frozen successor phase. It preserves RC5 and the
+2024/2019 terminal histories, then freezes neutral requirements before changing the formal Skill.
+The only implementation scope is release consistency, requirement evidence/data sufficiency,
+source acquisition planning, per-requirement or compatible portfolio selection, and structured
+semantic Claim predicates. K1, execute/capture/seal, raw immutability, failure retention, STALE,
+one formal Skill and one project state remain unchanged.
+
+`C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS -> C_TARGET_RC6_READY_VALIDATION_PENDING` requires no more
+than two implementation cycles, all neutral/historical/synthetic/negative evidence, read-only 2019
+and 2024 diagnostics, one read-only release/evidence Auditor without BLOCKER, full offline CI and a
+remotely verified RC6 freeze. New Validation inputs cannot be read before that remote receipt.
+
+The preferred 2018 C case, or input-failure/contamination-only 2017 fallback, then follows an
+answer-sealed input-suitability preflight and remotely delivered pre-run freeze. A clean-context
+worker executes the existing 14-stage lifecycle once within four hours. Requirement data status,
+evidence class, selection, selected Run/output and Claim predicates are mandatory. Missing evidence,
+zero policy exposure, incompatible portfolio, incomplete aggregate coverage, unbound source,
+answer exposure, Skill drift or post-freeze Run is a non-compensable failure.
+
+The terminal decision is independently frozen and remotely delivered before the second and final
+read-only Auditor. `C_TARGET_VALIDATION_PASSED` may route only to
+`PHASE-SKILL-C-TARGET-HELDOUT-004D`; failed, insufficient or incomplete evidence routes to
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C4`; release repair failure keeps 004C3 and null. The 2025 C
+reservation remains `SEALED_NOT_ACCESSED` throughout.
+
+The Phase 004C3 pre-release audit is terminal `RC6_RELEASE_REPAIR_BLOCKED`. Auditor 1 reproduced
+fail-open acquisition/scope, portfolio/hash/dependency, semantic binding/eligibility and
+compatibility cases, while the fresh-completion controller hardcodes a global descriptive path.
+Because both formal revision cycles are exhausted, no third Skill repair, RC6 release, fresh input
+access, Validation worker or Run is permitted in this phase. `next_phase_allowed` is `null`.
+
+## Phase 004C4 actual-controller and RC7 route
+
+`RC6_RELEASE_REPAIR_BLOCKED -> C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS` is a new phase, not a
+third 004C3 cycle. It preserves RC5, blocked RC6, both old Validation freezes and all 13 audit
+findings. The observable top-level completion command must fail closed through ordered,
+input/output-hash-bound Gates; helper-only calls cannot satisfy release evidence. The expected
+counterexamples are frozen before code, then three neutral actual-controller workspaces exercise
+per-requirement selection, joint portfolio compatibility and partial data completion.
+
+`C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS -> C_TARGET_RC7_READY_VALIDATION_PENDING` requires
+all frozen/new controller probes, independent adversarial replay, neutral E2E traces, historical
+diagnostics/regressions, candidate checking, live checking, full offline CI and remote RC7 delivery.
+Until then, RC7 is a candidate only and fresh official input access is prohibited.
+
+The candidate and live evidence sets are complete and RC7 is frozen at
+`C_TARGET_RC7_READY_VALIDATION_PENDING`. Official input stays locked until the release commit and
+its delivery receipt are verified against the designated remote; that transport check does not
+reopen the Skill or its test/rubric surfaces.
+
+After the remotely verified RC7 pre-run freeze, exactly one fresh worker runs the sealed 2018 C
+case, with 2017 allowed only for input failure/corruption/unrecognizable input or pre-result
+contamination. PASS routes to 004D; failed, insufficient or incomplete evidence routes to 004C5;
+release failure keeps 004C4 with `next_phase_allowed=null`. Terminal freeze prohibits later Runs or
+same-case Validation repair. The 2025 reservation remains untouched throughout.
+
+The preferred 2018 input failed suitability because its official C archive omitted the five named
+attachments; zero model Runs occurred. The answer-sealed 2017 fallback then executed exactly nine
+frozen development Runs and selected different valid Runs by requirement. The sole actual controller
+invocation passed Gates 1–8 and blocked at `GATE_FINALIZATION` because no authorized selected-output
+sealed-test payload could be produced through RC7 `execute`; `GATE_HANDOFF` was not reached. The
+terminal decision is `C_TARGET_VALIDATION_FAILED`, same-case future use is Development only, and the
+route is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`.
+The post-freeze read-only integrity audit adds HF22 without rewriting that decision: semantic
+support declared held-out validity contrary to the selected Run's development boundary and zero
+authorized test access. The successor route must enforce predicate-to-output cross-binding.

@@ -1,0 +1,18 @@
+{
+  "receipt_id": "PHASE-004C4-RC7-CANDIDATE-STRICT-001",
+  "subject_commit": "c65299a9029875ddad18836a52d5cbc4784b6f07",
+  "commands": [
+    ".venv/bin/python scripts/validate_repo.py --strict",
+    ".venv/bin/python scripts/render_status.py --check",
+    "git diff --check"
+  ],
+  "exit_code": 0,
+  "strict_errors": 0,
+  "strict_warnings": 0,
+  "schema_count": 78,
+  "valid_fixture_count": 78,
+  "invalid_rejected_count": 68,
+  "status_report": "current",
+  "completed_at": "2026-09-05T13:01:20Z",
+  "status": "PASS"
+}

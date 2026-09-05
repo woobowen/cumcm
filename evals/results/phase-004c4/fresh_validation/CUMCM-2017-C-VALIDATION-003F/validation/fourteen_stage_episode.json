@@ -1,0 +1,139 @@
+{
+  "schema_version": "phase-004c4-fourteen-stage-episode/v1",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "episode_started_at": "2026-09-05T22:27:46+08:00",
+  "controller_ended_at": "2026-09-05T22:33:20+08:00",
+  "maximum_wall_seconds": 14400,
+  "within_timebox": true,
+  "one_shot_respected": true,
+  "answer_access_status": "NOT_ACCESSED",
+  "stages": [
+    {
+      "stage": 1,
+      "name": "PROBLEM_INTAKE",
+      "status": "PASS",
+      "artifact": "problem/problem_requirements.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 2,
+      "name": "REQUIREMENT_DECOMPOSITION",
+      "status": "PASS",
+      "artifact": "problem/problem_requirements.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 3,
+      "name": "RESEARCH_AND_SOURCE_PLANNING",
+      "status": "PASS",
+      "artifact": "research/source_ledger.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 4,
+      "name": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "status": "PASS",
+      "artifact": "models/assumptions_and_symbols.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 5,
+      "name": "DATA_AUDIT",
+      "status": "PASS_WITH_LIMITATIONS",
+      "artifact": "data/data_audit.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 6,
+      "name": "MODEL_PORTFOLIO_GENERATION",
+      "status": "PASS",
+      "artifact": "models/model_candidates.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 7,
+      "name": "BASELINE_DEFINITION",
+      "status": "PASS",
+      "artifact": "experiments/experiment_plan.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 8,
+      "name": "EXPERIMENT_DESIGN",
+      "status": "PASS",
+      "artifact": "experiments/experiment_plan.json",
+      "time": "PRE_RUN_COMPLETED",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 9,
+      "name": "IMPLEMENTATION_AND_EXECUTION",
+      "status": "PASS_9_OF_9",
+      "artifact": "validation/selection_and_run_summary.json",
+      "time": "2026-09-05T22:28:38.507760626+08:00/2026-09-05T22:30:07.996782529+08:00",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 10,
+      "name": "MODEL_COMPARISON",
+      "status": "PASS_DEVELOPMENT_SELECTION",
+      "artifact": "results/requirement_selection.json",
+      "time": "AFTER_SELECTION_BATCH_BEFORE_CONTROLLER",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 11,
+      "name": "ROBUSTNESS_AND_SENSITIVITY",
+      "status": "PASS_DEVELOPMENT_SCOPE",
+      "artifact": "results/robustness.json",
+      "time": "AFTER_SELECTION_BATCH_BEFORE_CONTROLLER",
+      "failure": null,
+      "recovery": null
+    },
+    {
+      "stage": 12,
+      "name": "FINAL_RUN",
+      "status": "BLOCK",
+      "artifact": "validation/controller_outcome.json",
+      "time": "2026-09-05T22:33:20+08:00",
+      "failure": "RC7_FINALIZATION_INTERFACE_CONTRACT_UNSATISFIABLE_FOR_FROZEN_HONEST_OUTPUT",
+      "recovery": "NONE_ONE_SHOT_STOP"
+    },
+    {
+      "stage": 13,
+      "name": "CLAIM_EVIDENCE_VALIDATION",
+      "status": "PASS_PRE_FINAL_SEMANTIC_GATE_NOT_ACCEPTED_FINAL",
+      "artifact": "evidence/semantic_claim_support.json",
+      "time": "2026-09-05T22:33:20+08:00",
+      "failure": "FINAL_CLAIM_EVIDENCE_NOT_PERSISTED_AS_ACCEPTED_AFTER_FINALIZATION_BLOCK",
+      "recovery": "NONE_ONE_SHOT_STOP"
+    },
+    {
+      "stage": 14,
+      "name": "MODELING_TO_PAPER_HANDOFF",
+      "status": "NOT_REACHED_BLOCK",
+      "artifact": "handoff/modeling_to_paper.json",
+      "time": "2026-09-05T22:33:20+08:00",
+      "failure": "GATE_HANDOFF_NOT_INVOKED_AND_HANDOFF_UNAPPROVED",
+      "recovery": "NONE_ONE_SHOT_STOP"
+    }
+  ],
+  "terminal_classification": "C_TARGET_VALIDATION_FAILED"
+}

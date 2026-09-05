@@ -1,0 +1,64 @@
+{
+  "schema_version": "phase-004c4-validation-input-preflight/v1",
+  "preflight_id": "CUMCM-2018-C-VALIDATION-003-INPUT-PREFLIGHT-001",
+  "case_candidate_id": "CUMCM-2018-C-VALIDATION-003",
+  "set_type": "VALIDATION_CANDIDATE",
+  "official_title": "大型百货商场会员画像描绘",
+  "source_domain": "www.mcm.edu.cn",
+  "official_annual_page_url_sha256": "d0d9bc988cf8dbab231a2f2a4f52a976d3a395f5836b20c832b25c045be1f59c",
+  "official_archive_url_sha256": "0f55bbafaaa837315c2f8866d86b56523b77b4a778236a1760f5a686f334d06c",
+  "retrieved_at": "2026-09-05T21:29:52+08:00",
+  "official_archive": {
+    "sha256": "dc2db8a836d6d3da519df0d9db9d68f6989adbc91f25cdc471bfa0c8f415865e",
+    "size_bytes": 1539737,
+    "mime": "application/x-rar",
+    "archive_entry_count": 14,
+    "c_directory_entry_count": 2
+  },
+  "c_input_metadata": [
+    {
+      "role": "PROBLEM_STATEMENT",
+      "filename": "CUMCM-2018-Problem C-Chinese.docx",
+      "sha256": "e02c32f52ba2887136f8f56ff1c60e3d2c7bb201b4e9372d22c400818bc653c2",
+      "size_bytes": 19919,
+      "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    {
+      "role": "OFFICIAL_ATTACHMENT_NOTICE",
+      "filename": "readme.txt",
+      "sha256": "6bfbd13b50b7b49d592f6048b111f9bc7e7e36279ff58fc42af55692278cee4a",
+      "size_bytes": 51,
+      "mime": "text/plain"
+    }
+  ],
+  "checks": {
+    "case_unused": "PASS",
+    "known_solution_contamination": "PASS_NONE_OBSERVED",
+    "official_problem_present": "PASS",
+    "official_required_attachments_complete": "FAIL",
+    "primary_requirements_recognizable": "PASS_5_OF_5",
+    "data_source_requirements_recognizable": "PASS",
+    "external_data_policy_executable": "BLOCKED_REQUIRED_ATTACHMENTS_ABSENT",
+    "four_hour_window_startable": "FAIL_INPUT_INCOMPLETE",
+    "rc7_release_identity_frozen": "PASS"
+  },
+  "missing_official_inputs": [
+    "ATTACHMENT_1_MEMBER_INFORMATION_DATA",
+    "ATTACHMENT_2_SALES_TRANSACTION_TABLE",
+    "ATTACHMENT_3_MEMBER_PURCHASE_DETAIL",
+    "ATTACHMENT_4_PRODUCT_INFORMATION",
+    "ATTACHMENT_5_DATA_DICTIONARY"
+  ],
+  "official_notice_disposition": "OFFICIAL_README_DIRECTS_TEAMS_TO_A_SEPARATE_COMMITTEE_CHANNEL_NOT_PRESENT_ON_THE_ANNUAL_PAGE",
+  "reason_code": "C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE",
+  "candidate_disposition": "INPUT_INELIGIBLE_FALLBACK_AUTHORIZED",
+  "fallback_case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "fallback_policy_basis": "OFFICIAL_INPUT_FAILURE_OR_UNRECOGNIZABLE_INCOMPLETE_C_INPUT",
+  "validation_episode_started": false,
+  "formal_run_count": 0,
+  "answer_access_status": "SEALED",
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "answer_or_solution_artifacts_observed": false,
+  "third_party_input_used": false,
+  "heldout_2025_accessed": false
+}

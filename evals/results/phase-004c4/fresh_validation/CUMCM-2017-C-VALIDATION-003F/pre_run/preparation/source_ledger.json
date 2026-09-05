@@ -1,0 +1,77 @@
+{
+  "artifact_type": "source_ledger",
+  "status": "PREPARED_NOT_ACCEPTED",
+  "content": {
+    "answer_access_status": "NOT_ACCESSED",
+    "contract_version": "requirement-evidence/v1",
+    "external_acquisition_planned": false,
+    "model_prior_exposure": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+    "network_activity": {"api_calls": 0, "searches": 0, "web_requests": 0},
+    "sources": [
+      {
+        "authority": "OFFICIAL_PROVIDED_PROBLEM_ATTACHMENT",
+        "entity_scope": ["组胺", "溴酸钾", "工业碱", "硫酸铝钾", "奶中尿素"],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "field_schema": ["substance", "concentration", "B", "G", "R", "H", "S"],
+        "freshness": "IMMUTABLE_STATIC_ATTACHMENT",
+        "geographic_scope": ["NOT_SPECIFIED_IN_ATTACHMENT"],
+        "hash": "ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad",
+        "license_or_usage_status": "PROVIDED_FOR_COMPETITION_TASK",
+        "limitations": ["camera, illumination, paper lot and acquisition order absent"],
+        "provenance": "byte-identical local copy of official Data1.xls",
+        "retrieval_time": "2026-09-05T21:59:52+08:00",
+        "source_id": "SRC-OFFICIAL-DATA1",
+        "supports_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY"],
+        "time_scope": ["OFFICIAL_2017_ATTACHMENT_STATIC_SCOPE"]
+      },
+      {
+        "authority": "OFFICIAL_PROVIDED_PROBLEM_ATTACHMENT",
+        "entity_scope": ["二氧化硫"],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "field_schema": ["concentration", "R", "G", "B", "S", "H", "replicate_group"],
+        "freshness": "IMMUTABLE_STATIC_ATTACHMENT",
+        "geographic_scope": ["NOT_SPECIFIED_IN_ATTACHMENT"],
+        "hash": "6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723",
+        "license_or_usage_status": "PROVIDED_FOR_COMPETITION_TASK",
+        "limitations": ["only 25 observations and 7 distinct concentration levels"],
+        "provenance": "byte-identical local copy of official Data2.xls",
+        "retrieval_time": "2026-09-05T21:59:52+08:00",
+        "source_id": "SRC-OFFICIAL-DATA2",
+        "supports_requirement_ids": ["REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+        "time_scope": ["OFFICIAL_2017_ATTACHMENT_STATIC_SCOPE"]
+      },
+      {
+        "authority": "OFFICIAL_PROVIDED_ATTACHMENT_METADATA",
+        "entity_scope": ["ALL_ATTACHMENT_ROWS"],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "field_schema": ["ppm_equals_mg_per_L_for_dilute_solution", "water_means_zero", "R", "G", "B", "H", "S"],
+        "freshness": "IMMUTABLE_STATIC_ATTACHMENT",
+        "geographic_scope": ["NOT_APPLICABLE"],
+        "hash": "bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf",
+        "license_or_usage_status": "PROVIDED_FOR_COMPETITION_TASK",
+        "limitations": ["does not document acquisition conditions"],
+        "provenance": "byte-identical local copy of official readme.txt decoded as GB18030",
+        "retrieval_time": "2026-09-05T21:59:52+08:00",
+        "source_id": "SRC-OFFICIAL-README",
+        "supports_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+        "time_scope": ["OFFICIAL_2017_ATTACHMENT_STATIC_SCOPE"]
+      },
+      {
+        "authority": "OFFICIAL_PROVIDED_PROBLEM_STATEMENT",
+        "entity_scope": ["ALL_PRIMARY_REQUIREMENTS"],
+        "evidence_class": "UNKNOWN",
+        "field_schema": ["problem_text", "primary_requirements"],
+        "freshness": "IMMUTABLE_STATIC_ATTACHMENT",
+        "geographic_scope": ["NOT_APPLICABLE"],
+        "hash": "f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf",
+        "license_or_usage_status": "PROVIDED_FOR_COMPETITION_TASK",
+        "limitations": ["defines requested work but is not empirical outcome evidence"],
+        "provenance": "byte-identical local copy of official problem DOCX",
+        "retrieval_time": "2026-09-05T21:59:52+08:00",
+        "source_id": "SRC-OFFICIAL-PROBLEM",
+        "supports_requirement_ids": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"],
+        "time_scope": ["OFFICIAL_2017_ATTACHMENT_STATIC_SCOPE"]
+      }
+    ]
+  }
+}

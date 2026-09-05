@@ -1,5 +1,60 @@
 # Changelog
 
+## 0.3.0-competition-rc7 — 2026-09-05
+
+- Releases the sole formal Skill as `0.2.0-competition-rc7` after closing all five inherited RC6
+  actual-controller fail-open classes and five independently found adversarial defects.
+- Binds ten ordered Gates, effective `GLOBAL_JOINT`/`PER_REQUIREMENT`/`JOINT_PORTFOLIO` execution,
+  pre-write sealed-payload validation, scenario lineage and output-backed policy Claims to the real
+  completion entrypoint.
+- Passes 14 frozen known-controller probes, 6 frozen adversarial probes, 17 neutral actual-controller
+  cases, the 57-case RC6 neutral matrix, 239 focused regressions, six immutable C/A history replays,
+  two synthetic E2E cases, 30 negative cases and full pytest (`2063 passed, 1 skipped`).
+- Preserves RC5/RC6 release blocks and both prior terminal Validation histories. After remote RC7
+  delivery, the official 2018 C package failed input suitability because its five named attachments
+  were absent; the preregistered 2017 fallback ran answer-sealed.
+- The exact 3-candidate by 3-seed batch completed 9/9 with independent checks and valid manifests;
+  PER_REQUIREMENT selection chose Ridge for REQ1 and kernel ridge for REQ2/REQ3. The single actual
+  controller call then blocked at finalization because RC7 `execute` outputs cannot carry the
+  controller-required authorized sealed-test payload. No test access or handoff occurred. Terminal
+  verdict: `C_TARGET_VALIDATION_FAILED`; next route: 004C5; 2025 remains unaccessed.
+- The identity-separated read-only integrity audit preserved that verdict and raised
+  `HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION`: REQ2's generated held-out predicate contradicted the
+  selected Run's development-only boundary and `NOT_AUTHORIZED/0` test-access evidence.
+
+## Phase 004C4 actual-controller closure started
+
+- Preserved the terminal RC6 release block, five blocker classes, 13 Auditor probes, both negative
+  Validation histories and the fully sealed 2025 C reservation.
+- Opened a separately budgeted controller-level repair phase targeting Competition RC7; no RC7
+  release or fresh Validation result is claimed at phase start.
+- Recorded a clean serial baseline of `2009 passed, 1 skipped` plus strict 0/0 before any formal
+  Skill implementation change.
+
+## 0.3.0-competition-rc6 — 2026-09-05 (release blocked)
+
+- Reconciles the project and sole formal Skill at `0.3.0-competition-rc6` /
+  `0.2.0-competition-rc6` while retaining the immutable RC5 release-block record.
+- Adds requirement-level evidence/source classes, acquisition-aware data-sufficiency preflight,
+  global/per-requirement/portfolio selection, and bounded `claim-evidence/v3` semantic predicates.
+- Preserves the 14-stage K1 architecture, four roles, capture/seal, leakage, hash lineage, failure
+  retention and STALE behavior. Frozen tests and historical regressions passed, but independent
+  Auditor 1 reproduced 13 fail-open probes in acquisition/scope sufficiency, dependent/portfolio
+  selection, semantic Run/output/metric/aggregate binding and compatibility.
+- The generic fresh-completion controller also hardcodes a global Run, descriptive Claims,
+  provided-empirical evidence and positive policy exposure. Both formal revision cycles are
+  exhausted, so RC6 is not released, the fresh 2018/2017 Validation input was never accessed, and
+  the terminal route is `RC6_RELEASE_REPAIR_BLOCKED` with `next_phase_allowed=null`.
+
+## 0.3.0-competition-rc5 — 2026-09-05 (release acceptance blocked)
+
+- Froze the intended formal Skill 0.2.0-competition-rc5 implementation with claim-evidence/v2: independent aggregate identity, exact primary coverage, per-requirement lineage and preserved fail-closed evidence gates.
+- Preserved legacy artifacts through pure derived migration and exact scoped-formula handoff support. Two bounded revision cycles; no execution-engine change or dependency.
+- Passed neutral tests, five historical artifact regressions, 2024 diagnostic-only replay, two synthetic E2E and 30 original negatives. Old 2024 verdict and 2025 reservation remain unchanged.
+- Froze the intended RC5 implementation before fresh 2019 C official acquisition; remotely froze the one-shot design before 9 successful actual Runs. Native multi-requirement Claim/handoff contracts pass, but Q2 real-airport data are missing: `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`, final `REJECTED`, next `null`. Adverse Q4 fairness results are retained; 2025 remains untouched.
+
+- Post-decision audit found RC5_VERSION_FILE_MISMATCH: frozen Skill VERSION remains RC4. No post-Validation correction was made. Selected baseline Q4 Claim also has incomplete semantic support; structural Claim PASS is not whole-problem completion.
+
 ## 0.3.0-competition-rc4 — 2026-09-05
 
 - Advanced the sole formal Skill to `0.2.0-competition-rc4` from one failure independently observed
@@ -220,3 +275,7 @@
 - The formal Skill is `SCAFFOLD_ONLY` and lacks complete modeling capability.
 - Upstream candidates have only provisional static reviews; no historical or dynamic evaluation is complete.
 - No final base Skill has been selected and the project license remains undecided.
+
+## 004C2 — terminal evidence insufficient
+
+RC5 Claim implementation is frozen; complete release acceptance is blocked. Fresh 2019 C Validation is terminal and rejected for missing primary empirical evidence. This is a completed negative evaluation; Held-out remains locked.

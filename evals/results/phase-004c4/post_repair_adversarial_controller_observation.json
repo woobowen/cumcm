@@ -1,0 +1,18 @@
+{
+  "observation_id": "PHASE-004C4-ACTUAL-CONTROLLER-ADVERSARIAL-POST-REPAIR-001",
+  "implementation_commit": "cd02e61994b906364789c65609de695b6912f1c7",
+  "repair_loop": 1,
+  "repair_loop_budget": 3,
+  "frozen_adversarial_command": "PYTHONPATH=. .venv/bin/pytest -q tests/integration/test_actual_controller_adversarial.py",
+  "frozen_adversarial_result": "6 passed in 0.81s",
+  "combined_controller_command": "PYTHONPATH=. .venv/bin/pytest -q tests/integration/test_actual_controller_adversarial.py tests/integration/test_actual_controller_black_box.py tests/integration/test_actual_controller_neutral_e2e.py tests/unit/test_rc6_neutral_evidence_contracts.py",
+  "combined_controller_result": "94 passed in 6.26s",
+  "finding_results": {
+    "AP-001-SELECTION-COMPARISON-SPLIT-BRAIN": "PASS_BLOCKED_AT_EXPECTED_GATE_REASON",
+    "AP-002-LATE-TEST-DECODE-UNTRACED-MUTATION": "PASS_STRUCTURED_BLOCK_NO_DURABLE_OUTPUT",
+    "AP-003-BLOCK-PATH-SEALS-MANIFESTS": "PASS_BLOCK_NO_NEW_MANIFEST",
+    "AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND": "PASS_CAPTURE_MANIFEST_MISMATCH_BLOCKED",
+    "AP-005-POLICY-EVIDENCE-SELF-ATTESTATION": "PASS_ACTUAL_OUTPUT_EVIDENCE_REQUIRED"
+  },
+  "status": "PASS"
+}

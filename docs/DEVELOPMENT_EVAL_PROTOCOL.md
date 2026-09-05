@@ -148,3 +148,81 @@ RC4 的唯一修改是通用 selected-output preflight，并已通过统一回�
 正式决策为 `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`。terminal freeze 后不得新增 Run；同题后续
 永久只可作为 Development，修复必须在 `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` 用新的冻结 C题
 验证。
+
+## Phase 004C2 terminal result
+
+The case-neutral Claim implementation passed the frozen tests within two revision cycles.
+Post-decision audit found an unresolved release blocker: the frozen Skill VERSION file still says
+RC4 while the runner, SKILL.md and manifest say RC5. Release acceptance is BLOCKED_VERSION_METADATA;
+the frozen Skill cannot be changed in this episode.
+The one Skill runs the hash-frozen `0.2.0-competition-rc5` implementation, K1, `COMPETITION_RC`;
+its inconsistent VERSION label is preserved as audited evidence.
+Release truth: `evals/results/phase-004c2/rc5_release.json`; execution record:
+`plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
+The 2024 terminal verdict and original artifacts remain unchanged.
+RC5 release `24265710b3f4b154ccf6eff19614eea7fb3fb0d4` was remotely verified before
+2019 official input access. The pre-run freeze was remotely delivered before all nine actual Runs.
+`CUMCM-2019-C-VALIDATION-002` terminated as `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`:
+Q2 requires actual airport/city observations, which are absent. Native Run/Claim/handoff contracts
+passed structurally; Q4 semantic support is incomplete in the selected baseline Claim.
+The frozen rubric rejected paper dispatch and the
+final case state is `REJECTED`. No whole-problem completion or joint optimum is claimed.
+The machine decision and terminal freeze live under
+`evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/`.
+RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
+is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
+2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+## Phase 004C3 RC6 and fresh C Validation protocol
+
+RC6 adds a requirement-level data-sufficiency sub-Gate after Data Audit, before expensive modeling.
+Every primary requirement declares allowed/required evidence classes, fields, time/entity scope,
+external acquisition and substitution rules. `UNKNOWN` never passes, simulation never proves an
+empirical Claim, and a blocked requirement prevents aggregate-complete handoff without necessarily
+blocking independent requirements.
+
+Model comparison records `GLOBAL_JOINT`, `PER_REQUIREMENT`, or `JOINT_PORTFOLIO`. Each requirement
+binds its own metric, successful current Run, output and structured support predicates. A portfolio
+must share exact inputs/scenarios and satisfy cross-requirement constraints. Policy Claims require
+actual nonzero exposure and a comparator; causal/global-optimal/predictive Claims require their
+corresponding identification/certificate/holdout evidence.
+
+The fresh 2018/2017 Validation protocol is activated only after the RC6 remote freeze. Direct official
+URLs may be accessed, but no search for the problem, solution, paper, code, discussion or answer is
+allowed. Tracked files contain hashes/metadata only; raw official inputs stay in ignored cache. The
+pre-run freeze binds the four-hour one-shot and must be remotely delivered before a clean-context
+worker starts the 14-stage lifecycle. After start, Skill/tests/rubric/evidence rules are immutable;
+after terminal freeze, no Run or verdict may be added or changed.
+
+The Phase 004C3 release audit ended this protocol before official-input acquisition. Thirteen
+deterministic probes reproduced fail-open RC6 data-sufficiency, selection, semantic and compatibility
+behavior, and the generic completion controller did not operationalize per-requirement/portfolio
+semantics. Both formal revision cycles were already used, so RC6 remains unreleased and no fresh
+Validation worker, Run, answer access or fallback decision occurred.
+
+## Phase 004C4 RC7 fresh-Validation protocol
+
+004C4 must first close those same failures through actual-controller black-box tests and a
+machine-checkable gate trace; helper-level evidence is insufficient. After three neutral E2E cases,
+independent adversarial replay, historical regression and both release check stages pass, RC7 is
+frozen and remotely verified. Only then may the official 2018 C input be acquired into ignored
+storage and hash-registered. The answer-sealed preflight/freeze and four-hour one-shot requirements
+are unchanged; 2017 is fallback only for the enumerated input/contamination conditions, never for
+difficulty or an unfavorable result.
+
+RC7 passed both release stages and remote delivery. The 2018 C archive was obtained, but the five
+data attachments required by its problem were absent; no model Run began. That official-input
+failure authorizes the 2017 C fallback. Its official problem, `Data1.xls`, `Data2.xls` and variable
+dictionary are hash-registered in ignored storage, with no answer/solution search or exposure. The
+pre-run freeze and remote receipt still precede every formal Run.
+
+The remotely unlocked fallback ran the frozen nine-attempt matrix once. Development comparison,
+independent recomputation, Run sealing and PER_REQUIREMENT selection passed; no adaptive retry or
+test access occurred. The actual RC7 controller was invoked once and passed the first eight Gates,
+then blocked at finalization because the selected output lacks the controller-required authorized
+sealed-test payload and `execute` has no final/test-authorization interface. The handoff Gate was not
+reached. HF14/HF21/HF23 fix the terminal status at `C_TARGET_VALIDATION_FAILED`; no post-freeze Run,
+case-code edit, Skill edit or same-case Validation retry is permitted.
+The read-only integrity audit added HF22: REQ2's held-out-support declaration was not cross-bound to
+its selected development-only output and zero authorized test access. The frozen verdict is
+unchanged; the repair belongs to 004C5.

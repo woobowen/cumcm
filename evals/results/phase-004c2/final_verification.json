@@ -1,0 +1,97 @@
+{
+  "content_commit": "77c38237f09b86eb0944a69d5074cf6e3da67c80",
+  "entries": [
+    {
+      "answer_state": "SEALED_AT_TERMINAL_FREEZE",
+      "blocker": null,
+      "case_id": "CUMCM-2019-C-VALIDATION-002",
+      "command": "bash scripts/ci.sh",
+      "duration_clock": "time.monotonic",
+      "duration_seconds": 310.269592,
+      "ended_at": "2026-09-05T05:02:24.660185+00:00",
+      "evidence_sha256": "32cd1546fa91899533238fba2259e2376c629798101e3557432fdf7d6f9ccff7",
+      "exit": 0,
+      "passed": 1940,
+      "pytest_duration_seconds": 305.56,
+      "release_acceptance": "BLOCKED_VERSION_METADATA",
+      "result": "PASS",
+      "skill_version": "0.2.0-competition-rc5 (runner); VERSION-file mismatch preserved",
+      "skipped": 1,
+      "started_at": "2026-09-05T04:56:58.125958+00:00",
+      "type": "FULL_OFFLINE_CI",
+      "version_blocker_not_overridden_by_ci": true
+    },
+    {
+      "answer_state": "SEALED_AT_TERMINAL_FREEZE",
+      "blocker": null,
+      "case_id": "CUMCM-2019-C-VALIDATION-002",
+      "command": ".venv/bin/python scripts/render_status.py --check",
+      "duration_seconds": 0.020131,
+      "evidence_sha256": "485f06b720baf95874f16d5c478136279d65d90e8afcb28082b71c94b3b4e334",
+      "exit": 0,
+      "result": "PASS",
+      "skill_version": "0.2.0-competition-rc5 (runner); VERSION-file mismatch preserved",
+      "stdout": "status_report=current",
+      "type": "POST_CI_READ_ONLY_VERIFICATION"
+    },
+    {
+      "answer_state": "SEALED_AT_TERMINAL_FREEZE",
+      "blocker": null,
+      "case_id": "CUMCM-2019-C-VALIDATION-002",
+      "command": ".venv/bin/python scripts/check_c_target_2019c_validation.py --check --verify-workspace --require-delivery",
+      "duration_seconds": 0.047105,
+      "evidence_sha256": "f8e406dfab2cab18e68789845ec05767ad87960d23761b11f64240ee70c3883a",
+      "exit": 0,
+      "result": "PASS",
+      "skill_version": "0.2.0-competition-rc5 (runner); VERSION-file mismatch preserved",
+      "stdout": "{\"case_id\": \"CUMCM-2019-C-VALIDATION-002\", \"error_count\": 0, \"errors\": [], \"ok\": true, \"pre_run_frozen\": true, \"terminal_frozen\": true, \"workspace_verified\": true}",
+      "type": "POST_CI_READ_ONLY_VERIFICATION"
+    },
+    {
+      "answer_state": "SEALED_AT_TERMINAL_FREEZE",
+      "blocker": null,
+      "case_id": "CUMCM-2019-C-VALIDATION-002",
+      "command": "git diff --check",
+      "duration_seconds": 0.002526,
+      "evidence_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit": 0,
+      "result": "PASS",
+      "skill_version": "0.2.0-competition-rc5 (runner); VERSION-file mismatch preserved",
+      "stdout": "",
+      "type": "POST_CI_READ_ONLY_VERIFICATION"
+    }
+  ],
+  "formal_skill_count": 1,
+  "no_new_installs_or_global_configuration_changes": true,
+  "release_acceptance": "BLOCKED_VERSION_METADATA",
+  "remote_ci": {
+    "conclusion": "success",
+    "createdAt": "2026-09-05T04:57:05Z",
+    "headSha": "77c38237f09b86eb0944a69d5074cf6e3da67c80",
+    "log_sha256": "aa12b538b6bcb3641c57b5e3498f2a4a5b6919dd2153efe35fb9737c36d1e410",
+    "passed": 1940,
+    "pytest_duration_seconds": 487.25,
+    "run_id": 33945912145,
+    "skipped": 1,
+    "status": "completed",
+    "strict_errors": 0,
+    "strict_warnings": 0,
+    "updatedAt": "2026-09-05T05:05:35Z",
+    "url": "https://github.com/woobowen/cumcm/actions/runs/33945912145"
+  },
+  "remote_delivery": {
+    "branch": "feat/phase004c2-claim-scope-repair-validation-2019c",
+    "commit": "77c38237f09b86eb0944a69d5074cf6e3da67c80",
+    "remote": "origin",
+    "remote_sha": "77c38237f09b86eb0944a69d5074cf6e3da67c80",
+    "status": "REMOTE_DELIVERED",
+    "verified_at": "2026-09-05T13:09:09+08:00"
+  },
+  "strict_errors": 0,
+  "strict_warnings": 0,
+  "test_skip_reason": "Batch 1 has already been executed in the immutable evidence tree",
+  "unresolved_release_blockers": [
+    "RC5_VERSION_FILE_MISMATCH"
+  ],
+  "validation_status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+}

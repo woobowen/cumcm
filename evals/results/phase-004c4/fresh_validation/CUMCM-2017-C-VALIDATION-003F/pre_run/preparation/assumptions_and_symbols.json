@@ -1,0 +1,33 @@
+{
+  "artifact_type": "assumptions_and_symbols",
+  "status": "PREPARED_NOT_ACCEPTED",
+  "content": {
+    "assumptions": [
+      {"assumption_id": "A1", "statement": "readme 中“水”按浓度 0 解析，ppm 在该附件语境按 mg/L 解释", "challenge": "若官方语义不同则全链 STALE", "requirements": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL"]},
+      {"assumption_id": "A2", "statement": "同一连续表块内空白浓度单元格继承最近非空浓度，作为该浓度 replicate", "challenge": "通过 source_row_id 和原表逐行复核", "requirements": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL"]},
+      {"assumption_id": "A3", "statement": "Data1 的 5 种物质分别建模，不跨物质共享浓度关系", "challenge": "跨物质 pooling 需新实验计划", "requirements": ["REQ-1-DATA1-RELATION-QUALITY"]},
+      {"assumption_id": "A4", "statement": "replicate 不是独立浓度档；同一 substance×concentration 不得同时进入 train/evaluation", "challenge": "independent_checks 逐 prediction record 复算", "requirements": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"]},
+      {"assumption_id": "A5", "statement": "孤立档位、exact duplicates 和所有 raw 值保留，不进行静默修正或删除", "challenge": "raw SHA256 与 normalized source_row_id lineage", "requirements": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL"]},
+      {"assumption_id": "A6", "statement": "所有结论均为 provided-empirical association/prediction，不是因果或全局最优结论", "challenge": "semantic Claim hard failure", "requirements": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"]}
+    ],
+    "formulas": [
+      {"formula_id": "F-MAE", "expression": "MAE=(1/n) sum_i |y_i-yhat_i|", "requirements": ["REQ-1-DATA1-RELATION-QUALITY", "REQ-2-DATA2-CONCENTRATION-MODEL", "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"]},
+      {"formula_id": "F-RMSE", "expression": "RMSE=sqrt((1/n) sum_i (y_i-yhat_i)^2)", "requirements": ["REQ-2-DATA2-CONCENTRATION-MODEL"]},
+      {"formula_id": "F-NMAE", "expression": "NMAE=MAE/(max(y)-min(y))", "requirements": ["REQ-1-DATA1-RELATION-QUALITY"]},
+      {"formula_id": "F-FEAS", "expression": "yhat_feasible=min(max(yhat_raw,0),max(y_train))", "requirements": ["REQ-2-DATA2-CONCENTRATION-MODEL"]},
+      {"formula_id": "F-DIM", "expression": "dimension summary=median/min/max grouped MAE over all C(5,d) feature subsets", "requirements": ["REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION"]}
+    ],
+    "symbols": {
+      "B": {"meaning": "Blue color reading", "unit": "attachment color-value unit"},
+      "G": {"meaning": "Green color reading", "unit": "attachment color-value unit"},
+      "H": {"meaning": "Hue reading", "unit": "attachment hue unit"},
+      "R": {"meaning": "Red color reading", "unit": "attachment color-value unit"},
+      "S": {"meaning": "Saturation reading", "unit": "attachment saturation unit"},
+      "d": {"meaning": "number of selected color dimensions", "unit": "count"},
+      "g": {"meaning": "substance×concentration group", "unit": "group identifier"},
+      "n": {"meaning": "evaluated observation count", "unit": "count"},
+      "y": {"meaning": "provided concentration", "unit": "ppm (mg/L under readme scope)"},
+      "yhat": {"meaning": "predicted concentration", "unit": "ppm"}
+    }
+  }
+}

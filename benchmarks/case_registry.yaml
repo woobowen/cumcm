@@ -44,11 +44,14 @@ target_case_fields:
 - contamination_status
 - generalization_axis
 active_skill_release:
-  version: 0.2.0-competition-rc4
-  implementation_commit: 297cad0a29c659b18484d4f3b67d69a942ad415c
-  tree: d041ca38de030ae04813ef02dbe12f7f2b7a1c22
-  release_manifest: evals/results/phase-004c-c-batch/rc4/skill_release.json
-  validation_status: FROZEN_2024C_EVIDENCE_INSUFFICIENT
+  version: 0.2.0-competition-rc7
+  implementation_commit: cd02e61994b906364789c65609de695b6912f1c7
+  tree: 0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056
+  release_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+  release_manifest: evals/results/phase-004c4/rc7_release.json
+  validation_status: C_TARGET_VALIDATION_FAILED
+  release_acceptance: COMPETITION_RC_RELEASED
+  unresolved_blocker: null
 planned_cases: []
 held_out_reservations:
 - reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
@@ -812,3 +815,199 @@ cases:
     path: evals/results/phase-004c-c-batch/batch_reference_unlock.json
     sha256: d6a9aa50ce294fc82f2c195d76fa0a5aa745b681544f3455f2991821d100d69a
     verified_remote_sha: 49f5dd98b7d546f1e380e8b48d39078a1e176fc0
+- case_id: CUMCM-2019-C-VALIDATION-002
+  set_type: VALIDATION
+  target_problem_type: C
+  evidence_role: FRESH_ANSWER_SEALED_VALIDATION
+  independent_problem: true
+  batch_id: null
+  batch_position: null
+  official_title: 机场的出租车问题
+  problem_source: data/raw/problem.pdf
+  problem_source_domain: mcm.edu.cn
+  problem_hash: e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0
+  official_package_sha256: f4d17f2dd80990680fcf00b27103b9c349bc1e943a8b852e948183fab882355f
+  data_hashes: {}
+  official_empirical_attachment_count: 0
+  answer_access_status: SEALED
+  reference_unlock: LOCKED
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2019-C-VALIDATION-002-TERMINAL-FREEZE-001
+    path: evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/terminal_freeze/terminal_validation_freeze.json
+    sha256: d8e52a286126b2d4f6848b29c7eaa2e19e963de8d28ab95dc7df0bb0224acc64
+    subject_commit: 9cc251c9fec731c13fbb5ffc048db6af4834966a
+    freeze_commit: b289f2dfcaebe8edca5335ed4bf89f383c67eb51
+    remote_sha: b289f2dfcaebe8edca5335ed4bf89f383c67eb51
+    status: REMOTE_DELIVERED
+  skill_version: 0.2.0-competition-rc5
+  formal_skill_version: 0.2.0-competition-rc5
+  skill_commit: 24265710b3f4b154ccf6eff19614eea7fb3fb0d4
+  formal_skill_commit: 24265710b3f4b154ccf6eff19614eea7fb3fb0d4
+  model: MODEL_ID_NOT_EXPOSED_BY_RUNTIME
+  reasoning: UNKNOWN
+  start_time: '2026-09-05T11:48:24+08:00'
+  freeze_time: '2026-09-05T12:41:23+08:00'
+  unlock_time: null
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  contamination_status: PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE
+  generalization_axis:
+  - QUEUEING_AND_DISCRETE_EVENT
+  - STOCHASTIC_DEMAND
+  - SCHEDULING_AND_ALLOCATION
+  - DECISION_UNDER_UNCERTAINTY
+  - SIMULATION_OR_ANALYTIC_VALIDATION
+  - CONTEST_TIME_POLICY_DESIGN
+  generalizable_failures: []
+  problem_specific_findings:
+  - Official C directory contains problem PDF and DOC only; empirical airport and
+    taxi data are not supplied.
+  - Q2 actual airport and city observations are absent; simulation cannot replace
+    them.
+  - Selected Q4 local Claim has incomplete semantic support for priority evaluation.
+  - All candidates tied on Q1 ranking; primary priority mean Gini worsened.
+  registration_path: evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/registration/input_registration.json
+  pre_run_freeze:
+    path: evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/pre_run/pre_run_validation_freeze.json
+    sha256: 66b7c8a140481b3abc4e0d1eab82efb6340d608b00d2ce3fcb87cac4681cc655
+    subject_commit: 9cc251c9fec731c13fbb5ffc048db6af4834966a
+    freeze_commit: 9f7f3ed2d88d8eaffd0ce2468221f65fec4a46de
+    remote_sha: 9f7f3ed2d88d8eaffd0ce2468221f65fec4a46de
+    status: REMOTE_DELIVERED
+  validation_decision: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+  case_state: REJECTED
+  same_case_future_role: DEVELOPMENT_ONLY
+  paper_dispatch_accepted: false
+  release_acceptance: BLOCKED_VERSION_METADATA
+  unresolved_release_blockers:
+  - RC5_VERSION_FILE_MISMATCH
+  first_run_evidence:
+    skill_version: 0.2.0-competition-rc5
+    skill_commit: 24265710b3f4b154ccf6eff19614eea7fb3fb0d4
+    case_code_commit: 9cc251c9fec731c13fbb5ffc048db6af4834966a
+    case_state: REJECTED
+    case_state_sha256: 43532d439e5371d604ab455203fde1234b8dd35d9689a4929db3e16e334ed822
+    run_count: 9
+    run_manifest_hashes:
+      runs/RUN-BASELINE_STATIC_FCFS-101/manifest.json: fb831533065427d4ce93b65cdd897f2b6f210042a89c76859523b658dd08ece6
+      runs/RUN-BASELINE_STATIC_FCFS-202/manifest.json: f55ef27d83475f510414712f571e68570f00904dc613df9293f16a7aed736b1d
+      runs/RUN-BASELINE_STATIC_FCFS-303/manifest.json: 82d84cc8675f3da083e0ded8f55983167e2494ee7c2f8a2a48b94eb9815a7af4
+      runs/RUN-CONTROL_FLUID_AGING-101/manifest.json: 78f032d92659c9cca12b50e42304ee5d6e077f53086db778b8f78784b8fef88d
+      runs/RUN-CONTROL_FLUID_AGING-202/manifest.json: 99a61968cfa9b00cc40514c3eecdc989b60bd72ed9eb4c6c094b4b4105988fdf
+      runs/RUN-CONTROL_FLUID_AGING-303/manifest.json: 8daccbdb9fdfa8afbabdde6b87db86198e054223c7eca421f2ee3818d36214cb
+      runs/RUN-PRIMARY_NHPP_CREDIT-101/manifest.json: eca670dc20f673053d7e63c474731f4de8b14e59ed920b02649ac7335fbeab39
+      runs/RUN-PRIMARY_NHPP_CREDIT-202/manifest.json: 175f5eb936aa7040826331925d158eac77bd3d38c78fec2fd0b9de6ff87ad89f
+      runs/RUN-PRIMARY_NHPP_CREDIT-303/manifest.json: b8c60785a3554d1d0425c8036f961ff612923fe143246f7ebc262153456b0053
+    validation_decision: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+    decision_path: evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/DECISION-C-TARGET-VALIDATION-004C2.json
+    decision_sha256: 62b04b3654de11f95f1df12fb2bd0dfcad31d7901b192f68f33f062cb4adf588
+    blocked_reason_code: VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING
+    semantic_requirement_claims_complete: false
+    paper_dispatch_accepted: false
+    release_acceptance: BLOCKED_VERSION_METADATA
+    freeze_id: CUMCM-2019-C-VALIDATION-002-TERMINAL-FREEZE-001
+    freeze_sha256: d8e52a286126b2d4f6848b29c7eaa2e19e963de8d28ab95dc7df0bb0224acc64
+- case_id: CUMCM-2017-C-VALIDATION-003F
+  set_type: VALIDATION
+  target_problem_type: C
+  evidence_role: FRESH_ANSWER_SEALED_VALIDATION_FALLBACK
+  independent_problem: true
+  batch_id: null
+  batch_position: null
+  official_title: 颜色与物质浓度辨识
+  problem_source: data/raw/CUMCM-2017-problem-C.docx
+  problem_source_domain: mcm.edu.cn
+  problem_source_url_sha256: dc45d1f63102e6f1a9094faae7ff49ae6c0b4ffccda02db1f1f1ea032ed52721
+  problem_hash: f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf
+  official_package_sha256: c4461c47cd4b8502fd789159d2e5984276583880433cabff25b19344fc047758
+  data_hashes:
+    data/raw/Data1.xls: ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad
+    data/raw/Data2.xls: 6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723
+    data/raw/readme.txt: bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf
+  official_empirical_attachment_count: 2
+  answer_access_status: SEALED
+  reference_unlock: LOCKED
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2017-C-VALIDATION-003F-PRE-RUN-FREEZE-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze.json
+    sha256: 9c078468da856353a7104e6eb4a6deec273f1aae81f6537deedbfc840703940b
+    subject_commit: ffe890dc4afbd8a9daa54a2284d77a42bbf987f2
+    freeze_commit: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
+    remote_sha: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
+    status: REMOTE_DELIVERED
+  first_run_evidence:
+    skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+    run_count: 9
+    successful_run_count: 9
+    controller_status: BLOCK_NATIVE_CONTRACTS
+    validation_decision: C_TARGET_VALIDATION_FAILED
+    terminal_freeze_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/terminal_freeze/terminal_validation_freeze.json
+  skill_version: 0.2.0-competition-rc7
+  formal_skill_version: 0.2.0-competition-rc7
+  skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+  formal_skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+  model: MODEL_ID_NOT_EXPOSED_BY_RUNTIME
+  reasoning: UNKNOWN
+  start_time: '2026-09-05T21:37:55+08:00'
+  freeze_time: '2026-09-05T22:37:38+08:00'
+  unlock_time: null
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  contamination_status: PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE
+  generalization_axis:
+  - SMALL_SAMPLE_MULTIVARIATE_REGRESSION
+  - COLOR_FEATURE_REPRESENTATION
+  - GROUPED_CROSS_VALIDATION
+  - DATASET_QUALITY_ASSESSMENT
+  - SAMPLE_SIZE_SENSITIVITY
+  - FEATURE_DIMENSION_ABLATION
+  generalizable_failures:
+  - failure_id: GAP-004C4-VALIDATION-001
+    classification: GENERALIZABLE_SKILL_FAILURE
+    summary: RC7 execute outputs cannot carry the controller-required authorized sealed-test
+      payload, so the actual completion chain blocks at GATE_FINALIZATION before handoff.
+    terminal_effect: C_TARGET_VALIDATION_FAILED
+  - failure_id: HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION
+    classification: GENERALIZABLE_SKILL_FAILURE
+    summary: The post-selection builder declared REQ2 held-out-test support although the selected
+      Run was DEVELOPMENT_GROUPED_OOS with test access NOT_AUTHORIZED/0 and
+      held_out_test_valid=false; the semantic Gate did not cross-bind the predicate.
+    terminal_effect: ADDITIONAL_BLOCKER_NO_TERMINAL_VERDICT_CHANGE
+  problem_specific_findings:
+  - finding_id: CUMCM-2017-C-DEVELOPMENT-SELECTION-001
+    classification: DEVELOPMENT_ONLY_NOT_FINAL_VALIDATION_CREDIT
+    summary: Frozen development evidence selected RIDGE_LINEAR for REQ1 and KERNEL_RBF_RIDGE
+      for REQ2/REQ3; all nine planned Runs and independent checks passed.
+  registration_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/registration/input_registration.json
+  pre_run_freeze:
+    freeze_id: CUMCM-2017-C-VALIDATION-003F-PRE-RUN-FREEZE-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze.json
+    sha256: 9c078468da856353a7104e6eb4a6deec273f1aae81f6537deedbfc840703940b
+    freeze_commit: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
+    delivery_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze_delivery.json
+    status: REMOTE_DELIVERED
+  validation_decision: C_TARGET_VALIDATION_FAILED
+  integrity_audit:
+    audit_id: AUDIT-CUMCM-2017-C-VALIDATION-003F-INTEGRITY-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/validation/fresh_integrity_audit.json
+    sha256: 57f682820e0280d510bc0468f2269f86fa5901fe19737cd54521c7dbbbaf63d3
+    status: CHALLENGE
+    challenge_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/validation/challenges/HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION.json
+    challenge_sha256: 140228ebd1c499c98319eff4ef663e428636d3ff634d1db72ad9318894e68cbf
+    verdict_preserved: C_TARGET_VALIDATION_FAILED
+  case_state: RUNNING_BLOCKED_NOT_READY_FOR_PAPER_HANDOFF
+  paper_dispatch_accepted: false
+  same_case_future_role: DEVELOPMENT_ONLY
+  terminal_freeze:
+    freeze_id: CUMCM-2017-C-VALIDATION-003F-TERMINAL-FREEZE-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/terminal_freeze/terminal_validation_freeze.json
+    sha256: 984ccfe2616769020443c4f873303f9d5f584793f8b865e3c3b1e159d316559a
+    payload_sha256: 5f840eb821c8e58215f276baf0e2be86c122f13f55690800cf5ea7886437ccf1
+    freeze_commit: 8bf82ebc56d00bbcfd756b9d3d2b77c7a35ffcd6
+    remote_sha: 8bf82ebc56d00bbcfd756b9d3d2b77c7a35ffcd6
+    delivery_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/terminal_freeze/terminal_validation_freeze_delivery.json
+    status: REMOTE_DELIVERED
+  fallback_from:
+    case_id: CUMCM-2018-C-VALIDATION-003
+    reason_code: C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE
+    preflight_path: evals/results/phase-004c4/fresh_validation/2018_input_preflight.json

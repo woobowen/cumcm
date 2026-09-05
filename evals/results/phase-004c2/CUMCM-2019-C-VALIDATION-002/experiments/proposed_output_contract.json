@@ -1,0 +1,39 @@
+{
+  "schema": "NATIVE_SELECTED_OUTPUT_CONTRACT_PLUS_CASE_EVIDENCE_V1",
+  "result_generation": "Only frozen execute produces SUCCESS output. This file has no numeric results.",
+  "primary_requirements": [
+    "REQ-Q1",
+    "REQ-Q2",
+    "REQ-Q3",
+    "REQ-Q4"
+  ],
+  "global_scope": "四问的假设情景建模与可复算局部证据；REQ-Q2机场和城市实测数据缺失，不能据此主张全部主问题完成或实际部署有效。",
+  "native_fields": [
+    "candidate_id",
+    "status",
+    "final_metrics",
+    "claim_scope",
+    "requirement_claims",
+    "figure_ready_data",
+    "uncertainty",
+    "limitations",
+    "robustness_evidence"
+  ],
+  "case_fields": [
+    "validation_metrics",
+    "empirical_data_available",
+    "empirical_requirement_satisfied",
+    "primary_completion",
+    "primary_requirement_status",
+    "hard_evidence_gaps",
+    "question_1",
+    "question_2",
+    "question_3",
+    "question_4",
+    "sealed_test_metrics_b64",
+    "sealed_test_payload_sha256"
+  ],
+  "primary_status_rule": "Q2=false and EMPIRICAL_EVIDENCE_INSUFFICIENT unless actual authorized observations exist; no observation substitution by simulations. Q1/Q3/Q4 completion is explicitly conditional model-deliverable scope.",
+  "claim_evidence_rule": "Each PRIMARY has a unique output-bound local Claim ID. Each local evidence list includes this Run's dynamic case-relative output path in addition to sources. The non-result probe references its own experiments path. Q2 local statement supports the data-gap finding, never a completed empirical solution. Aggregate scope retains that gap.",
+  "final_metrics_scope": "VALIDATION_SCENARIO_SUMMARY_NOT_TEST_METRICS"
+}

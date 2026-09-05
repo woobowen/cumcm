@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "diagnostic_id": "PHASE-004C3-RC6-HISTORICAL-DIAGNOSTIC-001",
+  "status": "PASS",
+  "classification": "READ_ONLY_DERIVED_NO_VALIDATION_CREDIT",
+  "checks": {
+    "2019_empirical_gap_is_pre_execution_block": true,
+    "2019_old_verdict_preserved": true,
+    "2019_policy_claim_rejected": true,
+    "2019_selected_policy_exposure_is_zero": true,
+    "2024_bounded_semantic_view_passes": true,
+    "2024_old_verdict_preserved": true,
+    "2024_v2_compatibility_passes": true,
+    "no_historical_workspace_write": true,
+    "no_new_model_run": true
+  },
+  "failed_checks": [],
+  "diagnostics": {
+    "2019_data_sufficiency": {
+      "status": "UNSATISFIABLE_WITH_CURRENT_INPUTS",
+      "reason_codes": [
+        "RC_SIMULATION_CANNOT_SUPPORT_EMPIRICAL_CLAIM"
+      ]
+    },
+    "2019_policy_claim": {
+      "status": "BLOCK",
+      "reason_codes": [
+        "RC_POLICY_CLAIM_NO_POLICY_EXPOSURE"
+      ]
+    },
+    "2019_priority_exposure": 0,
+    "2024_bounded_claim": {
+      "status": "PASS",
+      "reason_codes": []
+    },
+    "2024_legacy_compatibility": {
+      "status": "PASS",
+      "reason_codes": []
+    }
+  },
+  "source_hashes": {
+    "evals/results/phase-004c-c-validation/DECISION-C-TARGET-VALIDATION-004C.json": "b0f9b813d036ac7db11af0c810cd081b19f9af9430d6f1be25e60ced46fd8ac4",
+    "evals/results/phase-004c-c-validation/terminal_validation_freeze.json": "6e78a9c047b0c2673c17c1e9b055dfa342f681ca5aa86c7b789929aadd138373",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/data/data_audit.json": "09f266ff83e29333d1ecb7e9421dc66ba5de188ec4ea7eec4ab0af25283fcf71",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/runs/RUN-BASELINE_STATIC_FCFS-101/output.json": "7ceb3255ec6069a06e5b8a27dfecc7f284fc09eeeb3d8c839dc3595245560aca",
+    "evals/results/phase-004c2/CUMCM-2019-C-VALIDATION-002/validation/DECISION-C-TARGET-VALIDATION-004C2.json": "62b04b3654de11f95f1df12fb2bd0dfcad31d7901b192f68f33f062cb4adf588"
+  },
+  "historical_verdicts_changed": false,
+  "historical_files_written": [],
+  "new_model_runs": 0,
+  "validation_credit": false
+}

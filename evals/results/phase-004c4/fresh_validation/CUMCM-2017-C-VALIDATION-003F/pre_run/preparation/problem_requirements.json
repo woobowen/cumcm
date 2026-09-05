@@ -1,0 +1,201 @@
+{
+  "artifact_type": "problem_requirements",
+  "status": "PREPARED_NOT_ACCEPTED",
+  "content": {
+    "answer_access_status": "NOT_ACCESSED",
+    "case_id": "CUMCM-2017-C-VALIDATION-003F",
+    "contract_version": "requirement-evidence/v1",
+    "model_prior_exposure": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+    "primary_requirement_count": 3,
+    "requirements": [
+      {
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL",
+          "DERIVED_EMPIRICAL"
+        ],
+        "candidate_ids": [
+          "BASELINE_MEDIAN",
+          "RIDGE_LINEAR",
+          "KERNEL_RBF_RIDGE"
+        ],
+        "completion_rule": "ALL_FIVE_SUBSTANCES_HAVE_GROUPED_OOS_DIAGNOSTICS_AND_VECTOR_DATA_QUALITY_CRITERIA",
+        "data_sufficiency": "SUFFICIENT_WITH_LIMITATIONS",
+        "dependency_requirements": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "limitations": [
+          "工业碱各浓度档仅有一个观测，不能估计档内方差。",
+          "奶中尿素存在孤立的 5 档，原始附件未说明其与其余档位的尺度关系；保留原值且不得静默纠正。",
+          "附件未提供拍摄设备、光照、试纸批次或采集顺序。"
+        ],
+        "minimum_data_fields": [
+          "substance",
+          "concentration",
+          "R",
+          "G",
+          "B",
+          "H",
+          "S"
+        ],
+        "partial_completion_allowed": false,
+        "required_entity_scope": [
+          "组胺",
+          "溴酸钾",
+          "工业碱",
+          "硫酸铝钾",
+          "奶中尿素"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "OFFICIAL_2017_ATTACHMENT_STATIC_SCOPE"
+        ],
+        "requirement_id": "REQ-1-DATA1-RELATION-QUALITY",
+        "role": "PRIMARY",
+        "selected_output_types": [
+          "RELATIONSHIP_IDENTIFIABILITY_TABLE",
+          "DATA_QUALITY_SCORECARD",
+          "GROUPED_OOS_PREDICTIONS"
+        ],
+        "selection_metric": "REQ1_MACRO_GROUPED_NMAE",
+        "selection_mode": "PER_REQUIREMENT",
+        "selection_rule": "MEAN_PER_CANDIDATE_ACROSS_FROZEN_SEEDS_THEN_ARGMIN_THEN_CANDIDATE_ID",
+        "simulation_substitution_allowed": false,
+        "support_predicates": [
+          "all_five_substances_covered",
+          "provided_empirical_source_bound",
+          "same_concentration_replicate_leakage_absent",
+          "grouped_out_of_concentration_evaluation",
+          "relationship_status_uses_preregistered_rule",
+          "no_causal_or_optimality_claim"
+        ],
+        "text": "讨论 Data1 中 5 种物质的颜色读数与浓度关系能否由数据确定，并给出评价 5 组数据优劣的准则。"
+      },
+      {
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL",
+          "DERIVED_EMPIRICAL"
+        ],
+        "candidate_ids": [
+          "BASELINE_MEDIAN",
+          "RIDGE_LINEAR",
+          "KERNEL_RBF_RIDGE"
+        ],
+        "completion_rule": "FROZEN_GROUPED_OOS_MODEL_COMPARISON_PLUS_ONE_SHOT_HELD_OUT_ERROR_ANALYSIS",
+        "data_sufficiency": "SUFFICIENT_WITH_LIMITATIONS",
+        "dependency_requirements": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "limitations": [
+          "Data2 只有 7 个不同浓度档和 25 个观测。",
+          "同一浓度内的 replicate 不代表新的浓度档，不能跨 train/evaluation。",
+          "模型只支持附件所示二氧化硫、颜色量纲和浓度范围内的预测。"
+        ],
+        "minimum_data_fields": [
+          "concentration",
+          "R",
+          "G",
+          "B",
+          "H",
+          "S"
+        ],
+        "partial_completion_allowed": false,
+        "required_entity_scope": [
+          "二氧化硫"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "OFFICIAL_2017_ATTACHMENT_STATIC_SCOPE"
+        ],
+        "requirement_id": "REQ-2-DATA2-CONCENTRATION-MODEL",
+        "role": "PRIMARY",
+        "selected_output_types": [
+          "CONCENTRATION_PREDICTIONS",
+          "GROUPED_OOS_ERROR_ANALYSIS",
+          "FEASIBILITY_CHECKS"
+        ],
+        "selection_metric": "REQ2_GROUPED_MAE_PPM",
+        "selection_mode": "PER_REQUIREMENT",
+        "selection_rule": "MEAN_PER_CANDIDATE_ACROSS_FROZEN_SEEDS_THEN_ARGMIN_THEN_CANDIDATE_ID",
+        "simulation_substitution_allowed": false,
+        "support_predicates": [
+          "provided_empirical_source_bound",
+          "validation_boundary_frozen",
+          "held_out_test_accessed_once_after_selection",
+          "same_concentration_replicate_leakage_absent",
+          "finite_feasible_predictions",
+          "error_by_concentration_reported"
+        ],
+        "text": "对 Data2 建立颜色读数到物质浓度的数学模型，并给出模型误差分析。"
+      },
+      {
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL",
+          "DERIVED_EMPIRICAL"
+        ],
+        "candidate_ids": [
+          "BASELINE_MEDIAN",
+          "RIDGE_LINEAR",
+          "KERNEL_RBF_RIDGE"
+        ],
+        "completion_rule": "PREREGISTERED_TRAIN_ONLY_SAMPLE_SIZE_AND_ALL_FEATURE_SUBSET_DIMENSION_ABLATIONS",
+        "data_sufficiency": "SUFFICIENT_WITH_LIMITATIONS",
+        "dependency_requirements": [
+          "REQ-2-DATA2-CONCENTRATION-MODEL"
+        ],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "limitations": [
+          "数据量效应只能在现有 replicate 规模内评估，不能外推到大样本极限。",
+          "维度效应对固定候选、固定 split 和所给 5 个颜色变量有条件依赖。",
+          "ablation 是关联性敏感度，不是数据量或颜色维度的因果效应。"
+        ],
+        "minimum_data_fields": [
+          "concentration",
+          "R",
+          "G",
+          "B",
+          "H",
+          "S",
+          "replicate_group"
+        ],
+        "partial_completion_allowed": false,
+        "required_entity_scope": [
+          "二氧化硫"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "OFFICIAL_2017_ATTACHMENT_STATIC_SCOPE"
+        ],
+        "requirement_id": "REQ-3-SAMPLE-SIZE-FEATURE-DIMENSION",
+        "role": "PRIMARY",
+        "selected_output_types": [
+          "SAMPLE_SIZE_ABLATION_CURVE",
+          "FEATURE_DIMENSION_ABLATION_TABLE",
+          "PERTURBATION_SENSITIVITY"
+        ],
+        "selection_metric": "REQ2_GROUPED_MAE_PPM",
+        "selection_mode": "PER_REQUIREMENT",
+        "selection_rule": "INHERIT_EXACT_REQ2_SELECTED_CANDIDATE_AND_LOWEST_FROZEN_SEED",
+        "simulation_substitution_allowed": false,
+        "support_predicates": [
+          "sample_size_schedule_preregistered",
+          "all_feature_subsets_by_dimension_evaluated",
+          "evaluation_groups_held_fixed",
+          "test_not_used_for_ablation",
+          "req2_selected_run_binding_exact",
+          "no_causal_claim"
+        ],
+        "text": "探讨数据量和颜色维度对 Data2 浓度模型的影响。"
+      }
+    ]
+  }
+}
