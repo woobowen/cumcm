@@ -5,13 +5,13 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc5`
+Version: `0.2.0-competition-rc6`
 
 Capability: `COMPETITION_RC`
 
 Architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 
-Assurance: `PUBLIC_DETERMINISTIC_TWO_END_TO_END_SMOKES_AND_CAPTURED_CASE_EXECUTION`
+Assurance: `PUBLIC_DETERMINISTIC_REQUIREMENT_EVIDENCE_SELECTION_SEMANTIC_GATES`
 
 用于数学建模竞赛中从题目接收到冻结 Final Run、Claim 验证和结构化论文组交接的工作。默认中文输出。不要用于最终论文文笔、图形美化、LaTeX/Word 排版或提交打包；这些交给论文组。本 RC 未通过 sealed Stage 1、Stage 2、大规模消融、外部效度、生产适用性或成本评估。
 
@@ -44,12 +44,21 @@ Assurance: `PUBLIC_DETERMINISTIC_TWO_END_TO_END_SMOKES_AND_CAPTURED_CASE_EXECUTI
 
 每阶段都必须有 accepted、content-addressed artifact 和确定性 Gate。文件存在或 Agent 声称 done 均不等于完成。具体 inputs、outputs、拒绝、STALE、恢复和 next stage 见对应 workflow。
 
+`DATA_SUFFICIENCY_PREFLIGHT` 是第 5 阶段内的强制子 Gate：在 `DATA_AUDIT` 后、候选建模和
+`EXPERIMENT_DESIGN` 前逐项判定 primary requirement；它不新增第 15 阶段。只有
+`SUFFICIENT` 或受限的 `PARTIAL` 可继续，`ACQUISITION_REQUIRED` 必须先获取并复检，
+`UNSATISFIABLE_WITH_CURRENT_INPUTS` 与 `UNKNOWN` 均 fail closed。
+
 ## 四个核心 Gate
 
 - `GATE_WORKFLOW_STATE`：只允许 `modeling_orchestrator` 按固定序列推进独立 case state；严格校验字段、完整 history/evidence chain，并在每次推进前自动检查 STALE；`RUN_COMPLETED != RUN_VALIDATED`。
 - `GATE_REPRODUCIBILITY_MANIFEST`：实验计划冻结 `data_audit` 的 required input hash registry；每个 Run 的实际 input 集合必须与其精确相等，并绑定实际存在且 hash 匹配的 code/output files、真实 Git commit、该 commit 中逐个 code blob、聚合 hash、配置、seed、argv、allowlisted environment、outcome、failure/supersession、trusted capture/freeze；FAILED/PARTIAL/SUPERSEDED/STALE 保留但不排名。
 - `GATE_LEAKAGE_SAFE_COMPARISON`：候选、metric、seed 和 split 先冻结；每个候选×seed 必须恰有一条 attempt，baseline 必须成功；test 只在选择后授权访问一次；bool、字符串、NaN、Inf 和非成功 attempt 不得评分。
 - `GATE_CLAIM_EVIDENCE_AND_HANDOFF`：稳健性结果必须由选中 Run output 携带定量 perturbation evidence，并精确绑定 selected model/run/input/config/output/decision；每个 requirement 有不同的 output-bound Claim ID 与 current evidence IDs；handoff 的 trace、Run、Claim、metric、reproduction 必须回连 case evidence chain，并通过 `modeling-to-paper/v1`。
+- `GATE_REQUIREMENT_EVIDENCE_SELECTION_SEMANTICS`：`requirement-evidence/v1` 区分经验、派生、
+  仿真、理论、假设、专家判断和未知来源；`data-sufficiency/v1` 在昂贵执行前验证字段、时间、
+  实体、provenance 与 acquisition；`requirement-selection/v1` 支持 `GLOBAL_JOINT`、
+  `PER_REQUIREMENT`、`JOINT_PORTFOLIO`；`claim-evidence/v3` 用结构化谓词限制 Claim 强度。
 
 任一 Gate 返回 BLOCK/STALE/REJECTED 时不得推进。Orchestrator 和 Auditor 都无权覆盖 Gate。
 
@@ -63,7 +72,20 @@ Assurance: `PUBLIC_DETERMINISTIC_TWO_END_TO_END_SMOKES_AND_CAPTURED_CASE_EXECUTI
 
 `init` 创建 `problem/ research/ data/{raw,processed}/ models/ experiments/ runs/ results/ evidence/ handoff/ state/`，以及根级 `case_state.json`。模板在 `templates/`；不能另建冲突 schema。
 
-集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、`preflight-output`、`execute`、`seal-run`、`manifest`、`claim-check`、`compare-check`、`stale-check`、`finalize`、`handoff`、`smoke`。在实验计划冻结前，先于 `MODELS_PROPOSED` 状态用 `preflight-output` 校验 `experiments/` 内明确标记为非结果、不可排名、数值仅为占位符的 contract probe；它必须覆盖每个已接受 requirement，并具有 Final、Claim、figure-ready、uncertainty、limitation 与定量 robustness 所需的通用结构，且不得登记为 Run 或结果。`execute` 复用同一校验器检查每个成功 output，只运行实验计划中已冻结、与 Git blob 一致的 case-local Python 文件，并自动捕获起止时间、exit、stdout/stderr/output hash；任何非零 exit 或 output contract failure 都必须带显式 failure reason并保留原 output，允许 `seal-run` 形成 FAILED manifest。`seal-run` 重验 capture 后才写 manifest，调用方不得手填 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
+集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、
+`data-sufficiency`、`preflight-output`、`execute`、`seal-run`、`manifest`、`compare-check`、
+`selection-check`、`claim-check`、`semantic-check`、`stale-check`、`finalize`、`handoff`、
+`smoke`。在候选建模前先运行 `data-sufficiency`；在 Final 前运行 `selection-check`；在
+handoff 前运行 `semantic-check`。在实验计划冻结前，先于 `MODELS_PROPOSED` 状态用
+`preflight-output` 校验 `experiments/` 内明确标记为非结果、不可排名、数值仅为占位符的
+contract probe；它必须覆盖每个已接受 requirement，并具有 Final、Claim、figure-ready、
+uncertainty、limitation 与定量 robustness 所需的通用结构，且不得登记为 Run 或结果。
+`execute` 复用同一校验器检查每个成功 output，只运行实验计划中已冻结、与 Git blob 一致的
+case-local Python 文件，并自动捕获起止时间、exit、stdout/stderr/output hash；任何非零
+exit 或 output contract failure 都必须带显式 failure reason 并保留原 output，允许
+`seal-run` 形成 FAILED manifest。`seal-run` 重验 capture 后才写 manifest，调用方不得手填
+`trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定
+非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
 
 ## 四个角色
 
@@ -84,7 +106,9 @@ Final Run 必须是 current、SUCCESS、可复现且由比较/稳健性 Gate 选
 
 ## Claim contract v2
 
-新 case 使用 `claim-evidence/v2`，字段见 Claim 模板及 `workflows/claim_evidence_validation.md`。
+新 case 保留 `claim-evidence/v2` 的 hash lineage，并以独立 `claim-evidence/v3` semantic bundle
+记录逐 requirement 类型、证据等级、选中 Run/output/metric/comparator、支持谓词、不确定性、
+反证、限制和强度；字段见模板及 `workflows/claim_evidence_validation.md`。
 总体 Claim 独立于任一局部 Claim；primary coverage 和 supporting Claim IDs 按集合精确匹配，
 `REQUIREMENT_UNION` 的 scope 必须逐项等于输出已捕获的局部 scope。总体 statement 仍绑定
 captured Final scope，但不以它与局部文本是否相等判断支持。任一输入、输出、Run 或 decision

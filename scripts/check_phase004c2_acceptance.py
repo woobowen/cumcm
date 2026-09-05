@@ -12,14 +12,16 @@ CASE_ID = "CUMCM-2019-C-VALIDATION-002"
 
 def assess(version_file, release, block, decision, state):
     errors = []
-    mismatch = version_file.strip() != release["skill_version"]
+    successor = state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+    historical_version = block.get("version_file_value") if successor else version_file.strip()
+    mismatch = historical_version != release["skill_version"]
     historical_blocker_reported = "RC5_VERSION_FILE_MISMATCH" in state.get("blockers", []) or any(
         "RC5_VERSION_FILE_MISMATCH" in item for item in state.get("risks", [])
     )
     if mismatch and not (
         block["finding_id"] == "RC5_VERSION_FILE_MISMATCH"
         and block["status"] == "BLOCK_RELEASE_ACCEPTANCE"
-        and block["version_file_value"] == version_file.strip()
+        and block["version_file_value"] == historical_version
         and block["declared_release_version"] == release["skill_version"]
         and decision["release_acceptance"] == "BLOCKED_VERSION_METADATA"
         and historical_blocker_reported

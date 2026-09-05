@@ -179,6 +179,57 @@ def complete(case_root, test_field):
         core.write_json(case_root / core.ARTIFACT_PATHS[key], core.artifact(key, content))
 
     accepted("model_comparison", comparison)
+    requirements = core.read_artifact(case_root, "problem_requirements")["content"]["requirements"]
+    requirement_ids = [
+        item["requirement_id"] for item in requirements if item.get("role", "PRIMARY") == "PRIMARY"
+    ]
+    selected_output_ids = [f"OUT-{requirement_id}" for requirement_id in requirement_ids]
+    accepted(
+        "requirement_selection",
+        {
+            "contract_version": "requirement-selection/v1",
+            "requirements": [
+                {
+                    "requirement_id": requirement_id,
+                    "selection_metric": plan["metric"],
+                    "selection_direction": plan["metric_direction"],
+                    "dependency_requirements": [],
+                    "cross_requirement_constraints": [],
+                }
+                for requirement_id in requirement_ids
+            ],
+            "runs": [
+                {
+                    "run_id": run_id,
+                    "outcome": "SUCCESS",
+                    "sealed": True,
+                    "current": True,
+                    "supported_requirement_ids": requirement_ids,
+                    "selected_output_ids": selected_output_ids,
+                    "metric_ids": [plan["metric"]],
+                    "input_hash": manifest["input_hash"],
+                    "scenario_hash": manifest["input_hash"],
+                    "policy_exposure": 1,
+                }
+            ],
+            "selection": {
+                "selection_mode": "GLOBAL_JOINT",
+                "requirement_to_run_map": {
+                    requirement_id: [run_id] for requirement_id in requirement_ids
+                },
+                "requirement_to_output_map": {
+                    requirement_id: [f"OUT-{requirement_id}"] for requirement_id in requirement_ids
+                },
+                "shared_input_hashes": [manifest["input_hash"]],
+                "shared_scenario_hashes": [manifest["input_hash"]],
+                "compatibility_checks": ["INPUT", "SCENARIO", "CONSTRAINTS"],
+                "cross_requirement_constraints": [],
+                "aggregate_objective": "DECLARED_SINGLE_METRIC",
+                "tradeoff_rule": "GLOBAL_JOINT_SELECTION",
+                "limitations": [],
+            },
+        },
+    )
     robustness = {
         field: manifest[field]
         for field in ("configuration_hash", "decision_hash", "input_hash", "output_hash")
@@ -203,7 +254,6 @@ def complete(case_root, test_field):
         "status": "FINAL_CANDIDATE",
     }
     accepted("final_result", final)
-    requirements = core.read_artifact(case_root, "problem_requirements")["content"]["requirements"]
     claims = output["requirement_claims"]
     aggregate = {
         "claim_id": "CLAIM-AGGREGATE-DERIVE",
@@ -229,6 +279,63 @@ def complete(case_root, test_field):
         "supported_requirement_ids": core.required_requirement_ids(case_root),
     }
     accepted("claim_evidence", core.derive_claim_contract(aggregate, requirements))
+    semantic_claims = []
+    semantic_outputs = []
+    requirement_claim_ids = {}
+    for requirement_id in requirement_ids:
+        claim_record = claims[requirement_id]
+        output_id = f"OUT-{requirement_id}"
+        requirement_claim_ids[requirement_id] = claim_record["claim_id"]
+        semantic_outputs.append({"output_id": output_id, "metric_ids": [plan["metric"]]})
+        semantic_claims.append(
+            {
+                "claim_id": claim_record["claim_id"],
+                "requirement_id": requirement_id,
+                "claim_type": "DESCRIPTIVE",
+                "statement": claim_record["claim_text"],
+                "scope": {"fields": [], "time": [], "entities": []},
+                "evidence_class": "PROVIDED_EMPIRICAL",
+                "selected_run_ids": [run_id],
+                "selected_output_ids": [output_id],
+                "metric_ids": [plan["metric"]],
+                "comparator_ids": [],
+                "support_predicates": {"scope_bounded": True},
+                "uncertainty": output["uncertainty"],
+                "counter_evidence": [],
+                "limitations": output["limitations"],
+                "claim_strength": "BOUNDED",
+                "status": "SUPPORTED",
+            }
+        )
+    accepted(
+        "semantic_claim_support",
+        {
+            "contract_version": "claim-evidence/v3",
+            "claims": semantic_claims,
+            "runs": [
+                {
+                    "run_id": run_id,
+                    "outcome": "SUCCESS",
+                    "sealed": True,
+                    "current": True,
+                    "supported_requirement_ids": requirement_ids,
+                    "selected_output_ids": selected_output_ids,
+                    "metric_ids": [plan["metric"]],
+                    "input_hash": manifest["input_hash"],
+                    "scenario_hash": manifest["input_hash"],
+                    "policy_exposure": 1,
+                }
+            ],
+            "outputs": semantic_outputs,
+            "comparators": [],
+            "validation": {"counter_evidence_detected": False},
+            "aggregate": {
+                "primary_requirement_ids": requirement_ids,
+                "supported_requirement_ids": list(reversed(requirement_ids)),
+                "requirement_claim_ids": requirement_claim_ids,
+            },
+        },
+    )
     events = []
     try:
         while core.load_state(case_root)["state"] != "EVIDENCE_VALIDATED":

@@ -28,8 +28,15 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
     monkeypatch.setattr(controller, "load_core", lambda: core)
     case = tmp_path / "case"
     core.initialize_case(case, "COMPLETION-TOY-001", "general")
-    synthetic._common_intake(core, case, [{"requirement_id": "REQ-1"}], ["toy mean"])
     core.write_json(case / "data/raw/toy.json", [2, 4])
+    synthetic._common_intake(
+        core,
+        case,
+        [{"requirement_id": "REQ-1"}],
+        ["toy mean"],
+        source_hash=core.file_hash(case / "data/raw/toy.json"),
+        source_fields=[],
+    )
 
     def accepted(key, value):
         synthetic._accepted(core, case, key, value)

@@ -360,7 +360,16 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         skill_text = skills[0].read_text(encoding="utf-8")
         if ARCHITECTURE not in skill_text or (
             RC4 not in skill_text
-            and not (repair and "Version: `0.2.0-competition-rc5`" in skill_text)
+            and not (
+                repair
+                and any(
+                    f"Version: `{version}`" in skill_text
+                    for version in (
+                        "0.2.0-competition-rc5",
+                        "0.2.0-competition-rc6",
+                    )
+                )
+            )
         ):
             errors.append("TARGET_FORMAL_SKILL_IDENTITY_INVALID")
 

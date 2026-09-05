@@ -18,7 +18,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0-competition-rc5"
+VERSION = "0.2.0-competition-rc6"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -98,11 +98,14 @@ ARTIFACT_PATHS = {
     "source_ledger": "research/source_ledger.json",
     "assumptions_and_symbols": "models/assumptions_and_symbols.json",
     "data_audit": "data/data_audit.json",
+    "data_sufficiency": "data/data_sufficiency.json",
     "model_candidates": "models/model_candidates.json",
     "experiment_plan": "experiments/experiment_plan.json",
     "model_comparison": "results/model_comparison.json",
+    "requirement_selection": "results/requirement_selection.json",
     "robustness_analysis": "results/robustness.json",
     "claim_evidence": "evidence/claim_evidence.json",
+    "semantic_claim_support": "evidence/semantic_claim_support.json",
     "final_result": "results/final_result.json",
     "modeling_to_paper_handoff": "handoff/modeling_to_paper.json",
 }
@@ -221,6 +224,582 @@ def passed(code: str) -> GateResult:
 
 def blocked(*codes: str, status: str = "BLOCK") -> GateResult:
     return GateResult(status, tuple(sorted(set(codes))))
+
+
+def contract_result(status: str, *reason_codes: str) -> dict[str, Any]:
+    """Return the small, deterministic result shared by the RC6 pure gates."""
+    return {"status": status, "reason_codes": sorted(set(reason_codes))}
+
+
+EMPIRICAL_EVIDENCE_CLASSES = {
+    "PROVIDED_EMPIRICAL",
+    "ACQUIRED_EMPIRICAL",
+    "DERIVED_EMPIRICAL",
+}
+EVIDENCE_CLASSES = EMPIRICAL_EVIDENCE_CLASSES | {
+    "SIMULATION",
+    "THEORETICAL",
+    "ASSUMPTION",
+    "EXPERT_JUDGMENT",
+    "UNKNOWN",
+}
+
+
+def _string_set(value: Any) -> set[str] | None:
+    if not isinstance(value, list) or not all(isinstance(item, str) and item for item in value):
+        return None
+    return set(value)
+
+
+def _source_provenance_complete(source: dict[str, Any]) -> bool:
+    required_text = (
+        "source_id",
+        "provenance",
+        "authority",
+        "retrieval_time",
+        "license_or_usage_status",
+        "hash",
+        "freshness",
+    )
+    return (
+        all(isinstance(source.get(key), str) and source.get(key) for key in required_text)
+        and source.get("license_or_usage_status") not in {"UNKNOWN", "PROHIBITED"}
+        and HEX64.fullmatch(str(source.get("hash", ""))) is not None
+        and all(
+            _string_set(source.get(key)) is not None
+            for key in ("geographic_scope", "time_scope", "entity_scope", "field_schema")
+        )
+        and isinstance(source.get("limitations"), list)
+    )
+
+
+def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
+    """Evaluate requirement-level data sufficiency before expensive modeling.
+
+    This is intentionally a pure gate.  It distinguishes evidence class, source
+    provenance and scope, and never promotes UNKNOWN or simulation evidence to
+    empirical support.
+    """
+    original = copy.deepcopy(payload)
+    if not isinstance(payload, dict):
+        return contract_result("BLOCK", "RC_DATA_SUFFICIENCY_INPUT_INVALID")
+    requirements = payload.get("requirements")
+    sources = payload.get("sources")
+    plans = payload.get("acquisition_plans")
+    if not isinstance(requirements, list) or not requirements or not isinstance(sources, list):
+        return contract_result("BLOCK", "RC_DATA_SUFFICIENCY_INPUT_INVALID")
+    if not isinstance(plans, list):
+        return contract_result("BLOCK", "RC_DATA_ACQUISITION_PLAN_INVALID")
+
+    codes: set[str] = set()
+    requirement_ids: set[str] = set()
+    incomplete: list[tuple[dict[str, Any], str]] = []
+    acquisition_required = False
+    for requirement in requirements:
+        if not isinstance(requirement, dict):
+            codes.add("RC_DATA_SUFFICIENCY_INPUT_INVALID")
+            continue
+        requirement_id = requirement.get("requirement_id")
+        if (
+            not isinstance(requirement_id, str)
+            or not requirement_id
+            or requirement_id in requirement_ids
+        ):
+            codes.add("RC_DATA_SUFFICIENCY_INPUT_INVALID")
+            continue
+        requirement_ids.add(requirement_id)
+        if requirement.get("role", "PRIMARY") != "PRIMARY":
+            continue
+        required_classes = _string_set(requirement.get("required_evidence_classes"))
+        allowed_classes = _string_set(requirement.get("allowed_evidence_classes"))
+        required_fields = _string_set(requirement.get("minimum_data_fields"))
+        required_time = _string_set(requirement.get("required_time_scope"))
+        required_entities = _string_set(requirement.get("required_entity_scope"))
+        if (
+            not required_classes
+            or allowed_classes is None
+            or not required_classes <= EVIDENCE_CLASSES
+            or not allowed_classes <= EVIDENCE_CLASSES
+            or not required_classes <= allowed_classes
+            or required_fields is None
+            or required_time is None
+            or required_entities is None
+            or not isinstance(requirement.get("external_data_allowed"), bool)
+            or not isinstance(requirement.get("external_data_required"), bool)
+            or not isinstance(requirement.get("simulation_substitution_allowed"), bool)
+            or not isinstance(requirement.get("partial_completion_allowed"), bool)
+            or _string_set(requirement.get("dependency_requirements")) is None
+            or not isinstance(requirement.get("completion_rule"), str)
+            or not requirement.get("completion_rule")
+        ):
+            codes.add("RC_DATA_SUFFICIENCY_INPUT_INVALID")
+            continue
+
+        relevant = [
+            item
+            for item in sources
+            if isinstance(item, dict)
+            and requirement_id in (item.get("supports_requirement_ids") or [])
+        ]
+        if any(not _source_provenance_complete(item) for item in relevant):
+            codes.add("RC_DATA_PROVENANCE_INCOMPLETE")
+            incomplete.append((requirement, "PROVENANCE"))
+            continue
+
+        class_matches = [
+            item
+            for item in relevant
+            if item.get("evidence_class") in required_classes
+            and item.get("evidence_class") in allowed_classes
+        ]
+        if not class_matches:
+            observed_classes = {item.get("evidence_class") for item in relevant}
+            empirical_required = bool(required_classes & EMPIRICAL_EVIDENCE_CLASSES)
+            if empirical_required and "SIMULATION" in observed_classes:
+                codes.add("RC_SIMULATION_CANNOT_SUPPORT_EMPIRICAL_CLAIM")
+                incomplete.append((requirement, "EVIDENCE_CLASS"))
+                continue
+            if relevant:
+                codes.add("RC_REQUIREMENT_EVIDENCE_CLASS_INSUFFICIENT")
+                incomplete.append((requirement, "EVIDENCE_CLASS"))
+                continue
+
+            matching_plans = [
+                item
+                for item in plans
+                if isinstance(item, dict) and item.get("requirement_id") == requirement_id
+            ]
+            external = requirement.get("external_data_required") is True
+            if external and not matching_plans:
+                codes.add("RC_DATA_ACQUISITION_PLAN_MISSING")
+                incomplete.append((requirement, "PLAN_MISSING"))
+            elif external and any(item.get("status") == "PLANNED" for item in matching_plans):
+                acquisition_required = True
+                incomplete.append((requirement, "ACQUISITION"))
+            else:
+                codes.add("RC_REQUIREMENT_EMPIRICAL_DATA_MISSING")
+                incomplete.append((requirement, "DATA_MISSING"))
+            continue
+
+        fields_ok = any(
+            required_fields <= (_string_set(item.get("field_schema")) or set())
+            for item in class_matches
+        )
+        time_ok = any(
+            required_time <= (_string_set(item.get("time_scope")) or set())
+            for item in class_matches
+        )
+        entities_ok = any(
+            required_entities <= (_string_set(item.get("entity_scope")) or set())
+            for item in class_matches
+        )
+        if not fields_ok:
+            codes.add("RC_REQUIREMENT_MINIMUM_FIELDS_INSUFFICIENT")
+        if not time_ok:
+            codes.add("RC_REQUIREMENT_TIME_SCOPE_INSUFFICIENT")
+        if not entities_ok:
+            codes.add("RC_REQUIREMENT_ENTITY_SCOPE_INSUFFICIENT")
+        if not (fields_ok and time_ok and entities_ok):
+            incomplete.append((requirement, "SCOPE"))
+
+    if payload != original:
+        return contract_result("BLOCK", "RC_INPUT_MUTATION_DETECTED")
+    hard_block = {
+        "RC_DATA_SUFFICIENCY_INPUT_INVALID",
+        "RC_DATA_PROVENANCE_INCOMPLETE",
+        "RC_DATA_ACQUISITION_PLAN_INVALID",
+        "RC_DATA_ACQUISITION_PLAN_MISSING",
+    }
+    if codes & hard_block:
+        return contract_result("BLOCK", *codes)
+    if not incomplete:
+        return contract_result("SUFFICIENT")
+    if payload.get("aggregate_completion_claimed") is True:
+        return contract_result("BLOCK", "RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE")
+    if acquisition_required and not (codes - {"RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE"}):
+        return contract_result("ACQUISITION_REQUIRED")
+    if any(item.get("partial_completion_allowed") is True for item, _ in incomplete) and len(
+        incomplete
+    ) < len(
+        [
+            item
+            for item in requirements
+            if isinstance(item, dict) and item.get("role", "PRIMARY") == "PRIMARY"
+        ]
+    ):
+        return contract_result("PARTIAL", "RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE")
+    return contract_result("UNSATISFIABLE_WITH_CURRENT_INPUTS", *codes)
+
+
+def validate_requirement_selection(payload: Any) -> dict[str, Any]:
+    """Validate global, per-requirement, or compatible portfolio selection."""
+    original = copy.deepcopy(payload)
+    if not isinstance(payload, dict):
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+    requirements = payload.get("requirements")
+    runs = payload.get("runs")
+    selection = payload.get("selection")
+    if (
+        not isinstance(requirements, list)
+        or not requirements
+        or not isinstance(runs, list)
+        or not isinstance(selection, dict)
+    ):
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+    mode = selection.get("selection_mode")
+    if mode not in {"GLOBAL_JOINT", "PER_REQUIREMENT", "JOINT_PORTFOLIO"}:
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_MODE_INVALID")
+    run_map = selection.get("requirement_to_run_map")
+    output_map = selection.get("requirement_to_output_map")
+    if not isinstance(run_map, dict) or not isinstance(output_map, dict):
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+    run_index = {
+        item.get("run_id"): item
+        for item in runs
+        if isinstance(item, dict) and isinstance(item.get("run_id"), str)
+    }
+    codes: set[str] = set()
+    selected_runs: list[dict[str, Any]] = []
+    requirement_ids: list[str] = []
+    for requirement in requirements:
+        if not isinstance(requirement, dict) or not isinstance(
+            requirement.get("requirement_id"), str
+        ):
+            codes.add("RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+            continue
+        requirement_id = requirement["requirement_id"]
+        requirement_ids.append(requirement_id)
+        selected_run_ids = run_map.get(requirement_id)
+        selected_output_ids = output_map.get(requirement_id)
+        if not isinstance(selected_run_ids, list) or not selected_run_ids:
+            codes.add("RC_REQUIREMENT_SELECTED_RUN_MISSING")
+            continue
+        if not isinstance(selected_output_ids, list) or not selected_output_ids:
+            codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_MISSING")
+            continue
+        requirement_runs = [run_index.get(run_id) for run_id in selected_run_ids]
+        if any(item is None for item in requirement_runs):
+            codes.add("RC_REQUIREMENT_SELECTED_RUN_MISSING")
+            continue
+        semantic_mismatch = any(
+            isinstance(item, dict)
+            and requirement_id not in (item.get("supported_requirement_ids") or [])
+            for item in requirement_runs
+        )
+        for item in requirement_runs:
+            assert isinstance(item, dict)
+            selected_runs.append(item)
+            if (
+                item.get("outcome") != "SUCCESS"
+                or item.get("sealed") is not True
+                or item.get("current") is not True
+            ):
+                codes.add("RC_REQUIREMENT_SELECTED_RUN_INVALID_STATUS")
+            if requirement_id not in (item.get("supported_requirement_ids") or []):
+                codes.add("RC_REQUIREMENT_SELECTED_RUN_SEMANTIC_MISMATCH")
+            if (
+                requirement.get("selection_metric") not in (item.get("metric_ids") or [])
+                and not semantic_mismatch
+            ):
+                codes.add("RC_SELECTION_METRIC_REQUIREMENT_MISMATCH")
+        if semantic_mismatch:
+            continue
+        available_outputs = {
+            output_id
+            for item in requirement_runs
+            if isinstance(item, dict)
+            for output_id in (item.get("selected_output_ids") or [])
+        }
+        if not set(selected_output_ids) <= available_outputs:
+            codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_MISSING")
+
+    if mode == "GLOBAL_JOINT":
+        global_run_ids = {
+            run_id for ids in run_map.values() if isinstance(ids, list) for run_id in ids
+        }
+        if len(global_run_ids) != 1:
+            codes.add("RC_GLOBAL_SELECTION_REQUIREMENT_COVERAGE_INSUFFICIENT")
+        else:
+            global_run = run_index.get(next(iter(global_run_ids)))
+            expected_outputs = {
+                output_id
+                for ids in output_map.values()
+                if isinstance(ids, list)
+                for output_id in ids
+            }
+            if (
+                not isinstance(global_run, dict)
+                or not set(requirement_ids)
+                <= set(global_run.get("supported_requirement_ids") or [])
+                or not expected_outputs <= set(global_run.get("selected_output_ids") or [])
+            ):
+                codes.discard("RC_REQUIREMENT_SELECTED_OUTPUT_MISSING")
+                codes.add("RC_GLOBAL_SELECTION_REQUIREMENT_COVERAGE_INSUFFICIENT")
+    if mode == "JOINT_PORTFOLIO":
+        unique_runs = {item.get("run_id"): item for item in selected_runs}.values()
+        input_hashes = {item.get("input_hash") for item in unique_runs}
+        scenario_hashes = {item.get("scenario_hash") for item in unique_runs}
+        constraints = selection.get("cross_requirement_constraints")
+        conflict = not isinstance(constraints, list) or any(
+            not isinstance(item, dict) or item.get("status") == "CONFLICT"
+            for item in constraints or []
+        )
+        if len(input_hashes) != 1 or len(scenario_hashes) != 1 or conflict:
+            codes.add("RC_PORTFOLIO_CROSS_REQUIREMENT_INCONSISTENT")
+    if payload != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
+def validate_semantic_claim_support(payload: Any) -> dict[str, Any]:
+    """Check bounded, machine-verifiable predicates for one semantic Claim."""
+    original = copy.deepcopy(payload)
+    if not isinstance(payload, dict) or not isinstance(payload.get("claim"), dict):
+        return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_INPUT_INVALID")
+    claim = payload["claim"]
+    runs = payload.get("runs")
+    outputs = payload.get("outputs")
+    comparators = payload.get("comparators")
+    validation = payload.get("validation")
+    if (
+        not isinstance(runs, list)
+        or not isinstance(outputs, list)
+        or not isinstance(comparators, list)
+        or not isinstance(validation, dict)
+    ):
+        return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_INPUT_INVALID")
+    codes: set[str] = set()
+    claim_type = claim.get("claim_type")
+    predicates = claim.get("support_predicates")
+    if claim_type not in {
+        "DESCRIPTIVE",
+        "EMPIRICAL",
+        "PREDICTIVE",
+        "COMPARATIVE",
+        "POLICY_EVALUATION",
+        "FEASIBILITY",
+        "OPTIMALITY",
+        "CAUSAL",
+        "SIMULATION_CONDITIONAL",
+    } or not isinstance(predicates, dict):
+        codes.add("RC_SEMANTIC_CLAIM_INPUT_INVALID")
+        predicates = {}
+    run_ids = claim.get("selected_run_ids")
+    output_ids = claim.get("selected_output_ids")
+    metric_ids = claim.get("metric_ids")
+    run_index = {item.get("run_id"): item for item in runs if isinstance(item, dict)}
+    output_index = {item.get("output_id"): item for item in outputs if isinstance(item, dict)}
+    selected_runs = [run_index.get(item) for item in run_ids] if isinstance(run_ids, list) else []
+    selected_outputs = (
+        [output_index.get(item) for item in output_ids] if isinstance(output_ids, list) else []
+    )
+    if not selected_runs or any(item is None for item in selected_runs):
+        codes.add("RC_REQUIREMENT_SELECTED_RUN_MISSING")
+    if not selected_outputs or any(item is None for item in selected_outputs):
+        codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_MISSING")
+    if isinstance(metric_ids, list) and any(
+        not set(metric_ids) <= set(item.get("metric_ids") or [])
+        for item in selected_outputs
+        if isinstance(item, dict)
+    ):
+        codes.add("RC_CLAIM_METRIC_BINDING_MISMATCH")
+    if claim_type == "EMPIRICAL" and claim.get("evidence_class") not in EMPIRICAL_EVIDENCE_CLASSES:
+        codes.add("RC_SIMULATION_CANNOT_SUPPORT_EMPIRICAL_CLAIM")
+    if (
+        claim_type == "SIMULATION_CONDITIONAL"
+        and predicates.get("registered_assumptions_bound") is not True
+    ):
+        codes.add("RC_SIMULATION_CONDITIONAL_ASSUMPTIONS_MISSING")
+    comparator_ids = claim.get("comparator_ids")
+    comparator_index = {
+        item.get("comparator_id"): item for item in comparators if isinstance(item, dict)
+    }
+    if claim_type in {"COMPARATIVE", "POLICY_EVALUATION"} and (
+        not isinstance(comparator_ids, list)
+        or not comparator_ids
+        or any(item not in comparator_index for item in comparator_ids)
+    ):
+        code = (
+            "RC_POLICY_CLAIM_COMPARATOR_MISSING"
+            if claim_type == "POLICY_EVALUATION"
+            else "RC_COMPARATIVE_CLAIM_COMPARATOR_MISSING"
+        )
+        codes.add(code)
+    if claim_type == "COMPARATIVE" and (
+        predicates.get("comparable_inputs") is not True
+        or predicates.get("common_metric") is not True
+    ):
+        codes.add("RC_COMPARATIVE_CLAIM_NOT_COMPARABLE")
+    if claim_type == "POLICY_EVALUATION":
+        if not selected_runs or any(
+            not isinstance(item, dict)
+            or not isinstance(item.get("policy_exposure"), (int, float))
+            or isinstance(item.get("policy_exposure"), bool)
+            or item.get("policy_exposure", 0) <= 0
+            for item in selected_runs
+        ):
+            codes.add("RC_POLICY_CLAIM_NO_POLICY_EXPOSURE")
+        if not all(
+            predicates.get(key) is True for key in ("policy_executed", "policy_exposure_positive")
+        ):
+            codes.add("RC_POLICY_CLAIM_NO_POLICY_EXPOSURE")
+        if not all(predicates.get(key) is True for key in ("benefit_recorded", "cost_recorded")):
+            codes.add("RC_POLICY_CLAIM_BENEFIT_COST_MISSING")
+    if (
+        claim_type == "FEASIBILITY"
+        and predicates.get("independent_constraint_recalculation") is not True
+    ):
+        codes.add("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
+    if (
+        claim_type == "OPTIMALITY"
+        and claim.get("claim_strength") == "GLOBAL_OPTIMUM"
+        and predicates.get("global_optimality_certificate") is not True
+    ):
+        codes.add("RC_OPTIMALITY_CERTIFICATE_MISSING")
+    if claim_type == "CAUSAL" and predicates.get("causal_identification_design") is not True:
+        codes.add("RC_CAUSAL_IDENTIFICATION_MISSING")
+    if claim_type == "PREDICTIVE" and not all(
+        predicates.get(key) is True for key in ("validation_boundary_frozen", "held_out_test_valid")
+    ):
+        codes.add("RC_PREDICTIVE_VALIDATION_MISSING")
+    if validation.get("counter_evidence_detected") is True and not claim.get("counter_evidence"):
+        codes.add("RC_CLAIM_COUNTER_EVIDENCE_UNRESOLVED")
+    aggregate = payload.get("aggregate")
+    if aggregate is not None and (
+        not isinstance(aggregate, dict)
+        or set(aggregate.get("primary_requirement_ids") or [])
+        != set(aggregate.get("supported_requirement_ids") or [])
+        or set((aggregate.get("requirement_claim_ids") or {}).keys())
+        != set(aggregate.get("primary_requirement_ids") or [])
+    ):
+        codes.add("RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE")
+    if (
+        claim.get("status") != "SUPPORTED"
+        or not isinstance(claim.get("limitations"), list)
+        or not isinstance(claim.get("scope"), dict)
+    ):
+        codes.add("RC_SEMANTIC_CLAIM_INPUT_INVALID")
+    if payload != original:
+        codes.add("RC_INPUT_MUTATION_DETECTED")
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
+def validate_evidence_compatibility(payload: Any) -> dict[str, Any]:
+    """Preserve deterministic RC4/RC5 artifact behavior under the RC6 gates."""
+    original = copy.deepcopy(payload)
+    if not isinstance(payload, dict):
+        return contract_result("BLOCK", "RC_EVIDENCE_COMPATIBILITY_INPUT_INVALID")
+    outcomes = payload.get("run_outcomes")
+    if not isinstance(outcomes, list) or any(item != "SUCCESS" for item in outcomes):
+        return contract_result("BLOCK", "RC_REQUIREMENT_SELECTED_RUN_INVALID_STATUS")
+    if payload.get("handoff_status") == "PARTIAL":
+        return contract_result("PARTIAL", "RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE")
+    if payload.get("handoff_status") != "COMPLETE":
+        return contract_result("BLOCK", "RC_EVIDENCE_COMPATIBILITY_INPUT_INVALID")
+    if payload != original:
+        return contract_result("BLOCK", "RC_INPUT_MUTATION_DETECTED")
+    return contract_result("PASS")
+
+
+DATA_SUFFICIENCY_STATUSES = {
+    "SUFFICIENT",
+    "ACQUISITION_REQUIRED",
+    "PARTIAL",
+    "UNSATISFIABLE_WITH_CURRENT_INPUTS",
+    "UNKNOWN",
+}
+DATA_ASSESSMENT_FIELDS = {
+    "requirement_id",
+    "data_sufficiency_status",
+    "missing_fields",
+    "missing_entities",
+    "missing_time_scope",
+    "candidate_sources",
+    "acquisition_cost",
+    "acquisition_time",
+    "allowed_substitutions",
+    "forbidden_substitutions",
+    "affected_downstream_stages",
+}
+
+
+def validate_data_sufficiency_record(
+    record: Any,
+    *,
+    requirements: Any | None = None,
+    sources: Any | None = None,
+) -> dict[str, Any]:
+    """Validate the persisted v1 preflight and its requirement-level explanations."""
+    if not isinstance(record, dict) or record.get("contract_version") != "data-sufficiency/v1":
+        return contract_result("BLOCK", "RC_DATA_SUFFICIENCY_RECORD_INVALID")
+    if requirements is not None and record.get("requirements") != requirements:
+        return contract_result("BLOCK", "RC_DATA_SUFFICIENCY_REQUIREMENT_BINDING_MISMATCH")
+    if sources is not None and record.get("sources") != sources:
+        return contract_result("BLOCK", "RC_DATA_SUFFICIENCY_SOURCE_BINDING_MISMATCH")
+    outcome = evaluate_data_sufficiency(record)
+    assessments = record.get("requirement_assessments")
+    primary_ids = {
+        item.get("requirement_id")
+        for item in record.get("requirements", [])
+        if isinstance(item, dict) and item.get("role", "PRIMARY") == "PRIMARY"
+    }
+    if (
+        not isinstance(assessments, list)
+        or len(assessments) != len(primary_ids)
+        or {item.get("requirement_id") for item in assessments if isinstance(item, dict)}
+        != primary_ids
+        or any(
+            not isinstance(item, dict)
+            or set(item) != DATA_ASSESSMENT_FIELDS
+            or item.get("data_sufficiency_status") not in DATA_SUFFICIENCY_STATUSES
+            or any(
+                not isinstance(item.get(field), list)
+                for field in (
+                    "missing_fields",
+                    "missing_entities",
+                    "missing_time_scope",
+                    "candidate_sources",
+                    "allowed_substitutions",
+                    "forbidden_substitutions",
+                    "affected_downstream_stages",
+                )
+            )
+            or not isinstance(item.get("acquisition_cost"), str)
+            or not isinstance(item.get("acquisition_time"), str)
+            for item in assessments
+        )
+    ):
+        return contract_result("BLOCK", "RC_DATA_SUFFICIENCY_ASSESSMENT_INVALID")
+    return outcome
+
+
+def validate_semantic_claim_bundle(record: Any) -> dict[str, Any]:
+    """Validate every Claim in a persisted claim-evidence/v3 semantic bundle."""
+    if not isinstance(record, dict) or record.get("contract_version") != "claim-evidence/v3":
+        return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_BUNDLE_INVALID")
+    claims = record.get("claims")
+    if not isinstance(claims, list) or not claims:
+        return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_BUNDLE_INVALID")
+    codes: set[str] = set()
+    statuses: list[str] = []
+    for claim in claims:
+        outcome = validate_semantic_claim_support(
+            {
+                "claim": claim,
+                "runs": record.get("runs"),
+                "outputs": record.get("outputs"),
+                "comparators": record.get("comparators"),
+                "validation": record.get("validation"),
+                "aggregate": record.get("aggregate"),
+            }
+        )
+        statuses.append(str(outcome.get("status")))
+        codes.update(outcome.get("reason_codes", []))
+    return (
+        contract_result("BLOCK", *codes)
+        if any(item != "PASS" for item in statuses)
+        else contract_result("PASS")
+    )
 
 
 def reject_constant(value: str) -> None:
@@ -2259,6 +2838,32 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
     ):
         raise ValueError("RC_HANDOFF_OUTPUT_EVIDENCE_CONTRACT_INVALID")
     formulas = normalize_handoff_formulas(formulas_raw, requirements)
+    rc6_validation: dict[str, Any] = {}
+    data_quality_report = copy.deepcopy(audit)
+    data_sufficiency_path = case_root / ARTIFACT_PATHS["data_sufficiency"]
+    selection_path = case_root / ARTIFACT_PATHS["requirement_selection"]
+    semantic_path = case_root / ARTIFACT_PATHS["semantic_claim_support"]
+    if data_sufficiency_path.is_file():
+        data_sufficiency = read_artifact(case_root, "data_sufficiency")["content"]
+        sufficiency_result = validate_data_sufficiency_record(
+            data_sufficiency,
+            requirements=requirements,
+            sources=sources,
+        )
+        if sufficiency_result.get("status") not in {"SUFFICIENT", "PARTIAL"}:
+            raise ValueError("RC_HANDOFF_DATA_SUFFICIENCY_INVALID")
+        data_quality_report["data_sufficiency"] = data_sufficiency
+        rc6_validation["data_sufficiency_status"] = sufficiency_result["status"]
+    if selection_path.is_file():
+        requirement_selection = read_artifact(case_root, "requirement_selection")["content"]
+        if validate_requirement_selection(requirement_selection).get("status") != "PASS":
+            raise ValueError("RC_HANDOFF_REQUIREMENT_SELECTION_INVALID")
+        rc6_validation["requirement_selection"] = requirement_selection["selection"]
+    if semantic_path.is_file():
+        semantic_claim_support = read_artifact(case_root, "semantic_claim_support")["content"]
+        if validate_semantic_claim_bundle(semantic_claim_support).get("status") != "PASS":
+            raise ValueError("RC_HANDOFF_SEMANTIC_CLAIM_SUPPORT_INVALID")
+        rc6_validation["semantic_claim_support"] = semantic_claim_support
     return {
         "contract_version": "modeling-to-paper/v1",
         "problem_requirements": requirements,
@@ -2270,7 +2875,7 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
             "case_kind": case_kind,
             "raw_files": sorted(audit.get("raw_data_hashes", audit["data_hashes"])),
         },
-        "data_quality_report": audit,
+        "data_quality_report": data_quality_report,
         "assumptions": assumptions["assumptions"],
         "symbols": assumptions["symbols"],
         "formulas": formulas,
@@ -2287,6 +2892,7 @@ def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, 
         "result_tables": [{"table_id": "MODEL_COMPARISON", "rows": comparison["attempts"]}],
         "figure_ready_data": figures,
         "validation_results": {
+            **rc6_validation,
             "comparison_decision_hash": final["decision_hash"],
             "aggregate_claim": {
                 "aggregate_claim_id": aggregate["claim_id"],
@@ -3111,6 +3717,18 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             check=check,
         )
     if current == "DATA_AUDITED":
+        requirements = read_artifact(case_root, "problem_requirements")["content"].get(
+            "requirements"
+        )
+        sources = read_artifact(case_root, "source_ledger")["content"].get("sources")
+        sufficiency = read_artifact(case_root, "data_sufficiency")["content"]
+        sufficiency_result = validate_data_sufficiency_record(
+            sufficiency,
+            requirements=requirements,
+            sources=sources,
+        )
+        if sufficiency_result.get("status") not in {"SUFFICIENT", "PARTIAL"}:
+            raise ValueError(";".join(sufficiency_result.get("reason_codes", [])))
         candidates = read_artifact(case_root, "model_candidates")["content"].get("candidates")
         baselines = (
             sum(bool(item.get("baseline")) for item in candidates if isinstance(item, dict))
@@ -3124,7 +3742,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             state,
             "MODELS_PROPOSED",
             "GATE_MODEL_PORTFOLIO",
-            [ARTIFACT_PATHS["model_candidates"]],
+            [ARTIFACT_PATHS["data_sufficiency"], ARTIFACT_PATHS["model_candidates"]],
             check=check,
         )
     if current == "MODELS_PROPOSED":
@@ -3241,6 +3859,10 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         )
         if not result.accepted:
             raise ValueError(";".join(result.reason_codes))
+        selection = read_artifact(case_root, "requirement_selection")["content"]
+        selection_result = validate_requirement_selection(selection)
+        if selection_result.get("status") != "PASS":
+            raise ValueError(";".join(selection_result.get("reason_codes", [])))
         robustness = read_artifact(case_root, "robustness_analysis")["content"]
         robustness_result = validate_robustness(
             robustness,
@@ -3254,7 +3876,11 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             state,
             "ROBUSTNESS_VALIDATED",
             "GATE_COMPARISON_AND_ROBUSTNESS",
-            [ARTIFACT_PATHS["model_comparison"], ARTIFACT_PATHS["robustness_analysis"]],
+            [
+                ARTIFACT_PATHS["model_comparison"],
+                ARTIFACT_PATHS["requirement_selection"],
+                ARTIFACT_PATHS["robustness_analysis"],
+            ],
             check=check,
         )
     if current == "ROBUSTNESS_VALIDATED":
@@ -3290,12 +3916,20 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
         )
         if not result.accepted:
             raise ValueError(";".join(result.reason_codes))
+        semantic = read_artifact(case_root, "semantic_claim_support")["content"]
+        semantic_result = validate_semantic_claim_bundle(semantic)
+        if semantic_result.get("status") != "PASS":
+            raise ValueError(";".join(semantic_result.get("reason_codes", [])))
         return record_transition(
             case_root,
             state,
             "EVIDENCE_VALIDATED",
             "GATE_CLAIM_EVIDENCE",
-            [ARTIFACT_PATHS["claim_evidence"], str(manifest_path.relative_to(case_root))],
+            [
+                ARTIFACT_PATHS["claim_evidence"],
+                ARTIFACT_PATHS["semantic_claim_support"],
+                str(manifest_path.relative_to(case_root)),
+            ],
             check=check,
         )
     if current == "EVIDENCE_VALIDATED":
@@ -3442,6 +4076,19 @@ def build_parser() -> argparse.ArgumentParser:
     claim = subparsers.add_parser("claim-check", help="检查 Claim 精确绑定")
     claim.add_argument("--case-root", type=Path, required=True)
     claim.add_argument("--path", type=Path)
+    data_sufficiency = subparsers.add_parser(
+        "data-sufficiency", help="检查 requirement-level 数据与来源充分性"
+    )
+    data_sufficiency.add_argument("--case-root", type=Path, required=True)
+    data_sufficiency.add_argument("--path", type=Path)
+    selection = subparsers.add_parser(
+        "selection-check", help="检查逐 requirement 或联合 portfolio 选择"
+    )
+    selection.add_argument("--case-root", type=Path, required=True)
+    selection.add_argument("--path", type=Path)
+    semantic = subparsers.add_parser("semantic-check", help="检查 claim-evidence/v3 结构化支持谓词")
+    semantic.add_argument("--case-root", type=Path, required=True)
+    semantic.add_argument("--path", type=Path)
     compare = subparsers.add_parser("compare-check", help="检查无泄漏比较")
     compare.add_argument("--case-root", type=Path, required=True)
     compare.add_argument("--path", type=Path)
@@ -3544,6 +4191,71 @@ def main(argv: list[str] | None = None) -> int:
                     case_root=args.case_root,
                     trusted_freezes=trusted_freezes(args.case_root),
                 ),
+            )
+        if args.command == "data-sufficiency":
+            path = args.path or Path(ARTIFACT_PATHS["data_sufficiency"])
+            value = load_json(path if path.is_absolute() else args.case_root / path)
+            if isinstance(value, dict) and "content" in value:
+                wrapper_result = validate_artifact(value, "data_sufficiency")
+                if not wrapper_result.accepted:
+                    return command_result("data-sufficiency", wrapper_result)
+                value = value.get("content")
+            requirements = read_artifact(args.case_root, "problem_requirements")["content"].get(
+                "requirements"
+            )
+            sources = read_artifact(args.case_root, "source_ledger")["content"].get("sources")
+            outcome = validate_data_sufficiency_record(
+                value,
+                requirements=requirements,
+                sources=sources,
+            )
+            accepted = outcome.get("status") in {"SUFFICIENT", "PARTIAL"}
+            return emit(
+                {
+                    "command": "data-sufficiency",
+                    "accepted": accepted,
+                    "final": False,
+                    **outcome,
+                },
+                EXIT_OK if accepted else EXIT_GATE,
+            )
+        if args.command == "selection-check":
+            path = args.path or Path(ARTIFACT_PATHS["requirement_selection"])
+            value = load_json(path if path.is_absolute() else args.case_root / path)
+            if isinstance(value, dict) and "content" in value:
+                wrapper_result = validate_artifact(value, "requirement_selection")
+                if not wrapper_result.accepted:
+                    return command_result("selection-check", wrapper_result)
+                value = value.get("content")
+            outcome = validate_requirement_selection(value)
+            accepted = outcome.get("status") == "PASS"
+            return emit(
+                {
+                    "command": "selection-check",
+                    "accepted": accepted,
+                    "final": False,
+                    **outcome,
+                },
+                EXIT_OK if accepted else EXIT_GATE,
+            )
+        if args.command == "semantic-check":
+            path = args.path or Path(ARTIFACT_PATHS["semantic_claim_support"])
+            value = load_json(path if path.is_absolute() else args.case_root / path)
+            if isinstance(value, dict) and "content" in value:
+                wrapper_result = validate_artifact(value, "semantic_claim_support")
+                if not wrapper_result.accepted:
+                    return command_result("semantic-check", wrapper_result)
+                value = value.get("content")
+            outcome = validate_semantic_claim_bundle(value)
+            accepted = outcome.get("status") == "PASS"
+            return emit(
+                {
+                    "command": "semantic-check",
+                    "accepted": accepted,
+                    "final": False,
+                    **outcome,
+                },
+                EXIT_OK if accepted else EXIT_GATE,
             )
         if args.command == "compare-check":
             path = args.path or Path(ARTIFACT_PATHS["model_comparison"])

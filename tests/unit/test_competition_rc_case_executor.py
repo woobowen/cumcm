@@ -40,7 +40,25 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         "problem_requirements",
         {
             "case_id": "EXECUTOR-GENERIC-001",
-            "requirements": [{"requirement_id": "REQ-1", "text": "fit"}],
+            "contract_version": "requirement-evidence/v1",
+            "requirements": [
+                {
+                    "requirement_id": "REQ-1",
+                    "text": "fit",
+                    "role": "PRIMARY",
+                    "required_evidence_classes": ["PROVIDED_EMPIRICAL"],
+                    "allowed_evidence_classes": ["PROVIDED_EMPIRICAL"],
+                    "minimum_data_fields": ["x"],
+                    "required_time_scope": ["SCOPE"],
+                    "required_entity_scope": ["ENTITY"],
+                    "external_data_allowed": False,
+                    "external_data_required": False,
+                    "simulation_substitution_allowed": False,
+                    "partial_completion_allowed": False,
+                    "dependency_requirements": [],
+                    "completion_rule": "ALL_REQUIRED_EVIDENCE",
+                }
+            ],
         },
     )
     case_cli.advance_once(case_root)
@@ -60,7 +78,25 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         case_root,
         "source_ledger",
         {
-            "sources": [{"source_id": "SRC-1"}],
+            "contract_version": "requirement-evidence/v1",
+            "sources": [
+                {
+                    "source_id": "SRC-1",
+                    "supports_requirement_ids": ["REQ-1"],
+                    "evidence_class": "PROVIDED_EMPIRICAL",
+                    "provenance": "FIRST_PARTY_FIXTURE",
+                    "authority": "TEST_OWNER",
+                    "retrieval_time": "FROZEN",
+                    "license_or_usage_status": "ALLOWED",
+                    "geographic_scope": [],
+                    "time_scope": ["SCOPE"],
+                    "entity_scope": ["ENTITY"],
+                    "field_schema": ["x"],
+                    "hash": raw_hash,
+                    "freshness": "CURRENT_FOR_SCOPE",
+                    "limitations": [],
+                }
+            ],
             "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
         },
     )
@@ -79,6 +115,35 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         {"candidate_id": "INVALID", "baseline": False},
     ]
     accepted(case_cli, case_root, "model_candidates", {"candidates": candidates})
+    accepted(
+        case_cli,
+        case_root,
+        "data_sufficiency",
+        {
+            "contract_version": "data-sufficiency/v1",
+            "requirements": case_cli.read_artifact(case_root, "problem_requirements")["content"][
+                "requirements"
+            ],
+            "sources": case_cli.read_artifact(case_root, "source_ledger")["content"]["sources"],
+            "acquisition_plans": [],
+            "aggregate_completion_claimed": False,
+            "requirement_assessments": [
+                {
+                    "requirement_id": "REQ-1",
+                    "data_sufficiency_status": "SUFFICIENT",
+                    "missing_fields": [],
+                    "missing_entities": [],
+                    "missing_time_scope": [],
+                    "candidate_sources": ["SRC-1"],
+                    "acquisition_cost": "NONE",
+                    "acquisition_time": "NONE",
+                    "allowed_substitutions": [],
+                    "forbidden_substitutions": ["SIMULATION"],
+                    "affected_downstream_stages": [],
+                }
+            ],
+        },
+    )
     case_cli.advance_once(case_root)
 
     model_relative = "models/generic_model.py"

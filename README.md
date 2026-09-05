@@ -84,8 +84,10 @@ The case-neutral Claim implementation passed the frozen tests within two revisio
 Post-decision audit found an unresolved release blocker: the frozen Skill VERSION file still says
 RC4 while the runner, SKILL.md and manifest say RC5. Release acceptance is BLOCKED_VERSION_METADATA;
 the frozen Skill cannot be changed in this episode.
-The one Skill runs the hash-frozen `0.2.0-competition-rc5` implementation, K1, `COMPETITION_RC`;
-its inconsistent VERSION label is preserved as audited evidence.
+The historical RC5 freeze remains release-blocked by its inconsistent VERSION label and is
+preserved as audited evidence. Phase 004C3 is testing the sole K1 `COMPETITION_RC` Skill candidate
+`0.2.0-competition-rc6`; it is not a formal release until its consistency/regression bundle and
+read-only release audit pass and the resulting freeze is remotely verified.
 Release truth: `evals/results/phase-004c2/rc5_release.json`; execution record:
 `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
 The 2024 terminal verdict and original artifacts remain unchanged.

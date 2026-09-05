@@ -29,7 +29,7 @@ def case_cli(skill_root: Path):
 
 def test_skill_is_competition_rc_and_has_one_workflow_set(skill_root: Path) -> None:
     skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
-    assert "Version: `0.2.0-competition-rc5`" in skill
+    assert "Version: `0.2.0-competition-rc6`" in skill
     assert "COMPETITION_RC" in skill
     assert len(list((skill_root / "workflows").glob("*.md"))) == 14
     assert len([path for path in (skill_root / "agents").glob("*.md")]) == 4
@@ -51,10 +51,13 @@ def test_cli_help_and_dry_run_are_structured(skill_root: Path, tmp_path: Path) -
         "init",
         "status",
         "validate",
+        "data-sufficiency",
         "preflight-output",
         "manifest",
         "claim-check",
         "compare-check",
+        "selection-check",
+        "semantic-check",
         "stale-check",
         "finalize",
         "handoff",
@@ -163,7 +166,7 @@ def test_state_boundary_rejects_formal_or_second_truth(case_cli) -> None:
 
 def test_templates_are_json_and_handoff_fields_match_contract(skill_root: Path) -> None:
     templates = list((skill_root / "templates").glob("*.json"))
-    assert len(templates) == 14
+    assert len(templates) == 17
     for path in templates:
         json.loads(path.read_text(encoding="utf-8"))
     handoff = json.loads(

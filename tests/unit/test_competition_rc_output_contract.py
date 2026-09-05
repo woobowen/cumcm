@@ -159,6 +159,8 @@ def test_preflight_cli_is_read_only_and_restricted_to_models_proposed(
 ) -> None:
     case_root = tmp_path / "case"
     case_cli.initialize_case(case_root, "GENERIC-PREFLIGHT-001", "prediction")
+    raw_path = case_root / "data/raw/generic.json"
+    case_cli.write_json(raw_path, [{"x": 1}], overwrite=False)
 
     def accepted(key: str, content: dict) -> None:
         case_cli.write_json(
@@ -169,10 +171,29 @@ def test_preflight_cli_is_read_only_and_restricted_to_models_proposed(
     accepted(
         "problem_requirements",
         {
+            "contract_version": "requirement-evidence/v1",
             "case_id": "GENERIC-PREFLIGHT-001",
             "requirements": [
-                {"requirement_id": "REQ-N-1", "text": "estimate"},
-                {"requirement_id": "REQ-N-2", "text": "stress"},
+                {
+                    "requirement_id": requirement_id,
+                    "text": text,
+                    "role": "PRIMARY",
+                    "required_evidence_classes": ["PROVIDED_EMPIRICAL"],
+                    "allowed_evidence_classes": ["PROVIDED_EMPIRICAL"],
+                    "minimum_data_fields": ["x"],
+                    "required_time_scope": ["SCOPE"],
+                    "required_entity_scope": ["ENTITY"],
+                    "external_data_allowed": False,
+                    "external_data_required": False,
+                    "simulation_substitution_allowed": False,
+                    "partial_completion_allowed": False,
+                    "dependency_requirements": [],
+                    "completion_rule": "ALL_REQUIRED_EVIDENCE",
+                }
+                for requirement_id, text in (
+                    ("REQ-N-1", "estimate"),
+                    ("REQ-N-2", "stress"),
+                )
             ],
         },
     )
@@ -181,11 +202,30 @@ def test_preflight_cli_is_read_only_and_restricted_to_models_proposed(
     accepted("research_plan", {"mode": "FIRST_RUN", "external_search": False})
     accepted(
         "source_ledger",
-        {"sources": [{"source_id": "SRC-N-1"}], "answer_access_status": "NOT_ACCESSED"},
+        {
+            "contract_version": "requirement-evidence/v1",
+            "sources": [
+                {
+                    "source_id": "SRC-N-1",
+                    "supports_requirement_ids": ["REQ-N-1", "REQ-N-2"],
+                    "evidence_class": "PROVIDED_EMPIRICAL",
+                    "provenance": "FIRST_PARTY_FIXTURE",
+                    "authority": "TEST_OWNER",
+                    "retrieval_time": "FROZEN",
+                    "license_or_usage_status": "ALLOWED",
+                    "geographic_scope": [],
+                    "time_scope": ["SCOPE"],
+                    "entity_scope": ["ENTITY"],
+                    "field_schema": ["x"],
+                    "hash": case_cli.file_hash(raw_path),
+                    "freshness": "CURRENT_FOR_SCOPE",
+                    "limitations": [],
+                }
+            ],
+            "answer_access_status": "NOT_ACCESSED",
+        },
     )
     case_cli.advance_once(case_root)
-    raw_path = case_root / "data/raw/generic.json"
-    case_cli.write_json(raw_path, [{"x": 1}], overwrite=False)
     accepted("assumptions_and_symbols", {"assumptions": ["bounded"]})
     accepted(
         "data_audit",
@@ -202,6 +242,34 @@ def test_preflight_cli_is_read_only_and_restricted_to_models_proposed(
                 {"candidate_id": "GENERIC-BASELINE", "baseline": True},
                 {"candidate_id": "GENERIC-CANDIDATE", "baseline": False},
             ]
+        },
+    )
+    accepted(
+        "data_sufficiency",
+        {
+            "contract_version": "data-sufficiency/v1",
+            "requirements": case_cli.read_artifact(case_root, "problem_requirements")["content"][
+                "requirements"
+            ],
+            "sources": case_cli.read_artifact(case_root, "source_ledger")["content"]["sources"],
+            "acquisition_plans": [],
+            "aggregate_completion_claimed": False,
+            "requirement_assessments": [
+                {
+                    "requirement_id": requirement_id,
+                    "data_sufficiency_status": "SUFFICIENT",
+                    "missing_fields": [],
+                    "missing_entities": [],
+                    "missing_time_scope": [],
+                    "candidate_sources": ["SRC-N-1"],
+                    "acquisition_cost": "NONE",
+                    "acquisition_time": "NONE",
+                    "allowed_substitutions": [],
+                    "forbidden_substitutions": ["SIMULATION"],
+                    "affected_downstream_stages": [],
+                }
+                for requirement_id in ("REQ-N-1", "REQ-N-2")
+            ],
         },
     )
     case_cli.advance_once(case_root)

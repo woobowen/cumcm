@@ -1,1 +1,26 @@
-{"artifact_type":"problem_requirements","status":"DRAFT","content":{"case_id":"CASE-ID","requirements":[{"requirement_id":"REQ-1","text":"可测试要求","role":"PRIMARY"}]}}
+{
+  "artifact_type": "problem_requirements",
+  "status": "DRAFT",
+  "content": {
+    "contract_version": "requirement-evidence/v1",
+    "case_id": "CASE-ID",
+    "requirements": [
+      {
+        "requirement_id": "REQ-1",
+        "text": "可测试要求",
+        "role": "PRIMARY",
+        "required_evidence_classes": ["PROVIDED_EMPIRICAL"],
+        "allowed_evidence_classes": ["PROVIDED_EMPIRICAL", "ACQUIRED_EMPIRICAL"],
+        "minimum_data_fields": [],
+        "required_time_scope": [],
+        "required_entity_scope": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "simulation_substitution_allowed": false,
+        "partial_completion_allowed": false,
+        "dependency_requirements": [],
+        "completion_rule": "ALL_REQUIRED_EVIDENCE"
+      }
+    ]
+  }
+}

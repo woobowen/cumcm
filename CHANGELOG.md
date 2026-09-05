@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0-competition-rc6 — 2026-09-05 (candidate; release audit pending)
+
+- Reconciles the project and sole formal Skill at `0.3.0-competition-rc6` /
+  `0.2.0-competition-rc6` while retaining the immutable RC5 release-block record.
+- Adds requirement-level evidence/source classes, acquisition-aware data-sufficiency preflight,
+  global/per-requirement/portfolio selection, and bounded `claim-evidence/v3` semantic predicates.
+- Preserves the 14-stage K1 architecture, four roles, v1/v2 derived compatibility, capture/seal,
+  leakage, hash lineage, failure retention and STALE behavior. RC6 is not released until the
+  frozen tests, historical diagnostics/regressions and independent read-only audit all pass.
+
 ## 0.3.0-competition-rc5 — 2026-09-05 (release acceptance blocked)
 
 - Froze the intended formal Skill 0.2.0-competition-rc5 implementation with claim-evidence/v2: independent aggregate identity, exact primary coverage, per-requirement lineage and preserved fail-closed evidence gates.

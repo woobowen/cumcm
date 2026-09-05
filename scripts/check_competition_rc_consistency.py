@@ -125,6 +125,14 @@ def evaluate() -> dict[str, Any]:
         and state.get("active_skill_version") == "0.2.0-competition-rc5-blocked"
         and "Version: `0.2.0-competition-rc5`" in skill
     )
+    rc6_candidate_staged = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+        and state.get("technical_adjudication_status") == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+        and state.get("active_skill_version") == "0.2.0-competition-rc5-blocked"
+        and state.get("blockers") == ["RC5_VERSION_FILE_MISMATCH"]
+        and "Version: `0.2.0-competition-rc6`" in skill
+        and (ROOT / "VERSION").read_text(encoding="utf-8").strip() == "0.3.0-competition-rc6"
+    )
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -337,6 +345,7 @@ def evaluate() -> dict[str, Any]:
             or (rc4_candidate_staged and "0.2.0-competition-rc4" in skill)
             or rc5_candidate_staged
             or rc5_blocked_successor
+            or rc6_candidate_staged
         )
         and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
         "formal_skill_capability": "Capability: `COMPETITION_RC`" in skill,

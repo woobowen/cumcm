@@ -150,6 +150,13 @@ def check() -> dict[str, Any]:
         == "297cad0a29c659b18484d4f3b67d69a942ad415c"
     )
     active_version = state.get("active_skill_version")
+    rc6_candidate_staged = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
+        and state.get("technical_adjudication_status") == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+        and active_version == "0.2.0-competition-rc5-blocked"
+        and state.get("blockers") == ["RC5_VERSION_FILE_MISMATCH"]
+        and "Version: `0.2.0-competition-rc6`" in skill_text
+    )
     if active_version not in ACTIVE_VERSIONS:
         errors.append("PROJECT_STATE_SKILL_VERSION_MISMATCH")
     if state.get("skill_capability_status") != "COMPETITION_RC":
@@ -164,6 +171,7 @@ def check() -> dict[str, Any]:
             active_version == "0.2.0-competition-rc5-blocked"
             and "Version: `0.2.0-competition-rc5`" in skill_text
         )
+        or rc6_candidate_staged
     ):
         errors.append("FORMAL_SKILL_VERSION_MISMATCH")
     if EXPECTED_VERSION not in changelog:
