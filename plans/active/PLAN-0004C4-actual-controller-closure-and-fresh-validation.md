@@ -211,3 +211,8 @@ Progress:
 - Fresh-worker schema audit corrected the preliminary Data2 observation count from 26 (which had
   included the header) to 25. The seven concentration levels, file hash and all raw bytes are
   unchanged; this metadata correction occurred before any model Run or pre-run freeze.
+- The answer-sealed 2017 C pre-run freeze is remote-verified at
+  `8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda` with freeze SHA-256
+  `9c078468da856353a7104e6eb4a6deec273f1aae81f6537deedbfc840703940b`; the case workspace is
+  `RUNNING` with zero Runs, and formal execution remains locked until the successor delivery
+  receipt is itself remotely delivered.

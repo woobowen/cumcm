@@ -927,8 +927,15 @@ cases:
   official_empirical_attachment_count: 2
   answer_access_status: SEALED
   reference_unlock: LOCKED
-  first_run_status: NOT_STARTED
-  first_run_freeze: null
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2017-C-VALIDATION-003F-PRE-RUN-FREEZE-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze.json
+    sha256: 9c078468da856353a7104e6eb4a6deec273f1aae81f6537deedbfc840703940b
+    subject_commit: ffe890dc4afbd8a9daa54a2284d77a42bbf987f2
+    freeze_commit: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
+    remote_sha: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
+    status: REMOTE_DELIVERED
   skill_version: 0.2.0-competition-rc7
   formal_skill_version: 0.2.0-competition-rc7
   skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
@@ -950,9 +957,15 @@ cases:
   generalizable_failures: []
   problem_specific_findings: []
   registration_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/registration/input_registration.json
-  pre_run_freeze: null
+  pre_run_freeze:
+    freeze_id: CUMCM-2017-C-VALIDATION-003F-PRE-RUN-FREEZE-001
+    path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze.json
+    sha256: 9c078468da856353a7104e6eb4a6deec273f1aae81f6537deedbfc840703940b
+    freeze_commit: 8cbc0c5702ba7c7d0ef536dd4b4eced7e6d5dcda
+    delivery_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/pre_run/pre_run_validation_freeze_delivery.json
+    status: REMOTE_DELIVERED
   validation_decision: null
-  case_state: NOT_STARTED
+  case_state: RUNNING
   paper_dispatch_accepted: false
   fallback_from:
     case_id: CUMCM-2018-C-VALIDATION-003
