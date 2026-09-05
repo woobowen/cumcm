@@ -1,0 +1,1227 @@
+{
+  "approved_by": [
+    "MACHINE_TECHNICAL_GATES"
+  ],
+  "assumptions": [
+    {
+      "assumption_id": "A1",
+      "challenge": "Correlated batches, abandonment and matching bottlenecks violate the waiting model.",
+      "requirements": [
+        "REQ-Q1",
+        "REQ-Q2"
+      ],
+      "text": "Passenger parties follow a piecewise-constant NHPP induced by assumed flight-exit pulses; taxis ahead depart one per party in FCFS order."
+    },
+    {
+      "assumption_id": "A2",
+      "challenge": "Congestion, shifts and risk aversion can alter the decision.",
+      "requirements": [
+        "REQ-Q1"
+      ],
+      "text": "Taxi destination mix is independent of queue waiting; city net opportunity cost is constant, A/B compared relative to future city earning."
+    },
+    {
+      "assumption_id": "A3",
+      "challenge": "These are assumed design conditions, not surveyed facts; real geometry or violations invalidate safety applicability.",
+      "requirements": [
+        "REQ-Q3"
+      ],
+      "text": "Q3 has two 35m lanes, 7m bay pitch, protected holding and fenced crossings; passenger access and all vehicle motion are mutually exclusive."
+    },
+    {
+      "assumption_id": "A4",
+      "challenge": "Insufficient demand/supply or correlated boarding changes achieved throughput.",
+      "requirements": [
+        "REQ-Q3"
+      ],
+      "text": "Q3 saturated passenger and taxi queues give a capacity bound; batch boarding durations are independent lognormal variables."
+    },
+    {
+      "assumption_id": "A5",
+      "challenge": "Outside drivers, fraud and refusal require operating controls outside this simulation.",
+      "requirements": [
+        "REQ-Q4"
+      ],
+      "text": "Q4 closed fleet returns empty, destinations exogenous, credits cannot be sold or split and expire after one return visit."
+    },
+    {
+      "assumption_id": "A6",
+      "challenge": "Actual calibration and external validation cannot be replaced by simulation.",
+      "requirements": [
+        "REQ-Q2"
+      ],
+      "text": "Every numeric scenario value is an explicit modeling assumption; no real airport/urban taxi observations are supplied."
+    }
+  ],
+  "claim_evidence": {
+    "CLAIM-2019C-Q1": {
+      "claim_kind": "REQUIREMENT",
+      "claim_text": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+      "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+      "contradiction_status": "NONE",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "evidence_artifact_ids": [
+        "models/model_candidates.json",
+        "models/assumptions_and_symbols.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+      ],
+      "evidence_status": "CURRENT",
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "limitations": [
+        "REQ-Q2 missing actual airport and city data is non-compensable and prevents all-primary completion.",
+        "Flight cohorts, taxi demand, fares, speeds and geometry are assumptions; no named-airport estimates.",
+        "Q1 assumes independent NHPP party arrivals, FCFS taxis and linear city opportunity cost; feedback and abandonment excluded.",
+        "Q3 optimization is finite registered geometry only, saturated queues; real pedestrian safety needs surveyed geometry and site approval.",
+        "Q4 priorities cannot remove route randomness or guarantee income equality; all drivers and passenger destinations are exogenous.",
+        "Selection score evaluates Q1 only; it does not certify a joint Q1-Q4 optimum or external generalization.",
+        "Normal-approximation Monte Carlo intervals describe simulation noise conditional on assumptions, not population confidence."
+      ],
+      "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+      "requirement_id": "REQ-Q1",
+      "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+      "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+      "scope": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+      "status": "ACCEPTED"
+    },
+    "CLAIM-2019C-Q2": {
+      "claim_kind": "REQUIREMENT",
+      "claim_text": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+      "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+      "contradiction_status": "NONE",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "evidence_artifact_ids": [
+        "data/data_audit.json",
+        "research/source_ledger.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+      ],
+      "evidence_status": "CURRENT",
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "limitations": [
+        "REQ-Q2 missing actual airport and city data is non-compensable and prevents all-primary completion.",
+        "Flight cohorts, taxi demand, fares, speeds and geometry are assumptions; no named-airport estimates.",
+        "Q1 assumes independent NHPP party arrivals, FCFS taxis and linear city opportunity cost; feedback and abandonment excluded.",
+        "Q3 optimization is finite registered geometry only, saturated queues; real pedestrian safety needs surveyed geometry and site approval.",
+        "Q4 priorities cannot remove route randomness or guarantee income equality; all drivers and passenger destinations are exogenous.",
+        "Selection score evaluates Q1 only; it does not certify a joint Q1-Q4 optimum or external generalization.",
+        "Normal-approximation Monte Carlo intervals describe simulation noise conditional on assumptions, not population confidence."
+      ],
+      "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+      "requirement_id": "REQ-Q2",
+      "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+      "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+      "scope": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+      "status": "ACCEPTED"
+    },
+    "CLAIM-2019C-Q3": {
+      "claim_kind": "REQUIREMENT",
+      "claim_text": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+      "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+      "contradiction_status": "NONE",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "evidence_artifact_ids": [
+        "models/model_candidates.json",
+        "models/assumptions_and_symbols.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+      ],
+      "evidence_status": "CURRENT",
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "limitations": [
+        "REQ-Q2 missing actual airport and city data is non-compensable and prevents all-primary completion.",
+        "Flight cohorts, taxi demand, fares, speeds and geometry are assumptions; no named-airport estimates.",
+        "Q1 assumes independent NHPP party arrivals, FCFS taxis and linear city opportunity cost; feedback and abandonment excluded.",
+        "Q3 optimization is finite registered geometry only, saturated queues; real pedestrian safety needs surveyed geometry and site approval.",
+        "Q4 priorities cannot remove route randomness or guarantee income equality; all drivers and passenger destinations are exogenous.",
+        "Selection score evaluates Q1 only; it does not certify a joint Q1-Q4 optimum or external generalization.",
+        "Normal-approximation Monte Carlo intervals describe simulation noise conditional on assumptions, not population confidence."
+      ],
+      "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+      "requirement_id": "REQ-Q3",
+      "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+      "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+      "scope": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+      "status": "ACCEPTED"
+    },
+    "CLAIM-2019C-Q4": {
+      "claim_kind": "REQUIREMENT",
+      "claim_text": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。",
+      "code_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+      "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+      "contradiction_status": "NONE",
+      "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "evidence_artifact_ids": [
+        "models/model_candidates.json",
+        "models/assumptions_and_symbols.json",
+        "runs/RUN-BASELINE_STATIC_FCFS-101/output.json"
+      ],
+      "evidence_status": "CURRENT",
+      "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+      "limitations": [
+        "REQ-Q2 missing actual airport and city data is non-compensable and prevents all-primary completion.",
+        "Flight cohorts, taxi demand, fares, speeds and geometry are assumptions; no named-airport estimates.",
+        "Q1 assumes independent NHPP party arrivals, FCFS taxis and linear city opportunity cost; feedback and abandonment excluded.",
+        "Q3 optimization is finite registered geometry only, saturated queues; real pedestrian safety needs surveyed geometry and site approval.",
+        "Q4 priorities cannot remove route randomness or guarantee income equality; all drivers and passenger destinations are exogenous.",
+        "Selection score evaluates Q1 only; it does not certify a joint Q1-Q4 optimum or external generalization.",
+        "Normal-approximation Monte Carlo intervals describe simulation noise conditional on assumptions, not population confidence."
+      ],
+      "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+      "requirement_id": "REQ-Q4",
+      "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+      "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+      "scope": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。",
+      "status": "ACCEPTED"
+    }
+  },
+  "contract_version": "modeling-to-paper/v1",
+  "data_dictionary": {
+    "case_kind": "general",
+    "raw_files": [
+      "data/raw/problem.pdf"
+    ]
+  },
+  "data_quality_report": {
+    "calibration_status": "NOT_POSSIBLE_NO_OBSERVATIONS",
+    "data_dictionary": {
+      "official_pdf": "Problem statements only; no numeric observations",
+      "scenario_assumptions": "Declared simulation parameters with units in formalization; never imputed observations"
+    },
+    "data_hashes": {
+      "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+      "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca"
+    },
+    "empirical_data_available": false,
+    "empirical_validation_status": "NOT_POSSIBLE_NO_OBSERVATIONS",
+    "leakage_findings": [],
+    "lineage": [
+      {
+        "artifact": "experiments/scenario_assumptions.json",
+        "derived_from_observations": false,
+        "origin": "PROSPECTIVE_MODEL_ASSUMPTIONS"
+      }
+    ],
+    "missingness": {
+      "airport_flights_and_exit_counts": "NOT_SUPPLIED",
+      "city_fares_costs_trip_distances": "NOT_SUPPLIED",
+      "lane_geometry_and_boarding_times": "NOT_SUPPLIED",
+      "taxi_queues_and_waits": "NOT_SUPPLIED"
+    },
+    "non_compensable_primary_gaps": [
+      {
+        "reason_code": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+        "requirement_id": "REQ-Q2",
+        "status": "UNRESOLVED"
+      }
+    ],
+    "processed_data_hashes": {
+      "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca"
+    },
+    "raw_data_hashes": {
+      "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0"
+    },
+    "raw_immutable": true
+  },
+  "failure_cases": [
+    "Real-world empirical validation unavailable.",
+    "Non-NHPP correlated demand or queue abandonment can invalidate wait predictions.",
+    "Unsafe site geometry invalidates the abstract dual-lane design.",
+    "Income fairness improvement is not guaranteed by feasible priority."
+  ],
+  "figure_ready_data": [
+    {
+      "rows": [
+        {
+          "estimated_wait_min": 0.6729496066671858,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 69.17791241380691,
+            "normal_approx_95_interval": [
+              68.60658435604746,
+              69.74924047156635
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.29149390702012423
+          },
+          "evaluation_wait_min": {
+            "mean": 2.94559594825746,
+            "normal_approx_95_interval": [
+              2.483749216630174,
+              3.4074426798847464
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.2356360875649419
+          },
+          "minute": 0,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T0-Q0",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 0,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 14.131941740010902,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 51.97451235896807,
+            "normal_approx_95_interval": [
+              51.534033493599665,
+              52.414991224336475
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.2247341149838807
+          },
+          "evaluation_wait_min": {
+            "mean": 25.577212688042568,
+            "normal_approx_95_interval": [
+              25.194613998243934,
+              25.959811377841202
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.1952034131625687
+          },
+          "minute": 0,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T0-Q20",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 20,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 54.508918140042056,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 24.36083595367927,
+            "normal_approx_95_interval": [
+              22.91626228950549,
+              25.80540961785305
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.7370273796804999
+          },
+          "evaluation_wait_min": {
+            "mean": 61.91107289509431,
+            "normal_approx_95_interval": [
+              60.044447733901066,
+              63.77769805628755
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.9523597761190014
+          },
+          "minute": 0,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T0-Q80",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 80,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 108.34488667341692,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": -4.175856102096944,
+            "normal_approx_95_interval": [
+              -4.9521511130666624,
+              -3.3995610911272256
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.39606888314781546
+          },
+          "evaluation_wait_min": {
+            "mean": 100.56468313612926,
+            "normal_approx_95_interval": [
+              99.70971099424719,
+              101.41965527801133
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.43621027647044525
+          },
+          "minute": 0,
+          "opportunity_loss_cny": 0.20484489271587147,
+          "probability_wait_advantage_negative": 0.8515625,
+          "state_id": "STATE-T0-Q160",
+          "strategy": "B_EMPTY_RETURN",
+          "taxis_ahead": 160,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 0.6729496066671858,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 69.18630535105876,
+            "normal_approx_95_interval": [
+              68.64997892064291,
+              69.72263178147462
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.27363593388563806
+          },
+          "evaluation_wait_min": {
+            "mean": 2.8656553652549728,
+            "normal_approx_95_interval": [
+              2.440664963620279,
+              3.2906457668896665
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.21683183756872124
+          },
+          "minute": 60,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T60-Q0",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 0,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 14.131941740010902,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 55.489066259744106,
+            "normal_approx_95_interval": [
+              54.981256989653076,
+              55.99687552983514
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.25908636229134147
+          },
+          "evaluation_wait_min": {
+            "mean": 20.778640820341195,
+            "normal_approx_95_interval": [
+              20.414992471944007,
+              21.142289168738383
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.18553487163121768
+          },
+          "minute": 60,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T60-Q20",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 20,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 54.508918140042056,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 40.427548573663294,
+            "normal_approx_95_interval": [
+              39.88661538435875,
+              40.96848176296784
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.27598632107374726
+          },
+          "evaluation_wait_min": {
+            "mean": 40.99816440178227,
+            "normal_approx_95_interval": [
+              40.45155654181883,
+              41.544772261745706
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.2788815612058359
+          },
+          "minute": 60,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T60-Q80",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 80,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 108.34488667341692,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": -2.8399110073257146,
+            "normal_approx_95_interval": [
+              -3.663906673808257,
+              -2.015915340843172
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.42040595228701144
+          },
+          "evaluation_wait_min": {
+            "mean": 98.37404800976762,
+            "normal_approx_95_interval": [
+              97.40321210364965,
+              99.34488391588559
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.4953244418969201
+          },
+          "minute": 60,
+          "opportunity_loss_cny": 0.7990286292377726,
+          "probability_wait_advantage_negative": 0.7265625,
+          "state_id": "STATE-T60-Q160",
+          "strategy": "B_EMPTY_RETURN",
+          "taxis_ahead": 160,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 0.6729496066671858,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 69.7806407039117,
+            "normal_approx_95_interval": [
+              69.34626750339508,
+              70.21501390442832
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.22161897985541676
+          },
+          "evaluation_wait_min": {
+            "mean": 1.3638332281177319,
+            "normal_approx_95_interval": [
+              1.1038515173025176,
+              1.6238149389329462
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.13264373000776242
+          },
+          "minute": 120,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T120-Q0",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 0,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 14.131941740010902,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 50.07794931163343,
+            "normal_approx_95_interval": [
+              49.57382668564554,
+              50.58207193762132
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.257205421422393
+          },
+          "evaluation_wait_min": {
+            "mean": 27.75283841782209,
+            "normal_approx_95_interval": [
+              27.263526179685083,
+              28.242150655959097
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.24964910109030958
+          },
+          "minute": 120,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T120-Q20",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 20,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 54.508918140042056,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 29.306961551761013,
+            "normal_approx_95_interval": [
+              28.40961091067883,
+              30.204312192843197
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.4578319597358081
+          },
+          "evaluation_wait_min": {
+            "mean": 56.075613764318646,
+            "normal_approx_95_interval": [
+              55.04890100365973,
+              57.10232652497756
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.5238330411525094
+          },
+          "minute": 120,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T120-Q80",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 80,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 108.34488667341692,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": -22.97150241529467,
+            "normal_approx_95_interval": [
+              -24.54792178701681,
+              -21.395083043572527
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.8042955978174192
+          },
+          "evaluation_wait_min": {
+            "mean": 125.43804488705956,
+            "normal_approx_95_interval": [
+              123.42236468732933,
+              127.45372508678979
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 1.0284082651684825
+          },
+          "minute": 120,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 1.0,
+          "state_id": "STATE-T120-Q160",
+          "strategy": "B_EMPTY_RETURN",
+          "taxis_ahead": 160,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 0.6729496066671858,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 70.35848013309578,
+            "normal_approx_95_interval": [
+              69.92141018472417,
+              70.7955500814674
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.22299487161817175
+          },
+          "evaluation_wait_min": {
+            "mean": 0.6996306558722896,
+            "normal_approx_95_interval": [
+              0.5845362991423835,
+              0.8147250126021957
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.05872161057648271
+          },
+          "minute": 180,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T180-Q0",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 0,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 14.131941740010902,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 55.21670810591667,
+            "normal_approx_95_interval": [
+              54.12782315541987,
+              56.30559305641348
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.55555354617184
+          },
+          "evaluation_wait_min": {
+            "mean": 21.34803502544443,
+            "normal_approx_95_interval": [
+              19.943702720503836,
+              22.752367330385027
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.7164960739492835
+          },
+          "minute": 180,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 0.0,
+          "state_id": "STATE-T180-Q20",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 20,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 54.508918140042056,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": 17.436719709797686,
+            "normal_approx_95_interval": [
+              16.005830971064963,
+              18.867608448530408
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.7300452748636345
+          },
+          "evaluation_wait_min": {
+            "mean": 71.49635288693642,
+            "normal_approx_95_interval": [
+              69.68545695493279,
+              73.30724881894005
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 0.9239264959202175
+          },
+          "minute": 180,
+          "opportunity_loss_cny": 0.35161525476798483,
+          "probability_wait_advantage_negative": 0.0546875,
+          "state_id": "STATE-T180-Q80",
+          "strategy": "A_QUEUE",
+          "taxis_ahead": 80,
+          "wait_threshold_min": 94.77
+        },
+        {
+          "estimated_wait_min": 108.34488667341692,
+          "evaluation_advantage_wait_over_return_cny": {
+            "mean": -136.19429329572753,
+            "normal_approx_95_interval": [
+              -140.95903594993294,
+              -131.42955064152213
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 2.4309911501047945
+          },
+          "evaluation_wait_min": {
+            "mean": 276.11895356097006,
+            "normal_approx_95_interval": [
+              269.88100128161994,
+              282.35690584032017
+            ],
+            "replicates": 128,
+            "scope": "MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+            "standard_error": 3.1826287139541374
+          },
+          "minute": 180,
+          "opportunity_loss_cny": 0.0,
+          "probability_wait_advantage_negative": 1.0,
+          "state_id": "STATE-T180-Q160",
+          "strategy": "B_EMPTY_RETURN",
+          "taxis_ahead": 160,
+          "wait_threshold_min": 94.77
+        }
+      ],
+      "table_id": "Q1_CONDITIONAL_DECISIONS"
+    },
+    {
+      "rows": [
+        {
+          "bays_per_lane": 1,
+          "throughput_groups_per_hour": 103.79905635037862
+        },
+        {
+          "bays_per_lane": 2,
+          "throughput_groups_per_hour": 177.03885210097943
+        },
+        {
+          "bays_per_lane": 3,
+          "throughput_groups_per_hour": 240.16446390032985
+        },
+        {
+          "bays_per_lane": 4,
+          "throughput_groups_per_hour": 293.68270117305036
+        },
+        {
+          "bays_per_lane": 5,
+          "throughput_groups_per_hour": 339.0934676586227
+        }
+      ],
+      "table_id": "Q3_BAY_CAPACITY"
+    },
+    {
+      "table_id": "Q4_DRIVER_RATES",
+      "values": [
+        12.333333333333334,
+        11.976237623762376,
+        11.766536964980546,
+        11.532467532467532,
+        11.703829787234042,
+        12.189473684210526,
+        11.953452288595807,
+        13.205529953917049,
+        12.4416,
+        11.117647058823529,
+        12.9,
+        11.34383688600556,
+        11.976237623762376,
+        11.835616438356164,
+        11.743315508021391,
+        10.875,
+        12.218181818181819,
+        10.875,
+        10.96774193548387,
+        10.181146025878004,
+        12.230535894843277,
+        11.779141104294478,
+        12.393442622950818,
+        12.048387096774194,
+        11.755102040816327,
+        10.841121495327103,
+        10.548459804658151,
+        11.294117647058824,
+        10.79627714581179,
+        10.535253980288097,
+        12.065934065934066,
+        10.364098221845893,
+        11.317073170731705,
+        10.875,
+        10.259849119865883,
+        11.717647058823529,
+        10.627565982404692,
+        10.91566265060241,
+        13.35,
+        10.704424778761062,
+        12.032876712328767,
+        10.566801619433198,
+        10.681014604150654,
+        10.208507089241035,
+        10.082372322899506,
+        10.666666666666666,
+        10.285714285714286,
+        10.132450331125828,
+        10.75928917609047,
+        10.265486725663717,
+        10.545101842870999,
+        11.127942681678608,
+        9.6,
+        12.146341463414634,
+        9.445005045408678,
+        9.863013698630137,
+        10.897297297297298,
+        11.378238341968911,
+        10.504731861198739,
+        11.588390501319262,
+        11.15115413253909,
+        10.625386996904025,
+        9.97134670487106,
+        9.839228295819936,
+        10.300963676797627,
+        9.80281690140845,
+        10.696378830083566,
+        9.980879541108987,
+        10.295454545454545,
+        11.028292682926827,
+        12.070175438596491,
+        10.5,
+        11.547826086956523,
+        9.6398891966759,
+        10.725,
+        9.613259668508288,
+        9.69718309859155,
+        10.434782608695652,
+        11.174999999999999,
+        9.6
+      ]
+    }
+  ],
+  "final_metrics": {
+    "income_rate_gini": 0.04624083608953255,
+    "lane_throughput_groups_per_hour": 111.28523400597997,
+    "opportunity_loss_cny": 0.08471804854510182,
+    "priority_throughput_groups_per_hour": 39.875
+  },
+  "final_runs": [
+    {
+      "manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+      "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+      "run_id": "RUN-BASELINE_STATIC_FCFS-101"
+    }
+  ],
+  "formulas": [
+    {
+      "expression": "lambda(t)=lambda0+sum_j G_j/w_j*max(0,1-|t-c_j|/w_j); Lambda(t)=integral_0^t lambda(s) ds",
+      "formula_id": "F1",
+      "requirements": [
+        "REQ-Q1",
+        "REQ-Q2"
+      ]
+    },
+    {
+      "expression": "Lambda(t+W)-Lambda(t)~Gamma(q+1,1); Delta=margin_loaded+cost_empty+r_city*(t_empty-t_loaded-W)",
+      "formula_id": "F2",
+      "requirements": [
+        "REQ-Q1"
+      ]
+    },
+    {
+      "expression": "W_star=(E[margin_loaded]+cost_empty)/r_city+t_empty-E[t_loaded]",
+      "formula_id": "F3",
+      "requirements": [
+        "REQ-Q1"
+      ]
+    },
+    {
+      "expression": "observed_calibration_loss=(1/n)*sum_i (observed_wait_i-predicted_wait_i)^2",
+      "formula_id": "F4",
+      "requirements": [
+        "REQ-Q2"
+      ]
+    },
+    {
+      "expression": "capacity(n)=3600*sum_b(2*n)/sum_b(admit(n)+transfer(n)+max_k boarding_bk+clearance+release(n)); n*bay_pitch<=lane_length",
+      "formula_id": "F5",
+      "requirements": [
+        "REQ-Q3"
+      ]
+    },
+    {
+      "expression": "net_i=fare_intercept+(fare_per_km-2*cost_per_km)*d_i; cycle_i=2*d_i/speed+turnaround; credit_i=min(cap,60*max(0,target_rate*cycle_i/60-net_i)/target_rate)",
+      "formula_id": "F6",
+      "requirements": [
+        "REQ-Q4"
+      ]
+    },
+    {
+      "expression": "income_rate_i=60*sum_trip net_trip/max(horizon,last_return_i); Gini=sum_i(2*i-N-1)*sorted_rate_i/(N*sum_i rate_i)",
+      "formula_id": "F7",
+      "requirements": [
+        "REQ-Q4"
+      ]
+    }
+  ],
+  "generated_at": "2026-09-05T04:16:55Z",
+  "limitations": [
+    "REQ-Q2 missing actual airport and city data is non-compensable and prevents all-primary completion.",
+    "Flight cohorts, taxi demand, fares, speeds and geometry are assumptions; no named-airport estimates.",
+    "Q1 assumes independent NHPP party arrivals, FCFS taxis and linear city opportunity cost; feedback and abandonment excluded.",
+    "Q3 optimization is finite registered geometry only, saturated queues; real pedestrian safety needs surveyed geometry and site approval.",
+    "Q4 priorities cannot remove route randomness or guarantee income equality; all drivers and passenger destinations are exogenous.",
+    "Selection score evaluates Q1 only; it does not certify a joint Q1-Q4 optimum or external generalization.",
+    "Normal-approximation Monte Carlo intervals describe simulation noise conditional on assumptions, not population confidence."
+  ],
+  "problem_requirements": [
+    {
+      "acceptance_tests": [
+        "明确可观察航班与蓄车池队列、潜在出客人数与等待时间的关系",
+        "统一CNY/min/km单位下比较A、B期望净收益",
+        "给出可复算的条件策略、baseline/control对照及不确定性"
+      ],
+      "depends_on": [],
+      "expected_output_paths": [
+        "question_1.rows",
+        "question_1.independent_check"
+      ],
+      "requirement_id": "REQ-Q1",
+      "role": "PRIMARY",
+      "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+      "source_locator": "题面第(1)问",
+      "supported_scope": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+      "text": "分析影响机理与乘客数量变化，结合司机收益建立候客/空返决策模型并给出策略。"
+    },
+    {
+      "acceptance_tests": [
+        "真实命名机场和城市的数据来源、观测期、单位、许可与hash齐全",
+        "参数由观测数据校准并用独立观测检查合理性",
+        "给出该机场方案及定量敏感性"
+      ],
+      "depends_on": [
+        "REQ-Q1"
+      ],
+      "expected_output_paths": [
+        "question_2.status",
+        "question_2.observations",
+        "question_2.assumption_sensitivity"
+      ],
+      "known_gap": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+      "non_compensable": true,
+      "requirement_id": "REQ-Q2",
+      "role": "PRIMARY",
+      "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+      "source_locator": "题面第(2)问",
+      "supported_scope": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+      "text": "收集国内某机场及所在城市出租车实际数据，给出该机场司机选择方案并分析合理性与因素依赖性。"
+    },
+    {
+      "acceptance_tests": [
+        "给出几何、乘客通行与车辆移动互锁约束",
+        "枚举有限上车点方案与baseline/control并评估groups/hour",
+        "独立复算每个事件批次的容量与安全规则",
+        "只声明预注册模型内经验最优，禁止现实全局最优"
+      ],
+      "depends_on": [
+        "REQ-Q1"
+      ],
+      "expected_output_paths": [
+        "question_3.events",
+        "question_3.training_comparison",
+        "question_3.independent_check"
+      ],
+      "requirement_id": "REQ-Q3",
+      "role": "PRIMARY",
+      "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+      "source_locator": "题面第(3)问",
+      "supported_scope": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+      "text": "两条并行车道设置上车点，安排出租车与乘客，在保证安全条件下提高总乘车效率并说明最优性边界。"
+    },
+    {
+      "acceptance_tests": [
+        "明确短途资格、额度、失效与使用一次规则及普通队列保护",
+        "目的地按外生到客序列揭示，不允许选客拒载",
+        "与FCFS/control比较Gini、底部分位数、吞吐和最大等待",
+        "独立复算车辆往返、收入与优先额度账本，记录未改善和有限时域偏差"
+      ],
+      "depends_on": [
+        "REQ-Q1",
+        "REQ-Q3"
+      ],
+      "expected_output_paths": [
+        "question_4.ledger",
+        "question_4.independent_check",
+        "question_4.income_rate_gini"
+      ],
+      "requirement_id": "REQ-Q4",
+      "role": "PRIMARY",
+      "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+      "source_locator": "题面第(4)问",
+      "supported_scope": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。",
+      "text": "针对短途载客后返回的出租车提出优先安排，在不选客、不拒载、可多次往返条件下尽量均衡收益。"
+    }
+  ],
+  "reproduction": {
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "offline": true,
+    "run_manifest_hash": "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062",
+    "skill_version": "0.2.0-competition-rc5"
+  },
+  "requirement_traceability": {
+    "REQ-Q1": "CLAIM-2019C-Q1",
+    "REQ-Q2": "CLAIM-2019C-Q2",
+    "REQ-Q3": "CLAIM-2019C-Q3",
+    "REQ-Q4": "CLAIM-2019C-Q4"
+  },
+  "result_tables": [
+    {
+      "rows": [
+        {
+          "candidate_id": "BASELINE_STATIC_FCFS",
+          "outcome": "SUCCESS",
+          "random_seed": 101,
+          "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+          "validation_score": 0.08471804854510182
+        },
+        {
+          "candidate_id": "BASELINE_STATIC_FCFS",
+          "outcome": "SUCCESS",
+          "random_seed": 202,
+          "run_id": "RUN-BASELINE_STATIC_FCFS-202",
+          "validation_score": 0.0913706182892293
+        },
+        {
+          "candidate_id": "BASELINE_STATIC_FCFS",
+          "outcome": "SUCCESS",
+          "random_seed": 303,
+          "run_id": "RUN-BASELINE_STATIC_FCFS-303",
+          "validation_score": 0.1349360407568343
+        },
+        {
+          "candidate_id": "CONTROL_FLUID_AGING",
+          "outcome": "SUCCESS",
+          "random_seed": 101,
+          "run_id": "RUN-CONTROL_FLUID_AGING-101",
+          "validation_score": 0.08471804854510182
+        },
+        {
+          "candidate_id": "CONTROL_FLUID_AGING",
+          "outcome": "SUCCESS",
+          "random_seed": 202,
+          "run_id": "RUN-CONTROL_FLUID_AGING-202",
+          "validation_score": 0.0913706182892293
+        },
+        {
+          "candidate_id": "CONTROL_FLUID_AGING",
+          "outcome": "SUCCESS",
+          "random_seed": 303,
+          "run_id": "RUN-CONTROL_FLUID_AGING-303",
+          "validation_score": 0.1349360407568343
+        },
+        {
+          "candidate_id": "PRIMARY_NHPP_CREDIT",
+          "outcome": "SUCCESS",
+          "random_seed": 101,
+          "run_id": "RUN-PRIMARY_NHPP_CREDIT-101",
+          "validation_score": 0.08471804854510182
+        },
+        {
+          "candidate_id": "PRIMARY_NHPP_CREDIT",
+          "outcome": "SUCCESS",
+          "random_seed": 202,
+          "run_id": "RUN-PRIMARY_NHPP_CREDIT-202",
+          "validation_score": 0.0913706182892293
+        },
+        {
+          "candidate_id": "PRIMARY_NHPP_CREDIT",
+          "outcome": "SUCCESS",
+          "random_seed": 303,
+          "run_id": "RUN-PRIMARY_NHPP_CREDIT-303",
+          "validation_score": 0.1349360407568343
+        }
+      ],
+      "table_id": "MODEL_COMPARISON"
+    }
+  ],
+  "robustness_results": {
+    "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+    "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+    "failure_cases": [
+      "Real-world empirical validation unavailable.",
+      "Non-NHPP correlated demand or queue abandonment can invalidate wait predictions.",
+      "Unsafe site geometry invalidates the abstract dual-lane design.",
+      "Income fairness improvement is not guaranteed by feasible priority."
+    ],
+    "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+    "metric": "opportunity_loss_cny",
+    "metric_direction": "MIN",
+    "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "DEMAND_MINUS_30_PERCENT",
+        "result": 2.745698700270916
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "DEMAND_PLUS_30_PERCENT",
+        "result": 3.913216692483905
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "FLIGHT_EXIT_DELAY_30_MIN",
+        "result": 0.8400311593728594
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "COST_PLUS_25_PERCENT",
+        "result": 0.19219040342874133
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "COMBINED_LOW_DEMAND_DELAY_HIGH_COST",
+        "result": 0.8134555540190052
+      }
+    ],
+    "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+    "selected_model": "BASELINE_STATIC_FCFS",
+    "status": "VALIDATED"
+  },
+  "selected_models": [
+    {
+      "applicability": "Transparent stationary reference; intentionally ignores flight-phase variation.",
+      "baseline": true,
+      "candidate_id": "BASELINE_STATIC_FCFS",
+      "failure_expectation": "Time-varying arrivals distort queue wait; safe minimum bays may underuse capacity.",
+      "mechanism": "Static mean-intensity analytic wait; one bay per lane; ordinary FCFS recurrent fleet."
+    }
+  ],
+  "sources": [
+    {
+      "case_path": "data/raw/problem.pdf",
+      "numeric_observations_provided": false,
+      "sha256": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+      "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+      "source_type": "OFFICIAL_PROBLEM",
+      "supports": [
+        "REQ-Q1",
+        "REQ-Q2",
+        "REQ-Q3",
+        "REQ-Q4"
+      ],
+      "title": "2019 C 官方题面"
+    }
+  ],
+  "symbols": {
+    "Delta": "incremental net value A over B [CNY]",
+    "Gini": "income-rate inequality [dimensionless]",
+    "W": "waiting time [min]",
+    "capacity": "completed boarding [groups/hour]",
+    "credit": "priority time discount [min]",
+    "d": "distance [km]",
+    "lambda": "arriving passenger parties [groups/min]",
+    "n": "boarding bays per lane [count]",
+    "q": "taxis ahead [vehicles]",
+    "r_city": "outside net earning opportunity [CNY/min]",
+    "t": "elapsed time [min]"
+  },
+  "uncertainty": {
+    "empirical_parameter_uncertainty": "UNIDENTIFIABLE_WITHOUT_OBSERVATIONS",
+    "q1": {
+      "fixed_state_strata": 16,
+      "mean": 0.08471804854510182,
+      "normal_approx_95_interval": [
+        0.05546967518833247,
+        0.11396642190187116
+      ],
+      "scope": "STRATIFIED_MONTE_CARLO_ERROR_CONDITIONAL_ON_ASSUMPTIONS",
+      "standard_error": 0.014922639467739463
+    },
+    "q3": "Independent frozen outer seeds and boarding-scale perturbations; no field uncertainty calibration.",
+    "q4": "Independent frozen outer seeds and distance-scale perturbations; finite horizon and dispatch-tail accounting explicitly reported."
+  },
+  "validation_results": {
+    "aggregate_claim": {
+      "aggregate_claim_id": "CLAIM-AGGREGATE-922EF51E285043A1FCC87510",
+      "claim_kind": "AGGREGATE_FINAL",
+      "contract_version": "claim-evidence/v2",
+      "covered_primary_requirement_ids": [
+        "REQ-Q1",
+        "REQ-Q2",
+        "REQ-Q3",
+        "REQ-Q4"
+      ],
+      "final_decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+      "limitations": [
+        "REQ-Q2 missing actual airport and city data is non-compensable and prevents all-primary completion.",
+        "Flight cohorts, taxi demand, fares, speeds and geometry are assumptions; no named-airport estimates.",
+        "Q1 assumes independent NHPP party arrivals, FCFS taxis and linear city opportunity cost; feedback and abandonment excluded.",
+        "Q3 optimization is finite registered geometry only, saturated queues; real pedestrian safety needs surveyed geometry and site approval.",
+        "Q4 priorities cannot remove route randomness or guarantee income equality; all drivers and passenger destinations are exogenous.",
+        "Selection score evaluates Q1 only; it does not certify a joint Q1-Q4 optimum or external generalization.",
+        "Normal-approximation Monte Carlo intervals describe simulation noise conditional on assumptions, not population confidence."
+      ],
+      "non_primary_requirements": {},
+      "scope": {
+        "REQ-Q1": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+        "REQ-Q2": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+        "REQ-Q3": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+        "REQ-Q4": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。"
+      },
+      "scope_type": "REQUIREMENT_UNION",
+      "selected_manifest_hashes": [
+        "3864385287e1bc6bc4099b089310f2e4973993afc5d2a908af1cd041128a3062"
+      ],
+      "selected_output_hashes": [
+        "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a"
+      ],
+      "selected_run_ids": [
+        "RUN-BASELINE_STATIC_FCFS-101"
+      ],
+      "statement": "四问的假设情景建模与可复算局部证据；REQ-Q2机场和城市实测数据缺失，不能据此主张全部主问题完成或实际部署有效。",
+      "status": "ACCEPTED",
+      "supporting_requirement_claim_ids": [
+        "CLAIM-2019C-Q1",
+        "CLAIM-2019C-Q2",
+        "CLAIM-2019C-Q3",
+        "CLAIM-2019C-Q4"
+      ]
+    },
+    "comparison_decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+    "selected_model": "BASELINE_STATIC_FCFS",
+    "test_used_for_selection": false
+  }
+}

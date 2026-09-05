@@ -1,0 +1,54 @@
+{
+  "artifact_type": "robustness_analysis",
+  "content": {
+    "configuration_hash": "a9db3e3831b417d6e8e040ed54f070c5d2f8c91b36c722f1f10a55dbfd64288c",
+    "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+    "failure_cases": [
+      "Real-world empirical validation unavailable.",
+      "Non-NHPP correlated demand or queue abandonment can invalidate wait predictions.",
+      "Unsafe site geometry invalidates the abstract dual-lane design.",
+      "Income fairness improvement is not guaranteed by feasible priority."
+    ],
+    "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+    "metric": "opportunity_loss_cny",
+    "metric_direction": "MIN",
+    "output_hash": "f89f447ac28c0577c835f3518f4b4a374670c7b24f5b170d7915e2982f99bc3a",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "DEMAND_MINUS_30_PERCENT",
+        "result": 2.745698700270916
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "DEMAND_PLUS_30_PERCENT",
+        "result": 3.913216692483905
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "FLIGHT_EXIT_DELAY_30_MIN",
+        "result": 0.8400311593728594
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "COST_PLUS_25_PERCENT",
+        "result": 0.19219040342874133
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "opportunity_loss_cny",
+        "perturbation_id": "COMBINED_LOW_DEMAND_DELAY_HIGH_COST",
+        "result": 0.8134555540190052
+      }
+    ],
+    "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+    "selected_model": "BASELINE_STATIC_FCFS",
+    "status": "VALIDATED"
+  },
+  "content_hash": "d5259fbf254342a8d1eda1142e533cd74a61cfb4723436a908183130b7e89f70",
+  "status": "ACCEPTED"
+}

@@ -1,0 +1,153 @@
+{
+  "answer_access_status": "SEALED",
+  "case_id": "CUMCM-2019-C-VALIDATION-002",
+  "episode_started_at": "2026-09-05T11:48:24+08:00",
+  "exact_stage_authoring_duration": "UNKNOWN",
+  "formal_case_state": "REJECTED",
+  "model_execution_ended_at": "2026-09-05T04:25:39Z",
+  "model_execution_started_at": "2026-09-05T04:25:35Z",
+  "native_completed_before": "2026-09-05T12:28:53+08:00",
+  "stages": [
+    {
+      "artifact": "problem/problem_requirements.json",
+      "failure": null,
+      "name": "PROBLEM_INTAKE",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 1,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "problem/problem_requirements.json",
+      "failure": null,
+      "name": "REQUIREMENT_DECOMPOSITION",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 2,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "research/source_ledger.json",
+      "failure": null,
+      "name": "RESEARCH_AND_SOURCE_PLANNING",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 3,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "models/assumptions_and_symbols.json",
+      "failure": null,
+      "name": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 4,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "data/data_audit.json",
+      "failure": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+      "name": "DATA_AUDIT",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 5,
+      "status": "COMPLETE_WITH_PRIMARY_EVIDENCE_GAP",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "models/model_candidates.json",
+      "failure": null,
+      "name": "MODEL_PORTFOLIO_GENERATION",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 6,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "models/model_candidates.json",
+      "failure": null,
+      "name": "BASELINE_DEFINITION",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 7,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "experiments/experiment_plan.json",
+      "failure": null,
+      "name": "EXPERIMENT_DESIGN",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 8,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:16:55Z",
+      "time_semantics": "NATIVE_GATE_CHECK_TIME_NOT_FULL_AUTHORING_DURATION"
+    },
+    {
+      "artifact": "validation/run_and_gate_checks.json",
+      "failure": null,
+      "name": "IMPLEMENTATION_AND_EXECUTION",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 9,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:25:35Z\u20132026-09-05T04:25:39Z",
+      "time_semantics": "CAPTURE_OR_GATE_RECEIPT"
+    },
+    {
+      "artifact": "results/model_comparison.json",
+      "failure": null,
+      "name": "MODEL_COMPARISON",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 10,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:26:41Z",
+      "time_semantics": "CAPTURE_OR_GATE_RECEIPT"
+    },
+    {
+      "artifact": "results/robustness.json",
+      "failure": null,
+      "name": "ROBUSTNESS_AND_SENSITIVITY",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 11,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:26:41Z",
+      "time_semantics": "CAPTURE_OR_GATE_RECEIPT"
+    },
+    {
+      "artifact": "results/final_result.json",
+      "failure": null,
+      "name": "FINAL_RUN",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 12,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:26:41Z",
+      "time_semantics": "CAPTURE_OR_GATE_RECEIPT"
+    },
+    {
+      "artifact": "evidence/claim_evidence.json",
+      "failure": null,
+      "name": "CLAIM_EVIDENCE_VALIDATION",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 13,
+      "status": "PASS_NATIVE_SCOPED",
+      "time": "2026-09-05T04:26:41Z",
+      "time_semantics": "CAPTURE_OR_GATE_RECEIPT"
+    },
+    {
+      "artifact": "handoff/modeling_to_paper.json",
+      "failure": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+      "name": "MODELING_TO_PAPER_HANDOFF",
+      "recovery": "NONE; NO_MODEL_OR_SKILL_RETRY",
+      "stage": 14,
+      "status": "NATIVE_CONTRACT_PASS_PAPER_DISPATCH_REJECTED",
+      "time": "Native gate after 2026-09-05T04:26:41Z; terminal adjudication 2026-09-05T12:28:53+08:00",
+      "time_semantics": "CAPTURE_OR_GATE_RECEIPT"
+    }
+  ],
+  "test_disclosure_count": 1
+}

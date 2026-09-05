@@ -1,0 +1,61 @@
+{
+  "audit_id": "AUDIT-FRESH-C-VALIDATION-INTEGRITY-004C2",
+  "blockers": [
+    "RC5_VERSION_FILE_MISMATCH"
+  ],
+  "chronology": {
+    "answer_sealed": true,
+    "auditor_decoded_sealed_fields": false,
+    "heldout_six_access_flags": false,
+    "pre_run_remote_before_execution": true,
+    "release_before_official_inputs": true,
+    "selected_test_decode_count": 1,
+    "selection_file_written_before_selected_test_decode": true
+  },
+  "decision_review": "NEGATIVE_VALIDATION_OUTCOME_SUPPORTED",
+  "decision_revision": 2,
+  "decision_sha256": "62b04b3654de11f95f1df12fb2bd0dfcad31d7901b192f68f33f062cb4adf588",
+  "decision_v2_clarification_acknowledged": true,
+  "deterministic_evidence": {
+    "actual_runs": 9,
+    "declared_runner_skillmd_release_version": "0.2.0-competition-rc5",
+    "historical_protected_files_unchanged": 34,
+    "pre_run_artifact_hashes_unchanged": 35,
+    "primary_q4_priority_uses": [
+      50,
+      57,
+      56
+    ],
+    "q1_aggregate_difference": 0,
+    "q1_wait_threshold_min": 94.77,
+    "q3_batches_independently_recomputed": 1728,
+    "q4_dispatch_records_independently_recomputed": 2871,
+    "q4_gini_maximum_difference": 3.0531e-16,
+    "retries": 0,
+    "routing_memory_probes": 8,
+    "selected_q4_priority_uses": 0,
+    "skill_files_unchanged": 42,
+    "successful_runs": 9,
+    "version_blob_sha256": "4b92a4e3afb0ddfab8d630d458cabad1b08367ec5c1fc4f4ec5e706d69783a62",
+    "version_file_current_and_release_blob": "0.2.0-competition-rc4"
+  },
+  "limits": [
+    "Assumption-only numerical validity does not establish empirical validity or real safety.",
+    "Metadata and available trace checks do not prove unknown model prior or OS isolation.",
+    "Native structural bindings are valid but selected Q4 semantic scope is incomplete."
+  ],
+  "method": "Independent read-only recomputation of captured outputs; no model execution or voting. Q4 Gini used double absolute differences. Frozen controller read establishes same-second selection/test ordering.",
+  "model_reruns": 0,
+  "mutations": 0,
+  "network_access": 0,
+  "packages_installed": 0,
+  "recorded_at": "2026-09-05T12:40:03+08:00",
+  "recorded_by": "MAIN_AGENT_ONLY",
+  "reviewer": "SECOND_READ_ONLY_AUDITOR",
+  "role": "fresh_c_validation_integrity_auditor",
+  "semantic_findings": [
+    "REQ_Q4_SELECTED_OUTPUT_SEMANTIC_SUPPORT_INCOMPLETE",
+    "Q3_SELECTED_BASELINE_NOT_CAPACITY_MAXIMIZER"
+  ],
+  "status": "BLOCK_RELEASE_ACCEPTANCE"
+}

@@ -1,0 +1,115 @@
+{
+  "attempts": [
+    {
+      "candidate_id": "BASELINE_STATIC_FCFS",
+      "outcome": "SUCCESS",
+      "random_seed": 101,
+      "run_id": "RUN-BASELINE_STATIC_FCFS-101",
+      "validation_score": 0.08471804854510182
+    },
+    {
+      "candidate_id": "BASELINE_STATIC_FCFS",
+      "outcome": "SUCCESS",
+      "random_seed": 202,
+      "run_id": "RUN-BASELINE_STATIC_FCFS-202",
+      "validation_score": 0.0913706182892293
+    },
+    {
+      "candidate_id": "BASELINE_STATIC_FCFS",
+      "outcome": "SUCCESS",
+      "random_seed": 303,
+      "run_id": "RUN-BASELINE_STATIC_FCFS-303",
+      "validation_score": 0.1349360407568343
+    },
+    {
+      "candidate_id": "CONTROL_FLUID_AGING",
+      "outcome": "SUCCESS",
+      "random_seed": 101,
+      "run_id": "RUN-CONTROL_FLUID_AGING-101",
+      "validation_score": 0.08471804854510182
+    },
+    {
+      "candidate_id": "CONTROL_FLUID_AGING",
+      "outcome": "SUCCESS",
+      "random_seed": 202,
+      "run_id": "RUN-CONTROL_FLUID_AGING-202",
+      "validation_score": 0.0913706182892293
+    },
+    {
+      "candidate_id": "CONTROL_FLUID_AGING",
+      "outcome": "SUCCESS",
+      "random_seed": 303,
+      "run_id": "RUN-CONTROL_FLUID_AGING-303",
+      "validation_score": 0.1349360407568343
+    },
+    {
+      "candidate_id": "PRIMARY_NHPP_CREDIT",
+      "outcome": "SUCCESS",
+      "random_seed": 101,
+      "run_id": "RUN-PRIMARY_NHPP_CREDIT-101",
+      "validation_score": 0.08471804854510182
+    },
+    {
+      "candidate_id": "PRIMARY_NHPP_CREDIT",
+      "outcome": "SUCCESS",
+      "random_seed": 202,
+      "run_id": "RUN-PRIMARY_NHPP_CREDIT-202",
+      "validation_score": 0.0913706182892293
+    },
+    {
+      "candidate_id": "PRIMARY_NHPP_CREDIT",
+      "outcome": "SUCCESS",
+      "random_seed": 303,
+      "run_id": "RUN-PRIMARY_NHPP_CREDIT-303",
+      "validation_score": 0.1349360407568343
+    }
+  ],
+  "empirical_acceptance": "REQUIRES_SEPARATE_FROZEN_RUBRIC_ADJUDICATION",
+  "gate_events": [
+    {
+      "ended_at": "2026-09-05T04:26:41Z",
+      "gate": "GATE_RUN_COMPLETION",
+      "started_at": "2026-09-05T04:26:41Z",
+      "state": "RUN_COMPLETED",
+      "status": "PASS"
+    },
+    {
+      "ended_at": "2026-09-05T04:26:41Z",
+      "gate": "GATE_REPRODUCIBILITY_MANIFEST",
+      "started_at": "2026-09-05T04:26:41Z",
+      "state": "RUN_VALIDATED",
+      "status": "PASS"
+    },
+    {
+      "ended_at": "2026-09-05T04:26:41Z",
+      "gate": "GATE_COMPARISON_AND_ROBUSTNESS",
+      "started_at": "2026-09-05T04:26:41Z",
+      "state": "ROBUSTNESS_VALIDATED",
+      "status": "PASS"
+    },
+    {
+      "ended_at": "2026-09-05T04:26:41Z",
+      "gate": "GATE_FINAL_RUN",
+      "started_at": "2026-09-05T04:26:41Z",
+      "state": "FINAL_CANDIDATE",
+      "status": "PASS"
+    },
+    {
+      "ended_at": "2026-09-05T04:26:41Z",
+      "gate": "GATE_CLAIM_EVIDENCE",
+      "started_at": "2026-09-05T04:26:41Z",
+      "state": "EVIDENCE_VALIDATED",
+      "status": "PASS"
+    },
+    {
+      "gate": "GATE_MODELING_TO_PAPER",
+      "state": "READY_FOR_PAPER_HANDOFF",
+      "status": "PASS"
+    }
+  ],
+  "native_state": "READY_FOR_PAPER_HANDOFF",
+  "selected_candidate_id": "BASELINE_STATIC_FCFS",
+  "selected_run_id": "RUN-BASELINE_STATIC_FCFS-101",
+  "selection_decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+  "status": "PASS_NATIVE_CONTRACTS"
+}

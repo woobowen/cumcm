@@ -1,0 +1,85 @@
+{
+  "argv": [
+    "models/runtime/pipeline.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "CONTROL_FLUID_AGING",
+    "--seed",
+    "101",
+    "--output",
+    "runs/RUN-CONTROL_FLUID_AGING-101/output.json"
+  ],
+  "capture_record": {
+    "path": "runs/RUN-CONTROL_FLUID_AGING-101/execution_capture.json",
+    "sha256": "648101347736001f0b001b26063a766c095db92070ee88beb8f15d6c6b650f55"
+  },
+  "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "b251ecab6fc74b2c99c8034866f701ad08f22da31d12e1b19d3550299e7f979c"
+    },
+    {
+      "path": "models/runtime/pipeline.py",
+      "repository_path": "evals/validation_code/phase-004c2/CUMCM-2019-C-VALIDATION-002/pipeline.py",
+      "scope": "CASE_ROOT",
+      "sha256": "c2c3612f93f71f50a4faad73e4b942faf230cd808b386095e27d387e1cbfec87"
+    },
+    {
+      "path": "models/runtime/independent_checks.py",
+      "repository_path": "evals/validation_code/phase-004c2/CUMCM-2019-C-VALIDATION-002/independent_checks.py",
+      "scope": "CASE_ROOT",
+      "sha256": "23488cf53a18ba271f1c38e6a97a2bf9b08da6d8e0506e112ef699a1dfae8047"
+    }
+  ],
+  "code_tree_hash": "01947d8fcffefc43e3d2ce0d17d0692d476b974adc23e4913e39b172b4d6b973",
+  "configuration": {
+    "candidate_id": "CONTROL_FLUID_AGING",
+    "seed": 101
+  },
+  "configuration_hash": "5f77c156a18ee64c3935f7326d3f67c827e140bf0149a6679e539ce1168adc36",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "101",
+    "TZ": "UTC"
+  },
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "87450f8bfa8d6f255a10fa44f866c8ee8231b847cb0ef1492f1842ce28b71340",
+    "candidate_set": "a84f02d4ca5a9607db5e2d07d580a6597fce60ca99d75f68c8c830b7218d9d83",
+    "code_commit": "93486f77c99d3cefbcc301ae455007fc1eaa2c54fc162031cdfeba4c9c1f0925",
+    "code_set": "ed5f20ddfcefb67b438083b86d1b23a6787102606e559c0dfc854abfe321ba5c",
+    "execution_policy": "856c02288234381142900b3bb39b614aedb58165c547057547dbadeaf6bb2e79",
+    "input_set": "be8edc57f9f90ff1c50a59866b79b15178b511fa54d4302afc7ad817d8ca6394",
+    "metric": "6eba7f91612042898059573a7aa514020641c786a778a63e62910363e7701ea2",
+    "seed_schedule": "cb36a560f41132022d1448f94f818b960a6818ff4c88b086963f5a08dc11467c",
+    "split_assignment": "cb9201d5e7f860368d7108577d0d582defacd46270633c1bfe1d1d70a89c51eb"
+  },
+  "input_files": [
+    {
+      "path": "data/raw/problem.pdf",
+      "sha256": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0"
+    },
+    {
+      "path": "experiments/scenario_assumptions.json",
+      "sha256": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca"
+    }
+  ],
+  "input_hash": "f0f38da3c8eeb44b1525c24d41d5a2b45405ef001b7998268188a763d71965de",
+  "outcome": "SUCCESS",
+  "output_files": [
+    {
+      "path": "runs/RUN-CONTROL_FLUID_AGING-101/output.json",
+      "sha256": "963504a46eb4884a6d89e99913ce0287ed4458fda68ead3c5c957940506275c3"
+    }
+  ],
+  "output_hash": "cd10290e4aec2cd6af31fabf66542e830066dd3081e1b037c982bab2c3039b5c",
+  "random_seed": 101,
+  "run_id": "RUN-CONTROL_FLUID_AGING-101",
+  "supersession": null,
+  "trusted_capture": true
+}

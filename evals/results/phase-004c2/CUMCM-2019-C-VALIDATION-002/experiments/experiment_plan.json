@@ -1,0 +1,129 @@
+{
+  "artifact_type": "experiment_plan",
+  "content": {
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "baseline_id": "BASELINE_STATIC_FCFS",
+    "candidate_ids": [
+      "BASELINE_STATIC_FCFS",
+      "PRIMARY_NHPP_CREDIT",
+      "CONTROL_FLUID_AGING"
+    ],
+    "code_commit": "9cc251c9fec731c13fbb5ffc048db6af4834966a",
+    "execution_prepared": true,
+    "freeze_fill_instructions": "Main orchestrator accepts DRAFTs, binds copied raw/scenario bytes and both case-local code files plus exact frozen core runner; obtains real code commit and computes trusted_freeze_registry using native canonical_hash fields. Never fill placeholders with invented hashes.",
+    "handoff_generated_at": "2026-09-05T04:16:55Z",
+    "mandatory_uncompensated_check": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING independently prevents all-primary PASS regardless of rankings.",
+    "metric": "opportunity_loss_cny",
+    "metric_direction": "MIN",
+    "numeric_robustness": {
+      "boarding_scales": [
+        0.8,
+        1.3
+      ],
+      "distance_scales": [
+        0.8,
+        1.2
+      ],
+      "q1": [
+        {
+          "arguments": {
+            "demand_scale": 0.7
+          },
+          "id": "DEMAND_MINUS_30_PERCENT"
+        },
+        {
+          "arguments": {
+            "demand_scale": 1.3
+          },
+          "id": "DEMAND_PLUS_30_PERCENT"
+        },
+        {
+          "arguments": {
+            "delay_min": 30
+          },
+          "id": "FLIGHT_EXIT_DELAY_30_MIN"
+        },
+        {
+          "arguments": {
+            "cost_scale": 1.25
+          },
+          "id": "COST_PLUS_25_PERCENT"
+        },
+        {
+          "arguments": {
+            "cost_scale": 1.25,
+            "delay_min": 30,
+            "demand_scale": 0.7
+          },
+          "id": "COMBINED_LOW_DEMAND_DELAY_HIGH_COST"
+        }
+      ]
+    },
+    "per_run_timeout_seconds": 900,
+    "preregistered": true,
+    "random_seeds": [
+      101,
+      202,
+      303
+    ],
+    "required_code_files": [
+      {
+        "path": "scripts/cumcm_case.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "b251ecab6fc74b2c99c8034866f701ad08f22da31d12e1b19d3550299e7f979c"
+      },
+      {
+        "path": "models/runtime/pipeline.py",
+        "repository_path": "evals/validation_code/phase-004c2/CUMCM-2019-C-VALIDATION-002/pipeline.py",
+        "scope": "CASE_ROOT",
+        "sha256": "c2c3612f93f71f50a4faad73e4b942faf230cd808b386095e27d387e1cbfec87"
+      },
+      {
+        "path": "models/runtime/independent_checks.py",
+        "repository_path": "evals/validation_code/phase-004c2/CUMCM-2019-C-VALIDATION-002/independent_checks.py",
+        "scope": "CASE_ROOT",
+        "sha256": "23488cf53a18ba271f1c38e6a97a2bf9b08da6d8e0506e112ef699a1dfae8047"
+      }
+    ],
+    "required_input_hashes": {
+      "data/raw/problem.pdf": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+      "experiments/scenario_assumptions.json": "34105ba14a1e0d824dd32eecf40a31452d95592d83c7e320e4d3f64aceb4caca"
+    },
+    "retry_policy": "No numerical/model retries. Only existing policy's bounded pure-infrastructure retries, with all attempts preserved and independently classified.",
+    "selection_metric_interpretation": "Mean realized oracle opportunity loss under frozen assumed scenarios; it compares Q1 policies, not empirical validity or joint Q1-Q4 optimality.",
+    "selection_rule": "ARGMIN_THEN_ID",
+    "splits": {
+      "test": [
+        "RESERVED_TEST_SCENARIOS"
+      ],
+      "train": [
+        "REGISTERED_TRAIN_STREAMS"
+      ],
+      "validation": [
+        "REGISTERED_VALIDATION_STREAMS"
+      ]
+    },
+    "stop_rule": "ONE_SHOT_3_CANDIDATES_X_3_SEEDS_EACH_ONCE_NO_MODEL_RETRY_900_SECONDS_PER_RUN_14400_SECONDS_TOTAL_KEEP_ALL_FAILURES_NO_RETUNING",
+    "test_protocol": {
+      "access": "Decode exactly once selected candidate's lexicographically minimum random_seed/run_id SUCCESS Run; verify payload hash and record actual access receipt.",
+      "boundary": "Base64 prevents accidental reading only; no cryptographic or OS isolation claim. Unselected test payloads remain undisclosed.",
+      "generation": "Each run computes independent test evaluation streams using frozen training policy, encodes JSON in sealed_test_metrics_b64, records sealed_test_payload_sha256.",
+      "selection": "Read only validation_metrics.opportunity_loss_cny; freeze selected candidate and selection decision hash before decoding any test payload."
+    },
+    "timebox_seconds": 14400,
+    "trusted_freeze_registry": {
+      "baseline": "87450f8bfa8d6f255a10fa44f866c8ee8231b847cb0ef1492f1842ce28b71340",
+      "candidate_set": "a84f02d4ca5a9607db5e2d07d580a6597fce60ca99d75f68c8c830b7218d9d83",
+      "code_commit": "93486f77c99d3cefbcc301ae455007fc1eaa2c54fc162031cdfeba4c9c1f0925",
+      "code_set": "ed5f20ddfcefb67b438083b86d1b23a6787102606e559c0dfc854abfe321ba5c",
+      "execution_policy": "856c02288234381142900b3bb39b614aedb58165c547057547dbadeaf6bb2e79",
+      "input_set": "be8edc57f9f90ff1c50a59866b79b15178b511fa54d4302afc7ad817d8ca6394",
+      "metric": "6eba7f91612042898059573a7aa514020641c786a778a63e62910363e7701ea2",
+      "seed_schedule": "cb36a560f41132022d1448f94f818b960a6818ff4c88b086963f5a08dc11467c",
+      "split_assignment": "cb9201d5e7f860368d7108577d0d582defacd46270633c1bfe1d1d70a89c51eb"
+    }
+  },
+  "content_hash": "646d840c18661aab7f12b1c5e60319b47c24a99f3429720b0e172987519d460b",
+  "status": "ACCEPTED"
+}

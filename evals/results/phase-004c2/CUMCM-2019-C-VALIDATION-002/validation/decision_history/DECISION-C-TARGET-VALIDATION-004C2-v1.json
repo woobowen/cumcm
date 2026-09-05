@@ -1,0 +1,68 @@
+{
+  "answer_access_status": "SEALED",
+  "case_id": "CUMCM-2019-C-VALIDATION-002",
+  "case_state_sha256": "43532d439e5371d604ab455203fde1234b8dd35d9689a4929db3e16e334ed822",
+  "decided_at": "2026-09-05T12:28:53+08:00",
+  "decision_id": "DECISION-C-TARGET-VALIDATION-004C2",
+  "facts": {
+    "answer_sealed": true,
+    "empirical_primary_requirement_satisfied": false,
+    "one_shot_and_timebox_respected": true,
+    "pipeline_pass_requirements": {
+      "aggregate_coverage_exact": true,
+      "all_primary_outputs_valid": false,
+      "baseline_and_primary_executed": true,
+      "claim_lineage_exact": true,
+      "final_run_current_sealed_validated": true,
+      "handoff_valid": true,
+      "independent_control_executed": true,
+      "ready_for_paper_handoff": false,
+      "requirement_claims_valid": true,
+      "robustness_complete": true
+    },
+    "skill_unchanged": true,
+    "uncompensable_model_failures": []
+  },
+  "final_case_state": "REJECTED",
+  "handoff_disposition": "CONDITIONAL_DIAGNOSTIC_ONLY_NOT_ACCEPTED_FOR_PAPER_DISPATCH",
+  "input_registration_sha256": "b98aa89e860f7394dd5d531811a7b61d8336559190103b947348aa58be62b66c",
+  "limitations": [
+    "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+    "NO_REAL_AIRPORT_OR_CITY_OBSERVATIONS",
+    "ASSUMED_PARAMETERS_ARE_NOT_EMPIRICAL_DATA",
+    "RANKING_Q1_ONLY_AND_TIED; NO_JOINT_OPTIMUM",
+    "PRIMARY_Q4_FAIRNESS_WORSENED_IN_FROZEN_SCENARIOS",
+    "BASE64_TEST_GUARD_NOT_CRYPTOGRAPHIC_OR_OS_ISOLATION",
+    "MONTE_CARLO_INTERVALS_ARE_CONDITIONAL_NOISE_ONLY",
+    "REAL_GEOMETRY_SAFETY_AND_EXTERNAL_GENERALIZATION_UNVERIFIED"
+  ],
+  "native_completion_sha256": "48ec0424dd1f03515514d3fba7b4bce53909906e28b2c5038d9f9e41d8957cb4",
+  "native_contract_state": "READY_FOR_PAPER_HANDOFF",
+  "native_contract_success_is_not_all_primary_completion": true,
+  "next_phase_allowed": null,
+  "paper_dispatch_accepted": false,
+  "pre_run_freeze_sha256": "66b7c8a140481b3abc4e0d1eab82efb6340d608b00d2ce3fcb87cac4681cc655",
+  "pre_run_remote_commit": "9f7f3ed2d88d8eaffd0ce2468221f65fec4a46de",
+  "reason_codes": [
+    "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING"
+  ],
+  "rubric_sha256": "88e0e3a1c415be945d23ad5bae55c7281e24e5c3dcf694e68e3a81c76a3e51d4",
+  "run_and_gate_checks_sha256": "6fa8d574d620355d42556542d58f900358e18142d049b642176af3dbf825721b",
+  "run_ids": [
+    "RUN-BASELINE_STATIC_FCFS-101",
+    "RUN-BASELINE_STATIC_FCFS-202",
+    "RUN-BASELINE_STATIC_FCFS-303",
+    "RUN-CONTROL_FLUID_AGING-101",
+    "RUN-CONTROL_FLUID_AGING-202",
+    "RUN-CONTROL_FLUID_AGING-303",
+    "RUN-PRIMARY_NHPP_CREDIT-101",
+    "RUN-PRIMARY_NHPP_CREDIT-202",
+    "RUN-PRIMARY_NHPP_CREDIT-303"
+  ],
+  "schema_version": "1.0.0",
+  "selected_candidate_id": "BASELINE_STATIC_FCFS",
+  "selected_run_id": "RUN-BASELINE_STATIC_FCFS-101",
+  "selection_decision_hash": "afea1386c5210d6ebae76542f546c0d439554b9b37903fff74c7780301950aa9",
+  "set_type": "VALIDATION",
+  "status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"
+}

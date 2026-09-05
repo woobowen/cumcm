@@ -1,0 +1,115 @@
+{
+  "artifact_type": "problem_requirements",
+  "content": {
+    "ambiguities": [
+      "题面没有特定机场、日期、航班/队列/费用观测或车道实测几何",
+      "乘车效率定义为完成上车的乘客组/小时，组作为一辆出租车服务单位",
+      "收益均衡以完整往返现金流/司机实际暴露小时的分布衡量，另报绝对收入"
+    ],
+    "case_id": "CUMCM-2019-C-VALIDATION-002",
+    "case_kind_proposal": "general",
+    "global_scope": "四问的假设情景建模与可复算局部证据；REQ-Q2机场和城市实测数据缺失，不能据此主张全部主问题完成或实际部署有效。",
+    "input_inventory": [
+      {
+        "numeric_data_attachment_count": 0,
+        "role": "IMMUTABLE_OFFICIAL_PROBLEM",
+        "sha256": "e6c3bcbfdb92c633d49712fff7a2ef4bfc9dbaf540b1de4036b0e71503d962d0",
+        "source_id": "SOURCE-OFFICIAL-2019-C-PDF"
+      }
+    ],
+    "non_compensable_gaps": [
+      "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING"
+    ],
+    "primary_requirement_count": 4,
+    "requirements": [
+      {
+        "acceptance_tests": [
+          "明确可观察航班与蓄车池队列、潜在出客人数与等待时间的关系",
+          "统一CNY/min/km单位下比较A、B期望净收益",
+          "给出可复算的条件策略、baseline/control对照及不确定性"
+        ],
+        "depends_on": [],
+        "expected_output_paths": [
+          "question_1.rows",
+          "question_1.independent_check"
+        ],
+        "requirement_id": "REQ-Q1",
+        "role": "PRIMARY",
+        "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+        "source_locator": "题面第(1)问",
+        "supported_scope": "假设航班出客过程和收益参数下，比较候客与空返的期望增量净收益并给出条件决策；未验证真实机场适用性。",
+        "text": "分析影响机理与乘客数量变化，结合司机收益建立候客/空返决策模型并给出策略。"
+      },
+      {
+        "acceptance_tests": [
+          "真实命名机场和城市的数据来源、观测期、单位、许可与hash齐全",
+          "参数由观测数据校准并用独立观测检查合理性",
+          "给出该机场方案及定量敏感性"
+        ],
+        "depends_on": [
+          "REQ-Q1"
+        ],
+        "expected_output_paths": [
+          "question_2.status",
+          "question_2.observations",
+          "question_2.assumption_sensitivity"
+        ],
+        "known_gap": "VALIDATION_PRIMARY_EMPIRICAL_DATA_MISSING",
+        "non_compensable": true,
+        "requirement_id": "REQ-Q2",
+        "role": "PRIMARY",
+        "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+        "source_locator": "题面第(2)问",
+        "supported_scope": "官方输入不含机场及城市实测数据，实际机场方案与实证合理性检验证据不足；仅提供明确标记的假设情景依赖性分析。",
+        "text": "收集国内某机场及所在城市出租车实际数据，给出该机场司机选择方案并分析合理性与因素依赖性。"
+      },
+      {
+        "acceptance_tests": [
+          "给出几何、乘客通行与车辆移动互锁约束",
+          "枚举有限上车点方案与baseline/control并评估groups/hour",
+          "独立复算每个事件批次的容量与安全规则",
+          "只声明预注册模型内经验最优，禁止现实全局最优"
+        ],
+        "depends_on": [
+          "REQ-Q1"
+        ],
+        "expected_output_paths": [
+          "question_3.events",
+          "question_3.training_comparison",
+          "question_3.independent_check"
+        ],
+        "requirement_id": "REQ-Q3",
+        "role": "PRIMARY",
+        "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+        "source_locator": "题面第(3)问",
+        "supported_scope": "在明确假设的双车道几何、饱和队列和行人车辆互锁条件下比较批次上车点配置并复算约束；最优性仅限预注册有限方案集。",
+        "text": "两条并行车道设置上车点，安排出租车与乘客，在保证安全条件下提高总乘车效率并说明最优性边界。"
+      },
+      {
+        "acceptance_tests": [
+          "明确短途资格、额度、失效与使用一次规则及普通队列保护",
+          "目的地按外生到客序列揭示，不允许选客拒载",
+          "与FCFS/control比较Gini、底部分位数、吞吐和最大等待",
+          "独立复算车辆往返、收入与优先额度账本，记录未改善和有限时域偏差"
+        ],
+        "depends_on": [
+          "REQ-Q1",
+          "REQ-Q3"
+        ],
+        "expected_output_paths": [
+          "question_4.ledger",
+          "question_4.independent_check",
+          "question_4.income_rate_gini"
+        ],
+        "requirement_id": "REQ-Q4",
+        "role": "PRIMARY",
+        "source_id": "SOURCE-OFFICIAL-2019-C-PDF",
+        "source_locator": "题面第(4)问",
+        "supported_scope": "在假设循环车队和外生目的地序列下评价短途一次性补偿优先、普通队列配额与老化保护的可行性及收益率分布；不保证真实收益均衡改善。",
+        "text": "针对短途载客后返回的出租车提出优先安排，在不选客、不拒载、可多次往返条件下尽量均衡收益。"
+      }
+    ]
+  },
+  "content_hash": "c49ae29c8bf6601a9e4719676a66842f7dfd14cccf14a3ae201ee59b7fad7b72",
+  "status": "ACCEPTED"
+}
