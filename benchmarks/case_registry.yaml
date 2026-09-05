@@ -980,7 +980,12 @@ cases:
   terminal_freeze:
     freeze_id: CUMCM-2017-C-VALIDATION-003F-TERMINAL-FREEZE-001
     path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/terminal_freeze/terminal_validation_freeze.json
-    status: PENDING_REMOTE_DELIVERY
+    sha256: 984ccfe2616769020443c4f873303f9d5f584793f8b865e3c3b1e159d316559a
+    payload_sha256: 5f840eb821c8e58215f276baf0e2be86c122f13f55690800cf5ea7886437ccf1
+    freeze_commit: 8bf82ebc56d00bbcfd756b9d3d2b77c7a35ffcd6
+    remote_sha: 8bf82ebc56d00bbcfd756b9d3d2b77c7a35ffcd6
+    delivery_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/terminal_freeze/terminal_validation_freeze_delivery.json
+    status: REMOTE_DELIVERED
   fallback_from:
     case_id: CUMCM-2018-C-VALIDATION-003
     reason_code: C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE

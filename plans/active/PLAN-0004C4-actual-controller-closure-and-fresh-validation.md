@@ -1,6 +1,6 @@
 # PLAN-0004C4 — actual-controller closure, Competition RC7 and fresh C Validation
 
-Status: `TERMINAL_VALIDATION_FAILED_PENDING_DELIVERY_AND_AUDIT`
+Status: `TERMINAL_VALIDATION_FAILED_PENDING_AUDIT_AND_ACCEPTANCE`
 Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
 Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
 Owner: main agent / `modeling_orchestrator`
@@ -237,3 +237,8 @@ Progress:
   case retry is allowed, and the exact next route is
   `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`. Terminal delivery and the required read-only integrity
   audit remain pending.
+- `2026-09-05T22:46:29+08:00` — Terminal freeze commit
+  `8bf82ebc56d00bbcfd756b9d3d2b77c7a35ffcd6` is remote-verified. Freeze file SHA-256 is
+  `984ccfe2616769020443c4f873303f9d5f584793f8b865e3c3b1e159d316559a`; canonical payload hash is
+  `5f840eb821c8e58215f276baf0e2be86c122f13f55690800cf5ea7886437ccf1`. No post-freeze Run or
+  code mutation occurred. The successor receipt records delivery without changing the freeze.
