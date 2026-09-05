@@ -42,7 +42,7 @@ no changed verdict, no answer access and no independent Validation credit.
 - M5 RELEASE COMPLETE_REMOTE_DELIVERED: all required tests, anti-hardcoding, discovery, strict and local CI pass;
   freeze version/implementation commit/tree/runner/contract/tests/regressions/environment.
   Commit and remotely verify RC5 before any fresh Validation input acquisition.
-- M6 FRESH VALIDATION PREPARING: only after M5, check contamination then obtain official 2019 C
+- M6 FRESH VALIDATION PRE_RUN_FROZEN_PENDING_REMOTE: only after M5, check contamination then obtain official 2019 C
   inputs; register `CUMCM-2019-C-VALIDATION-002`, `VALIDATION`, `SEALED`, and unverifiable model
   prior. Freeze rubric, primary requirements/output contract, environment, 4-hour timebox and
   one-shot protocol; commit/push pre-run freeze before actual model execution. One fresh worker
@@ -108,3 +108,9 @@ with unverifiable model prior; official archive/PDF hashes registered; answers S
 Fresh worker is preparing case code only. No numerical result exists and no execution is authorized
 until the separate pre-run remote freeze. Q2 actual-airport empirical data are absent from the
 official archive and cannot be replaced by assumed simulation inputs.
+
+Fresh preparation code checkpoint `9cc251c9fec731c13fbb5ffc048db6af4834966a` remotely delivered.
+Native stages through EXPERIMENT_PLAN_VALIDATED and stateful output preflight pass.
+Pre-run freeze now binds 4 primary requirements, 3 candidates × 3 seeds, no empirical-data substitution,
+18 passing controller/routing tests, environment, exact code/input/Skill/contract hashes,
+and a conservative whole-episode deadline 2026-09-05T15:48:24+08:00. Actual new-case Runs remain zero.
