@@ -119,3 +119,9 @@ Progress:
   handoff builder so a valid PER_REQUIREMENT/JOINT_PORTFOLIO case can reach the terminal state
   without restoring semantic defaults. Static checks and the legacy-neutral 57-case matrix pass;
   the modified runner again requires a Git-bound commit before actual E2E execution.
+- `2026-09-05T20:15:00+08:00` — Froze three project-original neutral actual-controller E2E
+  families as 17 tests: PER_REQUIREMENT success/order permutations/binding attacks;
+  JOINT_PORTFOLIO success plus shared/actual/scenario hash, bridge and constraint attacks; and
+  strict data sufficiency success plus external-policy, simulation-as-empirical, unregistered
+  composition and PARTIAL mutations. Collection and static checks pass. The dynamic neutral model
+  fixture must be committed before behavior execution because it is part of the frozen code set.
