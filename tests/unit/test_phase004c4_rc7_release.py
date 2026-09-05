@@ -65,6 +65,59 @@ def test_rc7_candidate_snapshot_passes_without_live_state(repo_root) -> None:
 
 
 @pytest.mark.parametrize(
+    "state",
+    [
+        {
+            "technical_adjudication_status": "C_TARGET_RC7_READY_VALIDATION_PENDING",
+            "subphase": "RC7-FROZEN-PENDING-FRESH-C-VALIDATION",
+            "active_skill_version": "0.2.0-competition-rc7",
+            "current_validation_case": None,
+            "next_phase_allowed": None,
+            "answer_access_status": "SEALED_NOT_ACCESSED",
+            "blockers": [],
+        },
+        {
+            "technical_adjudication_status": "C_TARGET_VALIDATION_IN_PROGRESS",
+            "subphase": "C-TARGET-FRESH-VALIDATION-IN-PROGRESS",
+            "active_skill_version": "0.2.0-competition-rc7",
+            "current_validation_case": "CUMCM-2017-C-VALIDATION-003F",
+            "next_phase_allowed": None,
+            "answer_access_status": "SEALED_NOT_ACCESSED",
+            "blockers": [],
+        },
+        {
+            "technical_adjudication_status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+            "subphase": "C-TARGET-FRESH-VALIDATION-TERMINAL",
+            "active_skill_version": "0.2.0-competition-rc7",
+            "current_validation_case": "CUMCM-2017-C-VALIDATION-003F",
+            "next_phase_allowed": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+            "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
+            "blockers": ["VALIDATION_REQUIREMENT_EVIDENCE_INSUFFICIENT"],
+        },
+    ],
+)
+def test_rc7_live_state_remains_valid_across_frozen_validation_lifecycle(
+    repo_root, state
+) -> None:
+    module = _module(repo_root)
+    assert module._live_state_is_valid(state)
+
+
+def test_rc7_live_state_rejects_unknown_or_unreleased_state(repo_root) -> None:
+    module = _module(repo_root)
+    assert not module._live_state_is_valid(
+        {
+            "technical_adjudication_status": "C_TARGET_VALIDATION_IN_PROGRESS",
+            "subphase": "C-TARGET-FRESH-VALIDATION-IN-PROGRESS",
+            "active_skill_version": "0.2.0-competition-rc6",
+            "current_validation_case": "CUMCM-2017-C-VALIDATION-003F",
+            "next_phase_allowed": None,
+            "blockers": [],
+        }
+    )
+
+
+@pytest.mark.parametrize(
     ("field", "mutation", "reason"),
     [
         (

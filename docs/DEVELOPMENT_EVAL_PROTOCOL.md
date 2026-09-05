@@ -209,3 +209,9 @@ frozen and remotely verified. Only then may the official 2018 C input be acquire
 storage and hash-registered. The answer-sealed preflight/freeze and four-hour one-shot requirements
 are unchanged; 2017 is fallback only for the enumerated input/contamination conditions, never for
 difficulty or an unfavorable result.
+
+RC7 passed both release stages and remote delivery. The 2018 C archive was obtained, but the five
+data attachments required by its problem were absent; no model Run began. That official-input
+failure authorizes the 2017 C fallback. Its official problem, `Data1.xls`, `Data2.xls` and variable
+dictionary are hash-registered in ignored storage, with no answer/solution search or exposure. The
+pre-run freeze and remote receipt still precede every formal Run.

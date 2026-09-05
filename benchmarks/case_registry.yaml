@@ -44,14 +44,14 @@ target_case_fields:
 - contamination_status
 - generalization_axis
 active_skill_release:
-  version: 0.2.0-competition-rc5
-  implementation_commit: 5673aab61a648be1cd9b87364110cb01c13cd033
-  tree: 0c27a6aa25d5f591277707fd2343b34e65a703fb
-  release_commit: 24265710b3f4b154ccf6eff19614eea7fb3fb0d4
-  release_manifest: evals/results/phase-004c2/rc5_release.json
-  validation_status: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
-  release_acceptance: BLOCKED_VERSION_METADATA
-  unresolved_blocker: RC5_VERSION_FILE_MISMATCH
+  version: 0.2.0-competition-rc7
+  implementation_commit: cd02e61994b906364789c65609de695b6912f1c7
+  tree: 0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056
+  release_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+  release_manifest: evals/results/phase-004c4/rc7_release.json
+  validation_status: C_TARGET_VALIDATION_IN_PROGRESS
+  release_acceptance: COMPETITION_RC_RELEASED
+  unresolved_blocker: null
 planned_cases: []
 held_out_reservations:
 - reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
@@ -907,3 +907,54 @@ cases:
     release_acceptance: BLOCKED_VERSION_METADATA
     freeze_id: CUMCM-2019-C-VALIDATION-002-TERMINAL-FREEZE-001
     freeze_sha256: d8e52a286126b2d4f6848b29c7eaa2e19e963de8d28ab95dc7df0bb0224acc64
+- case_id: CUMCM-2017-C-VALIDATION-003F
+  set_type: VALIDATION
+  target_problem_type: C
+  evidence_role: FRESH_ANSWER_SEALED_VALIDATION_FALLBACK
+  independent_problem: true
+  batch_id: null
+  batch_position: null
+  official_title: 颜色与物质浓度辨识
+  problem_source: data/raw/CUMCM-2017-problem-C.docx
+  problem_source_domain: mcm.edu.cn
+  problem_source_url_sha256: dc45d1f63102e6f1a9094faae7ff49ae6c0b4ffccda02db1f1f1ea032ed52721
+  problem_hash: f447d3ab2c5a9c70e21a52cf9fa7ccfde4b243615cd1dbfc7d154e9415615adf
+  official_package_sha256: c4461c47cd4b8502fd789159d2e5984276583880433cabff25b19344fc047758
+  data_hashes:
+    data/raw/Data1.xls: ee7982ae98ee3d3f9a5762d49e2fa6a780db61ad25fcb09519228d86689636ad
+    data/raw/Data2.xls: 6766f5317fd256f86ce28c2c46e101a3c7057af84b9419158bbe824c8c36d723
+    data/raw/readme.txt: bb46f621f6a0aa4d504de3493e92521ce63bb3d78a959f3196dc9b83637acbdf
+  official_empirical_attachment_count: 2
+  answer_access_status: SEALED
+  reference_unlock: LOCKED
+  first_run_status: NOT_STARTED
+  first_run_freeze: null
+  skill_version: 0.2.0-competition-rc7
+  formal_skill_version: 0.2.0-competition-rc7
+  skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+  formal_skill_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
+  model: MODEL_ID_NOT_EXPOSED_BY_RUNTIME
+  reasoning: UNKNOWN
+  start_time: '2026-09-05T21:37:55+08:00'
+  freeze_time: null
+  unlock_time: null
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  contamination_status: PASS_NO_KNOWN_ACTIVE_CONTENT_EXPOSURE
+  generalization_axis:
+  - SMALL_SAMPLE_MULTIVARIATE_REGRESSION
+  - COLOR_FEATURE_REPRESENTATION
+  - GROUPED_CROSS_VALIDATION
+  - DATASET_QUALITY_ASSESSMENT
+  - SAMPLE_SIZE_SENSITIVITY
+  - FEATURE_DIMENSION_ABLATION
+  generalizable_failures: []
+  problem_specific_findings: []
+  registration_path: evals/results/phase-004c4/fresh_validation/CUMCM-2017-C-VALIDATION-003F/registration/input_registration.json
+  pre_run_freeze: null
+  validation_decision: null
+  case_state: NOT_STARTED
+  paper_dispatch_accepted: false
+  fallback_from:
+    case_id: CUMCM-2018-C-VALIDATION-003
+    reason_code: C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE
+    preflight_path: evals/results/phase-004c4/fresh_validation/2018_input_preflight.json

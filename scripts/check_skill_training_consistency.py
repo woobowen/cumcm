@@ -86,6 +86,7 @@ ALLOWED_CASE_VERSIONS = {
     EXPECTED_VERSION,
     "0.2.0-competition-rc4",
     "0.2.0-competition-rc5",
+    "0.2.0-competition-rc7",
 }
 REQUIRED_FIELDS = {
     "case_id",

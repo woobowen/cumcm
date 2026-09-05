@@ -120,3 +120,9 @@ and handoff path and require a bound gate trace. RC7 must pass three neutral end
 independent adversarial replay and all C/history regressions before candidate/live consistency and
 remote freeze. Fresh Validation remains answer-sealed and inaccessible before that freeze; 2025 C
 remains reserved with all access flags false.
+
+RC7 is now released and remotely frozen. The preferred 2018 archive was rejected before any model
+Run because its C directory omitted all five data attachments named by the official problem and its
+official notice pointed to a separate unavailable committee channel. The policy-authorized 2017 C
+fallback is registered with a complete official problem, two empirical workbooks and a variable
+dictionary; its answer remains sealed and its model-prior exposure is unverifiable.

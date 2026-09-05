@@ -2,7 +2,7 @@
 
 Status: `IN_PROGRESS`
 Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
-Subphase: `RC7-FROZEN-PENDING-FRESH-C-VALIDATION`
+Subphase: `C-TARGET-FRESH-VALIDATION-IN-PROGRESS`
 Owner: main agent / `modeling_orchestrator`
 Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
 Starting commit: `7060ab136b88a158be6dfe3b46801e6cc2c65c64`
@@ -202,3 +202,9 @@ Progress:
   by the problem are absent and the annual page exposes no second download. No model Run started.
   Preflight reason `C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE` authorizes the frozen
   2017 fallback as an official-input failure, not for difficulty, result or time pressure.
+- The direct preregistered 2017 official archive contains a recognizable C problem, both named
+  empirical workbooks and the official variable dictionary. Input-suitability passes with three
+  primary requirements, no external-data requirement, no known solution contamination and zero
+  formal Runs. The fallback is registered answer-sealed as
+  `CUMCM-2017-C-VALIDATION-003F`; only clean-context preparation may proceed before the independent
+  remotely verified pre-run freeze.

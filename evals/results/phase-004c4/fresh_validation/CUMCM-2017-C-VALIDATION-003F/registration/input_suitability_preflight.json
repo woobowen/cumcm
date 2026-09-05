@@ -1,0 +1,63 @@
+{
+  "schema_version": "phase-004c4-validation-input-suitability/v1",
+  "preflight_id": "CUMCM-2017-C-VALIDATION-003F-INPUT-SUITABILITY-001",
+  "case_id": "CUMCM-2017-C-VALIDATION-003F",
+  "official_title": "颜色与物质浓度辨识",
+  "result": "PASS",
+  "checks": {
+    "case_unused": "PASS",
+    "known_solution_contamination": "PASS_NONE_OBSERVED",
+    "official_problem_and_attachments_complete": "PASS",
+    "primary_requirements_recognizable": "PASS_3_OF_3",
+    "data_source_requirements_recognizable": "PASS",
+    "external_data_policy_executable": "PASS_NO_EXTERNAL_DATA_REQUIRED",
+    "four_hour_window_startable": "PASS",
+    "rc7_release_identity_frozen": "PASS"
+  },
+  "primary_requirements": [
+    {
+      "requirement_id": "REQ-1",
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "source_ids": ["SOURCE-DATA1"],
+      "coverage_mode": "SINGLE_SOURCE",
+      "required_fields": ["substance", "concentration_ppm", "R", "G", "B", "H", "S"],
+      "objective": "RELATIONSHIP_IDENTIFICATION_AND_FIVE_DATASET_QUALITY_CRITERIA"
+    },
+    {
+      "requirement_id": "REQ-2",
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "source_ids": ["SOURCE-DATA2"],
+      "coverage_mode": "SINGLE_SOURCE",
+      "required_fields": ["concentration_ppm", "R", "G", "B", "H", "S"],
+      "objective": "CONCENTRATION_MODEL_AND_ERROR_ANALYSIS"
+    },
+    {
+      "requirement_id": "REQ-3",
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "source_ids": ["SOURCE-DATA2"],
+      "coverage_mode": "SINGLE_SOURCE",
+      "required_fields": ["concentration_ppm", "R", "G", "B", "H", "S"],
+      "objective": "SAMPLE_SIZE_AND_COLOR_DIMENSION_SENSITIVITY"
+    }
+  ],
+  "data_inventory": {
+    "data1_observation_rows": 79,
+    "data1_substance_groups": 5,
+    "data2_observation_rows": 26,
+    "data2_concentration_levels": 7,
+    "feature_dimensions": 5,
+    "recognized_water_as_zero_concentration": true,
+    "recognized_merged_concentration_cells": true,
+    "data1_extraneous_non_table_cell_requires_audit": true
+  },
+  "external_data_required": false,
+  "external_data_allowed": false,
+  "registered_composition_required": false,
+  "difficulty_used_as_eligibility_criterion": false,
+  "expected_success_probability_used_as_eligibility_criterion": false,
+  "answer_access_status": "SEALED",
+  "model_prior_status": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "validation_episode_started": false,
+  "formal_run_count": 0,
+  "heldout_2025_accessed": false
+}

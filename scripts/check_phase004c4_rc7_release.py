@@ -179,6 +179,62 @@ def _skill_tree_hash() -> str:
     return _canonical_hash(mapping)
 
 
+def _live_state_is_valid(state: dict[str, Any]) -> bool:
+    if state.get("active_skill_version") != SKILL_VERSION:
+        return False
+    status = state.get("technical_adjudication_status")
+    current_case = state.get("current_validation_case")
+    valid_cases = {"CUMCM-2018-C-VALIDATION-003", "CUMCM-2017-C-VALIDATION-003F"}
+    if status == "C_TARGET_RC7_READY_VALIDATION_PENDING":
+        return (
+            state.get("subphase") == "RC7-FROZEN-PENDING-FRESH-C-VALIDATION"
+            and current_case is None
+            and state.get("next_phase_allowed") is None
+            and state.get("answer_access_status") == "SEALED_NOT_ACCESSED"
+            and state.get("blockers") == []
+        )
+    if status == "C_TARGET_VALIDATION_IN_PROGRESS":
+        return (
+            state.get("subphase") == "C-TARGET-FRESH-VALIDATION-IN-PROGRESS"
+            and current_case in valid_cases
+            and state.get("next_phase_allowed") is None
+            and state.get("blockers") == []
+        )
+    if status == "C_TARGET_VALIDATION_PASSED":
+        return (
+            state.get("subphase") == "C-TARGET-FRESH-VALIDATION-TERMINAL"
+            and current_case in valid_cases
+            and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-HELDOUT-004D"
+            and state.get("answer_access_status") == "SEALED_AT_TERMINAL_FREEZE"
+            and state.get("blockers") == []
+        )
+    if status in {
+        "C_TARGET_VALIDATION_FAILED",
+        "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+        "C_TARGET_VALIDATION_INCOMPLETE",
+    }:
+        return (
+            state.get("subphase") == "C-TARGET-FRESH-VALIDATION-TERMINAL"
+            and current_case in valid_cases
+            and state.get("next_phase_allowed")
+            == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+            and state.get("answer_access_status") == "SEALED_AT_TERMINAL_FREEZE"
+        )
+    if status in {
+        "VALIDATION_PREFLIGHT_DISQUALIFIED",
+        "VALIDATION_CASE_CONTAMINATED",
+        "FIRST_RUN_CONTAMINATION_SUSPECTED",
+        "OFFICIAL_INPUTS_REQUIRED",
+        "INFRASTRUCTURE_BLOCKED",
+        "VALIDATION_CANDIDATE_DRIFT",
+    }:
+        return (
+            state.get("subphase") == "C-TARGET-FRESH-VALIDATION-BLOCKED"
+            and state.get("next_phase_allowed") is None
+        )
+    return False
+
+
 def evaluate_live_repository() -> dict[str, Any]:
     candidate = _read_json(ROOT / CANDIDATE_PATH)
     release = _read_json(ROOT / RELEASE_PATH)
@@ -263,15 +319,7 @@ def evaluate_live_repository() -> dict[str, Any]:
         or release.get("skill_tree_hash") != _skill_tree_hash()
     ):
         codes.add("RC7_RELEASE_LIVE_VERSION_OR_TREE_INVALID")
-    if (
-        state.get("technical_adjudication_status") != "C_TARGET_RC7_READY_VALIDATION_PENDING"
-        or state.get("subphase") != "RC7-FROZEN-PENDING-FRESH-C-VALIDATION"
-        or state.get("active_skill_version") != SKILL_VERSION
-        or state.get("blockers") != []
-        or state.get("answer_access_status") != "SEALED_NOT_ACCESSED"
-        or state.get("current_validation_case") is not None
-        or state.get("next_phase_allowed") is not None
-    ):
+    if not _live_state_is_valid(state):
         codes.add("RC7_RELEASE_LIVE_STATE_INVALID")
     subject = release.get("release_subject_commit")
     try:
