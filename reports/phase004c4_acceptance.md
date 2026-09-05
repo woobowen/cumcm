@@ -305,16 +305,23 @@ pre-release candidate PASS remains bound by candidate snapshot SHA-256
 `a535b04635b91144918e5e179eba3b4dbf51f8d61d950f6e88086ecb2f2f5c25`. No failed harness
 attempt changed Skill/case code, ran a model, accessed an answer, or touched 2025.
 
-Remote CI is pending the final successor commit and push; it will be recorded separately without
-changing the frozen Validation evidence.
+Remote CI PASS is bound to acceptance subject/remote SHA
+`64a7647d8c196e52e6c43f73095a56f232e1a23f`: GitHub Actions run `33975187408`, job
+`101330529964`, completed in 8m45s. Its sole CI command passed 825-file formatting, pytest
+`2068 passed / 1 skipped` in 509.30 seconds, all historical checkers, and strict 0 errors / 0
+warnings. The sole annotation is the GitHub-hosted Actions Node.js 20 deprecation/forced Node.js 24
+notice; it did not fail the job. The workflow remained offline and did not read ignored inputs,
+answers, historical workspaces or 2025.
 
 ## Delivery and PR
 
 Starting HEAD is `7060ab136b88a158be6dfe3b46801e6cc2c65c64`. The probe freeze, three
 implementation milestones, adversarial freeze/repair, regressions, RC7 candidate/release,
 post-release CI receipt, 2018 fallback, 2017 registration/pre-run freeze, terminal freeze and
-terminal delivery are separate commits on the required task branch. Final successor commit, remote
-SHA, remote CI and PR head remain pending remote delivery. PR #10 must remain OPEN/DRAFT and
+terminal delivery are separate commits on the required task branch. Acceptance content commit and
+remote SHA are `64a7647d8c196e52e6c43f73095a56f232e1a23f`; remote CI run `33975187408` passed.
+The non-self-referential successor receipt carrying this remote result is delivered separately and
+its final SHA is reported in the handoff response. PR #10 remains OPEN/DRAFT/MERGEABLE and
 unmerged.
 
 ## Unknowns and limitations

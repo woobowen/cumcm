@@ -1,0 +1,43 @@
+{
+  "schema_version": "phase-004c4-final-acceptance-delivery/v1",
+  "receipt_id": "PHASE-004C4-FINAL-ACCEPTANCE-DELIVERY-001",
+  "status": "REMOTE_DELIVERED_AND_CI_PASS",
+  "subject_commit": "64a7647d8c196e52e6c43f73095a56f232e1a23f",
+  "remote": "origin",
+  "remote_branch": "feat/phase004c2-claim-scope-repair-validation-2019c",
+  "remote_sha": "64a7647d8c196e52e6c43f73095a56f232e1a23f",
+  "verified_at": "2026-09-05T23:43:23+08:00",
+  "final_acceptance_verification_path": "evals/results/phase-004c4/verification/final_acceptance.json",
+  "final_acceptance_verification_sha256": "4f343796b115af3713ddae0f5569955eef071d0e8c7fad059ba458591266c645",
+  "acceptance_report_path": "reports/phase004c4_acceptance.md",
+  "acceptance_report_sha256": "f62b6b7f5f74c27be0da59a536f1c150f7f760adfcf5a4383ef72ffe5a6c90b8",
+  "remote_ci": {
+    "provider": "GITHUB_ACTIONS",
+    "workflow": "CI",
+    "run_id": 33975187408,
+    "job_id": 101330529964,
+    "head_sha": "64a7647d8c196e52e6c43f73095a56f232e1a23f",
+    "conclusion": "success",
+    "job_duration_seconds": 525,
+    "pytest_passed": 2068,
+    "pytest_skipped": 1,
+    "pytest_failed": 0,
+    "pytest_duration_seconds": 509.3,
+    "strict_errors": 0,
+    "strict_warnings": 0,
+    "offline_only": true,
+    "url": "https://github.com/woobowen/cumcm/actions/runs/33975187408"
+  },
+  "pr": {
+    "number": 10,
+    "state": "OPEN",
+    "draft": true,
+    "mergeable": "MERGEABLE",
+    "merged": false,
+    "title": "fix: close actual controller gates and validate competition RC7"
+  },
+  "frozen_validation_mutated": false,
+  "model_run_count": 0,
+  "answer_access_count": 0,
+  "heldout_2025_access_count": 0
+}

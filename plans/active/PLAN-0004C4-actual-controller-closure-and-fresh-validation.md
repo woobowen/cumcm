@@ -1,6 +1,6 @@
 # PLAN-0004C4 — actual-controller closure, Competition RC7 and fresh C Validation
 
-Status: `TERMINAL_VALIDATION_FAILED_PENDING_REMOTE_CI`
+Status: `TERMINAL_VALIDATION_FAILED`
 Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
 Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
 Owner: main agent / `modeling_orchestrator`
@@ -258,4 +258,12 @@ Progress:
   seconds, strict is 0 errors / 0 warnings, and local CI repeats `2068 passed / 1 skipped` plus
   strict 0/0 in 373.78 seconds. The initial full run's two failures were stale tests that omitted
   the terminal 004C4 route and eighth registry case; exact assertions were added without Skill,
-  case-code, Run, answer or 2025 mutation. Final remote delivery and CI remain pending.
+  case-code, Run, answer or 2025 mutation. At this checkpoint, final remote delivery and CI were
+  pending.
+- `2026-09-05T23:43:23+08:00` — Acceptance subject/remote commit
+  `64a7647d8c196e52e6c43f73095a56f232e1a23f` passed GitHub Actions run `33975187408`, job
+  `101330529964`, in 8m45s. The sole offline CI command passed 825-file formatting, pytest
+  `2068 passed / 1 skipped` in 509.30 seconds, all historical checkers and strict 0/0. Its only
+  annotation is the hosted Actions Node.js deprecation notice. The phase is terminal
+  `C_TARGET_VALIDATION_FAILED`; a successor receipt may record this remote fact but cannot modify
+  the frozen case or reopen Validation.

@@ -6,7 +6,8 @@
   "skill_version": "0.2.0-competition-rc7",
   "case_id": "CUMCM-2017-C-VALIDATION-003F",
   "answer_state": "SEALED_AT_TERMINAL_FREEZE",
-  "overall_status": "PASS_LOCAL_PENDING_REMOTE_CI",
+  "overall_status": "PASS",
+  "remote_verified_at": "2026-09-05T23:43:23+08:00",
   "records": [
     {
       "check_id": "BASELINE_LOCAL_CI",
@@ -245,15 +246,19 @@
     {
       "check_id": "REMOTE_CI_FINAL",
       "command": "GitHub Actions pull_request workflow",
-      "exit": null,
-      "duration_seconds": null,
+      "exit": 0,
+      "duration_seconds": 525,
       "execution_type": "REMOTE_OFFLINE_FROZEN_EVIDENCE_CHECK",
       "skill_version": "0.2.0-competition-rc7",
       "case_id": "CUMCM-2017-C-VALIDATION-003F",
       "answer_state": "SEALED_AT_TERMINAL_FREEZE",
-      "result": "PENDING_AFTER_FINAL_PUSH",
-      "evidence_hash": null,
-      "blocker": "REMOTE_CI_PENDING"
+      "result": "PASS_RUN_33975187408_JOB_101330529964_2068_PASSED_1_SKIPPED_509_30_SECONDS_STRICT_0_0",
+      "evidence_hash": "6c8bf6a7ac7f2408a00b85d743cefde3ab583bc1029858e523434c44c207a5f2",
+      "blocker": null,
+      "subject_commit": "64a7647d8c196e52e6c43f73095a56f232e1a23f",
+      "run_id": 33975187408,
+      "job_id": 101330529964,
+      "url": "https://github.com/woobowen/cumcm/actions/runs/33975187408"
     }
   ],
   "repair_accounting": {
