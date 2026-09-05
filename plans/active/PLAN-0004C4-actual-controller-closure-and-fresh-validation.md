@@ -185,3 +185,8 @@ Progress:
   fetched remote SHA matches exactly. The live checker remains PASS; PR 10 is OPEN, DRAFT and
   MERGEABLE at that head. This successor record binds the delivery receipt without changing the
   frozen Skill tree, tests, rubric or evidence policy.
+- The first post-freeze full CI ran all 2064 tests and exposed one stale project-version allowlist
+  in the historical Competition RC consistency checker (`project_version_relationship`); the
+  existing test failed closed. Repair attempt 1 adds only project `0.3.0-competition-rc7` to that
+  checker. The frozen Skill tree, release manifest, controller probes and Validation rubric remain
+  byte-identical; official input remains locked until the repaired full CI passes.

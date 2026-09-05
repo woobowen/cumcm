@@ -454,6 +454,7 @@ def evaluate() -> dict[str, Any]:
                 "0.3.0-competition-rc4",
                 "0.3.0-competition-rc5",
                 "0.3.0-competition-rc6",
+                "0.3.0-competition-rc7",
             }
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),
