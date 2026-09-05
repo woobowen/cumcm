@@ -1353,6 +1353,198 @@ def validate_runtime_aggregate_mapping(record: Any, primary_ids: Any) -> dict[st
     )
 
 
+def _selected_runtime_run_ids(selection_record: dict[str, Any]) -> list[str]:
+    selection = selection_record.get("selection")
+    run_map = selection.get("requirement_to_run_map") if isinstance(selection, dict) else None
+    if not isinstance(run_map, dict):
+        raise ValueError("RC_REQUIREMENT_SELECTION_INPUT_INVALID")
+    run_ids = {
+        run_id
+        for values in run_map.values()
+        if isinstance(values, list)
+        for run_id in values
+        if isinstance(run_id, str)
+    }
+    if not run_ids:
+        raise ValueError("RC_REQUIREMENT_SELECTED_RUN_MISSING")
+    return sorted(run_ids)
+
+
+def build_runtime_final_result(
+    selection_record: dict[str, Any],
+    semantic_record: dict[str, Any],
+    manifest_registry: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Derive a multi-Run Final only from explicit selection and validated manifests."""
+    selected_run_ids = _selected_runtime_run_ids(selection_record)
+    selection = selection_record["selection"]
+    run_map = selection["requirement_to_run_map"]
+    output_map = selection["requirement_to_output_map"]
+    run_records = {
+        item.get("run_id"): item
+        for item in selection_record.get("runs", [])
+        if isinstance(item, dict) and isinstance(item.get("run_id"), str)
+    }
+    requirement_records = {
+        item.get("requirement_id"): item
+        for item in selection_record.get("requirements", [])
+        if isinstance(item, dict) and isinstance(item.get("requirement_id"), str)
+    }
+    semantic_claims = {
+        item.get("requirement_id"): item
+        for item in semantic_record.get("claims", [])
+        if isinstance(item, dict) and isinstance(item.get("requirement_id"), str)
+    }
+    decision_hashes = {
+        manifest_registry.get(run_id, {}).get("decision_hash") for run_id in selected_run_ids
+    }
+    if len(decision_hashes) != 1 or HEX64.fullmatch(str(next(iter(decision_hashes), ""))) is None:
+        raise ValueError("RC_FINALIZATION_DECISION_LINEAGE_INVALID")
+    decision_hash = next(iter(decision_hashes))
+    run_bindings: dict[str, dict[str, Any]] = {}
+    for run_id in selected_run_ids:
+        manifest = manifest_registry.get(run_id)
+        declared = run_records.get(run_id)
+        if not isinstance(manifest, dict) or not isinstance(declared, dict):
+            raise ValueError("RC_ACTUAL_RUN_REGISTRY_MISSING")
+        requirement_ids = sorted(
+            requirement_id for requirement_id, ids in run_map.items() if run_id in ids
+        )
+        output_ids = sorted(
+            {
+                output_id
+                for requirement_id in requirement_ids
+                for output_id in output_map.get(requirement_id, [])
+            }
+        )
+        run_bindings[run_id] = {
+            "manifest_hash": canonical_hash(manifest),
+            "input_hash": manifest.get("input_hash"),
+            "scenario_hash": declared.get("scenario_hash"),
+            "configuration_hash": manifest.get("configuration_hash"),
+            "output_hash": manifest.get("output_hash"),
+            "requirement_ids": requirement_ids,
+            "output_ids": output_ids,
+        }
+    requirement_results = {
+        requirement_id: {
+            "selected_run_ids": run_map.get(requirement_id),
+            "selected_output_ids": output_map.get(requirement_id),
+            "metric_ids": [record.get("selection_metric")],
+            "claim_id": (semantic_claims.get(requirement_id) or {}).get("claim_id"),
+        }
+        for requirement_id, record in sorted(requirement_records.items())
+    }
+    limitations = selection.get("limitations")
+    if not isinstance(limitations, list):
+        raise ValueError("RC_FINALIZATION_LIMITATIONS_INVALID")
+    return {
+        "contract_version": "final-result/v2",
+        "status": "FINAL_CANDIDATE",
+        "selection_mode": selection.get("selection_mode"),
+        "decision_hash": decision_hash,
+        "selected_run_ids": selected_run_ids,
+        "run_bindings": run_bindings,
+        "requirement_results": requirement_results,
+        "aggregate_status": "COMPLETE",
+        "limitations": limitations,
+    }
+
+
+def build_runtime_claim_evidence(
+    final_result: dict[str, Any],
+    selection_record: dict[str, Any],
+    semantic_record: dict[str, Any],
+    manifest_registry: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Derive exact per-requirement Claim bindings without semantic defaults."""
+    del selection_record
+    bindings: dict[str, dict[str, Any]] = {}
+    for claim in semantic_record.get("claims", []):
+        if not isinstance(claim, dict):
+            raise ValueError("RC_SEMANTIC_CLAIM_INPUT_INVALID")
+        requirement_id = claim.get("requirement_id")
+        run_ids = claim.get("selected_run_ids")
+        if not isinstance(requirement_id, str) or not isinstance(run_ids, list) or not run_ids:
+            raise ValueError("RC_SEMANTIC_CLAIM_INPUT_INVALID")
+        bindings[requirement_id] = {
+            "claim_id": claim.get("claim_id"),
+            "requirement_id": requirement_id,
+            "claim_type": claim.get("claim_type"),
+            "selected_run_ids": run_ids,
+            "selected_output_ids": claim.get("selected_output_ids"),
+            "metric_ids": claim.get("metric_ids"),
+            "evidence_class": claim.get("evidence_class"),
+            "scope_hash": canonical_hash(claim.get("scope")),
+            "manifest_hashes": {
+                run_id: canonical_hash(manifest_registry[run_id]) for run_id in run_ids
+            },
+            "output_hashes": {
+                run_id: manifest_registry[run_id].get("output_hash") for run_id in run_ids
+            },
+        }
+    aggregate = semantic_record.get("aggregate")
+    if not isinstance(aggregate, dict):
+        raise ValueError("RC_AGGREGATE_CLAIM_MAPPING_INVALID")
+    aggregate_body = {
+        "primary_requirement_ids": aggregate.get("primary_requirement_ids"),
+        "supported_requirement_ids": aggregate.get("supported_requirement_ids"),
+        "requirement_claim_ids": aggregate.get("requirement_claim_ids"),
+    }
+    return {
+        "contract_version": "claim-evidence/runtime-v3",
+        "evidence_status": "CURRENT",
+        "contradiction_status": "NONE",
+        "decision_hash": final_result.get("decision_hash"),
+        "claims": bindings,
+        "aggregate": {
+            "claim_id": "CLAIM-AGGREGATE-" + canonical_hash(aggregate_body)[:24].upper(),
+            **aggregate_body,
+        },
+    }
+
+
+def validate_runtime_finalization(
+    final_result: Any,
+    claim_evidence: Any,
+    selection_record: Any,
+    semantic_record: Any,
+    manifest_registry: Any,
+) -> dict[str, Any]:
+    """Require Final and Claim evidence to equal their canonical multi-Run derivation."""
+    if not all(
+        isinstance(item, dict)
+        for item in (
+            final_result,
+            claim_evidence,
+            selection_record,
+            semantic_record,
+            manifest_registry,
+        )
+    ):
+        return contract_result("BLOCK", "RC_FINALIZATION_AUTHORITATIVE_ARTIFACT_INVALID")
+    try:
+        expected_final = build_runtime_final_result(
+            selection_record,
+            semantic_record,
+            manifest_registry,
+        )
+        expected_claim = build_runtime_claim_evidence(
+            expected_final,
+            selection_record,
+            semantic_record,
+            manifest_registry,
+        )
+    except (KeyError, TypeError, ValueError):
+        return contract_result("BLOCK", "RC_FINALIZATION_AUTHORITATIVE_ARTIFACT_INVALID")
+    codes: set[str] = set()
+    if final_result != expected_final:
+        codes.add("RC_FINAL_RESULT_PORTFOLIO_BINDING_INVALID")
+    if claim_evidence != expected_claim:
+        codes.add("RC_CLAIM_RUNTIME_BINDING_INVALID")
+    return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
 DATA_SUFFICIENCY_STATUSES = {
     "SUFFICIENT",
     "ACQUISITION_REQUIRED",
@@ -3440,7 +3632,158 @@ def normalize_handoff_formulas(formulas: list[Any], requirements: Any) -> list[d
     return result
 
 
+def build_runtime_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, Any]:
+    """Build the canonical multi-Run handoff from validated runtime artifacts."""
+    requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
+    sources = read_artifact(case_root, "source_ledger")["content"]["sources"]
+    audit = read_artifact(case_root, "data_audit")["content"]
+    sufficiency = read_artifact(case_root, "data_sufficiency")["content"]
+    assumptions = read_artifact(case_root, "assumptions_and_symbols")["content"]
+    candidates = read_artifact(case_root, "model_candidates")["content"]["candidates"]
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    comparison = read_artifact(case_root, "model_comparison")["content"]
+    selection_record = read_artifact(case_root, "requirement_selection")["content"]
+    robustness = read_artifact(case_root, "robustness_analysis")["content"]
+    final_result = read_artifact(case_root, "final_result")["content"]
+    claim_evidence = read_artifact(case_root, "claim_evidence")["content"]
+    semantic = read_artifact(case_root, "semantic_claim_support")["content"]
+    selected_run_ids = final_result["selected_run_ids"]
+    manifests = {
+        run_id: load_json(case_root / "runs" / run_id / "manifest.json")
+        for run_id in selected_run_ids
+    }
+    outputs: dict[str, dict[str, Any]] = {}
+    for run_id, manifest in manifests.items():
+        output_files = manifest.get("output_files")
+        if not isinstance(output_files, list) or len(output_files) != 1:
+            raise ValueError("RC_HANDOFF_SELECTED_OUTPUT_INVALID")
+        output_path = relative_case_path(case_root, output_files[0].get("path"))
+        if output_path is None or not output_path.is_file():
+            raise ValueError("RC_HANDOFF_SELECTED_OUTPUT_INVALID")
+        output = load_json(output_path)
+        if not isinstance(output, dict):
+            raise ValueError("RC_HANDOFF_SELECTED_OUTPUT_INVALID")
+        outputs[run_id] = output
+    selected_candidate_ids = {
+        manifests[run_id].get("configuration", {}).get("candidate_id")
+        for run_id in selected_run_ids
+    }
+    selected_models = [
+        candidate
+        for candidate in candidates
+        if isinstance(candidate, dict) and candidate.get("candidate_id") in selected_candidate_ids
+    ]
+    claims = {
+        item["requirement_id"]: item
+        for item in semantic["claims"]
+        if isinstance(item, dict) and isinstance(item.get("requirement_id"), str)
+    }
+    requirement_traceability = {
+        requirement_id: claim["claim_id"] for requirement_id, claim in sorted(claims.items())
+    }
+    final_metrics = {
+        requirement_id: {
+            run_id: outputs[run_id]["final_metrics"] for run_id in claim["selected_run_ids"]
+        }
+        for requirement_id, claim in sorted(claims.items())
+    }
+    figure_ready_data = [
+        {"run_id": run_id, "figures": outputs[run_id]["figure_ready_data"]}
+        for run_id in selected_run_ids
+    ]
+    limitations = sorted(
+        {
+            limitation
+            for output in outputs.values()
+            for limitation in output.get("limitations", [])
+            if isinstance(limitation, str)
+        }
+        | {
+            limitation
+            for claim in claims.values()
+            for limitation in claim.get("limitations", [])
+            if isinstance(limitation, str)
+        }
+        | {
+            limitation
+            for limitation in final_result.get("limitations", [])
+            if isinstance(limitation, str)
+        }
+    )
+    formulas = normalize_handoff_formulas(assumptions.get("formulas"), requirements)
+    claim_records = {
+        claim["claim_id"]: {
+            "requirement_id": requirement_id,
+            "claim_type": claim["claim_type"],
+            "statement": claim["statement"],
+            "scope": claim["scope"],
+            "selected_run_ids": claim["selected_run_ids"],
+            "selected_output_ids": claim["selected_output_ids"],
+            "metric_ids": claim["metric_ids"],
+            "evidence_class": claim["evidence_class"],
+            "status": claim["status"],
+            "runtime_binding": claim_evidence["claims"][requirement_id],
+        }
+        for requirement_id, claim in sorted(claims.items())
+    }
+    return {
+        "contract_version": "modeling-to-paper/v1",
+        "problem_requirements": requirements,
+        "requirement_traceability": requirement_traceability,
+        "data_dictionary": {
+            "case_kind": state.get("case_kind"),
+            "raw_files": sorted(audit.get("raw_data_hashes", audit["data_hashes"])),
+        },
+        "data_quality_report": {**copy.deepcopy(audit), "data_sufficiency": sufficiency},
+        "assumptions": assumptions["assumptions"],
+        "symbols": assumptions["symbols"],
+        "formulas": formulas,
+        "sources": sources,
+        "selected_models": selected_models,
+        "final_runs": [
+            {
+                "run_id": run_id,
+                "manifest_hash": canonical_hash(manifests[run_id]),
+                "output_hash": manifests[run_id]["output_hash"],
+                "requirement_ids": final_result["run_bindings"][run_id]["requirement_ids"],
+            }
+            for run_id in selected_run_ids
+        ],
+        "final_metrics": final_metrics,
+        "result_tables": [{"table_id": "MODEL_COMPARISON", "rows": comparison["attempts"]}],
+        "figure_ready_data": figure_ready_data,
+        "validation_results": {
+            "data_sufficiency_status": "SUFFICIENT",
+            "requirement_selection": selection_record["selection"],
+            "semantic_claim_support": semantic,
+            "aggregate_claim": claim_evidence["aggregate"],
+            "comparison_decision_hash": final_result["decision_hash"],
+            "test_used_for_selection": comparison["test_access"]["used_for_selection"],
+        },
+        "robustness_results": robustness,
+        "uncertainty": {
+            requirement_id: claim["uncertainty"] for requirement_id, claim in sorted(claims.items())
+        },
+        "failure_cases": robustness["failure_cases"],
+        "limitations": limitations,
+        "claim_evidence": claim_records,
+        "reproduction": {
+            "skill_version": VERSION,
+            "architecture": ARCHITECTURE,
+            "run_manifest_hashes": {
+                run_id: canonical_hash(manifest) for run_id, manifest in sorted(manifests.items())
+            },
+            "offline": True,
+        },
+        "generated_at": plan["handoff_generated_at"],
+        "approved_by": ["MACHINE_TECHNICAL_GATES"],
+    }
+
+
 def build_expected_handoff(case_root: Path, state: dict[str, Any]) -> dict[str, Any]:
+    final_probe = read_artifact(case_root, "final_result")["content"]
+    if final_probe.get("contract_version") == "final-result/v2":
+        return build_runtime_handoff(case_root, state)
     requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
     audit = read_artifact(case_root, "data_audit")["content"]
     assumptions = read_artifact(case_root, "assumptions_and_symbols")["content"]
@@ -3652,6 +3995,18 @@ def validate_handoff(
             ARTIFACT_PATHS["final_result"],
             ARTIFACT_PATHS["claim_evidence"],
         }
+        if (
+            isinstance(expected, dict)
+            and isinstance(expected.get("reproduction"), dict)
+            and "run_manifest_hashes" in expected["reproduction"]
+        ):
+            expected_paths.update(
+                {
+                    ARTIFACT_PATHS["data_sufficiency"],
+                    ARTIFACT_PATHS["requirement_selection"],
+                    ARTIFACT_PATHS["semantic_claim_support"],
+                }
+            )
         bindings = state.get("evidence_bindings", {})
         if not isinstance(bindings, dict) or expected_paths - set(bindings):
             codes.add("RC_HANDOFF_STATE_EVIDENCE_CHAIN_INVALID")
@@ -4538,13 +4893,32 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
     if current == "ROBUSTNESS_VALIDATED":
         final = read_artifact(case_root, "final_result")["content"]
         comparison = read_artifact(case_root, "model_comparison")["content"]
-        result = validate_final_result(
-            final,
-            comparison,
-            case_root=case_root,
-        )
-        if not result.accepted:
-            raise ValueError(";".join(result.reason_codes))
+        if final.get("contract_version") == "final-result/v2":
+            selection = read_artifact(case_root, "requirement_selection")["content"]
+            semantic = read_artifact(case_root, "semantic_claim_support")["content"]
+            claim = read_artifact(case_root, "claim_evidence")["content"]
+            selected_run_ids = _selected_runtime_run_ids(selection)
+            manifests = {
+                run_id: load_json(case_root / "runs" / run_id / "manifest.json")
+                for run_id in selected_run_ids
+            }
+            runtime_result = validate_runtime_finalization(
+                final,
+                claim,
+                selection,
+                semantic,
+                manifests,
+            )
+            if runtime_result.get("status") != "PASS":
+                raise ValueError(";".join(runtime_result.get("reason_codes", [])))
+        else:
+            result = validate_final_result(
+                final,
+                comparison,
+                case_root=case_root,
+            )
+            if not result.accepted:
+                raise ValueError(";".join(result.reason_codes))
         return record_transition(
             case_root,
             state,
@@ -4556,22 +4930,41 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
     if current == "FINAL_CANDIDATE":
         claim = read_artifact(case_root, "claim_evidence")["content"]
         final = read_artifact(case_root, "final_result")["content"]
-        manifest_path = case_root / "runs" / str(claim.get("run_id", "")) / "manifest.json"
-        if not manifest_path.is_file():
-            raise ValueError("RC_CLAIM_MANIFEST_MISSING")
-        result = validate_claim(
-            claim,
-            load_json(manifest_path),
-            final,
-            case_root=case_root,
-            state=state,
-        )
-        if not result.accepted:
-            raise ValueError(";".join(result.reason_codes))
         semantic = read_artifact(case_root, "semantic_claim_support")["content"]
-        semantic_result = validate_semantic_claim_bundle(semantic)
-        if semantic_result.get("status") != "PASS":
-            raise ValueError(";".join(semantic_result.get("reason_codes", [])))
+        if final.get("contract_version") == "final-result/v2":
+            selection = read_artifact(case_root, "requirement_selection")["content"]
+            selected_run_ids = _selected_runtime_run_ids(selection)
+            manifests = {
+                run_id: load_json(case_root / "runs" / run_id / "manifest.json")
+                for run_id in selected_run_ids
+            }
+            runtime_result = validate_runtime_finalization(
+                final,
+                claim,
+                selection,
+                semantic,
+                manifests,
+            )
+            if runtime_result.get("status") != "PASS":
+                raise ValueError(";".join(runtime_result.get("reason_codes", [])))
+            manifest_paths = [f"runs/{run_id}/manifest.json" for run_id in selected_run_ids]
+        else:
+            manifest_path = case_root / "runs" / str(claim.get("run_id", "")) / "manifest.json"
+            if not manifest_path.is_file():
+                raise ValueError("RC_CLAIM_MANIFEST_MISSING")
+            result = validate_claim(
+                claim,
+                load_json(manifest_path),
+                final,
+                case_root=case_root,
+                state=state,
+            )
+            if not result.accepted:
+                raise ValueError(";".join(result.reason_codes))
+            semantic_result = validate_semantic_claim_bundle(semantic)
+            if semantic_result.get("status") != "PASS":
+                raise ValueError(";".join(semantic_result.get("reason_codes", [])))
+            manifest_paths = [str(manifest_path.relative_to(case_root))]
         return record_transition(
             case_root,
             state,
@@ -4580,7 +4973,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             [
                 ARTIFACT_PATHS["claim_evidence"],
                 ARTIFACT_PATHS["semantic_claim_support"],
-                str(manifest_path.relative_to(case_root)),
+                *manifest_paths,
             ],
             check=check,
         )

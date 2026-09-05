@@ -112,3 +112,10 @@ Progress:
   ownership, bounded scope and exact aggregate mappings. Formatting, compilation and the preserved
   RC6 neutral contract matrix passed (`57 passed`). The production files must now be Git-bound
   before the real subprocess matrix can be evaluated.
+- `2026-09-05T19:58:00+08:00` — After remote-binding loop 1, the full frozen controller matrix
+  passed (`14 passed`): all 13 formerly failing probes now block at the expected Gate/reason while
+  preserving case state, authoritative inputs, rejected handoff and opaque values. Implementation
+  milestone 2 adds canonical multi-Run `final-result/v2`, runtime Claim bindings and a portfolio
+  handoff builder so a valid PER_REQUIREMENT/JOINT_PORTFOLIO case can reach the terminal state
+  without restoring semantic defaults. Static checks and the legacy-neutral 57-case matrix pass;
+  the modified runner again requires a Git-bound commit before actual E2E execution.

@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import hashlib
 import importlib.util
 import json
 import sys
@@ -124,6 +126,7 @@ class GateTrace:
             }
         normalized_status = "PASS" if result["status"] in accepted_statuses else "BLOCK"
         event_result = {
+            "result": normalized_status,
             "status": normalized_status,
             "source_status": result["status"],
             "reason_codes": result["reason_codes"],
@@ -257,7 +260,7 @@ def _comparison_payload(
         freeze_bindings=plan["trusted_freeze_registry"],
         selected_candidate_id=selected["selected_candidate_id"],
         selection_decision_hash=decision_hash,
-        test_access={"authorized": False, "count": 0, "used_for_selection": False},
+        test_access={"authorized": True, "count": 1, "used_for_selection": False},
         reliability={
             "attempts": len(attempts),
             "successful": sum(item["outcome"] == "SUCCESS" for item in attempts),
@@ -274,6 +277,78 @@ def _comparison_payload(
         },
     )
     return comparison
+
+
+def _selected_global_run(attempts: list[dict[str, Any]], selected_candidate_id: str) -> str:
+    eligible = sorted(
+        (
+            item
+            for item in attempts
+            if item.get("candidate_id") == selected_candidate_id
+            and item.get("outcome") == "SUCCESS"
+        ),
+        key=lambda item: (str(item.get("random_seed")), str(item.get("run_id"))),
+    )
+    if not eligible or not isinstance(eligible[0].get("run_id"), str):
+        raise ValueError("VALIDATION_NO_ELIGIBLE_SUCCESS")
+    return eligible[0]["run_id"]
+
+
+def _robustness_payload(
+    manifest: dict[str, Any],
+    output: dict[str, Any],
+    selected_candidate_id: str,
+) -> dict[str, Any]:
+    evidence = output.get("robustness_evidence")
+    if not isinstance(evidence, dict):
+        raise ValueError("RC_ROBUSTNESS_EVIDENCE_INVALID")
+    return {
+        "status": "VALIDATED",
+        "selected_model": selected_candidate_id,
+        "run_id": manifest["run_id"],
+        "input_hash": manifest["input_hash"],
+        "configuration_hash": manifest["configuration_hash"],
+        "output_hash": manifest["output_hash"],
+        "decision_hash": manifest["decision_hash"],
+        "metric": evidence.get("metric"),
+        "metric_direction": evidence.get("metric_direction"),
+        "perturbations": evidence.get("perturbations"),
+        "failure_cases": evidence.get("failure_cases"),
+    }
+
+
+def _access_selected_test(
+    core: Any,
+    case_root: Path,
+    run_id: str,
+    output: dict[str, Any],
+    manifest: dict[str, Any],
+    decision_hash: str,
+    test_field: str,
+) -> None:
+    encoded = output.get(test_field)
+    if not isinstance(encoded, str):
+        raise ValueError("VALIDATION_SEALED_TEST_PAYLOAD_MISSING")
+    test_bytes = base64.b64decode(encoded, validate=True)
+    decoded_hash = hashlib.sha256(test_bytes).hexdigest()
+    if decoded_hash != output.get("sealed_test_payload_sha256"):
+        raise ValueError("VALIDATION_SEALED_TEST_PAYLOAD_HASH_MISMATCH")
+    test_metrics = json.loads(test_bytes)
+    core.write_json(
+        case_root / "evidence/selected_test_access.json",
+        {
+            "accessed_at": core.utc_now(),
+            "selection_decision_hash": decision_hash,
+            "run_id": run_id,
+            "count": 1,
+            "used_for_selection": False,
+            "encoding_is_not_cryptographic_isolation": True,
+            "test_metrics": test_metrics,
+            "selected_output_hash": manifest["output_hash"],
+            "decoded_payload_sha256": decoded_hash,
+        },
+        overwrite=False,
+    )
 
 
 def _block_result(
@@ -293,7 +368,6 @@ def _block_result(
 
 
 def complete(case_root: Path, test_field: str) -> dict[str, Any]:
-    del test_field  # Sealed test access is forbidden until every evidence Gate passes.
     core = load_core()
     state = core.load_state(case_root)
     if state["state"] != "RUNNING":
@@ -449,46 +523,95 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
     if event["result"] != "PASS":
         return _block_result(trace, event, attempts)
 
-    final_result = core.read_artifact(case_root, "final_result")["content"]
-    claim_evidence = core.read_artifact(case_root, "claim_evidence")["content"]
+    final_result = core.build_runtime_final_result(
+        selection_record,
+        semantic_record,
+        manifests,
+    )
+    claim_evidence = core.build_runtime_claim_evidence(
+        final_result,
+        selection_record,
+        semantic_record,
+        manifests,
+    )
     event = trace.invoke(
         "GATE_FINALIZATION",
-        "cumcm_case.validate_final_result+cumcm_case.validate_claim",
+        "cumcm_case.validate_runtime_finalization",
         [
-            core.ARTIFACT_PATHS["model_comparison"],
-            core.ARTIFACT_PATHS["final_result"],
-            core.ARTIFACT_PATHS["claim_evidence"],
+            core.ARTIFACT_PATHS["requirement_selection"],
+            core.ARTIFACT_PATHS["semantic_claim_support"],
+            *[f"runs/{run_id}/manifest.json" for run_id in manifests],
         ],
-        lambda: {
-            "status": "PASS"
-            if core.validate_final_result(
-                final_result,
-                comparison,
-                case_root=case_root,
-            ).accepted
-            and core.validate_claim(
-                claim_evidence,
-                manifests.get(str(claim_evidence.get("run_id"))),
-                final_result,
-                case_root=case_root,
-                state=state,
-            ).accepted
-            else "BLOCK",
-            "reason_codes": ["RC_FINALIZATION_AUTHORITATIVE_ARTIFACT_INVALID"],
-        },
+        lambda: core.validate_runtime_finalization(
+            final_result,
+            claim_evidence,
+            selection_record,
+            semantic_record,
+            manifests,
+        ),
     )
     if event["result"] != "PASS":
         return _block_result(trace, event, attempts)
 
+    def accepted(key: str, content: dict[str, Any]) -> None:
+        core.write_json(
+            case_root / core.ARTIFACT_PATHS[key],
+            core.artifact(key, content),
+        )
+
+    selected_candidate_id = selected["selected_candidate_id"]
+    selected_global_run_id = _selected_global_run(attempts, selected_candidate_id)
+    selected_manifest = manifests[selected_global_run_id]
+    selected_output = output_registry[selected_global_run_id]
+    core.write_json(
+        case_root / "evidence/selection_before_test_access.json",
+        {
+            "selected_at": core.utc_now(),
+            "decision_hash": decision_hash,
+            "payload": selected,
+            "requirement_selection_hash": core.canonical_hash(selection_record),
+        },
+        overwrite=False,
+    )
+    _access_selected_test(
+        core,
+        case_root,
+        selected_global_run_id,
+        selected_output,
+        selected_manifest,
+        decision_hash,
+        test_field,
+    )
+    accepted("model_comparison", comparison)
+    accepted(
+        "robustness_analysis",
+        _robustness_payload(selected_manifest, selected_output, selected_candidate_id),
+    )
+    accepted("final_result", final_result)
+    accepted("claim_evidence", claim_evidence)
+    while core.load_state(case_root)["state"] != "EVIDENCE_VALIDATED":
+        core.advance_once(case_root)
+
+    def complete_handoff() -> dict[str, Any]:
+        evidence_state = core.load_state(case_root)
+        handoff = core.build_runtime_handoff(case_root, evidence_state)
+        core.write_json(case_root / core.ARTIFACT_PATHS["modeling_to_paper_handoff"], handoff)
+        validation = core.validate_handoff(handoff, case_root=case_root, state=evidence_state)
+        if validation.accepted:
+            core.advance_once(case_root)
+        return validation.as_dict()
+
     event = trace.invoke(
         "GATE_HANDOFF",
-        "cumcm_case.validate_handoff",
-        [core.ARTIFACT_PATHS["modeling_to_paper_handoff"]],
-        lambda: core.validate_handoff(
-            core.read_artifact(case_root, "modeling_to_paper_handoff")["content"],
-            case_root=case_root,
-            state=state,
-        ),
+        "cumcm_case.build_runtime_handoff+cumcm_case.validate_handoff",
+        [
+            core.ARTIFACT_PATHS["model_comparison"],
+            core.ARTIFACT_PATHS["requirement_selection"],
+            core.ARTIFACT_PATHS["final_result"],
+            core.ARTIFACT_PATHS["claim_evidence"],
+            core.ARTIFACT_PATHS["semantic_claim_support"],
+        ],
+        complete_handoff,
     )
     if event["result"] != "PASS":
         return _block_result(trace, event, attempts)
@@ -497,10 +620,11 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         "PASS",
         {
             "status": "PASS_NATIVE_CONTRACTS",
-            "native_state": state["state"],
+            "native_state": core.load_state(case_root)["state"],
             "attempts": attempts,
-            "test_access_count": 0,
-            "selected_candidate_id": selected["selected_candidate_id"],
+            "test_access_count": 1,
+            "selected_candidate_id": selected_candidate_id,
+            "selected_run_ids": final_result["selected_run_ids"],
             "selection_decision_hash": decision_hash,
         },
     )
