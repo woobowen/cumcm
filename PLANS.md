@@ -83,3 +83,7 @@ window that first freezes the 13 actual-controller CLI counterexamples, then wir
 selection, Run, compatibility, semantic, aggregate, finalization and handoff Gate into the real
 completion path. Three neutral E2E cases, an independent adversarial audit, full history regression
 and separate candidate/live release checks precede any RC7 freeze or fresh official-input access.
+
+Those RC7 repair and release-evidence steps now pass. The active plan is in
+`RC7-FROZEN-PENDING-FRESH-C-VALIDATION`: remote release delivery and a separate remotely frozen
+input-suitability/pre-run record precede the clean-context 2018 C one-shot.

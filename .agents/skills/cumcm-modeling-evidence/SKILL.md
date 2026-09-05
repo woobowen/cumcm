@@ -5,7 +5,7 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc6`
+Version: `0.2.0-competition-rc7`
 
 Capability: `COMPETITION_RC`
 

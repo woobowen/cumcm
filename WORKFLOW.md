@@ -300,6 +300,11 @@ all frozen/new controller probes, independent adversarial replay, neutral E2E tr
 diagnostics/regressions, candidate checking, live checking, full offline CI and remote RC7 delivery.
 Until then, RC7 is a candidate only and fresh official input access is prohibited.
 
+The candidate and live evidence sets are complete and RC7 is frozen at
+`C_TARGET_RC7_READY_VALIDATION_PENDING`. Official input stays locked until the release commit and
+its delivery receipt are verified against the designated remote; that transport check does not
+reopen the Skill or its test/rubric surfaces.
+
 After the remotely verified RC7 pre-run freeze, exactly one fresh worker runs the sealed 2018 C
 case, with 2017 allowed only for input failure/corruption/unrecognizable input or pre-result
 contamination. PASS routes to 004D; failed, insufficient or incomplete evidence routes to 004C5;

@@ -184,7 +184,23 @@ def evaluate_live_repository() -> dict[str, Any]:
     release = _read_json(ROOT / RELEASE_PATH)
     candidate_result = evaluate_candidate_snapshot(candidate)
     codes = set(candidate_result["reason_codes"])
-    _verify_path_bindings(candidate.get("evidence"), codes, "RC7_CANDIDATE_EVIDENCE")
+    candidate_evidence = candidate.get("evidence")
+    live_evidence = dict(candidate_evidence) if isinstance(candidate_evidence, dict) else {}
+    frozen_runtime = live_evidence.pop("runtime_core", None)
+    _verify_path_bindings(live_evidence, codes, "RC7_CANDIDATE_EVIDENCE")
+    try:
+        frozen_runtime_bytes = subprocess.check_output(
+            [
+                "git",
+                "show",
+                f"{IMPLEMENTATION_COMMIT}:{frozen_runtime['path']}",
+            ],
+            cwd=ROOT,
+        )
+        if hashlib.sha256(frozen_runtime_bytes).hexdigest() != frozen_runtime.get("sha256"):
+            codes.add("RC7_CANDIDATE_EVIDENCE_DRIFT:runtime_core")
+    except (KeyError, TypeError, subprocess.CalledProcessError):
+        codes.add("RC7_CANDIDATE_EVIDENCE_DRIFT:runtime_core")
     _verify_path_bindings(candidate.get("verification_receipts"), codes, "RC7_CANDIDATE_RECEIPT")
     required_release_fields = {
         "schema_version",

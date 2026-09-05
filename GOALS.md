@@ -87,6 +87,11 @@ the formal chain must execute hash-bound data, selection, Run, compatibility, se
 finalization and handoff Gates and emit a replayable gate trace. Three neutral end-to-end cases and
 an independent adversarial audit are required before RC7 release eligibility.
 
+That repair and its independent audit are now complete. The candidate snapshot passed full pytest,
+strict validation and local CI, and the live release advances RC7 to
+`C_TARGET_RC7_READY_VALIDATION_PENDING`; release delivery remains the final prerequisite before
+official 2018 C input access.
+
 Only a candidate/live-consistent, fully regressed and remotely frozen RC7 may access the fresh
 official C Validation input. The answer remains sealed, the one-shot remains four hours, and 2025 C
 remains wholly unaccessed. A released RC7 with a non-PASS fresh result routes to 004C5; release

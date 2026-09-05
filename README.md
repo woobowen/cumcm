@@ -11,20 +11,19 @@ The active phase froze the same RC3 across three structurally different C Develo
 postponed every Skill change and reference access until all three runs were independently frozen,
 and admitted one unified cross-case revision after the bounded postmortem.
 
-Current repository candidate version: `0.3.0-competition-rc6`. The sole formal Skill code is
-`cumcm-modeling-evidence` `0.2.0-competition-rc6` with capability `COMPETITION_RC`; the active
-release state remains `0.2.0-competition-rc5-blocked` because RC6 failed its independent release
-audit. New K1 and W1
+Current repository version: `0.3.0-competition-rc7`. The sole formal Skill code and active release
+are `cumcm-modeling-evidence` `0.2.0-competition-rc7` with capability `COMPETITION_RC`. RC7 closes
+the actual-controller blockers that kept RC6 unreleased while preserving both blocked histories.
+New K1 and W1
 revisions both pass the unchanged eight public hard Gates (117 symmetric cases each); the frozen
 K1-first rule selects the project-authored deterministic evidence kernel. The formal Skill provides
 14 workflows, four bounded roles, 14 templates, an offline case CLI, strict Run/Claim/comparison
 bindings and STALE propagation.
 
-Phase 004C4 is now active under a separate bounded repair budget. It preserves the blocked RC6
-history, freezes controller-level CLI counterexamples before implementation, and requires the real
-completion path to execute ten hash-bound Gates with a machine-checkable trace. RC7 is only a target;
-fresh official Validation input remains inaccessible until candidate/live checks and remote freeze
-pass.
+Phase 004C4 remains active for the fresh Validation leg. Its candidate/live RC7 release checks bind
+the repaired ten-Gate actual completion path, all frozen controller/adversarial probes, neutral E2E,
+historical regressions and full offline CI. Fresh official Validation input remains inaccessible
+until the RC7 release commit is remotely verified; 2025 C remains sealed.
 
 The final directed integration repair validates actual input/code/output files and a resolvable Git
 commit, executes models from manifest-bound raw/processed artifacts, authenticates the full case

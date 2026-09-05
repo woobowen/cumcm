@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0-competition-rc7 — 2026-09-05
+
+- Releases the sole formal Skill as `0.2.0-competition-rc7` after closing all five inherited RC6
+  actual-controller fail-open classes and five independently found adversarial defects.
+- Binds ten ordered Gates, effective `GLOBAL_JOINT`/`PER_REQUIREMENT`/`JOINT_PORTFOLIO` execution,
+  pre-write sealed-payload validation, scenario lineage and output-backed policy Claims to the real
+  completion entrypoint.
+- Passes 14 frozen known-controller probes, 6 frozen adversarial probes, 17 neutral actual-controller
+  cases, the 57-case RC6 neutral matrix, 239 focused regressions, six immutable C/A history replays,
+  two synthetic E2E cases, 30 negative cases and full pytest (`2063 passed, 1 skipped`).
+- Preserves RC5/RC6 release blocks and both terminal Validation histories. The fresh 2018 C one-shot
+  has not started at release mutation time; 2017 is fallback-only and 2025 remains unaccessed.
+
 ## Phase 004C4 actual-controller closure started
 
 - Preserved the terminal RC6 release block, five blocker classes, 13 Auditor probes, both negative

@@ -5,7 +5,7 @@
     "hash-bound-reproducibility-manifest",
     "leakage-safe-model-comparison-gate"
   ],
-  "active_skill_version": "0.2.0-competition-rc5-blocked",
+  "active_skill_version": "0.2.0-competition-rc7",
   "blocked_candidate_version": "0.2.0-competition-rc6",
   "target_candidate_version": "0.2.0-competition-rc7",
   "answer_access_status": "SEALED_NOT_ACCESSED",
@@ -50,13 +50,7 @@
   },
   "batch_reference_unlocked": true,
   "batch_skill_frozen": true,
-  "blockers": [
-    "RC6_COMPATIBILITY_GATE_VACUOUS",
-    "RC6_DATA_SUFFICIENCY_ACQUISITION_FAIL_OPEN",
-    "RC6_PER_REQUIREMENT_PIPELINE_NOT_EFFECTIVE",
-    "RC6_SELECTION_GATE_FAIL_OPEN_PORTFOLIO_BINDING",
-    "RC6_SEMANTIC_GATE_FAIL_OPEN_BINDING"
-  ],
+  "blockers": [],
   "competition_rc1": {
     "api_calls": 0,
     "architecture_decision": {
@@ -298,11 +292,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "ACTUAL-CONTROLLER-BLACK-BOX-REPAIR",
+  "subphase": "RC7-FROZEN-PENDING-FRESH-C-VALIDATION",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS",
+  "technical_adjudication_status": "C_TARGET_RC7_READY_VALIDATION_PENDING",
   "third_party_integrated": false,
-  "updated_at": "2026-09-05T18:59:02+08:00",
+  "updated_at": "2026-09-05T21:47:00+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

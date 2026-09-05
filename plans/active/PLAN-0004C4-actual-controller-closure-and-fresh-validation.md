@@ -2,7 +2,7 @@
 
 Status: `IN_PROGRESS`
 Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
-Subphase: `ACTUAL-CONTROLLER-BLACK-BOX-REPAIR`
+Subphase: `RC7-FROZEN-PENDING-FRESH-C-VALIDATION`
 Owner: main agent / `modeling_orchestrator`
 Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
 Starting commit: `7060ab136b88a158be6dfe3b46801e6cc2c65c64`
@@ -175,3 +175,8 @@ Progress:
   reads `rc7_candidate_snapshot.json`, confirms all bound evidence/receipts and exits zero while
   live VERSION/state remain RC6/004C4-repair and `rc7_release.json` is absent. This is candidate
   PASS only; RC7 is not yet released.
+- `2026-09-05T21:47:00+08:00` — Candidate snapshot commit
+  `dff40dfd0100ee11c6cb7ddd1a8f7803313653bd` is remote-verified. The prescribed live mutation
+  advances only the project/Skill version surfaces, ready-state, release manifest and current
+  documentation. RC5/RC6 histories remain immutable; the fresh 2018 C input remains locked until
+  this RC7 release commit is independently pushed and its remote SHA is verified.
