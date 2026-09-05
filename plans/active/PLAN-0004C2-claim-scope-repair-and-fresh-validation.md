@@ -39,7 +39,7 @@ no changed verdict, no answer access and no independent Validation credit.
 - M4 REGRESSION COMPLETE: existing 2020/2021/2022/2023 C and auxiliary 2020 A artifacts,
   two synthetic E2E, 30 original negatives, RC4 preflight, STALE and leakage checks.
   Derive a separate 2024 diagnostic bundle. Auditor 1 reads only after these results exist.
-- M5 RELEASE PENDING: all required tests, anti-hardcoding, discovery, strict and local CI pass;
+- M5 RELEASE FROZEN_LOCAL_PENDING_REMOTE: all required tests, anti-hardcoding, discovery, strict and local CI pass;
   freeze version/implementation commit/tree/runner/contract/tests/regressions/environment.
   Commit and remotely verify RC5 before any fresh Validation input acquisition.
 - M6 FRESH VALIDATION PENDING: only after M5, check contamination then obtain official 2019 C
@@ -96,3 +96,8 @@ Revision 2 implementation `5673aab61a648be1cd9b87364110cb01c13cd033`, tree
 passed 63 tests and four fault probes. All six artifact regressions, two synthetic E2E and
 30 negatives pass; source histories unchanged. Full CI: 1921 passed / 1 skipped,
 313.67 s pytest; strict 0 errors / 0 warnings. No new Validation input has been acquired.
+
+Release gate: final candidate full CI 1921 passed / 1 skipped (301.92 s); strict 0/0.
+Release manifest `evals/results/phase-004c2/rc5_release.json` freezes the unchanged implementation.
+Release-state focused checks passed 48/48 and all three consistency checkers passed.
+No fresh Validation input acquisition is permitted until the release remote receipt exists.

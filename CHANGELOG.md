@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0-competition-rc5 — 2026-09-05
+
+- Released formal Skill 0.2.0-competition-rc5 with claim-evidence/v2: independent aggregate identity, exact primary coverage, per-requirement lineage and preserved fail-closed evidence gates.
+- Preserved legacy artifacts through pure derived migration and exact scoped-formula handoff support. Two bounded revision cycles; no execution-engine change or dependency.
+- Passed neutral tests, five historical artifact regressions, 2024 diagnostic-only replay, two synthetic E2E and 30 original negatives. Old 2024 verdict and 2025 reservation remain unchanged.
+- Fresh answer-sealed Validation remains pending verified remote release delivery.
+
 ## 0.3.0-competition-rc4 — 2026-09-05
 
 - Advanced the sole formal Skill to `0.2.0-competition-rc4` from one failure independently observed

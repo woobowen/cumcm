@@ -80,8 +80,10 @@ No project license has been selected. Third-party repositories remain isolated u
 
 ## Phase 004C2 current execution
 
-`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2` is now in case-neutral Claim-scope repair.
-The active plan is `plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`. The old 004C outcome remains
-`C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`; its completed plan and terminal evidence are preserved.
-RC4 remains active until neutral tests, historical regressions and diagnostic-only replay pass.
-RC5 must be remotely frozen before fresh 2019 C Validation; the reserved 2025 C remains untouched.
+The case-neutral Claim repair passed both bounded revision cycles and all release gates.
+The single active Skill is `0.2.0-competition-rc5`, K1, `COMPETITION_RC`.
+Release truth: `evals/results/phase-004c2/rc5_release.json`; active plan:
+`plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md`.
+The 2024 terminal verdict remains `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`.
+Fresh 2019 C acquisition requires verified remote RC5 delivery; no fresh case is registered yet.
+The next phase is null and all six 2025 access flags remain false.
