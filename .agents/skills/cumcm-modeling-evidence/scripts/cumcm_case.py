@@ -1102,14 +1102,20 @@ def validate_runtime_selection_compatibility(
         if any(HEX64.fullmatch(str(item or "")) is None for item in declared_hashes):
             codes.add("RC_SELECTION_PORTFOLIO_HASHES_MISSING")
             continue
+        manifest_scenario_hash = manifest.get("scenario_hash")
+        if HEX64.fullmatch(str(manifest_scenario_hash or "")) is None:
+            codes.add("RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND")
+            continue
         actual_input_hashes.add(str(manifest.get("input_hash")))
-        actual_scenario_hashes.add(str(scenario_hash))
+        actual_scenario_hashes.add(str(manifest_scenario_hash))
         if (
             declared["input_hash"] != manifest.get("input_hash")
-            or declared["scenario_hash"] != scenario_hash
+            or declared["scenario_hash"] != manifest_scenario_hash
             or declared["configuration_hash"] != manifest.get("configuration_hash")
         ):
             codes.add("RC_SELECTION_PORTFOLIO_HASH_MISMATCH")
+        if manifest_scenario_hash != scenario_hash:
+            codes.add("RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND")
 
     shared_inputs = selection.get("shared_input_hashes")
     shared_scenarios = selection.get("shared_scenario_hashes")
@@ -1314,6 +1320,34 @@ def validate_runtime_semantic_claims(
             }
         )
         codes.update(outcome.get("reason_codes", []))
+        if claim.get("claim_type") == "POLICY_EVALUATION":
+            comparator_ids = claim.get("comparator_ids")
+            for run_id in run_ids or []:
+                run_output = output_registry.get(run_id)
+                policy_registry = (
+                    run_output.get("policy_evidence") if isinstance(run_output, dict) else None
+                )
+                policy_evidence = (
+                    policy_registry.get(requirement_id)
+                    if isinstance(policy_registry, dict)
+                    else None
+                )
+                semantic_run = semantic_runs.get(run_id)
+                if (
+                    not isinstance(policy_evidence, dict)
+                    or set(policy_evidence)
+                    != {"policy_exposure", "comparator_ids", "benefit", "cost"}
+                    or not strict_score(policy_evidence.get("policy_exposure"))
+                    or policy_evidence.get("policy_exposure", 0) <= 0
+                    or policy_evidence.get("comparator_ids") != comparator_ids
+                    or not isinstance(policy_evidence.get("benefit"), dict)
+                    or not contains_strict_score(policy_evidence.get("benefit"))
+                    or not isinstance(policy_evidence.get("cost"), dict)
+                    or not contains_strict_score(policy_evidence.get("cost"))
+                    or not isinstance(semantic_run, dict)
+                    or semantic_run.get("policy_exposure") != policy_evidence.get("policy_exposure")
+                ):
+                    codes.add("RC_POLICY_OUTPUT_EVIDENCE_MISSING")
     return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
 
 
@@ -2151,7 +2185,7 @@ def validate_manifest(
         "freeze_bindings",
         "decision_hash",
     }
-    allowed = required | {"capture_record"}
+    allowed = required | {"capture_record", "scenario_hash"}
     if set(manifest) != required:
         if not required <= set(manifest):
             codes.add("RC_MANIFEST_REQUIRED_BINDING_MISSING")
@@ -2168,6 +2202,8 @@ def validate_manifest(
     ):
         if not HEX64.fullmatch(str(manifest.get(name, ""))):
             codes.add(f"RC_MANIFEST_HASH_INVALID:{name}")
+    if "scenario_hash" in manifest and not HEX64.fullmatch(str(manifest.get("scenario_hash", ""))):
+        codes.add("RC_MANIFEST_HASH_INVALID:scenario_hash")
     commit = manifest.get("code_commit")
     if not isinstance(commit, str) or not git_commit_exists(commit):
         codes.add("RC_MANIFEST_GIT_COMMIT_INVALID")
@@ -2427,7 +2463,8 @@ def validate_execution_capture(
         "configuration",
         "configuration_hash",
     }
-    if not isinstance(capture, dict) or set(capture) != required:
+    allowed = required | {"scenario_hash"}
+    if not isinstance(capture, dict) or not required <= set(capture) or set(capture) - allowed:
         return blocked("RC_EXECUTION_CAPTURE_FIELDS_INVALID")
     configuration = manifest.get("configuration")
     relational_bindings = {
@@ -2447,8 +2484,12 @@ def validate_execution_capture(
         "configuration": configuration,
         "configuration_hash": manifest.get("configuration_hash"),
     }
+    if "scenario_hash" in manifest:
+        relational_bindings["scenario_hash"] = manifest.get("scenario_hash")
     if any(capture.get(key) != value for key, value in relational_bindings.items()):
         codes.add("RC_EXECUTION_CAPTURE_MANIFEST_MISMATCH")
+    if "scenario_hash" in capture and not HEX64.fullmatch(str(capture.get("scenario_hash", ""))):
+        codes.add("RC_EXECUTION_CAPTURE_SCENARIO_HASH_INVALID")
     if (
         capture.get("schema_version") != "1.0.0"
         or capture.get("capture_mode") != "CONTROLLED_CASE_SUBPROCESS"
@@ -4507,6 +4548,9 @@ def execute_case_code(
         {"path": relative, "sha256": digest}
         for relative, digest in sorted(plan["required_input_hashes"].items())
     ]
+    scenario_hash = plan.get("scenario_hash")
+    if HEX64.fullmatch(str(scenario_hash or "")) is None:
+        scenario_hash = canonical_hash([item["sha256"] for item in input_files])
     output_record = {"path": output_relative, "sha256": file_hash(output_path)}
     capture = {
         "schema_version": "1.0.0",
@@ -4528,6 +4572,7 @@ def execute_case_code(
         "failure": failure,
         "freeze_bindings": freezes,
         "input_files": input_files,
+        "scenario_hash": scenario_hash,
         "code_files": plan["required_code_files"],
         "code_commit": plan["code_commit"],
         "configuration": configuration,
@@ -4545,18 +4590,18 @@ def execute_case_code(
     }
 
 
-def seal_captured_run(case_root: Path, *, run_id: str, decision_hash: str) -> dict[str, Any]:
+def build_captured_run_manifest(
+    case_root: Path, *, run_id: str, decision_hash: str
+) -> dict[str, Any]:
+    """Build and validate a Run manifest without changing the case workspace."""
     state = load_state(case_root)
     if state.get("state") != "RUNNING":
         raise ValueError("RC_SEAL_RUN_STATE_INVALID")
     if not HEX64.fullmatch(decision_hash):
         raise ValueError("RC_RUN_DECISION_HASH_INVALID")
     capture_path = case_root / "runs" / run_id / "execution_capture.json"
-    manifest_path = case_root / "runs" / run_id / "manifest.json"
     if not capture_path.is_file():
         raise ValueError("RC_EXECUTION_CAPTURE_MISSING")
-    if manifest_path.exists():
-        raise FileExistsError(manifest_path)
     capture = load_json(capture_path)
     if not isinstance(capture, dict):
         raise ValueError("RC_EXECUTION_CAPTURE_INVALID")
@@ -4571,6 +4616,7 @@ def seal_captured_run(case_root: Path, *, run_id: str, decision_hash: str) -> di
         "run_id": run_id,
         "input_files": input_files,
         "input_hash": canonical_hash([item["sha256"] for item in input_files]),
+        "scenario_hash": capture.get("scenario_hash"),
         "code_commit": capture.get("code_commit"),
         "code_files": code_files,
         "code_tree_hash": canonical_hash([item["sha256"] for item in code_files]),
@@ -4603,6 +4649,18 @@ def seal_captured_run(case_root: Path, *, run_id: str, decision_hash: str) -> di
     }
     if not result.accepted and not allowed_failure:
         raise ValueError(";".join(result.reason_codes))
+    return manifest
+
+
+def seal_captured_run(case_root: Path, *, run_id: str, decision_hash: str) -> dict[str, Any]:
+    manifest_path = case_root / "runs" / run_id / "manifest.json"
+    if manifest_path.exists():
+        raise FileExistsError(manifest_path)
+    manifest = build_captured_run_manifest(
+        case_root,
+        run_id=run_id,
+        decision_hash=decision_hash,
+    )
     write_json(manifest_path, manifest, overwrite=False)
     return {
         "run_id": run_id,

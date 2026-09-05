@@ -236,7 +236,7 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
         assert result["reason_codes"] == ["VALIDATION_NO_ELIGIBLE_SUCCESS"]
         assert result["selected_candidate_id"] is None
         assert all(item["validation_score"] is None for item in result["attempts"])
-        assert len(list(case.glob("runs/*/manifest.json"))) == len(candidates)
+        assert not list(case.glob("runs/*/manifest.json"))
         assert not (case / "evidence/selected_test_access.json").exists()
         return
     assert result["status"] == "PASS_NATIVE_CONTRACTS", result

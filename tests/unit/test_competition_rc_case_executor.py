@@ -287,8 +287,11 @@ def test_case_executor_captures_seals_and_detects_log_mutation(
         timeout_seconds=30,
     )
     assert captured["outcome"] == "SUCCESS"
+    capture_record = case_cli.load_json(case_root / captured["capture_path"])
+    assert capture_record["scenario_hash"] == case_cli.canonical_hash([raw_hash])
     sealed = case_cli.seal_captured_run(case_root, run_id="RUN-CAND-11", decision_hash="a" * 64)
     manifest = case_cli.load_json(case_root / sealed["manifest_path"])
+    assert manifest["scenario_hash"] == capture_record["scenario_hash"]
     assert case_cli.validate_manifest(
         manifest, case_root=case_root, trusted_freezes=freezes
     ).accepted

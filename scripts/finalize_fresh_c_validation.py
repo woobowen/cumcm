@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import binascii
 import hashlib
 import importlib.util
 import json
@@ -212,23 +213,79 @@ def _attempt_registry(
     return attempts, output_registry
 
 
-def _seal_attempts(
+def _preview_attempts(
     core: Any,
     case_root: Path,
     attempts: list[dict[str, Any]],
     decision_hash: str,
 ) -> dict[str, dict[str, Any]]:
+    """Build the complete manifest registry without durable controller writes."""
     registry: dict[str, dict[str, Any]] = {}
     for attempt in attempts:
         run_id = attempt.get("run_id")
         if not isinstance(run_id, str):
             raise ValueError("RC_ACTUAL_RUN_REGISTRY_MISSING")
         manifest_path = case_root / "runs" / run_id / "manifest.json"
-        if not manifest_path.exists():
-            core.seal_captured_run(case_root, run_id=run_id, decision_hash=decision_hash)
-        manifest = core.load_json(manifest_path)
+        manifest = (
+            core.load_json(manifest_path)
+            if manifest_path.exists()
+            else core.build_captured_run_manifest(
+                case_root,
+                run_id=run_id,
+                decision_hash=decision_hash,
+            )
+        )
         registry[run_id] = manifest
     return registry
+
+
+def _persist_manifests(
+    core: Any,
+    case_root: Path,
+    manifests: dict[str, dict[str, Any]],
+) -> None:
+    """Persist only the already validated registry after every pre-final Gate passes."""
+    for run_id, expected in sorted(manifests.items()):
+        manifest_path = case_root / "runs" / run_id / "manifest.json"
+        if manifest_path.exists():
+            if core.load_json(manifest_path) != expected:
+                raise ValueError("RC_ACTUAL_RUN_REGISTRY_CHANGED_AFTER_VALIDATION")
+            continue
+        core.write_json(manifest_path, expected, overwrite=False)
+
+
+def _validate_selection_comparison_binding(
+    core: Any,
+    selection_record: dict[str, Any],
+    selected: dict[str, Any],
+    manifests: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    selection_result = core.validate_requirement_selection(selection_record)
+    if selection_result.get("status") != "PASS":
+        return selection_result
+    selection = selection_record.get("selection") or {}
+    run_map = selection.get("requirement_to_run_map") or {}
+    selected_run_ids = {
+        run_id
+        for run_ids in run_map.values()
+        if isinstance(run_ids, list)
+        for run_id in run_ids
+        if isinstance(run_id, str)
+    }
+    selected_candidate_ids = {
+        (manifests.get(run_id, {}).get("configuration") or {}).get("candidate_id")
+        for run_id in selected_run_ids
+    }
+    comparison_winner = selected.get("selected_candidate_id")
+    inconsistent = comparison_winner not in selected_candidate_ids
+    if selection.get("selection_mode") == "GLOBAL_JOINT":
+        inconsistent = inconsistent or selected_candidate_ids != {comparison_winner}
+    if inconsistent:
+        return {
+            "status": "BLOCK",
+            "reason_codes": ["RC_SELECTION_COMPARISON_DECISION_MISMATCH"],
+        }
+    return selection_result
 
 
 def _comparison_payload(
@@ -317,23 +374,36 @@ def _robustness_payload(
     }
 
 
-def _access_selected_test(
-    core: Any,
-    case_root: Path,
-    run_id: str,
+def _decode_selected_test(
     output: dict[str, Any],
-    manifest: dict[str, Any],
-    decision_hash: str,
     test_field: str,
-) -> None:
+) -> tuple[Any, str]:
+    """Validate the selected sealed payload without writing controller evidence."""
     encoded = output.get(test_field)
     if not isinstance(encoded, str):
         raise ValueError("VALIDATION_SEALED_TEST_PAYLOAD_MISSING")
-    test_bytes = base64.b64decode(encoded, validate=True)
+    try:
+        test_bytes = base64.b64decode(encoded, validate=True)
+        test_metrics = json.loads(test_bytes)
+    except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+    if not isinstance(test_metrics, dict):
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
     decoded_hash = hashlib.sha256(test_bytes).hexdigest()
     if decoded_hash != output.get("sealed_test_payload_sha256"):
         raise ValueError("VALIDATION_SEALED_TEST_PAYLOAD_HASH_MISMATCH")
-    test_metrics = json.loads(test_bytes)
+    return test_metrics, decoded_hash
+
+
+def _record_selected_test_access(
+    core: Any,
+    case_root: Path,
+    run_id: str,
+    manifest: dict[str, Any],
+    decision_hash: str,
+    test_metrics: Any,
+    decoded_hash: str,
+) -> None:
     core.write_json(
         case_root / "evidence/selected_test_access.json",
         {
@@ -427,20 +497,20 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         return _block_result(trace, event)
 
     plan = core.read_artifact(case_root, "experiment_plan")["content"]
-    attempts, output_registry = _attempt_registry(core, case_root, plan)
     selection_record = core.read_artifact(case_root, "requirement_selection")["content"]
+    attempts: list[dict[str, Any]] = []
     try:
+        attempts, output_registry = _attempt_registry(core, case_root, plan)
         selected = select_candidate(attempts, plan)
+        decision_hash = core.canonical_hash(selected)
+        manifests = _preview_attempts(core, case_root, attempts, decision_hash)
     except (KeyError, OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
         reason = str(exc)
         if reason != "VALIDATION_NO_ELIGIBLE_SUCCESS" and not reason.startswith("RC_"):
             reason = "RC_COMPARISON_SELECTION_INPUT_INVALID"
-        no_eligible = reason == "VALIDATION_NO_ELIGIBLE_SUCCESS"
         decision_hash = core.canonical_hash(
             {"status": "NO_ELIGIBLE_CANDIDATE", "attempts": attempts}
         )
-        if no_eligible:
-            _seal_attempts(core, case_root, attempts, decision_hash)
         event = trace.invoke(
             "GATE_COMPARISON_SELECTION",
             "controller.capture_registry+cumcm_case.validate_requirement_selection",
@@ -458,23 +528,6 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
             selected_run_id=None,
             selection_decision_hash=decision_hash,
         )
-    decision_hash = core.canonical_hash(selected)
-    try:
-        manifests = _seal_attempts(core, case_root, attempts, decision_hash)
-    except (KeyError, OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
-        manifest_reason = (
-            str(exc) if str(exc).startswith("RC_") else "RC_ACTUAL_RUN_REGISTRY_MISSING"
-        )
-        event = trace.invoke(
-            "GATE_COMPARISON_SELECTION",
-            "controller.capture_registry+cumcm_case.validate_requirement_selection",
-            [
-                core.ARTIFACT_PATHS["experiment_plan"],
-                core.ARTIFACT_PATHS["requirement_selection"],
-            ],
-            lambda: {"status": "BLOCK", "reason_codes": [manifest_reason]},
-        )
-        return _block_result(trace, event, attempts)
     comparison = _comparison_payload(plan, attempts, selected, decision_hash)
     event = trace.invoke(
         "GATE_COMPARISON_SELECTION",
@@ -484,7 +537,12 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
             core.ARTIFACT_PATHS["requirement_selection"],
             *[f"runs/{run_id}/manifest.json" for run_id in manifests],
         ],
-        lambda: core.validate_requirement_selection(selection_record),
+        lambda: _validate_selection_comparison_binding(
+            core,
+            selection_record,
+            selected,
+            manifests,
+        ),
     )
     if event["result"] != "PASS":
         return _block_result(trace, event, attempts)
@@ -566,24 +624,47 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         semantic_record,
         manifests,
     )
-    event = trace.invoke(
-        "GATE_FINALIZATION",
-        "cumcm_case.validate_runtime_finalization",
-        [
-            core.ARTIFACT_PATHS["requirement_selection"],
-            core.ARTIFACT_PATHS["semantic_claim_support"],
-            *[f"runs/{run_id}/manifest.json" for run_id in manifests],
-        ],
-        lambda: core.validate_runtime_finalization(
+    selected_payload: dict[str, Any] = {}
+
+    def validate_finalization_and_selected_test() -> dict[str, Any]:
+        result = core.validate_runtime_finalization(
             final_result,
             claim_evidence,
             selection_record,
             semantic_record,
             manifests,
-        ),
+        )
+        if result.get("status") != "PASS":
+            return result
+        selected_candidate_id = selected["selected_candidate_id"]
+        selected_run_id = _selected_global_run(attempts, selected_candidate_id)
+        selected_manifest = manifests[selected_run_id]
+        selected_output = output_registry[selected_run_id]
+        test_metrics, decoded_hash = _decode_selected_test(selected_output, test_field)
+        selected_payload.update(
+            candidate_id=selected_candidate_id,
+            run_id=selected_run_id,
+            manifest=selected_manifest,
+            output=selected_output,
+            test_metrics=test_metrics,
+            decoded_hash=decoded_hash,
+        )
+        return result
+
+    event = trace.invoke(
+        "GATE_FINALIZATION",
+        "cumcm_case.validate_runtime_finalization+controller.validate_selected_test_payload",
+        [
+            core.ARTIFACT_PATHS["requirement_selection"],
+            core.ARTIFACT_PATHS["semantic_claim_support"],
+            *[f"runs/{run_id}/manifest.json" for run_id in manifests],
+        ],
+        validate_finalization_and_selected_test,
     )
     if event["result"] != "PASS":
         return _block_result(trace, event, attempts)
+
+    _persist_manifests(core, case_root, manifests)
 
     def accepted(key: str, content: dict[str, Any]) -> None:
         core.write_json(
@@ -591,10 +672,10 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
             core.artifact(key, content),
         )
 
-    selected_candidate_id = selected["selected_candidate_id"]
-    selected_global_run_id = _selected_global_run(attempts, selected_candidate_id)
-    selected_manifest = manifests[selected_global_run_id]
-    selected_output = output_registry[selected_global_run_id]
+    selected_candidate_id = selected_payload["candidate_id"]
+    selected_global_run_id = selected_payload["run_id"]
+    selected_manifest = selected_payload["manifest"]
+    selected_output = selected_payload["output"]
     core.write_json(
         case_root / "evidence/selection_before_test_access.json",
         {
@@ -605,14 +686,14 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         },
         overwrite=False,
     )
-    _access_selected_test(
+    _record_selected_test_access(
         core,
         case_root,
         selected_global_run_id,
-        selected_output,
         selected_manifest,
         decision_hash,
-        test_field,
+        selected_payload["test_metrics"],
+        selected_payload["decoded_hash"],
     )
     accepted("model_comparison", comparison)
     accepted(
