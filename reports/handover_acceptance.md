@@ -125,4 +125,7 @@ Project license 仍未决。
 `HANDOVER_READY_FOR_MERGE`。实际 PR/VERIFIED_HEAD/CI/merge receipt 通过 GitHub PR 状态和最终评论
 记录，避免为写入 merge commit 形成循环提交；本报告不预先声称已合入 main。
 
-Publication evidence：`NOT_CREATED_YET`。
+Publication evidence：Draft PR
+[#11](https://github.com/woobowen/cumcm/pull/11)，base `main`、head `docs/rc7-handover`。创建时
+head 为 `b1fb1a8df9250c70a23b3c02ae345c11d358b0f4`；publication-evidence 更新后的最终
+`VERIFIED_HEAD` 必须由远端分支、PR head 和成功 CI 的实际查询共同确定，不能在本文预填。
