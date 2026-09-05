@@ -163,3 +163,15 @@ Progress:
   pytest scope covering output preflight, Claim/aggregate, failure retention, state and all
   controller matrices passes (`239 passed`). The Phase 004C4 regression evidence checker is
   read-only PASS.
+- `2026-09-05T21:19:00+08:00` — The first full candidate pytest exposed one historical-checker
+  compatibility defect after `2062 passed / 1 skipped`: the old Phase 004C3 Auditor replay read the
+  repaired live controller while claiming to audit commit `bf82bf4b03fb0bbd55e7ed3d010cfb6ae1352a09`.
+  The checker, not the frozen history or Skill, was corrected to execute/read the exact audited Git
+  blobs. Its reproduced RC6 verdict is again `PASS/BLOCK` with the original core/controller hashes.
+- `2026-09-05T21:31:00+08:00` — Candidate verification subject
+  `c65299a9029875ddad18836a52d5cbc4784b6f07` passed full pytest (`2063 passed / 1 skipped`),
+  strict (`0 errors / 0 warnings`), generated-status check, and full local CI (including a second
+  `2063 passed / 1 skipped` run and every historical checker). The two-stage RC7 Candidate checker
+  reads `rc7_candidate_snapshot.json`, confirms all bound evidence/receipts and exits zero while
+  live VERSION/state remain RC6/004C4-repair and `rc7_release.json` is absent. This is candidate
+  PASS only; RC7 is not yet released.
