@@ -625,6 +625,8 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         manifests,
     )
     selected_payload: dict[str, Any] = {}
+    selected_candidate_id = selected["selected_candidate_id"]
+    selected_run_id = _selected_global_run(attempts, selected_candidate_id)
 
     def validate_finalization_and_selected_test() -> dict[str, Any]:
         result = core.validate_runtime_finalization(
@@ -636,27 +638,36 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         )
         if result.get("status") != "PASS":
             return result
-        selected_candidate_id = selected["selected_candidate_id"]
-        selected_run_id = _selected_global_run(attempts, selected_candidate_id)
         selected_manifest = manifests[selected_run_id]
         selected_output = output_registry[selected_run_id]
-        test_metrics, decoded_hash = _decode_selected_test(selected_output, test_field)
+        core.reject_self_attested_development_test(selected_output, test_field=test_field)
+        authorized = core.evaluate_authorized_final_test(
+            case_root,
+            run_id=selected_run_id,
+            decision_hash=decision_hash,
+            timeout_seconds=30,
+            allow_existing=True,
+        )
         selected_payload.update(
             candidate_id=selected_candidate_id,
             run_id=selected_run_id,
             manifest=selected_manifest,
             output=selected_output,
-            test_metrics=test_metrics,
-            decoded_hash=decoded_hash,
+            test_metrics=authorized["test_metrics"],
+            decoded_hash=authorized["decoded_hash"],
         )
         return result
 
     event = trace.invoke(
         "GATE_FINALIZATION",
-        "cumcm_case.validate_runtime_finalization+controller.validate_selected_test_payload",
+        "cumcm_case.validate_runtime_finalization+cumcm_case.evaluate_authorized_final_test",
         [
             core.ARTIFACT_PATHS["requirement_selection"],
             core.ARTIFACT_PATHS["semantic_claim_support"],
+            core.FINAL_EVALUATION_LEDGER,
+            f"runs/{selected_run_id}/execution_capture.json",
+            f"runs/{selected_run_id}/output.json",
+            f"runs/{selected_run_id}/sealed_test.json",
             *[f"runs/{run_id}/manifest.json" for run_id in manifests],
         ],
         validate_finalization_and_selected_test,

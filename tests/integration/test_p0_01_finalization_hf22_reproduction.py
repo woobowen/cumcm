@@ -14,10 +14,10 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
-# Frozen current RC7 observations (P0-01). Inner decode error is not currently surfaced.
+# P0-01 fixtures after P0-02 Finalization interface.
 FINALIZATION_BLOCK_GATE = "GATE_FINALIZATION"
-FINALIZATION_OBSERVED_REASON = "RC_GATE_EXECUTION_FAILED"
-FINALIZATION_INNER_EXCEPTION = "VALIDATION_SEALED_TEST_PAYLOAD_MISSING"
+FINALIZATION_OBSERVED_REASON = "RC_FINAL_TEST_EVALUATION_FAILED"
+HF22_SELF_ATTEST_REASON = "RC_FINAL_TEST_SELF_ATTESTED_IN_DEVELOPMENT_OUTPUT"
 HF22_OBSERVED_SEMANTIC_RESULT = "PASS"
 # Proposed P0-03 reason; not implemented and not asserted as current behavior.
 HF22_FUTURE_BLOCK_REASON = "RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"
@@ -313,10 +313,17 @@ def test_hf22_false_heldout_predicate_currently_passes_semantic_gate(repo_root, 
     gates = _gate_map(core, case)
     assert gates["GATE_SEMANTIC_CLAIM"]["result"] == HF22_OBSERVED_SEMANTIC_RESULT
     assert gates["GATE_AGGREGATE_CLAIM"]["result"] == "PASS"
-    # Payload exists so Finalization is not the confounder for this fixture.
+    # Payload exists so Finalization is not the confounder for this fixture's semantic gates.
     assert "sealed_test_metrics_b64" in selected
     assert HF22_FUTURE_BLOCK_REASON not in gates["GATE_SEMANTIC_CLAIM"]["reason_codes"]
-    # Current fail-open continues through Finalization/handoff because the payload is pre-embedded.
-    assert completed.returncode == 0, (completed.stderr, result)
-    assert result["status"] == "PASS_NATIVE_CONTRACTS"
-    assert result.get("native_state") == "READY_FOR_PAPER_HANDOFF"
+    # P0-02 rejects self-attested Development payloads; HF22 semantic fail-open remains P0-03.
+    assert completed.returncode != 0, (completed.stderr, result)
+    assert result["status"] == "BLOCK_NATIVE_CONTRACTS"
+    assert HF22_SELF_ATTEST_REASON in result["reason_codes"]
+    assert HF22_SELF_ATTEST_REASON in gates[FINALIZATION_BLOCK_GATE]["reason_codes"]
+    assert gates[FINALIZATION_BLOCK_GATE]["result"] == "BLOCK"
+    assert "GATE_HANDOFF" not in gates
+    assert result.get("test_access_count", 0) == 0
+    assert core.load_state(case)["state"] == "RUNNING"
+    handoff = core.load_json(case / core.ARTIFACT_PATHS["modeling_to_paper_handoff"])
+    assert handoff["approved_by"] == []

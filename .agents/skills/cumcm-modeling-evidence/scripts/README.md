@@ -10,4 +10,6 @@ RC6 在昂贵建模前增加 `data-sufficiency`，在 Final 前增加 `selection
 
 真实 case 代码必须先以 `CASE_ROOT` record 写入 accepted experiment plan，并与真实 Git blob
 逐字节一致。`execute` 生成 `execution_capture.json`、stdout/stderr 和 output；全部候选运行完成并
-形成选择决策 hash 后，`seal-run` 才生成不可覆盖的 manifest。两步都要求 case state 为 `RUNNING`。
+形成选择决策 hash 后，`evaluate-final` 对 selected Run 做一次 hash-bound Final test 评估，再由
+`seal-run` 生成不可覆盖的 manifest。三步都要求 case state 为 `RUNNING`。Development output
+不得自证 sealed-test；Final payload 只存在 sidecar 与 ledger。

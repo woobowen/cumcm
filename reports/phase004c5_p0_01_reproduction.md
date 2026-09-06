@@ -89,6 +89,20 @@ scripts/finalize_fresh_c_validation.py complete()
 Semantic predicate 必须交叉绑定权威 selected Run/output/evaluation boundary/authorization/test-access；缺失/UNKNOWN/矛盾 fail closed。  
 不要让所有题型强制提供监督学习 test-set 指标。
 
+## P0-02 对本冻结观察的影响
+
+P0-02 已实现独立 Final evaluation 接口。本文件上表仍是 **P0-01 / RC7 当时** 的观察，不要回写改历史。
+
+P0-02 之后同一 fixture 的 **当前** 断言见
+`tests/integration/test_p0_01_finalization_hf22_reproduction.py`：
+
+| Fixture | P0-02 之后 |
+|---|---|
+| 无合法 final payload（模型不接受 `--final-evaluation`） | Gate 9 `BLOCK`，`RC_FINAL_TEST_EVALUATION_FAILED`；仍无 Gate 10；`test_access_count=0`；state `RUNNING` |
+| HF22 假 held-out + Development 自证 sealed payload | semantic/aggregate 仍 `PASS`（P0-03 未做）；Gate 9 `BLOCK` `RC_FINAL_TEST_SELF_ATTESTED_IN_DEVELOPMENT_OUTPUT`；**不再** `READY_FOR_PAPER_HANDOFF` |
+
+合法 synthetic 路径见 `reports/phase004c5_p0_02_final_evaluation.md`。
+
 ## 明确不修改
 
 formal Skill 生产代码、VERSION、2017 terminal/decision/output/builder、`state/project_state.json`、

@@ -439,12 +439,20 @@ def _build_runtime_case(
     return core, case
 
 
-def test_neutral_per_requirement_actual_controller_reaches_handoff(repo_root, tmp_path) -> None:
-    probes = _module(
-        repo_root / "tests/integration/test_actual_controller_black_box.py",
-        f"neutral_probe_builder_{tmp_path.name}",
+def _build_authorized_per_requirement_case(repo_root: Path, tmp_path: Path):
+    p001 = _module(
+        repo_root / "tests/integration/test_p0_01_finalization_hf22_reproduction.py",
+        f"neutral_authorized_{tmp_path.name}",
     )
-    core, case = probes._build_running_case(repo_root, tmp_path)
+    return p001._build_case(
+        repo_root,
+        tmp_path,
+        model_fixture="tests/fixtures/authorized_final_eval_model.py",
+    )
+
+
+def test_neutral_per_requirement_actual_controller_reaches_handoff(repo_root, tmp_path) -> None:
+    core, case = _build_authorized_per_requirement_case(repo_root, tmp_path)
     completed, result = _run_controller(repo_root, case)
     assert completed.returncode == 0, completed.stderr
     assert result["status"] == "PASS_NATIVE_CONTRACTS"
@@ -478,7 +486,7 @@ def test_neutral_per_requirement_legal_permutations_are_stable(
         repo_root / "tests/integration/test_actual_controller_black_box.py",
         f"neutral_legal_builder_{mutation}_{tmp_path.name}",
     )
-    core, case = probes._build_running_case(repo_root, tmp_path)
+    core, case = _build_authorized_per_requirement_case(repo_root, tmp_path)
     if mutation == "REQUIREMENT_ORDER":
         requirement_record = core.read_artifact(case, "problem_requirements")["content"]
         sufficiency = core.read_artifact(case, "data_sufficiency")["content"]

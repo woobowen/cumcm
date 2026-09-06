@@ -73,7 +73,7 @@ Assurance: `PUBLIC_DETERMINISTIC_REQUIREMENT_EVIDENCE_SELECTION_SEMANTIC_GATES`
 `init` 创建 `problem/ research/ data/{raw,processed}/ models/ experiments/ runs/ results/ evidence/ handoff/ state/`，以及根级 `case_state.json`。模板在 `templates/`；不能另建冲突 schema。
 
 集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、
-`data-sufficiency`、`preflight-output`、`execute`、`seal-run`、`manifest`、`compare-check`、
+`data-sufficiency`、`preflight-output`、`execute`、`evaluate-final`、`seal-run`、`manifest`、`compare-check`、
 `selection-check`、`claim-check`、`semantic-check`、`stale-check`、`finalize`、`handoff`、
 `smoke`。在候选建模前先运行 `data-sufficiency`；在 Final 前运行 `selection-check`；在
 handoff 前运行 `semantic-check`。在实验计划冻结前，先于 `MODELS_PROPOSED` 状态用
@@ -83,7 +83,11 @@ uncertainty、limitation 与定量 robustness 所需的通用结构，且不得�
 `execute` 复用同一校验器检查每个成功 output，只运行实验计划中已冻结、与 Git blob 一致的
 case-local Python 文件，并自动捕获起止时间、exit、stdout/stderr/output hash；任何非零
 exit 或 output contract failure 都必须带显式 failure reason 并保留原 output，允许
-`seal-run` 形成 FAILED manifest。`seal-run` 重验 capture 后才写 manifest，调用方不得手填
+`seal-run` 形成 FAILED manifest。全部候选 Development 运行完成后，用已冻结的选择
+`decision-hash` 对 **selected Run 调用一次** `evaluate-final`；它写入 sidecar
+`runs/<run_id>/sealed_test.json` 与 `evidence/final_evaluation_ledger.json`，不得改写
+Development `output.json`，不得把 Development 指标当作 Final，也不得重复访问 test。
+`seal-run` 重验 capture 后才写 manifest，调用方不得手填
 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定
 非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
 
