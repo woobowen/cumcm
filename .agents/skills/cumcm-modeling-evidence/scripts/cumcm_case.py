@@ -1370,9 +1370,7 @@ def validate_runtime_semantic_claims(
         )
         codes.update(outcome.get("reason_codes", []))
         codes.update(
-            _predictive_heldout_cross_bind(
-                claim, case_root=case_root, decision_hash=decision_hash
-            )
+            _predictive_heldout_cross_bind(claim, case_root=case_root, decision_hash=decision_hash)
         )
         if claim.get("claim_type") == "POLICY_EVALUATION":
             comparator_ids = claim.get("comparator_ids")
@@ -4675,9 +4673,7 @@ def select_development_candidate(
     }
 
 
-def _development_attempt_registry(
-    case_root: Path, plan: dict[str, Any]
-) -> list[dict[str, Any]]:
+def _development_attempt_registry(case_root: Path, plan: dict[str, Any]) -> list[dict[str, Any]]:
     attempts: list[dict[str, Any]] = []
     metric = plan.get("metric")
     for path in sorted(case_root.glob("runs/*/execution_capture.json")):

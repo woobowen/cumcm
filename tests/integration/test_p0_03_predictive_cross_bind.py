@@ -109,9 +109,7 @@ def test_legal_predictive_after_evaluate_final_reaches_handoff(repo_root, tmp_pa
     assert ledger["run_id"] == SELECTED_RUN
 
 
-def test_predictive_without_ledger_blocks_even_with_authorized_model(
-    repo_root, tmp_path
-) -> None:
+def test_predictive_without_ledger_blocks_even_with_authorized_model(repo_root, tmp_path) -> None:
     p001, p002 = _helpers(repo_root, tmp_path)
     core, case = p001._build_case(
         repo_root,

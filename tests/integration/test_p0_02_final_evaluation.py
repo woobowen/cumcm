@@ -1,7 +1,8 @@
 """P0-02 Final evaluation authorization: legal path and fail-closed attacks.
 
 All tests use the actual `evaluate-final` CLI and/or `finalize_fresh_c_validation.py`.
-They do not mock those entrypoints, reuse Development metrics as Final, or edit frozen 2017 artifacts.
+They do not mock those entrypoints, reuse Development metrics as Final, or edit
+frozen 2017 artifacts.
 """
 
 from __future__ import annotations
