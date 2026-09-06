@@ -12,8 +12,9 @@
 - C-target training: `TARGET_PROBLEM_POLICY.md`, `DEVELOPMENT_EVAL_PROTOCOL.md`,
   `RC6_REQUIREMENT_EVIDENCE_DESIGN.md`; active runtime closure is specified by
   `../plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`.
-  Candidate P0-01 reproduction and P0-02 Final evaluation interface (not an active plan, no RC8):
-  `../reports/phase004c5_p0_01_reproduction.md`、`../reports/phase004c5_p0_02_final_evaluation.md`
+  Candidate P0-01/P0-02/P0-03 (not an active plan, no RC8):
+  `../reports/phase004c5_p0_01_reproduction.md`、`../reports/phase004c5_p0_02_final_evaluation.md`、
+  `../reports/phase004c5_p0_03_predictive_cross_bind.md`
 - Phase 002D expansion: `PHASE002D_EVIDENCE_EXPANSION.md`, `EXPERIMENT_COHORT_POLICY.md`,
   `CODEX_RUN_BUDGET_POLICY.md`, `INDEPENDENT_REPEAT_POLICY.md`, `EXPANSION_RECOVERY.md`
 - Phase 002D-R1: `FAILURE_AWARE_EVIDENCE_POLICY.md`, `RETRY_UNTIL_SUCCESS_BIAS.md`,

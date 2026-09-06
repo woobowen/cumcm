@@ -103,6 +103,12 @@ P0-02 之后同一 fixture 的 **当前** 断言见
 
 合法 synthetic 路径见 `reports/phase004c5_p0_02_final_evaluation.md`。
 
+## P0-03 对本冻结观察的影响
+
+P0-03 之后 HF22 fixture 在 `GATE_SEMANTIC_CLAIM` 以
+`RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT` BLOCK；不再到达 aggregate / Finalization /
+handoff。合法 PREDICTIVE 路径见 `reports/phase004c5_p0_03_predictive_cross_bind.md`。
+
 ## 明确不修改
 
 formal Skill 生产代码、VERSION、2017 terminal/decision/output/builder、`state/project_state.json`、

@@ -590,6 +590,12 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
             core.ARTIFACT_PATHS["source_ledger"],
             core.ARTIFACT_PATHS["requirement_selection"],
             core.ARTIFACT_PATHS["semantic_claim_support"],
+            core.FINAL_EVALUATION_LEDGER,
+            *[
+                f"runs/{item['run_id']}/output.json"
+                for item in attempts
+                if item.get("outcome") == "SUCCESS" and isinstance(item.get("run_id"), str)
+            ],
             *[f"runs/{run_id}/manifest.json" for run_id in manifests],
         ],
         lambda: core.validate_runtime_semantic_claims(
@@ -599,6 +605,8 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
             output_registry,
             requirements,
             sources,
+            case_root=case_root,
+            decision_hash=decision_hash,
         ),
     )
     if event["result"] != "PASS":

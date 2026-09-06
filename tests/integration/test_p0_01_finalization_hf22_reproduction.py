@@ -14,13 +14,11 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
-# P0-01 fixtures after P0-02 Finalization interface.
+# P0-01 fixtures after P0-03 predictive cross-bind.
 FINALIZATION_BLOCK_GATE = "GATE_FINALIZATION"
 FINALIZATION_OBSERVED_REASON = "RC_FINAL_TEST_EVALUATION_FAILED"
-HF22_SELF_ATTEST_REASON = "RC_FINAL_TEST_SELF_ATTESTED_IN_DEVELOPMENT_OUTPUT"
-HF22_OBSERVED_SEMANTIC_RESULT = "PASS"
-# Proposed P0-03 reason; not implemented and not asserted as current behavior.
-HF22_FUTURE_BLOCK_REASON = "RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"
+HF22_SEMANTIC_BLOCK_REASON = "RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"
+HF22_OBSERVED_SEMANTIC_RESULT = "BLOCK"
 
 REQUIRED_GATES_BEFORE_FINAL = [
     "GATE_PROBLEM_REQUIREMENT",
@@ -292,7 +290,7 @@ def test_honest_development_output_blocks_at_finalization_without_test_payload(
     assert handoff["approved_by"] == []
 
 
-def test_hf22_false_heldout_predicate_currently_passes_semantic_gate(repo_root, tmp_path) -> None:
+def test_hf22_false_heldout_predicate_blocks_semantic_gate(repo_root, tmp_path) -> None:
     core, case = _build_case(
         repo_root,
         tmp_path,
@@ -312,17 +310,15 @@ def test_hf22_false_heldout_predicate_currently_passes_semantic_gate(repo_root, 
     completed, result = _run_controller(repo_root, case)
     gates = _gate_map(core, case)
     assert gates["GATE_SEMANTIC_CLAIM"]["result"] == HF22_OBSERVED_SEMANTIC_RESULT
-    assert gates["GATE_AGGREGATE_CLAIM"]["result"] == "PASS"
-    # Payload exists so Finalization is not the confounder for this fixture's semantic gates.
+    assert HF22_SEMANTIC_BLOCK_REASON in gates["GATE_SEMANTIC_CLAIM"]["reason_codes"]
+    assert HF22_SEMANTIC_BLOCK_REASON in result["reason_codes"]
+    assert "GATE_AGGREGATE_CLAIM" not in gates
+    assert "GATE_FINALIZATION" not in gates
+    assert "GATE_HANDOFF" not in gates
+    # Self-attested payload remains on Development output; it is not used as held-out proof.
     assert "sealed_test_metrics_b64" in selected
-    assert HF22_FUTURE_BLOCK_REASON not in gates["GATE_SEMANTIC_CLAIM"]["reason_codes"]
-    # P0-02 rejects self-attested Development payloads; HF22 semantic fail-open remains P0-03.
     assert completed.returncode != 0, (completed.stderr, result)
     assert result["status"] == "BLOCK_NATIVE_CONTRACTS"
-    assert HF22_SELF_ATTEST_REASON in result["reason_codes"]
-    assert HF22_SELF_ATTEST_REASON in gates[FINALIZATION_BLOCK_GATE]["reason_codes"]
-    assert gates[FINALIZATION_BLOCK_GATE]["result"] == "BLOCK"
-    assert "GATE_HANDOFF" not in gates
     assert result.get("test_access_count", 0) == 0
     assert core.load_state(case)["state"] == "RUNNING"
     handoff = core.load_json(case / core.ARTIFACT_PATHS["modeling_to_paper_handoff"])

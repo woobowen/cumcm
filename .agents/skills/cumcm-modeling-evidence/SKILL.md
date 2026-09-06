@@ -113,6 +113,9 @@ Final Run 必须是 current、SUCCESS、可复现且由比较/稳健性 Gate 选
 新 case 保留 `claim-evidence/v2` 的 hash lineage，并以独立 `claim-evidence/v3` semantic bundle
 记录逐 requirement 类型、证据等级、选中 Run/output/metric/comparator、支持谓词、不确定性、
 反证、限制和强度；字段见模板及 `workflows/claim_evidence_validation.md`。
+`PREDICTIVE` 的 `held_out_test_valid=true` 必须交叉绑定 selected Run 的
+`evaluate-final` ledger（一次授权、hash lineage、非 selection 用途）；Development output
+或 semantic payload 自证一律 fail closed。
 总体 Claim 独立于任一局部 Claim；primary coverage 和 supporting Claim IDs 按集合精确匹配，
 `REQUIREMENT_UNION` 的 scope 必须逐项等于输出已捕获的局部 scope。总体 statement 仍绑定
 captured Final scope，但不以它与局部文本是否相等判断支持。任一输入、输出、Run 或 decision
