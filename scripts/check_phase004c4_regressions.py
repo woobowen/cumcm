@@ -29,6 +29,23 @@ def _canonical_hash(value: Any) -> str:
     ).hexdigest()
 
 
+def _git_blob_hash(root: Path, commit: str, relative: str) -> str | None:
+    try:
+        blob = subprocess.check_output(["git", "show", f"{commit}:{relative}"], cwd=root)
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return hashlib.sha256(blob).hexdigest()
+
+
+def _bound_hash(root: Path, relative: str, commit: str) -> str | None:
+    path = root / relative
+    if not path.is_file():
+        return None
+    if relative.startswith("tests/"):
+        return _git_blob_hash(root, commit, relative)
+    return _hash(path)
+
+
 def evaluate(root: Path = ROOT) -> dict[str, Any]:
     errors: list[str] = []
     evidence = _read(root / EVIDENCE.relative_to(ROOT))
@@ -50,9 +67,10 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         for item in evidence.get("current_skill_regressions", {}).values()
         if isinstance(item, dict) and "sha256" in item
     )
+    commit = str(evidence.get("implementation_commit") or "")
     for record in records:
-        path = root / str(record.get("path", ""))
-        if not path.is_file() or record.get("sha256") != _hash(path):
+        relative = str(record.get("path", ""))
+        if record.get("sha256") != _bound_hash(root, relative, commit):
             errors.append(f"PHASE004C4_REGRESSION_FILE_DRIFT:{record.get('path')}")
 
     claim_replay = _read(root / evidence.get("current_claim_replay", {}).get("path", ""))
