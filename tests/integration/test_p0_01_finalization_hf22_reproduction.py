@@ -310,11 +310,13 @@ def test_hf22_false_heldout_predicate_currently_passes_semantic_gate(repo_root, 
     assert selected["held_out_test_valid"] is False
 
     completed, result = _run_controller(repo_root, case)
-    assert completed.returncode in {0, 1}, completed.stderr
     gates = _gate_map(core, case)
     assert gates["GATE_SEMANTIC_CLAIM"]["result"] == HF22_OBSERVED_SEMANTIC_RESULT
     assert gates["GATE_AGGREGATE_CLAIM"]["result"] == "PASS"
     # Payload exists so Finalization is not the confounder for this fixture.
     assert "sealed_test_metrics_b64" in selected
     assert HF22_FUTURE_BLOCK_REASON not in gates["GATE_SEMANTIC_CLAIM"]["reason_codes"]
-    assert result["status"] in {"PASS_NATIVE_CONTRACTS", "BLOCK_NATIVE_CONTRACTS"}
+    # Current fail-open continues through Finalization/handoff because the payload is pre-embedded.
+    assert completed.returncode == 0, (completed.stderr, result)
+    assert result["status"] == "PASS_NATIVE_CONTRACTS"
+    assert result.get("native_state") == "READY_FOR_PAPER_HANDOFF"

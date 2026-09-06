@@ -20,7 +20,7 @@ Mode: `RESUME_FIRST_FIX` / P0-01 only
 | Fixture | 当前 RC7 观察（已断言） | 内层/未来 code（未实现，不断言为当前行为） |
 |---|---|---|
 | 无合法 final payload | Gate 9 `GATE_FINALIZATION` `BLOCK`，`RC_GATE_EXECUTION_FAILED`；Gate 10 未到达；`test_access_count=0`；state `RUNNING` | 内层 `VALIDATION_SEALED_TEST_PAYLOAD_MISSING` 被 `GateTrace.invoke` 丢掉，因为不以 `RC_` 开头 |
-| HF22 假 held-out 声明 | `GATE_SEMANTIC_CLAIM` 与 `GATE_AGGREGATE_CLAIM` 为 `PASS`，尽管 selected output 为 `DEVELOPMENT_GROUPED_OOS` / `NOT_AUTHORIZED` / count `0` / `held_out_test_valid=false` | 建议 P0-03：`RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT` |
+| HF22 假 held-out 声明 | `GATE_SEMANTIC_CLAIM`/`GATE_AGGREGATE_CLAIM` 为 `PASS`；因本 fixture 另带 sealed payload，controller 继续到 `PASS_NATIVE_CONTRACTS` / `READY_FOR_PAPER_HANDOFF`。权威 output 仍为 `DEVELOPMENT_GROUPED_OOS` / `NOT_AUTHORIZED` / 0 / `held_out_test_valid=false` | 建议 P0-03：`RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT` |
 
 禁止：mock actual CLI；只测 helper；预塞 test payload 进 Development execute；修改 2017 builder/output。
 
