@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import copy
 import hashlib
 import json
@@ -4590,6 +4592,303 @@ def execute_case_code(
     }
 
 
+FINAL_EVALUATION_LEDGER = "evidence/final_evaluation_ledger.json"
+
+
+def select_development_candidate(
+    attempts: list[dict[str, Any]], plan: dict[str, Any]
+) -> dict[str, Any]:
+    """Select the comparison winner from development captures only."""
+    scores: dict[str, float] = {}
+    for candidate in plan["candidate_ids"]:
+        values = [
+            item["validation_score"]
+            for item in attempts
+            if item["candidate_id"] == candidate
+            and item["outcome"] == "SUCCESS"
+            and item["validation_score"] is not None
+        ]
+        if values:
+            scores[candidate] = sum(values) / len(values)
+    if not scores:
+        raise ValueError("VALIDATION_NO_ELIGIBLE_SUCCESS")
+    direction = 1 if plan["metric_direction"] == "MIN" else -1
+    selected = min(scores, key=lambda candidate: (direction * scores[candidate], candidate))
+    return {
+        "selected_candidate_id": selected,
+        "validation_scores": scores,
+        "metric": plan["metric"],
+        "rule": plan["selection_rule"],
+        "aggregation_rule": plan["aggregation_rule"],
+    }
+
+
+def _development_attempt_registry(
+    case_root: Path, plan: dict[str, Any]
+) -> list[dict[str, Any]]:
+    attempts: list[dict[str, Any]] = []
+    metric = plan.get("metric")
+    for path in sorted(case_root.glob("runs/*/execution_capture.json")):
+        capture = load_json(path)
+        score = None
+        if capture.get("outcome") == "SUCCESS":
+            output_path = relative_case_path(case_root, capture.get("output", {}).get("path"))
+            if output_path is None or not output_path.is_file():
+                raise ValueError("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+            output = load_json(output_path)
+            score = output.get("validation_metrics", {}).get(metric)
+            if not strict_score(score):
+                raise ValueError("RC_CLAIM_METRIC_BINDING_MISSING")
+        attempts.append(
+            {
+                "candidate_id": capture.get("candidate_id"),
+                "outcome": capture.get("outcome"),
+                "random_seed": capture.get("seed"),
+                "run_id": capture.get("run_id"),
+                "validation_score": score,
+            }
+        )
+    return attempts
+
+
+def reject_self_attested_development_test(
+    output: dict[str, Any], *, test_field: str = "sealed_test_metrics_b64"
+) -> None:
+    """Reject a Development output that already carries a Final test payload."""
+    if test_field not in output:
+        return
+    encoded = output.get(test_field)
+    if isinstance(encoded, str):
+        try:
+            decoded = json.loads(base64.b64decode(encoded, validate=True))
+        except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+        if not isinstance(decoded, dict):
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    raise ValueError("RC_FINAL_TEST_SELF_ATTESTED_IN_DEVELOPMENT_OUTPUT")
+
+
+def _selected_success_run_id(attempts: list[dict[str, Any]], selected_candidate_id: str) -> str:
+    eligible = sorted(
+        (
+            item
+            for item in attempts
+            if item.get("candidate_id") == selected_candidate_id
+            and item.get("outcome") == "SUCCESS"
+        ),
+        key=lambda item: (str(item.get("random_seed")), str(item.get("run_id"))),
+    )
+    run_id = eligible[0].get("run_id") if eligible else None
+    if not isinstance(run_id, str):
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    return run_id
+
+
+def _verify_final_evaluation_ledger(
+    case_root: Path, ledger: dict[str, Any], *, run_id: str, decision_hash: str
+) -> dict[str, Any]:
+    if (
+        not isinstance(ledger, dict)
+        or ledger.get("count") != 1
+        or ledger.get("run_id") != run_id
+        or ledger.get("selection_decision_hash") != decision_hash
+        or ledger.get("used_for_selection") is not False
+        or ledger.get("max_count") != 1
+    ):
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    payload_relative = ledger.get("payload_path")
+    payload_path = relative_case_path(case_root, payload_relative)
+    output_path = relative_case_path(case_root, ledger.get("development_output_path"))
+    capture_path = relative_case_path(case_root, ledger.get("capture_path"))
+    if payload_path is None or output_path is None or capture_path is None:
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+    if not payload_path.is_file() or not output_path.is_file() or not capture_path.is_file():
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+    if file_hash(output_path) != ledger.get("development_output_hash"):
+        raise ValueError("RC_FINAL_TEST_DEVELOPMENT_OUTPUT_MUTATED")
+    if file_hash(capture_path) != ledger.get("capture_sha256"):
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    if file_hash(payload_path) != ledger.get("payload_sha256"):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
+    payload = load_json(payload_path)
+    if not isinstance(payload, dict):
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    encoded = payload.get("sealed_test_metrics_b64")
+    if not isinstance(encoded, str):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+    try:
+        test_bytes = base64.b64decode(encoded, validate=True)
+        test_metrics = json.loads(test_bytes)
+    except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+    if not isinstance(test_metrics, dict):
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    decoded_hash = hashlib.sha256(test_bytes).hexdigest()
+    if decoded_hash != payload.get("sealed_test_payload_sha256"):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
+    if payload.get("authorization_hash") != ledger.get("authorization_hash"):
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    return {
+        "test_metrics": test_metrics,
+        "decoded_hash": decoded_hash,
+        "payload_path": payload_relative,
+        "payload_sha256": ledger["payload_sha256"],
+        "ledger": ledger,
+    }
+
+
+def evaluate_authorized_final_test(
+    case_root: Path,
+    *,
+    run_id: str,
+    decision_hash: str,
+    timeout_seconds: int = 600,
+    allow_existing: bool = False,
+) -> dict[str, Any]:
+    """Run one hash-bound Final test evaluation after development selection."""
+    if load_state(case_root).get("state") != "RUNNING":
+        raise ValueError("RC_EXECUTE_STATE_INVALID")
+    if timeout_seconds < 1 or timeout_seconds > 900:
+        raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
+    if not HEX64.fullmatch(decision_hash):
+        raise ValueError("RC_RUN_DECISION_HASH_INVALID")
+    ledger_path = case_root / FINAL_EVALUATION_LEDGER
+    if ledger_path.is_file():
+        if not allow_existing:
+            raise ValueError("RC_FINAL_TEST_ALREADY_ACCESSED")
+        return _verify_final_evaluation_ledger(
+            case_root, load_json(ledger_path), run_id=run_id, decision_hash=decision_hash
+        )
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    expected = {
+        (candidate_id, seed)
+        for candidate_id in plan["candidate_ids"]
+        for seed in plan["random_seeds"]
+    }
+    attempts = _development_attempt_registry(case_root, plan)
+    observed = {(item["candidate_id"], item["random_seed"]) for item in attempts}
+    if expected - observed:
+        raise ValueError("RC_FINAL_TEST_PREMATURE")
+    try:
+        selected = select_development_candidate(attempts, plan)
+    except ValueError as exc:
+        if str(exc) == "VALIDATION_NO_ELIGIBLE_SUCCESS":
+            raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED") from exc
+        raise
+    if canonical_hash(selected) != decision_hash:
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    if run_id != _selected_success_run_id(attempts, selected["selected_candidate_id"]):
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    capture_path = case_root / "runs" / run_id / "execution_capture.json"
+    if not capture_path.is_file():
+        raise ValueError("RC_EXECUTION_CAPTURE_MISSING")
+    capture = load_json(capture_path)
+    if capture.get("candidate_id") != selected["selected_candidate_id"]:
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    if capture.get("outcome") != "SUCCESS" or capture.get("run_id") != run_id:
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    output_relative = capture.get("output", {}).get("path")
+    output_path = relative_case_path(case_root, output_relative)
+    if output_path is None or not output_path.is_file():
+        raise ValueError("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+    development_output_hash = file_hash(output_path)
+    if development_output_hash != capture.get("output", {}).get("sha256"):
+        raise ValueError("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+    reject_self_attested_development_test(load_json(output_path))
+    argv = capture.get("argv")
+    if not isinstance(argv, list) or not argv or not isinstance(argv[0], str):
+        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
+    code_path = argv[0]
+    authorization = {
+        "schema_version": "final-evaluation-authorization/v1",
+        "run_id": run_id,
+        "candidate_id": capture["candidate_id"],
+        "seed": capture.get("seed"),
+        "selection_decision_hash": decision_hash,
+        "development_output_path": output_relative,
+        "development_output_hash": development_output_hash,
+        "capture_path": str(capture_path.relative_to(case_root)),
+        "capture_sha256": file_hash(capture_path),
+        "code_path": code_path,
+        "used_for_selection": False,
+        "max_count": 1,
+    }
+    authorization_hash = canonical_hash(authorization)
+    payload_relative = f"runs/{run_id}/sealed_test.json"
+    payload_path = case_root / payload_relative
+    if payload_path.exists():
+        raise ValueError("RC_IMMUTABLE_OUTPUT_ALREADY_EXISTS")
+    environment = {"PYTHONHASHSEED": str(capture.get("seed")), "TZ": "UTC"}
+    logical_argv = [
+        code_path,
+        "--case-root",
+        ".",
+        "--candidate-id",
+        str(capture["candidate_id"]),
+        "--seed",
+        str(capture.get("seed")),
+        "--output",
+        str(output_relative),
+        "--final-evaluation",
+        "--authorization-hash",
+        authorization_hash,
+        "--final-output",
+        payload_relative,
+    ]
+    try:
+        completed = subprocess.run(
+            [sys.executable, *logical_argv],
+            cwd=case_root,
+            env=environment,
+            check=False,
+            capture_output=True,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED") from exc
+    if completed.returncode != 0 or not payload_path.is_file():
+        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
+    if file_hash(output_path) != development_output_hash:
+        raise ValueError("RC_FINAL_TEST_DEVELOPMENT_OUTPUT_MUTATED")
+    payload = load_json(payload_path)
+    if not isinstance(payload, dict):
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    encoded = payload.get("sealed_test_metrics_b64")
+    if not isinstance(encoded, str):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+    try:
+        test_bytes = base64.b64decode(encoded, validate=True)
+        test_metrics = json.loads(test_bytes)
+    except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+    if not isinstance(test_metrics, dict):
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    decoded_hash = hashlib.sha256(test_bytes).hexdigest()
+    if decoded_hash != payload.get("sealed_test_payload_sha256"):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
+    if payload.get("authorization_hash") != authorization_hash:
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    if payload.get("run_id") not in {None, run_id}:
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    ledger = {
+        **authorization,
+        "authorization_hash": authorization_hash,
+        "count": 1,
+        "accessed_at": utc_now(),
+        "payload_path": payload_relative,
+        "payload_sha256": file_hash(payload_path),
+        "decoded_payload_sha256": decoded_hash,
+    }
+    write_json(ledger_path, ledger, overwrite=False)
+    return {
+        "test_metrics": test_metrics,
+        "decoded_hash": decoded_hash,
+        "payload_path": payload_relative,
+        "payload_sha256": ledger["payload_sha256"],
+        "ledger": ledger,
+    }
+
+
 def build_captured_run_manifest(
     case_root: Path, *, run_id: str, decision_hash: str
 ) -> dict[str, Any]:
@@ -5213,6 +5512,14 @@ def build_parser() -> argparse.ArgumentParser:
     execute.add_argument("--seed", type=int, required=True)
     execute.add_argument("--code-path", required=True)
     execute.add_argument("--timeout-seconds", type=int, default=600)
+    evaluate_final = subparsers.add_parser(
+        "evaluate-final",
+        help="在候选选择后对 selected Run 做一次 hash-bound Final test 评估",
+    )
+    evaluate_final.add_argument("--case-root", type=Path, required=True)
+    evaluate_final.add_argument("--run-id", required=True)
+    evaluate_final.add_argument("--decision-hash", required=True)
+    evaluate_final.add_argument("--timeout-seconds", type=int, default=600)
     seal = subparsers.add_parser("seal-run", help="复核 capture 后生成 Run manifest")
     seal.add_argument("--case-root", type=Path, required=True)
     seal.add_argument("--run-id", required=True)
@@ -5425,6 +5732,28 @@ def main(argv: list[str] | None = None) -> int:
                 timeout_seconds=args.timeout_seconds,
             )
             return emit({"command": "execute", "status": "PASS", "result": result})
+        if args.command == "evaluate-final":
+            result = evaluate_authorized_final_test(
+                args.case_root,
+                run_id=args.run_id,
+                decision_hash=args.decision_hash,
+                timeout_seconds=args.timeout_seconds,
+                allow_existing=False,
+            )
+            return emit(
+                {
+                    "command": "evaluate-final",
+                    "status": "PASS",
+                    "result": {
+                        "run_id": args.run_id,
+                        "payload_path": result["payload_path"],
+                        "payload_sha256": result["payload_sha256"],
+                        "decoded_payload_sha256": result["decoded_hash"],
+                        "ledger_path": FINAL_EVALUATION_LEDGER,
+                        "authorization_hash": result["ledger"]["authorization_hash"],
+                    },
+                }
+            )
         if args.command == "seal-run":
             result = seal_captured_run(
                 args.case_root,
