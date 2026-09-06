@@ -1190,6 +1190,50 @@ def validate_runtime_selection_compatibility(
     return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
 
 
+def _predictive_heldout_cross_bind(
+    claim: dict[str, Any],
+    *,
+    case_root: Path | None,
+    decision_hash: str | None,
+) -> set[str]:
+    """Bind PREDICTIVE held-out predicates to the Final evaluation ledger, not self-attestation."""
+    if claim.get("claim_type") != "PREDICTIVE":
+        return set()
+    predicates = claim.get("support_predicates")
+    if not isinstance(predicates, dict) or predicates.get("held_out_test_valid") is not True:
+        return set()
+    run_ids = [item for item in (claim.get("selected_run_ids") or []) if isinstance(item, str)]
+    if case_root is None or not HEX64.fullmatch(str(decision_hash or "")):
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    ledger_path = case_root / FINAL_EVALUATION_LEDGER
+    if not ledger_path.is_file():
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    try:
+        ledger = load_json(ledger_path)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    if (
+        not isinstance(ledger, dict)
+        or ledger.get("count") != 1
+        or ledger.get("used_for_selection") is not False
+        or ledger.get("max_count") != 1
+    ):
+        return {"RC_PREDICTIVE_TEST_ACCESS_INVALID"}
+    ledger_run = ledger.get("run_id")
+    if not isinstance(ledger_run, str) or ledger_run not in run_ids:
+        return {"RC_PREDICTIVE_TEST_RUN_NOT_OWNED"}
+    try:
+        _verify_final_evaluation_ledger(
+            case_root, ledger, run_id=ledger_run, decision_hash=str(decision_hash)
+        )
+    except ValueError as exc:
+        reason = str(exc)
+        if reason.startswith("RC_"):
+            return {reason}
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    return set()
+
+
 def validate_runtime_semantic_claims(
     record: Any,
     selection_record: Any,
@@ -1197,6 +1241,9 @@ def validate_runtime_semantic_claims(
     output_registry: Any,
     requirements: Any,
     sources: Any,
+    *,
+    case_root: Path | None = None,
+    decision_hash: str | None = None,
 ) -> dict[str, Any]:
     """Cross-bind semantic Claims to requirements, Runs, outputs, metrics and sources."""
     if not all(
@@ -1322,6 +1369,11 @@ def validate_runtime_semantic_claims(
             }
         )
         codes.update(outcome.get("reason_codes", []))
+        codes.update(
+            _predictive_heldout_cross_bind(
+                claim, case_root=case_root, decision_hash=decision_hash
+            )
+        )
         if claim.get("claim_type") == "POLICY_EVALUATION":
             comparator_ids = claim.get("comparator_ids")
             for run_id in run_ids or []:
