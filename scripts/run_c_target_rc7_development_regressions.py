@@ -873,6 +873,7 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
         "claim_scope": selected_output["claim_scope"],
     }
     accepted(core, case_root, "final_result", final)
+    core.advance_once(case_root)
     first_requirement = prepared["requirements"][0]
     primary_claim = selected_output["requirement_claims"][first_requirement]
     evidence_ids = sorted(
@@ -997,8 +998,8 @@ def main() -> int:
     parser.add_argument("--case", choices=tuple(CASES) + ("all",), default="all")
     parser.add_argument("--attempt", type=int, default=1)
     args = parser.parse_args()
-    if args.attempt < 1 or args.attempt > 5:
-        raise SystemExit("--attempt must be in 1..5")
+    if args.attempt < 1 or args.attempt > 6:
+        raise SystemExit("--attempt must be in 1..6")
     core = load_core()
     selected = list(CASES) if args.case == "all" else [args.case]
     results = []
