@@ -4503,6 +4503,17 @@ def utc_now() -> str:
     return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def controlled_subprocess_environment(seed: int) -> tuple[dict[str, str], dict[str, str]]:
+    """Keep the recorded allowlist deterministic while satisfying Windows loading."""
+    recorded = {"PYTHONHASHSEED": str(seed), "TZ": "UTC"}
+    process_environment = dict(recorded)
+    if os.name == "nt":
+        system_root = os.environ.get("SYSTEMROOT")
+        if system_root:
+            process_environment["SYSTEMROOT"] = system_root
+    return recorded, process_environment
+
+
 def execute_case_code(
     case_root: Path,
     *,
@@ -4559,7 +4570,7 @@ def execute_case_code(
         "--output",
         output_relative,
     ]
-    environment = {"PYTHONHASHSEED": str(seed), "TZ": "UTC"}
+    environment, process_environment = controlled_subprocess_environment(seed)
     started_at = utc_now()
     started_clock = time.monotonic()
     failure: dict[str, Any] | None = None
@@ -4567,7 +4578,7 @@ def execute_case_code(
         completed = subprocess.run(
             [sys.executable, *logical_argv],
             cwd=case_root,
-            env=environment,
+            env=process_environment,
             check=False,
             capture_output=True,
             timeout=timeout_seconds,
@@ -4893,7 +4904,7 @@ def evaluate_authorized_final_test(
     payload_path = case_root / payload_relative
     if payload_path.exists():
         raise ValueError("RC_IMMUTABLE_OUTPUT_ALREADY_EXISTS")
-    environment = {"PYTHONHASHSEED": str(capture.get("seed")), "TZ": "UTC"}
+    environment, process_environment = controlled_subprocess_environment(int(capture.get("seed")))
     logical_argv = [
         code_path,
         "--case-root",
@@ -4914,7 +4925,7 @@ def evaluate_authorized_final_test(
         completed = subprocess.run(
             [sys.executable, *logical_argv],
             cwd=case_root,
-            env=environment,
+            env=process_environment,
             check=False,
             capture_output=True,
             timeout=timeout_seconds,

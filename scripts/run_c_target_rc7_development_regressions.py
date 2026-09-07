@@ -997,8 +997,8 @@ def main() -> int:
     parser.add_argument("--case", choices=tuple(CASES) + ("all",), default="all")
     parser.add_argument("--attempt", type=int, default=1)
     args = parser.parse_args()
-    if args.attempt < 1 or args.attempt > 3:
-        raise SystemExit("--attempt must be in 1..3")
+    if args.attempt < 1 or args.attempt > 5:
+        raise SystemExit("--attempt must be in 1..5")
     core = load_core()
     selected = list(CASES) if args.case == "all" else [args.case]
     results = []
