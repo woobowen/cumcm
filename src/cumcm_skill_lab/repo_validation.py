@@ -34,6 +34,16 @@ PRIVATE_PATH_PATTERNS = {
 }
 
 
+def _text_file_sha256(path: Path) -> str:
+    """Hash tracked text bytes independently of a platform's checkout EOL."""
+    payload = path.read_bytes()
+    try:
+        payload = payload.decode("utf-8").replace("\r\n", "\n").encode("utf-8")
+    except UnicodeDecodeError:
+        pass
+    return hashlib.sha256(payload).hexdigest()
+
+
 def scan_secrets(root: Path):
     errors: list[dict] = []
     for path in tracked_text_files(root):
@@ -302,7 +312,7 @@ def _active_plan_errors(root: Path) -> list[dict]:
     manifest = state.get("verification_manifest")
     if manifest:
         manifest_path = root / manifest["path"]
-        actual_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+        actual_hash = _text_file_sha256(manifest_path)
         if actual_hash != manifest["sha256"]:
             errors.append(
                 {
