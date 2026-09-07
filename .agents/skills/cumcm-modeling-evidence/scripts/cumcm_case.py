@@ -1809,7 +1809,7 @@ def git_blob_hash(commit: str, repository_path: str) -> str | None:
     path = relative_case_path(REPO_ROOT, repository_path)
     if path is None:
         return None
-    normalized = str(path.relative_to(REPO_ROOT))
+    normalized = path.relative_to(REPO_ROOT).as_posix()
     completed = subprocess.run(
         ["git", "show", f"{commit}:{normalized}"],
         cwd=REPO_ROOT,
