@@ -2189,18 +2189,18 @@ def preflight_output_contract(case_root: Path, probe_path: Path) -> tuple[GateRe
     except ValueError:
         return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), ""
     if not relative.parts or relative.parts[0] != "experiments" or not resolved.is_file():
-        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), str(relative)
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), relative.as_posix()
     try:
         output = load_json(resolved)
     except (OSError, json.JSONDecodeError, ValueError):
-        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_JSON_INVALID"), str(relative)
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_JSON_INVALID"), relative.as_posix()
     return (
         validate_selected_output_contract(
             output,
             required_requirement_ids=required_requirement_ids(case_root),
             allow_probe=True,
         ),
-        str(relative),
+        relative.as_posix(),
     )
 
 
@@ -3645,11 +3645,12 @@ def validate_claim(
                 nested_claim_ids.add(nested_id)
                 for relative in nested_evidence:
                     path = relative_case_path(case_root, relative)
+                    binding_key = Path(relative).as_posix()
                     if (
                         path is None
                         or not path.is_file()
                         or not isinstance(bindings, dict)
-                        or bindings.get(relative) != file_hash(path)
+                        or bindings.get(binding_key) != file_hash(path)
                     ):
                         codes.add("RC_CLAIM_REQUIREMENT_EVIDENCE_NOT_CURRENT")
         if isinstance(bindings, dict):
@@ -5070,13 +5071,16 @@ def record_transition(
     index = STATES.index(previous) + 1
     if index >= len(STATES) or STATES[index] != next_state:
         raise ValueError("RC_STATE_TRANSITION_INVALID")
-    missing = [path for path in evidence if not (case_root / path).is_file()]
+    canonical_evidence = [Path(path).as_posix() for path in evidence]
+    missing = [path for path in canonical_evidence if not (case_root / path).is_file()]
     if missing:
         raise ValueError("RC_TRANSITION_EVIDENCE_MISSING")
     updated = copy.deepcopy(state)
     updated["state"] = next_state
     updated["last_gate"] = gate
-    updated["evidence_bindings"].update({path: file_hash(case_root / path) for path in evidence})
+    updated["evidence_bindings"].update(
+        {path: file_hash(case_root / path) for path in canonical_evidence}
+    )
     updated["history"].append(
         {
             "sequence": len(updated["history"]),
@@ -5084,7 +5088,7 @@ def record_transition(
             "to": next_state,
             "gate": gate,
             "status": "PASS",
-            "evidence": evidence,
+            "evidence": canonical_evidence,
         }
     )
     if not check:
