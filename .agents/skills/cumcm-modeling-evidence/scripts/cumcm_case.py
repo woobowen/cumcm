@@ -1778,6 +1778,16 @@ def file_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
+def code_file_hash(path: Path) -> str:
+    """Hash source bytes with Git-style CRLF-to-LF normalization.
+
+    Code records still retain the exact worktree hash through ``file_hash``.  This
+    companion hash is only used when binding source code to a Git blob so a
+    Windows checkout does not fail solely because Git converted LF to CRLF.
+    """
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def git_commit_exists(commit: str) -> bool:
     if not isinstance(commit, str) or not GIT_SHA.fullmatch(commit):
         return False
@@ -2398,7 +2408,7 @@ def validate_manifest(
             if (
                 not isinstance(repository_path, str)
                 or (scope == "SKILL_ROOT" and repository_path != expected_repository_path)
-                or git_blob_hash(str(commit), repository_path) != actual
+                or git_blob_hash(str(commit), repository_path) != code_file_hash(path)
             ):
                 codes.add("RC_MANIFEST_CODE_COMMIT_MISMATCH")
         if code_hashes and manifest.get("code_tree_hash") != canonical_hash(code_hashes):
@@ -4388,7 +4398,7 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
                 or not isinstance(repository_path, str)
                 or not HEX64.fullmatch(str(record.get("sha256", "")))
                 or file_hash(code_path) != record.get("sha256")
-                or git_blob_hash(code_commit, repository_path) != record.get("sha256")
+                or git_blob_hash(code_commit, repository_path) != code_file_hash(code_path)
                 or (
                     scope == "SKILL_ROOT"
                     and (
