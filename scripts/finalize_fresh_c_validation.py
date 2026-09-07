@@ -79,7 +79,7 @@ def _path_hashes(core: Any, case_root: Path, relatives: list[str]) -> dict[str, 
 def _authoritative_hashes(core: Any, case_root: Path) -> dict[str, str]:
     relatives = [core.ARTIFACT_PATHS[key] for key in AUTHORITATIVE_KEYS]
     relatives.extend(
-        str(path.relative_to(case_root))
+        path.relative_to(case_root).as_posix()
         for path in sorted(case_root.glob("runs/*/execution_capture.json"))
     )
     return _path_hashes(core, case_root, relatives)

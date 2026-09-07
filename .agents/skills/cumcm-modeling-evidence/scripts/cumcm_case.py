@@ -4646,7 +4646,7 @@ def execute_case_code(
         "run_id": run_id,
         "outcome": outcome,
         "exit_code": exit_code,
-        "capture_path": str(capture_path.relative_to(case_root)),
+        "capture_path": capture_path.relative_to(case_root).as_posix(),
         "capture_sha256": file_hash(capture_path),
         "output": output_record,
     }
@@ -4865,7 +4865,7 @@ def evaluate_authorized_final_test(
         "selection_decision_hash": decision_hash,
         "development_output_path": output_relative,
         "development_output_hash": development_output_hash,
-        "capture_path": str(capture_path.relative_to(case_root)),
+        "capture_path": capture_path.relative_to(case_root).as_posix(),
         "capture_sha256": file_hash(capture_path),
         "code_path": code_path,
         "used_for_selection": False,
@@ -4992,7 +4992,7 @@ def build_captured_run_manifest(
         "freeze_bindings": capture.get("freeze_bindings"),
         "decision_hash": decision_hash,
         "capture_record": {
-            "path": str(capture_path.relative_to(case_root)),
+            "path": capture_path.relative_to(case_root).as_posix(),
             "sha256": file_hash(capture_path),
         },
     }
@@ -5022,7 +5022,7 @@ def seal_captured_run(case_root: Path, *, run_id: str, decision_hash: str) -> di
     return {
         "run_id": run_id,
         "outcome": manifest["outcome"],
-        "manifest_path": str(manifest_path.relative_to(case_root)),
+        "manifest_path": manifest_path.relative_to(case_root).as_posix(),
         "manifest_sha256": file_hash(manifest_path),
     }
 
@@ -5258,7 +5258,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             raise ValueError("RC_VERIFIED_RUNS_INSUFFICIENT")
         target = "RUN_COMPLETED" if current == "RUNNING" else "RUN_VALIDATED"
         gate = "GATE_RUN_COMPLETION" if current == "RUNNING" else "GATE_REPRODUCIBILITY_MANIFEST"
-        evidence = [str(path.relative_to(case_root)) for path in manifests]
+        evidence = [path.relative_to(case_root).as_posix() for path in manifests]
         for path in manifests:
             manifest = load_json(path)
             for output_record in manifest.get("output_files", []):
@@ -5379,7 +5379,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             semantic_result = validate_semantic_claim_bundle(semantic)
             if semantic_result.get("status") != "PASS":
                 raise ValueError(";".join(semantic_result.get("reason_codes", [])))
-            manifest_paths = [str(manifest_path.relative_to(case_root))]
+            manifest_paths = [manifest_path.relative_to(case_root).as_posix()]
         return record_transition(
             case_root,
             state,

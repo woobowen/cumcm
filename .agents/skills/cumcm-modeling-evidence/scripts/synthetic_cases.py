@@ -260,7 +260,7 @@ def _write_run(
         "environment_allowlist": {"PYTHONHASHSEED": "0", "TZ": "UTC"},
         "output_files": [
             {
-                "path": str(output_path.relative_to(case_root)),
+                "path": output_path.relative_to(case_root).as_posix(),
                 "sha256": output_file_hash,
             }
         ],
