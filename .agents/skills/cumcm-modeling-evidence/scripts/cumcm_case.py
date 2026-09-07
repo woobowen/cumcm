@@ -1788,6 +1788,15 @@ def code_file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
+def code_commit_hash_matches(
+    path: Path, declared_hash: Any, observed_commit_hash: str | None
+) -> bool:
+    """Accept both legacy raw-byte and normalized source declarations."""
+    if not isinstance(declared_hash, str) or not isinstance(observed_commit_hash, str):
+        return False
+    return observed_commit_hash in {declared_hash, code_file_hash(path)}
+
+
 def git_commit_exists(commit: str) -> bool:
     if not isinstance(commit, str) or not GIT_SHA.fullmatch(commit):
         return False
@@ -2408,7 +2417,11 @@ def validate_manifest(
             if (
                 not isinstance(repository_path, str)
                 or (scope == "SKILL_ROOT" and repository_path != expected_repository_path)
-                or git_blob_hash(str(commit), repository_path) != code_file_hash(path)
+                or not code_commit_hash_matches(
+                    path,
+                    actual,
+                    git_blob_hash(str(commit), repository_path),
+                )
             ):
                 codes.add("RC_MANIFEST_CODE_COMMIT_MISMATCH")
         if code_hashes and manifest.get("code_tree_hash") != canonical_hash(code_hashes):
@@ -4398,7 +4411,11 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
                 or not isinstance(repository_path, str)
                 or not HEX64.fullmatch(str(record.get("sha256", "")))
                 or file_hash(code_path) != record.get("sha256")
-                or git_blob_hash(code_commit, repository_path) != code_file_hash(code_path)
+                or not code_commit_hash_matches(
+                    code_path,
+                    record.get("sha256"),
+                    git_blob_hash(code_commit, repository_path),
+                )
                 or (
                     scope == "SKILL_ROOT"
                     and (
