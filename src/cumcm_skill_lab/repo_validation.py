@@ -1,5 +1,6 @@
 """Composite repository validation with stable finding identifiers."""
 
+import contextlib
 import csv
 import hashlib
 import json
@@ -37,10 +38,8 @@ PRIVATE_PATH_PATTERNS = {
 def _text_file_sha256(path: Path) -> str:
     """Hash tracked text bytes independently of a platform's checkout EOL."""
     payload = path.read_bytes()
-    try:
+    with contextlib.suppress(UnicodeDecodeError):
         payload = payload.decode("utf-8").replace("\r\n", "\n").encode("utf-8")
-    except UnicodeDecodeError:
-        pass
     return hashlib.sha256(payload).hexdigest()
 
 
