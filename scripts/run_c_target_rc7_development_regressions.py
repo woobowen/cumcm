@@ -514,7 +514,7 @@ def write_probe(
     }
     core.write_json(case_root / relative, probe, overwrite=False)
     result, observed = core.preflight_output_contract(case_root, Path(relative))
-    if not result.accepted or observed != relative:
+    if not result.accepted or observed.replace("\\", "/") != relative:
         raise ValueError("RC7_OUTPUT_CONTRACT_PREFLIGHT_FAILED")
     return {"status": result.status, "reason_codes": list(result.reason_codes), "path": relative}
 
@@ -908,6 +908,25 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
     if state["state"] != "READY_FOR_PAPER_HANDOFF":
         raise ValueError("RC7_REGRESSION_TERMINAL_STATE_INVALID")
 
+    prior_attempts = []
+    for prior in range(1, attempt):
+        prior_root = CACHE_ROOT / f"{config.case_id}-ATTEMPT-{prior:03d}"
+        prior_state_path = prior_root / "case_state.json"
+        if prior_state_path.is_file():
+            prior_attempts.append(
+                {
+                    "attempt": prior,
+                    "workspace_relative": prior_root.relative_to(ROOT).as_posix(),
+                    "preserved": True,
+                    "terminal_observed_state": core.load_json(prior_state_path).get("state"),
+                    "run_count": len(list((prior_root / "runs").glob("*/manifest.json"))),
+                    "capture_count": len(
+                        list((prior_root / "runs").glob("*/execution_capture.json"))
+                    ),
+                    "failure_scope": "RC7_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
+                }
+            )
+
     evidence = {
         "schema_version": "1.0.0",
         "artifact_type": "c_target_rc7_development_regression_evidence",
@@ -938,6 +957,7 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
         },
         "workspace_relative": case_root.relative_to(ROOT).as_posix(),
         "attempt_number": attempt,
+        "preserved_prior_attempts": prior_attempts,
         "output_contract_preflight": preflight,
         "stage_status": [{"stage": stage, "status": "PASS"} for stage in core.STAGES],
         "requirements_total": len(prepared["requirements"]),
