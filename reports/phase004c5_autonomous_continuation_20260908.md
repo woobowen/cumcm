@@ -1,15 +1,16 @@
 # Phase 004C5 autonomous continuation record
 
-Status: `IMPLEMENTED_NOT_RC8` / `DEVELOPMENT_REGRESSION_NOT_COMPLETED`
+Status: `IMPLEMENTED_DEVELOPMENT_REGRESSION_COMPLETED_NOT_RC8`
 
 Branch: `feat/phase004c5-p0-01-finalization-hf22-repro`  
 PR: `#12` Draft, base `main`  
 Start ledger: `2026-09-07T23:29:10.4545963+08:00` (Asia/Shanghai)  
-Last checkpoint: `2026-09-08T00:59:21.6256141+08:00` (Asia/Shanghai)
+Last checkpoint: `2026-09-08T01:43:02.3486631+08:00` (Asia/Shanghai)
 
 This record covers the authorized continuation from the PR head. It does not change the
 formal RC7 state, frozen 2017 Validation artifacts, answer status, or the 2025 C reserve.
-No independent Validation or new numeric Run was created.
+No independent Validation run or formal-state numeric run was created; the two current numeric
+runs are Development regressions documented below.
 
 ## Checkpoints
 
@@ -22,8 +23,15 @@ No independent Validation or new numeric Run was created.
    tracked text verification use LF-normalized text where the contract is text-based.
 4. Ran the controller and repository checks listed below. The current formal state remains the
    RC7 terminal Validation failure with the existing blockers.
-5. Checked the authorized historical C route. The required ignored input/workspace cache is
-   absent, so no 2021/2022 or fallback 2020/2023 numerical batch was started.
+5. Reacquired the registered 2021 and 2022 archives from the official mcm.edu.cn attachments.
+   URL hashes, archive hashes, and all bound C-problem/data hashes match the registration.
+   Only problem/data inputs were copied into ignored local workspaces; reference/answer
+   material was not included in the execution data hashes.
+6. Added a current RC7 Development-only route and repaired two Windows execution boundaries:
+   the subprocess receives only the loader-required SYSTEMROOT in addition to the recorded
+   deterministic environment, and all state/claim evidence paths use portable POSIX keys.
+7. Completed both authorized historical C Development batches. Their evidence is separate from
+   the old RC4 artifacts and remains explicitly `DEVELOPMENT_REGRESSION`, not Validation.
 
 ## Changes
 
@@ -38,6 +46,14 @@ Local commits ahead of the PR head:
 - `b54bd97` — normalize tracked text when validating the repository verification manifest.
 - `3c361ab` — satisfy the repository lint rule for the text-hash helper.
 
+Additional commits in this continuation:
+
+- `1f2bc63` add the current RC7 C Development-regression route.
+- `c291aa1` normalize the RC7 output-contract probe path check.
+- `4aee146` preserve the Windows runtime loader environment for controlled subprocesses.
+- `96296c3` canonicalize Windows evidence paths at transition and claim boundaries.
+- `d156af8` complete the current route's final/claim/handoff transition sequence.
+
 ## Verification
 
 Passed on the current branch with CPython 3.11.14:
@@ -50,6 +66,8 @@ Passed on the current branch with CPython 3.11.14:
 - Transport-recovery integration suite: `14 passed`.
 - Repository-fault integration suite: `10 passed`.
 - Frozen actual/adversarial probe hash checks: `2 passed`.
+- Current P0/controller/black-box/neutral/adversarial combined regression after the final
+  portability repairs: `48 passed in 263.67s`.
 - `ruff check .`, `ruff format --check .`, `scripts/validate_repo.py --strict`, and
   `git diff --check`: passed.
 - Existing RC4 batch evidence checker without workspace verification: passed for all three
@@ -62,17 +80,24 @@ passed after the narrowly scoped portability repairs.
 
 ## Historical C boundary
 
-The default 2021 C and 2022 C Development route requires the ignored, hash-bound
-`.cache/official_inputs` workspaces. The directory is absent on this machine; exact checks also
-show that the 2020 C and 2023 C fallback workspaces are absent. Existing tracked RC4 evidence is
-read-only historical evidence, not a fresh current-code Run. Its content checker passes, while
-workspace verification reports only the missing workspace/prior-workspace records.
+Both default historical C Development batches completed under RC7 with no Final/Validation
+evaluator access:
 
-Therefore the requested historical numerical Development Regression remains `NOT_RUN:
-AUTHORIZED_INPUT_WORKSPACE_MISSING`, not PASS, not Validation, and not evidence of generalized
-C-target performance. The next legal continuation is to reacquire the named official inputs
-through the documented authorized route, verify their registered hashes, and run the current
-entrypoint in isolated `DEVELOPMENT_REGRESSION` workspaces.
+- 2022 C: `CUMCM-2022-C-DEVELOPMENT-RC7-REGRESSION`, attempt 6, 3/3 valid runs,
+  selected `HELLINGER_KNN_COMPLETE`, terminal `READY_FOR_PAPER_HANDOFF`.
+- 2021 C: `CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION`, attempt 1, 3/3 valid runs,
+  selected `BASELINE_MEAN_GREEDY`, terminal `READY_FOR_PAPER_HANDOFF`.
+
+Evidence files:
+
+- `evals/results/phase004c5-c-batch/CUMCM-2022-C-DEVELOPMENT-BATCH-001/development_regression_evidence.json`
+- `evals/results/phase004c5-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/development_regression_evidence.json`
+
+The 2022 route preserves five earlier harness/environment/path attempts in its ignored
+workspace metadata; those failures are not silently discarded. The successful runs are current
+RC7 Development evidence only. They do not establish an independent Validation result,
+generalized C-target performance, a version release, or permission to access the frozen 2017/
+2025 routes.
 
 ## Delivery boundary
 
