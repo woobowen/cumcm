@@ -17,6 +17,9 @@ RELEASE_MANIFEST = "evals/results/phase-004c3/rc6_release.json"
 LIVE_PROJECT_VERSION = "0.3.0-competition-rc7"
 LIVE_SKILL_VERSION = "0.2.0-competition-rc7"
 LIVE_RELEASE_MANIFEST = "evals/results/phase-004c4/rc7_release.json"
+RC8_PROJECT_VERSION = "0.3.0-competition-rc8"
+RC8_SKILL_VERSION = "0.2.0-competition-rc8"
+RC8_RELEASE_MANIFEST = "evals/results/phase-004c5/qualification/rc8_release.json"
 VERSION_PATTERN = re.compile(r"^\d+\.\d+\.\d+-competition-rc\d+$")
 
 
@@ -29,6 +32,7 @@ def evaluate_release_snapshot(
     *,
     expected_project_version: str = PROJECT_VERSION,
     expected_skill_version: str = SKILL_VERSION,
+    expected_active_skill_version: str | None = None,
 ) -> dict[str, Any]:
     """Evaluate a caller-supplied release snapshot without filesystem access."""
     if not isinstance(snapshot, dict):
@@ -57,7 +61,11 @@ def evaluate_release_snapshot(
             codes.add("RC_RELEASE_SKILL_VERSION_MISSING")
         elif not isinstance(value, str) or VERSION_PATTERN.fullmatch(value) is None:
             codes.add("RC_RELEASE_VERSION_FORMAT_INVALID")
-        elif value != expected_skill_version:
+        elif value != (
+            expected_active_skill_version
+            if field == "state_skill_version" and expected_active_skill_version is not None
+            else expected_skill_version
+        ):
             codes.add(mismatch_code)
 
     changelog = snapshot.get("changelog_versions")
@@ -106,11 +114,28 @@ def build_repository_snapshot() -> dict[str, Any]:
     runner_text = _read_text(".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py")
     changelog_text = _read_text("CHANGELOG.md") or ""
     project_version = _read_text("VERSION")
-    manifest_path = (
-        LIVE_RELEASE_MANIFEST if project_version == LIVE_PROJECT_VERSION else RELEASE_MANIFEST
-    )
-    manifest = _read_json(manifest_path)
+    profiles = {
+        PROJECT_VERSION: RELEASE_MANIFEST,
+        LIVE_PROJECT_VERSION: LIVE_RELEASE_MANIFEST,
+        RC8_PROJECT_VERSION: RC8_RELEASE_MANIFEST,
+    }
+    manifest = _read_json(profiles[project_version]) if project_version in profiles else {}
     state = _read_json("state/project_state.json")
+    scope = "RELEASE_SURFACES"
+    rc8_staged = (
+        project_version == RC8_PROJECT_VERSION
+        and state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+        and state.get("active_skill_version") == LIVE_SKILL_VERSION
+        and state.get("target_candidate_version") == RC8_SKILL_VERSION
+        and state.get("technical_adjudication_status") == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+        and not manifest
+    )
+    if rc8_staged:
+        protocol = _read_json("evals/results/phase-004c5/qualification/rc8_candidate_protocol.json")
+        target = protocol.get("target_versions", {})
+        manifest = {"project_version": target.get("project"), "skill_version": target.get("skill")}
+        scope = "CANDIDATE_STAGED_NOT_ACCEPTED"
+
     discovered: list[str] = []
     for path in sorted((ROOT / ".agents/skills").glob("*/SKILL.md")):
         text = path.read_text(encoding="utf-8")
@@ -132,6 +157,7 @@ def build_repository_snapshot() -> dict[str, Any]:
     )
     return {
         "project_version": project_version,
+        "consistency_scope": scope,
         "manifest_project_version": manifest.get("project_version"),
         "skill_version_file": _read_text(".agents/skills/cumcm-modeling-evidence/VERSION"),
         "skill_metadata_version": _extract(r"^Version: `([^`]+)`$", skill_text),
@@ -151,11 +177,25 @@ def main(argv: list[str] | None = None) -> int:
     if not args.check:
         parser.error("--check is required")
     snapshot = build_repository_snapshot()
-    live_rc7 = snapshot.get("project_version") == LIVE_PROJECT_VERSION
-    outcome = evaluate_release_snapshot(
-        snapshot,
-        expected_project_version=LIVE_PROJECT_VERSION if live_rc7 else PROJECT_VERSION,
-        expected_skill_version=LIVE_SKILL_VERSION if live_rc7 else SKILL_VERSION,
+    profiles = {
+        PROJECT_VERSION: SKILL_VERSION,
+        LIVE_PROJECT_VERSION: LIVE_SKILL_VERSION,
+        RC8_PROJECT_VERSION: RC8_SKILL_VERSION,
+    }
+    project = snapshot.get("project_version")
+    outcome = (
+        evaluate_release_snapshot(
+            snapshot,
+            expected_project_version=project,
+            expected_skill_version=profiles[project],
+            expected_active_skill_version=(
+                LIVE_SKILL_VERSION
+                if snapshot.get("consistency_scope") == "CANDIDATE_STAGED_NOT_ACCEPTED"
+                else None
+            ),
+        )
+        if project in profiles
+        else result("BLOCK", "RC_RELEASE_UNKNOWN_VERSION")
     )
     print(
         json.dumps(

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0-competition-rc8 — 2026-09-09
+
+- Introduces the sole Skill candidate `0.2.0-competition-rc8`; the Python distribution remains
+  `0.2.3`. Candidate qualification, live activation and delivery bind separate recorded subjects.
+- Binds source files, generation methods, scope, Run outputs and per-question metrics. Independent
+  checker execution and complete-result replay validate calculation fidelity separately from
+  domain feasibility. Missing evidence preserves partial outcomes.
+- Adds explicit Development without Final test access and nonpredictive final verification;
+  evaluation design is frozen. Preserves failed Final access budgets and inherited P0 boundaries.
+- Preserves RC7 at its historical implementation/release subjects. Research and fresh Validation
+  eligibility depend on the RC8 qualification manifest; this entry is not competition approval
+  or evidence of generalization.
+
 ## 0.3.0-competition-rc7 — 2026-09-05
 
 - Added a docs-only honest handover, environment/reproduction inventory, bounded continuation cards,

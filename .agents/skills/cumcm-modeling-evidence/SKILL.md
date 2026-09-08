@@ -5,7 +5,7 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc7`
+Version: `0.2.0-competition-rc8`
 
 Capability: `COMPETITION_RC`
 
@@ -73,7 +73,7 @@ Assurance: `PUBLIC_DETERMINISTIC_REQUIREMENT_EVIDENCE_SELECTION_SEMANTIC_GATES`
 `init` 创建 `problem/ research/ data/{raw,processed}/ models/ experiments/ runs/ results/ evidence/ handoff/ state/`，以及根级 `case_state.json`。模板在 `templates/`；不能另建冲突 schema。
 
 集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、
-`data-sufficiency`、`preflight-output`、`execute`、`evaluate-final`、`seal-run`、`manifest`、`compare-check`、
+`data-sufficiency`、`preflight-output`、`execute`、`verify-evidence`、`evaluate-final`、`seal-run`、`manifest`、`compare-check`、
 `selection-check`、`claim-check`、`semantic-check`、`stale-check`、`finalize`、`handoff`、
 `smoke`。在候选建模前先运行 `data-sufficiency`；在 Final 前运行 `selection-check`；在
 handoff 前运行 `semantic-check`。在实验计划冻结前，先于 `MODELS_PROPOSED` 状态用
@@ -87,6 +87,8 @@ exit 或 output contract failure 都必须带显式 failure reason 并保留原 
 `decision-hash` 对 **selected Run 调用一次** `evaluate-final`；它写入 sidecar
 `runs/<run_id>/sealed_test.json` 与 `evidence/final_evaluation_ledger.json`，不得改写
 Development `output.json`，不得把 Development 指标当作 Final，也不得重复访问 test。
+Final 执行开始前即消耗一次预算；异常、超时和不合法输出保留失败账本，不能重试取得新访问。
+复用任何最终核验时，重新检查实际 input 和全部冻结 code blob，不能只核对旧账本里的字符串。
 `seal-run` 重验 capture 后才写 manifest，调用方不得手填
 `trusted_capture`。先用 `--help`；成功为 exit 0，输入/Gate/STALE/state/I/O 分别使用稳定
 非零码。CLI 默认离线且错误仅返回 reason code，不回显敏感值。
@@ -120,3 +122,55 @@ Final Run 必须是 current、SUCCESS、可复现且由比较/稳健性 Gate 选
 `REQUIREMENT_UNION` 的 scope 必须逐项等于输出已捕获的局部 scope。总体 statement 仍绑定
 captured Final scope，但不以它与局部文本是否相等判断支持。任一输入、输出、Run 或 decision
 断链仍 fail closed。旧格式通过纯函数 `derive_claim_contract` 生成派生视图，禁止原地重写历史。
+
+## 科学事实与逐问支持
+
+每个实际 output 必须包含 `scientific_evidence[requirement_id]`，描述真实生成方法
+`generation_method`、实际 `source_ids`、`scope={fields,time,entities}` 和 `metric_values`。
+metric ID 必须在该 Run 的实际数值指标中唯一可解析；不同问题的不同数值不能复用同名指标。
+即使是 `DESCRIPTIVE` 也不能省略生成事实。case adapter 只能提出需求和 Claim 类型；不得
+因为 JSON 完整、source 原始类别是 empirical、或输出有 uncertainty/limitations 就填 SUPPORTED。
+
+source 的 hash 绑定已审计的真实输入文件；archive 与解压工作簿属于不同对象，应分别登记
+provenance，不能把 archive hash 冒充工作簿内容 hash。经验数据可以驱动条件仿真，但条件
+结果不证明外部实效。条件结果绑定真实 `assumption_artifact_sha256`，未来情景范围单列
+`conditional_scope`。预测不得改成描述性 Claim 绕过验证；缺少标签时可交付预测及缺口，
+不能宣称准确性已经证明。原始 source 类别、生成方法、Claim 支持范围必须分别记录。
+
+新科学 case 的每个 primary requirement 必须设置 `scientific_facts_required=true`，包括
+描述性统计和条件仿真。它要求另一个预登记、Git-bound 的 case-local checker。先将它加入
+`required_code_files`，再在 RUNNING 调用 `verify-evidence --case-root <case> --run-id <Run>
+--code-path models/check.py`。checker 接收 `--case-root --run-id --output`，读取该 Run
+的 output 并写 `scientific_check.json`：根级 `run_id`、`output_sha256`，逐问
+`requirements[ID].metric_values`、非空 `recalculation_residuals`，以及领域判定
+`feasible` 和 `constraint_residuals`。计算一致性残差须覆盖实际输出表/向量/过程，不得仅以
+相等的样本数替代整个结果核验；逐问 metric ID 和数值同时匹配。领域失败的正确负面描述
+可以获支持，但计算不一致不能。`FEASIBILITY` 还要求领域约束通过；全局最优另需闭合界。
+每个残差记录实际 `value`、
+`relation=LE|GE|EQ`、`limit`、`tolerance`。自动 Gate 检查数值和完整捕获链；checker
+不得导入 producer 的解法或同一验证 helper 来冒充算法独立。误差单位、容差、约束含义和
+独立性还需原生只读审核。独立 Python 程序不等于独立多 Agent 审核。
+`verify-evidence` 保存真实 subprocess 的 v2 capture；接受时还会实际运行冻结 checker
+并比较完整 JSON 结果，不能由可重写的完整回执自证执行。同一进程仅复用相同完整 hash
+绑定的成功复算。checker 只写传入的 `--output` 路径，须支持独立临时输出，不修改 Run/raw。
+实际核验过程另存 ignored `.cache/scientific-check-replays/`。这不构成 OS 隔离或签名证明。
+Development 用 `evaluation_design.mode=DEVELOPMENT_NO_FINAL_EVALUATION`，真实训练/诊断
+分区保留，`splits.test=[]`；它不能调用 Final evaluator。整个 `evaluation_design` 进入
+`execution_policy` freeze。非预测 Final 用 `NONPREDICTIVE_FINAL_VERIFICATION` 和三个空
+split，实际执行独立科学核验；不得伪造预测测试集。
+
+全局最优性另需独立上/下界闭合证书；仅求解器 success、候选池大小、实际使用数量或一个
+可行计划都不证明最优。主问题的目标、约束、决策数量和评价量必须逐项对应。缺少主要
+问题的解、最小/最大性证明或必要事实时，保留 PARTIAL/拒绝和全部失败记录，不能仅降级
+措辞后宣称全题完成。
+
+合法非预测任务在实验计划明确 `evaluation_design.mode=NONPREDICTIVE_FINAL_VERIFICATION`，
+三个 prediction split 数组均为空；不得伪造训练/测试样本。最终 controller 检查全部所选
+Run 的独立数值复算，记录 `scientific_final_verification_count=1`、`test_access_count=0`，
+不调用预测 Final evaluator。该路径不支持 PREDICTIVE/CAUSAL/POLICY_EVALUATION Claim。
+Development 的显式 `DEVELOPMENT_NO_FINAL_EVALUATION` 仍允许零 Final 访问，但不等于
+正式 Validation 或完整科学通过。正常预测路径继续要求真正冻结的 held-out 边界。
+
+跨题检查要点：区分拟合样本、独立实体、重复预测次数；区分类别可分、概率校准与外部
+泛化；确认扰动确实改变模型输入；按独立实体处理重复采样。优化需按题意核对实际支付量、
+物料/运输守恒、跨期状态递推、目标优先级和极值证据。题目参数与配方只进入 case 目录。

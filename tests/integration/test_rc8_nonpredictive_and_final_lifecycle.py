@@ -203,7 +203,7 @@ def test_development_captures_need_no_fake_final_test_split(repo_root, tmp_path)
 def test_evaluation_design_is_bound_before_first_final_access(repo_root, tmp_path):
     helper, core, case = _nonpredictive(repo_root, tmp_path, development_only=True)
     plan = core.read_artifact(case, "experiment_plan")["content"]
-    plan["evaluation_design"] = {"mode": "PREDICTIVE_FINAL_EVALUATION"}
+    plan["evaluation_design"]["access_budget_changed_after_run"] = 1
     helper._accepted(core, case, "experiment_plan", plan)
     with pytest.raises(ValueError, match="RC_.*INVALID"):
         core.evaluate_authorized_final_test(

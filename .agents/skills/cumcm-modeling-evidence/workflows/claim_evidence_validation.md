@@ -41,10 +41,21 @@
   `uncertainty`、`counter_evidence`、`limitations`、`claim_strength` 和 `status`。
 - 类型至少包括 `DESCRIPTIVE`、`EMPIRICAL`、`PREDICTIVE`、`COMPARATIVE`、
   `POLICY_EVALUATION`、`FEASIBILITY`、`OPTIMALITY`、`CAUSAL`、
-  `SIMULATION_CONDITIONAL`。本 Gate 只检查结构化谓词，不声称证明任意自然语言蕴含。
+  `SIMULATION_CONDITIONAL`。实际 CLI/controller 同时核对 producer 捕获的生成事实、真实
+  source/data hash、输出所有权、逐问 metric、scope 和必要的独立执行证据；不声称证明任意自然语言蕴含。
 - empirical 需要经验来源；simulation conditional 需要已注册假设；comparative 需要 comparator、
   共同 metric 和可比输入；policy 需要实际执行、非零 exposure、comparator、收益和代价；
   feasibility 需要独立约束复算；global optimum 需要证书；causal 需要识别设计；predictive 需要
   冻结验证/held-out 边界。反证必须进入 limitations 或拒绝，不能静默删除。
 - `semantic-check` 必须在 v2 hash lineage `claim-check` 后通过。任一局部失败均阻断 aggregate；
   primary coverage 只按 ID 集合判断，文件/Claim 顺序无语义。
+- `scientific_evidence[requirement_id]` 对描述性 Claim 也必填。实际 statement 必须等于
+  captured local claim_text；fields/time/entities 受实际 sources、输出和已绑定条件假设约束。
+  `support_predicates=true` 不能替代 `verify-evidence` 的 hash-bound 数值复算。
+- 反证、缺少关键目标或未解决的主要问题必须保留为不足；只改 Claim 名称不会补足证据。
+
+每个新科学 primary requirement 设置 `scientific_facts_required=true`。另行运行冻结 checker，
+逐问给出独立 `metric_values` 与非空 `recalculation_residuals`，覆盖实际结果向量和表。
+它们与 `constraint_residuals/feasible` 分离：可以正确报告领域失败，不能支持计算错误。
+接受路径会当场复算完整结果；完整、自洽但伪造的 capture 不能替代执行。保存原始 negative
+结果及实际复算回执，不通过删掉主要问题将全题失败改成完成。
