@@ -890,7 +890,7 @@ def solve(case_root: Path, candidate_id: str, seed: int) -> dict[str, Any]:
                     "perturbation_id": name,
                     "metric": primary,
                     "result": replay[primary],
-                    "evidence": "DEVELOPMENT_COUNTERFACTUAL_HISTORICAL_REPLAY",
+                    "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
                 }
             )
         result.update(
@@ -922,6 +922,11 @@ def solve(case_root: Path, candidate_id: str, seed: int) -> dict[str, Any]:
     )
     result["scientific_evidence"] = scientific_evidence(result, assumptions_hash)
     result["scientific_coverage_status"] = "PARTIAL_SCIENTIFIC_COVERAGE"
+    result["uncertainty"] = {
+        "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+        "robustness_design": "Development counterfactual historical replay with declared perturbations.",
+        "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+    }
     result["whole_problem_scientifically_complete"] = False
     result["limitations"] = [
         (

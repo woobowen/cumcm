@@ -307,7 +307,9 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                 EXPECTED_RUNTIME_CLOSURE_PHASE: (
                     "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md"
                 ),
-                EXPECTED_FACT_BINDING_PHASE: "plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md",
+                EXPECTED_FACT_BINDING_PHASE: (
+                    "plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"
+                ),
             }[state["phase"]],
             current_branch=(
                 "feat/phase004c5-p0-01-finalization-hf22-repro"
