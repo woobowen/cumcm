@@ -161,3 +161,9 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  remain unaccepted. Main accepts audit corrections to overstrong future-truth/group-overlap
  interpretation and records actual remaining-time errors, without rewriting frozen inputs/results.
  Second2015 C remains unopened and is next if the preregistered complete window remains available.
+
+- 2026-09-08T21:56:33.948200+00:00: first terminala03597b remote verified. Second2015 C started at21:53:34Z with
+ 13995s global remaining and a full7200s episode through23:53:34Z; candidate target23:33:34Z.
+ Official C-only DOCX registered; no separate C attachment exists, so no substitution. Fresh worker
+ receives only frozen generic materials and its own input. Planned2/started2/executed1/completed1/
+ scientificPASS0. Shared implementation, rules and observed environment remain identical.

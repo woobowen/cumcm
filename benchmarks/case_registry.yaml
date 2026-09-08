@@ -78,7 +78,7 @@ planned_cases:
   year: 2015
   set_type: VALIDATION
   target_problem_type: C
-  status: NOT_STARTED
+  status: IN_PROGRESS
   batch_position: 2
   planned_denominator: 2
   skill_version: 0.2.0-competition-rc8
@@ -87,6 +87,7 @@ planned_cases:
   inputs_accessed: false
   maximum_wall_seconds: 7200
   protocol: evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md
+  input_accessed: true
 held_out_reservations:
 - reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
   set_type: HELD_OUT
@@ -1063,7 +1064,10 @@ cases:
     path: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/terminal_freeze.json
     sha256: 1868d483d5a846ffe2092e5bdaa70677c5e856fb4797439b95a7586fc5883f20
     subject_commit: bee0a94cd0b04a17ceaf80830d482ac91366de1e
-    status: FROZEN_PENDING_REMOTE_DELIVERY
+    status: REMOTE_DELIVERED
+    freeze_commit: a03597be9a83a38ce4bcc4dba76cf8c574327045
+    remote_sha: a03597be9a83a38ce4bcc4dba76cf8c574327045
+    delivery_path: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/terminal_delivery.json
   reference_unlock: LOCKED
   generalization_axis:
   - FRESH_PROBLEM_UNDER_FROZEN_RC8
@@ -1099,3 +1103,35 @@ cases:
   terminal_result: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
   terminal_decision: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/decision.json
   terminal_freeze: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/terminal_freeze.json
+- case_id: CUMCM-2015-C-VALIDATION-005
+  set_type: VALIDATION
+  target_problem_type: C
+  evidence_role: FRESH_ONE_SHOT_VALIDATION
+  independent_problem: true
+  batch_id: RC8-FRESH-VALIDATION-004C5
+  batch_position: 2
+  problem_source: .cache/pr12-rc8/fresh/2015/official/c_files/CUMCM-2015-problem C-Chinese.docx
+  problem_hash: b25aee13059c58f2b62c46dedcb1cc069dd0f3b08a69a97bca1e9b90a3f4e889
+  data_hashes: {}
+  answer_access_status: SEALED
+  first_run_status: IN_PROGRESS
+  first_run_freeze: null
+  reference_unlock: LOCKED
+  generalization_axis:
+  - FRESH_PROBLEM_UNDER_FROZEN_RC8
+  - INDEPENDENT_NATIVE_WORKER_CONTEXT
+  skill_version: 0.2.0-competition-rc8
+  skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+  formal_skill_version: 0.2.0-competition-rc8
+  formal_skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+  model: UNKNOWN
+  reasoning: UNKNOWN
+  start_time: '2026-09-08T21:56:33.948200+00:00'
+  freeze_time: null
+  unlock_time: null
+  generalizable_failures: []
+  problem_specific_findings: []
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  registration: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/registration/input_registration.json
+  pre_run_freeze: null

@@ -1,0 +1,39 @@
+{
+  "schema_version": "rc8-fresh-main-acquisition-ledger/v1",
+  "case_id": "CUMCM-2015-C-VALIDATION-005",
+  "records": [
+    {
+      "action": "OFFICIAL_ANNUAL_PAGE_READ",
+      "url": "https://www.mcm.edu.cn/html_cn/node/ac8b96613522ef62c019d1cd45a125e3.html",
+      "tool": "web click annual navigation only",
+      "purpose": "Locate official C input archive",
+      "result": "Annual page with archive link; no solution content"
+    },
+    {
+      "action": "OFFICIAL_ARCHIVE_WEB_READ",
+      "url": "https://www.mcm.edu.cn/upload_cn/node/350/m00L7uGp5743fadb9289f545d4ed5a1b300622fa.rar",
+      "tool": "web click archive",
+      "result": "UNSUPPORTED_CONTENT_TYPE",
+      "next": "Direct official HTTP download, same registered acquisition method"
+    },
+    {
+      "action": "OFFICIAL_HTTP_RETRIEVAL",
+      "evidence": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/registration/retrieval.json",
+      "result": "HTTP200 for annual page and archive"
+    },
+    {
+      "action": "ARCHIVE_HEADER_LIST_AND_C_ONLY_EXTRACTION",
+      "evidence": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/registration/archive_extraction.json",
+      "result": "Only C DOCX body extracted. Other entries header metadata only, no body read."
+    },
+    {
+      "action": "MAIN_C_PROBLEM_TEXT_READ",
+      "time": "2026-09-08T21:56:33.948200+00:00",
+      "sha256": "b25aee13059c58f2b62c46dedcb1cc069dd0f3b08a69a97bca1e9b90a3f4e889",
+      "purpose": "Confirm complete official input and scope before registry/worker dispatch",
+      "result": "Raw text read locally from DOCX, not published; no answer/source solution accessed."
+    }
+  ],
+  "no_other_problem_bodies_read": true,
+  "no_reference_answers_accessed": true
+}
