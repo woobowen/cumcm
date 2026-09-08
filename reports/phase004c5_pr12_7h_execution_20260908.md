@@ -30,7 +30,7 @@ record, not a release authorization.
 - The current local recovery commits are `cb0e89f` (historical-root isolation)
   and `65e74b2` (preserve the next Development attempt), followed by
   `bcc3fca` (checker path normalization), `ef69b02`, `92dfebd`, and
-  `06add61` (audit documentation).
+  `06add61` and `2627395` (audit documentation).
   The current v5
   receipts bind `candidate_implementation_commit` and
   `execution_code_commit` to `65e74b2`; the remote branch still points to
