@@ -24,8 +24,9 @@
   `c71912e` byte hashes; the new Development code is being moved to the
   case-owned `development-v5/code` path. No historical freeze or formal state
   is being rewritten.
-- The last technical audit commit is `06add61`; subsequent local commits only
-  record audit receipts. The recovery commits include
+- The last formal-boundary audit commit is `06add61`; subsequent local commits
+  record audit receipts and the Windows-only test-timeout compatibility fix.
+  The recovery commits include
   `bcc3fca` (including the v5 receipt/docs
   commit and Windows path-normalization checker fix). The remote feature branch and PR
   head remain at `f17e99a`; no new push has been made.
