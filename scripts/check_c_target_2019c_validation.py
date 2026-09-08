@@ -82,7 +82,12 @@ def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
     ):
         errors.append("RC5_RELEASE_DELIVERY_INVALID")
     frozen_release = subprocess.check_output(
-        ["git", "show", f"{receipt['release_commit']}:{RESULTS}/rc5_release.json"], cwd=root
+        [
+            "git",
+            "show",
+            f"{receipt['release_commit']}:{(RESULTS / 'rc5_release.json').as_posix()}",
+        ],
+        cwd=root,
     )
     if hashlib.sha256(frozen_release).hexdigest() != digest(root / RESULTS / "rc5_release.json"):
         errors.append("RC5_RELEASE_COMMIT_BINDING_INVALID")
@@ -140,7 +145,8 @@ def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
         if delivery_path.is_file():
             delivery = read(delivery_path)
             blob = subprocess.check_output(
-                ["git", "show", f"{delivery['commit']}:{path.relative_to(root)}"], cwd=root
+                ["git", "show", f"{delivery['commit']}:{path.relative_to(root).as_posix()}"],
+                cwd=root,
             )
             if (
                 delivery["commit"] != delivery["remote_sha"]
