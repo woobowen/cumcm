@@ -150,6 +150,12 @@ quality conclusions.
   test's 30-second timeout. The remaining tests were not run, so this is an
   incomplete Windows observation, not a Linux CI result. The earlier CRLF
   frozen-file mismatch did not recur in the LF worktree.
+- A Linux-native WSL clone at the same `e3653c2` tree ran the static checker
+  subset with Python 3.12 and PyYAML; claim-scope, batch/first-run/postmortem,
+  RC4 candidate/batch/unified, 2019, and 2024 freeze/outcome all returned
+  `ok=true`. WSL had no pytest/ruff, and `uv` dependency setup failed after
+  three PyPI connection timeouts. Linux full pytest and Ruff are therefore
+  unverified rather than failed.
 - Direct `.venv/Scripts/pytest.exe` collection is not used as the project result:
   on Windows it produced 17 `ModuleNotFoundError` collection errors because
   that launcher did not put the repository root on `sys.path`.

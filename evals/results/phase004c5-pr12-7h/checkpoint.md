@@ -164,6 +164,12 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
   timeout. The remaining tests were not run; this is an incomplete Windows
   observation, not a Linux CI pass/fail claim. The earlier CRLF-only frozen
   file mismatch did not recur in this LF worktree.
+- A Linux-native clone under WSL, at the same `e3653c2` tree, ran the static
+  checker subset with Python 3.12 and PyYAML: claim-scope, batch/first-run/
+  postmortem, RC4 candidate/batch/unified, 2019, and 2024 freeze/outcome all
+  returned `ok=true`. WSL had no pytest/ruff, and `uv` dependency setup could
+  not fetch PyPI after three connection timeouts; Linux full pytest and Ruff
+  therefore remain unverified, not failed.
 
 ## GitHub CI self-audit
 
