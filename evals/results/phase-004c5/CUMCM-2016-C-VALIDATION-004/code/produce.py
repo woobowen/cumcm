@@ -370,7 +370,10 @@ def main():
     if args.final_evaluation:
         raise SystemExit("FINAL_EVALUATION_NOT_AUTHORIZED_BY_DEVELOPMENT_ONLY_PROTOCOL")
     else:
-        write(args.output, develop(args.case_root, args.candidate_id))
+        payload = develop(args.case_root, args.candidate_id)
+        for record in payload["requirement_claims"].values():
+            record["evidence_artifact_ids"] = [args.output.as_posix()]
+        write(args.output, payload)
 
 
 if __name__ == "__main__":

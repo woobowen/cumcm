@@ -1,0 +1,36 @@
+{
+  "schema_version": "pre-freeze-code-binding-correction/v1",
+  "prior_commit": "cb4d202f5d653832700f8a0cdd317b35edf50ede",
+  "same_episode": true,
+  "model_captures": 0,
+  "reason": "Captured requirement evidence IDs must point to actual Run-relative output path, not nonexistent output.json#REQ placeholder.",
+  "change": "main() replaces each requirement_claims record evidence_artifact_ids with args.output.as_posix() before serialization. Numerical methods unchanged.",
+  "code_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/produce.py",
+  "sha256": "c334053aaa386456eb53c6c2c5a8e507f022487a1e32e137a6438a8bd326ca5b",
+  "case_copy_sha256": "c334053aaa386456eb53c6c2c5a8e507f022487a1e32e137a6438a8bd326ca5b",
+  "checks": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code"
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code"
+      ],
+      "exit_code": 0,
+      "stdout": "3 files already formatted\n"
+    }
+  ]
+}
