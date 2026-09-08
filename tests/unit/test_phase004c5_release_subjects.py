@@ -84,3 +84,19 @@ def test_historical_subject_hash_mismatch_is_not_hidden_by_current_version(repo_
 
     monkeypatch.setattr(mod, "_git_blob_hash", altered)
     assert mod.evaluate_live_repository()["status"] == "BLOCK"
+
+
+@pytest.mark.parametrize("raw", ["NaN", "Infinity", "-Infinity", "1e999"])
+def test_nonfinite_receipt_counts_cannot_qualify(repo_root, tmp_path, raw):
+    mod = module(repo_root)
+    path = tmp_path / "receipt.json"
+    path.write_text('{"passed": ' + raw + "}")
+    receipt = mod._read_json(path)
+    assert not mod._integer_at_least(receipt.get("passed"), 80)
+
+
+@pytest.mark.parametrize("value", [True, False, 2000.0, "2000", None, -1, 0, 1999])
+def test_full_ci_requires_an_actual_sufficient_integer_count(repo_root, value):
+    mod = module(repo_root)
+    assert not mod._integer_at_least(value, 2000)
+    assert mod._integer_at_least(2000, 2000)

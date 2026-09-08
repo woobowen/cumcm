@@ -205,8 +205,6 @@ def test_evaluation_design_is_bound_before_first_final_access(repo_root, tmp_pat
     plan = core.read_artifact(case, "experiment_plan")["content"]
     plan["evaluation_design"]["access_budget_changed_after_run"] = 1
     helper._accepted(core, case, "experiment_plan", plan)
-    with pytest.raises(ValueError, match="RC_.*INVALID"):
-        core.evaluate_authorized_final_test(
-            case, run_id="RUN-CAND-20260906", decision_hash="a" * 64
-        )
+    with pytest.raises(ValueError, match="RC_TRUSTED_FREEZE_REGISTRY_INVALID"):
+        core.trusted_freezes(case)
     assert not (case / core.FINAL_EVALUATION_LEDGER).exists()

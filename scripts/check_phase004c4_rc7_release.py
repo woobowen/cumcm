@@ -42,12 +42,20 @@ REQUIRED_CHECKS = {
 }
 
 
+def _reject_nonfinite_json(value: str) -> None:
+    raise ValueError(f"nonfinite JSON number: {value}")
+
+
 def _read_json(path: Path) -> dict[str, Any]:
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
+        value = json.loads(path.read_text(encoding="utf-8"), parse_constant=_reject_nonfinite_json)
     except (OSError, json.JSONDecodeError, ValueError):
         return {}
     return value if isinstance(value, dict) else {}
+
+
+def _integer_at_least(value: Any, minimum: int) -> bool:
+    return type(value) is int and value >= minimum
 
 
 def _hash(path: Path) -> str:
@@ -461,17 +469,16 @@ def evaluate_rc8_repository(*, stage: str) -> dict[str, Any]:
         if (
             receipt.get("status") != "PASS"
             or receipt.get("subject_commit") != subject
+            or type(receipt.get("exit_code")) is not int
             or receipt.get("exit_code") != 0
         ):
             codes.add(f"RC8_CANDIDATE_RECEIPT_FAILED:{name}")
-        if (
-            name == "focused_tests"
-            and receipt.get("passed", 0) < protocol["minimum_focused_passed"]
+        if name == "focused_tests" and not _integer_at_least(
+            receipt.get("passed"), protocol["minimum_focused_passed"]
         ):
             codes.add("RC8_CANDIDATE_FOCUSED_TESTS_INSUFFICIENT")
-        if (
-            name == "full_ci"
-            and receipt.get("pytest_passed", 0) < protocol["minimum_full_pytest_passed"]
+        if name == "full_ci" and not _integer_at_least(
+            receipt.get("pytest_passed"), protocol["minimum_full_pytest_passed"]
         ):
             codes.add("RC8_CANDIDATE_FULL_TESTS_INSUFFICIENT")
         if name == "native_audit" and (
@@ -483,6 +490,7 @@ def evaluate_rc8_repository(*, stage: str) -> dict[str, Any]:
         if name == "development_science" and (
             receipt.get("executed_years") != protocol["required_development_years"]
             or receipt.get("negative_outcomes_preserved") is not True
+            or type(receipt.get("final_test_access_count")) is not int
             or receipt.get("final_test_access_count") != 0
         ):
             codes.add("RC8_CANDIDATE_DEVELOPMENT_INVALID")
