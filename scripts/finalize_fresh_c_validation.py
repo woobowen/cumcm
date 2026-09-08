@@ -333,6 +333,14 @@ def _comparison_payload(
             "time_order_valid": True,
         },
     )
+    if (plan.get("evaluation_design") or {}).get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION":
+        comparison["test_access"] = {
+            "mode": "NONPREDICTIVE_FINAL_VERIFICATION",
+            "authorized": True,
+            "count": 0,
+            "scientific_verification_count": 1,
+            "used_for_selection": False,
+        }
     return comparison
 
 
@@ -403,6 +411,8 @@ def _record_selected_test_access(
     decision_hash: str,
     test_metrics: Any,
     decoded_hash: str,
+    *,
+    nonpredictive: bool = False,
 ) -> None:
     core.write_json(
         case_root / "evidence/selected_test_access.json",
@@ -410,7 +420,10 @@ def _record_selected_test_access(
             "accessed_at": core.utc_now(),
             "selection_decision_hash": decision_hash,
             "run_id": run_id,
-            "count": 1,
+            "count": 0 if nonpredictive else 1,
+            "verification_kind": "INDEPENDENT_SCIENTIFIC_CHECK"
+            if nonpredictive
+            else "HELD_OUT_TEST",
             "used_for_selection": False,
             "encoding_is_not_cryptographic_isolation": True,
             "test_metrics": test_metrics,
@@ -653,13 +666,31 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         selected_manifest = manifests[selected_run_id]
         selected_output = output_registry[selected_run_id]
         core.reject_self_attested_development_test(selected_output, test_field=test_field)
-        authorized = core.evaluate_authorized_final_test(
-            case_root,
-            run_id=selected_run_id,
-            decision_hash=decision_hash,
-            timeout_seconds=30,
-            allow_existing=True,
-        )
+        if core.nonpredictive_evaluation(plan):
+            checks = {
+                run_id: core.verify_scientific_check(case_root, run_id=run_id)
+                for run_id in final_result["selected_run_ids"]
+            }
+            for claim in semantic_record["claims"]:
+                if claim["claim_type"] in {"PREDICTIVE", "CAUSAL", "POLICY_EVALUATION"}:
+                    raise ValueError("RC_NONPREDICTIVE_INFERENCE_NOT_AUTHORIZED")
+                for run_id in claim["selected_run_ids"]:
+                    checked = (
+                        checks[run_id].get("requirements", {}).get(claim["requirement_id"], {})
+                    )
+                    if checked.get("feasible") is not True or not core.scientific_residuals_pass(
+                        checked.get("constraint_residuals")
+                    ):
+                        raise ValueError("RC_NONPREDICTIVE_FINAL_VERIFICATION_INVALID")
+            authorized = {"test_metrics": checks, "decoded_hash": core.canonical_hash(checks)}
+        else:
+            authorized = core.evaluate_authorized_final_test(
+                case_root,
+                run_id=selected_run_id,
+                decision_hash=decision_hash,
+                timeout_seconds=30,
+                allow_existing=True,
+            )
         selected_payload.update(
             candidate_id=selected_candidate_id,
             run_id=selected_run_id,
@@ -717,6 +748,7 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         decision_hash,
         selected_payload["test_metrics"],
         selected_payload["decoded_hash"],
+        nonpredictive=core.nonpredictive_evaluation(plan),
     )
     accepted("model_comparison", comparison)
     accepted(
@@ -758,7 +790,8 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
             "status": "PASS_NATIVE_CONTRACTS",
             "native_state": core.load_state(case_root)["state"],
             "attempts": attempts,
-            "test_access_count": 1,
+            "test_access_count": 0 if core.nonpredictive_evaluation(plan) else 1,
+            "scientific_final_verification_count": 1 if core.nonpredictive_evaluation(plan) else 0,
             "selected_candidate_id": selected_candidate_id,
             "selected_run_ids": final_result["selected_run_ids"],
             "selection_decision_hash": decision_hash,

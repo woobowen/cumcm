@@ -1357,7 +1357,7 @@ def _scientific_claim_facts(
             if (
                 not isinstance(checks, dict)
                 or checks.get("feasible") is not True
-                or not checks.get("constraint_residuals")
+                or not scientific_residuals_pass(checks.get("constraint_residuals"))
             ):
                 raise ValueError("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
         except (OSError, KeyError, ValueError, TypeError):
@@ -1365,6 +1365,34 @@ def _scientific_claim_facts(
     if claim.get("counter_evidence") or output.get("counter_evidence"):
         codes.add("RC_CLAIM_COUNTER_EVIDENCE_UNRESOLVED")
     return codes
+
+
+def scientific_residuals_pass(residuals: Any) -> bool:
+    """Derive feasibility from finite measured residuals, not the checker's Boolean alone."""
+    if not isinstance(residuals, dict) or not residuals:
+        return False
+    for item in residuals.values():
+        if not isinstance(item, dict) or not all(
+            strict_score(item.get(key)) for key in ("value", "limit", "tolerance")
+        ):
+            return False
+        value, limit, tolerance = (float(item[key]) for key in ("value", "limit", "tolerance"))
+        if tolerance < 0 or tolerance > 1e-3:
+            return False
+        relation = item.get("relation")
+        if relation == "LE" and value > limit + tolerance:
+            return False
+        if relation == "GE" and value < limit - tolerance:
+            return False
+        if relation == "EQ" and abs(value - limit) > tolerance:
+            return False
+        if relation not in {"LE", "GE", "EQ"}:
+            return False
+    return True
+
+
+def nonpredictive_evaluation(plan: dict[str, Any]) -> bool:
+    return (plan.get("evaluation_design") or {}).get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION"
 
 
 def validate_runtime_semantic_claims(
@@ -2813,12 +2841,15 @@ def validate_comparison(
     if not isinstance(baseline, str) or baseline not in candidate_items:
         codes.add("RC_COMPARISON_BASELINE_MISSING")
     splits = comparison.get("splits")
+    nonpredictive = (comparison.get("test_access") or {}).get("mode") == (
+        "NONPREDICTIVE_FINAL_VERIFICATION"
+    )
     if not isinstance(splits, dict) or set(splits) != {"train", "validation", "test"}:
         codes.add("RC_COMPARISON_SPLIT_INVALID")
     else:
         split_sets: list[set[Any]] = []
         for values in splits.values():
-            if not isinstance(values, list) or not values:
+            if not isinstance(values, list) or (not values and not nonpredictive):
                 codes.add("RC_COMPARISON_EMPTY_SPLIT")
                 break
             try:
@@ -2866,6 +2897,19 @@ def validate_comparison(
             codes.add("RC_DEVELOPMENT_EVALUATOR_INVOCATION_INVALID")
         if access.get("ledger_status") != "NOT_ACCESSED":
             codes.add("RC_DEVELOPMENT_TEST_ACCESS_LEDGER_INVALID")
+    elif access.get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION":
+        if (
+            access.get("authorized") is not True
+            or access.get("count") != 0
+            or access.get("scientific_verification_count") != 1
+            or access.get("used_for_selection") is not False
+            or splits != {"train": [], "validation": [], "test": []}
+        ):
+            codes.add("RC_NONPREDICTIVE_FINAL_VERIFICATION_INVALID")
+        if case_root is not None and not nonpredictive_evaluation(
+            read_artifact(case_root, "experiment_plan")["content"]
+        ):
+            codes.add("RC_NONPREDICTIVE_FINAL_VERIFICATION_INVALID")
     elif access.get("mode") not in (None, "FINAL_EVALUATION"):
         codes.add("RC_COMPARISON_TEST_ACCESS_MODE_INVALID")
     elif access.get("authorized") is not True:
@@ -4536,7 +4580,7 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     split_items = list(splits.values()) if isinstance(splits, dict) else []
     split_values_valid = len(split_items) == 3 and all(
         isinstance(items, list)
-        and items
+        and (items or nonpredictive_evaluation(plan))
         and all((isinstance(item, (str, int)) and not isinstance(item, bool)) for item in items)
         and len(set(items)) == len(items)
         for items in split_items
@@ -4546,6 +4590,8 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         for left in range(3)
         for right in range(left + 1, 3)
     )
+    if nonpredictive_evaluation(plan) and splits != {"train": [], "validation": [], "test": []}:
+        split_values_valid = False
     required_code_valid = (
         isinstance(required_code_files, list)
         and bool(required_code_files)
@@ -4860,6 +4906,7 @@ def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
         if path is None or not path.is_file() or file_hash(path) != expected:
             raise ValueError("RC_SCIENTIFIC_CHECK_STALE")
     capture = load_json(case_root / "runs" / run_id / "execution_capture.json")
+    verify_current_capture_files(case_root, capture)
     checker = ledger.get("checker")
     if (
         not isinstance(checker, dict)
@@ -4874,9 +4921,47 @@ def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
     ):
         raise ValueError("RC_SCIENTIFIC_CHECK_CODE_DRIFT")
     result = load_json(case_root / "runs" / run_id / "scientific_check.json")
+    expected_bindings = {record["path"]: record["sha256"] for record in capture["input_files"]}
+    expected_bindings.update(
+        {
+            capture["output"]["path"]: capture["output"]["sha256"],
+            f"runs/{run_id}/execution_capture.json": file_hash(
+                case_root / "runs" / run_id / "execution_capture.json"
+            ),
+            checker["path"]: checker["sha256"],
+            f"runs/{run_id}/scientific_check.json": file_hash(
+                case_root / "runs" / run_id / "scientific_check.json"
+            ),
+        }
+    )
+    if ledger.get("bound_files") != expected_bindings:
+        raise ValueError("RC_SCIENTIFIC_CHECK_BINDINGS_INCOMPLETE")
     if result.get("run_id") != run_id or result.get("output_sha256") != capture["output"]["sha256"]:
         raise ValueError("RC_SCIENTIFIC_CHECK_OUTPUT_MISMATCH")
     return result
+
+
+def verify_current_capture_files(case_root: Path, capture: dict[str, Any]) -> None:
+    """Recheck actual frozen inputs and all producer/checker dependencies at every reuse."""
+    if not capture.get("input_files") or not capture.get("code_files"):
+        raise ValueError("RC_EXECUTION_CAPTURE_BINDINGS_MISSING")
+    for item in capture["input_files"]:
+        path = relative_case_path(case_root, item.get("path"))
+        if path is None or not path.is_file() or file_hash(path) != item.get("sha256"):
+            raise ValueError("RC_EXECUTION_INPUT_HASH_MISMATCH")
+    for item in capture["code_files"]:
+        root = SKILL_ROOT if item.get("scope") == "SKILL_ROOT" else case_root
+        path = relative_case_path(root, item.get("path"))
+        if (
+            path is None
+            or not path.is_file()
+            or not code_commit_hash_matches(
+                path,
+                item.get("sha256"),
+                git_blob_hash(capture["code_commit"], item["repository_path"]),
+            )
+        ):
+            raise ValueError("RC_EXECUTION_CODE_HASH_MISMATCH")
 
 
 def execute_scientific_check(
@@ -5087,6 +5172,8 @@ def _selected_success_run_id(attempts: list[dict[str, Any]], selected_candidate_
 def _verify_final_evaluation_ledger(
     case_root: Path, ledger: dict[str, Any], *, run_id: str, decision_hash: str
 ) -> dict[str, Any]:
+    if ledger.get("status", "SUCCESS") != "SUCCESS":
+        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
     if (
         not isinstance(ledger, dict)
         or ledger.get("count") != 1
@@ -5108,6 +5195,7 @@ def _verify_final_evaluation_ledger(
         raise ValueError("RC_FINAL_TEST_DEVELOPMENT_OUTPUT_MUTATED")
     if file_hash(capture_path) != ledger.get("capture_sha256"):
         raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    verify_current_capture_files(case_root, load_json(capture_path))
     if file_hash(payload_path) != ledger.get("payload_sha256"):
         raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
     payload = load_json(payload_path)
@@ -5187,6 +5275,8 @@ def evaluate_authorized_final_test(
         raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
     if capture.get("outcome") != "SUCCESS" or capture.get("run_id") != run_id:
         raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    build_captured_run_manifest(case_root, run_id=run_id, decision_hash=decision_hash)
+    verify_current_capture_files(case_root, capture)
     output_relative = capture.get("output", {}).get("path")
     output_path = relative_case_path(case_root, output_relative)
     if output_path is None or not output_path.is_file():
@@ -5235,51 +5325,67 @@ def evaluate_authorized_final_test(
         "--final-output",
         payload_relative,
     ]
-    try:
-        completed = subprocess.run(
-            [sys.executable, *logical_argv],
-            cwd=case_root,
-            env=process_environment,
-            check=False,
-            capture_output=True,
-            timeout=timeout_seconds,
-        )
-    except subprocess.TimeoutExpired as exc:
-        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED") from exc
-    if completed.returncode != 0 or not payload_path.is_file():
-        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
-    if file_hash(output_path) != development_output_hash:
-        raise ValueError("RC_FINAL_TEST_DEVELOPMENT_OUTPUT_MUTATED")
-    payload = load_json(payload_path)
-    if not isinstance(payload, dict):
-        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
-    encoded = payload.get("sealed_test_metrics_b64")
-    if not isinstance(encoded, str):
-        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
-    try:
-        test_bytes = base64.b64decode(encoded, validate=True)
-        test_metrics = json.loads(test_bytes)
-    except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
-        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
-    if not isinstance(test_metrics, dict):
-        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
-    decoded_hash = hashlib.sha256(test_bytes).hexdigest()
-    if decoded_hash != payload.get("sealed_test_payload_sha256"):
-        raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
-    if payload.get("authorization_hash") != authorization_hash:
-        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
-    if payload.get("run_id") not in {None, run_id}:
-        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
     ledger = {
         **authorization,
         "authorization_hash": authorization_hash,
         "count": 1,
+        "status": "STARTED",
         "accessed_at": utc_now(),
         "payload_path": payload_relative,
-        "payload_sha256": file_hash(payload_path),
-        "decoded_payload_sha256": decoded_hash,
     }
+    # Consume the access before starting the evaluator; failure and timeout cannot buy a retry.
     write_json(ledger_path, ledger, overwrite=False)
+    try:
+        try:
+            completed = subprocess.run(
+                [sys.executable, *logical_argv],
+                cwd=case_root,
+                env=process_environment,
+                check=False,
+                capture_output=True,
+                timeout=timeout_seconds,
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED") from exc
+        ledger.update(exit_code=completed.returncode)
+        for name, data in (("stdout", completed.stdout), ("stderr", completed.stderr)):
+            relative = f"runs/{run_id}/final_evaluation.{name}"
+            (case_root / relative).write_bytes(data)
+            ledger[f"{name}_sha256"] = hashlib.sha256(data).hexdigest()
+        if completed.returncode != 0 or not payload_path.is_file():
+            raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
+        if file_hash(output_path) != development_output_hash:
+            raise ValueError("RC_FINAL_TEST_DEVELOPMENT_OUTPUT_MUTATED")
+        payload = load_json(payload_path)
+        if not isinstance(payload, dict):
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+        encoded = payload.get("sealed_test_metrics_b64")
+        if not isinstance(encoded, str):
+            raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+        try:
+            test_bytes = base64.b64decode(encoded, validate=True)
+            test_metrics = json.loads(test_bytes)
+        except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+        if not isinstance(test_metrics, dict):
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+        decoded_hash = hashlib.sha256(test_bytes).hexdigest()
+        if decoded_hash != payload.get("sealed_test_payload_sha256"):
+            raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
+        if payload.get("authorization_hash") != authorization_hash:
+            raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+        if payload.get("run_id") not in {None, run_id}:
+            raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+        ledger.update(
+            status="SUCCESS",
+            payload_sha256=file_hash(payload_path),
+            decoded_payload_sha256=decoded_hash,
+        )
+        write_json(ledger_path, ledger)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        ledger.update(status="FAILED", failure_reason=str(exc), ended_at=utc_now())
+        write_json(ledger_path, ledger)
+        raise
     return {
         "test_metrics": test_metrics,
         "decoded_hash": decoded_hash,
