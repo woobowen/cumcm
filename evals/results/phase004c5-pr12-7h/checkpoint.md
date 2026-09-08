@@ -24,7 +24,8 @@
   `c71912e` byte hashes; the new Development code is being moved to the
   case-owned `development-v5/code` path. No historical freeze or formal state
   is being rewritten.
-- The local recovery is now at `bcc3fca` (including the v5 receipt/docs
+- The latest local audit head is `ef69b02`; the recovery commits include
+  `bcc3fca` (including the v5 receipt/docs
   commit and Windows path-normalization checker fix). The remote feature branch and PR
   head remain at `f17e99a`; no new push has been made.
 
