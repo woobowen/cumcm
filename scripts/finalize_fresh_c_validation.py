@@ -472,7 +472,11 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
             core.ARTIFACT_PATHS["source_ledger"],
             core.ARTIFACT_PATHS["data_audit"],
         ],
-        lambda: core.validate_runtime_sources(sources, primary_ids),
+        lambda: (
+            core.validate_source_input_bindings(case_root, sources)
+            if core.validate_runtime_sources(sources, primary_ids).get("status") == "PASS"
+            else core.validate_runtime_sources(sources, primary_ids)
+        ),
     )
     if event["result"] != "PASS":
         return _block_result(trace, event)

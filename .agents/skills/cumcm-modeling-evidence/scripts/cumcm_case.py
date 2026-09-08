@@ -446,6 +446,23 @@ def validate_runtime_sources(sources: Any, requirement_ids: Any) -> dict[str, An
     return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
 
 
+def validate_source_input_bindings(case_root: Path, sources: Any) -> dict[str, Any]:
+    """Bind source content to immutable audited files, independently of its origin label."""
+    audit = read_artifact(case_root, "data_audit")["content"]
+    hashes = audit.get("data_hashes")
+    if not isinstance(hashes, dict) or not hashes or not isinstance(sources, list):
+        return contract_result("BLOCK", "RC_SOURCE_INPUT_HASH_UNBOUND")
+    actual = set()
+    for relative, expected in hashes.items():
+        path = relative_case_path(case_root, relative)
+        if path is None or not path.is_file() or file_hash(path) != expected:
+            return contract_result("BLOCK", "RC_SOURCE_INPUT_HASH_UNBOUND")
+        actual.add(expected)
+    if any(not isinstance(source, dict) or source.get("hash") not in actual for source in sources):
+        return contract_result("BLOCK", "RC_SOURCE_INPUT_HASH_UNBOUND")
+    return contract_result("PASS")
+
+
 def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
     """Evaluate requirement-level data sufficiency before expensive modeling.
 
@@ -1234,6 +1251,122 @@ def _predictive_heldout_cross_bind(
     return set()
 
 
+def _scientific_claim_facts(
+    claim: dict[str, Any],
+    output: dict[str, Any],
+    sources: list[dict[str, Any]],
+    *,
+    case_root: Path | None,
+    run_id: str,
+) -> set[str]:
+    """Check facts captured by the producer, then independently executed evidence where needed.
+
+    A bounded legacy descriptive observation can quote a captured result on its source scope.
+    Stronger inference needs explicit generation/assumption/verification records; missing facts
+    never become predicates merely because the adapter requested a particular Claim type.
+    """
+    codes: set[str] = set()
+    requirement_id = claim.get("requirement_id")
+    captured = (output.get("requirement_claims") or {}).get(requirement_id, {})
+    if claim.get("statement") != captured.get("claim_text"):
+        codes.add("RC_CLAIM_STATEMENT_OUTPUT_MISMATCH")
+    metrics = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}
+    if any(not strict_score(metrics.get(metric)) for metric in claim.get("metric_ids", [])):
+        codes.add("RC_CLAIM_METRIC_BINDING_MISSING")
+    relevant = [s for s in sources if requirement_id in s.get("supports_requirement_ids", [])]
+    facts = (output.get("scientific_evidence") or {}).get(requirement_id)
+    if facts is not None and not isinstance(facts, dict):
+        return codes | {"RC_CLAIM_GENERATION_FACTS_INVALID"}
+    if isinstance(facts, dict):
+        source_ids = facts.get("source_ids")
+        if not _string_set(source_ids) or not set(source_ids) <= {
+            s.get("source_id") for s in relevant
+        }:
+            codes.add("RC_CLAIM_SOURCE_BINDING_MISSING")
+        relevant = [s for s in relevant if s.get("source_id") in (source_ids or [])]
+        captured_scope = facts.get("scope")
+        if not isinstance(captured_scope, dict) or any(
+            not _string_set(captured_scope.get(dimension))
+            or not set((claim.get("scope") or {}).get(dimension, []))
+            <= set(captured_scope.get(dimension, []))
+            for dimension in ("fields", "time", "entities")
+        ):
+            codes.add("RC_CLAIM_SCOPE_OUTPUT_MISMATCH")
+        for metric in claim.get("metric_ids", []):
+            if (facts.get("metric_values") or {}).get(metric) != metrics.get(metric):
+                codes.add("RC_CLAIM_METRIC_BINDING_MISSING")
+        method = facts.get("generation_method")
+        allowed = {
+            "DESCRIPTIVE": {"DESCRIPTIVE_STATISTIC", "DEVELOPMENT_DIAGNOSTIC"},
+            "EMPIRICAL": {"EMPIRICAL_ANALYSIS"},
+            "PREDICTIVE": {"PREDICTION"},
+            "SIMULATION_CONDITIONAL": {"CONDITIONAL_SIMULATION", "PREDICTION"},
+            "FEASIBILITY": {"OPTIMIZATION", "CONDITIONAL_SIMULATION"},
+            "OPTIMALITY": {"OPTIMIZATION"},
+            "CAUSAL": {"CAUSAL_ESTIMATION"},
+            "COMPARATIVE": {"COMPARATIVE_ANALYSIS"},
+            "POLICY_EVALUATION": {"POLICY_EVALUATION"},
+        }
+        if method not in allowed.get(claim.get("claim_type"), set()):
+            codes.add("RC_CLAIM_GENERATION_METHOD_MISMATCH")
+        if facts.get("status") in {"STALE", "CONTRADICTED", "INSUFFICIENT", "UNKNOWN"}:
+            codes.add("RC_CLAIM_FACTS_NOT_SUPPORTED")
+    scope = claim.get("scope") or {}
+    conditional = claim.get("claim_type") in {"SIMULATION_CONDITIONAL", "FEASIBILITY"}
+    assumptions_bound = False
+    if isinstance(facts, dict) and case_root is not None:
+        assumption_path = case_root / ARTIFACT_PATHS["assumptions_and_symbols"]
+        assumptions_bound = (
+            assumption_path.is_file()
+            and facts.get("assumption_artifact_sha256") == file_hash(assumption_path)
+            and bool(
+                read_artifact(case_root, "assumptions_and_symbols")["content"].get("assumptions")
+            )
+        )
+    for dimension, source_key in (
+        ("fields", "field_schema"),
+        ("time", "time_scope"),
+        ("entities", "entity_scope"),
+    ):
+        supported = set().union(*(set(s.get(source_key, [])) for s in relevant))
+        if dimension == "fields":
+            supported.update(metrics)
+        if conditional and assumptions_bound and isinstance(facts, dict):
+            supported.update((facts.get("conditional_scope") or {}).get(dimension, []))
+        if not set(scope.get(dimension, [])) <= supported:
+            codes.add("RC_CLAIM_SCOPE_OUTSIDE_SOURCE")
+    claim_type = claim.get("claim_type")
+    if claim_type == "SIMULATION_CONDITIONAL" and not assumptions_bound:
+        codes.add("RC_SIMULATION_CONDITIONAL_ASSUMPTIONS_MISSING")
+    if claim_type == "CAUSAL":
+        design = facts.get("causal_design") if isinstance(facts, dict) else None
+        if (
+            not isinstance(design, dict)
+            or not design.get("identification_strategy")
+            or not design.get("evidence_ids")
+        ):
+            codes.add("RC_CAUSAL_IDENTIFICATION_MISSING")
+    if claim_type == "OPTIMALITY" and claim.get("claim_strength") == "GLOBAL_OPTIMUM":
+        codes.add("RC_OPTIMALITY_CERTIFICATE_MISSING")
+    if claim_type == "FEASIBILITY":
+        try:
+            if case_root is None:
+                raise ValueError("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
+            verified = verify_scientific_check(case_root, run_id=run_id)
+            checks = (verified.get("requirements") or {}).get(requirement_id)
+            if (
+                not isinstance(checks, dict)
+                or checks.get("feasible") is not True
+                or not checks.get("constraint_residuals")
+            ):
+                raise ValueError("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
+        except (OSError, KeyError, ValueError, TypeError):
+            codes.add("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
+    if claim.get("counter_evidence") or output.get("counter_evidence"):
+        codes.add("RC_CLAIM_COUNTER_EVIDENCE_UNRESOLVED")
+    return codes
+
+
 def validate_runtime_semantic_claims(
     record: Any,
     selection_record: Any,
@@ -1285,6 +1418,8 @@ def validate_runtime_semantic_claims(
     codes: set[str] = set()
     if not isinstance(claims, list) or not claims:
         return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_BUNDLE_INVALID")
+    if case_root is not None:
+        codes.update(validate_source_input_bindings(case_root, sources).get("reason_codes", []))
     for claim in claims:
         if not isinstance(claim, dict):
             codes.add("RC_SEMANTIC_CLAIM_INPUT_INVALID")
@@ -1322,6 +1457,16 @@ def validate_runtime_semantic_claims(
                 run_output.get("requirement_claims") or {}
             ):
                 codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_NOT_OWNED")
+            else:
+                codes.update(
+                    _scientific_claim_facts(
+                        claim,
+                        run_output,
+                        sources,
+                        case_root=case_root,
+                        run_id=output["owner_run_id"],
+                    )
+                )
         selection_metric = (selection_requirements.get(requirement_id) or {}).get(
             "selection_metric"
         )
@@ -4705,6 +4850,153 @@ def execute_case_code(
 FINAL_EVALUATION_LEDGER = "evidence/final_evaluation_ledger.json"
 
 
+def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
+    """Read a distinct checker's captured recomputation and revalidate its complete lineage."""
+    ledger = load_json(case_root / "runs" / run_id / "scientific_check_capture.json")
+    if ledger.get("status") != "SUCCESS" or ledger.get("run_id") != run_id:
+        raise ValueError("RC_SCIENTIFIC_CHECK_NOT_SUCCESS")
+    for relative, expected in ledger.get("bound_files", {}).items():
+        path = relative_case_path(case_root, relative)
+        if path is None or not path.is_file() or file_hash(path) != expected:
+            raise ValueError("RC_SCIENTIFIC_CHECK_STALE")
+    capture = load_json(case_root / "runs" / run_id / "execution_capture.json")
+    checker = ledger.get("checker")
+    if (
+        not isinstance(checker, dict)
+        or checker not in capture.get("code_files", [])
+        or checker.get("path") == capture.get("argv", [None])[0]
+        or checker.get("scope") != "CASE_ROOT"
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_NOT_INDEPENDENT_ENTRYPOINT")
+    path = relative_case_path(case_root, checker["path"])
+    if path is None or not code_commit_hash_matches(
+        path, checker["sha256"], git_blob_hash(capture["code_commit"], checker["repository_path"])
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CODE_DRIFT")
+    result = load_json(case_root / "runs" / run_id / "scientific_check.json")
+    if result.get("run_id") != run_id or result.get("output_sha256") != capture["output"]["sha256"]:
+        raise ValueError("RC_SCIENTIFIC_CHECK_OUTPUT_MISMATCH")
+    return result
+
+
+def execute_scientific_check(
+    case_root: Path,
+    *,
+    run_id: str,
+    code_path: str,
+    timeout_seconds: int = 600,
+) -> dict[str, Any]:
+    """Capture one preregistered independent recomputation without any Final/test access."""
+    if load_state(case_root)["state"] != "RUNNING" or not 1 <= timeout_seconds <= 900:
+        raise ValueError("RC_SCIENTIFIC_CHECK_STATE_INVALID")
+    capture_path = case_root / "runs" / run_id / "execution_capture.json"
+    capture = load_json(capture_path)
+    # Reuse the manifest validator rather than accepting caller-declared code/input hashes.
+    build_captured_run_manifest(case_root, run_id=run_id, decision_hash="0" * 64)
+    checker = next(
+        (
+            record
+            for record in capture["code_files"]
+            if record["scope"] == "CASE_ROOT" and record["path"] == code_path
+        ),
+        None,
+    )
+    if checker is None or code_path == capture["argv"][0]:
+        raise ValueError("RC_SCIENTIFIC_CHECK_NOT_INDEPENDENT_ENTRYPOINT")
+    output_relative = f"runs/{run_id}/scientific_check.json"
+    ledger_path = case_root / "runs" / run_id / "scientific_check_capture.json"
+    if ledger_path.exists() or (case_root / output_relative).exists():
+        raise ValueError("RC_SCIENTIFIC_CHECK_ALREADY_EXECUTED")
+    bindings = {record["path"]: record["sha256"] for record in capture["input_files"]}
+    bindings[capture["output"]["path"]] = capture["output"]["sha256"]
+    bindings[capture_path.relative_to(case_root).as_posix()] = file_hash(capture_path)
+    bindings[code_path] = checker["sha256"]
+    ledger = {
+        "schema_version": "scientific-check-capture/v1",
+        "run_id": run_id,
+        "status": "STARTED",
+        "checker": checker,
+        "bound_files": bindings,
+        "started_at": utc_now(),
+        "final_test_access": False,
+        "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
+    }
+    write_json(ledger_path, ledger, overwrite=False)
+    argv = [
+        sys.executable,
+        code_path,
+        "--case-root",
+        ".",
+        "--run-id",
+        run_id,
+        "--output",
+        output_relative,
+    ]
+    _, environment = controlled_subprocess_environment(int(capture["seed"]))
+    started = time.monotonic()
+    try:
+        completed = subprocess.run(
+            argv,
+            cwd=case_root,
+            env=environment,
+            check=False,
+            capture_output=True,
+            timeout=timeout_seconds,
+        )
+        ledger.update(
+            exit_code=completed.returncode,
+            stdout_sha256=hashlib.sha256(completed.stdout).hexdigest(),
+            stderr_sha256=hashlib.sha256(completed.stderr).hexdigest(),
+        )
+        for name, data in (("stdout", completed.stdout), ("stderr", completed.stderr)):
+            (case_root / "runs" / run_id / f"scientific_check.{name}").write_bytes(data)
+        ledger["status"] = "SUCCESS" if completed.returncode == 0 else "FAILED"
+    except subprocess.TimeoutExpired:
+        ledger.update(status="FAILED", failure="TIMEOUT", exit_code=None)
+    ledger.update(ended_at=utc_now(), elapsed_seconds=time.monotonic() - started)
+    if (case_root / output_relative).is_file():
+        ledger["bound_files"][output_relative] = file_hash(case_root / output_relative)
+    else:
+        ledger["status"] = "FAILED"
+    write_json(ledger_path, ledger)
+    verify_scientific_check(case_root, run_id=run_id)
+    return ledger
+
+
+def validate_case_semantic_facts(case_root: Path, record: dict[str, Any]) -> dict[str, Any]:
+    """One runtime fact gate for the controller, direct completion and semantic CLI."""
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    sources = read_artifact(case_root, "source_ledger")["content"]["sources"]
+    requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    attempts = _development_attempt_registry(case_root, plan)
+    decision_hash = canonical_hash(select_development_candidate(attempts, plan))
+    manifests, outputs = {}, {}
+    for run_id in _selected_runtime_run_ids(selection):
+        manifest_path = case_root / "runs" / run_id / "manifest.json"
+        manifests[run_id] = (
+            load_json(manifest_path)
+            if manifest_path.is_file()
+            else build_captured_run_manifest(case_root, run_id=run_id, decision_hash=decision_hash)
+        )
+        validation = validate_manifest(
+            manifests[run_id], case_root=case_root, trusted_freezes=trusted_freezes(case_root)
+        )
+        if not validation.accepted:
+            return contract_result("BLOCK", *validation.reason_codes)
+        outputs[run_id] = load_json(case_root / manifests[run_id]["output_files"][0]["path"])
+    return validate_runtime_semantic_claims(
+        record,
+        selection,
+        manifests,
+        outputs,
+        requirements,
+        sources,
+        case_root=case_root,
+        decision_hash=decision_hash,
+    )
+
+
 def select_development_candidate(
     attempts: list[dict[str, Any]], plan: dict[str, Any]
 ) -> dict[str, Any]:
@@ -5429,10 +5721,13 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             )
             if not result.accepted:
                 raise ValueError(";".join(result.reason_codes))
-            semantic_result = validate_semantic_claim_bundle(semantic)
+            semantic_result = validate_case_semantic_facts(case_root, semantic)
             if semantic_result.get("status") != "PASS":
                 raise ValueError(";".join(semantic_result.get("reason_codes", [])))
             manifest_paths = [manifest_path.relative_to(case_root).as_posix()]
+        fact_result = validate_case_semantic_facts(case_root, semantic)
+        if fact_result.get("status") != "PASS":
+            raise ValueError(";".join(fact_result.get("reason_codes", [])))
         return record_transition(
             case_root,
             state,
@@ -5631,6 +5926,13 @@ def build_parser() -> argparse.ArgumentParser:
     evaluate_final.add_argument("--run-id", required=True)
     evaluate_final.add_argument("--decision-hash", required=True)
     evaluate_final.add_argument("--timeout-seconds", type=int, default=600)
+    verify = subparsers.add_parser(
+        "verify-evidence", help="捕获冻结独立程序复算，不访问 Final test"
+    )
+    verify.add_argument("--case-root", type=Path, required=True)
+    verify.add_argument("--run-id", required=True)
+    verify.add_argument("--code-path", required=True)
+    verify.add_argument("--timeout-seconds", type=int, default=600)
     seal = subparsers.add_parser("seal-run", help="复核 capture 后生成 Run manifest")
     seal.add_argument("--case-root", type=Path, required=True)
     seal.add_argument("--run-id", required=True)
@@ -5767,7 +6069,7 @@ def main(argv: list[str] | None = None) -> int:
                 if not wrapper_result.accepted:
                     return command_result("semantic-check", wrapper_result)
                 value = value.get("content")
-            outcome = validate_semantic_claim_bundle(value)
+            outcome = validate_case_semantic_facts(args.case_root, value)
             accepted = outcome.get("status") == "PASS"
             return emit(
                 {
@@ -5865,6 +6167,14 @@ def main(argv: list[str] | None = None) -> int:
                     },
                 }
             )
+        if args.command == "verify-evidence":
+            result = execute_scientific_check(
+                args.case_root,
+                run_id=args.run_id,
+                code_path=args.code_path,
+                timeout_seconds=args.timeout_seconds,
+            )
+            return emit({"command": "verify-evidence", "status": "PASS", "result": result})
         if args.command == "seal-run":
             result = seal_captured_run(
                 args.case_root,
