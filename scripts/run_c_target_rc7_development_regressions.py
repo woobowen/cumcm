@@ -18,7 +18,8 @@ import shutil
 import subprocess
 import sys
 import time
-from dataclasses import dataclass
+from contextlib import suppress
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -71,6 +72,8 @@ class CaseConfig:
     extra_files: tuple[tuple[str, str], ...]
     requirement_ids: tuple[str, ...]
     split_assignment: dict[str, list[str]]
+    scientific_intake_file: str | None = None
+    checker_path: str | None = None
 
 
 CASES = {
@@ -280,8 +283,6 @@ def load_claim_semantic_specs(config: CaseConfig) -> dict[str, dict[str, Any]]:
         for spec in specs.values()
     ):
         raise ValueError(f"RC7_CLAIM_SEMANTICS_UNDECLARED:{config.key}")
-    if any(spec["claim_type"] == "PREDICTIVE" for spec in specs.values()):
-        raise ValueError(f"RC7_DEVELOPMENT_PREDICTIVE_CLAIM_FORBIDDEN:{config.key}")
     return specs
 
 
@@ -304,76 +305,81 @@ def git_tree(commit: str, relative: str) -> str:
     return completed.stdout.strip()
 
 
+def scientific_intake(config: CaseConfig) -> dict[str, Any]:
+    if config.scientific_intake_file is None:
+        raise ValueError("RC_DEVELOPMENT_SCIENTIFIC_INTAKE_REQUIRED")
+    return load_json(ROOT / config.scientific_intake_file)
+
+
 def source_requirements(config: CaseConfig) -> list[dict[str, Any]]:
-    return [
-        {
-            "requirement_id": requirement_id,
-            "text": f"Registered official-input requirement {requirement_id}.",
-            "role": "PRIMARY",
-            "required_evidence_classes": ["PROVIDED_EMPIRICAL"],
-            "allowed_evidence_classes": ["PROVIDED_EMPIRICAL", "ACQUIRED_EMPIRICAL"],
-            "minimum_data_fields": ["official_case_input"],
-            "required_time_scope": ["HISTORICAL_OFFICIAL_CASE"],
-            "required_entity_scope": ["CUMCM_CASE"],
-            "external_data_allowed": False,
-            "external_data_required": False,
-            "simulation_substitution_allowed": False,
-            "partial_completion_allowed": False,
-            "dependency_requirements": [],
-            "completion_rule": "ALL_REQUIRED_EVIDENCE",
-        }
-        for requirement_id in config.requirement_ids
-    ]
+    return copy.deepcopy(scientific_intake(config)["requirements"])
 
 
-def official_source(config: CaseConfig) -> dict[str, Any]:
-    return {
-        "source_id": f"OFFICIAL-{config.key}-C-ARCHIVE",
-        "supports_requirement_ids": list(config.requirement_ids),
-        "evidence_class": "PROVIDED_EMPIRICAL",
-        "provenance": config.official_archive_url,
-        "authority": "中国工业与应用数学学会全国大学生数学建模竞赛组委会",
-        "retrieval_time": "2026-09-08T01:09:00+08:00",
-        "license_or_usage_status": "PUBLIC_COMPETITION_ARCHIVE",
-        "geographic_scope": ["MAINLAND_CHINA_COMPETITION"],
-        "time_scope": ["HISTORICAL_OFFICIAL_CASE"],
-        "entity_scope": ["CUMCM_CASE"],
-        "field_schema": ["official_case_input"],
-        "hash": config.archive_sha256,
-        "freshness": "HISTORICAL_ARCHIVE",
-        "limitations": [
-            "Historical model-prior exposure is unverifiable.",
-            "Only registered official inputs are bound; answer/reference materials are not used.",
-        ],
-    }
+def official_sources(config: CaseConfig) -> list[dict[str, Any]]:
+    records = copy.deepcopy(scientific_intake(config)["sources"])
+    registered = dict(config.case_files)
+    for source in records:
+        relative = source.pop("registered_file")
+        if relative not in registered:
+            raise ValueError("RC_DEVELOPMENT_SOURCE_FILE_UNREGISTERED")
+        source.update(
+            provenance=config.official_archive_url,
+            authority="中国工业与应用数学学会全国大学生数学建模竞赛组委会",
+            retrieval_time="2026-09-08T01:09:00+08:00",
+            license_or_usage_status="PUBLIC_COMPETITION_ARCHIVE",
+            geographic_scope=["MAINLAND_CHINA_COMPETITION"],
+            hash=registered[relative],
+            freshness="HISTORICAL_ARCHIVE",
+            limitations=[
+                "Development only; model-prior exposure unverifiable.",
+                "Original source class does not determine output generation or support.",
+            ],
+        )
+    return records
 
 
 def source_data_sufficiency(
-    requirements: list[dict[str, Any]], source: dict[str, Any]
+    requirements: list[dict[str, Any]], sources: list[dict[str, Any]]
 ) -> dict[str, Any]:
-    return {
+    core = load_core()
+    record = {
         "contract_version": "data-sufficiency/v1",
         "requirements": requirements,
-        "sources": [source],
+        "sources": sources,
         "acquisition_plans": [],
         "aggregate_completion_claimed": False,
-        "requirement_assessments": [
-            {
-                "requirement_id": item["requirement_id"],
-                "data_sufficiency_status": "SUFFICIENT",
-                "missing_fields": [],
-                "missing_entities": [],
-                "missing_time_scope": [],
-                "candidate_sources": [source["source_id"]],
-                "acquisition_cost": "NONE_AFTER_REGISTERED_ACQUISITION",
-                "acquisition_time": "AVAILABLE_IN_REGISTERED_OFFICIAL_ARCHIVE",
-                "allowed_substitutions": [],
-                "forbidden_substitutions": ["REFERENCE_ANSWER", "THIRD_PARTY_DATA"],
-                "affected_downstream_stages": [],
-            }
-            for item in requirements
-        ],
+        "requirement_assessments": [],
     }
+    for requirement in requirements:
+        relevant = [
+            s for s in sources if requirement["requirement_id"] in s["supports_requirement_ids"]
+        ]
+        outcome = core.evaluate_data_sufficiency({**record, "requirements": [requirement]})
+        fields = set().union(*(set(s["field_schema"]) for s in relevant)) if relevant else set()
+        times = set.intersection(*(set(s["time_scope"]) for s in relevant)) if relevant else set()
+        entities = (
+            set.intersection(*(set(s["entity_scope"]) for s in relevant)) if relevant else set()
+        )
+        record["requirement_assessments"].append(
+            {
+                "requirement_id": requirement["requirement_id"],
+                "data_sufficiency_status": outcome["status"]
+                if outcome["status"] == "SUFFICIENT"
+                else "INSUFFICIENT",
+                "missing_fields": sorted(set(requirement["minimum_data_fields"]) - fields),
+                "missing_time_scope": sorted(set(requirement["required_time_scope"]) - times),
+                "missing_entities": sorted(set(requirement["required_entity_scope"]) - entities),
+                "candidate_sources": [s["source_id"] for s in relevant],
+                "acquisition_cost": "REGISTERED_INPUT_ALREADY_AVAILABLE",
+                "acquisition_time": "REGISTERED_INPUT_ALREADY_AVAILABLE",
+                "allowed_substitutions": [],
+                "forbidden_substitutions": ["REFERENCE_ANSWER"],
+                "affected_downstream_stages": []
+                if outcome["status"] == "SUFFICIENT"
+                else ["MODELING"],
+            }
+        )
+    return record
 
 
 def verify_official_inputs(core: Any, config: CaseConfig) -> Path:
@@ -398,7 +404,7 @@ def verify_official_inputs(core: Any, config: CaseConfig) -> Path:
 
 def write_source_artifacts(core: Any, config: CaseConfig, source: Path, generated_at: str) -> None:
     requirements = source_requirements(config)
-    source_record = official_source(config)
+    source_records = official_sources(config)
     data_hashes = {
         path: digest
         for path, digest in config.case_files
@@ -419,7 +425,7 @@ def write_source_artifacts(core: Any, config: CaseConfig, source: Path, generate
     }
     ledger = {
         "contract_version": "requirement-evidence/v1",
-        "sources": [source_record],
+        "sources": source_records,
         "answer_access_status": "SEALED",
     }
     assumptions = {
@@ -430,6 +436,7 @@ def write_source_artifacts(core: Any, config: CaseConfig, source: Path, generate
         "symbols": {"CASE": config.tracked_case_id, "SEED": str(config.seed)},
         "formulas": ["observed_metric = deterministic_recomputation(bound_inputs)"],
     }
+    assumptions["assumptions"] = scientific_intake(config)["assumptions"]
     audit = {
         "raw_immutable": True,
         "data_hashes": data_hashes,
@@ -470,7 +477,7 @@ def write_source_artifacts(core: Any, config: CaseConfig, source: Path, generate
         "stop_rule": "one preregistered RC7 Development-regression attempt per candidate",
         "handoff_generated_at": generated_at,
     }
-    sufficiency = source_data_sufficiency(requirements, source_record)
+    sufficiency = source_data_sufficiency(requirements, source_records)
     artifacts = {
         "problem_requirements": problem,
         "research_plan": research,
@@ -486,7 +493,13 @@ def write_source_artifacts(core: Any, config: CaseConfig, source: Path, generate
 
 
 def ensure_source_workspace(core: Any, config: CaseConfig, generated_at: str) -> Path:
-    source = verify_official_inputs(core, config)
+    original = verify_official_inputs(core, config)
+    source = CACHE_ROOT / f"{config.case_id}-SOURCE"
+    if source.exists():
+        raise FileExistsError(source)
+    source.mkdir(parents=True)
+    inputs = {p: h for p, h in config.case_files if p.lower().endswith((".xlsx", ".csv"))}
+    copy_bound_files(original, source, inputs, core)
     write_source_artifacts(core, config, source, generated_at)
     return source
 
@@ -643,114 +656,142 @@ def build_semantic_records(
     manifest: dict[str, Any],
     output: dict[str, Any],
     metric: str,
+    case_root: Path | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    output_id = f"OUTPUT-{run_id}"
-    run_record = {
+    """Adapters propose types; actual captured facts and executed checks derive support."""
+    if case_root is None:
+        raise ValueError("RC_DEVELOPMENT_FACT_CONTEXT_REQUIRED")
+    specs = load_claim_semantic_specs(config)
+    sources = core.read_artifact(case_root, "source_ledger")["content"]["sources"]
+    facts = output.get("scientific_evidence", {})
+    metrics = {**output["validation_metrics"], **output["final_metrics"]}
+    output_ids = {req: f"OUTPUT-{run_id}-{req}" for req in requirements}
+    run = {
         "run_id": run_id,
-        "outcome": "SUCCESS",
+        "outcome": manifest["outcome"],
         "sealed": True,
         "current": True,
         "supported_requirement_ids": requirements,
-        "metric_ids": [metric],
-        "selected_output_ids": [output_id],
+        "metric_ids": list(metrics),
+        "selected_output_ids": list(output_ids.values()),
         "input_hash": manifest["input_hash"],
         "scenario_hash": manifest["scenario_hash"],
+        "configuration_hash": manifest["configuration_hash"],
+        "policy_exposure": 0,
     }
-    output_record = {
-        "output_id": output_id,
-        "run_id": run_id,
-        "metric_ids": [metric],
-        "validation_metrics": output["validation_metrics"],
-        "final_metrics": output["final_metrics"],
-    }
-    claims = []
-    claim_ids = {}
-    case_specs = load_claim_semantic_specs(config)
-    if set(case_specs) != set(requirements):
-        missing = sorted(set(requirements) - set(case_specs))
-        extra = sorted(set(case_specs) - set(requirements))
-        raise ValueError(f"RC7_CLAIM_SEMANTICS_REGISTRY_MISMATCH:{missing}:{extra}")
-    independent_feasibility = output.get("independent_feasibility")
-    feasibility_recalculation = (
-        isinstance(independent_feasibility, dict)
-        and bool(independent_feasibility)
-        and all(
-            isinstance(record, dict) and record.get("feasible") is True
-            for record in independent_feasibility.values()
+    claims, outputs, selections = [], [], []
+    for req in requirements:
+        fact = facts.get(req, {})
+        actual_metrics = list(fact.get("metric_values", {}))
+        claim_type = specs[req]["claim_type"]
+        predicates = {"scope_bounded": True}
+        assumptions = case_root / core.ARTIFACT_PATHS["assumptions_and_symbols"]
+        predicates["registered_assumptions_bound"] = fact.get(
+            "assumption_artifact_sha256"
+        ) == core.file_hash(assumptions)
+        verified = None
+        with suppress(ValueError, KeyError, OSError, TypeError):
+            verified = core.verify_scientific_check(case_root, run_id=run_id)
+        checked = (verified or {}).get("requirements", {}).get(req, {})
+        predicates["independent_constraint_recalculation"] = checked.get(
+            "feasible"
+        ) is True and core.scientific_residuals_pass(checked.get("constraint_residuals"))
+        predicates["global_optimality_certificate"] = bool(checked.get("optimality_certificate"))
+        relevant = [s for s in sources if s["source_id"] in fact.get("source_ids", [])]
+        classes = {s["evidence_class"] for s in relevant}
+        claim = {
+            "claim_id": output["requirement_claims"][req]["claim_id"],
+            "requirement_id": req,
+            "claim_type": claim_type,
+            "statement": output["requirement_claims"][req]["claim_text"],
+            "scope": fact.get("scope", {}),
+            "selected_run_ids": [run_id],
+            "selected_output_ids": [output_ids[req]],
+            "metric_ids": actual_metrics,
+            "evidence_class": next(iter(classes)) if len(classes) == 1 else "UNKNOWN",
+            "support_predicates": predicates,
+            "claim_strength": "GLOBAL_OPTIMUM" if claim_type == "OPTIMALITY" else "BOUNDED",
+            "status": "INSUFFICIENT",
+            "comparator_ids": [],
+            "counter_evidence": [],
+            "limitations": output.get("limitations", [])
+            + ["Development; no Final evaluator or external validation."],
+            "uncertainty": output.get("uncertainty", {}),
+        }
+        reasons = core._scientific_claim_facts(
+            claim, output, sources, case_root=case_root, run_id=run_id
         )
-    )
-    for index, requirement_id in enumerate(requirements, 1):
-        source_claim = output["requirement_claims"][requirement_id]
-        spec = case_specs[requirement_id]
-        claim_type = spec.get("claim_type")
-        if claim_type not in SEMANTIC_CLAIM_TYPES:
-            raise ValueError(f"RC7_CLAIM_SEMANTICS_UNDECLARED:{config.key}:{requirement_id}")
-        support_predicates = {"scope_bounded": True}
-        if claim_type == "SIMULATION_CONDITIONAL":
-            support_predicates["registered_assumptions_bound"] = bool(
-                output.get("uncertainty")
-            ) and bool(output.get("limitations"))
-        if claim_type == "FEASIBILITY":
-            support_predicates["independent_constraint_recalculation"] = feasibility_recalculation
-        claim_id = f"CLAIM-RC7-{index:02d}"
-        claim_ids[requirement_id] = claim_id
-        claims.append(
+        if not fact or not actual_metrics:
+            reasons.add("RC_CLAIM_GENERATION_FACTS_INVALID")
+        if claim_type == "PREDICTIVE":
+            reasons.add("RC_PREDICTIVE_VALIDATION_MISSING")
+        if core.validate_source_input_bindings(case_root, sources)["status"] != "PASS":
+            reasons.add("RC_SOURCE_INPUT_HASH_UNBOUND")
+        claim["status"] = "SUPPORTED" if not reasons else "INSUFFICIENT"
+        claim["support_reason_codes"] = sorted(reasons)
+        claims.append(claim)
+        outputs.append(
             {
-                "claim_id": claim_id,
-                "requirement_id": requirement_id,
-                "claim_type": claim_type,
-                "statement": source_claim["claim_text"],
-                "scope": {
-                    "fields": ["official_case_input", metric],
-                    "time": ["HISTORICAL_OFFICIAL_CASE"],
-                    "entities": ["CUMCM_CASE"],
-                },
+                "output_id": output_ids[req],
+                "requirement_id": req,
+                "owner_run_id": run_id,
+                "metric_ids": actual_metrics,
+            }
+        )
+        selections.append(
+            {
+                "requirement_id": req,
+                "candidate_run_ids": [run_id],
+                "selection_metric": actual_metrics[0] if actual_metrics else metric,
+                "selection_direction": "MIN",
+                "feasibility_gate": "PASS" if not reasons else "BLOCK",
                 "selected_run_ids": [run_id],
-                "selected_output_ids": [output_id],
-                "metric_ids": [metric],
-                "evidence_class": "PROVIDED_EMPIRICAL",
-                "support_predicates": support_predicates,
-                "status": "SUPPORTED",
-                "limitations": [
-                    "This is a Development regression, not an independent Validation result.",
-                    "Historical model-prior exposure is unverifiable.",
-                ],
-                "uncertainty": {"scope": "registered historical input and Development split"},
+                "selected_output_ids": [output_ids[req]],
+                "dependency_requirements": [],
+                "dependency_bindings": [],
+                "cross_requirement_constraints": [],
+                "support_predicates": {"metric_bound": not reasons},
             }
         )
     semantic = {
         "contract_version": "claim-evidence/v3",
         "claims": claims,
-        "runs": [run_record],
-        "outputs": [output_record],
+        "runs": [run],
+        "outputs": outputs,
         "comparators": [],
         "validation": {"counter_evidence_detected": False},
         "aggregate": {
             "primary_requirement_ids": requirements,
-            "supported_requirement_ids": requirements,
-            "requirement_claim_ids": claim_ids,
+            "supported_requirement_ids": [
+                c["requirement_id"] for c in claims if c["status"] == "SUPPORTED"
+            ],
+            "requirement_claim_ids": {c["requirement_id"]: c["claim_id"] for c in claims},
         },
     }
     selection = {
         "contract_version": "requirement-selection/v1",
-        "requirements": [
-            {"requirement_id": requirement_id, "selection_metric": metric}
-            for requirement_id in requirements
-        ],
-        "runs": [run_record],
+        "requirements": selections,
+        "runs": [run],
         "selection": {
             "selection_mode": "GLOBAL_JOINT",
-            "requirement_to_run_map": {requirement_id: [run_id] for requirement_id in requirements},
-            "requirement_to_output_map": {
-                requirement_id: [output_id] for requirement_id in requirements
-            },
+            "requirement_to_run_map": {req: [run_id] for req in requirements},
+            "requirement_to_output_map": {req: [output_ids[req]] for req in requirements},
             "shared_input_hashes": [manifest["input_hash"]],
             "shared_scenario_hashes": [manifest["scenario_hash"]],
-            "compatibility_checks": [{"status": "PASS", "check": "SINGLE_SELECTED_RUN"}],
+            "compatibility_checks": ["INPUT", "SCENARIO", "CONSTRAINTS"],
+            "compatibility": {
+                "kind": "SINGLE_RUN_V1",
+                "version": "compatibility/v1",
+                "ordered_ids": requirements,
+                "permuted_ids": requirements,
+            },
+            "dependency_bridges": [],
             "cross_requirement_constraints": [],
             "aggregate_objective": metric,
-            "tradeoff_rule": "SINGLE_DEVELOPMENT_RUN_FOR_ALL_REGISTERED_REQUIREMENTS",
-            "limitations": ["Development regression only; no Validation claim is made."],
+            "tradeoff_rule": "ONE_COMMON_CONDITIONAL_SCENARIO; NOT_PER_QUESTION_OPTIMALITY",
+            "limitations": [
+                "A global Development choice cannot establish each question's optimum."
+            ],
         },
     }
     return selection, semantic
@@ -776,6 +817,94 @@ def stage_status_from_state(core: Any, state: dict[str, Any]) -> list[dict[str, 
             }
         )
     return statuses
+
+
+def preserve_development_evidence(
+    core: Any,
+    config: CaseConfig,
+    case_root: Path,
+    result_root: Path,
+    executions: list[dict[str, Any]],
+    started_at: str,
+    started_wall: float,
+    *,
+    selected: str | None = None,
+    decision_hash: str | None = None,
+    aggregated: dict[str, float] | None = None,
+    semantic_validation: dict[str, Any] | None = None,
+    semantic: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Persist a truthful terminal Development gap, including successful and failed Runs."""
+    target = result_root / config.tracked_case_id
+    if target.exists():
+        raise FileExistsError(target)
+    target.mkdir(parents=True)
+    preserved = {}
+    for relative in ["case_state.json", *core.ARTIFACT_PATHS.values()]:
+        source = case_root / relative
+        if source.is_file() and source.suffix == ".json":
+            destination = target / "case_snapshot" / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+            preserved[relative] = core.file_hash(source)
+    for source in sorted((case_root / "runs").glob("*/*.json")):
+        relative = source.relative_to(case_root).as_posix()
+        destination = target / "case_snapshot" / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+        preserved[relative] = core.file_hash(source)
+    claims = (semantic or {}).get("claims", [])
+    record = {
+        "schema_version": "development-scientific-evidence/v1",
+        "case_id": config.case_id,
+        "source_first_run_case_id": config.tracked_case_id,
+        "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+        "route": "DEVELOPMENT_REGRESSION",
+        "terminal_state": "PARTIAL_SCIENTIFIC_EVIDENCE",
+        "native_state": core.load_state(case_root)["state"],
+        "workspace_relative": case_root.relative_to(ROOT).as_posix(),
+        "runs": executions,
+        "valid_run_count": sum(r["outcome"] == "SUCCESS" for r in executions),
+        "failed_run_count": sum(r["outcome"] != "SUCCESS" for r in executions),
+        "selected_candidate_id": selected,
+        "selection_decision_hash": decision_hash,
+        "validation_scores": aggregated or {},
+        "semantic_validation": semantic_validation,
+        "requirements_total": len(config.requirement_ids),
+        "requirements_supported": [
+            c["requirement_id"] for c in claims if c["status"] == "SUPPORTED"
+        ],
+        "requirements_incomplete": [
+            c["requirement_id"] for c in claims if c["status"] != "SUPPORTED"
+        ],
+        "all_primary_questions_complete": False,
+        "scientific_quality_pass": False,
+        "development_evaluation": {
+            "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+            "final_evaluator_invoked": False,
+            "test_access_count": 0,
+        },
+        "official_input_provenance": {
+            "archive_sha256": config.archive_sha256,
+            "bound_data_hashes": core.read_artifact(case_root, "data_audit")["content"][
+                "data_hashes"
+            ],
+        },
+        "skill": {"version": core.VERSION, "execution_code_commit": core.current_git_commit()},
+        "snapshot_hashes": preserved,
+        "timing": {
+            "started_at": started_at,
+            "completed_at": utc_timestamp(),
+            "elapsed_seconds": round(time.time() - started_wall, 6),
+        },
+        "elapsed_seconds": round(time.time() - started_wall, 6),
+        "api_calls": 0,
+        "foundation_model_training": False,
+        "statistical_models_fitted": True,
+        "validation_route_executed": False,
+    }
+    core.write_json(target / "development_regression_evidence.json", record, overwrite=False)
+    return record
 
 
 def run_case(
@@ -887,6 +1016,15 @@ def run_case(
                 "capture_sha256": captured["capture_sha256"],
             }
         )
+        if captured["outcome"] == "SUCCESS" and config.checker_path:
+            try:
+                core.execute_scientific_check(
+                    case_root, run_id=run_id, code_path=config.checker_path
+                )
+                executions[-1]["scientific_check_status"] = "SUCCESS"
+            except (ValueError, OSError, KeyError, TypeError) as exc:
+                executions[-1]["scientific_check_status"] = "FAILED"
+                executions[-1]["scientific_check_reason"] = str(exc)
         if captured["outcome"] == "SUCCESS":
             output = core.load_json(case_root / captured["output"]["path"])
             score = output.get("validation_metrics", {}).get(metric)
@@ -894,7 +1032,19 @@ def run_case(
                 raise ValueError(f"RC7_REGRESSION_SCORE_INVALID:{candidate_id}")
             scores.setdefault(candidate_id, []).append(float(score))
     if baseline_id not in scores or len(scores) < 2:
-        raise ValueError("RC7_REGRESSION_SUCCESS_SET_INSUFFICIENT")
+        return preserve_development_evidence(
+            core,
+            config,
+            case_root,
+            result_root,
+            executions,
+            started_at,
+            started_wall,
+            semantic_validation={
+                "status": "BLOCK",
+                "reason_codes": ["RC_REGRESSION_SUCCESS_SET_INSUFFICIENT"],
+            },
+        )
     aggregated = {key: sum(values) / len(values) for key, values in scores.items()}
     target = min(aggregated.values())
     selected = min(key for key, value in aggregated.items() if value == target)
@@ -991,9 +1141,26 @@ def run_case(
         manifest=selected_manifest,
         output=selected_output,
         metric=metric,
+        case_root=case_root,
     )
     accepted(core, case_root, "requirement_selection", selection)
     accepted(core, case_root, "semantic_claim_support", semantic)
+    semantic_validation = core.validate_case_semantic_facts(case_root, semantic)
+    if semantic_validation["status"] != "PASS":
+        return preserve_development_evidence(
+            core,
+            config,
+            case_root,
+            result_root,
+            executions,
+            started_at,
+            started_wall,
+            selected=selected,
+            decision_hash=decision_hash,
+            aggregated=aggregated,
+            semantic_validation=semantic_validation,
+            semantic=semantic,
+        )
     core.advance_once(case_root)
 
     final = {
@@ -1158,7 +1325,8 @@ def run_case(
         "elapsed_seconds": round(time.time() - started_wall, 6),
         "api_calls": 0,
         "third_party_executions": 0,
-        "model_training": False,
+        "foundation_model_training": False,
+        "statistical_models_fitted": True,
         "validation_route_executed": False,
     }
     core.write_json(
@@ -1168,14 +1336,34 @@ def run_case(
     return evidence
 
 
+def current_scientific_config(key: str, attempt: int) -> CaseConfig:
+    original = CASES[key]
+    base = f"evals/results/phase-004c5/development/v6/{key}"
+    if key == "2021":
+        files = ("c2021_supply_plan.py", "c2021_feasibility.py", "c2021_independent_check.py")
+        checker = "models/c2021_independent_check.py"
+    else:
+        files = ("model_pipeline.py", "scientific_checks.py")
+        checker = "models/scientific_checks.py"
+    return replace(
+        original,
+        case_id=f"CUMCM-{key}-C-DEVELOPMENT-RC8-V6-{attempt:03d}",
+        code_files=tuple((f"models/{name}", f"{base}/code/{name}") for name in files),
+        claim_semantics_file=f"{base}/scientific_claim_semantics.json",
+        scientific_intake_file=f"{base}/scientific_intake.json",
+        checker_path=checker,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", choices=tuple(CASES) + ("all",), default="all")
     parser.add_argument("--attempt", type=int, default=1)
+    parser.add_argument("--revision", choices=("rc8-v6",), default="rc8-v6")
     parser.add_argument(
         "--result-root",
         type=Path,
-        default=RESULT_ROOT,
+        default=ROOT / "evals/results/phase-004c5/development/v6/results",
         help="tracked evidence root; a relative path is resolved from the repository root",
     )
     args = parser.parse_args()
@@ -1187,7 +1375,7 @@ def main() -> int:
     selected = list(CASES) if args.case == "all" else [args.case]
     results = []
     for key in selected:
-        config = CASES[key]
+        config = current_scientific_config(key, args.attempt)
         source = ensure_source_workspace(core, config, generated_at)
         results.append(run_case(core, config, source, args.attempt, generated_at, result_root))
     print(

@@ -26,6 +26,9 @@ The main agent grants one Development worker conflict-free ownership of
 `evals/results/phase-004c5/development/v6/2021/code/` and its local implementation notes only.
 That worker may implement and test the case-owned scientific repair; it may not write shared code,
 formal state, decisions, other cases, or Git. Its work is implementation, not independent acceptance.
+After the 2021 worker finishes, the same single worker slot may own
+`evals/results/phase-004c5/development/v6/2022/code/` and `2022/implementation_notes.md` under
+the identical restrictions. This is serial delegation; no third concurrent unit is permitted.
 
 ## Milestones and acceptance
 

@@ -1347,7 +1347,30 @@ def _scientific_claim_facts(
         ):
             codes.add("RC_CAUSAL_IDENTIFICATION_MISSING")
     if claim_type == "OPTIMALITY" and claim.get("claim_strength") == "GLOBAL_OPTIMUM":
-        codes.add("RC_OPTIMALITY_CERTIFICATE_MISSING")
+        try:
+            if case_root is None:
+                raise ValueError("missing context")
+            checked = verify_scientific_check(case_root, run_id=run_id)["requirements"][
+                requirement_id
+            ]
+            certificate = checked["optimality_certificate"]
+            lower, upper, objective, tolerance = (
+                certificate[key]
+                for key in ("lower_bound", "upper_bound", "objective_value", "tolerance")
+            )
+            if (
+                certificate.get("proof_kind") != "INDEPENDENT_BOUND"
+                or not certificate.get("scope")
+                or not all(strict_score(value) for value in (lower, upper, objective, tolerance))
+                or not 0 <= tolerance <= 1e-3
+                or abs(upper - lower) > tolerance
+                or abs(objective - upper) > tolerance
+                or checked.get("feasible") is not True
+                or not scientific_residuals_pass(checked.get("constraint_residuals"))
+            ):
+                raise ValueError("unclosed bound")
+        except (OSError, ValueError, KeyError, TypeError):
+            codes.add("RC_OPTIMALITY_CERTIFICATE_MISSING")
     if claim_type == "FEASIBILITY":
         try:
             if case_root is None:
@@ -1457,6 +1480,16 @@ def validate_runtime_semantic_claims(
         if not isinstance(requirement, dict):
             codes.add("RC_CLAIM_REQUIREMENT_UNKNOWN")
             continue
+        if requirement.get("scientific_facts_required") is True and any(
+            not isinstance(
+                (output_registry.get(run_id, {}).get("scientific_evidence") or {}).get(
+                    requirement_id
+                ),
+                dict,
+            )
+            for run_id in claim.get("selected_run_ids", [])
+        ):
+            codes.add("RC_CLAIM_GENERATION_FACTS_INVALID")
         run_ids = claim.get("selected_run_ids")
         output_ids = claim.get("selected_output_ids")
         metric_ids = claim.get("metric_ids")
