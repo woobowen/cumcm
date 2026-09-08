@@ -1179,8 +1179,8 @@ def main() -> int:
         help="tracked evidence root; a relative path is resolved from the repository root",
     )
     args = parser.parse_args()
-    if args.attempt < 1 or args.attempt > 12:
-        raise SystemExit("--attempt must be in 1..12")
+    if args.attempt < 1 or args.attempt > 13:
+        raise SystemExit("--attempt must be in 1..13")
     result_root = args.result_root if args.result_root.is_absolute() else ROOT / args.result_root
     generated_at = utc_timestamp()
     core = load_core()
