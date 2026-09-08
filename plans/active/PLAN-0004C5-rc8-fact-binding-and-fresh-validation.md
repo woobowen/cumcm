@@ -140,3 +140,8 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  Independent POST_DECISION Auditor PASS on29 bound evidence files/772 frozen implementation paths.
  Accepted research/Validation eligibility only, then locally activated RC8 with implementation
  unchanged. Live/version/training/state/strict checks PASS; remote delivery pending before fresh input.
+
+- 20:47Z: release8ef732b remotely verified before official2016 input retrieval; receipt3aac696
+ also remotely verified. OfficialC-only DOCX/XLSX input hashes registered, fresh-context worker
+ dispatched. Planned2/started1/completed0/passed0; episode deadline22:37:30Z including preparation
+ and review. Case pre-run remote freeze and numerical captures are still pending.

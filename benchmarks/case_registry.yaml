@@ -61,15 +61,16 @@ planned_cases:
   year: 2016
   set_type: VALIDATION
   target_problem_type: C
-  status: NOT_STARTED
+  status: IN_PROGRESS
   batch_position: 1
   planned_denominator: 2
   skill_version: 0.2.0-competition-rc8
   skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
   answer_access_status: SEALED
-  inputs_accessed: false
+  inputs_accessed: true
   maximum_wall_seconds: 7200
   protocol: evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md
+  worker_dispatch_at: '2026-09-08T20:47:03Z'
 - case_id: CUMCM-2015-C-VALIDATION-005
   year: 2015
   set_type: VALIDATION
@@ -1041,3 +1042,30 @@ cases:
     case_id: CUMCM-2018-C-VALIDATION-003
     reason_code: C_INPUT_ATTACHMENTS_UNAVAILABLE_FROM_OFFICIAL_ARCHIVE
     preflight_path: evals/results/phase-004c4/fresh_validation/2018_input_preflight.json
+- case_id: CUMCM-2016-C-VALIDATION-004
+  set_type: VALIDATION
+  target_problem_type: C
+  evidence_role: FRESH_ONE_SHOT_VALIDATION
+  independent_problem: true
+  batch_id: RC8-FRESH-VALIDATION-004C5
+  batch_position: 1
+  problem_source: .cache/pr12-rc8/fresh/2016/official/c_files/CUMCM2016-Problem-C-Chinese-version.docx
+  problem_hash: 19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440
+  data_hashes:
+    .cache/pr12-rc8/fresh/2016/official/c_files/CUMCM2016-C-Appendix-Chinese.xlsx: 062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf
+  answer_access_status: SEALED
+  first_run_status: IN_PROGRESS
+  skill_version: 0.2.0-competition-rc8
+  skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+  formal_skill_version: 0.2.0-competition-rc8
+  formal_skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+  model: UNKNOWN
+  reasoning: UNKNOWN
+  start_time: '2026-09-08T20:47:03Z'
+  freeze_time: null
+  unlock_time: null
+  generalizable_failures: []
+  problem_specific_findings: []
+  contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
+  model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
+  registration: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/registration/input_registration.json
