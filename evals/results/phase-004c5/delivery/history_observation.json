@@ -1,0 +1,32 @@
+{
+  "schema_version": "rc8-delivery-history-observation/v1",
+  "observed_at": "2026-09-08T22:01:29.621587+00:00",
+  "anchor": "17f109cadc8524c285af6a50776e6c3decb8b3e8",
+  "head": "1e3e5907c8cca5adf7377794829b4259e26d5433",
+  "diff_kind": "COMMITTED_FEATURE_DELTA_NOT_WORKTREE_OR_MERGE_TREE",
+  "changed_path_count": 479,
+  "category_counts": {
+    ".agents/skills/": 7,
+    "OTHER": 10,
+    "benchmarks/": 1,
+    "contracts/": 1,
+    "docs/": 1,
+    "evals/results/phase-004c5/": 417,
+    "plans/": 2,
+    "reports/": 1,
+    "rules/": 1,
+    "scripts/": 12,
+    "state/": 1,
+    "tests/": 25
+  },
+  "protected_historical_path_changes": [],
+  "protected_scope": [
+    "evals/results/phase-004c4/",
+    "evals/results/phase-004c3/",
+    "evals/results/phase-004c2/",
+    "evals/results/phase-004c/",
+    "benchmark-vault/"
+  ],
+  "status": "PASS",
+  "limits": "Checks committed path deltas only; does not prove absence of unlogged file reads or audit every numerical claim."
+}

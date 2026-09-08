@@ -23,11 +23,12 @@
 - Content-verified commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Delivery receipt commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-08T21:56:33.948200+00:00` by `main-agent`
+- Updated: `2026-09-08T22:04:47.732515+00:00` by `main-agent`
 
 ## Blockers
 
 - CURRENT_DELIVERY_CI_HISTORICAL_CASE_COUNT_ASSERTION
+- CURRENT_DELIVERY_CI_TERMINAL_PHASE_ASSERTION
 
 ## Risks
 
@@ -73,3 +74,4 @@
 - RC8 activation8ef732b was verified at the designated remote before fresh input access; this is research/Validation qualification only.
 - Fresh registration exposes a CI test that hardcodes eight historical cases; current delivery CI fails with the ninth case. The frozen 29cf1d7 candidate CI remains a separate passing observation. Shared/test bytes are unchanged during both planned Validation episodes; this delivery blocker is preserved, not skipped.
 - RC8 2016C terminal is evidence insufficient despite2 successful model captures. Native audit accepts conditional numerical results but identifies overstrong future-truth requirement, coarse group-overlap rejection, remaining-time metric mismatch and uncalibrated uncertainty; frozen outputs and negative gates are preserved.
+- Terminal commita03597b also exposed a frozen fault-injection test routing every evidence-insufficient terminal to historical004C2. The 004C5 schema route is valid, but this test must be updated under a future explicitly tested maintenance subject. A missing first_run_evidence summary for new2016 registry is corrected from the existing fixed decision; no case outputs change.

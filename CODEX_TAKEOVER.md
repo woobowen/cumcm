@@ -1,3 +1,34 @@
+# PR #12 / RC8 当前恢复入口
+
+2026-09-08 本轮用户已授权完整004C5研发、候选资格与两题陌生C验证，覆盖旧暂停、
+TAKEOVER_ONLY与单P0切片限制。授权总窗口自17:46:50 UTC起最多8小时，截止
+2026-09-09 01:46:50 UTC；恢复时不得重置预算或假定窗口无限延续。
+
+当前正式状态以 [project_state.json](state/project_state.json) 和其活动计划为准。
+本轮恢复摘要见 [DELIVERY_AND_RECOVERY.md](evals/results/phase-004c5/DELIVERY_AND_RECOVERY.md)，
+最近检查点见 [checkpoint.md](evals/results/phase-004c5/checkpoint.md)。
+
+- RC8共享subject为`29cf1d7566809519ca92b6a29f555ce0c0b5b204`；激活提交
+  `8ef732b45cf3cb04262317cdfa13a176b47eebe0`已在新题输入访问前远端核验。
+  候选资格仅限research/Validation。Python包声明0.2.3与competition版本分别解释。
+- 2021/2022新增15个Development captures；两题全题科学完成均为false，Final调用0。
+  旧v5及历史Validation结果保留。
+- 2016 C已有独立审核后的`EVIDENCE_INSUFFICIENT`正式终局，远端提交`a03597b`。
+  两个模型实跑成功、三问有条件数值结果，但没有accepted Final或handoff。
+  原生审核接受负面决定，并保留时间指标错配及协议过严的科学异议；禁止终局后重跑。
+- 2015 C已独立启动，完整窗口截至2026-09-08 23:53:34 UTC；进度查看该题自身目录。
+  两题共享冻结实现/规则/环境，不互相传结果，答案始终封存。计数随正式registry更新。
+- 候选subject CI通过2153项、1项skip；后续交付CI另有历史固定案例数和终局phase
+  路由断言失败。新增registry摘要缺失已修并定向复验。不能用旧通过结果代替当前CI。
+- PR #12保持Draft，普通push仅到指定任务分支；禁止ready/merge/main push、付费API、
+  全局安全配置改动、2025保留题、benchmark-vault及2026当届赛题访问。
+
+以下内容是旧RC7交接记录；其中“当前”“尚未实施”“HF22未修”与模式限制描述的是
+原交接时点，不能覆盖本轮显式授权或当前机器状态。原始版本可从接续锚点
+`17f109cadc8524c285af6a50776e6c3decb8b3e8`读取。
+
+---
+
 # 新 Codex 独立接手提示词
 
 将以下提示词完整交给新的 Codex。默认模式是 `TAKEOVER_ONLY`；只有用户明确写出

@@ -1,0 +1,53 @@
+{
+  "schema_version": "rc8-post-activation-ci-observation/v1",
+  "observed_at": "2026-09-08T22:04:47.732515+00:00",
+  "subject_commit": "a03597be9a83a38ce4bcc4dba76cf8c574327045",
+  "execution_kind": "GITHUB_ACTIONS_FEATURE_HEAD",
+  "run_id": 34282990232,
+  "url": "https://github.com/woobowen/cumcm/actions/runs/34282990232",
+  "conclusion": "FAILURE",
+  "pytest": {
+    "passed": 2150,
+    "failed": 3,
+    "skipped": 1,
+    "elapsed_seconds": 381.55
+  },
+  "failures": [
+    {
+      "test": "tests/fault_injection/test_eval_policy_faults.py::test_human_gate_and_integration_flags_remain_false",
+      "reason": "Frozen test routes evidence-insufficient terminal to004C2 only; actual004C5 terminal is schema-valid.",
+      "resolution": "OPEN_FROZEN_TEST_MAINTENANCE_REQUIRED"
+    },
+    {
+      "test": "tests/unit/test_competition_rc_development_eval.py::test_case_registry_declares_required_training_fields",
+      "reason": "Closed-world eight-case assertion; actual nine at this subject.",
+      "resolution": "OPEN_FROZEN_TEST_MAINTENANCE_REQUIRED"
+    },
+    {
+      "test": "tests/unit/test_phase004b_evidence.py::test_phase004b_training_checker_accepts_complete_evidence",
+      "reason": "FIRST_RUN_EVIDENCE_MISSING:CUMCM-2016-C-VALIDATION-004",
+      "resolution": "Registry summary added from fixed decision; targeted verification recorded separately."
+    }
+  ],
+  "raw_log": {
+    "path": ".cache/pr12-rc8/logs/github-ci-a03597b-failed.log",
+    "sha256": "f220a11f54d5e163261057ab8887b2c5e9f09b289b9696bb24f047db2c55a8d5"
+  },
+  "scope_note": "Does not replace candidate29 passingCI or claim current1e3 head passed; its CI was in progress at observation.",
+  "registry_summary_reverification": {
+    "command": ".venv/bin/python scripts/check_skill_training_consistency.py --check",
+    "exit_code": 0,
+    "case_count": 10,
+    "error_count": 0,
+    "actual_tool_chunk_id": "cc7232",
+    "targeted_test": {
+      "command": ".venv/bin/python -m pytest -q tests/unit/test_phase004b_evidence.py::test_phase004b_training_checker_accepts_complete_evidence",
+      "exit_code": 0,
+      "passed": 1,
+      "elapsed_seconds": 0.11,
+      "actual_tool_chunk_id": "80d61b"
+    },
+    "subject": "WORKTREE_AFTER_A035_TERMINAL_REGISTRY_SUMMARY_REPAIR",
+    "frozen_implementation_changed": false
+  }
+}

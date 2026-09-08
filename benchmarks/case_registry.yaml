@@ -1103,6 +1103,18 @@ cases:
   terminal_result: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
   terminal_decision: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/decision.json
   terminal_freeze: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/terminal_freeze.json
+  first_run_evidence:
+    skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+    run_count: 2
+    successful_run_count: 2
+    controller_status: BLOCK_NATIVE_CONTRACTS
+    validation_decision: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+    terminal_freeze_path: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/terminal_freeze.json
+    decision_path: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/decision.json
+    native_audit_path: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/audit.json
+    final_evaluator_calls: 0
+  validation_decision: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+  same_case_future_role: DEVELOPMENT_ONLY
 - case_id: CUMCM-2015-C-VALIDATION-005
   set_type: VALIDATION
   target_problem_type: C
