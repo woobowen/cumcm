@@ -1,0 +1,79 @@
+{
+  "schema_version": "phase-004c5-development-supplement-execution/v1",
+  "source_run_id": "RUN-RC8-BASELINE_MEAN_GREEDY-S20210904",
+  "supplemental_execution_id": "RC8-2021-Q4-CERTIFICATE-001",
+  "source_model_not_rerun": true,
+  "actual_commands": [
+    {
+      "name": "q4-certificate-construction-001",
+      "argv": [
+        ".venv/bin/python",
+        "evals/results/phase-004c5/development/q4_certificate/code/construct_certificate.py",
+        "--source-output",
+        "evals/results/phase-004c5/development/v6/results-candidate-2021-001/CUMCM-2021-C-DEVELOPMENT-BATCH-002/case_snapshot/runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/output.json",
+        "--output",
+        "evals/results/phase-004c5/development/q4_certificate/certificate.json"
+      ],
+      "subject_commit": "bf34549f4f116e78788981e9737ffdcfb2d88f85",
+      "started_at": "2026-09-08T22:52:45.502111+00:00",
+      "ended_at": "2026-09-08T22:52:46.167266+00:00",
+      "elapsed_seconds": 0.6651653010012524,
+      "exit_code": 0,
+      "status": "PASS",
+      "stdout": {
+        "path": ".cache/pr12-rc8/logs/q4-certificate-construction-001.stdout.log",
+        "sha256": "f83a6301084f1bf35c028d1d77044bfbab57e3d863386cbb04b72864b29c2fc9"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/logs/q4-certificate-construction-001.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "q4-certificate-independent-verification-001",
+      "argv": [
+        ".venv/bin/python",
+        "evals/results/phase-004c5/development/q4_certificate/code/verify_certificate.py",
+        "--source-output",
+        "evals/results/phase-004c5/development/v6/results-candidate-2021-001/CUMCM-2021-C-DEVELOPMENT-BATCH-002/case_snapshot/runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/output.json",
+        "--certificate",
+        "evals/results/phase-004c5/development/q4_certificate/certificate.json",
+        "--case-root",
+        ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC8-V6-001-ATTEMPT-001",
+        "--output",
+        "evals/results/phase-004c5/development/q4_certificate/verification.json"
+      ],
+      "subject_commit": "bf34549f4f116e78788981e9737ffdcfb2d88f85",
+      "started_at": "2026-09-08T22:52:58.284216+00:00",
+      "ended_at": "2026-09-08T22:52:58.940246+00:00",
+      "elapsed_seconds": 0.6560394789994461,
+      "exit_code": 0,
+      "status": "PASS",
+      "stdout": {
+        "path": ".cache/pr12-rc8/logs/q4-certificate-independent-verification-001.stdout.log",
+        "sha256": "d65a9089a977e497c34630d77edab922ab061688c7d92952d53835cbe7c22907"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/logs/q4-certificate-independent-verification-001.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "original_raw_hashes_verified": 2,
+  "constructor_attempts": 1,
+  "independent_verifier_invocations": 1,
+  "model_attempt_budget_before": 8,
+  "model_attempt_budget_after": 9,
+  "model_attempt_budget_maximum": 9,
+  "budget_rule": "Conservatively counts proof construction as ninth numerical Development attempt; no budget reset.",
+  "final_accesses": 0,
+  "formal_cli_run_or_gate_created": false,
+  "independent_native_audit": false,
+  "files": {
+    "evals/results/phase-004c5/development/q4_certificate/certificate.json": "021e7b5523670aa6a86a442b99d8bc5ec6589e372faf3db8eb3bd0c5292c5749",
+    "evals/results/phase-004c5/development/q4_certificate/verification.json": "92da704e2cfc2d30d7863c882e6940ad453b927a341710180a4361ce6ac61b3b",
+    "evals/results/phase-004c5/development/q4_certificate/pre_run_binding.json": "1a751781b7f4c95ebf4b752de3d1ffaf4252798ab3c84ba8b8069c680796020e",
+    "evals/results/phase-004c5/development/q4_certificate/pre_run_delivery.json": "76432645b2736c892539669ad2e26c17542eb49f75df0667d0309f2b6a1cf17c"
+  },
+  "recorded_at": "2026-09-08T22:53:18.806950+00:00"
+}
