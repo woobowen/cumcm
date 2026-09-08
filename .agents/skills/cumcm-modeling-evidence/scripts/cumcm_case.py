@@ -14,6 +14,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -1417,6 +1418,25 @@ def scientific_residuals_pass(residuals: Any) -> bool:
     return True
 
 
+def scientific_metric_binding_codes(
+    claim: dict[str, Any], output: dict[str, Any], checked: Any
+) -> set[str]:
+    """Recalculation agreement is distinct from satisfying a scientific domain objective."""
+    if not isinstance(checked, dict):
+        return {"RC_SCIENTIFIC_RECALCULATION_MISSING"}
+    record = (checked.get("requirements") or {}).get(claim.get("requirement_id"), {})
+    values = record.get("metric_values") or {}
+    actual = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}
+    if not claim.get("metric_ids") or any(
+        not strict_score(values.get(metric))
+        or not strict_score(actual.get(metric))
+        or not math.isclose(values[metric], actual[metric], rel_tol=1e-10, abs_tol=1e-9)
+        for metric in claim.get("metric_ids", [])
+    ):
+        return {"RC_SCIENTIFIC_RECALCULATION_METRIC_MISMATCH"}
+    return set()
+
+
 def nonpredictive_evaluation(plan: dict[str, Any]) -> bool:
     return (plan.get("evaluation_design") or {}).get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION"
 
@@ -1531,6 +1551,17 @@ def validate_runtime_semantic_claims(
                         run_id=output["owner_run_id"],
                     )
                 )
+                if requirement.get("scientific_facts_required") is True:
+                    checked = None
+                    try:
+                        checked = (
+                            verify_scientific_check(case_root, run_id=output["owner_run_id"])
+                            if case_root is not None
+                            else None
+                        )
+                    except (OSError, ValueError, KeyError, TypeError):
+                        pass
+                    codes.update(scientific_metric_binding_codes(claim, run_output, checked))
         selection_metric = (selection_requirements.get(requirement_id) or {}).get(
             "selection_metric"
         )
@@ -4930,9 +4961,12 @@ def execute_case_code(
 
 
 FINAL_EVALUATION_LEDGER = "evidence/final_evaluation_ledger.json"
+_SCIENTIFIC_CHECKS_THIS_PROCESS: set[str] = set()
 
 
-def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
+def verify_scientific_check(
+    case_root: Path, *, run_id: str, _captured_in_this_process: bool = False
+) -> dict[str, Any]:
     """Read a distinct checker's captured recomputation and revalidate its complete lineage."""
     ledger = load_json(case_root / "runs" / run_id / "scientific_check_capture.json")
     if ledger.get("status") != "SUCCESS" or ledger.get("run_id") != run_id:
@@ -4997,7 +5031,9 @@ def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
     manifest_path = case_root / "runs" / run_id / "manifest.json"
     if manifest_path.is_file():
         validation = validate_manifest(
-            load_json(manifest_path), case_root=case_root, trusted_freezes=trusted_freezes(case_root)
+            load_json(manifest_path),
+            case_root=case_root,
+            trusted_freezes=trusted_freezes(case_root),
         )
         if not validation.accepted:
             raise ValueError("RC_SCIENTIFIC_CHECK_PRODUCER_CAPTURE_INVALID")
@@ -5052,6 +5088,64 @@ def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
         raise ValueError("RC_SCIENTIFIC_CHECK_BINDINGS_INCOMPLETE")
     if result.get("run_id") != run_id or result.get("output_sha256") != capture["output"]["sha256"]:
         raise ValueError("RC_SCIENTIFIC_CHECK_OUTPUT_MISMATCH")
+    cache_key = canonical_hash(
+        {
+            "case_root": str(case_root.resolve()),
+            "ledger": ledger,
+            "producer_code_files": capture["code_files"],
+        }
+    )
+    if not _captured_in_this_process and cache_key not in _SCIENTIFIC_CHECKS_THIS_PROCESS:
+        # Case files have policy isolation, not an OS signature. Execute the frozen
+        # checker here so even a fully rehashed forged receipt cannot establish a result.
+        replay_root = REPO_ROOT / ".cache" / "scientific-check-replays"
+        replay_root.mkdir(parents=True, exist_ok=True)
+        replay = Path(tempfile.mkdtemp(prefix=f"{run_id}-", dir=replay_root))
+        argv = [sys.executable, *ledger["argv"][:-1], str(replay / "result.json")]
+        receipt = {
+            "status": "STARTED",
+            "run_id": run_id,
+            "subject_commit": capture["code_commit"],
+            "binding_hash": cache_key,
+            "argv": argv,
+            "started_at": utc_now(),
+            "final_test_access": False,
+        }
+        write_json(replay / "execution.json", receipt, overwrite=False)
+        _, environment = controlled_subprocess_environment(int(capture["seed"]))
+        began = time.monotonic()
+        try:
+            process = subprocess.run(
+                argv,
+                cwd=case_root,
+                env=environment,
+                capture_output=True,
+                check=False,
+                timeout=ledger["timeout_seconds"],
+            )
+            receipt["exit_code"] = process.returncode
+            for stream, raw in (("stdout", process.stdout), ("stderr", process.stderr)):
+                (replay / stream).write_bytes(raw)
+                receipt[f"{stream}_sha256"] = hashlib.sha256(raw).hexdigest()
+            if process.returncode != 0 or not (replay / "result.json").is_file():
+                raise ValueError("RC_SCIENTIFIC_RECALCULATION_EXECUTION_FAILED")
+            recomputed = load_json(replay / "result.json")
+            receipt["result_sha256"] = file_hash(replay / "result.json")
+            if canonical_hash(recomputed) != canonical_hash(result):
+                raise ValueError("RC_SCIENTIFIC_RECALCULATION_RESULT_MISMATCH")
+            verify_current_capture_files(case_root, capture)
+            if any(
+                file_hash(case_root / path) != digest for path, digest in expected_bindings.items()
+            ):
+                raise ValueError("RC_SCIENTIFIC_CHECK_STALE")
+            receipt["status"] = "PASS"
+        except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
+            receipt.update(status="FAILED", failure=str(exc))
+            raise ValueError("RC_SCIENTIFIC_RECALCULATION_NOT_VERIFIED") from exc
+        finally:
+            receipt.update(ended_at=utc_now(), elapsed_seconds=time.monotonic() - began)
+            write_json(replay / "execution.json", receipt)
+    _SCIENTIFIC_CHECKS_THIS_PROCESS.add(cache_key)
     return result
 
 
@@ -5156,7 +5250,7 @@ def execute_scientific_check(
     else:
         ledger["status"] = "FAILED"
     write_json(ledger_path, ledger)
-    verify_scientific_check(case_root, run_id=run_id)
+    verify_scientific_check(case_root, run_id=run_id, _captured_in_this_process=True)
     return ledger
 
 

@@ -721,6 +721,7 @@ def build_semantic_records(
         reasons = core._scientific_claim_facts(
             claim, output, sources, case_root=case_root, run_id=run_id
         )
+        reasons.update(core.scientific_metric_binding_codes(claim, output, verified))
         if not fact or not actual_metrics:
             reasons.add("RC_CLAIM_GENERATION_FACTS_INVALID")
         if claim_type == "PREDICTIVE":
