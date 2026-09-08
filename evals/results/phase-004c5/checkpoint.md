@@ -36,3 +36,39 @@ budget declared. No installed packages/global changes/paidAPI this task. Reposit
 is0.2.3; observed installed metadata remains0.1.0, used environment frozen without reinstallation.
 Resume via qualification/rc8_release_delivery.json, FRESH_VALIDATION_PROTOCOL.md, RUNBOOK.md and
 actual per-case captures. Do not reset budgets or confuse remote delivery with scientific success.
+
+## 2026-09-08T21:08:54Z — M4 preparation checkpoint
+
+Elapsed3h22m04s; deadline unchanged2026-09-09T01:46:50Z. Planned2, started1,
+actually executed0, terminally completed0, scientific passed0 at this observation.
+2016C official C-only DOCX/XLSX inputs were retrieved after verified RC8 delivery, hashed and
+kept immutable/ignored; answers remain sealed. Native worker uses an independent empty fork,
+only frozen generic guidance and its own inputs. Episode anchor20:37:30Z, deadline22:37:30Z;
+fixed terminal candidate requested by22:17:30Z to retain native review time.2015 remains unopened.
+
+Pre-run review found that the worker's intake audit materialized all workbook labels and exposed
+terminal values. Subsequent internal splits are not asserted untouched. No solution was accessed,
+so this is not automatically a reference-answer contamination/demotion. Worker retained prediction
+Claims, missing target truth, and Development-only numerical diagnostics. A misleading unused
+Final path and an overly strong source-sufficiency declaration were corrected before any Run.
+The original preparation is preserved as STALE, with the same case/episode and zero captured Runs.
+Revision2 actual data-sufficiency is PARTIAL; legal preparation reached MODELS_PROPOSED and output
+contract probe passed. Two planned candidate captures, maximum4 across all revisions, Final0.
+No shared Skill, controller, rules, environment or tests changed.
+
+GitHub CI on registration44c5ebd failed:2151 passed,2 failed,1 skipped. One failure was missing
+fields in the new registry record; that metadata was repaired in5b93c809e274f910512b4ed435545b13324d76e5
+and remote SHA verified. Target-policy CLI and its focused test now pass. The other test hardcodes
+exactly8 historical registry cases and rejects the ninth registered case. It remains OPEN while
+the772 shared/test paths stay frozen. Preserve this current CI failure separately from the passing
+candidate-subject full CI. Do not remove a case or alter a frozen hash to make CI green.
+
+Preparation code/proposal commitcb4d202f5d653832700f8a0cdd317b35edf50ede was pushed. A subsequent
+pre-execution evidence-path correction is preserved as a normal new commit; final pre-run binding
+and delivery are still required before execute. Resume from this case's pre_run/revision_history.json,
+code_binding_correction.json and the worker's explicit ready message. Formal freeze and Git belong
+to main; the worker owns only the same case's code and ignored revision workspace.
+
+Visible goal observation:tokensUsed2,916,915,timeUsedSeconds11976,statusactive. This is cumulative
+visible tool accounting, not a priced invoice. PaidAPI0; installed packages0; global changes0;
+monetary costUNKNOWN. Continue directly through numeric captures and native terminal audit.

@@ -1,0 +1,137 @@
+{
+  "artifact_type": "data_audit",
+  "content": {
+    "acquisition_plans": [],
+    "data_dictionary": [
+      {
+        "field": "current_A",
+        "location": "attachment1 columns",
+        "unit": "A"
+      },
+      {
+        "field": "voltage_V",
+        "location": "attachment1 cells; attachment2 first column",
+        "unit": "V"
+      },
+      {
+        "field": "elapsed_min",
+        "location": "attachment1 first column; attachment2 state columns",
+        "unit": "min"
+      }
+    ],
+    "data_hashes": {
+      "data/raw/appendix.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+      "data/raw/problem.docx": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+    },
+    "leakage_findings": [
+      {
+        "answer_access": "Official solutions remain SEALED and NOT_ACCESSED; no solution retrieval.",
+        "decision": "No strict untouched prediction test exists in this episode after this audit. Use DEVELOPMENT_NO_FINAL_EVALUATION; retain PREDICTIVE Q2/Q3 types. Formal Final/Claim/Handoff cannot claim full validation.",
+        "human_model_visible_values": "Attachment1 first10 observations and20A terminal5 observations; Attachment2 first10 rows and9.020..9.000 terminal5 rows, including state2 terminal979.0; target state3 endpoint9.765V596.2min.",
+        "initial_input_read": "DOCX body; workbook sheet head/tail; all worksheet rows materialized by metadata audit before split design.",
+        "program_materialization": "list(sheet.values) and numeric count iteration materialized ALL workbook labels. Not printed is not equivalent to not accessed.",
+        "proposed_intermediate_tail_not_promoted": "The idea of reserving state2 9.755..9.030 was rejected before numerical results because audited cells had already been materialized. It is not a blind test."
+      }
+    ],
+    "processed_lineage": [],
+    "quality_report": {
+      "attachment1": [
+        {
+          "current_A": 20,
+          "maximum_increase_V": 0.008100000000000662,
+          "observations": 1883,
+          "time_max_min": 3764,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 43
+        },
+        {
+          "current_A": 30,
+          "maximum_increase_V": 0.00429999999999886,
+          "observations": 1228,
+          "time_max_min": 2454,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 156
+        },
+        {
+          "current_A": 40,
+          "maximum_increase_V": 0.0058000000000006935,
+          "observations": 863,
+          "time_max_min": 1724,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 94
+        },
+        {
+          "current_A": 50,
+          "maximum_increase_V": 0.007200000000000983,
+          "observations": 655,
+          "time_max_min": 1308,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 44
+        },
+        {
+          "current_A": 60,
+          "maximum_increase_V": 0.01150000000000162,
+          "observations": 523,
+          "time_max_min": 1044,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 29
+        },
+        {
+          "current_A": 70,
+          "maximum_increase_V": 0.019999999999999574,
+          "observations": 432,
+          "time_max_min": 862,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 11
+        },
+        {
+          "current_A": 80,
+          "maximum_increase_V": 0.023600000000000065,
+          "observations": 366,
+          "time_max_min": 730,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 8
+        },
+        {
+          "current_A": 90,
+          "maximum_increase_V": 0.03139999999999965,
+          "observations": 311,
+          "time_max_min": 620,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 7
+        },
+        {
+          "current_A": 100,
+          "maximum_increase_V": 0.04860000000000042,
+          "observations": 270,
+          "time_max_min": 538,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 7
+        }
+      ],
+      "attachment2_counts": {
+        "new": 301,
+        "state1": 301,
+        "state2": 301,
+        "state3": 148
+      },
+      "target3_endpoint": {
+        "elapsed_min": 596.2,
+        "voltage_V": 9.765
+      },
+      "target3_missing_future_labels": 153
+    },
+    "raw_immutable": true
+  },
+  "content_hash": "868cffe5a2357440812d8c4d5b84ddc7122b6b4705cabc6a22c88544f3826228",
+  "status": "ACCEPTED"
+}

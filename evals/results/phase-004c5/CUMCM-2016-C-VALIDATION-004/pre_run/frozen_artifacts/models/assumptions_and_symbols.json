@@ -1,0 +1,85 @@
+{
+  "artifact_type": "assumptions_and_symbols",
+  "content": {
+    "assumptions": [
+      {
+        "challenge": "Strongly oscillatory or high-curvature gaps may be poorly represented.",
+        "id": "A1",
+        "statement": "Within each observed current a piecewise polynomial interpolant represents measured voltage; initial relaxation is retained rather than forcing false global monotonicity."
+      },
+      {
+        "challenge": "No55A observation; evaluate via leave-one-interior-current-out diagnostics.",
+        "id": "A2",
+        "statement": "Between adjacent measured currents, normalized voltage shape and total discharge time vary smoothly."
+      },
+      {
+        "challenge": "Only one battery; future state3 behavior and error unknown; transfer may fail.",
+        "id": "A3",
+        "statement": "At fixed current, aging-state elapsed time at equal voltage is approximately scale or affine transform of complete reference curves."
+      }
+    ],
+    "formulas": [
+      {
+        "expression": "P_I(t)=c3_j(t-x_j)^3+c2_j(t-x_j)^2+c1_j(t-x_j)+c0_j on [x_j,x_{j+1}]; R_I(9.8)=T_I-P_I^{-1}(9.8).",
+        "formula_id": "F-Q1",
+        "requirement_ids": [
+          "REQ-Q1"
+        ]
+      },
+      {
+        "expression": "MRE=(1/231)sum_k abs(t_model(9+0.005k)-t_sample(9+0.005k))/t_sample(9+0.005k), k=0..230.",
+        "formula_id": "F-MRE",
+        "requirement_ids": [
+          "REQ-Q1",
+          "REQ-Q2"
+        ]
+      },
+      {
+        "expression": "U(t,I)=(1-w)P_L(t*T_L/T_I)+w*P_H(t*T_H/T_I). Baseline w=(I-L)/(H-L), T arithmetic; candidate w=log(I/L)/log(H/L), T geometric.",
+        "formula_id": "F-Q2",
+        "requirement_ids": [
+          "REQ-Q2"
+        ]
+      },
+      {
+        "expression": "t_3(U)=a+b*(t_new(U)+t_state1(U)+t_state2(U))/3; R_3=t_3(9)-596.2. Fit only observed target prefix; baseline a=0, candidate free a.",
+        "formula_id": "F-Q3",
+        "requirement_ids": [
+          "REQ-Q3"
+        ]
+      }
+    ],
+    "symbols": {
+      "I": {
+        "meaning": "constant current",
+        "unit": "A"
+      },
+      "T": {
+        "meaning": "time at9V",
+        "unit": "min"
+      },
+      "U": {
+        "meaning": "terminal voltage",
+        "unit": "V"
+      },
+      "a": {
+        "meaning": "aging time offset",
+        "unit": "min"
+      },
+      "b": {
+        "meaning": "aging time scale",
+        "unit": "1"
+      },
+      "s": {
+        "meaning": "t/T",
+        "unit": "1"
+      },
+      "t": {
+        "meaning": "elapsed discharge time",
+        "unit": "min"
+      }
+    }
+  },
+  "content_hash": "49fceacdc06dc5d2f6dbb40c4bd14af99cc191e5eee932fe2f6c49d7a2567ef9",
+  "status": "ACCEPTED"
+}

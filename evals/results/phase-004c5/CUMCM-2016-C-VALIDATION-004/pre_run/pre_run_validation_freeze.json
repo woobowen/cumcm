@@ -1,0 +1,109 @@
+{
+  "schema_version": "phase-004c5-fresh-validation-pre-run-freeze/v1",
+  "freeze_id": "CUMCM-2016-C-VALIDATION-004-PRE-RUN-FREEZE-001",
+  "case_id": "CUMCM-2016-C-VALIDATION-004",
+  "set_type": "VALIDATION",
+  "status": "FROZEN_NOT_EXECUTED",
+  "created_at": "2026-09-08T21:12:12.704911+00:00",
+  "freeze_subject_commit": "bee0a94cd0b04a17ceaf80830d482ac91366de1e",
+  "shared_implementation_subject": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+  "code_subject_remote_verified": true,
+  "candidate_release_delivery": {
+    "path": "evals/results/phase-004c5/qualification/rc8_release_delivery.json",
+    "sha256": "f64b573a0e3f512ddddc6253c55a9966118f412f3a9b1f22f6b2276b37e1d234"
+  },
+  "case_root": ".cache/pr12-rc8/fresh/2016/case-r2",
+  "case_code": {
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py": "8bb27f459d4aa6fcaeaedf0bf3041396b602d1ff1cfad4649c0a973c1ec02964",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/prepare.py": "b98f8bb54adafbab579e6cba9a172f4c6aa442d0703c262dd181bb3df8b9d543",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/produce.py": "c334053aaa386456eb53c6c2c5a8e507f022487a1e32e137a6438a8bd326ca5b"
+  },
+  "case_code_commit": "bee0a94cd0b04a17ceaf80830d482ac91366de1e",
+  "proposal": {
+    "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/pre_run_proposal.json",
+    "sha256": "2a3d4d24e147653e2c64dbd8f53423b4d4f1bed6a13dfe9047a94081627b1199"
+  },
+  "accepted_artifacts": {
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/data/data_audit.json": "5e3bc9dc36b521940407fa6f1bfaec9637e8efab306f3d8838f3fcde9a7ebb61",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/data/data_sufficiency.json": "5a63aa2c0b49919e52ea57a3e5cfcc9c566f59857d6d7e136659133515d3a839",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/experiments/experiment_plan.json": "8f0b3a8ddd37f513d67611378db434d23ae86b8926b2e6e48b095590ece88325",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/experiments/selected_output_contract_probe.json": "d8952ffff4329db6171cf2da0f46ec818f37ae9184ac1710f73470c755df8f10",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/models/assumptions_and_symbols.json": "7e2a663d60a78a1cfc0eabd100927115c4f8d4bbb7d84983950f14f65b868ac4",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/models/model_candidates.json": "a0522603ea2b3cd270c714b88e1f3bc19decc66478429d7c7c72a916e88f1580",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/problem/problem_requirements.json": "9d8420f4fc8a1240879957c53b776e416e59ddc51c002fc99f5bfd2c910c4e9c",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/research/research_plan.json": "3b83925476dd2ebb0c25e5b48ee713e940eab2c374d1e6208cd91aa6b89d3ce0",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/research/source_ledger.json": "c9e94b505250b20323692c773bdc29d255bc5b26463bc279196e7444f1942edf",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/frozen_artifacts/case_state.json": "844209e3d27e5c134a681d821693488341f28d3c76eb51961dc7ff59a17e92d7"
+  },
+  "required_raw_input_hashes": {
+    "data/raw/appendix.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+    "data/raw/problem.docx": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+  },
+  "execution_policy": {
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "predictive_final_authorized": false,
+    "reason": "All official workbook labels were materialized by intake audit; no later internal split can be asserted untouched; actual future state3 label absent."
+  },
+  "trusted_freeze_registry": {
+    "baseline": "ff3a37207d2ede21aa92dda5859b2ce1836d8e1568cff9db8ffea6818e5c6f58",
+    "candidate_set": "45954cfa1d47c4481dedd6aeee577e5c5b646473cfff769508b26d114329a62b",
+    "code_commit": "e73a1c735a5babc7f2f81a81b4bb3d06debd25395756a60a18a4cecc652d96cb",
+    "code_set": "1fa3efb39a89f5770314e589497226f63d5205432d4a0b550fc06e400dbfa9f5",
+    "execution_policy": "54f9c3c5cb50da646f7c9ca22484ea1a01708accb02f729ecc569b4e16b24cf5",
+    "input_set": "dfcd0e12bcabbc390581d922e18f83137c6511c130f12fbb1cd496a84b5b7b67",
+    "metric": "b32f80456262e38529dea7b0cc3c81f8ba70fa47c7f62a30c2c7741772ba65e0",
+    "seed_schedule": "9f204c05ad32490a1702c60be70e809ac6c38921749b0a0c582a7b076d521d34",
+    "split_assignment": "85a73d01eff77b550f9a7d6d42f684d0bd7e217f0f5eb28ff9d0a7bec1382947"
+  },
+  "frozen_shared_and_test_file_count": 772,
+  "case_budget": {
+    "absolute_deadline": "2026-09-08T22:37:30Z",
+    "anchor": "2026-09-08T20:37:30Z",
+    "candidate_stop": "2026-09-08T22:17:30Z",
+    "wall_seconds": 7200
+  },
+  "execution_budget": {
+    "final_access_budget": 0,
+    "fixed_candidate_attempts": 2,
+    "maximum_captured_attempts_entire_episode_all_revisions": 4,
+    "maximum_repairs_same_root_cause": 3,
+    "remaining_repair_captures_after_two_planned": 2,
+    "repair_rule": "No erased attempts. No default post-result model changes. Any necessary code correction requires main Git delivery and retained failed capture; unresolved freeze incompatibility yields PARTIAL/BLOCK.",
+    "seeds_each": 1,
+    "timeout_seconds_each": 300
+  },
+  "data_sufficiency": {
+    "status": "PARTIAL",
+    "reason_codes": [
+      "RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE"
+    ],
+    "numeric_development_execution_accepted_by_actual_cli": true,
+    "whole_validation_acceptance": false
+  },
+  "formal_workspace": {
+    "state": "RUNNING",
+    "state_sha256": "844209e3d27e5c134a681d821693488341f28d3c76eb51961dc7ff59a17e92d7",
+    "experiment_plan_sha256": "8f0b3a8ddd37f513d67611378db434d23ae86b8926b2e6e48b095590ece88325",
+    "model_capture_count": 0,
+    "predictive_final_access_count": 0
+  },
+  "access": {
+    "answer_access": "Official solutions remain SEALED and NOT_ACCESSED; no solution retrieval.",
+    "decision": "No strict untouched prediction test exists in this episode after this audit. Use DEVELOPMENT_NO_FINAL_EVALUATION; retain PREDICTIVE Q2/Q3 types. Formal Final/Claim/Handoff cannot claim full validation.",
+    "human_model_visible_values": "Attachment1 first10 observations and20A terminal5 observations; Attachment2 first10 rows and9.020..9.000 terminal5 rows, including state2 terminal979.0; target state3 endpoint9.765V596.2min.",
+    "initial_input_read": "DOCX body; workbook sheet head/tail; all worksheet rows materialized by metadata audit before split design.",
+    "program_materialization": "list(sheet.values) and numeric count iteration materialized ALL workbook labels. Not printed is not equivalent to not accessed.",
+    "proposed_intermediate_tail_not_promoted": "The idea of reserving state2 9.755..9.030 was rejected before numerical results because audited cells had already been materialized. It is not a blind test."
+  },
+  "answers": "SEALED",
+  "model_prior": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+  "main_review": {
+    "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/main_protocol_review.json",
+    "sha256": "131c1a00abadfaaee02a887ef12870cc83e31e6451a3469fe2c9433ffbd5689d"
+  },
+  "delivery": {
+    "status": "PENDING_REMOTE_FREEZE_COMMIT",
+    "receipt_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/pre_run_validation_freeze_delivery.json"
+  },
+  "scope": "One same-case episode with actual limited scientific work and subsequent frozen native review. Pre-run acceptance does not establish any primary scientific result."
+}

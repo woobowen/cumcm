@@ -1,0 +1,28 @@
+{
+  "schema_version": "rc8-pre-run-main-protocol-review/v1",
+  "recorded_at": "2026-09-08T21:12:12.704733+00:00",
+  "role": "MAIN_ORCHESTRATOR_PROTOCOL_REVIEW_NOT_INDEPENDENT_AUDIT",
+  "numeric_results_available": false,
+  "interventions": [
+    "Clarified official raw reads versus reference-answer contamination; prohibited asserting previously audited cells untouched.",
+    "Identified stale Final implementation/text inconsistent with Final budget0; worker removed executable Final path before captures.",
+    "Required source retrieval timestamp to bind actual official retrieval; worker corrected it.",
+    "Required missing predictive target truth in machine data sufficiency; revision1 preserved STALE and revision2 actual result PARTIAL.",
+    "Required whole-episode capture cap and preserved revision history; unchanged time anchor.",
+    "Required case code ruff/format before hash freeze; worker applied local formatting only."
+  ],
+  "worker_independent_code_correction": "Worker identified output evidence IDs pointing to nonexistent fragment; preserved cb4d202 and committed correction bee0a94 before bind/capture.",
+  "model_recipe_supplied_by_main": false,
+  "case_models_and_splits_chosen_by_worker": true,
+  "actual_main_checks": {
+    "ruff_check": "PASS",
+    "ruff_format": "3 files already formatted",
+    "accepted_case_artifacts_hash_count": 7,
+    "raw_input_hash_count": 2,
+    "frozen_shared_test_paths": 772,
+    "live_rc8_checker": "PASS",
+    "strict_repo": "PASS_0_ERRORS_0_WARNINGS",
+    "model_capture_count": 0
+  },
+  "current_repository_ci_limitation": "Historical test hardcodes8 registry cases and fails on9; failure is preserved in qualification/post_activation_ci_44c5ebd.json. No test or Gate was skipped or edited."
+}
