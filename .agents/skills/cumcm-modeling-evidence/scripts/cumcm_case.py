@@ -5275,8 +5275,6 @@ def evaluate_authorized_final_test(
         raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
     if capture.get("outcome") != "SUCCESS" or capture.get("run_id") != run_id:
         raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
-    build_captured_run_manifest(case_root, run_id=run_id, decision_hash=decision_hash)
-    verify_current_capture_files(case_root, capture)
     output_relative = capture.get("output", {}).get("path")
     output_path = relative_case_path(case_root, output_relative)
     if output_path is None or not output_path.is_file():
@@ -5284,6 +5282,8 @@ def evaluate_authorized_final_test(
     development_output_hash = file_hash(output_path)
     if development_output_hash != capture.get("output", {}).get("sha256"):
         raise ValueError("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+    build_captured_run_manifest(case_root, run_id=run_id, decision_hash=decision_hash)
+    verify_current_capture_files(case_root, capture)
     reject_self_attested_development_test(load_json(output_path))
     argv = capture.get("argv")
     if not isinstance(argv, list) or not argv or not isinstance(argv[0], str):
