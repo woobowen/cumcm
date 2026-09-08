@@ -1,0 +1,611 @@
+{
+  "artifact_type": "semantic_claim_support",
+  "content": {
+    "aggregate": {
+      "primary_requirement_ids": [
+        "REQ-DEFINITION",
+        "REQ-VALIDATION",
+        "REQ-BEIJING",
+        "REQ-HARBIN",
+        "REQ-SHANGHAI",
+        "REQ-GUANGZHOU",
+        "REQ-KUNMING",
+        "REQ-CHENGDU",
+        "REQ-URUMQI"
+      ],
+      "requirement_claim_ids": {
+        "REQ-BEIJING": "CLAIM-2015-BEIJING",
+        "REQ-CHENGDU": "CLAIM-2015-CHENGDU",
+        "REQ-DEFINITION": "CLAIM-2015-DEFINITION",
+        "REQ-GUANGZHOU": "CLAIM-2015-GUANGZHOU",
+        "REQ-HARBIN": "CLAIM-2015-HARBIN",
+        "REQ-KUNMING": "CLAIM-2015-KUNMING",
+        "REQ-SHANGHAI": "CLAIM-2015-SHANGHAI",
+        "REQ-URUMQI": "CLAIM-2015-URUMQI",
+        "REQ-VALIDATION": "CLAIM-2015-VALIDATION"
+      },
+      "supported_requirement_ids": [
+        "REQ-DEFINITION",
+        "REQ-VALIDATION",
+        "REQ-BEIJING",
+        "REQ-HARBIN",
+        "REQ-SHANGHAI",
+        "REQ-GUANGZHOU",
+        "REQ-KUNMING",
+        "REQ-CHENGDU",
+        "REQ-URUMQI"
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "CLAIM-2015-DEFINITION",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "definition_tree_angle_deg",
+          "definition_calendar_rows"
+        ],
+        "requirement_id": "REQ-DEFINITION",
+        "scope": {
+          "entities": [
+            "Beijing",
+            "Chengdu",
+            "Guangzhou",
+            "Harbin",
+            "Kunming",
+            "Shanghai",
+            "Urumqi"
+          ],
+          "fields": [
+            "definition_tree_angle_deg",
+            "definition_calendar_rows"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-DEFINITION"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At tree angle 10 degrees with band [8,12], the geometric model supplies 366 daily sunset/dusk/moon-rise calendars at each of seven nominal sites.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-VALIDATION",
+        "claim_strength": "BOUNDED_EPHEMERIS_CONSISTENCY",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg"
+        ],
+        "requirement_id": "REQ-VALIDATION",
+        "scope": {
+          "entities": [
+            "Beijing",
+            "Chengdu",
+            "Guangzhou",
+            "Harbin",
+            "Kunming",
+            "Shanghai",
+            "Urumqi"
+          ],
+          "fields": [
+            "reference_altitude_rmse_deg",
+            "reference_altitude_max_abs_deg"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-VALIDATION"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "Against 168 predeclared JPL topocentric positions, altitude RMSE is 0.000749386 degrees and maximum absolute residual is 0.001445385 degrees; this is ephemeris consistency, not independent field validation.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": false,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-BEIJING",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "Beijing_event_count"
+        ],
+        "requirement_id": "REQ-BEIJING",
+        "scope": {
+          "entities": [
+            "Beijing"
+          ],
+          "fields": [
+            "Beijing_event_count"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-BEIJING"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At the nominal Beijing site in 2016 the defined rising-Moon/post-civil-twilight scene has 15 nonempty evening windows, listed with UTC+08 times.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-HARBIN",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "Harbin_event_count"
+        ],
+        "requirement_id": "REQ-HARBIN",
+        "scope": {
+          "entities": [
+            "Harbin"
+          ],
+          "fields": [
+            "Harbin_event_count"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-HARBIN"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At the nominal Harbin site in 2016 the defined rising-Moon/post-civil-twilight scene has 18 nonempty evening windows, listed with UTC+08 times.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-SHANGHAI",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "Shanghai_event_count"
+        ],
+        "requirement_id": "REQ-SHANGHAI",
+        "scope": {
+          "entities": [
+            "Shanghai"
+          ],
+          "fields": [
+            "Shanghai_event_count"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-SHANGHAI"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At the nominal Shanghai site in 2016 the defined rising-Moon/post-civil-twilight scene has 12 nonempty evening windows, listed with UTC+08 times.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-GUANGZHOU",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "Guangzhou_event_count"
+        ],
+        "requirement_id": "REQ-GUANGZHOU",
+        "scope": {
+          "entities": [
+            "Guangzhou"
+          ],
+          "fields": [
+            "Guangzhou_event_count"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-GUANGZHOU"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At the nominal Guangzhou site in 2016 the defined rising-Moon/post-civil-twilight scene has 12 nonempty evening windows, listed with UTC+08 times.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-KUNMING",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "Kunming_event_count"
+        ],
+        "requirement_id": "REQ-KUNMING",
+        "scope": {
+          "entities": [
+            "Kunming"
+          ],
+          "fields": [
+            "Kunming_event_count"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-KUNMING"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At the nominal Kunming site in 2016 the defined rising-Moon/post-civil-twilight scene has 13 nonempty evening windows, listed with UTC+08 times.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-CHENGDU",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "Chengdu_event_count"
+        ],
+        "requirement_id": "REQ-CHENGDU",
+        "scope": {
+          "entities": [
+            "Chengdu"
+          ],
+          "fields": [
+            "Chengdu_event_count"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-CHENGDU"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At the nominal Chengdu site in 2016 the defined rising-Moon/post-civil-twilight scene has 13 nonempty evening windows, listed with UTC+08 times.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      },
+      {
+        "claim_id": "CLAIM-2015-URUMQI",
+        "claim_strength": "CONDITIONAL_TIMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "THEORETICAL",
+        "limitations": [
+          "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+          "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+          "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+          "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+          "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+        ],
+        "metric_ids": [
+          "Urumqi_event_count"
+        ],
+        "requirement_id": "REQ-URUMQI",
+        "scope": {
+          "entities": [
+            "Urumqi"
+          ],
+          "fields": [
+            "Urumqi_event_count"
+          ],
+          "time": [
+            "2016"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-URUMQI"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "statement": "At the nominal Urumqi site in 2016 the defined rising-Moon/post-civil-twilight scene has 16 nonempty evening windows, listed with UTC+08 times.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "definition_uncertainty": "See five genuinely recomputed perturbations; geometric definitions dominate numerical error.",
+          "reference_max_abs_alt_deg": 0.0014453845183588498,
+          "root_numeric_tolerance_seconds": 0.1
+        }
+      }
+    ],
+    "comparators": [],
+    "contract_version": "claim-evidence/v3",
+    "outputs": [
+      {
+        "metric_ids": [
+          "definition_tree_angle_deg",
+          "definition_calendar_rows"
+        ],
+        "output_id": "OUT-REQ-DEFINITION",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-DEFINITION"
+      },
+      {
+        "metric_ids": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg"
+        ],
+        "output_id": "OUT-REQ-VALIDATION",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-VALIDATION"
+      },
+      {
+        "metric_ids": [
+          "Beijing_event_count"
+        ],
+        "output_id": "OUT-REQ-BEIJING",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-BEIJING"
+      },
+      {
+        "metric_ids": [
+          "Harbin_event_count"
+        ],
+        "output_id": "OUT-REQ-HARBIN",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-HARBIN"
+      },
+      {
+        "metric_ids": [
+          "Shanghai_event_count"
+        ],
+        "output_id": "OUT-REQ-SHANGHAI",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-SHANGHAI"
+      },
+      {
+        "metric_ids": [
+          "Guangzhou_event_count"
+        ],
+        "output_id": "OUT-REQ-GUANGZHOU",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-GUANGZHOU"
+      },
+      {
+        "metric_ids": [
+          "Kunming_event_count"
+        ],
+        "output_id": "OUT-REQ-KUNMING",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-KUNMING"
+      },
+      {
+        "metric_ids": [
+          "Chengdu_event_count"
+        ],
+        "output_id": "OUT-REQ-CHENGDU",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-CHENGDU"
+      },
+      {
+        "metric_ids": [
+          "Urumqi_event_count"
+        ],
+        "output_id": "OUT-REQ-URUMQI",
+        "owner_run_id": "RUN-2015-TOPOCENTRIC",
+        "requirement_id": "REQ-URUMQI"
+      }
+    ],
+    "runs": [
+      {
+        "current": true,
+        "input_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+        "metric_ids": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg",
+          "definition_tree_angle_deg",
+          "definition_calendar_rows",
+          "scenario_event_count",
+          "Beijing_event_count",
+          "Chengdu_event_count",
+          "Guangzhou_event_count",
+          "Harbin_event_count",
+          "Kunming_event_count",
+          "Shanghai_event_count",
+          "Urumqi_event_count"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-2015-TOPOCENTRIC",
+        "scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUT-REQ-DEFINITION",
+          "OUT-REQ-VALIDATION",
+          "OUT-REQ-BEIJING",
+          "OUT-REQ-HARBIN",
+          "OUT-REQ-SHANGHAI",
+          "OUT-REQ-GUANGZHOU",
+          "OUT-REQ-KUNMING",
+          "OUT-REQ-CHENGDU",
+          "OUT-REQ-URUMQI"
+        ],
+        "supported_requirement_ids": [
+          "REQ-DEFINITION",
+          "REQ-VALIDATION",
+          "REQ-BEIJING",
+          "REQ-HARBIN",
+          "REQ-SHANGHAI",
+          "REQ-GUANGZHOU",
+          "REQ-KUNMING",
+          "REQ-CHENGDU",
+          "REQ-URUMQI"
+        ]
+      }
+    ],
+    "validation": {
+      "counter_evidence_detected": false
+    }
+  },
+  "content_hash": "e8206bc342cf4eaaf06f4d4ffb9de0cec0cf2e01960916938b0b3b8dd50748f0",
+  "status": "ACCEPTED"
+}

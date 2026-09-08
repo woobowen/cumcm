@@ -1,0 +1,51 @@
+{
+  "artifact_type": "robustness_analysis",
+  "content": {
+    "configuration_hash": "9286690963ddf2ab510ad441fac272358ca98c53f6414dd05f43ae1bc31b2d06",
+    "decision_hash": "cbccffadcf963cb829adbcc5c63d309a71650f91f1bad411c0af4cb283404557",
+    "failure_cases": [
+      "Poorer geometry or alternative dusk/tree definitions can exclude individual dates; no clear-sky visibility guarantee."
+    ],
+    "input_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+    "metric": "scenario_event_count",
+    "metric_direction": "MAX",
+    "output_hash": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "scenario_event_count",
+        "perturbation_id": "LOWER_TREE",
+        "result": 96
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "scenario_event_count",
+        "perturbation_id": "HIGHER_TREE",
+        "result": 98
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "scenario_event_count",
+        "perturbation_id": "WIDER_TREE_BAND",
+        "result": 129
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "scenario_event_count",
+        "perturbation_id": "CIVIL_TWILIGHT",
+        "result": 81
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "scenario_event_count",
+        "perturbation_id": "LATITUDE_PLUS_005",
+        "result": 99
+      }
+    ],
+    "run_id": "RUN-2015-TOPOCENTRIC",
+    "selected_model": "TOPOCENTRIC",
+    "status": "VALIDATED"
+  },
+  "content_hash": "4945ff2edcd64ddb4554505f9839d9a23744a03d91559929c3db421814ea890e",
+  "status": "ACCEPTED"
+}

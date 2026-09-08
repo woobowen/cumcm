@@ -1,0 +1,9 @@
+{
+  "schema_version": "phase-004c5-csv-delivery-note/v1",
+  "scope": "CUMCM-2015-C-VALIDATION-005 candidate_artifacts/tables/*.csv",
+  "reason": "Frozen Python csv.writer outputs use CRLF; recognize CRLF as line ending without changing bound candidate bytes. Spaces preceding CRLF remain rejected.",
+  "candidate_bytes_changed": false,
+  "shared_implementation_changed": false,
+  "configuration_scope": "CASE_LOCAL_GIT_ATTRIBUTES",
+  "audit_bundle_files_unchanged": 103
+}

@@ -1,0 +1,249 @@
+{
+  "artifact_type": "claim_evidence",
+  "content": {
+    "aggregate": {
+      "claim_id": "CLAIM-AGGREGATE-B9BA12C98E5D5E2149951C40",
+      "primary_requirement_ids": [
+        "REQ-DEFINITION",
+        "REQ-VALIDATION",
+        "REQ-BEIJING",
+        "REQ-HARBIN",
+        "REQ-SHANGHAI",
+        "REQ-GUANGZHOU",
+        "REQ-KUNMING",
+        "REQ-CHENGDU",
+        "REQ-URUMQI"
+      ],
+      "requirement_claim_ids": {
+        "REQ-BEIJING": "CLAIM-2015-BEIJING",
+        "REQ-CHENGDU": "CLAIM-2015-CHENGDU",
+        "REQ-DEFINITION": "CLAIM-2015-DEFINITION",
+        "REQ-GUANGZHOU": "CLAIM-2015-GUANGZHOU",
+        "REQ-HARBIN": "CLAIM-2015-HARBIN",
+        "REQ-KUNMING": "CLAIM-2015-KUNMING",
+        "REQ-SHANGHAI": "CLAIM-2015-SHANGHAI",
+        "REQ-URUMQI": "CLAIM-2015-URUMQI",
+        "REQ-VALIDATION": "CLAIM-2015-VALIDATION"
+      },
+      "supported_requirement_ids": [
+        "REQ-DEFINITION",
+        "REQ-VALIDATION",
+        "REQ-BEIJING",
+        "REQ-HARBIN",
+        "REQ-SHANGHAI",
+        "REQ-GUANGZHOU",
+        "REQ-KUNMING",
+        "REQ-CHENGDU",
+        "REQ-URUMQI"
+      ]
+    },
+    "claims": {
+      "REQ-BEIJING": {
+        "claim_id": "CLAIM-2015-BEIJING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "Beijing_event_count"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-BEIJING",
+        "scope_hash": "352ef8123401dd45bfb959f43448ce752017989633b8ec47d9c3c4fb930b1945",
+        "selected_output_ids": [
+          "OUT-REQ-BEIJING"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-CHENGDU": {
+        "claim_id": "CLAIM-2015-CHENGDU",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "Chengdu_event_count"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-CHENGDU",
+        "scope_hash": "ee941c0abc6c1834d6fca7a5607719a144ba1d6c81d87c7a5a62e611bd391b44",
+        "selected_output_ids": [
+          "OUT-REQ-CHENGDU"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-DEFINITION": {
+        "claim_id": "CLAIM-2015-DEFINITION",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "definition_tree_angle_deg",
+          "definition_calendar_rows"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-DEFINITION",
+        "scope_hash": "06d77aef5e48418004d0c48887b338d3fa99a8f4d2bb0d8dd9a007876ed8ab64",
+        "selected_output_ids": [
+          "OUT-REQ-DEFINITION"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-GUANGZHOU": {
+        "claim_id": "CLAIM-2015-GUANGZHOU",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "Guangzhou_event_count"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-GUANGZHOU",
+        "scope_hash": "b2dfb1dd3a6f4fae4ab2409fc9b9e34a4b28456891309da9533148fb943c0a92",
+        "selected_output_ids": [
+          "OUT-REQ-GUANGZHOU"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-HARBIN": {
+        "claim_id": "CLAIM-2015-HARBIN",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "Harbin_event_count"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-HARBIN",
+        "scope_hash": "85cc784b65876c60a44e2af76e0e78f860afb563eda27fbf767c6a86284058a2",
+        "selected_output_ids": [
+          "OUT-REQ-HARBIN"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-KUNMING": {
+        "claim_id": "CLAIM-2015-KUNMING",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "Kunming_event_count"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-KUNMING",
+        "scope_hash": "ba898edbfc6896100131b2c591afbda885e7b86d31f62544fbbf06321c3e3753",
+        "selected_output_ids": [
+          "OUT-REQ-KUNMING"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-SHANGHAI": {
+        "claim_id": "CLAIM-2015-SHANGHAI",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "Shanghai_event_count"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-SHANGHAI",
+        "scope_hash": "c51154b8c9329bd3d864a3da7ff9443c76fab2ba491b35b7d0def57666bef95f",
+        "selected_output_ids": [
+          "OUT-REQ-SHANGHAI"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-URUMQI": {
+        "claim_id": "CLAIM-2015-URUMQI",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "Urumqi_event_count"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-URUMQI",
+        "scope_hash": "7d7a129707d728c9897ce0afa27b74f0c6780ff416c27a01f4c3dbd9bd583807",
+        "selected_output_ids": [
+          "OUT-REQ-URUMQI"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-VALIDATION": {
+        "claim_id": "CLAIM-2015-VALIDATION",
+        "claim_type": "DESCRIPTIVE",
+        "evidence_class": "THEORETICAL",
+        "manifest_hashes": {
+          "RUN-2015-TOPOCENTRIC": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6"
+        },
+        "metric_ids": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg"
+        ],
+        "output_hashes": {
+          "RUN-2015-TOPOCENTRIC": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be"
+        },
+        "requirement_id": "REQ-VALIDATION",
+        "scope_hash": "b2b5551ada0d9a9da91558a5bd998761fcff3091a0a0953a02a45f93a55fc6ed",
+        "selected_output_ids": [
+          "OUT-REQ-VALIDATION"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      }
+    },
+    "contract_version": "claim-evidence/runtime-v3",
+    "contradiction_status": "NONE",
+    "decision_hash": "cbccffadcf963cb829adbcc5c63d309a71650f91f1bad411c0af4cb283404557",
+    "evidence_status": "CURRENT"
+  },
+  "content_hash": "2f16af58f3dd747e2784bd181b900b2452c267883a93e9a015f882b6898ad7d2",
+  "status": "ACCEPTED"
+}
