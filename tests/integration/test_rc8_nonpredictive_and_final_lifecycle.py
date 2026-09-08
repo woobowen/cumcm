@@ -139,3 +139,27 @@ def test_actual_controller_rejects_missing_generation_facts(repo_root, tmp_path)
     assert completed.returncode != 0, result
     assert "RC_CLAIM_GENERATION_FACTS_INVALID" in result["reason_codes"]
     assert core.load_state(case)["state"] == "RUNNING"
+
+
+@pytest.mark.parametrize("mutation", ["minimal_ledger", "exit", "final_access", "timing", "stdout"])
+def test_scientific_check_capture_cannot_omit_or_contradict_execution(repo_root, tmp_path, mutation):
+    helper, core, case = _nonpredictive(repo_root, tmp_path)
+    run_id = "RUN-CAND-20260906"
+    core.execute_scientific_check(case, run_id=run_id, code_path="models/independent_check.py")
+    path = case / "runs" / run_id / "scientific_check_capture.json"
+    ledger = core.load_json(path)
+    if mutation == "minimal_ledger":
+        ledger = {key: ledger[key] for key in ("status", "run_id", "checker", "bound_files")}
+    elif mutation == "exit":
+        ledger["exit_code"] = 23
+    elif mutation == "final_access":
+        ledger["final_test_access"] = True
+    elif mutation == "timing":
+        ledger["ended_at"] = "1900-01-01T00:00:00Z"
+    else:
+        (case / "runs" / run_id / "scientific_check.stdout").write_text("tampered process output")
+    core.write_json(path, ledger)
+    completed, result = helper._run_controller(repo_root, case)
+    assert completed.returncode != 0, result
+    assert "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING" in result["reason_codes"]
+    assert core.load_state(case)["state"] == "RUNNING"
