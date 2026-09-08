@@ -8,7 +8,7 @@
   "active_skill_version": "0.2.0-competition-rc8",
   "blocked_candidate_version": "0.2.0-competition-rc6",
   "target_candidate_version": "0.2.0-competition-rc8",
-  "answer_access_status": "SEALED",
+  "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -36,7 +36,8 @@
     "DECISION-THRESHOLD-POLICY-FREEZE-002D-R2",
     "DECISION-C-TARGET-VALIDATION-004C3",
     "DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5",
-    "DECISION-C-TARGET-VALIDATION-004C5-2016"
+    "DECISION-C-TARGET-VALIDATION-004C5-2016",
+    "DECISION-C-TARGET-VALIDATION-004C5-2015"
   ],
   "base_selected": false,
   "batch_pre_run_freeze": {
@@ -55,7 +56,9 @@
   "batch_skill_frozen": true,
   "blockers": [
     "CURRENT_DELIVERY_CI_HISTORICAL_CASE_COUNT_ASSERTION",
-    "CURRENT_DELIVERY_CI_TERMINAL_PHASE_ASSERTION"
+    "CURRENT_DELIVERY_CI_TERMINAL_PHASE_ASSERTION",
+    "VALIDATION_NONPREDICTIVE_FINAL_ORDERING_CONTRACT_FAILURE",
+    "RC8_FRESH_BATCH_NO_SCIENTIFIC_PASS"
   ],
   "competition_rc1": {
     "api_calls": 0,
@@ -249,7 +252,8 @@
     "RC8 activation8ef732b was verified at the designated remote before fresh input access; this is research/Validation qualification only.",
     "Fresh registration exposes a CI test that hardcodes eight historical cases; current delivery CI fails with the ninth case. The frozen 29cf1d7 candidate CI remains a separate passing observation. Shared/test bytes are unchanged during both planned Validation episodes; this delivery blocker is preserved, not skipped.",
     "RC8 2016C terminal is evidence insufficient despite2 successful model captures. Native audit accepts conditional numerical results but identifies overstrong future-truth requirement, coarse group-overlap rejection, remaining-time metric mismatch and uncalibrated uncertainty; frozen outputs and negative gates are preserved.",
-    "Terminal commita03597b also exposed a frozen fault-injection test routing every evidence-insufficient terminal to historical004C2. The 004C5 schema route is valid, but this test must be updated under a future explicitly tested maintenance subject. A missing first_run_evidence summary for new2016 registry is corrected from the existing fixed decision; no case outputs change."
+    "Terminal commita03597b also exposed a frozen fault-injection test routing every evidence-insufficient terminal to historical004C2. The 004C5 schema route is valid, but this test must be updated under a future explicitly tested maintenance subject. A missing first_run_evidence summary for new2016 registry is corrected from the existing fixed decision; no case outputs change.",
+    "RC8 fresh batch planned2/started2/executed2/completed2/scientificPASS0.2016 is EVIDENCE_INSUFFICIENT;2015 is FAILED for Final prerequisite order despite independently supported conditional numerical outputs. Original positive-proposal audit FAIL and second audit PASS of the negative decision are distinct. Both terminal cases are immutable and cannot be rerun under this episode."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
@@ -307,11 +311,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "C-TARGET-FRESH-VALIDATION-IN-PROGRESS",
+  "subphase": "C-TARGET-FRESH-VALIDATION-TERMINAL",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "C_TARGET_VALIDATION_IN_PROGRESS",
+  "technical_adjudication_status": "C_TARGET_VALIDATION_FAILED",
   "third_party_integrated": false,
-  "updated_at": "2026-09-08T22:04:47.732515+00:00",
+  "updated_at": "2026-09-08T23:13:18.995181+00:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json",

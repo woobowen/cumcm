@@ -1,0 +1,47 @@
+.venv/bin/python - <<'PY'
+import pathlib,json,csv,math,bisect,datetime,hashlib
+began=datetime.datetime.now(datetime.timezone.utc).isoformat()
+raw=pathlib.Path('.cache/pr12-rc8/fresh/2015/case/data/raw');base=pathlib.Path('evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle')
+o=json.loads((base/'runs/RUN-2015-TOPOCENTRIC/output.json').read_text());cities=json.loads((base/'data/processed/settings.json').read_text())['cities'];series={}
+for body in ['sun','moon']:
+ rr=list(csv.reader((raw/(body+'_geocentric.txt')).read_text().split('$$SOE')[1].split('$$EOE')[0].strip().splitlines()));seq=[[float(r[0]),float(r[3]),float(r[4]),float(r[5])] for r in rr]
+ for j in range(1,len(seq)):
+  seq[j][1]=seq[j-1][1]+((seq[j][1]-seq[j-1][1]+180)%360-180)
+ series[body]=([r[0] for r in seq],seq)
+def coordinates(jd,c,body):
+ xs,rr=series[body];idx=max(0,min(len(xs)-4,bisect.bisect_right(xs,jd)-2));v=[]
+ for col in [1,2,3]:
+  v.append(math.fsum(rr[idx+j][col]*math.prod((jd-xs[idx+k])/(xs[idx+j]-xs[idx+k]) for k in range(4) if k!=j) for j in range(4)))
+ ra,dec=map(math.radians,v[:2]);r=v[2];day=jd-2451545;T=day/36525;gm=18.697374558+24.06570982441908*day+0.000025862*T*T
+ nut=(-0.000319*math.sin(math.radians(125.04-0.052954*day))-0.000024*math.sin(math.radians(560.94+1.97130*day)))*math.cos(math.radians(23.4393-0.0000004*day))
+ hour=math.radians(15*((gm+nut)%24)+c[0])-ra;phi=math.radians(c[1]);sp,cp=math.sin(phi),math.cos(phi);f=1/298.257223563;e2=f*(2-f);N=6378.137/math.sqrt(1-e2*sp*sp)
+ east=-r*math.cos(dec)*math.sin(hour)
+ north=r*(math.sin(dec)*cp-math.cos(dec)*math.cos(hour)*sp)+N*e2*sp*cp
+ up=r*(math.cos(dec)*math.cos(hour)*cp+math.sin(dec)*sp)-N*(1-e2*sp*sp)-c[2]
+ return math.degrees(math.atan2(up,math.hypot(east,north))),math.degrees(math.atan2(east,north))%360
+refdiff=[];refraw=[]
+for r in o['reference_comparison']:
+ h,z=coordinates(r['jd'],cities[r['city']],r['body']);refdiff.append(abs(h-r['computed_alt_deg']));refraw.append(h-r['reference_alt_deg'])
+scopes={'NOMINAL':{'parameters':{},'events':o['events']},**o['sensitivity']};summ={};pointcount=0
+for label,sc in scopes.items():
+ kw=sc['parameters'];ml,mh=kw.get('moonlo',8),kw.get('moonhi',12);sl,sh=kw.get('sunlo',-12),kw.get('sunhi',-6);viol=[];boundary=[];rise=[];fall=[];midfield=[];narrow=[]
+ for city,rows in sc['events'].items():
+  c=list(cities[city]);c[1]+=kw.get('latitude_shift',0)
+  for row in rows:
+   times=[row['start_jd'],(row['start_jd']+row['end_jd'])/2,row['end_jd']];hv=[];sv=[]
+   for t in times:
+    h,z=coordinates(t,c,'moon');s,_=coordinates(t,c,'sun');pointcount+=1;hv.append(h);sv.append(s);viol.extend([max(0,ml-h,h-mh),max(0,sl-s,s-sh)])
+   boundary.extend([min(abs(hv[0]-ml),abs(sv[0]-sh)),min(abs(hv[-1]-mh),abs(sv[-1]-sl))]);rise.append((hv[-1]-hv[0])/((times[-1]-times[0])*86400));fall.append((sv[-1]-sv[0])/((times[-1]-times[0])*86400));midfield.extend([abs(hv[1]-row['moon_alt_mid_deg']),abs(sv[1]-row['sun_alt_mid_deg'])])
+   if label=='NOMINAL' and city=='Kunming' and row['date']=='2016-07-20':narrow.append({'moon_start_mid_end_deg':hv,'sun_start_mid_end_deg':sv,'moon_slope_deg_per_sec':rise[-1],'sun_slope_deg_per_sec':fall[-1],'seconds_per_005deg_moon':0.05/rise[-1],'seconds_per_005deg_sun':0.05/abs(fall[-1])})
+ summ[label]={'windows':sum(len(v) for v in sc['events'].values()),'max_domain_violation_deg':max(viol),'max_endpoint_boundary_residual_deg':max(boundary),'max_midpoint_altitude_residual_deg':max(midfield),'min_moon_rise_deg_per_second':min(rise),'max_sun_slope_deg_per_second':max(fall),'narrow_window_detail':narrow}
+solar=[];lunar=[];datebad=0;increasing=0;sun_desc=[]
+for city,rows in o['daily_calendar'].items():
+ for r in rows:
+  day=datetime.date.fromisoformat(r['date']);a=datetime.datetime.combine(day,datetime.time(),datetime.timezone(datetime.timedelta(hours=8))).timestamp()/86400+2440587.5
+  for field,level in [('sunset_jd',-.833),('dusk_start_jd',-6),('dusk_end_jd',-12)]:
+   t=r[field];h,_=coordinates(t,cities[city],'sun');solar.append(abs(h-level));datebad+=not(a+.5<=t<a+1)
+  for t in r['moon10_rising_jd']:
+   h,_=coordinates(t,cities[city],'moon');lunar.append(abs(h-10));datebad+=not(a<=t<a+1)
+obs={'method':'Bounded direct horizontal-projection recalculation at frozen reference, event endpoint/midpoint and daily-calendar times only. Scalar stdlib four-point interpolation, WGS84 ellipsoid algebra; no producer/checker imports, no root search/new model/Final execution.','reference_max_difference_from_producer_deg':max(refdiff),'reference_recalculated_rmse_deg':math.sqrt(math.fsum(v*v for v in refraw)/len(refraw)),'reference_recalculated_max_abs_deg':max(map(abs,refraw)),'scene_times_checked':pointcount,'scope_checks':summ,'daily_solar_values_checked':len(solar),'daily_solar_max_abs_boundary_deg':max(solar),'daily_moon_values_checked':len(lunar),'daily_moon10_max_abs_boundary_deg':max(lunar),'daily_time_domain_violations':datebad}
+s=json.dumps(obs,ensure_ascii=False,sort_keys=True,separators=(',',':'));print(json.dumps({'receipt_id':'AUDIT-2015-POSITIONS-002','started_at':began,'ended_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':0,'stdout':s,'stdout_sha256':hashlib.sha256(s.encode()).hexdigest(),'stderr':'','stderr_sha256':hashlib.sha256(b'').hexdigest()},ensure_ascii=False,indent=2))
+PY

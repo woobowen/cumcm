@@ -1,0 +1,91 @@
+{
+  "audit_id": "AUDIT-RC8-2015C-POST-DECISION-002",
+  "role": "automated_decision_auditor",
+  "round": "POST_DECISION",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "bundle_id": "RC8-2015C-TERMINAL-DECISION-AUDIT-002",
+  "bundle_hash": "9233648e3f9408389850c613f30f91720bdd13ce06e71a4df36d34ca05d2bf10",
+  "verdict": "PASS",
+  "findings": [
+    {
+      "finding_id": "F2015-R2-001",
+      "severity": "INFO",
+      "target": "Acceptance of the revised negative decision",
+      "statement": "PASS endorses only the revised C_TARGET_VALIDATION_FAILED disposition for this case. It does not endorse scientific PASS. The proposal faithfully adopts F2015-001 as ACCEPTED_UNRESOLVED_PROTOCOL_FAILURE, sets proposed_scientific_passed=false and proposed_whole_problem_scientifically_accepted=false, preserves earlier numerical work without treating it as an earlier Gate, and prohibits retrospective fixes and post-terminal model runs. Original F2015-001 remains an unresolved blocker against accepting the original positive proposal; it is not a blocker against recording the correctly negative terminal outcome.",
+      "evidence_refs": [
+        "DECISION-C-TARGET-VALIDATION-004C5-2015-PROPOSAL-002",
+        "AUDIT-RC8-2015C-POST-DECISION-001",
+        "F2015-001"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/adjudication_proposal_002.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/native_audit/audit.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/adjudication_proposal.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Compare revised terminal status, scientific-acceptance flags and disposition F2015-001 with the preserved original audit and frozen chronology.",
+      "pass_condition": "The recorded outcome remains FAILED for the historical prerequisite violation, with no waiver, rerun or reclassification as scientific PASS.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "F2015-R2-002",
+      "severity": "INFO",
+      "target": "Preservation of predecessor, science and execution counts",
+      "statement": "The saved original audit retains verdict FAIL, blocker F2015-001 and canonical output hash 24bfeb4d383b7f95ce09ee26af52fab9d15fb928f7edb0e285ef45834d081355. The revised proposal preserves all seven dispositions, conditional scientific support, shared-JPL and narrow-window limitations, the auditor's corrected CSV-order assumption, native READY and the common wrapper's NOT_RUN status. Its case counts match the reviewed evidence: two model captures, two original development checks, three later checker replays, one nonpredictive Final authorization and zero predictive test accesses. Its 99 nominal windows, 2562 daily rows, 503 perturbation windows and independent arithmetic figures match the predecessor. The live case state is retained as observed evidence and does not override terminal rejection.",
+      "evidence_refs": [
+        "AUDIT-RC8-2015C-POST-DECISION-001",
+        "RUN-2015-TOPOCENTRIC",
+        "RUN-2015-GEOCENTRIC",
+        "DECISION-C-TARGET-VALIDATION-004C5-2015-PROPOSAL-002"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/native_audit/audit.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/native_audit/read_manifest.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/adjudication_proposal_002.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/audit_replay_receipts_addendum.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Verify predecessor bytes and canonical output hash; compare every revised finding disposition and case-specific numerical/process count with the preserved original audit.",
+      "pass_condition": "No predecessor overwrite, erased failure, inflated success count, invented wrapper execution or weakened scientific limitation.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "F2015-R2-003",
+      "severity": "WARNING",
+      "target": "Case-specific review boundary and global routing",
+      "statement": "This audit accepts the case-specific negative decision. The proposal's batch_effect_after_acceptance totals for two cases and its assertion about existing global next_phase_allowed=null are outside the permitted single-case evidence scope and were not independently verified. They must rely on separately authorized main-agent evidence. The proposal authorizes no Phase 003 or Phase 002D transition, no additional Final and no post-terminal model runs; this audit likewise grants none. An empty blockers array here means no blocker to the negative decision within this scope, not resolution of the original scientific-acceptance blocker.",
+      "evidence_refs": [
+        "DECISION-C-TARGET-VALIDATION-004C5-2015-PROPOSAL-002"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/decision_review_input_002.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/adjudication_proposal_002.json"
+      ],
+      "testability": "NON_TESTABLE_CLAIM",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "UNRESOLVED"
+    }
+  ],
+  "blockers": [],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "api_calls": 0,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "uncertainties": [
+    "Runtime model and reasoning setting are not exposed; INHERITED_PARENT_UNEXPOSED is retained.",
+    "This is a separate review of the revised negative proposal. Original audit FAIL and unresolved F2015-001 remain immutable.",
+    "The expected negative proposal was read; expected_conclusion_visible is omitted rather than falsely set to false.",
+    "No new scientific recalculation, producer/checker/controller execution, Final access, network, filesystem mutation or peer/other-case reading occurred in this follow-up.",
+    "Global project state and other-case aggregate counts were not verified."
+  ],
+  "created_at": "2026-09-08T23:05:29.997674+00:00",
+  "output_hash": "3b13bcec39fffed963cdb588213a29a62d805559c5386e1a3da16684ee5db421"
+}

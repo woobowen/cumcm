@@ -1,0 +1,224 @@
+{
+  "audit_id": "AUDIT-RC8-2015C-POST-DECISION-001",
+  "role": "automated_decision_auditor",
+  "round": "POST_DECISION",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "model": "INHERITED_PARENT_UNEXPOSED",
+  "reasoning_setting": "INHERITED_PARENT_UNEXPOSED",
+  "bundle_id": "RC8-2015C-TERMINAL-DECISION-AUDIT-001",
+  "bundle_hash": "cd5948659d86cb6207f0f57a2b098c82c7dd4fb0c2f92262ac01eb2108a1a584",
+  "verdict": "FAIL",
+  "findings": [
+    {
+      "finding_id": "F2015-001",
+      "severity": "BLOCKER",
+      "target": "Final prerequisite ordering and proposed terminal status",
+      "statement": "Recommend C_TARGET_VALIDATION_FAILED for this fixed episode because its mandatory protocol order was violated. The frozen Skill requires selection-check before Final and Final selection by comparison/robustness Gates; the generic fresh protocol requires all 14 stages in order and prohibits crossing a blocked prerequisite. Actual Final authorization started at 22:28:14.968512Z and completed at 22:28:18.872464Z; selection-check was invoked at 22:28:18.886247Z, compare-check at 22:28:18.951645Z, and formal robustness acceptance at 22:28:19.086355Z. The pre-Final observation explicitly records both formal Gates NOT_YET_ACCEPTED. Earlier numerical comparison/sensitivity and the 22:25:58.148546Z configuration lock are real, but do not satisfy those earlier Gate requirements. Frozen core's scientific_verification_count=1 requirement explains the conflict; main routing permission and later READY do not remove it.",
+      "counterexample": null,
+      "evidence_refs": [
+        "RUN-2015-TOPOCENTRIC",
+        "DECISION-C-TARGET-VALIDATION-004C5-2015-PROPOSAL",
+        "CUMCM-2015-C-VALIDATION-005-PRE-RUN-FREEZE-001"
+      ],
+      "file_references": [
+        ".agents/skills/cumcm-modeling-evidence/SKILL.md",
+        ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/controller.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/pre_final_ordering_observation.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/state/cli_journal.jsonl",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/evidence/nonpredictive_final_verification.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Compare the immutable Final ledger with CLI journal times, pre-Final observation and frozen ordering requirements; do not execute another Final or alter this episode.",
+      "pass_condition": "Actual required Gate acceptance and selection-check precede the one Final authorization under a coherent frozen protocol. The historical ordering in this episode cannot be repaired retroactively.",
+      "status": "UNRESOLVED"
+    },
+    {
+      "finding_id": "F2015-002",
+      "severity": "INFO",
+      "target": "Original primary questions and bounded model adequacy",
+      "statement": "The original DOCX expressly permits definitions and appropriate simplifications. The nine primary requirements retain the geometric definition, separate event calendars, astronomical-reference check, Beijing dates and all six other cities. Apparent geocentric equatorial forcing, GAST rotation and WGS84 observer subtraction form an adequate conditional coordinate model for the stated airless, nominal-site scenario. A movable tree direction and explicit altitude/twilight bands are assumptions, not discovered historical facts. No omitted primary question or demonstrated numerical contradiction was found within that conditional scope.",
+      "counterexample": null,
+      "evidence_refs": [
+        "REQ-DEFINITION",
+        "REQ-VALIDATION",
+        "CLAIM-2015-BEIJING",
+        "CLAIM-2015-HARBIN",
+        "CLAIM-2015-SHANGHAI",
+        "CLAIM-2015-GUANGZHOU",
+        "CLAIM-2015-KUNMING",
+        "CLAIM-2015-CHENGDU",
+        "CLAIM-2015-URUMQI"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/scientific_report.md",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/problem/problem_requirements.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/models/assumptions_and_symbols.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/solve.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/runs/RUN-2015-TOPOCENTRIC/output.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Map every original question to the frozen requirement, generated output and explicitly bounded claim.",
+      "pass_condition": "All original questions remain represented with actual date/time outputs and limitations; no field accuracy or unique poem interpretation is asserted.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "F2015-003",
+      "severity": "INFO",
+      "target": "Independent arithmetic and published tables",
+      "statement": "Independent stdlib arithmetic verified 168 unique reference identities per candidate: selected RMSE 0.0007493858157717232 degrees and maximum error 0.0014453845183588498 degrees; baseline RMSE 0.5280663445125288 degrees and maximum 1.0226913911258964 degrees. Raw-reference residual mismatch is zero. The selected output contains 99 nominal windows, 2562 daily rows and 503 perturbation windows. A separately derived scalar horizontal-projection recalculation at 1806 existing scene times, 7686 solar-calendar times and 2475 lunar-calendar times found no daily time-domain violation; maximum daily boundary residual was 0.000008793025308762026 degrees. Keyed comparison of nominal, perturbation and reference CSVs found zero field mismatches across 99, 503 and 168 rows. An initial auditor positional CSV comparison incorrectly assumed identical city order and treated added run_id provenance as error; it was corrected without changing candidate evidence, and both observations are preserved.",
+      "counterexample": null,
+      "evidence_refs": [
+        "RUN-2015-GEOCENTRIC",
+        "RUN-2015-TOPOCENTRIC",
+        "CLAIM-2015-VALIDATION"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/check.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/runs/RUN-2015-GEOCENTRIC/output.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/runs/RUN-2015-TOPOCENTRIC/output.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/tables/scene_windows_2016.csv",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/tables/sensitivity_scene_windows_2016.csv",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/tables/reference_position_comparison.csv"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Read-only recalculation of frozen reference arithmetic, reported event coordinates and CSV identity/field mappings; no producer, checker, controller or Final invocation.",
+      "pass_condition": "Recomputed quantities agree within frozen numerical tolerances; CSV identities and numeric fields agree exactly.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "F2015-004",
+      "severity": "WARNING",
+      "target": "Validation independence, narrow windows and event completeness",
+      "statement": "Producer and checker use distinct interpolation/parallax/root implementations, but share JPL dynamics, approximate sidereal theory and the same interval-pairing logic. The existing checker reconstructs all dates and counts; native audit inspected the search domains and verified reported endpoints rather than launching another full event search. No missed event counterexample was found, but this is not an independent continuous ephemeris-accuracy certificate. The narrowest nominal window, Kunming 2016-07-20, lasts 15.936344861984253 seconds. Its lunar and solar slopes are approximately 0.0033971873 and -0.0032893388 degrees/second; the 0.05-degree reference acceptance tolerance corresponds to about 14.72 and 15.20 seconds respectively. The two-second algorithm-agreement tolerance therefore cannot guarantee physical existence or timing of every narrow window. Current conditional and visibility limitations are necessary and must accompany these outputs.",
+      "counterexample": null,
+      "evidence_refs": [
+        "CLAIM-2015-KUNMING",
+        "CLAIM-2015-VALIDATION",
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/solve.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/check.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/pre_run/PRE_RUN_PROTOCOL.md",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/scientific_report.md",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/runs/RUN-2015-TOPOCENTRIC/output.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Compare the frozen narrow-window duration and endpoint altitude slopes with the distinct angular and timing tolerances; inspect full-date enumeration and source dependence.",
+      "pass_condition": "Retain conditional numerical scope and explicitly distinguish implementation agreement, sampled reference accuracy and real observing-window robustness.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "F2015-005",
+      "severity": "INFO",
+      "target": "Input/code provenance and replay stability",
+      "statement": "The original bundle and all 125 bound files/inputs matched their hashes. The allowed Skill, core, audit schema and common wrapper matched the frozen candidate snapshot. Both model captures bind 22 exact frozen inputs, four matching code files, commit 675b37c5c804858518d57732e950122045826119, zero exits and matching stream hashes. Supplement a17fc707c4fc2324ad9f2ef1c09af8387dc65f0386428c76c99df4cd00607caf adds 12 preserved replay files, all verified. The selected Final replay ran 22:28:15-18Z; two subsequent Gate replays ran 22:28:19-23Z and 22:28:23-27Z. All three result hashes equal the development scientific check ac8710e4caf35a1d6085ded7d7a247b386e36339954d5170cbbda145a3455b1b. These are three actual additional checker subprocesses, one Final authorization and zero predictive test accesses. The Final replay evidence gap in the original allowlist is resolved by the fixed supplement.",
+      "counterexample": null,
+      "evidence_refs": [
+        "RUN-2015-GEOCENTRIC",
+        "RUN-2015-TOPOCENTRIC",
+        "CANDIDATE-COMPETITION-RC8-004C5"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/audit_input_bundle.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/audit_replay_receipts_addendum.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/runs/RUN-2015-TOPOCENTRIC/execution_capture.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/runs/RUN-2015-TOPOCENTRIC/scientific_check_capture.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/evidence/nonpredictive_final_verification.json",
+        "evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Hash the frozen files before and after audit; check capture input/code/stream bindings and equality of the three preserved replay results.",
+      "pass_condition": "No hash drift; preserved replay receipts remain bound to the same selected run, result and code subject. Do not count deterministic replays as independent scientific replications.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "F2015-006",
+      "severity": "INFO",
+      "target": "Hardcoding, thresholds, recovery, source classes and actual route",
+      "statement": "No result-count hardcoding, post-result threshold mutation, majority voting or ranking of failed/recovered model attempts was observed in this fixed package. Case constants agree with the preregistered scenario; the selected candidate follows actual frozen RMSE argmin. All five declared perturbations change inputs/definitions and have actual recomputed tables. Fourteen HTTP 502 acquisition failures remain in the pre-result retrieval ledger; they are not model scores. All numerical model attempts succeeded, with baseline reference-accuracy failure explicitly retained. Sources distinguish 20 THEORETICAL records and one ASSUMPTION record, and claims retain conditional/numerical strengths. The actual case-owned frozen controller invoked native core/CLI and reached READY. The common finalize_fresh_c_validation.py wrapper was not invoked; no wrapper PASS is inferred. Machine READY, nine supported labels, schema validity and CI counts do not override F2015-001.",
+      "counterexample": null,
+      "evidence_refs": [
+        "RUN-2015-GEOCENTRIC",
+        "RUN-2015-TOPOCENTRIC",
+        "SRC-SCENARIO",
+        "CLAIM-2015-VALIDATION"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/controller.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/solve.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/check.py",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/experiments/experiment_plan.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/research/retrieval_ledger.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/research/source_ledger.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/evidence/semantic_claim_support.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/case_bundle/evidence/selected_configuration_lock.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/adjudication_proposal.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Compare frozen protocol, source ledger, actual captures, selected scores, perturbation parameters and controller/CLI trace.",
+      "pass_condition": "No data or result-dependent threshold changes; no discarded failure ranks, invented wrapper execution, source-class inflation or vote-based technical acceptance.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "F2015-007",
+      "severity": "WARNING",
+      "target": "Evidence-insufficiency output and Phase 003/Phase 002D routing scope",
+      "statement": "The proposal is ineffective and explicitly permits FAILED, EVIDENCE_INSUFFICIENT and INCOMPLETE outcomes, so this auditor is not forced to endorse PASS. The known historical ordering contradiction warrants FAILED rather than merely guessing insufficient evidence. No Phase 003 or Phase 002D state/routing artifacts are in the authorized scientific case bundle. Their global enforcement was therefore not verified, and this audit neither authorizes Phase 003 nor changes Phase 002D routing or project state. A case-level numerical result cannot discharge those separate gates.",
+      "counterexample": null,
+      "evidence_refs": [
+        "DECISION-C-TARGET-VALIDATION-004C5-2015-PROPOSAL"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/adjudication_proposal.json",
+        "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/audit_input_bundle.json"
+      ],
+      "testability": "NON_TESTABLE_CLAIM",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "UNRESOLVED"
+    }
+  ],
+  "blockers": [
+    "F2015-001"
+  ],
+  "cost_assessment": {
+    "benefit_metrics": [
+      "Nine original primary requirements mapped to actual outputs.",
+      "125 original frozen files/inputs and 12 replay files hashed.",
+      "168 unique reference points per candidate independently recomputed.",
+      "1806 existing scene times and 10161 daily event times independently checked."
+    ],
+    "token_cost": "Actual token usage not exposed.",
+    "time_cost": "Audit began at approximately 2026-09-08T22:41Z; all audit recalculations were bounded read-only operations. Existing case captures include two model runs, two original development checks and three later selected checker replays.",
+    "maintenance_cost": "The frozen nonpredictive core and mandatory workflow ordering disagree; changing that design belongs to a separately authorized future revision, not this fixed episode.",
+    "stop_conditions": [
+      "Do not launch new model, acquisition, controller or Final runs for this audit.",
+      "Retain F2015-001; no retrospective timestamp repair or threshold change.",
+      "Do not promote the case to scientific PASS while the protocol BLOCKER remains."
+    ],
+    "simplest_alternative": "Preserve the fixed conditional scientific results and record C_TARGET_VALIDATION_FAILED with the ordering reason; address future workflow coherence outside this episode."
+  },
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "api_calls": 0,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "uncertainties": [
+    "Runtime model and reasoning settings are not exposed; both are reported as INHERITED_PARENT_UNEXPOSED.",
+    "The main proposal was read; expected_conclusion_visible is intentionally omitted rather than falsely set to false.",
+    "Original and supplemental frozen bytes were reviewed; no peers, other cases, solutions, sealed answers, vault or global state were read.",
+    "Full native re-enumeration was not launched. Completeness assessment combines code/domain inspection, the preserved independent checker and bounded recalculation at existing event times.",
+    "No independent observational or orbital-dynamics validation is claimed.",
+    "Remote delivery is evidenced by the frozen delivery records; no network or fresh remote verification was performed."
+  ],
+  "created_at": "2026-09-08T22:52:56.456754+00:00",
+  "output_hash": "24bfeb4d383b7f95ce09ee26af52fab9d15fb928f7edb0e285ef45834d081355"
+}

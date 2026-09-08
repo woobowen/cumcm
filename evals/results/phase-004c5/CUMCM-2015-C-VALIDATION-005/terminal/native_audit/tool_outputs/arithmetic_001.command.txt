@@ -1,0 +1,24 @@
+.venv/bin/python - <<'PY'
+import pathlib,json,csv,math,hashlib,datetime,collections
+started=datetime.datetime.now(datetime.timezone.utc).isoformat()
+b=pathlib.Path('evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts')
+raw=pathlib.Path('.cache/pr12-rc8/fresh/2015/case/data/raw')
+obs={'method':'Independent stdlib arithmetic from frozen raw references and outputs; no producer/checker/controller execution, no root search, no writes.'}
+for candidate in ['GEOCENTRIC','TOPOCENTRIC']:
+ p=b/'case_bundle/runs'/('RUN-2015-'+candidate)/'output.json';o=json.loads(p.read_text());errs=[];mismatch=[];ids=[]
+ for row in o['reference_comparison']:
+  refs=list(csv.reader((raw/(row['city']+'_'+row['body']+'_reference.txt')).read_text().split('$$SOE')[1].split('$$EOE')[0].strip().splitlines()))
+  ref={float(r[0]):float(r[4]) for r in refs}[row['jd']];e=row['computed_alt_deg']-ref;errs.append(e);mismatch.append(abs(e-row['alt_residual_deg']));ids.append((row['city'],row['body'],row['jd']))
+ obs[candidate]={'reference_rows':len(errs),'unique_reference_identities':len(set(ids)),'rmse_deg':math.sqrt(math.fsum(e*e for e in errs)/len(errs)),'max_abs_deg':max(map(abs,errs)),'raw_residual_mismatch_max_deg':max(mismatch),'city_event_counts':{c:len(v) for c,v in o['events'].items()}}
+o=json.loads((b/'case_bundle/runs/RUN-2015-TOPOCENTRIC/output.json').read_text())
+obs['nominal_windows']={'total':sum(map(len,o['events'].values())),'minima_seconds':{c:min((r['end_jd']-r['start_jd'])*86400 for r in v) for c,v in o['events'].items()},'narrowest':sorted([{'city':c,'date':r['date'],'seconds':(r['end_jd']-r['start_jd'])*86400,'start_cst':r['start_cst'],'end_cst':r['end_cst']} for c,v in o['events'].items() for r in v],key=lambda r:r['seconds'])[:4]}
+obs['calendar']={c:{'rows':len(v),'unique_dates':len({r['date'] for r in v}),'first_date':v[0]['date'],'last_date':v[-1]['date'],'no_moon10_days':sum(not r['moon10_rising_jd'] for r in v),'earliest_sunset_CST_hour':min(((r['sunset_jd']-2440587.5)*24+8)%24 for r in v),'latest_dusk_end_CST_hour':max(((r['dusk_end_jd']-2440587.5)*24+8)%24 for r in v)} for c,v in o['daily_calendar'].items()}
+obs['perturbations']={k:{'parameters':v['parameters'],'total':sum(len(x) for x in v['events'].values()),'counts_match':all(len(v['events'][c])==n for c,n in v['city_event_counts'].items())} for k,v in o['sensitivity'].items()}
+allrows=[r for v in o['events'].values() for r in v];obs['duration_max_residual_seconds']=max(abs((r['end_jd']-r['start_jd'])*86400-r['duration_minutes']*60) for r in allrows)
+obs['csv_rows']={name:len(list(csv.DictReader((b/'tables'/name).open()))) for name in ['scene_windows_2016.csv','daily_astronomical_calendar_2016.csv','reference_position_comparison.csv','sensitivity_counts.csv','sensitivity_scene_windows_2016.csv']}
+obs['raw_forcing']={}
+for body in ['sun','moon']:
+ rows=list(csv.reader((raw/(body+'_geocentric.txt')).read_text().split('$$SOE')[1].split('$$EOE')[0].strip().splitlines()));t=[float(r[0]) for r in rows];dec=[float(r[4]) for r in rows];obs['raw_forcing'][body]={'rows':len(rows),'first_jd':t[0],'last_jd':t[-1],'min_step_seconds':min((y-x)*86400 for x,y in zip(t,t[1:])),'max_step_seconds':max((y-x)*86400 for x,y in zip(t,t[1:])),'declination_min_deg':min(dec),'declination_max_deg':max(dec)}
+s=json.dumps(obs,ensure_ascii=False,sort_keys=True,separators=(',',':'))
+print(json.dumps({'receipt_id':'AUDIT-2015-ARITHMETIC-001','started_at':started,'ended_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':0,'stdout':s,'stdout_sha256':hashlib.sha256(s.encode()).hexdigest(),'stderr':'','stderr_sha256':hashlib.sha256(b'').hexdigest()},ensure_ascii=False,indent=2))
+PY

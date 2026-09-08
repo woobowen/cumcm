@@ -78,7 +78,7 @@ planned_cases:
   year: 2015
   set_type: VALIDATION
   target_problem_type: C
-  status: IN_PROGRESS
+  status: FAILED
   batch_position: 2
   planned_denominator: 2
   skill_version: 0.2.0-competition-rc8
@@ -88,6 +88,8 @@ planned_cases:
   maximum_wall_seconds: 7200
   protocol: evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md
   input_accessed: true
+  episode_completed: true
+  scientific_passed: false
 held_out_reservations:
 - reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
   set_type: HELD_OUT
@@ -1146,8 +1148,13 @@ cases:
     .cache/pr12-rc8/fresh/2015/case/data/raw/sun_geocentric.txt: 3eb1e06a953d2bb28e6f200b56d881916cc736808590bc3f6377dda712aaa7c7
     .cache/pr12-rc8/fresh/2015/case/data/raw/usno_sidereal.html: c0a6256702ca71af496015b73f7a61be4c07cb2816dbc438d775a08e08d02371
   answer_access_status: SEALED
-  first_run_status: IN_PROGRESS
-  first_run_freeze: null
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2015-C-VALIDATION-005-TERMINAL-001
+    path: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/terminal_freeze.json
+    sha256: 065c8bf72c266750d2555ae505e8cc42a05f5112650c0a38e15d492ce470eb5c
+    subject_commit: 675b37c5c804858518d57732e950122045826119
+    status: FROZEN_PENDING_REMOTE_DELIVERY
   reference_unlock: LOCKED
   generalization_axis:
   - FRESH_PROBLEM_UNDER_FROZEN_RC8
@@ -1159,10 +1166,17 @@ cases:
   model: UNKNOWN
   reasoning: UNKNOWN
   start_time: '2026-09-08T21:56:33.948200+00:00'
-  freeze_time: null
+  freeze_time: '2026-09-08T23:13:18.995181+00:00'
   unlock_time: null
-  generalizable_failures: []
-  problem_specific_findings: []
+  generalizable_failures:
+  - NONPREDICTIVE_FINAL_PREREQUISITE_CYCLE
+  - READY_DOES_NOT_PROVE_FROZEN_STAGE_ORDER
+  - SHARED_REFERENCE_NUMERICAL_CHECK_NOT_EXTERNAL_TRUTH
+  - ALGORITHM_TOLERANCE_NOT_PHYSICAL_WINDOW_ROBUSTNESS
+  problem_specific_findings:
+  - Nine primary requirements retain conditional astronomical outputs:99 nominal windows/2562
+    daily rows/503 perturbation windows. Native audit verifies calculations but rejects
+    formal protocol order.
   contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   registration: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/registration/input_registration.json
@@ -1174,3 +1188,19 @@ cases:
     commit: 6f01263ee23120f2934fc15a755b43c029db146b
     remote_sha: 6f01263ee23120f2934fc15a755b43c029db146b
     delivery_path: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/pre_run/pre_run_validation_freeze_delivery.json
+  terminal_result: C_TARGET_VALIDATION_FAILED
+  validation_decision: C_TARGET_VALIDATION_FAILED
+  terminal_decision: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/decision.json
+  terminal_freeze: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/terminal_freeze.json
+  same_case_future_role: DEVELOPMENT_ONLY
+  first_run_evidence:
+    skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+    run_count: 2
+    successful_run_count: 2
+    controller_status: READY_FOR_PAPER_HANDOFF_VIA_CASE_OWNED_CONTROLLER
+    validation_decision: C_TARGET_VALIDATION_FAILED
+    terminal_freeze_path: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/terminal_freeze.json
+    decision_path: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/decision.json
+    native_audit_path: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/native_audit/decision_review_002.json
+    final_evaluator_calls: 1
+    predictive_test_accesses: 0

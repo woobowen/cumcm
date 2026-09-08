@@ -181,3 +181,13 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  Main preregisters one case-owned2021 Q4 dual-certificate construction consuming the remaining
  ninth Development attempt, separate exact arithmetic verifier and original Run bindings.
  This is a supplemental conditional proof, not a new fresh case, new Skill or formal Gate pass.
+
+- 2026-09-08T23:13:18.995181+00:00:2015 C formally frozenFAILED for Final prerequisite ordering after original
+ nativeauditFAIL and separate Decision AuditorPASS of the negative revision. Both audits and
+ actual stdin/output evidence retained. Planned2/started2/executed2/completed2/scientificPASS0.
+ 2015 has2 model captures,2 original checkers,3 later checker subprocesses,Final1/test0;
+ 99 nominal windows,2562 daily rows,503 perturbation windows independently checked.
+ No post-terminal Run, shared mutation, answer unlock or next-phase advance. M4attempts complete.
+ Supplementary2021 Q4 rational certificate PASS atbf34549: exact interval
+ [40246.40307264615,40246.40311289259]m3.2021 budget9/9 consumed; whole-problem false.
+ M5current fullCI, consolidated report and remote terminal/final delivery remain pending.
