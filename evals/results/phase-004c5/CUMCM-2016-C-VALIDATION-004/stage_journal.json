@@ -1,0 +1,167 @@
+{
+  "case_id": "CUMCM-2016-C-VALIDATION-004",
+  "registered_set_type": "VALIDATION",
+  "episode_anchor": "2026-09-08T20:37:30Z",
+  "absolute_deadline": "2026-09-08T22:37:30Z",
+  "candidate_stop_deadline": "2026-09-08T22:17:30Z",
+  "revision": 2,
+  "active_case_root": ".cache/pr12-rc8/fresh/2016/case-r2",
+  "prior_revision": "STALE_PRESERVED_NOT_NEW_EPISODE",
+  "actual_numeric_authorization": {
+    "formal_remote_freeze_sha": "b71d00fc8944784c5213ba468d3e85afaed47949",
+    "confirmed_at": "2026-09-08T21:13:28Z",
+    "receipt": "pre_run/pre_run_validation_freeze_delivery.json",
+    "code_subject": "bee0a94cd0b04a17ceaf80830d482ac91366de1e"
+  },
+  "model_captures": 2,
+  "model_capture_cap_entire_episode": 4,
+  "failed_model_captures": 0,
+  "scientific_checker_captures": 2,
+  "final_test_access_count": 0,
+  "official_answers": "SEALED_NOT_ACCESSED",
+  "native_case_state": "RUNNING",
+  "native_case_state_sha256": "844209e3d27e5c134a681d821693488341f28d3c76eb51961dc7ff59a17e92d7",
+  "last_model_capture_end": "2026-09-08T21:14:22Z",
+  "last_checker_capture_end": "2026-09-08T21:14:26Z",
+  "worker_numeric_work_stopped_at": "2026-09-08T21:25:43.686560+00:00",
+  "candidate_fixed_for_readonly_review_at": "2026-09-08T21:25:43.686560+00:00",
+  "completion_controller": {
+    "status": "BLOCK_NATIVE_CONTRACTS",
+    "reason_codes": [
+      "RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE"
+    ],
+    "trace": "candidate_artifacts/case_records/evidence/gate_execution_trace.json",
+    "early_return_attempts_field_does_not_enumerate_actual_captures": true
+  },
+  "stages": [
+    {
+      "number": 1,
+      "stage": "PROBLEM_INTAKE",
+      "status": "PASS",
+      "evidence": [
+        "pre_run/pre_execution_gates_r2.json"
+      ],
+      "note": ""
+    },
+    {
+      "number": 2,
+      "stage": "REQUIREMENT_DECOMPOSITION",
+      "status": "PASS",
+      "evidence": [
+        "pre_run/pre_execution_gates_r2.json"
+      ],
+      "note": ""
+    },
+    {
+      "number": 3,
+      "stage": "RESEARCH_AND_SOURCE_PLANNING",
+      "status": "PASS",
+      "evidence": [
+        "pre_run/pre_execution_gates_r2.json"
+      ],
+      "note": ""
+    },
+    {
+      "number": 4,
+      "stage": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "status": "PASS",
+      "evidence": [
+        "pre_run/pre_execution_gates_r2.json"
+      ],
+      "note": ""
+    },
+    {
+      "number": 5,
+      "stage": "DATA_AUDIT",
+      "status": "PARTIAL_ALLOWED_FOR_BOUNDED_LOCAL_EXECUTION",
+      "evidence": [
+        "pre_run/pre_execution_gates_r2.json"
+      ],
+      "note": "Missing primaryQ3 target terminal truth is machine-recorded; never aggregate SUFFICIENT."
+    },
+    {
+      "number": 6,
+      "stage": "MODEL_PORTFOLIO_GENERATION",
+      "status": "PASS",
+      "evidence": [
+        "pre_run/pre_execution_gates_r2.json"
+      ],
+      "note": ""
+    },
+    {
+      "number": 7,
+      "stage": "BASELINE_DEFINITION",
+      "status": "PASS",
+      "evidence": [
+        "pre_run/pre_execution_gates_r2.json"
+      ],
+      "note": ""
+    },
+    {
+      "number": 8,
+      "stage": "EXPERIMENT_DESIGN",
+      "status": "PASS",
+      "evidence": [
+        "pre_run/binding_receipts.json"
+      ],
+      "note": ""
+    },
+    {
+      "number": 9,
+      "stage": "IMPLEMENTATION_AND_EXECUTION",
+      "status": "ACTUALLY_EXECUTED_LOCAL_MANIFESTS_PASS",
+      "evidence": [
+        "candidate_artifacts/execution_cli_receipts.json",
+        "candidate_artifacts/seal_manifest_cli_receipts.json"
+      ],
+      "note": "Two SUCCESS model captures and two independent checker captures; formal completion controller did not advance RUNNING."
+    },
+    {
+      "number": 10,
+      "stage": "MODEL_COMPARISON",
+      "status": "BLOCKED",
+      "evidence": [
+        "candidate_artifacts/diagnostic_gate_receipts.json"
+      ],
+      "note": "compare-check BLOCK on group_overlap. selection-check PASS verifies local binding only; numerical argmin is a Development proposal, not an accepted Final selection."
+    },
+    {
+      "number": 11,
+      "stage": "ROBUSTNESS_AND_SENSITIVITY",
+      "status": "NOT_REACHED",
+      "evidence": [
+        "candidate_artifacts/runs/RUN-2016-CUBIC-1729/output.json"
+      ],
+      "note": "Predesign input perturbations were numerically captured inside the model output; blocked predecessor prevents formal stage acceptance."
+    },
+    {
+      "number": 12,
+      "stage": "FINAL_RUN",
+      "status": "NOT_REACHED",
+      "evidence": [],
+      "note": "DEVELOPMENT_NO_FINAL_EVALUATION; Final budget0; no evaluator call, no Final Run, no heldout ledger."
+    },
+    {
+      "number": 13,
+      "stage": "CLAIM_EVIDENCE_VALIDATION",
+      "status": "NOT_REACHED",
+      "evidence": [
+        "candidate_artifacts/diagnostic_gate_receipts.json"
+      ],
+      "note": "Formal stage NOT_REACHED; supplementary read-only semantic CLI rejects missing predictive validation and unsupported facts. No Claim approval manufactured."
+    },
+    {
+      "number": 14,
+      "stage": "MODELING_TO_PAPER_HANDOFF",
+      "status": "NOT_REACHED",
+      "evidence": [
+        "candidate_artifacts/partial_handoff_candidate.json"
+      ],
+      "note": "Only unapproved supplementary PARTIAL handoff candidate. Formal handoff NOT_REACHED; approved_by remains empty."
+    }
+  ],
+  "installations": [],
+  "configuration_changes": [],
+  "independent_native_review_status": "PENDING_MAIN_READONLY_REVIEW",
+  "formal_terminal_decision_writer": "MAIN_ONLY"
+}

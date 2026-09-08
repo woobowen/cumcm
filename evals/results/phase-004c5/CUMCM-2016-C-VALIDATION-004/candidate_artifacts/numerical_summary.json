@@ -1,0 +1,78 @@
+{
+  "selected_development_run": "RUN-2016-CUBIC-1729",
+  "selected_candidate": "CUBIC_LOG_AFFINE",
+  "comparison_status": "BLOCK_GROUP_OVERLAP",
+  "controller_status": "BLOCK_NATIVE_CONTRACTS",
+  "scientific_status_proposal": "PARTIAL_INSUFFICIENT_PREDICTIVE_EVIDENCE",
+  "model_captures": 2,
+  "failed_model_captures": 0,
+  "final_test_access_count": 0,
+  "independent_checker_captures": 2,
+  "Q1": {
+    "MRE_percent": {
+      "20": 0.05997600695761777,
+      "30": 0.09708038170845851,
+      "40": 0.1114712531689968,
+      "50": 0.15197671351572417,
+      "60": 0.14218623861218124,
+      "70": 0.03888508241682039,
+      "80": 0.03662743422383348,
+      "90": 0.031723097445851375,
+      "100": 0.032102938888849415
+    },
+    "remaining_9_8V_min": {
+      "30": 591.6781530955875,
+      "40": 429.7914547407929,
+      "50": 326.1973895551347,
+      "60": 277.93658682099135,
+      "70": 254.68548351701736
+    }
+  },
+  "Q2": {
+    "mean_LOCO_MRE_percent": 1.0219758766339264,
+    "duration55_min": 1162.5881174419153,
+    "interpolation_weight": 0.5227586988632231
+  },
+  "Q3": {
+    "a_min": -1.3707657246563483,
+    "b": 0.705232734674424,
+    "current_elapsed_min": 596.2,
+    "current_voltage_V": 9.765,
+    "predicted_total_min": 789.641777244,
+    "predicted_remaining_min": 193.44177724399992,
+    "reference_specific_remaining_min": [
+      184.8260766817284,
+      192.96386667432728,
+      205.4754966063881
+    ],
+    "target_terminal_label_available": false
+  },
+  "uncertainty": {
+    "kind": "MODEL_AND_PREFIX_SENSITIVITY_NOT_CONFIDENCE_INTERVAL",
+    "reference_spread_min": [
+      184.8260766817284,
+      192.96386667432728,
+      205.4754966063881
+    ],
+    "prefix_perturbations": [
+      {
+        "id": "PREFIX_TIME_PLUS_1_MIN",
+        "remaining_min": 194.44177724399992,
+        "delta_min": 1.0
+      },
+      {
+        "id": "PREFIX_TIME_MINUS_1_MIN",
+        "remaining_min": 192.44177724399992,
+        "delta_min": -1.0
+      },
+      {
+        "id": "PREFIX_DROP_LAST_10",
+        "remaining_min": 191.9917845677527,
+        "delta_min": -1.4499926762472342
+      }
+    ],
+    "independent_battery_count": 1,
+    "target_error": "UNKNOWN"
+  },
+  "source_run_output_sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78"
+}

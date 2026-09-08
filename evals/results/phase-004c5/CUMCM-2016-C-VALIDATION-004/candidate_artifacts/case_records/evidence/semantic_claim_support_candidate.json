@@ -1,0 +1,352 @@
+{
+  "aggregate": {
+    "primary_requirement_ids": [
+      "REQ-Q1",
+      "REQ-Q2",
+      "REQ-Q3"
+    ],
+    "requirement_claim_ids": {
+      "REQ-Q1": "CLAIM-2016-Q1",
+      "REQ-Q2": "CLAIM-2016-Q2",
+      "REQ-Q3": "CLAIM-2016-Q3"
+    },
+    "status": "PARTIAL",
+    "supported_requirement_ids": [
+      "REQ-Q1"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "CLAIM-2016-Q1",
+      "claim_strength": "LOCAL_FITTED_MODEL",
+      "claim_type": "EMPIRICAL",
+      "comparator_ids": [],
+      "counter_evidence": [],
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "limitations": [
+        "State3 true 9V termination is absent; prediction accuracy unknown.",
+        "Only one battery across aging states; voltage rows are correlated, not independent battery replicates.",
+        "Initial voltage relaxation violates literal global monotonicity; inverse uses last downward crossing.",
+        "Q1 piecewise polynomial representation uses 17 or33 uniform-time knots plus first31 sample points, not one compact global elementary formula.",
+        "Q2 interpolates within20–100A only; no observation at55A exists.",
+        "All workbook rows were materialized by intake audit; no untouched Final labels are claimed. All reported cross-validation errors are Development diagnostics."
+      ],
+      "metric_ids": [
+        "q1_mean_fitted_MRE",
+        "q1_MRE_20A",
+        "q1_MRE_30A",
+        "q1_MRE_40A",
+        "q1_MRE_50A",
+        "q1_MRE_60A",
+        "q1_MRE_70A",
+        "q1_MRE_80A",
+        "q1_MRE_90A",
+        "q1_MRE_100A",
+        "q1_remaining_30A_min",
+        "q1_remaining_40A_min",
+        "q1_remaining_50A_min",
+        "q1_remaining_60A_min",
+        "q1_remaining_70A_min"
+      ],
+      "requirement_id": "REQ-Q1",
+      "scope": {
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ]
+      },
+      "selected_output_ids": [
+        "OUTPUT-REQ-Q1"
+      ],
+      "selected_run_ids": [
+        "RUN-2016-CUBIC-1729"
+      ],
+      "statement": "九条分段初等多项式放电曲线、231电压格点拟合MRE及30至70A在9.8V的模型剩余时间；拟合误差不等于新电池泛化误差。",
+      "status": "SUPPORTED",
+      "support_predicates": {
+        "held_out_test_valid": false,
+        "independent_numerical_recalculation": true,
+        "scope_bounded": true,
+        "validation_boundary_frozen": true
+      },
+      "uncertainty": {
+        "independent_battery_count": 1,
+        "kind": "MODEL_AND_PREFIX_SENSITIVITY_NOT_CONFIDENCE_INTERVAL",
+        "prefix_perturbations": [
+          {
+            "delta_min": 1.0,
+            "id": "PREFIX_TIME_PLUS_1_MIN",
+            "remaining_min": 194.44177724399992
+          },
+          {
+            "delta_min": -1.0,
+            "id": "PREFIX_TIME_MINUS_1_MIN",
+            "remaining_min": 192.44177724399992
+          },
+          {
+            "delta_min": -1.4499926762472342,
+            "id": "PREFIX_DROP_LAST_10",
+            "remaining_min": 191.9917845677527
+          }
+        ],
+        "reference_spread_min": [
+          184.8260766817284,
+          192.96386667432728,
+          205.4754966063881
+        ],
+        "target_error": "UNKNOWN"
+      }
+    },
+    {
+      "claim_id": "CLAIM-2016-Q2",
+      "claim_strength": "UNVALIDATED_FORECAST",
+      "claim_type": "PREDICTIVE",
+      "comparator_ids": [],
+      "counter_evidence": [],
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "limitations": [
+        "State3 true 9V termination is absent; prediction accuracy unknown.",
+        "Only one battery across aging states; voltage rows are correlated, not independent battery replicates.",
+        "Initial voltage relaxation violates literal global monotonicity; inverse uses last downward crossing.",
+        "Q1 piecewise polynomial representation uses 17 or33 uniform-time knots plus first31 sample points, not one compact global elementary formula.",
+        "Q2 interpolates within20–100A only; no observation at55A exists.",
+        "All workbook rows were materialized by intake audit; no untouched Final labels are claimed. All reported cross-validation errors are Development diagnostics."
+      ],
+      "metric_ids": [
+        "q2_loco_MRE"
+      ],
+      "requirement_id": "REQ-Q2",
+      "scope": {
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ]
+      },
+      "selected_output_ids": [
+        "OUTPUT-REQ-Q2"
+      ],
+      "selected_run_ids": [
+        "RUN-2016-CUBIC-1729"
+      ],
+      "statement": "20至100A内按相邻电流和归一化放电时间插值，给出55A曲线；精度证据为七个中间电流的留一电流诊断。",
+      "status": "INSUFFICIENT",
+      "support_predicates": {
+        "held_out_test_valid": false,
+        "independent_numerical_recalculation": true,
+        "scope_bounded": true,
+        "validation_boundary_frozen": true
+      },
+      "uncertainty": {
+        "independent_battery_count": 1,
+        "kind": "MODEL_AND_PREFIX_SENSITIVITY_NOT_CONFIDENCE_INTERVAL",
+        "prefix_perturbations": [
+          {
+            "delta_min": 1.0,
+            "id": "PREFIX_TIME_PLUS_1_MIN",
+            "remaining_min": 194.44177724399992
+          },
+          {
+            "delta_min": -1.0,
+            "id": "PREFIX_TIME_MINUS_1_MIN",
+            "remaining_min": 192.44177724399992
+          },
+          {
+            "delta_min": -1.4499926762472342,
+            "id": "PREFIX_DROP_LAST_10",
+            "remaining_min": 191.9917845677527
+          }
+        ],
+        "reference_spread_min": [
+          184.8260766817284,
+          192.96386667432728,
+          205.4754966063881
+        ],
+        "target_error": "UNKNOWN"
+      }
+    },
+    {
+      "claim_id": "CLAIM-2016-Q3",
+      "claim_strength": "UNVALIDATED_FORECAST",
+      "claim_type": "PREDICTIVE",
+      "comparator_ids": [],
+      "counter_evidence": [],
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "limitations": [
+        "State3 true 9V termination is absent; prediction accuracy unknown.",
+        "Only one battery across aging states; voltage rows are correlated, not independent battery replicates.",
+        "Initial voltage relaxation violates literal global monotonicity; inverse uses last downward crossing.",
+        "Q1 piecewise polynomial representation uses 17 or33 uniform-time knots plus first31 sample points, not one compact global elementary formula.",
+        "Q2 interpolates within20–100A only; no observation at55A exists.",
+        "All workbook rows were materialized by intake audit; no untouched Final labels are claimed. All reported cross-validation errors are Development diagnostics."
+      ],
+      "metric_ids": [
+        "q3_validation_tail_MRE",
+        "q3_remaining_min"
+      ],
+      "requirement_id": "REQ-Q3",
+      "scope": {
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ]
+      },
+      "selected_output_ids": [
+        "OUTPUT-REQ-Q3"
+      ],
+      "selected_run_ids": [
+        "RUN-2016-CUBIC-1729"
+      ],
+      "statement": "衰减状态3预测剩余时间为模型迁移外推结果，真实终止标签缺失；相邻衰减状态验证不证明状态3实际误差。",
+      "status": "INSUFFICIENT",
+      "support_predicates": {
+        "held_out_test_valid": false,
+        "independent_numerical_recalculation": true,
+        "scope_bounded": true,
+        "validation_boundary_frozen": true
+      },
+      "uncertainty": {
+        "independent_battery_count": 1,
+        "kind": "MODEL_AND_PREFIX_SENSITIVITY_NOT_CONFIDENCE_INTERVAL",
+        "prefix_perturbations": [
+          {
+            "delta_min": 1.0,
+            "id": "PREFIX_TIME_PLUS_1_MIN",
+            "remaining_min": 194.44177724399992
+          },
+          {
+            "delta_min": -1.0,
+            "id": "PREFIX_TIME_MINUS_1_MIN",
+            "remaining_min": 192.44177724399992
+          },
+          {
+            "delta_min": -1.4499926762472342,
+            "id": "PREFIX_DROP_LAST_10",
+            "remaining_min": 191.9917845677527
+          }
+        ],
+        "reference_spread_min": [
+          184.8260766817284,
+          192.96386667432728,
+          205.4754966063881
+        ],
+        "target_error": "UNKNOWN"
+      }
+    }
+  ],
+  "comparators": [],
+  "contract_version": "claim-evidence/v3",
+  "outputs": [
+    {
+      "metric_ids": [
+        "q1_mean_fitted_MRE",
+        "q1_MRE_20A",
+        "q1_MRE_30A",
+        "q1_MRE_40A",
+        "q1_MRE_50A",
+        "q1_MRE_60A",
+        "q1_MRE_70A",
+        "q1_MRE_80A",
+        "q1_MRE_90A",
+        "q1_MRE_100A",
+        "q1_remaining_30A_min",
+        "q1_remaining_40A_min",
+        "q1_remaining_50A_min",
+        "q1_remaining_60A_min",
+        "q1_remaining_70A_min"
+      ],
+      "output_id": "OUTPUT-REQ-Q1",
+      "owner_run_id": "RUN-2016-CUBIC-1729",
+      "path": "runs/RUN-2016-CUBIC-1729/output.json",
+      "requirement_id": "REQ-Q1",
+      "sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78"
+    },
+    {
+      "metric_ids": [
+        "q2_loco_MRE"
+      ],
+      "output_id": "OUTPUT-REQ-Q2",
+      "owner_run_id": "RUN-2016-CUBIC-1729",
+      "path": "runs/RUN-2016-CUBIC-1729/output.json",
+      "requirement_id": "REQ-Q2",
+      "sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78"
+    },
+    {
+      "metric_ids": [
+        "q3_validation_tail_MRE",
+        "q3_remaining_min"
+      ],
+      "output_id": "OUTPUT-REQ-Q3",
+      "owner_run_id": "RUN-2016-CUBIC-1729",
+      "path": "runs/RUN-2016-CUBIC-1729/output.json",
+      "requirement_id": "REQ-Q3",
+      "sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78"
+    }
+  ],
+  "runs": [
+    {
+      "current": true,
+      "input_hash": "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55",
+      "metric_ids": [
+        "q1_mean_fitted_MRE",
+        "q2_loco_MRE",
+        "q3_validation_tail_MRE",
+        "q3_remaining_min",
+        "q1_MRE_20A",
+        "q1_MRE_30A",
+        "q1_MRE_40A",
+        "q1_MRE_50A",
+        "q1_MRE_60A",
+        "q1_MRE_70A",
+        "q1_MRE_80A",
+        "q1_MRE_90A",
+        "q1_MRE_100A",
+        "q1_remaining_30A_min",
+        "q1_remaining_40A_min",
+        "q1_remaining_50A_min",
+        "q1_remaining_60A_min",
+        "q1_remaining_70A_min"
+      ],
+      "outcome": "SUCCESS",
+      "run_id": "RUN-2016-CUBIC-1729",
+      "scenario_hash": "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55",
+      "sealed": true,
+      "selected_output_ids": [
+        "OUTPUT-REQ-Q1",
+        "OUTPUT-REQ-Q2",
+        "OUTPUT-REQ-Q3"
+      ],
+      "support_scope": "Computational outputs for each requested question; independent semantic support remains unapproved.",
+      "supported_requirement_ids": [
+        "REQ-Q1",
+        "REQ-Q2",
+        "REQ-Q3"
+      ]
+    }
+  ],
+  "validation": {
+    "counter_evidence_detected": false,
+    "heldout_valid": false,
+    "independent_battery_count": 1
+  }
+}

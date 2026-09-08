@@ -1,0 +1,86 @@
+{
+  "argv": [
+    "models/produce.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "CUBIC_LOG_AFFINE",
+    "--seed",
+    "1729",
+    "--output",
+    "runs/RUN-2016-CUBIC-1729/output.json"
+  ],
+  "capture_record": {
+    "path": "runs/RUN-2016-CUBIC-1729/execution_capture.json",
+    "sha256": "eda3043cabeb055cc0dd7d12fe7012747431d61bb038d900bcedf1d200bab324"
+  },
+  "code_commit": "bee0a94cd0b04a17ceaf80830d482ac91366de1e",
+  "code_files": [
+    {
+      "path": "models/produce.py",
+      "repository_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/produce.py",
+      "scope": "CASE_ROOT",
+      "sha256": "c334053aaa386456eb53c6c2c5a8e507f022487a1e32e137a6438a8bd326ca5b"
+    },
+    {
+      "path": "models/check.py",
+      "repository_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "8bb27f459d4aa6fcaeaedf0bf3041396b602d1ff1cfad4649c0a973c1ec02964"
+    },
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "85ca1e4618a873573bf759680c52b029cef7abd62bf7b2d1cb82533bdda6e4a6"
+    }
+  ],
+  "code_tree_hash": "015a3db0107bd760b9214d559f2cf6d478ba53b43e16cff77fd955c6e31affe1",
+  "configuration": {
+    "candidate_id": "CUBIC_LOG_AFFINE",
+    "seed": 1729
+  },
+  "configuration_hash": "bb728a16596597b636c2ea39600e121c19f9d815f0fad4b727ab2cf44ee06359",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "decision_hash": "8c526ff54e35f304db310c8169810a80ac6d9b9b711dfc821198b8bb18a15d0d",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "1729",
+    "TZ": "UTC"
+  },
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "ff3a37207d2ede21aa92dda5859b2ce1836d8e1568cff9db8ffea6818e5c6f58",
+    "candidate_set": "45954cfa1d47c4481dedd6aeee577e5c5b646473cfff769508b26d114329a62b",
+    "code_commit": "e73a1c735a5babc7f2f81a81b4bb3d06debd25395756a60a18a4cecc652d96cb",
+    "code_set": "1fa3efb39a89f5770314e589497226f63d5205432d4a0b550fc06e400dbfa9f5",
+    "execution_policy": "54f9c3c5cb50da646f7c9ca22484ea1a01708accb02f729ecc569b4e16b24cf5",
+    "input_set": "dfcd0e12bcabbc390581d922e18f83137c6511c130f12fbb1cd496a84b5b7b67",
+    "metric": "b32f80456262e38529dea7b0cc3c81f8ba70fa47c7f62a30c2c7741772ba65e0",
+    "seed_schedule": "9f204c05ad32490a1702c60be70e809ac6c38921749b0a0c582a7b076d521d34",
+    "split_assignment": "85a73d01eff77b550f9a7d6d42f684d0bd7e217f0f5eb28ff9d0a7bec1382947"
+  },
+  "input_files": [
+    {
+      "path": "data/raw/appendix.xlsx",
+      "sha256": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf"
+    },
+    {
+      "path": "data/raw/problem.docx",
+      "sha256": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+    }
+  ],
+  "input_hash": "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55",
+  "outcome": "SUCCESS",
+  "output_files": [
+    {
+      "path": "runs/RUN-2016-CUBIC-1729/output.json",
+      "sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78"
+    }
+  ],
+  "output_hash": "8867b63e6c70ea2fa777fc9d5a4cb46b244bf1a0ba872b876a6e90d75ad1fa8a",
+  "random_seed": 1729,
+  "run_id": "RUN-2016-CUBIC-1729",
+  "scenario_hash": "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55",
+  "supersession": null,
+  "trusted_capture": true
+}

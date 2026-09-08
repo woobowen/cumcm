@@ -1,0 +1,116 @@
+{
+  "run_id": "RUN-2016-CUBIC-1729",
+  "output_sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78",
+  "requirements": {
+    "REQ-Q1": {
+      "metric_values": {
+        "q1_MRE_20A": 0.0005997600695762963,
+        "q1_MRE_30A": 0.0009708038170843795,
+        "q1_remaining_30A_min": 591.6781530955864,
+        "q1_MRE_40A": 0.001114712531689947,
+        "q1_remaining_40A_min": 429.7914547407936,
+        "q1_MRE_50A": 0.0015197671351572099,
+        "q1_remaining_50A_min": 326.1973895551355,
+        "q1_MRE_60A": 0.0014218623861218267,
+        "q1_remaining_60A_min": 277.93658682099203,
+        "q1_MRE_70A": 0.00038885082416817576,
+        "q1_remaining_70A_min": 254.68548351701793,
+        "q1_MRE_80A": 0.00036627434223863607,
+        "q1_MRE_90A": 0.00031723097445859845,
+        "q1_MRE_100A": 0.000321029388888665,
+        "q1_mean_fitted_MRE": 0.0007800323854870817
+      },
+      "recalculation_residuals": {
+        "all_coefficients": {
+          "value": 2.7755575615628914e-17,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        },
+        "all_2079_inverse_times_min": {
+          "value": 8.640199666842818e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 1.1368683772161603e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "bounded_interpolation_domain": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        }
+      },
+      "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+    },
+    "REQ-Q2": {
+      "metric_values": {
+        "q2_loco_MRE": 0.010219758766339682
+      },
+      "recalculation_residuals": {
+        "all_LOCO_and_55A_vectors": {
+          "value": 5.4797055781818926e-11,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 4.180683577104105e-16,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "bounded_interpolation_domain": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        }
+      },
+      "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+    },
+    "REQ-Q3": {
+      "metric_values": {
+        "q3_validation_tail_MRE": 0.005991338826654545,
+        "q3_remaining_min": 193.44177724400015
+      },
+      "recalculation_residuals": {
+        "all_aging_vectors_and_perturbations_min": {
+          "value": 4.765077221691172e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 2.2737367544323206e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "nonnegative_remaining_time_min": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        }
+      },
+      "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+    }
+  },
+  "independence": "Manual scalar PCHIP coefficients, bisection, closed-form regression; no producer imports; same model assumptions are not independently established.",
+  "final_test_access": false
+}

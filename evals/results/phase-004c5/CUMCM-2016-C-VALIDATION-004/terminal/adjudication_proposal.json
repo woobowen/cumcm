@@ -1,0 +1,37 @@
+{
+  "schema_version": "phase-004c5-terminal-adjudication-proposal/v1",
+  "case_id": "CUMCM-2016-C-VALIDATION-004",
+  "proposal_id": "DECISION-C-TARGET-VALIDATION-004C5-2016-PROPOSAL",
+  "created_at": "2026-09-08T21:27:52.594463+00:00",
+  "effective": false,
+  "proposed_status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+  "options": [
+    "C_TARGET_VALIDATION_PASSED",
+    "C_TARGET_VALIDATION_FAILED",
+    "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+    "C_TARGET_VALIDATION_INCOMPLETE"
+  ],
+  "basis": [
+    "Actual controller rejects at GATE_DATA_SUFFICIENCY_PREFLIGHT before Run enumeration. Its attempts=[] must not erase the two real captures.",
+    "Both model captures and separate Python checkers succeeded; these establish numerical execution/recalculation only.",
+    "Comparison is BLOCK for group overlap; output-selection binding PASS does not override it. Semantic checks and formal Final/handoff are not accepted.",
+    "Missing target truth and previously audited workbook labels are explicitly disclosed; assess their actual scientific implications against the original question and frozen evaluation protocol.",
+    "No answer exposure, model rerun, Skill modification or Final test access is claimed. A negative reviewed terminal package may complete the attempt without scientific PASS."
+  ],
+  "proposed_counts": {
+    "planned_batch": 2,
+    "case_started": 1,
+    "case_actually_executed": 1,
+    "case_episode_completed_after_review": 1,
+    "case_scientific_passed": 0,
+    "model_captures": 2,
+    "checker_captures": 2,
+    "failed_model_captures": 0,
+    "predictive_final_accesses": 0
+  },
+  "frozen_worker_package": {
+    "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/candidate_artifacts/worker_candidate_freeze.json",
+    "sha256": "3017e871417d6fc5a032c4bb21fb2767ba5ee127c562571f0ba1c16693576b9f"
+  },
+  "audit_required": "Independent native read-only scientific and POST_DECISION audit; dissent may change the formal decision but cannot change frozen case results or override technical rejection."
+}

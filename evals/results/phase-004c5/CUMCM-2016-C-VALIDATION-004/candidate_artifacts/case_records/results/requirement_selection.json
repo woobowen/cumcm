@@ -1,0 +1,104 @@
+{
+  "artifact_type": "requirement_selection",
+  "content": {
+    "contract_version": "requirement-selection/v1",
+    "requirements": [
+      {
+        "metric_direction": "MIN",
+        "requirement_id": "REQ-Q1",
+        "selection_metric": "q1_mean_fitted_MRE"
+      },
+      {
+        "metric_direction": "MIN",
+        "requirement_id": "REQ-Q2",
+        "selection_metric": "q2_loco_MRE"
+      },
+      {
+        "metric_direction": "MIN",
+        "requirement_id": "REQ-Q3",
+        "selection_metric": "q3_validation_tail_MRE"
+      }
+    ],
+    "runs": [
+      {
+        "current": true,
+        "input_hash": "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55",
+        "metric_ids": [
+          "q1_mean_fitted_MRE",
+          "q2_loco_MRE",
+          "q3_validation_tail_MRE",
+          "q3_remaining_min",
+          "q1_MRE_20A",
+          "q1_MRE_30A",
+          "q1_MRE_40A",
+          "q1_MRE_50A",
+          "q1_MRE_60A",
+          "q1_MRE_70A",
+          "q1_MRE_80A",
+          "q1_MRE_90A",
+          "q1_MRE_100A",
+          "q1_remaining_30A_min",
+          "q1_remaining_40A_min",
+          "q1_remaining_50A_min",
+          "q1_remaining_60A_min",
+          "q1_remaining_70A_min"
+        ],
+        "outcome": "SUCCESS",
+        "run_id": "RUN-2016-CUBIC-1729",
+        "scenario_hash": "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUTPUT-REQ-Q1",
+          "OUTPUT-REQ-Q2",
+          "OUTPUT-REQ-Q3"
+        ],
+        "support_scope": "Computational outputs for each requested question; independent semantic support remains unapproved.",
+        "supported_requirement_ids": [
+          "REQ-Q1",
+          "REQ-Q2",
+          "REQ-Q3"
+        ]
+      }
+    ],
+    "selection": {
+      "aggregate_objective": "Frozen development MRE comparison only",
+      "compatibility_checks": [],
+      "cross_requirement_constraints": [],
+      "limitations": [
+        "Same-battery aging states overlap; aggregate primary scientific support incomplete."
+      ],
+      "requirement_to_output_map": {
+        "REQ-Q1": [
+          "OUTPUT-REQ-Q1"
+        ],
+        "REQ-Q2": [
+          "OUTPUT-REQ-Q2"
+        ],
+        "REQ-Q3": [
+          "OUTPUT-REQ-Q3"
+        ]
+      },
+      "requirement_to_run_map": {
+        "REQ-Q1": [
+          "RUN-2016-CUBIC-1729"
+        ],
+        "REQ-Q2": [
+          "RUN-2016-CUBIC-1729"
+        ],
+        "REQ-Q3": [
+          "RUN-2016-CUBIC-1729"
+        ]
+      },
+      "selection_mode": "GLOBAL_JOINT",
+      "shared_input_hashes": [
+        "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55"
+      ],
+      "shared_scenario_hashes": [
+        "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55"
+      ],
+      "tradeoff_rule": "Equal two diagnostic MRE weights; no Final"
+    }
+  },
+  "content_hash": "d3681de3dc8c25d2282f74839a4d8d00774a6d82b61300d9c68f6c52980e2935",
+  "status": "ACCEPTED"
+}

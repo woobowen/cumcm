@@ -1,0 +1,105 @@
+{
+  "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+  "attempts": [
+    {
+      "candidate_id": "BASELINE",
+      "outcome": "SUCCESS",
+      "random_seed": 1729,
+      "run_id": "RUN-2016-BASELINE-1729",
+      "validation_score": 0.027872362922746727
+    },
+    {
+      "candidate_id": "CUBIC_LOG_AFFINE",
+      "outcome": "SUCCESS",
+      "random_seed": 1729,
+      "run_id": "RUN-2016-CUBIC-1729",
+      "validation_score": 0.008105548796496765
+    }
+  ],
+  "baseline_id": "BASELINE",
+  "candidate_ids": [
+    "BASELINE",
+    "CUBIC_LOG_AFFINE"
+  ],
+  "code_commit": "bee0a94cd0b04a17ceaf80830d482ac91366de1e",
+  "freeze_bindings": {
+    "baseline": "ff3a37207d2ede21aa92dda5859b2ce1836d8e1568cff9db8ffea6818e5c6f58",
+    "candidate_set": "45954cfa1d47c4481dedd6aeee577e5c5b646473cfff769508b26d114329a62b",
+    "code_commit": "e73a1c735a5babc7f2f81a81b4bb3d06debd25395756a60a18a4cecc652d96cb",
+    "code_set": "1fa3efb39a89f5770314e589497226f63d5205432d4a0b550fc06e400dbfa9f5",
+    "execution_policy": "54f9c3c5cb50da646f7c9ca22484ea1a01708accb02f729ecc569b4e16b24cf5",
+    "input_set": "dfcd0e12bcabbc390581d922e18f83137c6511c130f12fbb1cd496a84b5b7b67",
+    "metric": "b32f80456262e38529dea7b0cc3c81f8ba70fa47c7f62a30c2c7741772ba65e0",
+    "seed_schedule": "9f204c05ad32490a1702c60be70e809ac6c38921749b0a0c582a7b076d521d34",
+    "split_assignment": "85a73d01eff77b550f9a7d6d42f684d0bd7e217f0f5eb28ff9d0a7bec1382947"
+  },
+  "handoff_generated_at": "2026-09-08T22:17:30Z",
+  "leakage_checks": {
+    "future_information": false,
+    "group_overlap": true,
+    "target_in_features": false,
+    "test_used_for_candidate_generation": false,
+    "test_used_for_feature_selection": false,
+    "test_used_for_threshold_selection": false,
+    "time_order_valid": true
+  },
+  "metric": "joint_validation_MRE",
+  "metric_direction": "MIN",
+  "random_seeds": [
+    1729
+  ],
+  "reliability": {
+    "attempts": 2,
+    "failed_or_infeasible": 0,
+    "successful": 2
+  },
+  "required_code_files": [
+    {
+      "path": "models/produce.py",
+      "repository_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/produce.py",
+      "scope": "CASE_ROOT",
+      "sha256": "c334053aaa386456eb53c6c2c5a8e507f022487a1e32e137a6438a8bd326ca5b"
+    },
+    {
+      "path": "models/check.py",
+      "repository_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "8bb27f459d4aa6fcaeaedf0bf3041396b602d1ff1cfad4649c0a973c1ec02964"
+    },
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "85ca1e4618a873573bf759680c52b029cef7abd62bf7b2d1cb82533bdda6e4a6"
+    }
+  ],
+  "required_input_hashes": {
+    "data/raw/appendix.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+    "data/raw/problem.docx": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+  },
+  "selected_candidate_id": "CUBIC_LOG_AFFINE",
+  "selection_decision_hash": "8c526ff54e35f304db310c8169810a80ac6d9b9b711dfc821198b8bb18a15d0d",
+  "selection_rule": "ARGMIN_THEN_ID",
+  "splits": {
+    "test": [],
+    "train": [
+      "ATTACHMENT1_CURVES",
+      "ATTACHMENT2_NEW_COMPLETE",
+      "ATTACHMENT2_STATE1_PREFIX",
+      "ATTACHMENT2_STATE2_COMPLETE",
+      "ATTACHMENT2_STATE3_PREFIX"
+    ],
+    "validation": [
+      "ATTACHMENT2_STATE1_TAIL_9.760_TO_9.030"
+    ]
+  },
+  "stop_rule": "At most4 total model captures across every revision, normally2 fixed candidates, plus independent checkers; stop main numeric work on completion or22:17:30Z, whichever earlier. No re-run after candidate terminal freeze. No Final test authorized; preserve subsequent scientific BLOCK.",
+  "test_access": {
+    "authorized": false,
+    "count": 0,
+    "evaluator_invoked": false,
+    "ledger_status": "NOT_ACCESSED",
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "used_for_selection": false
+  }
+}

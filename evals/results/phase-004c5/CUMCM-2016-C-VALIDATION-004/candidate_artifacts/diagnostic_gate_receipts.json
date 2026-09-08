@@ -1,0 +1,44 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "compare-check",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--path",
+      "results/model_comparison_candidate.json"
+    ],
+    "exit_code": 3,
+    "stdout": "{\"accepted\": false, \"command\": \"compare-check\", \"final\": false, \"reason_codes\": [\"RC_COMPARISON_LEAKAGE:group_overlap\"], \"status\": \"BLOCK\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "selection-check",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--path",
+      "results/requirement_selection.json"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"accepted\": true, \"command\": \"selection-check\", \"final\": false, \"reason_codes\": [], \"status\": \"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "semantic-check",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--path",
+      "evidence/semantic_claim_support_candidate.json"
+    ],
+    "exit_code": 3,
+    "stdout": "{\"accepted\": false, \"command\": \"semantic-check\", \"final\": false, \"reason_codes\": [\"RC_CLAIM_FACTS_NOT_SUPPORTED\", \"RC_PREDICTIVE_VALIDATION_MISSING\", \"RC_SEMANTIC_CLAIM_INPUT_INVALID\"], \"status\": \"BLOCK\"}\n",
+    "stderr": ""
+  }
+]
