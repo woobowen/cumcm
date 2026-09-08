@@ -1,0 +1,17 @@
+{
+  "freeze_id": "RC8-NEUTRAL-FACT-BINDING-FREEZE-001",
+  "frozen_at": "2026-09-08T18:14:10.251040+00:00",
+  "pre_implementation_commit": "aeaaac5fcf62de966ca3efc94c0a5282337c94e1",
+  "bound_files": {
+    "tests/integration/test_rc8_scientific_fact_binding.py": "db4f1b96ee9a63a287a2baba6dea0fef35cc5c84039490e2282e266b3f0c6887",
+    "evals/results/phase-004c5/qualification/fact_binding_specification.md": "546c659a250532053b16cd9856b990754ceb05b1bdb48ef8af6975453160c016",
+    "evals/results/phase-004c5/qualification/early_native_audit.json": "cb1531261d81299d12db2f4e7b3126c1c31e80281fe694701b1cf9d715748e02"
+  },
+  "pre_repair_command": ".venv/bin/python -m pytest -q tests/integration/test_rc8_scientific_fact_binding.py",
+  "pre_repair_exit": 1,
+  "pre_repair_failed": 11,
+  "pre_repair_seconds": 4.16,
+  "pre_repair_log_sha256": "8fee0fd93f9e09809d7aeea7f50c4e0a4a3f87553c74966013fe742aeda6c69b",
+  "interpretation": "All 11 prospective rejection assertions failed; inherited implementation wrongly admitted each attack. This is defect evidence, not candidate acceptance.",
+  "implementation_started": false
+}
