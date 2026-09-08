@@ -78,6 +78,10 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
         "'perturbations':[{'perturbation_id':'SHIFT','metric':'loss','result':v+0.1,"
         "'evidence':'DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS'}],"
         "'failure_cases':['toy failure']}}\n"
+        "o['scientific_evidence']={'REQ-1':{'generation_method':'DESCRIPTIVE_STATISTIC',"
+        "'source_ids':['SRC-PROJECT-ORIGINAL'],'scope':{'fields':['x'],"
+        "'time':['FROZEN_CASE_SCOPE'],'entities':['SYNTHETIC_CASE']},"
+        "'metric_values':{'loss':v}}}\n"
         "json.dump(o,open(a.output,'w'));raise SystemExit(23 if "
         + ("True" if all_failed else "a.candidate_id=='FAILED'")
         + " else 0)\n"

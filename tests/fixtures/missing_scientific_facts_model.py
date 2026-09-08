@@ -1,4 +1,4 @@
-"""Negative legacy-style model without generation facts: Development output has no sealed-test payload.
+"""Negative legacy-style model without generation facts.
 
 execute writes development metrics only. A later hash-bound `--final-evaluation` writes
 `runs/<run>/sealed_test.json` without mutating Development `output.json`.

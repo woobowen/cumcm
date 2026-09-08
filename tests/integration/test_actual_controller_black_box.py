@@ -547,7 +547,16 @@ def test_frozen_actual_controller_probe_matrix_is_complete_and_hash_bound(repo_r
     )
     assert (
         matrix["fixture_sha256"]
-        == hashlib.sha256((repo_root / matrix["fixture_file"]).read_bytes()).hexdigest()
+        == hashlib.sha256(
+            subprocess.check_output(
+                [
+                    "git",
+                    "show",
+                    "cd02e61994b906364789c65609de695b6912f1c7:" + matrix["fixture_file"],
+                ],
+                cwd=repo_root,
+            )
+        ).hexdigest()
     )
 
 

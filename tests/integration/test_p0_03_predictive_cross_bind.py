@@ -10,7 +10,7 @@ import importlib.util
 import sys
 from pathlib import Path
 
-AUTHORIZED_FIXTURE = "tests/fixtures/authorized_final_eval_model.py"
+AUTHORIZED_FIXTURE = "tests/fixtures/authorized_predictive_model.py"
 SELECTED_RUN = "RUN-CAND-20260905"
 LEDGER = "evidence/final_evaluation_ledger.json"
 CONTRADICTS = "RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"

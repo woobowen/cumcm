@@ -84,11 +84,10 @@ def main() -> int:
     for index, requirement in enumerate(requirement_artifact["content"]["requirements"]):
         requirement_id = requirement["requirement_id"]
         relevant = [s for s in sources if requirement_id in s["supports_requirement_ids"]]
-        if not any(s["evidence_class"] == "SIMULATION" for s in relevant):
-            continue
+        simulated = any(s["evidence_class"] == "SIMULATION" for s in relevant)
         metric = f"metric_{chr(ord('a') + index)}"
         output["scientific_evidence"][requirement_id] = {
-            "generation_method": "CONDITIONAL_SIMULATION",
+            "generation_method": "CONDITIONAL_SIMULATION" if simulated else "DESCRIPTIVE_STATISTIC",
             "source_ids": [s["source_id"] for s in relevant],
             "scope": {
                 "fields": requirement["minimum_data_fields"],

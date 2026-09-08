@@ -73,6 +73,25 @@ def main() -> int:
         return 23
     score = {"BASE": 2.0, "CAND": 1.0}[args.candidate_id]
     output = _development_output(args.candidate_id, score, args.output)
+    sources = json.loads((Path(args.case_root) / "research/source_ledger.json").read_text())[
+        "content"
+    ]["sources"]
+    output["scientific_evidence"] = {}
+    for req in output["requirement_claims"]:
+        relevant = [source for source in sources if req in source["supports_requirement_ids"]]
+        output["scientific_evidence"][req] = {
+            "generation_method": "DESCRIPTIVE_STATISTIC",
+            "source_ids": [source["source_id"] for source in relevant],
+            "scope": {
+                dimension: sorted(set().union(*(set(source[key]) for source in relevant)))
+                for dimension, key in (
+                    ("fields", "field_schema"),
+                    ("time", "time_scope"),
+                    ("entities", "entity_scope"),
+                )
+            },
+            "metric_values": output["validation_metrics"],
+        }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, sort_keys=True), encoding="utf-8")
     return 0

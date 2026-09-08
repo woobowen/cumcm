@@ -1,4 +1,4 @@
-"""Authorized Final evaluation model: Development output has no sealed-test payload.
+"""Authorized predictive generation fixture: Development output has no sealed-test payload.
 
 execute writes development metrics only. A later hash-bound `--final-evaluation` writes
 `runs/<run>/sealed_test.json` without mutating Development `output.json`.
@@ -105,6 +105,7 @@ def main() -> int:
             },
             "metric_values": output["validation_metrics"],
         }
+    output["scientific_evidence"]["REQ-B"]["generation_method"] = "PREDICTION"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, sort_keys=True), encoding="utf-8")
     return 0

@@ -1261,9 +1261,8 @@ def _scientific_claim_facts(
 ) -> set[str]:
     """Check facts captured by the producer, then independently executed evidence where needed.
 
-    A bounded legacy descriptive observation can quote a captured result on its source scope.
-    Stronger inference needs explicit generation/assumption/verification records; missing facts
-    never become predicates merely because the adapter requested a particular Claim type.
+    Every actual runtime Claim needs captured generation facts, including descriptive Claims.
+    Missing facts never become predicates merely because an adapter requested a particular type.
     """
     codes: set[str] = set()
     requirement_id = claim.get("requirement_id")
@@ -1275,6 +1274,8 @@ def _scientific_claim_facts(
         codes.add("RC_CLAIM_METRIC_BINDING_MISSING")
     relevant = [s for s in sources if requirement_id in s.get("supports_requirement_ids", [])]
     facts = (output.get("scientific_evidence") or {}).get(requirement_id)
+    if facts is None and case_root is not None:
+        codes.add("RC_CLAIM_GENERATION_FACTS_INVALID")
     if facts is not None and not isinstance(facts, dict):
         return codes | {"RC_CLAIM_GENERATION_FACTS_INVALID"}
     if isinstance(facts, dict):
