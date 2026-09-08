@@ -1,0 +1,282 @@
+{
+  "schema_version": "native-audit-tool-receipts/v1",
+  "created_at": "2026-09-08 21:41:53 UTC",
+  "scope": "Only this case. Outer exec tool exposes combined stdout/stderr; stored output is verbatim tool output. Nested checker receipts separately capture stdout and stderr. No shell command failure occurred.",
+  "startup_commands": [
+    {
+      "command": "ls -la",
+      "workdir": "<REPO_ROOT>",
+      "exit_code": 0,
+      "tool_chunk_id": "1a19ce",
+      "wall_time_seconds": 4.571e-06,
+      "first_clock_observed_after_command": "2026-09-08 21:28:58 UTC",
+      "stdout_stderr_source": "Actual tool response in role transcript; directory listing displayed to reviewer. Absolute command start was not available.",
+      "stderr_separate": "NOT_EXPOSED_BY_EXEC_TOOL"
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport pathlib,hashlib,json,datetime\np=pathlib.Path('evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/audit_input_bundle.json')\nb=p.read_bytes(); print('SHA256',hashlib.sha256(b).hexdigest()); print(b.decode())\np=pathlib.Path('contracts/subagent_audit.schema.json'); print('AUDIT_SCHEMA',p.read_text())\nPY",
+      "workdir": "<REPO_ROOT>",
+      "exit_code": 0,
+      "tool_chunk_id": "91c4fe",
+      "wall_time_seconds": 4.886e-06,
+      "timestamp": "NOT_SEPARATELY_RECORDED_BEFORE_RECEIPT_LOG_INITIALIZATION",
+      "stdout_stderr_source": "Actual printed bundle and schema retained in role transcript; files are read_manifest bound.",
+      "stderr_separate": "NOT_EXPOSED_BY_EXEC_TOOL"
+    }
+  ],
+  "commands": [
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,datetime\nout=Path('.cache/pr12-rc8/fresh/2016/native_terminal_audit'); out.mkdir(parents=True,exist_ok=True)\nbp=Path('evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/audit_input_bundle.json'); b=json.loads(bp.read_text())\nrecords=[]\nfor path,sha in list(b['files'].items())+[(str(Path(b['case_root'])/p),v) for p,v in b['immutable_raw_inputs'].items()]+[(str(bp),'ee8c8533f9437b378d61ae9c8c6638f0eda19c4dcfc5382b42b491a959b483cc')]:\n p=Path(path); actual=hashlib.sha256(p.read_bytes()).hexdigest(); records.append({'path':path,'expected':sha,'actual':actual,'match':actual==sha,'size':p.stat().st_size})\n(out/'initial_hash_check.json').write_text(json.dumps({'created_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'records':records},indent=2))\nprint(json.dumps({'bound_files':len(b['files']),'raw_files':len(b['immutable_raw_inputs']),'mismatches':[r for r in records if not r['match']],'case_root':b['case_root']},indent=2))\n(out/'audit_helpers.py').write_text('''from pathlib import Path\nimport hashlib,json,datetime\nROOT=Path('<REPO_ROOT>')\nOUT=ROOT/'.cache/pr12-rc8/fresh/2016/native_terminal_audit'\ndef read(p,purpose='content'):\n p=Path(p); p=p if p.is_absolute() else ROOT/p\n b=p.read_bytes()\n with (OUT/'read_events.jsonl').open('a') as f: f.write(json.dumps({'path':str(p.relative_to(ROOT)),'sha256':hashlib.sha256(b).hexdigest(),'bytes':len(b),'purpose':purpose,'read_at':datetime.datetime.now(datetime.timezone.utc).isoformat()})+'\\\\n')\n return b\ndef show(p):\n print('FILE',p); print(read(p).decode())\n''')\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:29:39 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:29:39 UTC"
+      },
+      "chunk_id": "60be4f",
+      "wall_time_seconds": 5.712e-06,
+      "exit_code": 0,
+      "original_token_count": 29,
+      "output_withheld": {
+        "sha256": "b1717100f336556340ea3689223c05a0d0b80032382b92f09a7e6ccfe47e2ea7",
+        "bytes": 115,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys, json,zipfile,io,xml.etree.ElementTree as E\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,show\nroot='evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/'\nraw=read('.cache/pr12-rc8/fresh/2016/case-r2/data/raw/problem.docx','official problem text extraction')\nz=zipfile.ZipFile(io.BytesIO(raw)); d=E.fromstring(z.read('word/document.xml')); ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}\nprint('OFFICIAL_PROBLEM'); print('\\n'.join(''.join(p.itertext()) for p in d.findall('.//w:p',ns)))\nfor p in ['scientific_report.md','terminal/adjudication_proposal.json','pre_run/pre_run_proposal.json','pre_run/main_protocol_review.json','pre_run/frozen_artifacts/problem/problem_requirements.json']:\n show(root+p)\nshow('evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md')\nshow('evals/results/phase-004c5/qualification/environment.json')\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:29:54 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:29:54 UTC"
+      },
+      "chunk_id": "8a46aa",
+      "wall_time_seconds": 5.1e-06,
+      "exit_code": 0,
+      "original_token_count": 11260,
+      "output_withheld": {
+        "sha256": "c8fbeda7df25c3a4238ff08ac043001618b0608f4025bf9df86ff21f9811ef17",
+        "bytes": 45040,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json,io,zipfile,openpyxl\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,show,OUT\nb=read('.cache/pr12-rc8/fresh/2016/case-r2/data/raw/appendix.xlsx','official sheet structure and text')\nw=openpyxl.load_workbook(io.BytesIO(b),data_only=True)\nfor s in w:\n print('SHEET',s.title,s.max_row,s.max_column)\n strings=[(c.coordinate,c.value) for row in s for c in row if isinstance(c.value,str)];print('TEXT_CELLS',strings)\n print('FIRST_ROWS',list(s.values)[:8]);print('LAST_ROWS',list(s.values)[-5:])\nz=zipfile.ZipFile(io.BytesIO(b));print('DRAWINGS',[(x,len(z.read(x))) for x in z.namelist() if 'media/' in x]);\nfor x in z.namelist():\n if 'media/' in x:\n  (OUT/('workbook_'+x.split('/')[-1])).write_bytes(z.read(x))\nroot='evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/'\nfor p in ['code/produce.py','code/check.py']:\n show(root+p)\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:30:11 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:30:12 UTC"
+      },
+      "chunk_id": "9155e4",
+      "wall_time_seconds": 0.245657158,
+      "exit_code": 0,
+      "original_token_count": 7438,
+      "output_withheld": {
+        "sha256": "f2a715617ce0f5770e590e69e41e0eeaf2c9982828629ca38417685ea0dfa2bb",
+        "bytes": 29750,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,show\nroot='evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/'\nfor p in ['stage_journal.json','candidate_artifacts/controller_receipt.json','candidate_artifacts/diagnostic_gate_receipts.json','candidate_artifacts/partial_handoff_candidate.json','candidate_artifacts/case_records/evidence/semantic_claim_support_candidate.json','candidate_artifacts/case_records/results/model_comparison_candidate.json','candidate_artifacts/case_records/results/robustness_candidate.json','candidate_artifacts/case_records/results/requirement_selection.json','pre_run/frozen_artifacts/experiments/experiment_plan.json']:\n show(root+p)\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:30:28 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:30:28 UTC"
+      },
+      "chunk_id": "89ce41",
+      "wall_time_seconds": 5.086e-06,
+      "exit_code": 0,
+      "original_token_count": 17136,
+      "output_withheld": {
+        "sha256": "b8e542339bc796edad9f2e3dfc03ca3d08368597398b2fa743b1a0e2de287029",
+        "bytes": 68542,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,show\nroot='evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/'\nfor p in ['registration/episode_start.json','pre_run/pre_run_validation_freeze.json','pre_run/pre_run_validation_freeze_delivery.json','pre_run/revision_history.json','candidate_artifacts/worker_candidate_freeze.json','candidate_artifacts/runs/RUN-2016-CUBIC-1729/execution_capture.json','candidate_artifacts/runs/RUN-2016-CUBIC-1729/manifest.json','candidate_artifacts/runs/RUN-2016-CUBIC-1729/scientific_check_capture.json','candidate_artifacts/case_records/evidence/gate_execution_trace.json']:\n show(root+p)\nshow('.agents/skills/cumcm-modeling-evidence/SKILL.md')\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:30:58 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:30:58 UTC"
+      },
+      "chunk_id": "252463",
+      "wall_time_seconds": 5.662e-06,
+      "exit_code": 0,
+      "original_token_count": 9841,
+      "output_withheld": {
+        "sha256": "1fc9c0a55716e9a39bca1cdbe75574b6c2ea13ae13a8db29e3acf9183ffba383",
+        "bytes": 39364,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json,subprocess,hashlib\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,show,OUT\nroot='evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/'\nfor p in ['candidate_artifacts/runs/RUN-2016-BASELINE-1729/execution_capture.json','candidate_artifacts/runs/RUN-2016-BASELINE-1729/manifest.json','candidate_artifacts/runs/RUN-2016-BASELINE-1729/scientific_check_capture.json','registration/input_registration.json','registration/official_retrieval.json','registration/search_ledger.json','pre_run/read_and_search_ledger.json']:\n d=json.loads(read(root+p)); print(p,json.dumps(d,ensure_ascii=False))\nfor p in ['candidate_artifacts/partial_handoff_candidate.json','candidate_artifacts/case_records/evidence/semantic_claim_support_candidate.json']:\n d=json.loads(read(root+p));print('KEYS',p,list(d))\n for k in ['reproduction','reproducibility','final_run','claim_evidence','claims','status','approved_by','handoff_generated_at','validation','uncertainty','failure_cases','limitations']:\n  if k in d:print(k,json.dumps(d[k],ensure_ascii=False)[:9000])\nfor p in ['.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py','scripts/finalize_fresh_c_validation.py',root+'code/prepare.py']:\n lines=read(p).decode().splitlines();print('MATCHES',p)\n for i,line in enumerate(lines):\n  if any(s in line for s in ['group_overlap','GATE_DATA_SUFFICIENCY_PREFLIGHT','state3_terminal','handoff_generated_at','attempts =','RUNNING','status.*VALIDATED']):print(i+1,'\\n'.join(lines[max(0,i-2):i+5]))\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:31:22 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:31:22 UTC"
+      },
+      "chunk_id": "5f867c",
+      "wall_time_seconds": 5.197e-06,
+      "exit_code": 0,
+      "original_token_count": 9140,
+      "output_withheld": {
+        "sha256": "ae767da2a920112d7000771e49a11794fbb350db76c3721f276df77db1a300ec",
+        "bytes": 36559,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json,subprocess,datetime,hashlib\nfrom pathlib import Path\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,OUT\nroot=Path('evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004'); case=Path('.cache/pr12-rc8/fresh/2016/case-r2'); records=[]\nfor run in ['RUN-2016-BASELINE-1729','RUN-2016-CUBIC-1729']:\n for name in ['output.json','execution_capture.json','manifest.json','scientific_check.json']:\n  a=read(case/'runs'/run/name,'check ignored runtime copy matches frozen audited candidate'); b=read(root/'candidate_artifacts/runs'/run/name); assert a==b\n argv=['.venv/bin/python',str(root/'code/check.py'),'--case-root',str(case),'--run-id',run,'--output',str(OUT/(run+'_checker_replay.json'))]\n start=datetime.datetime.now(datetime.timezone.utc).isoformat(); p=subprocess.run(argv,capture_output=True,text=True); end=datetime.datetime.now(datetime.timezone.utc).isoformat()\n report=json.loads(read(OUT/(run+'_checker_replay.json'),'independent checker replay result')); original=json.loads(read(root/'candidate_artifacts/runs'/run/'scientific_check.json'))\n r={'argv':argv,'started_at':start,'ended_at':end,'exit_code':p.returncode,'stdout':p.stdout,'stderr':p.stderr,'matches_original_json':report==original,'output_sha256':hashlib.sha256((OUT/(run+'_checker_replay.json')).read_bytes()).hexdigest(),'recalculation_residuals':{k:v['recalculation_residuals'] for k,v in report['requirements'].items()}}\n records.append(r);print(json.dumps(r))\n(OUT/'checker_replay_receipts.json').write_text(json.dumps(records,ensure_ascii=False,indent=2))\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:31:42 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:31:50 UTC"
+      },
+      "chunk_id": "91154f",
+      "wall_time_seconds": 8.189543025,
+      "exit_code": 0,
+      "original_token_count": 721,
+      "output_withheld": {
+        "sha256": "230d16f10cfaf453941a43a3849aa04b1ec83a0d5af273cab182d5ac16720f06",
+        "bytes": 2882,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python .cache/pr12-rc8/fresh/2016/native_terminal_audit/independent_recalc.py",
+      "start": {
+        "current_time": "2026-09-08 21:33:18 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:33:26 UTC"
+      },
+      "chunk_id": "b93ac8",
+      "wall_time_seconds": 7.479004465,
+      "exit_code": 0,
+      "original_token_count": 2920,
+      "output_withheld": {
+        "sha256": "653aff8b26f8abbe493b0f5c305386f9b93dba268549956440b4fbdef341d6b7",
+        "bytes": 11680,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json,hashlib,subprocess\nfrom pathlib import Path\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,OUT\nfor p in ['evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json','evals/results/phase-004c5/qualification/rc8_release_delivery.json']:\n d=json.loads(read(p)); print('METADATA',p,list(d))\n for k,v in d.items():\n  if isinstance(v,(str,int,bool)) or k in ['created_at','candidate_subject','status','release_subject_commit','remote_sha','verified_at']: print(k,v)\n  elif isinstance(v,dict): print(k,'count',len(v),'keys',list(v)[:10])\n  elif isinstance(v,list):print(k,'count',len(v))\nroot='evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/'\nplan=json.loads(read(root+'pre_run/frozen_artifacts/experiments/experiment_plan.json'))['content'];rs=[]\nfor rec in plan['required_code_files']:\n blob=subprocess.run(['git','cat-file','blob',plan['code_commit']+':'+rec['repository_path']],capture_output=True)\n p=Path('.cache/pr12-rc8/fresh/2016/case-r2')/rec['path'] if rec['scope']=='CASE_ROOT' else Path('.agents/skills/cumcm-modeling-evidence')/rec['path']\n current=read(p,'code hash binding'); published=read(rec['repository_path'],'code at repository path hash binding')\n r={'path':str(p),'git_command':['git','cat-file','blob',plan['code_commit']+':'+rec['repository_path']],'git_exit':blob.returncode,'git_stderr':blob.stderr.decode(),'git_blob_sha256':hashlib.sha256(blob.stdout).hexdigest(),'local_sha256':hashlib.sha256(current).hexdigest(),'repository_sha256':hashlib.sha256(published).hexdigest(),'expected_sha256':rec['sha256']}\n r['match']=all(r[k]==rec['sha256'] for k in ['git_blob_sha256','local_sha256','repository_sha256']);rs.append(r)\nprint('GIT_CODE_BINDINGS',json.dumps(rs,indent=2));(OUT/'git_code_binding_check.json').write_text(json.dumps(rs,indent=2))\nfor p in ['candidate_artifacts/q1_summary.csv','candidate_artifacts/q2_loco_summary.csv','candidate_artifacts/q2_55A_curve.svg','candidate_artifacts/delivery_integrity_check.json']:\n s=read(root+p).decode();print('ARTIFACT',p,s[:1000])\nfor p in ['.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py','scripts/finalize_fresh_c_validation.py']:\n lines=read(p).decode().splitlines();print('KEY_LOGIC',p)\n ranges=[(2950,2990)] if 'cumcm_case.py' in p else [(475,550)]\n for a,b in ranges:print('\\n'.join(f'{i+1}: {lines[i]}' for i in range(a-1,b)))\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:34:29 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:34:29 UTC"
+      },
+      "chunk_id": "b7e644",
+      "wall_time_seconds": 4.125e-06,
+      "exit_code": 0,
+      "original_token_count": 3532,
+      "output_withheld": {
+        "sha256": "57511c4e497697b3fc5e532a268ed3d74c25126d9c47b378bdb18575d825f870",
+        "bytes": 14126,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json,hashlib,datetime,csv,io,re,xml.etree.ElementTree as E\nfrom pathlib import Path\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,OUT\nroot=Path('evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004')\no=json.loads(read(root/'candidate_artifacts/runs/RUN-2016-CUBIC-1729/output.json'))\ntable=list(csv.DictReader(io.StringIO(read(root/'candidate_artifacts/q2_55A_curve.csv').decode()))); checks={'q2_csv_rows':len(table),'csv_captured_equal':all(all(float(r[k])==p[k] for k in ['time_min','voltage_V']) for r,p in zip(table,o['Q2']['table55'],strict=True))}\nsvg=E.fromstring(read(root/'candidate_artifacts/q2_55A_curve.svg')); poly=svg.find('.//{http://www.w3.org/2000/svg}polyline');checks['svg_points']=len(poly.attrib['points'].split()); pts=[list(map(float,p.split(','))) for p in poly.attrib['points'].split()]\nchecks['svg_mapped_coordinates_max_error_px']=max(max(abs(x-(82+688*r['time_min']/o['Q2']['duration55_min'])),abs(y-(425-(r['voltage_V']-9)*360/2.3))) for (x,y),r in zip(pts,o['Q2']['table55'],strict=True))\ncoef=json.loads(read(root/'candidate_artifacts/q1_piecewise_coefficients.json'));checks['q1_coefficient_artifact_keys']=list(coef)\nq3=list(csv.DictReader(io.StringIO(read(root/'candidate_artifacts/q3_predicted_curve.csv').decode())));checks['q3_csv_rows']=len(q3);checks['q3_columns']=list(q3[0]);print('DERIVED_DELIVERABLE_CHECKS',json.dumps(checks,indent=2));(OUT/'derived_deliverable_checks.json').write_text(json.dumps(checks,indent=2))\n# Read stage/state and key frozen prep evidence omitted from prior compact displays.\nfor p in ['pre_run/frozen_artifacts/data/data_sufficiency.json','candidate_artifacts/development_selection_proposal.json','candidate_artifacts/case_records/evidence/native_completion.json','pre_run/code_binding_correction.json','pre_run/binding_receipts.json']:\n d=json.loads(read(root/p));print(p,json.dumps(d,ensure_ascii=False)[:5000])\n# Selected generic snapshot files only; never open result/test-history paths in the map.\ns=json.loads(read('evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json'))\npaths=['.agents/skills/cumcm-modeling-evidence/SKILL.md','.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py','scripts/finalize_fresh_c_validation.py','contracts/subagent_audit.schema.json'];rec=[]\nfor p in paths:\n actual=hashlib.sha256(read(p,'selected shared snapshot hash comparison')).hexdigest();expected=s['implementation_files'].get(p);rec.append({'path':p,'actual':actual,'expected':expected,'matches':expected==actual})\nprint('SHARED_SNAPSHOT_CHECKS',json.dumps(rec,indent=2));(OUT/'selected_shared_snapshot_checks.json').write_text(json.dumps(rec,indent=2))\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:35:12 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:35:12 UTC"
+      },
+      "chunk_id": "de9064",
+      "wall_time_seconds": 4.551e-06,
+      "exit_code": 0,
+      "original_token_count": 3451,
+      "output_withheld": {
+        "sha256": "b121cfa6536400c8d5e475c87d131ee9b8c922479d4b072b70203ebefc04e248",
+        "bytes": 13802,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport sys,json,hashlib,datetime\nfrom pathlib import Path\nsys.path.insert(0,'.cache/pr12-rc8/fresh/2016/native_terminal_audit')\nfrom audit_helpers import read,OUT\nroot=Path('evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004')\n# Complete equality checks for exported coefficient and forecast data.\nimport csv,io\nout=json.loads(read(root/'candidate_artifacts/runs/RUN-2016-CUBIC-1729/output.json'))\ncoeff=json.loads(read(root/'candidate_artifacts/q1_piecewise_coefficients.json'))\nq3=list(csv.DictReader(io.StringIO(read(root/'candidate_artifacts/q3_predicted_curve.csv').decode())))\nprint('Q1_EXPORTED_MODELS_MATCH',coeff['models']==out['Q1']['curve_models'])\nprint('Q3_EXPORTED_CURVE_MATCH',len(q3)==len(out['Q3']['prediction_voltage_V']) and all(float(r['voltage_V'])==v and float(r['predicted_elapsed_min'])==t for r,v,t in zip(q3,out['Q3']['prediction_voltage_V'],out['Q3']['predicted_elapsed_min'],strict=True)))\n# Comparison score reproduced from bound Run outputs, without using it as accepted selection.\nfor run in ['RUN-2016-BASELINE-1729','RUN-2016-CUBIC-1729']:\n o=json.loads(read(root/'candidate_artifacts/runs'/run/'output.json'))\n expected=(o['final_metrics']['q2_loco_MRE']+o['final_metrics']['q3_validation_tail_MRE'])/2\n print('DEVELOPMENT_SCORE',run,expected,expected==o['validation_metrics']['joint_validation_MRE'])\n# Pre-result protocol fields not printed by the earlier long read.\np=json.loads(read(root/'pre_run/pre_run_proposal.json'));print('PREREG_FIELDS',[(k,p[k]) for k in ['execution_budget','metrics','evaluation_design'] if k in p])\nPY",
+      "start": {
+        "current_time": "2026-09-08 21:36:19 UTC"
+      },
+      "end": {
+        "current_time": "2026-09-08 21:36:19 UTC"
+      },
+      "chunk_id": "8d85b4",
+      "wall_time_seconds": 4.553e-06,
+      "exit_code": 0,
+      "original_token_count": 242,
+      "output_withheld": {
+        "sha256": "a2f3a323b7ab12aeb16abee1494dd6a8c736ff1dbaca01f22b664af40f500ce2",
+        "bytes": 968,
+        "reason": "Raw tool output retained ignored; may contain official problem text. Numerical audit outputs separately published."
+      }
+    }
+  ],
+  "patch_operations": [
+    {
+      "operation": "apply_patch",
+      "path": ".cache/pr12-rc8/fresh/2016/native_terminal_audit/independent_recalc.py",
+      "purpose": "independent existing coefficient and forecast audit"
+    },
+    {
+      "operation": "apply_patch",
+      "path": ".cache/pr12-rc8/fresh/2016/native_terminal_audit/REPORT.md",
+      "purpose": "native scientific and post-decision report"
+    },
+    {
+      "operation": "apply_patch",
+      "path": ".cache/pr12-rc8/fresh/2016/native_terminal_audit/REPORT.md",
+      "purpose": "add both candidates precomputed remaining-time error comparison"
+    }
+  ],
+  "nested_command_receipts": [
+    "checker_replay_receipts.json",
+    "git_code_binding_check.json",
+    "final_validation_receipt.json"
+  ],
+  "operations": {
+    "native_scientific_audits": 1,
+    "reviewer_checker_replays": 2,
+    "reviewer_independent_recalculation_script_runs": 1,
+    "producer_model_runs": 0,
+    "controller_runs": 0,
+    "final_evaluator_runs": 0,
+    "network_calls": 0,
+    "paid_api_calls": 0,
+    "nested_codex_calls": 0,
+    "subagents_spawned": 0,
+    "installations": 0,
+    "global_configuration_changes": 0,
+    "git_mutations": 0,
+    "audit_schema_validation_runs": 1,
+    "frozen_external_files_rechecked": 97
+  },
+  "publication": "IGNORED ONLY: verbatim outputs contain official problem-read excerpts and local paths; publish a redacted receipt summary instead.",
+  "finalization": {
+    "argv": [
+      ".venv/bin/python",
+      ".cache/pr12-rc8/fresh/2016/native_terminal_audit/finalize_audit.py"
+    ],
+    "started_at": "2026-09-08T21:44:14.372149+00:00",
+    "ended_at": "2026-09-08T21:44:14.500961+00:00",
+    "status": "SUCCESS",
+    "effects": [
+      "write audit.json",
+      "hash all recorded fixed inputs",
+      "write read_manifest.json",
+      "run actual schema/hash/syntax validator"
+    ]
+  }
+}

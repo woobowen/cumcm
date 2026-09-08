@@ -1,0 +1,85 @@
+{
+  "schema_version": "phase-004c5-formal-validation-decision/v1",
+  "decision_id": "DECISION-C-TARGET-VALIDATION-004C5-2016",
+  "case_id": "CUMCM-2016-C-VALIDATION-004",
+  "decided_at": "2026-09-08T21:51:49.240104+00:00",
+  "writer": "MAIN_ORCHESTRATOR",
+  "effective": true,
+  "technical_adjudication_status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+  "episode_completed": true,
+  "scientific_passed": false,
+  "whole_problem_scientifically_accepted": false,
+  "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
+  "native_decision_audit": {
+    "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/audit.json",
+    "sha256": "d50c087b9b28c82a81798eaf9435288a5c2004546fe5cdd625824b3e9f3cae91",
+    "audit_id": "AUDIT-RC8-2016C-NATIVE-POST-001",
+    "verdict": "PASS",
+    "meaning": "Endorses evidence-insufficient terminal decision only; not scientific PASS."
+  },
+  "fixed_candidate": {
+    "commit": "6a0ce61ed776aaf89ef91969fe2a55a0826c0ab7",
+    "manifest_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/candidate_artifacts/artifact_manifest.json",
+    "manifest_sha256": "1789698239f2279dfe6e7ddb1179f01dc7f34ac61ab08fe2b656001c66e2059a",
+    "code_subject_commit": "bee0a94cd0b04a17ceaf80830d482ac91366de1e",
+    "shared_subject_commit": "29cf1d7566809519ca92b6a29f555ce0c0b5b204"
+  },
+  "actual_counts": {
+    "planned_batch": 2,
+    "case_started": 1,
+    "case_executed": 1,
+    "case_completed": 1,
+    "case_scientific_passed": 0,
+    "model_captures": 2,
+    "original_checker_captures": 2,
+    "failed_model_captures": 0,
+    "audit_checker_replays": 2,
+    "audit_independent_existing_output_recalculations": 1,
+    "final_evaluator_calls": 0
+  },
+  "gate_result": "Controller BLOCK_NATIVE_CONTRACTS at data-sufficiency preflight; comparison BLOCK group_overlap, semantic BLOCK; local selection PASS cannot override these. attempts=[] is controller short-circuit metadata, not zero actual Run captures.",
+  "scientific_evidence": {
+    "Q1": "Nine conditional piecewise polynomial discharge models, disclosed 231-grid inverse metric, five requested 9.8V remaining-time values independently recomputed. Fit is not external prediction validation.",
+    "Q2": "55A conditional interpolation table/curve and predicted duration1162.588117min; seven held-current diagnostics mean1.021976% MRE, not measured55A accuracy or independent-battery generalization.",
+    "Q3": "Conditional state3 remaining-time prediction193.441777244min is numerically reproducible; target future error unknown. Prior-state CUBIC remaining-time relative errors4.100088538% and8.118598979%, not the smaller elapsed-time MRE. Reference spread184.826077–205.475497min is not a calibrated prediction interval."
+  },
+  "scientific_dissent_disposition": [
+    {
+      "finding": "F02",
+      "disposition": "ACCEPTED_INTERPRETATION_CORRECTION",
+      "statement": "Main pre-run intervention required unknown future terminal truth too strongly. Original question requests prediction; missing future truth alone does not make prediction impossible. It limits demonstrated target accuracy and satisfaction of the frozen Final protocol. Preserve historical field/Gate; no within-episode mutation or rerun."
+    },
+    {
+      "finding": "F03",
+      "disposition": "ACCEPTED_UNRESOLVED_GENERIC_PROTOCOL_GAP",
+      "statement": "Same-battery prior states are legitimate conditional information; entity overlap is not automatically temporal leakage. Generic blanket group-overlap rejection is too coarse for this structure. Observed workbook labels are not reference-answer exposure. No untouched Final or independent-battery transfer claim is established."
+    },
+    {
+      "finding": "F04",
+      "disposition": "ACCEPTED_NEW_DIAGNOSTIC_FROM_FIXED_OUTPUTS",
+      "statement": "Report remaining-time loss4.100088538%/8.118598979% and baseline4.483859728%/9.366193350%. Selection used elapsed-time loss, not requested remaining-time loss. Retain original selection and report metric mismatch; no model refit."
+    },
+    {
+      "finding": "F05",
+      "disposition": "ACCEPTED_SCOPE_LIMIT",
+      "statement": "Piecewise polynomial is a reasonable elementary-function expression. Grid and last-downcrossing are disclosed operational interpretations. Segment-local audit independently verifies this instance; global bisection is not a generic nonmonotone inverse proof."
+    },
+    {
+      "finding": "F07",
+      "disposition": "ACCEPTED_UNRESOLVED_SCIENTIFIC_LIMIT",
+      "statement": "Prefix residual−5.151761min, uncalibrated reference spread and fixed-query clock perturbations do not establish physical transfer or predictive uncertainty."
+    },
+    {
+      "finding": "F08",
+      "disposition": "ACCEPTED_METADATA_CORRECTION_WITHOUT_RAW_EDIT",
+      "statement": "22:17:30Z handoff_generated_at was a prefilled deadline, not actual generation time. Worker fixed candidate at21:25:43.686560Z. Local VALIDATED/ACCEPTED labels do not replace stages11–14 NOT_REACHED or approve partial handoff."
+    }
+  ],
+  "remaining_work": "Future separately frozen research may repair temporal/conditional prediction eligibility and target-metric alignment. No answer unlock, post-terminal rerun, shared-code edit or automatic technical override is authorized by this decision.",
+  "limitations": [
+    "No accepted Final or handoff; original case remains RUNNING with blocked gates and partial artifacts.",
+    "Scientific protocol objections coexist with a correctly preserved negative technical result.",
+    "Raw official inputs remain ignored and answer/reference access locked.",
+    "Native audit did not establish portable end-to-end replay or broad generalization."
+  ]
+}

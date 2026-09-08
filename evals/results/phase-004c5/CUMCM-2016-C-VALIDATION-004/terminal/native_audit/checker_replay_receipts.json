@@ -1,0 +1,140 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--run-id",
+      "RUN-2016-BASELINE-1729",
+      "--output",
+      "<REPO_ROOT>/.cache/pr12-rc8/fresh/2016/native_terminal_audit/RUN-2016-BASELINE-1729_checker_replay.json"
+    ],
+    "started_at": "2026-09-08T21:31:42.135361+00:00",
+    "ended_at": "2026-09-08T21:31:46.261544+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "matches_original_json": true,
+    "output_sha256": "035b0735d25ea50e209b6fcd1ee910ea2831c6ebc008bdf04be900378410a6d5",
+    "recalculation_residuals": {
+      "REQ-Q1": {
+        "all_coefficients": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        },
+        "all_2079_inverse_times_min": {
+          "value": 3.183231456205249e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 1.1368683772161603e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "REQ-Q2": {
+        "all_LOCO_and_55A_vectors": {
+          "value": 5.502442945726216e-11,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 5.620504062164855e-16,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "REQ-Q3": {
+        "all_aging_vectors_and_perturbations_min": {
+          "value": 7.958078640513122e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 1.1368683772161603e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      }
+    }
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--run-id",
+      "RUN-2016-CUBIC-1729",
+      "--output",
+      "<REPO_ROOT>/.cache/pr12-rc8/fresh/2016/native_terminal_audit/RUN-2016-CUBIC-1729_checker_replay.json"
+    ],
+    "started_at": "2026-09-08T21:31:46.262802+00:00",
+    "ended_at": "2026-09-08T21:31:50.450258+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "matches_original_json": true,
+    "output_sha256": "745e130621522a5b532d9676d587dab156fe940e5162cdcac29499f6eace0f29",
+    "recalculation_residuals": {
+      "REQ-Q1": {
+        "all_coefficients": {
+          "value": 2.7755575615628914e-17,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        },
+        "all_2079_inverse_times_min": {
+          "value": 8.640199666842818e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 1.1368683772161603e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "REQ-Q2": {
+        "all_LOCO_and_55A_vectors": {
+          "value": 5.4797055781818926e-11,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 4.180683577104105e-16,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "REQ-Q3": {
+        "all_aging_vectors_and_perturbations_min": {
+          "value": 4.765077221691172e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 2.2737367544323206e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      }
+    }
+  }
+]

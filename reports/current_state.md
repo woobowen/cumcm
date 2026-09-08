@@ -3,7 +3,7 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`
-- Subphase: `C-TARGET-FRESH-VALIDATION-IN-PROGRESS`
+- Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
 - Status: `IN_PROGRESS`
 - Active plan: `plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md`
 - Branch: `feat/phase004c5-p0-01-finalization-hf22-repro`
@@ -15,15 +15,15 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_VALIDATION_IN_PROGRESS`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3, DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5`
+- Technical adjudication: `C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3, DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5, DECISION-C-TARGET-VALIDATION-004C5-2016`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `None`
 - Content-verified commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Delivery receipt commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-08T21:14:57.875861+00:00` by `main-agent`
+- Updated: `2026-09-08T21:51:49.240104+00:00` by `main-agent`
 
 ## Blockers
 
@@ -72,3 +72,4 @@
 - Legacy batch001 fields describe the inherited Development batch; fresh RC8 planned denominator2 is separately frozen in the candidate protocol. Fresh answers remain sealed.
 - RC8 activation8ef732b was verified at the designated remote before fresh input access; this is research/Validation qualification only.
 - Fresh registration exposes a CI test that hardcodes eight historical cases; current delivery CI fails with the ninth case. The frozen 29cf1d7 candidate CI remains a separate passing observation. Shared/test bytes are unchanged during both planned Validation episodes; this delivery blocker is preserved, not skipped.
+- RC8 2016C terminal is evidence insufficient despite2 successful model captures. Native audit accepts conditional numerical results but identifies overstrong future-truth requirement, coarse group-overlap rejection, remaining-time metric mismatch and uncalibrated uncertainty; frozen outputs and negative gates are preserved.

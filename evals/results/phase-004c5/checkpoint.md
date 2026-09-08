@@ -72,3 +72,41 @@ to main; the worker owns only the same case's code and ignored revision workspac
 Visible goal observation:tokensUsed2,916,915,timeUsedSeconds11976,statusactive. This is cumulative
 visible tool accounting, not a priced invoice. PaidAPI0; installed packages0; global changes0;
 monetary costUNKNOWN. Continue directly through numeric captures and native terminal audit.
+
+## 2026-09-08T21:41:41Z — fixed 2016 results, native review closing
+
+Elapsed3h54m51s; hard deadline unchanged. Planned2/started1/actually executed1/terminally
+completed0/scientific passed0 pending main terminal freeze.2015 still unopened.
+2016 pre-run b71d00fc8944784c5213ba468d3e85afaed47949 was remotely verified21:13:28Z;
+case code subjectbee0a94cd0b04a17ceaf80830d482ac91366de1e. Two model captures and two independent
+checker captures succeeded with0 failures and Final0. Worker fixed45 result/report files at
+21:25:43.686560Z and stopped all numerical work. Published fixed package commit6a0ce61ed776aaf89ef91969fe2a55a0826c0ab7;
+audit bundle binds80 files, SHAee8c8533f9437b378d61ae9c8c6638f0eda19c4dcfc5382b42b491a959b483cc.
+
+Actual controller BLOCK_NATIVE_CONTRACTS at overall data sufficiency; compare-check BLOCK for
+group_overlap, selection-check PASS only for output binding, semantic-check BLOCK. Controller
+attempts=[] reflects early short-circuit, not absence of the two real Runs. Stage11–14 formal
+NOT_REACHED; local numeric robustness and unapproved partial handoff remain preserved.
+
+Separate fresh native terminal auditor is closing its report. It verified80 bundle files+2raw,
+replayed both frozen checkers only into its own ignored output directory, and independently
+recalculated existing vectors without producer/model reruns. Preliminary scientific dissent is
+accepted for formal adjudication: Q3 asks to forecast unknown remaining time, so declaring its
+future target truth a necessary model input is overly strong; same-battery cross-state overlap
+is not automatically leakage for same-battery conditional prediction. Preserve the actual machine
+rejection but do not attribute it to the original problem being inherently impossible.
+
+Independent existing-output diagnostics: baseline state1/state2 remaining-time errors4.48386%/
+9.36619%; cubic4.10009%/8.11860%. Cubic still orders better, but the selected joint metric combines
+Q2 MRE and state1 elapsed-time MRE, not remaining-time loss. Its0.599134% elapsed-time MRE does not
+prove0.599134% remaining-time accuracy. State3 prediction193.441777min remains unvalidated;
+missing Final evidence, prospective handoff timestamp and candidate-only VALIDATED fields require
+explicit limits. Final native audit.json/REPORT and main formal decision are still pending.
+
+Current CI eight-case-count blocker remains. Git diff found frozen CSV CRLF treated as whitespace;
+commit801a103d5889c780aec9438f73580752e00129bd adds only case-local .gitattributes with cr-at-eol
+and preserves all real whitespace checks. Frozen45-file hashes unchanged; actual diff recheck PASS,
+positive CRLF probe clean, negative space-before-CRLF probe rejected. No global configuration edit.
+Case-local .gitattributes is the only new configuration item since the preceding checkpoint.
+No packages/toolchains installed, paidAPI0, monetaryUNKNOWN. Visible goal tokens3,279,706;
+timeUsedSeconds13924. Continue immediately to audited terminal freeze and serial2015 episode.

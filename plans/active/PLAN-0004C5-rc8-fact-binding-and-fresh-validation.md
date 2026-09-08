@@ -154,3 +154,10 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  was supplied. The frozen shared772 paths remain unchanged. Current delivery CI has a preserved
  historical eight-case-count assertion failure; the separate new-registry-field error was repaired
  and its focused test passes. This does not replace or relabel the passing candidate-subject CI.
+
+- 2026-09-08T21:51:49.240104+00:00:2016 C terminal decision frozen after native read-only audit PASS of the negative proposal.
+ Planned2/started1/executed1/completed1/scientificPASS0;2 actual models,2 original checkers,
+ 2 audit checker replays,Final0. Three questions have conditional numerical outputs; stages11–14
+ remain unaccepted. Main accepts audit corrections to overstrong future-truth/group-overlap
+ interpretation and records actual remaining-time errors, without rewriting frozen inputs/results.
+ Second2015 C remains unopened and is next if the preregistered complete window remains available.

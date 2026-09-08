@@ -1,0 +1,318 @@
+{
+  "method": "Existing output coefficients evaluated directly; segment-local binary inversion; closed-form recomputation of already frozen regression; stored state2 predictions compared to supplied complete state2. No alternate candidate or model Run.",
+  "units": {
+    "time": "min",
+    "voltage": "V",
+    "MRE": "dimensionless"
+  },
+  "candidates": {
+    "RUN-2016-BASELINE-1729": {
+      "Q1": {
+        "20": {
+          "MRE": 0.003491275522197643,
+          "remaining_at_9_8V_min": 937.1885397412243,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.06818898305084709,
+          "knot_count": 47,
+          "duration_min": 3764.0
+        },
+        "30": {
+          "MRE": 0.0034245079994849664,
+          "remaining_at_9_8V_min": 593.3026315789502,
+          "raw_grid_max_downward_crossings": 4,
+          "full_forward_max_abs_voltage_error_V": 0.07180259740259842,
+          "knot_count": 47,
+          "duration_min": 2454.0
+        },
+        "40": {
+          "MRE": 0.0031192184795819596,
+          "remaining_at_9_8V_min": 429.86842105263395,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.07625555555555685,
+          "knot_count": 47,
+          "duration_min": 1724.0
+        },
+        "50": {
+          "MRE": 0.004106278657640802,
+          "remaining_at_9_8V_min": 326.33623188405977,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.09482682926829256,
+          "knot_count": 47,
+          "duration_min": 1308.0
+        },
+        "60": {
+          "MRE": 0.00429489952645005,
+          "remaining_at_9_8V_min": 279.4201954397406,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.08812727272727194,
+          "knot_count": 47,
+          "duration_min": 1044.0
+        },
+        "70": {
+          "MRE": 0.0025307505175490154,
+          "remaining_at_9_8V_min": 255.267052023122,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.03810370370370464,
+          "knot_count": 46,
+          "duration_min": 862.0
+        },
+        "80": {
+          "MRE": 0.002143012466833329,
+          "remaining_at_9_8V_min": 231.78406169665925,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.032991304347826045,
+          "knot_count": 46,
+          "duration_min": 730.0
+        },
+        "90": {
+          "MRE": 0.001879563481221367,
+          "remaining_at_9_8V_min": 207.02133333333416,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.02617368421052646,
+          "knot_count": 46,
+          "duration_min": 620.0
+        },
+        "100": {
+          "MRE": 0.0020941056508474035,
+          "remaining_at_9_8V_min": 193.01717305151965,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.02885882352941138,
+          "knot_count": 46,
+          "duration_min": 538.0
+        }
+      },
+      "q1_mre_max_stored_difference": 8.738669510233166e-16,
+      "Q2": {
+        "T55_min": 1176.0,
+        "table_rows": 101,
+        "table_max_abs_recalculation_difference_V": 1.7763568394002505e-15,
+        "table_increase_count": 2,
+        "endpoint_V": 9.0,
+        "LOCO_MREs": [
+          {
+            "current_A": 30,
+            "MRE": 0.10981671615735253
+          },
+          {
+            "current_A": 40,
+            "MRE": 0.0903791590904484
+          },
+          {
+            "current_A": 50,
+            "MRE": 0.04842362469402476
+          },
+          {
+            "current_A": 60,
+            "MRE": 0.027477884600880943
+          },
+          {
+            "current_A": 70,
+            "MRE": 0.03251287480432025
+          },
+          {
+            "current_A": 80,
+            "MRE": 0.01627547121513057
+          },
+          {
+            "current_A": 90,
+            "MRE": 0.017627926786547628
+          }
+        ]
+      },
+      "Q3": {
+        "prefix_n": 148,
+        "a_min": 0.0,
+        "b": 0.702963423374042,
+        "stored_vector_max_difference_min": 3.410605131648481e-13,
+        "total_min": 788.467207770438,
+        "remaining_min": 192.26720777043795,
+        "prefix_RMSE_min": 2.644469407137063,
+        "prefix_max_abs_residual_min": 6.0953155154245735,
+        "predicted_prefix_endpoint_min": 590.5127077483078,
+        "observed_prefix_endpoint_min": 596.2,
+        "predicted_prefix_endpoint_residual_min": -5.68729225169227,
+        "prefix_first_half_mean_residual_min": 1.1075203584568716,
+        "prefix_second_half_mean_residual_min": -0.36464905952523186,
+        "elapsed_monotonic": true,
+        "history_checks": {
+          "state1": {
+            "tail_MRE_excluding_last_0_03V": 0.006814203367107022,
+            "full_unobserved_tail_MRE": 0.0069456636333039955,
+            "actual_total_min": 1104.8,
+            "predicted_total_min": 1092.366256974176,
+            "terminal_error_min": -12.433743025824015,
+            "terminal_elapsed_relative_error": 0.011254293108095597,
+            "actual_remaining_at_prefix_end_min": 277.29999999999995,
+            "predicted_remaining_at_prefix_end_min": 264.86625697417594,
+            "remaining_relative_error": 0.04483859728028856
+          },
+          "state2": {
+            "tail_MRE_excluding_last_0_03V": 0.013741192472493988,
+            "full_unobserved_tail_MRE": 0.014095038748356409,
+            "actual_total_min": 979.0,
+            "predicted_total_min": 955.1536717301161,
+            "terminal_error_min": -23.846328269883884,
+            "terminal_elapsed_relative_error": 0.02435784297230223,
+            "actual_remaining_at_prefix_end_min": 254.60000000000002,
+            "predicted_remaining_at_prefix_end_min": 230.75367173011614,
+            "remaining_relative_error": 0.09366193350307887
+          }
+        }
+      }
+    },
+    "RUN-2016-CUBIC-1729": {
+      "Q1": {
+        "20": {
+          "MRE": 0.0005997600695763004,
+          "remaining_at_9_8V_min": 936.9946356823175,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.015294742964291785,
+          "knot_count": 63,
+          "duration_min": 3764.0
+        },
+        "30": {
+          "MRE": 0.0009708038170843823,
+          "remaining_at_9_8V_min": 591.6781530955864,
+          "raw_grid_max_downward_crossings": 4,
+          "full_forward_max_abs_voltage_error_V": 0.031130331264993316,
+          "knot_count": 63,
+          "duration_min": 2454.0
+        },
+        "40": {
+          "MRE": 0.001114712531689945,
+          "remaining_at_9_8V_min": 429.7914547407936,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.026122521331636506,
+          "knot_count": 62,
+          "duration_min": 1724.0
+        },
+        "50": {
+          "MRE": 0.0015197671351571908,
+          "remaining_at_9_8V_min": 326.1973895551355,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.03861497757037391,
+          "knot_count": 62,
+          "duration_min": 1308.0
+        },
+        "60": {
+          "MRE": 0.0014218623861218084,
+          "remaining_at_9_8V_min": 277.93658682099203,
+          "raw_grid_max_downward_crossings": 3,
+          "full_forward_max_abs_voltage_error_V": 0.033589717370801964,
+          "knot_count": 62,
+          "duration_min": 1044.0
+        },
+        "70": {
+          "MRE": 0.0003888508241681702,
+          "remaining_at_9_8V_min": 254.68548351701793,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.004908076637779146,
+          "knot_count": 61,
+          "duration_min": 862.0
+        },
+        "80": {
+          "MRE": 0.0003662743422386363,
+          "remaining_at_9_8V_min": 231.64555320175714,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.013736921218695741,
+          "knot_count": 61,
+          "duration_min": 730.0
+        },
+        "90": {
+          "MRE": 0.0003172309744585785,
+          "remaining_at_9_8V_min": 206.7354398741901,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.012123366901455768,
+          "knot_count": 60,
+          "duration_min": 620.0
+        },
+        "100": {
+          "MRE": 0.0003210293888886325,
+          "remaining_at_9_8V_min": 192.74789127976646,
+          "raw_grid_max_downward_crossings": 2,
+          "full_forward_max_abs_voltage_error_V": 0.0022431401527978068,
+          "knot_count": 60,
+          "duration_min": 538.0
+        }
+      },
+      "q1_mre_max_stored_difference": 3.014624140595945e-16,
+      "Q2": {
+        "T55_min": 1162.5881174419153,
+        "table_rows": 101,
+        "table_max_abs_recalculation_difference_V": 1.7763568394002505e-15,
+        "table_increase_count": 2,
+        "endpoint_V": 9.0,
+        "LOCO_MREs": [
+          {
+            "current_A": 30,
+            "MRE": 0.03346261192892044
+          },
+          {
+            "current_A": 40,
+            "MRE": 0.004265077751458246
+          },
+          {
+            "current_A": 50,
+            "MRE": 0.006774724457532757
+          },
+          {
+            "current_A": 60,
+            "MRE": 0.011111561365749255
+          },
+          {
+            "current_A": 70,
+            "MRE": 0.004055782355159561
+          },
+          {
+            "current_A": 80,
+            "MRE": 0.007047695247192393
+          },
+          {
+            "current_A": 90,
+            "MRE": 0.004820858258362196
+          }
+        ]
+      },
+      "Q3": {
+        "prefix_n": 148,
+        "a_min": -1.3707657246561666,
+        "b": 0.7052327346744237,
+        "stored_vector_max_difference_min": 2.2737367544323206e-13,
+        "total_min": 789.6417772439999,
+        "remaining_min": 193.4417772439998,
+        "prefix_RMSE_min": 2.546383158144256,
+        "prefix_max_abs_residual_min": 7.378258892755969,
+        "predicted_prefix_endpoint_min": 591.0482391596822,
+        "observed_prefix_endpoint_min": 596.2,
+        "predicted_prefix_endpoint_residual_min": -5.15176084031782,
+        "prefix_first_half_mean_residual_min": 0.20466822411804608,
+        "prefix_second_half_mean_residual_min": -0.20466822411800817,
+        "elapsed_monotonic": true,
+        "history_checks": {
+          "state1": {
+            "tail_MRE_excluding_last_0_03V": 0.0059913388266542664,
+            "full_unobserved_tail_MRE": 0.006117298228316927,
+            "actual_total_min": 1104.8,
+            "predicted_total_min": 1093.430454484307,
+            "terminal_error_min": -11.369545515693062,
+            "terminal_elapsed_relative_error": 0.010291044094580976,
+            "actual_remaining_at_prefix_end_min": 277.29999999999995,
+            "predicted_remaining_at_prefix_end_min": 265.9304544843069,
+            "remaining_relative_error": 0.041000885379347506
+          },
+          "state2": {
+            "tail_MRE_excluding_last_0_03V": 0.010869154144631913,
+            "full_unobserved_tail_MRE": 0.01120841608252604,
+            "actual_total_min": 979.0,
+            "predicted_total_min": 958.3300469990979,
+            "terminal_error_min": -20.66995300090207,
+            "terminal_elapsed_relative_error": 0.021113332993771265,
+            "actual_remaining_at_prefix_end_min": 254.60000000000002,
+            "predicted_remaining_at_prefix_end_min": 233.93004699909795,
+            "remaining_relative_error": 0.08118598979144567
+          }
+        }
+      }
+    }
+  }
+}

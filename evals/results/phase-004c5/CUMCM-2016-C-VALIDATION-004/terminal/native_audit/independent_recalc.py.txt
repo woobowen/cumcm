@@ -1,0 +1,73 @@
+"""Audit of existing model coefficients and predictions; no producer execution or tuning."""
+import io
+import json
+import math
+from pathlib import Path
+import numpy as np
+import openpyxl
+from audit_helpers import read, OUT
+
+PUB = Path('evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004')
+wb = openpyxl.load_workbook(io.BytesIO(read('.cache/pr12-rc8/fresh/2016/case-r2/data/raw/appendix.xlsx', 'independent existing-model audit')), data_only=True)
+rows = list(wb['附件1'].values)[2:]
+curves = {str(i):np.array([(r[0],r[j]) for r in rows if isinstance(r[j],(int,float))],float) for j,i in enumerate(range(20,101,10),1)}
+r2 = np.array([r[:5] for r in list(wb['附件2'].values)[2:] if isinstance(r[0],(int,float))],object)
+volts = r2[:,0].astype(float)
+refs = r2[:,1:4].astype(float)
+target = np.array([float(x) for x in r2[:,4] if isinstance(x,(int,float))])
+cut = len(target)
+tail = (volts < 9.765-1e-10) & (volts >= 9.030-1e-10)
+lowtail = volts < 9.765-1e-10
+
+def evalpoly(rec, t):
+    x=np.asarray(rec['time_knots_min']); c=np.asarray(rec['coefficients_descending'])
+    j=np.clip(np.searchsorted(x,t,side='right')-1,0,len(x)-2)
+    d=t-x[j]
+    return ((c[0,j]*d+c[1,j])*d+c[2,j])*d+c[3,j]
+
+def inverse_segments(rec, u):
+    x=np.asarray(rec['time_knots_min']); c=np.asarray(rec['coefficients_descending']); hits=[]
+    for j in range(len(x)-1):
+        if evalpoly(rec,x[j]) >= u-1e-10 and evalpoly(rec,x[j+1]) <= u+1e-10:
+            l,h=float(x[j]),float(x[j+1])
+            for _ in range(65):
+                m=(l+h)/2
+                if evalpoly(rec,m)>u:l=m
+                else:h=m
+            hits.append((l+h)/2)
+    if not hits:raise AssertionError('no segment')
+    return max(hits)
+
+def aff_existing(x,y,affine):
+    xp=x[:len(y)]
+    if affine:
+        b=float(np.sum((xp-xp.mean())*(y-y.mean()))/np.sum((xp-xp.mean())**2));a=float(y.mean()-b*xp.mean())
+    else:a=0.;b=float(np.sum(xp*y)/np.sum(xp*xp))
+    return a,b,a+b*x
+
+result={'method':'Existing output coefficients evaluated directly; segment-local binary inversion; closed-form recomputation of already frozen regression; stored state2 predictions compared to supplied complete state2. No alternate candidate or model Run.','units':{'time':'min','voltage':'V','MRE':'dimensionless'},'candidates':{}}
+for run in ['RUN-2016-BASELINE-1729','RUN-2016-CUBIC-1729']:
+    o=json.loads(read(PUB/'candidate_artifacts/runs'/run/'output.json','read all numeric vectors'))
+    q1={}; numeric_residual=0.
+    for current,curve in curves.items():
+        rec=o['Q1']['curve_models'][current];grid=np.arange(231)*.005+9
+        pred=np.array([inverse_segments(rec,u) for u in grid]); actual=[]; crossing_counts=[]
+        for u in grid:
+            ks=np.flatnonzero((curve[:-1,1]>=u)&(curve[1:,1]<=u)); k=ks[-1]; t0,u0=curve[k];t1,u1=curve[k+1]
+            actual.append(t1 if u0==u1 else t0+(u0-u)/(u0-u1)*(t1-t0));crossing_counts.append(len(ks))
+        actual=np.asarray(actual);mre=float(np.mean(abs(pred-actual)/actual));remaining=float(curve[-1,0]-inverse_segments(rec,9.8))
+        numeric_residual=max(numeric_residual,abs(mre-o['Q1']['per_current_MRE'][current]))
+        q1[current]={'MRE':mre,'remaining_at_9_8V_min':remaining,'raw_grid_max_downward_crossings':max(crossing_counts),'full_forward_max_abs_voltage_error_V':float(np.max(abs(evalpoly(rec,curve[:,0])-curve[:,1]))),'knot_count':len(rec['time_knots_min']),'duration_min':float(curve[-1,0])}
+    a,b,p=aff_existing(refs.mean(axis=1),target,run.endswith('CUBIC-1729'))
+    q3=o['Q3'];stored=np.array(q3['predicted_elapsed_min']);fitted=p[:cut];res=fitted-target
+    terminal_checks={}
+    for name,prediction,truth in [('state1',q3['state1_validation_prediction_min'],refs[:,1]),('state2',q3['state2_development_prediction_min'],refs[:,2])]:
+        pred=np.array(prediction); actualremaining=truth[-1]-truth[cut-1];premaining=pred[-1]-truth[cut-1]
+        terminal_checks[name]={'tail_MRE_excluding_last_0_03V':float(np.mean(abs(pred[tail]-truth[tail])/truth[tail])),'full_unobserved_tail_MRE':float(np.mean(abs(pred[lowtail]-truth[lowtail])/truth[lowtail])),'actual_total_min':float(truth[-1]),'predicted_total_min':float(pred[-1]),'terminal_error_min':float(pred[-1]-truth[-1]),'terminal_elapsed_relative_error':float(abs(pred[-1]-truth[-1])/truth[-1]),'actual_remaining_at_prefix_end_min':float(actualremaining),'predicted_remaining_at_prefix_end_min':float(premaining),'remaining_relative_error':float(abs(premaining-actualremaining)/actualremaining)}
+    f55=o['Q2'];w=f55['blend55']['weight'];T=f55['duration55_min'];tab=f55['table55'];v55=np.array([row['voltage_V'] for row in tab]); maxres=0.
+    for row in tab:
+        t=row['time_min'];calc=(1-w)*evalpoly(o['Q1']['curve_models']['50'],t*q1['50']['duration_min']/T)+w*evalpoly(o['Q1']['curve_models']['60'],t*q1['60']['duration_min']/T)
+        maxres=max(maxres,abs(calc-row['voltage_V']))
+    result['candidates'][run]={'Q1':q1,'q1_mre_max_stored_difference':numeric_residual,'Q2':{'T55_min':T,'table_rows':len(tab),'table_max_abs_recalculation_difference_V':maxres,'table_increase_count':int(np.sum(np.diff(v55)>0)),'endpoint_V':float(v55[-1]),'LOCO_MREs':[{k:r[k] for k in ['current_A','MRE']} for r in f55['leave_one_current_out']]},'Q3':{'prefix_n':cut,'a_min':a,'b':b,'stored_vector_max_difference_min':float(np.max(abs(p-stored))),'total_min':float(p[-1]),'remaining_min':float(p[-1]-target[-1]),'prefix_RMSE_min':float(np.sqrt(np.mean(res**2))),'prefix_max_abs_residual_min':float(np.max(abs(res))),'predicted_prefix_endpoint_min':float(p[cut-1]),'observed_prefix_endpoint_min':float(target[-1]),'predicted_prefix_endpoint_residual_min':float(res[-1]),'prefix_first_half_mean_residual_min':float(res[:cut//2].mean()),'prefix_second_half_mean_residual_min':float(res[cut//2:].mean()),'elapsed_monotonic':bool(np.all(np.diff(p)>=0)),'history_checks':terminal_checks}}
+(OUT/'independent_recalculation.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+print(json.dumps(result,ensure_ascii=False,indent=2))

@@ -61,7 +61,7 @@ planned_cases:
   year: 2016
   set_type: VALIDATION
   target_problem_type: C
-  status: IN_PROGRESS
+  status: EVIDENCE_INSUFFICIENT
   batch_position: 1
   planned_denominator: 2
   skill_version: 0.2.0-competition-rc8
@@ -71,6 +71,9 @@ planned_cases:
   maximum_wall_seconds: 7200
   protocol: evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md
   worker_dispatch_at: '2026-09-08T20:47:03Z'
+  input_accessed: true
+  episode_completed: true
+  scientific_passed: false
 - case_id: CUMCM-2015-C-VALIDATION-005
   year: 2015
   set_type: VALIDATION
@@ -1000,9 +1003,9 @@ cases:
     terminal_effect: C_TARGET_VALIDATION_FAILED
   - failure_id: HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION
     classification: GENERALIZABLE_SKILL_FAILURE
-    summary: The post-selection builder declared REQ2 held-out-test support although the selected
-      Run was DEVELOPMENT_GROUPED_OOS with test access NOT_AUTHORIZED/0 and
-      held_out_test_valid=false; the semantic Gate did not cross-bind the predicate.
+    summary: The post-selection builder declared REQ2 held-out-test support although
+      the selected Run was DEVELOPMENT_GROUPED_OOS with test access NOT_AUTHORIZED/0
+      and held_out_test_valid=false; the semantic Gate did not cross-bind the predicate.
     terminal_effect: ADDITIONAL_BLOCKER_NO_TERMINAL_VERDICT_CHANGE
   problem_specific_findings:
   - finding_id: CUMCM-2017-C-DEVELOPMENT-SELECTION-001
@@ -1054,8 +1057,13 @@ cases:
   data_hashes:
     .cache/pr12-rc8/fresh/2016/official/c_files/CUMCM2016-C-Appendix-Chinese.xlsx: 062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf
   answer_access_status: SEALED
-  first_run_status: IN_PROGRESS
-  first_run_freeze: null
+  first_run_status: FROZEN
+  first_run_freeze:
+    freeze_id: CUMCM-2016-C-VALIDATION-004-TERMINAL-001
+    path: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/terminal_freeze.json
+    sha256: 1868d483d5a846ffe2092e5bdaa70677c5e856fb4797439b95a7586fc5883f20
+    subject_commit: bee0a94cd0b04a17ceaf80830d482ac91366de1e
+    status: FROZEN_PENDING_REMOTE_DELIVERY
   reference_unlock: LOCKED
   generalization_axis:
   - FRESH_PROBLEM_UNDER_FROZEN_RC8
@@ -1067,10 +1075,16 @@ cases:
   model: UNKNOWN
   reasoning: UNKNOWN
   start_time: '2026-09-08T20:47:03Z'
-  freeze_time: null
+  freeze_time: '2026-09-08T21:51:49.240104+00:00'
   unlock_time: null
-  generalizable_failures: []
-  problem_specific_findings: []
+  generalizable_failures:
+  - CONDITIONAL_TEMPORAL_VALIDATION_GROUP_OVERLAP_TOO_COARSE
+  - FUTURE_TRUTH_AS_REQUIRED_INPUT_OVERSTRONG
+  - FORECAST_METRIC_TARGET_MISMATCH
+  - PREFILLED_HANDOFF_TIMESTAMP_NOT_ACTUAL_GENERATION
+  problem_specific_findings:
+  - Conditional Q1/Q2/Q3 numerical deliverables independently recomputed; no accepted
+    Final or whole-problem scientific PASS.
   contamination_status: NO_KNOWN_PRE_FREEZE_SOLUTION_EXPOSURE
   model_prior_status: MODEL_PRIOR_EXPOSURE_UNVERIFIABLE
   registration: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/registration/input_registration.json
@@ -1082,3 +1096,6 @@ cases:
     code_subject_commit: bee0a94cd0b04a17ceaf80830d482ac91366de1e
     status: REMOTE_DELIVERED
     delivery_path: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/pre_run/pre_run_validation_freeze_delivery.json
+  terminal_result: C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT
+  terminal_decision: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/decision.json
+  terminal_freeze: evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/terminal_freeze.json
