@@ -645,8 +645,15 @@ def solve(case_root: Path, candidate_id: str, seed: int) -> dict[str, Any]:
         },
         "question_2": {
             "minimum_supplier_count": int(len(selected)),
+            "candidate_supplier_pool_count": int(len(selected)),
+            "weekly_plan_supplier_count": feasibility["question_2"]["selected_supplier_count"],
             "minimum_supplier_ids": [data.supplier_ids[i] for i in selected],
             "cardinality_status": cardinality_status,
+            "cardinality_claim_strength": (
+                "UPPER_BOUND_NOT_GLOBAL_MINIMUM"
+                if cardinality_status != "MILP_EXACT_CARDINALITY"
+                else "EXACT_MILP_CARDINALITY"
+            ),
             "weekly_plan_repeated_for_24_weeks": plans["question_2"],
         },
         "question_3": {"weekly_plan_repeated_for_24_weeks": plans["question_3"]},

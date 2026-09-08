@@ -29,6 +29,60 @@ CACHE_ROOT = ROOT / ".cache/official_inputs"
 RESULT_ROOT = ROOT / "evals/results/phase004c5-c-batch"
 FIRST_RUN_ROOT = ROOT / "evals/results/phase-004c-c-batch"
 
+SEMANTIC_CLAIM_TYPES = frozenset(
+    {
+        "DESCRIPTIVE",
+        "EMPIRICAL",
+        "PREDICTIVE",
+        "COMPARATIVE",
+        "POLICY_EVALUATION",
+        "FEASIBILITY",
+        "OPTIMALITY",
+        "CAUSAL",
+        "SIMULATION_CONDITIONAL",
+    }
+)
+
+# The Development route must not guess that every case requirement is
+# DESCRIPTIVE.  These are conservative case adapters: no Development claim is
+# marked PREDICTIVE because that would require the one-shot Final evaluator.
+CLAIM_SEMANTIC_SPECS: dict[str, dict[str, dict[str, Any]]] = {
+    "2022": {
+        "REQ-VALIDITY": {"claim_type": "DESCRIPTIVE"},
+        "REQ-COMPOSITION": {"claim_type": "DESCRIPTIVE"},
+        "REQ-1A": {"claim_type": "EMPIRICAL"},
+        "REQ-1B": {"claim_type": "EMPIRICAL"},
+        "REQ-1C": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-2A": {"claim_type": "EMPIRICAL"},
+        "REQ-2B": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-2C": {"claim_type": "EMPIRICAL"},
+        "REQ-3A": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-3B": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-4A": {"claim_type": "EMPIRICAL"},
+        "REQ-4B": {"claim_type": "EMPIRICAL"},
+        "REQ-EVIDENCE": {"claim_type": "DESCRIPTIVE"},
+    },
+    "2021": {
+        "REQ-Q1-IMPORTANCE-MODEL": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-Q1-TOP50": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-Q2-MINIMUM-SUPPLIERS": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-Q2-ORDER-PLAN": {"claim_type": "FEASIBILITY"},
+        "REQ-Q2-TRANSPORT-PLAN": {"claim_type": "FEASIBILITY"},
+        "REQ-Q2-EFFECT": {"claim_type": "FEASIBILITY"},
+        "REQ-Q3-MATERIAL-PREFERENCE": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-Q3-ORDER-PLAN": {"claim_type": "FEASIBILITY"},
+        "REQ-Q3-TRANSPORT-PLAN": {"claim_type": "FEASIBILITY"},
+        "REQ-Q3-EFFECT": {"claim_type": "FEASIBILITY"},
+        "REQ-Q4-CAPACITY-INCREASE": {"claim_type": "SIMULATION_CONDITIONAL"},
+        "REQ-Q4-ORDER-PLAN": {"claim_type": "FEASIBILITY"},
+        "REQ-Q4-TRANSPORT-PLAN": {"claim_type": "FEASIBILITY"},
+        "REQ-OUTPUT-ATTACHMENT-A": {"claim_type": "DESCRIPTIVE"},
+        "REQ-OUTPUT-ATTACHMENT-B": {"claim_type": "DESCRIPTIVE"},
+        "REQ-INVENTORY-PRODUCTION": {"claim_type": "FEASIBILITY"},
+        "REQ-TRANSPORT-BUSINESS-RULES": {"claim_type": "FEASIBILITY"},
+    },
+}
+
 
 def utc_timestamp() -> str:
     return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -575,6 +629,7 @@ def prepare_case(core: Any, config: CaseConfig, case_root: Path, source: Path) -
 def build_semantic_records(
     core: Any,
     *,
+    config: CaseConfig,
     requirements: list[str],
     run_id: str,
     manifest: dict[str, Any],
@@ -602,15 +657,38 @@ def build_semantic_records(
     }
     claims = []
     claim_ids = {}
+    case_specs = CLAIM_SEMANTIC_SPECS.get(config.key, {})
+    if set(case_specs) != set(requirements):
+        missing = sorted(set(requirements) - set(case_specs))
+        extra = sorted(set(case_specs) - set(requirements))
+        raise ValueError(f"RC7_CLAIM_SEMANTICS_REGISTRY_MISMATCH:{missing}:{extra}")
+    independent_feasibility = output.get("independent_feasibility")
+    feasibility_recalculation = isinstance(independent_feasibility, dict) and bool(
+        independent_feasibility
+    ) and all(
+        isinstance(record, dict) and record.get("feasible") is True
+        for record in independent_feasibility.values()
+    )
     for index, requirement_id in enumerate(requirements, 1):
         source_claim = output["requirement_claims"][requirement_id]
+        spec = case_specs[requirement_id]
+        claim_type = spec.get("claim_type")
+        if claim_type not in SEMANTIC_CLAIM_TYPES:
+            raise ValueError(f"RC7_CLAIM_SEMANTICS_UNDECLARED:{config.key}:{requirement_id}")
+        support_predicates = {"scope_bounded": True}
+        if claim_type == "SIMULATION_CONDITIONAL":
+            support_predicates["registered_assumptions_bound"] = bool(
+                output.get("uncertainty")
+            ) and bool(output.get("limitations"))
+        if claim_type == "FEASIBILITY":
+            support_predicates["independent_constraint_recalculation"] = feasibility_recalculation
         claim_id = f"CLAIM-RC7-{index:02d}"
         claim_ids[requirement_id] = claim_id
         claims.append(
             {
                 "claim_id": claim_id,
                 "requirement_id": requirement_id,
-                "claim_type": "DESCRIPTIVE",
+                "claim_type": claim_type,
                 "statement": source_claim["claim_text"],
                 "scope": {
                     "fields": ["official_case_input", metric],
@@ -621,7 +699,7 @@ def build_semantic_records(
                 "selected_output_ids": [output_id],
                 "metric_ids": [metric],
                 "evidence_class": "PROVIDED_EMPIRICAL",
-                "support_predicates": {"scope_bounded": True},
+                "support_predicates": support_predicates,
                 "status": "SUPPORTED",
                 "limitations": [
                     "This is a Development regression, not an independent Validation result.",
@@ -896,6 +974,7 @@ def run_case(
     accepted(core, case_root, "robustness_analysis", robustness)
     selection, semantic = build_semantic_records(
         core,
+        config=config,
         requirements=prepared["requirements"],
         run_id=selected_manifest["run_id"],
         manifest=selected_manifest,
@@ -1028,7 +1107,20 @@ def run_case(
         "scientific_review": {
             "status": "PROVISIONAL_ENGINEERING_REGRESSION",
             "data_sufficiency_basis": "FORMAL_REGISTERED_INPUT_AND_PROVENANCE_GATE_ONLY",
-            "claim_semantics_basis": "ROUTE_ADAPTER_PENDING_CASE_SPECIFIC_SCIENTIFIC_REVIEW",
+            "claim_semantics_basis": "EXPLICIT_CASE_ADAPTER_NO_DEFAULT_DESCRIPTIVE_LABELS",
+            "claim_type_counts": {
+                claim_type: sum(
+                    CLAIM_SEMANTIC_SPECS[config.key][requirement_id]["claim_type"]
+                    == claim_type
+                    for requirement_id in prepared["requirements"]
+                )
+                for claim_type in sorted(SEMANTIC_CLAIM_TYPES)
+                if any(
+                    CLAIM_SEMANTIC_SPECS[config.key][requirement_id]["claim_type"]
+                    == claim_type
+                    for requirement_id in prepared["requirements"]
+                )
+            },
             "not_a_scientific_quality_pass": True,
         },
         "requirements_total": len(prepared["requirements"]),

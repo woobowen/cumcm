@@ -21,6 +21,17 @@ def case_cli(repo_root: Path):
     return module
 
 
+@pytest.fixture
+def development_route(repo_root: Path):
+    path = repo_root / "scripts/run_c_target_rc7_development_regressions.py"
+    spec = importlib.util.spec_from_file_location("phase004c5_development_route", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
 def _comparison(case_cli) -> tuple[dict, dict]:
     candidates = ["BASE", "CAND"]
     metric = "MAE"
@@ -172,3 +183,17 @@ def test_existing_comparison_is_not_mutated_by_development_validation(
     original = copy.deepcopy(comparison)
     case_cli.validate_comparison(comparison, freezes)
     assert comparison == original
+
+
+def test_development_claim_semantics_are_explicit_and_not_all_descriptive(
+    development_route,
+) -> None:
+    for config in development_route.CASES.values():
+        specs = development_route.CLAIM_SEMANTIC_SPECS[config.key]
+        assert set(specs) == set(config.requirement_ids)
+        assert all(
+            item.get("claim_type") in development_route.SEMANTIC_CLAIM_TYPES
+            for item in specs.values()
+        )
+        assert any(item.get("claim_type") != "DESCRIPTIVE" for item in specs.values())
+        assert all(item.get("claim_type") != "PREDICTIVE" for item in specs.values())
