@@ -1,0 +1,27 @@
+{
+  "synthetic_positive": "PASS",
+  "forged_dual": {
+    "status": "REJECTED",
+    "reason": "DUAL_INEQUALITY_VIOLATED:S1:T1"
+  },
+  "negative_flow": {
+    "status": "REJECTED",
+    "reason": "NEGATIVE_PRIMAL_FLOW"
+  },
+  "missing_multiplier": {
+    "status": "REJECTED",
+    "reason": "MULTIPLIER_COVERAGE_MISMATCH"
+  },
+  "nonfinite": {
+    "status": "REJECTED",
+    "reason": "Invalid literal for Fraction: 'NaN'"
+  },
+  "changed_primal": {
+    "status": "REJECTED",
+    "reason": "PRIMAL_NOT_SCALED_ORIGINAL_PLAN"
+  },
+  "false_scale": {
+    "status": "REJECTED",
+    "reason": "ORIGINAL_FLOW_OR_SCALE_INVALID"
+  }
+}
