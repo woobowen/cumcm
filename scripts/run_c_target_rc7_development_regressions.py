@@ -469,12 +469,13 @@ def write_source_artifacts(core: Any, config: CaseConfig, source: Path, generate
         "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
         "selection_rule": "ARGMIN_THEN_ID",
         "random_seeds": [config.seed],
-        "splits": copy.deepcopy(config.split_assignment),
+        "splits": {**copy.deepcopy(config.split_assignment), "test": []},
+        "evaluation_design": {"mode": "DEVELOPMENT_NO_FINAL_EVALUATION"},
         "required_input_hashes": data_hashes,
         "required_code_files": [],
         "code_commit": "",
         "trusted_freeze_registry": {},
-        "stop_rule": "one preregistered RC7 Development-regression attempt per candidate",
+        "stop_rule": "one preregistered Development attempt per scheduled candidate",
         "handoff_generated_at": generated_at,
     }
     sufficiency = source_data_sufficiency(requirements, source_records)
@@ -530,6 +531,7 @@ def freeze_registry(
     code_files: list[dict[str, str]],
     code_commit: str,
     handoff_generated_at: str,
+    evaluation_design: dict[str, Any] | None = None,
 ) -> dict[str, str]:
     aggregation = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
     selection = "ARGMIN_THEN_ID" if direction == "MIN" else "ARGMAX_THEN_ID"
@@ -548,7 +550,7 @@ def freeze_registry(
         "baseline": core.canonical_hash(baseline_id),
         "input_set": core.canonical_hash(required_inputs),
         "execution_policy": core.canonical_hash(
-            {"stop_rule": stop_rule, "handoff_generated_at": handoff_generated_at}
+            core.execution_policy_payload(stop_rule, handoff_generated_at, evaluation_design)
         ),
         "code_set": core.canonical_hash(code_files),
         "code_commit": core.canonical_hash(code_commit),
@@ -915,8 +917,17 @@ def run_case(
     attempt: int,
     generated_at: str,
     result_root: Path,
+    execution_ids: tuple[str, ...] | None = None,
 ) -> dict[str, Any]:
     case_root = CACHE_ROOT / f"{config.case_id}-ATTEMPT-{attempt:03d}"
+    scheduled = execution_ids or config.candidate_ids
+    already_captured = list(
+        CACHE_ROOT.glob(
+            f"CUMCM-{config.key}-C-DEVELOPMENT-RC8-V6-*-ATTEMPT-*/runs/*/execution_capture.json"
+        )
+    )
+    if len(already_captured) + len(scheduled) > 9:
+        raise ValueError("RC8_DEVELOPMENT_CAPTURE_BUDGET_EXHAUSTED")
     started_wall = time.time()
     started_at = utc_timestamp()
     prepared = prepare_case(core, config, case_root, source)
@@ -952,7 +963,7 @@ def run_case(
                 "sha256": core.file_hash(target_code),
             }
         )
-    stop_rule = "one preregistered RC7 Development-regression attempt per candidate"
+    stop_rule = "one preregistered Development attempt per scheduled candidate"
     freezes = freeze_registry(
         core,
         candidate_ids=candidate_ids,
@@ -966,6 +977,7 @@ def run_case(
         code_files=code_files,
         code_commit=code_commit,
         handoff_generated_at=generated_at,
+        evaluation_design=source_plan.get("evaluation_design"),
     )
     aggregation = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
     selection_rule = "ARGMIN_THEN_ID"
@@ -998,8 +1010,8 @@ def run_case(
     executions: list[dict[str, Any]] = []
     scores: dict[str, list[float]] = {}
     primary_code_path = config.code_files[0][0]
-    for candidate_id in candidate_ids:
-        run_id = f"RUN-RC7-{candidate_id}-S{config.seed}"
+    for candidate_id in scheduled:
+        run_id = f"RUN-RC8-{candidate_id}-S{config.seed}"
         captured = core.execute_case_code(
             case_root,
             run_id=run_id,
@@ -1033,6 +1045,17 @@ def run_case(
                 raise ValueError(f"RC7_REGRESSION_SCORE_INVALID:{candidate_id}")
             scores.setdefault(candidate_id, []).append(float(score))
     if baseline_id not in scores or len(scores) < 2:
+        partial_hash = core.canonical_hash(
+            {
+                "scope": "NONRANKING_PARTIAL_DEVELOPMENT",
+                "scheduled": list(scheduled),
+                "executions": executions,
+            }
+        )
+        for execution in executions:
+            core.seal_captured_run(
+                case_root, run_id=execution["run_id"], decision_hash=partial_hash
+            )
         return preserve_development_evidence(
             core,
             config,
@@ -1360,6 +1383,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", choices=tuple(CASES) + ("all",), default="all")
     parser.add_argument("--attempt", type=int, default=1)
+    parser.add_argument("--control", action="store_true")
+    parser.add_argument(
+        "--candidate-id", help="one bounded capture; other planned candidates remain unrun"
+    )
     parser.add_argument("--revision", choices=("rc8-v6",), default="rc8-v6")
     parser.add_argument(
         "--result-root",
@@ -1377,12 +1404,46 @@ def main() -> int:
     results = []
     for key in selected:
         config = current_scientific_config(key, args.attempt)
+        execution_ids = None
+        if args.control:
+            base = f"evals/results/phase-004c5/development/v6/{key}/code"
+            names = (
+                (
+                    "c2021_v5_control.py",
+                    "c2021_v5_control_feasibility.py",
+                    "c2021_independent_check.py",
+                )
+                if key == "2021"
+                else ("model_v5_control.py", "scientific_checks.py")
+            )
+            config = replace(
+                config,
+                case_id=config.case_id + "-CONTROL",
+                code_files=tuple((f"models/{name}", f"{base}/{name}") for name in names),
+            )
+            execution_ids = (config.baseline_id,)
+        elif args.candidate_id:
+            if args.candidate_id not in config.candidate_ids:
+                raise ValueError("RC8_DEVELOPMENT_CANDIDATE_NOT_REGISTERED")
+            execution_ids = (args.candidate_id,)
         source = ensure_source_workspace(core, config, generated_at)
-        results.append(run_case(core, config, source, args.attempt, generated_at, result_root))
+        results.append(
+            run_case(
+                core,
+                config,
+                source,
+                args.attempt,
+                generated_at,
+                result_root,
+                execution_ids=execution_ids,
+            )
+        )
     print(
         json.dumps(
             {
-                "status": "PASS",
+                "status": "PARTIAL"
+                if any(item["terminal_state"] == "PARTIAL_SCIENTIFIC_EVIDENCE" for item in results)
+                else "PASS",
                 "case_count": len(results),
                 "cases": [
                     {

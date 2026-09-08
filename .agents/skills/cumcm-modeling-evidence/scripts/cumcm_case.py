@@ -1444,6 +1444,19 @@ def nonpredictive_evaluation(plan: dict[str, Any]) -> bool:
     return (plan.get("evaluation_design") or {}).get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION"
 
 
+def development_only_evaluation(plan: dict[str, Any]) -> bool:
+    return (plan.get("evaluation_design") or {}).get("mode") == "DEVELOPMENT_NO_FINAL_EVALUATION"
+
+
+def execution_policy_payload(
+    stop_rule: str, generated_at: str, design: Any = None
+) -> dict[str, Any]:
+    payload = {"stop_rule": stop_rule, "handoff_generated_at": generated_at}
+    if design is not None:
+        payload["evaluation_design"] = design
+    return payload
+
+
 def validate_runtime_semantic_claims(
     record: Any,
     selection_record: Any,
@@ -2916,8 +2929,15 @@ def validate_comparison(
         codes.add("RC_COMPARISON_SPLIT_INVALID")
     else:
         split_sets: list[set[Any]] = []
-        for values in splits.values():
-            if not isinstance(values, list) or (not values and not nonpredictive):
+        for name, values in splits.items():
+            empty_development_test = (
+                name == "test"
+                and (comparison.get("test_access") or {}).get("mode")
+                == "DEVELOPMENT_NO_FINAL_EVALUATION"
+            )
+            if not isinstance(values, list) or (
+                not values and not nonpredictive and not empty_development_test
+            ):
                 codes.add("RC_COMPARISON_EMPTY_SPLIT")
                 break
             try:
@@ -3065,10 +3085,14 @@ def validate_comparison(
             "baseline": canonical_hash(baseline),
             "input_set": canonical_hash(required_inputs),
             "execution_policy": canonical_hash(
-                {
-                    "stop_rule": stop_rule,
-                    "handoff_generated_at": handoff_generated_at,
-                }
+                execution_policy_payload(
+                    stop_rule,
+                    handoff_generated_at,
+                    read_artifact(case_root, "experiment_plan")["content"].get("evaluation_design")
+                    if case_root is not None
+                    and (case_root / ARTIFACT_PATHS["experiment_plan"]).is_file()
+                    else None,
+                )
             ),
             "code_set": canonical_hash(required_code_files),
             "code_commit": canonical_hash(code_commit),
@@ -4648,7 +4672,11 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     split_items = list(splits.values()) if isinstance(splits, dict) else []
     split_values_valid = len(split_items) == 3 and all(
         isinstance(items, list)
-        and (items or nonpredictive_evaluation(plan))
+        and (
+            items
+            or nonpredictive_evaluation(plan)
+            or (development_only_evaluation(plan) and items is splits.get("test"))
+        )
         and all((isinstance(item, (str, int)) and not isinstance(item, bool)) for item in items)
         and len(set(items)) == len(items)
         for items in split_items
@@ -4767,10 +4795,7 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         "baseline": canonical_hash(baseline_id),
         "input_set": canonical_hash(required_inputs),
         "execution_policy": canonical_hash(
-            {
-                "stop_rule": stop_rule,
-                "handoff_generated_at": handoff_generated_at,
-            }
+            execution_policy_payload(stop_rule, handoff_generated_at, plan.get("evaluation_design"))
         ),
         "code_set": canonical_hash(required_code_files),
         "code_commit": canonical_hash(code_commit),
@@ -5458,6 +5483,10 @@ def evaluate_authorized_final_test(
         raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
     if not HEX64.fullmatch(decision_hash):
         raise ValueError("RC_RUN_DECISION_HASH_INVALID")
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    if development_only_evaluation(plan) or nonpredictive_evaluation(plan):
+        raise ValueError("RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN")
+    trusted_freezes(case_root)
     ledger_path = case_root / FINAL_EVALUATION_LEDGER
     if ledger_path.is_file():
         if not allow_existing:

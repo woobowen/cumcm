@@ -276,6 +276,7 @@ def _build_runtime_case(
     model_fixture: str = "tests/fixtures/runtime_portfolio_model.py",
     checker_fixture: str | None = None,
     nonpredictive: bool = False,
+    development_only: bool = False,
 ):
     core = _module(
         repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
@@ -394,6 +395,15 @@ def _build_runtime_case(
     splits = {"train": [1], "validation": [2], "test": [3]}
     if nonpredictive:
         splits = {"train": [], "validation": [], "test": []}
+    elif development_only:
+        splits["test"] = []
+    design = (
+        {"mode": "NONPREDICTIVE_FINAL_VERIFICATION"}
+        if nonpredictive
+        else {"mode": "DEVELOPMENT_NO_FINAL_EVALUATION"}
+        if development_only
+        else None
+    )
     inputs = {"data/raw/input.json": raw_hash}
     generated = "2026-09-05T00:00:00Z"
     freezes = synthetic._freezes(
@@ -409,6 +419,10 @@ def _build_runtime_case(
         commit,
     )
     freezes["seed_schedule"] = core.canonical_hash([seed])
+    if design is not None:
+        freezes["execution_policy"] = core.canonical_hash(
+            core.execution_policy_payload("one deterministic run per candidate", generated, design)
+        )
     _accepted(
         core,
         case,
@@ -431,11 +445,7 @@ def _build_runtime_case(
             "stop_rule": "one deterministic run per candidate",
             "handoff_generated_at": generated,
             "scenario_hash": raw_hash,
-            **(
-                {"evaluation_design": {"mode": "NONPREDICTIVE_FINAL_VERIFICATION"}}
-                if nonpredictive
-                else {}
-            ),
+            **({"evaluation_design": design} if design is not None else {}),
         },
     )
     synthetic._write_output_contract_probe(

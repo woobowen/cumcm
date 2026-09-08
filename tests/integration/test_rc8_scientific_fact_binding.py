@@ -122,6 +122,9 @@ def test_declared_scientific_requirement_cannot_ignore_missing_checker(repo_root
     for requirement in requirements["requirements"]:
         requirement["scientific_facts_required"] = True
     _write(core, case, "problem_requirements", requirements)
+    sufficiency = core.read_artifact(case, "data_sufficiency")["content"]
+    sufficiency["requirements"] = requirements["requirements"]
+    _write(core, case, "data_sufficiency", sufficiency)
     completed, result = helpers._run_controller(repo_root, case)
     assert completed.returncode != 0, result
     assert "RC_SCIENTIFIC_RECALCULATION_MISSING" in result["reason_codes"]

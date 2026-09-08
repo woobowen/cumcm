@@ -14,7 +14,7 @@ def _module(repo_root, relative, name):
     return module
 
 
-def _nonpredictive(repo_root, tmp_path):
+def _nonpredictive(repo_root, tmp_path, *, development_only=False):
     helper = _module(repo_root, "tests/integration/test_actual_controller_neutral_e2e.py", "rc8_np")
     core = _module(
         repo_root, ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py", "rc8_np_core"
@@ -54,7 +54,8 @@ def _nonpredictive(repo_root, tmp_path):
         semantic=semantic,
         model_fixture="tests/fixtures/scientific_optimization_model.py",
         checker_fixture="tests/fixtures/scientific_independent_check.py",
-        nonpredictive=True,
+        nonpredictive=not development_only,
+        development_only=development_only,
     )
     return helper, core, case
 
@@ -185,3 +186,27 @@ def test_complete_rehashed_checker_receipt_requires_actual_recomputation(repo_ro
     completed, result = helper._run_controller(repo_root, case)
     assert completed.returncode != 0, result
     assert "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING" in result["reason_codes"]
+
+
+def test_development_captures_need_no_fake_final_test_split(repo_root, tmp_path):
+    _, core, case = _nonpredictive(repo_root, tmp_path, development_only=True)
+    plan = core.read_artifact(case, "experiment_plan")["content"]
+    assert plan["splits"]["test"] == []
+    assert len(list((case / "runs").glob("*/execution_capture.json"))) == 2
+    with pytest.raises(ValueError, match="RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN"):
+        core.evaluate_authorized_final_test(
+            case, run_id="RUN-CAND-20260906", decision_hash="a" * 64
+        )
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
+
+
+def test_evaluation_design_is_bound_before_first_final_access(repo_root, tmp_path):
+    helper, core, case = _nonpredictive(repo_root, tmp_path, development_only=True)
+    plan = core.read_artifact(case, "experiment_plan")["content"]
+    plan["evaluation_design"] = {"mode": "PREDICTIVE_FINAL_EVALUATION"}
+    helper._accepted(core, case, "experiment_plan", plan)
+    with pytest.raises(ValueError, match="RC_.*INVALID"):
+        core.evaluate_authorized_final_test(
+            case, run_id="RUN-CAND-20260906", decision_hash="a" * 64
+        )
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
