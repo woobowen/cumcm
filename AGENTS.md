@@ -3,7 +3,10 @@
 ## Goal and startup order
 
 Build one evidence-first CUMCM modeling Skill from problem intake through frozen final runs and a versioned handoff to a separate paper team. Before work, read `GOALS.md`, `WORKFLOW.md`, the current file in `plans/active/`, `state/project_state.json`, then the policy relevant to the target directory.
-Development is currently paused; a new maintainer reads `HANDOVER.md` and `CODEX_TAKEOVER.md` before proposing 004C5/RC8 work.
+Phase 004C5 / PR #12 development is explicitly authorized by the current user task. Read
+`HANDOVER.md` and `CODEX_TAKEOVER.md` as historical context; current execution is owned by
+`state/project_state.json` and its active plan. Earlier takeover-only and pause limits are superseded
+only within this authorized task.
 
 ## Map and sources of truth
 

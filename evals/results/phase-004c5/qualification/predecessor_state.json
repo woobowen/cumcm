@@ -7,8 +7,8 @@
   ],
   "active_skill_version": "0.2.0-competition-rc7",
   "blocked_candidate_version": "0.2.0-competition-rc6",
-  "target_candidate_version": "0.2.0-competition-rc8",
-  "answer_access_status": "SEALED_NOT_ACCESSED",
+  "target_candidate_version": "0.2.0-competition-rc7",
+  "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
     "ARCH-W1-WORKFLOW-ONLY-GUARDS",
@@ -52,8 +52,10 @@
   "batch_reference_unlocked": true,
   "batch_skill_frozen": true,
   "blockers": [
-    "RC8_SOURCE_SCOPE_SUPPORT_BINDING_INCOMPLETE",
-    "RC8_CANDIDATE_NOT_ACCEPTED"
+    "VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE",
+    "VALIDATION_FINAL_RUN_NOT_COMPLETED",
+    "VALIDATION_HANDOFF_NOT_REACHED",
+    "HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION"
   ],
   "competition_rc1": {
     "api_calls": 0,
@@ -118,9 +120,9 @@
   },
   "content_verified_commit": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
   "current_batch_id": "C-TARGET-BATCH-001",
-  "current_branch": "feat/phase004c5-p0-01-finalization-hf22-repro",
-  "current_plan": "plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md",
-  "current_validation_case": null,
+  "current_branch": "feat/phase004c2-claim-scope-repair-validation-2019c",
+  "current_plan": "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md",
+  "current_validation_case": "CUMCM-2017-C-VALIDATION-003F",
   "delivery_receipt_for_commit": {
     "commit": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
     "remote": "origin",
@@ -194,8 +196,8 @@
     "transport_profile": "PROXY_INHERITED",
     "unknown_slots": 0
   },
-  "next_phase_allowed": null,
-  "phase": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+  "next_phase_allowed": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+  "phase": "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
   "previous_validation_case": "CUMCM-2024-C-VALIDATION-001",
   "previous_validation_cases": [
     "CUMCM-2024-C-VALIDATION-001",
@@ -298,11 +300,11 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "RC8-FACT-BINDING-REPAIR",
+  "subphase": "C-TARGET-FRESH-VALIDATION-TERMINAL",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS",
+  "technical_adjudication_status": "C_TARGET_VALIDATION_FAILED",
   "third_party_integrated": false,
-  "updated_at": "2026-09-08T17:55:12.451024+00:00",
+  "updated_at": "2026-09-05T22:57:50+08:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-002d-r2a-c1/input_freeze_manifest.json",

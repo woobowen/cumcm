@@ -26,6 +26,7 @@ BRANCH = "feat/phase004c-c-target-batch-generalization"
 EXPECTED_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
 EXPECTED_EVIDENCE_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
 EXPECTED_RUNTIME_CLOSURE_PHASE = "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
+EXPECTED_FACT_BINDING_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
 RC3 = "0.2.0-competition-rc3"
 RC4 = "0.2.0-competition-rc4"
 RC4_COMMIT = "297cad0a29c659b18484d4f3b67d69a942ad415c"
@@ -284,6 +285,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         EXPECTED_REPAIR_PHASE,
         EXPECTED_EVIDENCE_REPAIR_PHASE,
         EXPECTED_RUNTIME_CLOSURE_PHASE,
+        EXPECTED_FACT_BINDING_PHASE,
     }
     if repair:
         for field in (
@@ -305,8 +307,13 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                 EXPECTED_RUNTIME_CLOSURE_PHASE: (
                     "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md"
                 ),
+                EXPECTED_FACT_BINDING_PHASE: "plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md",
             }[state["phase"]],
-            current_branch="feat/phase004c2-claim-scope-repair-validation-2019c",
+            current_branch=(
+                "feat/phase004c5-p0-01-finalization-hf22-repro"
+                if state["phase"] == EXPECTED_FACT_BINDING_PHASE
+                else "feat/phase004c2-claim-scope-repair-validation-2019c"
+            ),
         )
         schema = _json(root / "contracts/project_state.schema.json")
         if list(Draft202012Validator(schema).iter_errors(state)):
@@ -360,7 +367,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         if token not in plan_text:
             errors.append(f"TARGET_ACTIVE_PLAN_TOKEN_MISSING:{token}")
     if workflow_rules.get("git_delivery", {}).get("preferred_task_branch") != (
-        "feat/phase004c2-claim-scope-repair-validation-2019c" if repair else BRANCH
+        expected_state["current_branch"] if repair else BRANCH
     ):
         errors.append("TARGET_WORKFLOW_BRANCH_MISMATCH")
 
@@ -379,6 +386,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                         "0.2.0-competition-rc5",
                         "0.2.0-competition-rc6",
                         "0.2.0-competition-rc7",
+                        "0.2.0-competition-rc8",
                     )
                 )
             )

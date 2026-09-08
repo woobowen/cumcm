@@ -1,0 +1,65 @@
+{
+  "schema_version": "phase-004c5-verification/v1",
+  "timestamp": "2026-09-08T18:02:23.314231+00:00",
+  "base_commit": "17f109cadc8524c285af6a50776e6c3decb8b3e8",
+  "subject": "M0_WORKTREE_BEFORE_COMMIT",
+  "checks": [
+    {
+      "command": ".venv/bin/python scripts/validate_repo.py --strict",
+      "attempts": [
+        {
+          "exit_code": 1,
+          "errors": [
+            "GIT_DELIVERY_REMOTE_TRUTH_COUNT",
+            "PROJECT_STATE_SCHEMA"
+          ]
+        },
+        {
+          "exit_code": 1,
+          "errors": [
+            "GIT_DELIVERY_REMOTE_TRUTH_COUNT"
+          ]
+        },
+        {
+          "exit_code": 0,
+          "errors": []
+        }
+      ],
+      "final_status": "PASS"
+    },
+    {
+      "command": ".venv/bin/python -m pytest -q tests/unit/test_target_problem_policy.py tests/integration/test_p0_01_finalization_hf22_reproduction.py tests/integration/test_p0_02_final_evaluation.py tests/integration/test_p0_03_predictive_cross_bind.py tests/unit/test_phase004c5_development_evidence.py",
+      "exit_code": 0,
+      "passed": 32,
+      "elapsed_seconds": 5.17
+    },
+    {
+      "command": ".venv/bin/python -m pytest -q tests/unit/test_phase004c5_state.py",
+      "exit_code": 0,
+      "passed": 6
+    },
+    {
+      "command": ".venv/bin/python -m pytest -q tests/unit/test_repository_text_boundary.py",
+      "exit_code": 0,
+      "passed": 2
+    },
+    {
+      "command": ".venv/bin/python scripts/render_status.py --check",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "log_sha256": {
+    "m0-strict.log": "daa3acb7400d8c31d108ff8b1a4cb2b120426a8b1af3b9d8b6c4643c59f2436e",
+    "m0-strict-repair1.log": "7755a7b26d8298d4d259045e5166daac41ad51dd2a9125b380df9e3975c48298",
+    "m0-strict-repair2.log": "d86ef4e66e773dc4be1ad3e17da6b3e8657f3b6a0a489dbb29579b365e2a9c58",
+    "m0-inherited-targeted.log": "b1067fd9d9df9bc9e1e4103208d3e31af71026df65e62f13b8e0ed330211cd15"
+  },
+  "native_audit": "IN_PROGRESS",
+  "new_official_inputs_accessed": false,
+  "dependencies_installed": [],
+  "visible_goal_tokens_at_2026_09_08T180119Z": 261827
+}

@@ -321,3 +321,27 @@ route is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`.
 The post-freeze read-only integrity audit adds HF22 without rewriting that decision: semantic
 support declared held-out validity contrary to the selected Run's development boundary and zero
 authorized test access. The successor route must enforce predicate-to-output cross-binding.
+
+## Phase 004C5 fact-binding and RC8 route
+
+The explicit PR #12 continuation consumes 004C4's legal next phase
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`. Historical 004C4 failure and RC7 release are unchanged.
+`C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS` here uses subphase `RC8-FACT-BINDING-REPAIR`, active RC7
+and candidate RC8. Neutral expectations precede implementation; source class, generated result
+method and Claim support scope must bind authoritative evidence. Development without final
+evaluation may produce an explicitly provisional engineering package, with scientific coverage
+reported separately. It cannot satisfy a predictive Validation or full empirical Claim.
+
+`C_TARGET_RC8_READY_VALIDATION_PENDING` requires a native independent audit, relevant real
+Development checks, full CI and a candidate decision bound to an existing subject. Candidate version
+surfaces are already part of that subject while active state is still RC7. Activation changes only
+live metadata and release evidence; shared implementation and environment must remain identical.
+Remotely verified activation precedes any fresh official input access.
+
+The predeclared 2016/2015 C pair (2014 input/contamination-only fallback) uses a single shared frozen
+subject, sealed answers and fresh contexts. Each case pre-run protocol and remote freeze precedes
+major numerical results. Bounded development/debugging is permitted within that frozen episode;
+final model selection precedes one authorized appropriate final evaluation. Independent terminal
+review precedes immutable decision/freeze. No post-terminal Run or Skill mutation is allowed.
+All outcomes keep `next_phase_allowed=null` in this task; 2025 access is never authorized.
+Engineering, scientific coverage, fresh-case counts and contest compliance remain separate.

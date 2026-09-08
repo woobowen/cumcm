@@ -27,6 +27,7 @@ C_TARGET_STATUSES = {
     "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS",
     "C_TARGET_RC6_READY_VALIDATION_PENDING",
     "C_TARGET_RC7_READY_VALIDATION_PENDING",
+    "C_TARGET_RC8_READY_VALIDATION_PENDING",
     "C_TARGET_VALIDATION_IN_PROGRESS",
     "CLAIM_SCOPE_REPAIR_BLOCKED",
     "RC6_RELEASE_REPAIR_BLOCKED",
@@ -100,6 +101,7 @@ def competition_rc_successor(root: Path) -> bool:
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
             "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
             "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
         }
         and state.get("technical_adjudication_status") in C_TARGET_STATUSES
         and state.get("active_skill_version")
@@ -110,6 +112,7 @@ def competition_rc_successor(root: Path) -> bool:
             "0.2.0-competition-rc5-blocked",
             "0.2.0-competition-rc6",
             "0.2.0-competition-rc7",
+            "0.2.0-competition-rc8",
         }
     )
     return rc1_ready or development_successor or c_target_successor

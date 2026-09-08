@@ -93,3 +93,11 @@ rerun as Validation, and the next plan must be `PHASE-SKILL-C-TARGET-BATCH-REPAI
 The independent terminal integrity audit returned `CHALLENGE` with additional blocker
 `HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION`; it did not change the frozen verdict or authorize a
 same-case repair.
+
+## Current 004C5 continuation
+
+The user explicitly resumed PR #12 for RC8 fact binding, real Development evidence and fresh C
+Validation. The byte-identical 004C4 terminal plan now lives in `plans/completed/`; references in
+old freezes resolve at their original Git subject. The sole active plan is
+`plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md`. Its eight-hour budget and
+pre-result case order do not reset any historical episode or acceptance decision.

@@ -23,3 +23,13 @@ Tracked delivery may include governance, plans, ADRs, the formal Skill, rules, c
 Compare local `git rev-parse HEAD` with the exact task-branch SHA returned by `git ls-remote --heads origin`. Only equality permits `REMOTE_DELIVERED`. Authentication, network, remote mismatch, or SHA mismatch results must retain the local commits and be reported using their explicit blocked status; they must never be hidden by optimistic completion language.
 
 Final delivery evidence records repository, remote name, local and remote branches/SHAs, push command and exit code, commits pushed, Draft PR status, remote CI status, ignored local-only paths, and remaining blockers. Local CI passing is not evidence that remote CI ran.
+
+## 004C5 research candidate
+
+The current authorized RC8 is a research/Validation qualification under the existing Competition RC
+route. It is distinct from `CONTEST_RELEASE_READY`: `TEAM_COMPLIANCE_REVIEW` remains `NOT_RUN`.
+Candidate versions and all behavior-affecting shared code/rules/contracts/environment are frozen
+in an existing implementation subject before qualification; live active state can still be RC7.
+Acceptance and then activation are separate records, and activation must preserve those tested
+bytes. Historical RC7 checks resolve RC7's original subject; current checks evaluate the current
+registered candidate, without permitting an unknown version or disabling historical integrity.
