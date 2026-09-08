@@ -4994,7 +4994,15 @@ def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
         if path is None or not path.is_file() or file_hash(path) != expected:
             raise ValueError("RC_SCIENTIFIC_CHECK_STALE")
     capture = load_json(case_root / "runs" / run_id / "execution_capture.json")
-    build_captured_run_manifest(case_root, run_id=run_id, decision_hash="0" * 64)
+    manifest_path = case_root / "runs" / run_id / "manifest.json"
+    if manifest_path.is_file():
+        validation = validate_manifest(
+            load_json(manifest_path), case_root=case_root, trusted_freezes=trusted_freezes(case_root)
+        )
+        if not validation.accepted:
+            raise ValueError("RC_SCIENTIFIC_CHECK_PRODUCER_CAPTURE_INVALID")
+    else:
+        build_captured_run_manifest(case_root, run_id=run_id, decision_hash="0" * 64)
     verify_current_capture_files(case_root, capture)
     checker = ledger.get("checker")
     if (
