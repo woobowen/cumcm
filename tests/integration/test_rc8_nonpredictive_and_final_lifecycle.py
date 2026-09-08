@@ -125,3 +125,17 @@ def test_failed_final_evaluator_consumes_access_budget_and_preserves_failure(rep
     again, second = helper._evaluate_final(repo_root, case, helper.SELECTED_RUN, decision_hash)
     assert again.returncode != 0
     assert "RC_FINAL_TEST_ALREADY_ACCESSED" in second["reason_codes"]
+
+
+def test_actual_controller_rejects_missing_generation_facts(repo_root, tmp_path):
+    helper = _module(
+        repo_root, "tests/integration/test_p0_02_final_evaluation.py", "rc8_missing_facts"
+    )
+    p001 = helper._p001(repo_root, tmp_path)
+    core, case = p001._build_case(
+        repo_root, tmp_path, model_fixture="tests/fixtures/missing_scientific_facts_model.py"
+    )
+    completed, result = p001._run_controller(repo_root, case)
+    assert completed.returncode != 0, result
+    assert "RC_CLAIM_GENERATION_FACTS_INVALID" in result["reason_codes"]
+    assert core.load_state(case)["state"] == "RUNNING"
