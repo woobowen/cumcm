@@ -190,7 +190,9 @@ def test_development_claim_semantics_are_explicit_and_not_all_descriptive(
 ) -> None:
     for config in development_route.CASES.values():
         specs = development_route.load_claim_semantic_specs(config)
-        assert config.claim_semantics_file.startswith("evals/results/phase-004c-c-batch/")
+        assert config.claim_semantics_file.startswith(
+            "evals/results/phase004c5-pr12-7h/development-v5/code/"
+        )
         assert set(specs) == set(config.requirement_ids)
         assert all(
             item.get("claim_type") in development_route.SEMANTIC_CLAIM_TYPES

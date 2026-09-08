@@ -24,6 +24,8 @@
   `c71912e` byte hashes; the new Development code is being moved to the
   case-owned `development-v5/code` path. No historical freeze or formal state
   is being rewritten.
+- The local recovery is now at `65e74b2`. The remote feature branch and PR
+  head remain at `f17e99a`; no new push has been made.
 
 ## Bounded activity plan
 
@@ -109,6 +111,33 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
   drift for the frozen 2021/2022 C code after the Development scientific
   changes. The old hashes and formal artifacts were not rewritten, and no new
   push was made.
+
+## M3 recovery: frozen-root isolation and v5 Development receipt
+
+- Commit `cb0e89f` moved the current 2021/2022 Development implementations and
+  their case-owned semantic adapters into
+  `evals/results/phase004c5-pr12-7h/development-v5/code/`. The historical
+  roots were restored byte-for-byte to the registered preflight hashes:
+  `7914bf0b3f49f670d9c48484b376e0a3514b6bb40fe2175e94bde8d0b660e232` for
+  2021 C and `ccb4b0ed0ed2ea2dfaa9e5cc7b8ef8d463559ce24b5298ed3a11f51a669a8313`
+  for 2022 C. The formal state, registry, and historical evidence were not
+  changed.
+- Attempt 012 was started after that migration but before the new code was
+  committed. The trusted-freeze guard stopped it with
+  `RC_TRUSTED_FREEZE_REGISTRY_MISSING`; it produced no counted run and its
+  ignored workspace is retained as an infrastructure observation.
+- The corrected v5 route ran as attempt 013 from committed code `65e74b2`,
+  with Skill tree `bfc3be777fb42e01e40067a3cbb419448454164f`. Both cases had
+  3/3 valid runs, `claim_gate=PASS`, `handoff_gate=PASS`, and
+  `READY_FOR_PAPER_HANDOFF`:
+  - 2021 C: 40.848093 seconds, evidence SHA-256
+    `7998729212608dd05c9535e3703a0e82ee6dd31b1404850b7d4c61fe4f19e2aa`.
+  - 2022 C: 51.380819 seconds, evidence SHA-256
+    `7910619cea68f14fc49d618f92de542bf89dc740ce983f647fdd5b2143d9ee55`.
+- These remain provisional Development regression receipts only:
+  `DEVELOPMENT_NO_FINAL_EVALUATION`, `final_evaluator_invoked=false`, and
+  `test_access.authorized=false,count=0`. No Validation result, scientific
+  quality pass, release authorization, or candidate promotion is claimed.
 
 ## GitHub CI self-audit
 

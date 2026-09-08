@@ -27,6 +27,11 @@ record, not a release authorization.
 - Remote branch matched the implementation freeze after the code push. The
   final documentation/receipt commit may advance the branch head without
   changing this frozen implementation identity.
+- The current local recovery commits are `cb0e89f` (historical-root isolation)
+  and `65e74b2` (preserve the next Development attempt). The current v5
+  receipts bind `candidate_implementation_commit` and
+  `execution_code_commit` to `65e74b2`; the remote branch still points to
+  `f17e99a` because no push has been made in this continuation.
 - The user-provided `CUMCM_PR12_7H_EXECUTION_PLAN.md` was preserved and not
   staged. Historical Validation artifacts, formal state, registry, answer
   material, 2025 C, benchmark vault, and unrelated jobs/worktrees were not
@@ -89,8 +94,11 @@ for scientific quality, and case-specific overclaiming. The independent
 read-only review recomputed outputs without importing the case feasibility
 module and did not write case workspaces or formal state.
 
-Canonical latest evidence is isolated under
-`evals/results/phase004c5-pr12-7h/development-v4/`:
+The prior canonical v4 evidence remains under
+`evals/results/phase004c5-pr12-7h/development-v4/`. After restoring the
+historical roots and moving current code to a governed case-owned path, the
+latest local v5 evidence is under
+`evals/results/phase004c5-pr12-7h/development-v5/`:
 
 | case | attempt | valid runs | terminal | evidence SHA-256 |
 | --- | ---: | ---: | --- | --- |
@@ -101,6 +109,21 @@ Both receipts bind `84087c71d1a20501771e95851ad42e4662cbbdc9`, report
 `PROVISIONAL_ENGINEERING_REGRESSION`, have `claim_gate=PASS` and
 `handoff_gate=PASS`, and contain explicit `DEVELOPMENT_NO_FINAL_EVALUATION`
 with `authorized=false,count=0`.
+
+The v5 receipts supersede v4 for the local Development audit, without
+rewriting v4 or any formal artifact:
+
+| case | attempt | valid runs | elapsed seconds | terminal | evidence SHA-256 |
+| --- | ---: | ---: | ---: | --- | --- |
+| 2021 C | 13 | 3/3 | 40.848093 | `READY_FOR_PAPER_HANDOFF` | `7998729212608dd05c9535e3703a0e82ee6dd31b1404850b7d4c61fe4f19e2aa` |
+| 2022 C | 13 | 3/3 | 51.380819 | `READY_FOR_PAPER_HANDOFF` | `7910619cea68f14fc49d618f92de542bf89dc740ce983f647fdd5b2143d9ee55` |
+
+Attempt 012 is retained as a failed trusted-freeze observation
+(`RC_TRUSTED_FREEZE_REGISTRY_MISSING`) and is not counted as a run. Both v5
+receipts bind the new code to `65e74b2`, report
+`DEVELOPMENT_NO_FINAL_EVALUATION`, `final_evaluator_invoked=false`, and
+`test_access.authorized=false,count=0`; they are not Validation or scientific
+quality conclusions.
 
 ## Verification truth
 
@@ -138,18 +161,19 @@ with `authorized=false,count=0`.
   pass on that tree. The Windows worktree showed only path-separator-only
   registry discrepancies in a few POSIX-sensitive checkers; those are not
   evidence of a Linux CI failure.
-- The first platform-independent blocker after the merge-tree replay is
+- The first platform-independent blocker after the merge-tree replay was
   `scripts/check_claim_scope_repair.py --check`:
   `HISTORICAL_EVIDENCE_DRIFT` for the 2021 C supply-plan code and the 2022 C
   model-pipeline code. Their preflight hashes are unchanged, while the
   current files contain the new cardinality fields and repeated grouped-CV
-  diagnostic. This is a legitimate frozen-history guard, not a reason to
-  rewrite old hashes or remove the checker.
+- diagnostic. This is a legitimate frozen-history guard, not a reason to
+  rewrite old hashes or remove the checker. The local repair restored those
+  two historical paths and moved the Development code to `development-v5`;
+  the Linux-like post-repair checker result is recorded separately below.
 - No formal state, historical freeze, or registry was rewritten during this
   audit. The feature branch and PR head remain at `f17e99a`; no new push was
-  made. The repair boundary is to move new Development code/evidence into a
-  new governed case/freeze, or run a separately authorized correction
-  protocol, while leaving the historical case roots immutable.
+  made. The repair boundary was to move new Development code/evidence into a
+  new governed case/freeze while leaving the historical case roots immutable.
 
 Read-only formal checks independently agree with the blocked boundary:
 
@@ -192,3 +216,5 @@ are independently present.
 - [2022 audit](../evals/results/phase004c5-pr12-7h/scientific/2022_zero_loss_audit.md)
 - [2022 Development receipt](../evals/results/phase004c5-pr12-7h/development-v4/CUMCM-2022-C-DEVELOPMENT-BATCH-001/development_regression_evidence.json)
 - [2021 Development receipt](../evals/results/phase004c5-pr12-7h/development-v4/CUMCM-2021-C-DEVELOPMENT-BATCH-002/development_regression_evidence.json)
+- [2022 v5 Development receipt](../evals/results/phase004c5-pr12-7h/development-v5/CUMCM-2022-C-DEVELOPMENT-BATCH-001/development_regression_evidence.json)
+- [2021 v5 Development receipt](../evals/results/phase004c5-pr12-7h/development-v5/CUMCM-2021-C-DEVELOPMENT-BATCH-002/development_regression_evidence.json)
