@@ -115,3 +115,17 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
     SHA-256 `6D0F00EC8EC6850806941CDC79D3650940886A79B5CF590FF8B5520C1276ED72`.
   - Both bind `84087c71d1a20501771e95851ad42e4662cbbdc9`, no Final evaluator,
     explicit zero test access, and provisional Development-only status.
+
+## Formal checker receipts
+
+- UTF-8 read-only fresh checker: `BLOCK`, verdict
+  `C_TARGET_VALIDATION_FAILED`, `run_count=9`, `SEALED`,
+  `workspace_verified=false`, with 17 historical case-code/artifact,
+  integrity, and registry drift errors.
+- Historical regression checker: `BLOCK` with 8 frozen regression file-drift
+  errors. Batch freeze checker: `ok=false` with
+  `BATCH_FREEZE_DELIVERY_RECEIPT_INVALID` and
+  `BATCH_FREEZE_PROJECT_STATE_DRIFT`.
+- RC7 candidate/live checker: `BLOCK` with candidate evidence/receipt drift and
+  invalid or premature release binding. These formal artifacts remain
+  untouched; the Development receipts do not substitute for them.

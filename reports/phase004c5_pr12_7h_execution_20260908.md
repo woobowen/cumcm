@@ -121,6 +121,23 @@ with `authorized=false,count=0`.
   that launcher did not put the repository root on `sys.path`.
 - Remote CI status: unknown.
 
+Read-only formal checks independently agree with the blocked boundary:
+
+- `python -X utf8 scripts/check_phase004c4_fresh_validation.py --check`
+  returned `BLOCK`, `verdict=C_TARGET_VALIDATION_FAILED`, `run_count=9`,
+  `answer_access_status=SEALED`, `workspace_verified=false`, and 17 errors:
+  five historical validation-code drift items, fresh integrity/terminal-registry
+  invalidity, and tracked-artifact drift in the pre-run freeze, contamination
+  check, input registration, official retrieval, decision, controller outcome,
+  fourteen-stage episode, and selection/run summary.
+- `scripts/check_phase004c4_regressions.py --check` returned `BLOCK` with eight
+  frozen-regression file-drift errors. `scripts/check_c_target_batch_freeze.py
+  --check` returned `ok=false` with `BATCH_FREEZE_DELIVERY_RECEIPT_INVALID` and
+  `BATCH_FREEZE_PROJECT_STATE_DRIFT`.
+- RC7 candidate/live checks returned `BLOCK` for candidate evidence/receipt
+  drift, premature or invalid live state, and missing/invalid release binding.
+  These checks were not repaired by rewriting formal artifacts.
+
 ## M4/M5 blocker and recovery
 
 The formal registry and `state/project_state.json` still identify the active
