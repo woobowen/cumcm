@@ -698,7 +698,47 @@ def check(root: Path, run_id: str, model_output: Path | None = None) -> dict[str
     else:
         metric_consistent = None
     metric_values = dict(metric_values)
+    # Calculation fidelity is separate from domain feasibility. A correctly
+    # reported failed historical stress remains a valid negative diagnostic.
+    calculation_checks = {}
+    for question in [2, 3, 4]:
+        key = f"question_{question}"
+        actual = output.get(key, {})
+        checks = dict(parameters)
+        for name in ("reported_purchase_cost_error", "reported_transport_loss_error"):
+            if name in plans[key]["constraint_residuals"]:
+                checks[name] = plans[key]["constraint_residuals"][name]
+        expected_weeks = stress[key].get("weeks", [])
+        actual_weeks = actual.get("historical_stress", {}).get("weeks", [])
+        checks["stress_week_count_difference"] = residual(
+            len(actual_weeks) - len(expected_weeks), 0, "EQ", 0
+        )
+        errors = []
+        for observed, expected in zip(actual_weeks, expected_weeks, strict=False):
+            for name, value in expected.items():
+                if isinstance(value, (int, float)):
+                    errors.append(abs(float(observed.get(name, -1e100)) - value))
+                else:
+                    errors.append(float(observed.get(name) != value))
+        checks["reported_stress_trace_max_abs_error"] = residual(
+            max(errors, default=0), 0, "EQ", 1e-7
+        )
+        calculation_checks[key] = checks
+    combined_calculation = {
+        f"{question}_{key}": value
+        for question, checks in calculation_checks.items()
+        for key, value in checks.items()
+    }
     for req, record in list(requirements.items()):
+        if req.startswith("REQ-Q1") or req.startswith("REQ-OUTPUT-"):
+            recalculation = record["constraint_residuals"]
+        elif req in {"REQ-INVENTORY-PRODUCTION", "REQ-TRANSPORT-BUSINESS-RULES"}:
+            recalculation = combined_calculation
+        else:
+            question = 3 if "Q3" in req else 4 if "Q4" in req else 2
+            recalculation = calculation_checks[f"question_{question}"]
+        record = {**record, "recalculation_residuals": recalculation}
+
         prefix = (
             "ATTACHMENTS"
             if req.startswith("REQ-OUTPUT-")

@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from contextlib import suppress
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -1425,6 +1426,8 @@ def scientific_metric_binding_codes(
     if not isinstance(checked, dict):
         return {"RC_SCIENTIFIC_RECALCULATION_MISSING"}
     record = (checked.get("requirements") or {}).get(claim.get("requirement_id"), {})
+    if not scientific_residuals_pass(record.get("recalculation_residuals")):
+        return {"RC_SCIENTIFIC_RECALCULATION_INCONSISTENT"}
     values = record.get("metric_values") or {}
     actual = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}
     if not claim.get("metric_ids") or any(
@@ -1553,14 +1556,12 @@ def validate_runtime_semantic_claims(
                 )
                 if requirement.get("scientific_facts_required") is True:
                     checked = None
-                    try:
+                    with suppress(OSError, ValueError, KeyError, TypeError):
                         checked = (
                             verify_scientific_check(case_root, run_id=output["owner_run_id"])
                             if case_root is not None
                             else None
                         )
-                    except (OSError, ValueError, KeyError, TypeError):
-                        pass
                     codes.update(scientific_metric_binding_codes(claim, run_output, checked))
         selection_metric = (selection_requirements.get(requirement_id) or {}).get(
             "selection_metric"

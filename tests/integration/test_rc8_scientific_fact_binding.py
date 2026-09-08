@@ -114,3 +114,49 @@ def test_actual_semantic_cli_rejects_unsupported_proposal(repo_root, tmp_path):
     result = json.loads(completed.stdout)
     assert completed.returncode != 0, result
     assert "RC_CLAIM_SCOPE_OUTSIDE_SOURCE" in result["reason_codes"]
+
+
+def test_declared_scientific_requirement_cannot_ignore_missing_checker(repo_root, tmp_path):
+    helpers, core, case = _case(repo_root, tmp_path)
+    requirements = core.read_artifact(case, "problem_requirements")["content"]
+    for requirement in requirements["requirements"]:
+        requirement["scientific_facts_required"] = True
+    _write(core, case, "problem_requirements", requirements)
+    completed, result = helpers._run_controller(repo_root, case)
+    assert completed.returncode != 0, result
+    assert "RC_SCIENTIFIC_RECALCULATION_MISSING" in result["reason_codes"]
+
+
+@pytest.mark.parametrize("mutation", ["none", "calculation", "metric", "missing"])
+def test_negative_domain_result_still_requires_correct_independent_calculation(repo_root, mutation):
+    core = _helpers(repo_root)._module(
+        repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "rc8_recalculation_unit",
+    )
+    claim = {"requirement_id": "REQ-A", "metric_ids": ["count"]}
+    output = {"final_metrics": {"count": 2}}
+    checked = {
+        "requirements": {
+            "REQ-A": {
+                "feasible": False,
+                "metric_values": {"count": 2},
+                "recalculation_residuals": {
+                    "full_output_vector_error": {
+                        "value": 0,
+                        "limit": 0,
+                        "relation": "EQ",
+                        "tolerance": 1e-9,
+                    }
+                },
+            }
+        }
+    }
+    record = checked["requirements"]["REQ-A"]
+    if mutation == "calculation":
+        record["recalculation_residuals"]["full_output_vector_error"]["value"] = 1
+    elif mutation == "metric":
+        record["metric_values"]["count"] = 99
+    elif mutation == "missing":
+        del record["recalculation_residuals"]
+    codes = core.scientific_metric_binding_codes(claim, output, checked)
+    assert bool(codes) == (mutation != "none")

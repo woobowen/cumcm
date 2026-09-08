@@ -77,6 +77,11 @@ def check_record(
     return {
         "feasible": bool(passed),
         "constraint_residuals": rows,
+        "recalculation_residuals": {
+            key: value
+            for key, value in rows.items()
+            if key not in {"unknown_accuracy_evaluation_available", "unknown_primary_accuracy_gap"}
+        },
         "metric_values": metrics,
         **extra,
     }
