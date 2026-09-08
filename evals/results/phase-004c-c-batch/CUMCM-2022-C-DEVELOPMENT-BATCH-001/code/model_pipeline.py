@@ -650,9 +650,7 @@ def grouped_repeated_cv_diagnostic(
         )
         probabilities = model.predict_proba(matrix[test_positions])[:, 1]
         losses.append(brier_loss(labels[test_positions], probabilities))
-        accuracies.append(
-            finite_float(np.mean((probabilities >= 0.5) == labels[test_positions]))
-        )
+        accuracies.append(finite_float(np.mean((probabilities >= 0.5) == labels[test_positions])))
         held_out_group_predictions += len(test_positions)
     return {
         "group_unit": "ARTIFACT_ID",
