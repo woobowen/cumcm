@@ -29,7 +29,8 @@ record, not a release authorization.
   changing this frozen implementation identity.
 - The current local recovery commits are `cb0e89f` (historical-root isolation)
   and `65e74b2` (preserve the next Development attempt), followed by
-  `bcc3fca` (checker path normalization) and `ef69b02` (audit documentation).
+  `bcc3fca` (checker path normalization), `ef69b02` and `92dfebd` (audit
+  documentation).
   The current v5
   receipts bind `candidate_implementation_commit` and
   `execution_code_commit` to `65e74b2`; the remote branch still points to
