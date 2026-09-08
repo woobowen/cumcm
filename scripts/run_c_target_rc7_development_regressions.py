@@ -827,7 +827,14 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
             "target_in_features": False,
             "time_order_valid": True,
         },
-        "test_access": {"authorized": True, "count": 1, "used_for_selection": False},
+        "test_access": {
+            "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+            "authorized": False,
+            "count": 0,
+            "used_for_selection": False,
+            "evaluator_invoked": False,
+            "ledger_status": "NOT_ACCESSED",
+        },
         "reliability": {
             "attempts": len(attempts),
             "successful": sum(item["outcome"] == "SUCCESS" for item in attempts),

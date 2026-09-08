@@ -2704,7 +2704,28 @@ def validate_comparison(
         if flags.get("time_order_valid") is not True:
             codes.add("RC_COMPARISON_TIME_LEAKAGE")
     access = comparison.get("test_access")
-    if not isinstance(access, dict) or access.get("authorized") is not True:
+    if not isinstance(access, dict):
+        codes.add("RC_COMPARISON_UNAUTHORIZED_TEST_ACCESS")
+    elif access.get("mode") == "DEVELOPMENT_NO_FINAL_EVALUATION":
+        # Development may legitimately stop before the one-shot Final evaluator.  It
+        # must say so explicitly, however; an absent/contradictory receipt is not a
+        # zero-access pass and cannot be used to satisfy the formal Final contract.
+        count = access.get("count")
+        if access.get("authorized") is not False:
+            codes.add("RC_DEVELOPMENT_TEST_ACCESS_AUTHORIZATION_INVALID")
+        if not isinstance(count, int) or isinstance(count, bool) or count != 0:
+            codes.add("RC_DEVELOPMENT_TEST_ACCESS_COUNT_INVALID")
+        if access.get("used_for_selection") is not False:
+            codes.add("RC_DEVELOPMENT_TEST_USED_FOR_SELECTION")
+        if access.get("evaluator_invoked") is not False:
+            codes.add("RC_DEVELOPMENT_EVALUATOR_INVOCATION_INVALID")
+        if access.get("ledger_status") != "NOT_ACCESSED":
+            codes.add("RC_DEVELOPMENT_TEST_ACCESS_LEDGER_INVALID")
+    elif access.get("mode") not in (None, "FINAL_EVALUATION"):
+        codes.add("RC_COMPARISON_TEST_ACCESS_MODE_INVALID")
+    elif access.get("authorized") is not True:
+        # The legacy shape remains a formal/Final comparison shape.  In particular,
+        # count=0 without the explicit Development mode must still fail closed.
         codes.add("RC_COMPARISON_UNAUTHORIZED_TEST_ACCESS")
     else:
         if access.get("count") != 1:
