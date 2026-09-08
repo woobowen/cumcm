@@ -1,0 +1,104 @@
+{
+  "candidate_id": "CONTRACT-PROBE",
+  "claim_scope": "PLACEHOLDER",
+  "figure_ready_data": [
+    {
+      "series": [
+        0
+      ]
+    }
+  ],
+  "final_metrics": {
+    "reference_altitude_rmse_deg": 0.0
+  },
+  "limitations": [
+    "NONRESULT PLACEHOLDER"
+  ],
+  "probe_only": true,
+  "ranking_eligible": false,
+  "requirement_claims": {
+    "REQ-BEIJING": {
+      "claim_id": "CLAIM-PROBE-BEIJING",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-CHENGDU": {
+      "claim_id": "CLAIM-PROBE-CHENGDU",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-DEFINITION": {
+      "claim_id": "CLAIM-PROBE-DEFINITION",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-GUANGZHOU": {
+      "claim_id": "CLAIM-PROBE-GUANGZHOU",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-HARBIN": {
+      "claim_id": "CLAIM-PROBE-HARBIN",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-KUNMING": {
+      "claim_id": "CLAIM-PROBE-KUNMING",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-SHANGHAI": {
+      "claim_id": "CLAIM-PROBE-SHANGHAI",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-URUMQI": {
+      "claim_id": "CLAIM-PROBE-URUMQI",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    },
+    "REQ-VALIDATION": {
+      "claim_id": "CLAIM-PROBE-VALIDATION",
+      "claim_text": "PLACEHOLDER NONRESULT",
+      "evidence_artifact_ids": [
+        "experiments/selected_output_contract_probe.json"
+      ]
+    }
+  },
+  "result_values_are_placeholders": true,
+  "robustness_evidence": {
+    "failure_cases": [
+      "NONRESULT"
+    ],
+    "metric": "scenario_event_count",
+    "metric_direction": "MAX",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "scenario_event_count",
+        "perturbation_id": "PLACEHOLDER",
+        "result": 0
+      }
+    ]
+  },
+  "status": "CONTRACT_PROBE",
+  "uncertainty": {
+    "scope": "PLACEHOLDER"
+  }
+}

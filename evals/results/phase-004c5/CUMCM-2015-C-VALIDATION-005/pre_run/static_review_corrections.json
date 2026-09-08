@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-08T22:15:15.500838+00:00",
+  "code_sha256": {
+    "check.py": "a69320cd7b444ff2bc87b8ac71aa0d42f71b717c5f01c01dc89fc931c637867b",
+    "acquire.py": "87b084b2e9d8e2169f4338356b2e1268b92da62affb07d56be8cac62e9ea705d",
+    "solve.py": "742b0e42a4f73e41b90949cd978125dfab0ebd95a0a0809782e6c00b8bfae066",
+    "controller.py": "5c561f272c6a3cc285cca26c0407ffadfbd6fffca9caa50547ab91a5d660759f"
+  },
+  "checks": [
+    {
+      "command": ".venv/bin/ruff check evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code",
+      "exit": 0,
+      "stdout": "All checks passed!\n"
+    },
+    {
+      "command": "AST parse each first-party Python file",
+      "exit": 0,
+      "model_execution": false
+    }
+  ],
+  "corrections": [
+    "Separate integer count residuals (zero tolerance) from endpoint seconds (2-second tolerance).",
+    "Check daily calendar and event date identities, nominal full midpoint angles and reference azimuths.",
+    "Round UNIX conversion to milliseconds to avoid Julian-float midnight date underflow.",
+    "Core handoff generated_at is episode-anchor protocol label; actual_generation.json records actual_generated_at and actual handoff hash.",
+    "Ruff style and explicit zip behavior; model formulas and selection metric unchanged.",
+    "Future acquisition batch stops immediately after the first failed request."
+  ],
+  "model_captures": 0,
+  "original_ast_code_preserved": ".cache/pr12-rc8/fresh/2015/worker/code-ast-v0",
+  "long_tlist_failures": "14 distinct city/body URLs once each, not retries of one URL."
+}

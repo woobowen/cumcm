@@ -110,3 +110,20 @@ positive CRLF probe clean, negative space-before-CRLF probe rejected. No global 
 Case-local .gitattributes is the only new configuration item since the preceding checkpoint.
 No packages/toolchains installed, paidAPI0, monetaryUNKNOWN. Visible goal tokens3,279,706;
 timeUsedSeconds13924. Continue immediately to audited terminal freeze and serial2015 episode.
+
+## 2026-09-08T22:12:54Z checkpoint
+
+- Global elapsed4h26m; hard deadline2026-09-09T01:46:50Z unchanged. Visible goal
+  tokens3,602,490, timeUsedSeconds15,672; monetary costUNKNOWN, paidAPI0, installations0.
+- RC8 subject29cf1d7/live8ef732b unchanged; latest delivered head8c9582d490c6a8e7f9f2e9326652e5e1ca8517a8.
+- 2016 terminala03597b remotely frozen:EVIDENCE_INSUFFICIENT after native audit.
+ 2 models/2 original checkers/2 audit replays; Final0; no post-terminal model Run.
+- Planned2/started2/executed1/completed1/scientificPASS0. 2015 deadline23:53:34Z,
+ code/pre-run awaiting static count-tolerance and formatting corrections before first commit.
+ Its16 JPL data files and4 official general documents are acquired;14 distinct failed long
+ URL requests and successful shorter queries retained. Numerical models0; Final0.
+- Current delivery CI has two frozen historical-test blockers (case count, terminal phase).
+ New2016 first_run_evidence summary corrected from existing terminal; training checker and
+ targeted testPASS. Current live/strict/render/diffPASS, distinct from current fullCI.
+- Next safe action: review2015 corrected code, commit/push code subject, bind plan to that SHA,
+ remotely freeze pre-run, then authorize its bounded numeric execution. No shared/test edits.

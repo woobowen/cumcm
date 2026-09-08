@@ -1,0 +1,32 @@
+{
+  "artifact_type": "assumptions_and_symbols",
+  "content": {
+    "assumptions": [
+      "Flat unobstructed local horizon, airless lunar centre; nominal tree angle arctan((H_tree-H_eye)/D)=10 deg with visual band [8,12] deg; tree direction can align with the rising moon.",
+      "After dusk is explicitly the interval solar centre altitude [-12,-6] degrees while descending. Alternatives are recomputed, not asserted equivalent.",
+      "Use seven declared approximate city central sites with zero ellipsoid elevation and all civil times UTC+08; shift latitude by +0.05 degree in robustness.",
+      "Retrospective deterministic 2016 astronomy. JPL apparent equatorial positions are given forcing; UTC approximates UT1; approximate GAST introduces bounded checked numerical error.",
+      "No inference on weather, terrain, real willow presence, historical date of the poem or probability of meeting."
+    ],
+    "formulas": [
+      "h_tree=atan((H_tree-H_eye)/D); nominal h_tree=10 degrees, accepted band 8<=h_moon<=12.",
+      "r_geo=r*(cos(delta)*cos(alpha),cos(delta)*sin(alpha),sin(delta)); r_topo=r_geo-r_observer.",
+      "Local east/north/up rotation of r_topo gives h=atan2(up,sqrt(east^2+north^2)), az=atan2(east,north).",
+      "theta=15*(GMST+equation_of_equinoxes)+east_longitude; USNO GAST formula and WGS84 ellipsoid are used.",
+      "Scene interval = rising-Moon [8,12] altitude interval intersect descending-Sun [-12,-6] interval; all interval endpoints solved numerically.",
+      "Reference RMSE=sqrt(sum((h_model-h_JPL_topocentric)^2)/168)."
+    ],
+    "symbols": {
+      "alpha": "geocentric apparent right ascension, rad",
+      "delta": "geocentric apparent declination, rad",
+      "h": "airless apparent altitude, degree",
+      "lambda": "east longitude, rad",
+      "phi": "geodetic latitude, rad",
+      "r": "geocentric apparent distance, km",
+      "t": "Julian day UTC, day",
+      "theta": "local apparent sidereal angle, rad"
+    }
+  },
+  "content_hash": "e9e1b4e0b8dc32b2bd07806652b9f83409b564494f1a537f77df3a39f48393f7",
+  "status": "ACCEPTED"
+}

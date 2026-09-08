@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-08T22:20:25.773772+00:00",
+  "read_isolation": "Fresh worker only frozen Skill/generic API/protocol/environment/own case plus pyproject lint config. No root active plan/state/history or other cases.",
+  "read_file_hashes": {
+    ".agents/skills/cumcm-modeling-evidence/SKILL.md": "a3b9c9dd3c324c4086acead3f99e934e200a473191573e0d68c337d023a14963",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "85ca1e4618a873573bf759680c52b029cef7abd62bf7b2d1cb82533bdda6e4a6",
+    ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+    "evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md": "4da4ef4f927962977f73603c46c4d27b6d0b891bea6bddc9501b50aa29b3f742",
+    "evals/results/phase-004c5/qualification/environment.json": "392eb0505b1bb5a88f9051b74ac8069cfa2d5e55f413ed0cf1e848fe841ceb25",
+    "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/registration/episode_start.json": "db31ffa49d61dffe40c211e78ff585d86f24fa79f7efd6eec24401ce058235f8",
+    "pyproject.toml": "640ff756af5a6a3186db8ccbb4b98c15dbd2b7e4104f6bccfaeb878ec130e920",
+    ".agents/skills/cumcm-modeling-evidence/workflows/problem_intake.md": "8d2d4237b5e91ac6f8ac495e8e0258e021e4332f66ad3a50d88fa1f341564aa3",
+    ".agents/skills/cumcm-modeling-evidence/workflows/requirement_decomposition.md": "b67f299413c86e516b2d7a2ffd6bfc86d815ec92d54b61ebfc19c0f4241b8766",
+    ".agents/skills/cumcm-modeling-evidence/workflows/research_and_sources.md": "f165355c4246144877bad0a582ffa0e29785db1ac7c31e43cf2c7835938807b9",
+    ".agents/skills/cumcm-modeling-evidence/workflows/assumptions_and_symbols.md": "fa2be7a80e1e3b7cf6b8d09974f21c58ea569411b536b69a72d026a143483436",
+    ".agents/skills/cumcm-modeling-evidence/workflows/data_audit.md": "eb5a32b58f47846da97a16c1a0fa8032384bdeae788c0eabcc201b27c8e56374",
+    ".agents/skills/cumcm-modeling-evidence/workflows/model_portfolio.md": "ac1b8bb94e6febd75bef90899415d2743c2fcf69c48caed997e28114da953cdd",
+    ".agents/skills/cumcm-modeling-evidence/workflows/experiment_design.md": "f0b8bfedc8589dcfc1ffac0fe3c0a1ec230a4c7da1d8558687603aa44f35e949",
+    ".agents/skills/cumcm-modeling-evidence/templates/problem_requirements.json": "7d55211251cd27baafca0bf9b1d2ab8762d5273275470df4f3568923a620648c",
+    ".agents/skills/cumcm-modeling-evidence/templates/source_ledger.json": "9c5ea8163c94bae2c1aae91bb20792117e375829cefe337c1d7d0d0b90c2906a",
+    ".agents/skills/cumcm-modeling-evidence/templates/data_audit.json": "34d40041abbccb4a739344623aeb714ac259a689df5a0b1aaed38b9aab3f44fc",
+    ".agents/skills/cumcm-modeling-evidence/templates/data_sufficiency.json": "82c4216b930a543562347153ee243e4a6e5b5aeb989451a149854f84b8dd60b2",
+    ".agents/skills/cumcm-modeling-evidence/templates/experiment_plan.json": "b10c78e4c2ea21f56e8d5f1313c00adf2da925f0a1946b09f4007380cc37ab88",
+    ".agents/skills/cumcm-modeling-evidence/templates/model_candidates.json": "d67d3c662105f0465640dfd1e48a5d509d3a2c617e8ab005399168bfe55dbac0",
+    ".agents/skills/cumcm-modeling-evidence/templates/assumptions_and_symbols.json": "e6c893ed7f1857a6093b46933215876533a4ffb39ba84203db3937878774562d",
+    ".agents/skills/cumcm-modeling-evidence/templates/research_plan.json": "a55f2a7656d67d013e0ab71712d24cd099c361d30ef7d80149ce5e5a163c72e8",
+    ".agents/skills/cumcm-modeling-evidence/workflows/model_execution.md": "6fdf9ed82189a0e081126462cc16fc89a43e9b5a9cef9a7e632d870dbeb27582",
+    ".agents/skills/cumcm-modeling-evidence/workflows/failure_recovery.md": "abb8c661a82d4b6f35bdc9cbcad50c13a89103ca756d1801e1fc46c80872914d"
+  },
+  "official_problem_sha256": "b25aee13059c58f2b62c46dedcb1cc069dd0f3b08a69a97bca1e9b90a3f4e889",
+  "web_search_queries": [
+    "site.ssd.jpl.nasa.gov api horizons observer ephemeris vectors documentation apparent elevation sidereal",
+    "site.gml.noaa.gov solar calculation details sunrise sunset 0.833 civil twilight"
+  ],
+  "web_opened": [
+    "https://ssd-api.jpl.nasa.gov/doc/horizons.html",
+    "https://ssd.jpl.nasa.gov/horizons/manual.html",
+    "https://gml.noaa.gov/grad/solcalc/glossary.html"
+  ],
+  "all_downloads": "case_bundle/research/retrieval_ledger.json",
+  "external_fact_scope": "Only official general astronomy and computed ephemeris raw outputs, never problem solutions.",
+  "answer_contamination": "NONE_OBSERVED",
+  "answer_status": "SEALED",
+  "model_prior_exposure": "UNKNOWN",
+  "capture_limitation": "Initial read-command stdout exists in tool conversation but was not separately saved to a file; this ledger supplies read file identities/hashes without inventing historical stdout hashes. Actual preparation/freezing/model CLI commands have captured stdout/exit/hash journals."
+}

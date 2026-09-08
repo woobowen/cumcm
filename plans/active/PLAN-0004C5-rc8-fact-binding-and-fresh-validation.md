@@ -167,3 +167,9 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  Official C-only DOCX registered; no separate C attachment exists, so no substitution. Fresh worker
  receives only frozen generic materials and its own input. Planned2/started2/executed1/completed1/
  scientificPASS0. Shared implementation, rules and observed environment remain identical.
+
+- 2026-09-08T22:21:23.158386+00:00:2015 C code subject675b37c remotely verified; actualCLI experiment plan accepted
+ and bound to all4 required code blobs/22 inputs. Main corrected static count/time tolerance
+ mismatch before any numeric model result. Case protocol freezes2 initial/8 maximum cumulative
+ model captures,3 repair revisions,Final nonpredictive verification1. Shared772 files unchanged.
+ Formalpre-run commit/remote confirmation still required before numeric execution.
