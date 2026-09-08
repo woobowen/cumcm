@@ -173,3 +173,11 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  mismatch before any numeric model result. Case protocol freezes2 initial/8 maximum cumulative
  model captures,3 repair revisions,Final nonpredictive verification1. Shared772 files unchanged.
  Formalpre-run commit/remote confirmation still required before numeric execution.
+
+-2026-09-08T22:45:53Z:2015 fixed numerical candidate9e58c46 remotely delivered; native
+ terminal audit is inspecting a demonstrated formal Final/Gate ordering conflict, with2 models,
+ 2 original checkers,3 actual later replays,Final1/test0. No frozen files changed. Planned2/
+ started2/executed2/completed1/scientificPASS0 pending independent adjudication.
+ Main preregisters one case-owned2021 Q4 dual-certificate construction consuming the remaining
+ ninth Development attempt, separate exact arithmetic verifier and original Run bindings.
+ This is a supplemental conditional proof, not a new fresh case, new Skill or formal Gate pass.
