@@ -43,46 +43,6 @@ SEMANTIC_CLAIM_TYPES = frozenset(
     }
 )
 
-# The Development route must not guess that every case requirement is
-# DESCRIPTIVE.  These are conservative case adapters: no Development claim is
-# marked PREDICTIVE because that would require the one-shot Final evaluator.
-CLAIM_SEMANTIC_SPECS: dict[str, dict[str, dict[str, Any]]] = {
-    "2022": {
-        "REQ-VALIDITY": {"claim_type": "DESCRIPTIVE"},
-        "REQ-COMPOSITION": {"claim_type": "DESCRIPTIVE"},
-        "REQ-1A": {"claim_type": "EMPIRICAL"},
-        "REQ-1B": {"claim_type": "EMPIRICAL"},
-        "REQ-1C": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-2A": {"claim_type": "EMPIRICAL"},
-        "REQ-2B": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-2C": {"claim_type": "EMPIRICAL"},
-        "REQ-3A": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-3B": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-4A": {"claim_type": "EMPIRICAL"},
-        "REQ-4B": {"claim_type": "EMPIRICAL"},
-        "REQ-EVIDENCE": {"claim_type": "DESCRIPTIVE"},
-    },
-    "2021": {
-        "REQ-Q1-IMPORTANCE-MODEL": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-Q1-TOP50": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-Q2-MINIMUM-SUPPLIERS": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-Q2-ORDER-PLAN": {"claim_type": "FEASIBILITY"},
-        "REQ-Q2-TRANSPORT-PLAN": {"claim_type": "FEASIBILITY"},
-        "REQ-Q2-EFFECT": {"claim_type": "FEASIBILITY"},
-        "REQ-Q3-MATERIAL-PREFERENCE": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-Q3-ORDER-PLAN": {"claim_type": "FEASIBILITY"},
-        "REQ-Q3-TRANSPORT-PLAN": {"claim_type": "FEASIBILITY"},
-        "REQ-Q3-EFFECT": {"claim_type": "FEASIBILITY"},
-        "REQ-Q4-CAPACITY-INCREASE": {"claim_type": "SIMULATION_CONDITIONAL"},
-        "REQ-Q4-ORDER-PLAN": {"claim_type": "FEASIBILITY"},
-        "REQ-Q4-TRANSPORT-PLAN": {"claim_type": "FEASIBILITY"},
-        "REQ-OUTPUT-ATTACHMENT-A": {"claim_type": "DESCRIPTIVE"},
-        "REQ-OUTPUT-ATTACHMENT-B": {"claim_type": "DESCRIPTIVE"},
-        "REQ-INVENTORY-PRODUCTION": {"claim_type": "FEASIBILITY"},
-        "REQ-TRANSPORT-BUSINESS-RULES": {"claim_type": "FEASIBILITY"},
-    },
-}
-
 
 def utc_timestamp() -> str:
     return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -96,6 +56,7 @@ class CaseConfig:
     tracked_case_id: str
     case_kind: str
     code_files: tuple[tuple[str, str], ...]
+    claim_semantics_file: str
     seed: int
     candidate_ids: tuple[str, ...]
     baseline_id: str
@@ -125,6 +86,15 @@ CASES = {
                 "evals/results/phase-004c-c-batch/"
                 "CUMCM-2022-C-DEVELOPMENT-BATCH-001/code/model_pipeline.py",
             ),
+            (
+                "models/scientific_claim_semantics.json",
+                "evals/results/phase-004c-c-batch/"
+                "CUMCM-2022-C-DEVELOPMENT-BATCH-001/scientific_claim_semantics.json",
+            ),
+        ),
+        claim_semantics_file=(
+            "evals/results/phase-004c-c-batch/"
+            "CUMCM-2022-C-DEVELOPMENT-BATCH-001/scientific_claim_semantics.json"
         ),
         seed=20220904,
         candidate_ids=(
@@ -198,6 +168,15 @@ CASES = {
                 "evals/results/phase-004c-c-batch/"
                 "CUMCM-2021-C-DEVELOPMENT-BATCH-002/code/c2021_feasibility.py",
             ),
+            (
+                "models/scientific_claim_semantics.json",
+                "evals/results/phase-004c-c-batch/"
+                "CUMCM-2021-C-DEVELOPMENT-BATCH-002/scientific_claim_semantics.json",
+            ),
+        ),
+        claim_semantics_file=(
+            "evals/results/phase-004c-c-batch/"
+            "CUMCM-2021-C-DEVELOPMENT-BATCH-002/scientific_claim_semantics.json"
         ),
         seed=20210904,
         candidate_ids=(
@@ -275,6 +254,35 @@ def load_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"JSON_OBJECT_REQUIRED:{path}")
     return value
+
+
+def load_claim_semantic_specs(config: CaseConfig) -> dict[str, dict[str, Any]]:
+    path = ROOT / config.claim_semantics_file
+    record = load_json(path)
+    if record.get("schema_version") != "c-target-development-claim-semantics/v1":
+        raise ValueError(f"RC7_CLAIM_SEMANTICS_SCHEMA_INVALID:{config.key}")
+    if record.get("case_id") != config.tracked_case_id:
+        raise ValueError(f"RC7_CLAIM_SEMANTICS_CASE_INVALID:{config.key}")
+    raw_claim_types = record.get("claim_types")
+    if not isinstance(raw_claim_types, dict):
+        raise ValueError(f"RC7_CLAIM_SEMANTICS_MAPPING_INVALID:{config.key}")
+    if set(raw_claim_types) != set(config.requirement_ids):
+        missing = sorted(set(config.requirement_ids) - set(raw_claim_types))
+        extra = sorted(set(raw_claim_types) - set(config.requirement_ids))
+        raise ValueError(f"RC7_CLAIM_SEMANTICS_REGISTRY_MISMATCH:{missing}:{extra}")
+    specs = {
+        requirement_id: {"claim_type": claim_type}
+        for requirement_id, claim_type in raw_claim_types.items()
+    }
+    if any(
+        not isinstance(spec.get("claim_type"), str)
+        or spec["claim_type"] not in SEMANTIC_CLAIM_TYPES
+        for spec in specs.values()
+    ):
+        raise ValueError(f"RC7_CLAIM_SEMANTICS_UNDECLARED:{config.key}")
+    if any(spec["claim_type"] == "PREDICTIVE" for spec in specs.values()):
+        raise ValueError(f"RC7_DEVELOPMENT_PREDICTIVE_CLAIM_FORBIDDEN:{config.key}")
+    return specs
 
 
 def accepted(core: Any, root: Path, key: str, content: dict[str, Any]) -> None:
@@ -657,17 +665,19 @@ def build_semantic_records(
     }
     claims = []
     claim_ids = {}
-    case_specs = CLAIM_SEMANTIC_SPECS.get(config.key, {})
+    case_specs = load_claim_semantic_specs(config)
     if set(case_specs) != set(requirements):
         missing = sorted(set(requirements) - set(case_specs))
         extra = sorted(set(case_specs) - set(requirements))
         raise ValueError(f"RC7_CLAIM_SEMANTICS_REGISTRY_MISMATCH:{missing}:{extra}")
     independent_feasibility = output.get("independent_feasibility")
-    feasibility_recalculation = isinstance(independent_feasibility, dict) and bool(
-        independent_feasibility
-    ) and all(
-        isinstance(record, dict) and record.get("feasible") is True
-        for record in independent_feasibility.values()
+    feasibility_recalculation = (
+        isinstance(independent_feasibility, dict)
+        and bool(independent_feasibility)
+        and all(
+            isinstance(record, dict) and record.get("feasible") is True
+            for record in independent_feasibility.values()
+        )
     )
     for index, requirement_id in enumerate(requirements, 1):
         source_claim = output["requirement_claims"][requirement_id]
@@ -960,6 +970,7 @@ def run_case(
     selected_manifest = core.load_json(selected_manifest_path)
     selected_output_relative = selected_manifest["output_files"][0]["path"]
     selected_output = core.load_json(case_root / selected_output_relative)
+    claim_specs = load_claim_semantic_specs(config)
     robustness = {
         "status": "VALIDATED",
         "selected_model": selected,
@@ -1110,14 +1121,12 @@ def run_case(
             "claim_semantics_basis": "EXPLICIT_CASE_ADAPTER_NO_DEFAULT_DESCRIPTIVE_LABELS",
             "claim_type_counts": {
                 claim_type: sum(
-                    CLAIM_SEMANTIC_SPECS[config.key][requirement_id]["claim_type"]
-                    == claim_type
+                    claim_specs[requirement_id]["claim_type"] == claim_type
                     for requirement_id in prepared["requirements"]
                 )
                 for claim_type in sorted(SEMANTIC_CLAIM_TYPES)
                 if any(
-                    CLAIM_SEMANTIC_SPECS[config.key][requirement_id]["claim_type"]
-                    == claim_type
+                    claim_specs[requirement_id]["claim_type"] == claim_type
                     for requirement_id in prepared["requirements"]
                 )
             },
