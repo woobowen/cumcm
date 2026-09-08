@@ -273,3 +273,13 @@ are independently present.
 - [2021 Development receipt](../evals/results/phase004c5-pr12-7h/development-v4/CUMCM-2021-C-DEVELOPMENT-BATCH-002/development_regression_evidence.json)
 - [2022 v5 Development receipt](../evals/results/phase004c5-pr12-7h/development-v5/CUMCM-2022-C-DEVELOPMENT-BATCH-001/development_regression_evidence.json)
 - [2021 v5 Development receipt](../evals/results/phase004c5-pr12-7h/development-v5/CUMCM-2021-C-DEVELOPMENT-BATCH-002/development_regression_evidence.json)
+
+## Final remote CI receipt
+
+The final pushed head is `82bcdbf6b7e65198c07fba9e1448344acd3fc9e6`.
+GitHub Actions run [#253](https://github.com/woobowen/cumcm/actions/runs/34193539270)
+completed with `offline-validation=success`, and the check-run API reports
+that result for the same head. HTTPS `git ls-remote` verified both the feature
+branch and `refs/pull/12/head` at that SHA. This is an engineering/CI success,
+not a formal M4/M5 Validation or release authorization: the 2016 C and 2015 C
+inputs remain unaccessed and the exact formal blockers above remain in force.

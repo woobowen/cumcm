@@ -243,3 +243,16 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
 - RC7 candidate/live checker: `BLOCK` with candidate evidence/receipt drift and
   invalid or premature release binding. These formal artifacts remain
   untouched; the Development receipts do not substitute for them.
+
+## Final remote CI receipt
+
+- After the repair and Windows timeout-compatibility commits, the pushed head
+  is `82bcdbf6b7e65198c07fba9e1448344acd3fc9e6`.
+- GitHub Actions run `#253` (`34193539270`) completed with
+  `offline-validation=success`; the check-run API reports the same completed
+  success for this exact head.
+- HTTPS `git ls-remote` independently verified both the feature branch and
+  `refs/pull/12/head` at `82bcdbf6b7e65198c07fba9e1448344acd3fc9e6`.
+- This closes the current engineering/CI repair. It does not promote the
+  formal M4/M5 boundary: no 2016/2015 Validation was run, and the exact
+  formal blockers above remain in force.
