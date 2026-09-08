@@ -19,6 +19,7 @@ import subprocess
 import sys
 import time
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -27,7 +28,10 @@ CORE_PATH = ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py
 CACHE_ROOT = ROOT / ".cache/official_inputs"
 RESULT_ROOT = ROOT / "evals/results/phase004c5-c-batch"
 FIRST_RUN_ROOT = ROOT / "evals/results/phase-004c-c-batch"
-GENERATED_AT = "2026-09-08T02:00:00Z"
+
+
+def utc_timestamp() -> str:
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 @dataclass(frozen=True)
@@ -330,7 +334,7 @@ def verify_official_inputs(core: Any, config: CaseConfig) -> Path:
     return source
 
 
-def write_source_artifacts(core: Any, config: CaseConfig, source: Path) -> None:
+def write_source_artifacts(core: Any, config: CaseConfig, source: Path, generated_at: str) -> None:
     requirements = source_requirements(config)
     source_record = official_source(config)
     data_hashes = {
@@ -402,7 +406,7 @@ def write_source_artifacts(core: Any, config: CaseConfig, source: Path) -> None:
         "code_commit": "",
         "trusted_freeze_registry": {},
         "stop_rule": "one preregistered RC7 Development-regression attempt per candidate",
-        "handoff_generated_at": GENERATED_AT,
+        "handoff_generated_at": generated_at,
     }
     sufficiency = source_data_sufficiency(requirements, source_record)
     artifacts = {
@@ -419,9 +423,9 @@ def write_source_artifacts(core: Any, config: CaseConfig, source: Path) -> None:
         accepted(core, source, key, content)
 
 
-def ensure_source_workspace(core: Any, config: CaseConfig) -> Path:
+def ensure_source_workspace(core: Any, config: CaseConfig, generated_at: str) -> Path:
     source = verify_official_inputs(core, config)
-    write_source_artifacts(core, config, source)
+    write_source_artifacts(core, config, source, generated_at)
     return source
 
 
@@ -450,6 +454,7 @@ def freeze_registry(
     stop_rule: str,
     code_files: list[dict[str, str]],
     code_commit: str,
+    handoff_generated_at: str,
 ) -> dict[str, str]:
     aggregation = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
     selection = "ARGMIN_THEN_ID" if direction == "MIN" else "ARGMAX_THEN_ID"
@@ -468,7 +473,7 @@ def freeze_registry(
         "baseline": core.canonical_hash(baseline_id),
         "input_set": core.canonical_hash(required_inputs),
         "execution_policy": core.canonical_hash(
-            {"stop_rule": stop_rule, "handoff_generated_at": GENERATED_AT}
+            {"stop_rule": stop_rule, "handoff_generated_at": handoff_generated_at}
         ),
         "code_set": core.canonical_hash(code_files),
         "code_commit": core.canonical_hash(code_commit),
@@ -663,9 +668,39 @@ def build_semantic_records(
     return selection, semantic
 
 
-def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[str, Any]:
+def stage_status_from_state(core: Any, state: dict[str, Any]) -> list[dict[str, Any]]:
+    history = state.get("history")
+    if not isinstance(history, list):
+        return [{"stage": stage, "status": "UNKNOWN"} for stage in core.STAGES]
+    statuses = []
+    for index, stage in enumerate(core.STAGES):
+        record = history[index] if index < len(history) else None
+        if not isinstance(record, dict):
+            statuses.append({"stage": stage, "status": "UNKNOWN"})
+            continue
+        statuses.append(
+            {
+                "stage": stage,
+                "status": "PASS" if record.get("status") == "PASS" else "BLOCKED",
+                "gate": record.get("gate"),
+                "transition_sequence": record.get("sequence"),
+                "evidence": record.get("evidence", []),
+            }
+        )
+    return statuses
+
+
+def run_case(
+    core: Any,
+    config: CaseConfig,
+    source: Path,
+    attempt: int,
+    generated_at: str,
+    result_root: Path,
+) -> dict[str, Any]:
     case_root = CACHE_ROOT / f"{config.case_id}-ATTEMPT-{attempt:03d}"
     started_wall = time.time()
+    started_at = utc_timestamp()
     prepared = prepare_case(core, config, case_root, source)
     source_plan = load_json(source / "experiments/experiment_plan.json")["content"]
     candidate_records = prepared["candidates"]["candidates"]
@@ -712,6 +747,7 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
         stop_rule=stop_rule,
         code_files=code_files,
         code_commit=code_commit,
+        handoff_generated_at=generated_at,
     )
     aggregation = "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID"
     selection_rule = "ARGMIN_THEN_ID"
@@ -727,7 +763,7 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
             "metric_direction": direction,
             "aggregation_rule": aggregation,
             "selection_rule": selection_rule,
-            "handoff_generated_at": GENERATED_AT,
+            "handoff_generated_at": generated_at,
             "random_seeds": seeds,
             "required_input_hashes": prepared["audit"]["data_hashes"],
             "required_code_files": code_files,
@@ -814,7 +850,7 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
         "code_commit": code_commit,
         "freeze_bindings": freezes,
         "stop_rule": stop_rule,
-        "handoff_generated_at": GENERATED_AT,
+        "handoff_generated_at": generated_at,
         "attempts": attempts,
         "selected_candidate_id": selected,
         "selection_decision_hash": decision_hash,
@@ -915,6 +951,11 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
     state = core.advance_once(case_root)
     if state["state"] != "READY_FOR_PAPER_HANDOFF":
         raise ValueError("RC7_REGRESSION_TERMINAL_STATE_INVALID")
+    history = state.get("history", [])
+    gate_status = {
+        item.get("gate"): item.get("status") for item in history if isinstance(item, dict)
+    }
+    completed_at = utc_timestamp()
 
     prior_attempts = []
     for prior in range(1, attempt):
@@ -967,7 +1008,29 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
         "attempt_number": attempt,
         "preserved_prior_attempts": prior_attempts,
         "output_contract_preflight": preflight,
-        "stage_status": [{"stage": stage, "status": "PASS"} for stage in core.STAGES],
+        "stage_status": stage_status_from_state(core, state),
+        "timing": {
+            "started_at": started_at,
+            "completed_at": completed_at,
+            "elapsed_seconds": round(time.time() - started_wall, 6),
+            "timestamp_basis": "OBSERVED_ROUTE_WALL_CLOCK_UTC",
+        },
+        "development_evaluation": {
+            "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+            "final_evaluator_invoked": False,
+            "final_evaluation_ledger": None,
+            "test_access": {
+                "authorized": False,
+                "count": 0,
+                "used_for_selection": False,
+            },
+        },
+        "scientific_review": {
+            "status": "PROVISIONAL_ENGINEERING_REGRESSION",
+            "data_sufficiency_basis": "FORMAL_REGISTERED_INPUT_AND_PROVENANCE_GATE_ONLY",
+            "claim_semantics_basis": "ROUTE_ADAPTER_PENDING_CASE_SPECIFIC_SCIENTIFIC_REVIEW",
+            "not_a_scientific_quality_pass": True,
+        },
         "requirements_total": len(prepared["requirements"]),
         "requirements_with_output_claims": len(selected_output["requirement_claims"]),
         "runs": executions,
@@ -983,8 +1046,12 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
         "final_run_id": selected_manifest["run_id"],
         "final_output_sha256": selected_manifest["output_files"][0]["sha256"],
         "robustness_perturbation_count": len(robustness["perturbations"]),
-        "claim_gate": "PASS",
-        "handoff_gate": "PASS",
+        "claim_gate": (
+            "PASS" if gate_status.get("GATE_CLAIM_EVIDENCE") == "PASS" else "NOT_VERIFIED"
+        ),
+        "handoff_gate": (
+            "PASS" if gate_status.get("GATE_MODELING_TO_PAPER") == "PASS" else "NOT_VERIFIED"
+        ),
         "terminal_state": state["state"],
         "universal_hard_failure": False,
         "elapsed_seconds": round(time.time() - started_wall, 6),
@@ -994,7 +1061,7 @@ def run_case(core: Any, config: CaseConfig, source: Path, attempt: int) -> dict[
         "validation_route_executed": False,
     }
     core.write_json(
-        RESULT_ROOT / config.tracked_case_id / "development_regression_evidence.json",
+        result_root / config.tracked_case_id / "development_regression_evidence.json",
         evidence,
     )
     return evidence
@@ -1004,16 +1071,24 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", choices=tuple(CASES) + ("all",), default="all")
     parser.add_argument("--attempt", type=int, default=1)
+    parser.add_argument(
+        "--result-root",
+        type=Path,
+        default=RESULT_ROOT,
+        help="tracked evidence root; a relative path is resolved from the repository root",
+    )
     args = parser.parse_args()
-    if args.attempt < 1 or args.attempt > 6:
-        raise SystemExit("--attempt must be in 1..6")
+    if args.attempt < 1 or args.attempt > 12:
+        raise SystemExit("--attempt must be in 1..12")
+    result_root = args.result_root if args.result_root.is_absolute() else ROOT / args.result_root
+    generated_at = utc_timestamp()
     core = load_core()
     selected = list(CASES) if args.case == "all" else [args.case]
     results = []
     for key in selected:
         config = CASES[key]
-        source = ensure_source_workspace(core, config)
-        results.append(run_case(core, config, source, args.attempt))
+        source = ensure_source_workspace(core, config, generated_at)
+        results.append(run_case(core, config, source, args.attempt, generated_at, result_root))
     print(
         json.dumps(
             {
