@@ -28,7 +28,8 @@ record, not a release authorization.
   final documentation/receipt commit may advance the branch head without
   changing this frozen implementation identity.
 - The current local recovery commits are `cb0e89f` (historical-root isolation)
-  and `65e74b2` (preserve the next Development attempt). The current v5
+  and `65e74b2` (preserve the next Development attempt), followed by
+  `bcc3fca` (checker path normalization). The current v5
   receipts bind `candidate_implementation_commit` and
   `execution_code_commit` to `65e74b2`; the remote branch still points to
   `f17e99a` because no push has been made in this continuation.
@@ -174,6 +175,23 @@ quality conclusions.
   audit. The feature branch and PR head remain at `f17e99a`; no new push was
   made. The repair boundary was to move new Development code/evidence into a
   new governed case/freeze while leaving the historical case roots immutable.
+
+## Post-repair checker replay
+
+The local LF worktree at `da73cc4` confirms the original platform-independent
+root cause is repaired: `check_claim_scope_repair.py --check` passes with
+`held_out_unchanged=true` and `old_validation_unchanged=true`. Ruff,
+`validate_repo --strict`, batch freeze, first-run freeze, postmortem, RC4
+candidate, RC4 batch-regression, unified-regression, and phase-004C2
+consistency checks also pass.
+
+The Windows replay then exposed path-only checker defects. Commit `bcc3fca`
+normalizes the 2019 `git show` path and the 2024 registry path comparisons to
+POSIX form. The resulting substantive diagnostics are now visible: 2019 has
+three historical release/freeze binding or delivery errors; 2024 has seven
+pre-run and three terminal freeze/delivery/protocol errors. These are formal
+historical-artifact blockers, not evidence that the new Development runs are
+scientifically valid, and the old artifacts were not rewritten.
 
 Read-only formal checks independently agree with the blocked boundary:
 

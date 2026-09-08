@@ -24,7 +24,8 @@
   `c71912e` byte hashes; the new Development code is being moved to the
   case-owned `development-v5/code` path. No historical freeze or formal state
   is being rewritten.
-- The local recovery is now at `65e74b2`. The remote feature branch and PR
+- The local recovery is now at `bcc3fca` (including the v5 receipt/docs
+  commit and Windows path-normalization checker fix). The remote feature branch and PR
   head remain at `f17e99a`; no new push has been made.
 
 ## Bounded activity plan
@@ -139,14 +140,30 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
   `test_access.authorized=false,count=0`. No Validation result, scientific
   quality pass, release authorization, or candidate promotion is claimed.
 
+## Post-repair checker replay
+
+- In the LF temporary worktree at `da73cc4`, the repaired
+  `check_claim_scope_repair.py --check` passed with
+  `held_out_unchanged=true` and `old_validation_unchanged=true`. Ruff,
+  `validate_repo --strict`, batch freeze, first-run freeze, postmortem, RC4
+  candidate, RC4 batch-regression, unified-regression, and phase-004C2
+  consistency checks also passed.
+- The local Windows replay exposed three path-portability defects in the
+  2019/2024 checkers. Commit `bcc3fca` normalizes those Git and registry paths
+  to POSIX form. After that repair, the checkers no longer fail merely because
+  of Windows separators: 2019 reports three historical binding/delivery
+  errors; 2024 reports seven pre-run and three terminal historical
+  freeze/delivery/protocol errors. These are existing formal-artifact
+  blockers, not Development-run results, and no old artifact was rewritten.
+
 ## GitHub CI self-audit
 
 - `scripts/ci.sh` runs `pytest -q` before the frozen checkers under
   `set -e`; GitHub exposes only the wrapper step's exit code without an
   authenticated log view.
-- The feature branch's current Development changes are in the historical
-  case-code paths protected by the RC5 claim-scope preflight. The deterministic
-  errors are `HISTORICAL_EVIDENCE_DRIFT` for
+- On the failing PR merge tree, the feature branch's Development changes were
+  in historical case-code paths protected by the RC5 claim-scope preflight.
+  The deterministic errors were `HISTORICAL_EVIDENCE_DRIFT` for
   `CUMCM-2021-C-DEVELOPMENT-BATCH-002/code/c2021_supply_plan.py` and
   `CUMCM-2022-C-DEVELOPMENT-BATCH-001/code/model_pipeline.py`.
 - Windows-only registry path errors observed during local merge-tree replay
