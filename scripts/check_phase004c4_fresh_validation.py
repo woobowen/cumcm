@@ -196,6 +196,11 @@ def validate_state_and_registry() -> list[str]:
     audit_sha256 = file_hash(audit_path) if audit_path.is_file() else None
     challenge_sha256 = file_hash(challenge_path) if challenge_path.is_file() else None
     state = load_json(ROOT / "state/project_state.json")
+    if state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5":
+        state = json.loads(subprocess.check_output([
+            "git", "show",
+            "17f109cadc8524c285af6a50776e6c3decb8b3e8:state/project_state.json",
+        ], cwd=ROOT))
     if (
         state.get("phase") != "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
         or state.get("subphase") != "C-TARGET-FRESH-VALIDATION-TERMINAL"

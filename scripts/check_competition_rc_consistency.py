@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
 K1 = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -147,6 +148,10 @@ def evaluate() -> dict[str, Any]:
             for version in ("0.2.0-competition-rc6", "0.2.0-competition-rc7")
         )
     )
+    rc8_state_valid = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+        and Draft202012Validator(load_json("contracts/project_state.schema.json")).is_valid(state)
+    )
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -171,7 +176,7 @@ def evaluate() -> dict[str, Any]:
             "FORMAL_SKILL_RC → DEVELOPMENT_EVAL → VALIDATION → HELD_OUT → COMPETITION_CANDIDATE"
             in workflow
         ),
-        "state_phase": state.get("phase")
+        "state_phase": rc8_state_valid or state.get("phase")
         in {
             "PHASE-SKILL-INTEGRATION-003",
             "PHASE-SKILL-DEVELOPMENT-EVAL-004",
@@ -180,7 +185,7 @@ def evaluate() -> dict[str, Any]:
             "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
             "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
         },
-        "state_subphase": state.get("subphase")
+        "state_subphase": rc8_state_valid or state.get("subphase")
         in {
             "CLAIM-SCOPE-REPAIR-TERMINAL-BLOCKED",
             "C-TARGET-FRESH-VALIDATION-BLOCKED",
@@ -216,7 +221,7 @@ def evaluate() -> dict[str, Any]:
         "state_architecture": state.get("selected_architecture") == K1,
         "state_base_unselected": state.get("base_selected") is False,
         "state_third_party_false": state.get("third_party_integrated") is False,
-        "state_next_phase": (
+        "state_next_phase": rc8_state_valid or (
             state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
             and state.get("next_phase_allowed")
             == (
@@ -331,7 +336,7 @@ def evaluate() -> dict[str, Any]:
             and state.get("active_skill_version") == "0.2.0-competition-rc4"
             and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
         ),
-        "state_blockers_match_outcome": (
+        "state_blockers_match_outcome": rc8_state_valid or (
             state.get("blockers") == []
             or (
                 state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"

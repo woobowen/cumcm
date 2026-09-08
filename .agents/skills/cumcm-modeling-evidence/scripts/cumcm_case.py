@@ -1401,7 +1401,9 @@ def scientific_residuals_pass(residuals: Any) -> bool:
         ):
             return False
         value, limit, tolerance = (float(item[key]) for key in ("value", "limit", "tolerance"))
-        if tolerance < 0 or tolerance > 1e-3:
+        # Residuals retain their physical units. The case-owned checker freezes the
+        # domain tolerance before execution; a unitless global cap is not meaningful.
+        if tolerance < 0:
             return False
         relation = item.get("relation")
         if relation == "LE" and value > limit + tolerance:
@@ -5089,7 +5091,18 @@ def validate_case_semantic_facts(case_root: Path, record: dict[str, Any]) -> dic
     requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
     plan = read_artifact(case_root, "experiment_plan")["content"]
     attempts = _development_attempt_registry(case_root, plan)
-    decision_hash = canonical_hash(select_development_candidate(attempts, plan))
+    if attempts:
+        decision_hash = canonical_hash(select_development_candidate(attempts, plan))
+    else:
+        # Bundled, in-process synthetic cases have hash-bound manifests but no
+        # subprocess capture. Their existing comparison must still validate.
+        comparison = read_artifact(case_root, "model_comparison")["content"]
+        validation = validate_comparison(
+            comparison, trusted_freezes=trusted_freezes(case_root), case_root=case_root
+        )
+        if not validation.accepted:
+            return contract_result("BLOCK", *validation.reason_codes)
+        decision_hash = comparison["selection_decision_hash"]
     manifests, outputs = {}, {}
     for run_id in _selected_runtime_run_ids(selection):
         manifest_path = case_root / "runs" / run_id / "manifest.json"
