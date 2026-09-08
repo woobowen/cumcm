@@ -246,6 +246,9 @@ def _build_case(
         assert executed["outcome"] == "SUCCESS", executed
     selection = probes._selection(core, raw_hash)
     semantic = probes._semantic(selection)
+    for claim in semantic["claims"]:
+        captured = core.load_json(case / "runs" / claim["selected_run_ids"][0] / "output.json")
+        claim["statement"] = captured["requirement_claims"][claim["requirement_id"]]["claim_text"]
     if semantic_adjust is not None:
         semantic = semantic_adjust(semantic)
     probes._accepted(core, case, "requirement_selection", selection)

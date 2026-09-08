@@ -76,6 +76,28 @@ def main() -> int:
             "failure_cases": ["Fixture does not establish external validity."],
         },
     }
+    sources = json.loads(
+        (args.case_root / "research/source_ledger.json").read_text(encoding="utf-8")
+    )["content"]["sources"]
+    assumption_path = args.case_root / "models/assumptions_and_symbols.json"
+    output["scientific_evidence"] = {}
+    for index, requirement in enumerate(requirement_artifact["content"]["requirements"]):
+        requirement_id = requirement["requirement_id"]
+        relevant = [s for s in sources if requirement_id in s["supports_requirement_ids"]]
+        if not any(s["evidence_class"] == "SIMULATION" for s in relevant):
+            continue
+        metric = f"metric_{chr(ord('a') + index)}"
+        output["scientific_evidence"][requirement_id] = {
+            "generation_method": "CONDITIONAL_SIMULATION",
+            "source_ids": [s["source_id"] for s in relevant],
+            "scope": {
+                "fields": requirement["minimum_data_fields"],
+                "time": requirement["required_time_scope"],
+                "entities": requirement["required_entity_scope"],
+            },
+            "metric_values": {metric: values[metric]},
+            "assumption_artifact_sha256": hashlib.sha256(assumption_path.read_bytes()).hexdigest(),
+        }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, sort_keys=True), encoding="utf-8")
     return 0

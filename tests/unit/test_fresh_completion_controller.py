@@ -35,7 +35,7 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
         [{"requirement_id": "REQ-1"}],
         ["toy mean"],
         source_hash=core.file_hash(case / "data/raw/toy.json"),
-        source_fields=[],
+        source_fields=["x"],
     )
 
     def accepted(key, value):

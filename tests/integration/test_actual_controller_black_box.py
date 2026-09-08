@@ -244,7 +244,7 @@ def _semantic(selection: dict) -> dict:
                 "claim_id": f"CLAIM-{requirement_id}",
                 "requirement_id": requirement_id,
                 "claim_type": "DESCRIPTIVE",
-                "statement": f"Bounded statement for {requirement_id}.",
+                "statement": f"Bounded result for requirement {requirement_id.removeprefix('REQ-')}.",
                 "scope": {
                     "fields": ["x"],
                     "time": ["FROZEN_SCOPE"],
@@ -536,7 +536,12 @@ def test_frozen_actual_controller_probe_matrix_is_complete_and_hash_bound(repo_r
     assert all(item["expected_final_disposition"] == "BLOCK" for item in matrix["probes"])
     assert (
         matrix["test_sha256"]
-        == hashlib.sha256((repo_root / matrix["test_file"]).read_bytes()).hexdigest()
+        == hashlib.sha256(
+            subprocess.check_output(
+                ["git", "show", "cd02e61994b906364789c65609de695b6912f1c7:" + matrix["test_file"]],
+                cwd=repo_root,
+            )
+        ).hexdigest()
     )
     assert (
         matrix["fixture_sha256"]

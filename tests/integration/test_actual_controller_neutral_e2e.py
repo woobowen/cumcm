@@ -216,7 +216,7 @@ def _selection_and_semantic(
                 "claim_id": f"CLAIM-{requirement_id}",
                 "requirement_id": requirement_id,
                 "claim_type": claim_type,
-                "statement": f"Bounded statement for {requirement_id}.",
+                "statement": f"Bounded result for {requirement_id}.",
                 "scope": {
                     "fields": requirements[index]["minimum_data_fields"],
                     "time": requirements[index]["required_time_scope"],
