@@ -1,42 +1,38 @@
 # PR12 RC8 checkpoint
 
-Started 2026-09-08T17:46:50Z; hard deadline 2026-09-09T01:46:50Z.
-Checkpoint 2026-09-08T20:14:34Z; elapsed 2h27m44s. Not a terminal receipt.
+Started2026-09-08T17:46:50Z; hard deadline2026-09-09T01:46:50Z.
+Checkpoint2026-09-08T20:37:30Z; elapsed2h50m40s. Work continues into M4.
 
-M0 active 004C5 plan/state exists. Active remains RC7, candidate RC8 not yet accepted.
-Current subject 1b508aabd3948ff0977ac5e77b451fd72b82cc00. No push this round yet.
-Historical RC7 candidate/live checks PASS against original subjects, never against RC8 bytes.
+M0–M3 reached candidate qualification, not the full task. RC8 is accepted only for research and
+fresh Validation eligibility: implementation29cf1d7566809519ca92b6a29f555ce0c0b5b204,
+evidence2b2aa24a83b44baf595cb189755e182c33da4953,
+activation8ef732b45cf3cb04262317cdfa13a176b47eebe0. Normal push and actual ls-remote confirmed
+activation SHA at20:37:30Z. PR12 remains Draft. State/registry activeRC8; 772 shared/test paths
+unchanged by activation. HistoricalRC7/RC5/Validation use original subjects and remain immutable.
 
-M1 actual core/controller fact/source/generation/scope/metric binding and scientific checker replay
-are implemented. Replayed numerical consistency is distinct from domain feasibility. Development
-has real train/validation and empty test, no Final authorization; full evaluation design is frozen.
-Native minimal/full scientific-ledger forgeries and missing/failed descriptive checks are rejected.
-New audit found NaN/Infinity release-receipt counts bypassing minimum tests; fixed at 1b508aa.
-Native same repository evaluator rerun: genuine integer control PASS, 8 adversarial cases BLOCK.
-98 targeted P0/RC8/history tests PASS at current subject. First full CI at d9: 3 failed / 2136 passed /
-1 skipped, all three causes fixed. Second full CI currently running; no PASS claimed yet.
+Full CI at29cf1d7:2153 passed,1 skipped; all subsequent checks PASS. Focused100 passed.
+Actual candidate checker passed with activeRC7; actual live/version/training/state/strict checks
+passed after activation. Native audits02/03/incremental29 closed demonstrated release blockers.
+Separate POST_DECISION Auditor PASS:29/29 bundle files,772 frozen implementation files and1891
+independent metadata/hash checks,0 mismatch. It did not rerun scientific models or full CI.
 
-M2 actual new Development captures: 2021 8/9 (5 SUCCESS, 3 FAILED); 2022 7/9 (7 SUCCESS).
-Each year has a real old-algorithm baseline control and new candidate calculation, preserving v5.
-2021 candidate baseline gives conditional minimum14/lower14, but historical inventory violations
-23/48 and transport overload47/48; stress worse than control, whole false. Current d9 single baseline
-is nonranking and semantic17/17 not evaluated, not a current three-candidate comparison.
-2022 d9 three candidates/checkers SUCCESS; selected Hellinger11/13 limited supported, unknown
-prediction and overall evidence insufficient. No independent classifier/clustering refit, no
-calibrated unknown accuracy. All15 Run source hashes and Git code blobs reverified. Final access0.
-Scientific Runs keep exact original commits; 1b508aa changes only release/training checks and tests,
-not the d9 scientific runtime or model/checker bytes. Qualification must record that distinction.
+M1 factual source/generation/scope/metric/checker replay is closed within the tested contract scope,
+not a universal mathematical proof. M2 has15 actual Development captures:2021 8/9 (5 success,3 fail),
+2022 7/9 success. Controls and candidate calculations retain exact actual commits. Current candidate
+scientific Runs atd9 are byte-equivalent to qualification runtime, not fabricated later executions.
+2021 current baseline nonranking,17 semantic requirements not evaluated; conditional count14 but
+worse historical stress; templates/Q4 global proof missing.2022 three candidates/checkers success,
+11/13 limited support; prediction accuracy and overall evidence insufficient. Whole-problem false
+for both; Final accesses0. Detailed scientific evidence and negative outcomes are committed.
 
-Native audit02 frozen at703775b; audit03 final review at1b508aa is being sealed. Actual native input
-snapshots, command/stdout/stderr/exit and replay records remain ignored; publish normalized copies
-with original hashes. Independent Python processes are not counted as independent native agents.
+M4 immediately next: official2016C acquisition then isolated fresh worker,7200sec complete episode;
+2015 second only if8100sec remains. Planned2/started0/completed0/passed0 at this checkpoint; no fresh
+input opened before release verification. Same frozen Skill/environment/rubric; no Skill changes,
+answers, Final tuning, failed-run deletion or post-terminal restart. Keep all14 stage outcomes and
+independent terminal review. All actors except main own only assigned case/ignored paths; max2units.
 
-Pending M3: passing fullCI/strict; publish evidence receipts; actual candidate checker while
-activeRC7; Decision Auditor on fixed candidate/decision; acceptance/manifest then state/registry
-activation with implementation unchanged; normal push and remote SHA verification. Immediately
-start2016 fresh worker afterward. Planned2 / started0 / completed0 / passed0, no fresh input opened.
-Same frozen subject/environment/rubric, each7200sec fullwindow. Second requires8100sec remaining.
-
-Latest actual goal observation at20:05:53Z: cumulative visible tokens2,196,880; timeUsedSeconds8291.
-No explicit token budget. Monetary cost UNKNOWN; paidAPI0, newdependencies0, globalchanges0.
-Resume from this checkpoint and actual ledgers; never reset elapsed/capture/Final budgets.
+Visible goal observation20:37Z:tokensUsed2,558,099,timeUsedSeconds10140; monetaryUNKNOWN,no token
+budget declared. No installed packages/global changes/paidAPI this task. Repository distribution
+is0.2.3; observed installed metadata remains0.1.0, used environment frozen without reinstallation.
+Resume via qualification/rc8_release_delivery.json, FRESH_VALIDATION_PROTOCOL.md, RUNBOOK.md and
+actual per-case captures. Do not reset budgets or confuse remote delivery with scientific success.

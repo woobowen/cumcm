@@ -20,10 +20,10 @@
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `None`
-- Content-verified commit: `29cf1d7566809519ca92b6a29f555ce0c0b5b204`
-- Delivery receipt commit: `UNVERIFIED`
+- Content-verified commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
+- Delivery receipt commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-08T20:35:29.446708+00:00` by `main-agent`
+- Updated: `2026-09-08T20:37:30Z` by `main-agent`
 
 ## Blockers
 
@@ -70,4 +70,4 @@
 - RC8 is accepted only for research and fresh Validation eligibility; no contest compliance or broad generalization is proven.
 - 2021 and 2022 remain exposed Development with whole-problem scientific completion false; 15 new captures and negative outcomes are preserved.
 - Legacy batch001 fields describe the inherited Development batch; fresh RC8 planned denominator2 is separately frozen in the candidate protocol. Fresh answers remain sealed.
-- Current RC8 activation awaits verified remote delivery before any fresh input reading.
+- RC8 activation8ef732b was verified at the designated remote before fresh input access; this is research/Validation qualification only.
