@@ -165,6 +165,11 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
   timeout. The remaining tests were not run; this is an incomplete Windows
   observation, not a Linux CI pass/fail claim. The earlier CRLF-only frozen
   file mismatch did not recur in this LF worktree.
+- The P0-03 follow-up made the test harness timeout platform-specific: 120s on
+  Windows, 30s on Linux. The complete P0-03 file then passed `6/6` in
+  `42.76s`, and the combined Development/P0 focused set passed `23/23` in
+  `55.83s`. This changes only the outer Windows test budget; the controller's
+  internal Final evaluator timeout remains 30s. The full suite was not rerun.
 - A Linux-native clone under WSL, at the same `e3653c2` tree, ran the static
   checker subset with Python 3.12 and PyYAML: claim-scope, batch/first-run/
   postmortem, RC4 candidate/batch/unified, 2019, and 2024 freeze/outcome all

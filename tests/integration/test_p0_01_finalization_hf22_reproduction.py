@@ -53,7 +53,7 @@ def _run_controller(repo_root: Path, case: Path) -> tuple[subprocess.CompletedPr
         check=False,
         capture_output=True,
         text=True,
-        timeout=30,
+        timeout=120 if sys.platform == "win32" else 30,
     )
     stdout = completed.stdout.strip()
     assert stdout, completed.stderr

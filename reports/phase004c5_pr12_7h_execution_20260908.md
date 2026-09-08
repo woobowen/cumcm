@@ -151,6 +151,12 @@ quality conclusions.
   test's 30-second timeout. The remaining tests were not run, so this is an
   incomplete Windows observation, not a Linux CI result. The earlier CRLF
   frozen-file mismatch did not recur in the LF worktree.
+- As a bounded follow-up, the P0-03 test harness now uses a 120-second outer
+  timeout only on Windows and retains 30 seconds on Linux. The complete P0-03
+  file passed `6/6` in `42.76s`; the combined Development/P0 focused set
+  passed `23/23` in `55.83s`. The controller's internal Final evaluator
+  timeout remains 30 seconds, and the full suite was not rerun after this
+  test-only compatibility change.
 - A Linux-native WSL clone at the same `e3653c2` tree ran the static checker
   subset with Python 3.12 and PyYAML; claim-scope, batch/first-run/postmortem,
   RC4 candidate/batch/unified, 2019, and 2024 freeze/outcome all returned
