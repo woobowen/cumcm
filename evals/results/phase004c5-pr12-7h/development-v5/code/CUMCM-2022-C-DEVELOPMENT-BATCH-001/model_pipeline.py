@@ -24,6 +24,7 @@ from scipy.stats import chi2_contingency, spearmanr
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import adjusted_rand_score, silhouette_score
+from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -625,6 +626,55 @@ def validation_score(
     }
 
 
+def grouped_repeated_cv_diagnostic(
+    metadata: list[dict[str, Any]],
+    known: list[dict[str, Any]],
+    candidate_id: str,
+    seed: int,
+    fraction: float = 0.50,
+) -> dict[str, Any]:
+    """Measure artifact-level stability without changing the preregistered winner.
+
+    This is a Development diagnostic only.  It deliberately never touches the
+    unknown/test groups and is not a substitute for the formal Final evaluator.
+    """
+
+    ids, matrix, labels = artifact_level_dataset(metadata, known, candidate_id, fraction)
+    splitter = RepeatedStratifiedKFold(n_splits=4, n_repeats=5, random_state=seed)
+    losses: list[float] = []
+    accuracies: list[float] = []
+    held_out_group_predictions = 0
+    for train_positions, test_positions in splitter.split(matrix, labels):
+        model = fit_type_classifier(
+            candidate_id, matrix[train_positions], labels[train_positions], seed
+        )
+        probabilities = model.predict_proba(matrix[test_positions])[:, 1]
+        losses.append(brier_loss(labels[test_positions], probabilities))
+        accuracies.append(finite_float(np.mean((probabilities >= 0.5) == labels[test_positions])))
+        held_out_group_predictions += len(test_positions)
+    return {
+        "group_unit": "ARTIFACT_ID",
+        "effective_group_count": len(ids),
+        "n_splits": 4,
+        "n_repeats": 5,
+        "held_out_group_predictions": held_out_group_predictions,
+        "brier_loss": {
+            "mean": finite_float(np.mean(losses)),
+            "median": finite_float(np.median(losses)),
+            "minimum": finite_float(np.min(losses)),
+            "maximum": finite_float(np.max(losses)),
+        },
+        "accuracy": {
+            "mean": finite_float(np.mean(accuracies)),
+            "minimum": finite_float(np.min(accuracies)),
+            "maximum": finite_float(np.max(accuracies)),
+        },
+        "selection_role": "DIAGNOSTIC_ONLY_NOT_USED_FOR_CANDIDATE_SELECTION",
+        "test_labels_accessed": False,
+        "external_validity_status": "UNESTABLISHED",
+    }
+
+
 def requirement_claims(output_path: str) -> dict[str, dict[str, Any]]:
     statements = {
         "REQ-VALIDITY": "Composition totals and invalid samples are explicitly audited.",
@@ -657,6 +707,7 @@ def main() -> int:
     output_path = safe_path(case_root, args.output)
     metadata, known, unknown = load_official_workbook(case_root)
     loss, validation = validation_score(metadata, known, args.candidate_id, args.seed)
+    grouped_cv = grouped_repeated_cv_diagnostic(metadata, known, args.candidate_id, args.seed)
     robustness_losses = {
         fraction: validation_score(
             metadata,
@@ -680,6 +731,14 @@ def main() -> int:
         "status": "SUCCESS",
         "validation_metrics": {"validation_composite_loss": loss},
         "validation_detail": validation,
+        "scientific_diagnostics": {
+            "grouped_repeated_cv": grouped_cv,
+            "fixed_split_zero_loss_warning": (
+                "ZERO_BRIER_LOSS_ON_SMALL_FIXED_GROUPED_SPLIT_IS_NOT_EXTERNAL_VALIDATION"
+                if loss == 0.0
+                else "NOT_APPLICABLE"
+            ),
+        },
         "data_scope": {
             "known_rows": len(known),
             "valid_known_rows": sum(item["valid"] for item in known),

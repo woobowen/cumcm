@@ -13,6 +13,18 @@
 - `pr`: `#12 OPEN/DRAFT`, base `main`, `mergeable_state=clean` at start.
 - `known_untracked_input`: `CUMCM_PR12_7H_EXECUTION_PLAN.md`; preserved as user-provided task input and not overwritten.
 
+## Continuation audit t0
+
+- `t0_wall_local`: `2026-09-08T12:56:17.4578857+08:00`
+- `t0_wall_utc`: `2026-09-08T04:56:17.4578857+00:00`
+- This continuation revalidated the current branch at `f17e99a`, the remote
+  PR head, the UTF-8 task plan, and the PR merge tree before editing.
+- The CI blocker was traced to current 2021/2022 Development code being placed
+  under historical frozen case paths. Those paths were restored to their
+  `c71912e` byte hashes; the new Development code is being moved to the
+  case-owned `development-v5/code` path. No historical freeze or formal state
+  is being rewritten.
+
 ## Bounded activity plan
 
 1. `M0` — inherit and verify framework, PR, state, contracts, case registry; maintain this checkpoint.
@@ -88,11 +100,30 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
   manifest or fresh registry entry was created, and no Validation result is
   claimed. The authorized fallback is to retain the two-case Development and
   read-only audit evidence until formal release/freeze prerequisites exist.
-- Full-suite truth remains fail-closed: the long `pytest -q` run emitted
-  failures before interruption, and the later `pytest -x -q` run was
-  interrupted before locating a traceback. This is not a passing release gate.
-  The focused evidence suite is `5 passed`; route-specific Ruff, format, and
-  diff checks are clean. Remote CI status remains unknown.
+- Full-suite truth remains fail-closed. The current GitHub PR run
+  `34185499763` failed in the single `offline-validation` step after 6m16s;
+  setup and bootstrap passed, and the Node.js 20 annotation is only a warning.
+  A read-only replay of the actual PR merge tree (`e97dcc3`) passes Ruff and
+  format checks. The first platform-independent downstream blocker is
+  `check_claim_scope_repair.py --check`, which reports historical evidence
+  drift for the frozen 2021/2022 C code after the Development scientific
+  changes. The old hashes and formal artifacts were not rewritten, and no new
+  push was made.
+
+## GitHub CI self-audit
+
+- `scripts/ci.sh` runs `pytest -q` before the frozen checkers under
+  `set -e`; GitHub exposes only the wrapper step's exit code without an
+  authenticated log view.
+- The feature branch's current Development changes are in the historical
+  case-code paths protected by the RC5 claim-scope preflight. The deterministic
+  errors are `HISTORICAL_EVIDENCE_DRIFT` for
+  `CUMCM-2021-C-DEVELOPMENT-BATCH-002/code/c2021_supply_plan.py` and
+  `CUMCM-2022-C-DEVELOPMENT-BATCH-001/code/model_pipeline.py`.
+- Windows-only registry path errors observed during local merge-tree replay
+  are not treated as the Linux root cause. Historical freezes/registry/state
+  remain untouched; the recovery path is a new governed Development freeze or
+  an explicitly authorized correction, not hash replacement.
 
 ## Cross-platform regression and v4 receipt
 

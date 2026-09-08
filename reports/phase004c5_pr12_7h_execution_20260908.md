@@ -119,7 +119,37 @@ with `authorized=false,count=0`.
 - Direct `.venv/Scripts/pytest.exe` collection is not used as the project result:
   on Windows it produced 17 `ModuleNotFoundError` collection errors because
   that launcher did not put the repository root on `sys.path`.
-- Remote CI status: unknown.
+- GitHub PR #12 run `34185499763` reached the `offline-validation` job and
+  failed with exit code 1 after 6m16s; checkout, uv setup, and environment
+  bootstrap were successful. The Node.js 20 message is an annotation warning,
+  not the failing result. The public job page does not expose the step log
+  without sign-in.
+
+## CI failure self-audit
+
+- The CI entry point runs the full `pytest -q` before the remaining frozen
+  checkers. Because `scripts/ci.sh` uses `set -e`, a non-zero test or checker
+  result terminates the job; the single GitHub step therefore hides which
+  internal command failed.
+- The PR workflow checks the GitHub pull-request merge tree, not only the
+  feature branch. A read-only fetch of `refs/pull/12/merge` produced merge
+  commit `e97dcc39bd0d4e58f93e53776c91d98bc1f37255` from branch head
+  `f17e99ac3ccf24d724bf5cd699074e68c37d8d41`. Ruff check and format check
+  pass on that tree. The Windows worktree showed only path-separator-only
+  registry discrepancies in a few POSIX-sensitive checkers; those are not
+  evidence of a Linux CI failure.
+- The first platform-independent blocker after the merge-tree replay is
+  `scripts/check_claim_scope_repair.py --check`:
+  `HISTORICAL_EVIDENCE_DRIFT` for the 2021 C supply-plan code and the 2022 C
+  model-pipeline code. Their preflight hashes are unchanged, while the
+  current files contain the new cardinality fields and repeated grouped-CV
+  diagnostic. This is a legitimate frozen-history guard, not a reason to
+  rewrite old hashes or remove the checker.
+- No formal state, historical freeze, or registry was rewritten during this
+  audit. The feature branch and PR head remain at `f17e99a`; no new push was
+  made. The repair boundary is to move new Development code/evidence into a
+  new governed case/freeze, or run a separately authorized correction
+  protocol, while leaving the historical case roots immutable.
 
 Read-only formal checks independently agree with the blocked boundary:
 

@@ -2,9 +2,9 @@
 """Run the authorized 2021/2022 C-target Development regressions under RC7.
 
 The source workspaces are reconstructed only from the registered official input
-archives and the already-unlocked historical case code.  This route never calls
-the Final/Validation evaluator and records a separate current-version evidence
-artifact, leaving the older RC4 evidence immutable.
+archives and the current case-owned Development adapters.  Historical first-run
+and RC4 case roots remain read-only.  This route never calls the Final/Validation
+evaluator and records a separate current-version evidence artifact.
 """
 
 from __future__ import annotations
@@ -83,17 +83,17 @@ CASES = {
         code_files=(
             (
                 "models/model_pipeline.py",
-                "evals/results/phase-004c-c-batch/"
-                "CUMCM-2022-C-DEVELOPMENT-BATCH-001/code/model_pipeline.py",
+                "evals/results/phase004c5-pr12-7h/development-v5/code/"
+                "CUMCM-2022-C-DEVELOPMENT-BATCH-001/model_pipeline.py",
             ),
             (
                 "models/scientific_claim_semantics.json",
-                "evals/results/phase-004c-c-batch/"
+                "evals/results/phase004c5-pr12-7h/development-v5/code/"
                 "CUMCM-2022-C-DEVELOPMENT-BATCH-001/scientific_claim_semantics.json",
             ),
         ),
         claim_semantics_file=(
-            "evals/results/phase-004c-c-batch/"
+            "evals/results/phase004c5-pr12-7h/development-v5/code/"
             "CUMCM-2022-C-DEVELOPMENT-BATCH-001/scientific_claim_semantics.json"
         ),
         seed=20220904,
@@ -160,8 +160,8 @@ CASES = {
         code_files=(
             (
                 "models/c2021_supply_plan.py",
-                "evals/results/phase-004c-c-batch/"
-                "CUMCM-2021-C-DEVELOPMENT-BATCH-002/code/c2021_supply_plan.py",
+                "evals/results/phase004c5-pr12-7h/development-v5/code/"
+                "CUMCM-2021-C-DEVELOPMENT-BATCH-002/c2021_supply_plan.py",
             ),
             (
                 "models/c2021_feasibility.py",
@@ -170,12 +170,12 @@ CASES = {
             ),
             (
                 "models/scientific_claim_semantics.json",
-                "evals/results/phase-004c-c-batch/"
+                "evals/results/phase004c5-pr12-7h/development-v5/code/"
                 "CUMCM-2021-C-DEVELOPMENT-BATCH-002/scientific_claim_semantics.json",
             ),
         ),
         claim_semantics_file=(
-            "evals/results/phase-004c-c-batch/"
+            "evals/results/phase004c5-pr12-7h/development-v5/code/"
             "CUMCM-2021-C-DEVELOPMENT-BATCH-002/scientific_claim_semantics.json"
         ),
         seed=20210904,
