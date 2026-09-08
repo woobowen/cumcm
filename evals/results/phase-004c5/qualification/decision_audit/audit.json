@@ -1,0 +1,162 @@
+{
+  "audit_id": "AUDIT-RC8-CANDIDATE-POST-DECISION-004C5-001",
+  "role": "automated_decision_auditor",
+  "round": "POST_DECISION",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "FROZEN_PREDECESSORS_ONLY",
+  "model": "UNKNOWN",
+  "reasoning_setting": "UNKNOWN",
+  "bundle_id": "RC8-CANDIDATE-POST-DECISION-AUDIT-004C5",
+  "bundle_hash": "1cfd099e30c92d2a6189f42b074fabfae85293fc2a811420a7f1523ae6c973cb",
+  "verdict": "PASS",
+  "findings": [
+    {
+      "finding_id": "DA01",
+      "severity": "INFO",
+      "target": "candidate qualification evidence",
+      "statement": "The fixed proposal is supported by actual RC8 candidate CLI PASS while active remains RC7; live RC8 correctly blocks pending activation. All 29 bundle files, 772 subject implementation/test paths, six receipts and referenced evidence hashes verified; 1891 independent metadata/hash checks had no mismatch.",
+      "evidence_refs": [
+        ".cache/pr12-rc8/candidate-decision-audit/bundle_hash_verification.json",
+        ".cache/pr12-rc8/candidate-decision-audit/independent_verification.json",
+        ".cache/pr12-rc8/candidate-decision-audit/01.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/02.command.json"
+      ],
+      "file_references": [
+        ".cache/pr12-rc8/candidate-decision-audit/bundle_hash_verification.json",
+        ".cache/pr12-rc8/candidate-decision-audit/independent_verification.json",
+        ".cache/pr12-rc8/candidate-decision-audit/01.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/02.command.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "DA02",
+      "severity": "INFO",
+      "target": "CI and native predecessor closure",
+      "statement": "Frozen full CI receipt exit 0 and its original/tracked stdout agree on 2153 passed, 1 skipped; focused exit 0 agrees on 100 passed; strict passes. Native predecessor reports preserve the original forged-checker and nonfinite-counter blockers with actual closure evidence through 29cf1d7. This auditor did not rerun full CI or scientific models.",
+      "evidence_refs": [
+        "evals/results/phase-004c5/qualification/receipts/full_ci.json",
+        "evals/results/phase-004c5/qualification/receipts/focused_tests.json",
+        "evals/results/phase-004c5/qualification/receipts/native_audit.json",
+        "evals/results/phase-004c5/qualification/native_audit_03_incremental29/REPORT.md"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/qualification/receipts/full_ci.json",
+        "evals/results/phase-004c5/qualification/receipts/focused_tests.json",
+        "evals/results/phase-004c5/qualification/receipts/native_audit.json",
+        "evals/results/phase-004c5/qualification/native_audit_03_incremental29/REPORT.md"
+      ],
+      "testability": "TESTABLE",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "DA03",
+      "severity": "INFO",
+      "target": "historical subjects and science transfer",
+      "statement": "Actual RC7 candidate/live and RC5/2019 historical checks pass against their original subjects. The RC5 version block and old Validation failures remain negative. The four d9 candidate executions retain d9 identity; declared producer/checker/runtime paths match d9, 29cf1d7 and current bytes. Other eleven executions are not upgraded to the qualification subject.",
+      "evidence_refs": [
+        ".cache/pr12-rc8/candidate-decision-audit/03.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/04.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/06.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/07.command.json",
+        "evals/results/phase-004c5/qualification/development_binding_verification.json",
+        "evals/results/phase-004c5/qualification/scientific_runtime_subject_equivalence.json"
+      ],
+      "file_references": [
+        ".cache/pr12-rc8/candidate-decision-audit/03.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/04.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/06.command.json",
+        ".cache/pr12-rc8/candidate-decision-audit/07.command.json",
+        "evals/results/phase-004c5/qualification/development_binding_verification.json",
+        "evals/results/phase-004c5/qualification/scientific_runtime_subject_equivalence.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "DA04",
+      "severity": "WARNING",
+      "target": "scientific scope",
+      "statement": "Development remains 2021 8 attempts (5 successful, 3 failed) and 2022 7 successful attempts; both whole-problem outcomes remain false and Final access is zero. Current 2021 has a single nonranking baseline and no accepted 17-requirement semantic selection; 2022 supports 11/13 with unknown accuracy and evidence requirements insufficient. Stress failures, template/global-certificate gaps, limited independent fit verification, calibration and causal limitations remain material. PASS is only research/fresh-Validation eligibility.",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md",
+        "evals/results/phase-004c5/development/v6/science_summary.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md",
+        "evals/results/phase-004c5/development/v6/science_summary.json"
+      ],
+      "testability": "NON_TESTABLE_CLAIM",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "DA05",
+      "severity": "WARNING",
+      "target": "source and reproducibility limits",
+      "statement": "Four registered method Sources link concrete method decisions, but their content_hash fields are null. This audit did not fetch external pages or reread raw inputs. Observed Python/platform/package versions equal environment.json, which is not a portable lockfile; installed distribution metadata 0.1.0 differs from repository declaration 0.2.3 and remains explicitly observed. These limits do not support stronger science or portability claims.",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/method_sources.json",
+        "evals/results/phase-004c5/qualification/environment.json",
+        ".cache/pr12-rc8/candidate-decision-audit/independent_verification.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/v6/method_sources.json",
+        "evals/results/phase-004c5/qualification/environment.json",
+        ".cache/pr12-rc8/candidate-decision-audit/independent_verification.json"
+      ],
+      "testability": "NON_TESTABLE_CLAIM",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "DA06",
+      "severity": "INFO",
+      "target": "prospective activation and fresh protocol",
+      "statement": "Before-input protocol and environment hashes match the frozen snapshot and evidence commit. Activation must preserve the accepted 772-path mapping and environment; main must record audited acceptance, verify activation and remote freeze before fresh input. Fixed denominator two, serial 2016 then 2015, input/contamination-only 2014 fallback, 7200 seconds per complete episode and 8100 seconds remaining for the second are preserved. No present fresh scientific success or contest qualification is inferred.",
+      "evidence_refs": [
+        "evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md",
+        "evals/results/phase-004c5/qualification/initial_registration.json",
+        "evals/results/phase-004c5/qualification/candidate_adjudication_proposal.json",
+        "evals/results/phase-004c5/qualification/rc8_candidate_protocol.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md",
+        "evals/results/phase-004c5/qualification/initial_registration.json",
+        "evals/results/phase-004c5/qualification/candidate_adjudication_proposal.json",
+        "evals/results/phase-004c5/qualification/rc8_candidate_protocol.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": null,
+      "pass_condition": null,
+      "status": "RESOLVED"
+    }
+  ],
+  "blockers": [],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "api_calls": 0,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "uncertainties": [
+    "Exact model and reasoning setting unavailable: UNKNOWN.",
+    "Raw official input byte equality was not independently reread by this auditor; hash recheck receipts remain main-orchestrator evidence.",
+    "External method-source content not independently fetched; registered content hashes are null.",
+    "Future activation, remote delivery and fresh Validation have not been executed by this auditor.",
+    "Filesystem/context isolation remains policy/tool based, not an OS sandbox."
+  ],
+  "created_at": "2026-09-08T20:33:49.536407+00:00",
+  "output_hash": "a551f3f483f74bd99bdf2d7fae25ba2779964199432c74c82763693e51f79527"
+}

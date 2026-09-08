@@ -134,3 +134,9 @@ Ordinary plan progress updates are already authorized; record changed decisions 
   Candidate acceptance, activation and remote freeze remain pending; no fresh inputs opened.
   Shared before-input rubric and observed environment now recorded under qualification/. M4/M5
   remain in scope; no noncritical refactor is planned beyond this point.
+
+- 20:35Z: candidate subject29cf1d7 passed2153 full pytest tests (1 skipped), all CI post-checks,
+ 100 focused tests, strict and native increment review. Actual candidate checker PASS with activeRC7.
+ Independent POST_DECISION Auditor PASS on29 bound evidence files/772 frozen implementation paths.
+ Accepted research/Validation eligibility only, then locally activated RC8 with implementation
+ unchanged. Live/version/training/state/strict checks PASS; remote delivery pending before fresh input.

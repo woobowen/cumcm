@@ -3,11 +3,11 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`
-- Subphase: `RC8-FACT-BINDING-REPAIR`
+- Subphase: `RC8-FROZEN-PENDING-FRESH-C-VALIDATION`
 - Status: `IN_PROGRESS`
 - Active plan: `plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md`
 - Branch: `feat/phase004c5-p0-01-finalization-hf22-repro`
-- Skill version: `0.2.0-competition-rc7`
+- Skill version: `0.2.0-competition-rc8`
 - Primary target problem type: `C`
 - Current batch: `C-TARGET-BATCH-001`
 - Batch Skill frozen: `true`
@@ -15,20 +15,19 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3`
+- Technical adjudication: `C_TARGET_RC8_READY_VALIDATION_PENDING`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3, DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `None`
-- Content-verified commit: `22abe92d2b5da2e3f1be3161e8376fb83b0cee0a`
-- Delivery receipt commit: `22abe92d2b5da2e3f1be3161e8376fb83b0cee0a`
+- Content-verified commit: `29cf1d7566809519ca92b6a29f555ce0c0b5b204`
+- Delivery receipt commit: `UNVERIFIED`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-08T17:55:12.451024+00:00` by `main-agent`
+- Updated: `2026-09-08T20:35:29.446708+00:00` by `main-agent`
 
 ## Blockers
 
-- RC8_SOURCE_SCOPE_SUPPORT_BINDING_INCOMPLETE
-- RC8_CANDIDATE_NOT_ACCEPTED
+- None
 
 ## Risks
 
@@ -68,3 +67,7 @@
 - Phase 004C4 is a new bounded repair window. RC7 cannot be released until actual-controller black-box probes, ordered gate traces, neutral end-to-end cases, adversarial audit, historical regressions and candidate/live consistency all pass.
 - The answer-sealed 2017 C one-shot executed all nine frozen development attempts successfully, but released RC7 blocked at GATE_FINALIZATION because its execute output cannot supply the controller-required sealed-test payload; no test access or accepted handoff occurred.
 - The read-only fresh Validation integrity audit found HF22: the post-selection builder asserted held_out_test_valid=true for REQ2 despite a DEVELOPMENT_GROUPED_OOS selected output with test access NOT_AUTHORIZED/0 and held_out_test_valid=false; semantic support was not cross-bound to authoritative Run facts.
+- RC8 is accepted only for research and fresh Validation eligibility; no contest compliance or broad generalization is proven.
+- 2021 and 2022 remain exposed Development with whole-problem scientific completion false; 15 new captures and negative outcomes are preserved.
+- Legacy batch001 fields describe the inherited Development batch; fresh RC8 planned denominator2 is separately frozen in the candidate protocol. Fresh answers remain sealed.
+- Current RC8 activation awaits verified remote delivery before any fresh input reading.

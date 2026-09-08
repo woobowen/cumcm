@@ -44,15 +44,43 @@ target_case_fields:
 - contamination_status
 - generalization_axis
 active_skill_release:
-  version: 0.2.0-competition-rc7
-  implementation_commit: cd02e61994b906364789c65609de695b6912f1c7
-  tree: 0b0e001c6bd12d605ad1e1e3fbfb1e4e9b1486e045b9e81c3d4e15f7d9f8f056
-  release_commit: 22abe92d2b5da2e3f1be3161e8376fb83b0cee0a
-  release_manifest: evals/results/phase-004c4/rc7_release.json
-  validation_status: C_TARGET_VALIDATION_FAILED
-  release_acceptance: COMPETITION_RC_RELEASED
+  version: 0.2.0-competition-rc8
+  implementation_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+  tree: 601d05ec094b9724487fe11beca44cb2e060514d30a9511a809c15c083268b0e
+  tree_hash_method: SHA256_CANONICAL_SORTED_PATH_TO_SHA256_MAPPING
+  candidate_evidence_commit: 2b2aa24a83b44baf595cb189755e182c33da4953
+  release_manifest: evals/results/phase-004c5/qualification/rc8_release.json
+  validation_status: C_TARGET_RC8_READY_VALIDATION_PENDING
+  release_acceptance: RESEARCH_VALIDATION_CANDIDATE_ACCEPTED
   unresolved_blocker: null
-planned_cases: []
+  delivery_status: PENDING_REMOTE_VERIFICATION
+planned_cases:
+- case_id: CUMCM-2016-C-VALIDATION-004
+  year: 2016
+  set_type: VALIDATION
+  target_problem_type: C
+  status: NOT_STARTED
+  batch_position: 1
+  planned_denominator: 2
+  skill_version: 0.2.0-competition-rc8
+  skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+  answer_access_status: SEALED
+  inputs_accessed: false
+  maximum_wall_seconds: 7200
+  protocol: evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md
+- case_id: CUMCM-2015-C-VALIDATION-005
+  year: 2015
+  set_type: VALIDATION
+  target_problem_type: C
+  status: NOT_STARTED
+  batch_position: 2
+  planned_denominator: 2
+  skill_version: 0.2.0-competition-rc8
+  skill_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
+  answer_access_status: SEALED
+  inputs_accessed: false
+  maximum_wall_seconds: 7200
+  protocol: evals/results/phase-004c5/qualification/FRESH_VALIDATION_PROTOCOL.md
 held_out_reservations:
 - reservation_id: CUMCM-2025-C-HELDOUT-RESERVED
   set_type: HELD_OUT

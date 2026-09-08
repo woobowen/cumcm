@@ -4,6 +4,8 @@ Use the inherited `.venv/bin/python`; current versions are recorded in `environm
 Core/CLI dependencies are declared in `pyproject.toml`. Development numerical cases additionally
 use NumPy, SciPy, pandas and openpyxl at the observed versions; no package was installed this task.
 The environment observation is not a tested fresh-install or cross-platform reproduction claim.
+Repository distribution declaration is 0.2.3, while installed editable distribution metadata remains
+0.1.0; this task uses the repository source and does not reinstall merely to align metadata.
 
 Run targeted checks before full CI:
 
