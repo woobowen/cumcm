@@ -141,6 +141,14 @@ quality conclusions.
   historical LF subject commit; after CRLF normalization they are identical,
   and the base/subject/HEAD Git blob for `CASE-001.json` is unchanged. This is
   not a clean full release gate.
+- Latest LF-worktree `python -m pytest -q` was allowed to continue past its
+  first failure and was stopped after the summary at `362 passed, 1 failed` in
+  `1732.55 seconds`. The failure was
+  `test_legal_predictive_after_evaluate_final_reaches_handoff`: its Windows
+  subprocess invocation of `finalize_fresh_c_validation.py` exceeded the
+  test's 30-second timeout. The remaining tests were not run, so this is an
+  incomplete Windows observation, not a Linux CI result. The earlier CRLF
+  frozen-file mismatch did not recur in the LF worktree.
 - Direct `.venv/Scripts/pytest.exe` collection is not used as the project result:
   on Windows it produced 17 `ModuleNotFoundError` collection errors because
   that launcher did not put the repository root on `sys.path`.

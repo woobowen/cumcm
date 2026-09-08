@@ -156,6 +156,14 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
   errors; 2024 reports seven pre-run and three terminal historical
   freeze/delivery/protocol errors. These are existing formal-artifact
   blockers, not Development-run results, and no old artifact was rewritten.
+- A latest LF-worktree `pytest -q` was intentionally allowed to run without
+  `-x` until its first observed failure, then stopped after the summary:
+  `362 passed, 1 failed` in `1732.55 seconds`. The failure was
+  `test_legal_predictive_after_evaluate_final_reaches_handoff`, whose Windows
+  subprocess call to `finalize_fresh_c_validation.py` exceeded its 30-second
+  timeout. The remaining tests were not run; this is an incomplete Windows
+  observation, not a Linux CI pass/fail claim. The earlier CRLF-only frozen
+  file mismatch did not recur in this LF worktree.
 
 ## GitHub CI self-audit
 
