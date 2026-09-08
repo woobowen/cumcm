@@ -22,6 +22,10 @@ parallel runtime. All new numerical work belongs to new case-owned directories. 
 alone writes shared implementation, state, registry, decisions and Git. Native reviewers are
 read-only. Fresh workers may write only their assigned case-owned artifacts and ignored workspace.
 No more than two concurrent units including the main agent. Native agents do not spawn agents.
+The main agent grants one Development worker conflict-free ownership of
+`evals/results/phase-004c5/development/v6/2021/code/` and its local implementation notes only.
+That worker may implement and test the case-owned scientific repair; it may not write shared code,
+formal state, decisions, other cases, or Git. Its work is implementation, not independent acceptance.
 
 ## Milestones and acceptance
 

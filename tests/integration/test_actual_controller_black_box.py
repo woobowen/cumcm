@@ -244,7 +244,9 @@ def _semantic(selection: dict) -> dict:
                 "claim_id": f"CLAIM-{requirement_id}",
                 "requirement_id": requirement_id,
                 "claim_type": "DESCRIPTIVE",
-                "statement": f"Bounded result for requirement {requirement_id.removeprefix('REQ-')}.",
+                "statement": (
+                    f"Bounded result for requirement {requirement_id.removeprefix('REQ-')}."
+                ),
                 "scope": {
                     "fields": ["x"],
                     "time": ["FROZEN_SCOPE"],

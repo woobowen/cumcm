@@ -273,6 +273,9 @@ def _build_runtime_case(
     selection: dict,
     semantic: dict,
     seed: int = 20260906,
+    model_fixture: str = "tests/fixtures/runtime_portfolio_model.py",
+    checker_fixture: str | None = None,
+    nonpredictive: bool = False,
 ):
     core = _module(
         repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
@@ -365,19 +368,32 @@ def _build_runtime_case(
     ]
     _accepted(core, case, "model_candidates", {"candidates": candidates})
     core.advance_once(case)
-    fixture = repo_root / "tests/fixtures/runtime_portfolio_model.py"
+    fixture = repo_root / model_fixture
     model = case / "models/runtime_model.py"
     shutil.copyfile(fixture, model)
     code = synthetic._required_code_files(core) + [
         {
             "scope": "CASE_ROOT",
             "path": "models/runtime_model.py",
-            "repository_path": "tests/fixtures/runtime_portfolio_model.py",
+            "repository_path": model_fixture,
             "sha256": core.file_hash(model),
         }
     ]
+    if checker_fixture:
+        checker = case / "models/independent_check.py"
+        shutil.copyfile(repo_root / checker_fixture, checker)
+        code.append(
+            {
+                "scope": "CASE_ROOT",
+                "path": "models/independent_check.py",
+                "repository_path": checker_fixture,
+                "sha256": core.file_hash(checker),
+            }
+        )
     commit = core.current_git_commit()
     splits = {"train": [1], "validation": [2], "test": [3]}
+    if nonpredictive:
+        splits = {"train": [], "validation": [], "test": []}
     inputs = {"data/raw/input.json": raw_hash}
     generated = "2026-09-05T00:00:00Z"
     freezes = synthetic._freezes(
@@ -415,6 +431,11 @@ def _build_runtime_case(
             "stop_rule": "one deterministic run per candidate",
             "handoff_generated_at": generated,
             "scenario_hash": raw_hash,
+            **(
+                {"evaluation_design": {"mode": "NONPREDICTIVE_FINAL_VERIFICATION"}}
+                if nonpredictive
+                else {}
+            ),
         },
     )
     synthetic._write_output_contract_probe(
