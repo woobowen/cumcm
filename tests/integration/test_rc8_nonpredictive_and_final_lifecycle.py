@@ -165,3 +165,23 @@ def test_scientific_check_capture_cannot_omit_or_contradict_execution(
     assert completed.returncode != 0, result
     assert "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING" in result["reason_codes"]
     assert core.load_state(case)["state"] == "RUNNING"
+
+
+def test_complete_rehashed_checker_receipt_requires_actual_recomputation(repo_root, tmp_path):
+    helper, core, case = _nonpredictive(repo_root, tmp_path)
+    run_id = "RUN-CAND-20260906"
+    core.execute_scientific_check(case, run_id=run_id, code_path="models/independent_check.py")
+    output_path = case / "runs" / run_id / "scientific_check.json"
+    forged = core.load_json(output_path)
+    for record in forged["requirements"].values():
+        record["constraint_residuals"] = {
+            "irrelevant_identity": {"value": 1, "limit": 1, "relation": "EQ", "tolerance": 0}
+        }
+    core.write_json(output_path, forged)
+    path = case / "runs" / run_id / "scientific_check_capture.json"
+    ledger = core.load_json(path)
+    ledger["bound_files"][output_path.relative_to(case).as_posix()] = core.file_hash(output_path)
+    core.write_json(path, ledger)
+    completed, result = helper._run_controller(repo_root, case)
+    assert completed.returncode != 0, result
+    assert "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING" in result["reason_codes"]
