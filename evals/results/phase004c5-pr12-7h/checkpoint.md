@@ -171,6 +171,21 @@ No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid API
   not fetch PyPI after three connection timeouts; Linux full pytest and Ruff
   therefore remain unverified, not failed.
 
+## Linux-native formal-boundary replay
+
+- `check_phase004c4_fresh_validation.py --check` returned process `0` with
+  `status=PASS` for checker execution, but its substantive verdict remained
+  `C_TARGET_VALIDATION_FAILED`, `run_count=9`, `delivery_verified=false`, and
+  `workspace_verified=false`.
+- `check_phase004c4_regressions.py --check` returned `status=PASS`; this does
+  not promote the fresh-validation verdict.
+- `check_phase004c4_rc7_release.py` returned `BLOCK` for both stages. Candidate
+  reasons were `RC7_CANDIDATE_EVIDENCE_DRIFT` for actual_controller,
+  neutral_actual_controller_e2e, and runtime_core, plus
+  `RC7_CANDIDATE_LIVE_STATE_PREMATURE_OR_INVALID`. Live reasons were those
+  three evidence drifts plus `RC7_RELEASE_LIVE_VERSION_OR_TREE_INVALID`.
+  These are the exact M4/M5 formal blockers; no unfamiliar case was opened.
+
 ## GitHub CI self-audit
 
 - `scripts/ci.sh` runs `pytest -q` before the frozen checkers under

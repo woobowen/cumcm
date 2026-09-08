@@ -156,6 +156,20 @@ quality conclusions.
   `ok=true`. WSL had no pytest/ruff, and `uv` dependency setup failed after
   three PyPI connection timeouts. Linux full pytest and Ruff are therefore
   unverified rather than failed.
+
+Linux-native formal-boundary replay gives the current M4/M5 stop condition:
+`check_phase004c4_fresh_validation.py --check` executed successfully but
+reported `status=PASS` only for the checker process while retaining substantive
+`verdict=C_TARGET_VALIDATION_FAILED`, `run_count=9`,
+`delivery_verified=false`, and `workspace_verified=false`.
+`check_phase004c4_regressions.py --check` returned `status=PASS` without
+promoting that verdict. `check_phase004c4_rc7_release.py` returned `BLOCK` for
+both candidate and live stages: candidate had
+`RC7_CANDIDATE_EVIDENCE_DRIFT` for actual_controller,
+neutral_actual_controller_e2e, and runtime_core, plus
+`RC7_CANDIDATE_LIVE_STATE_PREMATURE_OR_INVALID`; live retained those drifts
+and added `RC7_RELEASE_LIVE_VERSION_OR_TREE_INVALID`. No unfamiliar case was
+opened because the formal prerequisites remain unsatisfied.
 - Direct `.venv/Scripts/pytest.exe` collection is not used as the project result:
   on Windows it produced 17 `ModuleNotFoundError` collection errors because
   that launcher did not put the repository root on `sys.path`.
