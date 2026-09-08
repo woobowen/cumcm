@@ -142,7 +142,9 @@ def test_actual_controller_rejects_missing_generation_facts(repo_root, tmp_path)
 
 
 @pytest.mark.parametrize("mutation", ["minimal_ledger", "exit", "final_access", "timing", "stdout"])
-def test_scientific_check_capture_cannot_omit_or_contradict_execution(repo_root, tmp_path, mutation):
+def test_scientific_check_capture_cannot_omit_or_contradict_execution(
+    repo_root, tmp_path, mutation
+):
     helper, core, case = _nonpredictive(repo_root, tmp_path)
     run_id = "RUN-CAND-20260906"
     core.execute_scientific_check(case, run_id=run_id, code_path="models/independent_check.py")

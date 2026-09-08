@@ -4937,11 +4937,64 @@ def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
     ledger = load_json(case_root / "runs" / run_id / "scientific_check_capture.json")
     if ledger.get("status") != "SUCCESS" or ledger.get("run_id") != run_id:
         raise ValueError("RC_SCIENTIFIC_CHECK_NOT_SUCCESS")
+    required_fields = {
+        "schema_version",
+        "capture_mode",
+        "runner_version",
+        "code_commit",
+        "run_id",
+        "status",
+        "checker",
+        "bound_files",
+        "started_at",
+        "ended_at",
+        "elapsed_seconds",
+        "exit_code",
+        "argv",
+        "environment_allowlist",
+        "timeout_seconds",
+        "cwd_policy",
+        "stdout_sha256",
+        "stderr_sha256",
+        "final_test_access",
+        "independence_limit",
+    }
+    if set(ledger) != required_fields:
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_FIELDS_INVALID")
+    if (
+        ledger["schema_version"] != "scientific-check-capture/v2"
+        or ledger["capture_mode"] != "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS"
+        or ledger["runner_version"] != VERSION
+        or type(ledger["exit_code"]) is not int
+        or ledger["exit_code"] != 0
+        or ledger["final_test_access"] is not False
+        or ledger["cwd_policy"] != "CASE_ROOT_RELATIVE"
+        or type(ledger["timeout_seconds"]) is not int
+        or not 1 <= ledger["timeout_seconds"] <= 900
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_IDENTITY_INVALID")
+    started = parse_utc_timestamp(ledger["started_at"])
+    ended = parse_utc_timestamp(ledger["ended_at"])
+    elapsed = ledger["elapsed_seconds"]
+    if (
+        started is None
+        or ended is None
+        or ended < started
+        or not strict_score(elapsed)
+        or not 0 <= elapsed <= ledger["timeout_seconds"] + 5
+        or abs((ended - started).total_seconds() - elapsed) > 2
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_TIMING_INVALID")
+    for stream in ("stdout", "stderr"):
+        path = case_root / "runs" / run_id / f"scientific_check.{stream}"
+        if not path.is_file() or ledger[f"{stream}_sha256"] != file_hash(path):
+            raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_STREAM_MISMATCH")
     for relative, expected in ledger.get("bound_files", {}).items():
         path = relative_case_path(case_root, relative)
         if path is None or not path.is_file() or file_hash(path) != expected:
             raise ValueError("RC_SCIENTIFIC_CHECK_STALE")
     capture = load_json(case_root / "runs" / run_id / "execution_capture.json")
+    build_captured_run_manifest(case_root, run_id=run_id, decision_hash="0" * 64)
     verify_current_capture_files(case_root, capture)
     checker = ledger.get("checker")
     if (
@@ -4956,6 +5009,23 @@ def verify_scientific_check(case_root: Path, *, run_id: str) -> dict[str, Any]:
         path, checker["sha256"], git_blob_hash(capture["code_commit"], checker["repository_path"])
     ):
         raise ValueError("RC_SCIENTIFIC_CHECK_CODE_DRIFT")
+    environment_allowlist, _ = controlled_subprocess_environment(int(capture["seed"]))
+    if (
+        ledger["code_commit"] != capture["code_commit"]
+        or ledger["argv"]
+        != [
+            checker["path"],
+            "--case-root",
+            ".",
+            "--run-id",
+            run_id,
+            "--output",
+            f"runs/{run_id}/scientific_check.json",
+        ]
+        or ledger["environment_allowlist"] != environment_allowlist
+        or started < parse_utc_timestamp(capture["ended_at"])
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_LINEAGE_INVALID")
     result = load_json(case_root / "runs" / run_id / "scientific_check.json")
     expected_bindings = {record["path"]: record["sha256"] for record in capture["input_files"]}
     expected_bindings.update(
@@ -5032,8 +5102,17 @@ def execute_scientific_check(
     bindings[capture["output"]["path"]] = capture["output"]["sha256"]
     bindings[capture_path.relative_to(case_root).as_posix()] = file_hash(capture_path)
     bindings[code_path] = checker["sha256"]
+    environment_allowlist, environment = controlled_subprocess_environment(int(capture["seed"]))
+    argv = [code_path, "--case-root", ".", "--run-id", run_id, "--output", output_relative]
     ledger = {
-        "schema_version": "scientific-check-capture/v1",
+        "schema_version": "scientific-check-capture/v2",
+        "capture_mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+        "runner_version": VERSION,
+        "code_commit": capture["code_commit"],
+        "argv": argv,
+        "environment_allowlist": environment_allowlist,
+        "timeout_seconds": timeout_seconds,
+        "cwd_policy": "CASE_ROOT_RELATIVE",
         "run_id": run_id,
         "status": "STARTED",
         "checker": checker,
@@ -5043,21 +5122,10 @@ def execute_scientific_check(
         "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
     }
     write_json(ledger_path, ledger, overwrite=False)
-    argv = [
-        sys.executable,
-        code_path,
-        "--case-root",
-        ".",
-        "--run-id",
-        run_id,
-        "--output",
-        output_relative,
-    ]
-    _, environment = controlled_subprocess_environment(int(capture["seed"]))
     started = time.monotonic()
     try:
         completed = subprocess.run(
-            argv,
+            [sys.executable, *argv],
             cwd=case_root,
             env=environment,
             check=False,

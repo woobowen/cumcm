@@ -384,10 +384,14 @@ def _write_semantic_bundle(
 ) -> None:
     requirement_ids = [item["requirement_id"] for item in requirements]
     run_id = manifest["run_id"]
-    metric_ids = list(dict.fromkeys([
-        *selected_output.get("validation_metrics", {}),
-        *selected_output.get("final_metrics", {}),
-    ]))
+    metric_ids = list(
+        dict.fromkeys(
+            [
+                *selected_output.get("validation_metrics", {}),
+                *selected_output.get("final_metrics", {}),
+            ]
+        )
+    )
     claims = []
     outputs = []
     claim_ids: dict[str, str] = {}
@@ -395,12 +399,14 @@ def _write_semantic_bundle(
         record = selected_output["requirement_claims"][requirement_id]
         output_id = f"OUT-{requirement_id}"
         claim_ids[requirement_id] = record["claim_id"]
-        outputs.append({
-            "output_id": output_id,
-            "metric_ids": metric_ids,
-            "owner_run_id": run_id,
-            "requirement_id": requirement_id,
-        })
+        outputs.append(
+            {
+                "output_id": output_id,
+                "metric_ids": metric_ids,
+                "owner_run_id": run_id,
+                "requirement_id": requirement_id,
+            }
+        )
         claims.append(
             {
                 "claim_id": record["claim_id"],
@@ -408,7 +414,9 @@ def _write_semantic_bundle(
                 "claim_type": "DESCRIPTIVE",
                 "statement": record["claim_text"],
                 "scope": {
-                    "fields": selected_output["scientific_evidence"][requirement_id]["scope"]["fields"],
+                    "fields": selected_output["scientific_evidence"][requirement_id]["scope"][
+                        "fields"
+                    ],
                     "time": ["FROZEN_CASE_SCOPE"],
                     "entities": ["SYNTHETIC_CASE"],
                 },
