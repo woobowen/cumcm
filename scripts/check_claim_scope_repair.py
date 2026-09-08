@@ -31,6 +31,7 @@ def evaluate(root=ROOT):
     successor = state.get("phase") in {
         "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
         "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
     }
     preflight = read(root / RESULTS / "preflight.json")
     for path, expected in preflight["historical_file_hashes"].items():
