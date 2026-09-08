@@ -126,3 +126,11 @@ Ordinary plan progress updates are already authorized; record changed decisions 
   Validation input, numerical experiment or dependency installation has occurred at registration.
 - Next: freeze neutral fact-binding cases, run inherited P0 checks and implement the smallest
   actual-controller repair supported by the new observations.
+
+- 20:14Z progress: M1 core/source/scientific replay and no-Final design implemented; M2 has15 actual
+  new Development captures (2021 8/9,2022 7/9) with negative/partial scientific conclusions preserved.
+  Versioned candidate subject1b508aa has98 focused tests passing; fullCI rerun pending. Native audit
+  found and reverified closure of forged checker and nonfinite qualification-counter attacks.
+  Candidate acceptance, activation and remote freeze remain pending; no fresh inputs opened.
+  Shared before-input rubric and observed environment now recorded under qualification/. M4/M5
+  remain in scope; no noncritical refactor is planned beyond this point.

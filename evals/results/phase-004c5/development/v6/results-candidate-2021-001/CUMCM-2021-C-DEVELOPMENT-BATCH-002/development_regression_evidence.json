@@ -1,0 +1,85 @@
+{
+  "all_primary_questions_complete": false,
+  "api_calls": 0,
+  "case_id": "CUMCM-2021-C-DEVELOPMENT-RC8-V6-004",
+  "development_evaluation": {
+    "final_evaluator_invoked": false,
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "test_access_count": 0
+  },
+  "elapsed_seconds": 2.839529,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "foundation_model_training": false,
+  "native_state": "RUNNING",
+  "official_input_provenance": {
+    "archive_sha256": "3391573f546fce4511e9a99c24c386e28203d8fee3d29bb2dccada5921cefe7b",
+    "bound_data_hashes": {
+      "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b",
+      "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685"
+    }
+  },
+  "requirements_incomplete": [],
+  "requirements_supported": [],
+  "requirements_total": 17,
+  "route": "DEVELOPMENT_REGRESSION",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_MEAN_GREEDY",
+      "capture_sha256": "54042f2fada9191ccab6cd838d96d8871fc1dbf91952cb54442513d46f932ffa",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC8-BASELINE_MEAN_GREEDY-S20210904",
+      "scientific_check_status": "SUCCESS"
+    }
+  ],
+  "schema_version": "development-scientific-evidence/v1",
+  "scientific_quality_pass": false,
+  "selected_candidate_id": null,
+  "selection_decision_hash": null,
+  "semantic_validation": {
+    "reason_codes": [
+      "RC_REGRESSION_SUCCESS_SET_INSUFFICIENT"
+    ],
+    "status": "BLOCK"
+  },
+  "skill": {
+    "execution_code_commit": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31",
+    "version": "0.2.0-competition-rc8"
+  },
+  "snapshot_hashes": {
+    "case_state.json": "6541256cd2613dc5488ddb76780688c3dcca4d7dc3f1d30dd89624a29370b314",
+    "data/data_audit.json": "4241ff6c9ad260cc006dd4988964b4f3976197ef8f5e3cc64b60340c1ff7f2ef",
+    "data/data_sufficiency.json": "494d3bad2d5ae19a9428ec3052abfaed8a528094d83ab7b83a84db6731e14cb4",
+    "evidence/claim_evidence.json": "af0d0492b5744d491815598ac76915a8e7321b2729295a52abcb08342608a314",
+    "evidence/semantic_claim_support.json": "2f87070bc995e06c2dfec723eb34339559d5a5880e46d2a503fd41f1faf39850",
+    "experiments/experiment_plan.json": "7ad6e02b9c1cdde21c0b1f6e0b26ced01752d783446257262dddbd5c533ad5b2",
+    "handoff/modeling_to_paper.json": "892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f",
+    "models/assumptions_and_symbols.json": "1b5cda12b8e46ecd875649e7c20ec1a8171bb7108998d092d08242c0ff362d84",
+    "models/model_candidates.json": "2d6c2591f1e7180eed002f7db659e4d074b31ebcd6ef37c3f22e2013de28a068",
+    "problem/problem_requirements.json": "dbc01903d4ff819cac7ddeb5705d8fa50aae1d3618c2ddfc85d62e39c7b1d4ad",
+    "research/research_plan.json": "5b2c160440776ac5deaa350e0133a82c366072634fa703f5a0f3f2f76eaeccc1",
+    "research/source_ledger.json": "7b9cbece127aab63795e2f6b7061787f48fdef719418222d899e0905dfbd97af",
+    "results/final_result.json": "42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848",
+    "results/model_comparison.json": "4583319b2323385e768f4f96b2649fe298c7332f7205c08cea93a3dbee6f3daa",
+    "results/requirement_selection.json": "5580756ca2375eee16fca3cdd3ec93acdee13ea179497b57eccb4757e93702be",
+    "results/robustness.json": "52d93aded9eaa12cba54e97c0c616baf13892cdc885274adf6da98a78f9fd411",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/execution_capture.json": "54042f2fada9191ccab6cd838d96d8871fc1dbf91952cb54442513d46f932ffa",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/manifest.json": "7ec4d84a95b713505365065bc633ad941dbd07232fd46d9b21b70f8f3f2c97f0",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/output.json": "2d7c38d473f7c90a4761c5a7f1327c8a24963e943acb784133f65375494d84cb",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/scientific_check.json": "cf02735f878cd90088acd5632c6188ae331bd51996bc850a38a98ac5689f5d22",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/scientific_check_capture.json": "c43361706674f17d60eb881a378292e78de75e3274bf178179e3f302d37c9d2d"
+  },
+  "source_first_run_case_id": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+  "statistical_models_fitted": true,
+  "terminal_state": "PARTIAL_SCIENTIFIC_EVIDENCE",
+  "timing": {
+    "completed_at": "2026-09-08T19:53:16Z",
+    "elapsed_seconds": 2.839524,
+    "started_at": "2026-09-08T19:53:13Z"
+  },
+  "valid_run_count": 1,
+  "validation_route_executed": false,
+  "validation_scores": {},
+  "workspace_relative": ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC8-V6-004-ATTEMPT-004"
+}

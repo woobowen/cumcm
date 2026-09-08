@@ -1,0 +1,107 @@
+{
+  "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+  "capability": "COMPETITION_RC",
+  "case_id": "CUMCM-2022-C-DEVELOPMENT-RC8-V6-002-CONTROL",
+  "case_kind": "prediction",
+  "evidence_bindings": {
+    "data/data_audit.json": "6467e4d63f9e63b95673346a009149a8f7729277d3dbd8ff9e9afc6f678dba0f",
+    "data/data_sufficiency.json": "05af54ffc6a0b94a6d2e37789de32343aefdbff1b6a93e71d4fe749b5bb6994c",
+    "experiments/experiment_plan.json": "5dadaba3c8be336a6d7b922f732059cd76d633f4123eb4f25169e15786d3a926",
+    "experiments/selected_output_contract_probe.json": "aec385eca8147fe073f34eef4a4ef1ece85edff53d4630ef7d89e27840cea982",
+    "models/assumptions_and_symbols.json": "56409457ad0bd59cdcfd39db15830c7139ef2dd4f1f52dc0dca90b219e680465",
+    "models/model_candidates.json": "4f7886394b9d32876d448e5ab0000910a9fb6ce3954d6f2710fec6a3fa4481fd",
+    "problem/problem_requirements.json": "2c6ee1153d9035e7eb748fcaa165793ba7c9c802b064d1c9b5d354dcc961f5a9",
+    "raw/case_files/附件.xlsx": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c",
+    "research/research_plan.json": "6fd9339a8d9f5c8e1d75400e57d35ac238d0eb768ce6dbf8457742aea09864cc",
+    "research/source_ledger.json": "c611c8d4f5cf9d35599f4f8fda4ef32477345a33f2c266b9d86a809d6e279696"
+  },
+  "history": [
+    {
+      "evidence": [],
+      "from": null,
+      "gate": "INIT",
+      "sequence": 0,
+      "status": "PASS",
+      "to": "CREATED"
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "from": "CREATED",
+      "gate": "GATE_PROBLEM_INTAKE",
+      "sequence": 1,
+      "status": "PASS",
+      "to": "INTAKE_COMPLETE"
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "from": "INTAKE_COMPLETE",
+      "gate": "GATE_REQUIREMENT_COVERAGE",
+      "sequence": 2,
+      "status": "PASS",
+      "to": "REQUIREMENTS_VALIDATED"
+    },
+    {
+      "evidence": [
+        "research/research_plan.json",
+        "research/source_ledger.json"
+      ],
+      "from": "REQUIREMENTS_VALIDATED",
+      "gate": "GATE_SOURCE_PLAN",
+      "sequence": 3,
+      "status": "PASS",
+      "to": "SOURCES_PLANNED"
+    },
+    {
+      "evidence": [
+        "models/assumptions_and_symbols.json",
+        "data/data_audit.json",
+        "raw/case_files/附件.xlsx"
+      ],
+      "from": "SOURCES_PLANNED",
+      "gate": "GATE_ASSUMPTIONS_AND_DATA",
+      "sequence": 4,
+      "status": "PASS",
+      "to": "DATA_AUDITED"
+    },
+    {
+      "evidence": [
+        "data/data_sufficiency.json",
+        "models/model_candidates.json"
+      ],
+      "from": "DATA_AUDITED",
+      "gate": "GATE_MODEL_PORTFOLIO",
+      "sequence": 5,
+      "status": "PASS",
+      "to": "MODELS_PROPOSED"
+    },
+    {
+      "evidence": [
+        "experiments/experiment_plan.json",
+        "experiments/selected_output_contract_probe.json"
+      ],
+      "from": "MODELS_PROPOSED",
+      "gate": "GATE_EXPERIMENT_PLAN",
+      "sequence": 6,
+      "status": "PASS",
+      "to": "EXPERIMENT_PLAN_VALIDATED"
+    },
+    {
+      "evidence": [
+        "experiments/experiment_plan.json"
+      ],
+      "from": "EXPERIMENT_PLAN_VALIDATED",
+      "gate": "GATE_EXECUTION_AUTHORIZED",
+      "sequence": 7,
+      "status": "PASS",
+      "to": "RUNNING"
+    }
+  ],
+  "last_gate": "GATE_EXECUTION_AUTHORIZED",
+  "schema_version": "1.0.0",
+  "skill_version": "0.2.0-competition-rc7",
+  "state": "RUNNING"
+}

@@ -1,0 +1,84 @@
+{
+  "all_primary_questions_complete": false,
+  "api_calls": 0,
+  "case_id": "CUMCM-2022-C-DEVELOPMENT-RC8-V6-002-CONTROL",
+  "development_evaluation": {
+    "final_evaluator_invoked": false,
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "test_access_count": 0
+  },
+  "elapsed_seconds": 2.683885,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "foundation_model_training": false,
+  "native_state": "RUNNING",
+  "official_input_provenance": {
+    "archive_sha256": "c27eb1b665f070341e134f5dc13bb2af469230424ff2eedabf594eee708bfee4",
+    "bound_data_hashes": {
+      "raw/case_files/附件.xlsx": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c"
+    }
+  },
+  "requirements_incomplete": [],
+  "requirements_supported": [],
+  "requirements_total": 13,
+  "route": "DEVELOPMENT_REGRESSION",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_RAW_CENTROID",
+      "capture_sha256": "e6fe59509dfee3cbd892be926329f4fea69839194306f57372947c283ac3946a",
+      "outcome": "SUCCESS",
+      "random_seed": 20220904,
+      "run_id": "RUN-RC8-BASELINE_RAW_CENTROID-S20220904",
+      "scientific_check_status": "SUCCESS"
+    }
+  ],
+  "schema_version": "development-scientific-evidence/v1",
+  "scientific_quality_pass": false,
+  "selected_candidate_id": null,
+  "selection_decision_hash": null,
+  "semantic_validation": {
+    "reason_codes": [
+      "RC_REGRESSION_SUCCESS_SET_INSUFFICIENT"
+    ],
+    "status": "BLOCK"
+  },
+  "skill": {
+    "execution_code_commit": "4515597441da07ef0b654f16be787beea1ee089c",
+    "version": "0.2.0-competition-rc7"
+  },
+  "snapshot_hashes": {
+    "case_state.json": "ebdafff9a01acc9ca54481f64dcce0fa9e337114b4b0ce085224a1d741cc9a54",
+    "data/data_audit.json": "6467e4d63f9e63b95673346a009149a8f7729277d3dbd8ff9e9afc6f678dba0f",
+    "data/data_sufficiency.json": "05af54ffc6a0b94a6d2e37789de32343aefdbff1b6a93e71d4fe749b5bb6994c",
+    "evidence/claim_evidence.json": "af0d0492b5744d491815598ac76915a8e7321b2729295a52abcb08342608a314",
+    "evidence/semantic_claim_support.json": "2f87070bc995e06c2dfec723eb34339559d5a5880e46d2a503fd41f1faf39850",
+    "experiments/experiment_plan.json": "5dadaba3c8be336a6d7b922f732059cd76d633f4123eb4f25169e15786d3a926",
+    "handoff/modeling_to_paper.json": "892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f",
+    "models/assumptions_and_symbols.json": "56409457ad0bd59cdcfd39db15830c7139ef2dd4f1f52dc0dca90b219e680465",
+    "models/model_candidates.json": "4f7886394b9d32876d448e5ab0000910a9fb6ce3954d6f2710fec6a3fa4481fd",
+    "problem/problem_requirements.json": "2c6ee1153d9035e7eb748fcaa165793ba7c9c802b064d1c9b5d354dcc961f5a9",
+    "research/research_plan.json": "6fd9339a8d9f5c8e1d75400e57d35ac238d0eb768ce6dbf8457742aea09864cc",
+    "research/source_ledger.json": "c611c8d4f5cf9d35599f4f8fda4ef32477345a33f2c266b9d86a809d6e279696",
+    "results/final_result.json": "42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848",
+    "results/model_comparison.json": "4583319b2323385e768f4f96b2649fe298c7332f7205c08cea93a3dbee6f3daa",
+    "results/requirement_selection.json": "5580756ca2375eee16fca3cdd3ec93acdee13ea179497b57eccb4757e93702be",
+    "results/robustness.json": "52d93aded9eaa12cba54e97c0c616baf13892cdc885274adf6da98a78f9fd411",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/execution_capture.json": "e6fe59509dfee3cbd892be926329f4fea69839194306f57372947c283ac3946a",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/manifest.json": "0f289fcdfee6e08a3e964df3ee7ea22b15ff96f858326baad8d454fe5450c526",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json": "45e41e40786fed7a28941fb15573bb848047b54449c35e25eb49df48b0625d2c",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/scientific_check.json": "83d31ab342e4e3c37ee65c9449e89e196a4517ef56e941be5b8c882b02c7338b",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/scientific_check_capture.json": "b857201cf3d5e1ccd63dc6c4503bccc4c59e323de3c4389f216c8b1d0cea53ea"
+  },
+  "source_first_run_case_id": "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+  "statistical_models_fitted": true,
+  "terminal_state": "PARTIAL_SCIENTIFIC_EVIDENCE",
+  "timing": {
+    "completed_at": "2026-09-08T19:50:49Z",
+    "elapsed_seconds": 2.683881,
+    "started_at": "2026-09-08T19:50:46Z"
+  },
+  "valid_run_count": 1,
+  "validation_route_executed": false,
+  "validation_scores": {},
+  "workspace_relative": ".cache/official_inputs/CUMCM-2022-C-DEVELOPMENT-RC8-V6-002-CONTROL-ATTEMPT-002"
+}

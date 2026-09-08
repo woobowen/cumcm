@@ -1,0 +1,85 @@
+{
+  "argv": [
+    "models/model_v5_control.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "BASELINE_RAW_CENTROID",
+    "--seed",
+    "20220904",
+    "--output",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+  ],
+  "candidate_id": "BASELINE_RAW_CENTROID",
+  "capture_mode": "CONTROLLED_CASE_SUBPROCESS",
+  "code_commit": "4515597441da07ef0b654f16be787beea1ee089c",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "741a5d28163599976fe17460183917adc0df3fb94dae836597da3e74b90dff08"
+    },
+    {
+      "path": "models/model_v5_control.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2022/code/model_v5_control.py",
+      "scope": "CASE_ROOT",
+      "sha256": "18c1dcf4fd48948f05879c2078d7cb306ec72225745fd5b64ba8fe8d70502f0a"
+    },
+    {
+      "path": "models/scientific_checks.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2022/code/scientific_checks.py",
+      "scope": "CASE_ROOT",
+      "sha256": "e22e3b0121dca8199349ad709860927f7403c0e4555cd4f88fb4d04899646108"
+    }
+  ],
+  "configuration": {
+    "candidate_id": "BASELINE_RAW_CENTROID",
+    "seed": 20220904
+  },
+  "configuration_hash": "6533fcfbe40def82536fdf5dfadaf08893f2a6fe0e14e1dae25934d46e2e9e7c",
+  "elapsed_seconds": 1.912053,
+  "ended_at": "2026-09-08T19:50:48Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20220904",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "7db86edf6ea5386afc2544c21fed8315fd2253f3d5de7fb1548b2e54fc3c0765",
+    "candidate_set": "4eb8f500ecccf287dd004a670e8371f28941c8813e97096e3944de84d28d330f",
+    "code_commit": "4ae1f9fb23f9a4fe11acdbca138baaa7cc109c061098bb70ee59386d370f6f7d",
+    "code_set": "ac4d79dfbe77f3e12a22f1f076b9ef26416b3f69248830729fe7f92ed666a17b",
+    "execution_policy": "8ee4396b286099ff59c1145359576e7004ab7d14888c199a1bc240139fce86eb",
+    "input_set": "ffb9ebf7f2db2e0e53fc772f416cbfcebffe5f3c3517741c5e8a423cb964d114",
+    "metric": "575918b07c8d9d93e70641c3ecb019c21e4efa7cb346f0d6fc64ed5b6fe56997",
+    "seed_schedule": "8344d77e665311afa15259152afe6811338de8e505ec29bedefaa5bd97da4de1",
+    "split_assignment": "c1242f695659d62e3550d18a344e17bc2b5e5bf1403660db06338d1bbcc87146"
+  },
+  "input_files": [
+    {
+      "path": "raw/case_files/附件.xlsx",
+      "sha256": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c"
+    }
+  ],
+  "outcome": "SUCCESS",
+  "output": {
+    "path": "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json",
+    "sha256": "45e41e40786fed7a28941fb15573bb848047b54449c35e25eb49df48b0625d2c"
+  },
+  "run_id": "RUN-RC8-BASELINE_RAW_CENTROID-S20220904",
+  "runner_version": "0.2.0-competition-rc7",
+  "scenario_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+  "schema_version": "1.0.0",
+  "seed": 20220904,
+  "started_at": "2026-09-08T19:50:46Z",
+  "stderr": {
+    "path": "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

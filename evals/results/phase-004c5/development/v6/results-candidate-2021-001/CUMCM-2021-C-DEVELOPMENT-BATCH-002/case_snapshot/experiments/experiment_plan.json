@@ -1,0 +1,78 @@
+{
+  "artifact_type": "experiment_plan",
+  "content": {
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "baseline_id": "BASELINE_MEAN_GREEDY",
+    "candidate_ids": [
+      "BASELINE_MEAN_GREEDY",
+      "ROBUST_QUANTILE_LEXICOGRAPHIC",
+      "SCENARIO_CVAR_PORTFOLIO"
+    ],
+    "code_commit": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31",
+    "evaluation_design": {
+      "mode": "DEVELOPMENT_NO_FINAL_EVALUATION"
+    },
+    "execution_prepared": true,
+    "handoff_generated_at": "2026-09-08T19:53:13Z",
+    "metric": "validation_penalized_cost_per_effective_m3",
+    "metric_direction": "MIN",
+    "preregistered": true,
+    "random_seeds": [
+      20210904
+    ],
+    "required_code_files": [
+      {
+        "path": "scripts/cumcm_case.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "85ca1e4618a873573bf759680c52b029cef7abd62bf7b2d1cb82533bdda6e4a6"
+      },
+      {
+        "path": "models/c2021_supply_plan.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_supply_plan.py",
+        "scope": "CASE_ROOT",
+        "sha256": "34123e6b1386794ccc3408174d6e4bb54441662dc53914772e791ec2c8d44f89"
+      },
+      {
+        "path": "models/c2021_feasibility.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_feasibility.py",
+        "scope": "CASE_ROOT",
+        "sha256": "3ef35baa9b6d0f8a0ea81bfd19631c2b6fd4656fb5857f8c8afabafcf1cef316"
+      },
+      {
+        "path": "models/c2021_independent_check.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_independent_check.py",
+        "scope": "CASE_ROOT",
+        "sha256": "469aea41bc2f408bdfeef33e36822d2c68b69c4dce8461fe9a35b4c2f97c8646"
+      }
+    ],
+    "required_input_hashes": {
+      "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b",
+      "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685"
+    },
+    "selection_rule": "ARGMIN_THEN_ID",
+    "splits": {
+      "test": [],
+      "train": [
+        "W001-W168"
+      ],
+      "validation": [
+        "W169-W216"
+      ]
+    },
+    "stop_rule": "one preregistered Development attempt per scheduled candidate",
+    "trusted_freeze_registry": {
+      "baseline": "19ca8888cfdff697ac490938ccda59eb16ba9e8d8b88dc23d6a9b90aa6ff839f",
+      "candidate_set": "917b4fe11628d47cb7eb385f0d6a7e67cde6037084dac74cae477131a065ab29",
+      "code_commit": "0ec279ec924e237b52790ae5a05aebd6289c8bc7a97656dcdcf962b969c631a9",
+      "code_set": "00707d79befe98e88733c4f7751871e23fc090dd4c8d2b360b04843675514e8c",
+      "execution_policy": "a5f5cbb92c597a20e9445bb269ba6233cddbc06a7c3ea1f7518c209d28a14813",
+      "input_set": "654df398e6f89f14576bd03b321cb4398cbc3b0eb41ec943dad60aefd63d56d5",
+      "metric": "9a0e80ea3d0cd361db2c89d5c22ca2003a005dcc4343cf147cddb597876237ed",
+      "seed_schedule": "11710339842d19d7a12d2dad6dc8d615356949ac66641ffcc641c1c7a6bb6add",
+      "split_assignment": "60111745959e7833f48d26b3ccb70f802bbc9040133347227a00cf3fdb9aa982"
+    }
+  },
+  "content_hash": "e3850d3697e1cfb6ac1f91c13448ef14a096c6efeb6e7a527164dc22599ac101",
+  "status": "ACCEPTED"
+}

@@ -1,0 +1,61 @@
+[
+  {
+    "evidence_level": "REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI",
+    "probe": "finite_count_control",
+    "result": {
+      "reason_codes": [],
+      "release": "rc8",
+      "stage": "candidate",
+      "status": "PASS"
+    },
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31"
+  },
+  {
+    "evidence_level": "REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI",
+    "probe": "zero_full_tests",
+    "result": {
+      "reason_codes": [
+        "RC8_CANDIDATE_FULL_TESTS_INSUFFICIENT"
+      ],
+      "release": "rc8",
+      "stage": "candidate",
+      "status": "BLOCK"
+    },
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31"
+  },
+  {
+    "evidence_level": "REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI",
+    "probe": "nan_full_tests",
+    "result": {
+      "reason_codes": [],
+      "release": "rc8",
+      "stage": "candidate",
+      "status": "PASS"
+    },
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31"
+  },
+  {
+    "evidence_level": "REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI",
+    "probe": "infinite_focused_tests",
+    "result": {
+      "reason_codes": [],
+      "release": "rc8",
+      "stage": "candidate",
+      "status": "PASS"
+    },
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31"
+  },
+  {
+    "evidence_level": "REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI",
+    "probe": "wrong_subject_receipt",
+    "result": {
+      "reason_codes": [
+        "RC8_CANDIDATE_RECEIPT_FAILED:strict"
+      ],
+      "release": "rc8",
+      "stage": "candidate",
+      "status": "BLOCK"
+    },
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31"
+  }
+]

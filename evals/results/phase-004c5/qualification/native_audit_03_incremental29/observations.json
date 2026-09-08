@@ -1,0 +1,71 @@
+{
+  "subject": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+  "results": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "scripts/check_claim_scope_repair.py",
+        "--check"
+      ],
+      "cwd": ".",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "started_at_utc": "2026-09-08T20:21:44.252553+00:00",
+      "duration_seconds": 0.1643001379998168,
+      "exit_code": 0,
+      "stdout_path": "01_claim_scope.stdout",
+      "stdout_sha256": "c2189b67fc133898a96ccf5171879e9186eaaee37a32ad799cbdaf4d106a08dc",
+      "stderr_path": "01_claim_scope.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "scripts/check_c_target_2019c_validation.py",
+        "--check",
+        "--require-delivery"
+      ],
+      "cwd": ".",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "started_at_utc": "2026-09-08T20:21:44.417002+00:00",
+      "duration_seconds": 0.20462576300087676,
+      "exit_code": 0,
+      "stdout_path": "02_2019_validation.stdout",
+      "stdout_sha256": "07d1355b010913c04b08a37071b0e23515cb5611744753de5c9dc5f27f052690",
+      "stderr_path": "02_2019_validation.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp",
+        "./.cache/pr12-rc8/native-audit-03-incremental29/pytest-temp",
+        "tests/unit/test_phase004c5_release_subjects.py::test_rc5_history_resolves_its_subject_and_rejects_a_changed_original_hash",
+        "tests/unit/test_phase004c5_release_subjects.py::test_2019_terminal_artifacts_are_checked_at_original_subject"
+      ],
+      "cwd": ".",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "started_at_utc": "2026-09-08T20:21:44.621778+00:00",
+      "duration_seconds": 0.7762521679997008,
+      "exit_code": 0,
+      "stdout_path": "03_new_targeted_tests.stdout",
+      "stdout_sha256": "c178449272bb51b7cf4ea950c6169cee3d94d323b8186f6cd7eca96df22dc4a9",
+      "stderr_path": "03_new_targeted_tests.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "all_commands_exit_zero": true
+}

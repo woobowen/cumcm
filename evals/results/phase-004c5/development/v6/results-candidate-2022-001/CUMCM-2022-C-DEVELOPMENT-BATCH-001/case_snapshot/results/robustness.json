@@ -1,0 +1,35 @@
+{
+  "artifact_type": "robustness_analysis",
+  "content": {
+    "configuration_hash": "53528884ae16ad3b812b1948ca14b8ff149549dfd99ebce406801fefd24a36ac",
+    "decision_hash": "102b0db41af0c2599db2e05987bafa3ea13f581cbfeba4e98387be87caf9e631",
+    "failure_cases": [
+      "Repeated predictions are not independent artifacts.",
+      "Sparse paired artifacts cannot identify causal weathering.",
+      "Training-distance applicability does not establish unknown classification accuracy."
+    ],
+    "input_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+    "metric": "validation_composite_loss",
+    "metric_direction": "MIN",
+    "output_hash": "c9792484ad0fe76b6500b12439223c0506f239dba143712137c7ec3f2803f015",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "validation_composite_loss",
+        "perturbation_id": "COMPOSITION-ONE-PERCENTAGE-POINT-SEED-20221005",
+        "result": 0.0
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "validation_composite_loss",
+        "perturbation_id": "COMPOSITION-ONE-PERCENTAGE-POINT-SEED-20221106",
+        "result": 0.0
+      }
+    ],
+    "run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+    "selected_model": "HELLINGER_KNN_COMPLETE",
+    "status": "VALIDATED"
+  },
+  "content_hash": "77cdea1d2c2b79b92ec572c9e9809f9e3e3ff04bc2c3b7f7385ceb87ba4858bc",
+  "status": "ACCEPTED"
+}

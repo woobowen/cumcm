@@ -1,0 +1,207 @@
+[
+  {
+    "actual_checker_executed": true,
+    "case_root": ".cache/pr12-rc8/native-audit-02/probes/control_real_checker/case",
+    "controller_exit_code": 0,
+    "gates": {
+      "GATE_AGGREGATE_CLAIM": "PASS",
+      "GATE_COMPARISON_SELECTION": "PASS",
+      "GATE_COMPATIBILITY_PORTFOLIO": "PASS",
+      "GATE_DATA_SUFFICIENCY_PREFLIGHT": "PASS",
+      "GATE_FINALIZATION": "PASS",
+      "GATE_HANDOFF": "PASS",
+      "GATE_PROBLEM_REQUIREMENT": "PASS",
+      "GATE_RUN_ELIGIBILITY": "PASS",
+      "GATE_SEMANTIC_CLAIM": "PASS",
+      "GATE_SOURCE_EVIDENCE": "PASS"
+    },
+    "model_code_commit": "e55f470228fa5ebb2eaa625ce0000b6bf4a34755",
+    "probe": "control_real_checker",
+    "result": {
+      "attempts": [
+        {
+          "candidate_id": "BASE",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-BASE-20260906",
+          "validation_score": 4
+        },
+        {
+          "candidate_id": "CAND",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-CAND-20260906",
+          "validation_score": 3
+        }
+      ],
+      "gate_execution_trace": {
+        "path": "evidence/gate_execution_trace.json",
+        "sha256": "5e8cca7d5e8e9007873a0684be2ff28c29c8e0bfed454047c4011177683b2036",
+        "trace_hash": "391b51f3e50ee875ef77ab0a3993e22128681529669e762c0105352d2466ea13"
+      },
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "scientific_final_verification_count": 1,
+      "selected_candidate_id": "CAND",
+      "selected_run_ids": [
+        "RUN-CAND-20260906"
+      ],
+      "selection_decision_hash": "f8cbd8e699952f1455266ebc595296a1847dc170f4c5f3464078ea9d9064c405",
+      "status": "PASS_NATIVE_CONTRACTS",
+      "test_access_count": 0
+    },
+    "synthetic_only": true,
+    "trace_sha256": "5e8cca7d5e8e9007873a0684be2ff28c29c8e0bfed454047c4011177683b2036"
+  },
+  {
+    "actual_checker_executed": false,
+    "case_root": ".cache/pr12-rc8/native-audit-02/probes/missing_checker/case",
+    "controller_exit_code": 1,
+    "gates": {
+      "GATE_COMPARISON_SELECTION": "PASS",
+      "GATE_COMPATIBILITY_PORTFOLIO": "PASS",
+      "GATE_DATA_SUFFICIENCY_PREFLIGHT": "PASS",
+      "GATE_PROBLEM_REQUIREMENT": "PASS",
+      "GATE_RUN_ELIGIBILITY": "PASS",
+      "GATE_SEMANTIC_CLAIM": "BLOCK",
+      "GATE_SOURCE_EVIDENCE": "PASS"
+    },
+    "model_code_commit": "e55f470228fa5ebb2eaa625ce0000b6bf4a34755",
+    "probe": "missing_checker",
+    "result": {
+      "attempts": [
+        {
+          "candidate_id": "BASE",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-BASE-20260906",
+          "validation_score": 4
+        },
+        {
+          "candidate_id": "CAND",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-CAND-20260906",
+          "validation_score": 3
+        }
+      ],
+      "gate_execution_trace": {
+        "path": "evidence/gate_execution_trace.json",
+        "sha256": "777ec2931cfa80b7dbb35632dd550503e2a097e09e837171adb6ae730e25db22",
+        "trace_hash": "658cec03c552e66cc59b4705374554a81662ff2398b63744b8de2b07e82b04d5"
+      },
+      "reason_codes": [
+        "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+      ],
+      "status": "BLOCK_NATIVE_CONTRACTS",
+      "test_access_count": 0
+    },
+    "synthetic_only": true,
+    "trace_sha256": "777ec2931cfa80b7dbb35632dd550503e2a097e09e837171adb6ae730e25db22"
+  },
+  {
+    "actual_checker_executed": false,
+    "case_root": ".cache/pr12-rc8/native-audit-02/probes/forged_unexecuted_checker/case",
+    "controller_exit_code": 0,
+    "gates": {
+      "GATE_AGGREGATE_CLAIM": "PASS",
+      "GATE_COMPARISON_SELECTION": "PASS",
+      "GATE_COMPATIBILITY_PORTFOLIO": "PASS",
+      "GATE_DATA_SUFFICIENCY_PREFLIGHT": "PASS",
+      "GATE_FINALIZATION": "PASS",
+      "GATE_HANDOFF": "PASS",
+      "GATE_PROBLEM_REQUIREMENT": "PASS",
+      "GATE_RUN_ELIGIBILITY": "PASS",
+      "GATE_SEMANTIC_CLAIM": "PASS",
+      "GATE_SOURCE_EVIDENCE": "PASS"
+    },
+    "model_code_commit": "e55f470228fa5ebb2eaa625ce0000b6bf4a34755",
+    "probe": "forged_unexecuted_checker",
+    "result": {
+      "attempts": [
+        {
+          "candidate_id": "BASE",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-BASE-20260906",
+          "validation_score": 4
+        },
+        {
+          "candidate_id": "CAND",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-CAND-20260906",
+          "validation_score": 3
+        }
+      ],
+      "gate_execution_trace": {
+        "path": "evidence/gate_execution_trace.json",
+        "sha256": "eef90672b52ee3d6f3f5d8fcdf03ce58e248beaba7fd8504235fa8695f1e4d2b",
+        "trace_hash": "22a5f2312b322e3d87b748bddf6528aeec52c6af11659ffbb851b5a1d0665118"
+      },
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "scientific_final_verification_count": 1,
+      "selected_candidate_id": "CAND",
+      "selected_run_ids": [
+        "RUN-CAND-20260906"
+      ],
+      "selection_decision_hash": "f8cbd8e699952f1455266ebc595296a1847dc170f4c5f3464078ea9d9064c405",
+      "status": "PASS_NATIVE_CONTRACTS",
+      "test_access_count": 0
+    },
+    "synthetic_only": true,
+    "trace_sha256": "eef90672b52ee3d6f3f5d8fcdf03ce58e248beaba7fd8504235fa8695f1e4d2b"
+  },
+  {
+    "actual_checker_executed": true,
+    "case_root": ".cache/pr12-rc8/native-audit-02/probes/contradictory_exit_code/case",
+    "controller_exit_code": 0,
+    "gates": {
+      "GATE_AGGREGATE_CLAIM": "PASS",
+      "GATE_COMPARISON_SELECTION": "PASS",
+      "GATE_COMPATIBILITY_PORTFOLIO": "PASS",
+      "GATE_DATA_SUFFICIENCY_PREFLIGHT": "PASS",
+      "GATE_FINALIZATION": "PASS",
+      "GATE_HANDOFF": "PASS",
+      "GATE_PROBLEM_REQUIREMENT": "PASS",
+      "GATE_RUN_ELIGIBILITY": "PASS",
+      "GATE_SEMANTIC_CLAIM": "PASS",
+      "GATE_SOURCE_EVIDENCE": "PASS"
+    },
+    "model_code_commit": "e55f470228fa5ebb2eaa625ce0000b6bf4a34755",
+    "probe": "contradictory_exit_code",
+    "result": {
+      "attempts": [
+        {
+          "candidate_id": "BASE",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-BASE-20260906",
+          "validation_score": 4
+        },
+        {
+          "candidate_id": "CAND",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-CAND-20260906",
+          "validation_score": 3
+        }
+      ],
+      "gate_execution_trace": {
+        "path": "evidence/gate_execution_trace.json",
+        "sha256": "95b7182b89c38cdcac14022bda0778e865631c714826a6cbfd929c64f26b470d",
+        "trace_hash": "607e19c01eccc4a4dbdef5126874c3f5be14e16d19f219c4b374e53856a7409e"
+      },
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "scientific_final_verification_count": 1,
+      "selected_candidate_id": "CAND",
+      "selected_run_ids": [
+        "RUN-CAND-20260906"
+      ],
+      "selection_decision_hash": "f8cbd8e699952f1455266ebc595296a1847dc170f4c5f3464078ea9d9064c405",
+      "status": "PASS_NATIVE_CONTRACTS",
+      "test_access_count": 0
+    },
+    "synthetic_only": true,
+    "trace_sha256": "95b7182b89c38cdcac14022bda0778e865631c714826a6cbfd929c64f26b470d"
+  }
+]

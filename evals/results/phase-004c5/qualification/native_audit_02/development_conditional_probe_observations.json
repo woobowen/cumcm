@@ -1,0 +1,29 @@
+[
+  {
+    "actual_checker_capture_status": "FAILED",
+    "actual_checker_cli_exit_code": 3,
+    "case_root": ".cache/pr12-rc8/native-audit-02/development_probes_r3/simulation_conditional/case",
+    "failed_checker_statuses": {
+      "REQ-A": "SUPPORTED",
+      "REQ-B": "SUPPORTED"
+    },
+    "injection_limit": "Function-level checker return substitution; not an executed scientific recalculation.",
+    "kind": "SIMULATION_CONDITIONAL",
+    "missing_checker_statuses": {
+      "REQ-A": "SUPPORTED",
+      "REQ-B": "SUPPORTED"
+    },
+    "negative_verifier_injection_only_statuses": {
+      "REQ-A": "SUPPORTED",
+      "REQ-B": "SUPPORTED"
+    },
+    "semantic_cli_exit_code": 0,
+    "semantic_cli_result": {
+      "accepted": true,
+      "command": "semantic-check",
+      "final": false,
+      "reason_codes": [],
+      "status": "PASS"
+    }
+  }
+]

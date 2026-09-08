@@ -1,0 +1,43 @@
+[
+  {
+    "case_root": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/case",
+    "changed_design_final_exit": 3,
+    "changed_design_final_result": {
+      "accepted": false,
+      "command": "evaluate-final",
+      "final": false,
+      "reason_codes": [
+        "RC_TRUSTED_FREEZE_REGISTRY_INVALID"
+      ],
+      "status": "BLOCK"
+    },
+    "development_final_exit": 3,
+    "development_final_result": {
+      "accepted": false,
+      "command": "evaluate-final",
+      "final": false,
+      "reason_codes": [
+        "RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN"
+      ],
+      "status": "BLOCK"
+    },
+    "evaluation_design": {
+      "mode": "DEVELOPMENT_NO_FINAL_EVALUATION"
+    },
+    "final_ledger_exists": false,
+    "native_capture_count": 2,
+    "probe": "development_legal_and_final_block",
+    "splits": {
+      "test": [],
+      "train": [
+        1
+      ],
+      "validation": [
+        2
+      ]
+    },
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31",
+    "synthetic_only": true,
+    "trusted_freezes_valid": true
+  }
+]

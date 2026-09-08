@@ -1,0 +1,848 @@
+{
+  "assumption_artifact_sha256": "56409457ad0bd59cdcfd39db15830c7139ef2dd4f1f52dc0dca90b219e680465",
+  "checker_sha256": "e22e3b0121dca8199349ad709860927f7403c0e4555cd4f88fb4d04899646108",
+  "independence": "SEPARATE_IMPLEMENTATION_NO_PRODUCER_OR_HELPER_IMPORT",
+  "input_hashes": {
+    "raw/case_files/附件.xlsx": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c"
+  },
+  "limitations": [
+    "Classifier and clustering fits are not independently rerun; decision scores and subtype assignments get consistency checks.",
+    "Count, composition, permutation, centers, feature perturbations, CV membership, raw distances and association bootstrap are independently recomputed.",
+    "Independent Python checking is not an independent agent audit; unknown accuracy and causal backcasts are not established."
+  ],
+  "metric_values": {
+    "DATA.known_rows": 69,
+    "DATA.maximum_closed_sum_error": 2.220446049250313e-16,
+    "DATA.scientific_requirement_count": 13,
+    "DATA.valid_known_rows": 67,
+    "Q1.association_table_count": 3,
+    "Q1.backcast_artifact_count": 27,
+    "Q1.paired_artifact_count": 2,
+    "Q1.total_permutation_replicates": 2997,
+    "Q1.type_effect_count": 2,
+    "Q2.cv_artifact_count": 44,
+    "Q2.cv_internal_test_overlap_count": 0,
+    "Q2.cv_prediction_count": 88,
+    "Q2.minimum_perturbation_feature_change": 143.53193085467143,
+    "Q2.subtype_assigned_artifact_count": 56,
+    "Q2.subtype_bootstrap_requested_per_type": 20,
+    "Q2.subtype_cluster_count": 4,
+    "Q3.mean_unknown_perturbation_flip_rate": 0.095,
+    "Q3.unknown_available_label_count": 0,
+    "Q3.unknown_in_training_domain_count": 7,
+    "Q3.unknown_prediction_count": 8,
+    "Q4.association_artifact_count": 56,
+    "Q4.association_bootstrap_replicates": 30,
+    "Q4.component_pair_count": 91,
+    "Q4.undefined_correlation_entry_count": 0
+  },
+  "output_sha256": "3ad88d1361f456ae1a7c6796634529c1c4c1ab0af1bfbe0a48054655cd4802f2",
+  "requirements": {
+    "REQ-1A": {
+      "constraint_residuals": {
+        "association_field_coverage": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "color_permutation_count": {
+          "limit": 999.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 999.0
+        },
+        "color_permutation_p_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "color_table_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "glass_type_permutation_count": {
+          "limit": 999.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 999.0
+        },
+        "glass_type_permutation_p_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "glass_type_table_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "pattern_permutation_count": {
+          "limit": 999.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 999.0
+        },
+        "pattern_permutation_p_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "pattern_table_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q1.association_table_count": 3,
+        "Q1.total_permutation_replicates": 2997
+      },
+      "recalculation_residuals": {
+        "association_field_coverage": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "color_permutation_count": {
+          "limit": 999.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 999.0
+        },
+        "color_permutation_p_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "color_table_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "glass_type_permutation_count": {
+          "limit": 999.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 999.0
+        },
+        "glass_type_permutation_p_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "glass_type_table_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "pattern_permutation_count": {
+          "limit": 999.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 999.0
+        },
+        "pattern_permutation_p_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "pattern_table_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      }
+    },
+    "REQ-1B": {
+      "constraint_residuals": {
+        "铅钡_unweathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "铅钡_weathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "铅钡unweathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "铅钡weathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾_unweathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾_weathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾unweathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾weathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q1.paired_artifact_count": 2,
+        "Q1.type_effect_count": 2
+      },
+      "recalculation_residuals": {
+        "铅钡_unweathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "铅钡_weathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "铅钡unweathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "铅钡weathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾_unweathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾_weathered_group_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾unweathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "高钾weathered_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      }
+    },
+    "REQ-1C": {
+      "constraint_residuals": {
+        "backcast_artifact_set_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "backcast_max_absolute_percent_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q1.backcast_artifact_count": 27,
+        "Q1.paired_artifact_count": 2
+      },
+      "recalculation_residuals": {
+        "backcast_artifact_set_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "backcast_max_absolute_percent_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "scope": "CONDITIONAL_TYPE_EXCHANGEABILITY;NO_CAUSAL_IDENTIFICATION"
+    },
+    "REQ-2A": {
+      "classifier_scores_independently_refit": false,
+      "constraint_residuals": {
+        "cv_effective_group_set_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "cv_internal_test_group_overlap": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "cv_reported_prediction_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "each_artifact_evaluated_two_times": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "fold_group_leakage_count": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "historical_contamination_acknowledged": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q2.cv_artifact_count": 44,
+        "Q2.cv_internal_test_overlap_count": 0,
+        "Q2.cv_prediction_count": 88
+      },
+      "recalculation_residuals": {
+        "cv_effective_group_set_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "cv_internal_test_group_overlap": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "cv_reported_prediction_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "each_artifact_evaluated_two_times": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "fold_group_leakage_count": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "historical_contamination_acknowledged": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        }
+      },
+      "scope": "FINITE_COLLECTION_DEVELOPMENT_DIAGNOSTIC"
+    },
+    "REQ-2B": {
+      "clustering_fits_independently_refit": false,
+      "constraint_residuals": {
+        "chemical_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 7.105427357601002e-15
+        },
+        "subtype_membership_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q2.subtype_assigned_artifact_count": 56,
+        "Q2.subtype_cluster_count": 4
+      },
+      "recalculation_residuals": {
+        "chemical_center_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 7.105427357601002e-15
+        },
+        "subtype_membership_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "scope": "ASSIGNMENT_AND_CHEMICAL_CENTER_CONSISTENCY_ONLY"
+    },
+    "REQ-2C": {
+      "bootstrap_clustering_fits_independently_refit": false,
+      "constraint_residuals": {
+        "actual_perturbation_composition_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_count_ratio_consistency_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "feature_change_norm_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "nonzero_feature_change": {
+          "limit": 1e-12,
+          "relation": "GE",
+          "tolerance": 0.0,
+          "value": 143.53193085467143
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q2.minimum_perturbation_feature_change": 143.53193085467143,
+        "Q2.subtype_bootstrap_requested_per_type": 20
+      },
+      "recalculation_residuals": {
+        "actual_perturbation_composition_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_count_ratio_consistency_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "feature_change_norm_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "nonzero_feature_change": {
+          "limit": 1e-12,
+          "relation": "GE",
+          "tolerance": 0.0,
+          "value": 143.53193085467143
+        }
+      }
+    },
+    "REQ-3A": {
+      "classifier_fit_independently_refit": false,
+      "constraint_residuals": {
+        "class_threshold_consistency_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "unavailable_unknown_labels_not_fabricated": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "unknown_accuracy_evaluation_available": {
+          "limit": 1.0,
+          "relation": "GE",
+          "tolerance": 0.0,
+          "value": 0.0
+        },
+        "unknown_prediction_id_set_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        }
+      },
+      "feasible": false,
+      "metric_values": {
+        "Q3.unknown_available_label_count": 0,
+        "Q3.unknown_prediction_count": 8
+      },
+      "recalculation_residuals": {
+        "class_threshold_consistency_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "unavailable_unknown_labels_not_fabricated": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "unknown_prediction_id_set_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        }
+      },
+      "scope": "PREDICTIONS_AVAILABLE;UNKNOWN_ACCURACY_INSUFFICIENT"
+    },
+    "REQ-3B": {
+      "constraint_residuals": {
+        "class_flip_count_consistency_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "perturbation_feature_change_norm_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "training_distance_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q3.mean_unknown_perturbation_flip_rate": 0.095,
+        "Q3.unknown_in_training_domain_count": 7
+      },
+      "recalculation_residuals": {
+        "class_flip_count_consistency_failures": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "perturbation_feature_change_norm_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "training_distance_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "scope": "RAW_DISTANCE_AND_PERTURBATION_FEATURES_RECOMPUTED;FLIPS_FROM_REPORTED_MODEL_SCORES",
+      "score_function_independently_refit": false
+    },
+    "REQ-4A": {
+      "constraint_residuals": {
+        "artifact_equal_weight_correlation_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "undefined_correlation_null_mismatch_count": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q4.association_artifact_count": 56,
+        "Q4.undefined_correlation_entry_count": 0
+      },
+      "recalculation_residuals": {
+        "artifact_equal_weight_correlation_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "undefined_correlation_null_mismatch_count": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      }
+    },
+    "REQ-4B": {
+      "constraint_residuals": {
+        "all_component_pairs_present_once": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "association_difference_matrix_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "association_difference_null_mismatch": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_finite_replicate_count_errors": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_range_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_range_null_mismatch": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_replicate_count": {
+          "limit": 30.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 30.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "Q4.association_bootstrap_replicates": 30,
+        "Q4.component_pair_count": 91
+      },
+      "recalculation_residuals": {
+        "all_component_pairs_present_once": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "association_difference_matrix_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "association_difference_null_mismatch": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_finite_replicate_count_errors": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_range_max_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_range_null_mismatch": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "bootstrap_replicate_count": {
+          "limit": 30.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 30.0
+        }
+      },
+      "scope": "EXPLORATORY_BOOTSTRAP;NO_MULTIPLICITY_ADJUSTMENT"
+    },
+    "REQ-COMPOSITION": {
+      "constraint_residuals": {
+        "maximum_closed_sum_error": {
+          "limit": 0.0,
+          "relation": "LE",
+          "tolerance": 1e-07,
+          "value": 2.220446049250313e-16
+        },
+        "reported_closure_error_difference": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "DATA.maximum_closed_sum_error": 2.220446049250313e-16
+      },
+      "recalculation_residuals": {
+        "maximum_closed_sum_error": {
+          "limit": 0.0,
+          "relation": "LE",
+          "tolerance": 1e-07,
+          "value": 2.220446049250313e-16
+        },
+        "reported_closure_error_difference": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      }
+    },
+    "REQ-EVIDENCE": {
+      "constraint_residuals": {
+        "unknown_primary_accuracy_gap": {
+          "limit": 1.0,
+          "relation": "GE",
+          "tolerance": 0.0,
+          "value": 0.0
+        }
+      },
+      "feasible": false,
+      "metric_values": {
+        "DATA.scientific_requirement_count": 13
+      },
+      "recalculation_residuals": {},
+      "scope": "PARTIAL_SCIENTIFIC_COVERAGE"
+    },
+    "REQ-VALIDITY": {
+      "constraint_residuals": {
+        "invalid_sample_ids_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "known_row_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "unknown_row_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "valid_known_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      },
+      "feasible": true,
+      "metric_values": {
+        "DATA.known_rows": 69,
+        "DATA.valid_known_rows": 67
+      },
+      "recalculation_residuals": {
+        "invalid_sample_ids_match": {
+          "limit": 1.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 1.0
+        },
+        "known_row_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "unknown_row_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        },
+        "valid_known_count_error": {
+          "limit": 0.0,
+          "relation": "EQ",
+          "tolerance": 1e-07,
+          "value": 0.0
+        }
+      }
+    }
+  },
+  "run_id": "RUN-RC8-CLR_RIDGE_WARD-S20220904",
+  "schema_version": "c2022-independent-check/v1",
+  "scientific_coverage_status": "PARTIAL_SCIENTIFIC_COVERAGE",
+  "scientific_metric_binding_mismatch_count": 0,
+  "whole_problem_scientifically_complete": false
+}

@@ -1,0 +1,26 @@
+{
+  "name": "m3-candidate-check-active-rc7",
+  "argv": [
+    ".venv/bin/python",
+    "scripts/check_phase004c4_rc7_release.py",
+    "--release",
+    "rc8",
+    "--stage",
+    "candidate",
+    "--check"
+  ],
+  "subject_commit": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+  "started_at": "2026-09-08T20:24:46.432570+00:00",
+  "ended_at": "2026-09-08T20:24:47.401901+00:00",
+  "elapsed_seconds": 0.9693345449995832,
+  "exit_code": 0,
+  "status": "PASS",
+  "stdout": {
+    "path": ".cache/pr12-rc8/logs/m3-candidate-check-active-rc7.stdout.log",
+    "sha256": "d985b1adc863cb56dc4f6488ba70922cd5d54c2d296bc9e049679a810ebc3e67"
+  },
+  "stderr": {
+    "path": ".cache/pr12-rc8/logs/m3-candidate-check-active-rc7.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

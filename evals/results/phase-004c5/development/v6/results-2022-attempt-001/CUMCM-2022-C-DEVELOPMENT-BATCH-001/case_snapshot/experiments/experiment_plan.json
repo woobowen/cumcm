@@ -1,0 +1,70 @@
+{
+  "artifact_type": "experiment_plan",
+  "content": {
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "baseline_id": "BASELINE_RAW_CENTROID",
+    "candidate_ids": [
+      "BASELINE_RAW_CENTROID",
+      "CLR_RIDGE_WARD",
+      "HELLINGER_KNN_COMPLETE"
+    ],
+    "code_commit": "ff2f7ba2cd1b9a8995d4f65b9936855b6cbb00e1",
+    "execution_prepared": true,
+    "handoff_generated_at": "2026-09-08T19:19:44Z",
+    "metric": "validation_composite_loss",
+    "metric_direction": "MIN",
+    "preregistered": true,
+    "random_seeds": [
+      20220904
+    ],
+    "required_code_files": [
+      {
+        "path": "scripts/cumcm_case.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "8ba9d1dda8f49771ea14efc2ba8127abf0418763cfca325856e24ae359da7020"
+      },
+      {
+        "path": "models/model_pipeline.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2022/code/model_pipeline.py",
+        "scope": "CASE_ROOT",
+        "sha256": "6bafa8c5a62b60dd826e84ea9b7c763e7f2141eeaf11b8e8e0b5ae7c4a237b0d"
+      },
+      {
+        "path": "models/scientific_checks.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2022/code/scientific_checks.py",
+        "scope": "CASE_ROOT",
+        "sha256": "f39010ab9e144e77734796185089ab26c8ba3bc3795521216b20244bc8c31c38"
+      }
+    ],
+    "required_input_hashes": {
+      "raw/case_files/附件.xlsx": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c"
+    },
+    "selection_rule": "ARGMIN_THEN_ID",
+    "splits": {
+      "test": [
+        "UNKNOWN_GROUPS_NOT_ACCESSED"
+      ],
+      "train": [
+        "KNOWN_GROUPS_TRAIN"
+      ],
+      "validation": [
+        "KNOWN_GROUPS_VALIDATION"
+      ]
+    },
+    "stop_rule": "one preregistered RC7 Development-regression attempt per candidate",
+    "trusted_freeze_registry": {
+      "baseline": "7db86edf6ea5386afc2544c21fed8315fd2253f3d5de7fb1548b2e54fc3c0765",
+      "candidate_set": "4eb8f500ecccf287dd004a670e8371f28941c8813e97096e3944de84d28d330f",
+      "code_commit": "c64deaa54f70e1ad9de3e18d4475148b2405ba46111d6276b7df657d1e691a9a",
+      "code_set": "eab0b5000a382ba5643a62a2e8fabf3150b6775e9a3176461ffb52a0c1c18402",
+      "execution_policy": "5f4d6a5fb66bfe6675dbef9ce4598603f87ee69dd1e26ec1f0b3cc4ce28b6600",
+      "input_set": "ffb9ebf7f2db2e0e53fc772f416cbfcebffe5f3c3517741c5e8a423cb964d114",
+      "metric": "575918b07c8d9d93e70641c3ecb019c21e4efa7cb346f0d6fc64ed5b6fe56997",
+      "seed_schedule": "8344d77e665311afa15259152afe6811338de8e505ec29bedefaa5bd97da4de1",
+      "split_assignment": "eebad25b264a827b9cfd5760cc0e41fd0600482c77f1b813e41d0cdea2e13f90"
+    }
+  },
+  "content_hash": "1c6e71fd23193fb45688a542f68578f3d3c7a834076e1d79e5cb05c02a76a663",
+  "status": "ACCEPTED"
+}

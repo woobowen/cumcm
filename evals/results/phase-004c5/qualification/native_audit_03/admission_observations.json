@@ -1,0 +1,155 @@
+[
+  {
+    "exit_code": 0,
+    "probe": "historical_rc7_candidate",
+    "result": {
+      "reason_codes": [],
+      "stage": "candidate",
+      "status": "PASS"
+    }
+  },
+  {
+    "exit_code": 0,
+    "probe": "historical_rc7_live",
+    "result": {
+      "reason_codes": [],
+      "stage": "live",
+      "status": "PASS"
+    }
+  },
+  {
+    "exit_code": 1,
+    "probe": "current_rc8_candidate_unregistered",
+    "result": {
+      "reason_codes": [
+        "RC8_CANDIDATE_MISSING"
+      ],
+      "stage": "candidate",
+      "status": "BLOCK"
+    }
+  },
+  {
+    "exit_code": 0,
+    "probe": "staged_rc8_version_consistency",
+    "result": {
+      "check": "skill_release_consistency",
+      "reason_codes": [],
+      "snapshot": {
+        "blocked_history_records": [
+          "RC5_VERSION_FILE_MISMATCH"
+        ],
+        "changelog_versions": [
+          "0.3.0-competition-rc8",
+          "0.2.0-competition-rc8",
+          "0.3.0-competition-rc7",
+          "0.2.0-competition-rc7",
+          "0.3.0-competition-rc6",
+          "0.3.0-competition-rc6",
+          "0.2.0-competition-rc6",
+          "0.3.0-competition-rc5",
+          "0.3.0-competition-rc4",
+          "0.2.0-competition-rc4",
+          "0.3.0-competition-rc3",
+          "0.2.0-competition-rc3",
+          "0.3.0-competition-rc2",
+          "0.2.0-competition-rc2",
+          "0.3.0-competition-rc1",
+          "0.2.0-competition-rc1"
+        ],
+        "consistency_scope": "CANDIDATE_STAGED_NOT_ACCEPTED",
+        "discovered_skill_versions": [
+          "0.2.0-competition-rc8"
+        ],
+        "manifest_project_version": "0.3.0-competition-rc8",
+        "manifest_skill_version": "0.2.0-competition-rc8",
+        "project_version": "0.3.0-competition-rc8",
+        "runner_version": "0.2.0-competition-rc8",
+        "skill_metadata_version": "0.2.0-competition-rc8",
+        "skill_version_file": "0.2.0-competition-rc8",
+        "state_skill_version": "0.2.0-competition-rc7"
+      },
+      "status": "PASS"
+    }
+  },
+  {
+    "evidence_level": "ACTUAL_EVALUATOR_WITH_EXPLICIT_GIT_HASH_RETURN_INJECTION",
+    "probe": "historical_original_core_hash_mismatch_injection",
+    "result": {
+      "reason_codes": [
+        "RC7_RELEASE_LIVE_VERSION_OR_TREE_INVALID"
+      ],
+      "stage": "live",
+      "status": "BLOCK"
+    }
+  },
+  {
+    "evidence_level": "ACTUAL_MAIN_WITH_EXPLICIT_VERSION_READ_INJECTION",
+    "exit_code": 3,
+    "probe": "unknown_version_main_input_injection",
+    "result": {
+      "check": "skill_release_consistency",
+      "reason_codes": [
+        "RC_RELEASE_UNKNOWN_VERSION"
+      ],
+      "snapshot": {
+        "blocked_history_records": [
+          "RC5_VERSION_FILE_MISMATCH"
+        ],
+        "changelog_versions": [
+          "0.3.0-competition-rc8",
+          "0.2.0-competition-rc8",
+          "0.3.0-competition-rc7",
+          "0.2.0-competition-rc7",
+          "0.3.0-competition-rc6",
+          "0.3.0-competition-rc6",
+          "0.2.0-competition-rc6",
+          "0.3.0-competition-rc5",
+          "0.3.0-competition-rc4",
+          "0.2.0-competition-rc4",
+          "0.3.0-competition-rc3",
+          "0.2.0-competition-rc3",
+          "0.3.0-competition-rc2",
+          "0.2.0-competition-rc2",
+          "0.3.0-competition-rc1",
+          "0.2.0-competition-rc1"
+        ],
+        "consistency_scope": "RELEASE_SURFACES",
+        "discovered_skill_versions": [
+          "0.2.0-competition-rc8"
+        ],
+        "manifest_project_version": null,
+        "manifest_skill_version": null,
+        "project_version": "0.3.0-competition-rc999",
+        "runner_version": "0.2.0-competition-rc8",
+        "skill_metadata_version": "0.2.0-competition-rc8",
+        "skill_version_file": "0.2.0-competition-rc8",
+        "state_skill_version": "0.2.0-competition-rc7"
+      },
+      "status": "BLOCK"
+    }
+  },
+  {
+    "existing": 8,
+    "probe": "capture_budget",
+    "reached_preparation": true,
+    "result": "AUDIT_STOP_BEFORE_CASE_PREPARATION",
+    "scheduled": 1,
+    "scope": "ACTUAL_PREEXECUTION_GUARD;CASE_PREPARATION_REPLACED_WITH_STOP_SENTINEL"
+  },
+  {
+    "existing": 8,
+    "probe": "capture_budget",
+    "reached_preparation": false,
+    "result": "RC8_DEVELOPMENT_CAPTURE_BUDGET_EXHAUSTED",
+    "scheduled": 3,
+    "scope": "ACTUAL_PREEXECUTION_GUARD;CASE_PREPARATION_REPLACED_WITH_STOP_SENTINEL"
+  },
+  {
+    "existing": 9,
+    "probe": "capture_budget",
+    "reached_preparation": false,
+    "result": "RC8_DEVELOPMENT_CAPTURE_BUDGET_EXHAUSTED",
+    "scheduled": 1,
+    "scope": "ACTUAL_PREEXECUTION_GUARD;CASE_PREPARATION_REPLACED_WITH_STOP_SENTINEL"
+  }
+]

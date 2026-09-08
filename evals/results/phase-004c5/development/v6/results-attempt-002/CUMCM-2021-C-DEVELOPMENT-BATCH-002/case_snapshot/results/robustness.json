@@ -1,0 +1,41 @@
+{
+  "artifact_type": "robustness_analysis",
+  "content": {
+    "configuration_hash": "b1d88cad87db7493d34fa58d1065de29a6470ccad4b74f520b75efd3cd701bf5",
+    "decision_hash": "5a58d91a3fd25e0ba460393d26fd10f50c1341d657efc536ee72670601dcfeab",
+    "failure_cases": [
+      "Historical ratio stationarity can fail.",
+      "Observed surplus must all be purchased and can exceed carrier capacity.",
+      "No historical order requires explicit model-ratio fallback; not an observed future supply."
+    ],
+    "input_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+    "metric": "validation_penalized_cost_per_effective_m3",
+    "metric_direction": "MIN",
+    "output_hash": "ef876f74cc9f5dcd6ea5e6840e03faee549748f1240628140b6bf7a36666ee06",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "validation_penalized_cost_per_effective_m3",
+        "perturbation_id": "DELIVERY_RATIO_MINUS_10_PERCENT",
+        "result": 63.28947260808942
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "validation_penalized_cost_per_effective_m3",
+        "perturbation_id": "LOSS_PLUS_1_PERCENTAGE_POINT",
+        "result": 7.886919766397236
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "validation_penalized_cost_per_effective_m3",
+        "perturbation_id": "CARRIER_CAPACITY_MINUS_10_PERCENT",
+        "result": 7.144856893492401
+      }
+    ],
+    "run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+    "selected_model": "ROBUST_QUANTILE_LEXICOGRAPHIC",
+    "status": "VALIDATED"
+  },
+  "content_hash": "8ba6dc13558b70914df09bb47ffeb520d2f485b5f4e646b7285c3d0f3ba8e5e5",
+  "status": "ACCEPTED"
+}
