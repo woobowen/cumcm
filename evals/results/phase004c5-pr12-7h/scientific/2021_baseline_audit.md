@@ -1,9 +1,9 @@
 # 2021 C Development: baseline and feasibility audit
 
-This is a read-only audit of
-`CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-002`. It uses the two
-registered official input workbooks and does not inspect answer material or
-the sealed W217--W240 test period.
+This is a read-only audit of the registered official input workbooks, with the
+final route receipt at
+`CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-005`. It does not inspect
+answer material or the sealed W217--W240 test period.
 
 ## Data and time boundary
 

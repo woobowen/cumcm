@@ -49,3 +49,69 @@ Current replay evidence is isolated under `evals/results/phase004c5-pr12-7h/deve
 ## Protection boundaries
 
 No access to `benchmark-vault`, 2025 C, 2026 new problems, credentials, paid APIs, third-party executable code, old frozen Validation artifacts, or answer material. No direct `main`, force push, merge, reset, clean, or overwrite of unrelated changes.
+
+## M2/M3 post-iteration checkpoint
+
+- At 10:20--10:29, an independent workbook parser reconstructed both cases. The 2022 fixed split has 56 effective artifacts and 12 validation groups; the 2022 zero Brier score is an overconfident small-group diagnostic. The 2021 selected plan's independent validation score agrees within `3.72e-10`; its effective receipt is within the declared `0.0282 m3` demand tolerance, and its 399 supplier count is an upper bound while the weekly plan uses 168 suppliers.
+- At 10:30--10:36, commit `385246bd5734df68d179543897d5cd5a0ebd63f7` added the persisted 2022 4-fold x 5-repeat grouped diagnostic, truthful 2021 cardinality fields, explicit cross-case Claim types, and a neutral semantic-registry test. Focused tests: `5 passed`; Ruff: clean.
+- Post-iteration route evidence is isolated under `evals/results/phase004c5-pr12-7h/development-v2/`: 2022 attempt 8 SHA-256 `22D9A6B9B5ADF499C8A2AF90F4E223560732DE652F3160B5B29841BCAF9FAEC1`; 2021 attempt 3 SHA-256 `8BCC54610091526ED06A777BDB41D5979FF0957A2ACCC68019740B90ADFCB557`.
+- Both new routes reached `READY_FOR_PAPER_HANDOFF`, `claim_gate=PASS`, and `handoff_gate=PASS`, while retaining `PROVISIONAL_ENGINEERING_REGRESSION`, `DEVELOPMENT_NO_FINAL_EVALUATION`, `authorized=false`, and `count=0`. No Validation claim is made.
+
+## M3/M4 fallback and final candidate receipt
+
+- At 11:18, the semantic adapter was moved out of the generic route and into
+  case-owned `scientific_claim_semantics.json` files. The loader now checks the
+  schema, tracked case ID, exact requirement coverage, allowed claim types, and
+  the Development prohibition on `PREDICTIVE` claims. The adapter files are
+  copied into each isolated case root and included in `required_code_files`.
+- Commit `fa43b6001b2effabe04ad0a086ec49d08fb9fdc1` was pushed and verified
+  remotely. Commit `eb3facf951606839b05a7c19c760056cb03625e6` then aligned the
+  committed 2022 case implementation with its repeated grouped-CV diagnostic;
+  it was also pushed and verified remotely.
+- A first post-refactor attempt-009 was stopped by the core trusted-freeze
+  check because the formatted case implementation was not yet in the declared
+  commit. That attempt is preserved as an infrastructure/freeze observation,
+  not counted as a regression result.
+- The corrected isolated reruns completed under
+  `evals/results/phase004c5-pr12-7h/development-v3/`:
+  - 2022 attempt 10: 3/3 valid runs, terminal
+    `READY_FOR_PAPER_HANDOFF`, evidence SHA-256
+    `49BBAFE442016FEC5A18437070ADD161DDFEBA1FA29DDD4FC798A106C20A27A0`.
+  - 2021 attempt 4: 3/3 valid runs, terminal
+    `READY_FOR_PAPER_HANDOFF`, evidence SHA-256
+    `B4FDFDD684AA489A81B64026A7570E5D362712639D7560014B504AE97902A777`.
+  - Both bind commit `eb3facf951606839b05a7c19c760056cb03625e6`, explicit
+    `DEVELOPMENT_NO_FINAL_EVALUATION`, `authorized=false`, `count=0`,
+    `claim_gate=PASS`, `handoff_gate=PASS`, and
+    `PROVISIONAL_ENGINEERING_REGRESSION`.
+- M4/M5 remain blocked. No 2016/2015 inputs were accessed, no formal release
+  manifest or fresh registry entry was created, and no Validation result is
+  claimed. The authorized fallback is to retain the two-case Development and
+  read-only audit evidence until formal release/freeze prerequisites exist.
+- Full-suite truth remains fail-closed: the long `pytest -q` run emitted
+  failures before interruption, and the later `pytest -x -q` run was
+  interrupted before locating a traceback. This is not a passing release gate.
+  The focused evidence suite is `5 passed`; route-specific Ruff, format, and
+  diff checks are clean. Remote CI status remains unknown.
+
+## Cross-platform regression and v4 receipt
+
+- The correct Python test entry point (`.venv/Scripts/python.exe -m pytest`)
+  collected 2,091 tests. Its `-x` run located the first full-suite failure at
+  `tests/unit/test_adjudication.py::test_evidence_freeze_matches_subject_commit`:
+  `175 passed, 1 failed` after 17 minutes. All 120 frozen-file mismatches are
+  CRLF-only checkout differences from the historical LF subject commit; the
+  base/subject/HEAD Git blob for `CASE-001.json` is identical. Historical
+  frozen files were not rewritten.
+- The related C-target/finalization set initially exposed a Windows path-key
+  defect in `scripts/freeze_skill_first_run.py`; normalizing four relative-path
+  emissions to POSIX form changed that set to `17 passed`. This repair is
+  committed and pushed as `84087c71d1a20501771e95851ad42e4662cbbdc9`.
+- The canonical latest isolated reruns are under
+  `evals/results/phase004c5-pr12-7h/development-v4/`:
+  - 2022 attempt 11: 3/3 valid runs, `READY_FOR_PAPER_HANDOFF`, evidence
+    SHA-256 `BDB38F18F6A5AEC70779316296A2E6E49E6E584AF133A9CAF86FD861E4B954D5`.
+  - 2021 attempt 5: 3/3 valid runs, `READY_FOR_PAPER_HANDOFF`, evidence
+    SHA-256 `6D0F00EC8EC6850806941CDC79D3650940886A79B5CF590FF8B5520C1276ED72`.
+  - Both bind `84087c71d1a20501771e95851ad42e4662cbbdc9`, no Final evaluator,
+    explicit zero test access, and provisional Development-only status.

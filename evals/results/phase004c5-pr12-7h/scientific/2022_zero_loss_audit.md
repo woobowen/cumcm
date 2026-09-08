@@ -1,7 +1,8 @@
 # 2022 C Development: zero validation loss audit
 
-This is a read-only scientific audit of the isolated Development workspace
-`CUMCM-2022-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-007`. It does not access the
+This is a read-only scientific audit of the isolated Development workspaces,
+with the final route receipt at
+`CUMCM-2022-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-011`. It does not access the
 unknown-answer material or invoke the Final evaluator.
 
 ## Bound data and effective sample size
@@ -33,20 +34,24 @@ on a small fixed validation set, not a scientific or external-validation pass.
 
 ## Independent robustness diagnostic
 
-An independent read-only recomputation used artifact-level data with repeated
-stratified 4-fold cross-validation, 5 repeats, and 280 held-out group
-predictions per candidate. At zero-replacement fractions 0.25, 0.50, and 0.75,
-the Hellinger KNN had mean/min/max Brier loss `0/0/0` and accuracy `1/1/1`.
-The corresponding CLR ridge mean Brier losses were 0.0150188, 0.0122062, and
-0.0105806; the raw centroid mean was 0.1063181 for all three fractions.
+The committed route now persists an artifact-level repeated stratified 4-fold
+cross-validation diagnostic with 5 repeats and 280 held-out group predictions.
+At the preregistered seed, the selected Hellinger KNN has accuracy
+`1.0/1.0/1.0` (mean/min/max) and Brier loss
+`0.0000891426/0/0.00178285` (mean/min/max). The nonzero upper tail is the
+important correction to the fixed-split zero; the diagnostic is explicitly not
+used for candidate selection. A separate seed sensitivity run gave zero Brier
+loss for all folds, so the exact probability result is split-seed sensitive
+even though the class accuracy remained perfect.
 
-This narrows the diagnosis: the fixed-split zero is reproducible under the
-observed 56-artifact feature separation, but the KNN probabilities are not
-calibrated and no unknown-sample labels exist. The result remains
+This narrows the diagnosis: the fixed-split zero is consistent with the
+observed 56-artifact feature separation, but the probability loss varies under
+group partitioning and no unknown-sample labels exist. The KNN probabilities
+remain uncalibrated for external use. The result remains
 `DEVELOPMENT_REGRESSION`, with no Validation claim.
 
-## Required follow-up
+## Route follow-up status
 
-The next candidate iteration must persist the repeated grouped diagnostic and
-the calibration/external-validity limitation in the output evidence. It must
-not silently convert this score into a predictive or Validation Claim.
+The repeated grouped diagnostic and the calibration/external-validity limitation
+are now persisted in the case output and in the v3 Development receipt. The
+route still does not convert this score into a predictive or Validation Claim.

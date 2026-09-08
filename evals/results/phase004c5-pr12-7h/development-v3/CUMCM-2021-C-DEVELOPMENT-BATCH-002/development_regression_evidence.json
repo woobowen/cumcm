@@ -1,0 +1,289 @@
+{
+  "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
+  "answer_materials_used": [],
+  "api_calls": 0,
+  "artifact_type": "c_target_rc7_development_regression_evidence",
+  "attempt_number": 4,
+  "baseline_success": true,
+  "case_id": "CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION",
+  "claim_gate": "PASS",
+  "development_evaluation": {
+    "final_evaluation_ledger": null,
+    "final_evaluator_invoked": false,
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "test_access": {
+      "authorized": false,
+      "count": 0,
+      "used_for_selection": false
+    }
+  },
+  "elapsed_seconds": 40.100094,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "final_output_sha256": "0886d4197dff2cae8664645b9505a7f8969a9a33daa282fd27a56c15a1412306",
+  "final_run_id": "RUN-RC7-BASELINE_MEAN_GREEDY-S20210904",
+  "first_run_freeze": {
+    "path": "evals/results/phase-004c-c-batch/CUMCM-2021-C-DEVELOPMENT-BATCH-002/first_run/first_run_freeze.v2.json",
+    "sha256": "a747da766bb319c989c273afad476de6a8518df5bde2e1abc564d7b7b5d3ac9d"
+  },
+  "handoff_gate": "PASS",
+  "model_training": false,
+  "official_input_provenance": {
+    "archive_sha256": "3391573f546fce4511e9a99c24c386e28203d8fee3d29bb2dccada5921cefe7b",
+    "archive_url": "https://www.mcm.edu.cn/upload_cn/node/669/HtbJEt9Nb655e46bebfa2a66ec63f940e2da156b.rar",
+    "archive_url_sha256": "b5684a6a0fa6ee33c04fe506bea0210f8414b94d4b765a7cb4dba1fa74f0bea1",
+    "bound_data_hashes": {
+      "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b",
+      "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685"
+    },
+    "excluded_from_execution": [
+      "REFERENCE_ANSWER",
+      "THIRD_PARTY_DATA"
+    ],
+    "page_url": "https://www.mcm.edu.cn/html_cn/node/90d223833c1eb50f899aa096a66c6896.html",
+    "page_url_sha256": "38910ce2a1897e397d149a031e870149bf8a6ecb29f0da0af40cc86ffb1615be"
+  },
+  "output_contract_preflight": {
+    "path": "experiments/selected_output_contract_probe.json",
+    "reason_codes": [
+      "RC_OUTPUT_CONTRACT_VALID"
+    ],
+    "status": "PASS"
+  },
+  "preserved_prior_attempts": [
+    {
+      "attempt": 1,
+      "capture_count": 3,
+      "failure_scope": "RC7_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
+      "preserved": true,
+      "run_count": 3,
+      "terminal_observed_state": "READY_FOR_PAPER_HANDOFF",
+      "workspace_relative": ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-001"
+    },
+    {
+      "attempt": 2,
+      "capture_count": 3,
+      "failure_scope": "RC7_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
+      "preserved": true,
+      "run_count": 3,
+      "terminal_observed_state": "READY_FOR_PAPER_HANDOFF",
+      "workspace_relative": ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-002"
+    },
+    {
+      "attempt": 3,
+      "capture_count": 3,
+      "failure_scope": "RC7_HARNESS_OR_CASE_ARTIFACT_CONTRACT",
+      "preserved": true,
+      "run_count": 3,
+      "terminal_observed_state": "READY_FOR_PAPER_HANDOFF",
+      "workspace_relative": ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-003"
+    }
+  ],
+  "requirements_total": 17,
+  "requirements_with_output_claims": 17,
+  "robustness_perturbation_count": 3,
+  "route": "DEVELOPMENT_REGRESSION",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_MEAN_GREEDY",
+      "capture_sha256": "cba42ab7d2698152ab87b042125efb232d1dc884c25c273d9d487485dcd0971f",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC7-BASELINE_MEAN_GREEDY-S20210904"
+    },
+    {
+      "candidate_id": "ROBUST_QUANTILE_LEXICOGRAPHIC",
+      "capture_sha256": "900179721dc9aa0c43ea9995976443264f9f19d10c9c259883daffac34eee22c",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+    },
+    {
+      "candidate_id": "SCENARIO_CVAR_PORTFOLIO",
+      "capture_sha256": "86c3e697b26df53669c83b96fd5dd21187a006c9134036791b34377a17444943",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "scientific_review": {
+    "claim_semantics_basis": "EXPLICIT_CASE_ADAPTER_NO_DEFAULT_DESCRIPTIVE_LABELS",
+    "claim_type_counts": {
+      "DESCRIPTIVE": 2,
+      "FEASIBILITY": 10,
+      "SIMULATION_CONDITIONAL": 5
+    },
+    "data_sufficiency_basis": "FORMAL_REGISTERED_INPUT_AND_PROVENANCE_GATE_ONLY",
+    "not_a_scientific_quality_pass": true,
+    "status": "PROVISIONAL_ENGINEERING_REGRESSION"
+  },
+  "selected_candidate_id": "BASELINE_MEAN_GREEDY",
+  "selected_validation_score": 2.137602596,
+  "selection_decision_hash": "5d58221f506117ee0905e9b9227fb7298ca94e9b27dc2d0478ee668cd629df8e",
+  "skill": {
+    "candidate_implementation_commit": "eb3facf951606839b05a7c19c760056cb03625e6",
+    "execution_code_commit": "eb3facf951606839b05a7c19c760056cb03625e6",
+    "git_tree_sha1": "bfc3be777fb42e01e40067a3cbb419448454164f",
+    "version": "0.2.0-competition-rc7"
+  },
+  "source_first_run_case_id": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+  "stage_status": [
+    {
+      "evidence": [],
+      "gate": "INIT",
+      "stage": "PROBLEM_INTAKE",
+      "status": "PASS",
+      "transition_sequence": 0
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "gate": "GATE_PROBLEM_INTAKE",
+      "stage": "REQUIREMENT_DECOMPOSITION",
+      "status": "PASS",
+      "transition_sequence": 1
+    },
+    {
+      "evidence": [
+        "problem/problem_requirements.json"
+      ],
+      "gate": "GATE_REQUIREMENT_COVERAGE",
+      "stage": "RESEARCH_AND_SOURCE_PLANNING",
+      "status": "PASS",
+      "transition_sequence": 2
+    },
+    {
+      "evidence": [
+        "research/research_plan.json",
+        "research/source_ledger.json"
+      ],
+      "gate": "GATE_SOURCE_PLAN",
+      "stage": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "status": "PASS",
+      "transition_sequence": 3
+    },
+    {
+      "evidence": [
+        "models/assumptions_and_symbols.json",
+        "data/data_audit.json",
+        "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx",
+        "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx"
+      ],
+      "gate": "GATE_ASSUMPTIONS_AND_DATA",
+      "stage": "DATA_AUDIT",
+      "status": "PASS",
+      "transition_sequence": 4
+    },
+    {
+      "evidence": [
+        "data/data_sufficiency.json",
+        "models/model_candidates.json"
+      ],
+      "gate": "GATE_MODEL_PORTFOLIO",
+      "stage": "MODEL_PORTFOLIO_GENERATION",
+      "status": "PASS",
+      "transition_sequence": 5
+    },
+    {
+      "evidence": [
+        "experiments/experiment_plan.json",
+        "experiments/selected_output_contract_probe.json"
+      ],
+      "gate": "GATE_EXPERIMENT_PLAN",
+      "stage": "BASELINE_DEFINITION",
+      "status": "PASS",
+      "transition_sequence": 6
+    },
+    {
+      "evidence": [
+        "experiments/experiment_plan.json"
+      ],
+      "gate": "GATE_EXECUTION_AUTHORIZED",
+      "stage": "EXPERIMENT_DESIGN",
+      "status": "PASS",
+      "transition_sequence": 7
+    },
+    {
+      "evidence": [
+        "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/manifest.json",
+        "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/manifest.json",
+        "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/manifest.json",
+        "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/output.json",
+        "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/output.json",
+        "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/output.json"
+      ],
+      "gate": "GATE_RUN_COMPLETION",
+      "stage": "IMPLEMENTATION_AND_EXECUTION",
+      "status": "PASS",
+      "transition_sequence": 8
+    },
+    {
+      "evidence": [
+        "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/manifest.json",
+        "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/manifest.json",
+        "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/manifest.json",
+        "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/output.json",
+        "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/output.json",
+        "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/output.json"
+      ],
+      "gate": "GATE_REPRODUCIBILITY_MANIFEST",
+      "stage": "MODEL_COMPARISON",
+      "status": "PASS",
+      "transition_sequence": 9
+    },
+    {
+      "evidence": [
+        "results/model_comparison.json",
+        "results/requirement_selection.json",
+        "results/robustness.json"
+      ],
+      "gate": "GATE_COMPARISON_AND_ROBUSTNESS",
+      "stage": "ROBUSTNESS_AND_SENSITIVITY",
+      "status": "PASS",
+      "transition_sequence": 10
+    },
+    {
+      "evidence": [
+        "results/final_result.json"
+      ],
+      "gate": "GATE_FINAL_RUN",
+      "stage": "FINAL_RUN",
+      "status": "PASS",
+      "transition_sequence": 11
+    },
+    {
+      "evidence": [
+        "evidence/claim_evidence.json",
+        "evidence/semantic_claim_support.json",
+        "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/manifest.json"
+      ],
+      "gate": "GATE_CLAIM_EVIDENCE",
+      "stage": "CLAIM_EVIDENCE_VALIDATION",
+      "status": "PASS",
+      "transition_sequence": 12
+    },
+    {
+      "evidence": [
+        "handoff/modeling_to_paper.json"
+      ],
+      "gate": "GATE_MODELING_TO_PAPER",
+      "stage": "MODELING_TO_PAPER_HANDOFF",
+      "status": "PASS",
+      "transition_sequence": 13
+    }
+  ],
+  "terminal_state": "READY_FOR_PAPER_HANDOFF",
+  "third_party_executions": 0,
+  "timing": {
+    "completed_at": "2026-09-08T03:25:01Z",
+    "elapsed_seconds": 40.100094,
+    "started_at": "2026-09-08T03:24:21Z",
+    "timestamp_basis": "OBSERVED_ROUTE_WALL_CLOCK_UTC"
+  },
+  "universal_hard_failure": false,
+  "valid_run_count": 3,
+  "validation_route_executed": false,
+  "workspace_relative": ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC7-REGRESSION-ATTEMPT-004"
+}
