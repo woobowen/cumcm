@@ -1,0 +1,268 @@
+{
+  "status": "PASS",
+  "synthetic_cases": 24,
+  "expected_accepts": 4,
+  "expected_rejections": 20,
+  "subject_verifier_imports": [
+    "__future__",
+    "fractions",
+    "pathlib",
+    "openpyxl",
+    "argparse",
+    "hashlib",
+    "json",
+    "math"
+  ],
+  "optimization_invocations": 0,
+  "subject_source_import_executed_without_main": true,
+  "results": [
+    {
+      "name": "known_exact_optimum",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "detail": {
+        "status": "PASS",
+        "lower_bound_exact": "2",
+        "upper_bound_exact": "2",
+        "absolute_gap_exact": "0"
+      }
+    },
+    {
+      "name": "negative_multiplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "NEGATIVE_DUAL_MULTIPLIER"
+      }
+    },
+    {
+      "name": "missing_supplier_multiplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "MULTIPLIER_COVERAGE_MISMATCH"
+      }
+    },
+    {
+      "name": "missing_carrier_multiplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "MULTIPLIER_COVERAGE_MISMATCH"
+      }
+    },
+    {
+      "name": "extra_supplier_multiplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "MULTIPLIER_COVERAGE_MISMATCH"
+      }
+    },
+    {
+      "name": "dual_violation",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "DUAL_INEQUALITY_VIOLATED:S:T1"
+      }
+    },
+    {
+      "name": "negative_flow",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "NEGATIVE_PRIMAL_FLOW"
+      }
+    },
+    {
+      "name": "unknown_supplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "INVALID_PRIMAL_IDENTITIES"
+      }
+    },
+    {
+      "name": "unknown_carrier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "INVALID_PRIMAL_IDENTITIES"
+      }
+    },
+    {
+      "name": "duplicate_flow",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "INVALID_PRIMAL_IDENTITIES"
+      }
+    },
+    {
+      "name": "changed_allocation",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "PRIMAL_NOT_SCALED_ORIGINAL_PLAN"
+      }
+    },
+    {
+      "name": "zero_scale",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "ORIGINAL_FLOW_OR_SCALE_INVALID"
+      }
+    },
+    {
+      "name": "scale_over_one",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "ORIGINAL_FLOW_OR_SCALE_INVALID"
+      }
+    },
+    {
+      "name": "boolean_multiplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "BOOLEAN_NOT_NUMERIC"
+      }
+    },
+    {
+      "name": "nan_multiplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "Invalid literal for Fraction: 'NaN'"
+      }
+    },
+    {
+      "name": "infinite_multiplier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "Invalid literal for Fraction: 'Infinity'"
+      }
+    },
+    {
+      "name": "duplicate_original_flow",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "ORIGINAL_FLOW_OR_SCALE_INVALID"
+      }
+    },
+    {
+      "name": "too_large_gap",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "ABSOLUTE_OPTIMALITY_GAP_EXCEEDS_PREREGISTERED_0_001:2.0"
+      }
+    },
+    {
+      "name": "supplier_violation_below_float_resolution",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "SUPPLIER_CAPACITY_EXCEEDED:S"
+      }
+    },
+    {
+      "name": "carrier_violation_below_float_resolution",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "CARRIER_CAPACITY_EXCEEDED:T1"
+      }
+    },
+    {
+      "name": "gap_exactly_threshold",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "detail": {
+        "status": "PASS",
+        "lower_bound_exact": "2",
+        "upper_bound_exact": "2001/1000",
+        "absolute_gap_exact": "1/1000"
+      }
+    },
+    {
+      "name": "gap_below_threshold",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "detail": {
+        "status": "PASS",
+        "lower_bound_exact": "2",
+        "upper_bound_exact": "2000999999999999999999999/1000000000000000000000000",
+        "absolute_gap_exact": "999999999999999999999/1000000000000000000000000"
+      }
+    },
+    {
+      "name": "gap_above_threshold_below_float_resolution",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "passed": true,
+      "detail": {
+        "exception_type": "ValueError",
+        "message": "ABSOLUTE_OPTIMALITY_GAP_EXCEEDS_PREREGISTERED_0_001:0.001"
+      }
+    },
+    {
+      "name": "alternate_exact_dual_no_solver_status_trust",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "passed": true,
+      "detail": {
+        "status": "PASS",
+        "lower_bound_exact": "2",
+        "upper_bound_exact": "2",
+        "absolute_gap_exact": "0"
+      }
+    }
+  ]
+}

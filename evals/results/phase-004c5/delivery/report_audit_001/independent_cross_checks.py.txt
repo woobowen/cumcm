@@ -1,0 +1,104 @@
+from pathlib import Path
+import json, hashlib, re
+from fractions import Fraction
+from datetime import datetime
+import yaml
+import jsonschema
+
+ROOT=Path('.')
+OUT=ROOT/'.cache/pr12-rc8/m5_delivery_audit/output'
+BUNDLE=ROOT/'.cache/pr12-rc8/m5_delivery_audit/input_bundle.json'
+EXPECTED_BUNDLE='82f680580f96bce0f09dcd76207a23d281a6159a1949d8530ec6a562daaff3f7'
+bundle=json.loads(BUNDLE.read_text())
+assert hashlib.sha256(BUNDLE.read_bytes()).hexdigest()==EXPECTED_BUNDLE
+def read(path):
+    assert path in bundle['paths'], path
+    data=(ROOT/path).read_bytes()
+    assert hashlib.sha256(data).hexdigest()==bundle['paths'][path], path
+    return data.decode()
+def j(path): return json.loads(read(path))
+base='evals/results/phase-004c5/'
+report=read(base+'FINAL_REPORT.md')
+science=read(base+'development/v6/SCIENCE_REPORT.md')
+snapshot=j(base+'qualification/rc8_candidate_snapshot.json')
+state=j('state/project_state.json')
+registry=yaml.safe_load(read('benchmarks/case_registry.yaml'))
+decisions=[j(base+case+'/terminal/decision.json') for case in ['CUMCM-2016-C-VALIDATION-004','CUMCM-2015-C-VALIDATION-005']]
+cases={c['case_id']:c for c in registry['cases'] if c.get('case_id') in [d['case_id'] for d in decisions]}
+results={}
+results['registry_case_count']=len(registry['cases'])
+results['candidate_mapping_count']=len(snapshot['implementation_files'])
+results['candidate_identity_consistency']=snapshot['subject_commit']==state['verification_manifest']['subject_commit']==registry['active_skill_release']['implementation_commit']==decisions[0]['fixed_candidate']['shared_subject_commit']==decisions[1]['fixed_candidate']['shared_subject_commit']
+results['state_tuple']=[state['phase'],state['status'],state['technical_adjudication_status'],state['next_phase_allowed']]
+results['case_summaries']=[{'case_id':d['case_id'],'executed':bool(d['actual_counts']['model_captures']),'model_captures':d['actual_counts']['model_captures'],'checker_captures':d['actual_counts']['original_checker_captures'],'completed':d['episode_completed'],'scientific_passed':d['scientific_passed'],'registry_result_matches':cases[d['case_id']]['terminal_result']==d['technical_adjudication_status'],'registry_freeze_time_matches':cases[d['case_id']]['freeze_time']==d['decided_at'],'formal_writer':d['writer']} for d in decisions]
+results['batch_aggregated_from_two_decisions']={'started':len(decisions),'executed':sum(x['executed'] for x in results['case_summaries']),'completed':sum(d['episode_completed'] for d in decisions),'scientific_passed':sum(d['scientific_passed'] for d in decisions)}
+results['batch_aggregates_match_main_record']=all(decisions[1]['main_batch_verification'][k]==v for k,v in results['batch_aggregated_from_two_decisions'].items())
+results['development_run_counts_from_report']=re.findall(r'([78])/9.*?（([^）]+)）',science)
+rows={}
+for line in science.splitlines():
+    if line.startswith('|') and line.count('|')==4:
+        cols=[c.strip() for c in line.strip('|').split('|')]
+        rows[cols[0]]=cols[1:]
+results['development_2021_source_rows']={k:v for k,v in rows.items() if k in ['候选供应商池','独立复算实际使用供应商数','从原始估计容量与最佳留存率得到的乐观数量下界','全部实际供应量的周采购成本（归一价格）','周转运损耗 m³','同一独立历史压力指标（越小越好）','压力区间运输超载周数 / 48','压力区间库存底线违约周数 / 48']}
+results['development_2022_cv_aggregates']={'old_groups':56,'old_repeats':5,'old_predictions':56*5,'new_groups':44,'new_repeats':2,'new_predictions':44*2,'removed_internal_test_groups':56-44,'permutation_total':3*999}
+verification=j(base+'development/q4_certificate/verification.json')
+L=Fraction(verification['lower_bound_exact']);U=Fraction(verification['upper_bound_exact'])
+m=re.search(r'\*\*\[([0-9.]+), ([0-9.]+)\] m³/周\*\*',report)
+assert m
+results['q4_published_interval']={'display_lower':m.group(1),'display_upper':m.group(2),'is_outward_enclosure':Fraction(m.group(1))<=L<=U<=Fraction(m.group(2)),'gap_exact_matches':U-L==Fraction(verification['absolute_gap_exact']),'gap_within_001':U-L<=Fraction(1,1000),'supplier_slack_count':len(verification['supplier_slacks_exact']),'carrier_slack_count':len(verification['carrier_slacks_exact']),'dual_slack_count':len(verification['dual_slacks_exact']),'stored_slack_total':sum(len(verification[k]) for k in ['supplier_slacks_exact','carrier_slacks_exact','dual_slacks_exact']),'whole_problem_scientifically_complete':verification['whole_problem_scientifically_complete']}
+sc2015=read(base+'CUMCM-2015-C-VALIDATION-005/scientific_report.md')
+city_rows=re.findall(r'^\| (北京|哈尔滨|上海|广州|昆明|成都|乌鲁木齐) \| (\d+) \| 能',sc2015,re.M)
+sensitivity_rows=re.findall(r'^\| (月亮 \[[^\n]+|太阳 \[[^\n]+|纬度 [^\n]+) \|$',sc2015,re.M)
+sensitivity_counts=[]
+for line in sc2015.splitlines():
+    if line.startswith('| 月亮 [') or line.startswith('| 太阳 [') or line.startswith('| 纬度 +'):
+        vals=[int(x.strip()) for x in line.strip('|').split('|')[1:]]
+        sensitivity_counts.append({'scenario':line.strip('|').split('|')[0].strip(),'city_counts':vals,'total':sum(vals)})
+n=sum(int(v) for _,v in city_rows);p=sum(r['total'] for r in sensitivity_counts)
+ev=decisions[1]['scientific_evidence']
+results['2015_table_arithmetic']={'city_counts':dict(city_rows),'nominal_total':n,'nominal_matches_decision':n==ev['nominal_windows'],'sensitivity_rows':sensitivity_counts,'sensitivity_total':p,'sensitivity_matches_decision':p==ev['perturbation_windows'],'calendar_rows':len(city_rows)*366,'calendar_matches_decision':len(city_rows)*366==ev['daily_calendar_rows'],'scene_times_from_3_checks_per_window':3*(n+p),'scene_times_match_decision':3*(n+p)==ev['independent_scene_times'],'calendar_times_sum':ev['independent_solar_calendar_times']+ev['independent_lunar_calendar_times'],'calendar_times_10161':ev['independent_solar_calendar_times']+ev['independent_lunar_calendar_times']==10161}
+audit2015=j(base+'CUMCM-2015-C-VALIDATION-005/terminal/native_audit/audit.json')
+f1=next(f for f in audit2015['findings'] if f['finding_id']=='F2015-001')['statement']
+time_values=re.findall(r'\b22:\d\d:\d\d\.\d+Z',f1)
+times=[datetime.fromisoformat('2026-09-08T'+t.replace('Z','+00:00')) for t in time_values]
+results['2015_ordering']={'times_in_finding_order':time_values,'names':['final_started','final_completed','selection_check','comparison_check','robustness_acceptance','configuration_lock'],'configuration_lock_before_final':times[-1]<times[0],'formal_checks_after_final':times[1]<times[2]<times[3]<times[4],'preserved_audit_verdict':audit2015['verdict'],'terminal_verdict':decisions[1]['technical_adjudication_status'],'post_negative_audit_recorded_verdict':decisions[1]['native_decision_audit']['verdict'],'primary_post_negative_audit_in_allowed_bundle':decisions[1]['native_decision_audit']['path'] in bundle['paths'],'case_owned_ready':cases[decisions[1]['case_id']]['first_run_evidence']['controller_status']}
+delivery2016=j(base+'CUMCM-2016-C-VALIDATION-004/terminal/terminal_delivery.json')
+results['serial_execution_evidence']={'first_terminal_before_delivery':datetime.fromisoformat(decisions[0]['decided_at'])<datetime.fromisoformat(delivery2016['verified_at']),'first_delivery_before_second_worker_start':datetime.fromisoformat(delivery2016['verified_at'])<datetime.fromisoformat(cases[decisions[1]['case_id']]['start_time']),'episode_budget_windows_are_not_actual_worker_times':True,'worker_start_times':{k:v['start_time'] for k,v in cases.items()}}
+local=j(base+'delivery/local_ci_terminal_6be924e.json')
+remote=j(base+'delivery/remote_ci_6be924e_observation.json')
+post=j(base+'delivery/post_ci_checks_terminal_6be924e.json')
+qualification=j(base+'qualification/receipts/full_ci.json')
+results['ci_comparison']={'qualification_subject':qualification['subject_commit'],'qualification_exit':qualification['exit_code'],'qualification_passed':qualification['pytest_passed'],'qualification_skipped_supplied':qualification.get('pytest_skipped','NOT_IN_ALLOWED_RECEIPT'),'local_subject':local['subject_commit'],'local_tested_tree':local['tested_tracked_tree'],'local_actual':local['actual_pytest'],'local_exit':local['exit_code'],'remote_feature_head':remote['feature_head'],'remote_actual_tested_commit':remote['actual_tested_commit'],'remote_checkout_ref':remote['actual_checkout_ref'],'remote_outcome':remote['conclusion'],'remote_counts':[remote['passed'],remote['failed'],remote['skipped']],'remote_separate_feature_ci':remote['remote_feature_tree_ci'],'supplemental_count':len(post['records']),'supplemental_all_exit_zero':all(x['exit_code']==0 for x in post['records']),'supplemental_all_same_subject':all(x['subject_commit']==local['subject_commit'] for x in post['records']),'full_ci_still_failed':post['full_ci_still_failed'],'failed_test_files_bound':all(n.split('::')[0] in snapshot['implementation_files'] for n in local['pytest_failures']),'local_wall_seconds':(datetime.fromisoformat(local['ended_at'])-datetime.fromisoformat(local['started_at'])).total_seconds(),'local_recorded_monotonic_seconds':local['elapsed_seconds']}
+schema=j('contracts/subagent_audit.schema.json')
+results['historical_audit_schema_and_hash']=[]
+for name in bundle['paths']:
+    if name.endswith('/native_audit/audit.json'):
+        a=j(name)
+        errors=[e.message for e in jsonschema.Draft202012Validator(schema).iter_errors(a)]
+        payload={k:v for k,v in a.items() if k!='output_hash'}
+        actual=hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+        results['historical_audit_schema_and_hash'].append({'path':name,'schema_valid':not errors,'schema_errors':errors,'canonical_output_hash_matches':actual==a['output_hash'],'verdict':a['verdict']})
+results['allowed_cross_file_hash_refs']=[]
+def walk(obj):
+    if isinstance(obj,dict):
+        if isinstance(obj.get('path'),str) and obj['path'] in bundle['paths'] and isinstance(obj.get('sha256'),str):
+            results['allowed_cross_file_hash_refs'].append({'path':obj['path'],'match':bundle['paths'][obj['path']]==obj['sha256']})
+        for v in obj.values():walk(v)
+    elif isinstance(obj,list):
+        for v in obj:walk(v)
+for obj in [snapshot,state]+decisions:walk(obj)
+required=[
+results['candidate_identity_consistency'],results['batch_aggregates_match_main_record'],
+results['q4_published_interval']['is_outward_enclosure'],results['q4_published_interval']['gap_exact_matches'],
+results['q4_published_interval']['gap_within_001'],results['2015_table_arithmetic']['nominal_matches_decision'],
+results['2015_table_arithmetic']['sensitivity_matches_decision'],results['2015_table_arithmetic']['calendar_matches_decision'],
+results['2015_table_arithmetic']['scene_times_match_decision'],results['2015_table_arithmetic']['calendar_times_10161'],
+results['2015_ordering']['configuration_lock_before_final'],results['2015_ordering']['formal_checks_after_final'],
+results['serial_execution_evidence']['first_terminal_before_delivery'],results['serial_execution_evidence']['first_delivery_before_second_worker_start'],
+results['ci_comparison']['supplemental_all_exit_zero'],results['ci_comparison']['supplemental_all_same_subject'],
+all(x['schema_valid'] and x['canonical_output_hash_matches'] for x in results['historical_audit_schema_and_hash']),
+all(x['match'] for x in results['allowed_cross_file_hash_refs'])]
+results['required_evidence_consistency_checks_passed']=all(required)
+with (OUT/'independent_cross_checks.json').open('x') as f:json.dump(results,f,ensure_ascii=False,indent=2)
+print(json.dumps(results,ensure_ascii=False,indent=2))
+assert all(required)

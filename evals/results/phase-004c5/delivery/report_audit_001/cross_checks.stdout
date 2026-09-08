@@ -1,0 +1,304 @@
+{
+  "registry_case_count": 10,
+  "candidate_mapping_count": 772,
+  "candidate_identity_consistency": true,
+  "state_tuple": [
+    "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+    "IN_PROGRESS",
+    "C_TARGET_VALIDATION_FAILED",
+    null
+  ],
+  "case_summaries": [
+    {
+      "case_id": "CUMCM-2016-C-VALIDATION-004",
+      "executed": true,
+      "model_captures": 2,
+      "checker_captures": 2,
+      "completed": true,
+      "scientific_passed": false,
+      "registry_result_matches": true,
+      "registry_freeze_time_matches": true,
+      "formal_writer": "MAIN_ORCHESTRATOR"
+    },
+    {
+      "case_id": "CUMCM-2015-C-VALIDATION-005",
+      "executed": true,
+      "model_captures": 2,
+      "checker_captures": 2,
+      "completed": true,
+      "scientific_passed": false,
+      "registry_result_matches": true,
+      "registry_freeze_time_matches": true,
+      "formal_writer": "MAIN_ORCHESTRATOR"
+    }
+  ],
+  "batch_aggregated_from_two_decisions": {
+    "started": 2,
+    "executed": 2,
+    "completed": 2,
+    "scientific_passed": 0
+  },
+  "batch_aggregates_match_main_record": true,
+  "development_run_counts_from_report": [
+    [
+      "8",
+      "5 SUCCESS、3 FAILED"
+    ],
+    [
+      "7",
+      "7 SUCCESS"
+    ]
+  ],
+  "development_2021_source_rows": {
+    "候选供应商池": [
+      "399",
+      "399"
+    ],
+    "独立复算实际使用供应商数": [
+      "168",
+      "14"
+    ],
+    "从原始估计容量与最佳留存率得到的乐观数量下界": [
+      "14",
+      "14"
+    ],
+    "全部实际供应量的周采购成本（归一价格）": [
+      "20470.623804",
+      "20430.789274"
+    ],
+    "周转运损耗 m³": [
+      "110.618688",
+      "102.058707"
+    ],
+    "同一独立历史压力指标（越小越好）": [
+      "1.758417",
+      "9.705398"
+    ],
+    "压力区间运输超载周数 / 48": [
+      "48",
+      "47"
+    ],
+    "压力区间库存底线违约周数 / 48": [
+      "12",
+      "23"
+    ]
+  },
+  "development_2022_cv_aggregates": {
+    "old_groups": 56,
+    "old_repeats": 5,
+    "old_predictions": 280,
+    "new_groups": 44,
+    "new_repeats": 2,
+    "new_predictions": 88,
+    "removed_internal_test_groups": 12,
+    "permutation_total": 2997
+  },
+  "q4_published_interval": {
+    "display_lower": "40246.40307264614",
+    "display_upper": "40246.40311289260",
+    "is_outward_enclosure": true,
+    "gap_exact_matches": true,
+    "gap_within_001": true,
+    "supplier_slack_count": 402,
+    "carrier_slack_count": 8,
+    "dual_slack_count": 3216,
+    "stored_slack_total": 3626,
+    "whole_problem_scientifically_complete": false
+  },
+  "2015_table_arithmetic": {
+    "city_counts": {
+      "北京": "15",
+      "哈尔滨": "18",
+      "上海": "12",
+      "广州": "12",
+      "昆明": "13",
+      "成都": "13",
+      "乌鲁木齐": "16"
+    },
+    "nominal_total": 99,
+    "nominal_matches_decision": true,
+    "sensitivity_rows": [
+      {
+        "scenario": "月亮 [3,7] 度",
+        "city_counts": [
+          15,
+          17,
+          13,
+          11,
+          12,
+          12,
+          16
+        ],
+        "total": 96
+      },
+      {
+        "scenario": "月亮 [13,17] 度",
+        "city_counts": [
+          15,
+          17,
+          13,
+          12,
+          12,
+          13,
+          16
+        ],
+        "total": 98
+      },
+      {
+        "scenario": "月亮 [6,14] 度",
+        "city_counts": [
+          20,
+          24,
+          17,
+          16,
+          15,
+          17,
+          20
+        ],
+        "total": 129
+      },
+      {
+        "scenario": "太阳 [-6,-0.833] 度",
+        "city_counts": [
+          12,
+          13,
+          11,
+          10,
+          10,
+          12,
+          13
+        ],
+        "total": 81
+      },
+      {
+        "scenario": "纬度 +0.05 度",
+        "city_counts": [
+          15,
+          18,
+          12,
+          12,
+          13,
+          13,
+          16
+        ],
+        "total": 99
+      }
+    ],
+    "sensitivity_total": 503,
+    "sensitivity_matches_decision": true,
+    "calendar_rows": 2562,
+    "calendar_matches_decision": true,
+    "scene_times_from_3_checks_per_window": 1806,
+    "scene_times_match_decision": true,
+    "calendar_times_sum": 10161,
+    "calendar_times_10161": true
+  },
+  "2015_ordering": {
+    "times_in_finding_order": [
+      "22:28:14.968512Z",
+      "22:28:18.872464Z",
+      "22:28:18.886247Z",
+      "22:28:18.951645Z",
+      "22:28:19.086355Z",
+      "22:25:58.148546Z"
+    ],
+    "names": [
+      "final_started",
+      "final_completed",
+      "selection_check",
+      "comparison_check",
+      "robustness_acceptance",
+      "configuration_lock"
+    ],
+    "configuration_lock_before_final": true,
+    "formal_checks_after_final": true,
+    "preserved_audit_verdict": "FAIL",
+    "terminal_verdict": "C_TARGET_VALIDATION_FAILED",
+    "post_negative_audit_recorded_verdict": "PASS",
+    "primary_post_negative_audit_in_allowed_bundle": false,
+    "case_owned_ready": "READY_FOR_PAPER_HANDOFF_VIA_CASE_OWNED_CONTROLLER"
+  },
+  "serial_execution_evidence": {
+    "first_terminal_before_delivery": true,
+    "first_delivery_before_second_worker_start": true,
+    "episode_budget_windows_are_not_actual_worker_times": true,
+    "worker_start_times": {
+      "CUMCM-2016-C-VALIDATION-004": "2026-09-08T20:47:03Z",
+      "CUMCM-2015-C-VALIDATION-005": "2026-09-08T21:56:33.948200+00:00"
+    }
+  },
+  "ci_comparison": {
+    "qualification_subject": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+    "qualification_exit": 0,
+    "qualification_passed": 2153,
+    "qualification_skipped_supplied": "NOT_IN_ALLOWED_RECEIPT",
+    "local_subject": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+    "local_tested_tree": "1349ce00d0cf60acc9d158f7dfee51e1366dcc4c",
+    "local_actual": {
+      "passed": 2151,
+      "failed": 2,
+      "skipped": 1,
+      "duration_seconds": 349.95
+    },
+    "local_exit": 1,
+    "remote_feature_head": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+    "remote_actual_tested_commit": "22c097256777009083e107768992c14de822685b",
+    "remote_checkout_ref": "refs/remotes/pull/12/merge",
+    "remote_outcome": "failure",
+    "remote_counts": [
+      2151,
+      2,
+      1
+    ],
+    "remote_separate_feature_ci": "NOT_RUN_AS_SEPARATE_FEATURE_CHECKOUT",
+    "supplemental_count": 15,
+    "supplemental_all_exit_zero": true,
+    "supplemental_all_same_subject": true,
+    "full_ci_still_failed": true,
+    "failed_test_files_bound": true,
+    "local_wall_seconds": 359.540181,
+    "local_recorded_monotonic_seconds": 350.610619922998
+  },
+  "historical_audit_schema_and_hash": [
+    {
+      "path": "evals/results/phase-004c5/development/q4_certificate/native_audit/audit.json",
+      "schema_valid": true,
+      "schema_errors": [],
+      "canonical_output_hash_matches": true,
+      "verdict": "PASS"
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/audit.json",
+      "schema_valid": true,
+      "schema_errors": [],
+      "canonical_output_hash_matches": true,
+      "verdict": "PASS"
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/native_audit/audit.json",
+      "schema_valid": true,
+      "schema_errors": [],
+      "canonical_output_hash_matches": true,
+      "verdict": "FAIL"
+    }
+  ],
+  "allowed_cross_file_hash_refs": [
+    {
+      "path": "evals/results/phase-004c5/qualification/receipts/full_ci.json",
+      "match": true
+    },
+    {
+      "path": "evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json",
+      "match": true
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/audit.json",
+      "match": true
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/native_audit/audit.json",
+      "match": true
+    }
+  ],
+  "required_evidence_consistency_checks_passed": true
+}

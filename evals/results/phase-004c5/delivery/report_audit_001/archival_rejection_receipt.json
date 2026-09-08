@@ -1,0 +1,11 @@
+{
+  "operation": "Archive all prior command receipts in one Python heredoc tool command",
+  "process_started": false,
+  "exit_code": null,
+  "error": "exec_command failed: CreateProcess { message: Rejected(Failed to create unified exec process: Argument list too long (os error 7)) }",
+  "start_utc": "UNKNOWN: failed tool process was never created",
+  "end_utc": "UNKNOWN: failure UTC not captured",
+  "stdout": "NOT_APPLICABLE: no process",
+  "stderr": "NOT_APPLICABLE: tool rejection, not process stderr",
+  "recovery": "Saved each actual command receipt using output-only apply_patch calls, then combined these files with this short local Python command. No audited subject writes or additional model/Final calls."
+}

@@ -1154,7 +1154,10 @@ cases:
     path: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/terminal_freeze.json
     sha256: 065c8bf72c266750d2555ae505e8cc42a05f5112650c0a38e15d492ce470eb5c
     subject_commit: 675b37c5c804858518d57732e950122045826119
-    status: FROZEN_PENDING_REMOTE_DELIVERY
+    status: REMOTE_DELIVERED
+    freeze_commit: 6be924e7903a201236a9cdd93ee75d66b839d1d6
+    remote_sha: 6be924e7903a201236a9cdd93ee75d66b839d1d6
+    delivery_path: evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/terminal_delivery.json
   reference_unlock: LOCKED
   generalization_axis:
   - FRESH_PROBLEM_UNDER_FROZEN_RC8

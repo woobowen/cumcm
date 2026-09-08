@@ -1,0 +1,270 @@
+{
+  "schema_version": "phase-004c5-supplemental-ci-checks/v1",
+  "full_ci_still_failed": true,
+  "reason": "ci.sh stopped at two pytest failures; these separately execute the remaining required checks without skipping or converting CI to PASS.",
+  "records": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_batch_freeze.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.369107+00:00",
+      "ended_at": "2026-09-08T23:22:34.467813+00:00",
+      "elapsed_seconds": 0.09871020900027361,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/01.stdout",
+      "stdout_sha256": "6f7f3babeffdd28ace1a5ea8e58aa59dce54396e0774afc75b159bf4edaef346",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/01.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"batch_id\": \"C-TARGET-BATCH-001\", \"case_count\": 3, \"error_count\": 0, \"errors\": [], \"freeze_payload_sha256\": \"1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09\", \"ok\": true}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_first_run_freezes.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.467932+00:00",
+      "ended_at": "2026-09-08T23:22:34.551689+00:00",
+      "elapsed_seconds": 0.08376803200007998,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/02.stdout",
+      "stdout_sha256": "fc5cc61770bebb8b7f2783af858e29eb83dc4c7155196a12926842928764850c",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/02.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"batch_id\": \"C-TARGET-BATCH-001\", \"error_count\": 0, \"errors\": [], \"expected_case_count\": 3, \"frozen_count\": 3, \"in_progress_count\": 0, \"ok\": true}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_postmortem.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.551767+00:00",
+      "ended_at": "2026-09-08T23:22:34.581371+00:00",
+      "elapsed_seconds": 0.029615966999699594,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/03.stdout",
+      "stdout_sha256": "8648278574ffa0b0fa032e473c24a7586e65da996510aef4f396bdcf78b1cdc2",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/03.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"authorized_change_sets\": 1, \"batch_id\": \"C-TARGET-BATCH-001\", \"case_count\": 3, \"error_count\": 0, \"errors\": [], \"finding_count\": 6, \"ok\": true, \"reference_bodies_verified\": false}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_rc4_candidate.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.581467+00:00",
+      "ended_at": "2026-09-08T23:22:34.615319+00:00",
+      "elapsed_seconds": 0.0338592529988091,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/04.stdout",
+      "stdout_sha256": "d215acf63e6984778bfcd86c12041153f053747a44bebc3182d4f0384d3686a3",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/04.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"candidate_id\": \"C-TARGET-RC4-CANDIDATE-001\", \"check_count\": 13, \"checks\": {\"anti_hardcoding\": true, \"authorized_lineage\": true, \"candidate_not_release\": true, \"exact_changed_files\": true, \"focused_tests\": true, \"identity\": true, \"no_scope_expansion\": true, \"one_change_set\": true, \"one_formal_skill\": true, \"rc3_identity\": true, \"rc4_identity\": true, \"remote_receipt\": true, \"single_revision_cycle\": true}, \"failed_checks\": [], \"ok\": true}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_rc4_batch_regressions.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.615423+00:00",
+      "ended_at": "2026-09-08T23:22:34.646806+00:00",
+      "elapsed_seconds": 0.03139042999828234,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/05.stdout",
+      "stdout_sha256": "85fa7f0a509ea2080c57c0a05dbdb07eb2d9ae676dfa9089864d7dacd1965227",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/05.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"case_count\": 3, \"error_count\": 0, \"errors\": [], \"ok\": true, \"verify_workspaces\": false}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_rc4_unified_regression.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.646878+00:00",
+      "ended_at": "2026-09-08T23:22:34.676372+00:00",
+      "elapsed_seconds": 0.02950571899782517,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/06.stdout",
+      "stdout_sha256": "fe6ead74d0ae54cc567279811ea40a9f07e1b1bc44453d0532cd75f6b9df2468",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/06.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"batch_case_count\": 3, \"error_count\": 0, \"errors\": [], \"negative_scenario_count\": 30, \"ok\": true, \"synthetic_case_count\": 2, \"verify_workspaces\": false}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_2024c_validation_freeze.py",
+        "--check",
+        "--require-delivery"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.676466+00:00",
+      "ended_at": "2026-09-08T23:22:34.803642+00:00",
+      "elapsed_seconds": 0.12718436300201574,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/07.stdout",
+      "stdout_sha256": "c20a1599d09778f11d2df03841c83a7ff7c0e9a46833104a22f59d3fff25d939",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/07.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"case_id\": \"CUMCM-2024-C-VALIDATION-001\", \"error_count\": 0, \"errors\": [], \"freeze_payload_sha256\": \"d1b5456fbf174b01bc9e9b67f6e2fbf7f9894f6de2a54c9632ab2e0f2ddf4c86\", \"ok\": true}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_2024c_validation_outcome.py",
+        "--check",
+        "--require-delivery"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.803724+00:00",
+      "ended_at": "2026-09-08T23:22:34.889790+00:00",
+      "elapsed_seconds": 0.08608507600001758,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/08.stdout",
+      "stdout_sha256": "63ab19d0a4dc7fcc5fb375eb85fbdd2266418408580c0d8dab5d7a2ef5bbbb49",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/08.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"case_id\": \"CUMCM-2024-C-VALIDATION-001\", \"decision\": \"C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT\", \"error_count\": 0, \"errors\": [], \"freeze_payload_sha256\": \"d53c4280f09b369c4ab09a66c6bbba454c8b739e710f21f7481a375454523033\", \"ok\": true}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_claim_scope_repair.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:34.889998+00:00",
+      "ended_at": "2026-09-08T23:22:35.045860+00:00",
+      "elapsed_seconds": 0.15586905699819908,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/09.stdout",
+      "stdout_sha256": "c2189b67fc133898a96ccf5171879e9186eaaee37a32ad799cbdaf4d106a08dc",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/09.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"error_count\": 0, \"errors\": [], \"held_out_unchanged\": true, \"ok\": true, \"old_validation_unchanged\": true}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_c_target_2019c_validation.py",
+        "--check",
+        "--require-delivery"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:35.045941+00:00",
+      "ended_at": "2026-09-08T23:22:35.233988+00:00",
+      "elapsed_seconds": 0.18805839299966465,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/10.stdout",
+      "stdout_sha256": "07d1355b010913c04b08a37071b0e23515cb5611744753de5c9dc5f27f052690",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/10.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"case_id\": \"CUMCM-2019-C-VALIDATION-002\", \"error_count\": 0, \"errors\": [], \"ok\": true, \"pre_run_frozen\": true, \"terminal_frozen\": true, \"workspace_verified\": false}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_phase004c2_acceptance.py"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:35.234079+00:00",
+      "ended_at": "2026-09-08T23:22:35.250445+00:00",
+      "elapsed_seconds": 0.016376486000808654,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/11.stdout",
+      "stdout_sha256": "7e438752e2beee09c2e050d58d8afeddd1e019a0d9c471bdc34ab85bb07408a3",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/11.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"errors\": [], \"meaning\": \"Reporting consistency only; a PASS does not accept the blocked release.\", \"ok\": true, \"release_acceptance\": \"BLOCK\", \"release_version_consistent\": false, \"validation_status\": \"C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT\"}\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/validate_repo.py",
+        "--strict"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:35.250557+00:00",
+      "ended_at": "2026-09-08T23:22:39.312078+00:00",
+      "elapsed_seconds": 4.061530599999969,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/12.stdout",
+      "stdout_sha256": "d86ef4e66e773dc4be1ad3e17da6b3e8657f3b6a0a489dbb29579b365e2a9c58",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/12.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "repository=PASS errors=0 warnings=0\n{\"error_count\": 0, \"errors\": [], \"ok\": true, \"sections\": {\"contracts\": {\"errors\": [], \"invalid_rejected\": 68, \"schema_count\": 78, \"valid_fixtures\": 78}, \"delivery\": {\"errors\": []}, \"instructions\": {\"errors\": [], \"sizes\": {\".agents/skills/cumcm-modeling-evidence/AGENTS.md\": 571, \"AGENTS.md\": 5354, \"benchmarks/AGENTS.md\": 425, \"research/upstream_candidates/AGENTS.md\": 482, \"tests/AGENTS.md\": 317}, \"total_project_bytes\": 7149, \"warnings\": []}, \"leakage\": {\"errors\": [], \"findings\": []}, \"privacy\": {\"errors\": []}, \"secrets\": {\"errors\": []}, \"skills\": {\"errors\": [], \"names\": [\"cumcm-modeling-evidence\"], \"skills\": [\".agents/skills/cumcm-modeling-evidence/SKILL.md\"]}, \"upstreams\": {\"cache_ignored\": true, \"candidate_count\": 8, \"component_card_count\": 4, \"errors\": []}}, \"strict\": true, \"warning_count\": 0, \"warnings\": [], \"yaml_count\": 59}\n"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:39.312163+00:00",
+      "ended_at": "2026-09-08T23:22:39.315233+00:00",
+      "elapsed_seconds": 0.0030783160000282805,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/13.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/13.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/render_status.py",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:39.315315+00:00",
+      "ended_at": "2026-09-08T23:22:39.336504+00:00",
+      "elapsed_seconds": 0.0211965609996696,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/14.stdout",
+      "stdout_sha256": "485f06b720baf95874f16d5c478136279d65d90e8afcb28082b71c94b3b4e334",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/14.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "status_report=current\n"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/check_phase004c4_rc7_release.py",
+        "--release",
+        "rc8",
+        "--stage",
+        "live",
+        "--check"
+      ],
+      "subject_commit": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+      "started_at": "2026-09-08T23:22:39.336600+00:00",
+      "ended_at": "2026-09-08T23:22:40.321913+00:00",
+      "elapsed_seconds": 0.9853254660010862,
+      "exit_code": 0,
+      "stdout_path": ".cache/pr12-rc8/logs/m5-post-ci/15.stdout",
+      "stdout_sha256": "8eda2b8e8ff4046d6a8947b64935cac123bfed13a648dfde3b5287c762ac64f7",
+      "stderr_path": ".cache/pr12-rc8/logs/m5-post-ci/15.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_summary": "{\"reason_codes\": [], \"release\": \"rc8\", \"stage\": \"live\", \"status\": \"PASS\"}\n"
+    }
+  ],
+  "failed_count": 0,
+  "count": 15
+}

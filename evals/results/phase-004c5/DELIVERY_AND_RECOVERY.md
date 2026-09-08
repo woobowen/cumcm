@@ -15,9 +15,13 @@ case outcomes remain each case's `terminal/decision.json`, mirrored in the regis
 - 2016 terminal: `a03597be9a83a38ce4bcc4dba76cf8c574327045`, remotely verified. Evidence insufficient;
   three questions have conditional numerical outputs, but formal Final/handoff were not accepted.
   Native audit PASS endorses this negative decision. Do not restart, tune or rerun the terminal case.
-- 2015 is a separate fresh episode, starting 21:53:34 UTC and ending 23:53:34 UTC on 2026-09-08.
-  Its own pre-run freeze, captures and terminal package are authoritative as they become available.
-  Neither problem may receive the other's results or method advice. Planned denominator remains two.
+- 2015 code675b37c and pre-run6f01263 were remotely frozen before numeric captures. Its full
+  episode ran from21:53:34Z to a23:53:34Z deadline; formal terminal was fixed23:13:18Z, then
+  remotely delivered in6be924e7903a201236a9cdd93ee75d66b839d1d6. FAILED for formal Final
+  prerequisite ordering; two actual models,99 conditional windows,Final1/test0 remain preserved.
+  Native first audit FAIL and separate Decision Auditor PASS of the negative proposal are distinct.
+- Both cases are now terminal. Planned2/started2/executed2/completed2/scientificPASS0. No more
+  fresh model/Final executions, answer unlocks or shared mutations under these episodes.
 
 ## Current CI blocker and safe recovery boundary
 
@@ -32,6 +36,11 @@ terminal to the historical004C2 phase; the schema permits the actual004C5 termin
 `first_run_evidence` summary was missing and is now populated from the existing fixed decision,
 with no result changes. The actual terminal-head CI observed2150 passed/3 failed/1 skipped;
 `delivery/ci_a03597b_observation.json` identifies all three.
+
+Current local6be924e full CI is2151 passed/2 failed/1 skipped. Remote Actions34289738652
+actually checked out PR merge commit22c097256777009083e107768992c14de822685b and returned the
+same counts. The missing registry summary is fixed; the two historical assertions remain open.
+Fifteen separately executed post-CI checks all pass without changing full CI FAIL. See delivery/.
 
 Both outdated tests are in the frozen 772-file mapping. During both Validation episodes no shared
 or test file can be edited. Do not delete/move cases out of the authoritative `cases` collection,
@@ -81,7 +90,7 @@ problem/data archives remain immutable and ignored. Public artifacts contain fir
 derived outputs, hashes and source/Run links. Reacquisition requires checking the recorded hashes;
 restricted raw input is never pushed to make a package superficially self-contained.
 
-The only added Git configuration so far is the 2016 case-local `.gitattributes` rule that recognizes
+The only added Git configuration is one case-local `.gitattributes` rule in each of2016/2015 that recognizes
 CSV CRLF as a line terminator while still rejecting spaces before CRLF. It preserves the frozen
 CSV bytes; its positive and negative checks are recorded in that case's terminal delivery note.
 
@@ -89,3 +98,19 @@ Required delivery checks are current-head full CI, strict repository validation,
 freshness, whitespace checks, ordinary push and a separate actual remote-SHA read. A merge-tree
 success is recorded separately and is not merged-result CI. PR #12 remains Draft; no ready/merge
 or direct main push is authorized.
+
+## Supplemental proof and next maintenance subject
+
+The2021 Q4 proof consumes the ninth/9 Development numerical attempt. Code/protocolbf34549
+was remotely verified before construction; resultsee8bf9d remain frozen. Native review PASS is
+limited to the fixed serialized-decimal first-objective LP. The strict outward display interval is
+[40246.40307264614,40246.40311289260]m3/week; exact Fractions remain authoritative. See
+`development/q4_certificate/AUDIT_DISPOSITION.md`; no original model was rerun or Gate accepted.
+
+The2015 negative terminal exposes a reproducible protocol dependency cycle: comparison before
+Final is required, while NONPREDICTIVE comparison requires one scientific Final verification.
+Do not repair it by editing a fixed trace or letting READY override the Gate. A new maintenance
+subject must freeze neutral prerequisite-order and positive nonpredictive end-to-end expectations
+before shared implementation changes. Also preserve temporal same-entity positives, future-label
+leakage negatives and historical/new-case phase tests. This is future repair design, not implemented
+code or permission to rerun these fresh terminals. Comprehensive findings are in FINAL_REPORT.md.

@@ -1,0 +1,120 @@
+{
+  "audit_id": "AUDIT-RC8-M5-DELIVERY-REPORT-CORRECTION-002",
+  "role": "reproducibility_auditor",
+  "round": "POST_DECISION",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "FROZEN_PREDECESSORS_ONLY",
+  "model": "UNKNOWN",
+  "reasoning_setting": "UNKNOWN",
+  "bundle_id": "RC8-M5-DELIVERY-REPORT-CORRECTION-002",
+  "bundle_hash": "14606e9bf00d2ccc4bbad5faf82bb05eecc3654b3b0ef084c7e5ce5b6928d46d",
+  "verdict": "PASS",
+  "findings": [
+    {
+      "finding_id": "M5-001",
+      "severity": "INFO",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:78",
+      "statement": "399候选池、旧对照实际使用168、当前使用14及限定模型最小数14已明确区分。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:19"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:78",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:19"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "对照修订文案与固定原始证据检查该项语义。",
+      "pass_condition": "保留原数字、身份和限定支持范围，不扩为全题/技术/CI通过。",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "M5-002",
+      "severity": "INFO",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:80",
+      "statement": "9.705398/1.758417已明确为同定义独立历史综合压力指标，保留当前更差。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:27"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:80",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:27"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "对照修订文案与固定原始证据检查该项语义。",
+      "pass_condition": "保留原数字、身份和限定支持范围，不扩为全题/技术/CI通过。",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "M5-003",
+      "severity": "INFO",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:124",
+      "statement": "状态1/2前缀末端单目标剩余时间相对误差已与原elapsed-time MRE区分，不再混淆聚合。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/REPORT.md:44"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:124",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/REPORT.md:44"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "对照修订文案与固定原始证据检查该项语义。",
+      "pass_condition": "保留原数字、身份和限定支持范围，不扩为全题/技术/CI通过。",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "M5-004",
+      "severity": "INFO",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:93",
+      "statement": "三候选validation composite loss与Hellinger/KNN被选中已分开，并保留12组/内部诊断限制。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:70"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:93",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:70"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "对照修订文案与固定原始证据检查该项语义。",
+      "pass_condition": "保留原数字、身份和限定支持范围，不扩为全题/技术/CI通过。",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "M5-005",
+      "severity": "INFO",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:72",
+      "statement": "d9当前候选、4515597旧对照、4d2a0b8较早候选已分别归属，未将全部15次归入d9。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:14"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:72",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:14"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "对照修订文案与固定原始证据检查该项语义。",
+      "pass_condition": "保留原数字、身份和限定支持范围，不扩为全题/技术/CI通过。",
+      "status": "RESOLVED"
+    }
+  ],
+  "blockers": [],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "api_calls": 0,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "uncertainties": [
+    "PASS applies only to the five corrected phrases in revised report hash d0c206f7f0f7a236c986b9479f73d3128f1832c29767e5f3ba5871323a4e2819; it is not technical acceptance, scientific PASS, qualification reapproval or CI success.",
+    "The original FAIL audit remains the original verdict. No original audit or subject file was modified by this reviewer.",
+    "Public copies/publication mappings and the new neutral-test-specification reference were not in scope and were not independently inspected.",
+    "All prior limits remain: no independent full Git history, remote/HEAD/Draft/merge-tree verification, raw/answer/access-history verification, complete native transport, platform usage or omitted qualification-test evidence.",
+    "Thirty original evidence hashes are unchanged; only the report is revised and main_disposition is newly added. All32 current hashes were checked before and after.",
+    "Only own new ignored output_002 files were written. No model/checker/Final/CI/numerical rerun or additional agents.",
+    "Tool UTC bounds are observed clock calls, not independently measured process lifetime. Output streams are combined; separate stdout/stderr and any unavailable exact timing remain UNKNOWN.",
+    "Runtime model, reasoning, token and cash costs UNKNOWN. No dependencies, toolchains or configurations added."
+  ],
+  "created_at": "2026-09-08T23:55:10.289272+00:00",
+  "output_hash": "f949f050f1f73a90e707753ba581b13a8a7c854222830cc01c61fa10421ce740"
+}

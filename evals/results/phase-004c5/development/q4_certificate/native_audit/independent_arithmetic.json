@@ -1,0 +1,90 @@
+{
+  "status": "PASS",
+  "arithmetic_implementation": "INDEPENDENT_STDLIB_FRACTION_FROM_JSON_DECIMAL_LEXEMES",
+  "dual_inequalities": 3216,
+  "dual_nonnegative_multipliers": 410,
+  "supplier_constraints": 402,
+  "carrier_constraints": 8,
+  "primal_nonnegative_explicit_rows": 403,
+  "implicit_zero_flows": 2813,
+  "lexically_exact_serialized_decimal_bounds": {
+    "lower": "132813130139732324961722552793180986444621/3300000000000001013171500000000000000",
+    "upper": "1328131302725455605929463449277774520415573/33000000000000000000000000000000000000",
+    "gap": "796879658446394421771932328665868181806677729313949049/19800000000000006079029000000000000000000000000000000000000"
+  },
+  "decimal_approximations_70_digits": {
+    "lower": "40246.40307264614672279211578050774002825723226948553756381139262937384",
+    "upper": "40246.40311289259411907464997811437940653251515151515151515151515151515",
+    "gap": "0.00004024644739628253419760663937827528288202961395134012252214130964640436",
+    "relative_gap": "1.000001100306773150933414884383339659033748115316480931091596660375315E-9"
+  },
+  "all_3626_published_slacks_match": true,
+  "weak_duality_gap_decomposition_matches": true,
+  "scale_is_maximal_common_feasible_scale": true,
+  "primal_scale": "600000000000000000000/600000000000000184213",
+  "original_supplier_overshoot_count": 1,
+  "original_carrier_overshoot_count": 2,
+  "original_supplier_overshoot_exact": {
+    "S221": "3/10000000000000000"
+  },
+  "original_carrier_overshoot_exact": {
+    "T3": "184213/100000000000000000",
+    "T6": "17197/50000000000000000"
+  },
+  "exact_original_flow_objective": "132813130139732324961722552793180986444621/3300000000000000000000000000000000000",
+  "original_lexicographic_stage_records": [
+    {
+      "dual_bound": "-40246.40311289258",
+      "frozen_upper_bound": "-40246.40307264619",
+      "has_incumbent": true,
+      "incumbent_objective": "-40246.40311289258",
+      "lexicographic_absolute_tolerance": "0.0000402464031128926",
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "node_count": 0,
+      "optimal": true,
+      "relative_gap": "0.0",
+      "solver": "SCIPY_HIGHS_LP",
+      "stage": "MAXIMUM_CONDITIONAL_WEEKLY_CAPACITY",
+      "status_code": 0
+    },
+    {
+      "dual_bound": "29230.282408003925",
+      "frozen_upper_bound": "29230.282437234204",
+      "has_incumbent": true,
+      "incumbent_objective": "29230.282408003925",
+      "lexicographic_absolute_tolerance": "0.000029230282408003923",
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "node_count": 0,
+      "optimal": true,
+      "relative_gap": "0.0",
+      "solver": "SCIPY_HIGHS_LP",
+      "stage": "MINIMUM_ALL_SUPPLY_PURCHASE_COST",
+      "status_code": 0
+    },
+    {
+      "dual_bound": "194.6942396452818",
+      "frozen_upper_bound": "194.694239839976",
+      "has_incumbent": true,
+      "incumbent_objective": "194.6942396452818",
+      "lexicographic_absolute_tolerance": "1.9469423964528177E-7",
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "node_count": 0,
+      "optimal": true,
+      "relative_gap": "0.0",
+      "solver": "SCIPY_HIGHS_LP",
+      "stage": "MINIMUM_TRANSPORT_LOSS_AT_FROZEN_COST",
+      "status_code": 0
+    }
+  ],
+  "raw_reader": "INDEPENDENT_STDLIB_XLSX_XML_WITH_COORDINATE_FILTER_BEFORE_NUMERIC_VALUE_PARSING",
+  "raw_numeric_columns_read": "W001-W168",
+  "raw_parameter_comparisons": 1214,
+  "maximum_exact_raw_parameter_difference_key": "S229:supplier_supply_capacity_m3",
+  "maximum_exact_raw_parameter_difference": "57549532250814416692828632218857868180280111893542424975382104861784836343853/316980904315332034427207563556970364687077933371030983484063989015652326458701250000000000",
+  "maximum_exact_raw_parameter_difference_decimal": "1.815552024344161923026778515794119933574755850942507533929720595905779E-13",
+  "run_git_hash_log_bindings_consistent": true,
+  "external_git_remote_event_independently_observed": false,
+  "optimization_invocations": 0,
+  "original_producer_invocations": 0,
+  "constructor_invocations": 0
+}

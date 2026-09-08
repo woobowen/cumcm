@@ -191,3 +191,22 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  Supplementary2021 Q4 rational certificate PASS atbf34549: exact interval
  [40246.40307264615,40246.40311289259]m3.2021 budget9/9 consumed; whole-problem false.
  M5current fullCI, consolidated report and remote terminal/final delivery remain pending.
+
+- 2026-09-08T23:36:40.979821+00:00: M5 local6be924e fullCI2151passed/2failed/1skip and actual remotePR merge
+ 22c0972 same counts. Fifteen required supplemental checks PASS; complete CI remains FAIL.
+ Both terminals remotely delivered. Q4 native audit PASS within fixed LP scope; its rounded
+ display warning is handled by a separate outward interval addendum, original files unchanged.
+ Earlier progress-line decimal Q4 endpoints are approximate; strict display uses
+ [40246.40307264614,40246.40311289260]. Composite report/recovery documents now drafted.
+ One final native read-only delivery-consistency review may inspect a fixed report bundle; it
+ cannot modify shared files, state, Git, terminal decisions, or run models/Final. Main remains
+ sole public writer. Engineering closure remains INCOMPLETE until current CI blockers are repaired
+ under a new coherent maintenance/candidate subject; no hash exception or rerun is granted.
+
+- 2026-09-08T23:56:18.105571+00:00: final report first native consistency audit FAIL identified five wording errors.
+ All five corrected; a separate short native re-review PASS is limited to those corrections.
+ Original report/audit FAIL and actual tool receipts preserved. Public Q4 script transcripts use
+ lossless JSON source encoding; original decoded bytes/hashes and syntax verified, no lint or
+ whitespace rule changed. M5 content ready for final content commit/CI/push. Existing engineering
+ and scientific BLOCKERs remain, no shared repair/new candidate or terminal rerun is authorized
+ by this report review. Prospective10 neutral repair cases are recorded as NOT_EXECUTED.
