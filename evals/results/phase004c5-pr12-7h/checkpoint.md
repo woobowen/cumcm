@@ -30,6 +30,7 @@
 | M0-check | 09:59 | created this bounded evidence directory and recorded clock references | no formal state or frozen artifact changed |
 | M1-pre-repair | 10:02 | inspected both existing RC7 Development workspaces and ran frozen neutral cases | real contradiction: `authorized=true,count=1` with no final ledger; neutral positive failed with legacy unauthorized reason |
 | M1-minimal-fix | 10:08 | added explicit `DEVELOPMENT_NO_FINAL_EVALUATION` access mode and three negative/positive contract cases | focused neutral suite `4 passed`; formal Final/legacy zero-access path remains fail-closed |
+| M1-route-replay | 10:12–10:13 | reran the real current Development route after remote-bound commit `87ee158` | 2022 attempt 7 and 2021 attempt 2 each produced 3 valid runs and `READY_FOR_PAPER_HANDOFF`; both report zero Final access |
 
 Unknown at M0: session token input/cached/output counters and remote CI result for this new continuation. They will be reported only when observable.
 
@@ -38,6 +39,12 @@ M1 evidence: the two pre-existing Development workspaces have no
 authorized access. The new neutral contract requires `authorized=false`, `count=0`,
 `evaluator_invoked=false`, and `ledger_status=NOT_ACCESSED`. A Development record claiming
 `count=1` is rejected; an implicit/legacy record with `count=0` remains rejected.
+
+Current replay evidence is isolated under `evals/results/phase004c5-pr12-7h/development/`:
+
+- 2022 attempt 7: evidence SHA-256 `540d2f17fe6c4f000c1373bdb0c927e2cf66e0c1fafb530d70ffee815fe85251`.
+- 2021 attempt 2: evidence SHA-256 `854851058df5ea92afa48f9ee903428e1eb7313de143e9fb5e716c591db10f27`.
+- Both records bind execution code commit `87ee158df3c8fdf0e072f046c1c0dfd5db55c284`, observed UTC timing, 14 history-derived PASS stages, `DEVELOPMENT_NO_FINAL_EVALUATION`, and `count=0`.
 
 ## Protection boundaries
 
