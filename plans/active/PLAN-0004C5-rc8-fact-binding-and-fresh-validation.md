@@ -145,3 +145,12 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  also remotely verified. OfficialC-only DOCX/XLSX input hashes registered, fresh-context worker
  dispatched. Planned2/started1/completed0/passed0; episode deadline22:37:30Z including preparation
  and review. Case pre-run remote freeze and numerical captures are still pending.
+
+- 21:13Z:2016 code subjectbee0a94 and bound pre-run freezeb71d00f remotely verified before
+ the first numerical capture. Same-case preparation revision1 preserved STALE; revision2 uses
+ actual PARTIAL data sufficiency, two planned candidates/four maximum total captures, Final0.
+ Audited worksheet labels and missing future truth prevent an untouched prediction-test claim.
+ Main reviewed protocol consistency; worker chose all case models and no developer model recipe
+ was supplied. The frozen shared772 paths remain unchanged. Current delivery CI has a preserved
+ historical eight-case-count assertion failure; the separate new-registry-field error was repaired
+ and its focused test passes. This does not replace or relabel the passing candidate-subject CI.

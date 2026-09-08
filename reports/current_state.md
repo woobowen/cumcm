@@ -23,11 +23,11 @@
 - Content-verified commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Delivery receipt commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-08T20:47:03Z` by `main-agent`
+- Updated: `2026-09-08T21:14:57.875861+00:00` by `main-agent`
 
 ## Blockers
 
-- None
+- CURRENT_DELIVERY_CI_HISTORICAL_CASE_COUNT_ASSERTION
 
 ## Risks
 
@@ -71,3 +71,4 @@
 - 2021 and 2022 remain exposed Development with whole-problem scientific completion false; 15 new captures and negative outcomes are preserved.
 - Legacy batch001 fields describe the inherited Development batch; fresh RC8 planned denominator2 is separately frozen in the candidate protocol. Fresh answers remain sealed.
 - RC8 activation8ef732b was verified at the designated remote before fresh input access; this is research/Validation qualification only.
+- Fresh registration exposes a CI test that hardcodes eight historical cases; current delivery CI fails with the ninth case. The frozen 29cf1d7 candidate CI remains a separate passing observation. Shared/test bytes are unchanged during both planned Validation episodes; this delivery blocker is preserved, not skipped.
