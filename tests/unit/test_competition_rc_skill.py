@@ -27,9 +27,28 @@ def case_cli(skill_root: Path):
     return module
 
 
-def test_skill_is_competition_rc_and_has_one_workflow_set(skill_root: Path) -> None:
+def test_skill_is_competition_rc_and_has_one_workflow_set(
+    skill_root: Path, repo_root: Path, case_cli
+) -> None:
     skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
-    assert "Version: `0.2.0-competition-rc8`" in skill
+    state = json.loads((repo_root / "state/project_state.json").read_text())
+    versions = {
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5": (
+            "0.3.0-competition-rc8",
+            "0.2.0-competition-rc8",
+        ),
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6": (
+            "0.3.0-competition-rc9",
+            "0.2.0-competition-rc9",
+        ),
+    }
+    project_version, skill_version = versions[state["phase"]]
+    assert (repo_root / "VERSION").read_text().strip() == project_version
+    assert (skill_root / "VERSION").read_text().strip() == skill_version
+    assert skill_version == case_cli.VERSION
+    if state["phase"].endswith("004C6"):
+        assert state["target_candidate_version"] == skill_version
+    assert f"Version: `{skill_version}`" in skill
     assert "COMPETITION_RC" in skill
     assert len(list((skill_root / "workflows").glob("*.md"))) == 14
     assert len([path for path in (skill_root / "agents").glob("*.md")]) == 4

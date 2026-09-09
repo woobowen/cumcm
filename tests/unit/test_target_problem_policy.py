@@ -53,6 +53,30 @@ def test_target_problem_policy_accepts_canonical_strategy(repo_root: Path) -> No
 @pytest.mark.parametrize(
     ("field", "value", "reason"),
     [
+        ("formal_skill_commit", "0" * 40, "TARGET_CASE_SKILL_COMMIT_ALIAS_DRIFT"),
+        ("formal_skill_version", "0.2.0-competition-rc8", "TARGET_CASE_SKILL_VERSION_ALIAS_DRIFT"),
+        ("generalization_axis", [], "TARGET_CASE_AXIS_INVALID"),
+        ("target_problem_type", None, "TARGET_CASE_FIELDS_MISSING"),
+    ],
+)
+def test_new_development_keeps_target_contract(repo_root, tmp_path, field, value, reason):
+    root = _copy_target_inputs(repo_root, tmp_path / "project")
+    path = root / "benchmarks/case_registry.yaml"
+    registry = _yaml(path)
+    child = next(
+        c for c in registry["cases"] if c["evidence_role"] == "DEVELOPMENT_AFTER_VALIDATION"
+    )
+    if value is None:
+        child.pop(field)
+    else:
+        child[field] = value
+    _write_yaml(path, registry)
+    assert f"{reason}:{child['case_id']}" in evaluate(root)["errors"]
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "reason"),
+    [
         ("primary_target", "A", "TARGET_POLICY_FIELD_MISMATCH:primary_target"),
         ("validation_target", "A", "TARGET_POLICY_FIELD_MISMATCH:validation_target"),
         ("a_problem_role", "PRIMARY", "TARGET_POLICY_FIELD_MISMATCH:a_problem_role"),

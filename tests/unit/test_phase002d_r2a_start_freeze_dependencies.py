@@ -217,7 +217,22 @@ def test_r2_to_r2a_state_transition_is_registered(repo_root):
 
 def test_r3_plan_is_preserved_after_successor_advances(repo_root):
     plans = list((repo_root / "plans/active").glob("*.md"))
-    assert [item.name for item in plans] == ["PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"]
+    state = _json(repo_root / "state/project_state.json")
+    Draft202012Validator(_json(repo_root / "contracts/project_state.schema.json")).validate(state)
+    phase_plans = {
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5": (
+            "PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"
+        ),
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6": "PLAN-0004C6-rc9-repair-and-development.md",
+    }
+    expected = phase_plans[state["phase"]]
+    assert state["current_plan"] == f"plans/active/{expected}"
+    assert [item.name for item in plans] == [expected]
+    if state["phase"].endswith("004C6"):
+        previous = "PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"
+        assert (repo_root / "plans/archived" / previous).read_bytes() == git_file_bytes(
+            repo_root, "bcf498907cbf282e2c79580ea56b043fc1a7b52b", f"plans/active/{previous}"
+        )
     assert (
         repo_root / "plans/completed/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md"
     ).is_file()

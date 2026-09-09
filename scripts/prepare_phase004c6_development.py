@@ -15,6 +15,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
+
 REPO = Path(__file__).resolve().parents[1]
 PHASE = REPO / "evals/results/phase-004c6"
 CORE = REPO / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
@@ -201,8 +203,23 @@ def prepare(year, subject):
         != subject
     ):
         raise ValueError("EXACT_SUBJECT_SHA_REQUIRED")
-    binding = core.load_json(own / "registration/case_registration.json")
-    if binding["shared_subject"] != subject:
+    registry = yaml.safe_load((REPO / "benchmarks/case_registry.yaml").read_text())
+    matches = [case for case in registry["cases"] if case["case_id"] == CASES[year]]
+    if len(matches) != 1:
+        raise ValueError("UNIQUE_CHILD_REGISTRATION_REQUIRED")
+    registered = matches[0]
+    registration_path = (REPO / registered["registration"]["path"]).resolve()
+    if not registration_path.is_relative_to(own / "registration"):
+        raise ValueError("CHILD_REGISTRATION_PATH_INVALID")
+    if core.file_hash(registration_path) != registered["registration"]["sha256"]:
+        raise ValueError("CHILD_REGISTRATION_HASH_MISMATCH")
+    binding = core.load_json(registration_path)
+    if (
+        binding["shared_subject"] != subject
+        or binding["case_id"] != CASES[year]
+        or binding["case_root"] != design["case_root"]
+        or binding["development_design_sha256"] != core.file_hash(own / "development_design.json")
+    ):
         raise ValueError("SHARED_SUBJECT_REGISTRATION_MISMATCH")
     core.initialize_case(root, CASES[year], "general")
     parent = PARENTS[year]
@@ -421,7 +438,7 @@ def prepare(year, subject):
             "created_at": core.utc_now(),
             "parent_input_hashes": audit["data_hashes"],
             "model_processes_started": 0,
-            "registration_sha256": core.file_hash(own / "registration/case_registration.json"),
+            "registration_sha256": core.file_hash(registration_path),
         },
         overwrite=False,
     )
