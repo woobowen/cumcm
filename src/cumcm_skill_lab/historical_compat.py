@@ -122,6 +122,7 @@ def competition_rc_successor(root: Path) -> bool:
             "0.2.0-competition-rc7",
             "0.2.0-competition-rc8",
             "0.2.0-competition-rc9",
+            "0.2.0-competition-rc10",
         }
     )
     return rc1_ready or development_successor or c_target_successor

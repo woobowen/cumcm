@@ -1,0 +1,51 @@
+{
+  "schema_version": "modular-workbench-engineering-protocol/v1",
+  "authorization": "CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md",
+  "active_plan": "plans/active/PLAN-0004C7-modular-workbench.md",
+  "scope": "MODULAR_WORKBENCH_ENGINEERING_ONLY",
+  "target_skill_version": "0.2.0-competition-rc10",
+  "historical_anchor": "604c7facda586cecb6785c44949f0cd1217cd297",
+  "module_catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+  "frozen_design": {
+    "module_count": 14,
+    "public_families": ["prediction", "optimization", "mixed"],
+    "mixed_primary_requirements_minimum": 3,
+    "required_known_scope": ["REQ-Q3"],
+    "known_original_available": true,
+    "known_budget_per_revision": {
+      "model_cli_starts": 4,
+      "independent_checker_starts": 6,
+      "final_starts": 1
+    },
+    "known_maximum_revisions": 2,
+    "default_scenario_and_equivalent_explicit_required": true,
+    "negative_boundaries_required": [
+      "wrong_scenario", "input_change", "future_information", "infeasible_solution",
+      "missing_primary_question", "scope_conflict", "single_module_stop", "writer_lock",
+      "interrupted_request", "one_shot_final", "partial_not_whole", "local_dependency_stale",
+      "idempotent_request_export_feedback", "credential_and_injection_rejection",
+      "wrong_case_package_hash", "malformed_and_archive_feedback_rejection"
+    ],
+    "native_protocol_review_required": true,
+    "native_restricted_context_worker_required": true,
+    "independent_python_recalculation_separate": true,
+    "full_ci_current_implementation_required": true,
+    "decision_auditor_required_after_machine_decision": true
+  },
+  "acceptance_order": [
+    "freeze actual implementation, module guides, templates and rules",
+    "complete actual case/module and negative evidence on that implementation",
+    "complete native review and close evidence-backed findings",
+    "run current full CI and strict checks",
+    "bind matrix and receipts; replay deterministic engineering decision",
+    "native read-only Decision Auditor checks the frozen decision",
+    "activate only the bounded engineering tuple if all predecessors pass",
+    "ordinary task-branch delivery and exact remote verification"
+  ],
+  "old_validation": {"passed": 0, "total": 2},
+  "new_independent_validation": 0,
+  "whole_known_problem_completed": false,
+  "real_web_review": "NOT_RUN",
+  "team_compliance_review": "NOT_RUN",
+  "automatic_case_publication": false
+}

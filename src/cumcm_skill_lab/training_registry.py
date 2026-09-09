@@ -15,6 +15,8 @@ from jsonschema import Draft202012Validator
 
 HISTORY_SUBJECT = "bcf498907cbf282e2c79580ea56b043fc1a7b52b"
 PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"
+WORKBENCH_PHASE = "PHASE-SKILL-MODULAR-WORKBENCH-004C7"
+WORKBENCH_ROOT = "evals/results/modular-workbench-001"
 REQUIRED_FIELDS = {
     "case_id",
     "set_type",
@@ -104,29 +106,36 @@ def validate_registry(
                 errors.append(f"REGISTRY_HISTORY_DRIFT:{cid}")
             continue
         reg = registrations.get(cid)
-        if (
-            not isinstance(reg, dict)
-            or reg.get("schema_version") != "postvalidation-development-registration/v1"
-        ):
+        if not isinstance(reg, dict) or reg.get("schema_version") not in {
+            "postvalidation-development-registration/v1",
+            "module-usability-development-registration/v1",
+        }:
             errors.append(f"CASE_REGISTRATION_MISSING:{cid}")
             continue
         parent = old.get(reg.get("parent_case_id"), {})
+        workbench = reg["schema_version"] == "module-usability-development-registration/v1"
         identity = {
             "case_id": cid,
             "set_type": "DEVELOPMENT",
-            "evidence_role": "DEVELOPMENT_AFTER_VALIDATION",
+            "evidence_role": "MODULE_USABILITY_DEVELOPMENT"
+            if workbench
+            else "DEVELOPMENT_AFTER_VALIDATION",
             "independent_problem": False,
             "contamination_status": "KNOWN_PROBLEM_AND_PRIOR_RESULTS",
             "answer_access_status": "SEALED",
             "unlock_time": None,
-            "skill_version": "0.2.0-competition-rc9",
+            "skill_version": "0.2.0-competition-rc10" if workbench else "0.2.0-competition-rc9",
         }
         if any(case.get(k) != v or reg.get(k) != v for k, v in identity.items()):
             errors.append(f"CASE_DEVELOPMENT_IDENTITY_INVALID:{cid}")
         if (
-            reg.get("phase") != PHASE
+            reg.get("phase") != (WORKBENCH_PHASE if workbench else PHASE)
             or reg.get("authorization_path")
-            != "evals/results/phase-004c6/qualification/proposal.json"
+            != (
+                "CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md"
+                if workbench
+                else "evals/results/phase-004c6/qualification/proposal.json"
+            )
             or parent.get("set_type") != "VALIDATION"
             or parent.get("first_run_status") != "FROZEN"
             or reg.get("parent_terminal_path") != parent.get("terminal_decision")
@@ -141,7 +150,11 @@ def validate_registry(
         case_root = reg.get("case_root", "")
         if (
             not isinstance(case_root, str)
-            or not case_root.startswith(".cache/pr12-rc9/development/")
+            or not case_root.startswith(
+                ".cache/modular-workbench-001/known/"
+                if workbench
+                else ".cache/pr12-rc9/development/"
+            )
             or ".." in Path(case_root).parts
             or case_root in roots
         ):
@@ -152,7 +165,7 @@ def validate_registry(
             type(budget.get(k)) is not int or not 1 <= budget[k] <= limit
             for k, limit in (
                 ("model_cli_starts", 4),
-                ("independent_checker_starts", 4),
+                ("independent_checker_starts", 6 if workbench else 4),
                 ("final_starts", 1),
             )
         ):
@@ -184,12 +197,15 @@ def validate_registry(
 
 def validate_development_terminal(case: dict[str, Any], terminal: Any) -> list[str]:
     cid = case["case_id"]
+    workbench = case.get("evidence_role") == "MODULE_USABILITY_DEVELOPMENT"
     expected = {
-        "schema_version": "postvalidation-development-terminal/v1",
-        "phase": PHASE,
+        "schema_version": "module-usability-development-terminal/v1"
+        if workbench
+        else "postvalidation-development-terminal/v1",
+        "phase": WORKBENCH_PHASE if workbench else PHASE,
         "case_id": cid,
         "subject_commit": case["skill_commit"],
-        "skill_version": "0.2.0-competition-rc9",
+        "skill_version": "0.2.0-competition-rc10" if workbench else "0.2.0-competition-rc9",
         "independent_validation": False,
         "parent_terminal_sha256": case["parent_terminal_sha256"],
         "decision_id": "DECISION-" + cid,
@@ -222,7 +238,9 @@ def repository_registry_errors(root: Path, registry: dict[str, Any]) -> list[str
         try:
             relative = binding["path"]
             path = (root / relative).resolve()
-            if not path.is_relative_to(root / "evals/results/phase-004c6"):
+            workbench = case.get("evidence_role") == "MODULE_USABILITY_DEVELOPMENT"
+            base = WORKBENCH_ROOT if workbench else "evals/results/phase-004c6"
+            if not path.is_relative_to(root / base):
                 raise ValueError("registration outside authorized evidence root")
             data = path.read_bytes()
             if hashlib.sha256(data).hexdigest() != binding["sha256"]:
@@ -242,9 +260,7 @@ def repository_registry_errors(root: Path, registry: dict[str, Any]) -> list[str
             registrations[case["case_id"]] = reg
             if case.get("first_run_status") == "FROZEN":
                 binding = case["terminal_decision"]
-                expected_path = (
-                    f"evals/results/phase-004c6/{case['case_id']}/terminal/decision.json"
-                )
+                expected_path = f"{base}/{case['case_id']}/terminal/decision.json"
                 if binding["path"] != expected_path:
                     raise ValueError("child terminal path")
                 data = (root / expected_path).read_bytes()

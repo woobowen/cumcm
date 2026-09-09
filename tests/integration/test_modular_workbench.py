@@ -9,6 +9,163 @@ from pathlib import Path
 import pytest
 
 
+def build_water(repo_root, root, *, stop="M14", kind="mixed"):
+    process = subprocess.run(
+        [
+            sys.executable,
+            str(repo_root / "scripts/exercise_modular_workbench.py"),
+            "--build-exercise",
+            "--case-root",
+            str(root),
+            "--kind",
+            kind,
+            "--stop-after",
+            stop,
+        ],
+        capture_output=True,
+        text=True,
+        timeout=180,
+        check=False,
+    )
+    assert process.returncode == 0, (process.stdout, process.stderr)
+    return process
+
+
+def test_context_and_local_staleness_follow_actual_dependencies(wb, repo_root, tmp_path):
+    root = tmp_path / "case"
+    build_water(repo_root, root, stop="M04")
+    cli(wb, root, "context-export", "--output", "contexts/before")
+    assert (
+        cli(wb, root, "context-verify", "--context", "contexts/before/context.json")["status"]
+        == "CONTEXT_CURRENT"
+    )
+    path = root / wb.core.ARTIFACT_PATHS["assumptions_and_symbols"]
+    path.write_text(path.read_text() + "\n")
+    rows = {row["module"]: row["status"] for row in cli(wb, root, "status")["modules"]}
+    assert rows == {"M01": "COMPLETED", "M02": "COMPLETED", "M03": "COMPLETED", "M04": "STALE"}
+    assert (
+        "WB_CONTEXT_STALE"
+        in cli(
+            wb, root, "context-verify", "--context", "contexts/before/context.json", accepted=False
+        )["reason_codes"][0]
+    )
+    assert (
+        "WB_PREREQUISITE_MISSING_OR_STALE"
+        in cli(wb, root, "prepare", "--module", "M05", accepted=False)["reason_codes"][0]
+    )
+    assert cli(wb, root, "resume")["recovery"]["automatic_starts"] == 0
+
+
+def test_scoped_child_has_own_identity_and_no_parent_acceptance(wb, repo_root, tmp_path):
+    root, child = tmp_path / "case", tmp_path / "child"
+    build_water(repo_root, root, stop="M03")
+    before = wb.core.file_hash(wb.core.state_path(root))
+    bad = cli(
+        wb,
+        root,
+        "scoped-child",
+        "--destination",
+        str(child),
+        "--case-id",
+        "ORIGINAL-SCOPE",
+        "--scope",
+        "REQ-A",
+        accepted=False,
+    )
+    assert bad["reason_codes"] == ["WB_SCOPED_CHILD_DEPENDENCY_MISSING"]
+    args = [
+        "scoped-child",
+        "--destination",
+        str(child),
+        "--case-id",
+        "ORIGINAL-SCOPE",
+        "--scope",
+        "REQ-B",
+    ]
+    result = cli(wb, root, *args)
+    assert result["aggregate_parent_completion"] is False
+    assert cli(wb, root, *args)["status"] == "EXISTING_CHILD"
+    requirements = wb.core.read_artifact(child, "problem_requirements")["content"]
+    assert requirements["case_id"] == "ORIGINAL-SCOPE"
+    assert [r["requirement_id"] for r in requirements["requirements"]] == ["REQ-B"]
+    assert wb.core.load_state(child)["state"] == "CREATED"
+    assert not list((child / "runs").glob("*/execution_capture.json"))
+    assert wb.core.file_hash(wb.core.state_path(root)) == before
+    revised = tmp_path / "revised"
+    assert (
+        cli(wb, root, "revision", "--destination", str(revised), "--case-id", "ORIGINAL-REVISION")[
+            "status"
+        ]
+        == "NEW_REVISION"
+    )
+    assert wb.policy(revised)["revision"] == 2
+    assert cli(wb, revised, "status")["modules"] == []
+
+
+def test_prepared_resume_and_failed_operation_never_restart_implicitly(wb, repo_root, tmp_path):
+    root = tmp_path / "case"
+    build_water(repo_root, root, stop="M08")
+    request = cli(wb, root, "prepare", "--module", "M09", "--request-id", "INTERRUPTED")["request"]
+    assert (
+        cli(wb, root, "prepare", "--module", "M09", "--request-id", "INTERRUPTED")["request"]
+        == request
+    )
+    assert cli(wb, root, "resume", "--request", "INTERRUPTED")["recovery"]["automatic_starts"] == 0
+    args = [
+        "run",
+        "--request",
+        "INTERRUPTED",
+        "--operation",
+        "model",
+        "--candidate",
+        "BASE",
+        "--seed",
+        "20260906",
+        "--run-id",
+        "RUN-ABSENT",
+        "--code",
+        "models/missing.py",
+    ]
+    assert cli(wb, root, *args, accepted=False)["status"] == "BLOCK"
+    assert cli(wb, root, *args, accepted=False)["reason_codes"] == [
+        "WB_OPERATION_STARTED_OR_FAILED_REQUIRES_RECOVERY"
+    ]
+    before = wb.core.file_hash(wb.core.state_path(root))
+    resumed = cli(wb, root, "resume", "--request", "INTERRUPTED")
+    assert resumed["operations"][0]["status"] == "FAILED"
+    assert resumed["recovery"]["automatic_starts"] == 0
+    assert wb.core.file_hash(wb.core.state_path(root)) == before
+    assert not list((root / "runs").glob("*/execution_capture.json"))
+    assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
+
+
+@pytest.mark.parametrize("kind", ["prediction", "optimization", "mixed"])
+def test_real_fourteen_module_water_path_stops_and_preserves_one_final(
+    wb, repo_root, tmp_path, kind
+):
+    root = tmp_path / kind
+    build_water(repo_root, root, stop="M09", kind=kind)
+    assert wb.core.load_state(root)["state"] == "RUNNING"
+    assert len(list((root / "runs").glob("*/execution_capture.json"))) == 2
+    assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (root / "evidence/module_requests/WATER-M10").exists()
+    late = cli(wb, root, "run", "--request", "WATER-M09", "--operation", "model", accepted=False)
+    assert late["reason_codes"] == ["WB_MODULE_ALREADY_COMPLETED"]
+    build_water(repo_root, root, kind=kind)
+    state = cli(wb, root, "status")
+    assert len(state["modules"]) == 14
+    assert all(row["status"] == "COMPLETED" for row in state["modules"])
+    assert wb.core.load_state(root)["state"] == "READY_FOR_PAPER_HANDOFF"
+    ledger = wb.core.load_json(root / wb.core.SCIENTIFIC_FINAL_LEDGER)
+    assert ledger["count"] == 1 and ledger["status"] == "SUCCESS"
+    before = wb.core.file_hash(root / wb.core.SCIENTIFIC_FINAL_LEDGER)
+    assert cli(
+        wb, root, "run", "--request", "WATER-M12", "--operation", "controller", accepted=False
+    )["reason_codes"] == ["WB_MODULE_ALREADY_COMPLETED"]
+    cli(wb, root, "complete", "--request", "WATER-M12", "--report", "work/M12.json")
+    assert wb.core.file_hash(root / wb.core.SCIENTIFIC_FINAL_LEDGER) == before
+
+
 @pytest.fixture
 def wb(repo_root, monkeypatch):
     scripts = repo_root / ".agents/skills/cumcm-modeling-evidence/scripts"

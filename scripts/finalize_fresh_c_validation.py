@@ -476,6 +476,13 @@ def complete(
         raise ValueError("RC_CONTROLLER_STOP_INVALID")
     core = load_core()
     state = core.load_state(case_root)
+    policy_path = case_root / "state/case_policy.json"
+    if policy_path.exists():
+        policy = core.load_json(policy_path)
+        if state["evidence_bindings"].get("state/case_policy.json") != core.file_hash(policy_path):
+            raise ValueError("RC_CONTROLLER_CASE_POLICY_CHANGED")
+        if policy.get("mode") == "GUIDED_LOCAL" and stop_at is None:
+            raise ValueError("RC_GUIDED_FULL_CONTROLLER_REQUIRES_SINGLE_MODULE")
     if state["state"] != "RUNNING":
         raise ValueError("VALIDATION_COMPLETION_STATE_INVALID")
     if (case_root / COMPLETION_RELATIVE).exists() or (case_root / TRACE_RELATIVE).exists():

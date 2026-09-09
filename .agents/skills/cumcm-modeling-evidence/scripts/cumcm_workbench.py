@@ -575,6 +575,7 @@ def derive_case(root, destination, case_id, scope, *, revision=False):
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(safe_path(root, relative), target)
         requirements["requirements"] = selected
+        requirements["case_id"] = case_id
         core.write_json(
             destination / core.ARTIFACT_PATHS["problem_requirements"],
             core.artifact("problem_requirements", requirements),

@@ -5643,9 +5643,40 @@ def consume_start_budget(
     """Count actual process starts, including independent verification replays."""
     plan = read_artifact(case_root, "experiment_plan")["content"]
     limits = (plan.get("evaluation_design") or {}).get("start_budget")
+    maximum = {"model_cli_starts": 4, "independent_checker_starts": 4, "final_starts": 1}
+    policy_path = case_root / "state/case_policy.json"
+    if policy_path.exists():
+        state = load_state(case_root)
+        policy = load_json(policy_path)
+        if (
+            policy_path.is_symlink()
+            or policy.get("schema_version") != "case-policy/v1"
+            or policy.get("case_id") != state["case_id"]
+            or state["evidence_bindings"].get("state/case_policy.json") != file_hash(policy_path)
+        ):
+            raise ValueError("RC_EXECUTION_BUDGET_POLICY_INVALID")
+        if policy.get("mode") == "GUIDED_LOCAL":
+            # User-declared local budgets are positive integers, not an inherited
+            # historical four-request experiment. Final remains one-shot.
+            maximum = (
+                {
+                    "model_cli_starts": limits.get("model_cli_starts", 0),
+                    "independent_checker_starts": limits.get("independent_checker_starts", 0),
+                    "final_starts": 1,
+                }
+                if isinstance(limits, dict)
+                else maximum
+            )
+        elif policy.get("mode") == "LAB_EVAL" and policy.get("budget_protocol") == (
+            "MODULE_USABILITY_DEVELOPMENT_V1"
+        ):
+            if not isinstance(limits, dict) or policy.get("start_budget") != limits:
+                raise ValueError("RC_EXECUTION_BUDGET_POLICY_INVALID")
+            maximum = {"model_cli_starts": 4, "independent_checker_starts": 6, "final_starts": 1}
+        elif policy.get("mode") != "LAB_EVAL":
+            raise ValueError("RC_EXECUTION_BUDGET_POLICY_INVALID")
     if limits is None:
         return
-    maximum = {"model_cli_starts": 4, "independent_checker_starts": 4, "final_starts": 1}
     if (
         not isinstance(limits, dict)
         or set(limits) != set(maximum)
