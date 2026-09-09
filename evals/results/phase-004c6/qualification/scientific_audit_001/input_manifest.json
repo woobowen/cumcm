@@ -1,0 +1,75 @@
+{
+  "subject": "7ed9dd18c35bed79cc9dd4e96926fef9b35b7e81",
+  "inputs": [
+    {
+      "path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "git_blob": "2e52d55eac14ad1c44180498b3136be036b8e598",
+      "sha256": "c685698cc633b75b43e07d555f3da41c50cf9092128d34280665f5d04c12aee4"
+    },
+    {
+      "path": "tests/fixtures/rc9_science_model.py",
+      "git_blob": "1fcdfa66ccd9bdafe52b567eae9b18522567026e",
+      "sha256": "361af1562f97fd5c6b18872537412a32635328213a8e70071b0b10643e724351"
+    },
+    {
+      "path": "tests/fixtures/rc9_science_checker.py",
+      "git_blob": "a0a1e392b1b632e8092136b2f493a4b8cece9512",
+      "sha256": "c1cc327aabe5cd3bfe26762533d8d7865f677bf5792676ce303d6f52fb54ef99"
+    },
+    {
+      "path": "tests/integration/test_rc9_science_semantics.py",
+      "git_blob": "b027805a7073dbd53d60b81ad76404470b952a67",
+      "sha256": "64072774cf4c2f7ba4b51fd034369d51f1cf18e0428ad3daf3d0bc9c9699b7fc"
+    },
+    {
+      "path": ".agents/skills/cumcm-modeling-evidence/references/rc9_science_contracts.md",
+      "git_blob": "9a15e412467dfff16d386d95435d69b40ba419d3",
+      "sha256": "e81db6c1b186e6a9128ffbe3639eff217ddb616da3ba3df2b4d1258439e92f67"
+    },
+    {
+      "path": "CUMCM_PR12_RC9_REPAIR_AND_DEVELOPMENT_PLAN.md",
+      "git_blob": "5e6e892f8534ea6c22147afdce18d535328fed1e",
+      "sha256": "c5aa9cae6ffb559e7d7fb43f4d0062a0b267b87aaf3aa1544ad35dbdf7fd24eb"
+    },
+    {
+      "path": ".agents/skills/cumcm-modeling-evidence/AGENTS.md",
+      "git_blob": "0eb4666dcf40e6b642a255e1f5d50c32b025fc2a",
+      "sha256": "b917d5113962907b83ff170c2ef7249c4bf6a716448dc0fb7c7d32a946ca7039"
+    },
+    {
+      "path": "tests/AGENTS.md",
+      "git_blob": "603606ff8bbeee890b7db2bb1e3bd8b6bd87e16e",
+      "sha256": "91ddd0a14ad5af3dfb63f2ac1e0e459b1ec2feff90a03c04e4de73e3c2098bd6"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "REVIEW.md",
+      "sha256": "43d553c544b508af18ddd5950164c6ad5ddddaf49186aeab23b92fee78d38050",
+      "bytes": 11563
+    },
+    {
+      "path": "math_probe.py",
+      "sha256": "5761bccf32298453a4767f9cec1f2bcbb8343858fea66682bf53a86cb067a224",
+      "bytes": 12344
+    },
+    {
+      "path": "math_probe_results.json",
+      "sha256": "03d736aa8bb01d939f3438552d9dd274d698dd5faf8e695bfbd1fd622f80c407",
+      "bytes": 5197
+    },
+    {
+      "path": "probe_assumptions.json",
+      "sha256": "aa2acdb12303a41cf0c84003b5a2f74ecdcff5a91a24973c35cf4f9086659a9a",
+      "bytes": 37
+    },
+    {
+      "path": "probe_temporal_index.json",
+      "sha256": "8a19d2d0c530fc352ac9ffcc4ca6a310e944c65b309db3c99fc3363c9368df0f",
+      "bytes": 1287
+    }
+  ],
+  "exclusions": [
+    "Manifest self-hash and command_log.json are excluded to avoid circular provenance; actual commands/results remain in command_log.json."
+  ]
+}

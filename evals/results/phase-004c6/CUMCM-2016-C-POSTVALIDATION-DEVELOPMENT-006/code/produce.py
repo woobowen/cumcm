@@ -10,7 +10,6 @@ from pathlib import Path
 import numpy as np
 from openpyxl import load_workbook
 from scipy.interpolate import PchipInterpolator, PPoly
-from scipy.optimize import brentq
 
 REQS = ["REQ-Q1", "REQ-Q2", "REQ-Q3"]
 SOURCE = "SRC-CUMCM-2016-C-WORKBOOK"
@@ -108,11 +107,36 @@ def surface(polys, durations, current, candidate):
             np.asarray(s) * durations[hi]
         )
 
+    # Form the exact piecewise cubic on the union of normalized knots. This
+    # handles nonmonotone relaxation explicitly instead of assuming one root.
+    knots = sorted(set(polys[lo].x / durations[lo]) | set(polys[hi].x / durations[hi]))
+    merged = [knots[0]]
+    for value in knots[1:]:
+        if value - merged[-1] > 1e-12:
+            merged.append(value)
+    merged[-1] = 1.0
+    pieces = []
+    for left, right in zip(merged[:-1], merged[1:], strict=True):
+        center = (left + right) / 2
+        shift = center - left
+        derivatives = [
+            (1 - w) * polys[lo].derivative(n)(center * durations[lo]) * durations[lo] ** n
+            + w * polys[hi].derivative(n)(center * durations[hi]) * durations[hi] ** n
+            for n in range(4)
+        ]
+        d0, d1, d2, d3 = derivatives
+        pieces.append(
+            [
+                d3 / 6,
+                d2 / 2 - d3 * shift / 2,
+                d1 - d2 * shift + d3 * shift**2 / 2,
+                d0 - d1 * shift + d2 * shift**2 / 2 - d3 * shift**3 / 6,
+            ]
+        )
+    combined = PPoly(np.asarray(pieces).T, merged, extrapolate=False)
+
     def time_at(u):
-        # All evaluation voltages are below the transient/plateau.
-        if abs(float(voltage(1)) - u) < 1e-9:
-            return float(duration)
-        return float(duration * brentq(lambda s: float(voltage(s)) - u, 0, 1, xtol=1e-13))
+        return float(duration * crossing(combined, u))
 
     return (
         voltage,

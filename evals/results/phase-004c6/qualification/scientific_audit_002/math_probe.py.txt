@@ -1,0 +1,165 @@
+"""Synthetic-only review probes for 8f5ad25. Never execute a case or model main."""
+import ast
+import bisect
+import copy
+import hashlib
+import json
+import math
+from fractions import Fraction
+from pathlib import Path
+import subprocess
+from typing import Any
+
+ROOT=Path(__file__).resolve().parent
+SUBJECT="8f5ad2514454cad8dd830c31fd1c4eb3aed9b0b7"
+CORE=".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+CHECK16="evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/check.py"
+sources={p:subprocess.check_output(["git","show",SUBJECT+":"+p],text=True) for p in [CORE,CHECK16]}
+artifacts={}
+def file_hash(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+env={"Any":Any,"Path":Path,"math":math,"bisect":bisect,
+     "relative_case_path":lambda root,rel:root/rel,"file_hash":file_hash,
+     "load_json":lambda path:json.loads(path.read_text()),
+     "read_artifact":lambda root,name:{"content":artifacts[name]}}
+names={CORE:{"strict_score","conditional_prediction_evaluation","validate_metric_definition","recompute_metric","validate_temporal_design","metric_output_binding_codes"},
+       CHECK16:{"average","regression","coefficients","evaluate","inverse"}}
+for path,source in sources.items():
+    nodes=[n for n in ast.parse(source).body if isinstance(n,ast.FunctionDef) and n.name in names[path]]
+    assert {n.name for n in nodes}==names[path]
+    exec(compile(ast.Module(body=nodes,type_ignores=[]),SUBJECT+":"+path,"exec"),env)
+probes={}
+d={"target":"remaining_time","quantity":"REMAINING_TIME","target_unit":"min","unit":"%",
+   "prediction_origin":"PER_SAMPLE","formula":"ABSOLUTE_RELATIVE_ERROR","denominator":"TRUE_REMAINING_TIME",
+   "sample_unit":"historical_origin","aggregation":"MEAN","weights":"UNIFORM","direction":"MIN","zero_denominator_policy":"REJECT"}
+observations=[]
+for entity,maximum,offset in [("A",8,0),("B",12,100)]:
+    for t in range(0,maximum+1,2):
+        observations.append({"observation_id":f"{entity}-{t}","entity_id":entity,"observed_at":offset+t,"available_at":offset+t,"value":12-t/10})
+observations.append({"observation_id":"A-end","entity_id":"A","observed_at":20,"available_at":20,"value":10})
+index_path=ROOT/"synthetic_index.json"
+index_path.write_text(json.dumps({"observations":observations}))
+samples=[]
+for entity,origin,offset,split in [("A",4,0,"VALIDATION"),("A",8,0,"VALIDATION"),("B",12,100,"FORECAST")]:
+    ids=[f"{entity}-{t}" for t in range(0,origin+1,2)]
+    samples.append({"sample_id":f"{entity}-{origin}","entity_id":entity,"origin":origin+offset,"target_time":20 if split=="VALIDATION" else None,
+        "target_event":"threshold crossing","split":split,"target_observation_id":"A-end" if split=="VALIDATION" else None,
+        "feature_observation_ids":ids,"preprocess_fit_observation_ids":ids,"model_fit_observation_ids":ids})
+design={"schema_version":"temporal-visibility/v1","task":"SAME_ENTITY_FUTURE","index_path":index_path.name,"samples":samples,"time_unit":"min"}
+plan={"temporal_design":design,"required_input_hashes":{index_path.name:file_hash(index_path)},"evaluation_design":{"mode":"CONDITIONAL_PREDICTION_FINAL_VERIFICATION"}}
+artifacts["experiment_plan"]=plan
+def row(sid,origin,pred=21,truth=20):
+    return {"sample_id":sid,"origin":origin,"predicted_end_time":pred,"observed_end_time":truth,"target":"remaining_time","unit":"min"}
+base_rows=[row("A-4",4),row("A-8",8)]
+def bind(rows):
+    actual=env["recompute_metric"](d,rows)
+    out={"metric_definitions":{"m":d},"metric_samples":{"m":rows},"metric_accounting":{"m":actual},"final_metrics":{"m":actual["value"]},"temporal_lineage":design}
+    checked={k:out[k] for k in ["metric_definitions","metric_samples","temporal_lineage"]}
+    return sorted(env["metric_output_binding_codes"]({"metric_ids":["m"]},{"metric_contracts":{"m":d}},out,checked,ROOT))
+probes["SCI001_sample_binding"]={"valid":bind(base_rows),"renamed":bind([row("X",4),row("Y",8)]),
+    "old_preserved_aggregate_counterexample":bind([row("A-4",0),row("A-8",float(Fraction(220,23)))]),
+    "changed_truth":bind([row("A-4",4,truth=22),row("A-8",8)]),"missing_sample":bind(base_rows[:1])}
+assert not probes["SCI001_sample_binding"]["valid"]
+assert all(probes["SCI001_sample_binding"][k] for k in probes["SCI001_sample_binding"] if k!="valid")
+bad={**d,"formula":"ABSOLUTE_ERROR","denominator":"ONE","unit":"min","aggregation":"ROOT_MEAN"}
+good={**bad,"formula":"SQUARED_ERROR"}
+probes["SCI002_root_mean"]={"invalid_codes":sorted(env["validate_metric_definition"](bad)),"valid_rmse":env["recompute_metric"](good,[row("one",0,24,20)])}
+assert probes["SCI002_root_mean"]["invalid_codes"]==["RC_METRIC_AGGREGATION_UNIT_MISMATCH"]
+assert probes["SCI002_root_mean"]["valid_rmse"]["value"]==4
+probes["SCI003_selection_time"]={"available_history":sorted(env["validate_temporal_design"](ROOT,plan))}
+changed=copy.deepcopy(observations)
+changed[-1]["available_at"]=200
+index_path.write_text(json.dumps({"observations":changed}))
+plan["required_input_hashes"][index_path.name]=file_hash(index_path)
+probes["SCI003_selection_time"]["delayed_label"]=sorted(env["validate_temporal_design"](ROOT,plan))
+assert not probes["SCI003_selection_time"]["available_history"]
+assert probes["SCI003_selection_time"]["delayed_label"]==["RC_TEMPORAL_SELECTION_LABEL_NOT_AVAILABLE"]
+# Keep the recorded synthetic input in its valid baseline form.
+index_path.write_text(json.dumps({"observations":observations}))
+plan["required_input_hashes"][index_path.name]=file_hash(index_path)
+probes["SCI004_endpoint_perturbation"]={"base_endpoint":20,"perturbed_endpoint":21,
+    "actual_remaining_mape_percent":float(50*(Fraction(1,16)+Fraction(1,12))),
+    "new_fixture_formula_agrees":True,"method":"Independent exact rational arithmetic plus source expression inspection; fixture main not run."}
+
+matrix=[[0,10,20,30,40,50,60],[2,11,20,29,38,47,60],[3,11,19,27,35,43,58]]
+def forecast(data,state,size):
+    ref=[sum(values)/state for values in zip(*data[:state],strict=True)]
+    return env["regression"](ref,data[state][:size],True)
+def exact_forecast(data,state,size):
+    x=[sum(map(Fraction,values))/state for values in zip(*data[:state],strict=True)]
+    y=list(map(Fraction,data[state][:size]))
+    mx=sum(x[:size])/size
+    my=sum(y)/size
+    b=sum((u-mx)*(v-my) for u,v in zip(x[:size],y,strict=True))/sum((u-mx)**2 for u in x[:size])
+    a=my-b*mx
+    return a+b*x[-1]
+history=[]
+tail_checks=[]
+exact_errors=[]
+for state in [1,2]:
+    for size in [2,3,4]:
+        a,b,pred=forecast(matrix,state,size)
+        exact=exact_forecast(matrix,state,size)
+        assert math.isclose(pred[-1],float(exact),abs_tol=1e-10)
+        origin=matrix[state][size-1]
+        truth=matrix[state][-1]
+        absolute_offset=state*10000
+        with_offset=abs((absolute_offset+pred[-1])-(absolute_offset+truth))/((absolute_offset+truth)-(absolute_offset+origin))
+        error=abs(pred[-1]-truth)/(truth-origin)
+        assert math.isclose(with_offset,error,abs_tol=1e-12)
+        exact_error=abs(exact-truth)/(truth-origin)
+        exact_errors.append(exact_error)
+        altered=copy.deepcopy(matrix)
+        altered[state][size:]=[v+999 for v in altered[state][size:]]
+        aa,bb,pp=forecast(altered,state,size)
+        assert (a,b,pred)==(aa,bb,pp)
+        tail_checks.append(True)
+        history.append({"state":state,"prefix_size":size,"origin":origin,"predicted_endpoint":pred[-1],"observed_endpoint":truth,"relative_remaining_error":error})
+probes["2016_six_historical_origins"]={"samples":history,"exact_mean_fraction":str(sum(exact_errors)/6),"mean_dimensionless":float(sum(exact_errors)/6),
+    "target_tail_changes_leave_fit_and_prediction_unchanged":all(tail_checks),"absolute_state_offsets_cancel":True,
+    "limitation":"Invented arrays with valid ordering; no actual workbook or temporal-index construction inspected."}
+reference=[0,10,20]
+prefix=[2,12]
+_,_,p0=env["regression"](reference,prefix,True)
+_,_,p1=env["regression"](reference,[v+1 for v in prefix],True)
+probes["2016_prefix_perturbation_origin"]={"baseline_remaining":p0[-1]-prefix[-1],
+    "fixed_original_origin_remaining":p1[-1]-prefix[-1],"coherently_shifted_origin_remaining":p1[-1]-(prefix[-1]+1),
+    "interpretation":"Current adapter uses fixed original reporting origin. It is fit-input sensitivity, not a uniform translation of every measured time including reporting origin."}
+lo,hi,current=50,60,55
+w=math.log(current/lo)/math.log(hi/lo)
+probes["2016_current_interpolation"]={"linear_duration":0.5*100+0.5*80,"log_weight":w,
+    "geometric_duration":math.exp((1-w)*math.log(100)+w*math.log(80)),"LOCO_50_neighbors_after_omitting_50":[40,60],
+    "conditional_55_neighbors":[50,60],"scope":"Synthetic neighboring durations; no measured 55A accuracy follows from either formula or LOCO."}
+knots=[(0,12),(10,11),(20,10)]
+c=env["coefficients"](knots,True)
+probes["2016_checker_pchip_affine_case"]={"coefficients":c,"inverse_at_11":env["inverse"](lambda t:env["evaluate"]([0,10,20],c,t),20,11)}
+assert all(math.isclose(c[i][2],-0.1) for i in range(2))
+assert math.isclose(probes["2016_checker_pchip_affine_case"]["inverse_at_11"],10)
+def nonmonotone_piecewise(t):
+    knots=[(0,12),(1,8),(2,8),(3,12),(4,8)]
+    j=min(int(t),3)
+    x0,y0=knots[j]
+    x1,y1=knots[j+1]
+    return y0+(t-x0)*(y1-y0)/(x1-x0)
+probes["2016_inverse_single_branch_requirement"]={
+    "checker_bisection_result":env["inverse"](nonmonotone_piecewise,4,10),
+    "last_downward_crossing":3.5,
+    "scope":"Synthetic mathematical limitation: global bisection does not in general implement last downward crossing. Actual evaluation-domain uniqueness was not checked because raw curves are out of scope."}
+
+raw={1000+i:float(i) for i in range(12)}
+original=[{"jd":t,"computed_alt_deg":value+i,"reference_alt_deg":value} for i,(t,value) in enumerate(raw.items())]
+duplicated=[copy.deepcopy(original[0]) for _ in range(12)]
+def local_reference_checks(selected):
+    return len(selected)==len(raw)==12 and all(r["reference_alt_deg"]==raw[r["jd"]] for r in selected)
+probes["2015_reference_epoch_coverage"]={"original_local_count_and_lookup_checks":local_reference_checks(original),
+    "duplicated_local_count_and_lookup_checks":local_reference_checks(duplicated),"duplicated_unique_epoch_count":len({r["jd"] for r in duplicated}),
+    "original_rmse":math.sqrt(sum((r["computed_alt_deg"]-raw[r["jd"]])**2 for r in original)/12),
+    "duplicated_rmse":math.sqrt(sum((r["computed_alt_deg"]-raw[r["jd"]])**2 for r in duplicated)/12),
+    "scope":"Local coverage/arithmetic witness matching checker source conditions, not execution of physical transforms, actual checker main or public gate."}
+assert probes["2015_reference_epoch_coverage"]["duplicated_local_count_and_lookup_checks"]
+probes["2015_metric_counts"]={"calendar_rows":7*366,"reference_positions":7*2*12,"scope":"Counts from preregistered design, not observed execution."}
+report={"subject":SUBJECT,"source_hashes":{p:hashlib.sha256(s.encode()).hexdigest() for p,s in sources.items()},
+    "method":"Only named source function definitions extracted by AST, stdlib synthetic arrays and Fraction calculations. No entire source module import or case execution.",
+    "extracted_functions":{p:sorted(n) for p,n in names.items()},"probes":probes}
+(ROOT/"math_probe_results.json").write_text(json.dumps(report,indent=2,ensure_ascii=False,allow_nan=False)+"\n")
+print(json.dumps(report,indent=2,ensure_ascii=False,allow_nan=False))

@@ -1,0 +1,192 @@
+"""Pre-run, synthetic-only API/math probes for ee0159c; no actual case execution."""
+import ast
+import contextlib
+import copy
+import hashlib
+import inspect
+import io
+import json
+import math
+from pathlib import Path
+import subprocess
+import sys
+import types
+from typing import Any
+
+ROOT=Path(__file__).resolve().parent
+SUBJECT="ee0159c68aaeb1a60eba947ad73f1ed0de8b4e2a"
+CORE=".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+PREP="scripts/prepare_phase004c6_development.py"
+sources={p:subprocess.check_output(["git","show",SUBJECT+":"+p],text=True) for p in [CORE,PREP]}
+trees={p:ast.parse(s) for p,s in sources.items()}
+definitions={p:{n.name:n for n in t.body if isinstance(n,ast.FunctionDef)} for p,t in trees.items()}
+def extract(path,names,env):
+    exec(compile(ast.Module(body=[definitions[path][n] for n in names],type_ignores=[]),SUBJECT+":"+path,"exec"),env)
+def digest(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+def write_json(path,value,**kwargs):
+    path.parent.mkdir(parents=True,exist_ok=True)
+    path.write_text(json.dumps(value,indent=2,allow_nan=False)+"\n")
+common={"Any":Any,"Path":Path,"math":math,"json":json,"copy":copy}
+env={**common}
+extract(PREP,["definition","metric_definitions"],env)
+extract(CORE,["strict_score","validate_metric_definition","recompute_metric","select_development_candidate","scientific_residuals_pass"],env)
+metric_sets={str(year):env["metric_definitions"](year) for year in [2016,2015]}
+probes={"metric_definition_codes":{year:{m:sorted(env["validate_metric_definition"](d)) for m,d in ds.items()} for year,ds in metric_sets.items()}}
+assert all(not codes for ds in probes["metric_definition_codes"].values() for codes in ds.values())
+probes["metric_units"]={year:{m:d["unit"] for m,d in ds.items()} for year,ds in metric_sets.items()}
+
+# Verify static core call signatures without importing the core module.
+signatures={}
+for name,node in definitions[CORE].items():
+    args=node.args
+    pos=args.posonlyargs+args.args
+    defaults=[inspect.Parameter.empty]*(len(pos)-len(args.defaults))+[None]*len(args.defaults)
+    pars=[]
+    for i,(arg,default) in enumerate(zip(pos,defaults,strict=True)):
+        kind=inspect.Parameter.POSITIONAL_ONLY if i<len(args.posonlyargs) else inspect.Parameter.POSITIONAL_OR_KEYWORD
+        pars.append(inspect.Parameter(arg.arg,kind,default=default))
+    if args.vararg: pars.append(inspect.Parameter(args.vararg.arg,inspect.Parameter.VAR_POSITIONAL))
+    for arg,default in zip(args.kwonlyargs,args.kw_defaults,strict=True):
+        pars.append(inspect.Parameter(arg.arg,inspect.Parameter.KEYWORD_ONLY,default=inspect.Parameter.empty if default is None else None))
+    if args.kwarg: pars.append(inspect.Parameter(args.kwarg.arg,inspect.Parameter.VAR_KEYWORD))
+    signatures[name]=inspect.Signature(pars)
+calls=[]
+for node in ast.walk(trees[PREP]):
+    if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and isinstance(node.func.value,ast.Name) and node.func.value.id=="core":
+        name=node.func.attr
+        record={"function":name,"line":node.lineno}
+        if name not in signatures: record["result"]="NO_LOCAL_FUNCTION_DEFINITION"
+        elif any(isinstance(a,ast.Starred) for a in node.args) or any(k.arg is None for k in node.keywords): record["result"]="DYNAMIC_ARGUMENTS_NOT_CHECKED"
+        else:
+            try:
+                signatures[name].bind(*[None]*len(node.args),**{k.arg:None for k in node.keywords})
+                record["result"]="ARGUMENT_SHAPE_MATCH"
+            except TypeError as exc: record["result"]="MISMATCH:"+str(exc)
+        calls.append(record)
+probes["core_api_call_shapes"]=calls
+
+# Run the actual proposal construction using entirely in-memory synthetic dependencies.
+ds=metric_sets["2016"]
+requirements=[]
+for rid,mids in [("REQ-Q1",["q1_mean_fitted_MRE"]),("REQ-Q2",["q2_loco_MRE"]),("REQ-Q3",["q3_remaining_MRE","q3_remaining_min"])]:
+    r={"requirement_id":rid,"dependency_requirements":[],"metric_contracts":{m:ds[m] for m in mids}}
+    if rid!="REQ-Q1":
+        r["prediction_spec"]={"kind":"CONDITIONAL_ESTIMATE","claim_type":"PREDICTIVE","prediction_axis":"CONDITION_INTERPOLATION" if rid=="REQ-Q2" else "TIME_CONTINUATION",
+            "target_field":"55A_discharge_duration" if rid=="REQ-Q2" else "future_remaining_time","empirical_accuracy_required":False}
+    requirements.append(r)
+metrics={"q1_mean_fitted_MRE":0.1,"q2_loco_MRE":0.2,"q3_remaining_MRE":0.3,"q3_remaining_min":10.0}
+temporal={"samples":[{"sample_id":"V","split":"VALIDATION"},{"sample_id":"S3-LAST","entity_id":"BATTERY-1","origin":30035,"split":"FORECAST"}]}
+condition={"schema_version":"condition-query/v1","queries":[{"sample_id":"55A","entity_id":"BATTERY-1","origin":0,"conditions":{"current_A":55}}],"historical_sample_ids":["LOCO-30"]}
+plan={"candidate_ids":["BASELINE","CUBIC_LOG_AFFINE"],"metric":"q3_remaining_MRE","metric_direction":"MIN","selection_rule":"ARGMIN_THEN_ID","aggregation_rule":"MEAN",
+    "evaluation_design":{"mode":"CONDITIONAL_PREDICTION_FINAL_VERIFICATION"},"temporal_design":temporal,"condition_design":{"REQ-Q2":condition}}
+out={"final_metrics":metrics,"limitations":["Synthetic bounded example"],"uncertainty":{"calibrated":False},"scientific_evidence":{},"requirement_claims":{},
+    "temporal_lineage":temporal,"metric_samples":{"q3_remaining_min":[{"sample_id":"S3-LAST","value":10.0}]}}
+for r in requirements:
+    rid=r["requirement_id"]
+    facts={"scope":{"fields":["x"],"time":["SYNTHETIC"],"entities":["BATTERY-1"]},"metric_values":{m:metrics[m] for m in r["metric_contracts"]},"assumption_artifact_sha256":"a"*64}
+    if "prediction_spec" in r:
+        spec=r["prediction_spec"]
+        query=condition["queries"][0] if rid=="REQ-Q2" else temporal["samples"][-1]
+        evidence={"prediction_spec_sha256":digest(spec),"temporal_design_sha256":digest(temporal),"empirical_accuracy_verified":False,
+            "predictions":[{k:query[k] for k in ["sample_id","entity_id","origin"]}|{"target":spec["target_field"],"value":90.0 if rid=="REQ-Q2" else 10.0}],
+            "historical_validation":{"sample_ids":condition["historical_sample_ids"] if rid=="REQ-Q2" else ["V"],"metric_ids":[next(iter(r["metric_contracts"]))]},
+            "uncertainty":{"kind":"UNCALIBRATED_POINT_ESTIMATE","calibrated":False}}
+        if rid=="REQ-Q2":
+            evidence["condition_design_sha256"]=digest(condition)
+            evidence["predictions"][0]["conditions"]=query["conditions"]
+        facts["prediction_evidence"]=evidence
+    out["scientific_evidence"][rid]=facts
+    out["requirement_claims"][rid]={"claim_id":"CLAIM-"+rid,"claim_text":"Bounded synthetic result"}
+artifacts={"experiment_plan":plan,"problem_requirements":{"requirements":requirements}}
+proposals={}
+fake=types.SimpleNamespace(
+    load_json=lambda p: {"case_root":"virtual-child"} if p.name=="development_design.json" else out,
+    load_state=lambda root:{"state":"RUNNING"},
+    read_artifact=lambda root,key:{"content":artifacts[key]},
+    _development_attempt_registry=lambda root,plan:[{"candidate_id":"CUBIC_LOG_AFFINE","run_id":"RUN-SYNTHETIC","outcome":"SUCCESS","validation_score":0.3}],
+    select_development_candidate=env["select_development_candidate"],
+    canonical_hash=digest,
+    build_captured_run_manifest=lambda *a,**kw:{"input_hash":"a"*64,"scenario_hash":"b"*64,"configuration_hash":"c"*64},
+    utc_now=lambda:"SYNTHETIC_TIMESTAMP",
+    write_json=lambda *a,**kw:None)
+penv={**common,"REPO":ROOT,"PHASE":ROOT/"virtual-design","CASES":{2016:"SYNTHETIC-2016"},"load_core":lambda:fake,
+      "put":lambda core,root,key,body:proposals.__setitem__(key,body)}
+extract(PREP,["propose"],penv)
+with contextlib.redirect_stdout(io.StringIO()): penv["propose"](2016)
+probes["proposal_claim_strength_fields"]={c["requirement_id"]:c.get("claim_strength") for c in proposals["semantic_claim_support"]["claims"]}
+cenv={**common,"read_artifact":lambda root,key:{"content":artifacts[key]},"conditional_prediction_evaluation":lambda p:True,
+      "validate_science_design":lambda root,p:set(),"canonical_hash":digest,"file_hash":lambda p:"a"*64,
+      "ARTIFACT_PATHS":{"assumptions_and_symbols":"virtual_assumptions.json"},"strict_score":env["strict_score"],
+      "verify_scientific_check":lambda root,run_id:{"requirements":{r["requirement_id"]:{"prediction_evidence":out["scientific_evidence"][r["requirement_id"]].get("prediction_evidence")} for r in requirements}}}
+extract(CORE,["validate_conditional_prediction"],cenv)
+scope_results={}
+for claim in proposals["semantic_claim_support"]["claims"]:
+    if claim["claim_type"]!="PREDICTIVE": continue
+    req=next(r for r in requirements if r["requirement_id"]==claim["requirement_id"])
+    original=sorted(cenv["validate_conditional_prediction"](claim,req,out,ROOT))
+    bounded=sorted(cenv["validate_conditional_prediction"]({**claim,"claim_strength":"BOUNDED"},req,out,ROOT))
+    scope_results[claim["requirement_id"]]={"actual_proposal_codes":original,"with_only_bounded_field_added":bounded}
+    assert original==["RC_CONDITIONAL_PREDICTION_SCOPE_INVALID"] and bounded==[]
+probes["actual_proposal_to_conditional_validator"]=scope_results
+
+# Synthetic temporal-index preparation. Fake workbook provider avoids all raw file access.
+voltages=[10.0,9.95,9.9,9.85,9.8,9.765,9.6,9.0]
+rows=[["header"],["header"]]+[[v,j*10,j*9,j*8,j*7 if j<=5 else None] for j,v in enumerate(voltages)]
+class Book:
+    def __getitem__(self,key): return types.SimpleNamespace(values=rows)
+    def close(self): pass
+fake_openpyxl=types.ModuleType("openpyxl")
+fake_openpyxl.load_workbook=lambda *a,**kw:Book()
+old_openpyxl=sys.modules.get("openpyxl")
+sys.modules["openpyxl"]=fake_openpyxl
+troot=ROOT/"synthetic_temporal_case"
+try:
+    tenv={**common}
+    extract(PREP,["temporal_index"],tenv)
+    tdesign=tenv["temporal_index"](troot,types.SimpleNamespace(write_json=write_json,file_hash=lambda p:"a"*64))
+finally:
+    if old_openpyxl is None: sys.modules.pop("openpyxl",None)
+    else: sys.modules["openpyxl"]=old_openpyxl
+tenv.update(strict_score=env["strict_score"],conditional_prediction_evaluation=lambda p:True,relative_case_path=lambda root,rel:root/rel,
+    file_hash=lambda p:hashlib.sha256(p.read_bytes()).hexdigest(),load_json=lambda p:json.loads(p.read_text()))
+extract(CORE,["validate_temporal_design"],tenv)
+tplan={"temporal_design":tdesign,"required_input_hashes":{tdesign["index_path"]:tenv["file_hash"](troot/tdesign["index_path"])}}
+probes["synthetic_preparer_temporal_index"]={"codes":sorted(tenv["validate_temporal_design"](troot,tplan)),
+    "validation_count":sum(s["split"]=="VALIDATION" for s in tdesign["samples"]),"forecast":tdesign["samples"][-1],
+    "method":"Frozen temporal_index executed with in-memory synthetic workbook; no actual workbook opened; source hash is explicit placeholder."}
+assert probes["synthetic_preparer_temporal_index"]["codes"]==[]
+assert probes["synthetic_preparer_temporal_index"]["validation_count"]==6
+
+# Selected-domain gate unit cases, entirely in memory.
+denv={**common,"read_artifact":lambda root,key:{"content":{"selection":{"requirement_to_run_map":{"R":["RUN-SELECTED"]}}}},"scientific_residuals_pass":env["scientific_residuals_pass"]}
+extract(CORE,["require_selected_scientific_domain"],denv)
+domain={}
+for label,record in {"valid":{"feasible":True,"constraint_residuals":{"x":{"value":0,"limit":0,"tolerance":0,"relation":"LE"}}},
+    "infeasible":{"feasible":False,"constraint_residuals":{"x":{"value":0,"limit":0,"tolerance":0,"relation":"LE"}}},
+    "failed_residual":{"feasible":True,"constraint_residuals":{"x":{"value":1,"limit":0,"tolerance":0,"relation":"LE"}}}}.items():
+    try: denv["require_selected_scientific_domain"](ROOT,"RUN-SELECTED",{"requirements":{"R":record}});domain[label]="ACCEPTED"
+    except ValueError as exc:domain[label]=str(exc)
+probes["selected_domain_gate"]=domain
+assert domain["valid"]=="ACCEPTED" and all(domain[k].startswith("RC_FINAL_SELECTED_DOMAIN_NOT_VERIFIED") for k in ["infeasible","failed_residual"])
+
+# Budget accounting only; no subprocess starts are performed by this test.
+broot=ROOT/"synthetic_budget_case"
+(broot/"state").mkdir(parents=True,exist_ok=True)
+benv={**common,"read_artifact":lambda root,key:{"content":{"evaluation_design":{"start_budget":{"model_cli_starts":4,"independent_checker_starts":4,"final_starts":1}}}},
+    "load_json":lambda p:json.loads(p.read_text()),"write_json":write_json,"utc_now":lambda:"SYNTHETIC_RESERVATION"}
+extract(CORE,["consume_start_budget"],benv)
+for i in range(4):benv["consume_start_budget"](broot,"independent_checker_starts",f"SYNTHETIC-{i}")
+try:benv["consume_start_budget"](broot,"independent_checker_starts","SYNTHETIC-5"); fifth="ACCEPTED"
+except ValueError as exc:fifth=str(exc)
+benv["consume_start_budget"](broot,"final_starts","SYNTHETIC-FINAL")
+probes["budget_unit_accounting"]={"first_four_checker_reservations":"ACCEPTED","fifth_checker_reservation":fifth,"final_reservation_after_checker_exhaustion":"ACCEPTED",
+    "actual_model_checker_final_processes_started":0,"interpretation":"Counters enforce their own limits; Final-slot consumption has no checker-capacity preflight. These are synthetic reservations, not evidence of numerical execution."}
+assert fifth=="RC_EXECUTION_BUDGET_EXHAUSTED:independent_checker_starts"
+probes["voltage_prefix_equivalence_boundary"]={"descending_grid":"filter(voltage>=cut) equals first count rows",
+    "unsorted_example_grid":[10.0,9.6,9.95,9.85],"cut":9.9,"index_filter_positions":[0,2],"producer_count_prefix_positions":[0,1],
+    "scope":"Ordering assumption must be checked before actual preparation; no claim actual workbook is unsorted."}
+report={"subject":SUBJECT,"source_hashes":{p:hashlib.sha256(s.encode()).hexdigest() for p,s in sources.items()},
+    "method":"Static API argument-shape checks and AST-extracted helpers with explicitly synthetic dependencies. No production state/raw/results or model main read/execution.","probes":probes}
+write_json(ROOT/"protocol_probe_results.json",report)
+print(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False))

@@ -89,3 +89,5 @@ design changes retain superseded decisions and explain the reason before editing
 - RC9 version surfaces and Skill instructions are staged, not activated. New failure/timeout/
   concurrency regressions are being added. Next: finish native/math review, freeze complete shared
   candidate and both Development numerical designs, run the two new roots within registered budgets.
+
+- Second checkpoint (2026-09-09T03:10:00Z; actual detail receipts record process times): core M2/M3, version surfaces and common preparation are implemented. Targeted current regression: 73 passed in 38.03s; additional nonmonotone numerical probes: 4 passed in 0.93s. Strict validation and status check PASS. Native science reviews 001–003 retained actual findings; corrections include target/origin binding, dimensional RMSE, selection-label visibility, actual perturbation arithmetic, checker coverage, proposal Claim strength and start-budget precheck. No child model/Final has run; shared functional candidate has not been frozen. Next: unified pre-execution native review, common subject/child registration, full CI, then both Development runs.

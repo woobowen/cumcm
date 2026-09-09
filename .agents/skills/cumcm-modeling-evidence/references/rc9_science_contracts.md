@@ -24,6 +24,10 @@ The index contains observations with observation_id, entity_id, observed_at, ava
 All consumed observations must be available at the corresponding origin. Historical validation
 labels remain outside those consumption lists. This lineage is verified against independently
 recomputed outputs; it is not operating-system isolation from arbitrary untrusted model code.
+An unknown-event forecast may use target_time=null with a nonempty target_event; its realized end
+time is never an input requirement. Labels used to select the shared candidate must be available
+by the earliest forecast origin. Time-error samples bind exact IDs, origins and observed endpoints
+to this index. Six origins from one entity do not become six independent entities.
 
 A predictive requirement's prediction_spec freezes kind=CONDITIONAL_ESTIMATE, claim_type=PREDICTIVE,
 target_field, future_truth_field, known_input_fields, model_basis, conditions,
@@ -31,6 +35,15 @@ historical_validation_required=true and empirical_accuracy_required. The future 
 minimum computation input. The claim and captured prediction evidence retain actual history metrics,
 explicit predictions and uncertainty.kind=MODEL_SENSITIVITY or UNCALIBRATED_POINT_ESTIMATE with
 calibrated=false. Empirical accuracy requirements cannot be satisfied by this conditional route.
+The Claim has claim_strength=BOUNDED and states its limitations. TIME_CONTINUATION is the default
+prediction_axis. CONDITION_INTERPOLATION additionally binds condition_design[requirement_id],
+schema_version=condition-query/v1, exact query conditions and historical_sample_ids; it does not
+turn interpolation diagnostics into observations of the requested condition.
+
+An evaluation_design.start_budget may cap model_cli_starts (up to 4), independent_checker_starts
+(up to 4 including every verification replay), and final_starts (1). Actual starts are recorded
+before their process invocation. Final checks sufficient remaining checker budget before
+authorization. Receipt-only review starts no process and consumes no additional budget.
 
 The neutral implementation examples are first-party fixtures in tests/fixtures/rc9_science_model.py
 and rc9_science_checker.py. They illustrate protocols, not battery scientific performance.
