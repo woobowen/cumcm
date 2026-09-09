@@ -1,0 +1,48 @@
+{
+  "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+  "set_type": "DEVELOPMENT",
+  "problem_source": ".cache/pr12-rc9/development/2016/case-r1/data/raw/problem.docx",
+  "problem_hash": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440",
+  "data_hashes": {
+    ".cache/pr12-rc9/development/2016/case-r1/data/raw/appendix.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf"
+  },
+  "answer_access_status": "SEALED",
+  "first_run_status": "NOT_STARTED",
+  "skill_version": "0.2.0-competition-rc9",
+  "skill_commit": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+  "model": "UNKNOWN",
+  "reasoning": "UNKNOWN",
+  "start_time": null,
+  "freeze_time": null,
+  "unlock_time": null,
+  "generalizable_failures": [],
+  "problem_specific_findings": [],
+  "evidence_role": "DEVELOPMENT_AFTER_VALIDATION",
+  "independent_problem": false,
+  "contamination_status": "KNOWN_PROBLEM_AND_PRIOR_RESULTS",
+  "parent_case_id": "CUMCM-2016-C-VALIDATION-004",
+  "parent_terminal_sha256": "e82fc399ca2206ef088eeaee896f9b132864d544af70566efb698e41b5ec4d5a",
+  "case_root": ".cache/pr12-rc9/development/2016/case-r1",
+  "schema_version": "postvalidation-development-registration/v1",
+  "phase": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+  "authorization_path": "evals/results/phase-004c6/qualification/proposal.json",
+  "parent_terminal_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/decision.json",
+  "budget": {
+    "model_cli_starts": 4,
+    "independent_checker_starts": 4,
+    "final_starts": 1
+  },
+  "shared_subject": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+  "registered_at": "2026-09-09T03:27:38.007224+00:00",
+  "development_design_sha256": "525bebb400dd75e0bb2bc519f0d4d8847d32f0ed46b4ce480923a184aeb2021b",
+  "parent_input_provenance": {
+    "problem_source": ".cache/pr12-rc8/fresh/2016/official/c_files/CUMCM2016-Problem-C-Chinese-version.docx",
+    "problem_hash": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440",
+    "data_hashes": {
+      ".cache/pr12-rc8/fresh/2016/official/c_files/CUMCM2016-C-Appendix-Chinese.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf"
+    }
+  },
+  "functional_revision": 1,
+  "candidate_qualification": "NOT_YET_QUALIFIED",
+  "new_independent_validation": 0
+}

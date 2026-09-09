@@ -3,7 +3,7 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6`
-- Subphase: `RC9-REPAIR-AND-NEUTRAL-VALIDATION`
+- Subphase: `RC9-POSTVALIDATION-DEVELOPMENT`
 - Status: `IN_PROGRESS`
 - Active plan: `plans/active/PLAN-0004C6-rc9-repair-and-development.md`
 - Branch: `feat/phase004c5-p0-01-finalization-hf22-repro`
