@@ -236,12 +236,15 @@ def proposals(root, kind):
         dependency_bridges=bridges,
         claim_types=types,
         evidence_classes={r["requirement_id"]: "SIMULATION" for r in reqs},
+        seed=SEED,
     )
     for record in (selection, semantic):
         for run in record["runs"]:
             run["scenario_hash"] = scenario
     selection["selection"]["shared_scenario_hashes"] = [scenario]
     for claim in semantic["claims"]:
+        rid = claim["requirement_id"]
+        claim["statement"] = actual[mapping[rid]]["requirement_claims"][rid]["claim_text"]
         if claim["claim_type"] == "PREDICTIVE":
             claim["prediction_scope"] = "CONDITIONAL_ESTIMATE"
             claim["support_predicates"].update(

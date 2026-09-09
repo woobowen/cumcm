@@ -1,5 +1,7 @@
 # 导出、审核、保存与反馈处置
 
+NO_CASE或本操作资料的问题没有合法case身份，只记录独立OPERATOR_REVIEW_SUMMARY.md，不用web-feedback/v1。
+
 审查包由公共 `complete` / `review-export` 在本地生成，包含 `REVIEW.md`、`manifest.json`、`views/`。网页不能靠本机路径访问；用户需实际上传。审查前先用[分诊提示词](WEB_PACKAGE_TRIAGE.md)。工具会拒绝被改过的派生文件；附页放外层支持资料，不能塞入旧manifest却声称原hash。
 
 版本有六种，不能互换：工具HEAD（仓库提交）、受测subject（历史资格对象）、implementation_sha256（当前运行内容集合）、operator kit版本/hash、case revision、review package/context hash。source_sha256是原件字节，view_sha256是脱敏文本；有转换时两者可能不同。仅有源码hash不支持离线复算。旧context需要本地context-verify，不能以包完整代替CURRENT。

@@ -4,7 +4,7 @@
 
 上传本地 `BRAIN_START_NO_CASE_1.0.0.zip` 到新的GPT对话，发送包内BRAIN_START正文。它应列出看过的文件/版本并回答NO_ACTIVE_CASE。没有题目就没有M01完成、模型或Final许可。教学包可另开教学讨论，但它是旧示例，不能继承READY或再跑旧Final。
 
-本资料已针对RC10核验。工具完整仓库、现有.venv和实际case是不同东西；不是把ZIP上传就安装了Skill。Codex先读本目录START_HERE、正式Skill和当前模块卡。不要假设main总是所用版本：在工具仓库核对分支、HEAD与operator_kit_manifest的implementation。
+本资料已针对RC10核验。工具完整仓库、现有.venv和实际case是不同东西；不是把ZIP上传就安装了Skill。Codex先读本目录START_HERE、正式Skill和当前模块卡。不要假设main总是所用版本：在工具仓库核对分支、HEAD与包内根目录operator_kit_manifest.json的core_implementation_sha256。
 
 ## 2. 用户每次只需给五项
 
@@ -101,4 +101,4 @@ test -f "$CASE/feedback/review.json" || exit 1
 
 ## 9. 环境与取出文件
 
-本轮实测为WSL2/Linux与现有.venv。未进行原生PowerShell/Windows运行，不提供已验证原生Windows承诺。WSL中可按DELIVERY_INDEX的路径取出本地ZIP；系统若支持WSL资源管理器，可在Windows文件管理器打开该WSL目录再复制，不能据此宣称Windows CLI已验证。包不自动上传，不公开真实题目工作区。
+本轮实测为WSL2/Linux与现有.venv。未进行原生PowerShell/Windows运行，不提供已验证原生Windows承诺。WSL中可按本地交付目录DELIVERY_INDEX.md的路径取出ZIP；该索引含本机实际路径，留在本地而不写入可分享包。离线包内用途和版本见READ_FIRST.txt、PACKAGE_MANIFEST.json与operator_kit_manifest.json；系统若支持WSL资源管理器，可在Windows文件管理器打开该WSL目录再复制，不能据此宣称Windows CLI已验证。包不自动上传，不公开真实题目工作区。

@@ -1,0 +1,127 @@
+{
+  "case_id": "READINESS-COOLANT-001",
+  "revision": 1,
+  "module": "M06",
+  "request_id": "KIT-M06",
+  "requirement_scope": [
+    "REQ-A",
+    "REQ-B",
+    "REQ-C"
+  ],
+  "baseline_id": "BASE",
+  "purpose": "少量候选设计。只依据本轮已提供原题和原始数据视图，机制差异位于整数采购；不预选胜者，不作为正式 Run 或 Final。",
+  "source_paths": [
+    "problem/original.md",
+    "research/analysis.md",
+    "problem/problem_requirements.json",
+    "data/raw/input.json",
+    "data/data_sufficiency.json",
+    "models/assumptions_and_symbols.json"
+  ],
+  "input_mapping": {
+    "entity": "observations[].entity_id",
+    "absolute_time_min": "observations[].observed_at",
+    "availability_time_min": "observations[].available_at",
+    "level_L": "observations[].value",
+    "capacity_and_cost": "containers[].litres, containers[].cost",
+    "threshold_L": "threshold",
+    "stock_flow_L_per_min": "flow_litres_per_minute",
+    "unused_auxiliary_fields": [
+      "baseline_delay",
+      "fixed_demand_litres",
+      "x",
+      "y"
+    ],
+    "unused_field_reason": "mixed 题目的需求由 REQ-B 推导；题面没有预测延迟，不能为制造候选优势使用 baseline_delay。x/y 不是题面实体时间液位。固定需求字段不能覆盖条件需求。"
+  },
+  "shared_scientific_conditions": [
+    "严格仿射合成液位趋势持续到阈值；当前结论为条件估计。",
+    "EA 历史起点 4、8 min，EB 当前起点 112 min；按 entity_id 且 observed_at/available_at 均不晚于起点构造前缀。",
+    "A-end 的 observed_at=available_at=20，仅作事后历史目标，不进入 4/8 min 的特征、预处理或拟合；两个历史起点只有一个实体。",
+    "q=1 L/min 为独立备液库存流率，不能以液位斜率绝对值 0.1 L/min 替代。",
+    "3L/4元与5L/7元整箱、非负整数箱数、正价格、无限库存、无泄漏。",
+    "B 未来阈值真值未给出；历史误差不能证明 B 未来精度。"
+  ],
+  "shared_prediction": {
+    "method": "相同前缀、相同中心化 OLS 仿射液位拟合。严格仿射时自写端点 Fraction 算术可核对，但不冒充 OLS producer 已执行。",
+    "output_semantics": "T 为绝对阈值时刻；remaining=T-t0；d=ceil(q*remaining)。拒绝非下降、无法识别斜率或不满足适用条件的输入，保留缺口，不伪造有限终点。",
+    "historical_metric": "100*mean(abs(T_hat-20)/(20-origin))，origin 分别4、8，分母16、12 min。",
+    "numeric_policy_to_check_in_M07_M08": "临界整数需求附近应以精确十进制/有理算术或有证明的误差界处理 ceil；不能无说明地加任意 epsilon。",
+    "future_accuracy_claim": "NOT_SUPPORTED_WITH_VISIBLE_MATERIALS"
+  },
+  "candidates": [
+    {
+      "candidate_id": "BASE",
+      "is_baseline": true,
+      "name": "共同仿射预测＋只购3L箱的可行参照",
+      "mechanism": "用单位价格较低的3L箱满足条件需求；n3=ceil(d/3)，n5=0。",
+      "rationale": "题面当前两种箱子中3L单位价格4/3低于5L的7/5；构造直接、确定、始终可行的低成本参照，不人为延迟预测。",
+      "covers_requirements": [
+        "REQ-A",
+        "REQ-B",
+        "REQ-C"
+      ],
+      "assumption_dependencies": "使用上述共同条件和共同预测；其采购不是一般需求下的最优性保证。",
+      "data_needed": "相同的允许前缀、阈值、流率、两箱容量/价格。",
+      "computational_cost": "预测 O(n)；采购 O(1)；逐分钟库存输出 O(ceil(remaining)+1)。不新增依赖。",
+      "failure_conditions": [
+        "需求非3的倍数时可能因剩余容量造成更高成本，不能从低单位价推出整箱最优。",
+        "非仿射/时点泄漏/缺数据影响共同预测；有限库存或非正价格超出该候选适用条件。"
+      ]
+    },
+    {
+      "candidate_id": "CAND",
+      "is_baseline": false,
+      "name": "共同仿射预测＋整数容量动态规划",
+      "mechanism": "保持相同预测，仅优化整箱组合：DP[v]=min(DP[v-3]+4, DP[v-5]+7)，DP[0]=0，不可达容量为无穷；在整数容量v=d..d+4中选成本最小者并回溯n3/n5。",
+      "rationale": "机制差异是显式比较3L与5L组合并处理超配离散性；正价下最优供给若达到d+5则可移除任一箱仍满足需求并降价，因此范围d..d+4足够。",
+      "covers_requirements": [
+        "REQ-A",
+        "REQ-B",
+        "REQ-C"
+      ],
+      "assumption_dependencies": "使用上述共同条件和共同预测；DP 的容量单位须与整数升输入一致。",
+      "data_needed": "与BASE相同，不能额外使用未来真值或更多历史前缀。",
+      "computational_cost": "预测 O(n)；两箱DP时间 O(2*(d+4))、存储 O(d+4)；当前d=6很小。不新增依赖。",
+      "failure_conditions": [
+        "非整数容量未经合法单位缩放时当前DP定义不适用；大需求时伪多项式资源成本可能不合适。",
+        "DP未回溯数量、状态范围错误或边界浮点误差可导致错误解；须在后续授权实现/冻结阶段核验。",
+        "B未来趋势变化仍不受此采购优化处理。"
+      ]
+    }
+  ],
+  "common_inventory": {
+    "formula": "s(tau)=3*n3+5*n5-q*tau",
+    "output": "从tau=0开始逐分钟输出至条件剩余时间；若终点非整数还需明确最后一个非整数终点，不能漏掉。",
+    "checks": "非负库存、各步消耗及总守恒；约束可行后再解释末库存，不把更低库存当无约束胜利。"
+  },
+  "limited_arithmetic_observations": {
+    "evidence_class": "SELF_AUTHORED_LIMITED_EXACT_ARITHMETIC_NOT_FORMAL_RUN",
+    "source_case_relative_path": "data/raw/input.json",
+    "source_sha256": "6c6b1044d4bfaa810700f088a91b33514b98697a63a67e5cec803371c46d04b1",
+    "method": "Fraction 端点斜率并核所有可见中间点；正价格与BASE可行成本上界内的有限整数枚举。",
+    "current_condition": "EB前缀斜率-1/10 L/min，条件T=118、t0=112、剩余6 min、需求6 L。",
+    "historical_condition": "EA两个前缀的端点算术均为20 min，历史相对误差为0%；只有1个历史实体。",
+    "demand_6": "BASE买(2,0)箱，容量6 L、成本8元；所有成本<=8元的可行整数解中仅此方案，故当前最优与BASE可平。",
+    "distinguishing_demand_7": "有限算术中BASE买(3,0)成本12元；整数最优(1,1)容量8 L成本11元。只是机制反例与后续预定需求+1L核验目标，没有正式执行敏感性Run。",
+    "stock_example": "当前容量6 L、q=1时，tau=0..6库存为6,5,4,3,2,1,0 L。",
+    "formal_candidate_or_checker_execution": false
+  },
+  "distinguishing_checks_for_later_authorized_modules": [
+    "当前d=6允许同预测、同8元成本、同库存的平局；不故意削弱BASE。",
+    "若后续授权已冻结需求+1L检查，固定预测输入与价格，只变需求为7L，复核组合与12/11元差异；该扰动不是置信区间。",
+    "独立checker可用正价格可行成本上界进行数量枚举，勿导入DP producer。检查单位、前缀可见性、整数边界与每分钟守恒。"
+  ],
+  "decision_boundary": {
+    "selected_candidate": null,
+    "selection_performed": false,
+    "proposed_tie_rule": "若后续冻结并执行ARGMIN_THEN_ID且所有适用证据平局，BASE可合法选中；本M06未冻结规则或选模。",
+    "interpretation": "当前算术支持无需强迫复杂候选胜出。CAND只作为合理整数优化路线；最终选择由后续合法实验与证据决定。",
+    "stop_after": "M06候选建议审阅。公共complete、M07及其后模块、模型/Final均未由worker调用。"
+  },
+  "evidence_limits": [
+    "本文件为content-only建议，无artifact_type/content_hash/status等正式接受封装。",
+    "包内已包含原题与数据的同hash视图；完整case、工具源码、Final账本及多项历史前置只有hash引用，不声称完整复现。",
+    "主编排器须核验真实case当前性、模板与正式合同后安装；worker未写case、未决定技术Gate、未做真实网页或人工核验。"
+  ]
+}

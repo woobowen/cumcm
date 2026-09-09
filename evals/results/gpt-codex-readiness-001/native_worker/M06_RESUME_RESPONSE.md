@@ -1,0 +1,15 @@
+# 第二段：M06 受限恢复与候选建议
+
+当前包显示 READINESS-COOLANT-001、revision=1、GUIDED_SINGLE_MODULE，request=KIT-M06，scope=REQ-A/REQ-B/REQ-C；M01–M05 为 COMPLETED，M06 为 PREPARED，原生状态 DATA_AUDITED。最后可见请求准备时间为 2026-09-09T17:18:06Z。模块记录来自本次派生 context；worker 没有读取真实 case 核当前性或调用 complete。
+
+输入 worker-m06.zip SHA256 为 ded75f3cc783d52bf71f7deffbcaf44acf7ec89d7f061bd3f7796d8148ceb9f2。共34成员、33载荷，全部与外层 manifest 一致；payload_set_sha256=e4b17f6894591c61313baf6555dd21ecaf4475bbc7cb3d514f45656d1a78952e。M05内层9文件核验一致；package_hash=b9a63f56da91fd4dc57c714f25147fd24983fe04824e2c5f3a67bf12a43dea2d；context_hash=3eae72434044772482f62cbc71f4a147f81b459964a55ef54b6903962b783960。原题、分析、原始数据、需求、假设、数据审计/充分性及M05报告的8个视图与登记原件hash均相同。实际可见文件和逐件hash见 m06_inventory.json；精读范围见 m06_command_log.jsonl，未声称所有操作卡均经过内容审核。
+
+operator kit仍为1.0.0，core声明0.2.0-competition-rc10。第二包已提供 operator_kit_manifest.json；第一包缺少该文件的原始finding保留。资料source_tool_head为a3d2279b439a332239bab2ff75362bb070100042，context/request/review tool_commit为0ad91e3b73228c3fa8b5b77795055bb5d406b8d0，两者不能混称同一HEAD。四处implementation声明同为73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff；历史subject仍为d1f8532d498307e3b4755c088ce6a0fadfb432bb。没有相应源码/Git字节，无法独立验证这些运行版本或提交关系。
+
+M06请求26项前置中，8项有同hash视图，其余18项只登记hash；具体清单在m06_verification.json。完整case_state、工具实现、历史completion和Final账本没有原始字节。context未显示Final启动/消费记录，但这不等于worker已检查完整账本并证明消费数为0。本轮没有Final许可，也没有调用模型或Final。
+
+两条合理方案是共同前缀仿射预测＋仅购3L箱的BASE，与共同预测＋整数容量DP的CAND。两者使用相同信息，差异来自整箱组合的离散性。Fraction有限算术确认当前条件剩余6min、需求6L；BASE买2个3L箱成本8元，本条件的成本上界内没有更优可行解，允许平局。需求7L的有限反例为BASE12元、混合箱最优11元，说明机制可区分；它不是本轮敏感性Run。历史A两起点误差0%仍只涉及一个合成实体，B未来真值未提供。
+
+建议内容见 model_candidates.proposal.json，work report严格沿用真实模板字段，见 work-report.proposal.json。其artifact路径 models/model_candidates.json 是供主编排器审核安装的实际case相对路径；worker没有向case写入。方案已经给出适用/失败条件、复杂度、公平参照、后续可区分检验与停止边界。本轮只建议M06，不提出重启Final。
+
+执行层级为阅读、包身份核验和自写有限精确算术；脚本/输入hash及输出见 limited_arithmetic.py、limited_arithmetic_output.json。没有运行包内producer、DP实现或原checker，没有原运行重放、全流程复现、网页实审、人工核验或正式科学接受。提示限定的受限上下文不构成OS隔离或严格盲审。

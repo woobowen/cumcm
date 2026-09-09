@@ -1,0 +1,91 @@
+"""Small exact arithmetic for M06 reasoning, not a model Run or pipeline replay."""
+from fractions import Fraction as F
+from pathlib import Path
+import hashlib
+import json
+import shlex
+import sys
+import zipfile
+
+ROOT = Path('REPO_ROOT/.cache/gpt-codex-readiness-001/worker')
+ARCHIVE = ROOT.parent / 'worker-m06.zip'
+INPUT = 'review/views/002-input.json.txt'
+with zipfile.ZipFile(ARCHIVE) as z:
+    raw = z.read(INPUT)
+    data = json.loads(raw)
+
+
+def rational(value):
+    return F(str(value))
+
+
+def prefix_check(entity, origin):
+    rows = sorted([r for r in data['observations']
+                   if r['entity_id'] == entity and r['observed_at'] <= origin and r['available_at'] <= origin],
+                  key=lambda r: r['observed_at'])
+    assert len(rows) >= 2
+    first, last = rows[0], rows[-1]
+    slope = (rational(last['value']) - rational(first['value'])) / (last['observed_at'] - first['observed_at'])
+    assert slope < 0
+    residuals = [rational(r['value']) - rational(first['value']) - slope * (r['observed_at'] - first['observed_at']) for r in rows]
+    assert all(residual == 0 for residual in residuals)
+    endpoint = F(first['observed_at']) + (rational(data['threshold']) - rational(first['value'])) / slope
+    return {'entity': entity, 'origin_min': origin,
+            'visible_observation_ids': [r['observation_id'] for r in rows],
+            'slope_L_per_min': str(slope), 'all_affine_residuals_zero': True,
+            'conditional_endpoint_min': str(endpoint), 'remaining_min': str(endpoint - origin)}
+
+
+def purchase_bound(demand):
+    # A feasible BASE cost gives a rigorous finite bound because both prices are positive.
+    small = (demand + 2) // 3
+    upper_cost = 4 * small
+    feasible = [(4 * a + 7 * b, a, b, 3 * a + 5 * b)
+                for a in range(upper_cost // 4 + 1)
+                for b in range(upper_cost // 7 + 1)
+                if 3 * a + 5 * b >= demand and 4 * a + 7 * b <= upper_cost]
+    optimum = min(row[0] for row in feasible)
+    return {'demand_L': demand, 'baseline_n3': small, 'baseline_n5': 0,
+            'baseline_cost_yuan': upper_cost, 'positive_price_cost_bound_yuan': upper_cost,
+            'bounded_feasible_cost_n3_n5_supply_rows': feasible,
+            'minimum_cost_yuan': optimum,
+            'minimizers': [row for row in feasible if row[0] == optimum]}
+
+
+origins = [prefix_check('EA', 4), prefix_check('EA', 8), prefix_check('EB', 112)]
+assert [row['visible_observation_ids'] for row in origins[:2]] == [['A-0', 'A-2', 'A-4'], ['A-0', 'A-2', 'A-4', 'A-6', 'A-8']]
+endpoint_label = next(row for row in data['observations'] if row['observation_id'] == 'A-end')
+assert endpoint_label['available_at'] == 20 and endpoint_label['observed_at'] == 20
+historical_errors = [abs(F(row['conditional_endpoint_min']) - 20) / (20 - row['origin_min']) * 100 for row in origins[:2]]
+q = rational(data['flow_litres_per_minute'])
+remaining = F(origins[-1]['remaining_min'])
+demand_raw = q * remaining
+demand = -(-demand_raw.numerator // demand_raw.denominator)
+stock = [F(6) - q * minute for minute in range(7)]
+report = {
+    'execution_class': 'LIMITED_SELF_AUTHORED_EXACT_ARITHMETIC_FOR_M06_REASONING_ONLY',
+    'archive_sha256': hashlib.sha256(ARCHIVE.read_bytes()).hexdigest(),
+    'input_member': INPUT, 'input_sha256': hashlib.sha256(raw).hexdigest(),
+    'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    'observation_count': len(data['observations']),
+    'observation_ids_unique': len({r['observation_id'] for r in data['observations']}) == len(data['observations']),
+    'prefix_checks': origins,
+    'historical_A_label_available_at_min': 20,
+    'historical_error_denominators_min': [16, 12],
+    'historical_relative_error_percent': [str(value) for value in historical_errors],
+    'independent_historical_entity_count': 1,
+    'conditional_demand_L': demand,
+    'purchasing_bound_examples': [purchase_bound(demand), purchase_bound(demand + 1)],
+    'conditional_stock_example': {'minute': list(range(7)), 'stock_L': [str(v) for v in stock],
+                                  'all_nonnegative': all(value >= 0 for value in stock)},
+    'ignored_auxiliary_fields': ['baseline_delay', 'fixed_demand_litres', 'x', 'y'],
+    'not_claimed': ['Formal candidate Run', 'DP implementation executed', 'Independent original checker replay',
+                    'Validated B future accuracy', 'Formal M06 completion', 'Final execution'],
+}
+result = json.dumps(report, indent=2, ensure_ascii=False) + '\n'
+(ROOT / 'limited_arithmetic_output.json').write_text(result)
+print(result, end='')
+with (ROOT / 'm06_command_log.jsonl').open('a') as stream:
+    stream.write(json.dumps({'command': shlex.join(['.venv/bin/python', *sys.argv]),
+                            'archive_sha256': report['archive_sha256'],
+                            'exit_status': 0, 'stdout': result}, ensure_ascii=False) + '\n')

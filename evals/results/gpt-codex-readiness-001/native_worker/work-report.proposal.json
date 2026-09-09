@@ -1,0 +1,47 @@
+{
+  "actions": [
+    "受限原生worker只读本轮M05审查包、M06 PREPARED context和真实TASK/request/template，核对原题与数据视图后形成两条采购机制不同的候选建议。",
+    "两候选使用相同可见前缀与中心化OLS预测设计；明确baseline_delay、fixed_demand_litres、x/y不驱动mixed题目的条件预测和需求。",
+    "仅执行自写Python标准库的哈希/结构核验与Fraction小算术、有限整数枚举；未运行包内代码、公共complete、模型、checker或Final。"
+  ],
+  "artifacts": [
+    "models/model_candidates.json"
+  ],
+  "case_id": "READINESS-COOLANT-001",
+  "checks": [
+    "操作包33载荷、内层9文件hash、8个源视图与原始hash、M06请求及模板绑定均一致；包内context、package和content hash重算一致。真实case当前性和正式接受待主编排器核验。",
+    "BASE/CAND覆盖相同REQ-A/B/C、使用同一前缀和需求；BASE只购3L箱，CAND比较整数箱组合，不制造预测延迟。",
+    "有限算术核13个唯一observation IDs、A起点4/8和B起点112的可见前缀；A-end仅作历史目标。EA两个起点仍只有一个实体。",
+    "有限算术核当前条件需求6L、8元可行成本上界内唯一可行组合(2,0)，以及7L反例中BASE12元/最优11元；支持可平局与机制可区分性，不充作正式Run。",
+    "work report仅按本次模板既有字段填写；artifacts路径指向拟由主编排器核验安装的case相对产物，worker自身未写入case。"
+  ],
+  "human_review": "NOT_RUN",
+  "module": "M06",
+  "negative_results": [
+    "严格仿射的合成案例和单实体两个历史起点不能证明真实未来精度或泛化。",
+    "当前6L需求下不能主张CAND优于BASE；允许平局与后续合法选择BASE。",
+    "只进行了有限自写算术，没有执行OLS producer、DP实现、独立原checker、模型或Final，不能称全流程复现。",
+    "部分历史前置、当前工具源码和Final账本仅有hash或未提供；operator source_tool_head与context tool_commit不同，implementation声明一致但未读取源码/Git核对。",
+    "正式M06 completion尚未由worker执行；该报告是供主编排器审核安装的proposal。"
+  ],
+  "original_requirements": [
+    "REQ-A：从REQ-B的条件剩余时间和1L/min需求，以3L/4元及5L/7元整箱采购使成本最小。",
+    "REQ-B：仅用实体B截至112min可见前缀估计至10L阈值的条件剩余时间；用实体A的4/8min历史起点与20min已知终点评价，不能宣称B未来精度已验证。",
+    "REQ-C：输出采购库存的完整逐分钟序列并核守恒，依赖REQ-A和REQ-B。"
+  ],
+  "request_id": "KIT-M06",
+  "requirement_scope": [
+    "REQ-A",
+    "REQ-B",
+    "REQ-C"
+  ],
+  "review_questions": [
+    "主编排器安装前是否核验真实case仍与所发M06 context、请求和前置hash一致？",
+    "BASE与CAND是否始终共享相同前缀、预测算法、阈值、需求和指标，而没有消费baseline_delay或固定需求占位字段？",
+    "后续实现是否对ceil整数边界、DP容量上界/数量回溯与独立枚举做具体核验？",
+    "是否保留当前可平局结果和单实体历史评价限制，并在M06后停止？"
+  ],
+  "revision": 1,
+  "scientific_scope": "候选机制论证与有限精确算术，仅支持本合成严格仿射/正价整箱模型下的设计可行性和边界；没有正式数值Run、选模或Final科学接受。",
+  "summary_cn": "M06候选建议：BASE为同前缀仿射预测加仅3L箱采购；CAND保留同预测并以整数DP组合两种箱子。当前6L需求允许8元平局；7L小算术反例显示采购机制差异。建议保留公平BASE；worker仅写建议并停止，等待主编排器审核及公共complete。"
+}

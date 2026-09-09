@@ -1,0 +1,38 @@
+{
+  "schema_version": "non-authoritative-worker-observations/v1",
+  "phase": "NO_CASE_STARTUP",
+  "source_archive_sha256": "d3e165daa0ef20885636f9273f872f3a615a739f4d55e5bb7be22373da2386db",
+  "native_feedback_import": "NOT_APPLICABLE_NO_CASE",
+  "findings": [
+    {
+      "finding_id": "STARTUP-F001",
+      "location": "OPERATOR_PLAYBOOK.md:104",
+      "description": "取出文件说明引用 DELIVERY_INDEX，但包内没有该文件，也没有给出完整路径或可从包内到达的链接。",
+      "reason_or_counterexample": "ZIP 的 18 个成员中没有 DELIVERY_INDEX；仅拿该包的操作者无法按该引用找到交付文件位置。所有真正的本地 Markdown 链接均可解析，所以这是未链接的命名引用缺口。",
+      "affected_scope": "WSL 环境取出交付 ZIP 的导航，不影响 NO_ACTIVE_CASE 判定。",
+      "suggested_verification": "维护者核对实际 DELIVERY_INDEX 的受控路径，在操作手册给出明确仓库相对路径及可得性说明；若期望离线可用则随包包含衍生索引。仅用新包复走取出文件步骤。",
+      "confidence": "HIGH",
+      "kind": "EVIDENCE"
+    },
+    {
+      "finding_id": "STARTUP-F002",
+      "location": "OPERATOR_PLAYBOOK.md:7; PACKAGE_MANIFEST.json:1; KNOWN_LIMITATIONS.md:3",
+      "description": "要求核 operator_kit_manifest 的 implementation，但没有给出该 manifest 的准确仓库路径；本包仅有 PACKAGE_MANIFEST，且没有 implementation 或工具 HEAD 字段。",
+      "reason_or_counterexample": "按名称扫描没有 operator_kit_manifest；PACKAGE_MANIFEST 只提供包类型、版本、files 和 payload_set 等资料身份。历史 subject 不能替代运行 implementation。工具仓库本来就是执行前提，因此此处不能推断其文件不存在，只能确认包内无法定位/核版本。",
+      "affected_scope": "仅靠操作包核对工具运行版本与准备后续模块执行；无题启动仍可进行。",
+      "suggested_verification": "维护者提供准确的仓库相对路径、字段说明和只读核验步骤，区分历史资格 subject、当前 HEAD 和运行内容 hash；新包操作者只凭这些定位信息完成版本对照。",
+      "confidence": "HIGH",
+      "kind": "EVIDENCE"
+    },
+    {
+      "finding_id": "STARTUP-F003",
+      "location": "WEB_PACKAGE_TRIAGE.md:4-7; REVIEW_EXCHANGE_GUIDE.md:7-32",
+      "description": "分诊模板支持 NO_CASE，却在有问题时无条件要求输出 web-feedback/v1；该格式所需 case_id、module、正整数 revision 和当前 case package_hash 在 NO_CASE 包不存在。",
+      "reason_or_counterexample": "本包 active_case/active_module=null，并非 case review manifest。若把本次指南发现硬填入 web-feedback/v1，将不得不虚构 case 身份或使用无效 null revision。",
+      "affected_scope": "NO_CASE 操作资料有定位问题时的保存/回交格式，不涉及模型结论。",
+      "suggested_verification": "增加 NO_CASE 明确分支：保存独立非权威操作资料 finding/摘要，不调用 case feedback-import；以本包实际发现核验无需伪造 case 字段即可完整保存。",
+      "confidence": "HIGH",
+      "kind": "EVIDENCE"
+    }
+  ]
+}

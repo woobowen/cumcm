@@ -1,0 +1,32 @@
+{
+  "schema_version": "operator-external-review-receipt/v1",
+  "status": "ACTUAL_WEB_REVIEW_RECEIVED_AND_EVALUATED",
+  "native_import_status": "NATIVE_IMPORT_NOT_RUN_IMMUTABLE_SOURCE",
+  "case_id": "ORIGINAL-WATER-MIXED",
+  "module": "M14",
+  "revision": 1,
+  "package_hash": "09784e197709c5c5657d5eedac9959c7a72312e0ea30631a7bbeeb46afe05c71",
+  "original_feedback_sha256": "f44257672f89343d216f45adc6714f61bc4d914614e20f2876ba62370aae3eea",
+  "original_root_locator_from_history": "/tmp/cumcm-modular-workbench-001/acceptance-006/mixed",
+  "original_root_available": false,
+  "original_export_index_available": false,
+  "source_current_claimed": false,
+  "reason": "Old case root is immutable under this task. No append, copy-as-live, fabricated index, or changed package identity is allowed. Snapshot review proceeds independently.",
+  "findings": [
+    {
+      "id": "WEB-M14-SYMBOLS-001",
+      "evaluation": "CONFIRMED_READING_INTERFACE_GAP",
+      "evidence": "content.symbols has T,t=min and no separate flow/s; formulas use flow/s. Analysis contains partial definitions."
+    },
+    {
+      "id": "WEB-M14-STATEMENTS-002",
+      "evaluation": "CONFIRMED_READING_INTERFACE_GAP",
+      "evidence": "All three claim_evidence statements are Bounded result placeholders, while actual output fields contain the numbers."
+    }
+  ],
+  "derived_view": "old_reading.md",
+  "old_final_or_m14_modified": false,
+  "new_model_starts_for_feedback": 0,
+  "new_final_starts_for_feedback": 0,
+  "human_acceptance": "NOT_RUN"
+}
