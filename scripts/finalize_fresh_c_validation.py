@@ -910,6 +910,10 @@ def module_step(case_root: Path, module_id: str) -> dict[str, Any]:
             "count": 0,
             "used_for_selection": False,
         }
+    # The public comparison gate checks the on-disk attempt ledger. Persist the
+    # captured manifests before that check, as the complete controller does before
+    # preparing Final; this does not advance or accept any scientific state.
+    _persist_manifests(core, case_root, manifests)
     checked = core.validate_comparison(
         comparison, core.trusted_freezes(case_root), case_root=case_root
     )
