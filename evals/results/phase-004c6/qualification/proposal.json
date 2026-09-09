@@ -9,7 +9,7 @@
     "project": "0.3.0-competition-rc9",
     "skill": "0.2.0-competition-rc9"
   },
-  "candidate_status": "SHARED_SUBJECT_R2_FROZEN_NOT_QUALIFIED",
+  "candidate_status": "TERMINAL_REJECTED_NOT_ACTIVATED",
   "effective_acceptance": false,
   "maximum_functional_revisions": 2,
   "maximum_concurrent_units": 2,
@@ -19,11 +19,15 @@
   "old_phase_next_phase_allowed": null,
   "new_route_authorized": true,
   "native_protocol_audit": {
-    "status": "DISPATCHED",
-    "task_name": "protocol_audit",
-    "subject": "bcf498907cbf282e2c79580ea56b043fc1a7b52b",
-    "model": "UNKNOWN",
-    "reasoning": "UNKNOWN"
+    "status": "PARTIAL_INTERRUPTED_FIRST_ROLE_PLUS_LATER_SCOPED_SOURCE_REVIEWS",
+    "primary_final_diff_review": {
+      "path": "evals/results/phase-004c6/qualification/receipts/native_protocol_r2.json",
+      "sha256": "e45d5edcfa5466048cf5f098b367d2dd8fe2ba0cda4f2b8444c12b729ff19161"
+    },
+    "scope_clarification": {
+      "path": "evals/results/phase-004c6/qualification/rejected_r2/protocol_review_scope_clarification.json",
+      "sha256": "6b185b69f74bdbd356821b70a8f35a351dc2dde132b558f9ef549484d661eac3"
+    }
   },
   "dependency_changes": {
     "system_packages": 0,
@@ -36,5 +40,21 @@
   "development_case_ids": [
     "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
     "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007"
-  ]
+  ],
+  "terminal_decision": {
+    "path": "evals/results/phase-004c6/qualification/rejected_r2/rc9_candidate_decision.json",
+    "sha256": "c27c464858f0738807945cdd2acb4500669e2153d496a77538d6b6f837aed625"
+  },
+  "terminal_state_transition": {
+    "path": "evals/results/phase-004c6/qualification/terminal_state_transition.json",
+    "sha256": "4489e188f5d106fa3df830e2c014368641de33339db59634cbb550dde7aa4b70"
+  },
+  "native_result_audit": {
+    "path": "evals/results/phase-004c6/qualification/receipts/native_result_r2.json",
+    "sha256": "4a6c6cdbc6a0cda3832706418841746f2e55737df846b2f0a926cd1c63e41072"
+  },
+  "decision_auditor": {
+    "path": "evals/results/phase-004c6/qualification/decision_audit_001/receipt.json",
+    "sha256": "2d63c04d8d96a4eaf6f2926ae5358a4631cba5a7c89e8407151d78e1589b0c60"
+  }
 }

@@ -1,0 +1,12 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport hashlib,json\nfrom pathlib import Path\np=Path('.cache/pr12-rc9/scientific-semantics-review-007');r=json.loads((p/'receipt.json').read_text());checks=[]\nfor b in r['evidence']:\n checks.append(hashlib.sha256(Path(b['path']).read_bytes()).hexdigest()==b['sha256'])\nfor case,artifacts in r['reviewed_development_artifacts'].items():\n for name,b in artifacts.items():checks.append(hashlib.sha256(Path(b['path']).read_bytes()).hexdigest()==b['sha256'])\ncompile((p/'arithmetic_review.py').read_text(),str(p/'arithmetic_review.py'),'exec')\nlog=json.loads((p/'commands.json').read_text());assert all(checks)\nprint(json.dumps({'receipt_sha256':hashlib.sha256((p/'receipt.json').read_bytes()).hexdigest(),'bound_file_checks':len(checks),'all_bound_files_unchanged':all(checks),'syntax':'PASS','actual_commands_and_patches_logged':len(log['commands']),'candidate_acceptance':'FAIL','negative_terminal_facts':'PASS','new_model_checker_final_starts':0},indent=2))\nPY",
+  "started_at": "2026-09-09T04:14:02.641Z",
+  "ended_at": "2026-09-09T04:14:02.795Z",
+  "result": {
+    "chunk_id": "9f908b",
+    "wall_time_seconds": 0.000013845,
+    "exit_code": 0,
+    "original_token_count": 83,
+    "output": "{\n  \"receipt_sha256\": \"2b0aec45ff29e7c3e96c86e5eb41e2f8ff51860248bec993d42c81df4d353033\",\n  \"bound_file_checks\": 11,\n  \"all_bound_files_unchanged\": true,\n  \"syntax\": \"PASS\",\n  \"actual_commands_and_patches_logged\": 46,\n  \"candidate_acceptance\": \"FAIL\",\n  \"negative_terminal_facts\": \"PASS\",\n  \"new_model_checker_final_starts\": 0\n}\n"
+  }
+}

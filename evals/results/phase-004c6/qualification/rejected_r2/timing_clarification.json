@@ -1,0 +1,20 @@
+{
+  "schema_version": "recording-time-clarification/v1",
+  "recorded_at": "2026-09-09T04:22:51.252385+00:00",
+  "original_receipt": {
+    "path": "evals/results/phase-004c6/qualification/rejected_r2/adjudication_receipt.json",
+    "sha256": "c2a7eea5ebbc617f04dd2b71aa7ecbf75c77cefce2f704390d493f9b420b3d90"
+  },
+  "recording_source": {
+    "path": "evals/results/phase-004c6/qualification/rejected_r2/adjudication_recording_source.py.txt",
+    "sha256": "8866466c9ef17df0b4e47a4b609ab936cd631398e078fded4611775496e9db45"
+  },
+  "finding": "ended_at belongs to the first subprocess, but elapsed_seconds was sampled after the second read-only replay and record copies. The original field therefore spans more work than the original UTC interval.",
+  "original_bytes_preserved": true,
+  "first_subprocess_utc_elapsed_seconds": 9.272077,
+  "total_monotonic_recording_span_seconds": 15.928334133001044,
+  "first_subprocess_monotonic_elapsed_seconds": "UNKNOWN_NOT_SEPARATELY_RETAINED",
+  "second_replay_started_at": "UNKNOWN_NOT_RETAINED",
+  "second_replay_ended_at": "UNKNOWN_NOT_RETAINED",
+  "effect_on_decision": "No change: both actual exits/results remain BLOCK and replay-equal; use independent Decision Auditor receipt for its separately timed new replay."
+}

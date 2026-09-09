@@ -1,0 +1,9 @@
+{
+  "command": "rg -n 'scenario_hash|scenario_definition|scenario_identity' scripts/prepare_phase004c6_postvalidation.py src/cumcm* .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py -g '*.py'",
+  "tool_chunk_id": "efa3c0",
+  "exit_code": 2,
+  "exact_error_line_file": "initial_read_error.txt",
+  "utc_start_end": "NOT_RETAINED_FOR_PRELIMINARY_READ",
+  "cause": "Auditor used a nonexistent preparation script path",
+  "resolution": "rg --files scripts -g *004c6* identified scripts/prepare_phase004c6_development.py; no project code mutation or case execution"
+}

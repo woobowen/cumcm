@@ -1,0 +1,166 @@
+"""Independent read-only audit of RC9 rejection metadata; never imports case code."""
+from pathlib import Path
+from datetime import datetime
+import hashlib
+import json
+import subprocess
+import xml.etree.ElementTree as ET
+
+ROOT = Path(__file__).resolve().parents[3]
+OUT = Path(__file__).resolve().parent
+BASE = ROOT / 'evals/results/phase-004c6'
+Q = BASE / 'qualification'
+S = '10e8b038d571b88ce2b7f2388da00a618c774f69'
+checks = []
+observations = []
+
+def h(p):
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+def read(p):
+    return json.loads(p.read_text())
+
+def check(name, condition, detail=None):
+    checks.append({'name':name, 'status':'PASS' if condition else 'FAIL', 'detail':detail})
+
+def git(*args):
+    return subprocess.check_output(['git', *args], cwd=ROOT)
+
+def binding(b, label):
+    p = ROOT / b['path']
+    check(label, p.is_file() and h(p) == b['sha256'])
+    return p
+
+snapshot = read(Q/'rejected_r2/rc9_candidate_snapshot.json')
+decision = read(Q/'rejected_r2/rc9_candidate_decision.json')
+protocol = read(Q/'rc9_candidate_protocol.json')
+mapping = snapshot['implementation_sha256']
+prefixes = protocol['implementation_prefixes'] + protocol['case_code_prefixes']
+exact = set(protocol['implementation_files']) | {
+    'evals/results/phase-004c6/qualification/rc9_candidate_protocol.json',
+    'evals/results/phase-004c6/qualification/neutral_design.json',
+    *[f'evals/results/phase-004c6/{c}/development_design.json' for c in protocol['required_development_cases']],
+}
+def selected(commit):
+    paths = git('ls-tree','-r','--name-only',commit).decode().splitlines()
+    return sorted(p for p in paths if p in exact or any(p.startswith(x+'/') for x in prefixes))
+
+check('subject_and_792_mapping', snapshot['subject_commit']==S and len(mapping)==792)
+check('independent_subject_path_selection', selected(S)==sorted(mapping))
+check('head_path_selection', selected('HEAD')==sorted(mapping))
+for p, sha in mapping.items():
+    check('subject_blob:'+p, hashlib.sha256(git('show',S+':'+p)).hexdigest()==sha)
+    check('current_bytes:'+p, (ROOT/p).is_file() and h(ROOT/p)==sha)
+check('protocol_hash', h(Q/'rc9_candidate_protocol.json')==snapshot['protocol_sha256'])
+check('candidate_bound_to_decision', h(Q/'rejected_r2/rc9_candidate_snapshot.json')==decision['candidate_sha256'])
+check('no_self_commit_in_candidate_mapping', 'evals/results/phase-004c6/qualification/rc9_candidate_snapshot.json' not in mapping)
+check('historical_004c5_git_tree_unchanged', git('ls-tree','-r',protocol['history_subject'],'--','evals/results/phase-004c5')==git('ls-tree','-r','HEAD','--','evals/results/phase-004c5'))
+check('historical_004c5_worktree_unchanged', not git('diff','HEAD','--','evals/results/phase-004c5').strip())
+check('historical_validation_0_of_2', snapshot['old_validation']=={'passed':0,'total':2} and snapshot['new_independent_validation']==0)
+check('functional_revision_ceiling', snapshot['functional_revision']==protocol['functional_candidate_limit']==2)
+check('main_active_candidate_slot_absent', not (Q/'rc9_candidate_snapshot.json').exists())
+check('main_activation_absent', not (Q/'rc9_activation.json').exists())
+state = read(ROOT/'state/project_state.json')
+check('historical_active_skill_retained_at_audit', state.get('active_skill_version')=='0.2.0-competition-rc8')
+check('exact_receipt_set', set(snapshot['receipts'])==set(protocol['required_receipts']))
+
+receipt_rows=[]
+for kind,b in snapshot['receipts'].items():
+    rp = binding(b,'receipt_binding:'+kind); r=read(rp)
+    check('receipt_subject:'+kind,r['subject_commit']==S and r['kind']==kind)
+    for index,e in enumerate(r['evidence']):binding(e,f'evidence:{kind}:{index}')
+    row={'kind':kind,'status':r['status'],'evidence_count':len(r['evidence'])}
+    if 'commands' in r:
+        for i,c in enumerate(r['commands']):
+            check(f'command_exit:{kind}:{i}',c['exit_code']==0)
+            check(f'command_mapping_digest:{kind}:{i}',c['implementation_mapping_sha256']==hashlib.sha256(json.dumps(mapping,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest())
+            check(f'command_head_diff:{kind}:{i}',not git('diff',S,c['executed_head'],'--',*mapping.keys()).strip())
+            started=datetime.fromisoformat(c['started_at']); ended=datetime.fromisoformat(c['ended_at'])
+            check(f'command_time_order:{kind}:{i}',ended>=started and c['elapsed_seconds']>=0)
+            delta=(ended-started).total_seconds()
+            if abs(delta-c['elapsed_seconds'])>0.1:observations.append({'kind':kind,'utc_span_seconds':delta,'recorded_monotonic_seconds':c['elapsed_seconds'],'note':'Both clocks are recorded; no fabricated repair or throughput claim.'})
+            raw=ROOT/'.cache/pr12-rc9/command-logs'/rp.stem
+            stdout=(raw/'stdout').read_bytes();stderr=(raw/'stderr').read_bytes()
+            check(f'raw_stdout:{kind}:{i}',hashlib.sha256(stdout).hexdigest()==c['raw_stdout_sha256'])
+            check(f'raw_stderr:{kind}:{i}',hashlib.sha256(stderr).hexdigest()==c['raw_stderr_sha256'])
+            normalized=('STDOUT\n'+stdout.decode(errors='replace')+'\nSTDERR\n'+stderr.decode(errors='replace')).replace(str(ROOT),'<REPO_ROOT>').replace(str(Path.home()),'<USER_HOME>')
+            check(f'log_from_raw:{kind}:{i}',(ROOT/c['log']['path']).read_text()==normalized)
+            if kind in ('focused_tests','full_ci'):
+                check(f'pytest_summary_in_raw:{kind}',r['pytest_summary'] in stdout.decode())
+        row['command_count']=len(r['commands'])
+    receipt_rows.append(row)
+
+focused=read(Q/'receipts/focused_r2.json')
+xml=ET.parse(ROOT/focused['junit']['path'])
+testcases=xml.findall('.//testcase')
+passed=[t for t in testcases if not any(t.find(x) is not None for x in ('failure','error','skipped'))]
+check('junit_focused_101_passed',len(testcases)==len(passed)==focused['pytest_passed']==101)
+neutral=read(Q/'receipts/neutral_r2.json')
+nodeids={t.attrib['classname'].replace('.','/')+'.py::'+t.attrib['name'] for t in passed}
+for case in neutral['cases']:
+    check('neutral_nodeids_actually_passed:'+case['id'],bool(case['pytest_nodeids']) and set(case['pytest_nodeids'])<=nodeids)
+check('three_cli_e2es_passed',all(any('test_three_real_cli_e2e_allow_bounded_scientific_completion['+name+']' in t.attrib['name'] for t in passed) for name in ('optimization','prediction','mixed')))
+source=(ROOT/'tests/integration/test_rc9_science_semantics.py').read_text()
+check('neutral_test_has_public_cli_entrypoint', 'test_three_real_cli_e2e_allow_bounded_scientific_completion' in source and 'complete' in source)
+
+nr=read(Q/'receipts/native_result_r2.json'); original=read(Q/'scientific_audit_007/receipt.json')
+check('native_result_uses_acceptance_axis',nr['status']==original['candidate_acceptance_status']=='FAIL')
+check('negative_facts_axis_separate',original['status']==original['negative_terminal_facts_status']==nr['negative_terminal_facts_status']=='PASS')
+check('native_open_finding_preserved',nr['material_open_findings']==original['major_unresolved_findings'])
+check('native_actual_artifacts_preserved',nr['reviewed_development_artifacts']==original['reviewed_development_artifacts'])
+native7=read(Q/'scientific_audit_007/commands.summary.json')
+check('native_result_command_entries',len(native7['commands'])==native7['command_entries']==nr['actual_command_count']==46)
+check('native_raw_command_log_hash',h(ROOT/'.cache/pr12-rc9/scientific-semantics-review-007/commands.json')==native7['source_commands_sha256'])
+np=read(Q/'receipts/native_protocol_r2.json'); native6=read(Q/'scientific_audit_006/command_log.json')
+check('native_protocol_command_entries',len(native6['commands'])==native6['command_count']==np['actual_command_count']==16)
+check('original_protocol_scope_is_limited',read(Q/'scientific_audit_006/review_receipt.json')['review_scope']=='VERSION_PLAN_TARGET_REGISTRATION_PREPARATION_DIFF_ONLY')
+
+development=read(Q/'receipts/development_results_r2.json'); case_rows=[]
+for case in development['cases']:
+    caseid=case['case_id'];year=caseid.split('-')[1];cb=BASE/caseid; er=cb/'execution'
+    terminal=read(binding(case['terminal'],'terminal_binding:'+caseid))
+    execution=read(binding(case['execution_evidence'],'execution_binding:'+caseid))
+    ledger=read(binding(execution['budget_ledger'],'ledger_binding:'+caseid))
+    design=read(cb/'development_design.json')
+    check('failed_no_handoff:'+caseid,terminal['status']=='FAILED' and terminal['accepted_final'] is False and terminal['accepted_handoff'] is False)
+    check('terminal_subject:'+caseid,terminal['subject_commit']==execution['subject_commit']==S)
+    counts={kind:sum(e['kind']==kind for e in ledger['events']) for kind in ledger['limits']}
+    check('actual_process_counts:'+caseid,counts==terminal['actual_starts']==case['actual_starts']=={'model_cli_starts':2,'independent_checker_starts':3,'final_starts':0})
+    check('budget_limits:'+caseid,ledger['limits']==design['budget']=={'model_cli_starts':4,'independent_checker_starts':4,'final_starts':1})
+    check('four_requests_two_preprocess_rejections:'+caseid,terminal['actual_model_cli_requests']==execution['actual_model_cli_requests']==4 and terminal['pre_execution_model_request_rejections']==execution['preprocess_rejected_model_cli_requests']==2)
+    for i,e in enumerate(execution['artifacts']):binding(e,f'execution_artifact:{caseid}:{i}')
+    for i in (1,2):
+        for stem,expected in [(f'{year}_model_{i}',3),(f'{year}_model_valid_{i}',0)]:
+            c=read(er/'commands'/f'{stem}.json')
+            check('model_cli_exit:'+stem,c['exit_code']==expected and c['subject_commit']==S)
+            check('model_cli_stdout:'+stem,h(er/'commands'/f'{stem}.stdout')==c['stdout_sha256'])
+            if expected==3:check('invalid_run_id_before_process:'+stem,'RC_RUN_ID_INVALID' in (er/'commands'/f'{stem}.stdout').read_text())
+    scenario=set()
+    for runid in execution['model_run_ids']:
+        capture=read(er/'runs'/runid/'execution_capture.json')
+        manifest=read(er/'runs'/runid/'manifest.json')
+        cc=read(er/'runs'/runid/'scientific_check_capture.json')
+        check('actual_model_capture:'+runid,capture['exit_code']==0 and capture['outcome']=='SUCCESS' and capture['run_id']==runid)
+        check('actual_checker_capture:'+runid,cc['exit_code']==0 and cc['status']=='SUCCESS' and cc['run_id']==runid)
+        for code in capture['code_files']:check('capture_code_subject:'+runid+':'+code['repository_path'],mapping[code['repository_path']]==code['sha256'])
+        computed=hashlib.sha256(json.dumps([x['sha256'] for x in sorted(capture['input_files'],key=lambda x:x['path'])],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+        check('default_scenario_bound:'+runid,computed==capture['scenario_hash']==manifest['scenario_hash'])
+        scenario.add(computed)
+    replay=read(er/'commands'/f'{year}_main_independent_replay.json')
+    check('third_checker_is_replay_not_native:'+caseid,replay['status']=='PASS' and replay['not_native_agent_review'] is True and replay['not_external_truth_validation'] is True)
+    trace=read(er/'evidence/gate_execution_trace.json'); gates=trace['gate_sequence']
+    check('actual_compatibility_gate_rejection:'+caseid,len(gates)==6 and all(g['result']=='PASS' for g in gates[:5]) and gates[-1]['gate_id']=='GATE_COMPATIBILITY_PORTFOLIO' and gates[-1]['result']=='BLOCK' and gates[-1]['reason_codes']==['RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND'])
+    check('no_state_transition_after_gate_rejection:'+caseid,trace['state_before_hash']==trace['state_after_hash'])
+    root=ROOT/f'.cache/pr12-rc9/development/{year}/case-r2'
+    plans=[p for p in gates[-1]['input_hashes'] if p.endswith('experiment_plan.json')]
+    check('actual_plan_bound:'+caseid,len(plans)==1 and h(root/plans[0])==gates[-1]['input_hashes'][plans[0]])
+    plan=read(root/plans[0])['content']
+    check('actual_plan_scenario_omitted:'+caseid, 'scenario_hash' not in plan)
+    check('terminal_questions_preserved:'+caseid,terminal['question_results']==case['question_results'] and {r['requirement_id'] for r in case['question_results']}==set(design['required_question_ids']))
+    case_rows.append({'case_id':caseid,'status':terminal['status'],'actual_starts':counts,'actual_model_cli_requests':4,'preprocess_rejections':2,'artifact_bindings':len(execution['artifacts']),'scenario_defaults':sorted(scenario),'gate_sequence':[(g['gate_id'],g['result']) for g in gates]})
+
+result={'subject_commit':S,'decision_sha256':h(Q/'rejected_r2/rc9_candidate_decision.json'),'status':'PASS' if all(c['status']=='PASS' for c in checks) else 'FAIL','assertions':len(checks),'failed':[c for c in checks if c['status']=='FAIL'],'receipts':receipt_rows,'development':case_rows,'clock_observations':observations,'limitations':['Read-only metadata/hash/source audit. No model, scientific checker, Final or full CI rerun.','Native7 actual calls are corroborated by recorded tool entries and source log digest; no external scheduler attestation.','Global terminal state and remote delivery are not covered.']}
+(OUT/'metadata_checks.json').write_text(json.dumps(checks,indent=2)+'\n')
+(OUT/'metadata_results.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2))
+raise SystemExit(0 if result['status']=='PASS' else 1)

@@ -1,0 +1,28 @@
+{
+  "schema_version": "phase-004c6-cost-observation/v1",
+  "task_started_at": "2026-09-09T01:35:18Z",
+  "hard_deadline": "2026-09-09T08:35:18Z",
+  "observations": [
+    {
+      "observed_at": "2026-09-09 04:26:36 UTC",
+      "tokens_used": 2559428,
+      "time_used_seconds": 9930,
+      "initial_observed_tokens": 16008,
+      "observed_token_delta": 2543420,
+      "remaining_tokens": null
+    }
+  ],
+  "accounting": "Same get_goal tokensUsed counter, delta from first retained observation. It is not a billing estimate; model/cache/subagent inclusion semantics are UNKNOWN.",
+  "unknown_fields": [
+    "billable_tokens",
+    "cached_tokens",
+    "reasoning_tokens",
+    "provider_price",
+    "monetary_cost",
+    "CPU_cost",
+    "exact_effective_operator_time"
+  ],
+  "paid_model_api_calls_by_task": 0,
+  "local_installations": 0,
+  "local_global_configuration_changes": 0
+}

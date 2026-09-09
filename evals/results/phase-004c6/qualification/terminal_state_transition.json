@@ -1,0 +1,32 @@
+{
+  "schema_version": "phase-004c6-terminal-state-transition/v1",
+  "decision_id": "DECISION-RC9-RESEARCH-QUALIFICATION-004C6",
+  "recorded_at": "2026-09-09T04:31:50.093823+00:00",
+  "writer": "main-agent",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "basis": "WORKFLOW.md Phase004C6 explicit inactive blocked route and contracts/project_state.schema.json",
+  "before_state": {
+    "path": "evals/results/phase-004c6/qualification/state_before_terminal.json",
+    "sha256": "c99fddcb988df6e86fc71ea9824693d3a9cab7861194aba818d6b57973080cb4"
+  },
+  "after_state_sha256": "88d6fa29c25be5684b2e21b9df597c8f8bfde57e2a8794b00b2a4184cc43918e",
+  "machine_decision": {
+    "path": "evals/results/phase-004c6/qualification/rejected_r2/rc9_candidate_decision.json",
+    "sha256": "c27c464858f0738807945cdd2acb4500669e2153d496a77538d6b6f837aed625"
+  },
+  "native_decision_audit": {
+    "path": "evals/results/phase-004c6/qualification/decision_audit_001/receipt.json",
+    "sha256": "2d63c04d8d96a4eaf6f2926ae5358a4631cba5a7c89e8407151d78e1589b0c60"
+  },
+  "technical_adjudication_status": "RC9_RELEASE_REPAIR_BLOCKED",
+  "active_skill_version": "0.2.0-competition-rc8",
+  "target_candidate_version": "0.2.0-competition-rc9",
+  "effective_acceptance": false,
+  "next_phase_allowed": null,
+  "old_validation": {
+    "passed": 0,
+    "total": 2
+  },
+  "new_independent_validation": 0,
+  "audit_scope_limit": "Auditor verified existing machine rejection/inputs; main agent applies and machine-validates this later state. Auditor did not claim to audit future state or remote delivery."
+}

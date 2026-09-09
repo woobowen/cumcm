@@ -1,0 +1,198 @@
+"""Read-only arithmetic and byte-binding audit; never imports/runs case implementations."""
+import collections
+import datetime
+import hashlib
+import json
+import math
+from pathlib import Path
+
+REPO = Path('<REPO_ROOT>')
+OUT = REPO / '.cache/pr12-rc9/scientific-semantics-review-007'
+SUBJECT = '10e8b038d571b88ce2b7f2388da00a618c774f69'
+materials = {}
+checks = []
+results = {}
+
+def raw(path):
+    path = Path(path)
+    data = path.read_bytes()
+    materials[str(path.relative_to(REPO))] = hashlib.sha256(data).hexdigest()
+    return data
+
+def read(path):
+    return json.loads(raw(path))
+
+def sha(path):
+    return hashlib.sha256(raw(path)).hexdigest()
+
+def require(condition, label):
+    checks.append({'check': label, 'pass': bool(condition)})
+
+def equal_num(a, b, label, tol=1e-10):
+    require(math.isfinite(float(a)) and math.isfinite(float(b)) and abs(a-b) <= tol, label)
+
+def binding(b, label):
+    require(sha(REPO/b['path']) == b['sha256'], label)
+
+def canonical(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()
+
+development = read(REPO/'evals/results/phase-004c6/qualification/receipts/development_results_r2.json')
+reviewed = {}
+for year, suffix in [(2016, '006'), (2015, '007')]:
+    cid = f'CUMCM-{year}-C-POSTVALIDATION-DEVELOPMENT-{suffix}'
+    root = REPO/f'.cache/pr12-rc9/development/{year}/case-r2'
+    pub = REPO/f'evals/results/phase-004c6/{cid}'
+    plan = read(root/'experiments/experiment_plan.json')['content']
+    terminal = read(pub/'terminal/decision.json')
+    execution = read(pub/'execution/execution_evidence.json')
+    reviewed[cid] = {key: {'path': str(path.relative_to(REPO)), 'sha256': sha(path)} for key, path in [('terminal',pub/'terminal/decision.json'), ('execution_evidence',pub/'execution/execution_evidence.json')]}
+    require(plan.get('scenario_hash') is None, f'{year}: actual frozen plan lacks scenario hash')
+    require(plan['code_commit'] == SUBJECT, f'{year}: plan code subject')
+    for b in execution['artifacts']:
+        binding(b, f'{year}: published artifact {b["path"]}')
+    for b in execution['scientific_summaries']:
+        binding(b, f'{year}: summary binding')
+    provenance = read(pub/'execution/raw_to_public_provenance.json')
+    for rec in provenance['records']:
+        require(sha(root/rec['source_relative_to_case']) == rec['raw_sha256'], f'{year}: raw provenance {rec["source_relative_to_case"]}')
+        if rec.get('published'):
+            binding(rec['published'], f'{year}: published provenance')
+    ledger = read(root/'state/execution_budget.json')
+    counts = dict(collections.Counter(e['kind'] for e in ledger['events']))
+    require(counts == {'model_cli_starts':2, 'independent_checker_starts':3}, f'{year}: actual process budget counts 2+3+0')
+    require(terminal['actual_starts'] == dict(counts, final_starts=0), f'{year}: terminal ledger counts')
+    require(terminal['actual_model_cli_requests'] == 4 and terminal['pre_execution_model_request_rejections'] == 2, f'{year}: terminal separates request rejection')
+    trace = read(root/'evidence/gate_execution_trace.json')
+    require(trace['final_disposition'] == 'BLOCK' and trace['gate_sequence'][-1]['gate_id'] == 'GATE_COMPATIBILITY_PORTFOLIO', f'{year}: gate stopped before semantic/Final')
+    require(trace['gate_sequence'][-1]['reason_codes'] == ['RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND'], f'{year}: exact block reason')
+    for rel, digest in trace['input_artifact_hashes'].items():
+        require(sha(root/rel) == digest, f'{year}: actual trace input still unchanged {rel}')
+    require(sha(root/'case_state.json') == trace['state_before_hash'] == trace['state_after_hash'], f'{year}: completion did not alter case state')
+    for rel in ['evidence/final_evaluation_ledger.json','evidence/prefinal_selection_freeze.json','evidence/scientific_final_ledger.json','evidence/final_protocol_events.jsonl']:
+        require(not (root/rel).exists(), f'{year}: no Final artifact {rel}')
+    final = read(root/'results/final_result.json')['content']
+    require(final['status'] == 'DRAFT' and final['run_id'] is None, f'{year}: root Final remains empty DRAFT')
+    require(terminal['status'] == 'FAILED' and terminal['subject_commit'] == SUBJECT and terminal['independent_validation'] is False, f'{year}: truthful failed Development tuple')
+    require(not terminal['accepted_final'] and not terminal['accepted_handoff'], f'{year}: no accepted Final/handoff')
+    binding(terminal['execution_evidence'], f'{year}: terminal execution binding')
+    published_case = next(c for c in development['cases'] if c['case_id'] == cid)
+    require(published_case['terminal'] == reviewed[cid]['terminal'] and published_case['execution_evidence'] == reviewed[cid]['execution_evidence'], f'{year}: development receipt exact terminal/execution tuple')
+    require(published_case['question_results'] == terminal['question_results'], f'{year}: development receipt question rows')
+    results[str(year)] = {'ledger_counts':counts, 'plan_sha256':sha(root/'experiments/experiment_plan.json'), 'runs':{}}
+    for n in [1,2]:
+        rid = f'RUN-RC9-D{year}-R2-0{n}'
+        run = root/'runs'/rid
+        o = read(run/'output.json')
+        checker = read(run/'scientific_check.json')
+        capture = read(run/'execution_capture.json')
+        cc = read(run/'scientific_check_capture.json')
+        manifest = read(run/'manifest.json')
+        summary = read(pub/'execution/runs'/rid/'scientific_summary.json')
+        scenario = canonical([v['sha256'] for v in sorted(capture['input_files'], key=lambda v:v['path'])])
+        require(scenario == capture['scenario_hash'] == manifest['scenario_hash'], f'{rid}: independently recomputed capture scenario fallback')
+        require(scenario != plan.get('scenario_hash'), f'{rid}: actual None/hash incompatibility')
+        require(capture['outcome'] == 'SUCCESS' and capture['exit_code'] == 0, f'{rid}: successful actual model capture')
+        require(cc['status'] == 'SUCCESS' and cc['exit_code'] == 0, f'{rid}: successful actual independent capture')
+        require(capture['code_commit'] == SUBJECT, f'{rid}: actual model code subject')
+        require(summary['source_output_sha256'] == sha(run/'output.json') == checker['output_sha256'], f'{rid}: output/checker/summary binding')
+        require(summary['source_scientific_check_sha256'] == sha(run/'scientific_check.json'), f'{rid}: summary checker hash')
+        require(summary['source_capture_sha256'] == sha(run/'execution_capture.json'), f'{rid}: summary actual capture hash')
+        for target, source in [('metrics','final_metrics'),('metric_definitions','metric_definitions'),('metric_accounting','metric_accounting'),('limitations','limitations'),('robustness_evidence','robustness_evidence'),('scientific_evidence','scientific_evidence')]:
+            require(summary[target] == o[source], f'{rid}: public {target} matches output')
+        require(summary['requirements'] == checker['requirements'], f'{rid}: public requirement feasibility/residuals match actual checker')
+        require(summary['checker_independence'] == checker['independence'], f'{rid}: public independence statement')
+        recomputed = {}
+        for metric, rows in o['metric_samples'].items():
+            d = o['metric_definitions'][metric]
+            values = []
+            for row in rows:
+                if d['formula'] == 'VALUE':
+                    value = row['value']
+                elif d['quantity'] == 'REMAINING_TIME':
+                    denominator = row['observed_end_time'] - row['origin']
+                    require(denominator > 0, f'{rid}/{metric}/{row["sample_id"]}: positive remaining denominator')
+                    value = abs(row['predicted_end_time']-row['observed_end_time'])/denominator
+                elif d['formula'] == 'ABSOLUTE_RELATIVE_ERROR':
+                    require(row['truth'] != 0, f'{rid}/{metric}/{row["sample_id"]}: nonzero elapsed denominator')
+                    value = abs(row['prediction']-row['truth'])/abs(row['truth'])
+                elif d['formula'] == 'SQUARED_ERROR':
+                    value = (row['prediction']-row['truth'])**2
+                else:
+                    raise ValueError(d)
+                values.append(value)
+            aggregation = d['aggregation']
+            value = max(values) if aggregation == 'MAX' else (sum(values)/len(values))
+            if aggregation == 'ROOT_MEAN': value = math.sqrt(value)
+            equal_num(value, o['final_metrics'][metric], f'{rid}/{metric}: arithmetic output aggregate')
+            equal_num(value, o['metric_accounting'][metric]['value'], f'{rid}/{metric}: accounting aggregate')
+            require(len(rows) == o['metric_accounting'][metric]['included_count'] and not o['metric_accounting'][metric]['excluded_sample_ids'], f'{rid}/{metric}: complete sample accounting')
+            require(len(set(row['sample_id'] for row in rows)) == len(rows), f'{rid}/{metric}: unique sample IDs')
+            recomputed[metric] = {'value':value, 'count':len(rows)}
+        rr = {'scenario_hash':scenario, 'recomputed':recomputed, 'feasibility':{k:v['feasible'] for k,v in checker['requirements'].items()}}
+        if year == 2016:
+            index = {x['observation_id']:x for x in read(root/'data/processed/temporal_index.json')['observations']}
+            require(o['temporal_lineage'] == checker['temporal_lineage'], f'{rid}: checker actual lineage equality')
+            metricrows = {x['sample_id']:x for x in o['metric_samples']['q3_remaining_MRE']}
+            temporal_summary = []
+            for sample in o['temporal_lineage']['samples']:
+                sid, origin = sample['sample_id'], sample['origin']
+                state = int(sid[1])
+                refids = sample['model_fit_observation_ids'] + sample['preprocess_fit_observation_ids']
+                featids = sample['feature_observation_ids']
+                require(all(index[i]['available_at'] <= origin and index[i]['observed_at'] <= origin and index[i]['entity_id'] == sample['entity_id'] for i in set(refids+featids)), f'{rid}/{sid}: feature/fit visibility and same entity')
+                require(all(int(i[1]) < state or i in featids for i in refids), f'{rid}/{sid}: model/preprocess fit uses strictly earlier states plus exact target prefix')
+                require(all(int(i[1]) == state for i in featids), f'{rid}/{sid}: target features only own prefix')
+                require([int(i.split('-U')[1]) for i in featids] == list(range(len(featids))), f'{rid}/{sid}: complete contiguous target prefix')
+                if sid in metricrows:
+                    row = metricrows[sid]
+                    equal_num(origin,row['origin'], f'{rid}/{sid}: row origin cross-binding')
+                    truth = index[sample['target_observation_id']]
+                    equal_num(row['observed_end_time'], truth['observed_at'], f'{rid}/{sid}: truth time cross-binding')
+                    equal_num(sample['target_time'],truth['observed_at'], f'{rid}/{sid}: lineage target cross-binding')
+                    require(truth['available_at'] > origin and sample['target_observation_id'] not in set(refids+featids), f'{rid}/{sid}: future label unavailable at fit')
+                else:
+                    require(sid == 'S3-LAST' and sample['target_observation_id'] is None and sample['target_time'] is None, f'{rid}: future truth absent')
+                temporal_summary.append({'sample_id':sid,'origin':origin,'feature_count':len(featids),'reference_states':sorted({int(i[1]) for i in refids if i not in featids}),'target_time':sample['target_time']})
+            rr['temporal'] = temporal_summary
+            rr['remaining_error_terms'] = [abs(x['predicted_end_time']-x['observed_end_time'])/(x['observed_end_time']-x['origin']) for x in metricrows.values()]
+            rr['incorrect_elapsed_denominator_MRE'] = sum(abs(x['predicted_end_time']-x['observed_end_time'])/(x['observed_end_time']-10000*int(x['sample_id'][1])) for x in metricrows.values())/6
+            for key, src in [('q1_per_current_MRE',o['Q1']['per_current_MRE']),('q1_remaining_at_9_8V_min',o['Q1']['remaining_at_9_8V_min']),('q2_duration55_min',o['Q2']['duration55_min']),('q3_rolling_origin_development',o['Q3']['rolling_origin_development'])]:
+                require(summary[key] == src, f'{rid}: published {key}')
+            for key,val in summary['q3_transfer_parameters'].items(): require(val == o['Q3'][key], f'{rid}: published transfer {key}')
+            equal_num(o['Q3']['predicted_total_min']-o['Q3']['current_elapsed_min'],o['Q3']['predicted_remaining_min'], f'{rid}: total minus origin remaining')
+        else:
+            groups = collections.defaultdict(set)
+            for row in o['reference_comparison']:
+                groups[(row['city'],row['body'])].add(row['jd'])
+            require(len(groups)==14 and all(len(v)==12 for v in groups.values()) and len(o['reference_comparison'])==168, f'{rid}: 14 city/body x 12 unique reference epochs')
+            for city, rows in o['daily_calendar'].items():
+                require(len(rows)==366 and len({r['date'] for r in rows})==366, f'{rid}: {city} complete unique leap-year dates')
+            require(len(o['daily_calendar'])==7, f'{rid}: seven calendars')
+            for city, rows in o['events'].items():
+                require(len(rows)==o['final_metrics'][city+'_event_count'], f'{rid}: {city} event cardinality')
+                for e in rows:
+                    equal_num((e['end_jd']-e['start_jd'])*1440,e['duration_minutes'],f'{rid}/{city}/{e["date"]}: duration from JD')
+                    require(e['end_jd'] > e['start_jd'] and 8-1e-7 <= e['moon_alt_mid_deg'] <= 12+1e-7 and -12-1e-7 <= e['sun_alt_mid_deg'] <= -6+1e-7, f'{rid}/{city}/{e["date"]}: positive event with midpoint in bands')
+            require(sum(map(len,o['events'].values()))==o['final_metrics']['scenario_event_count'], f'{rid}: total event cardinality')
+            for label, info in summary['sensitivity_counts'].items():
+                require(info['parameters']==o['sensitivity'][label]['parameters'] and info['city_event_counts']==o['sensitivity'][label]['city_event_counts'], f'{rid}: public perturbation {label}')
+            rr['sensitivity_totals'] = {k:sum(v['city_event_counts'].values()) for k,v in o['sensitivity'].items()}
+            rr['events_by_city'] = {k:len(v) for k,v in o['events'].items()}
+        results[str(year)]['runs'][rid] = rr
+        if n == 2:
+            require(set(q['requirement_id'] for q in terminal['question_results']) == set(checker['requirements']), f'{year}: terminal covers requirement set')
+            for question in terminal['question_results']:
+                qid = question['requirement_id']
+                require(question['scientific_domain_feasible']==checker['requirements'][qid]['feasible'], f'{year}/{qid}: terminal domain feasibility')
+                require(question['final_acceptance_status']=='NOT_RUN' and question['accepted_claim'] is False, f'{year}/{qid}: terminal no accepted claim')
+                for k,v in question['metric_values'].items(): equal_num(v,o['final_metrics'][k],f'{year}/{qid}: terminal metric {k}')
+                for b in question['evidence']: binding(b,f'{year}/{qid}: terminal summary hash')
+
+report = {'review_scope':'ACTUAL_POSTVALIDATION_DEVELOPMENT_RESULTS','subject_commit':SUBJECT,'computed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'execution_kind':'STDLIB_ARITHMETIC_AND_METADATA_ONLY','new_model_checker_final_starts':0,'check_count':len(checks),'failed_checks':[c for c in checks if not c['pass']],'results':results,'reviewed_development_artifacts':reviewed}
+OUT.mkdir(parents=True,exist_ok=True)
+(OUT/'arithmetic_results.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+(OUT/'arithmetic_checks.json').write_text(json.dumps(checks,indent=2,ensure_ascii=False)+'\n')
+(OUT/'material_manifest.json').write_text(json.dumps(materials,indent=2,ensure_ascii=False)+'\n')
+print(json.dumps(report,indent=2,ensure_ascii=False))
+raise SystemExit(bool(report['failed_checks']))
