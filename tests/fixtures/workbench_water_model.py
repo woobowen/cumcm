@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import math
+import time
 from pathlib import Path
 
 
@@ -53,6 +54,8 @@ def main():
         return json.loads((args.case_root / path).read_text())["content"]
 
     raw = json.loads((args.case_root / "data/raw/input.json").read_text())
+    if raw.get("fault") == "TIMEOUT":
+        time.sleep(2)
     plan = content("experiments/experiment_plan.json")
     requirements = content("problem/problem_requirements.json")["requirements"]
     sources = content("research/source_ledger.json")["sources"]

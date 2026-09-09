@@ -42,7 +42,12 @@ def test_context_and_local_staleness_follow_actual_dependencies(wb, repo_root, t
     path = root / wb.core.ARTIFACT_PATHS["assumptions_and_symbols"]
     path.write_text(path.read_text() + "\n")
     rows = {row["module"]: row["status"] for row in cli(wb, root, "status")["modules"]}
-    assert rows == {"M01": "COMPLETED", "M02": "COMPLETED", "M03": "COMPLETED", "M04": "STALE"}
+    assert rows == {
+        "M01": "COMPLETED",
+        "M02": "COMPLETED",
+        "M03": "COMPLETED",
+        "M04": "STALE_OUTPUT",
+    }
     assert (
         "WB_CONTEXT_STALE"
         in cli(
@@ -164,6 +169,56 @@ def test_real_fourteen_module_water_path_stops_and_preserves_one_final(
     )["reason_codes"] == ["WB_MODULE_ALREADY_COMPLETED"]
     cli(wb, root, "complete", "--request", "WATER-M12", "--report", "work/M12.json")
     assert wb.core.file_hash(root / wb.core.SCIENTIFIC_FINAL_LEDGER) == before
+
+
+@pytest.mark.parametrize("fault", ["INFEASIBLE", "TIMEOUT"])
+def test_actual_failed_numeric_attempt_is_retained_and_cannot_complete(
+    wb, repo_root, tmp_path, fault
+):
+    root = tmp_path / "failed"
+    process = subprocess.run(
+        [
+            sys.executable,
+            str(repo_root / "scripts/exercise_modular_workbench.py"),
+            "--build-exercise",
+            "--case-root",
+            str(root),
+            "--kind",
+            "optimization",
+            "--stop-after",
+            "M09",
+            "--fault",
+            fault,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=90,
+    )
+    assert process.returncode != 0
+    captures = list((root / "runs").glob("*/execution_capture.json"))
+    assert len(captures) == 1
+    capture = wb.core.load_json(captures[0])
+    if fault == "TIMEOUT":
+        assert capture["outcome"] == "FAILED"
+        assert capture["failure"]["reason_code"] == "RC_EXECUTION_TIMEOUT"
+        assert capture["exit_code"] != 0
+    else:
+        assert capture["outcome"] == "SUCCESS"
+        output = wb.core.load_json(root / capture["output"]["path"])
+        assert output["allocation"]["quantity_litres"] == 0
+        assert output["allocation"]["demand_litres"] > 0
+    before = wb.core.file_hash(captures[0])
+    resumed = cli(wb, root, "resume", "--request", "WATER-M09")
+    assert resumed["recovery"]["automatic_starts"] == 0
+    assert any(row["status"] == "FAILED" for row in resumed["operations"])
+    assert not (root / "evidence/module_requests/WATER-M09/completion.json").exists()
+    assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert (
+        "WB_PREREQUISITE_MISSING_OR_STALE"
+        in cli(wb, root, "prepare", "--module", "M10", accepted=False)["reason_codes"][0]
+    )
+    assert wb.core.file_hash(captures[0]) == before
 
 
 @pytest.fixture

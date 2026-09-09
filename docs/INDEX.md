@@ -1,5 +1,6 @@
 # Documentation index
 
+- 当前模块工作台：[START_HERE](modular_workbench/START_HERE.md)、[模块目录](modular_workbench/MODULES.md)、[Runbook](modular_workbench/RUNBOOK.md)、[角色提示词](modular_workbench/ROLE_PROMPTS.md)
 - RC7 暂停与诚实交接：`../HANDOVER.md`、`../CODEX_TAKEOVER.md`、`handover/`
 - Architecture and truth: `ARCHITECTURE.md`, `SOURCE_OF_TRUTH.md`, `adr/`
 - Operation and recovery: `RUNBOOK.md`, `RECOVERY.md`, `TRANSPORT_RECOVERY_POLICY.md`,

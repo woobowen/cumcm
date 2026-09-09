@@ -95,3 +95,27 @@ New context verification and rc10 candidate identity still require current tests
 B4 static technical materials and original water analysis exist; B5 numerical exercise starts
 after the implementation commit. Native reviewer used read-only original helper probes only;
 model/checker/Final0 for reviewer. Known child remains NOT_RUN. Install ledger remains empty.
+
+## Checkpoint B3–B6, 2026-09-09T09:30Z
+
+At 49ba547, new lifecycle/budget/history suite ran84 tests:83 passed, one assertion expected
+generic STALE rather than the actual more precise STALE_OUTPUT. Its corrected isolated retest
+passed. All three original water families actually completed M01–M14 with M09 stops and one
+Final; later implementation changes require common-subject reruns before qualification.
+Actual local feedback exercise confirmed an explicitly fault-injected arithmetic counterexample
+by a separate Python process, retained unsupported opinion as NEEDS_EVIDENCE, registered an
+alternative, and rejected stale/current resolution and malicious/wrong-case/hash feedback.
+Formal state unchanged, automatic model starts0, real web/team NOT_RUN.
+
+Native round04 found engineering-adjudicator evidence shortcuts. They are being repaired with
+exact UTF8/raw-hash record bindings, actual command/test coverage and typed review details;
+no candidate has been qualified. Main also found model outcome FAILED was being labelled a
+completed module operation; retain the actual capture/result, reject the operation and test a
+real timeout plus infeasible numeric run. No known-task start until the final subject is frozen.
+
+The authorized restricted-context worker may read only the packaged new-brain materials,
+one original case's current M04 request/context, and explicitly referenced original artifacts.
+It may execute read-only status/context checks and original arithmetic in its own ignored
+scratch, and write proposed analysis/report there. Main alone installs proposals and calls
+formal completion. It must stop after M04. These private proposals are the only worker write
+scope; no repository/public/case-state/Git edits, no known data or scientific Final.

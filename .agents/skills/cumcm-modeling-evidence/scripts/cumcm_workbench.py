@@ -364,6 +364,12 @@ def run_operation(
             )
         else:
             result = controller().module_step(root, mid)
+        value["result"] = result
+        if isinstance(result, dict) and (
+            result.get("outcome") == "FAILED"
+            or ("exit_code" in result and result["exit_code"] != 0)
+        ):
+            raise ValueError("WB_ACTUAL_EXECUTION_FAILED:" + str(result))
         if isinstance(result, dict) and result.get("status") in {
             "BLOCK",
             "REJECTED",

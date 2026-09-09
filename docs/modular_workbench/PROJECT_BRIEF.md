@@ -14,10 +14,12 @@
 分别记录。机器技术拒绝不能由任何角色改成PASS。
 
 2026规则核对只阅读官方规则页面，未读取当届赛题。官方AI工具规定强调团队主导、逐项核验、
-使用披露和支撑材料中的详细说明；竞赛章程限制赛期队外讨论以及当前题目资料的公开传播。
+使用披露和支撑材料中的详细说明；参赛规则限制赛期队外讨论以及当前题目资料的公开传播。
 具体使用以官方当前规则和组织方要求为准；本工具不代替队员合规审查。
 来源：[AI工具规定](https://www.mcm.edu.cn/html_cn/node/fef94648f2836ab6cc81586f4c38512b.html)、
-[竞赛章程](https://www.mcm.edu.cn/html_cn/node/9d8e511fe7a1447b35f53a82c908e2e0.html)。
+[参赛规则](https://www.mcm.edu.cn/html_cn/node/9d8e511fe7a1447b35f53a82c908e2e0.html)。
+已登记Source：`CUMCM-2026-AI-RULES-004C7`、`CUMCM-2026-CONTEST-RULES-004C7`，
+见 `state/source_ledger.jsonl`；2026-09-09实际访问，未保存整页副本或访问赛题。
 
 论文团队收到逐问技术事实和证据：文字组组织模型与结论表述；数据图组使用同一Run的
 figure-ready data并保留单位、样本和误差含义；模型示意图组依据已确认对象和依赖绘图；

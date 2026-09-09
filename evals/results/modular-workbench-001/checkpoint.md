@@ -18,3 +18,12 @@ Fourteen task cards, one thin CLI and technical handoff docs drafted. Actual ori
 and new known child are not yet accepted. Candidate rc10 is implementation identity only,
 not a release activation. Next: commit implementation, original numeric full paths, feedback
 round trip, restricted-context worker, then bounded engineering decision/CI/delivery.
+
+2026-09-09, later checkpoint: 49ba547 lifecycle suite83 passed/1 assertion mismatch;
+corrected STALE_OUTPUT assertion passed alone. Prediction, optimization and three-question mixed
+original cases all actually completed fourteen modules, M09 stop and one Final. Implementation
+has subsequently changed, so these are development evidence pending the common-subject run.
+Local review exercise passed counterexample/unsupported/alternative/stale/malicious channels;
+the counterexample was explicitly fault-injected, independently recomputed, never real web review.
+Native round04 rejected shallow engineering evidence gates; exact record/test bindings under repair.
+No known child registered or started yet. No activation, full CI or remote delivery yet.

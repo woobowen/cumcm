@@ -66,6 +66,8 @@ def cli(root, *args):
 
 def case_data(kind):
     raw, temporal = SCIENCE.temporal_data(kind)
+    for sample in temporal["samples"]:
+        sample["target_event"] = "water level first reaches 10 L"
     raw.update(
         kind=kind,
         threshold=10,
@@ -247,9 +249,11 @@ def proposals(root, kind):
     accepted(root, "semantic_claim_support", semantic)
 
 
-def exercise(root, kind, stop_after):
+def exercise(root, kind, stop_after, fault=None):
     root.parent.mkdir(parents=True, exist_ok=True)
     raw, temporal = case_data(kind)
+    if fault:
+        raw["fault"] = fault
     case_id = "ORIGINAL-WATER-" + kind.upper()
     if not core.state_path(root).exists():
         cli(root, "init", "--case-id", case_id, "--kind", "general")
@@ -414,6 +418,8 @@ def exercise(root, kind, stop_after):
                     run,
                     "--code",
                     "models/runtime_model.py",
+                    "--timeout",
+                    "1" if fault == "TIMEOUT" else "600",
                 )
                 cli(
                     root,
@@ -469,8 +475,9 @@ def main():
     parser.add_argument("--case-root", type=Path, required=True)
     parser.add_argument("--kind", choices=["mixed", "optimization", "prediction"], required=True)
     parser.add_argument("--stop-after", choices=[f"M{i:02}" for i in range(1, 15)], default="M14")
+    parser.add_argument("--fault", choices=["INFEASIBLE", "TIMEOUT"])
     args = parser.parse_args()
-    exercise(args.case_root.resolve(), args.kind, args.stop_after)
+    exercise(args.case_root.resolve(), args.kind, args.stop_after, args.fault)
 
 
 if __name__ == "__main__":
