@@ -79,6 +79,7 @@ def _build_case(
     *,
     model_fixture: str,
     semantic_adjust: Callable[[dict], dict] | None = None,
+    reverse_requirements_before_freeze: bool = False,
 ):
     probes = _module(
         repo_root / "tests/integration/test_actual_controller_black_box.py",
@@ -96,6 +97,9 @@ def _build_case(
     core.initialize_case(case, "P0-01-REPRODUCTION", "general")
     core.write_json(case / "data/raw/input.json", {"x": [1, 2, 3]})
     raw_hash = core.file_hash(case / "data/raw/input.json")
+    requirements = probes._requirements()
+    if reverse_requirements_before_freeze:
+        requirements.reverse()
     probes._accepted(
         core,
         case,
@@ -103,7 +107,7 @@ def _build_case(
         {
             "contract_version": "requirement-evidence/v1",
             "case_id": "P0-01-REPRODUCTION",
-            "requirements": probes._requirements(),
+            "requirements": requirements,
         },
     )
     probes._advance_to(core, case, "REQUIREMENTS_VALIDATED")
@@ -134,7 +138,7 @@ def _build_case(
         "data_sufficiency",
         {
             "contract_version": "data-sufficiency/v1",
-            "requirements": probes._requirements(),
+            "requirements": requirements,
             "sources": [source],
             "acquisition_plans": [],
             "source_compositions": [],

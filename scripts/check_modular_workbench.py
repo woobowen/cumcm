@@ -105,7 +105,26 @@ EXACT = {
     "src/cumcm_skill_lab/historical_compat.py",
     "src/cumcm_skill_lab/authorization_c1/schema_resolution.py",
     BASE + "/original_analysis.md",
+    BASE + "/development_exports/acceptance-001/mixed/records.json",
+    BASE + "/development_exports/acceptance-001/mixed/modules/M04-records.json",
     QUAL + "/protocol.json",
+}
+KNOWN_RUNTIME_PREFIXES = (
+    ".agents/skills/cumcm-modeling-evidence/",
+    "contracts/",
+    "rules/",
+    "src/",
+    "docs/modular_workbench/",
+    BASE + "/known_code/",
+)
+KNOWN_RUNTIME_EXACT = {
+    "scripts/prepare_workbench_known.py",
+    "scripts/prepare_phase004c6_development.py",
+    "scripts/finalize_fresh_c_validation.py",
+    "README.md",
+    "docs/INDEX.md",
+    "VERSION",
+    "pyproject.toml",
 }
 
 
@@ -176,6 +195,19 @@ def frozen_mapping(root, subject):
         p: digest(git(root, "show", subject + ":" + p))
         for p in paths
         if p in EXACT or any(p.startswith(prefix) for prefix in PREFIXES)
+    }
+
+
+def known_runtime_mapping(root, subject):
+    """All executed known-case code plus Skill, modules, contracts and rules.
+
+    A later test/adjudication-only correction cannot change this map. Preserve
+    the actual execution commit; never relabel a captured Run as the delivery commit.
+    """
+    return {
+        p: sha
+        for p, sha in mapping(root, subject).items()
+        if p in KNOWN_RUNTIME_EXACT or p.startswith(KNOWN_RUNTIME_PREFIXES)
     }
 
 
@@ -696,6 +728,14 @@ def validate_detail(root, name, item):
         registration, terminal, budget, ledger = [
             records[k]["content"] for k in ("registration", "terminal", "budget", "final_ledger")
         ]
+        executed_runtime = known_runtime_mapping(root, registration["skill_commit"])
+        if (
+            not executed_runtime
+            or executed_runtime != known_runtime_mapping(root, "HEAD")
+            or detail.get("executed_subject") != registration["skill_commit"]
+            or detail.get("runtime_sha256") != canonical(executed_runtime)
+        ):
+            raise ValueError("WB_KNOWN_EXECUTED_RUNTIME_DRIFT")
         used = {
             kind: sum(e.get("kind") == kind for e in budget["events"])
             for kind in ("model_cli_starts", "independent_checker_starts", "final_starts")

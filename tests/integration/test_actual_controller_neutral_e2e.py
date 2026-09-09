@@ -525,7 +525,9 @@ def _build_runtime_case(
     return core, case
 
 
-def _build_authorized_per_requirement_case(repo_root: Path, tmp_path: Path):
+def _build_authorized_per_requirement_case(
+    repo_root: Path, tmp_path: Path, *, reverse_requirements_before_freeze: bool = False
+):
     p001 = _module(
         repo_root / "tests/integration/test_p0_01_finalization_hf22_reproduction.py",
         f"neutral_authorized_{tmp_path.name}",
@@ -534,6 +536,7 @@ def _build_authorized_per_requirement_case(repo_root: Path, tmp_path: Path):
         repo_root,
         tmp_path,
         model_fixture="tests/fixtures/authorized_final_eval_model.py",
+        reverse_requirements_before_freeze=reverse_requirements_before_freeze,
     )
 
 
@@ -572,19 +575,12 @@ def test_neutral_per_requirement_legal_permutations_are_stable(
         repo_root / "tests/integration/test_actual_controller_black_box.py",
         f"neutral_legal_builder_{mutation}_{tmp_path.name}",
     )
-    core, case = _build_authorized_per_requirement_case(repo_root, tmp_path)
-    if mutation == "REQUIREMENT_ORDER":
-        requirement_record = core.read_artifact(case, "problem_requirements")["content"]
-        sufficiency = core.read_artifact(case, "data_sufficiency")["content"]
-        selection = core.read_artifact(case, "requirement_selection")["content"]
-        requirement_record["requirements"].reverse()
-        sufficiency["requirements"].reverse()
-        sufficiency["requirement_assessments"].reverse()
-        selection["requirements"].reverse()
-        _accepted(core, case, "problem_requirements", requirement_record)
-        _accepted(core, case, "data_sufficiency", sufficiency)
-        _accepted(core, case, "requirement_selection", selection)
-    else:
+    # Ordering is arbitrary at intake. Frozen requirement bytes must remain bound
+    # after actual capture; a test helper cannot bless a later upstream mutation.
+    core, case = _build_authorized_per_requirement_case(
+        repo_root, tmp_path, reverse_requirements_before_freeze=mutation == "REQUIREMENT_ORDER"
+    )
+    if mutation == "CLAIM_ORDER":
         semantic = core.read_artifact(case, "semantic_claim_support")["content"]
         semantic["claims"].reverse()
         _accepted(core, case, "semantic_claim_support", semantic)
@@ -592,6 +588,35 @@ def test_neutral_per_requirement_legal_permutations_are_stable(
     completed, result = _run_controller(repo_root, case)
     assert completed.returncode == 0, completed.stderr
     assert result["native_state"] == "READY_FOR_PAPER_HANDOFF"
+
+
+def test_post_capture_requirement_reorder_remains_stale(repo_root, tmp_path):
+    core, case = _build_authorized_per_requirement_case(repo_root, tmp_path)
+    captures_before = {
+        p: core.file_hash(p) for p in (case / "runs").glob("*/execution_capture.json")
+    }
+    requirements = core.read_artifact(case, "problem_requirements")["content"]
+    requirements["requirements"].reverse()
+    _accepted(core, case, "problem_requirements", requirements)
+    sufficiency = core.read_artifact(case, "data_sufficiency")["content"]
+    selection = core.read_artifact(case, "requirement_selection")["content"]
+    sufficiency["requirements"].reverse()
+    sufficiency["requirement_assessments"].reverse()
+    selection["requirements"].reverse()
+    _accepted(core, case, "data_sufficiency", sufficiency)
+    _accepted(core, case, "requirement_selection", selection)
+    probes = _module(
+        repo_root / "tests/integration/test_actual_controller_black_box.py",
+        f"neutral_postfreeze_reorder_{tmp_path.name}",
+    )
+    probes._sync_bound_hashes(core, case)
+    completed, result = _run_controller(repo_root, case)
+    assert completed.returncode != 0
+    assert "RC_EXECUTION_CAPTURE_SCENARIO_STALE" in result["reason_codes"]
+    assert result["test_access_count"] == 0
+    assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
+    assert all(core.file_hash(p) == digest for p, digest in captures_before.items())
 
 
 @pytest.mark.parametrize("mutation", ["RUN_BINDING", "OUTPUT_OWNER", "AGGREGATE_MAP"])

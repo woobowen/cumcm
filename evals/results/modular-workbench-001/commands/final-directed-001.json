@@ -1,0 +1,28 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-v",
+    "tests/unit/test_workbench_adjudication.py",
+    "tests/unit/test_workbench_state_and_budget.py",
+    "tests/integration/test_modular_workbench.py",
+    "tests/integration/test_workbench_scenario.py",
+    "tests/integration/test_rc9_science_semantics.py",
+    "tests/integration/test_rc9_final_protocol.py",
+    "tests/integration/test_p0_01_finalization_hf22_reproduction.py",
+    "tests/integration/test_p0_02_final_evaluation.py",
+    "tests/integration/test_actual_controller_neutral_e2e.py"
+  ],
+  "elapsed_seconds": 149.5526347680061,
+  "ended_at": "2026-09-09T10:13:54.187213+00:00",
+  "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+  "exit_code": 1,
+  "log": {
+    "path": "evals/results/modular-workbench-001/commands/final-directed-001.log",
+    "sha256": "af31a7b279e489f538850db0d767df70adf3bdcbbddc0d4e5e9d81729c713113"
+  },
+  "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_AND_TRAILING_WHITESPACE_REMOVAL",
+  "raw_log_sha256": "dec517a71a05d46f4f204afa59e1fab6efe5094be735f4351dfbd4875ac2ab6a",
+  "started_at": "2026-09-09T10:11:20.287594+00:00"
+}

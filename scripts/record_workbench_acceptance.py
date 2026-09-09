@@ -55,6 +55,7 @@ def run(name, argv):
     public = re.sub(rb"/(?:home|Users)/[^/\s]+", b"<PRIVATE_USER_ROOT>", raw)
     # Temporary test paths are useful only as local recovery references.
     public = re.sub(rb"/tmp/pytest-of-[^/\s]+/[^\s'\"]+", b"<PYTEST_TEMP_PATH>", public)
+    public = re.sub(rb"[ \t]+(?=\r?$)", b"", public, flags=re.MULTILINE)
     log = BASE / "commands" / (name + ".log")
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open("xb") as handle:
@@ -69,7 +70,7 @@ def run(name, argv):
         "executed_head": head,
         "log": binding(log),
         "raw_log_sha256": sha(raw),
-        "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+        "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_AND_TRAILING_WHITESPACE_REMOVAL",
     }
     write(BASE / "commands" / (name + ".json"), value)
     print(json.dumps(value, ensure_ascii=False))

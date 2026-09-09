@@ -157,3 +157,27 @@ Native review also closes module request/report/completion/state-binding gaps, i
 revision checks.32 focused adjudication tests and current strict repository validation pass.
 No candidate or overall acceptance yet. Final evidence uses the corrected common subject and
 will include fresh directed tests/full CI. Public artifact editing is still main-only.
+
+## Checkpoint final directed suite and known R2, 2026-09-09
+
+Known R2 at df430c0 completed the common path with2 model starts,3 checker starts and1 Final,
+ending READY_FOR_PAPER_HANDOFF. Both allowed revisions are now frozen; no further known starts.
+Preparation first refused the R1 registry's noncanonical terminal location before any model
+start. Copying the exact unchanged terminal bytes to terminal/decision.json and correcting
+only the registry locator closed that precheck; both original terminal copies remain.
+
+Final-directed-001:189 passed/1 failed. The old REQUIREMENT_ORDER test reverses the frozen
+requirement content after actual capture and uses a test helper to update state bindings.
+Native read-only analysis confirms scenario/v2 correctly keeps this old capture STALE. Change
+the legal permutation test to reverse requirements before freeze and retain the exact former
+post-capture mutation as a new STALE/Final0 negative. Both legal permutations and the added
+negative now pass (3 tests). Scenario/core/Skill/module guides/rules/known code are unchanged.
+The binding is canonical parsed artifact content, not arbitrary JSON whitespace or object-key
+order. No runtime identity guard is weakened.
+
+The known Run keeps its actual df430c0 subject. A later test/adjudication-only delivery commit
+must prove identical complete known runtime mapping (Skill, modules, templates, contracts,
+rules, source harness, docs, known code and preparation/controller). It must not relabel the
+old Run as executed at the delivery SHA. Test/adjudication bytes remain in the complete
+candidate map and must pass current full CI. All new original public-path receipts will be
+collected again under that final test/qualification subject. No generic quality claim follows.

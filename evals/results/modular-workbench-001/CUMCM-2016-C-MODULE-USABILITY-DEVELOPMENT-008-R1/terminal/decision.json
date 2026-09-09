@@ -1,0 +1,38 @@
+{
+  "actual_starts": {
+    "final_starts": 1,
+    "independent_checker_starts": 3,
+    "model_cli_starts": 2
+  },
+  "case_id": "CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1",
+  "decision_id": "DECISION-CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1",
+  "final_ledger_raw_sha256": "2c1399153ec8cf1d7bdccd720b02c4069d153cd90d532d85126c99cf39cf8e4c",
+  "gate_trace_raw_sha256": "b8dde402321df9b474bca26a001b7c5ba7c87007f65a2985868c29ae9ab13789",
+  "independent_validation": false,
+  "limitations": [
+    "Known battery, development only; Q1 and Q2 excluded.",
+    "Six correlated historical origins are not six independent batteries.",
+    "State3 endpoint unknown; estimate conditional on frozen transfer assumptions.",
+    "No improvement/generalization/new Validation claim. Team/web review NOT_RUN."
+  ],
+  "parent_terminal_sha256": "e82fc399ca2206ef088eeaee896f9b132864d544af70566efb698e41b5ec4d5a",
+  "phase": "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
+  "question_results": [
+    {
+      "future_truth": "UNKNOWN",
+      "metrics": {
+        "q3_remaining_MRE": 0.051965754106183794,
+        "q3_remaining_min": 193.44177724399924
+      },
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "requirement_id": "REQ-Q3",
+      "selected_run_id": "RUN-Q3-AFFINE-R1",
+      "whole_parent_problem_completed": false
+    }
+  ],
+  "schema_version": "module-usability-development-terminal/v1",
+  "skill_version": "0.2.0-competition-rc10",
+  "status": "SCOPED_DEVELOPMENT_COMPLETE",
+  "subject_commit": "6646ffb98602ae6f94c332bb97ba45ede09bf6e2",
+  "terminal_at": "2026-09-09T10:06:01.568488+00:00"
+}
