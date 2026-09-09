@@ -48,6 +48,30 @@ NEGATIVES = {
     "wrong_case_package_hash",
     "malformed_and_archive_feedback_rejection",
 }
+BOUNDARY_TEST_FRAGMENTS = {
+    "wrong_scenario": "test_bad_explicit_rejected_before_model_start",
+    "input_change": "test_conflicting_prepared_identity_rejected_before_start[INPUT]",
+    "future_information": (
+        "test_temporal_future_label_and_whole_data_transform_rejected_before_model"
+    ),
+    "infeasible_solution": (
+        "test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[INFEASIBLE]"
+    ),
+    "missing_primary_question": "test_three_question_omission_cannot_become_whole_handoff",
+    "scope_conflict": "test_scoped_child_has_own_identity_and_no_parent_acceptance",
+    "single_module_stop": "test_real_fourteen_module_water_path_stops_and_preserves_one_final",
+    "writer_lock": "test_module_operation_stop_and_writer_lock",
+    "interrupted_request": (
+        "test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[TIMEOUT]"
+    ),
+    "one_shot_final": "test_public_completion_accepts_development_then_independent_final_once",
+    "partial_not_whole": "test_scoped_child_has_own_identity_and_no_parent_acceptance",
+    "local_dependency_stale": "test_context_and_local_staleness_follow_actual_dependencies",
+    "idempotent_request_export_feedback": "test_review_feedback_is_inert_and_stale_is_derived",
+    "credential_and_injection_rejection": "test_untrusted_feedback_rejects_without_execution",
+    "wrong_case_package_hash": "test_untrusted_feedback_rejects_without_execution",
+    "malformed_and_archive_feedback_rejection": "test_untrusted_feedback_rejects_without_execution",
+}
 PREFIXES = [
     ".agents/skills/cumcm-modeling-evidence/",
     "contracts/",
@@ -393,6 +417,19 @@ def validate_coverage_logs(root, matrix, snapshot):
     ]
     if not declared or any(node not in passed for node in declared):
         return ["WB_COVERAGE_NOT_BOUND_TO_ACTUAL_PASSING_TESTS"]
+    if any(
+        not all(BOUNDARY_TEST_FRAGMENTS[name] in node for node in nodes)
+        for name, nodes in matrix["boundary_coverage"].items()
+    ):
+        return ["WB_BOUNDARY_TEST_SEMANTIC_SCOPE_MISMATCH"]
+    for kind, variants in matrix["scenario_equivalence"].items():
+        for variant, node in variants.items():
+            explicit = "False" if variant == "default" else "True"
+            expected = (
+                f"test_default_and_equivalent_explicit_reach_public_handoff[{explicit}-{kind}]"
+            )
+            if not node.endswith("::" + expected):
+                return ["WB_SCENARIO_EQUIVALENCE_TEST_SCOPE_MISMATCH"]
     return []
 
 

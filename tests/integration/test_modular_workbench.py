@@ -275,6 +275,41 @@ def test_m09_cannot_close_successful_models_without_independent_checks(wb, repo_
     assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
 
 
+def test_three_question_omission_cannot_become_whole_handoff(wb, repo_root, tmp_path):
+    root = tmp_path / "case"
+    build_water(repo_root, root, stop="M09", kind="mixed")
+    spec = importlib.util.spec_from_file_location(
+        "missing_primary_builder", repo_root / "scripts/exercise_modular_workbench.py"
+    )
+    exercise = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(exercise)
+    exercise.proposals(root, "mixed")
+    path = root / wb.core.ARTIFACT_PATHS["semantic_claim_support"]
+    semantic = wb.core.load_json(path)
+    semantic["content"]["claims"] = [
+        r for r in semantic["content"]["claims"] if r["requirement_id"] != "REQ-C"
+    ]
+    semantic["content"]["aggregate"]["supported_requirement_ids"].remove("REQ-C")
+    wb.core.write_json(path, wb.core.artifact("semantic_claim_support", semantic["content"]))
+    for mid in ("M10", "M11"):
+        rid = "PARTIAL-" + mid
+        cli(wb, root, "prepare", "--module", mid, "--request-id", rid)
+        cli(wb, root, "run", "--request", rid, "--operation", "controller")
+        report = wb.core.load_json(root / "work/M09.json")
+        report.update(
+            module=mid, request_id=rid, scientific_scope="仅当前开发记录，三问完整性尚待核验"
+        )
+        wb.core.write_json(root / f"work/{mid}.json", report)
+        cli(wb, root, "complete", "--request", rid, "--report", f"work/{mid}.json")
+    cli(wb, root, "prepare", "--module", "M12", "--request-id", "MISSING-PRIMARY")
+    result = cli(
+        wb, root, "run", "--request", "MISSING-PRIMARY", "--operation", "controller", accepted=False
+    )
+    assert result["reason_codes"] == ["WB_CORE_REJECTED:['RC_AGGREGATE_CLAIM_MAPPING_INVALID']"]
+    assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (root / wb.core.ARTIFACT_PATHS["modeling_to_paper_handoff"]).exists()
+
+
 @pytest.fixture
 def wb(repo_root, monkeypatch):
     scripts = repo_root / ".agents/skills/cumcm-modeling-evidence/scripts"
