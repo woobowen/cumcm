@@ -1,0 +1,394 @@
+{
+  "schema_version": "workbench-modules/v1",
+  "default_execution_mode": "GUIDED_SINGLE_MODULE",
+  "modules": [
+    {
+      "id": "M01",
+      "name": "题目接收",
+      "workflow": "workflows/problem_intake.md",
+      "prerequisites": [],
+      "artifacts": [],
+      "native_target": null,
+      "minimum_input": "原题与附件；case ID；本次范围",
+      "action": "核对原件、表注和附件关系，登记字节hash，阅读并写完整题意概述",
+      "review_question": "原题、附件是否完整？是否遗漏表注或模板？",
+      "meaning": "原件登记与题意概述；尚未建模",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M01返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M01 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M02",
+      "name": "需求拆解",
+      "workflow": "workflows/requirement_decomposition.md",
+      "prerequisites": [
+        "M01"
+      ],
+      "artifacts": [
+        "problem_requirements"
+      ],
+      "native_target": "REQUIREMENTS_VALIDATED",
+      "minimum_input": "已登记原题；各问目标与特殊限制",
+      "action": "逐问区分题面要求、硬约束、交付物、验收条件、依赖和附加假设",
+      "review_question": "每个必须回答的问题是否有可检验交付物？",
+      "meaning": "需求合同明确；尚无数值结论",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M02返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M02 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M03",
+      "name": "专业研究",
+      "workflow": "workflows/research_and_sources.md",
+      "prerequisites": [
+        "M02"
+      ],
+      "artifacts": [
+        "research_plan",
+        "source_ledger"
+      ],
+      "native_target": "SOURCES_PLANNED",
+      "minimum_input": "概念缺口；允许的专业资料或检索政策",
+      "action": "Codex实际阅读一般资料并记录来源到具体决策；离线或未核实必须明说",
+      "review_question": "来源是否真支持所采用的方法与假设？哪些知识仍未知？",
+      "meaning": "研究分析完成；外部事实按核验范围报告",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M03返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M03 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M04",
+      "name": "假设公式",
+      "workflow": "workflows/assumptions_and_symbols.md",
+      "prerequisites": [
+        "M03"
+      ],
+      "artifacts": [
+        "assumptions_and_symbols"
+      ],
+      "native_target": null,
+      "minimum_input": "对象粒度、单位、变量；已有需求和来源",
+      "action": "定义对象、符号、单位、目标、约束、数学表达、假设依据及失效后果",
+      "review_question": "单位与量纲是否一致？哪条假设一旦失败会推翻哪些结论？",
+      "meaning": "假设可检验；尚未证实",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M04返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M04 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M05",
+      "name": "数据审计",
+      "workflow": "workflows/data_audit.md",
+      "prerequisites": [
+        "M04"
+      ],
+      "artifacts": [
+        "data_audit",
+        "data_sufficiency"
+      ],
+      "native_target": "DATA_AUDITED",
+      "minimum_input": "已登记数据；字段含义、时间/实体信息",
+      "action": "实查主键、连接、重复缺失异常、单位、可见性、预处理账本与逐问充分性",
+      "review_question": "是否用到了预测起点后信息？输入是实测、仿真还是推导？",
+      "meaning": "数据充分性有界；不自动生成模型",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M05返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M05 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M06",
+      "name": "候选方案",
+      "workflow": "workflows/model_portfolio.md",
+      "prerequisites": [
+        "M05"
+      ],
+      "artifacts": [
+        "model_candidates"
+      ],
+      "native_target": "MODELS_PROPOSED",
+      "minimum_input": "需求、数据限制；计算时间或资源限制",
+      "action": "提出少量机制不同且合理的方案、适用条件、失败条件和成本；确定参照候选",
+      "review_question": "候选是否解决原目标？是否有可区分实验而非只换算法名？",
+      "meaning": "候选设计已登记；有效性待实验",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M06返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M06 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M07",
+      "name": "基线定义",
+      "workflow": "workflows/model_portfolio.md",
+      "prerequisites": [
+        "M06"
+      ],
+      "artifacts": [],
+      "native_target": null,
+      "minimum_input": "候选中的baseline；计划实现的代码",
+      "action": "明确合理可行参照，写可审计代码及输入输出规范；正式数值运行留到M09",
+      "review_question": "基线是否公平、合法可行且具有实际解释？",
+      "meaning": "基线代码/规范可读；未宣称实际运行",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M07返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M07 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M08",
+      "name": "实验设计",
+      "workflow": "workflows/experiment_design.md",
+      "prerequisites": [
+        "M07"
+      ],
+      "artifacts": [
+        "experiment_plan"
+      ],
+      "native_target": "EXPERIMENT_PLAN_VALIDATED",
+      "minimum_input": "候选/基线代码与checker；预算、指标、划分、Final方式",
+      "action": "冻结目标、单位、公式分母聚合零分母政策、数据划分、代码、本地Git与中止条件，预检输出合同",
+      "review_question": "指标是否衡量原问？独立Final是否与选模严格隔离？",
+      "meaning": "设计与预检通过；模型尚未启动",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M08返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M08 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M09",
+      "name": "编程实算",
+      "workflow": "workflows/model_execution.md",
+      "prerequisites": [
+        "M08"
+      ],
+      "artifacts": [],
+      "native_target": null,
+      "minimum_input": "已冻结计划；待执行candidate/seed/code",
+      "action": "通过公共execute逐个运行模型并保留失败；通过verify-evidence做独立复算，记录实际进程",
+      "review_question": "是否真的运行？输出及负结果是否全部绑定输入/代码/配置？",
+      "meaning": "实算与检查的实际结果；不比较选模或启动Final",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M09返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M09 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M10",
+      "name": "比较选择",
+      "workflow": "workflows/model_comparison.md",
+      "prerequisites": [
+        "M09"
+      ],
+      "artifacts": [
+        "requirement_selection",
+        "model_comparison"
+      ],
+      "native_target": null,
+      "minimum_input": "实际captures；逐问选择proposal与指标",
+      "action": "通过公共controller比较开发证据，逐问核查合法性、指标和依赖，形成选择记录",
+      "review_question": "选择依据是否逐问正确？共享依赖与portfolio是否兼容？",
+      "meaning": "开发选择通过；Final尚未运行",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M10返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M10 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M11",
+      "name": "稳健误差",
+      "workflow": "workflows/robustness_and_sensitivity.md",
+      "prerequisites": [
+        "M10"
+      ],
+      "artifacts": [
+        "robustness_analysis"
+      ],
+      "native_target": null,
+      "minimum_input": "选定Run；已计划扰动的真实输出",
+      "action": "复核实际扰动、误差结构、边界、负结果与不确定性，必要的新实验返回M08 revision",
+      "review_question": "扰动是否确实改变输入？区间是敏感性范围还是校准概率区间？",
+      "meaning": "稳健性限于实际扰动；问题可能要求返回上游",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M11返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M11 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M12",
+      "name": "最终核验",
+      "workflow": "workflows/final_run.md",
+      "prerequisites": [
+        "M11"
+      ],
+      "artifacts": [
+        "final_result"
+      ],
+      "native_target": "FINAL_CANDIDATE",
+      "minimum_input": "比较/稳健性/语义proposal；冻结Final授权范围",
+      "action": "调用公共controller冻结前置、记录真实STARTED并做独立Final；核验receipt后停",
+      "review_question": "独立核验是否验证原目标？失败预算是否被保留？",
+      "meaning": "Final状态依实际账本；不自动接受结论或交接",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M12返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M12 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M13",
+      "name": "结论检查",
+      "workflow": "workflows/claim_evidence_validation.md",
+      "prerequisites": [
+        "M12"
+      ],
+      "artifacts": [
+        "claim_evidence",
+        "semantic_claim_support"
+      ],
+      "native_target": "EVIDENCE_VALIDATED",
+      "minimum_input": "Final及逐问Claim；范围、反证和不确定性",
+      "action": "逐条核对声明—公式—Run—输出—核验；列出可写与不可写结论",
+      "review_question": "是否把条件结论写成真实未来精度、把可行性写成全局最优？",
+      "meaning": "仅证据支持的范围；不是全题泛化",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M13返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M13 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    },
+    {
+      "id": "M14",
+      "name": "论文交接",
+      "workflow": "workflows/modeling_to_paper_handoff.md",
+      "prerequisites": [
+        "M13"
+      ],
+      "artifacts": [
+        "modeling_to_paper_handoff"
+      ],
+      "native_target": "READY_FOR_PAPER_HANDOFF",
+      "minimum_input": "结论及证据；论文/图表组需要的范围",
+      "action": "通过既有合同生成逐问事实包，交公式、数据表、figure-ready data、来源、负结果、限制与复现入口",
+      "review_question": "每个正文数字和图表数据是否能追溯到同一有效Run？",
+      "meaning": "正式范围按accepted Final；部分材料显式PARTIAL",
+      "required_notes": [
+        "summary_cn",
+        "original_requirements",
+        "actions",
+        "checks",
+        "negative_results",
+        "review_questions"
+      ],
+      "stop": "M14返回产物及审查包后停止；下一模块必须由用户明确调用。",
+      "recovery": "先status/resume核对原请求与文件hash；失败保留。已改变输入通过revision创建新root，不覆盖旧Run或已消费Final。",
+      "downstream": "只沿当前requirement的实际依赖传播STALE；改变共享输入会影响所有使用者。",
+      "example": "case=DEMO-WATER module=M14 scope=REQ-A,REQ-B,REQ-C；仅执行本模块，导出本地审查包后停止。"
+    }
+  ]
+}

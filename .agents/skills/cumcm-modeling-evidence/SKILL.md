@@ -5,7 +5,7 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc9`
+Version: `0.2.0-competition-rc10`
 
 Capability: `COMPETITION_RC`
 
@@ -17,15 +17,29 @@ Assurance: `PUBLIC_DETERMINISTIC_REQUIREMENT_EVIDENCE_SELECTION_SEMANTIC_GATES`
 
 ## 启动与边界
 
+正常用户模式为 `GUIDED_SINGLE_MODULE`：只处理明确指定的 case、M01–M14 模块和
+requirement 范围。模块内允许有界阅读、研究、编码、真实运行和核验；输出四维回执与
+审查包后停止。用户需要明确调用下一个模块。一次建设演练的 `BUILD_AND_ACCEPT`
+授权只属于该次建设记录，不能复制给未来用户。`LAB_EVAL` 历史协议继续有效。
+
+首次使用先读 [START_HERE](../../../docs/modular_workbench/START_HERE.md)，按
+[模块目录](references/modules.json) 仅加载当前任务卡及其 workflow。真实薄入口为
+`scripts/cumcm_workbench.py`；它调用同一个 `cumcm_case` 内核与既有 controller。
+`prepare` 生成请求、任务卡和 work report 模板，**没有完成分析**。Codex 必须实际工作，
+再以 `complete` 验产物；不能把模板内 ACCEPTED 包装字段解释为科学结论已证实。
+详见 [CLI 与恢复](../../../docs/modular_workbench/RUNBOOK.md)。
+
 1. 先读 `../../../GOALS.md`、`../../../WORKFLOW.md`、当前 `plans/active/` 和 `../../../state/project_state.json`；项目全局状态真源只能是后者。
-2. 为每道题运行 `python scripts/cumcm_case.py init --case-root <case> --case-id <ID> --kind <general|prediction|optimization>`。case 的 `case_state.json` 只管理该题，不能写全局 state。
+2. 新日常case通过 `python scripts/cumcm_workbench.py init --case-root <独立目录> --case-id <ID>`
+   登记 `GUIDED_LOCAL`；实验case沿登记协议使用 core init。case 的 `case_state.json`
+   只管理该题，不能写全局 state。需要完整工具仓库及其声明环境，不承诺独立复制Skill可运行。
 3. 原题和 `data/raw/` 一经登记即不可覆盖；修正写入 derived artifact 并保留 hash lineage。
 4. 只读当前阶段对应的 `workflows/` 文件；跨阶段不确定性记录为 gap，不能猜测完成。
 5. 禁止搜索 benchmark/历史答案、运行未审计第三方代码、打印或提交凭据、使用 test 生成/选择模型、以 Agent 多数票代替 Gate。
 
 ## 14 阶段
 
-按顺序执行且不得跳跃：
+依赖按顺序满足，但每次只执行用户指定模块，不自动串接：
 
 1. `PROBLEM_INTAKE`
 2. `REQUIREMENT_DECOMPOSITION`
@@ -42,7 +56,10 @@ Assurance: `PUBLIC_DETERMINISTIC_REQUIREMENT_EVIDENCE_SELECTION_SEMANTIC_GATES`
 13. `CLAIM_EVIDENCE_VALIDATION`
 14. `MODELING_TO_PAPER_HANDOFF`
 
-每阶段都必须有 accepted、content-addressed artifact 和确定性 Gate。文件存在或 Agent 声称 done 均不等于完成。具体 inputs、outputs、拒绝、STALE、恢复和 next stage 见对应 workflow。
+每阶段需要绑定实际产物及适用的工程检查。十四模块不伪造十四次原生 PASS；M01/M04/M07
+等可保持原生状态，M10/M11在 RUNNING 内冻结开发选择与稳健性，M12停在FINAL_CANDIDATE，
+M13/M14分别接受结论与交接。文件存在或 Agent 声称 done 均不等于完成。科学支持与队员
+核验另列；具体 inputs、outputs、拒绝、STALE 和恢复见当前任务卡及 workflow。
 
 `DATA_SUFFICIENCY_PREFLIGHT` 是第 5 阶段内的强制子 Gate：在 `DATA_AUDIT` 后、候选建模和
 `EXPERIMENT_DESIGN` 前逐项判定 primary requirement；它不新增第 15 阶段。只有

@@ -16,13 +16,13 @@ import subprocess
 import sys
 import tempfile
 import time
-from contextlib import suppress
+from contextlib import contextmanager, suppress
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0-competition-rc9"
+VERSION = "0.2.0-competition-rc10"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -2516,8 +2516,21 @@ def reject_constant(value: str) -> None:
     raise ValueError(f"non-finite JSON constant: {value}")
 
 
+def unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("RC_DUPLICATE_JSON_KEY:" + key)
+        result[key] = value
+    return result
+
+
 def load_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"), parse_constant=reject_constant)
+    return json.loads(
+        path.read_text(encoding="utf-8"),
+        parse_constant=reject_constant,
+        object_pairs_hook=unique_json_object,
+    )
 
 
 def assert_json_safe(value: Any, location: str = "$") -> None:
@@ -2618,6 +2631,52 @@ def git_blob_hash(commit: str, repository_path: str) -> str | None:
     if completed.returncode != 0:
         return None
     return hashlib.sha256(completed.stdout).hexdigest()
+
+
+def bound_code_blob_hash(
+    case_root: Path | None, record: dict[str, Any], tool_commit: str
+) -> str | None:
+    """Bind local case code to a real no-remote Git object, separately from tool code.
+
+    CASE_GIT/<commit>/<path> is an explicit versioned repository reference within
+    the existing code record, never a caller-supplied filesystem or network location.
+    Legacy LAB_EVAL records retain their original tool-repository interpretation.
+    """
+    reference = record.get("repository_path")
+    if not isinstance(reference, str):
+        return None
+    if not reference.startswith("CASE_GIT/"):
+        return git_blob_hash(tool_commit, reference)
+    if case_root is None or record.get("scope") != "CASE_ROOT":
+        return None
+    parts = reference.split("/", 2)
+    if len(parts) != 3 or not GIT_SHA.fullmatch(parts[1]) or parts[2] != record.get("path"):
+        return None
+    policy_path = case_root / "state/case_policy.json"
+    try:
+        state = load_state(case_root)
+        policy = load_json(policy_path)
+        if (
+            policy.get("mode") != "GUIDED_LOCAL"
+            or policy.get("case_id") != state["case_id"]
+            or state["evidence_bindings"].get("state/case_policy.json") != file_hash(policy_path)
+            or not (case_root / ".git").is_dir()
+            or (case_root / ".git").is_symlink()
+            or relative_case_path(case_root, parts[2]) is None
+        ):
+            return None
+        remote = subprocess.run(["git", "remote"], cwd=case_root, capture_output=True, check=False)
+        if remote.returncode or remote.stdout.strip():
+            return None
+        result = subprocess.run(
+            ["git", "show", parts[1] + ":" + parts[2]],
+            cwd=case_root,
+            capture_output=True,
+            check=False,
+        )
+        return hashlib.sha256(result.stdout).hexdigest() if result.returncode == 0 else None
+    except (OSError, ValueError, KeyError):
+        return None
 
 
 def normalize_key(value: str) -> str:
@@ -3006,6 +3065,26 @@ def relative_case_path(case_root: Path, value: str) -> Path | None:
     return candidate
 
 
+@contextmanager
+def case_writer(case_root: Path):
+    """One public writer; OS releases the lock even if a process is interrupted."""
+    import fcntl
+
+    case_root.mkdir(parents=True, exist_ok=True)
+    path = case_root / ".case-writer.lock"
+    if path.is_symlink():
+        raise ValueError("RC_CASE_WRITER_LOCK_INVALID")
+    with path.open("a") as handle:
+        try:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise ValueError("RC_CASE_WRITER_BUSY") from exc
+        try:
+            yield
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
 def validate_manifest(
     manifest: Any,
     *,
@@ -3206,7 +3285,7 @@ def validate_manifest(
                 or not code_commit_hash_matches(
                     path,
                     actual,
-                    git_blob_hash(str(commit), repository_path),
+                    bound_code_blob_hash(case_root, record, str(commit)),
                 )
             ):
                 codes.add("RC_MANIFEST_CODE_COMMIT_MISMATCH")
@@ -3538,6 +3617,21 @@ def validate_comparison(
             codes.add("RC_DEVELOPMENT_EVALUATOR_INVOCATION_INVALID")
         if access.get("ledger_status") != "NOT_ACCESSED":
             codes.add("RC_DEVELOPMENT_TEST_ACCESS_LEDGER_INVALID")
+    elif access.get("mode") == "PREDICTIVE_DEVELOPMENT_COMPARISON":
+        if (
+            access
+            != {
+                "mode": "PREDICTIVE_DEVELOPMENT_COMPARISON",
+                "authorized": False,
+                "count": 0,
+                "used_for_selection": False,
+            }
+            or case_root is None
+            or scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"])
+            or development_only_evaluation(read_artifact(case_root, "experiment_plan")["content"])
+            or not splits.get("test")
+        ):
+            codes.add("RC_PREDICTIVE_DEVELOPMENT_COMPARISON_INVALID")
     elif access.get("mode") == "CONDITIONAL_DEVELOPMENT_COMPARISON":
         if (
             access
@@ -5450,7 +5544,7 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
                 or not code_commit_hash_matches(
                     code_path,
                     record.get("sha256"),
-                    git_blob_hash(code_commit, repository_path),
+                    bound_code_blob_hash(case_root, record, code_commit),
                 )
                 or (
                     scope == "SKILL_ROOT"
@@ -5849,7 +5943,7 @@ def verify_scientific_check(
         raise ValueError("RC_SCIENTIFIC_CHECK_NOT_INDEPENDENT_ENTRYPOINT")
     path = relative_case_path(case_root, checker["path"])
     if path is None or not code_commit_hash_matches(
-        path, checker["sha256"], git_blob_hash(capture["code_commit"], checker["repository_path"])
+        path, checker["sha256"], bound_code_blob_hash(case_root, checker, capture["code_commit"])
     ):
         raise ValueError("RC_SCIENTIFIC_CHECK_CODE_DRIFT")
     environment_allowlist, _ = controlled_subprocess_environment(int(capture["seed"]))
@@ -5968,7 +6062,7 @@ def verify_current_capture_files(case_root: Path, capture: dict[str, Any]) -> No
             or not code_commit_hash_matches(
                 path,
                 item.get("sha256"),
-                git_blob_hash(capture["code_commit"], item["repository_path"]),
+                bound_code_blob_hash(case_root, item, capture["code_commit"]),
             )
         ):
             raise ValueError("RC_EXECUTION_CODE_HASH_MISMATCH")
@@ -7522,7 +7616,7 @@ def run_smoke(case_root: Path, case_id: str, kind: str, dry_run: bool) -> dict[s
     return run_synthetic_case(sys.modules[__name__], case_root, case_id, kind)
 
 
-def main(argv: list[str] | None = None) -> int:
+def _dispatch(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         if args.command == "init":
@@ -7815,6 +7909,18 @@ def main(argv: list[str] | None = None) -> int:
         },
         EXIT_INPUT,
     )
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    root = getattr(args, "case_root", None)
+    if root is None or args.command == "status" or getattr(args, "dry_run", False):
+        return _dispatch(argv)
+    try:
+        with case_writer(root):
+            return _dispatch(argv)
+    except (OSError, ValueError, ImportError) as exc:
+        return emit({"status": "BLOCK", "reason_codes": [str(exc)]}, EXIT_GATE)
 
 
 if __name__ == "__main__":

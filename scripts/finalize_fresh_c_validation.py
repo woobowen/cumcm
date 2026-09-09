@@ -465,7 +465,15 @@ def _block_result(
     )
 
 
-def complete(case_root: Path, test_field: str, check_code: str | None = None) -> dict[str, Any]:
+def complete(
+    case_root: Path,
+    test_field: str,
+    check_code: str | None = None,
+    *,
+    stop_at: str | None = None,
+) -> dict[str, Any]:
+    if stop_at not in {None, "FINAL_CANDIDATE"}:
+        raise ValueError("RC_CONTROLLER_STOP_INVALID")
     core = load_core()
     state = core.load_state(case_root)
     if state["state"] != "RUNNING":
@@ -559,6 +567,18 @@ def complete(case_root: Path, test_field: str, check_code: str | None = None) ->
             selection_decision_hash=decision_hash,
         )
     comparison = _comparison_payload(plan, attempts, selected, decision_hash)
+    if stop_at is not None and not core.scientific_final_evaluation(plan):
+        # M10 freezes development comparison. Final authorization belongs to its
+        # own ledger; never mutate a predecessor to predict future test access.
+        comparison["test_access"] = {
+            "count": 0,
+            "authorized": False,
+            "mode": "PREDICTIVE_DEVELOPMENT_COMPARISON",
+            "used_for_selection": False,
+        }
+        existing = core.read_artifact(case_root, "model_comparison")["content"]
+        if existing != comparison:
+            raise ValueError("RC_MODULE_COMPARISON_CHANGED")
     event = trace.invoke(
         "GATE_COMPARISON_SELECTION",
         "controller.capture_registry+cumcm_case.validate_requirement_selection",
@@ -784,8 +804,22 @@ def complete(case_root: Path, test_field: str, check_code: str | None = None) ->
         )
     accepted("final_result", final_result)
     accepted("claim_evidence", claim_evidence)
-    while core.load_state(case_root)["state"] != "EVIDENCE_VALIDATED":
+    target = stop_at or "EVIDENCE_VALIDATED"
+    while core.load_state(case_root)["state"] != target:
         core.advance_once(case_root)
+
+    if stop_at is not None:
+        return trace.finish(
+            "STOPPED_AT_FINAL_CANDIDATE",
+            {
+                "status": "STOPPED_AT_FINAL_CANDIDATE",
+                "native_state": core.load_state(case_root)["state"],
+                "selection_decision_hash": decision_hash,
+                "selected_run_ids": final_result["selected_run_ids"],
+                "claim_acceptance": "NOT_RUN",
+                "handoff_acceptance": "NOT_RUN",
+            },
+        )
 
     def complete_handoff() -> dict[str, Any]:
         evidence_state = core.load_state(case_root)
@@ -828,15 +862,108 @@ def complete(case_root: Path, test_field: str, check_code: str | None = None) ->
     )
 
 
+def module_step(case_root: Path, module_id: str) -> dict[str, Any]:
+    """Bounded public controller operations; they use the same core acceptance gates.
+
+    M10/M11 intentionally leave native state RUNNING: that state is required by
+    the existing acyclic prefinal protocol. Their accepted artifacts are the
+    predecessors; no fictitious extra core state or Final receipt is introduced.
+    """
+    core = load_core()
+    state = core.load_state(case_root)
+    if module_id == "M12":
+        return complete(case_root, "sealed_test_metrics_b64", stop_at="FINAL_CANDIDATE")
+    if module_id == "M13":
+        if state["state"] != "FINAL_CANDIDATE":
+            raise ValueError("RC_MODULE_CLAIM_PREDECESSOR_REQUIRED")
+        return {"status": "MODULE_STOPPED", "native_state": core.advance_once(case_root)["state"]}
+    if module_id == "M14":
+        if state["state"] != "EVIDENCE_VALIDATED":
+            raise ValueError("RC_MODULE_HANDOFF_PREDECESSOR_REQUIRED")
+        handoff = core.build_runtime_handoff(case_root, state)
+        result = core.validate_handoff(handoff, case_root=case_root, state=state)
+        if not result.accepted:
+            raise ValueError(";".join(result.reason_codes))
+        core.write_json(case_root / core.ARTIFACT_PATHS["modeling_to_paper_handoff"], handoff)
+        return {"status": "MODULE_STOPPED", "native_state": core.advance_once(case_root)["state"]}
+    if module_id not in {"M10", "M11"} or state["state"] != "RUNNING":
+        raise ValueError("RC_MODULE_CONTROLLER_STATE_INVALID")
+    plan = core.read_artifact(case_root, "experiment_plan")["content"]
+    attempts, outputs = _attempt_registry(core, case_root, plan)
+    selected = select_candidate(attempts, plan)
+    decision = core.canonical_hash(selected)
+    manifests = _preview_attempts(core, case_root, attempts, decision)
+    selection = core.read_artifact(case_root, "requirement_selection")["content"]
+    for checked in (
+        _validate_selection_comparison_binding(core, selection, selected, manifests),
+        core.validate_runtime_selection_compatibility(
+            selection, manifests, scenario_hash=core.resolve_scenario_identity(case_root, plan)
+        ),
+    ):
+        if checked.get("status") != "PASS":
+            raise ValueError(";".join(checked["reason_codes"]))
+    comparison = _comparison_payload(plan, attempts, selected, decision)
+    if not core.scientific_final_evaluation(plan):
+        comparison["test_access"] = {
+            "mode": "PREDICTIVE_DEVELOPMENT_COMPARISON",
+            "authorized": False,
+            "count": 0,
+            "used_for_selection": False,
+        }
+    checked = core.validate_comparison(
+        comparison, core.trusted_freezes(case_root), case_root=case_root
+    )
+    if not checked.accepted:
+        raise ValueError(";".join(checked.reason_codes))
+    if module_id == "M10":
+        _persist_manifests(core, case_root, manifests)
+        core.write_json(
+            case_root / core.ARTIFACT_PATHS["model_comparison"],
+            core.artifact("model_comparison", comparison),
+        )
+    else:
+        existing = core.read_artifact(case_root, "model_comparison")["content"]
+        if existing != comparison:
+            raise ValueError("RC_MODULE_COMPARISON_STALE")
+        run_id = _selected_global_run(attempts, selected["selected_candidate_id"])
+        robustness = _robustness_payload(
+            manifests[run_id], outputs[run_id], selected["selected_candidate_id"]
+        )
+        checked = core.validate_robustness(robustness, comparison, case_root=case_root)
+        if not checked.accepted:
+            raise ValueError(";".join(checked.reason_codes))
+        core.write_json(
+            case_root / core.ARTIFACT_PATHS["robustness_analysis"],
+            core.artifact("robustness_analysis", robustness),
+        )
+    return {
+        "status": "MODULE_STOPPED",
+        "module": module_id,
+        "native_state": "RUNNING",
+        "final_started": False,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case-root", type=Path, required=True)
     parser.add_argument("--test-field", default="sealed_test_metrics_b64")
     parser.add_argument("--check-code", help="Frozen case-relative development checker")
+    parser.add_argument("--module", choices=["M10", "M11", "M12", "M13", "M14"])
     args = parser.parse_args()
-    result = complete(args.case_root.resolve(), args.test_field, args.check_code)
+    with load_core().case_writer(args.case_root.resolve()):
+        result = (
+            module_step(args.case_root.resolve(), args.module)
+            if args.module
+            else complete(args.case_root.resolve(), args.test_field, args.check_code)
+        )
     print(json.dumps(result, sort_keys=True))
-    return 0 if result["status"] == "PASS_NATIVE_CONTRACTS" else 1
+    return (
+        0
+        if result["status"]
+        in {"PASS_NATIVE_CONTRACTS", "MODULE_STOPPED", "STOPPED_AT_FINAL_CANDIDATE"}
+        else 1
+    )
 
 
 if __name__ == "__main__":

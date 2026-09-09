@@ -82,3 +82,16 @@ Human compliance remains NOT_RUN. LIMITED/BLOCKED is not completed Goal.
 Startup local/remote anchor matched; PR12 OPEN/DRAFT. Only user task and Zone.Identifier files
 untracked. Public baseline reproduction actually executed two original models and controller:
 RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND, Final0. Current code still needs B1.
+
+## Checkpoint B1 / B2 implementation
+
+B1 public scenario and inherited directed suite: 76 passed at commit421a918; initial failed
+assertions and native counterexamples retained. B2/B3 candidate adds one module registry,
+shared-controller bounded operations, request/receipt/report identity binding, transitive
+dependencies, one writer, explicit local Git, new-root revisions/scoped children, inert feedback
+and deterministic local review/context exports. Initial boundary run31 passed/2 failed;
+credential decoding and multi-destination export fixed; affected full boundary file33 passed.
+New context verification and rc10 candidate identity still require current tests. No activation.
+B4 static technical materials and original water analysis exist; B5 numerical exercise starts
+after the implementation commit. Native reviewer used read-only original helper probes only;
+model/checker/Final0 for reviewer. Known child remains NOT_RUN. Install ledger remains empty.

@@ -1,0 +1,24 @@
+{
+  "subject_commit": "421a918816f3755352d41b4e4442be00b79d4cb7",
+  "scope": "B1_DIRECTED_PUBLIC_ENGINEERING_REGRESSION",
+  "observed_at": "2026-09-09T08:02:40.764358+00:00",
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/integration/test_workbench_scenario.py",
+    "tests/integration/test_rc9_final_protocol.py",
+    "tests/integration/test_rc9_science_semantics.py",
+    "tests/integration/test_p0_02_final_evaluation.py"
+  ],
+  "exit_code": 0,
+  "pytest_passed": 76,
+  "pytest_failed": 0,
+  "elapsed_seconds_reported_by_pytest": 37.9,
+  "log_sha256": "8a581e97c12bbb01ebbfd414fd3491b902d6d46239ca2939f0d36435c8bc1ce4",
+  "log_path": ".cache/modular-workbench-001/b1-public-tests-002.log",
+  "known_case_starts": 0,
+  "historical_validation_changed": false,
+  "qualification": false
+}
