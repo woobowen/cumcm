@@ -1,0 +1,537 @@
+{
+  "run_id": "RUN-RC9-D2016-R2-01",
+  "candidate_id": "BASELINE",
+  "source_output_sha256": "d062f7897935a10a92d1f61c3ab9140bcb32bf2813212ea86c81518b72e532f1",
+  "source_scientific_check_sha256": "c66ad56282fb3eac7bd4626cc52c91a9b5d8dc5b97dc8a457d5bb7776e2eb3cd",
+  "metrics": {
+    "q1_mean_fitted_MRE": 0.003009290255755827,
+    "q2_loco_MRE": 0.048930522478386536,
+    "q3_remaining_MRE": 0.059408550113034225,
+    "q3_remaining_min": 192.2672077704376
+  },
+  "metric_definitions": {
+    "q1_mean_fitted_MRE": {
+      "aggregation": "MEAN",
+      "denominator": "TRUE_VALUE",
+      "direction": "MIN",
+      "formula": "ABSOLUTE_RELATIVE_ERROR",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "current_voltage_grid",
+      "target": "elapsed_time_at_voltage",
+      "target_unit": "min",
+      "unit": "1",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "q2_loco_MRE": {
+      "aggregation": "MEAN",
+      "denominator": "TRUE_VALUE",
+      "direction": "MIN",
+      "formula": "ABSOLUTE_RELATIVE_ERROR",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "held_out_current_voltage_grid",
+      "target": "elapsed_time_at_voltage",
+      "target_unit": "min",
+      "unit": "1",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "q3_remaining_MRE": {
+      "aggregation": "MEAN",
+      "denominator": "TRUE_REMAINING_TIME",
+      "direction": "MIN",
+      "formula": "ABSOLUTE_RELATIVE_ERROR",
+      "prediction_origin": "PER_SAMPLE",
+      "quantity": "REMAINING_TIME",
+      "sample_unit": "historical_state_origin",
+      "target": "remaining_time",
+      "target_unit": "min",
+      "unit": "1",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "q3_remaining_min": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "future_remaining_time",
+      "target_unit": "min",
+      "unit": "min",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    }
+  },
+  "metric_accounting": {
+    "q1_mean_fitted_MRE": {
+      "value": 0.003009290255755827,
+      "included_count": 2079,
+      "excluded_sample_ids": []
+    },
+    "q2_loco_MRE": {
+      "value": 0.048930522478386536,
+      "included_count": 1617,
+      "excluded_sample_ids": []
+    },
+    "q3_remaining_MRE": {
+      "value": 0.059408550113034225,
+      "included_count": 6,
+      "excluded_sample_ids": []
+    },
+    "q3_remaining_min": {
+      "value": 192.2672077704376,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    }
+  },
+  "requirements": {
+    "REQ-Q1": {
+      "metric_values": {
+        "q1_mean_fitted_MRE": 0.00300929025575628
+      },
+      "recalculation_residuals": {
+        "all_coefficients": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        },
+        "all_2079_inverse_times_min": {
+          "value": 3.183231456205249e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 4.527628272299467e-16,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "bounded_interpolation_domain": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        }
+      },
+      "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+    },
+    "REQ-Q2": {
+      "metric_values": {
+        "q2_loco_MRE": 0.04893052247838587
+      },
+      "recalculation_residuals": {
+        "all_LOCO_and_55A_vectors": {
+          "value": 6.366462912410498e-12,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 6.661338147750939e-16,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "bounded_interpolation_domain": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        }
+      },
+      "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance.",
+      "prediction_evidence": {
+        "prediction_spec_sha256": "8e75f048aacc227a1d350741e5f9f0a3f5c93ca810c30889f4f8b0d02f3c269e",
+        "temporal_design_sha256": "1bdce98548043cbf6b3776156e3c6521106273cd98e92fba8b1cbb8b31918f5b",
+        "empirical_accuracy_verified": false,
+        "predictions": [
+          {
+            "conditions": {
+              "current_A": 55
+            },
+            "entity_id": "BATTERY-1",
+            "origin": 0,
+            "sample_id": "55A",
+            "target": "55A_discharge_duration",
+            "value": 1176.0
+          }
+        ],
+        "historical_validation": {
+          "sample_ids": [
+            "LOCO-30",
+            "LOCO-40",
+            "LOCO-50",
+            "LOCO-60",
+            "LOCO-70",
+            "LOCO-80",
+            "LOCO-90"
+          ],
+          "metric_ids": [
+            "q2_loco_MRE"
+          ]
+        },
+        "uncertainty": {
+          "kind": "UNCALIBRATED_POINT_ESTIMATE",
+          "calibrated": false
+        },
+        "condition_design_sha256": "638a83831059acf524805aac319c56d8f7b686454355987dd99cdcd054cc4b57"
+      }
+    },
+    "REQ-Q3": {
+      "metric_values": {
+        "q3_remaining_MRE": 0.059408550113034225,
+        "q3_remaining_min": 192.26720777043772
+      },
+      "recalculation_residuals": {
+        "all_aging_vectors_and_perturbations_min": {
+          "value": 7.958078640513122e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        },
+        "metric_max_difference": {
+          "value": 1.1368683772161603e-13,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-09
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "nonnegative_remaining_time_min": {
+          "value": 0.0,
+          "relation": "LE",
+          "limit": 0.0,
+          "tolerance": 1e-07
+        }
+      },
+      "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance.",
+      "prediction_evidence": {
+        "prediction_spec_sha256": "8d250083be752e4ac238ecbb4cb2a03db9ee42839116bbd2ec51772ee6247358",
+        "temporal_design_sha256": "1bdce98548043cbf6b3776156e3c6521106273cd98e92fba8b1cbb8b31918f5b",
+        "empirical_accuracy_verified": false,
+        "predictions": [
+          {
+            "sample_id": "S3-LAST",
+            "entity_id": "BATTERY-1",
+            "origin": 30596.2,
+            "target": "future_remaining_time",
+            "value": 192.2672077704376
+          }
+        ],
+        "historical_validation": {
+          "sample_ids": [
+            "S1-CUT-9.95",
+            "S1-CUT-9.85",
+            "S1-CUT-9.765",
+            "S2-CUT-9.95",
+            "S2-CUT-9.85",
+            "S2-CUT-9.765"
+          ],
+          "metric_ids": [
+            "q3_remaining_MRE"
+          ]
+        },
+        "uncertainty": {
+          "kind": "MODEL_SENSITIVITY",
+          "calibrated": false,
+          "lower_min": 182.5934347410756,
+          "upper_min": 206.21137922522632,
+          "independent_battery_count": 1,
+          "variant_values": [
+            182.5934347410756,
+            191.45986480818897,
+            206.21137922522632
+          ]
+        }
+      }
+    }
+  },
+  "checker_independence": "Manual scalar PCHIP coefficients, bisection, closed-form regression; no producer imports; same model assumptions are not independently established.",
+  "checker_diagnostics": null,
+  "limitations": [
+    "State3 true 9V termination is absent; prediction accuracy unknown.",
+    "Only one battery across aging states; voltage rows are correlated, not independent battery replicates.",
+    "Initial voltage relaxation violates literal global monotonicity; inverse uses last downward crossing.",
+    "Q1 piecewise polynomial representation uses 17 or33 uniform-time knots plus first31 sample points, not one compact global elementary formula.",
+    "Q2 interpolates within20–100A only; no observation at55A exists.",
+    "All workbook rows were materialized by intake audit; no untouched Final labels are claimed. All reported cross-validation errors are Development diagnostics.",
+    "Prefix shifts perturb fit inputs at a fixed forecast origin; they are not a clock translation.",
+    "Six correlated state-origin errors from one battery guide selection."
+  ],
+  "robustness_evidence": {
+    "metric": "q3_remaining_min",
+    "metric_direction": "MIN",
+    "perturbations": [
+      {
+        "perturbation_id": "PREFIX_TIME_PLUS_1_MIN",
+        "metric": "q3_remaining_min",
+        "result": 194.1240788261074,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "PREFIX_TIME_MINUS_1_MIN",
+        "metric": "q3_remaining_min",
+        "result": 190.41033671476816,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "PREFIX_DROP_LAST_10",
+        "metric": "q3_remaining_min",
+        "result": 191.08231177499476,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      }
+    ],
+    "failure_cases": [
+      "No state3 target error can be established without its future termination.",
+      "Transfer shape may change with aging; sensitivity spread is not calibrated uncertainty."
+    ]
+  },
+  "scientific_evidence": {
+    "REQ-Q1": {
+      "generation_method": "EMPIRICAL_ANALYSIS",
+      "source_ids": [
+        "SRC-CUMCM-2016-C-WORKBOOK"
+      ],
+      "scope": {
+        "fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ]
+      },
+      "metric_values": {
+        "q1_mean_fitted_MRE": 0.003009290255755827
+      },
+      "status": "COMPUTED",
+      "assumption_artifact_sha256": "5874a1b5ae0a6808e22df3bdb888a83426712f89e9888cf5de7cf97c1c1af146"
+    },
+    "REQ-Q2": {
+      "generation_method": "PREDICTION",
+      "source_ids": [
+        "SRC-CUMCM-2016-C-WORKBOOK"
+      ],
+      "scope": {
+        "fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ]
+      },
+      "metric_values": {
+        "q2_loco_MRE": 0.048930522478386536
+      },
+      "status": "COMPUTED_CONDITIONAL",
+      "assumption_artifact_sha256": "5874a1b5ae0a6808e22df3bdb888a83426712f89e9888cf5de7cf97c1c1af146",
+      "prediction_evidence": {
+        "prediction_spec_sha256": "8e75f048aacc227a1d350741e5f9f0a3f5c93ca810c30889f4f8b0d02f3c269e",
+        "temporal_design_sha256": "1bdce98548043cbf6b3776156e3c6521106273cd98e92fba8b1cbb8b31918f5b",
+        "empirical_accuracy_verified": false,
+        "predictions": [
+          {
+            "conditions": {
+              "current_A": 55
+            },
+            "entity_id": "BATTERY-1",
+            "origin": 0,
+            "sample_id": "55A",
+            "target": "55A_discharge_duration",
+            "value": 1176.0
+          }
+        ],
+        "historical_validation": {
+          "sample_ids": [
+            "LOCO-30",
+            "LOCO-40",
+            "LOCO-50",
+            "LOCO-60",
+            "LOCO-70",
+            "LOCO-80",
+            "LOCO-90"
+          ],
+          "metric_ids": [
+            "q2_loco_MRE"
+          ]
+        },
+        "uncertainty": {
+          "kind": "UNCALIBRATED_POINT_ESTIMATE",
+          "calibrated": false
+        },
+        "condition_design_sha256": "638a83831059acf524805aac319c56d8f7b686454355987dd99cdcd054cc4b57"
+      }
+    },
+    "REQ-Q3": {
+      "generation_method": "PREDICTION",
+      "source_ids": [
+        "SRC-CUMCM-2016-C-WORKBOOK"
+      ],
+      "scope": {
+        "fields": [
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ]
+      },
+      "metric_values": {
+        "q3_remaining_MRE": 0.059408550113034225,
+        "q3_remaining_min": 192.2672077704376
+      },
+      "status": "COMPUTED_CONDITIONAL",
+      "assumption_artifact_sha256": "5874a1b5ae0a6808e22df3bdb888a83426712f89e9888cf5de7cf97c1c1af146",
+      "prediction_evidence": {
+        "prediction_spec_sha256": "8d250083be752e4ac238ecbb4cb2a03db9ee42839116bbd2ec51772ee6247358",
+        "temporal_design_sha256": "1bdce98548043cbf6b3776156e3c6521106273cd98e92fba8b1cbb8b31918f5b",
+        "empirical_accuracy_verified": false,
+        "predictions": [
+          {
+            "sample_id": "S3-LAST",
+            "entity_id": "BATTERY-1",
+            "origin": 30596.2,
+            "target": "future_remaining_time",
+            "value": 192.2672077704376
+          }
+        ],
+        "historical_validation": {
+          "sample_ids": [
+            "S1-CUT-9.95",
+            "S1-CUT-9.85",
+            "S1-CUT-9.765",
+            "S2-CUT-9.95",
+            "S2-CUT-9.85",
+            "S2-CUT-9.765"
+          ],
+          "metric_ids": [
+            "q3_remaining_MRE"
+          ]
+        },
+        "uncertainty": {
+          "kind": "MODEL_SENSITIVITY",
+          "calibrated": false,
+          "lower_min": 182.5934347410756,
+          "upper_min": 206.21137922522632,
+          "independent_battery_count": 1,
+          "variant_values": [
+            182.5934347410756,
+            191.45986480818897,
+            206.21137922522632
+          ]
+        }
+      }
+    }
+  },
+  "source_capture_sha256": "c263986b2c0c96b820357ecd41a9b418ac669a6dba01cad94f6a9817e956ca80",
+  "source_code_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "publication_scope": "Derived metrics, residuals, predictions and provenance; raw inputs and dense observation/metric sample rows stay ignored.",
+  "q1_per_current_MRE": {
+    "20": 0.0034912755221972163,
+    "30": 0.003424507999484728,
+    "40": 0.003119218479581651,
+    "50": 0.004106278657640543,
+    "60": 0.00429489952644969,
+    "70": 0.002530750517548914,
+    "80": 0.002143012466832607,
+    "90": 0.0018795634812205676,
+    "100": 0.0020941056508465296
+  },
+  "q1_remaining_at_9_8V_min": {
+    "30": 593.3026315789491,
+    "40": 429.8684210526328,
+    "50": 326.336231884059,
+    "60": 279.4201954397399,
+    "70": 255.26705202312155
+  },
+  "q2_duration55_min": 1176.0,
+  "q3_rolling_origin_development": [
+    {
+      "sample_id": "S1-CUT-9.95",
+      "target": "remaining_time",
+      "unit": "min",
+      "origin": 10671.1,
+      "predicted_end_time": 11090.63880993832,
+      "observed_end_time": 11104.8
+    },
+    {
+      "sample_id": "S1-CUT-9.85",
+      "target": "remaining_time",
+      "unit": "min",
+      "origin": 10762.2,
+      "predicted_end_time": 11091.482985309864,
+      "observed_end_time": 11104.8
+    },
+    {
+      "sample_id": "S1-CUT-9.765",
+      "target": "remaining_time",
+      "unit": "min",
+      "origin": 10827.5,
+      "predicted_end_time": 11092.366256974175,
+      "observed_end_time": 11104.8
+    },
+    {
+      "sample_id": "S2-CUT-9.95",
+      "target": "remaining_time",
+      "unit": "min",
+      "origin": 20582.0,
+      "predicted_end_time": 20952.279364889044,
+      "observed_end_time": 20979.0
+    },
+    {
+      "sample_id": "S2-CUT-9.85",
+      "target": "remaining_time",
+      "unit": "min",
+      "origin": 20662.5,
+      "predicted_end_time": 20953.9579193396,
+      "observed_end_time": 20979.0
+    },
+    {
+      "sample_id": "S2-CUT-9.765",
+      "target": "remaining_time",
+      "unit": "min",
+      "origin": 20724.4,
+      "predicted_end_time": 20955.153671730117,
+      "observed_end_time": 20979.0
+    }
+  ],
+  "q3_transfer_parameters": {
+    "a_min": 0.0,
+    "b": 0.7029634233740418,
+    "current_voltage_V": 9.765,
+    "current_elapsed_min": 596.2,
+    "predicted_total_min": 788.4672077704377,
+    "predicted_remaining_min": 192.2672077704376,
+    "reference_specific_remaining_min": [
+      182.5934347410756,
+      191.45986480818897,
+      206.21137922522632
+    ]
+  }
+}

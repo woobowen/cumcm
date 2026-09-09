@@ -1,0 +1,81 @@
+"""Execute only prepare()'s pre-initialization contract on synthetic metadata."""
+import ast
+import copy
+import hashlib
+import json
+import subprocess
+import types
+from pathlib import Path
+import yaml
+
+HERE=Path(__file__).resolve().parent
+SNAP=HERE/'snapshot'
+SUBJECT='10e8b038d571b88ce2b7f2388da00a618c774f69'
+BASELINE='2d74ca82e2d52799e81bf5d95850570f14d93a58'
+REPO=HERE.parents[2]
+source=SNAP/'scripts/prepare_phase004c6_development.py'
+tree=ast.parse(source.read_text())
+original=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='prepare')
+index=next(i for i,n in enumerate(original.body) if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call) and isinstance(n.value.func,ast.Attribute) and n.value.func.attr=='initialize_case')
+function=copy.deepcopy(original)
+function.name='prepare_prefix'
+function.body=function.body[:index]+ast.parse('return {"case_id": binding["case_id"], "registration_path": str(registration_path.relative_to(REPO)), "case_root": binding["case_root"]}').body
+module=ast.fix_missing_locations(ast.Module(body=[function],type_ignores=[]))
+code=compile(module,str(source),'exec')
+def dump(path,value):
+    path.parent.mkdir(parents=True,exist_ok=True)
+    path.write_text(json.dumps(value,sort_keys=True))
+def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+outcomes={}
+for label in ('valid_versioned_2016','valid_versioned_2015','duplicate_registry_case','registration_path_outside_case','registration_hash_mismatch','wrong_subject','wrong_case_id','wrong_root','wrong_design_hash','existing_root'):
+    year=2015 if label=='valid_versioned_2015' else 2016
+    case_id='SYNTHETIC-'+str(year)
+    root=HERE/'synthetic_prepare'/label
+    phase=root/'evals/results/phase-004c6'
+    own=phase/case_id
+    case_root='.cache/pr12-rc9/development/'+str(year)+'/case-r2'
+    design={'case_root':case_root}
+    design_path=own/'development_design.json'
+    dump(design_path,design)
+    registration=own/'registration/case_registration_r2.json'
+    binding={'case_id':case_id,'shared_subject':SUBJECT,'case_root':case_root,'development_design_sha256':digest(design_path)}
+    if label=='wrong_subject':binding['shared_subject']='a'*40
+    elif label=='wrong_case_id':binding['case_id']='OTHER'
+    elif label=='wrong_root':binding['case_root']=case_root.replace('r2','r1')
+    elif label=='wrong_design_hash':binding['development_design_sha256']='0'*64
+    elif label=='registration_path_outside_case':registration=root/'other/registration.json'
+    dump(registration,binding)
+    # The old conventional filename intentionally remains and has stale metadata.
+    dump(own/'registration/case_registration.json',{'shared_subject':'OLD','case_root':'OLD'})
+    row={'case_id':case_id,'registration':{'path':str(registration.relative_to(root)),'sha256':digest(registration)}}
+    if label=='registration_hash_mismatch':row['registration']['sha256']='0'*64
+    cases=[row,row] if label=='duplicate_registry_case' else [row]
+    (root/'benchmarks').mkdir(parents=True,exist_ok=True)
+    (root/'benchmarks/case_registry.yaml').write_text(yaml.safe_dump({'cases':cases}))
+    if label=='existing_root':(root/case_root).mkdir(parents=True)
+    core=types.SimpleNamespace(load_json=lambda path:json.loads(path.read_text()),file_hash=digest)
+    space={'REPO':root,'PHASE':phase,'CASES':{year:case_id},'yaml':yaml,'load_core':lambda:core,'subprocess':types.SimpleNamespace(check_output=lambda *a,**kw:SUBJECT+'\n')}
+    exec(code,space)
+    try:
+        value=space['prepare_prefix'](year,SUBJECT)
+        assert label.startswith('valid_')
+        assert value['registration_path'].endswith('case_registration_r2.json')
+        outcomes[label]={'accepted':True,**value}
+    except ValueError as exc:
+        assert not label.startswith('valid_'),str(exc)
+        outcomes[label]={'accepted':False,'reason':str(exc)}
+    assert not hasattr(core,'initialize_case')
+
+designs={}
+for year,number in ((2016,'006'),(2015,'007')):
+    relative=f'evals/results/phase-004c6/CUMCM-{year}-C-POSTVALIDATION-DEVELOPMENT-{number}'
+    original_bytes=subprocess.check_output(['git','show',BASELINE+':'+relative+'/development_design.json'],cwd=REPO)
+    archive=(SNAP/relative/'design_versions/r1.json').read_bytes()
+    assert original_bytes==archive
+    old=json.loads(archive);new=json.loads((SNAP/relative/'development_design.json').read_text())
+    old_root=old.pop('case_root');new_root=new.pop('case_root')
+    assert old==new and old_root.endswith('case-r1') and new_root.endswith('case-r2')
+    designs[str(year)]={'r1_archive_equals_previous_subject':True,'archived_design_sha256':hashlib.sha256(archive).hexdigest(),'only_changed_field':'case_root','old_root':old_root,'new_root':new_root}
+result={'subject_commit':SUBJECT,'source_sha256':digest(source),'pre_initialization_contract':outcomes,'design_archive_binding':designs,'actual_initialize_case_calls':0,'real_model_starts':0,'real_checker_starts':0,'real_final_starts':0,'scope':'Only exact AST prefix before initialize_case; no raw/case execution'}
+(HERE/'prepare_contract_probe_results.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+print(json.dumps(result,ensure_ascii=False,indent=2))

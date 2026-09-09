@@ -1,0 +1,154 @@
+{
+  "schema_version": "phase-004c6-neutral-result/v1",
+  "kind": "neutral_spec_results",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "status": "PASS",
+  "recorded_at": "2026-09-09T03:49:10.270072+00:00",
+  "cases": [
+    {
+      "id": "NONPRED-ORDER-POSITIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/integration/test_rc9_final_protocol.py::test_public_completion_accepts_development_then_independent_final_once",
+        "tests/integration/test_rc9_science_semantics.py::test_three_real_cli_e2e_allow_bounded_scientific_completion[optimization]"
+      ]
+    },
+    {
+      "id": "NONPRED-ORDER-NEGATIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/integration/test_rc9_final_protocol.py::test_missing_freeze_rejects_before_capture_or_data_hashing",
+        "tests/integration/test_rc9_final_protocol.py::test_public_early_final_retains_request_and_starts_no_checker",
+        "tests/integration/test_rc9_final_protocol.py::test_rehashed_invalid_predecessors_still_require_actual_gates[empty_selection]",
+        "tests/integration/test_rc9_final_protocol.py::test_rehashed_invalid_predecessors_still_require_actual_gates[leakage]",
+        "tests/integration/test_rc9_final_protocol.py::test_rehashed_invalid_predecessors_still_require_actual_gates[missing_robustness]"
+      ]
+    },
+    {
+      "id": "PREDICTIVE-RELABEL-NEGATIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/integration/test_rc9_science_semantics.py::test_conditional_output_cannot_be_relabelled_or_upgraded[accuracy]",
+        "tests/integration/test_rc9_science_semantics.py::test_conditional_output_cannot_be_relabelled_or_upgraded[descriptive]",
+        "tests/integration/test_rc9_science_semantics.py::test_conditional_output_cannot_be_relabelled_or_upgraded[interval]",
+        "tests/integration/test_rc9_science_semantics.py::test_unknown_target_accuracy_requirement_is_not_satisfied_by_computation"
+      ]
+    },
+    {
+      "id": "TEMPORAL-SAME-ENTITY-POSITIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/integration/test_rc9_science_semantics.py::test_same_entity_origin_scale_order_and_identity_metamorphisms[1-True-Z]",
+        "tests/integration/test_rc9_science_semantics.py::test_same_entity_origin_scale_order_and_identity_metamorphisms[2-False-RENAMED]",
+        "tests/integration/test_rc9_science_semantics.py::test_three_real_cli_e2e_allow_bounded_scientific_completion[prediction]"
+      ]
+    },
+    {
+      "id": "TEMPORAL-FUTURE-LABEL-NEGATIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/integration/test_rc9_science_semantics.py::test_new_entity_transfer_keeps_entity_isolation",
+        "tests/integration/test_rc9_science_semantics.py::test_selection_cannot_use_labels_unavailable_at_forecast_origin",
+        "tests/integration/test_rc9_science_semantics.py::test_temporal_future_label_and_whole_data_transform_rejected_before_model[feature_observation_ids]",
+        "tests/integration/test_rc9_science_semantics.py::test_temporal_future_label_and_whole_data_transform_rejected_before_model[model_fit_observation_ids]",
+        "tests/integration/test_rc9_science_semantics.py::test_temporal_future_label_and_whole_data_transform_rejected_before_model[preprocess_fit_observation_ids]"
+      ]
+    },
+    {
+      "id": "TARGET-DENOMINATOR-NEGATIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/integration/test_rc9_science_semantics.py::test_elapsed_error_is_not_remaining_error_even_with_same_ranking",
+        "tests/integration/test_rc9_science_semantics.py::test_metric_contract_drift_does_not_inherit_old_freeze[aggregation]",
+        "tests/integration/test_rc9_science_semantics.py::test_metric_contract_drift_does_not_inherit_old_freeze[denominator]",
+        "tests/integration/test_rc9_science_semantics.py::test_metric_contract_drift_does_not_inherit_old_freeze[direction]",
+        "tests/integration/test_rc9_science_semantics.py::test_metric_contract_drift_does_not_inherit_old_freeze[prediction_origin]",
+        "tests/integration/test_rc9_science_semantics.py::test_metric_contract_drift_does_not_inherit_old_freeze[quantity]",
+        "tests/integration/test_rc9_science_semantics.py::test_metric_contract_drift_does_not_inherit_old_freeze[target_unit]",
+        "tests/integration/test_rc9_science_semantics.py::test_metric_contract_drift_does_not_inherit_old_freeze[zero_denominator_policy]",
+        "tests/integration/test_rc9_science_semantics.py::test_time_metric_rows_cross_bind_actual_history_not_only_aggregate[omit_sample]",
+        "tests/integration/test_rc9_science_semantics.py::test_time_metric_rows_cross_bind_actual_history_not_only_aggregate[origin]",
+        "tests/integration/test_rc9_science_semantics.py::test_time_metric_rows_cross_bind_actual_history_not_only_aggregate[sample_id]",
+        "tests/integration/test_rc9_science_semantics.py::test_time_metric_rows_cross_bind_actual_history_not_only_aggregate[truth]"
+      ]
+    },
+    {
+      "id": "REGISTRY-EXTENSION-POSITIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/unit/test_phase004c6_registry.py::test_current_records_and_registered_extension_are_not_a_closed_count"
+      ]
+    },
+    {
+      "id": "REGISTRY-HISTORY-NEGATIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[budget-CASE_DEVELOPMENT_BUDGET_INVALID]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[delete-REGISTRY_HISTORY_MISSING]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[duplicate-CASE_ID_DUPLICATE]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[missing-CASE_REQUIRED_FIELDS_MISSING]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[old_answer-REGISTRY_HISTORY_DRIFT]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[old_freeze-REGISTRY_HISTORY_DRIFT]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[old_hash-REGISTRY_HISTORY_DRIFT]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[parent-CASE_PARENT_TERMINAL_INVALID]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[root-CASE_DEVELOPMENT_ROOT_INVALID]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[unregistered-CASE_REGISTRATION_MISSING]",
+        "tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[wrong_type-CASE_DEVELOPMENT_IDENTITY_INVALID]"
+      ]
+    },
+    {
+      "id": "TERMINAL-PHASE-POSITIVE-NEGATIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/unit/test_phase004c6_registry.py::test_current_maintenance_cannot_activate_wrong_version_or_start_validation",
+        "tests/unit/test_phase004c6_registry.py::test_historical_terminal_contexts_remain_valid_and_bound[17f109cadc8524c285af6a50776e6c3decb8b3e8]",
+        "tests/unit/test_phase004c6_registry.py::test_historical_terminal_contexts_remain_valid_and_bound[a03597be9a83a38ce4bcc4dba76cf8c574327045]",
+        "tests/unit/test_phase004c6_registry.py::test_historical_terminal_contexts_remain_valid_and_bound[bcf498907cbf282e2c79580ea56b043fc1a7b52b]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[None]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[case]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[decision]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[phase]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[subject]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[time]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[validation]",
+        "tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[version]"
+      ]
+    },
+    {
+      "id": "SUBJECT-IDENTITY-POSITIVE-NEGATIVE",
+      "status": "PASS",
+      "pytest_nodeids": [
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[changed_log-RC9_RECEIPT_INVALID]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[failed-RC9_COMMAND_FAILURE]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[missing-RC9_RECEIPT_SET_INVALID]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[none-None]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[old_subject-RC9_RECEIPT_NOT_PASS]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[pytest_failed-RC9_FULL_PYTEST_NOT_PASS]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[strict_instead-RC9_FULL_CI_COMMAND_MISSING]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[time_reversed-RC9_COMMAND_TIME_INVALID]",
+        "tests/unit/test_phase004c6_qualification.py::test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts[wrong_head-RC9_TESTED_IMPLEMENTATION_MISMATCH]",
+        "tests/unit/test_phase004c6_registry.py::test_rc8_history_never_qualifies_changed_current_implementation"
+      ]
+    }
+  ],
+  "actual_cli_e2e": {
+    "optimization": "PASS",
+    "same_entity_prediction": "PASS",
+    "mixed_requirements": "PASS"
+  },
+  "evidence": [
+    {
+      "path": "evals/results/phase-004c6/qualification/receipts/focused_r2.xml",
+      "sha256": "4687d8a0e4d4de13019dafc7982f882059d37d30c737730cb957ab26721e7d33"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/receipts/focused_r2.json",
+      "sha256": "1c39797b6c740e2ed973f20f5d845fd916db2e7502cd7ca10b57541f1ee21d82"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/neutral_spec_test_map.json",
+      "sha256": "c7aed19d9a7d1046af6e8e8e72f88e0d2b6377a29715f5f1aee594993be57cb6"
+    }
+  ],
+  "interpretation": "Actual current-subject tests; positive paths reach bounded handoff and negative paths reject forged or unavailable evidence. No external validity claim."
+}

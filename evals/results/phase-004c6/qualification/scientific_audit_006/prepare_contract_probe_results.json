@@ -1,0 +1,71 @@
+{
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "source_sha256": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+  "pre_initialization_contract": {
+    "valid_versioned_2016": {
+      "accepted": true,
+      "case_id": "SYNTHETIC-2016",
+      "registration_path": "evals/results/phase-004c6/SYNTHETIC-2016/registration/case_registration_r2.json",
+      "case_root": ".cache/pr12-rc9/development/2016/case-r2"
+    },
+    "valid_versioned_2015": {
+      "accepted": true,
+      "case_id": "SYNTHETIC-2015",
+      "registration_path": "evals/results/phase-004c6/SYNTHETIC-2015/registration/case_registration_r2.json",
+      "case_root": ".cache/pr12-rc9/development/2015/case-r2"
+    },
+    "duplicate_registry_case": {
+      "accepted": false,
+      "reason": "UNIQUE_CHILD_REGISTRATION_REQUIRED"
+    },
+    "registration_path_outside_case": {
+      "accepted": false,
+      "reason": "CHILD_REGISTRATION_PATH_INVALID"
+    },
+    "registration_hash_mismatch": {
+      "accepted": false,
+      "reason": "CHILD_REGISTRATION_HASH_MISMATCH"
+    },
+    "wrong_subject": {
+      "accepted": false,
+      "reason": "SHARED_SUBJECT_REGISTRATION_MISMATCH"
+    },
+    "wrong_case_id": {
+      "accepted": false,
+      "reason": "SHARED_SUBJECT_REGISTRATION_MISMATCH"
+    },
+    "wrong_root": {
+      "accepted": false,
+      "reason": "SHARED_SUBJECT_REGISTRATION_MISMATCH"
+    },
+    "wrong_design_hash": {
+      "accepted": false,
+      "reason": "SHARED_SUBJECT_REGISTRATION_MISMATCH"
+    },
+    "existing_root": {
+      "accepted": false,
+      "reason": "NEW_CHILD_ROOT_ALREADY_EXISTS"
+    }
+  },
+  "design_archive_binding": {
+    "2016": {
+      "r1_archive_equals_previous_subject": true,
+      "archived_design_sha256": "525bebb400dd75e0bb2bc519f0d4d8847d32f0ed46b4ce480923a184aeb2021b",
+      "only_changed_field": "case_root",
+      "old_root": ".cache/pr12-rc9/development/2016/case-r1",
+      "new_root": ".cache/pr12-rc9/development/2016/case-r2"
+    },
+    "2015": {
+      "r1_archive_equals_previous_subject": true,
+      "archived_design_sha256": "0332ce81f75497d498620433b7605bc9b755a298d0a0288be331e5ade2ba2490",
+      "only_changed_field": "case_root",
+      "old_root": ".cache/pr12-rc9/development/2015/case-r1",
+      "new_root": ".cache/pr12-rc9/development/2015/case-r2"
+    }
+  },
+  "actual_initialize_case_calls": 0,
+  "real_model_starts": 0,
+  "real_checker_starts": 0,
+  "real_final_starts": 0,
+  "scope": "Only exact AST prefix before initialize_case; no raw/case execution"
+}

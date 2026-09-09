@@ -1,0 +1,35 @@
+{
+  "schema_version": "phase-004c6-command-receipt/v1",
+  "kind": "main_independent_replay",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "status": "PASS",
+  "commands": [
+    {
+      "argv": [
+        "env",
+        "PYTHONPATH=.",
+        ".venv/bin/python",
+        ".cache/pr12-rc9/verify_selected_development.py"
+      ],
+      "executed_head": "1b3473266efc2ea602e5b20ea2fbeb22cf95b1b9",
+      "started_at": "2026-09-09T03:54:49.139795+00:00",
+      "ended_at": "2026-09-09T03:55:08.158343+00:00",
+      "elapsed_seconds": 17.990306751999015,
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/phase-004c6/qualification/receipts/main_independent_replay_r2.log",
+        "sha256": "9ae77d3258fd057756f1086fb19165db2a1d9a02b5f2098c97f22d78509e159d"
+      },
+      "raw_stdout_sha256": "6073ec2687ee133e40da1d8cfa7be5bff04508e3e2ac9fd65a822666b2c2b419",
+      "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "implementation_mapping_sha256": "13d6cc5b156a20e6a21f1ca86985b26b0d86ca408abcd75aa754a03ae8a1620c"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evals/results/phase-004c6/qualification/receipts/main_independent_replay_r2.log",
+      "sha256": "9ae77d3258fd057756f1086fb19165db2a1d9a02b5f2098c97f22d78509e159d"
+    }
+  ],
+  "publication": "Private root normalization only; original streams retained ignored."
+}

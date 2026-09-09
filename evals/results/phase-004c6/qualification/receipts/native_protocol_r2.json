@@ -1,0 +1,34 @@
+{
+  "schema_version": "phase-004c6-native-review/v1",
+  "kind": "native_protocol_review",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "reviewed_subject": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "status": "PASS",
+  "mechanism": "NATIVE_READ_ONLY_AGENT",
+  "actual_agent_task": "/root/scientific_semantics_review",
+  "actual_command_count": 16,
+  "material_open_findings": [],
+  "review_scope": "PRE_EXECUTION_SOURCE_AND_NEUTRAL_TESTS_ONLY",
+  "evidence": [
+    {
+      "path": "evals/results/phase-004c6/qualification/scientific_audit_006/review_receipt.json",
+      "sha256": "85eaa001a11fa787c35bfbb22d9d93b303c8896acea03862f22d9efad3b8f072"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/scientific_audit_006/command_log.json",
+      "sha256": "bab093745424671682e1264783a6ba8788e0ee5f405154e05aaf13284654ec6c"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/scientific_audit_006/REVIEW.md",
+      "sha256": "8d5314d37a50fa7c132a28463b37cecdb63637a434dae9130ca4f3f1bddd6024"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/scientific_audit_006/publication.json",
+      "sha256": "6f43bc1b348ce66a976d09c38f0a1038d0d1378c9789b0a6a23ec61dea697699"
+    }
+  ],
+  "limitations": [
+    "This receipt covers its actual pre-execution scope only; later real Development rejection remains separate and blocks activation.",
+    "Reviewer knew prior code/findings; this is not a blind held-out scientific experiment."
+  ]
+}

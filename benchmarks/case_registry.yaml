@@ -1214,16 +1214,18 @@ cases:
   data_hashes:
     .cache/pr12-rc9/development/2016/case-r2/data/raw/appendix.xlsx: 062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf
   answer_access_status: SEALED
-  first_run_status: NOT_STARTED
+  first_run_status: FROZEN
   skill_version: 0.2.0-competition-rc9
   skill_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
   model: UNKNOWN
   reasoning: UNKNOWN
-  start_time: null
-  freeze_time: null
+  start_time: '2026-09-09T03:47:22.888946+00:00'
+  freeze_time: '2026-09-09T04:01:22.712423+00:00'
   unlock_time: null
-  generalizable_failures: []
-  problem_specific_findings: []
+  generalizable_failures:
+  - SCENARIO_HASH_EXECUTION_DEFAULT_NOT_ACCEPTED_BY_COMPLETION_CONTRACT
+  problem_specific_findings:
+  - Numerical and independent checker outputs retained; Final/handoff not accepted.
   evidence_role: DEVELOPMENT_AFTER_VALIDATION
   independent_problem: false
   contamination_status: KNOWN_PROBLEM_AND_PRIOR_RESULTS
@@ -1236,7 +1238,11 @@ cases:
   target_problem_type: C
   batch_id: RC9-POSTVALIDATION-DEVELOPMENT-004C6
   batch_position: 1
-  first_run_freeze: null
+  first_run_freeze:
+    status: LOCAL_FROZEN_PENDING_REMOTE_DELIVERY
+    subject_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
+    path: evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json
+    sha256: 8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73
   reference_unlock: LOCKED
   formal_skill_version: 0.2.0-competition-rc9
   formal_skill_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
@@ -1246,6 +1252,25 @@ cases:
   superseded_registrations:
   - path: evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/registration/case_registration.json
     sha256: dbaa2f45aee2c525146b030da28f42792bae95902c6641ba114336e39ad21c68
+  terminal_decision:
+    path: evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json
+    sha256: 8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73
+  terminal_decision_id: DECISION-CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006
+  first_run_evidence:
+    skill_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
+    run_count: 2
+    successful_run_count: 2
+    independent_checker_starts: 3
+    actual_model_cli_requests: 4
+    pre_execution_model_request_rejections: 2
+    controller_status: BLOCK_NATIVE_CONTRACTS
+    development_decision: FAILED
+    decision_path: evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json
+    decision_sha256: 8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73
+    execution_evidence_path: evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/execution_evidence.json
+    final_evaluator_calls: 0
+    predictive_test_accesses: 0
+    accepted_handoff: false
 - case_id: CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007
   set_type: DEVELOPMENT
   problem_source: .cache/pr12-rc9/development/2015/case-r2/data/raw/problem.docx
@@ -1272,16 +1297,18 @@ cases:
     .cache/pr12-rc9/development/2015/case-r2/data/raw/sun_geocentric.txt: 3eb1e06a953d2bb28e6f200b56d881916cc736808590bc3f6377dda712aaa7c7
     .cache/pr12-rc9/development/2015/case-r2/data/raw/usno_sidereal.html: c0a6256702ca71af496015b73f7a61be4c07cb2816dbc438d775a08e08d02371
   answer_access_status: SEALED
-  first_run_status: NOT_STARTED
+  first_run_status: FROZEN
   skill_version: 0.2.0-competition-rc9
   skill_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
   model: UNKNOWN
   reasoning: UNKNOWN
-  start_time: null
-  freeze_time: null
+  start_time: '2026-09-09T03:47:23.412983+00:00'
+  freeze_time: '2026-09-09T04:01:22.714051+00:00'
   unlock_time: null
-  generalizable_failures: []
-  problem_specific_findings: []
+  generalizable_failures:
+  - SCENARIO_HASH_EXECUTION_DEFAULT_NOT_ACCEPTED_BY_COMPLETION_CONTRACT
+  problem_specific_findings:
+  - Numerical and independent checker outputs retained; Final/handoff not accepted.
   evidence_role: DEVELOPMENT_AFTER_VALIDATION
   independent_problem: false
   contamination_status: KNOWN_PROBLEM_AND_PRIOR_RESULTS
@@ -1294,7 +1321,11 @@ cases:
   target_problem_type: C
   batch_id: RC9-POSTVALIDATION-DEVELOPMENT-004C6
   batch_position: 2
-  first_run_freeze: null
+  first_run_freeze:
+    status: LOCAL_FROZEN_PENDING_REMOTE_DELIVERY
+    subject_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
+    path: evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json
+    sha256: 6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400
   reference_unlock: LOCKED
   formal_skill_version: 0.2.0-competition-rc9
   formal_skill_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
@@ -1304,3 +1335,22 @@ cases:
   superseded_registrations:
   - path: evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/registration/case_registration.json
     sha256: 577282e9afc1f463857eeccec2a5a4afa1b5eefc57c56f8e911f2ed02818116a
+  terminal_decision:
+    path: evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json
+    sha256: 6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400
+  terminal_decision_id: DECISION-CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007
+  first_run_evidence:
+    skill_commit: 10e8b038d571b88ce2b7f2388da00a618c774f69
+    run_count: 2
+    successful_run_count: 2
+    independent_checker_starts: 3
+    actual_model_cli_requests: 4
+    pre_execution_model_request_rejections: 2
+    controller_status: BLOCK_NATIVE_CONTRACTS
+    development_decision: FAILED
+    decision_path: evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json
+    decision_sha256: 6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400
+    execution_evidence_path: evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/execution_evidence.json
+    final_evaluator_calls: 0
+    predictive_test_accesses: 0
+    accepted_handoff: false

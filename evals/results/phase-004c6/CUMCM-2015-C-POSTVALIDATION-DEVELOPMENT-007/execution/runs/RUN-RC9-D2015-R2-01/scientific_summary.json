@@ -1,0 +1,1100 @@
+{
+  "run_id": "RUN-RC9-D2015-R2-01",
+  "candidate_id": "GEOCENTRIC",
+  "source_output_sha256": "8753fb76dbe3f09c4fbd69cdefbdc61ab00b8984d6591cb76f79b7070eb63b17",
+  "source_scientific_check_sha256": "31606979e663ff06bad183bd830b07d7d01efbb88f547b3ec578c91cabbec03c",
+  "metrics": {
+    "reference_altitude_rmse_deg": 0.5280663445125289,
+    "reference_altitude_max_abs_deg": 1.0226913911258964,
+    "definition_tree_angle_deg": 10.0,
+    "definition_calendar_rows": 2562,
+    "scenario_event_count": 88,
+    "Beijing_event_count": 13,
+    "Chengdu_event_count": 12,
+    "Guangzhou_event_count": 11,
+    "Harbin_event_count": 14,
+    "Kunming_event_count": 11,
+    "Shanghai_event_count": 11,
+    "Urumqi_event_count": 16
+  },
+  "metric_definitions": {
+    "Beijing_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "Beijing_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "Chengdu_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "Chengdu_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "Guangzhou_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "Guangzhou_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "Harbin_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "Harbin_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "Kunming_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "Kunming_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "Shanghai_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "Shanghai_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "Urumqi_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "Urumqi_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "definition_calendar_rows": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "calendar_rows",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "definition_tree_angle_deg": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "tree_angle",
+      "target_unit": "degree",
+      "unit": "degree",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "reference_altitude_max_abs_deg": {
+      "aggregation": "MAX",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "altitude_absolute_error",
+      "target_unit": "degree",
+      "unit": "degree",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "reference_altitude_rmse_deg": {
+      "aggregation": "ROOT_MEAN",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "SQUARED_ERROR",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "solar_lunar_altitude",
+      "target_unit": "degree",
+      "unit": "degree",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    },
+    "scenario_event_count": {
+      "aggregation": "SINGLE",
+      "denominator": "ONE",
+      "direction": "MIN",
+      "formula": "VALUE",
+      "prediction_origin": "NOT_APPLICABLE",
+      "quantity": "SCALAR",
+      "sample_unit": "declared_grid_or_event_summary",
+      "target": "scenario_event_count",
+      "target_unit": "count",
+      "unit": "count",
+      "weights": "UNIFORM",
+      "zero_denominator_policy": "REJECT"
+    }
+  },
+  "metric_accounting": {
+    "Beijing_event_count": {
+      "value": 13,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "Chengdu_event_count": {
+      "value": 12,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "Guangzhou_event_count": {
+      "value": 11,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "Harbin_event_count": {
+      "value": 14,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "Kunming_event_count": {
+      "value": 11,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "Shanghai_event_count": {
+      "value": 11,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "Urumqi_event_count": {
+      "value": 16,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "definition_calendar_rows": {
+      "value": 2562,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "definition_tree_angle_deg": {
+      "value": 10.0,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    },
+    "reference_altitude_max_abs_deg": {
+      "value": 1.0226913911258964,
+      "included_count": 168,
+      "excluded_sample_ids": []
+    },
+    "reference_altitude_rmse_deg": {
+      "value": 0.5280663445125289,
+      "included_count": 168,
+      "excluded_sample_ids": []
+    },
+    "scenario_event_count": {
+      "value": 88,
+      "included_count": 1,
+      "excluded_sample_ids": []
+    }
+  },
+  "requirements": {
+    "REQ-DEFINITION": {
+      "metric_values": {
+        "definition_tree_angle_deg": 10.0,
+        "definition_calendar_rows": 2562
+      },
+      "recalculation_residuals": {
+        "full_daily_solar_event_altitude_max": {
+          "value": 7.369922204958357e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        },
+        "full_daily_moon_event_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.0,
+          "unit": "count"
+        },
+        "full_daily_moon_event_times": {
+          "value": 0.002454221248626709,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        },
+        "all_perturbation_counts": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.0,
+          "unit": "count"
+        },
+        "all_perturbation_endpoints": {
+          "value": 0.0020518898963928223,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        },
+        "calendar_date_identity": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.0,
+          "unit": "count"
+        },
+        "event_midpoint_altitude_and_azimuth": {
+          "value": 7.10952896376682e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "definition_geometry": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.0,
+          "unit": ""
+        }
+      }
+    },
+    "REQ-VALIDATION": {
+      "metric_values": {
+        "reference_altitude_rmse_deg": 0.5280663445125288,
+        "reference_altitude_max_abs_deg": 1.0226913911258964
+      },
+      "recalculation_residuals": {
+        "all_reference_input_and_arithmetic": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 1e-10,
+          "unit": "degrees"
+        },
+        "independent_physical_transform_max": {
+          "value": 4.195686139496502e-05,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      },
+      "feasible": false,
+      "constraint_residuals": {
+        "reference_accuracy_deg": {
+          "value": 1.0226913911258964,
+          "relation": "LE",
+          "limit": 0.05,
+          "tolerance": 0.0,
+          "unit": "degrees"
+        }
+      }
+    },
+    "REQ-BEIJING": {
+      "metric_values": {
+        "Beijing_event_count": 13
+      },
+      "recalculation_residuals": {
+        "full_window_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0,
+          "unit": ""
+        },
+        "full_window_endpoint_max_seconds": {
+          "value": 0.9653463363647461,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "all_window_conditions_deg": {
+          "value": 5.938746362232905e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      }
+    },
+    "REQ-CHENGDU": {
+      "metric_values": {
+        "Chengdu_event_count": 12
+      },
+      "recalculation_residuals": {
+        "full_window_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0,
+          "unit": ""
+        },
+        "full_window_endpoint_max_seconds": {
+          "value": 0.9831278324127197,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "all_window_conditions_deg": {
+          "value": 6.784876447341048e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      }
+    },
+    "REQ-GUANGZHOU": {
+      "metric_values": {
+        "Guangzhou_event_count": 11
+      },
+      "recalculation_residuals": {
+        "full_window_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0,
+          "unit": ""
+        },
+        "full_window_endpoint_max_seconds": {
+          "value": 0.9776790142059326,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "all_window_conditions_deg": {
+          "value": 7.1183832393018065e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      }
+    },
+    "REQ-HARBIN": {
+      "metric_values": {
+        "Harbin_event_count": 14
+      },
+      "recalculation_residuals": {
+        "full_window_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0,
+          "unit": ""
+        },
+        "full_window_endpoint_max_seconds": {
+          "value": 0.9505400657653809,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "all_window_conditions_deg": {
+          "value": 7.1183832393018065e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      }
+    },
+    "REQ-KUNMING": {
+      "metric_values": {
+        "Kunming_event_count": 11
+      },
+      "recalculation_residuals": {
+        "full_window_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0,
+          "unit": ""
+        },
+        "full_window_endpoint_max_seconds": {
+          "value": 0.9721672534942627,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "all_window_conditions_deg": {
+          "value": 7.1183832393018065e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      }
+    },
+    "REQ-SHANGHAI": {
+      "metric_values": {
+        "Shanghai_event_count": 11
+      },
+      "recalculation_residuals": {
+        "full_window_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0,
+          "unit": ""
+        },
+        "full_window_endpoint_max_seconds": {
+          "value": 0.9902036190032959,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "all_window_conditions_deg": {
+          "value": 7.1183832393018065e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      }
+    },
+    "REQ-URUMQI": {
+      "metric_values": {
+        "Urumqi_event_count": 16
+      },
+      "recalculation_residuals": {
+        "full_window_count": {
+          "value": 0.0,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0,
+          "unit": ""
+        },
+        "full_window_endpoint_max_seconds": {
+          "value": 0.9747581481933594,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 2.0,
+          "unit": "seconds"
+        }
+      },
+      "feasible": true,
+      "constraint_residuals": {
+        "all_window_conditions_deg": {
+          "value": 7.1183832393018065e-06,
+          "relation": "EQ",
+          "limit": 0.0,
+          "tolerance": 0.002,
+          "unit": "degrees"
+        }
+      }
+    }
+  },
+  "checker_independence": "Independent local four-point Lagrange interpolation, scalar equatorial parallax, bisection and complete date enumeration; no producer/helper imports. Same underlying JPL ephemeris, not independent observations.",
+  "checker_diagnostics": {
+    "independent_max_altitude_difference_deg": 4.195686139496502e-05,
+    "window_endpoint_max_difference_seconds": 0.9902036190032959,
+    "perturbation_counts": {
+      "LOWER_TREE": {
+        "Beijing": 14,
+        "Chengdu": 13,
+        "Guangzhou": 12,
+        "Harbin": 15,
+        "Kunming": 12,
+        "Shanghai": 13,
+        "Urumqi": 15
+      },
+      "HIGHER_TREE": {
+        "Beijing": 14,
+        "Chengdu": 13,
+        "Guangzhou": 11,
+        "Harbin": 16,
+        "Kunming": 11,
+        "Shanghai": 12,
+        "Urumqi": 16
+      },
+      "WIDER_TREE_BAND": {
+        "Beijing": 20,
+        "Chengdu": 16,
+        "Guangzhou": 16,
+        "Harbin": 24,
+        "Kunming": 16,
+        "Shanghai": 16,
+        "Urumqi": 23
+      },
+      "CIVIL_TWILIGHT": {
+        "Beijing": 13,
+        "Chengdu": 11,
+        "Guangzhou": 11,
+        "Harbin": 14,
+        "Kunming": 10,
+        "Shanghai": 11,
+        "Urumqi": 13
+      },
+      "LATITUDE_PLUS_005": {
+        "Beijing": 13,
+        "Chengdu": 12,
+        "Guangzhou": 11,
+        "Harbin": 14,
+        "Kunming": 11,
+        "Shanghai": 11,
+        "Urumqi": 16
+      }
+    },
+    "checked_reference_rows": 168
+  },
+  "limitations": [
+    "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+    "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+    "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+    "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+    "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+  ],
+  "robustness_evidence": {
+    "metric": "scenario_event_count",
+    "metric_direction": "MAX",
+    "perturbations": [
+      {
+        "perturbation_id": "LOWER_TREE",
+        "metric": "scenario_event_count",
+        "result": 94,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "HIGHER_TREE",
+        "metric": "scenario_event_count",
+        "result": 93,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "WIDER_TREE_BAND",
+        "metric": "scenario_event_count",
+        "result": 131,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "CIVIL_TWILIGHT",
+        "metric": "scenario_event_count",
+        "result": 83,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "LATITUDE_PLUS_005",
+        "metric": "scenario_event_count",
+        "result": 88,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      }
+    ],
+    "failure_cases": [
+      "Poorer geometry or alternative dusk/tree definitions can exclude individual dates; no clear-sky visibility guarantee."
+    ]
+  },
+  "scientific_evidence": {
+    "REQ-DEFINITION": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "definition_tree_angle_deg",
+          "definition_calendar_rows"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing",
+          "Chengdu",
+          "Guangzhou",
+          "Harbin",
+          "Kunming",
+          "Shanghai",
+          "Urumqi"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "definition_tree_angle_deg",
+          "definition_calendar_rows"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing",
+          "Chengdu",
+          "Guangzhou",
+          "Harbin",
+          "Kunming",
+          "Shanghai",
+          "Urumqi"
+        ]
+      },
+      "metric_values": {
+        "definition_tree_angle_deg": 10.0,
+        "definition_calendar_rows": 2562
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-VALIDATION": {
+      "generation_method": "DEVELOPMENT_DIAGNOSTIC",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO",
+        "SRC-JPL-BEIJING-SUN-REF",
+        "SRC-JPL-BEIJING-MOON-REF",
+        "SRC-JPL-CHENGDU-SUN-REF",
+        "SRC-JPL-CHENGDU-MOON-REF",
+        "SRC-JPL-GUANGZHOU-SUN-REF",
+        "SRC-JPL-GUANGZHOU-MOON-REF",
+        "SRC-JPL-HARBIN-SUN-REF",
+        "SRC-JPL-HARBIN-MOON-REF",
+        "SRC-JPL-KUNMING-SUN-REF",
+        "SRC-JPL-KUNMING-MOON-REF",
+        "SRC-JPL-SHANGHAI-SUN-REF",
+        "SRC-JPL-SHANGHAI-MOON-REF",
+        "SRC-JPL-URUMQI-SUN-REF",
+        "SRC-JPL-URUMQI-MOON-REF"
+      ],
+      "scope": {
+        "fields": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing",
+          "Chengdu",
+          "Guangzhou",
+          "Harbin",
+          "Kunming",
+          "Shanghai",
+          "Urumqi"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing",
+          "Chengdu",
+          "Guangzhou",
+          "Harbin",
+          "Kunming",
+          "Shanghai",
+          "Urumqi"
+        ]
+      },
+      "metric_values": {
+        "reference_altitude_rmse_deg": 0.5280663445125289,
+        "reference_altitude_max_abs_deg": 1.0226913911258964
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-BEIJING": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "Beijing_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "Beijing_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing"
+        ]
+      },
+      "metric_values": {
+        "Beijing_event_count": 13
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-CHENGDU": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "Chengdu_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Chengdu"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "Chengdu_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Chengdu"
+        ]
+      },
+      "metric_values": {
+        "Chengdu_event_count": 12
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-GUANGZHOU": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "Guangzhou_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Guangzhou"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "Guangzhou_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Guangzhou"
+        ]
+      },
+      "metric_values": {
+        "Guangzhou_event_count": 11
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-HARBIN": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "Harbin_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Harbin"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "Harbin_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Harbin"
+        ]
+      },
+      "metric_values": {
+        "Harbin_event_count": 14
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-KUNMING": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "Kunming_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Kunming"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "Kunming_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Kunming"
+        ]
+      },
+      "metric_values": {
+        "Kunming_event_count": 11
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-SHANGHAI": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "Shanghai_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Shanghai"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "Shanghai_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Shanghai"
+        ]
+      },
+      "metric_values": {
+        "Shanghai_event_count": 11
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    },
+    "REQ-URUMQI": {
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "source_ids": [
+        "SRC-JPL-SUN-GEO",
+        "SRC-JPL-MOON-GEO"
+      ],
+      "scope": {
+        "fields": [
+          "Urumqi_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Urumqi"
+        ]
+      },
+      "conditional_scope": {
+        "fields": [
+          "Urumqi_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Urumqi"
+        ]
+      },
+      "metric_values": {
+        "Urumqi_event_count": 16
+      },
+      "assumption_artifact_sha256": "4fcc636bba6bb6c2787a3d9a0d176fab95fda3650ecee246a05b041fe962e64d",
+      "status": "COMPUTED"
+    }
+  },
+  "source_capture_sha256": "ba81667b74ee8dbc59476a904efbf5c7cc517d8357c3ad9e0d944f4b92c3be8a",
+  "source_code_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "publication_scope": "Derived metrics, residuals, predictions and provenance; raw inputs and dense observation/metric sample rows stay ignored.",
+  "sensitivity_counts": {
+    "LOWER_TREE": {
+      "parameters": {
+        "moonlo": 3.0,
+        "moonhi": 7.0
+      },
+      "city_event_counts": {
+        "Beijing": 14,
+        "Chengdu": 13,
+        "Guangzhou": 12,
+        "Harbin": 15,
+        "Kunming": 12,
+        "Shanghai": 13,
+        "Urumqi": 15
+      }
+    },
+    "HIGHER_TREE": {
+      "parameters": {
+        "moonlo": 13.0,
+        "moonhi": 17.0
+      },
+      "city_event_counts": {
+        "Beijing": 14,
+        "Chengdu": 13,
+        "Guangzhou": 11,
+        "Harbin": 16,
+        "Kunming": 11,
+        "Shanghai": 12,
+        "Urumqi": 16
+      }
+    },
+    "WIDER_TREE_BAND": {
+      "parameters": {
+        "moonlo": 6.0,
+        "moonhi": 14.0
+      },
+      "city_event_counts": {
+        "Beijing": 20,
+        "Chengdu": 16,
+        "Guangzhou": 16,
+        "Harbin": 24,
+        "Kunming": 16,
+        "Shanghai": 16,
+        "Urumqi": 23
+      }
+    },
+    "CIVIL_TWILIGHT": {
+      "parameters": {
+        "sunlo": -6.0,
+        "sunhi": -0.833
+      },
+      "city_event_counts": {
+        "Beijing": 13,
+        "Chengdu": 11,
+        "Guangzhou": 11,
+        "Harbin": 14,
+        "Kunming": 10,
+        "Shanghai": 11,
+        "Urumqi": 13
+      }
+    },
+    "LATITUDE_PLUS_005": {
+      "parameters": {
+        "latitude_shift": 0.05
+      },
+      "city_event_counts": {
+        "Beijing": 13,
+        "Chengdu": 12,
+        "Guangzhou": 11,
+        "Harbin": 14,
+        "Kunming": 11,
+        "Shanghai": 11,
+        "Urumqi": 16
+      }
+    }
+  }
+}

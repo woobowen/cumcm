@@ -1,0 +1,349 @@
+{
+  "schema_version": "postvalidation-development-terminal/v1",
+  "phase": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+  "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+  "decision_id": "DECISION-CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "skill_version": "0.2.0-competition-rc9",
+  "parent_terminal_sha256": "59707a9384a3fc3409b02e08a82c6fb54677cb5953b5aa51841f68bab4343f5d",
+  "independent_validation": false,
+  "status": "FAILED",
+  "reason_codes": [
+    "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND"
+  ],
+  "started_at": "2026-09-09T03:47:23.412983+00:00",
+  "frozen_at": "2026-09-09T04:01:22.714051+00:00",
+  "actual_starts": {
+    "model_cli_starts": 2,
+    "independent_checker_starts": 3,
+    "final_starts": 0
+  },
+  "actual_model_cli_requests": 4,
+  "pre_execution_model_request_rejections": 2,
+  "development_selected_run_id": "RUN-RC9-D2015-R2-02",
+  "question_results": [
+    {
+      "requirement_id": "REQ-DEFINITION",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "definition_tree_angle_deg": 10.0,
+        "definition_calendar_rows": 2562
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "definition_tree_angle_deg",
+          "definition_calendar_rows"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing",
+          "Chengdu",
+          "Guangzhou",
+          "Harbin",
+          "Kunming",
+          "Shanghai",
+          "Urumqi"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    },
+    {
+      "requirement_id": "REQ-VALIDATION",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "reference_altitude_rmse_deg": 0.0007493858157717232,
+        "reference_altitude_max_abs_deg": 0.0014453845183588498
+      },
+      "generation_method": "DEVELOPMENT_DIAGNOSTIC",
+      "supported_scope": {
+        "fields": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing",
+          "Chengdu",
+          "Guangzhou",
+          "Harbin",
+          "Kunming",
+          "Shanghai",
+          "Urumqi"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "168 model-derived astronomical reference rows sharing the JPL family; internal reference consistency only, no field observation or historical event validation."
+      ]
+    },
+    {
+      "requirement_id": "REQ-BEIJING",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "Beijing_event_count": 15
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "Beijing_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Beijing"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    },
+    {
+      "requirement_id": "REQ-HARBIN",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "Harbin_event_count": 18
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "Harbin_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Harbin"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    },
+    {
+      "requirement_id": "REQ-SHANGHAI",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "Shanghai_event_count": 12
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "Shanghai_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Shanghai"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    },
+    {
+      "requirement_id": "REQ-GUANGZHOU",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "Guangzhou_event_count": 12
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "Guangzhou_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Guangzhou"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    },
+    {
+      "requirement_id": "REQ-KUNMING",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "Kunming_event_count": 13
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "Kunming_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Kunming"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    },
+    {
+      "requirement_id": "REQ-CHENGDU",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "Chengdu_event_count": 13
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "Chengdu_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Chengdu"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    },
+    {
+      "requirement_id": "REQ-URUMQI",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "Urumqi_event_count": 16
+      },
+      "generation_method": "CONDITIONAL_SIMULATION",
+      "supported_scope": {
+        "fields": [
+          "Urumqi_event_count"
+        ],
+        "time": [
+          "2016"
+        ],
+        "entities": [
+          "Urumqi"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+          "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Conditional geometry under explicit tree angle and dusk bounds; weather, terrain, leaves and human encounter probability are unmodeled."
+      ]
+    }
+  ],
+  "limitations": [
+    "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+    "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+    "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+    "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+    "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry.",
+    "Both candidate processes and their independent numerical checkers ran, but the common controller rejected at compatibility because the frozen experiment plan omitted scenario_hash.",
+    "No prefinal selection freeze, Final process, accepted Final result, accepted Claim or accepted paper-team handoff exists.",
+    "Known parent problem and prior results: Development only; zero new independent Validation.",
+    "Four model CLI requests per case: two invalid Run ID requests rejected before process launch, then two actual model subprocesses. No remaining model CLI request budget is assumed."
+  ],
+  "execution_evidence": {
+    "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/execution_evidence.json",
+    "sha256": "f4d0fcf1a60c04bb6f807366e4f8b43a6a4c9cba91de71fe962ecafbc5d6f4ec"
+  },
+  "no_post_result_plan_correction": true,
+  "functional_candidate_revision": 2,
+  "accepted_final": false,
+  "accepted_handoff": false
+}

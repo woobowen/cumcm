@@ -1,0 +1,166 @@
+{
+  "argv": [
+    "models/solve.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "GEOCENTRIC",
+    "--seed",
+    "20260909",
+    "--output",
+    "runs/RUN-RC9-D2015-R2-01/output.json"
+  ],
+  "capture_record": {
+    "path": "runs/RUN-RC9-D2015-R2-01/execution_capture.json",
+    "sha256": "ba81667b74ee8dbc59476a904efbf5c7cc517d8357c3ad9e0d944f4b92c3be8a"
+  },
+  "code_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "8184f2bae137d1cf7a3c73031c13122cc33dde19c522401267e6b807e042f4a0"
+    },
+    {
+      "path": "models/solve.py",
+      "repository_path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/code/solve.py",
+      "scope": "CASE_ROOT",
+      "sha256": "f9dc1fcb5512217f4edf2666663270d66cc0b7e96364ab967376150dc211580e"
+    },
+    {
+      "path": "models/check.py",
+      "repository_path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/code/check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "35a12469f1f5d515c07eed8254fa45ce4e6510e656333e72cfd0c0642d1ef7f1"
+    }
+  ],
+  "code_tree_hash": "2baf33c79b08f4cd8bb34408391a9382914f2869c8b0de73b7674284dd04cd0b",
+  "configuration": {
+    "candidate_id": "GEOCENTRIC",
+    "seed": 20260909
+  },
+  "configuration_hash": "6ea099aa3279466dad303b35258287b13f5a3bf363db41339ccbe305b1212967",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "decision_hash": "cbccffadcf963cb829adbcc5c63d309a71650f91f1bad411c0af4cb283404557",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20260909",
+    "TZ": "UTC"
+  },
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "9c384012b3a12a6ea86d5514a3c895213a35591d50373909cb1e367adf985cff",
+    "candidate_set": "9ae8cb5c93c8383503ae07de5270fa745ee9bdc89951c9f3c9567f376ceef105",
+    "code_commit": "c553bfe67c08a6206888c9b7a0aaa687b1f75db13628afca1bd7a768ce429133",
+    "code_set": "8b2d3f575930531759f5975a2bd9456b0899e9e7d3b2fe07c44f36cc31afb186",
+    "execution_policy": "3fe7677abbc545ab19e943dcf70ddad63765178ee9f175d42d3ae537baa9db47",
+    "input_set": "4fd7f53b798ae254de458f28d9e5214454ad962e27d96d4fe3981f98053c5491",
+    "metric": "ce8c3add0cf90b7cc22263b3a361c941d1a60703176ccb208e834af60bab3e30",
+    "seed_schedule": "47a264ecc69a3032a7b845022874b7d131b5610ab34bdd3a21228b87a77559b3",
+    "split_assignment": "a879f737ae61d5676bbe29cd09826902b38224af10843e985b838106f159ab9f"
+  },
+  "input_files": [
+    {
+      "path": "data/processed/settings.json",
+      "sha256": "4e03c21a7c78e8e2e87c2ea3f37728b0ff9bb32ad0aa286d82c32fa5adceb951"
+    },
+    {
+      "path": "data/raw/Beijing_moon_reference.txt",
+      "sha256": "98eab1105dbe1043a215987442b7b6750680eb76f77030f9872e97353610a33e"
+    },
+    {
+      "path": "data/raw/Beijing_sun_reference.txt",
+      "sha256": "f03f93dc00e43da966fadbb3b62e584bade0e8f774b017412664f249a96c33b6"
+    },
+    {
+      "path": "data/raw/Chengdu_moon_reference.txt",
+      "sha256": "f213f7f1a7e97808bd38f6b36efb5c52d8d9eed5602155adeb01a7d872c64ad4"
+    },
+    {
+      "path": "data/raw/Chengdu_sun_reference.txt",
+      "sha256": "c303aae99b48c96a3c2946b5b85aa7e063cba14c8f1891ec466b39fc0edb5845"
+    },
+    {
+      "path": "data/raw/Guangzhou_moon_reference.txt",
+      "sha256": "71c27bcec88b4165d41be620302f6b8651896c0c3bce03e9406ff6232e39c244"
+    },
+    {
+      "path": "data/raw/Guangzhou_sun_reference.txt",
+      "sha256": "040ce310604fb5535156e97c1c7d3ddbc048cf615d8b1faec83ca854788f53df"
+    },
+    {
+      "path": "data/raw/Harbin_moon_reference.txt",
+      "sha256": "4c83c75958d442352bef92a76a0b62eedf6ae0b7c8c8b06b04e931b73df94ad5"
+    },
+    {
+      "path": "data/raw/Harbin_sun_reference.txt",
+      "sha256": "e9650b1925ed64f31635a4fbd3073a7f2cab0bf4bee060b3f470e47854a7b00e"
+    },
+    {
+      "path": "data/raw/Kunming_moon_reference.txt",
+      "sha256": "1d9721ef0b186f1659f68ea6657c464d9466b6f06069d2cbe385e7213162a0f5"
+    },
+    {
+      "path": "data/raw/Kunming_sun_reference.txt",
+      "sha256": "660cb08378035f2016ffa6f4d0a67ab7194efc51d224c0cf0709bafb32a54df9"
+    },
+    {
+      "path": "data/raw/Shanghai_moon_reference.txt",
+      "sha256": "b6aaac37242ec5db4d36562d752acd0d93b4a77748fc58261a357901e55bf625"
+    },
+    {
+      "path": "data/raw/Shanghai_sun_reference.txt",
+      "sha256": "24a8dc789cc17cb4f8e53c574e7c5a43a751a16472c8e2d32c2d8b32ffb7fd28"
+    },
+    {
+      "path": "data/raw/Urumqi_moon_reference.txt",
+      "sha256": "e6e47aac350681cb21633db3c613ae78a148b7bc4eee9cf747467959ef0c9011"
+    },
+    {
+      "path": "data/raw/Urumqi_sun_reference.txt",
+      "sha256": "29a46af85cb7c6794db5e769ec5bc5f4e09e1a11cd62b6bf9c866b7f5aa420b8"
+    },
+    {
+      "path": "data/raw/horizons_api.html",
+      "sha256": "6ca45d9c222d6e5c425ae3e0a3c44225cf8b6d30c4a14892b0f1157b0ab4cfe4"
+    },
+    {
+      "path": "data/raw/horizons_manual.html",
+      "sha256": "5c5100b08abeb10f4a6074e02102e4fe5d915203eed360bb4dd839a77210ddcc"
+    },
+    {
+      "path": "data/raw/moon_geocentric.txt",
+      "sha256": "68343841400d48d45d164180cfe79a9418a2055c78657a7dbb24e617c1191bf1"
+    },
+    {
+      "path": "data/raw/noaa_twilight.html",
+      "sha256": "cc6e397796e7edc7639bebd223740134d019f7598f6d4ae6bc29def2706f8e7b"
+    },
+    {
+      "path": "data/raw/problem.docx",
+      "sha256": "b25aee13059c58f2b62c46dedcb1cc069dd0f3b08a69a97bca1e9b90a3f4e889"
+    },
+    {
+      "path": "data/raw/sun_geocentric.txt",
+      "sha256": "3eb1e06a953d2bb28e6f200b56d881916cc736808590bc3f6377dda712aaa7c7"
+    },
+    {
+      "path": "data/raw/usno_sidereal.html",
+      "sha256": "c0a6256702ca71af496015b73f7a61be4c07cb2816dbc438d775a08e08d02371"
+    }
+  ],
+  "input_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+  "outcome": "SUCCESS",
+  "output_files": [
+    {
+      "path": "runs/RUN-RC9-D2015-R2-01/output.json",
+      "sha256": "8753fb76dbe3f09c4fbd69cdefbdc61ab00b8984d6591cb76f79b7070eb63b17"
+    }
+  ],
+  "output_hash": "166a60f36a9e1315dcc57a8578e6b0a476399a837f080ee43fec1786f8009b8c",
+  "random_seed": 20260909,
+  "run_id": "RUN-RC9-D2015-R2-01",
+  "scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+  "supersession": null,
+  "trusted_capture": true
+}

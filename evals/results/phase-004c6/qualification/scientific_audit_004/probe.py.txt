@@ -1,0 +1,165 @@
+"""Round 4 synthetic pure-function checks. Never opens actual case inputs/results."""
+import ast
+import bisect
+import copy
+import hashlib
+import importlib.util
+import json
+import math
+import sys
+import types
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+SNAP = HERE / "snapshot"
+SUBJECT = "38fae5f09555448f690efcaf7caa2e13b114eaff"
+RESULTS = {"subject_commit": SUBJECT, "real_model_starts": 0, "real_checker_starts": 0, "real_final_starts": 0}
+
+def functions(path, names, namespace):
+    tree = ast.parse((SNAP / path).read_text())
+    code = ast.Module(body=[n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in names], type_ignores=[])
+    assert {n.name for n in code.body} == set(names)
+    exec(compile(code, path, "exec", flags=__import__('__future__').annotations.compiler_flag), namespace)
+    return namespace
+
+def write(path, value, **kwargs):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2) + "\n")
+
+def error_of(call):
+    try:
+        call()
+    except ValueError as exc:
+        return str(exc)
+    return None
+
+# Exact preregistered temporal-index function, synthetic in-memory workbook only.
+rows = [[10.5 - 0.005*j, float(j), 1.1*j, 1.2*j, 1.3*j if j <= 147 else None] for j in range(301)]
+class Book:
+    def __getitem__(self, key):
+        assert key == "附件2"
+        return types.SimpleNamespace(values=[[], []] + CURRENT_ROWS)
+    def close(self):
+        pass
+CURRENT_ROWS = rows
+sys.modules["openpyxl"] = types.SimpleNamespace(load_workbook=lambda *a, **kw: Book())
+captured = {}
+core = types.SimpleNamespace(write_json=lambda path, value: captured.update(index=value), file_hash=lambda path: "synthetic-only")
+prepare_path = "scripts/prepare_phase004c6_development.py"
+ns = functions(prepare_path, {"temporal_index"}, {})
+design = ns["temporal_index"](HERE / "synthetic_temporal_case", core)
+assert len(design["samples"]) == 7
+index = {row["observation_id"]: row for row in captured["index"]["observations"]}
+for sample in design["samples"]:
+    assert all(index[k]["available_at"] <= sample["origin"] for k in sample["model_fit_observation_ids"])
+temporal_results = {"valid_sample_count": 7, "historical_origin_count": 6, "future_label": design["samples"][-1]["target_observation_id"]}
+for label in ("nondecreasing_voltage", "missing_historical_row", "target_interior_gap"):
+    CURRENT_ROWS = copy.deepcopy(rows)
+    if label == "nondecreasing_voltage":
+        CURRENT_ROWS[2][0] = CURRENT_ROWS[1][0]
+    elif label == "missing_historical_row":
+        CURRENT_ROWS[20][2] = None
+    else:
+        CURRENT_ROWS[20][4] = None
+    temporal_results[label] = error_of(lambda: ns["temporal_index"](HERE / "synthetic_temporal_case", core))
+    assert temporal_results[label]
+RESULTS["temporal"] = temporal_results
+tree = ast.parse((SNAP / prepare_path).read_text())
+propose = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "propose")
+claim = next(n.value for n in ast.walk(propose) if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "claim" for t in n.targets))
+strength = next(v.value for k, v in zip(claim.keys, claim.values) if isinstance(k, ast.Constant) and k.value == "claim_strength")
+assert strength == "BOUNDED"
+RESULTS["claim_strength_literal"] = strength
+
+# Budget reservation and early Final prerequisite path; all actual launches forbidden.
+root = HERE / "synthetic_budget_case"
+(root / "state").mkdir(parents=True, exist_ok=True)
+limits = {"model_cli_starts": 4, "independent_checker_starts": 4, "final_starts": 1}
+events = []
+namespace = {
+    "Path": Path,
+    "read_artifact": lambda *a: {"content": {"evaluation_design": {"start_budget": limits}}},
+    "load_json": lambda p: json.loads(p.read_text()), "write_json": write,
+    "utc_now": lambda: "2026-09-09T00:00:00Z",
+    "final_protocol_event": lambda root, event, **kwargs: events.append(event),
+    "verify_prefinal_selection": lambda *a: {"selected_run_ids": ["SYNTHETIC-RUN"], "freeze_sha256": "x"},
+    "scientific_final_evaluation": lambda *a: True,
+    "SCIENTIFIC_FINAL_LEDGER": "state/synthetic_final.json",
+}
+functions(".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py", {"consume_start_budget", "evaluate_scientific_final"}, namespace)
+consume = namespace["consume_start_budget"]
+for j in range(3):
+    consume(root, "independent_checker_starts", "SYNTHETIC-" + str(j))
+consume(root, "independent_checker_starts", "SYNTHETIC", check_only=True)
+multi_reject = error_of(lambda: consume(root, "independent_checker_starts", "SYNTHETIC", check_only=True, needed=2))
+assert multi_reject == "RC_EXECUTION_BUDGET_EXHAUSTED:independent_checker_starts"
+consume(root, "independent_checker_starts", "SYNTHETIC-3")
+early_reject = error_of(lambda: namespace["evaluate_scientific_final"](root, decision_hash="synthetic"))
+assert early_reject == "RC_EXECUTION_BUDGET_EXHAUSTED:independent_checker_starts"
+assert events == ["FINAL_REQUESTED", "FINAL_REQUEST_REJECTED"]
+ledger = json.loads((root / "state/execution_budget.json").read_text())
+assert len(ledger["events"]) == 4
+assert not (root / namespace["SCIENTIFIC_FINAL_LEDGER"]).exists()
+RESULTS["final_budget"] = {"two_required_one_available": multi_reject, "four_used": early_reject, "events": events, "ledger_reservations": len(ledger["events"]), "synthetic_final_reservations": 0}
+
+# Qualification protocol functions with ordinary synthetic receipts, no real evidence.
+path = SNAP / "scripts/check_phase004c6_rc9_release.py"
+spec = importlib.util.spec_from_file_location("round4_qualification", path)
+q = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(q)
+case_root = HERE / "synthetic_receipts"
+def binding(name, value):
+    path = q.BASE / name
+    write(case_root / path, value)
+    return {"path": path.as_posix(), "sha256": q.digest((case_root / path).read_bytes())}
+evidence = binding("synthetic_log.json", {"scope": "synthetic fixture only"})
+case = {"case_id": "D1", "subject_commit": SUBJECT, "independent_validation": False, "question_results": [{"requirement_id": "Q1", "status": "INSUFFICIENT"}], "limitations": ["Failed before independent check or Final"], "actual_starts": {"model_cli_starts": 1, "independent_checker_starts": 0, "final_starts": 0}, "terminal_status": "FAILED"}
+receipt = {"kind": "development_results", "subject_commit": SUBJECT, "status": "PASS", "evidence": [evidence], "cases": [case, {**copy.deepcopy(case), "case_id": "D2"}]}
+snapshot = {"subject_commit": SUBJECT, "receipts": {"development_results": binding("development.json", receipt)}}
+protocol = {"required_receipts": ["development_results"], "required_development_cases": ["D1", "D2"]}
+negative = q.validate_receipts(snapshot, protocol, case_root)
+assert "RC9_DEVELOPMENT_START_BUDGET_INVALID" in negative
+review = {"kind": "native_result_review", "subject_commit": SUBJECT, "reviewed_subject": SUBJECT, "status": "PASS", "evidence": [evidence], "mechanism": "NATIVE_READ_ONLY_AGENT", "actual_agent_task": "SYNTHETIC_SOURCE_REVIEW", "actual_command_count": 1, "material_open_findings": [], "review_scope": "PRE_EXECUTION_SOURCE_ONLY", "reviewed_development_artifacts": []}
+snapshot = {"subject_commit": SUBJECT, "receipts": {"native_result_review": binding("review.json", review)}}
+pre_execution_result_review = q.validate_receipts(snapshot, {"required_receipts": ["native_result_review"]}, case_root)
+assert pre_execution_result_review == []
+RESULTS["qualification"] = {"honest_failed_before_checker_final": negative, "pre_execution_only_native_result_review_errors": pre_execution_result_review, "meaning": "No real result review claimed; this checks receipt semantic eligibility only"}
+
+# Numeric helper cross-check beyond the four existing tests: unmatched knots,
+# durations and current weights; independently assembled scalar checker curve.
+del sys.modules["openpyxl"]
+import numpy as np
+from scipy.interpolate import PPoly, PchipInterpolator
+producer_path = "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/produce.py"
+checker_path = "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/check.py"
+producer = functions(producer_path, {"surface", "crossing"}, {"np": np, "PPoly": PPoly})
+checker = functions(checker_path, {"coefficients", "evaluate", "inverse"}, {"math": math, "bisect": bisect})
+numeric = []
+for cubic in (False, True):
+    sets = {50: [(0,12),(0.7,9),(1.9,11),(3,8)], 60: [(0,12),(2.2,9.3),(3.8,11.3),(6,8)]}
+    polys, scalar = {}, {}
+    for current, points in sets.items():
+        x = np.array([p[0] for p in points]); y = np.array([p[1] for p in points])
+        polys[current] = PchipInterpolator(x, y) if cubic else PPoly(np.vstack([np.zeros(3),np.zeros(3),np.diff(y)/np.diff(x),y[:-1]]),x)
+        c = checker["coefficients"](points, cubic)
+        def f(t,x=x,c=c): return checker["evaluate"](x,c,t)
+        def d(t,x=x,c=c):
+            j=min(max(0,bisect.bisect_right(x,t)-1),len(c)-1);a,b,c1,_=c[j];z=t-x[j]
+            return (3*a*z+2*b)*z+c1
+        f.knots=x.tolist(); f.derivative=d;scalar[current]=f
+    candidate = "CUBIC_LOG_AFFINE" if cubic else "BASELINE"
+    forward, inverse, duration, metadata = producer["surface"](polys,{50:3,60:6},55,candidate)
+    w = metadata["weight"]
+    def mixed(t): return (1-w)*scalar[50](t*3/duration)+w*scalar[60](t*6/duration)
+    mixed.knots=sorted(set([t*duration/3 for t in scalar[50].knots]+[t*duration/6 for t in scalar[60].knots]))
+    mixed.derivative=lambda t:(1-w)*scalar[50].derivative(t*3/duration)*3/duration+w*scalar[60].derivative(t*6/duration)*6/duration
+    residuals=[]
+    for voltage in (8.1,9,9.8,10,10.5,11.0):
+        a=inverse(voltage); b=checker["inverse"](mixed,duration,voltage)
+        assert abs(a-b)<1e-9,(candidate,voltage,a,b)
+        assert abs(forward(a/duration)-voltage)<1e-9
+        residuals.append(abs(a-b))
+    numeric.append({"candidate":candidate,"voltages":6,"max_inverse_difference_min":max(residuals)})
+RESULTS["independent_numeric"] = numeric
+write(HERE / "probe_results.json", RESULTS)
+print(json.dumps(RESULTS, ensure_ascii=False, indent=2))

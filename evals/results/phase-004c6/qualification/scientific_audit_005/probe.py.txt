@@ -1,0 +1,146 @@
+"""Pure protocol probes on the fixed fifth-review snapshot; no actual case reads."""
+import ast
+import copy
+import importlib.util
+import json
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+SNAP = HERE / "snapshot"
+SUBJECT = "1696c9d2014b9be6ba6aec0a4656336e60aacd4e"
+RESULTS = {"subject_commit": SUBJECT, "real_model_starts": 0, "real_checker_starts": 0, "real_final_starts": 0}
+
+def module(relative, name):
+    spec = importlib.util.spec_from_file_location(name, SNAP / relative)
+    value = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(value)
+    return value
+
+q = module("scripts/check_phase004c6_rc9_release.py", "review005_qualifier")
+fixture = module("tests/unit/test_phase004c6_qualification.py", "review005_fixture")
+registry = module("src/cumcm_skill_lab/training_registry.py", "review005_registry")
+
+# Extract only the actual requirement field assignment and predictive-spec block.
+tree = ast.parse((SNAP / "scripts/prepare_phase004c6_development.py").read_text())
+prepare = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "prepare")
+field_assignment = next(n for n in ast.walk(prepare) if isinstance(n, ast.Assign) and any(isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name) and t.value.id == "req" and isinstance(t.slice, ast.Constant) and t.slice.value == "minimum_data_fields" for t in n.targets))
+predictive_block = next(n for n in ast.walk(prepare) if isinstance(n, ast.If) and isinstance(n.test, ast.Compare) and isinstance(n.test.left, ast.Name) and n.test.left.id == "rid" and len(n.test.comparators) == 1 and isinstance(n.test.comparators[0], ast.Constant) and n.test.comparators[0].value == "REQ-Q1")
+code = compile(ast.Module(body=[field_assignment, predictive_block], type_ignores=[]), "actual_requirement_blocks", "exec")
+reqs = {}
+for rid in ("REQ-Q1", "REQ-Q2", "REQ-Q3"):
+    space = {"req": {}, "rid": rid}
+    exec(code, space)
+    reqs[rid] = space["req"]
+assert reqs["REQ-Q1"]["minimum_data_fields"] == ["current_A", "voltage_V", "elapsed_min"]
+assert reqs["REQ-Q2"]["prediction_spec"]["known_input_fields"] == ["current_A", "voltage_V", "elapsed_min"]
+assert reqs["REQ-Q3"]["prediction_spec"]["known_input_fields"] == ["voltage_V", "elapsed_min"]
+assert "numeric value is unknown" in reqs["REQ-Q3"]["prediction_spec"]["conditions"][-1]
+RESULTS["requirement_fields"] = reqs
+
+def bind(root, name, value):
+    return fixture.binding(q, root, name, value)
+
+def content(root, binding):
+    return json.loads((root / binding["path"]).read_text())
+
+def replace_binding(root, binding, value):
+    path = root / binding["path"]
+    path.write_text(json.dumps(value))
+    return {"path": binding["path"], "sha256": q.digest(path.read_bytes())}
+
+checks = {}
+for label in ("baseline", "negative_without_final", "negative_no_checker", "missing_question", "terminal_wrong_subject", "execution_wrong_subject", "budget_count_mismatch", "budget_limits_mismatch", "artifact_hash_mismatch"):
+    root = HERE / "synthetic_receipts" / label
+    receipt, protocol = fixture.development_bundle(q, root)
+    protocol.update(development_minimum_model_cli_starts=1, development_minimum_independent_checker_starts=1)
+    c = receipt["cases"][1]
+    if label == "negative_without_final":
+        assert c["terminal_status"] == "INSUFFICIENT" and c["actual_starts"]["final_starts"] == 0
+    elif label == "negative_no_checker":
+        c["actual_starts"]["independent_checker_starts"] = 0
+        terminal = content(root, c["terminal"])
+        terminal["actual_starts"] = c["actual_starts"]
+        c["terminal"] = replace_binding(root, c["terminal"], terminal)
+        execution = content(root, c["execution_evidence"])
+        ledger = content(root, execution["budget_ledger"])
+        ledger["events"] = [e for e in ledger["events"] if e["kind"] != "independent_checker_starts"]
+        execution["budget_ledger"] = replace_binding(root, execution["budget_ledger"], ledger)
+        c["execution_evidence"] = replace_binding(root, c["execution_evidence"], execution)
+    elif label == "missing_question":
+        c["question_results"] = []
+        terminal = content(root, c["terminal"]); terminal["question_results"] = []
+        c["terminal"] = replace_binding(root, c["terminal"], terminal)
+    elif label == "terminal_wrong_subject":
+        terminal = content(root, c["terminal"]); terminal["subject_commit"] = "b"*40
+        c["terminal"] = replace_binding(root, c["terminal"], terminal)
+    elif label.startswith("execution_") or label.startswith("budget_") or label.startswith("artifact_"):
+        execution = content(root, c["execution_evidence"])
+        if label == "execution_wrong_subject": execution["subject_commit"] = "b"*40
+        elif label == "artifact_hash_mismatch": execution["artifacts"][0]["sha256"] = "0"*64
+        else:
+            ledger = content(root, execution["budget_ledger"])
+            if label == "budget_count_mismatch": ledger["events"].pop()
+            else: ledger["limits"]["final_starts"] = 2
+            execution["budget_ledger"] = replace_binding(root, execution["budget_ledger"], ledger)
+        c["execution_evidence"] = replace_binding(root, c["execution_evidence"], execution)
+    receipt["evidence"] = [x["terminal"] for x in receipt["cases"]]
+    snapshot = {"subject_commit": "a"*40, "receipts": {"development_results": bind(root, "receipt.json", receipt)}}
+    errors = q.validate_receipts(snapshot, protocol, root)
+    checks[label] = errors
+    if label in ("baseline", "negative_without_final"): assert not errors
+    elif label == "negative_no_checker":
+        assert errors == ["RC9_DEVELOPMENT_MINIMUM_EXECUTION_EVIDENCE_NOT_MET"]
+    else: assert errors
+RESULTS["development_receipts"] = checks
+
+review_checks = {}
+for label in ("actual_complete_binding", "source_only", "one_case_missing"):
+    root = HERE / "synthetic_reviews" / label
+    development, protocol = fixture.development_bundle(q, root)
+    protocol["required_receipts"].append("native_result_review")
+    review = {
+        "subject_commit": "a"*40, "reviewed_subject": "a"*40, "kind": "native_result_review", "status": "PASS",
+        "evidence": development["evidence"], "mechanism": "NATIVE_READ_ONLY_AGENT", "actual_agent_task": "SYNTHETIC",
+        "actual_command_count": 1, "material_open_findings": [], "review_scope": "ACTUAL_POSTVALIDATION_DEVELOPMENT_RESULTS",
+        "reviewed_development_artifacts": {c["case_id"]: {k: c[k] for k in ("terminal", "execution_evidence")} for c in development["cases"]},
+    }
+    if label == "source_only": review["review_scope"] = "PRE_EXECUTION_SOURCE_ONLY"
+    elif label == "one_case_missing": review["reviewed_development_artifacts"].pop("D2")
+    snapshot = {"subject_commit": "a"*40, "receipts": {"development_results": bind(root,"development.json",development), "native_result_review":bind(root,"review.json",review)}}
+    errors = q.validate_receipts(snapshot, protocol, root)
+    review_checks[label] = errors
+    if label == "actual_complete_binding": assert not errors
+    else: assert "RC9_NATIVE_RESULT_ARTIFACT_BINDING_INVALID" in errors
+RESULTS["result_review_binding"] = review_checks
+
+# Entirely synthetic registry/history values: historical_registry is never invoked.
+parent = {
+    "case_id":"SYNTHETIC-PARENT", "set_type":"VALIDATION", "problem_source":"SYNTHETIC", "problem_hash":"a"*64,
+    "data_hashes":{"synthetic":"b"*64}, "answer_access_status":"SEALED", "first_run_status":"FROZEN",
+    "skill_version":"0.2.0-competition-rc9", "skill_commit":SUBJECT, "model":"SYNTHETIC", "reasoning":"SYNTHETIC",
+    "start_time":"2026-09-09T00:00:00Z", "freeze_time":"2026-09-09T00:01:00Z", "unlock_time":None,
+    "generalizable_failures":[], "problem_specific_findings":[], "terminal_decision":"SYNTHETIC-PARENT-terminal.json",
+}
+child = copy.deepcopy(parent)
+child.update(case_id="SYNTHETIC-CHILD",set_type="DEVELOPMENT",evidence_role="DEVELOPMENT_AFTER_VALIDATION",independent_problem=False,contamination_status="KNOWN_PROBLEM_AND_PRIOR_RESULTS",parent_case_id=parent["case_id"],parent_terminal_sha256="c"*64,case_root=".cache/pr12-rc9/development/synthetic",terminal_decision_id="DECISION-SYNTHETIC-CHILD")
+registration = copy.deepcopy(child)
+registration.update(schema_version="postvalidation-development-registration/v1",phase=registry.PHASE,authorization_path="evals/results/phase-004c6/qualification/proposal.json",parent_terminal_path=parent["terminal_decision"],budget={"model_cli_starts":4,"independent_checker_starts":4,"final_starts":1})
+history = {"cases":[parent],"held_out_reservations":[]}
+registry_value = {"cases":[parent,child],"required_case_fields":list(registry.REQUIRED_FIELDS),"held_out_reservations":[]}
+terminal = {"schema_version":"postvalidation-development-terminal/v1","phase":registry.PHASE,"case_id":child["case_id"],"subject_commit":SUBJECT,"skill_version":"0.2.0-competition-rc9","independent_validation":False,"parent_terminal_sha256":child["parent_terminal_sha256"],"decision_id":child["terminal_decision_id"],"status":"FAILED","question_results":[{"requirement_id":"SYNTHETIC-Q","status":"INSUFFICIENT"}],"limitations":["synthetic pre-Final failure"],"actual_starts":{"model_cli_starts":1,"independent_checker_starts":0,"final_starts":0}}
+identity_results = {}
+for field in (None,"phase","case_id","skill_version","subject_commit","decision_id","independent_validation","parent_terminal_sha256"):
+    changed = copy.deepcopy(terminal)
+    if field: changed[field] = True if field == "independent_validation" else "OTHER"
+    errors = registry.validate_registry(registry_value,history,{child["case_id"]:registration},{child["case_id"]:changed})
+    identity_results[field or "valid_negative_no_checker_final"] = errors
+    assert bool(errors) == bool(field)
+for status,start,freeze,valid in (("NOT_STARTED",None,None,True),("IN_PROGRESS","2026-09-09T00:00:00Z",None,True),("FROZEN","2026-09-09T00:02:00Z","2026-09-09T00:01:00Z",False)):
+    value = copy.deepcopy(registry_value);value["cases"][-1].update(first_run_status=status,start_time=start,freeze_time=freeze)
+    errors = registry.validate_registry(value,history,{child["case_id"]:registration},{child["case_id"]:terminal})
+    identity_results["lifecycle_"+status] = errors
+    assert bool(errors) != valid
+RESULTS["terminal_identity_lifecycle"] = identity_results
+
+(HERE / "probe_results.json").write_text(json.dumps(RESULTS,ensure_ascii=False,indent=2)+"\n")
+print(json.dumps(RESULTS,ensure_ascii=False,indent=2))

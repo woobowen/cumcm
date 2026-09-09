@@ -1,0 +1,156 @@
+{
+  "schema_version": "postvalidation-development-terminal/v1",
+  "phase": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+  "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+  "decision_id": "DECISION-CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "skill_version": "0.2.0-competition-rc9",
+  "parent_terminal_sha256": "e82fc399ca2206ef088eeaee896f9b132864d544af70566efb698e41b5ec4d5a",
+  "independent_validation": false,
+  "status": "FAILED",
+  "reason_codes": [
+    "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND"
+  ],
+  "started_at": "2026-09-09T03:47:22.888946+00:00",
+  "frozen_at": "2026-09-09T04:01:22.712423+00:00",
+  "actual_starts": {
+    "model_cli_starts": 2,
+    "independent_checker_starts": 3,
+    "final_starts": 0
+  },
+  "actual_model_cli_requests": 4,
+  "pre_execution_model_request_rejections": 2,
+  "development_selected_run_id": "RUN-RC9-D2016-R2-02",
+  "question_results": [
+    {
+      "requirement_id": "REQ-Q1",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "q1_mean_fitted_MRE": 0.0007800323854870368
+      },
+      "generation_method": "EMPIRICAL_ANALYSIS",
+      "supported_scope": {
+        "fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/runs/RUN-RC9-D2016-R2-02/scientific_summary.json",
+          "sha256": "e136e396a0c030595903038e53e7eb3defeefd9f35d673d61f23e19302163fc1"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "In-sample nine-current curve reconstruction; no unseen-battery validation.",
+        "Piecewise curve representation, not a single compact global empirical formula."
+      ]
+    },
+    {
+      "requirement_id": "REQ-Q2",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "q2_loco_MRE": 0.010219758766339319
+      },
+      "generation_method": "PREDICTION",
+      "supported_scope": {
+        "fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/runs/RUN-RC9-D2016-R2-02/scientific_summary.json",
+          "sha256": "e136e396a0c030595903038e53e7eb3defeefd9f35d673d61f23e19302163fc1"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Seven leave-one-current-out Development diagnostics; 55A target has no observed truth.",
+        "Conditional current interpolation within observed 20–100A range, not verified 55A accuracy."
+      ],
+      "conditional_prediction_min": 1162.5881174419153
+    },
+    {
+      "requirement_id": "REQ-Q3",
+      "calculation_status": "COMPUTED_AND_INDEPENDENTLY_RECOMPUTED",
+      "scientific_domain_feasible": true,
+      "metric_values": {
+        "q3_remaining_MRE": 0.051965754106183794,
+        "q3_remaining_min": 193.44177724399992
+      },
+      "generation_method": "PREDICTION",
+      "supported_scope": {
+        "fields": [
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "time": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "entities": [
+          "PROVIDED_BATTERY_CURVES"
+        ]
+      },
+      "final_acceptance_status": "NOT_RUN",
+      "accepted_claim": false,
+      "evidence": [
+        {
+          "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/runs/RUN-RC9-D2016-R2-02/scientific_summary.json",
+          "sha256": "e136e396a0c030595903038e53e7eb3defeefd9f35d673d61f23e19302163fc1"
+        }
+      ],
+      "limitations": [
+        "Shared completion rejected before semantic/aggregation/Final Gates; these are numerical results, not accepted handoff.",
+        "Six correlated state-origin diagnostics from one battery; no entity transfer validation.",
+        "Future state3 termination truth absent: accuracy unknown.",
+        "184.8260766817284–205.4754966063881 min is model sensitivity, not calibrated interval."
+      ],
+      "conditional_prediction_min": 193.44177724399992
+    }
+  ],
+  "limitations": [
+    "State3 true 9V termination is absent; prediction accuracy unknown.",
+    "Only one battery across aging states; voltage rows are correlated, not independent battery replicates.",
+    "Initial voltage relaxation violates literal global monotonicity; inverse uses last downward crossing.",
+    "Q1 piecewise polynomial representation uses 17 or33 uniform-time knots plus first31 sample points, not one compact global elementary formula.",
+    "Q2 interpolates within20–100A only; no observation at55A exists.",
+    "All workbook rows were materialized by intake audit; no untouched Final labels are claimed. All reported cross-validation errors are Development diagnostics.",
+    "Prefix shifts perturb fit inputs at a fixed forecast origin; they are not a clock translation.",
+    "Six correlated state-origin errors from one battery guide selection.",
+    "Both candidate processes and their independent numerical checkers ran, but the common controller rejected at compatibility because the frozen experiment plan omitted scenario_hash.",
+    "No prefinal selection freeze, Final process, accepted Final result, accepted Claim or accepted paper-team handoff exists.",
+    "Known parent problem and prior results: Development only; zero new independent Validation.",
+    "Four model CLI requests per case: two invalid Run ID requests rejected before process launch, then two actual model subprocesses. No remaining model CLI request budget is assumed."
+  ],
+  "execution_evidence": {
+    "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/execution_evidence.json",
+    "sha256": "5b65fba4a8e242cb30626a329ad5fb215b32e59ce49bfcfd5953ab3e5b956da3"
+  },
+  "no_post_result_plan_correction": true,
+  "functional_candidate_revision": 2,
+  "accepted_final": false,
+  "accepted_handoff": false
+}

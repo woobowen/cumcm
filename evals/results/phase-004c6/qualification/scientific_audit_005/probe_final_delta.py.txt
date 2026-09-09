@@ -1,0 +1,40 @@
+"""Final bounded addendum: canonical terminal binding and installed dependency metadata."""
+import importlib.metadata
+import importlib.util
+import json
+import tomllib
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+SNAP = HERE / "snapshot-final"
+SUBJECT = "2d74ca82e2d52799e81bf5d95850570f14d93a58"
+def module(path, name):
+    spec = importlib.util.spec_from_file_location(name, SNAP/path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+q = module("scripts/check_phase004c6_rc9_release.py", "final_delta_q")
+test = module("tests/unit/test_phase004c6_qualification.py", "final_delta_fixture")
+root = HERE / "synthetic_final_delta"
+receipt, protocol = test.development_bundle(q, root)
+def evaluate():
+    snapshot = {"subject_commit":"a"*40,"receipts":{"development_results":test.binding(q,root,"receipt.json",receipt)}}
+    return q.validate_receipts(snapshot,protocol,root)
+good = evaluate()
+assert good == []
+case = receipt["cases"][1]
+original = case["terminal"]
+copy_path = q.BASE / "identical_terminal_copy.json"
+(root/copy_path).write_bytes((root/original["path"]).read_bytes())
+case["terminal"] = {"path":copy_path.as_posix(),"sha256":original["sha256"]}
+different_path = evaluate()
+assert different_path == ["RC9_DEVELOPMENT_RESULT_BINDING_INVALID"]
+declared = tomllib.loads((SNAP/"pyproject.toml").read_text())["project"]["optional-dependencies"]["dev"]
+metadata = {}
+for name, expected in (("numpy","2.4.6"),("scipy","1.17.1")):
+    assert name+"=="+expected in declared
+    assert importlib.metadata.version(name) == expected
+    metadata[name] = {"installed_version":expected,"requires_python":importlib.metadata.metadata(name)["Requires-Python"]}
+result = {"reviewed_subject":SUBJECT,"canonical_terminal":good,"identical_content_wrong_path":different_path,"dependency_metadata":metadata,"packages_installed_by_reviewer":[],"real_case_starts":0}
+(HERE/"probe_final_delta_results.json").write_text(json.dumps(result,indent=2)+"\n")
+print(json.dumps(result,indent=2))

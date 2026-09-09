@@ -1,0 +1,128 @@
+{
+  "subject_commit": "1696c9d2014b9be6ba6aec0a4656336e60aacd4e",
+  "real_model_starts": 0,
+  "real_checker_starts": 0,
+  "real_final_starts": 0,
+  "requirement_fields": {
+    "REQ-Q1": {
+      "minimum_data_fields": [
+        "current_A",
+        "voltage_V",
+        "elapsed_min"
+      ]
+    },
+    "REQ-Q2": {
+      "minimum_data_fields": [
+        "current_A",
+        "voltage_V",
+        "elapsed_min"
+      ],
+      "prediction_spec": {
+        "kind": "CONDITIONAL_ESTIMATE",
+        "claim_type": "PREDICTIVE",
+        "prediction_axis": "CONDITION_INTERPOLATION",
+        "target_field": "55A_discharge_duration",
+        "future_truth_field": "measured_55A_duration",
+        "known_input_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "model_basis": "Within-range current interpolation",
+        "conditions": [
+          "Conditions and aging/current transfer persist without regime change."
+        ],
+        "historical_validation_required": true,
+        "empirical_accuracy_required": false
+      }
+    },
+    "REQ-Q3": {
+      "minimum_data_fields": [
+        "voltage_V",
+        "elapsed_min"
+      ],
+      "prediction_spec": {
+        "kind": "CONDITIONAL_ESTIMATE",
+        "claim_type": "PREDICTIVE",
+        "prediction_axis": "TIME_CONTINUATION",
+        "target_field": "future_remaining_time",
+        "future_truth_field": "state3_terminal_elapsed_min",
+        "known_input_fields": [
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "model_basis": "Prior-state trajectory transfer fitted to observed target prefix",
+        "conditions": [
+          "Conditions and aging/current transfer persist without regime change.",
+          "Discharge states share one constant current; its numeric value is unknown."
+        ],
+        "historical_validation_required": true,
+        "empirical_accuracy_required": false
+      }
+    }
+  },
+  "development_receipts": {
+    "baseline": [],
+    "negative_without_final": [],
+    "negative_no_checker": [
+      "RC9_DEVELOPMENT_MINIMUM_EXECUTION_EVIDENCE_NOT_MET"
+    ],
+    "missing_question": [
+      "RC9_DEVELOPMENT_RESULT_BINDING_INVALID",
+      "RC9_DEVELOPMENT_SCOPE_INVALID"
+    ],
+    "terminal_wrong_subject": [
+      "RC9_DEVELOPMENT_RESULT_BINDING_INVALID"
+    ],
+    "execution_wrong_subject": [
+      "RC9_DEVELOPMENT_RESULT_BINDING_INVALID"
+    ],
+    "budget_count_mismatch": [
+      "RC9_DEVELOPMENT_BUDGET_RECEIPT_MISMATCH"
+    ],
+    "budget_limits_mismatch": [
+      "RC9_DEVELOPMENT_BUDGET_RECEIPT_MISMATCH"
+    ],
+    "artifact_hash_mismatch": [
+      "RC9_RECEIPT_INVALID:development_results:RC9_EVIDENCE_HASH_MISMATCH:evals/results/phase-004c6/qualification/D2-execution.json"
+    ]
+  },
+  "result_review_binding": {
+    "actual_complete_binding": [],
+    "source_only": [
+      "RC9_NATIVE_RESULT_ARTIFACT_BINDING_INVALID"
+    ],
+    "one_case_missing": [
+      "RC9_NATIVE_RESULT_ARTIFACT_BINDING_INVALID"
+    ]
+  },
+  "terminal_identity_lifecycle": {
+    "valid_negative_no_checker_final": [],
+    "phase": [
+      "CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:SYNTHETIC-CHILD"
+    ],
+    "case_id": [
+      "CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:SYNTHETIC-CHILD"
+    ],
+    "skill_version": [
+      "CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:SYNTHETIC-CHILD"
+    ],
+    "subject_commit": [
+      "CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:SYNTHETIC-CHILD"
+    ],
+    "decision_id": [
+      "CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:SYNTHETIC-CHILD"
+    ],
+    "independent_validation": [
+      "CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:SYNTHETIC-CHILD"
+    ],
+    "parent_terminal_sha256": [
+      "CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:SYNTHETIC-CHILD"
+    ],
+    "lifecycle_NOT_STARTED": [],
+    "lifecycle_IN_PROGRESS": [],
+    "lifecycle_FROZEN": [
+      "CASE_DEVELOPMENT_LIFECYCLE_INVALID:SYNTHETIC-CHILD"
+    ]
+  }
+}

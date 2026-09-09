@@ -1,0 +1,106 @@
+{
+  "reviewed_subject": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+  "baseline_commit": "1696c9d2014b9be6ba6aec0a4656336e60aacd4e",
+  "all_review005_actual_command_count": 22,
+  "note": "First 14 commands preserved in command_log.json. The remaining commands and final artifact verification are below.",
+  "commands": [
+    {
+      "command": "git rev-parse 2d74ca82e2d52799e81bf5d95850570f14d93a58^{commit}",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "d54160",
+          "wall_time_seconds": 0.000014482,
+          "exit_code": 0,
+          "original_token_count": 11,
+          "output": "2d74ca82e2d52799e81bf5d95850570f14d93a58\n"
+        }
+      }
+    },
+    {
+      "command": "git diff 1696c9d2014b9be6ba6aec0a4656336e60aacd4e 2d74ca82e2d52799e81bf5d95850570f14d93a58 -- scripts/check_phase004c6_rc9_release.py tests/unit/test_phase004c6_qualification.py pyproject.toml",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "f0ebd3",
+          "wall_time_seconds": 0.0000061,
+          "exit_code": 0,
+          "original_token_count": 650,
+          "output": "diff --git a/pyproject.toml b/pyproject.toml\nindex 74cc139..0d95e89 100644\n--- a/pyproject.toml\n+++ b/pyproject.toml\n@@ -10,7 +10,7 @@ requires-python = \">=3.11\"\n dependencies = [\"PyYAML>=6.0,<7\", \"jsonschema>=4.23,<5\"]\n \n [project.optional-dependencies]\n-dev = [\"pytest>=8.3,<9\", \"ruff>=0.9,<1\"]\n+dev = [\"pytest>=8.3,<9\", \"ruff>=0.9,<1\", \"numpy==2.4.6\", \"scipy==1.17.1\"]\n \n [tool.hatch.build.targets.wheel]\n packages = [\"src/cumcm_skill_lab\"]\ndiff --git a/scripts/check_phase004c6_rc9_release.py b/scripts/check_phase004c6_rc9_release.py\nindex 60091f6..f21e83f 100644\n--- a/scripts/check_phase004c6_rc9_release.py\n+++ b/scripts/check_phase004c6_rc9_release.py\n@@ -243,6 +243,8 @@ def validate_receipts(snapshot, protocol, root=ROOT):\n                         or terminal.get(\"status\") != case.get(\"terminal_status\")\n                         or execution.get(\"case_id\") != case[\"case_id\"]\n                         or execution.get(\"subject_commit\") != subject\n+                        or case[\"terminal\"][\"path\"]\n+                        != f\"evals/results/phase-004c6/{case['case_id']}/terminal/decision.json\"\n                     ):\n                         errors.append(\"RC9_DEVELOPMENT_RESULT_BINDING_INVALID\")\n                     if (\ndiff --git a/tests/unit/test_phase004c6_qualification.py b/tests/unit/test_phase004c6_qualification.py\nindex 4eb8adb..80a6af7 100644\n--- a/tests/unit/test_phase004c6_qualification.py\n+++ b/tests/unit/test_phase004c6_qualification.py\n@@ -149,18 +149,20 @@ def development_fixture(q, root, case_id, status=\"SCOPED_DEVELOPMENT_COMPLETE\"):\n         {\"limits\": budget, \"events\": [{\"kind\": k} for k, n in starts.items() for _ in range(n)]},\n     )\n     questions = [{\"requirement_id\": \"REQ-A\", \"scope\": \"conditional\"}]\n-    terminal = binding(\n-        q,\n-        root,\n-        case_id + \"-terminal.json\",\n-        {\n-            \"case_id\": case_id,\n-            \"subject_commit\": \"a\" * 40,\n-            \"status\": status,\n-            \"question_results\": questions,\n-            \"actual_starts\": starts,\n-        },\n-    )\n+    terminal_body = {\n+        \"case_id\": case_id,\n+        \"subject_commit\": \"a\" * 40,\n+        \"status\": status,\n+        \"question_results\": questions,\n+        \"actual_starts\": starts,\n+    }\n+    terminal_path = folder / \"terminal/decision.json\"\n+    terminal_path.parent.mkdir()\n+    terminal_path.write_text(json.dumps(terminal_body))\n+    terminal = {\n+        \"path\": terminal_path.relative_to(root).as_posix(),\n+        \"sha256\": q.digest(terminal_path.read_bytes()),\n+    }\n     execution = binding(\n         q,\n         root,\n"
+        }
+      }
+    },
+    {
+      "command": "git diff --name-only 1696c9d2014b9be6ba6aec0a4656336e60aacd4e 2d74ca82e2d52799e81bf5d95850570f14d93a58",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "f93549",
+          "wall_time_seconds": 0.000003734,
+          "exit_code": 0,
+          "original_token_count": 58,
+          "output": "evals/results/phase-004c6/qualification/environment_changes.json\nevals/results/phase-004c6/qualification/neutral_spec_test_map.json\npyproject.toml\nscripts/check_phase004c6_rc9_release.py\ntests/unit/test_phase004c6_qualification.py\n"
+        }
+      }
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -c 'import numpy,scipy; print({\"numpy\": numpy.__version__, \"scipy\": scipy.__version__})'",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "d6aa76",
+          "wall_time_seconds": 0.185932701,
+          "exit_code": 0,
+          "original_token_count": 10,
+          "output": "{'numpy': '2.4.6', 'scipy': '1.17.1'}\n"
+        }
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport hashlib,json,subprocess\np=Path('.cache/pr12-rc9/scientific-semantics-review-005');s=p/'snapshot-final';sha='2d74ca82e2d52799e81bf5d95850570f14d93a58'\npaths=['scripts/check_phase004c6_rc9_release.py','tests/unit/test_phase004c6_qualification.py','pyproject.toml'];files=[]\nfor path in paths:\n data=subprocess.check_output(['git','show',sha+':'+path]);t=s/path;t.parent.mkdir(parents=True,exist_ok=True);t.write_bytes(data)\n if path.endswith('.py'):compile(data,path,'exec')\n files.append({'path':path,'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)})\n(s/'conftest.py').write_text('from pathlib import Path\\nimport pytest\\n@pytest.fixture\\ndef repo_root():\\n    return Path(__file__).resolve().parent\\n')\n(p/'input_manifest_final_delta.json').write_text(json.dumps({'subject_commit':sha,'baseline_commit':'1696c9d2014b9be6ba6aec0a4656336e60aacd4e','files':files},indent=2)+'\\n')\nprint(json.dumps({'subject_commit':sha,'frozen_delta_files':len(paths)}))\nPY",
+      "result": {
+        "chunk_id": "941b28",
+        "wall_time_seconds": 0.000008899,
+        "exit_code": 0,
+        "original_token_count": 22,
+        "output": "{\"subject_commit\": \"2d74ca82e2d52799e81bf5d95850570f14d93a58\", \"frozen_delta_files\": 3}\n"
+      }
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q -c /dev/null --confcutdir=.cache/pr12-rc9/scientific-semantics-review-005/snapshot-final --basetemp=.cache/pr12-rc9/scientific-semantics-review-005/pytest-final-temp -p no:cacheprovider --junitxml=.cache/pr12-rc9/scientific-semantics-review-005/neutral_tests_final.xml .cache/pr12-rc9/scientific-semantics-review-005/snapshot-final/tests/unit/test_phase004c6_qualification.py",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "97af82",
+          "wall_time_seconds": 0.242715833,
+          "exit_code": 0,
+          "original_token_count": 56,
+          "output": "................                                                         [100%]\n- generated xml file: <REPO_ROOT>/.cache/pr12-rc9/scientific-semantics-review-005/neutral_tests_final.xml -\n16 passed in 0.12s\n"
+        }
+      }
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python .cache/pr12-rc9/scientific-semantics-review-005/probe_final_delta.py",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "62448e",
+          "wall_time_seconds": 0.037785312,
+          "exit_code": 0,
+          "original_token_count": 116,
+          "output": "{\n  \"reviewed_subject\": \"2d74ca82e2d52799e81bf5d95850570f14d93a58\",\n  \"canonical_terminal\": [],\n  \"identical_content_wrong_path\": [\n    \"RC9_DEVELOPMENT_RESULT_BINDING_INVALID\"\n  ],\n  \"dependency_metadata\": {\n    \"numpy\": {\n      \"installed_version\": \"2.4.6\",\n      \"requires_python\": \">=3.11\"\n    },\n    \"scipy\": {\n      \"installed_version\": \"1.17.1\",\n      \"requires_python\": \">=3.11\"\n    }\n  },\n  \"packages_installed_by_reviewer\": [],\n  \"real_case_starts\": 0\n}\n"
+        }
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport hashlib,json,xml.etree.ElementTree as ET\nfrom pathlib import Path\np=Path('.cache/pr12-rc9/scientific-semantics-review-005');n=0\nfor manifest,folder in [('input_manifest.json','snapshot'),('input_manifest_final_delta.json','snapshot-final')]:\n for f in json.loads((p/manifest).read_text())['files']:\n  assert hashlib.sha256((p/folder/f['path']).read_bytes()).hexdigest()==f['sha256'];n+=1\nfor path in ['neutral_tests.xml','neutral_tests_final.xml']:\n root=ET.parse(p/path).getroot();v={k:sum(int(s.get(k,0)) for s in root.findall('testsuite')) for k in ['tests','failures','errors']};assert v=={'tests':16,'failures':0,'errors':0}\nr=json.loads((p/'review_receipt.json').read_text());assert r['reviewed_subject']=='2d74ca82e2d52799e81bf5d95850570f14d93a58' and not r['native_result_review_eligible']\nassert (p/'REVIEW.md').is_file() and json.loads((p/'probe_final_delta_results.json').read_text())['real_case_starts']==0\nprint(json.dumps({'frozen_file_hash_checks':n,'neutral_test_runs':[16,16],'reviewed_subject':r['reviewed_subject'],'material_open_findings':r['material_open_findings'],'real_case_starts':0}))\nPY",
+      "result": {
+        "chunk_id": "78063a",
+        "wall_time_seconds": 0.000016535,
+        "exit_code": 0,
+        "original_token_count": 45,
+        "output": "{\"frozen_file_hash_checks\": 12, \"neutral_test_runs\": [16, 16], \"reviewed_subject\": \"2d74ca82e2d52799e81bf5d95850570f14d93a58\", \"material_open_findings\": [], \"real_case_starts\": 0}\n"
+      }
+    }
+  ]
+}
