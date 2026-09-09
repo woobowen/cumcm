@@ -1,0 +1,149 @@
+"""Independent standard-library EXAMPLE_ONLY assembly audit; never executes payloads."""
+from pathlib import Path
+import hashlib
+import json
+import posixpath
+import re
+import stat
+import zipfile
+
+O=Path(__file__).parent
+P=O.parent/'example-audit.zip'
+def sha(b):return hashlib.sha256(b).hexdigest()
+def canonical(v):return json.dumps(v,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
+def unique(pairs):
+    d={}
+    for k,v in pairs:
+        if k in d:raise ValueError('duplicate JSON key')
+        d[k]=v
+    return d
+def js(b):return json.loads(b,object_pairs_hook=unique)
+frozen={n:sha((O/n).read_bytes()) for n in ('REVIEW_SUMMARY.md','RAW_FINDINGS.json')}
+assert frozen=={'RAW_FINDINGS.json':'56f57c6de86d0557a414446e4ce823b706dc1b5d1b4ec0fb2709c1677677e6c3',
+               'REVIEW_SUMMARY.md':'24ecec3caec59f032a4cc053c82652e62bf7b2677effaadd411549a49154ecef'}
+data=P.read_bytes()
+assert len(data)==100878 and sha(data)=='8be545f774343af5b2a063dce7f4c0076fe358a78851d6fd37feae3a379798f3'
+checks={'archive_size_and_sha256':True}
+with zipfile.ZipFile(P) as z:
+    assert len(z.namelist())==len(set(z.namelist())) and z.testzip() is None
+    for i in z.infolist():
+        n=Path(i.filename)
+        assert not n.is_absolute() and '..' not in n.parts and '\\' not in i.filename
+        assert not stat.S_ISLNK(i.external_attr>>16) and not(i.flag_bits&1)
+    payload={n:z.read(n) for n in z.namelist()}
+outer=js(payload['PACKAGE_MANIFEST.json'])
+assert outer['kind']=='EXAMPLE_ONLY' and outer['scientific_authority'] is False and outer['automatic_upload'] is False
+assert set(outer['files'])==set(payload)-{'PACKAGE_MANIFEST.json'}
+assert all(sha(payload[n])==h for n,h in outer['files'].items())
+assert sha(canonical(outer['files']))==outer['payload_set_sha256']
+checks['outer_crc_member_set_and_payload_hashes']=True
+links=[]
+for name,b in payload.items():
+    if not name.endswith('.md'):continue
+    for target in re.findall(r'\[[^\]]*\]\(([^)]+)\)',b.decode()):
+        if target.startswith(('https://','http://','#')):continue
+        dest=posixpath.normpath(posixpath.join(posixpath.dirname(name),target.split('#')[0]))
+        assert dest in payload,(name,dest)
+        links.append({'source':name,'target':dest})
+checks['offline_markdown_link_targets_present']=True
+inventory=js((O/'read_inventory.json').read_bytes())
+baseline={}
+for r in inventory:
+    if '/input_snapshot/original_example_review/' in r['path']:
+        baseline['example/'+r['path'].split('/input_snapshot/original_example_review/',1)[1]]=r['sha256']
+    elif '/input_snapshot/original_example_context/' in r['path']:
+        baseline['context/'+r['path'].split('/input_snapshot/original_example_context/',1)[1]]=r['sha256']
+# Exact additional read grant received before execution. Hash/compare only.
+context_md_source=O.parent/'input_snapshot/original_example_context/CONTEXT.md'
+context_md_source_bytes=context_md_source.read_bytes()
+baseline['context/CONTEXT.md']=sha(context_md_source_bytes)
+old_paths=[n for n in payload if n.startswith(('example/','context/'))]
+compared=[];unbound=[]
+for n in old_paths:
+    if n not in baseline:unbound.append(n);continue
+    assert sha(payload[n])==baseline[n],n
+    compared.append(n)
+assert unbound==[]
+checks['all_previously_hashed_example_and_context_bytes_unchanged']=True
+inner=js(payload['example/manifest.json'])
+assert sha(canonical({k:v for k,v in inner.items() if k!='package_hash'}))==inner['package_hash']
+assert all(sha(payload['example/'+n])==h for n,h in inner['files'].items())
+context=js(payload['context/context.json'])
+assert sha(canonical({k:v for k,v in context.items() if k!='context_hash'}))==context['context_hash']
+assert inner['case_id']=='ORIGINAL-WATER-MIXED' and inner['module']=='M14' and inner['revision']==1
+assert inner['package_hash']=='09784e197709c5c5657d5eedac9959c7a72312e0ea30631a7bbeeb46afe05c71'
+assert context['status']['case_id']==inner['case_id']
+contextmd=payload['context/CONTEXT.md'].decode()
+assert inner['case_id'] in contextmd and context['context_hash'] in contextmd
+for m in context['status']['modules']:
+    assert m['module'] in contextmd and m['request_id'] in contextmd and m['status'] in contextmd
+checks['old_inner_manifest_and_context_canonical_identity']=True
+checks['context_markdown_agrees_with_currently_packaged_historical_json']=True
+feedback_bytes=payload['support/WEB_FEEDBACK_ORIGINAL_WATER_M14.json']
+feedback=js(feedback_bytes)
+receipt=js(payload['support/external_feedback_receipt.json'])
+audit=js(payload['support/input_audit.json'])
+assert sha(feedback_bytes)==receipt['original_feedback_sha256']==audit['input_hashes']['WEB_FEEDBACK_ORIGINAL_WATER_M14.json']=='f44257672f89343d216f45adc6714f61bc4d914614e20f2876ba62370aae3eea'
+assert set(feedback)=={'schema_version','case_id','module','revision','package_hash','reviewer','visible_materials','executed_code','findings'}
+assert feedback['schema_version']=='web-feedback/v1' and type(feedback['executed_code']) is bool
+assert all(feedback[k]==inner[k]==receipt[k] for k in ('case_id','module','revision','package_hash'))
+assert set(feedback['visible_materials'])<=set(inner['files'])
+assert len(feedback['findings'])==2
+finding_fields={'finding_id','location','description','reason_or_counterexample','affected_scope','suggested_verification','confidence','kind'}
+for f in feedback['findings']:
+    assert set(f)==finding_fields and f['location'] in inner['files']
+    assert f['kind'] in {'CALCULATION','EVIDENCE','SCIENTIFIC','ALTERNATIVE'}
+    assert f['confidence'] in {'HIGH','MEDIUM','LOW','UNKNOWN'}
+assert not any(b'READINESS-COOLANT-001' in b for b in payload.values())
+assert not any(n.startswith('review/') for n in payload)
+checks['original_feedback_exact_hash_and_strict_old_case_identity']=True
+checks['no_new_case_id_or_current_review_payload']=True
+support_compared=[]
+for n in payload:
+    if not n.startswith('support/'):continue
+    prior={r['sha256'] for r in inventory if r['path'].endswith('/evals/results/gpt-codex-readiness-001/'+n.removeprefix('support/'))}
+    if prior:
+        assert prior=={sha(payload[n])},n
+        support_compared.append(n)
+checks['previously_audited_support_bytes_unchanged']=True
+guide=payload['support/EXAMPLE_REVIEW_GUIDE.md'].decode()
+start=payload['START_HERE.md'].decode();readfirst=payload['READ_FIRST.txt'].decode()
+assert 'EXAMPLE_ONLY' in readfirst and 'authorizes no execution' in readfirst
+assert '不可重跑' in start and '不要把示例 READY 当新题状态' in start
+assert '不能据此声称本机 CURRENT 或重跑 Final' in guide
+assert 'NATIVE_IMPORT_NOT_RUN_IMMUTABLE_SOURCE' in guide
+assert receipt['native_import_status']=='NATIVE_IMPORT_NOT_RUN_IMMUTABLE_SOURCE'
+assert receipt['original_root_available'] is False and receipt['original_export_index_available'] is False
+assert receipt['source_current_claimed'] is False and receipt['human_acceptance']=='NOT_RUN'
+checks['example_only_final_currentness_and_native_import_boundaries_explicit']=True
+kit=js(payload['operator_kit_manifest.json'])
+root_compared=[]
+for n in payload:
+    prior=O/'start'/n
+    if '/' not in n and prior.is_file() and n not in {'PACKAGE_MANIFEST.json','READ_FIRST.txt'}:
+        assert payload[n]==prior.read_bytes(),n
+        root_compared.append(n)
+checks['operator_content_unchanged_against_original_audit']=True
+assert {n:sha((O/n).read_bytes()) for n in frozen}==frozen
+checks['original_reports_frozen']=True
+result={'schema_version':'bounded-readonly-example-assembly/v1',
+ 'conclusion':'NO_ASSEMBLY_BLOCKER_WITHIN_VERIFIED_FIXED_ARCHIVE',
+ 'non_authoritative':True,'formal_acceptance':False,
+ 'archive':{'path':str(P),'sha256':sha(data),'bytes':len(data),'members':len(payload),
+            'payload_set_sha256':outer['payload_set_sha256'],'kind':outer['kind']},
+ 'inner_identity':{k:inner[k] for k in ('case_id','module','revision','package_hash')},
+ 'context_hash':context['context_hash'],'checks':checks,'all_checks_passed':all(checks.values()),
+ 'old_snapshot_baseline_compared_files':compared,'baseline_unavailable_files':unbound,
+ 'additional_baseline_read':{'path':str(context_md_source),'sha256':sha(context_md_source_bytes),
+                             'bytes':len(context_md_source_bytes),'scope':'Hash/compare only under exact added read grant.'},
+ 'support_baseline_compared_files':support_compared,'operator_baseline_compared_files':root_compared,
+ 'offline_links':links,'feedback_sha256':sha(feedback_bytes),
+ 'operator_manifest_verification_status':kit['verification_status'],
+ 'not_run':['supplied_programs','case_cli','model','checker','Final','CI','native_feedback_import',
+            'network_or_real_web_authentication','human_acceptance','live_case_currentness'],
+ 'limits':['Actual external feedback provenance is retained from user-supplied original and receipt; no live web connection was made.',
+           'Snapshot assembly does not authorize replay of old Final or move historical READY into a new case.',
+           'Any later descriptive CI metadata or rebuilt archive hash is outside this exact archive audit.'],
+ 'frozen_original_sha256':frozen,'payload_read_inventory':{n:sha(b) for n,b in sorted(payload.items())}}
+with (O/'EXAMPLE_REVIEW.json').open('x') as s:json.dump(result,s,ensure_ascii=False,indent=2);s.write('\n')
+print(json.dumps({k:result[k] for k in ('conclusion','archive','inner_identity','checks','all_checks_passed','baseline_unavailable_files')},ensure_ascii=False,indent=2))

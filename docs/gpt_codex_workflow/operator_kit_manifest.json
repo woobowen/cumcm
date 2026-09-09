@@ -5,7 +5,7 @@
   "applicable_core_version": "0.2.0-competition-rc10",
   "historical_accepted_subject": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
   "core_implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
-  "source_tool_head": "637d102d2db3a63596a20931df96080a8c29d76f",
+  "source_tool_head": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
   "files": {
     "BRAIN_RESUME.md": "ee866ece32a7ed425b4a9e1f19abd6fde199a4dc25a32e3234d35b600e54882f",
     "BRAIN_START.md": "474d54af0c18883eca1f441e2bbfdfab29796c75cfbb65e05ce4be9e66d18fd7",
@@ -29,7 +29,7 @@
     "tools/rehearse.py": "01d893a44bd6dd190e6d88029eb475391e1f5e86341dd9e30d94ad0a6dc59be9"
   },
   "content_sha256": "0beab8eefc067045809a5249a89281d1ed4f6e1db0904f59ee99bd0fae6debe8",
-  "verification_status": "REHEARSAL_AUDIT_VERIFIED_CI1_GUARD_BLOCKED_SCOPE_CORRECTION_PENDING_CI2",
+  "verification_status": "OPERATOR_KIT_READY_FOR_REAL_USER_REHEARSAL",
   "source_references_require_repository_for_full_bytes": true,
   "not_run": [
     "new_user_web_roundtrip",
@@ -45,6 +45,22 @@
     "actual_model_captures": 2,
     "explicit_checker_captures": 2,
     "final_count": 1,
-    "internal_checker_replays": 4
-  }
+    "internal_checker_replays": 4,
+    "full_ci_attempts": 2,
+    "successful_full_ci_tests": 2369,
+    "successful_full_ci_skips": 1,
+    "operator_tests_separate_from_default_ci": 11,
+    "native_initial_audit_groups": 13,
+    "native_receipt_closure_groups": 10,
+    "native_example_assembly_groups": 12,
+    "native_scope_correction_groups": 11
+  },
+  "operator_content_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+  "ci_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+  "numeric_rehearsal_subject": "637d102d2db3a63596a20931df96080a8c29d76f",
+  "verification_receipts": [
+    "evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.json",
+    "evals/results/gpt-codex-readiness-001/commands/full-ci.json",
+    "evals/results/gpt-codex-readiness-001/native_audit/view_manifest.json"
+  ]
 }

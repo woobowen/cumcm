@@ -37,3 +37,9 @@ Checkpoint：数值 subject 637d102 已完成新例 M07–M14；模型 2、显�
 完整 CI 第一次（subject 6b505c44b1d160372b9c6ca696bce4fa838043b1）实际 pytest 2380 passed / 1 skipped，随后 check_modular_workbench 拒绝，整体 exit 2。根因是历史资格集合比运行 identity 更广：还冻结 README、docs/INDEX、tests/ 与 scripts/ 等路径集合。本轮仅预先核了运行 identity 与 1989 项旧文件，未识别新增 tests 路径和两处导航的额外资格约束；失败不能报为完整 CI 通过。原日志/receipt 改存 full-ci-attempt1，未丢失。
 
 有界修正：仅撤回主代理本轮新增的 README/INDEX 两条导航，逐字节恢复起点；新增测试原逻辑移到独立 operator kit 的 tests 子目录，显式独立执行，保留全部 11 个正负例；新增不在冻结集合内的 OPERATOR_START_HERE.md 作为明确入口。未改 hash 函数、覆盖范围、旧测试/期望、历史资格/决定/receipt 或核心。资料测试与原完整 CI 此后分开计数。先核新 subject 的两个完整 map 都等于旧资格，再进行必要的第二次完整 CI；不重跑原创模型/Final。
+
+第二完整 CI subject bb29f03fb8eb4edc5513b1b9e8515089feb51b13，exit 0，2369 passed / 1 skipped，496.113 s。新资料 11 测试独立执行，默认旧测试集合不变。之后只做说明性 metadata/回执收口、相应定向验证、普通推送和最终 HEAD 新 context/三包；不再次运行模型或 Final。
+
+最终说明性回执更新后，资料11测试、strict validator、render_status --check、git diff --check 均实际 exit 0，见 commands/closure_checks.json（明确父subject＋未提交metadata及实际manifest hash）。原生scope审核11项通过，未运行包内程序。最终包位于仓库外持久交付目录；最后提交后核context、逐包与原生已审包比较差异、push及远端回执不再递归提交自身hash。
+
+暂存检查发现原生审核导出的 diff 有合法的单空格 context 行，作为新文本文件被 git diff --check 当尾空格拒绝。原始 scratch diff 保留字节/hash；公开视图改为 UTF8 JSON 字符串封装，完整保留空白，view_manifest 明示包装变换，未修改审核意见或源代码。随后重新检查暂存差异。
