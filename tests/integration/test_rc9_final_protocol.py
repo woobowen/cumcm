@@ -114,6 +114,35 @@ def test_missing_freeze_rejects_before_capture_or_data_hashing(repo_root, tmp_pa
         core.evaluate_scientific_final(case, decision_hash="a" * 64)
 
 
+def test_registered_process_budget_counts_models_checkers_and_single_final(repo_root, tmp_path):
+    path = repo_root / "tests/integration/test_rc9_science_semantics.py"
+    spec = importlib.util.spec_from_file_location("rc9_budget_science", path)
+    science = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(science)
+
+    def configure(data, plan, requirements, semantic):
+        plan["evaluation_design"]["start_budget"] = {
+            "model_cli_starts": 2,
+            "independent_checker_starts": 4,
+            "final_starts": 1,
+        }
+
+    _, core, case = science.build(repo_root, tmp_path, "optimization", mutation=configure)
+    process, result = science.complete(repo_root, case)
+    assert process.returncode == 0, result
+    ledger = core.load_json(case / "state/execution_budget.json")
+    counts = {k: sum(e["kind"] == k for e in ledger["events"]) for k in ledger["limits"]}
+    assert counts == {"model_cli_starts": 2, "independent_checker_starts": 3, "final_starts": 1}
+    core.verify_scientific_check(case, run_id="RUN-CAND-20260906")
+    core._SCIENTIFIC_CHECKS_THIS_PROCESS.clear()
+    with pytest.raises(ValueError, match="RC_EXECUTION_BUDGET_EXHAUSTED"):
+        core.verify_scientific_check(case, run_id="RUN-CAND-20260906")
+    before = core.file_hash(case / "state/execution_budget.json")
+    freeze = core.load_json(case / core.PREFINAL_SELECTION)
+    core.evaluate_scientific_final(case, decision_hash=freeze["decision_hash"], allow_existing=True)
+    assert core.file_hash(case / "state/execution_budget.json") == before
+
+
 def prepared_science_case(repo_root, tmp_path, behavior=None):
     path = repo_root / "tests/integration/test_rc9_science_semantics.py"
     spec = importlib.util.spec_from_file_location("rc9_protocol_science", path)

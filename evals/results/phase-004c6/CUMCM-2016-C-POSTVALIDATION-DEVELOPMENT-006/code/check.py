@@ -161,6 +161,7 @@ def main():
         actual = [sample_time(points, u) for u in grid]
         m = error(values, actual)
         q1_mre.append(m)
+        assert abs(m - out["Q1"]["per_current_MRE"][str(i)]) < 1e-9
         q1_metrics[f"q1_MRE_{i}A"] = m
         original = next(r for r in out["Q1"]["mre_evaluation"] if r["current_A"] == i)
         model_time_residual = max(
@@ -280,6 +281,14 @@ def main():
         ]
     )
     q3_metrics = {"q3_remaining_MRE": q3_remaining_mre, "q3_remaining_min": remaining}
+    for current in range(30, 71, 10):
+        assert (
+            abs(
+                q1_metrics[f"q1_remaining_{current}A_min"]
+                - out["Q1"]["remaining_at_9_8V_min"][str(current)]
+            )
+            < 1e-7
+        )
     q1_metrics = {"q1_mean_fitted_MRE": q1_metrics["q1_mean_fitted_MRE"]}
     results = {}
     for rid, metrics, recalc in (

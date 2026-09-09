@@ -463,6 +463,10 @@ def rc9_science(root, payload, candidate):
         "Known-problem Development with conditional forecasts; future accuracy remains unverified."
     )
     payload["limitations"].append(
+        "Prefix shifts perturb fit inputs at a fixed forecast origin; "
+        "they are not a clock translation."
+    )
+    payload["limitations"].append(
         "Six correlated state-origin errors from one battery guide selection."
     )
     for req in requirements:

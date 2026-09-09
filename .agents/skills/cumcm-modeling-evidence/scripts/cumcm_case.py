@@ -5418,6 +5418,49 @@ def controlled_subprocess_environment(seed: int) -> tuple[dict[str, str], dict[s
     return recorded, process_environment
 
 
+def consume_start_budget(case_root: Path, kind: str, run_id: str) -> None:
+    """Count actual process starts, including independent verification replays."""
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    limits = (plan.get("evaluation_design") or {}).get("start_budget")
+    if limits is None:
+        return
+    maximum = {"model_cli_starts": 4, "independent_checker_starts": 4, "final_starts": 1}
+    if (
+        not isinstance(limits, dict)
+        or set(limits) != set(maximum)
+        or any(type(limits[k]) is not int or not 1 <= limits[k] <= v for k, v in maximum.items())
+    ):
+        raise ValueError("RC_EXECUTION_BUDGET_INVALID")
+    lock = case_root / "state/execution_budget.lock"
+    path = case_root / "state/execution_budget.json"
+    try:
+        lock.mkdir()
+    except FileExistsError as exc:
+        raise ValueError("RC_EXECUTION_BUDGET_LOCKED") from exc
+    try:
+        ledger = (
+            load_json(path)
+            if path.exists()
+            else {"schema_version": "execution-start-budget/v1", "limits": limits, "events": []}
+        )
+        if ledger.get("limits") != limits or not isinstance(ledger.get("events"), list):
+            raise ValueError("RC_EXECUTION_BUDGET_INVALID")
+        used = sum(e.get("kind") == kind for e in ledger["events"])
+        if kind not in limits or used >= limits[kind]:
+            raise ValueError("RC_EXECUTION_BUDGET_EXHAUSTED:" + kind)
+        ledger["events"].append(
+            {
+                "sequence": len(ledger["events"]) + 1,
+                "kind": kind,
+                "run_id": run_id,
+                "started_at": utc_now(),
+            }
+        )
+        write_json(path, ledger)
+    finally:
+        lock.rmdir()
+
+
 def execute_case_code(
     case_root: Path,
     *,
@@ -5455,6 +5498,7 @@ def execute_case_code(
     run_dir = case_root / "runs" / run_id
     if run_dir.exists():
         raise FileExistsError(run_dir)
+    consume_start_budget(case_root, "model_cli_starts", run_id)
     run_dir.mkdir(parents=True)
     output_relative = f"runs/{run_id}/output.json"
     stdout_relative = f"runs/{run_id}/stdout.txt"
@@ -5735,6 +5779,7 @@ def verify_scientific_check(
             "started_at": utc_now(),
             "final_test_access": False,
         }
+        consume_start_budget(case_root, "independent_checker_starts", run_id)
         write_json(replay / "execution.json", receipt, overwrite=False)
         _, environment = controlled_subprocess_environment(int(capture["seed"]))
         began = time.monotonic()
@@ -5847,6 +5892,7 @@ def execute_scientific_check(
         "final_test_access": False,
         "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
     }
+    consume_start_budget(case_root, "independent_checker_starts", run_id)
     write_json(ledger_path, ledger, overwrite=False)
     started = time.monotonic()
     try:
@@ -6082,6 +6128,21 @@ def final_protocol_event(case_root: Path, event: str, **facts: Any) -> None:
         os.close(fd)
 
 
+def require_selected_scientific_domain(
+    case_root: Path, run_id: str, checked: dict[str, Any]
+) -> None:
+    selection = read_artifact(case_root, "requirement_selection")["content"]["selection"][
+        "requirement_to_run_map"
+    ]
+    for requirement_id, run_ids in selection.items():
+        if run_id in run_ids:
+            record = checked.get("requirements", {}).get(requirement_id, {})
+            if record.get("feasible") is not True or not scientific_residuals_pass(
+                record.get("constraint_residuals")
+            ):
+                raise ValueError("RC_FINAL_SELECTED_DOMAIN_NOT_VERIFIED:" + requirement_id)
+
+
 def revalidate_prefinal_gates(case_root: Path, decision_hash: str) -> None:
     comparison = read_artifact(case_root, "model_comparison")["content"]
     selection = read_artifact(case_root, "requirement_selection")["content"]
@@ -6106,6 +6167,10 @@ def revalidate_prefinal_gates(case_root: Path, decision_hash: str) -> None:
     if not ids:
         raise ValueError("RC_FINAL_SELECTED_RUNS_MISSING")
     manifests = {r: load_json(case_root / "runs" / r / "manifest.json") for r in ids}
+    for run_id in ids:
+        require_selected_scientific_domain(
+            case_root, run_id, load_json(case_root / "runs" / run_id / "scientific_check.json")
+        )
     selected_candidates = {
         m.get("configuration", {}).get("candidate_id") for m in manifests.values()
     }
@@ -6239,7 +6304,8 @@ def prepare_final_selection(case_root: Path, *, decision_hash: str) -> dict[str,
         )
         if not result.accepted or manifest.get("decision_hash") != decision_hash:
             raise ValueError("RC_FINAL_SELECTED_MANIFEST_INVALID")
-        verify_scientific_check(case_root, run_id=run_id)
+        checked_science = verify_scientific_check(case_root, run_id=run_id)
+        require_selected_scientific_domain(case_root, run_id, checked_science)
         # Every selected requirement Run has its own output-bound robustness, including portfolios.
         output = load_json(case_root / "runs" / run_id / "output.json")
         alternate = copy.deepcopy(comparison)
@@ -6332,16 +6398,24 @@ def verify_scientific_final(case_root: Path, *, decision_hash: str) -> dict[str,
         result = load_json(case_root / "runs" / run_id / "final_check.json")
         if result != load_json(case_root / "runs" / run_id / "scientific_check.json"):
             raise ValueError("RC_SCIENTIFIC_FINAL_RECALCULATION_MISMATCH")
+        require_selected_scientific_domain(case_root, run_id, result)
         results[run_id] = result
     return {"test_metrics": results, "decoded_hash": canonical_hash(results), "ledger": ledger}
 
 
 def evaluate_scientific_final(
-    case_root: Path, *, decision_hash: str, timeout_seconds: int = 600, allow_existing: bool = False
+    case_root: Path,
+    *,
+    decision_hash: str,
+    timeout_seconds: int = 600,
+    allow_existing: bool = False,
+    requested_run_id: str | None = None,
 ) -> dict[str, Any]:
     final_protocol_event(case_root, "FINAL_REQUESTED", decision_hash=decision_hash)
     try:
         freeze = verify_prefinal_selection(case_root, decision_hash)
+        if requested_run_id is not None and requested_run_id not in freeze["selected_run_ids"]:
+            raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
         if not 1 <= timeout_seconds <= 900:
             raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
         if not scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
@@ -6356,6 +6430,7 @@ def evaluate_scientific_final(
         raise ValueError("RC_SCIENTIFIC_FINAL_ALREADY_STARTED")
     if load_state(case_root).get("state") != "RUNNING":
         raise ValueError("RC_EXECUTE_STATE_INVALID")
+    consume_start_budget(case_root, "final_starts", "SCIENTIFIC-FINAL")
     final_protocol_event(
         case_root, "FINAL_AUTHORIZED", selection_freeze_sha256=freeze["freeze_sha256"]
     )
@@ -6390,6 +6465,7 @@ def evaluate_scientific_final(
             start = time.monotonic()
             receipt = {"argv": argv[1:], "started_at": utc_now(), "files": {}}
             ledger["checks"][run_id] = receipt
+            consume_start_budget(case_root, "independent_checker_starts", run_id)
             write_json(path, ledger)
             try:
                 process = subprocess.run(
@@ -6470,6 +6546,7 @@ def evaluate_authorized_final_test(
             decision_hash=decision_hash,
             timeout_seconds=timeout_seconds,
             allow_existing=allow_existing,
+            requested_run_id=run_id,
         )
     if load_state(case_root).get("state") != "RUNNING" and not (
         allow_existing and (case_root / FINAL_EVALUATION_LEDGER).is_file()

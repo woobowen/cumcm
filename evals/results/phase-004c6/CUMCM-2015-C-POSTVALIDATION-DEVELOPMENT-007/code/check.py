@@ -174,7 +174,9 @@ def main():
             selected = [
                 r for r in o["reference_comparison"] if r["city"] == city and r["body"] == body
             ]
-            assert len(selected) == len(raw) == 12
+            assert len(selected) == len(raw) == len(rows) == 12
+            assert len({r["jd"] for r in selected}) == 12
+            assert {r["jd"] for r in selected} == set(raw)
             pred = sky.alt(np.array([r["jd"] for r in selected]), c, body)
             az = sky.alt(np.array([r["jd"] for r in selected]), c, body, True)
             for row, h, z in zip(selected, pred, az, strict=True):
