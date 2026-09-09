@@ -1,0 +1,90 @@
+{
+  "argv": [
+    "models/produce.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "BASELINE",
+    "--seed",
+    "20260909",
+    "--output",
+    "runs/RUN-RC9-D2016-R2-01/output.json"
+  ],
+  "capture_record": {
+    "path": "runs/RUN-RC9-D2016-R2-01/execution_capture.json",
+    "sha256": "c263986b2c0c96b820357ecd41a9b418ac669a6dba01cad94f6a9817e956ca80"
+  },
+  "code_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "8184f2bae137d1cf7a3c73031c13122cc33dde19c522401267e6b807e042f4a0"
+    },
+    {
+      "path": "models/produce.py",
+      "repository_path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/produce.py",
+      "scope": "CASE_ROOT",
+      "sha256": "93eace21d3ffc90063626da90c284ee6e2f3779b71948c23e1f0494020f8a007"
+    },
+    {
+      "path": "models/check.py",
+      "repository_path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "5851b286ba118af23a700904992455f66915ebe314994db04fcd8a8661ce2cb0"
+    }
+  ],
+  "code_tree_hash": "642cbcf12cec400185ffc2aec576e605c9a506866566eac26392e1be4ce413e5",
+  "configuration": {
+    "candidate_id": "BASELINE",
+    "seed": 20260909
+  },
+  "configuration_hash": "7044984ec9dcace3921763aa42107e079ab629e23048b4cfaf7d09c5faababa7",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "decision_hash": "6ab18e29ae8f7e8039e6ddf52d77d660c88ca03fe016bf78f3c70ed9ddb4e3e1",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20260909",
+    "TZ": "UTC"
+  },
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "ff3a37207d2ede21aa92dda5859b2ce1836d8e1568cff9db8ffea6818e5c6f58",
+    "candidate_set": "45954cfa1d47c4481dedd6aeee577e5c5b646473cfff769508b26d114329a62b",
+    "code_commit": "c553bfe67c08a6206888c9b7a0aaa687b1f75db13628afca1bd7a768ce429133",
+    "code_set": "31c609b6c629b45319674c1c99108f8356b2f89a081e9bfd058025d97f2af475",
+    "execution_policy": "faf8c0554022e0b1f525b8e686d096ba40d2a316105a77a3e5a3fea6a49443fe",
+    "input_set": "cf77a11a7f334d7848765165b7eba848a4e1db02311c165f542e1ffbbc23ee6b",
+    "metric": "a4eddc10b1c7749b7583cc688f65db5c9759e56ce2018cf4f6370b845b51646b",
+    "seed_schedule": "47a264ecc69a3032a7b845022874b7d131b5610ab34bdd3a21228b87a77559b3",
+    "split_assignment": "c74299e9c10c375dbee7e01fd7838f8469053c0604a37ed57d30088f3427a6bb"
+  },
+  "input_files": [
+    {
+      "path": "data/processed/temporal_index.json",
+      "sha256": "30367e31c69dc68b49d34c812afc5ba9f9be674d734488652dd9d0ad065830c9"
+    },
+    {
+      "path": "data/raw/appendix.xlsx",
+      "sha256": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf"
+    },
+    {
+      "path": "data/raw/problem.docx",
+      "sha256": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+    }
+  ],
+  "input_hash": "6125b5fb0afcd5caedafcc374f9b21f0450832e51e1e33e1f362328ee5aa171f",
+  "outcome": "SUCCESS",
+  "output_files": [
+    {
+      "path": "runs/RUN-RC9-D2016-R2-01/output.json",
+      "sha256": "d062f7897935a10a92d1f61c3ab9140bcb32bf2813212ea86c81518b72e532f1"
+    }
+  ],
+  "output_hash": "f6503fb5b0b18287d3855c59829c233e1f8f79540d9388fb62d096b50c781eb0",
+  "random_seed": 20260909,
+  "run_id": "RUN-RC9-D2016-R2-01",
+  "scenario_hash": "6125b5fb0afcd5caedafcc374f9b21f0450832e51e1e33e1f362328ee5aa171f",
+  "supersession": null,
+  "trusted_capture": true
+}

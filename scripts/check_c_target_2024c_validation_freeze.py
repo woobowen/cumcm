@@ -343,7 +343,7 @@ def evaluate(*, verify_workspace: bool, require_delivery: bool) -> dict[str, Any
             or not current_record.get("start_time")
             or not isinstance(current_pre_run_freeze, dict)
             or current_pre_run_freeze.get("freeze_id") != freeze.get("freeze_id")
-            or current_pre_run_freeze.get("path") != str(FREEZE_PATH.relative_to(ROOT))
+            or current_pre_run_freeze.get("path") != FREEZE_PATH.relative_to(ROOT).as_posix()
             or current_pre_run_freeze.get("sha256") != file_hash(FREEZE_PATH)
             or current_pre_run_freeze.get("payload_sha256") != freeze.get("freeze_payload_sha256")
             or current_pre_run_freeze.get("freeze_commit")

@@ -1,0 +1,66 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-B",
+    ".cache/modular-workbench-001/protocol-review/round-06/detail_probes.py"
+  ],
+  "started_utc": "2026-09-09T10:00:16.737933+00:00",
+  "ended_utc": "2026-09-09T10:00:16.754658+00:00",
+  "source_before": "346b49276c97237af1804d5af3aa2cd2208a08a0a6aff0e352bd076e26e67545",
+  "source_after": "346b49276c97237af1804d5af3aa2cd2208a08a0a6aff0e352bd076e26e67545",
+  "independent_code_read_sha256": "5fb7067d0ed03763873ebffd0b7b8fe967adf96a7157073b9aa7c54c09fe6cdb",
+  "independent_code_end_sha256": "5fb7067d0ed03763873ebffd0b7b8fe967adf96a7157073b9aa7c54c09fe6cdb",
+  "results": {
+    "failed_recalculation_command_negative_abs_residual_empty_record_packets": {
+      "exception": "ValueError",
+      "message": "WB_INDEPENDENT_RECALCULATION_COMMAND_FAILED"
+    },
+    "negative_residual_after_valid_command_and_code_binding": {
+      "exception": "ValueError",
+      "message": "WB_INDEPENDENT_RECALCULATION_NOT_PASS"
+    },
+    "empty_packet_after_valid_command_code_residual": {
+      "exception": "ValueError",
+      "message": "WB_PUBLIC_PROJECTION_UNDECLARED"
+    },
+    "wrong_case_param_substitutes_for_credentials_hash_malformed_archive_coverage": {
+      "returned": [
+        "WB_COVERAGE_COMMAND_NOT_VERBOSE_PYTEST"
+      ]
+    },
+    "wrong_case_param_with_valid_verbose_pytest_command_shape": {
+      "returned": [
+        "WB_FEEDBACK_ATTACK_BRANCH_COVERAGE_INCOMPLETE"
+      ]
+    },
+    "duplicate_key": {
+      "exception": "ValueError",
+      "message": "WB_DUPLICATE_JSON_KEY"
+    },
+    "named_nan": {
+      "exception": "ValueError",
+      "message": "WB_NONFINITE_JSON_NUMBER:NaN"
+    },
+    "json_decimal_overflow_infinite_command_elapsed": {
+      "exception": "ValueError",
+      "message": "WB_NONFINITE_JSON_NUMBER:1e309"
+    },
+    "exact_records_boolean_raw_integer_projection": {
+      "exception": "ValueError",
+      "message": "WB_RAW_RECORD_IDENTITY_INVALID"
+    }
+  },
+  "scope": {
+    "original_synthetic_fixture_only": true,
+    "model_execution": 0,
+    "scientific_checker_execution": 0,
+    "final_execution": 0,
+    "known_reads": 0,
+    "pytest_execution": 0,
+    "full_ci": 0,
+    "network": 0,
+    "public_writes": 0,
+    "git_mutations": 0,
+    "candidate_qualification": 0
+  }
+}

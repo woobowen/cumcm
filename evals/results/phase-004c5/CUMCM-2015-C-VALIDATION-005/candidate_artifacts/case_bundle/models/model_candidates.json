@@ -1,0 +1,21 @@
+{
+  "artifact_type": "model_candidates",
+  "content": {
+    "candidates": [
+      {
+        "applicability": "Simple baseline expected to show lunar parallax error.",
+        "baseline": true,
+        "candidate_id": "GEOCENTRIC",
+        "mechanism": "Cubic apparent equatorial interpolation and spherical local altitude with Earth-centre observer; ignores parallax."
+      },
+      {
+        "applicability": "Nominal ground sites; small residual aberration/time approximations checked against JPL.",
+        "baseline": false,
+        "candidate_id": "TOPOCENTRIC",
+        "mechanism": "Same orbital forcing with WGS84 surface observer translation before local horizontal rotation."
+      }
+    ]
+  },
+  "content_hash": "a42fe895e980d48e02ecf1c187ae00a0ac2c10860cd0e3bc6379395a49062ec7",
+  "status": "ACCEPTED"
+}

@@ -1,0 +1,44 @@
+{
+  "argv": [
+    "models/independent_check.py",
+    "--case-root",
+    ".",
+    "--run-id",
+    "RUN-CAND-20260906",
+    "--output",
+    "runs/RUN-CAND-20260906/scientific_check.json"
+  ],
+  "bound_files": {
+    "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+    "models/independent_check.py": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0",
+    "runs/RUN-CAND-20260906/execution_capture.json": "2ce37925a9f1fecb53986264c04e058caa546daa85c6aead6f78d7ec460fee9f",
+    "runs/RUN-CAND-20260906/output.json": "cb6516994e10587418191cf42e80ce5ea597c3c52bda07fc9ab3873b4aa59dd7",
+    "runs/RUN-CAND-20260906/scientific_check.json": "337b3e9247b20d8fceb686b64a3187628f727066978b8e6fa61ea787ed8e2672"
+  },
+  "capture_mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+  "checker": {
+    "path": "models/independent_check.py",
+    "repository_path": "CASE_GIT/218dd47e4a0ad2f670e743da90c384efcfc42b05/models/independent_check.py",
+    "scope": "CASE_ROOT",
+    "sha256": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0"
+  },
+  "code_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "elapsed_seconds": 0.035629046004032716,
+  "ended_at": "2026-09-09T10:55:23Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20260906",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "final_test_access": false,
+  "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
+  "run_id": "RUN-CAND-20260906",
+  "runner_version": "0.2.0-competition-rc10",
+  "schema_version": "scientific-check-capture/v2",
+  "started_at": "2026-09-09T10:55:23Z",
+  "status": "SUCCESS",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timeout_seconds": 600
+}

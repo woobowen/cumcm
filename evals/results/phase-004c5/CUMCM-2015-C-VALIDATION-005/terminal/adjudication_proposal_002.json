@@ -1,0 +1,69 @@
+{
+  "schema_version": "phase-004c5-formal-validation-proposal/v2",
+  "decision_id": "DECISION-C-TARGET-VALIDATION-004C5-2015-PROPOSAL-002",
+  "case_id": "CUMCM-2015-C-VALIDATION-005",
+  "created_at": "2026-09-08T23:00:27.579783+00:00",
+  "effective": false,
+  "proposed_technical_adjudication_status": "C_TARGET_VALIDATION_FAILED",
+  "proposed_episode_completed": true,
+  "proposed_scientific_passed": false,
+  "proposed_whole_problem_scientifically_accepted": false,
+  "reason_codes": [
+    "NONPREDICTIVE_FINAL_PREREQUISITE_ORDER_VIOLATION"
+  ],
+  "original_positive_proposal_retained": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/adjudication_proposal.json",
+  "native_audit": {
+    "path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/native_audit/audit.json",
+    "sha256": "d152aa0e656473701a3f558522629d398262ca7247735798c7df79b72e42efe4",
+    "canonical_output_hash": "24bfeb4d383b7f95ce09ee26af52fab9d15fb928f7edb0e285ef45834d081355",
+    "verdict": "FAIL",
+    "blocker": "F2015-001"
+  },
+  "dispositions": {
+    "F2015-001": "ACCEPTED_UNRESOLVED_PROTOCOL_FAILURE: Actual Final preceded required selection-check, comparison and robustness Gate acceptance. Earlier numerical work/configuration lock are retained but do not waive frozen prerequisites. No retrospective fix or post-terminal rerun.",
+    "F2015-002": "ACCEPTED_CONDITIONAL_SCIENTIFIC_SUPPORT: all original primary questions represented; geometric/simplification assumptions are permitted and remain explicit.",
+    "F2015-003": "ACCEPTED_INDEPENDENT_ARITHMETIC: retain both model outputs and verified reference/date/window/CSV calculations; preserve auditor comparator correction separately from model history.",
+    "F2015-004": "ACCEPTED_LIMIT: implementation agreement and sampled shared-JPL references do not certify real narrow windows, independent dynamics, terrain/weather/refraction or practical visibility.",
+    "F2015-005": "ACCEPTED_PROVENANCE: original125 bindings, supplemental12 replay files and final144 allowed files verified. Three actual extra checker processes, one Final authorization and zero predictive test accesses.",
+    "F2015-006": "ACCEPTED_ROUTE_AND_SCOPE: native core/CLI reached READY through case-owned controller; common completion wrapper NOT_RUN. Baseline reference failure and14 acquisition HTTP502 events remain, not model scores.",
+    "F2015-007": "ACCEPTED_SCOPE_LIMIT: known protocol contradiction implies FAILED; no global Phase003/002D acceptance or transition. Existing project next_phase_allowed remains null."
+  },
+  "conditional_science": {
+    "primary_requirements": 9,
+    "selected_reference_rmse_degrees": 0.0007493858157717232,
+    "selected_reference_max_error_degrees": 0.0014453845183588498,
+    "baseline_reference_rmse_degrees": 0.5280663445125288,
+    "nominal_windows": 99,
+    "daily_calendar_rows": 2562,
+    "perturbation_windows": 503,
+    "independent_scene_times": 1806,
+    "independent_solar_calendar_times": 7686,
+    "independent_lunar_calendar_times": 2475,
+    "claims_remain_conditional": true,
+    "accepted_whole_problem": false
+  },
+  "actual_counts": {
+    "model_captures": 2,
+    "original_checker_captures": 2,
+    "later_checker_replays": 3,
+    "native_audit_producer_or_checker_invocations": 0,
+    "native_audit_existing_output_recalculations": 4,
+    "nonpredictive_final_authorizations": 1,
+    "predictive_test_accesses": 0,
+    "failed_model_captures": 0
+  },
+  "frozen_candidate_preserved": true,
+  "shared_subject": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+  "case_code_subject": "675b37c5c804858518d57732e950122045826119",
+  "post_terminal_model_runs_permitted": false,
+  "answers_remain_sealed": true,
+  "live_case_state_not_rewritten": "READY_FOR_PAPER_HANDOFF is preserved as actual native state, but formal terminal acceptance is FAILED.",
+  "batch_effect_after_acceptance": {
+    "planned": 2,
+    "started": 2,
+    "executed": 2,
+    "completed": 2,
+    "scientific_passed": 0
+  },
+  "formal_effect_pending_native_decision_review": true
+}

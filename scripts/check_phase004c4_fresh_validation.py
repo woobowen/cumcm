@@ -55,12 +55,19 @@ def canonical_hash(value: Any) -> str:
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
-def skill_tree_hash() -> str:
+def git_blob_hash(commit: str, relative: str) -> str:
+    blob = subprocess.check_output(["git", "show", f"{commit}:{relative}"], cwd=ROOT)
+    return hashlib.sha256(blob).hexdigest()
+
+
+def skill_tree_hash_at(commit: str) -> str:
     skill_root = ".agents/skills/cumcm-modeling-evidence"
     files = subprocess.check_output(
-        ["git", "ls-files", skill_root], cwd=ROOT, text=True
+        ["git", "ls-tree", "-r", "--name-only", commit, "--", skill_root],
+        cwd=ROOT,
+        text=True,
     ).splitlines()
-    mapping = {path: file_hash(ROOT / path) for path in files if (ROOT / path).is_file()}
+    mapping = {path: git_blob_hash(commit, path) for path in files}
     return canonical_hash(mapping)
 
 
@@ -111,15 +118,23 @@ def validate_tracked_bindings(freeze: dict[str, Any]) -> list[str]:
             errors.append(f"PHASE004C4_CASE_CODE_DRIFT:{relative}")
     release = load_json(ROOT / "evals/results/phase-004c4/rc7_release.json")
     identity = freeze.get("release_identity", {})
-    runner = ROOT / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
-    controller = ROOT / "scripts/finalize_fresh_c_validation.py"
+    release_commit = str(identity.get("release_commit") or "")
+    runner_relative = ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+    controller_relative = "scripts/finalize_fresh_c_validation.py"
+    try:
+        tree_hash = skill_tree_hash_at(release_commit)
+        runner_hash = git_blob_hash(release_commit, runner_relative)
+        controller_hash = git_blob_hash(release_commit, controller_relative)
+    except (OSError, subprocess.CalledProcessError, ValueError):
+        errors.append("PHASE004C4_TERMINAL_SKILL_BINDING_INVALID")
+        return errors
     if (
         identity.get("skill_version") != "0.2.0-competition-rc7"
-        or identity.get("release_commit") != "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a"
+        or release_commit != "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a"
         or identity.get("skill_tree_sha256") != release.get("skill_tree_hash")
-        or identity.get("skill_tree_sha256") != skill_tree_hash()
-        or identity.get("runner_sha256") != file_hash(runner)
-        or identity.get("controller_sha256") != file_hash(controller)
+        or identity.get("skill_tree_sha256") != tree_hash
+        or identity.get("runner_sha256") != runner_hash
+        or identity.get("controller_sha256") != controller_hash
         or identity.get("skill_unchanged") is not True
     ):
         errors.append("PHASE004C4_TERMINAL_SKILL_BINDING_INVALID")
@@ -181,6 +196,21 @@ def validate_state_and_registry() -> list[str]:
     audit_sha256 = file_hash(audit_path) if audit_path.is_file() else None
     challenge_sha256 = file_hash(challenge_path) if challenge_path.is_file() else None
     state = load_json(ROOT / "state/project_state.json")
+    if state.get("phase") in {
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
+    }:
+        state = json.loads(
+            subprocess.check_output(
+                [
+                    "git",
+                    "show",
+                    "17f109cadc8524c285af6a50776e6c3decb8b3e8:state/project_state.json",
+                ],
+                cwd=ROOT,
+            )
+        )
     if (
         state.get("phase") != "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
         or state.get("subphase") != "C-TARGET-FRESH-VALIDATION-TERMINAL"

@@ -1,0 +1,94 @@
+{
+  "schema_version": "native-scientific-result-review/v1",
+  "kind": "native_result_review",
+  "review_scope": "ACTUAL_POSTVALIDATION_DEVELOPMENT_RESULTS",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "reviewed_subject": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "reviewer": "scientific_semantics_review",
+  "reviewed_at": "2026-09-09T04:13:36.893454+00:00",
+  "status": "PASS",
+  "status_meaning": "Limited audit of faithful negative terminals and bounded numerical publication; not candidate or Final acceptance.",
+  "candidate_acceptance_status": "FAIL",
+  "negative_terminal_facts_status": "PASS",
+  "bounded_numerical_summary_status": "PASS",
+  "reason_codes": [
+    "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND"
+  ],
+  "major_unresolved_findings": [
+    {
+      "id": "R7-001",
+      "status": "OPEN",
+      "meaning": "Executor defaults missing scenario_hash; controller/core forward None; actual compatibility gate rejects both cases."
+    }
+  ],
+  "reviewed_development_artifacts": {
+    "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006": {
+      "terminal": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json",
+        "sha256": "8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73"
+      },
+      "execution_evidence": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/execution_evidence.json",
+        "sha256": "5b65fba4a8e242cb30626a329ad5fb215b32e59ce49bfcfd5953ab3e5b956da3"
+      }
+    },
+    "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007": {
+      "terminal": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json",
+        "sha256": "6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400"
+      },
+      "execution_evidence": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/execution_evidence.json",
+        "sha256": "f4d0fcf1a60c04bb6f807366e4f8b43a6a4c9cba91de71fe962ecafbc5d6f4ec"
+      }
+    }
+  },
+  "actual_review_execution": {
+    "method": "read-only source/metadata and arithmetic over existing outputs",
+    "arithmetic_assertions": 8381,
+    "arithmetic_exit_code": 0,
+    "new_model_process_starts": 0,
+    "new_checker_process_starts": 0,
+    "new_final_process_starts": 0,
+    "external_validation": false,
+    "full_ci_run": false,
+    "identity_blind_formal_gate": false
+  },
+  "evidence": [
+    {
+      "path": ".cache/pr12-rc9/scientific-semantics-review-007/REVIEW.md",
+      "sha256": "af7aa4df5e9b8181f0bd575057820f11f7d19345cd27003af3e2dfb079ac6d93"
+    },
+    {
+      "path": ".cache/pr12-rc9/scientific-semantics-review-007/arithmetic_review.py",
+      "sha256": "baab0de90e8e2292e50a97eccb0f30863b9f2e1a93b4886d18e0c732e05228f0"
+    },
+    {
+      "path": ".cache/pr12-rc9/scientific-semantics-review-007/arithmetic_results.json",
+      "sha256": "698bc3c20fcf23ab66d8b2823bbd3c3d793f1c67e63fefdd9f747e1d50b6ec33"
+    },
+    {
+      "path": ".cache/pr12-rc9/scientific-semantics-review-007/arithmetic_checks.json",
+      "sha256": "182ea95318e1d6779730336914fc85114180f53877de4a33a3c3e9d4050d3a0d"
+    },
+    {
+      "path": ".cache/pr12-rc9/scientific-semantics-review-007/publication_checks.json",
+      "sha256": "11d3e3dd3039798f07910f16d2fc89d8a44bfb2a1d8ba56b2c833992d76e5fdd"
+    },
+    {
+      "path": ".cache/pr12-rc9/scientific-semantics-review-007/publication_supplement.json",
+      "sha256": "2ffa502f6ec19706dce240f427dbe8d7442e61d2f62e1e27f22ecdd9f945a1b5"
+    },
+    {
+      "path": ".cache/pr12-rc9/scientific-semantics-review-007/material_manifest.json",
+      "sha256": "402a93525e8d4f1f78c9d16b9c44cdc1fa92f50e7dff9e5320fdda8727ce144b"
+    }
+  ],
+  "limitations": [
+    "No true producer/checker/Final rerun by reviewer.",
+    "No raw/full-problem/answer or external observed truth audit.",
+    "No claim that semantic/aggregation/Final/handoff gates passed.",
+    "CSV hash and row cardinality verified; not every CSV cell.",
+    "Pre-run PASS and repeated independent checker computations do not establish external validation."
+  ]
+}

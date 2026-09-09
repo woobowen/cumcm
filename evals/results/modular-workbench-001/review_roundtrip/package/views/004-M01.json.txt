@@ -1,0 +1,31 @@
+{
+  "actions": [
+    "实际读题并保存原件；未采纳故障注入草稿的总量"
+  ],
+  "artifacts": [
+    "problem/original.md",
+    "research/draft.md"
+  ],
+  "case_id": "ORIGINAL-REVIEW-ROUNDTRIP",
+  "checks": [
+    "三个容量和单位已核对；合计待独立复算"
+  ],
+  "human_review": "NOT_RUN",
+  "module": "M01",
+  "negative_results": [
+    "未将草稿算式标为科学通过"
+  ],
+  "original_requirements": [
+    "核对2、3、5 L三个容量的合计"
+  ],
+  "request_id": "REVIEW-INTAKE",
+  "requirement_scope": [
+    "ALL"
+  ],
+  "review_questions": [
+    "草稿的合计是否正确？请给具体复算而不是投票。"
+  ],
+  "revision": 1,
+  "scientific_scope": "仅原件登记；草稿计算待核查",
+  "summary_cn": "已登记原创原件与未核查草稿；草稿包含待复算错误。"
+}

@@ -1,0 +1,40 @@
+{
+  "recorded_at": "2026-09-09T03:25:05.002601+00:00",
+  "local_installations": {
+    "system_packages": [],
+    "language_packages": [],
+    "toolchains": []
+  },
+  "global_configuration_changes": [],
+  "project_dependency_declarations": {
+    "path": "pyproject.toml",
+    "added_to_dev": [
+      "numpy==2.4.6",
+      "scipy==1.17.1"
+    ],
+    "reason": "Run the actual case-specific polynomial reference test in the same existing bootstrap used by remote CI; these versions were already present locally.",
+    "remote_installation_status": "VERIFIED_AVAILABLE_IN_SUCCESSFUL_REMOTE_CI",
+    "remote_ci_evidence": {
+      "path": "evals/results/phase-004c6/qualification/receipts/remote_ci_7169ecb.json",
+      "sha256": "0c59b56e0adb71d94ab128eb38e0ff2f770c382dc5556a1b53de6d482b2ee73e"
+    }
+  },
+  "existing_local_scientific_versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "openpyxl": "3.1.5"
+  },
+  "remote_ephemeral_runner": {
+    "existing_workflow": "actions/checkout + setup-uv + project bootstrap",
+    "tool_observed": "uv 0.12.11",
+    "local_machine_installation": false,
+    "scientific_dependency_log_lines": [
+      "offline-validation\tBootstrap project environment\t2026-09-09T04:04:18.2520124Z  + numpy==2.4.6",
+      "offline-validation\tBootstrap project environment\t2026-09-09T04:04:18.2523540Z  + scipy==1.17.1"
+    ]
+  },
+  "task_local_artifacts": [
+    "Ignored new Development roots and command logs",
+    "Ignored detached worktree for exact-subject negative-decision replay"
+  ]
+}

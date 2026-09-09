@@ -1,0 +1,130 @@
+All checks passed!
+879 files already formatted
+........................................................................ [  3%]
+........................................................................ [  6%]
+......................F................................................. [ 10%]
+........................................................................ [ 13%]
+........................................................................ [ 16%]
+........................................................................ [ 20%]
+......................................................F................. [ 23%]
+........................................................................ [ 26%]
+........................................................................ [ 30%]
+........................................................................ [ 33%]
+........................................................................ [ 37%]
+........................................................................ [ 40%]
+........................................................................ [ 43%]
+........................................................................ [ 47%]
+........................................................................ [ 50%]
+........................................................................ [ 53%]
+........................................................................ [ 57%]
+........................................................................ [ 60%]
+........................................................................ [ 63%]
+........................................................................ [ 67%]
+........................................................................ [ 70%]
+........................................................................ [ 74%]
+........................................................................ [ 77%]
+........................................................................ [ 80%]
+...........................................................s............ [ 84%]
+........................................................................ [ 87%]
+..........................................F............................. [ 90%]
+........................................................................ [ 94%]
+........................................................................ [ 97%]
+....................................................                     [100%]
+=================================== FAILURES ===================================
+__________ test_evaluation_design_is_bound_before_first_final_access ___________
+
+repo_root = PosixPath('.')
+tmp_path = PosixPath('/tmp/pytest-of-addaswsw/pytest-24/test_evaluation_design_is_boun0')
+
+    def test_evaluation_design_is_bound_before_first_final_access(repo_root, tmp_path):
+        helper, core, case = _nonpredictive(repo_root, tmp_path, development_only=True)
+        plan = core.read_artifact(case, "experiment_plan")["content"]
+        plan["evaluation_design"]["access_budget_changed_after_run"] = 1
+        helper._accepted(core, case, "experiment_plan", plan)
+        with pytest.raises(ValueError, match="RC_.*INVALID"):
+>           core.evaluate_authorized_final_test(
+                case, run_id="RUN-CAND-20260906", decision_hash="a" * 64
+            )
+
+tests/integration/test_rc8_nonpredictive_and_final_lifecycle.py:209: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+case_root = PosixPath('/tmp/pytest-of-addaswsw/pytest-24/test_evaluation_design_is_boun0/case')
+
+    def evaluate_authorized_final_test(
+        case_root: Path,
+        *,
+        run_id: str,
+        decision_hash: str,
+        timeout_seconds: int = 600,
+        allow_existing: bool = False,
+    ) -> dict[str, Any]:
+        """Run one hash-bound Final test evaluation after development selection."""
+        if load_state(case_root).get("state") != "RUNNING":
+            raise ValueError("RC_EXECUTE_STATE_INVALID")
+        if timeout_seconds < 1 or timeout_seconds > 900:
+            raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
+        if not HEX64.fullmatch(decision_hash):
+            raise ValueError("RC_RUN_DECISION_HASH_INVALID")
+        plan = read_artifact(case_root, "experiment_plan")["content"]
+        if development_only_evaluation(plan) or nonpredictive_evaluation(plan):
+>           raise ValueError("RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN")
+E           ValueError: RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN
+
+.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:5488: ValueError
+
+During handling of the above exception, another exception occurred:
+
+repo_root = PosixPath('.')
+tmp_path = PosixPath('/tmp/pytest-of-addaswsw/pytest-24/test_evaluation_design_is_boun0')
+
+    def test_evaluation_design_is_bound_before_first_final_access(repo_root, tmp_path):
+        helper, core, case = _nonpredictive(repo_root, tmp_path, development_only=True)
+        plan = core.read_artifact(case, "experiment_plan")["content"]
+        plan["evaluation_design"]["access_budget_changed_after_run"] = 1
+        helper._accepted(core, case, "experiment_plan", plan)
+>       with pytest.raises(ValueError, match="RC_.*INVALID"):
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'RC_.*INVALID'
+E        Input: 'RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN'
+
+tests/integration/test_rc8_nonpredictive_and_final_lifecycle.py:208: AssertionError
+____________ test_skill_is_competition_rc_and_has_one_workflow_set _____________
+
+skill_root = PosixPath('./.agents/skills/cumcm-modeling-evidence')
+
+    def test_skill_is_competition_rc_and_has_one_workflow_set(skill_root: Path) -> None:
+        skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
+>       assert "Version: `0.2.0-competition-rc7`" in skill
+E       AssertionError: assert 'Version: `0.2.0-competition-rc7`' in '---\nname: cumcm-modeling-evidence\ndescription: Use for mathematical-modeling competition work from problem intake t...立实体、重复预测次数；区分类别可分、概率校准与外部\n泛化；确认扰动确实改变模型输入；按独立实体处理重复采样。优化需按题意核对实际支付量、\n物料/运输守恒、跨期状态递推、目标优先级和极值证据。题目参数与配方只进入 case 目录。\n'
+
+tests/unit/test_competition_rc_skill.py:32: AssertionError
+__________ test_phase004b_training_checker_accepts_complete_evidence ___________
+
+repo_root = PosixPath('.')
+
+    def test_phase004b_training_checker_accepts_complete_evidence(repo_root: Path) -> None:
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(repo_root / "scripts/check_skill_training_consistency.py"),
+                "--check",
+            ],
+            cwd=repo_root,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    
+>       assert completed.returncode == 0, completed.stdout + completed.stderr
+E       AssertionError: {"case_count": 8, "error_count": 1, "errors": ["FORMAL_SKILL_VERSION_MISMATCH"], "formal_skill_count": 1, "ok": false, "skill_version": "0.2.0-competition-rc7"}
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['./.venv/bin/python', './scripts/check_sk...KILL_VERSION_MISMATCH"], "formal_skill_count": 1, "ok": false, "skill_version": "0.2.0-competition-rc7"}\n', stderr='').returncode
+
+tests/unit/test_phase004b_evidence.py:143: AssertionError
+=========================== short test summary info ============================
+FAILED tests/integration/test_rc8_nonpredictive_and_final_lifecycle.py::test_evaluation_design_is_bound_before_first_final_access
+FAILED tests/unit/test_competition_rc_skill.py::test_skill_is_competition_rc_and_has_one_workflow_set
+FAILED tests/unit/test_phase004b_evidence.py::test_phase004b_training_checker_accepts_complete_evidence
+3 failed, 2136 passed, 1 skipped in 342.57s (0:05:42)

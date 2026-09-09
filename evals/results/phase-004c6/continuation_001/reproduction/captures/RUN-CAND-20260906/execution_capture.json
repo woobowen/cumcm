@@ -1,0 +1,91 @@
+{
+  "argv": [
+    "models/runtime_model.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "CAND",
+    "--seed",
+    "20260906",
+    "--output",
+    "runs/RUN-CAND-20260906/output.json"
+  ],
+  "candidate_id": "CAND",
+  "capture_mode": "CONTROLLED_CASE_SUBPROCESS",
+  "code_commit": "fb08bfed8a9a6edf6567a41461e70f068a3b36b9",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "8184f2bae137d1cf7a3c73031c13122cc33dde19c522401267e6b807e042f4a0"
+    },
+    {
+      "path": "scripts/synthetic_cases.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62"
+    },
+    {
+      "path": "models/runtime_model.py",
+      "repository_path": "tests/fixtures/rc9_science_model.py",
+      "scope": "CASE_ROOT",
+      "sha256": "f118228acebb1cc26839685e4cc0d5da4aae841ecab49139b8c36f2f90489307"
+    },
+    {
+      "path": "models/independent_check.py",
+      "repository_path": "tests/fixtures/rc9_science_checker.py",
+      "scope": "CASE_ROOT",
+      "sha256": "b2ffe007a360bc43aac06dc30b499a1bb06cad16f40a1126a8a5ceffd1ce921a"
+    }
+  ],
+  "configuration": {
+    "candidate_id": "CAND",
+    "seed": 20260906
+  },
+  "configuration_hash": "bba2cf4577920e0d55f5f24abb3ffcedc288a19a824d0d1ea8ad5c3545ed7887",
+  "elapsed_seconds": 0.022506,
+  "ended_at": "2026-09-09T05:14:34Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20260906",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "2bc2ab82efc889dee4e371f40002d01a88cd26f8383a0f7da31cdafbdc5f90ff",
+    "candidate_set": "ac8c25d2fb89ca774157b16e32e7c5d5801a90bd5ddebfbba802f41112a2f116",
+    "code_commit": "e42a7332a96c81da337a97a2b70cb6d65307f7d7336efebf8fc5140511e8ede6",
+    "code_set": "ed9045dfb4343b9599a8920208250893ac35ea597f16c4608be43f660c1565c1",
+    "execution_policy": "bf8330d66e9c0d01d666ced6f7b35556ed057b35bcb46d27ba2b8d827949c19b",
+    "input_set": "45613a2552b03914ecf87ff58ed8fc5613412f3fb77034ddd19fe49a3bc2a117",
+    "metric": "21ad3fcb4511a19e411e99edba6a7c0f253c138cadc02ebaad5fbfbe038f699e",
+    "seed_schedule": "321b07634b30073793fd5ea82582608e2c64e9dc85f28cf82d2b789a899c3617",
+    "split_assignment": "a879f737ae61d5676bbe29cd09826902b38224af10843e985b838106f159ab9f"
+  },
+  "input_files": [
+    {
+      "path": "data/raw/input.json",
+      "sha256": "192e019c53d814b78691b31fe983bbe66cdc5968742c06870ce43e95744a276c"
+    }
+  ],
+  "outcome": "SUCCESS",
+  "output": {
+    "path": "runs/RUN-CAND-20260906/output.json",
+    "sha256": "020fab2df9287fdf8eb4876222e3f08b8008e6a6381d5200e61fb298a2434bc1"
+  },
+  "run_id": "RUN-CAND-20260906",
+  "runner_version": "0.2.0-competition-rc9",
+  "scenario_hash": "db74beb83d72eee501c3ae1fae47d59cb404136a9732067dcb4b8b6a7a270fce",
+  "schema_version": "1.0.0",
+  "seed": 20260906,
+  "started_at": "2026-09-09T05:14:34Z",
+  "stderr": {
+    "path": "runs/RUN-CAND-20260906/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "runs/RUN-CAND-20260906/stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

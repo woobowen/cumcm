@@ -1,0 +1,169 @@
+"""Retrospective arithmetic over frozen outputs; no model/checker code imports."""
+
+import argparse
+from collections import Counter
+import csv
+import datetime as dt
+import hashlib
+import io
+import json
+import math
+from pathlib import Path
+import statistics
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--repo-root", type=Path, required=True)
+    parser.add_argument("--output-dir", type=Path, required=True)
+    args = parser.parse_args()
+    repo, out = args.repo_root.resolve(), args.output_dir.resolve()
+    assert not out.exists()
+    assert out.is_relative_to(repo / ".cache/pr12-rc9")
+    out.mkdir(parents=True)
+    started = dt.datetime.now(dt.timezone.utc).isoformat()
+    inputs = []
+
+    def read(path):
+        raw = (repo / path).read_bytes()
+        inputs.append({"path": str(path), "sha256": hashlib.sha256(raw).hexdigest()})
+        return json.loads(raw)
+
+    def read_csv(path):
+        raw = (repo / path).read_bytes()
+        inputs.append({"path": str(path), "sha256": hashlib.sha256(raw).hexdigest()})
+        return list(csv.DictReader(io.StringIO(raw.decode())))
+
+    old = Path("evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004")
+    new = Path("evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006")
+    history = read(old / "terminal/native_audit/independent_recalculation.json")
+    results = []
+    for old_name, new_number in [("BASELINE", "01"), ("CUBIC", "02")]:
+        old_id = f"RUN-2016-{old_name}-1729"
+        new_id = f"RUN-RC9-D2016-R2-{new_number}"
+        previous = read(old / f"candidate_artifacts/runs/{old_id}/output.json")
+        summary = read(new / f"execution/runs/{new_id}/scientific_summary.json")
+        q1 = statistics.fmean(previous["Q1"]["per_current_MRE"].values())
+        q2 = statistics.fmean(r["MRE"] for r in previous["Q2"]["leave_one_current_out"])
+        event_checks = []
+        for state, vector_field in [
+            (1, "state1_validation_prediction_min"),
+            (2, "state2_development_prediction_min"),
+        ]:
+            truth = history["candidates"][old_id]["Q3"]["history_checks"][f"state{state}"]
+            predicted_end = previous["Q3"][vector_field][-1]
+            observed_end = truth["actual_total_min"]
+            observed_remaining = truth["actual_remaining_at_prefix_end_min"]
+            assert observed_remaining > 0 and observed_end > observed_remaining
+            error = abs(predicted_end - observed_end)
+            remaining_loss = error / observed_remaining
+            elapsed_loss = error / observed_end
+            assert abs(remaining_loss - truth["remaining_relative_error"]) < 1e-12
+            row = next(r for r in summary["q3_rolling_origin_development"] if r["sample_id"] == f"S{state}-CUT-9.765")
+            new_remaining = row["observed_end_time"] - row["origin"]
+            new_loss = abs(row["predicted_end_time"] - row["observed_end_time"]) / new_remaining
+            event_checks.append({
+                "history_state": state,
+                "fixed_cutoff_voltage_V": 9.765,
+                "old_fixed_terminal_absolute_error_min": error,
+                "old_fixed_remaining_relative_error": remaining_loss,
+                "old_fixed_terminal_elapsed_relative_error": elapsed_loss,
+                "new_matching_origin_remaining_relative_error": new_loss,
+                "same_origin_absolute_metric_difference": abs(new_loss - remaining_loss),
+                "remaining_denominator_difference_min": abs(new_remaining - observed_remaining),
+            })
+        new_rows = summary["q3_rolling_origin_development"]
+        assert len(new_rows) == 6
+        new_mean = statistics.fmean(
+            abs(r["predicted_end_time"] - r["observed_end_time"]) / (r["observed_end_time"] - r["origin"])
+            for r in new_rows
+        )
+        assert abs(new_mean - summary["metrics"]["q3_remaining_MRE"]) < 1e-12
+        results.append({
+            "old_run_id": old_id,
+            "new_run_id": new_id,
+            "old_joint_validation_score_different_target": previous["validation_metrics"]["joint_validation_MRE"],
+            "old_q1_mean_of_nine_stored_group_MRE": q1,
+            "new_q1_mean_MRE": summary["metrics"]["q1_mean_fitted_MRE"],
+            "old_q2_mean_of_seven_stored_LOCO_MRE": q2,
+            "new_q2_LOCO_MRE": summary["metrics"]["q2_loco_MRE"],
+            "q3_matched_origin_checks": event_checks,
+            "old_two_origin_remaining_mean": statistics.fmean(r["old_fixed_remaining_relative_error"] for r in event_checks),
+            "new_six_origin_remaining_mean": new_mean,
+            "old_current_conditional_remaining_min": previous["Q3"]["predicted_remaining_min"],
+            "new_current_conditional_remaining_min": summary["metrics"]["q3_remaining_min"],
+            "conditional_prediction_difference_min": abs(previous["Q3"]["predicted_remaining_min"] - summary["metrics"]["q3_remaining_min"]),
+            "old_and_new_55A_duration_min": [previous["Q2"]["duration55_min"], summary["q2_duration55_min"]],
+        })
+    old15 = Path("evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/tables")
+    new15 = Path("evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007")
+    old_windows = read_csv(old15 / "scene_windows_2016.csv")
+    new_windows = read_csv(new15 / "reports/conditional_windows.csv")
+    old_reference = read_csv(old15 / "reference_position_comparison.csv")
+    summary15 = read(new15 / "execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json")
+    old_events = {(r["city"], r["date"]): r for r in old_windows}
+    new_events = {(r["city"], r["date"]): r for r in new_windows}
+    assert len(old_events) == len(old_windows) and len(new_events) == len(new_windows)
+    matched = old_events.keys() & new_events.keys()
+    changed_rows = sum(
+        {k: v for k, v in old_events[key].items() if k != "run_id"}
+        != {k: v for k, v in new_events[key].items() if k != "run_id"}
+        for key in matched
+    )
+    residuals = [float(r["computed_alt_deg"]) - float(r["reference_alt_deg"]) for r in old_reference]
+    old_rmse = math.sqrt(statistics.fmean(x * x for x in residuals))
+    old_max_abs = max(abs(x) for x in residuals)
+    counts = dict(Counter(r["city"] for r in new_windows))
+    for city, count in counts.items():
+        assert summary15["metrics"][city + "_event_count"] == count
+    comparison15 = {
+        "old_run_id": "RUN-2015-TOPOCENTRIC",
+        "new_run_id": "RUN-RC9-D2015-R2-02",
+        "old_event_count": len(old_windows),
+        "new_event_count": len(new_windows),
+        "matched_city_date_keys": len(matched),
+        "different_rows_excluding_run_id": changed_rows,
+        "new_per_city_counts_recomputed_from_csv": counts,
+        "max_start_end_difference_seconds": max(
+            abs(float(old_events[key][field]) - float(new_events[key][field])) * 86400
+            for key in matched for field in ["start_jd", "end_jd"]
+        ),
+        "old_reference_rows": len(old_reference),
+        "old_reference_rmse_recomputed_from_positions_deg": old_rmse,
+        "new_reference_rmse_deg": summary15["metrics"]["reference_altitude_rmse_deg"],
+        "old_reference_max_abs_recomputed_from_positions_deg": old_max_abs,
+        "new_reference_max_abs_deg": summary15["metrics"]["reference_altitude_max_abs_deg"],
+        "stored_old_residual_max_recalculation_difference_deg": max(
+            abs(r - float(row["alt_residual_deg"])) for r, row in zip(residuals, old_reference)
+        ),
+        "limitation": "Stored theoretical-position residual and conditional-window arithmetic only; no new ephemeris calculation, field observation, Final or accepted handoff.",
+    }
+    for item in inputs:
+        assert hashlib.sha256((repo / item["path"]).read_bytes()).hexdigest() == item["sha256"]
+    result = {
+        "schema_version": "phase-004c6-fixed-output-comparison/v1",
+        "started_at": started,
+        "ended_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "status": "READ_ONLY_ARITHMETIC_VERIFIED",
+        "method": "Standard-library arithmetic on frozen predictions, historical published audit-derived endpoint/remaining truth, and new already-frozen publicly published six-origin samples. No fit, inverse-curve solver, model code, registered checker, Final or candidate adjudicator was invoked.",
+        "raw_workbook_or_answer_reads": 0,
+        "new_model_registered_checker_final_starts": 0,
+        "input_hashes_unchanged_after_read": True,
+        "sources": inputs,
+        "comparisons": results,
+        "comparison_2015": comparison15,
+        "limits": [
+            "Old two-origin and new six-origin means use different sample sets and cannot establish performance improvement.",
+            "Old joint_validation_MRE has a different target/aggregation and cannot replace remaining-time error.",
+            "Q1/Q2 comparison reaggregates stored per-group errors; it does not independently reconstruct every original curve sample.",
+            "Historical truth values are from the published frozen old audit, not newly acquired external evidence.",
+            "The known current future termination remains unobserved; unchanged conditional prediction is not verified future accuracy.",
+            "Old and new negative terminals, Run identities, budgets and shared subjects remain unchanged.",
+        ],
+    }
+    (out / "comparison.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps({"status": result["status"], "comparison_2015": comparison15}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

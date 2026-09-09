@@ -1,0 +1,615 @@
+{
+  "artifact_type": "requirement_selection",
+  "content": {
+    "contract_version": "requirement-selection/v1",
+    "requirements": [
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-Q1-IMPORTANCE-MODEL",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-IMPORTANCE-MODEL"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q1.minimum_weight_sensitivity_top50_overlap",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-Q1-TOP50",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-TOP50"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q1.minimum_weight_sensitivity_top50_overlap",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q2-MINIMUM-SUPPLIERS",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-MINIMUM-SUPPLIERS"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.minimum_supplier_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q2-ORDER-PLAN",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-ORDER-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.used_supplier_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q2-TRANSPORT-PLAN",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-TRANSPORT-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.used_supplier_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-Q2-EFFECT",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-EFFECT"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.stress_carrier_capacity_violation_weeks",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q3-MATERIAL-PREFERENCE",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-MATERIAL-PREFERENCE"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q3.material_A_supply_m3",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q3-ORDER-PLAN",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-ORDER-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q3.material_A_supply_m3",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q3-TRANSPORT-PLAN",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-TRANSPORT-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q3.material_A_supply_m3",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-Q3-EFFECT",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-EFFECT"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q3.material_A_supply_m3",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q4-CAPACITY-INCREASE",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-CAPACITY-INCREASE"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q4.capacity_increase_product_m3",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q4-ORDER-PLAN",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-ORDER-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q4.capacity_increase_product_m3",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-Q4-TRANSPORT-PLAN",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-TRANSPORT-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q4.capacity_increase_product_m3",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-OUTPUT-ATTACHMENT-A",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "ATTACHMENTS.verified_derived_plan_table_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-OUTPUT-ATTACHMENT-B",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "ATTACHMENTS.verified_derived_plan_table_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-INVENTORY-PRODUCTION",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-INVENTORY-PRODUCTION"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.stress_carrier_capacity_violation_weeks",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-TRANSPORT-BUSINESS-RULES",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-TRANSPORT-BUSINESS-RULES"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.used_supplier_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      }
+    ],
+    "runs": [
+      {
+        "configuration_hash": "b1d88cad87db7493d34fa58d1065de29a6470ccad4b74f520b75efd3cd701bf5",
+        "current": true,
+        "input_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+        "metric_ids": [
+          "validation_penalized_cost_per_effective_m3",
+          "ATTACHMENTS.verified_derived_plan_table_count",
+          "Q1.minimum_weight_sensitivity_top50_overlap",
+          "Q1.top50_supplier_count",
+          "Q2.minimum_supplier_count",
+          "Q2.stress_carrier_capacity_violation_weeks",
+          "Q2.stress_inventory_floor_violation_weeks",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3",
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.stress_carrier_capacity_violation_weeks",
+          "Q3.stress_inventory_floor_violation_weeks",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3",
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3",
+          "question_2_supplier_count",
+          "question_4_weekly_capacity_product_m3"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "scenario_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-IMPORTANCE-MODEL",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-TOP50",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-MINIMUM-SUPPLIERS",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-ORDER-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-TRANSPORT-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-EFFECT",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-MATERIAL-PREFERENCE",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-ORDER-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-TRANSPORT-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-EFFECT",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-CAPACITY-INCREASE",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-ORDER-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-TRANSPORT-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-A",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-B",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-INVENTORY-PRODUCTION",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-TRANSPORT-BUSINESS-RULES"
+        ],
+        "supported_requirement_ids": [
+          "REQ-Q1-IMPORTANCE-MODEL",
+          "REQ-Q1-TOP50",
+          "REQ-Q2-MINIMUM-SUPPLIERS",
+          "REQ-Q2-ORDER-PLAN",
+          "REQ-Q2-TRANSPORT-PLAN",
+          "REQ-Q2-EFFECT",
+          "REQ-Q3-MATERIAL-PREFERENCE",
+          "REQ-Q3-ORDER-PLAN",
+          "REQ-Q3-TRANSPORT-PLAN",
+          "REQ-Q3-EFFECT",
+          "REQ-Q4-CAPACITY-INCREASE",
+          "REQ-Q4-ORDER-PLAN",
+          "REQ-Q4-TRANSPORT-PLAN",
+          "REQ-OUTPUT-ATTACHMENT-A",
+          "REQ-OUTPUT-ATTACHMENT-B",
+          "REQ-INVENTORY-PRODUCTION",
+          "REQ-TRANSPORT-BUSINESS-RULES"
+        ]
+      }
+    ],
+    "selection": {
+      "aggregate_objective": "validation_penalized_cost_per_effective_m3",
+      "compatibility": {
+        "kind": "SINGLE_RUN_V1",
+        "ordered_ids": [
+          "REQ-Q1-IMPORTANCE-MODEL",
+          "REQ-Q1-TOP50",
+          "REQ-Q2-MINIMUM-SUPPLIERS",
+          "REQ-Q2-ORDER-PLAN",
+          "REQ-Q2-TRANSPORT-PLAN",
+          "REQ-Q2-EFFECT",
+          "REQ-Q3-MATERIAL-PREFERENCE",
+          "REQ-Q3-ORDER-PLAN",
+          "REQ-Q3-TRANSPORT-PLAN",
+          "REQ-Q3-EFFECT",
+          "REQ-Q4-CAPACITY-INCREASE",
+          "REQ-Q4-ORDER-PLAN",
+          "REQ-Q4-TRANSPORT-PLAN",
+          "REQ-OUTPUT-ATTACHMENT-A",
+          "REQ-OUTPUT-ATTACHMENT-B",
+          "REQ-INVENTORY-PRODUCTION",
+          "REQ-TRANSPORT-BUSINESS-RULES"
+        ],
+        "permuted_ids": [
+          "REQ-Q1-IMPORTANCE-MODEL",
+          "REQ-Q1-TOP50",
+          "REQ-Q2-MINIMUM-SUPPLIERS",
+          "REQ-Q2-ORDER-PLAN",
+          "REQ-Q2-TRANSPORT-PLAN",
+          "REQ-Q2-EFFECT",
+          "REQ-Q3-MATERIAL-PREFERENCE",
+          "REQ-Q3-ORDER-PLAN",
+          "REQ-Q3-TRANSPORT-PLAN",
+          "REQ-Q3-EFFECT",
+          "REQ-Q4-CAPACITY-INCREASE",
+          "REQ-Q4-ORDER-PLAN",
+          "REQ-Q4-TRANSPORT-PLAN",
+          "REQ-OUTPUT-ATTACHMENT-A",
+          "REQ-OUTPUT-ATTACHMENT-B",
+          "REQ-INVENTORY-PRODUCTION",
+          "REQ-TRANSPORT-BUSINESS-RULES"
+        ],
+        "version": "compatibility/v1"
+      },
+      "compatibility_checks": [
+        "INPUT",
+        "SCENARIO",
+        "CONSTRAINTS"
+      ],
+      "cross_requirement_constraints": [],
+      "dependency_bridges": [],
+      "limitations": [
+        "A global Development choice cannot establish each question's optimum."
+      ],
+      "requirement_to_output_map": {
+        "REQ-INVENTORY-PRODUCTION": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-INVENTORY-PRODUCTION"
+        ],
+        "REQ-OUTPUT-ATTACHMENT-A": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-A"
+        ],
+        "REQ-OUTPUT-ATTACHMENT-B": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-B"
+        ],
+        "REQ-Q1-IMPORTANCE-MODEL": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-IMPORTANCE-MODEL"
+        ],
+        "REQ-Q1-TOP50": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-TOP50"
+        ],
+        "REQ-Q2-EFFECT": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-EFFECT"
+        ],
+        "REQ-Q2-MINIMUM-SUPPLIERS": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-MINIMUM-SUPPLIERS"
+        ],
+        "REQ-Q2-ORDER-PLAN": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-ORDER-PLAN"
+        ],
+        "REQ-Q2-TRANSPORT-PLAN": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-TRANSPORT-PLAN"
+        ],
+        "REQ-Q3-EFFECT": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-EFFECT"
+        ],
+        "REQ-Q3-MATERIAL-PREFERENCE": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-MATERIAL-PREFERENCE"
+        ],
+        "REQ-Q3-ORDER-PLAN": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-ORDER-PLAN"
+        ],
+        "REQ-Q3-TRANSPORT-PLAN": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-TRANSPORT-PLAN"
+        ],
+        "REQ-Q4-CAPACITY-INCREASE": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-CAPACITY-INCREASE"
+        ],
+        "REQ-Q4-ORDER-PLAN": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-ORDER-PLAN"
+        ],
+        "REQ-Q4-TRANSPORT-PLAN": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-TRANSPORT-PLAN"
+        ],
+        "REQ-TRANSPORT-BUSINESS-RULES": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-TRANSPORT-BUSINESS-RULES"
+        ]
+      },
+      "requirement_to_run_map": {
+        "REQ-INVENTORY-PRODUCTION": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-OUTPUT-ATTACHMENT-A": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-OUTPUT-ATTACHMENT-B": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q1-IMPORTANCE-MODEL": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q1-TOP50": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q2-EFFECT": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q2-MINIMUM-SUPPLIERS": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q2-ORDER-PLAN": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q2-TRANSPORT-PLAN": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q3-EFFECT": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q3-MATERIAL-PREFERENCE": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q3-ORDER-PLAN": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q3-TRANSPORT-PLAN": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q4-CAPACITY-INCREASE": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q4-ORDER-PLAN": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-Q4-TRANSPORT-PLAN": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "REQ-TRANSPORT-BUSINESS-RULES": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ]
+      },
+      "selection_mode": "GLOBAL_JOINT",
+      "shared_input_hashes": [
+        "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429"
+      ],
+      "shared_scenario_hashes": [
+        "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429"
+      ],
+      "tradeoff_rule": "ONE_COMMON_CONDITIONAL_SCENARIO; NOT_PER_QUESTION_OPTIMALITY"
+    }
+  },
+  "content_hash": "a1b8305bab8637223f1d3d9f4bdb52ce6f96d41305365b80783af2c2ea5e944f",
+  "status": "ACCEPTED"
+}

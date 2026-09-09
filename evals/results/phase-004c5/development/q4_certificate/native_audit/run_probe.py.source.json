@@ -1,0 +1,7 @@
+{
+  "schema_version": "lossless-historical-script-source/v1",
+  "original_filename": "run_probe.py",
+  "original_sha256": "c4118d80f8e0f2d2387952ea9f4c878bc84ba12a826554270f8dc5b0cd740d4e",
+  "encoding": "utf-8",
+  "source": "from pathlib import Path\nimport datetime,hashlib,json,subprocess,sys,time\nout=Path('.cache/pr12-rc8/q4_native_audit/output')\nname=sys.argv[1];argv=sys.argv[2:]\nassert name.replace('_','').replace('-','').isalnum()\nreceipt_path=out/'execution_receipts'/f'{name}.json'\nassert not receipt_path.exists()\nreceipt_path.parent.mkdir(exist_ok=True)\nstarted=datetime.datetime.now(datetime.timezone.utc).isoformat();t=time.monotonic()\nresult=subprocess.run(argv,capture_output=True,timeout=60)\nended=datetime.datetime.now(datetime.timezone.utc).isoformat()\npaths={}\nfor stream in ('stdout','stderr'):\n data=getattr(result,stream);p=out/'execution_receipts'/f'{name}.{stream}.log'\n p.write_bytes(data);paths[stream]={'path':str(p),'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}\nreceipt={'argv':argv,'cwd':str(Path.cwd()),'started_at':started,'ended_at':ended,'elapsed_seconds':time.monotonic()-t,'exit_code':result.returncode,**paths}\nreceipt_path.write_text(json.dumps(receipt,indent=2)+'\\n')\nprint(json.dumps(receipt,indent=2))\nprint(result.stdout.decode(errors='replace'))\nif result.stderr:print(result.stderr.decode(errors='replace'),file=sys.stderr)\nsys.exit(result.returncode)\n\n"
+}

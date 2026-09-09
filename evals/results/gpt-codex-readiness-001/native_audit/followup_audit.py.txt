@@ -1,0 +1,115 @@
+"""Self-authored read-only F001 closure checks; no supplied code execution."""
+from pathlib import Path
+import hashlib
+import json
+import stat
+import zipfile
+
+O=Path(__file__).parent
+P=O.parent/'next-audit-revised.zip'
+def sha(b):return hashlib.sha256(b).hexdigest()
+def canonical(v):return json.dumps(v,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
+def load(p):return json.loads(p.read_bytes())
+frozen={name:sha((O/name).read_bytes()) for name in ('RAW_FINDINGS.json','REVIEW_SUMMARY.md')}
+assert frozen=={'RAW_FINDINGS.json':'56f57c6de86d0557a414446e4ce823b706dc1b5d1b4ec0fb2709c1677677e6c3',
+               'REVIEW_SUMMARY.md':'24ecec3caec59f032a4cc053c82652e62bf7b2677effaadd411549a49154ecef'}
+data=P.read_bytes()
+assert len(data)==96632
+assert sha(data)=='fae7a280ed4257a84b8957f0dcc6422e15e09c1d3d6bdf2186a439ff9f0ba7c7'
+checks={'revised_archive_size_and_sha256':True}
+with zipfile.ZipFile(P) as z:
+    names=z.namelist()
+    assert len(names)==len(set(names)) and z.testzip() is None
+    for i in z.infolist():
+        p=Path(i.filename)
+        assert not p.is_absolute() and '..' not in p.parts and '\\' not in i.filename
+        assert not stat.S_ISLNK(i.external_attr>>16) and not(i.flag_bits&1)
+    payloads={n:z.read(n) for n in names}
+manifest=json.loads(payloads['PACKAGE_MANIFEST.json'])
+assert set(payloads)-{'PACKAGE_MANIFEST.json'}==set(manifest['files'])
+assert all(sha(payloads[n])==h for n,h in manifest['files'].items())
+assert sha(canonical(manifest['files']))==manifest['payload_set_sha256']
+checks['revised_member_set_crc_and_all_payload_hashes']=True
+old={p.relative_to(O/'next').as_posix():p.read_bytes() for p in (O/'next').rglob('*') if p.is_file()}
+added=sorted(set(payloads)-set(old));removed=sorted(set(old)-set(payloads))
+changed=sorted(k for k in payloads.keys()&old.keys() if payloads[k]!=old[k])
+assert added==['support/internal_checker_replays.json']
+assert removed==['support/LOCAL_FEEDBACK_EXAMPLE.json']
+assert changed==['PACKAGE_MANIFEST.json','support/REVIEW_SUMMARY.md']
+core=[n for n in old if n.startswith(('review/','context/'))]
+assert all(payloads[n]==old[n] for n in core)
+checks['only_declared_outer_support_changes']=True
+checks['all_inner_review_context_and_operator_payloads_unchanged']=True
+inner=json.loads(payloads['review/manifest.json'])
+assert sha(canonical({k:v for k,v in inner.items() if k!='package_hash'}))==inner['package_hash']
+assert all(sha(payloads['review/'+n])==h for n,h in inner['files'].items())
+sources={v['source_path']:v for v in inner['views']}
+checks['inner_m14_identity_and_hashes_unchanged']=True
+
+replay_bytes=payloads['support/internal_checker_replays.json']
+prior_inventory=load(O/'read_inventory.json')
+prior_hashes={r['sha256'] for r in prior_inventory if r['path'].endswith('/rehearsal/internal_checker_replays.json')}
+assert prior_hashes=={sha(replay_bytes)}
+checks['added_receipts_equal_previously_audited_local_bytes']=True
+replays=json.loads(replay_bytes)
+assert len(replays['receipts'])==4
+assert len({r['raw_sha256'] for r in replays['receipts']})==4
+assert len({r['view_sha256'] for r in replays['receipts']})==4
+receipt_rows=[]
+for index,rec in enumerate(replays['receipts']):
+    assert sha(rec['view_utf8'].encode())==rec['view_sha256']
+    d=json.loads(rec['view_utf8'])
+    assert d['run_id']==rec['run_id'] and d['status']==rec['status']=='PASS'
+    assert d['exit_code']==rec['exit_code']==0 and d['final_test_access'] is False
+    assert d['binding_hash'] in replays['binding_hashes']
+    source=sources[f"runs/{d['run_id']}/scientific_check.json"]
+    assert d['result_sha256']==source['source_sha256']==sha(payloads['review/'+source['path']])
+    assert d['subject_commit']==inner['implementation']['tool_commit']
+    assert d['started_at']<=d['ended_at'] and d['elapsed_seconds']>0
+    receipt_rows.append({'location':f'support/internal_checker_replays.json:receipts[{index}]',
+       'run_id':d['run_id'],'started_at':d['started_at'],'ended_at':d['ended_at'],
+       'raw_sha256_reference_only':rec['raw_sha256'],'view_sha256_verified':rec['view_sha256'],
+       'result_sha256_verified':d['result_sha256']})
+checks['four_distinct_receipt_view_hashes_run_results_and_subject']=True
+captures=[json.loads(payloads['review/'+v['path']]) for v in inner['views']
+          if v['source_path'].endswith('/scientific_check_capture.json')]
+assert len(captures)==2 and all(c['exit_code']==0 for c in captures)
+ledger_source=sources['evidence/scientific_final_ledger.json']
+ledger=json.loads(payloads['review/'+ledger_source['path']])
+assert ledger['count']==1 and len(ledger['checks'])==1 and ledger['test_access_count']==0
+assert all(v['exit_code']==0 for v in ledger['checks'].values())
+summary=json.loads(payloads['support/summary.json'])
+assert summary['explicit_checker_captures']==len(captures)==2
+assert summary['final_checker_processes']==len(ledger['checks'])==1
+assert summary['internal_checker_replays']==len(replays['receipts'])==4
+assert summary['total_observed_checker_processes']==2+1+4==7
+assert summary['next_web_review']=='PENDING_USER_NOT_RUN'
+assert summary['human_acceptance']=='NOT_RUN'
+checks['package_visible_process_accounting_2_plus_1_plus_4']=True
+checks['user_web_and_human_acceptance_remain_not_run']=True
+assert {n:sha((O/n).read_bytes()) for n in frozen}==frozen
+checks['original_finding_and_main_report_frozen']=True
+result={'schema_version':'bounded-readonly-finding-followup/v1',
+ 'finding_id':'FINAL-AUDIT-F001',
+ 'closure':'CLOSED_BY_ADDED_EXISTING_OFFLINE_EVIDENCE',
+ 'non_authoritative':True,'formal_acceptance':False,
+ 'archive':{'path':str(P),'bytes':len(data),'sha256':sha(data),
+            'members':len(payloads),'payload_set_sha256':manifest['payload_set_sha256']},
+ 'visible_scope':'Revised ZIP payloads and this auditor scratch originals/results only.',
+ 'inner_identity':{k:inner[k] for k in ('case_id','module','revision','package_hash')},
+ 'changes':{'added':added,'removed':removed,'changed':changed,'unchanged_inner_review_context_files':len(core)},
+ 'checks':checks,'all_checks_passed':all(checks.values()),
+ 'receipt_file_sha256':sha(replay_bytes),'receipt_evidence':receipt_rows,
+ 'finding_reason_and_impact':'Original ZIP lacked four per-process internal replay receipts; revised ZIP contains their exact previously audited redacted bytes, permitting package-only 2+1+4 record accounting without re-execution.',
+ 'limitations':['Raw replay hashes remain references; only supplied redacted view bytes were hashed.',
+               'Process records were inspected, not externally authenticated or re-executed.',
+               'Seven checker processes do not mean seven independent mathematical samples.',
+               'This closure does not imply CI, live case currentness, web review, human acceptance or release acceptance.'],
+ 'execution':{'self_authored_standard_library_only':True,'supplied_code_executed':False,
+              'case_cli_executed':False,'model_starts':0,'checker_starts':0,'final_starts':0,
+              'formal_state_writes':0,'network_accesses':0,'packages_installed':[]},
+ 'frozen_original_artifact_sha256':frozen,
+ 'payload_read_inventory':{n:sha(b) for n,b in sorted(payloads.items())}}
+with (O/'FOLLOWUP_REVIEW.json').open('x') as stream:
+    json.dump(result,stream,ensure_ascii=False,indent=2);stream.write('\n')
+print(json.dumps({k:result[k] for k in ('finding_id','closure','archive','changes','checks','all_checks_passed')},ensure_ascii=False,indent=2))

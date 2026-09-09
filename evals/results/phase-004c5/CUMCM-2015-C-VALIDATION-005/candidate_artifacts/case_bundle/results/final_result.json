@@ -1,0 +1,163 @@
+{
+  "artifact_type": "final_result",
+  "content": {
+    "aggregate_status": "COMPLETE",
+    "contract_version": "final-result/v2",
+    "decision_hash": "cbccffadcf963cb829adbcc5c63d309a71650f91f1bad411c0af4cb283404557",
+    "limitations": [
+      "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+      "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+      "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+      "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+      "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+    ],
+    "requirement_results": {
+      "REQ-BEIJING": {
+        "claim_id": "CLAIM-2015-BEIJING",
+        "metric_ids": [
+          "Beijing_event_count"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-BEIJING"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-CHENGDU": {
+        "claim_id": "CLAIM-2015-CHENGDU",
+        "metric_ids": [
+          "Chengdu_event_count"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-CHENGDU"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-DEFINITION": {
+        "claim_id": "CLAIM-2015-DEFINITION",
+        "metric_ids": [
+          "definition_tree_angle_deg"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-DEFINITION"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-GUANGZHOU": {
+        "claim_id": "CLAIM-2015-GUANGZHOU",
+        "metric_ids": [
+          "Guangzhou_event_count"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-GUANGZHOU"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-HARBIN": {
+        "claim_id": "CLAIM-2015-HARBIN",
+        "metric_ids": [
+          "Harbin_event_count"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-HARBIN"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-KUNMING": {
+        "claim_id": "CLAIM-2015-KUNMING",
+        "metric_ids": [
+          "Kunming_event_count"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-KUNMING"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-SHANGHAI": {
+        "claim_id": "CLAIM-2015-SHANGHAI",
+        "metric_ids": [
+          "Shanghai_event_count"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-SHANGHAI"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-URUMQI": {
+        "claim_id": "CLAIM-2015-URUMQI",
+        "metric_ids": [
+          "Urumqi_event_count"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-URUMQI"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "REQ-VALIDATION": {
+        "claim_id": "CLAIM-2015-VALIDATION",
+        "metric_ids": [
+          "reference_altitude_rmse_deg"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-VALIDATION"
+        ],
+        "selected_run_ids": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      }
+    },
+    "run_bindings": {
+      "RUN-2015-TOPOCENTRIC": {
+        "configuration_hash": "9286690963ddf2ab510ad441fac272358ca98c53f6414dd05f43ae1bc31b2d06",
+        "input_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+        "manifest_hash": "07ab0856d2e66aff095ed87f0e92e55a6cf4b35f1fa782621b4a878aa73cb7e6",
+        "output_hash": "eac713f836b0f99d72cd8b24787f86c116e2c834441a248483c9b9defa6354be",
+        "output_ids": [
+          "OUT-REQ-BEIJING",
+          "OUT-REQ-CHENGDU",
+          "OUT-REQ-DEFINITION",
+          "OUT-REQ-GUANGZHOU",
+          "OUT-REQ-HARBIN",
+          "OUT-REQ-KUNMING",
+          "OUT-REQ-SHANGHAI",
+          "OUT-REQ-URUMQI",
+          "OUT-REQ-VALIDATION"
+        ],
+        "requirement_ids": [
+          "REQ-BEIJING",
+          "REQ-CHENGDU",
+          "REQ-DEFINITION",
+          "REQ-GUANGZHOU",
+          "REQ-HARBIN",
+          "REQ-KUNMING",
+          "REQ-SHANGHAI",
+          "REQ-URUMQI",
+          "REQ-VALIDATION"
+        ],
+        "scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6"
+      }
+    },
+    "selected_run_ids": [
+      "RUN-2015-TOPOCENTRIC"
+    ],
+    "selection_mode": "GLOBAL_JOINT",
+    "status": "FINAL_CANDIDATE"
+  },
+  "content_hash": "00fcbd3a2c4fac5d97d6eb4ed68ae9b6366c88f46200e4a476a2b9b8710fa1a8",
+  "status": "ACCEPTED"
+}

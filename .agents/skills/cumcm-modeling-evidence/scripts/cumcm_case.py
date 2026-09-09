@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import copy
 import hashlib
 import json
@@ -12,13 +14,15 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
+from contextlib import contextmanager, suppress
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.2.0-competition-rc7"
+VERSION = "0.2.0-competition-rc10"
 CAPABILITY = "COMPETITION_RC"
 ASSURANCE = "PUBLIC_DETERMINISTIC_AND_TWO_END_TO_END_SMOKES"
 ARCHITECTURE = "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
@@ -406,6 +410,21 @@ def validate_runtime_requirements(requirements: Any) -> dict[str, Any]:
         ):
             codes.add("RC_REQUIREMENT_CONTRACT_INVALID")
             continue
+        spec = requirement.get("prediction_spec")
+        if spec is not None and (
+            not isinstance(spec, dict)
+            or spec.get("kind") != "CONDITIONAL_ESTIMATE"
+            or spec.get("claim_type") != "PREDICTIVE"
+            or not spec.get("target_field")
+            or not spec.get("model_basis")
+            or not _string_set(spec.get("conditions"))
+            or spec.get("historical_validation_required") is not True
+            or not isinstance(spec.get("empirical_accuracy_required"), bool)
+            or spec.get("future_truth_field") in requirement.get("minimum_data_fields", [])
+            or not set(spec.get("known_input_fields", []))
+            <= set(requirement.get("minimum_data_fields", []))
+        ):
+            codes.add("RC_CONDITIONAL_REQUIREMENT_INVALID")
         identifiers.add(requirement_id)
     if identifiers:
         for requirement in requirements:
@@ -442,6 +461,23 @@ def validate_runtime_sources(sources: Any, requirement_ids: Any) -> dict[str, An
         if not _source_provenance_complete(source):
             codes.add("RC_DATA_PROVENANCE_INCOMPLETE")
     return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
+
+
+def validate_source_input_bindings(case_root: Path, sources: Any) -> dict[str, Any]:
+    """Bind source content to immutable audited files, independently of its origin label."""
+    audit = read_artifact(case_root, "data_audit")["content"]
+    hashes = audit.get("data_hashes")
+    if not isinstance(hashes, dict) or not hashes or not isinstance(sources, list):
+        return contract_result("BLOCK", "RC_SOURCE_INPUT_HASH_UNBOUND")
+    actual = set()
+    for relative, expected in hashes.items():
+        path = relative_case_path(case_root, relative)
+        if path is None or not path.is_file() or file_hash(path) != expected:
+            return contract_result("BLOCK", "RC_SOURCE_INPUT_HASH_UNBOUND")
+        actual.add(expected)
+    if any(not isinstance(source, dict) or source.get("hash") not in actual for source in sources):
+        return contract_result("BLOCK", "RC_SOURCE_INPUT_HASH_UNBOUND")
+    return contract_result("PASS")
 
 
 def evaluate_data_sufficiency(payload: Any) -> dict[str, Any]:
@@ -905,10 +941,25 @@ def validate_semantic_claim_support(payload: Any) -> dict[str, Any]:
         codes.add("RC_OPTIMALITY_CERTIFICATE_MISSING")
     if claim_type == "CAUSAL" and predicates.get("causal_identification_design") is not True:
         codes.add("RC_CAUSAL_IDENTIFICATION_MISSING")
-    if claim_type == "PREDICTIVE" and not all(
-        predicates.get(key) is True for key in ("validation_boundary_frozen", "held_out_test_valid")
-    ):
-        codes.add("RC_PREDICTIVE_VALIDATION_MISSING")
+    if claim_type == "PREDICTIVE":
+        if claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE":
+            if (
+                not all(
+                    predicates.get(k) is True
+                    for k in (
+                        "validation_boundary_frozen",
+                        "conditional_model_bound",
+                        "historical_validation_recorded",
+                    )
+                )
+                or predicates.get("held_out_test_valid") is not False
+                or predicates.get("target_accuracy_verified") is not False
+            ):
+                codes.add("RC_PREDICTIVE_CONDITIONAL_SUPPORT_INVALID")
+        elif not all(
+            predicates.get(k) is True for k in ("validation_boundary_frozen", "held_out_test_valid")
+        ):
+            codes.add("RC_PREDICTIVE_VALIDATION_MISSING")
     if validation.get("counter_evidence_detected") is True and not claim.get("counter_evidence"):
         codes.add("RC_CLAIM_COUNTER_EVIDENCE_UNRESOLVED")
     aggregate = payload.get("aggregate")
@@ -1188,6 +1239,739 @@ def validate_runtime_selection_compatibility(
     return contract_result("BLOCK", *codes) if codes else contract_result("PASS")
 
 
+def _predictive_heldout_cross_bind(
+    claim: dict[str, Any],
+    *,
+    case_root: Path | None,
+    decision_hash: str | None,
+) -> set[str]:
+    """Bind PREDICTIVE held-out predicates to the Final evaluation ledger, not self-attestation."""
+    if claim.get("claim_type") != "PREDICTIVE":
+        return set()
+    predicates = claim.get("support_predicates")
+    if not isinstance(predicates, dict) or predicates.get("held_out_test_valid") is not True:
+        return set()
+    run_ids = [item for item in (claim.get("selected_run_ids") or []) if isinstance(item, str)]
+    if case_root is None or not HEX64.fullmatch(str(decision_hash or "")):
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    ledger_path = case_root / FINAL_EVALUATION_LEDGER
+    if not ledger_path.is_file():
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    try:
+        ledger = load_json(ledger_path)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    if (
+        not isinstance(ledger, dict)
+        or ledger.get("count") != 1
+        or ledger.get("used_for_selection") is not False
+        or ledger.get("max_count") != 1
+    ):
+        return {"RC_PREDICTIVE_TEST_ACCESS_INVALID"}
+    ledger_run = ledger.get("run_id")
+    if not isinstance(ledger_run, str) or ledger_run not in run_ids:
+        return {"RC_PREDICTIVE_TEST_RUN_NOT_OWNED"}
+    try:
+        _verify_final_evaluation_ledger(
+            case_root, ledger, run_id=ledger_run, decision_hash=str(decision_hash)
+        )
+    except ValueError as exc:
+        reason = str(exc)
+        if reason.startswith("RC_"):
+            return {reason}
+        return {"RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"}
+    return set()
+
+
+def _scientific_claim_facts(
+    claim: dict[str, Any],
+    output: dict[str, Any],
+    sources: list[dict[str, Any]],
+    *,
+    case_root: Path | None,
+    run_id: str,
+) -> set[str]:
+    """Check facts captured by the producer, then independently executed evidence where needed.
+
+    Every actual runtime Claim needs captured generation facts, including descriptive Claims.
+    Missing facts never become predicates merely because an adapter requested a particular type.
+    """
+    codes: set[str] = set()
+    requirement_id = claim.get("requirement_id")
+    captured = (output.get("requirement_claims") or {}).get(requirement_id, {})
+    if claim.get("statement") != captured.get("claim_text"):
+        codes.add("RC_CLAIM_STATEMENT_OUTPUT_MISMATCH")
+    metrics = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}
+    if any(not strict_score(metrics.get(metric)) for metric in claim.get("metric_ids", [])):
+        codes.add("RC_CLAIM_METRIC_BINDING_MISSING")
+    relevant = [s for s in sources if requirement_id in s.get("supports_requirement_ids", [])]
+    facts = (output.get("scientific_evidence") or {}).get(requirement_id)
+    if facts is None and case_root is not None:
+        codes.add("RC_CLAIM_GENERATION_FACTS_INVALID")
+    if facts is not None and not isinstance(facts, dict):
+        return codes | {"RC_CLAIM_GENERATION_FACTS_INVALID"}
+    if isinstance(facts, dict):
+        source_ids = facts.get("source_ids")
+        if not _string_set(source_ids) or not set(source_ids) <= {
+            s.get("source_id") for s in relevant
+        }:
+            codes.add("RC_CLAIM_SOURCE_BINDING_MISSING")
+        relevant = [s for s in relevant if s.get("source_id") in (source_ids or [])]
+        captured_scope = facts.get("scope")
+        if not isinstance(captured_scope, dict) or any(
+            not _string_set(captured_scope.get(dimension))
+            or not set((claim.get("scope") or {}).get(dimension, []))
+            <= set(captured_scope.get(dimension, []))
+            for dimension in ("fields", "time", "entities")
+        ):
+            codes.add("RC_CLAIM_SCOPE_OUTPUT_MISMATCH")
+        for metric in claim.get("metric_ids", []):
+            if (facts.get("metric_values") or {}).get(metric) != metrics.get(metric):
+                codes.add("RC_CLAIM_METRIC_BINDING_MISSING")
+        method = facts.get("generation_method")
+        allowed = {
+            "DESCRIPTIVE": {"DESCRIPTIVE_STATISTIC", "DEVELOPMENT_DIAGNOSTIC"},
+            "EMPIRICAL": {"EMPIRICAL_ANALYSIS"},
+            "PREDICTIVE": {"PREDICTION"},
+            "SIMULATION_CONDITIONAL": {"CONDITIONAL_SIMULATION", "PREDICTION"},
+            "FEASIBILITY": {"OPTIMIZATION", "CONDITIONAL_SIMULATION"},
+            "OPTIMALITY": {"OPTIMIZATION"},
+            "CAUSAL": {"CAUSAL_ESTIMATION"},
+            "COMPARATIVE": {"COMPARATIVE_ANALYSIS"},
+            "POLICY_EVALUATION": {"POLICY_EVALUATION"},
+        }
+        if method not in allowed.get(claim.get("claim_type"), set()):
+            codes.add("RC_CLAIM_GENERATION_METHOD_MISMATCH")
+        if facts.get("status") in {"STALE", "CONTRADICTED", "INSUFFICIENT", "UNKNOWN"}:
+            codes.add("RC_CLAIM_FACTS_NOT_SUPPORTED")
+    scope = claim.get("scope") or {}
+    conditional = claim.get("claim_type") in {"SIMULATION_CONDITIONAL", "FEASIBILITY"} or (
+        claim.get("claim_type") == "PREDICTIVE"
+        and claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE"
+    )
+    assumptions_bound = False
+    if isinstance(facts, dict) and case_root is not None:
+        assumption_path = case_root / ARTIFACT_PATHS["assumptions_and_symbols"]
+        assumptions_bound = (
+            assumption_path.is_file()
+            and facts.get("assumption_artifact_sha256") == file_hash(assumption_path)
+            and bool(
+                read_artifact(case_root, "assumptions_and_symbols")["content"].get("assumptions")
+            )
+        )
+    for dimension, source_key in (
+        ("fields", "field_schema"),
+        ("time", "time_scope"),
+        ("entities", "entity_scope"),
+    ):
+        supported = set().union(*(set(s.get(source_key, [])) for s in relevant))
+        if dimension == "fields":
+            supported.update(metrics)
+        if conditional and assumptions_bound and isinstance(facts, dict):
+            supported.update((facts.get("conditional_scope") or {}).get(dimension, []))
+        if not set(scope.get(dimension, [])) <= supported:
+            codes.add("RC_CLAIM_SCOPE_OUTSIDE_SOURCE")
+    claim_type = claim.get("claim_type")
+    if claim_type == "SIMULATION_CONDITIONAL" and not assumptions_bound:
+        codes.add("RC_SIMULATION_CONDITIONAL_ASSUMPTIONS_MISSING")
+    if claim_type == "CAUSAL":
+        design = facts.get("causal_design") if isinstance(facts, dict) else None
+        if (
+            not isinstance(design, dict)
+            or not design.get("identification_strategy")
+            or not design.get("evidence_ids")
+        ):
+            codes.add("RC_CAUSAL_IDENTIFICATION_MISSING")
+    if claim_type == "OPTIMALITY" and claim.get("claim_strength") == "GLOBAL_OPTIMUM":
+        try:
+            if case_root is None:
+                raise ValueError("missing context")
+            checked = verify_scientific_check(case_root, run_id=run_id)["requirements"][
+                requirement_id
+            ]
+            certificate = checked["optimality_certificate"]
+            lower, upper, objective, tolerance = (
+                certificate[key]
+                for key in ("lower_bound", "upper_bound", "objective_value", "tolerance")
+            )
+            if (
+                certificate.get("proof_kind") != "INDEPENDENT_BOUND"
+                or not certificate.get("scope")
+                or not all(strict_score(value) for value in (lower, upper, objective, tolerance))
+                or not 0 <= tolerance <= 1e-3
+                or abs(upper - lower) > tolerance
+                or abs(objective - upper) > tolerance
+                or checked.get("feasible") is not True
+                or not scientific_residuals_pass(checked.get("constraint_residuals"))
+            ):
+                raise ValueError("unclosed bound")
+        except (OSError, ValueError, KeyError, TypeError):
+            codes.add("RC_OPTIMALITY_CERTIFICATE_MISSING")
+    if claim_type == "FEASIBILITY":
+        try:
+            if case_root is None:
+                raise ValueError("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
+            verified = verify_scientific_check(case_root, run_id=run_id)
+            checks = (verified.get("requirements") or {}).get(requirement_id)
+            if (
+                not isinstance(checks, dict)
+                or checks.get("feasible") is not True
+                or not scientific_residuals_pass(checks.get("constraint_residuals"))
+            ):
+                raise ValueError("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
+        except (OSError, KeyError, ValueError, TypeError):
+            codes.add("RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING")
+    if claim.get("counter_evidence") or output.get("counter_evidence"):
+        codes.add("RC_CLAIM_COUNTER_EVIDENCE_UNRESOLVED")
+    return codes
+
+
+def scientific_residuals_pass(residuals: Any) -> bool:
+    """Derive feasibility from finite measured residuals, not the checker's Boolean alone."""
+    if not isinstance(residuals, dict) or not residuals:
+        return False
+    for item in residuals.values():
+        if not isinstance(item, dict) or not all(
+            strict_score(item.get(key)) for key in ("value", "limit", "tolerance")
+        ):
+            return False
+        value, limit, tolerance = (float(item[key]) for key in ("value", "limit", "tolerance"))
+        # Residuals retain their physical units. The case-owned checker freezes the
+        # domain tolerance before execution; a unitless global cap is not meaningful.
+        if tolerance < 0:
+            return False
+        relation = item.get("relation")
+        if relation == "LE" and value > limit + tolerance:
+            return False
+        if relation == "GE" and value < limit - tolerance:
+            return False
+        if relation == "EQ" and abs(value - limit) > tolerance:
+            return False
+        if relation not in {"LE", "GE", "EQ"}:
+            return False
+    return True
+
+
+def scientific_metric_binding_codes(
+    claim: dict[str, Any], output: dict[str, Any], checked: Any
+) -> set[str]:
+    """Recalculation agreement is distinct from satisfying a scientific domain objective."""
+    if not isinstance(checked, dict):
+        return {"RC_SCIENTIFIC_RECALCULATION_MISSING"}
+    record = (checked.get("requirements") or {}).get(claim.get("requirement_id"), {})
+    if not scientific_residuals_pass(record.get("recalculation_residuals")):
+        return {"RC_SCIENTIFIC_RECALCULATION_INCONSISTENT"}
+    values = record.get("metric_values") or {}
+    actual = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}
+    if not claim.get("metric_ids") or any(
+        not strict_score(values.get(metric))
+        or not strict_score(actual.get(metric))
+        or not math.isclose(values[metric], actual[metric], rel_tol=1e-10, abs_tol=1e-9)
+        for metric in claim.get("metric_ids", [])
+    ):
+        return {"RC_SCIENTIFIC_RECALCULATION_METRIC_MISMATCH"}
+    return set()
+
+
+def nonpredictive_evaluation(plan: dict[str, Any]) -> bool:
+    return (plan.get("evaluation_design") or {}).get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION"
+
+
+def conditional_prediction_evaluation(plan: dict[str, Any]) -> bool:
+    return (plan.get("evaluation_design") or {}).get(
+        "mode"
+    ) == "CONDITIONAL_PREDICTION_FINAL_VERIFICATION"
+
+
+def scientific_final_evaluation(plan: dict[str, Any]) -> bool:
+    return nonpredictive_evaluation(plan) or conditional_prediction_evaluation(plan)
+
+
+def metric_freeze_payload(plan: dict[str, Any]) -> dict[str, Any]:
+    value = {
+        "name": plan.get("metric"),
+        "direction": plan.get("metric_direction"),
+        "aggregation_rule": plan.get("aggregation_rule"),
+        "selection_rule": plan.get("selection_rule"),
+    }
+    if "metric_definitions" in plan:
+        value["definitions"] = plan["metric_definitions"]
+    return value
+
+
+def validate_metric_definition(value: Any) -> set[str]:
+    fields = {
+        "target",
+        "quantity",
+        "target_unit",
+        "unit",
+        "prediction_origin",
+        "formula",
+        "denominator",
+        "sample_unit",
+        "aggregation",
+        "weights",
+        "direction",
+        "zero_denominator_policy",
+    }
+    if not isinstance(value, dict) or set(value) != fields:
+        return {"RC_METRIC_DEFINITION_FIELDS_INVALID"}
+    if any(not isinstance(value[k], str) or not value[k].strip() for k in fields - {"weights"}):
+        return {"RC_METRIC_DEFINITION_FIELDS_INVALID"}
+    if (
+        value["quantity"] not in {"REMAINING_TIME", "ELAPSED_TIME", "SCALAR"}
+        or value["formula"]
+        not in {"ABSOLUTE_RELATIVE_ERROR", "ABSOLUTE_ERROR", "SQUARED_ERROR", "VALUE"}
+        or value["direction"] not in {"MIN", "MAX"}
+        or value["aggregation"] not in {"MEAN", "ROOT_MEAN", "SUM", "SINGLE", "MAX"}
+        or value["prediction_origin"] not in {"PER_SAMPLE", "NOT_APPLICABLE"}
+        or value["zero_denominator_policy"] not in {"REJECT", "EXCLUDE_WITH_COUNT"}
+        or value["weights"] != "UNIFORM"
+    ):
+        return {"RC_METRIC_DEFINITION_INVALID"}
+    expected = (
+        "TRUE_REMAINING_TIME"
+        if value["quantity"] == "REMAINING_TIME"
+        else "TRUE_ELAPSED_TIME"
+        if value["quantity"] == "ELAPSED_TIME"
+        else "TRUE_VALUE"
+    )
+    if value["formula"] == "ABSOLUTE_RELATIVE_ERROR":
+        if value["denominator"] != expected or value["unit"] not in {"1", "%"}:
+            return {"RC_METRIC_TARGET_DENOMINATOR_MISMATCH"}
+    elif value["denominator"] != "ONE":
+        return {"RC_METRIC_TARGET_DENOMINATOR_MISMATCH"}
+    if (
+        value["quantity"] in {"REMAINING_TIME", "ELAPSED_TIME"}
+        and value["prediction_origin"] != "PER_SAMPLE"
+    ):
+        return {"RC_METRIC_ORIGIN_MISSING"}
+    if value["formula"] in {"ABSOLUTE_ERROR", "VALUE"} and value["unit"] != value["target_unit"]:
+        return {"RC_METRIC_UNIT_MISMATCH"}
+    if value["aggregation"] == "ROOT_MEAN" and value["formula"] != "SQUARED_ERROR":
+        return {"RC_METRIC_AGGREGATION_UNIT_MISMATCH"}
+    if value["formula"] == "SQUARED_ERROR" and (
+        value["aggregation"] != "ROOT_MEAN" or value["unit"] != value["target_unit"]
+    ):
+        return {"RC_METRIC_UNIT_MISMATCH"}
+    return set()
+
+
+def recompute_metric(definition: dict[str, Any], samples: Any) -> dict[str, Any]:
+    codes = validate_metric_definition(definition)
+    if codes:
+        raise ValueError(";".join(sorted(codes)))
+    if not isinstance(samples, list) or not samples:
+        raise ValueError("RC_METRIC_SAMPLES_MISSING")
+    values, excluded, seen = [], [], set()
+    for sample in samples:
+        if (
+            not isinstance(sample, dict)
+            or not isinstance(sample.get("sample_id"), str)
+            or sample["sample_id"] in seen
+        ):
+            raise ValueError("RC_METRIC_SAMPLE_ID_INVALID")
+        seen.add(sample["sample_id"])
+        if sample.get("weight", 1) != 1 or isinstance(sample.get("weight"), bool):
+            raise ValueError("RC_METRIC_UNREGISTERED_WEIGHT")
+        if (
+            sample.get("target") != definition["target"]
+            or sample.get("unit") != definition["target_unit"]
+        ):
+            raise ValueError("RC_METRIC_SAMPLE_TARGET_UNIT_MISMATCH")
+        if definition["formula"] == "VALUE":
+            if not strict_score(sample.get("value")):
+                raise ValueError("RC_METRIC_SAMPLE_NONFINITE")
+            values.append(sample["value"])
+            continue
+        if definition["quantity"] in {"REMAINING_TIME", "ELAPSED_TIME"}:
+            if not all(
+                strict_score(sample.get(k))
+                for k in ("origin", "predicted_end_time", "observed_end_time")
+            ):
+                raise ValueError("RC_METRIC_TIME_COMPONENTS_MISSING")
+            origin = sample["origin"] if definition["quantity"] == "REMAINING_TIME" else 0
+            prediction, truth = (
+                sample["predicted_end_time"] - origin,
+                sample["observed_end_time"] - origin,
+            )
+            if (
+                sample["observed_end_time"] < sample["origin"]
+                or sample["predicted_end_time"] < sample["origin"]
+            ):
+                raise ValueError("RC_METRIC_REMAINING_TIME_NEGATIVE")
+        else:
+            if not all(strict_score(sample.get(k)) for k in ("prediction", "truth")):
+                raise ValueError("RC_METRIC_SAMPLE_NONFINITE")
+            prediction, truth = sample["prediction"], sample["truth"]
+        value = abs(prediction - truth)
+        if definition["formula"] == "ABSOLUTE_RELATIVE_ERROR":
+            if truth == 0:
+                if definition["zero_denominator_policy"] == "REJECT":
+                    raise ValueError("RC_METRIC_ZERO_DENOMINATOR")
+                excluded.append(sample["sample_id"])
+                continue
+            value /= abs(truth)
+            if definition["unit"] == "%":
+                value *= 100
+        elif definition["formula"] == "SQUARED_ERROR":
+            value *= value
+        values.append(value)
+    if not values or (definition["aggregation"] == "SINGLE" and len(values) != 1):
+        raise ValueError("RC_METRIC_AGGREGATION_INVALID")
+    result = max(values) if definition["aggregation"] == "MAX" else sum(values)
+    if definition["aggregation"] in {"MEAN", "ROOT_MEAN"}:
+        result /= len(values)
+    if definition["aggregation"] == "ROOT_MEAN":
+        result = math.sqrt(result)
+    return {"value": result, "included_count": len(values), "excluded_sample_ids": excluded}
+
+
+def validate_temporal_design(case_root: Path, plan: dict[str, Any]) -> set[str]:
+    design = plan.get("temporal_design")
+    if design is None:
+        return {"RC_TEMPORAL_DESIGN_MISSING"} if conditional_prediction_evaluation(plan) else set()
+    try:
+        if design.get("schema_version") != "temporal-visibility/v1" or design.get("task") not in {
+            "SAME_ENTITY_FUTURE",
+            "NEW_ENTITY_GENERALIZATION",
+        }:
+            raise ValueError("RC_TEMPORAL_DESIGN_INVALID")
+        relative = design["index_path"]
+        path = relative_case_path(case_root, relative)
+        if (
+            path is None
+            or relative not in plan["required_input_hashes"]
+            or file_hash(path) != plan["required_input_hashes"][relative]
+        ):
+            raise ValueError("RC_TEMPORAL_INDEX_UNBOUND")
+        raw = load_json(path)
+        rows = raw["observations"]
+        index = {r["observation_id"]: r for r in rows}
+        if not rows or len(index) != len(rows):
+            raise ValueError("RC_TEMPORAL_OBSERVATION_ID_INVALID")
+        for row in rows:
+            if (
+                not isinstance(row["entity_id"], str)
+                or not row["entity_id"]
+                or not all(
+                    strict_score(row.get(k)) for k in ("observed_at", "available_at", "value")
+                )
+                or row["available_at"] < row["observed_at"]
+            ):
+                raise ValueError("RC_TEMPORAL_OBSERVATION_INVALID")
+        samples = design["samples"]
+        if not samples or len({s["sample_id"] for s in samples}) != len(samples):
+            raise ValueError("RC_TEMPORAL_SAMPLE_ID_INVALID")
+        has_forecast = has_validation = False
+        fit_entities, target_entities = set(), set()
+        for sample in samples:
+            origin = sample["origin"]
+            if not strict_score(origin) or sample["split"] not in {"VALIDATION", "FORECAST"}:
+                raise ValueError("RC_TEMPORAL_ORIGIN_INVALID")
+            target_time = sample.get("target_time")
+            unknown_event = (
+                sample["split"] == "FORECAST"
+                and target_time is None
+                and isinstance(sample.get("target_event"), str)
+                and bool(sample["target_event"])
+            )
+            if not unknown_event and (not strict_score(target_time) or target_time <= origin):
+                raise ValueError("RC_TEMPORAL_ORIGIN_INVALID")
+            target_entities.add(sample["entity_id"])
+            for usage in (
+                "feature_observation_ids",
+                "preprocess_fit_observation_ids",
+                "model_fit_observation_ids",
+            ):
+                ids = sample[usage]
+                if not ids or len(ids) != len(set(ids)):
+                    raise ValueError("RC_TEMPORAL_LINEAGE_MISSING")
+                for observation_id in ids:
+                    row = index[observation_id]
+                    if max(row["observed_at"], row["available_at"]) > origin:
+                        raise ValueError("RC_TEMPORAL_FUTURE_INFORMATION:" + usage)
+                    if usage != "feature_observation_ids":
+                        fit_entities.add(row["entity_id"])
+                    if (
+                        usage == "feature_observation_ids"
+                        and row["entity_id"] != sample["entity_id"]
+                    ):
+                        raise ValueError("RC_TEMPORAL_FEATURE_ENTITY_MISMATCH")
+                    if observation_id == sample.get("target_observation_id"):
+                        raise ValueError("RC_TEMPORAL_TARGET_IN_FEATURES")
+            if sample["split"] == "VALIDATION":
+                has_validation = True
+                target = index[sample["target_observation_id"]]
+                if (
+                    target["entity_id"] != sample["entity_id"]
+                    or target["observed_at"] != sample["target_time"]
+                ):
+                    raise ValueError("RC_TEMPORAL_VALIDATION_TARGET_MISMATCH")
+            else:
+                has_forecast = True
+                if sample.get("target_observation_id") is not None:
+                    raise ValueError("RC_CONDITIONAL_FUTURE_TRUTH_NOT_UNKNOWN")
+        if not has_validation or not has_forecast:
+            raise ValueError("RC_TEMPORAL_HISTORY_OR_FORECAST_MISSING")
+        selection_cutoff = min(s["origin"] for s in samples if s["split"] == "FORECAST")
+        if any(
+            index[s["target_observation_id"]]["available_at"] > selection_cutoff
+            for s in samples
+            if s["split"] == "VALIDATION"
+        ):
+            raise ValueError("RC_TEMPORAL_SELECTION_LABEL_NOT_AVAILABLE")
+        if design["task"] == "NEW_ENTITY_GENERALIZATION" and fit_entities & target_entities:
+            raise ValueError("RC_TEMPORAL_NEW_ENTITY_GROUP_OVERLAP")
+        return set()
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        return {str(exc) if str(exc).startswith("RC_") else "RC_TEMPORAL_DESIGN_INVALID"}
+
+
+def validate_science_design(case_root: Path, plan: dict[str, Any]) -> set[str]:
+    codes = validate_temporal_design(case_root, plan)
+    definitions = plan.get("metric_definitions")
+    if definitions is None:
+        if conditional_prediction_evaluation(plan):
+            codes.add("RC_METRIC_DEFINITIONS_MISSING")
+        return codes
+    if (
+        not isinstance(definitions, dict)
+        or not definitions
+        or plan.get("metric") not in definitions
+    ):
+        return codes | {"RC_METRIC_DEFINITIONS_MISSING"}
+    for definition in definitions.values():
+        codes.update(validate_metric_definition(definition))
+    if definitions[plan["metric"]].get("direction") != plan.get("metric_direction"):
+        codes.add("RC_METRIC_DIRECTION_MISMATCH")
+    requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
+    for requirement in requirements:
+        contracts = requirement.get("metric_contracts")
+        if (
+            not isinstance(contracts, dict)
+            or not contracts
+            or any(definitions.get(k) != v for k, v in contracts.items())
+        ):
+            codes.add("RC_METRIC_REQUIREMENT_CONTRACT_MISMATCH")
+    return codes
+
+
+def validate_conditional_prediction(
+    claim: dict[str, Any],
+    requirement: dict[str, Any],
+    output: dict[str, Any],
+    case_root: Path | None,
+) -> set[str]:
+    spec = requirement.get("prediction_spec")
+    if spec is None:
+        return (
+            {"RC_CONDITIONAL_PREDICTION_SPEC_MISSING"}
+            if claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE"
+            else set()
+        )
+    codes = set()
+    if claim.get("claim_type") != "PREDICTIVE":
+        codes.add("RC_PREDICTIVE_REQUIREMENT_RELABELLED")
+    if (
+        spec.get("empirical_accuracy_required") is True
+        and claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE"
+    ):
+        codes.add("RC_PREDICTIVE_EMPIRICAL_ACCURACY_UNVERIFIED")
+    if claim.get("prediction_scope") != "CONDITIONAL_ESTIMATE":
+        return codes
+    if case_root is None:
+        return codes | {"RC_CONDITIONAL_PREDICTION_CONTEXT_MISSING"}
+    try:
+        plan = read_artifact(case_root, "experiment_plan")["content"]
+        if not conditional_prediction_evaluation(plan):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_DESIGN_MISMATCH")
+        codes.update(validate_science_design(case_root, plan))
+        facts = output["scientific_evidence"][claim["requirement_id"]]
+        evidence = facts["prediction_evidence"]
+        if output.get("temporal_lineage") != plan["temporal_design"]:
+            raise ValueError("RC_TEMPORAL_EXECUTED_LINEAGE_MISMATCH")
+        if (
+            evidence["prediction_spec_sha256"] != canonical_hash(spec)
+            or evidence["temporal_design_sha256"] != canonical_hash(plan["temporal_design"])
+            or evidence["empirical_accuracy_verified"] is not False
+            or facts.get("assumption_artifact_sha256")
+            != file_hash(case_root / ARTIFACT_PATHS["assumptions_and_symbols"])
+        ):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_BINDING_INVALID")
+        axis = spec.get("prediction_axis", "TIME_CONTINUATION")
+        if axis == "TIME_CONTINUATION":
+            expected = [s for s in plan["temporal_design"]["samples"] if s["split"] == "FORECAST"]
+            expected_ids = [
+                s["sample_id"]
+                for s in plan["temporal_design"]["samples"]
+                if s["split"] == "VALIDATION"
+            ]
+        elif axis == "CONDITION_INTERPOLATION":
+            condition_design = plan["condition_design"][claim["requirement_id"]]
+            if condition_design.get("schema_version") != "condition-query/v1" or evidence.get(
+                "condition_design_sha256"
+            ) != canonical_hash(condition_design):
+                raise ValueError("RC_CONDITIONAL_QUERY_DESIGN_INVALID")
+            expected = condition_design["queries"]
+            expected_ids = condition_design["historical_sample_ids"]
+            if not expected or not expected_ids:
+                raise ValueError("RC_CONDITIONAL_QUERY_DESIGN_INVALID")
+        else:
+            raise ValueError("RC_CONDITIONAL_PREDICTION_AXIS_INVALID")
+        predictions = evidence["predictions"]
+        if len(predictions) != len(expected):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_COVERAGE_INVALID")
+        for p, target in zip(predictions, expected, strict=True):
+            if (
+                any(p.get(k) != target[k] for k in ("sample_id", "entity_id", "origin"))
+                or p.get("target") != spec["target_field"]
+                or not strict_score(p.get("value"))
+            ):
+                raise ValueError("RC_CONDITIONAL_PREDICTION_TARGET_INVALID")
+            if axis == "CONDITION_INTERPOLATION" and (
+                not target.get("conditions") or p.get("conditions") != target["conditions"]
+            ):
+                raise ValueError("RC_CONDITIONAL_QUERY_CONDITIONS_MISMATCH")
+        for metric, definition in requirement.get("metric_contracts", {}).items():
+            if (
+                definition.get("formula") == "VALUE"
+                and definition.get("target") == spec["target_field"]
+            ):
+                rows = output["metric_samples"][metric]
+                if len(rows) != len(predictions) or any(
+                    r.get("sample_id") != p["sample_id"] or r.get("value") != p["value"]
+                    for r, p in zip(rows, predictions, strict=True)
+                ):
+                    raise ValueError("RC_PREDICTION_VALUE_METRIC_MISMATCH")
+        history = evidence["historical_validation"]
+        if (
+            history.get("sample_ids") != expected_ids
+            or not history.get("metric_ids")
+            or not set(history["metric_ids"]) <= set(claim["metric_ids"])
+        ):
+            raise ValueError("RC_CONDITIONAL_HISTORY_VALIDATION_MISSING")
+        uncertainty = claim.get("uncertainty", {})
+        if (
+            uncertainty != evidence.get("uncertainty")
+            or uncertainty.get("kind") not in {"MODEL_SENSITIVITY", "UNCALIBRATED_POINT_ESTIMATE"}
+            or uncertainty.get("calibrated") is not False
+        ):
+            raise ValueError("RC_PREDICTION_INTERVAL_UNCALIBRATED")
+        if uncertainty["kind"] == "MODEL_SENSITIVITY":
+            variants = uncertainty.get("variant_values")
+            if (
+                not isinstance(variants, list)
+                or len(variants) < 2
+                or not all(strict_score(v) for v in variants)
+                or uncertainty.get("lower_min") != min(variants)
+                or uncertainty.get("upper_min") != max(variants)
+            ):
+                raise ValueError("RC_MODEL_SENSITIVITY_VALUES_MISSING")
+        for run_id in claim.get("selected_run_ids", []):
+            checked = verify_scientific_check(case_root, run_id=run_id)
+            if (
+                checked["requirements"][claim["requirement_id"]].get("prediction_evidence")
+                != evidence
+            ):
+                raise ValueError("RC_CONDITIONAL_INDEPENDENT_PREDICTION_MISMATCH")
+        if claim.get("claim_strength") != "BOUNDED" or not claim.get("limitations"):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_SCOPE_INVALID")
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        codes.add(
+            str(exc) if str(exc).startswith("RC_") else "RC_CONDITIONAL_PREDICTION_EVIDENCE_INVALID"
+        )
+    return codes
+
+
+def metric_output_binding_codes(
+    claim: dict[str, Any],
+    requirement: dict[str, Any],
+    output: dict[str, Any],
+    checked: Any,
+    case_root: Path | None = None,
+) -> set[str]:
+    contracts = requirement.get("metric_contracts")
+    if contracts is None:
+        return set()
+    codes = set()
+    for metric in claim.get("metric_ids", []):
+        try:
+            definition = contracts[metric]
+            if (
+                output["metric_definitions"][metric] != definition
+                or checked["metric_definitions"][metric] != definition
+            ):
+                raise ValueError("RC_METRIC_DEFINITION_OUTPUT_MISMATCH")
+            if output.get("temporal_lineage") != checked.get("temporal_lineage"):
+                raise ValueError("RC_TEMPORAL_INDEPENDENT_LINEAGE_MISMATCH")
+            samples = output["metric_samples"][metric]
+            if checked["metric_samples"][metric] != samples:
+                raise ValueError("RC_METRIC_INDEPENDENT_SAMPLES_MISMATCH")
+            if definition["quantity"] in {"REMAINING_TIME", "ELAPSED_TIME"}:
+                if case_root is None:
+                    raise ValueError("RC_METRIC_TEMPORAL_CONTEXT_MISSING")
+                plan = read_artifact(case_root, "experiment_plan")["content"]
+                design = plan["temporal_design"]
+                sample_index = {s["sample_id"]: s for s in design["samples"]}
+                index = {
+                    r["observation_id"]: r
+                    for r in load_json(case_root / design["index_path"])["observations"]
+                }
+                expected_ids = {
+                    s["sample_id"] for s in design["samples"] if s["split"] == "VALIDATION"
+                }
+                if {r["sample_id"] for r in samples} != expected_ids:
+                    raise ValueError("RC_METRIC_TEMPORAL_SAMPLE_COVERAGE_INVALID")
+                for row in samples:
+                    origin = sample_index[row["sample_id"]]
+                    target = index[origin["target_observation_id"]]
+                    if (
+                        origin["split"] != "VALIDATION"
+                        or row["origin"] != origin["origin"]
+                        or row["observed_end_time"] != target["observed_at"]
+                        or definition["target_unit"] != design.get("time_unit", "min")
+                    ):
+                        raise ValueError("RC_METRIC_TEMPORAL_SAMPLE_MISMATCH")
+            actual = recompute_metric(definition, samples)
+            value = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}[
+                metric
+            ]
+            if (
+                not math.isclose(actual["value"], value, rel_tol=1e-10, abs_tol=1e-9)
+                or set(output["metric_accounting"][metric]) != set(actual)
+                or type(output["metric_accounting"][metric]["included_count"]) is not int
+                or output["metric_accounting"][metric]["included_count"] != actual["included_count"]
+                or output["metric_accounting"][metric]["excluded_sample_ids"]
+                != actual["excluded_sample_ids"]
+                or not math.isclose(
+                    output["metric_accounting"][metric]["value"],
+                    actual["value"],
+                    rel_tol=1e-10,
+                    abs_tol=1e-9,
+                )
+            ):
+                raise ValueError("RC_METRIC_RECALCULATION_MISMATCH")
+        except (KeyError, TypeError, ValueError) as exc:
+            codes.add(
+                str(exc) if str(exc).startswith("RC_") else "RC_METRIC_DEFINITION_BINDING_MISSING"
+            )
+    return codes
+
+
+def development_only_evaluation(plan: dict[str, Any]) -> bool:
+    return (plan.get("evaluation_design") or {}).get("mode") == "DEVELOPMENT_NO_FINAL_EVALUATION"
+
+
+def execution_policy_payload(
+    stop_rule: str, generated_at: str, design: Any = None
+) -> dict[str, Any]:
+    payload = {"stop_rule": stop_rule, "handoff_generated_at": generated_at}
+    if design is not None:
+        payload["evaluation_design"] = design
+    return payload
+
+
 def validate_runtime_semantic_claims(
     record: Any,
     selection_record: Any,
@@ -1195,6 +1979,9 @@ def validate_runtime_semantic_claims(
     output_registry: Any,
     requirements: Any,
     sources: Any,
+    *,
+    case_root: Path | None = None,
+    decision_hash: str | None = None,
 ) -> dict[str, Any]:
     """Cross-bind semantic Claims to requirements, Runs, outputs, metrics and sources."""
     if not all(
@@ -1236,6 +2023,8 @@ def validate_runtime_semantic_claims(
     codes: set[str] = set()
     if not isinstance(claims, list) or not claims:
         return contract_result("BLOCK", "RC_SEMANTIC_CLAIM_BUNDLE_INVALID")
+    if case_root is not None:
+        codes.update(validate_source_input_bindings(case_root, sources).get("reason_codes", []))
     for claim in claims:
         if not isinstance(claim, dict):
             codes.add("RC_SEMANTIC_CLAIM_INPUT_INVALID")
@@ -1245,6 +2034,16 @@ def validate_runtime_semantic_claims(
         if not isinstance(requirement, dict):
             codes.add("RC_CLAIM_REQUIREMENT_UNKNOWN")
             continue
+        if requirement.get("scientific_facts_required") is True and any(
+            not isinstance(
+                (output_registry.get(run_id, {}).get("scientific_evidence") or {}).get(
+                    requirement_id
+                ),
+                dict,
+            )
+            for run_id in claim.get("selected_run_ids", [])
+        ):
+            codes.add("RC_CLAIM_GENERATION_FACTS_INVALID")
         run_ids = claim.get("selected_run_ids")
         output_ids = claim.get("selected_output_ids")
         metric_ids = claim.get("metric_ids")
@@ -1273,6 +2072,36 @@ def validate_runtime_semantic_claims(
                 run_output.get("requirement_claims") or {}
             ):
                 codes.add("RC_REQUIREMENT_SELECTED_OUTPUT_NOT_OWNED")
+            else:
+                codes.update(
+                    _scientific_claim_facts(
+                        claim,
+                        run_output,
+                        sources,
+                        case_root=case_root,
+                        run_id=output["owner_run_id"],
+                    )
+                )
+                codes.update(
+                    validate_conditional_prediction(claim, requirement, run_output, case_root)
+                )
+                if (
+                    requirement.get("scientific_facts_required") is True
+                    or requirement.get("metric_contracts") is not None
+                ):
+                    checked = None
+                    with suppress(OSError, ValueError, KeyError, TypeError):
+                        checked = (
+                            verify_scientific_check(case_root, run_id=output["owner_run_id"])
+                            if case_root is not None
+                            else None
+                        )
+                    codes.update(scientific_metric_binding_codes(claim, run_output, checked))
+                    codes.update(
+                        metric_output_binding_codes(
+                            claim, requirement, run_output, checked, case_root
+                        )
+                    )
         selection_metric = (selection_requirements.get(requirement_id) or {}).get(
             "selection_metric"
         )
@@ -1320,6 +2149,9 @@ def validate_runtime_semantic_claims(
             }
         )
         codes.update(outcome.get("reason_codes", []))
+        codes.update(
+            _predictive_heldout_cross_bind(claim, case_root=case_root, decision_hash=decision_hash)
+        )
         if claim.get("claim_type") == "POLICY_EVALUATION":
             comparator_ids = claim.get("comparator_ids")
             for run_id in run_ids or []:
@@ -1684,8 +2516,21 @@ def reject_constant(value: str) -> None:
     raise ValueError(f"non-finite JSON constant: {value}")
 
 
+def unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("RC_DUPLICATE_JSON_KEY:" + key)
+        result[key] = value
+    return result
+
+
 def load_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"), parse_constant=reject_constant)
+    return json.loads(
+        path.read_text(encoding="utf-8"),
+        parse_constant=reject_constant,
+        object_pairs_hook=unique_json_object,
+    )
 
 
 def assert_json_safe(value: Any, location: str = "$") -> None:
@@ -1726,6 +2571,25 @@ def file_hash(path: Path) -> str:
     return digest.hexdigest()
 
 
+def code_file_hash(path: Path) -> str:
+    """Hash source bytes with Git-style CRLF-to-LF normalization.
+
+    Code records still retain the exact worktree hash through ``file_hash``.  This
+    companion hash is only used when binding source code to a Git blob so a
+    Windows checkout does not fail solely because Git converted LF to CRLF.
+    """
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
+def code_commit_hash_matches(
+    path: Path, declared_hash: Any, observed_commit_hash: str | None
+) -> bool:
+    """Accept both legacy raw-byte and normalized source declarations."""
+    if not isinstance(declared_hash, str) or not isinstance(observed_commit_hash, str):
+        return False
+    return observed_commit_hash in {declared_hash, code_file_hash(path)}
+
+
 def git_commit_exists(commit: str) -> bool:
     if not isinstance(commit, str) or not GIT_SHA.fullmatch(commit):
         return False
@@ -1757,7 +2621,7 @@ def git_blob_hash(commit: str, repository_path: str) -> str | None:
     path = relative_case_path(REPO_ROOT, repository_path)
     if path is None:
         return None
-    normalized = str(path.relative_to(REPO_ROOT))
+    normalized = path.relative_to(REPO_ROOT).as_posix()
     completed = subprocess.run(
         ["git", "show", f"{commit}:{normalized}"],
         cwd=REPO_ROOT,
@@ -1767,6 +2631,52 @@ def git_blob_hash(commit: str, repository_path: str) -> str | None:
     if completed.returncode != 0:
         return None
     return hashlib.sha256(completed.stdout).hexdigest()
+
+
+def bound_code_blob_hash(
+    case_root: Path | None, record: dict[str, Any], tool_commit: str
+) -> str | None:
+    """Bind local case code to a real no-remote Git object, separately from tool code.
+
+    CASE_GIT/<commit>/<path> is an explicit versioned repository reference within
+    the existing code record, never a caller-supplied filesystem or network location.
+    Legacy LAB_EVAL records retain their original tool-repository interpretation.
+    """
+    reference = record.get("repository_path")
+    if not isinstance(reference, str):
+        return None
+    if not reference.startswith("CASE_GIT/"):
+        return git_blob_hash(tool_commit, reference)
+    if case_root is None or record.get("scope") != "CASE_ROOT":
+        return None
+    parts = reference.split("/", 2)
+    if len(parts) != 3 or not GIT_SHA.fullmatch(parts[1]) or parts[2] != record.get("path"):
+        return None
+    policy_path = case_root / "state/case_policy.json"
+    try:
+        state = load_state(case_root)
+        policy = load_json(policy_path)
+        if (
+            policy.get("mode") != "GUIDED_LOCAL"
+            or policy.get("case_id") != state["case_id"]
+            or state["evidence_bindings"].get("state/case_policy.json") != file_hash(policy_path)
+            or not (case_root / ".git").is_dir()
+            or (case_root / ".git").is_symlink()
+            or relative_case_path(case_root, parts[2]) is None
+        ):
+            return None
+        remote = subprocess.run(["git", "remote"], cwd=case_root, capture_output=True, check=False)
+        if remote.returncode or remote.stdout.strip():
+            return None
+        result = subprocess.run(
+            ["git", "show", parts[1] + ":" + parts[2]],
+            cwd=case_root,
+            capture_output=True,
+            check=False,
+        )
+        return hashlib.sha256(result.stdout).hexdigest() if result.returncode == 0 else None
+    except (OSError, ValueError, KeyError):
+        return None
 
 
 def normalize_key(value: str) -> str:
@@ -1844,9 +2754,15 @@ def boundary_validate(payload: Any, context: Any) -> GateResult:
 
 def write_json(path: Path, value: Any, *, overwrite: bool = True) -> None:
     assert_json_safe(value)
-    if path.exists() and not overwrite:
-        raise FileExistsError(path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    if not overwrite:
+        # O_EXCL consumes a one-shot slot atomically even across separate CLI processes.
+        with path.open("x", encoding="utf-8") as handle:
+            json.dump(value, handle, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        return
     temporary = path.with_name(f".{path.name}.tmp")
     temporary.write_text(
         json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n",
@@ -2118,18 +3034,18 @@ def preflight_output_contract(case_root: Path, probe_path: Path) -> tuple[GateRe
     except ValueError:
         return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), ""
     if not relative.parts or relative.parts[0] != "experiments" or not resolved.is_file():
-        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), str(relative)
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_PATH_INVALID"), relative.as_posix()
     try:
         output = load_json(resolved)
     except (OSError, json.JSONDecodeError, ValueError):
-        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_JSON_INVALID"), str(relative)
+        return blocked("RC_OUTPUT_CONTRACT_PREFLIGHT_JSON_INVALID"), relative.as_posix()
     return (
         validate_selected_output_contract(
             output,
             required_requirement_ids=required_requirement_ids(case_root),
             allow_probe=True,
         ),
-        str(relative),
+        relative.as_posix(),
     )
 
 
@@ -2147,6 +3063,26 @@ def relative_case_path(case_root: Path, value: str) -> Path | None:
     except ValueError:
         return None
     return candidate
+
+
+@contextmanager
+def case_writer(case_root: Path):
+    """One public writer; OS releases the lock even if a process is interrupted."""
+    import fcntl
+
+    case_root.mkdir(parents=True, exist_ok=True)
+    path = case_root / ".case-writer.lock"
+    if path.is_symlink():
+        raise ValueError("RC_CASE_WRITER_LOCK_INVALID")
+    with path.open("a") as handle:
+        try:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise ValueError("RC_CASE_WRITER_BUSY") from exc
+        try:
+            yield
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
 def validate_manifest(
@@ -2346,7 +3282,11 @@ def validate_manifest(
             if (
                 not isinstance(repository_path, str)
                 or (scope == "SKILL_ROOT" and repository_path != expected_repository_path)
-                or git_blob_hash(str(commit), repository_path) != actual
+                or not code_commit_hash_matches(
+                    path,
+                    actual,
+                    bound_code_blob_hash(case_root, record, str(commit)),
+                )
             ):
                 codes.add("RC_MANIFEST_CODE_COMMIT_MISMATCH")
         if code_hashes and manifest.get("code_tree_hash") != canonical_hash(code_hashes):
@@ -2490,6 +3430,11 @@ def validate_execution_capture(
         codes.add("RC_EXECUTION_CAPTURE_MANIFEST_MISMATCH")
     if "scenario_hash" in capture and not HEX64.fullmatch(str(capture.get("scenario_hash", ""))):
         codes.add("RC_EXECUTION_CAPTURE_SCENARIO_HASH_INVALID")
+    try:
+        if capture.get("scenario_hash") != resolve_scenario_identity(case_root):
+            codes.add("RC_EXECUTION_CAPTURE_SCENARIO_STALE")
+    except (OSError, ValueError, TypeError, KeyError):
+        codes.add("RC_EXECUTION_CAPTURE_SCENARIO_STALE")
     if (
         capture.get("schema_version") != "1.0.0"
         or capture.get("capture_mode") != "CONTROLLED_CASE_SUBPROCESS"
@@ -2593,12 +3538,24 @@ def validate_comparison(
     if not isinstance(baseline, str) or baseline not in candidate_items:
         codes.add("RC_COMPARISON_BASELINE_MISSING")
     splits = comparison.get("splits")
+    nonpredictive = (comparison.get("test_access") or {}).get("mode") in {
+        "NONPREDICTIVE_FINAL_VERIFICATION",
+        "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+        "CONDITIONAL_DEVELOPMENT_COMPARISON",
+    }
     if not isinstance(splits, dict) or set(splits) != {"train", "validation", "test"}:
         codes.add("RC_COMPARISON_SPLIT_INVALID")
     else:
         split_sets: list[set[Any]] = []
-        for values in splits.values():
-            if not isinstance(values, list) or not values:
+        for name, values in splits.items():
+            empty_development_test = (
+                name == "test"
+                and (comparison.get("test_access") or {}).get("mode")
+                == "DEVELOPMENT_NO_FINAL_EVALUATION"
+            )
+            if not isinstance(values, list) or (
+                not values and not nonpredictive and not empty_development_test
+            ):
                 codes.add("RC_COMPARISON_EMPTY_SPLIT")
                 break
             try:
@@ -2623,13 +3580,117 @@ def validate_comparison(
     if not isinstance(flags, dict):
         codes.add("RC_COMPARISON_LEAKAGE_CHECKS_MISSING")
     else:
+        temporal = (
+            None
+            if case_root is None
+            else read_artifact(case_root, "experiment_plan")["content"].get("temporal_design")
+        )
+        same_entity = isinstance(temporal, dict) and temporal.get("task") == "SAME_ENTITY_FUTURE"
+        if temporal is not None:
+            codes.update(
+                validate_temporal_design(
+                    case_root, read_artifact(case_root, "experiment_plan")["content"]
+                )
+            )
         for name in false_flags:
+            if name == "group_overlap" and same_entity and isinstance(flags.get(name), bool):
+                continue
             if flags.get(name) is not False:
                 codes.add(f"RC_COMPARISON_LEAKAGE:{name}")
         if flags.get("time_order_valid") is not True:
             codes.add("RC_COMPARISON_TIME_LEAKAGE")
     access = comparison.get("test_access")
-    if not isinstance(access, dict) or access.get("authorized") is not True:
+    if not isinstance(access, dict):
+        codes.add("RC_COMPARISON_UNAUTHORIZED_TEST_ACCESS")
+    elif access.get("mode") == "DEVELOPMENT_NO_FINAL_EVALUATION":
+        # Development may legitimately stop before the one-shot Final evaluator.  It
+        # must say so explicitly, however; an absent/contradictory receipt is not a
+        # zero-access pass and cannot be used to satisfy the formal Final contract.
+        count = access.get("count")
+        if access.get("authorized") is not False:
+            codes.add("RC_DEVELOPMENT_TEST_ACCESS_AUTHORIZATION_INVALID")
+        if not isinstance(count, int) or isinstance(count, bool) or count != 0:
+            codes.add("RC_DEVELOPMENT_TEST_ACCESS_COUNT_INVALID")
+        if access.get("used_for_selection") is not False:
+            codes.add("RC_DEVELOPMENT_TEST_USED_FOR_SELECTION")
+        if access.get("evaluator_invoked") is not False:
+            codes.add("RC_DEVELOPMENT_EVALUATOR_INVOCATION_INVALID")
+        if access.get("ledger_status") != "NOT_ACCESSED":
+            codes.add("RC_DEVELOPMENT_TEST_ACCESS_LEDGER_INVALID")
+    elif access.get("mode") == "PREDICTIVE_DEVELOPMENT_COMPARISON":
+        if (
+            access
+            != {
+                "mode": "PREDICTIVE_DEVELOPMENT_COMPARISON",
+                "authorized": False,
+                "count": 0,
+                "used_for_selection": False,
+            }
+            or case_root is None
+            or scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"])
+            or development_only_evaluation(read_artifact(case_root, "experiment_plan")["content"])
+            or not splits.get("test")
+        ):
+            codes.add("RC_PREDICTIVE_DEVELOPMENT_COMPARISON_INVALID")
+    elif access.get("mode") == "CONDITIONAL_DEVELOPMENT_COMPARISON":
+        if (
+            access
+            != {
+                "mode": "CONDITIONAL_DEVELOPMENT_COMPARISON",
+                "authorized": False,
+                "count": 0,
+                "scientific_verification_count": 0,
+                "used_for_selection": False,
+            }
+            or case_root is None
+            or not conditional_prediction_evaluation(
+                read_artifact(case_root, "experiment_plan")["content"]
+            )
+            or splits.get("test") != []
+        ):
+            codes.add("RC_CONDITIONAL_DEVELOPMENT_COMPARISON_INVALID")
+    elif access.get("mode") == "NONPREDICTIVE_DEVELOPMENT_COMPARISON":
+        if (
+            access
+            != {
+                "mode": "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+                "authorized": False,
+                "count": 0,
+                "scientific_verification_count": 0,
+                "used_for_selection": False,
+            }
+            or splits != {"train": [], "validation": [], "test": []}
+            or case_root is None
+            or not nonpredictive_evaluation(read_artifact(case_root, "experiment_plan")["content"])
+        ):
+            codes.add("RC_NONPREDICTIVE_DEVELOPMENT_COMPARISON_INVALID")
+    elif access.get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION":
+        if (
+            access.get("authorized") is not True
+            or access.get("count") != 0
+            or access.get("scientific_verification_count") != 1
+            or access.get("used_for_selection") is not False
+            or splits != {"train": [], "validation": [], "test": []}
+        ):
+            codes.add("RC_NONPREDICTIVE_FINAL_VERIFICATION_INVALID")
+        if case_root is not None and not nonpredictive_evaluation(
+            read_artifact(case_root, "experiment_plan")["content"]
+        ):
+            codes.add("RC_NONPREDICTIVE_FINAL_VERIFICATION_INVALID")
+        if case_root is None:
+            codes.add("RC_NONPREDICTIVE_FINAL_RECEIPT_MISSING")
+        else:
+            try:
+                verify_scientific_final(
+                    case_root, decision_hash=comparison.get("selection_decision_hash")
+                )
+            except (OSError, ValueError, KeyError, TypeError):
+                codes.add("RC_NONPREDICTIVE_FINAL_RECEIPT_MISSING")
+    elif access.get("mode") not in (None, "FINAL_EVALUATION"):
+        codes.add("RC_COMPARISON_TEST_ACCESS_MODE_INVALID")
+    elif access.get("authorized") is not True:
+        # The legacy shape remains a formal/Final comparison shape.  In particular,
+        # count=0 without the explicit Development mode must still fail closed.
         codes.add("RC_COMPARISON_UNAUTHORIZED_TEST_ACCESS")
     else:
         if access.get("count") != 1:
@@ -2700,22 +3761,36 @@ def validate_comparison(
         derived_freezes = {
             "candidate_set": canonical_hash(candidates),
             "metric": canonical_hash(
-                {
-                    "name": metric,
-                    "direction": direction,
-                    "aggregation_rule": aggregation_rule,
-                    "selection_rule": selection_rule,
-                }
+                metric_freeze_payload(
+                    {
+                        **comparison,
+                        **(
+                            {
+                                "metric_definitions": read_artifact(case_root, "experiment_plan")[
+                                    "content"
+                                ]["metric_definitions"]
+                            }
+                            if case_root is not None
+                            and "metric_definitions"
+                            in read_artifact(case_root, "experiment_plan")["content"]
+                            else {}
+                        ),
+                    }
+                )
             ),
             "seed_schedule": canonical_hash(seeds),
             "split_assignment": canonical_hash(splits),
             "baseline": canonical_hash(baseline),
             "input_set": canonical_hash(required_inputs),
             "execution_policy": canonical_hash(
-                {
-                    "stop_rule": stop_rule,
-                    "handoff_generated_at": handoff_generated_at,
-                }
+                execution_policy_payload(
+                    stop_rule,
+                    handoff_generated_at,
+                    read_artifact(case_root, "experiment_plan")["content"].get("evaluation_design")
+                    if case_root is not None
+                    and (case_root / ARTIFACT_PATHS["experiment_plan"]).is_file()
+                    else None,
+                )
             ),
             "code_set": canonical_hash(required_code_files),
             "code_commit": canonical_hash(code_commit),
@@ -3570,11 +4645,12 @@ def validate_claim(
                 nested_claim_ids.add(nested_id)
                 for relative in nested_evidence:
                     path = relative_case_path(case_root, relative)
+                    binding_key = Path(relative).as_posix()
                     if (
                         path is None
                         or not path.is_file()
                         or not isinstance(bindings, dict)
-                        or bindings.get(relative) != file_hash(path)
+                        or bindings.get(binding_key) != file_hash(path)
                     ):
                         codes.add("RC_CLAIM_REQUIREMENT_EVIDENCE_NOT_CURRENT")
         if isinstance(bindings, dict):
@@ -4258,8 +5334,128 @@ def read_artifact(case_root: Path, key: str) -> dict[str, Any]:
     return value
 
 
+def resolve_scenario_identity(case_root: Path, plan: dict[str, Any] | None = None) -> str:
+    """Resolve scenario-input/v2 before a process starts, also used by every reviewer.
+
+    Input registries and requirement scopes are sets; file bytes and scientific lists
+    remain ordered. An absent hash requests derivation. Explicit null/empty/malformed
+    values are errors, and an explicit digest must equal the content-derived identity.
+    No capture, selected output or Final receipt participates in this payload.
+    """
+    if plan is None:
+        plan = read_artifact(case_root, "experiment_plan")["content"]
+    inputs = plan.get("required_input_hashes")
+    if not isinstance(inputs, dict) or not inputs:
+        raise ValueError("RC_SCENARIO_INPUTS_REQUIRED")
+    for relative, digest in inputs.items():
+        path = relative_case_path(case_root, relative)
+        if (
+            path is None
+            or relative != Path(relative).as_posix()
+            or "\\" in relative
+            or not isinstance(digest, str)
+            or HEX64.fullmatch(digest) is None
+            or not path.is_file()
+            or any(
+                (case_root / Path(relative).parts[0])
+                .joinpath(*Path(relative).parts[1:index])
+                .is_symlink()
+                for index in range(1, len(Path(relative).parts) + 1)
+            )
+            or file_hash(path) != digest
+        ):
+            raise ValueError("RC_SCENARIO_INPUT_IDENTITY_INVALID")
+    roles = plan.get("input_roles", {relative: relative for relative in inputs})
+    if (
+        not isinstance(roles, dict)
+        or not roles
+        or any(not isinstance(role, str) or not role.strip() for role in roles)
+        or any(not isinstance(path, str) for path in roles.values())
+        or len(set(roles.values())) != len(roles)
+        or set(roles.values()) != set(inputs)
+    ):
+        raise ValueError("RC_SCENARIO_INPUT_ROLES_CONFLICT")
+    declaration = plan.get("scenario", {"schema_version": "scenario/v1", "revision": 1})
+    if (
+        not isinstance(declaration, dict)
+        or declaration.get("schema_version") != "scenario/v1"
+        or type(declaration.get("revision")) is not int
+        or declaration["revision"] < 1
+        or set(declaration)
+        - {
+            "schema_version",
+            "revision",
+            "name",
+            "assumptions",
+            "constraints",
+            "configuration",
+            "requirement_ids",
+        }
+    ):
+        raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+    requirements = read_artifact(case_root, "problem_requirements")["content"]
+    assumptions = read_artifact(case_root, "assumptions_and_symbols")["content"]
+    for field in ("assumptions", "constraints"):
+        if field in declaration and (
+            not isinstance(declaration[field], list)
+            or not declaration[field]
+            or any(not isinstance(item, str) or not item.strip() for item in declaration[field])
+        ):
+            raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+    if ("configuration" in declaration and not isinstance(declaration["configuration"], dict)) or (
+        "name" in declaration
+        and (not isinstance(declaration["name"], str) or not declaration["name"].strip())
+    ):
+        raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+    scope = declaration.get("requirement_ids")
+    known = {r["requirement_id"] for r in requirements.get("requirements", [])}
+    if "requirement_ids" in declaration and (
+        not isinstance(scope, list)
+        or not scope
+        or any(not isinstance(item, str) for item in scope)
+        or len(set(scope)) != len(scope)
+        or not set(scope) <= known
+    ):
+        raise ValueError("RC_SCENARIO_REQUIREMENT_SCOPE_INVALID")
+    declaration = copy.deepcopy(declaration)
+    if scope is not None:
+        declaration["requirement_ids"] = sorted(scope)
+    payload = {
+        "schema_version": "scenario-input/v2",
+        "inputs": inputs,
+        "input_roles": roles,
+        "scenario": declaration,
+        "requirements": requirements,
+        "assumptions_and_symbols": assumptions,
+        "experiment_semantics": {
+            key: plan[key]
+            for key in (
+                "evaluation_design",
+                "splits",
+                "temporal_design",
+                "condition_design",
+                "metric_definitions",
+                "metric",
+                "metric_direction",
+                "aggregation_rule",
+                "selection_rule",
+            )
+            if key in plan
+        },
+    }
+    expected = canonical_hash(payload)
+    if "scenario_hash" in plan:
+        supplied = plan["scenario_hash"]
+        if not isinstance(supplied, str) or HEX64.fullmatch(supplied) is None:
+            raise ValueError("RC_SCENARIO_HASH_INVALID")
+        if supplied != expected:
+            raise ValueError("RC_SCENARIO_HASH_CONTENT_MISMATCH")
+    return expected
+
+
 def trusted_freezes(case_root: Path) -> dict[str, str]:
     plan = read_artifact(case_root, "experiment_plan")["content"]
+    resolve_scenario_identity(case_root, plan)
     value = plan.get("trusted_freeze_registry")
     candidate_ids = plan.get("candidate_ids")
     metric = plan.get("metric")
@@ -4294,7 +5490,14 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
     split_items = list(splits.values()) if isinstance(splits, dict) else []
     split_values_valid = len(split_items) == 3 and all(
         isinstance(items, list)
-        and items
+        and (
+            items
+            or nonpredictive_evaluation(plan)
+            or (
+                (development_only_evaluation(plan) or conditional_prediction_evaluation(plan))
+                and items is splits.get("test")
+            )
+        )
         and all((isinstance(item, (str, int)) and not isinstance(item, bool)) for item in items)
         and len(set(items)) == len(items)
         for items in split_items
@@ -4304,6 +5507,8 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         for left in range(3)
         for right in range(left + 1, 3)
     )
+    if nonpredictive_evaluation(plan) and splits != {"train": [], "validation": [], "test": []}:
+        split_values_valid = False
     required_code_valid = (
         isinstance(required_code_files, list)
         and bool(required_code_files)
@@ -4336,7 +5541,11 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
                 or not isinstance(repository_path, str)
                 or not HEX64.fullmatch(str(record.get("sha256", "")))
                 or file_hash(code_path) != record.get("sha256")
-                or git_blob_hash(code_commit, repository_path) != record.get("sha256")
+                or not code_commit_hash_matches(
+                    code_path,
+                    record.get("sha256"),
+                    bound_code_blob_hash(case_root, record, code_commit),
+                )
                 or (
                     scope == "SKILL_ROOT"
                     and (
@@ -4392,25 +5601,18 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         or not required_code_valid
     ):
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
+    science_codes = validate_science_design(case_root, plan)
+    if science_codes:
+        raise ValueError(";".join(sorted(science_codes)))
     expected = {
         "candidate_set": canonical_hash(candidate_ids),
-        "metric": canonical_hash(
-            {
-                "name": metric,
-                "direction": direction,
-                "aggregation_rule": aggregation_rule,
-                "selection_rule": selection_rule,
-            }
-        ),
+        "metric": canonical_hash(metric_freeze_payload(plan)),
         "seed_schedule": canonical_hash(seeds),
         "split_assignment": canonical_hash(splits),
         "baseline": canonical_hash(baseline_id),
         "input_set": canonical_hash(required_inputs),
         "execution_policy": canonical_hash(
-            {
-                "stop_rule": stop_rule,
-                "handoff_generated_at": handoff_generated_at,
-            }
+            execution_policy_payload(stop_rule, handoff_generated_at, plan.get("evaluation_design"))
         ),
         "code_set": canonical_hash(required_code_files),
         "code_commit": canonical_hash(code_commit),
@@ -4422,6 +5624,99 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
 
 def utc_now() -> str:
     return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def controlled_subprocess_environment(seed: int) -> tuple[dict[str, str], dict[str, str]]:
+    """Keep the recorded allowlist deterministic while satisfying Windows loading."""
+    recorded = {"PYTHONHASHSEED": str(seed), "TZ": "UTC"}
+    process_environment = dict(recorded)
+    if os.name == "nt":
+        system_root = os.environ.get("SYSTEMROOT")
+        if system_root:
+            process_environment["SYSTEMROOT"] = system_root
+    return recorded, process_environment
+
+
+def consume_start_budget(
+    case_root: Path, kind: str, run_id: str, *, check_only: bool = False, needed: int = 1
+) -> None:
+    """Count actual process starts, including independent verification replays."""
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    limits = (plan.get("evaluation_design") or {}).get("start_budget")
+    maximum = {"model_cli_starts": 4, "independent_checker_starts": 4, "final_starts": 1}
+    policy_path = case_root / "state/case_policy.json"
+    if policy_path.exists():
+        state = load_state(case_root)
+        policy = load_json(policy_path)
+        if (
+            policy_path.is_symlink()
+            or policy.get("schema_version") != "case-policy/v1"
+            or policy.get("case_id") != state["case_id"]
+            or state["evidence_bindings"].get("state/case_policy.json") != file_hash(policy_path)
+        ):
+            raise ValueError("RC_EXECUTION_BUDGET_POLICY_INVALID")
+        if policy.get("mode") == "GUIDED_LOCAL":
+            # User-declared local budgets are positive integers, not an inherited
+            # historical four-request experiment. Final remains one-shot.
+            maximum = (
+                {
+                    "model_cli_starts": limits.get("model_cli_starts", 0),
+                    "independent_checker_starts": limits.get("independent_checker_starts", 0),
+                    "final_starts": 1,
+                }
+                if isinstance(limits, dict)
+                else maximum
+            )
+        elif policy.get("mode") == "LAB_EVAL" and policy.get("budget_protocol") == (
+            "MODULE_USABILITY_DEVELOPMENT_V1"
+        ):
+            if not isinstance(limits, dict) or policy.get("start_budget") != limits:
+                raise ValueError("RC_EXECUTION_BUDGET_POLICY_INVALID")
+            maximum = {"model_cli_starts": 4, "independent_checker_starts": 6, "final_starts": 1}
+        elif policy.get("mode") != "LAB_EVAL":
+            raise ValueError("RC_EXECUTION_BUDGET_POLICY_INVALID")
+    if limits is None:
+        return
+    if (
+        not isinstance(limits, dict)
+        or set(limits) != set(maximum)
+        or any(type(limits[k]) is not int or not 1 <= limits[k] <= v for k, v in maximum.items())
+    ):
+        raise ValueError("RC_EXECUTION_BUDGET_INVALID")
+    lock = case_root / "state/execution_budget.lock"
+    path = case_root / "state/execution_budget.json"
+    try:
+        lock.mkdir()
+    except FileExistsError as exc:
+        raise ValueError("RC_EXECUTION_BUDGET_LOCKED") from exc
+    try:
+        ledger = (
+            load_json(path)
+            if path.exists()
+            else {"schema_version": "execution-start-budget/v1", "limits": limits, "events": []}
+        )
+        if ledger.get("limits") != limits or not isinstance(ledger.get("events"), list):
+            raise ValueError("RC_EXECUTION_BUDGET_INVALID")
+        used = sum(e.get("kind") == kind for e in ledger["events"])
+        if type(needed) is not int or needed < 1:
+            raise ValueError("RC_EXECUTION_BUDGET_INVALID")
+        if kind not in limits or used + needed > limits[kind]:
+            raise ValueError("RC_EXECUTION_BUDGET_EXHAUSTED:" + kind)
+        if check_only:
+            return
+        if needed != 1:
+            raise ValueError("RC_EXECUTION_BUDGET_INVALID")
+        ledger["events"].append(
+            {
+                "sequence": len(ledger["events"]) + 1,
+                "kind": kind,
+                "run_id": run_id,
+                "started_at": utc_now(),
+            }
+        )
+        write_json(path, ledger)
+    finally:
+        lock.rmdir()
 
 
 def execute_case_code(
@@ -4444,6 +5739,7 @@ def execute_case_code(
         raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
     plan = read_artifact(case_root, "experiment_plan")["content"]
     freezes = trusted_freezes(case_root)
+    scenario_hash = resolve_scenario_identity(case_root, plan)
     if candidate_id not in plan["candidate_ids"] or seed not in plan["random_seeds"]:
         raise ValueError("RC_EXECUTION_NOT_PREREGISTERED")
     matches = [
@@ -4461,6 +5757,7 @@ def execute_case_code(
     run_dir = case_root / "runs" / run_id
     if run_dir.exists():
         raise FileExistsError(run_dir)
+    consume_start_budget(case_root, "model_cli_starts", run_id)
     run_dir.mkdir(parents=True)
     output_relative = f"runs/{run_id}/output.json"
     stdout_relative = f"runs/{run_id}/stdout.txt"
@@ -4480,7 +5777,7 @@ def execute_case_code(
         "--output",
         output_relative,
     ]
-    environment = {"PYTHONHASHSEED": str(seed), "TZ": "UTC"}
+    environment, process_environment = controlled_subprocess_environment(seed)
     started_at = utc_now()
     started_clock = time.monotonic()
     failure: dict[str, Any] | None = None
@@ -4488,7 +5785,7 @@ def execute_case_code(
         completed = subprocess.run(
             [sys.executable, *logical_argv],
             cwd=case_root,
-            env=environment,
+            env=process_environment,
             check=False,
             capture_output=True,
             timeout=timeout_seconds,
@@ -4548,9 +5845,6 @@ def execute_case_code(
         {"path": relative, "sha256": digest}
         for relative, digest in sorted(plan["required_input_hashes"].items())
     ]
-    scenario_hash = plan.get("scenario_hash")
-    if HEX64.fullmatch(str(scenario_hash or "")) is None:
-        scenario_hash = canonical_hash([item["sha256"] for item in input_files])
     output_record = {"path": output_relative, "sha256": file_hash(output_path)}
     capture = {
         "schema_version": "1.0.0",
@@ -4584,9 +5878,1099 @@ def execute_case_code(
         "run_id": run_id,
         "outcome": outcome,
         "exit_code": exit_code,
-        "capture_path": str(capture_path.relative_to(case_root)),
+        "capture_path": capture_path.relative_to(case_root).as_posix(),
         "capture_sha256": file_hash(capture_path),
         "output": output_record,
+    }
+
+
+FINAL_EVALUATION_LEDGER = "evidence/final_evaluation_ledger.json"
+_SCIENTIFIC_CHECKS_THIS_PROCESS: set[str] = set()
+
+
+def verify_scientific_check(
+    case_root: Path, *, run_id: str, _captured_in_this_process: bool = False
+) -> dict[str, Any]:
+    """Read a distinct checker's captured recomputation and revalidate its complete lineage."""
+    ledger = load_json(case_root / "runs" / run_id / "scientific_check_capture.json")
+    if ledger.get("status") != "SUCCESS" or ledger.get("run_id") != run_id:
+        raise ValueError("RC_SCIENTIFIC_CHECK_NOT_SUCCESS")
+    required_fields = {
+        "schema_version",
+        "capture_mode",
+        "runner_version",
+        "code_commit",
+        "run_id",
+        "status",
+        "checker",
+        "bound_files",
+        "started_at",
+        "ended_at",
+        "elapsed_seconds",
+        "exit_code",
+        "argv",
+        "environment_allowlist",
+        "timeout_seconds",
+        "cwd_policy",
+        "stdout_sha256",
+        "stderr_sha256",
+        "final_test_access",
+        "independence_limit",
+    }
+    if set(ledger) != required_fields:
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_FIELDS_INVALID")
+    if (
+        ledger["schema_version"] != "scientific-check-capture/v2"
+        or ledger["capture_mode"] != "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS"
+        or ledger["runner_version"] != VERSION
+        or type(ledger["exit_code"]) is not int
+        or ledger["exit_code"] != 0
+        or ledger["final_test_access"] is not False
+        or ledger["cwd_policy"] != "CASE_ROOT_RELATIVE"
+        or type(ledger["timeout_seconds"]) is not int
+        or not 1 <= ledger["timeout_seconds"] <= 900
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_IDENTITY_INVALID")
+    started = parse_utc_timestamp(ledger["started_at"])
+    ended = parse_utc_timestamp(ledger["ended_at"])
+    elapsed = ledger["elapsed_seconds"]
+    if (
+        started is None
+        or ended is None
+        or ended < started
+        or not strict_score(elapsed)
+        or not 0 <= elapsed <= ledger["timeout_seconds"] + 5
+        or abs((ended - started).total_seconds() - elapsed) > 2
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_TIMING_INVALID")
+    for stream in ("stdout", "stderr"):
+        path = case_root / "runs" / run_id / f"scientific_check.{stream}"
+        if not path.is_file() or ledger[f"{stream}_sha256"] != file_hash(path):
+            raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_STREAM_MISMATCH")
+    for relative, expected in ledger.get("bound_files", {}).items():
+        path = relative_case_path(case_root, relative)
+        if path is None or not path.is_file() or file_hash(path) != expected:
+            raise ValueError("RC_SCIENTIFIC_CHECK_STALE")
+    capture = load_json(case_root / "runs" / run_id / "execution_capture.json")
+    manifest_path = case_root / "runs" / run_id / "manifest.json"
+    if manifest_path.is_file():
+        validation = validate_manifest(
+            load_json(manifest_path),
+            case_root=case_root,
+            trusted_freezes=trusted_freezes(case_root),
+        )
+        if not validation.accepted:
+            raise ValueError("RC_SCIENTIFIC_CHECK_PRODUCER_CAPTURE_INVALID")
+    else:
+        build_captured_run_manifest(case_root, run_id=run_id, decision_hash="0" * 64)
+    verify_current_capture_files(case_root, capture)
+    checker = ledger.get("checker")
+    if (
+        not isinstance(checker, dict)
+        or checker not in capture.get("code_files", [])
+        or checker.get("path") == capture.get("argv", [None])[0]
+        or checker.get("scope") != "CASE_ROOT"
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_NOT_INDEPENDENT_ENTRYPOINT")
+    path = relative_case_path(case_root, checker["path"])
+    if path is None or not code_commit_hash_matches(
+        path, checker["sha256"], bound_code_blob_hash(case_root, checker, capture["code_commit"])
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CODE_DRIFT")
+    environment_allowlist, _ = controlled_subprocess_environment(int(capture["seed"]))
+    if (
+        ledger["code_commit"] != capture["code_commit"]
+        or ledger["argv"]
+        != [
+            checker["path"],
+            "--case-root",
+            ".",
+            "--run-id",
+            run_id,
+            "--output",
+            f"runs/{run_id}/scientific_check.json",
+        ]
+        or ledger["environment_allowlist"] != environment_allowlist
+        or started < parse_utc_timestamp(capture["ended_at"])
+    ):
+        raise ValueError("RC_SCIENTIFIC_CHECK_CAPTURE_LINEAGE_INVALID")
+    result = load_json(case_root / "runs" / run_id / "scientific_check.json")
+    expected_bindings = {record["path"]: record["sha256"] for record in capture["input_files"]}
+    expected_bindings.update(
+        {
+            capture["output"]["path"]: capture["output"]["sha256"],
+            f"runs/{run_id}/execution_capture.json": file_hash(
+                case_root / "runs" / run_id / "execution_capture.json"
+            ),
+            checker["path"]: checker["sha256"],
+            f"runs/{run_id}/scientific_check.json": file_hash(
+                case_root / "runs" / run_id / "scientific_check.json"
+            ),
+        }
+    )
+    if ledger.get("bound_files") != expected_bindings:
+        raise ValueError("RC_SCIENTIFIC_CHECK_BINDINGS_INCOMPLETE")
+    if result.get("run_id") != run_id or result.get("output_sha256") != capture["output"]["sha256"]:
+        raise ValueError("RC_SCIENTIFIC_CHECK_OUTPUT_MISMATCH")
+    cache_key = canonical_hash(
+        {
+            "case_root": str(case_root.resolve()),
+            "ledger": ledger,
+            "producer_code_files": capture["code_files"],
+        }
+    )
+    if not _captured_in_this_process and cache_key not in _SCIENTIFIC_CHECKS_THIS_PROCESS:
+        # Case files have policy isolation, not an OS signature. Execute the frozen
+        # checker here so even a fully rehashed forged receipt cannot establish a result.
+        replay_root = REPO_ROOT / ".cache" / "scientific-check-replays"
+        replay_root.mkdir(parents=True, exist_ok=True)
+        replay = Path(tempfile.mkdtemp(prefix=f"{run_id}-", dir=replay_root))
+        argv = [sys.executable, *ledger["argv"][:-1], str(replay / "result.json")]
+        receipt = {
+            "status": "STARTED",
+            "run_id": run_id,
+            "subject_commit": capture["code_commit"],
+            "binding_hash": cache_key,
+            "argv": argv,
+            "started_at": utc_now(),
+            "final_test_access": False,
+        }
+        consume_start_budget(case_root, "independent_checker_starts", run_id)
+        write_json(replay / "execution.json", receipt, overwrite=False)
+        _, environment = controlled_subprocess_environment(int(capture["seed"]))
+        began = time.monotonic()
+        try:
+            process = subprocess.run(
+                argv,
+                cwd=case_root,
+                env=environment,
+                capture_output=True,
+                check=False,
+                timeout=ledger["timeout_seconds"],
+            )
+            receipt["exit_code"] = process.returncode
+            for stream, raw in (("stdout", process.stdout), ("stderr", process.stderr)):
+                (replay / stream).write_bytes(raw)
+                receipt[f"{stream}_sha256"] = hashlib.sha256(raw).hexdigest()
+            if process.returncode != 0 or not (replay / "result.json").is_file():
+                raise ValueError("RC_SCIENTIFIC_RECALCULATION_EXECUTION_FAILED")
+            recomputed = load_json(replay / "result.json")
+            receipt["result_sha256"] = file_hash(replay / "result.json")
+            if canonical_hash(recomputed) != canonical_hash(result):
+                raise ValueError("RC_SCIENTIFIC_RECALCULATION_RESULT_MISMATCH")
+            verify_current_capture_files(case_root, capture)
+            if any(
+                file_hash(case_root / path) != digest for path, digest in expected_bindings.items()
+            ):
+                raise ValueError("RC_SCIENTIFIC_CHECK_STALE")
+            receipt["status"] = "PASS"
+        except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
+            receipt.update(status="FAILED", failure=str(exc))
+            raise ValueError("RC_SCIENTIFIC_RECALCULATION_NOT_VERIFIED") from exc
+        finally:
+            receipt.update(ended_at=utc_now(), elapsed_seconds=time.monotonic() - began)
+            write_json(replay / "execution.json", receipt)
+    _SCIENTIFIC_CHECKS_THIS_PROCESS.add(cache_key)
+    return result
+
+
+def verify_current_capture_files(case_root: Path, capture: dict[str, Any]) -> None:
+    """Recheck actual frozen inputs and all producer/checker dependencies at every reuse."""
+    if capture.get("scenario_hash") != resolve_scenario_identity(case_root):
+        raise ValueError("RC_EXECUTION_CAPTURE_SCENARIO_STALE")
+    if not capture.get("input_files") or not capture.get("code_files"):
+        raise ValueError("RC_EXECUTION_CAPTURE_BINDINGS_MISSING")
+    for item in capture["input_files"]:
+        path = relative_case_path(case_root, item.get("path"))
+        if path is None or not path.is_file() or file_hash(path) != item.get("sha256"):
+            raise ValueError("RC_EXECUTION_INPUT_HASH_MISMATCH")
+    for item in capture["code_files"]:
+        root = SKILL_ROOT if item.get("scope") == "SKILL_ROOT" else case_root
+        path = relative_case_path(root, item.get("path"))
+        if (
+            path is None
+            or not path.is_file()
+            or not code_commit_hash_matches(
+                path,
+                item.get("sha256"),
+                bound_code_blob_hash(case_root, item, capture["code_commit"]),
+            )
+        ):
+            raise ValueError("RC_EXECUTION_CODE_HASH_MISMATCH")
+
+
+def execute_scientific_check(
+    case_root: Path,
+    *,
+    run_id: str,
+    code_path: str,
+    timeout_seconds: int = 600,
+) -> dict[str, Any]:
+    """Capture one preregistered independent recomputation without any Final/test access."""
+    if load_state(case_root)["state"] != "RUNNING" or not 1 <= timeout_seconds <= 900:
+        raise ValueError("RC_SCIENTIFIC_CHECK_STATE_INVALID")
+    capture_path = case_root / "runs" / run_id / "execution_capture.json"
+    capture = load_json(capture_path)
+    # Reuse the manifest validator rather than accepting caller-declared code/input hashes.
+    build_captured_run_manifest(case_root, run_id=run_id, decision_hash="0" * 64)
+    checker = next(
+        (
+            record
+            for record in capture["code_files"]
+            if record["scope"] == "CASE_ROOT" and record["path"] == code_path
+        ),
+        None,
+    )
+    if checker is None or code_path == capture["argv"][0]:
+        raise ValueError("RC_SCIENTIFIC_CHECK_NOT_INDEPENDENT_ENTRYPOINT")
+    output_relative = f"runs/{run_id}/scientific_check.json"
+    ledger_path = case_root / "runs" / run_id / "scientific_check_capture.json"
+    if ledger_path.exists() or (case_root / output_relative).exists():
+        raise ValueError("RC_SCIENTIFIC_CHECK_ALREADY_EXECUTED")
+    bindings = {record["path"]: record["sha256"] for record in capture["input_files"]}
+    bindings[capture["output"]["path"]] = capture["output"]["sha256"]
+    bindings[capture_path.relative_to(case_root).as_posix()] = file_hash(capture_path)
+    bindings[code_path] = checker["sha256"]
+    environment_allowlist, environment = controlled_subprocess_environment(int(capture["seed"]))
+    argv = [code_path, "--case-root", ".", "--run-id", run_id, "--output", output_relative]
+    ledger = {
+        "schema_version": "scientific-check-capture/v2",
+        "capture_mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+        "runner_version": VERSION,
+        "code_commit": capture["code_commit"],
+        "argv": argv,
+        "environment_allowlist": environment_allowlist,
+        "timeout_seconds": timeout_seconds,
+        "cwd_policy": "CASE_ROOT_RELATIVE",
+        "run_id": run_id,
+        "status": "STARTED",
+        "checker": checker,
+        "bound_files": bindings,
+        "started_at": utc_now(),
+        "final_test_access": False,
+        "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
+    }
+    consume_start_budget(case_root, "independent_checker_starts", run_id)
+    write_json(ledger_path, ledger, overwrite=False)
+    started = time.monotonic()
+    try:
+        completed = subprocess.run(
+            [sys.executable, *argv],
+            cwd=case_root,
+            env=environment,
+            check=False,
+            capture_output=True,
+            timeout=timeout_seconds,
+        )
+        ledger.update(
+            exit_code=completed.returncode,
+            stdout_sha256=hashlib.sha256(completed.stdout).hexdigest(),
+            stderr_sha256=hashlib.sha256(completed.stderr).hexdigest(),
+        )
+        for name, data in (("stdout", completed.stdout), ("stderr", completed.stderr)):
+            (case_root / "runs" / run_id / f"scientific_check.{name}").write_bytes(data)
+        ledger["status"] = "SUCCESS" if completed.returncode == 0 else "FAILED"
+    except subprocess.TimeoutExpired:
+        ledger.update(status="FAILED", failure="TIMEOUT", exit_code=None)
+    ledger.update(ended_at=utc_now(), elapsed_seconds=time.monotonic() - started)
+    if (case_root / output_relative).is_file():
+        ledger["bound_files"][output_relative] = file_hash(case_root / output_relative)
+    else:
+        ledger["status"] = "FAILED"
+    write_json(ledger_path, ledger)
+    verify_scientific_check(case_root, run_id=run_id, _captured_in_this_process=True)
+    return ledger
+
+
+def validate_case_semantic_facts(case_root: Path, record: dict[str, Any]) -> dict[str, Any]:
+    """One runtime fact gate for the controller, direct completion and semantic CLI."""
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    sources = read_artifact(case_root, "source_ledger")["content"]["sources"]
+    requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    attempts = _development_attempt_registry(case_root, plan)
+    if attempts:
+        decision_hash = canonical_hash(select_development_candidate(attempts, plan))
+    else:
+        # Bundled, in-process synthetic cases have hash-bound manifests but no
+        # subprocess capture. Their existing comparison must still validate.
+        comparison = read_artifact(case_root, "model_comparison")["content"]
+        validation = validate_comparison(
+            comparison, trusted_freezes=trusted_freezes(case_root), case_root=case_root
+        )
+        if not validation.accepted:
+            return contract_result("BLOCK", *validation.reason_codes)
+        decision_hash = comparison["selection_decision_hash"]
+    manifests, outputs = {}, {}
+    for run_id in _selected_runtime_run_ids(selection):
+        manifest_path = case_root / "runs" / run_id / "manifest.json"
+        manifests[run_id] = (
+            load_json(manifest_path)
+            if manifest_path.is_file()
+            else build_captured_run_manifest(case_root, run_id=run_id, decision_hash=decision_hash)
+        )
+        validation = validate_manifest(
+            manifests[run_id], case_root=case_root, trusted_freezes=trusted_freezes(case_root)
+        )
+        if not validation.accepted:
+            return contract_result("BLOCK", *validation.reason_codes)
+        outputs[run_id] = load_json(case_root / manifests[run_id]["output_files"][0]["path"])
+    return validate_runtime_semantic_claims(
+        record,
+        selection,
+        manifests,
+        outputs,
+        requirements,
+        sources,
+        case_root=case_root,
+        decision_hash=decision_hash,
+    )
+
+
+def select_development_candidate(
+    attempts: list[dict[str, Any]], plan: dict[str, Any]
+) -> dict[str, Any]:
+    """Select the comparison winner from development captures only."""
+    scores: dict[str, float] = {}
+    for candidate in plan["candidate_ids"]:
+        values = [
+            item["validation_score"]
+            for item in attempts
+            if item["candidate_id"] == candidate
+            and item["outcome"] == "SUCCESS"
+            and item["validation_score"] is not None
+        ]
+        if values:
+            scores[candidate] = sum(values) / len(values)
+    if not scores:
+        raise ValueError("VALIDATION_NO_ELIGIBLE_SUCCESS")
+    direction = 1 if plan["metric_direction"] == "MIN" else -1
+    selected = min(scores, key=lambda candidate: (direction * scores[candidate], candidate))
+    return {
+        "selected_candidate_id": selected,
+        "validation_scores": scores,
+        "metric": plan["metric"],
+        "rule": plan["selection_rule"],
+        "aggregation_rule": plan["aggregation_rule"],
+    }
+
+
+def _development_attempt_registry(case_root: Path, plan: dict[str, Any]) -> list[dict[str, Any]]:
+    attempts: list[dict[str, Any]] = []
+    metric = plan.get("metric")
+    for path in sorted(case_root.glob("runs/*/execution_capture.json")):
+        capture = load_json(path)
+        score = None
+        if capture.get("outcome") == "SUCCESS":
+            output_path = relative_case_path(case_root, capture.get("output", {}).get("path"))
+            if output_path is None or not output_path.is_file():
+                raise ValueError("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+            output = load_json(output_path)
+            score = output.get("validation_metrics", {}).get(metric)
+            if not strict_score(score):
+                raise ValueError("RC_CLAIM_METRIC_BINDING_MISSING")
+        attempts.append(
+            {
+                "candidate_id": capture.get("candidate_id"),
+                "outcome": capture.get("outcome"),
+                "random_seed": capture.get("seed"),
+                "run_id": capture.get("run_id"),
+                "validation_score": score,
+            }
+        )
+    return attempts
+
+
+def reject_self_attested_development_test(
+    output: dict[str, Any], *, test_field: str = "sealed_test_metrics_b64"
+) -> None:
+    """Reject a Development output that already carries a Final test payload."""
+    if test_field not in output:
+        return
+    encoded = output.get(test_field)
+    if isinstance(encoded, str):
+        try:
+            decoded = json.loads(base64.b64decode(encoded, validate=True))
+        except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+        if not isinstance(decoded, dict):
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    raise ValueError("RC_FINAL_TEST_SELF_ATTESTED_IN_DEVELOPMENT_OUTPUT")
+
+
+def _selected_success_run_id(attempts: list[dict[str, Any]], selected_candidate_id: str) -> str:
+    eligible = sorted(
+        (
+            item
+            for item in attempts
+            if item.get("candidate_id") == selected_candidate_id
+            and item.get("outcome") == "SUCCESS"
+        ),
+        key=lambda item: (str(item.get("random_seed")), str(item.get("run_id"))),
+    )
+    run_id = eligible[0].get("run_id") if eligible else None
+    if not isinstance(run_id, str):
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    return run_id
+
+
+def _verify_final_evaluation_ledger(
+    case_root: Path, ledger: dict[str, Any], *, run_id: str, decision_hash: str
+) -> dict[str, Any]:
+    if ledger.get("status", "SUCCESS") != "SUCCESS":
+        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
+    if (
+        not isinstance(ledger, dict)
+        or ledger.get("count") != 1
+        or ledger.get("run_id") != run_id
+        or ledger.get("selection_decision_hash") != decision_hash
+        or ledger.get("used_for_selection") is not False
+        or ledger.get("max_count") != 1
+    ):
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    payload_relative = ledger.get("payload_path")
+    payload_path = relative_case_path(case_root, payload_relative)
+    output_path = relative_case_path(case_root, ledger.get("development_output_path"))
+    capture_path = relative_case_path(case_root, ledger.get("capture_path"))
+    if payload_path is None or output_path is None or capture_path is None:
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+    if not payload_path.is_file() or not output_path.is_file() or not capture_path.is_file():
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+    if file_hash(output_path) != ledger.get("development_output_hash"):
+        raise ValueError("RC_FINAL_TEST_DEVELOPMENT_OUTPUT_MUTATED")
+    if file_hash(capture_path) != ledger.get("capture_sha256"):
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    verify_current_capture_files(case_root, load_json(capture_path))
+    if file_hash(payload_path) != ledger.get("payload_sha256"):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
+    payload = load_json(payload_path)
+    if not isinstance(payload, dict):
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    encoded = payload.get("sealed_test_metrics_b64")
+    if not isinstance(encoded, str):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+    try:
+        test_bytes = base64.b64decode(encoded, validate=True)
+        test_metrics = json.loads(test_bytes)
+    except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+    if not isinstance(test_metrics, dict):
+        raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+    decoded_hash = hashlib.sha256(test_bytes).hexdigest()
+    if decoded_hash != payload.get("sealed_test_payload_sha256"):
+        raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
+    if payload.get("authorization_hash") != ledger.get("authorization_hash"):
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    return {
+        "test_metrics": test_metrics,
+        "decoded_hash": decoded_hash,
+        "payload_path": payload_relative,
+        "payload_sha256": ledger["payload_sha256"],
+        "ledger": ledger,
+    }
+
+
+PREFINAL_SELECTION = "evidence/prefinal_selection_freeze.json"
+SCIENTIFIC_FINAL_LEDGER = "evidence/scientific_final_ledger.json"
+FINAL_PROTOCOL_EVENTS = "evidence/final_protocol_events.jsonl"
+
+
+def final_protocol_event(case_root: Path, event: str, **facts: Any) -> None:
+    path = case_root / FINAL_PROTOCOL_EVENTS
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = canonical_bytes({"event": event, "observed_at": utc_now(), **facts}) + b"\n"
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+    try:
+        os.write(fd, data)
+    finally:
+        os.close(fd)
+
+
+def require_selected_scientific_domain(
+    case_root: Path, run_id: str, checked: dict[str, Any]
+) -> None:
+    selection = read_artifact(case_root, "requirement_selection")["content"]["selection"][
+        "requirement_to_run_map"
+    ]
+    for requirement_id, run_ids in selection.items():
+        if run_id in run_ids:
+            record = checked.get("requirements", {}).get(requirement_id, {})
+            if record.get("feasible") is not True or not scientific_residuals_pass(
+                record.get("constraint_residuals")
+            ):
+                raise ValueError("RC_FINAL_SELECTED_DOMAIN_NOT_VERIFIED:" + requirement_id)
+
+
+def revalidate_prefinal_gates(case_root: Path, decision_hash: str) -> None:
+    comparison = read_artifact(case_root, "model_comparison")["content"]
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    robustness = read_artifact(case_root, "robustness_analysis")["content"]
+    if comparison.get("test_access", {}).get("mode") not in {
+        "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+        "CONDITIONAL_DEVELOPMENT_COMPARISON",
+    }:
+        raise ValueError("RC_FINAL_DEVELOPMENT_COMPARISON_REQUIRED")
+    if comparison.get("selection_decision_hash") != decision_hash:
+        raise ValueError("RC_FINAL_SELECTION_FREEZE_INVALID")
+    result = validate_requirement_selection(selection)
+    if result["status"] != "PASS":
+        raise ValueError(";".join(result["reason_codes"]))
+    result = validate_comparison(comparison, trusted_freezes(case_root), case_root=case_root)
+    if not result.accepted:
+        raise ValueError(";".join(result.reason_codes))
+    result = validate_robustness(robustness, comparison, case_root=case_root)
+    if not result.accepted:
+        raise ValueError(";".join(result.reason_codes))
+    ids = _selected_runtime_run_ids(selection)
+    if not ids:
+        raise ValueError("RC_FINAL_SELECTED_RUNS_MISSING")
+    manifests = {r: load_json(case_root / "runs" / r / "manifest.json") for r in ids}
+    for run_id in ids:
+        require_selected_scientific_domain(
+            case_root, run_id, load_json(case_root / "runs" / run_id / "scientific_check.json")
+        )
+    selected_candidates = {
+        m.get("configuration", {}).get("candidate_id") for m in manifests.values()
+    }
+    if comparison["selected_candidate_id"] not in selected_candidates:
+        raise ValueError("RC_FINAL_SELECTION_COMPARISON_MISMATCH")
+    semantic = read_artifact(case_root, "semantic_claim_support")["content"]
+    for result in (
+        validate_runtime_run_eligibility(selection, semantic, manifests),
+        validate_runtime_selection_compatibility(
+            selection,
+            manifests,
+            scenario_hash=resolve_scenario_identity(case_root),
+        ),
+    ):
+        if result["status"] != "PASS":
+            raise ValueError(";".join(result["reason_codes"]))
+
+
+def verify_prefinal_selection(case_root: Path, decision_hash: str) -> dict[str, Any]:
+    """Validate accepted predecessors before input hashing or a checker can execute."""
+    path = case_root / PREFINAL_SELECTION
+    if not path.is_file():
+        raise ValueError("RC_FINAL_PREREQUISITES_NOT_ACCEPTED")
+    freeze = load_json(path)
+    body = {k: v for k, v in freeze.items() if k != "freeze_sha256"}
+    if (
+        freeze.get("schema_version") != "prefinal-selection/v1"
+        or freeze.get("decision_hash") != decision_hash
+        or freeze.get("freeze_sha256") != canonical_hash(body)
+        or freeze.get("accepted_gates")
+        != ["DEVELOPMENT_COMPARISON", "REQUIREMENT_SELECTION", "DEVELOPMENT_ROBUSTNESS"]
+        or not freeze.get("selected_run_ids")
+        or parse_utc_timestamp(freeze.get("accepted_at")) is None
+    ):
+        raise ValueError("RC_FINAL_SELECTION_FREEZE_INVALID")
+    expected_paths = {
+        ARTIFACT_PATHS[k]
+        for k in (
+            "experiment_plan",
+            "problem_requirements",
+            "source_ledger",
+            "data_audit",
+            "data_sufficiency",
+            "assumptions_and_symbols",
+            "semantic_claim_support",
+            "model_comparison",
+            "requirement_selection",
+            "robustness_analysis",
+        )
+    }
+    for run_id in freeze["selected_run_ids"]:
+        expected_paths.update(
+            f"runs/{run_id}/{name}"
+            for name in (
+                "manifest.json",
+                "execution_capture.json",
+                "output.json",
+                "scientific_check.json",
+                "scientific_check_capture.json",
+            )
+        )
+    if set(freeze.get("bound_files", {})) != expected_paths:
+        raise ValueError("RC_FINAL_SELECTION_BINDINGS_INCOMPLETE")
+    for relative, digest in freeze["bound_files"].items():
+        target = relative_case_path(case_root, relative)
+        if target is None or not target.is_file() or file_hash(target) != digest:
+            raise ValueError("RC_FINAL_SELECTION_STALE")
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    if _selected_runtime_run_ids(selection) != freeze["selected_run_ids"]:
+        raise ValueError("RC_FINAL_SELECTION_STALE")
+    revalidate_prefinal_gates(case_root, decision_hash)
+    for run_id in freeze["selected_run_ids"]:
+        verify_current_capture_files(
+            case_root, load_json(case_root / "runs" / run_id / "execution_capture.json")
+        )
+    return freeze
+
+
+def prepare_final_selection(case_root: Path, *, decision_hash: str) -> dict[str, Any]:
+    """Accept real development gates and freeze their selected artifacts; no Final access."""
+    if (case_root / PREFINAL_SELECTION).exists():
+        return verify_prefinal_selection(case_root, decision_hash)
+    if load_state(case_root)["state"] != "RUNNING":
+        raise ValueError("RC_FINAL_PREPARATION_STATE_INVALID")
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    if not scientific_final_evaluation(plan):
+        raise ValueError("RC_FINAL_PREPARATION_DESIGN_INVALID")
+    comparison = read_artifact(case_root, "model_comparison")["content"]
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    robustness = read_artifact(case_root, "robustness_analysis")["content"]
+    if comparison.get("selection_decision_hash") != decision_hash:
+        raise ValueError("RC_FINAL_SELECTION_FREEZE_INVALID")
+    if comparison.get("test_access", {}).get("mode") not in {
+        "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+        "CONDITIONAL_DEVELOPMENT_COMPARISON",
+    }:
+        raise ValueError("RC_FINAL_DEVELOPMENT_COMPARISON_REQUIRED")
+    checked = validate_comparison(comparison, trusted_freezes(case_root), case_root=case_root)
+    if not checked.accepted:
+        raise ValueError(";".join(checked.reason_codes))
+    checked_selection = validate_requirement_selection(selection)
+    if checked_selection["status"] != "PASS":
+        raise ValueError(";".join(checked_selection["reason_codes"]))
+    checked = validate_robustness(robustness, comparison, case_root=case_root)
+    if not checked.accepted:
+        raise ValueError(";".join(checked.reason_codes))
+    selected_ids = _selected_runtime_run_ids(selection)
+    if not selected_ids:
+        raise ValueError("RC_FINAL_SELECTED_RUNS_MISSING")
+    paths = {
+        ARTIFACT_PATHS[k]
+        for k in (
+            "experiment_plan",
+            "problem_requirements",
+            "source_ledger",
+            "data_audit",
+            "data_sufficiency",
+            "assumptions_and_symbols",
+            "semantic_claim_support",
+            "model_comparison",
+            "requirement_selection",
+            "robustness_analysis",
+        )
+    }
+    for run_id in selected_ids:
+        manifest = load_json(case_root / "runs" / run_id / "manifest.json")
+        result = validate_manifest(
+            manifest, case_root=case_root, trusted_freezes=trusted_freezes(case_root)
+        )
+        if not result.accepted or manifest.get("decision_hash") != decision_hash:
+            raise ValueError("RC_FINAL_SELECTED_MANIFEST_INVALID")
+        checked_science = verify_scientific_check(case_root, run_id=run_id)
+        require_selected_scientific_domain(case_root, run_id, checked_science)
+        # Every selected requirement Run has its own output-bound robustness, including portfolios.
+        output = load_json(case_root / "runs" / run_id / "output.json")
+        alternate = copy.deepcopy(comparison)
+        candidate = manifest["configuration"]["candidate_id"]
+        alternate["selected_candidate_id"] = candidate
+        observed = {
+            "status": "VALIDATED",
+            "selected_model": candidate,
+            "run_id": run_id,
+            **{
+                key: manifest[key]
+                for key in ("input_hash", "configuration_hash", "output_hash", "decision_hash")
+            },
+            **output["robustness_evidence"],
+        }
+        result = validate_robustness(observed, alternate, case_root=case_root)
+        if not result.accepted:
+            raise ValueError(";".join(result.reason_codes))
+        paths.update(
+            f"runs/{run_id}/{name}"
+            for name in (
+                "manifest.json",
+                "execution_capture.json",
+                "output.json",
+                "scientific_check.json",
+                "scientific_check_capture.json",
+            )
+        )
+    freeze = {
+        "schema_version": "prefinal-selection/v1",
+        "accepted_at": utc_now(),
+        "decision_hash": decision_hash,
+        "selected_run_ids": selected_ids,
+        "accepted_gates": [
+            "DEVELOPMENT_COMPARISON",
+            "REQUIREMENT_SELECTION",
+            "DEVELOPMENT_ROBUSTNESS",
+        ],
+        "bound_files": {p: file_hash(case_root / p) for p in sorted(paths)},
+    }
+    freeze["freeze_sha256"] = canonical_hash(freeze)
+    write_json(case_root / PREFINAL_SELECTION, freeze, overwrite=False)
+    final_protocol_event(
+        case_root,
+        "DEVELOPMENT_GATES_ACCEPTED",
+        decision_hash=decision_hash,
+        freeze_sha256=freeze["freeze_sha256"],
+    )
+    final_protocol_event(
+        case_root,
+        "SELECTION_FROZEN",
+        selected_run_ids=selected_ids,
+        freeze_sha256=freeze["freeze_sha256"],
+    )
+    return freeze
+
+
+def verify_scientific_final(case_root: Path, *, decision_hash: str) -> dict[str, Any]:
+    """Receipt review re-hashes inputs/code/results; it never reruns a Final checker."""
+    freeze = verify_prefinal_selection(case_root, decision_hash)
+    ledger = load_json(case_root / SCIENTIFIC_FINAL_LEDGER)
+    if (
+        ledger.get("status") != "SUCCESS"
+        or ledger.get("count") != 1
+        or ledger.get("selection_freeze_sha256") != freeze["freeze_sha256"]
+        or ledger.get("decision_hash") != decision_hash
+        or ledger.get("selected_run_ids") != freeze["selected_run_ids"]
+        or ledger.get("test_access_count") != 0
+        or parse_utc_timestamp(ledger.get("started_at")) is None
+        or parse_utc_timestamp(ledger["started_at"]) < parse_utc_timestamp(freeze["accepted_at"])
+        or parse_utc_timestamp(ledger.get("ended_at")) is None
+        or parse_utc_timestamp(ledger["ended_at"]) < parse_utc_timestamp(ledger["started_at"])
+    ):
+        raise ValueError("RC_SCIENTIFIC_FINAL_NOT_SUCCESS")
+    results = {}
+    if set(ledger.get("checks", {})) != set(freeze["selected_run_ids"]):
+        raise ValueError("RC_SCIENTIFIC_FINAL_COVERAGE_INVALID")
+    for run_id, receipt in ledger["checks"].items():
+        if receipt.get("exit_code") != 0:
+            raise ValueError("RC_SCIENTIFIC_FINAL_NOT_SUCCESS")
+        for relative, digest in receipt.get("files", {}).items():
+            path = relative_case_path(case_root, relative)
+            if path is None or not path.is_file() or file_hash(path) != digest:
+                raise ValueError("RC_SCIENTIFIC_FINAL_RECEIPT_STALE")
+        required = {
+            f"runs/{run_id}/final_check.{suffix}" for suffix in ("json", "stdout", "stderr")
+        }
+        if set(receipt.get("files", {})) != required:
+            raise ValueError("RC_SCIENTIFIC_FINAL_RECEIPT_INCOMPLETE")
+        result = load_json(case_root / "runs" / run_id / "final_check.json")
+        if result != load_json(case_root / "runs" / run_id / "scientific_check.json"):
+            raise ValueError("RC_SCIENTIFIC_FINAL_RECALCULATION_MISMATCH")
+        require_selected_scientific_domain(case_root, run_id, result)
+        results[run_id] = result
+    return {"test_metrics": results, "decoded_hash": canonical_hash(results), "ledger": ledger}
+
+
+def evaluate_scientific_final(
+    case_root: Path,
+    *,
+    decision_hash: str,
+    timeout_seconds: int = 600,
+    allow_existing: bool = False,
+    requested_run_id: str | None = None,
+) -> dict[str, Any]:
+    final_protocol_event(case_root, "FINAL_REQUESTED", decision_hash=decision_hash)
+    try:
+        freeze = verify_prefinal_selection(case_root, decision_hash)
+        if requested_run_id is not None and requested_run_id not in freeze["selected_run_ids"]:
+            raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+        if not 1 <= timeout_seconds <= 900:
+            raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
+        if not scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
+            raise ValueError("RC_FINAL_PREPARATION_DESIGN_INVALID")
+        if not (case_root / SCIENTIFIC_FINAL_LEDGER).exists():
+            consume_start_budget(
+                case_root,
+                "independent_checker_starts",
+                "SCIENTIFIC-FINAL",
+                check_only=True,
+                needed=len(freeze["selected_run_ids"]),
+            )
+    except (OSError, ValueError, KeyError, TypeError):
+        final_protocol_event(case_root, "FINAL_REQUEST_REJECTED", reason="PREREQUISITES_INVALID")
+        raise
+    path = case_root / SCIENTIFIC_FINAL_LEDGER
+    if path.exists():
+        if allow_existing:
+            return verify_scientific_final(case_root, decision_hash=decision_hash)
+        raise ValueError("RC_SCIENTIFIC_FINAL_ALREADY_STARTED")
+    if load_state(case_root).get("state") != "RUNNING":
+        raise ValueError("RC_EXECUTE_STATE_INVALID")
+    consume_start_budget(case_root, "final_starts", "SCIENTIFIC-FINAL")
+    final_protocol_event(
+        case_root, "FINAL_AUTHORIZED", selection_freeze_sha256=freeze["freeze_sha256"]
+    )
+    ledger = {
+        "schema_version": "scientific-final/v1",
+        "status": "STARTED",
+        "count": 1,
+        "test_access_count": 0,
+        "decision_hash": decision_hash,
+        "selection_freeze_sha256": freeze["freeze_sha256"],
+        "selected_run_ids": freeze["selected_run_ids"],
+        "started_at": utc_now(),
+        "checks": {},
+    }
+    try:
+        write_json(path, ledger, overwrite=False)
+    except FileExistsError as exc:
+        raise ValueError("RC_SCIENTIFIC_FINAL_ALREADY_STARTED") from exc
+    final_protocol_event(
+        case_root, "FINAL_STARTED", selection_freeze_sha256=freeze["freeze_sha256"]
+    )
+    try:
+        for run_id in freeze["selected_run_ids"]:
+            capture = load_json(case_root / "runs" / run_id / "scientific_check_capture.json")
+            output = f"runs/{run_id}/final_check.json"
+            if (case_root / output).exists():
+                raise ValueError("RC_IMMUTABLE_OUTPUT_ALREADY_EXISTS")
+            argv = [sys.executable, *capture["argv"][:-1], output]
+            _, environment = controlled_subprocess_environment(
+                int(load_json(case_root / "runs" / run_id / "execution_capture.json")["seed"])
+            )
+            start = time.monotonic()
+            receipt = {"argv": argv[1:], "started_at": utc_now(), "files": {}}
+            ledger["checks"][run_id] = receipt
+            consume_start_budget(case_root, "independent_checker_starts", run_id)
+            write_json(path, ledger)
+            try:
+                process = subprocess.run(
+                    argv,
+                    cwd=case_root,
+                    env=environment,
+                    capture_output=True,
+                    check=False,
+                    timeout=timeout_seconds,
+                )
+            except subprocess.TimeoutExpired as exc:
+                receipt.update(
+                    exit_code=None,
+                    ended_at=utc_now(),
+                    elapsed_seconds=time.monotonic() - start,
+                    status="TIMED_OUT_AFTER_START",
+                )
+                for stream, raw in (("stdout", exc.stdout or b""), ("stderr", exc.stderr or b"")):
+                    rel = f"runs/{run_id}/final_check.{stream}"
+                    (case_root / rel).write_bytes(raw)
+                    receipt["files"][rel] = file_hash(case_root / rel)
+                if (case_root / output).is_file():
+                    receipt["files"][output] = file_hash(case_root / output)
+                raise
+            receipt.update(
+                exit_code=process.returncode,
+                ended_at=utc_now(),
+                elapsed_seconds=time.monotonic() - start,
+            )
+            for stream, raw in (("stdout", process.stdout), ("stderr", process.stderr)):
+                rel = f"runs/{run_id}/final_check.{stream}"
+                (case_root / rel).write_bytes(raw)
+                receipt["files"][rel] = file_hash(case_root / rel)
+            if (case_root / output).is_file():
+                receipt["files"][output] = file_hash(case_root / output)
+            if process.returncode != 0 or not (case_root / output).is_file():
+                raise ValueError("RC_SCIENTIFIC_FINAL_EXECUTION_FAILED")
+            if load_json(case_root / output) != load_json(
+                case_root / "runs" / run_id / "scientific_check.json"
+            ):
+                raise ValueError("RC_SCIENTIFIC_FINAL_RECALCULATION_MISMATCH")
+        verify_prefinal_selection(case_root, decision_hash)
+        ledger.update(status="SUCCESS", ended_at=utc_now())
+        write_json(path, ledger)
+        result = verify_scientific_final(case_root, decision_hash=decision_hash)
+        final_protocol_event(case_root, "FINAL_RECEIPT_ACCEPTED", ledger_sha256=file_hash(path))
+        return result
+    except (OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired) as exc:
+        ledger.update(
+            status="FAILED",
+            failure_reason=type(exc).__name__
+            if isinstance(exc, subprocess.TimeoutExpired)
+            else str(exc),
+            ended_at=utc_now(),
+        )
+        write_json(path, ledger)
+        final_protocol_event(case_root, "FINAL_FAILED", ledger_sha256=file_hash(path))
+        raise ValueError("RC_SCIENTIFIC_FINAL_EXECUTION_FAILED") from exc
+
+
+def evaluate_authorized_final_test(
+    case_root: Path,
+    *,
+    run_id: str,
+    decision_hash: str,
+    timeout_seconds: int = 600,
+    allow_existing: bool = False,
+) -> dict[str, Any]:
+    """Run one hash-bound Final test evaluation after development selection."""
+    if timeout_seconds < 1 or timeout_seconds > 900:
+        raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
+    if not HEX64.fullmatch(decision_hash):
+        raise ValueError("RC_RUN_DECISION_HASH_INVALID")
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    if scientific_final_evaluation(plan):
+        return evaluate_scientific_final(
+            case_root,
+            decision_hash=decision_hash,
+            timeout_seconds=timeout_seconds,
+            allow_existing=allow_existing,
+            requested_run_id=run_id,
+        )
+    if load_state(case_root).get("state") != "RUNNING" and not (
+        allow_existing and (case_root / FINAL_EVALUATION_LEDGER).is_file()
+    ):
+        raise ValueError("RC_EXECUTE_STATE_INVALID")
+    if development_only_evaluation(plan):
+        raise ValueError("RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN")
+    trusted_freezes(case_root)
+    ledger_path = case_root / FINAL_EVALUATION_LEDGER
+    if ledger_path.is_file():
+        if not allow_existing:
+            raise ValueError("RC_FINAL_TEST_ALREADY_ACCESSED")
+        return _verify_final_evaluation_ledger(
+            case_root, load_json(ledger_path), run_id=run_id, decision_hash=decision_hash
+        )
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    expected = {
+        (candidate_id, seed)
+        for candidate_id in plan["candidate_ids"]
+        for seed in plan["random_seeds"]
+    }
+    attempts = _development_attempt_registry(case_root, plan)
+    observed = {(item["candidate_id"], item["random_seed"]) for item in attempts}
+    if expected - observed:
+        raise ValueError("RC_FINAL_TEST_PREMATURE")
+    try:
+        selected = select_development_candidate(attempts, plan)
+    except ValueError as exc:
+        if str(exc) == "VALIDATION_NO_ELIGIBLE_SUCCESS":
+            raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED") from exc
+        raise
+    if canonical_hash(selected) != decision_hash:
+        raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+    if run_id != _selected_success_run_id(attempts, selected["selected_candidate_id"]):
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    capture_path = case_root / "runs" / run_id / "execution_capture.json"
+    if not capture_path.is_file():
+        raise ValueError("RC_EXECUTION_CAPTURE_MISSING")
+    capture = load_json(capture_path)
+    if capture.get("candidate_id") != selected["selected_candidate_id"]:
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    if capture.get("outcome") != "SUCCESS" or capture.get("run_id") != run_id:
+        raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+    output_relative = capture.get("output", {}).get("path")
+    output_path = relative_case_path(case_root, output_relative)
+    if output_path is None or not output_path.is_file():
+        raise ValueError("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+    development_output_hash = file_hash(output_path)
+    if development_output_hash != capture.get("output", {}).get("sha256"):
+        raise ValueError("RC_EXECUTION_CAPTURE_OUTPUT_MISMATCH")
+    build_captured_run_manifest(case_root, run_id=run_id, decision_hash=decision_hash)
+    verify_current_capture_files(case_root, capture)
+    reject_self_attested_development_test(load_json(output_path))
+    argv = capture.get("argv")
+    if not isinstance(argv, list) or not argv or not isinstance(argv[0], str):
+        raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
+    code_path = argv[0]
+    authorization = {
+        "schema_version": "final-evaluation-authorization/v1",
+        "run_id": run_id,
+        "candidate_id": capture["candidate_id"],
+        "seed": capture.get("seed"),
+        "selection_decision_hash": decision_hash,
+        "development_output_path": output_relative,
+        "development_output_hash": development_output_hash,
+        "capture_path": capture_path.relative_to(case_root).as_posix(),
+        "capture_sha256": file_hash(capture_path),
+        "code_path": code_path,
+        "used_for_selection": False,
+        "max_count": 1,
+    }
+    authorization_hash = canonical_hash(authorization)
+    payload_relative = f"runs/{run_id}/sealed_test.json"
+    payload_path = case_root / payload_relative
+    if payload_path.exists():
+        raise ValueError("RC_IMMUTABLE_OUTPUT_ALREADY_EXISTS")
+    environment, process_environment = controlled_subprocess_environment(int(capture.get("seed")))
+    logical_argv = [
+        code_path,
+        "--case-root",
+        ".",
+        "--candidate-id",
+        str(capture["candidate_id"]),
+        "--seed",
+        str(capture.get("seed")),
+        "--output",
+        str(output_relative),
+        "--final-evaluation",
+        "--authorization-hash",
+        authorization_hash,
+        "--final-output",
+        payload_relative,
+    ]
+    ledger = {
+        **authorization,
+        "authorization_hash": authorization_hash,
+        "count": 1,
+        "status": "STARTED",
+        "accessed_at": utc_now(),
+        "payload_path": payload_relative,
+    }
+    # Consume the access before starting the evaluator; failure and timeout cannot buy a retry.
+    write_json(ledger_path, ledger, overwrite=False)
+    try:
+        try:
+            completed = subprocess.run(
+                [sys.executable, *logical_argv],
+                cwd=case_root,
+                env=process_environment,
+                check=False,
+                capture_output=True,
+                timeout=timeout_seconds,
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED") from exc
+        ledger.update(exit_code=completed.returncode)
+        for name, data in (("stdout", completed.stdout), ("stderr", completed.stderr)):
+            relative = f"runs/{run_id}/final_evaluation.{name}"
+            (case_root / relative).write_bytes(data)
+            ledger[f"{name}_sha256"] = hashlib.sha256(data).hexdigest()
+        if completed.returncode != 0 or not payload_path.is_file():
+            raise ValueError("RC_FINAL_TEST_EVALUATION_FAILED")
+        if file_hash(output_path) != development_output_hash:
+            raise ValueError("RC_FINAL_TEST_DEVELOPMENT_OUTPUT_MUTATED")
+        payload = load_json(payload_path)
+        if not isinstance(payload, dict):
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+        encoded = payload.get("sealed_test_metrics_b64")
+        if not isinstance(encoded, str):
+            raise ValueError("RC_FINAL_TEST_PAYLOAD_MISSING")
+        try:
+            test_bytes = base64.b64decode(encoded, validate=True)
+            test_metrics = json.loads(test_bytes)
+        except (binascii.Error, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID") from exc
+        if not isinstance(test_metrics, dict):
+            raise ValueError("RC_SEALED_TEST_PAYLOAD_INVALID")
+        decoded_hash = hashlib.sha256(test_bytes).hexdigest()
+        if decoded_hash != payload.get("sealed_test_payload_sha256"):
+            raise ValueError("RC_FINAL_TEST_PAYLOAD_HASH_MISMATCH")
+        if payload.get("authorization_hash") != authorization_hash:
+            raise ValueError("RC_FINAL_TEST_AUTHORIZATION_HASH_MISMATCH")
+        if payload.get("run_id") not in {None, run_id}:
+            raise ValueError("RC_FINAL_TEST_RUN_NOT_SELECTED")
+        ledger.update(
+            status="SUCCESS",
+            payload_sha256=file_hash(payload_path),
+            decoded_payload_sha256=decoded_hash,
+        )
+        write_json(ledger_path, ledger)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        ledger.update(status="FAILED", failure_reason=str(exc), ended_at=utc_now())
+        write_json(ledger_path, ledger)
+        raise
+    return {
+        "test_metrics": test_metrics,
+        "decoded_hash": decoded_hash,
+        "payload_path": payload_relative,
+        "payload_sha256": ledger["payload_sha256"],
+        "ledger": ledger,
     }
 
 
@@ -4635,7 +7019,7 @@ def build_captured_run_manifest(
         "freeze_bindings": capture.get("freeze_bindings"),
         "decision_hash": decision_hash,
         "capture_record": {
-            "path": str(capture_path.relative_to(case_root)),
+            "path": capture_path.relative_to(case_root).as_posix(),
             "sha256": file_hash(capture_path),
         },
     }
@@ -4665,7 +7049,7 @@ def seal_captured_run(case_root: Path, *, run_id: str, decision_hash: str) -> di
     return {
         "run_id": run_id,
         "outcome": manifest["outcome"],
-        "manifest_path": str(manifest_path.relative_to(case_root)),
+        "manifest_path": manifest_path.relative_to(case_root).as_posix(),
         "manifest_sha256": file_hash(manifest_path),
     }
 
@@ -4685,13 +7069,16 @@ def record_transition(
     index = STATES.index(previous) + 1
     if index >= len(STATES) or STATES[index] != next_state:
         raise ValueError("RC_STATE_TRANSITION_INVALID")
-    missing = [path for path in evidence if not (case_root / path).is_file()]
+    canonical_evidence = [Path(path).as_posix() for path in evidence]
+    missing = [path for path in canonical_evidence if not (case_root / path).is_file()]
     if missing:
         raise ValueError("RC_TRANSITION_EVIDENCE_MISSING")
     updated = copy.deepcopy(state)
     updated["state"] = next_state
     updated["last_gate"] = gate
-    updated["evidence_bindings"].update({path: file_hash(case_root / path) for path in evidence})
+    updated["evidence_bindings"].update(
+        {path: file_hash(case_root / path) for path in canonical_evidence}
+    )
     updated["history"].append(
         {
             "sequence": len(updated["history"]),
@@ -4699,7 +7086,7 @@ def record_transition(
             "to": next_state,
             "gate": gate,
             "status": "PASS",
-            "evidence": evidence,
+            "evidence": canonical_evidence,
         }
     )
     if not check:
@@ -4901,7 +7288,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             raise ValueError("RC_VERIFIED_RUNS_INSUFFICIENT")
         target = "RUN_COMPLETED" if current == "RUNNING" else "RUN_VALIDATED"
         gate = "GATE_RUN_COMPLETION" if current == "RUNNING" else "GATE_REPRODUCIBILITY_MANIFEST"
-        evidence = [str(path.relative_to(case_root)) for path in manifests]
+        evidence = [path.relative_to(case_root).as_posix() for path in manifests]
         for path in manifests:
             manifest = load_json(path)
             for output_record in manifest.get("output_files", []):
@@ -4949,6 +7336,11 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             check=check,
         )
     if current == "ROBUSTNESS_VALIDATED":
+        if scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
+            decision = read_artifact(case_root, "model_comparison")["content"][
+                "selection_decision_hash"
+            ]
+            verify_scientific_final(case_root, decision_hash=decision)
         final = read_artifact(case_root, "final_result")["content"]
         comparison = read_artifact(case_root, "model_comparison")["content"]
         if final.get("contract_version") == "final-result/v2":
@@ -5019,10 +7411,13 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             )
             if not result.accepted:
                 raise ValueError(";".join(result.reason_codes))
-            semantic_result = validate_semantic_claim_bundle(semantic)
+            semantic_result = validate_case_semantic_facts(case_root, semantic)
             if semantic_result.get("status") != "PASS":
                 raise ValueError(";".join(semantic_result.get("reason_codes", [])))
-            manifest_paths = [str(manifest_path.relative_to(case_root))]
+            manifest_paths = [manifest_path.relative_to(case_root).as_posix()]
+        fact_result = validate_case_semantic_facts(case_root, semantic)
+        if fact_result.get("status") != "PASS":
+            raise ValueError(";".join(fact_result.get("reason_codes", [])))
         return record_transition(
             case_root,
             state,
@@ -5213,6 +7608,27 @@ def build_parser() -> argparse.ArgumentParser:
     execute.add_argument("--seed", type=int, required=True)
     execute.add_argument("--code-path", required=True)
     execute.add_argument("--timeout-seconds", type=int, default=600)
+    evaluate_final = subparsers.add_parser(
+        "evaluate-final",
+        help="在候选选择后对 selected Run 做一次 hash-bound Final test 评估",
+    )
+    prepare = subparsers.add_parser(
+        "prepare-final", help="Accept development gates and freeze Final selection"
+    )
+    prepare.add_argument("--case-root", type=Path, required=True)
+    prepare.add_argument("--decision-hash", required=True)
+    evaluate_final.add_argument("--review-existing", action="store_true")
+    evaluate_final.add_argument("--case-root", type=Path, required=True)
+    evaluate_final.add_argument("--run-id", required=True)
+    evaluate_final.add_argument("--decision-hash", required=True)
+    evaluate_final.add_argument("--timeout-seconds", type=int, default=600)
+    verify = subparsers.add_parser(
+        "verify-evidence", help="捕获冻结独立程序复算，不访问 Final test"
+    )
+    verify.add_argument("--case-root", type=Path, required=True)
+    verify.add_argument("--run-id", required=True)
+    verify.add_argument("--code-path", required=True)
+    verify.add_argument("--timeout-seconds", type=int, default=600)
     seal = subparsers.add_parser("seal-run", help="复核 capture 后生成 Run manifest")
     seal.add_argument("--case-root", type=Path, required=True)
     seal.add_argument("--run-id", required=True)
@@ -5231,7 +7647,7 @@ def run_smoke(case_root: Path, case_id: str, kind: str, dry_run: bool) -> dict[s
     return run_synthetic_case(sys.modules[__name__], case_root, case_id, kind)
 
 
-def main(argv: list[str] | None = None) -> int:
+def _dispatch(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         if args.command == "init":
@@ -5349,7 +7765,7 @@ def main(argv: list[str] | None = None) -> int:
                 if not wrapper_result.accepted:
                     return command_result("semantic-check", wrapper_result)
                 value = value.get("content")
-            outcome = validate_semantic_claim_bundle(value)
+            outcome = validate_case_semantic_facts(args.case_root, value)
             accepted = outcome.get("status") == "PASS"
             return emit(
                 {
@@ -5425,6 +7841,43 @@ def main(argv: list[str] | None = None) -> int:
                 timeout_seconds=args.timeout_seconds,
             )
             return emit({"command": "execute", "status": "PASS", "result": result})
+        if args.command == "prepare-final":
+            result = prepare_final_selection(args.case_root, decision_hash=args.decision_hash)
+            return emit({"command": "prepare-final", "status": "PASS", "result": result})
+        if args.command == "evaluate-final":
+            result = evaluate_authorized_final_test(
+                args.case_root,
+                run_id=args.run_id,
+                decision_hash=args.decision_hash,
+                timeout_seconds=args.timeout_seconds,
+                allow_existing=args.review_existing,
+            )
+            return emit(
+                {
+                    "command": "evaluate-final",
+                    "status": "PASS",
+                    "result": {
+                        "run_id": args.run_id,
+                        "payload_path": result.get("payload_path"),
+                        "payload_sha256": result.get("payload_sha256"),
+                        "decoded_payload_sha256": result["decoded_hash"],
+                        "ledger_path": SCIENTIFIC_FINAL_LEDGER
+                        if "selected_run_ids" in result["ledger"]
+                        else FINAL_EVALUATION_LEDGER,
+                        "authorization_hash": result["ledger"].get(
+                            "authorization_hash", result["ledger"].get("selection_freeze_sha256")
+                        ),
+                    },
+                }
+            )
+        if args.command == "verify-evidence":
+            result = execute_scientific_check(
+                args.case_root,
+                run_id=args.run_id,
+                code_path=args.code_path,
+                timeout_seconds=args.timeout_seconds,
+            )
+            return emit({"command": "verify-evidence", "status": "PASS", "result": result})
         if args.command == "seal-run":
             result = seal_captured_run(
                 args.case_root,
@@ -5487,6 +7940,18 @@ def main(argv: list[str] | None = None) -> int:
         },
         EXIT_INPUT,
     )
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    root = getattr(args, "case_root", None)
+    if root is None or args.command == "status" or getattr(args, "dry_run", False):
+        return _dispatch(argv)
+    try:
+        with case_writer(root):
+            return _dispatch(argv)
+    except (OSError, ValueError, ImportError) as exc:
+        return emit({"status": "BLOCK", "reason_codes": [str(exc)]}, EXIT_GATE)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,489 @@
+{
+  "artifact_type": "requirement_selection",
+  "content": {
+    "contract_version": "requirement-selection/v1",
+    "requirements": [
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-VALIDITY",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-VALIDITY"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "DATA.known_rows",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-COMPOSITION",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-COMPOSITION"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "DATA.maximum_closed_sum_error",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-1A",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q1.association_table_count",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-1B",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q1.paired_artifact_count",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-1C",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1C"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q1.backcast_artifact_count",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-2A",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.cv_artifact_count",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-2B",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.subtype_assigned_artifact_count",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-2C",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2C"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q2.minimum_perturbation_feature_change",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-3A",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q3.unknown_available_label_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-3B",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q3.mean_unknown_perturbation_flip_rate",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-4A",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q4.association_artifact_count",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-4B",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "Q4.association_bootstrap_replicates",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "BLOCK",
+        "requirement_id": "REQ-EVIDENCE",
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-EVIDENCE"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "DATA.scientific_requirement_count",
+        "support_predicates": {
+          "metric_bound": false
+        }
+      }
+    ],
+    "runs": [
+      {
+        "configuration_hash": "53528884ae16ad3b812b1948ca14b8ff149549dfd99ebce406801fefd24a36ac",
+        "current": true,
+        "input_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+        "metric_ids": [
+          "validation_composite_loss",
+          "DATA.known_rows",
+          "DATA.maximum_closed_sum_error",
+          "DATA.scientific_requirement_count",
+          "DATA.valid_known_rows",
+          "Q1.association_table_count",
+          "Q1.backcast_artifact_count",
+          "Q1.paired_artifact_count",
+          "Q1.total_permutation_replicates",
+          "Q1.type_effect_count",
+          "Q2.cv_artifact_count",
+          "Q2.cv_internal_test_overlap_count",
+          "Q2.cv_prediction_count",
+          "Q2.minimum_perturbation_feature_change",
+          "Q2.subtype_assigned_artifact_count",
+          "Q2.subtype_bootstrap_requested_per_type",
+          "Q2.subtype_cluster_count",
+          "Q3.mean_unknown_perturbation_flip_rate",
+          "Q3.unknown_available_label_count",
+          "Q3.unknown_in_training_domain_count",
+          "Q3.unknown_prediction_count",
+          "Q4.association_artifact_count",
+          "Q4.association_bootstrap_replicates",
+          "Q4.component_pair_count",
+          "Q4.undefined_correlation_entry_count"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "scenario_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-VALIDITY",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-COMPOSITION",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1C",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2C",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-EVIDENCE"
+        ],
+        "supported_requirement_ids": [
+          "REQ-VALIDITY",
+          "REQ-COMPOSITION",
+          "REQ-1A",
+          "REQ-1B",
+          "REQ-1C",
+          "REQ-2A",
+          "REQ-2B",
+          "REQ-2C",
+          "REQ-3A",
+          "REQ-3B",
+          "REQ-4A",
+          "REQ-4B",
+          "REQ-EVIDENCE"
+        ]
+      }
+    ],
+    "selection": {
+      "aggregate_objective": "validation_composite_loss",
+      "compatibility": {
+        "kind": "SINGLE_RUN_V1",
+        "ordered_ids": [
+          "REQ-VALIDITY",
+          "REQ-COMPOSITION",
+          "REQ-1A",
+          "REQ-1B",
+          "REQ-1C",
+          "REQ-2A",
+          "REQ-2B",
+          "REQ-2C",
+          "REQ-3A",
+          "REQ-3B",
+          "REQ-4A",
+          "REQ-4B",
+          "REQ-EVIDENCE"
+        ],
+        "permuted_ids": [
+          "REQ-VALIDITY",
+          "REQ-COMPOSITION",
+          "REQ-1A",
+          "REQ-1B",
+          "REQ-1C",
+          "REQ-2A",
+          "REQ-2B",
+          "REQ-2C",
+          "REQ-3A",
+          "REQ-3B",
+          "REQ-4A",
+          "REQ-4B",
+          "REQ-EVIDENCE"
+        ],
+        "version": "compatibility/v1"
+      },
+      "compatibility_checks": [
+        "INPUT",
+        "SCENARIO",
+        "CONSTRAINTS"
+      ],
+      "cross_requirement_constraints": [],
+      "dependency_bridges": [],
+      "limitations": [
+        "A global Development choice cannot establish each question's optimum."
+      ],
+      "requirement_to_output_map": {
+        "REQ-1A": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1A"
+        ],
+        "REQ-1B": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1B"
+        ],
+        "REQ-1C": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1C"
+        ],
+        "REQ-2A": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2A"
+        ],
+        "REQ-2B": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2B"
+        ],
+        "REQ-2C": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2C"
+        ],
+        "REQ-3A": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3A"
+        ],
+        "REQ-3B": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3B"
+        ],
+        "REQ-4A": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4A"
+        ],
+        "REQ-4B": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4B"
+        ],
+        "REQ-COMPOSITION": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-COMPOSITION"
+        ],
+        "REQ-EVIDENCE": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-EVIDENCE"
+        ],
+        "REQ-VALIDITY": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-VALIDITY"
+        ]
+      },
+      "requirement_to_run_map": {
+        "REQ-1A": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-1B": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-1C": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-2A": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-2B": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-2C": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-3A": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-3B": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-4A": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-4B": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-COMPOSITION": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-EVIDENCE": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "REQ-VALIDITY": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ]
+      },
+      "selection_mode": "GLOBAL_JOINT",
+      "shared_input_hashes": [
+        "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762"
+      ],
+      "shared_scenario_hashes": [
+        "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762"
+      ],
+      "tradeoff_rule": "ONE_COMMON_CONDITIONAL_SCENARIO; NOT_PER_QUESTION_OPTIMALITY"
+    }
+  },
+  "content_hash": "4eae7d7ad57bfa65868e7b11f76c1bfc330b3d633049d6d4a0e722401f53149a",
+  "status": "ACCEPTED"
+}

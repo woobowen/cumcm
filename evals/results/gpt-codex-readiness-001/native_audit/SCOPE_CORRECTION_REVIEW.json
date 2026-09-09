@@ -1,0 +1,396 @@
+{
+  "schema_version": "bounded-readonly-scope-correction-review/v1",
+  "old_subject": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+  "new_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+  "conclusion": "DIRECTED_SCOPE_CORRECTION_SUPPORTED_AWAIT_INDEPENDENT_TEST_AND_CI2_EVIDENCE",
+  "non_authoritative": true,
+  "formal_acceptance": false,
+  "all_checks_passed": true,
+  "checks": {
+    "exact_declared_change_set": true,
+    "readme_and_index_only_remove_exact_operator_navigation": true,
+    "all_test_and_helper_logic_preserved_except_fixture_path": true,
+    "five_test_functions_preserve_eleven_parametrized_cases": true,
+    "guard_whole_file_identical_and_frozen_predicates_unchanged": true,
+    "new_entry_and_tests_outside_existing_static_mappings": true,
+    "no_existing_qualification_artifact_or_core_change_in_anchored_diff": true,
+    "manifest_only_adds_relocated_test_hash_and_honest_pending_status": true,
+    "entry_explicitly_separates_operator_tests_from_original_ci": true,
+    "first_ci_failure_preserved_log_hash_exit2_and_block": true,
+    "prior_auditor_reports_and_findings_frozen": true
+  },
+  "test_semantics": {
+    "function_count": 5,
+    "parametrized_case_count": 11,
+    "cases": {
+      "test_no_case_cannot_inherit_example_or_execution_authority": 1,
+      "test_archive_incomplete_or_changed_payload_fails_closed": 3,
+      "test_example_and_next_preserve_original_inner_identity": 1,
+      "test_symlink_source_rejected_without_copying_outside": 1,
+      "test_unsafe_zip_member_paths_rejected": 5
+    },
+    "old_fixture_path": "Path(__file__).resolve().parents[2] / 'docs/gpt_codex_workflow/tools/package_operator_kit.py'",
+    "new_fixture_path": "Path(__file__).resolve().parents[1] / 'tools/package_operator_kit.py'",
+    "tests_executed_here": false
+  },
+  "boundary_rows": [
+    {
+      "path": "OPERATOR_START_HERE.md",
+      "qualification_mapping_member": false,
+      "known_runtime_mapping_member": false
+    },
+    {
+      "path": "README.md",
+      "qualification_mapping_member": true,
+      "known_runtime_mapping_member": true
+    },
+    {
+      "path": "docs/INDEX.md",
+      "qualification_mapping_member": true,
+      "known_runtime_mapping_member": true
+    },
+    {
+      "path": "docs/gpt_codex_workflow/operator_kit_manifest.json",
+      "qualification_mapping_member": false,
+      "known_runtime_mapping_member": false
+    },
+    {
+      "path": "docs/gpt_codex_workflow/tests/test_operator_kit_packages.py",
+      "qualification_mapping_member": false,
+      "known_runtime_mapping_member": false
+    },
+    {
+      "path": "evals/results/gpt-codex-readiness-001/WORK_LOG.md",
+      "qualification_mapping_member": false,
+      "known_runtime_mapping_member": false
+    },
+    {
+      "path": "evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.json",
+      "qualification_mapping_member": false,
+      "known_runtime_mapping_member": false
+    },
+    {
+      "path": "evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.log",
+      "qualification_mapping_member": false,
+      "known_runtime_mapping_member": false
+    },
+    {
+      "path": "tests/unit/test_operator_kit_packages.py",
+      "qualification_mapping_member": true,
+      "known_runtime_mapping_member": false
+    }
+  ],
+  "guard_sha256": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c",
+  "first_ci": {
+    "receipt": {
+      "command": "bash scripts/ci.sh",
+      "subject": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+      "subject_tree": "34823a74ab818e2d34054c438cb4860038424798",
+      "started_at_utc": "2026-09-09T17:50:09.512068+00:00",
+      "ended_at_utc": "2026-09-09T17:58:43.316854+00:00",
+      "elapsed_seconds": 493.222,
+      "exit_code": 2,
+      "raw_sha256": "a016fa6e111ad98b192c74bac3d5851455c51b905c20c3b974d1ad66511569cc",
+      "view_sha256": "a016fa6e111ad98b192c74bac3d5851455c51b905c20c3b974d1ad66511569cc",
+      "transformation": "REPOSITORY_ABSOLUTE_PATH_TO_REPO_ROOT",
+      "environment": "LOCAL_WSL2_LINUX_FEATURE_COMMIT",
+      "ci_attempt": 1
+    },
+    "verified_log_sha256": "a016fa6e111ad98b192c74bac3d5851455c51b905c20c3b974d1ad66511569cc",
+    "pytest_passed": 2380,
+    "pytest_skipped": 1,
+    "terminal": {
+      "candidate_sha256": "8270baae2f5c18158ae00b8112bff351fce2102bb88241ac438d8c0e31f68e6c",
+      "decision_id": "DECISION-MODULAR-WORKBENCH-004C7",
+      "new_independent_validation": 0,
+      "old_validation": {
+        "passed": 0,
+        "total": 2
+      },
+      "reason_codes": [
+        "WB_CURRENT_IMPLEMENTATION_DRIFT:README.md",
+        "WB_CURRENT_IMPLEMENTATION_DRIFT:docs/INDEX.md",
+        "WB_CURRENT_PATH_SET_DRIFT",
+        "WB_DECISION_REPLAY_MISMATCH",
+        "WB_RECEIPT_INVALID:known_interface:WB_KNOWN_EXECUTED_RUNTIME_DRIFT"
+      ],
+      "schema_version": "modular-workbench-adjudication/v1",
+      "scope": "MODULAR_WORKBENCH_ENGINEERING_ONLY",
+      "status": "BLOCK",
+      "subject_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+      "team_compliance_review": "NOT_RUN"
+    }
+  },
+  "limits": [
+    "Only the anchored 6b505c44..bb29f03 diff was inspected; no independent d1 full qualification/runtime-map equality computation was performed.",
+    "Guard membership was independently classified from unchanged static constants; guard evaluate/mapping functions were not executed.",
+    "Eleven tests were AST-compared and counted, not collected or executed; their relocation does not establish default CI inclusion.",
+    "Historical qualification artifacts were unchanged across these two commits, which does not alone prove equality to every earlier baseline.",
+    "CI2 and later status/metadata commits are outside this fixed diff audit."
+  ],
+  "execution": {
+    "only_self_authored_standard_library_and_read_only_git": true,
+    "repository_programs_executed": false,
+    "case_cli_executed": false,
+    "model_checker_final_starts": 0,
+    "ci_runs": 0,
+    "formal_state_writes": 0,
+    "network_accesses": 0,
+    "dependency_installs": []
+  },
+  "git_read_commands": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "bb29f03^{commit}"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "4b92898124ace64be720176df18fe954dd5b092fa52b1b64baff2281f550cd57"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--no-ext-diff",
+        "--find-renames",
+        "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "4a12439ca3518e561113ab7939fd702e08679a77606fc21d059288731652699b"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--no-ext-diff",
+        "--no-renames",
+        "--name-status",
+        "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "97568a810892916eccdd9f3ff2d711eb61b896e3ccb9fc42dfda3269bc58e271"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "6b505c44b1d160372b9c6ca696bce4fa838043b1:README.md"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "15742a7f011f32326fd0ee190720cead54ba1647fa1f3d1f81773e7c19459b3f"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:README.md"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "4c9d0121c4ba19ce5337faae5d91f5dd9670ac249587342a52d8541b69a46477"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "6b505c44b1d160372b9c6ca696bce4fa838043b1:docs/INDEX.md"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "2b20fe1753686e5d569f68b1f20a6897a62e935204b69c05cd40161141f194b1"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:docs/INDEX.md"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "fbf1c498c1765ea09c0e0bd1536b938d66940d62846ffed3628396aea00723ad"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "6b505c44b1d160372b9c6ca696bce4fa838043b1:tests/unit/test_operator_kit_packages.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "c582f86342412dedde93b05fe38371b548faf406b592d502d5c62db1edc17ffa"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:docs/gpt_codex_workflow/tests/test_operator_kit_packages.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "ed3d3a5ba6935ac3aa4f0dd78fd457846efc376f542c29d5e54088cfe550e963"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "6b505c44b1d160372b9c6ca696bce4fa838043b1:scripts/check_modular_workbench.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:scripts/check_modular_workbench.py"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "6b505c44b1d160372b9c6ca696bce4fa838043b1:docs/gpt_codex_workflow/operator_kit_manifest.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "cab4ad6ef3ccadd4b5520d70d330bdb4a0879ce92d4f6988ebea25ec347a2aec"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:docs/gpt_codex_workflow/operator_kit_manifest.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "0bf85c92776a23c66ebcad7352d5e62ec26856dee605844f67d05ff1bf598ac2"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:OPERATOR_START_HERE.md"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "9f54a93e3a3207539ead483f7862447e97e308b14dcf1e384ef0e86d22f438fc"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.log"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "a016fa6e111ad98b192c74bac3d5851455c51b905c20c3b974d1ad66511569cc"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.json"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "5890c366f3e64485dc5548bd34cc3f69a82ac6c23310b01d7b73de092c92ec54"
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "bb29f03fb8eb4edc5513b1b9e8515089feb51b13:evals/results/gpt-codex-readiness-001/WORK_LOG.md"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "0dbe9e0dac07ccd101a83bb6157ba664a477a3f4a732a89348077e885ece0324"
+    }
+  ],
+  "read_inventory": [
+    {
+      "git_commit": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+      "path": "README.md",
+      "bytes": 9858,
+      "sha256": "15742a7f011f32326fd0ee190720cead54ba1647fa1f3d1f81773e7c19459b3f"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "README.md",
+      "bytes": 9713,
+      "sha256": "4c9d0121c4ba19ce5337faae5d91f5dd9670ac249587342a52d8541b69a46477"
+    },
+    {
+      "git_commit": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+      "path": "docs/INDEX.md",
+      "bytes": 2079,
+      "sha256": "2b20fe1753686e5d569f68b1f20a6897a62e935204b69c05cd40161141f194b1"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "docs/INDEX.md",
+      "bytes": 1939,
+      "sha256": "fbf1c498c1765ea09c0e0bd1536b938d66940d62846ffed3628396aea00723ad"
+    },
+    {
+      "git_commit": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+      "path": "tests/unit/test_operator_kit_packages.py",
+      "bytes": 3723,
+      "sha256": "c582f86342412dedde93b05fe38371b548faf406b592d502d5c62db1edc17ffa"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "docs/gpt_codex_workflow/tests/test_operator_kit_packages.py",
+      "bytes": 3675,
+      "sha256": "ed3d3a5ba6935ac3aa4f0dd78fd457846efc376f542c29d5e54088cfe550e963"
+    },
+    {
+      "git_commit": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+      "path": "scripts/check_modular_workbench.py",
+      "bytes": 42917,
+      "sha256": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "scripts/check_modular_workbench.py",
+      "bytes": 42917,
+      "sha256": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c"
+    },
+    {
+      "git_commit": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+      "path": "docs/gpt_codex_workflow/operator_kit_manifest.json",
+      "bytes": 2885,
+      "sha256": "cab4ad6ef3ccadd4b5520d70d330bdb4a0879ce92d4f6988ebea25ec347a2aec"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "docs/gpt_codex_workflow/operator_kit_manifest.json",
+      "bytes": 3004,
+      "sha256": "0bf85c92776a23c66ebcad7352d5e62ec26856dee605844f67d05ff1bf598ac2"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "OPERATOR_START_HERE.md",
+      "bytes": 889,
+      "sha256": "9f54a93e3a3207539ead483f7862447e97e308b14dcf1e384ef0e86d22f438fc"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.log",
+      "bytes": 5709,
+      "sha256": "a016fa6e111ad98b192c74bac3d5851455c51b905c20c3b974d1ad66511569cc"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.json",
+      "bytes": 616,
+      "sha256": "5890c366f3e64485dc5548bd34cc3f69a82ac6c23310b01d7b73de092c92ec54"
+    },
+    {
+      "git_commit": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+      "path": "evals/results/gpt-codex-readiness-001/WORK_LOG.md",
+      "bytes": 6628,
+      "sha256": "0dbe9e0dac07ccd101a83bb6157ba664a477a3f4a732a89348077e885ece0324"
+    }
+  ],
+  "frozen_prior_artifact_sha256": {
+    "REVIEW_SUMMARY.md": "24ecec3caec59f032a4cc053c82652e62bf7b2677effaadd411549a49154ecef",
+    "RAW_FINDINGS.json": "56f57c6de86d0557a414446e4ce823b706dc1b5d1b4ec0fb2709c1677677e6c3",
+    "FOLLOWUP_REVIEW.json": "fecad7fc10863547ba6999450fa835ed71abceab17b8d56667acc8df085298df",
+    "EXAMPLE_REVIEW.json": "363a28497426e3373520514c82a8878b752faf6fe157439ecead88564ddabfce"
+  }
+}

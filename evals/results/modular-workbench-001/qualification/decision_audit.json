@@ -1,0 +1,103 @@
+{
+  "actual_agent_task": "/root/workbench_decision_auditor",
+  "actual_scientific_starts": {
+    "checkers": 0,
+    "final": 0,
+    "known_case": 0,
+    "models": 0
+  },
+  "blockers": [],
+  "candidate_sha256": "8270baae2f5c18158ae00b8112bff351fce2102bb88241ac438d8c0e31f68e6c",
+  "decision_sha256": "aa518966cd1f528a77e982c4ccd3164382dddca75cdda042d93cb4df97f90d0b",
+  "evidence": [
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/REVIEW.md",
+      "sha256": "de456945e08a1801a014267d6631a4e309e7d85ae647205ce6150749c1056aa2"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/actual_tool_records.jsonl",
+      "sha256": "b1da768f48c3b0921374b50d227f14cc52d3813dc492f8af6d41669327c31afd"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/audit_io.py.txt",
+      "sha256": "8b12f71100e54d0d808596449e43ae09df034cd9e72103ad7f795c7a29af9e25"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/command-006.log",
+      "sha256": "aa518966cd1f528a77e982c4ccd3164382dddca75cdda042d93cb4df97f90d0b"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/command-011.log",
+      "sha256": "18f1e9c6f5cbf11b87e7184164603e3e795ea4671ccaa70d175ba6b7580d312e"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/command-014.log",
+      "sha256": "88f578aad952925836bfec26145a43ad42a241e5b3a8af6f5fdf0c99eb28abe8"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/command-015.log",
+      "sha256": "1325d7b1cacf511288c9f2528b71e78604ed5e55421131d095714c245e119cc0"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/command-016.log",
+      "sha256": "6e0caf473cb5c3072ec8146b384c9ea35a1be1d56fe8e2966c571b544f509d9e"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/final_binding_checks.json",
+      "sha256": "7712eec2c99f82c1887f4472e6126e347d9b9ec118d532959afa4c7b2cb8e97c"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/git_read_records.jsonl",
+      "sha256": "34c7902de5a39c3bbe5a7d76847a3bf16daff9ba7496afffeb9a5594776121aa"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/independent_audit.py.txt",
+      "sha256": "8b0d5f3d82678bf397a540a10fb31163295ecb009d1be1f5e6d1dfa337183382"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/independent_checks.json",
+      "sha256": "14b71bb26e8ae7da44875785ed44495b55e13335e0545b50eaa3f9059f74a1c0"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/observations.json",
+      "sha256": "18f1e9c6f5cbf11b87e7184164603e3e795ea4671ccaa70d175ba6b7580d312e"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/read_file_hashes.json",
+      "sha256": "2408562056375b197533796bc0d2150439b4515fe975308857ce41546f11e75d"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/recommendation.json",
+      "sha256": "ca668fd2a26feaefe49349f3f5243f5c2dd7980322c4e3c7df691119446c8999"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/supplement_audit.py.txt",
+      "sha256": "cc28b2fdf7845c892dff636963e0da66f16649e64109c29183f7e1fe811630f5"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/supplement_checks.json",
+      "sha256": "c607fa94e5a4c4996d4a1014f33387233cb1d98f5439830662d482840355a688"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/supplement_observations.json",
+      "sha256": "88f578aad952925836bfec26145a43ad42a241e5b3a8af6f5fdf0c99eb28abe8"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/qualification/decision_auditor/view_manifest.json",
+      "sha256": "a6377c42a8078f34f3e0d59adceb6fb0504ed9a87f0ada5aace561523bdd2398"
+    }
+  ],
+  "full_ci_rerun": false,
+  "independent_consistency_assertions": 2806,
+  "material_open_findings": [],
+  "mechanism": "NATIVE_READ_ONLY_DECISION_AUDITOR",
+  "native_recommendation_raw_sha256": "ca668fd2a26feaefe49349f3f5243f5c2dd7980322c4e3c7df691119446c8999",
+  "real_web_review": "NOT_RUN",
+  "recorded_at": "2026-09-09T11:27:53.121719Z",
+  "recorded_by": "main-agent",
+  "schema_version": "modular-workbench-decision-audit/v1",
+  "scope": "MODULAR_WORKBENCH_ENGINEERING_ONLY",
+  "status": "PASS",
+  "subject_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+  "team_compliance_review": "NOT_RUN"
+}

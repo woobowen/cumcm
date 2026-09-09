@@ -1,0 +1,95 @@
+{
+  "schema_version": "postvalidation-development-design/v1",
+  "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "created_at": "2026-09-09T02:28:05.568772+00:00",
+  "parent_case_id": "CUMCM-2015-C-VALIDATION-005",
+  "parent_terminal_path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/terminal/decision.json",
+  "parent_terminal_sha256": "59707a9384a3fc3409b02e08a82c6fb54677cb5953b5aa51841f68bab4343f5d",
+  "evidence_role": "DEVELOPMENT_AFTER_VALIDATION",
+  "independent_problem": false,
+  "known_problem_and_prior_results": true,
+  "answer_access_status": "SEALED",
+  "new_independent_validation": 0,
+  "case_root": ".cache/pr12-rc9/development/2015/case-r2",
+  "budget": {
+    "model_cli_starts": 4,
+    "independent_checker_starts": 4,
+    "final_starts": 1
+  },
+  "planned_starts": {
+    "model_cli": 2,
+    "development_checkers": 2,
+    "selected_final_checker": 1,
+    "separate_independent_recomputation_reserve": 1
+  },
+  "shared_candidate": "TO_BE_FROZEN_AFTER_CODE_AND_NEUTRAL_REVIEW",
+  "revision_policy": "Both cases finish first shared subject before at most one unified second subject; never modify the parent root or terminal.",
+  "candidates": [
+    "GEOCENTRIC",
+    "TOPOCENTRIC"
+  ],
+  "seeds": [
+    20260909
+  ],
+  "finite_suite": {
+    "year": 2016,
+    "cities": [
+      "Beijing",
+      "Harbin",
+      "Shanghai",
+      "Guangzhou",
+      "Kunming",
+      "Chengdu",
+      "Urumqi"
+    ],
+    "days_per_city": 366,
+    "nominal_lunar_altitude_deg": [
+      8,
+      12
+    ],
+    "nominal_solar_altitude_deg": [
+      -12,
+      -6
+    ],
+    "reference_positions": 168,
+    "perturbations": [
+      "LOWER_TREE",
+      "HIGHER_TREE",
+      "WIDER_TREE_BAND",
+      "CIVIL_TWILIGHT",
+      "LATITUDE_PLUS_005"
+    ],
+    "model_roots_grid_points_per_day": 289,
+    "checker_roots_grid_points_per_day": 145,
+    "independent_checker_bisection_iterations": 28
+  },
+  "selection_metric": "reference_altitude_rmse_deg",
+  "selection_direction": "MIN",
+  "supported_conclusions": [
+    "Conditional site/year geometric event windows",
+    "Independent numerical recomputation of all rows, endpoints and perturbations",
+    "Consistency against registered JPL family reference positions"
+  ],
+  "scientific_limits": [
+    "No local field observations, weather, terrain, foliage or encounter-probability validation",
+    "Shared ephemeris family is not external empirical validation",
+    "Numerical root tolerance does not establish physical precision of narrow windows",
+    "Old scientific/protocol FAIL remains unchanged"
+  ],
+  "required_question_ids": [
+    "REQ-DEFINITION",
+    "REQ-VALIDATION",
+    "REQ-BEIJING",
+    "REQ-HARBIN",
+    "REQ-SHANGHAI",
+    "REQ-GUANGZHOU",
+    "REQ-KUNMING",
+    "REQ-CHENGDU",
+    "REQ-URUMQI"
+  ],
+  "preregistration_amendment": {
+    "recorded_at": "2026-09-09T03:15:19.549730+00:00",
+    "reason": "Explicit requirement-set binding for future Development terminal/result audit; no numerical processes started."
+  }
+}

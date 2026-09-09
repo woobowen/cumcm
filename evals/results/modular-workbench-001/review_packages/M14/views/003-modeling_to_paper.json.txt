@@ -1,0 +1,1205 @@
+{
+  "approved_by": [
+    "MACHINE_TECHNICAL_GATES"
+  ],
+  "assumptions": [
+    "strict affine synthetic trajectory continues",
+    "fixed unit flow",
+    "positive integer prices and unlimited stock; no leakage"
+  ],
+  "claim_evidence": {
+    "CLAIM-REQ-A": {
+      "claim_type": "OPTIMALITY",
+      "evidence_class": "SIMULATION",
+      "metric_ids": [
+        "metric_a"
+      ],
+      "requirement_id": "REQ-A",
+      "runtime_binding": {
+        "claim_id": "CLAIM-REQ-A",
+        "claim_type": "OPTIMALITY",
+        "evidence_class": "SIMULATION",
+        "manifest_hashes": {
+          "RUN-CAND-20260906": "406eccfe6288adcb76fb27f64620dcaef76d655cd5c31f3c3c18938fe5d36afc"
+        },
+        "metric_ids": [
+          "metric_a"
+        ],
+        "output_hashes": {
+          "RUN-CAND-20260906": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396"
+        },
+        "requirement_id": "REQ-A",
+        "scope_hash": "12089f025ccead3915baf846e0a76731570be6e812a4ab2962efae055b3627fc",
+        "selected_output_ids": [
+          "OUT-REQ-A"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ]
+      },
+      "scope": {
+        "entities": [
+          "ENTITY-SET"
+        ],
+        "fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "time": [
+          "FROZEN_SCOPE"
+        ]
+      },
+      "selected_output_ids": [
+        "OUT-REQ-A"
+      ],
+      "selected_run_ids": [
+        "RUN-CAND-20260906"
+      ],
+      "statement": "Bounded result for REQ-A.",
+      "status": "SUPPORTED"
+    },
+    "CLAIM-REQ-B": {
+      "claim_type": "PREDICTIVE",
+      "evidence_class": "SIMULATION",
+      "metric_ids": [
+        "metric_b"
+      ],
+      "requirement_id": "REQ-B",
+      "runtime_binding": {
+        "claim_id": "CLAIM-REQ-B",
+        "claim_type": "PREDICTIVE",
+        "evidence_class": "SIMULATION",
+        "manifest_hashes": {
+          "RUN-BASE-20260906": "2289a41b91c0fb1527897c2d8f526c391bc43a871dde7cdbd9b08c1cc8f65698"
+        },
+        "metric_ids": [
+          "metric_b"
+        ],
+        "output_hashes": {
+          "RUN-BASE-20260906": "b1ec86501e72473c0846a7a7953fc1570377be7cc2d38500809cd09922054904"
+        },
+        "requirement_id": "REQ-B",
+        "scope_hash": "12089f025ccead3915baf846e0a76731570be6e812a4ab2962efae055b3627fc",
+        "selected_output_ids": [
+          "OUT-REQ-B"
+        ],
+        "selected_run_ids": [
+          "RUN-BASE-20260906"
+        ]
+      },
+      "scope": {
+        "entities": [
+          "ENTITY-SET"
+        ],
+        "fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "time": [
+          "FROZEN_SCOPE"
+        ]
+      },
+      "selected_output_ids": [
+        "OUT-REQ-B"
+      ],
+      "selected_run_ids": [
+        "RUN-BASE-20260906"
+      ],
+      "statement": "Bounded result for REQ-B.",
+      "status": "SUPPORTED"
+    },
+    "CLAIM-REQ-C": {
+      "claim_type": "FEASIBILITY",
+      "evidence_class": "SIMULATION",
+      "metric_ids": [
+        "metric_c"
+      ],
+      "requirement_id": "REQ-C",
+      "runtime_binding": {
+        "claim_id": "CLAIM-REQ-C",
+        "claim_type": "FEASIBILITY",
+        "evidence_class": "SIMULATION",
+        "manifest_hashes": {
+          "RUN-CAND-20260906": "406eccfe6288adcb76fb27f64620dcaef76d655cd5c31f3c3c18938fe5d36afc"
+        },
+        "metric_ids": [
+          "metric_c"
+        ],
+        "output_hashes": {
+          "RUN-CAND-20260906": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396"
+        },
+        "requirement_id": "REQ-C",
+        "scope_hash": "12089f025ccead3915baf846e0a76731570be6e812a4ab2962efae055b3627fc",
+        "selected_output_ids": [
+          "OUT-REQ-C"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ]
+      },
+      "scope": {
+        "entities": [
+          "ENTITY-SET"
+        ],
+        "fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "time": [
+          "FROZEN_SCOPE"
+        ]
+      },
+      "selected_output_ids": [
+        "OUT-REQ-C"
+      ],
+      "selected_run_ids": [
+        "RUN-CAND-20260906"
+      ],
+      "statement": "Bounded result for REQ-C.",
+      "status": "SUPPORTED"
+    }
+  },
+  "contract_version": "modeling-to-paper/v1",
+  "data_dictionary": {
+    "case_kind": "general",
+    "raw_files": [
+      "data/raw/input.json"
+    ]
+  },
+  "data_quality_report": {
+    "data_hashes": {
+      "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2"
+    },
+    "data_sufficiency": {
+      "acquisition_plans": [],
+      "aggregate_completion_claimed": false,
+      "contract_version": "data-sufficiency/v1",
+      "coverage_mode_by_requirement": {
+        "REQ-A": {
+          "mode": "SINGLE_SOURCE",
+          "source_id": "SRC-ORIGINAL-WATER"
+        },
+        "REQ-B": {
+          "mode": "SINGLE_SOURCE",
+          "source_id": "SRC-ORIGINAL-WATER"
+        },
+        "REQ-C": {
+          "mode": "SINGLE_SOURCE",
+          "source_id": "SRC-ORIGINAL-WATER"
+        }
+      },
+      "requirement_assessments": [
+        {
+          "acquisition_cost": "NONE",
+          "acquisition_time": "NONE",
+          "affected_downstream_stages": [],
+          "allowed_substitutions": [],
+          "candidate_sources": [],
+          "data_sufficiency_status": "SUFFICIENT",
+          "forbidden_substitutions": [],
+          "missing_entities": [],
+          "missing_fields": [],
+          "missing_time_scope": [],
+          "requirement_id": "REQ-A"
+        },
+        {
+          "acquisition_cost": "NONE",
+          "acquisition_time": "NONE",
+          "affected_downstream_stages": [],
+          "allowed_substitutions": [],
+          "candidate_sources": [],
+          "data_sufficiency_status": "SUFFICIENT",
+          "forbidden_substitutions": [],
+          "missing_entities": [],
+          "missing_fields": [],
+          "missing_time_scope": [],
+          "requirement_id": "REQ-B"
+        },
+        {
+          "acquisition_cost": "NONE",
+          "acquisition_time": "NONE",
+          "affected_downstream_stages": [],
+          "allowed_substitutions": [],
+          "candidate_sources": [],
+          "data_sufficiency_status": "SUFFICIENT",
+          "forbidden_substitutions": [],
+          "missing_entities": [],
+          "missing_fields": [],
+          "missing_time_scope": [],
+          "requirement_id": "REQ-C"
+        }
+      ],
+      "requirements": [
+        {
+          "allowed_evidence_classes": [
+            "SIMULATION"
+          ],
+          "completion_rule": "ALL_REQUIRED_EVIDENCE",
+          "dependency_requirements": [
+            "REQ-B"
+          ],
+          "external_data_allowed": false,
+          "external_data_required": false,
+          "metric_contracts": {
+            "metric_a": {
+              "aggregation": "SINGLE",
+              "denominator": "ONE",
+              "direction": "MIN",
+              "formula": "VALUE",
+              "prediction_origin": "NOT_APPLICABLE",
+              "quantity": "SCALAR",
+              "sample_unit": "allocation",
+              "target": "purchase_cost",
+              "target_unit": "yuan",
+              "unit": "yuan",
+              "weights": "UNIFORM",
+              "zero_denominator_policy": "REJECT"
+            }
+          },
+          "minimum_data_fields": [
+            "time",
+            "level",
+            "containers"
+          ],
+          "partial_completion_allowed": false,
+          "required_entity_scope": [
+            "ENTITY-SET"
+          ],
+          "required_evidence_classes": [
+            "SIMULATION"
+          ],
+          "required_time_scope": [
+            "FROZEN_SCOPE"
+          ],
+          "requirement_id": "REQ-A",
+          "role": "PRIMARY",
+          "scientific_facts_required": true,
+          "simulation_substitution_allowed": true
+        },
+        {
+          "allowed_evidence_classes": [
+            "SIMULATION"
+          ],
+          "completion_rule": "ALL_REQUIRED_EVIDENCE",
+          "dependency_requirements": [],
+          "external_data_allowed": false,
+          "external_data_required": false,
+          "metric_contracts": {
+            "metric_b": {
+              "aggregation": "MEAN",
+              "denominator": "TRUE_REMAINING_TIME",
+              "direction": "MIN",
+              "formula": "ABSOLUTE_RELATIVE_ERROR",
+              "prediction_origin": "PER_SAMPLE",
+              "quantity": "REMAINING_TIME",
+              "sample_unit": "historical_origin",
+              "target": "water_remaining_time",
+              "target_unit": "min",
+              "unit": "%",
+              "weights": "UNIFORM",
+              "zero_denominator_policy": "REJECT"
+            }
+          },
+          "minimum_data_fields": [
+            "time",
+            "level",
+            "containers"
+          ],
+          "partial_completion_allowed": false,
+          "prediction_spec": {
+            "claim_type": "PREDICTIVE",
+            "conditions": [
+              "Affine trend continues; no regime change."
+            ],
+            "empirical_accuracy_required": false,
+            "future_truth_field": "future_end_time",
+            "historical_validation_required": true,
+            "kind": "CONDITIONAL_ESTIMATE",
+            "known_input_fields": [
+              "time",
+              "level"
+            ],
+            "model_basis": "Prefix-only affine level model continued to declared threshold",
+            "target_field": "future_remaining_time"
+          },
+          "required_entity_scope": [
+            "ENTITY-SET"
+          ],
+          "required_evidence_classes": [
+            "SIMULATION"
+          ],
+          "required_time_scope": [
+            "FROZEN_SCOPE"
+          ],
+          "requirement_id": "REQ-B",
+          "role": "PRIMARY",
+          "scientific_facts_required": true,
+          "simulation_substitution_allowed": true
+        },
+        {
+          "allowed_evidence_classes": [
+            "SIMULATION"
+          ],
+          "completion_rule": "ALL_REQUIRED_EVIDENCE",
+          "dependency_requirements": [
+            "REQ-A",
+            "REQ-B"
+          ],
+          "external_data_allowed": false,
+          "external_data_required": false,
+          "metric_contracts": {
+            "metric_c": {
+              "aggregation": "SINGLE",
+              "denominator": "ONE",
+              "direction": "MIN",
+              "formula": "VALUE",
+              "prediction_origin": "NOT_APPLICABLE",
+              "quantity": "SCALAR",
+              "sample_unit": "allocation",
+              "target": "terminal_stock",
+              "target_unit": "L",
+              "unit": "L",
+              "weights": "UNIFORM",
+              "zero_denominator_policy": "REJECT"
+            }
+          },
+          "minimum_data_fields": [
+            "time",
+            "level",
+            "containers"
+          ],
+          "partial_completion_allowed": false,
+          "required_entity_scope": [
+            "ENTITY-SET"
+          ],
+          "required_evidence_classes": [
+            "SIMULATION"
+          ],
+          "required_time_scope": [
+            "FROZEN_SCOPE"
+          ],
+          "requirement_id": "REQ-C",
+          "role": "PRIMARY",
+          "scientific_facts_required": true,
+          "simulation_substitution_allowed": true
+        }
+      ],
+      "source_compositions": [],
+      "sources": [
+        {
+          "authority": "FIRST_PARTY_FIXTURE",
+          "entity_scope": [
+            "ENTITY-SET"
+          ],
+          "evidence_class": "SIMULATION",
+          "field_schema": [
+            "time",
+            "level",
+            "containers"
+          ],
+          "freshness": "CURRENT_FOR_SCOPE",
+          "geographic_scope": [],
+          "hash": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+          "license_or_usage_status": "ALLOWED",
+          "limitations": [
+            "Project-original neutral source."
+          ],
+          "provenance": "PROJECT_ORIGINAL_SYNTHETIC_NO_EMPIRICAL_CLAIM",
+          "retrieval_time": "2026-09-09T10:55:19Z",
+          "source_id": "SRC-ORIGINAL-WATER",
+          "supports_requirement_ids": [
+            "REQ-A",
+            "REQ-B",
+            "REQ-C"
+          ],
+          "time_scope": [
+            "FROZEN_SCOPE"
+          ]
+        }
+      ]
+    },
+    "raw_immutable": true
+  },
+  "failure_cases": [
+    "Nonlinear future trend, purchase shortage and zero denominator are outside scope."
+  ],
+  "figure_ready_data": [
+    {
+      "figures": [
+        {
+          "litres": 9,
+          "minute": 0
+        },
+        {
+          "litres": 8,
+          "minute": 1
+        },
+        {
+          "litres": 7,
+          "minute": 2
+        },
+        {
+          "litres": 6,
+          "minute": 3
+        },
+        {
+          "litres": 5,
+          "minute": 4
+        },
+        {
+          "litres": 4,
+          "minute": 5
+        },
+        {
+          "litres": 3,
+          "minute": 6
+        },
+        {
+          "litres": 2,
+          "minute": 7
+        },
+        {
+          "litres": 1,
+          "minute": 8
+        }
+      ],
+      "run_id": "RUN-BASE-20260906"
+    },
+    {
+      "figures": [
+        {
+          "litres": 8,
+          "minute": 0
+        },
+        {
+          "litres": 7,
+          "minute": 1
+        },
+        {
+          "litres": 6,
+          "minute": 2
+        },
+        {
+          "litres": 5,
+          "minute": 3
+        },
+        {
+          "litres": 4,
+          "minute": 4
+        },
+        {
+          "litres": 3,
+          "minute": 5
+        },
+        {
+          "litres": 2,
+          "minute": 6
+        },
+        {
+          "litres": 1,
+          "minute": 7
+        },
+        {
+          "litres": 0,
+          "minute": 8
+        }
+      ],
+      "run_id": "RUN-CAND-20260906"
+    }
+  ],
+  "final_metrics": {
+    "REQ-A": {
+      "RUN-CAND-20260906": {
+        "metric_a": 11,
+        "metric_b": 1.5173048003210474e-13,
+        "metric_c": 0
+      }
+    },
+    "REQ-B": {
+      "RUN-BASE-20260906": {
+        "metric_a": 12,
+        "metric_b": 1.5173048003210474e-13,
+        "metric_c": 1
+      }
+    },
+    "REQ-C": {
+      "RUN-CAND-20260906": {
+        "metric_a": 11,
+        "metric_b": 1.5173048003210474e-13,
+        "metric_c": 0
+      }
+    }
+  },
+  "final_runs": [
+    {
+      "manifest_hash": "2289a41b91c0fb1527897c2d8f526c391bc43a871dde7cdbd9b08c1cc8f65698",
+      "output_hash": "b1ec86501e72473c0846a7a7953fc1570377be7cc2d38500809cd09922054904",
+      "requirement_ids": [
+        "REQ-B"
+      ],
+      "run_id": "RUN-BASE-20260906"
+    },
+    {
+      "manifest_hash": "406eccfe6288adcb76fb27f64620dcaef76d655cd5c31f3c3c18938fe5d36afc",
+      "output_hash": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396",
+      "requirement_ids": [
+        "REQ-A",
+        "REQ-C"
+      ],
+      "run_id": "RUN-CAND-20260906"
+    }
+  ],
+  "formulas": [
+    {
+      "expression": "min 4*n3+7*n5; 3*n3+5*n5>=ceil((T-t)*flow)",
+      "formula_id": "F-001"
+    },
+    {
+      "expression": "s(t)=s(0)-t",
+      "formula_id": "F-002"
+    }
+  ],
+  "generated_at": "2026-09-09T10:55:21Z",
+  "limitations": [
+    "Integer purchase assumes positive prices and unlimited identical stock.",
+    "Project-original neutral Claim.",
+    "Project-original neutral selection.",
+    "Synthetic trajectory; no calibrated interval or external effectiveness."
+  ],
+  "problem_requirements": [
+    {
+      "allowed_evidence_classes": [
+        "SIMULATION"
+      ],
+      "completion_rule": "ALL_REQUIRED_EVIDENCE",
+      "dependency_requirements": [
+        "REQ-B"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "metric_contracts": {
+        "metric_a": {
+          "aggregation": "SINGLE",
+          "denominator": "ONE",
+          "direction": "MIN",
+          "formula": "VALUE",
+          "prediction_origin": "NOT_APPLICABLE",
+          "quantity": "SCALAR",
+          "sample_unit": "allocation",
+          "target": "purchase_cost",
+          "target_unit": "yuan",
+          "unit": "yuan",
+          "weights": "UNIFORM",
+          "zero_denominator_policy": "REJECT"
+        }
+      },
+      "minimum_data_fields": [
+        "time",
+        "level",
+        "containers"
+      ],
+      "partial_completion_allowed": false,
+      "required_entity_scope": [
+        "ENTITY-SET"
+      ],
+      "required_evidence_classes": [
+        "SIMULATION"
+      ],
+      "required_time_scope": [
+        "FROZEN_SCOPE"
+      ],
+      "requirement_id": "REQ-A",
+      "role": "PRIMARY",
+      "scientific_facts_required": true,
+      "simulation_substitution_allowed": true
+    },
+    {
+      "allowed_evidence_classes": [
+        "SIMULATION"
+      ],
+      "completion_rule": "ALL_REQUIRED_EVIDENCE",
+      "dependency_requirements": [],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "metric_contracts": {
+        "metric_b": {
+          "aggregation": "MEAN",
+          "denominator": "TRUE_REMAINING_TIME",
+          "direction": "MIN",
+          "formula": "ABSOLUTE_RELATIVE_ERROR",
+          "prediction_origin": "PER_SAMPLE",
+          "quantity": "REMAINING_TIME",
+          "sample_unit": "historical_origin",
+          "target": "water_remaining_time",
+          "target_unit": "min",
+          "unit": "%",
+          "weights": "UNIFORM",
+          "zero_denominator_policy": "REJECT"
+        }
+      },
+      "minimum_data_fields": [
+        "time",
+        "level",
+        "containers"
+      ],
+      "partial_completion_allowed": false,
+      "prediction_spec": {
+        "claim_type": "PREDICTIVE",
+        "conditions": [
+          "Affine trend continues; no regime change."
+        ],
+        "empirical_accuracy_required": false,
+        "future_truth_field": "future_end_time",
+        "historical_validation_required": true,
+        "kind": "CONDITIONAL_ESTIMATE",
+        "known_input_fields": [
+          "time",
+          "level"
+        ],
+        "model_basis": "Prefix-only affine level model continued to declared threshold",
+        "target_field": "future_remaining_time"
+      },
+      "required_entity_scope": [
+        "ENTITY-SET"
+      ],
+      "required_evidence_classes": [
+        "SIMULATION"
+      ],
+      "required_time_scope": [
+        "FROZEN_SCOPE"
+      ],
+      "requirement_id": "REQ-B",
+      "role": "PRIMARY",
+      "scientific_facts_required": true,
+      "simulation_substitution_allowed": true
+    },
+    {
+      "allowed_evidence_classes": [
+        "SIMULATION"
+      ],
+      "completion_rule": "ALL_REQUIRED_EVIDENCE",
+      "dependency_requirements": [
+        "REQ-A",
+        "REQ-B"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "metric_contracts": {
+        "metric_c": {
+          "aggregation": "SINGLE",
+          "denominator": "ONE",
+          "direction": "MIN",
+          "formula": "VALUE",
+          "prediction_origin": "NOT_APPLICABLE",
+          "quantity": "SCALAR",
+          "sample_unit": "allocation",
+          "target": "terminal_stock",
+          "target_unit": "L",
+          "unit": "L",
+          "weights": "UNIFORM",
+          "zero_denominator_policy": "REJECT"
+        }
+      },
+      "minimum_data_fields": [
+        "time",
+        "level",
+        "containers"
+      ],
+      "partial_completion_allowed": false,
+      "required_entity_scope": [
+        "ENTITY-SET"
+      ],
+      "required_evidence_classes": [
+        "SIMULATION"
+      ],
+      "required_time_scope": [
+        "FROZEN_SCOPE"
+      ],
+      "requirement_id": "REQ-C",
+      "role": "PRIMARY",
+      "scientific_facts_required": true,
+      "simulation_substitution_allowed": true
+    }
+  ],
+  "reproduction": {
+    "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+    "offline": true,
+    "run_manifest_hashes": {
+      "RUN-BASE-20260906": "2289a41b91c0fb1527897c2d8f526c391bc43a871dde7cdbd9b08c1cc8f65698",
+      "RUN-CAND-20260906": "406eccfe6288adcb76fb27f64620dcaef76d655cd5c31f3c3c18938fe5d36afc"
+    },
+    "skill_version": "0.2.0-competition-rc10"
+  },
+  "requirement_traceability": {
+    "REQ-A": "CLAIM-REQ-A",
+    "REQ-B": "CLAIM-REQ-B",
+    "REQ-C": "CLAIM-REQ-C"
+  },
+  "result_tables": [
+    {
+      "rows": [
+        {
+          "candidate_id": "BASE",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-BASE-20260906",
+          "validation_score": 12
+        },
+        {
+          "candidate_id": "CAND",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-CAND-20260906",
+          "validation_score": 11
+        }
+      ],
+      "table_id": "MODEL_COMPARISON"
+    }
+  ],
+  "robustness_results": {
+    "configuration_hash": "bba2cf4577920e0d55f5f24abb3ffcedc288a19a824d0d1ea8ad5c3545ed7887",
+    "decision_hash": "173bc75a19f621daad13e9d18b8136c66fbb7ae8dc3c67f61f142121280838ca",
+    "failure_cases": [
+      "Nonlinear future trend, purchase shortage and zero denominator are outside scope."
+    ],
+    "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+    "metric": "metric_a",
+    "metric_direction": "MIN",
+    "output_hash": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "metric_a",
+        "perturbation_id": "DEMAND_PLUS_ONE_OR_END_PLUS_ONE",
+        "result": 12
+      }
+    ],
+    "run_id": "RUN-CAND-20260906",
+    "selected_model": "CAND",
+    "status": "VALIDATED"
+  },
+  "selected_models": [
+    {
+      "baseline": true,
+      "candidate_id": "BASE",
+      "method": "all-small feasible purchase"
+    },
+    {
+      "baseline": false,
+      "candidate_id": "CAND",
+      "method": "dynamic programming"
+    }
+  ],
+  "sources": [
+    {
+      "authority": "FIRST_PARTY_FIXTURE",
+      "entity_scope": [
+        "ENTITY-SET"
+      ],
+      "evidence_class": "SIMULATION",
+      "field_schema": [
+        "time",
+        "level",
+        "containers"
+      ],
+      "freshness": "CURRENT_FOR_SCOPE",
+      "geographic_scope": [],
+      "hash": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+      "license_or_usage_status": "ALLOWED",
+      "limitations": [
+        "Project-original neutral source."
+      ],
+      "provenance": "PROJECT_ORIGINAL_SYNTHETIC_NO_EMPIRICAL_CLAIM",
+      "retrieval_time": "2026-09-09T10:55:19Z",
+      "source_id": "SRC-ORIGINAL-WATER",
+      "supports_requirement_ids": [
+        "REQ-A",
+        "REQ-B",
+        "REQ-C"
+      ],
+      "time_scope": [
+        "FROZEN_SCOPE"
+      ]
+    }
+  ],
+  "symbols": {
+    "T,t": "min",
+    "cost": "yuan",
+    "d": "L",
+    "n3,n5": "integer counts"
+  },
+  "uncertainty": {
+    "REQ-A": {
+      "status": "BOUNDED"
+    },
+    "REQ-B": {
+      "calibrated": false,
+      "kind": "UNCALIBRATED_POINT_ESTIMATE"
+    },
+    "REQ-C": {
+      "status": "BOUNDED"
+    }
+  },
+  "validation_results": {
+    "aggregate_claim": {
+      "claim_id": "CLAIM-AGGREGATE-0E7E043A31EDC84D7691E0C3",
+      "primary_requirement_ids": [
+        "REQ-A",
+        "REQ-B",
+        "REQ-C"
+      ],
+      "requirement_claim_ids": {
+        "REQ-A": "CLAIM-REQ-A",
+        "REQ-B": "CLAIM-REQ-B",
+        "REQ-C": "CLAIM-REQ-C"
+      },
+      "supported_requirement_ids": [
+        "REQ-C",
+        "REQ-B",
+        "REQ-A"
+      ]
+    },
+    "comparison_decision_hash": "173bc75a19f621daad13e9d18b8136c66fbb7ae8dc3c67f61f142121280838ca",
+    "data_sufficiency_status": "SUFFICIENT",
+    "requirement_selection": {
+      "aggregate_objective": "DECLARED_TRADEOFF",
+      "compatibility": {
+        "kind": "RUN_PORTFOLIO_V1",
+        "ordered_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "permuted_ids": [
+          "REQ-C",
+          "REQ-B",
+          "REQ-A"
+        ],
+        "version": "compatibility/v1"
+      },
+      "compatibility_checks": [
+        "INPUT",
+        "SCENARIO",
+        "CONSTRAINTS"
+      ],
+      "cross_requirement_constraints": [],
+      "dependency_bridges": [
+        {
+          "dependency_requirement_id": "REQ-B",
+          "dependent_requirement_id": "REQ-A",
+          "downstream_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "lineage_hash": "aae0cda5cab47d279b6496f1e694ea6872bdcc85b31a81b91bae51799a0e9538",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "upstream_run_ids": [
+            "RUN-BASE-20260906"
+          ]
+        },
+        {
+          "dependency_requirement_id": "REQ-A",
+          "dependent_requirement_id": "REQ-C",
+          "downstream_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "lineage_hash": "ee9e459a7b1c283c9daa5d18dd09fa10de653b826070d58e973b67a1cbe1916f",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "upstream_run_ids": [
+            "RUN-CAND-20260906"
+          ]
+        },
+        {
+          "dependency_requirement_id": "REQ-B",
+          "dependent_requirement_id": "REQ-C",
+          "downstream_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "lineage_hash": "80d82e50f2e51f67c1488256cda3575ebc066f82ff400d996d18d91ba18dc6b7",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "upstream_run_ids": [
+            "RUN-BASE-20260906"
+          ]
+        }
+      ],
+      "limitations": [
+        "Project-original neutral selection."
+      ],
+      "requirement_to_output_map": {
+        "REQ-A": [
+          "OUT-REQ-A"
+        ],
+        "REQ-B": [
+          "OUT-REQ-B"
+        ],
+        "REQ-C": [
+          "OUT-REQ-C"
+        ]
+      },
+      "requirement_to_run_map": {
+        "REQ-A": [
+          "RUN-CAND-20260906"
+        ],
+        "REQ-B": [
+          "RUN-BASE-20260906"
+        ],
+        "REQ-C": [
+          "RUN-CAND-20260906"
+        ]
+      },
+      "selection_mode": "JOINT_PORTFOLIO",
+      "shared_input_hashes": [
+        "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710"
+      ],
+      "shared_scenario_hashes": [
+        "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b"
+      ],
+      "tradeoff_rule": "REQUIREMENT_LOCAL_METRICS"
+    },
+    "semantic_claim_support": {
+      "aggregate": {
+        "primary_requirement_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "requirement_claim_ids": {
+          "REQ-A": "CLAIM-REQ-A",
+          "REQ-B": "CLAIM-REQ-B",
+          "REQ-C": "CLAIM-REQ-C"
+        },
+        "supported_requirement_ids": [
+          "REQ-C",
+          "REQ-B",
+          "REQ-A"
+        ]
+      },
+      "claims": [
+        {
+          "claim_id": "CLAIM-REQ-A",
+          "claim_strength": "GLOBAL_OPTIMUM",
+          "claim_type": "OPTIMALITY",
+          "comparator_ids": [],
+          "counter_evidence": [],
+          "evidence_class": "SIMULATION",
+          "limitations": [
+            "Project-original neutral Claim."
+          ],
+          "metric_ids": [
+            "metric_a"
+          ],
+          "requirement_id": "REQ-A",
+          "scope": {
+            "entities": [
+              "ENTITY-SET"
+            ],
+            "fields": [
+              "time",
+              "level",
+              "containers"
+            ],
+            "time": [
+              "FROZEN_SCOPE"
+            ]
+          },
+          "selected_output_ids": [
+            "OUT-REQ-A"
+          ],
+          "selected_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "statement": "Bounded result for REQ-A.",
+          "status": "SUPPORTED",
+          "support_predicates": {
+            "global_optimality_certificate": true,
+            "scope_bounded": true
+          },
+          "uncertainty": {
+            "status": "BOUNDED"
+          }
+        },
+        {
+          "claim_id": "CLAIM-REQ-B",
+          "claim_strength": "BOUNDED",
+          "claim_type": "PREDICTIVE",
+          "comparator_ids": [],
+          "counter_evidence": [],
+          "evidence_class": "SIMULATION",
+          "limitations": [
+            "Project-original neutral Claim."
+          ],
+          "metric_ids": [
+            "metric_b"
+          ],
+          "prediction_scope": "CONDITIONAL_ESTIMATE",
+          "requirement_id": "REQ-B",
+          "scope": {
+            "entities": [
+              "ENTITY-SET"
+            ],
+            "fields": [
+              "time",
+              "level",
+              "containers"
+            ],
+            "time": [
+              "FROZEN_SCOPE"
+            ]
+          },
+          "selected_output_ids": [
+            "OUT-REQ-B"
+          ],
+          "selected_run_ids": [
+            "RUN-BASE-20260906"
+          ],
+          "statement": "Bounded result for REQ-B.",
+          "status": "SUPPORTED",
+          "support_predicates": {
+            "conditional_model_bound": true,
+            "held_out_test_valid": false,
+            "historical_validation_recorded": true,
+            "scope_bounded": true,
+            "target_accuracy_verified": false,
+            "validation_boundary_frozen": true
+          },
+          "uncertainty": {
+            "calibrated": false,
+            "kind": "UNCALIBRATED_POINT_ESTIMATE"
+          }
+        },
+        {
+          "claim_id": "CLAIM-REQ-C",
+          "claim_strength": "BOUNDED",
+          "claim_type": "FEASIBILITY",
+          "comparator_ids": [],
+          "counter_evidence": [],
+          "evidence_class": "SIMULATION",
+          "limitations": [
+            "Project-original neutral Claim."
+          ],
+          "metric_ids": [
+            "metric_c"
+          ],
+          "requirement_id": "REQ-C",
+          "scope": {
+            "entities": [
+              "ENTITY-SET"
+            ],
+            "fields": [
+              "time",
+              "level",
+              "containers"
+            ],
+            "time": [
+              "FROZEN_SCOPE"
+            ]
+          },
+          "selected_output_ids": [
+            "OUT-REQ-C"
+          ],
+          "selected_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "statement": "Bounded result for REQ-C.",
+          "status": "SUPPORTED",
+          "support_predicates": {
+            "independent_constraint_recalculation": true,
+            "scope_bounded": true
+          },
+          "uncertainty": {
+            "status": "BOUNDED"
+          }
+        }
+      ],
+      "comparators": [],
+      "contract_version": "claim-evidence/v3",
+      "outputs": [
+        {
+          "metric_ids": [
+            "metric_a"
+          ],
+          "output_id": "OUT-REQ-A",
+          "owner_run_id": "RUN-CAND-20260906",
+          "requirement_id": "REQ-A"
+        },
+        {
+          "metric_ids": [
+            "metric_b"
+          ],
+          "output_id": "OUT-REQ-B",
+          "owner_run_id": "RUN-BASE-20260906",
+          "requirement_id": "REQ-B"
+        },
+        {
+          "metric_ids": [
+            "metric_c"
+          ],
+          "output_id": "OUT-REQ-C",
+          "owner_run_id": "RUN-CAND-20260906",
+          "requirement_id": "REQ-C"
+        }
+      ],
+      "runs": [
+        {
+          "configuration_hash": "8ea23df3cc6fd3a2f81871e938570d08d46eed4a875d6e50f95247e47814b874",
+          "current": true,
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "metric_ids": [
+            "metric_a",
+            "metric_b",
+            "metric_c"
+          ],
+          "outcome": "SUCCESS",
+          "policy_exposure": 0,
+          "run_id": "RUN-BASE-20260906",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "sealed": true,
+          "selected_output_ids": [
+            "OUT-REQ-A",
+            "OUT-REQ-B",
+            "OUT-REQ-C"
+          ],
+          "supported_requirement_ids": [
+            "REQ-A",
+            "REQ-B",
+            "REQ-C"
+          ]
+        },
+        {
+          "configuration_hash": "bba2cf4577920e0d55f5f24abb3ffcedc288a19a824d0d1ea8ad5c3545ed7887",
+          "current": true,
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "metric_ids": [
+            "metric_a",
+            "metric_b",
+            "metric_c"
+          ],
+          "outcome": "SUCCESS",
+          "policy_exposure": 0,
+          "run_id": "RUN-CAND-20260906",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "sealed": true,
+          "selected_output_ids": [
+            "OUT-REQ-A",
+            "OUT-REQ-B",
+            "OUT-REQ-C"
+          ],
+          "supported_requirement_ids": [
+            "REQ-A",
+            "REQ-B",
+            "REQ-C"
+          ]
+        }
+      ],
+      "validation": {
+        "counter_evidence_detected": false
+      }
+    },
+    "test_used_for_selection": false
+  }
+}

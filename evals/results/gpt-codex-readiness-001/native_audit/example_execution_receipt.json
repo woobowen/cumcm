@@ -1,0 +1,21 @@
+{
+  "schema_version": "read-only-example-execution-receipt/v1",
+  "command": ".venv/bin/python .cache/gpt-codex-readiness-001/final-auditor/example_audit.py > .cache/gpt-codex-readiness-001/final-auditor/example_stdout.txt",
+  "exit_code": 0,
+  "attempts": 1,
+  "source_archive_sha256": "8be545f774343af5b2a063dce7f4c0076fe358a78851d6fd37feae3a379798f3",
+  "source_archive_bytes": 100878,
+  "scope": "Explicit example archive, existing auditor scratch, and exact additionally authorized old context/CONTEXT.md hash comparison.",
+  "package_code_executed": false,
+  "case_cli_executed": false,
+  "model_or_checker_or_final_starts": 0,
+  "formal_state_writes": 0,
+  "network_accesses": 0,
+  "dependency_installs": [],
+  "artifact_sha256": {
+    "example_audit.py": "7bb384e24574df9e3c1c79980a1d417c3f07498df80e964ffd72a552c54772cb",
+    "example_stdout.txt": "c9b350100683b6a8db3cf01a84656f7fc3487d0af2da40f2804a63f352460206",
+    "EXAMPLE_REVIEW.md": "2889856a03ec5d40bfdd1311d359494337f0d0a4e533bf17955937c75f906f01",
+    "EXAMPLE_REVIEW.json": "363a28497426e3373520514c82a8878b752faf6fe157439ecead88564ddabfce"
+  }
+}

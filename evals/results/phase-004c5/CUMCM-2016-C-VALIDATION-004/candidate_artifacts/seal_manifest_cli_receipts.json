@@ -1,0 +1,62 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "seal-run",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--run-id",
+      "RUN-2016-BASELINE-1729",
+      "--decision-hash",
+      "8c526ff54e35f304db310c8169810a80ac6d9b9b711dfc821198b8bb18a15d0d"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "{\"command\": \"seal-run\", \"result\": {\"manifest_path\": \"runs/RUN-2016-BASELINE-1729/manifest.json\", \"manifest_sha256\": \"019880768f130000caa6a355810d0c84988f793f0179e0a42270e37c513e354d\", \"outcome\": \"SUCCESS\", \"run_id\": \"RUN-2016-BASELINE-1729\"}, \"status\": \"PASS\"}\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "manifest",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--path",
+      "runs/RUN-2016-BASELINE-1729/manifest.json"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "{\"accepted\": true, \"command\": \"manifest\", \"final\": false, \"reason_codes\": [\"RC_REPRODUCIBILITY_MANIFEST_VALID\"], \"status\": \"PASS\"}\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "seal-run",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--run-id",
+      "RUN-2016-CUBIC-1729",
+      "--decision-hash",
+      "8c526ff54e35f304db310c8169810a80ac6d9b9b711dfc821198b8bb18a15d0d"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "{\"command\": \"seal-run\", \"result\": {\"manifest_path\": \"runs/RUN-2016-CUBIC-1729/manifest.json\", \"manifest_sha256\": \"556938af2eab5486dad7029510a87adf9e733790a5866a15240381b28876ef03\", \"outcome\": \"SUCCESS\", \"run_id\": \"RUN-2016-CUBIC-1729\"}, \"status\": \"PASS\"}\n"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "manifest",
+      "--case-root",
+      ".cache/pr12-rc8/fresh/2016/case-r2",
+      "--path",
+      "runs/RUN-2016-CUBIC-1729/manifest.json"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "{\"accepted\": true, \"command\": \"manifest\", \"final\": false, \"reason_codes\": [\"RC_REPRODUCIBILITY_MANIFEST_VALID\"], \"status\": \"PASS\"}\n"
+  }
+]

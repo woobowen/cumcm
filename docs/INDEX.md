@@ -1,5 +1,6 @@
 # Documentation index
 
+- 当前模块工作台：[START_HERE](modular_workbench/START_HERE.md)、[模块目录](modular_workbench/MODULES.md)、[Runbook](modular_workbench/RUNBOOK.md)、[角色提示词](modular_workbench/ROLE_PROMPTS.md)
 - RC7 暂停与诚实交接：`../HANDOVER.md`、`../CODEX_TAKEOVER.md`、`handover/`
 - Architecture and truth: `ARCHITECTURE.md`, `SOURCE_OF_TRUTH.md`, `adr/`
 - Operation and recovery: `RUNBOOK.md`, `RECOVERY.md`, `TRANSPORT_RECOVERY_POLICY.md`,
@@ -11,7 +12,10 @@
 - Evidence and review: `REVIEW_POLICY.md`, `SEARCH_POLICY.md`, `BENCHMARK_POLICY.md`, `EVAL_POLICY.md`
 - C-target training: `TARGET_PROBLEM_POLICY.md`, `DEVELOPMENT_EVAL_PROTOCOL.md`,
   `RC6_REQUIREMENT_EVIDENCE_DESIGN.md`; active runtime closure is specified by
-  `../plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`
+  `../plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`.
+  Candidate P0-01/P0-02/P0-03 (not an active plan, no RC8):
+  `../reports/phase004c5_p0_01_reproduction.md`、`../reports/phase004c5_p0_02_final_evaluation.md`、
+  `../reports/phase004c5_p0_03_predictive_cross_bind.md`
 - Phase 002D expansion: `PHASE002D_EVIDENCE_EXPANSION.md`, `EXPERIMENT_COHORT_POLICY.md`,
   `CODEX_RUN_BUDGET_POLICY.md`, `INDEPENDENT_REPEAT_POLICY.md`, `EXPANSION_RECOVERY.md`
 - Phase 002D-R1: `FAILURE_AWARE_EVIDENCE_POLICY.md`, `RETRY_UNTIL_SUCCESS_BIAS.md`,

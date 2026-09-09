@@ -1,0 +1,135 @@
+{
+  "schema_version": "phase-004c6-continuation-budget-audit/v1",
+  "reviewer": "/root/decision_audit_rc9",
+  "mechanism": "NATIVE_READ_ONLY_BUDGET_AND_CONTINUATION_REVIEW",
+  "reviewed_at": "2026-09-09T05:09:14.839623+00:00",
+  "observed_head": "fb08bfed8a9a6edf6567a41461e70f068a3b36b9",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "status": "NO_FORMAL_FUNCTIONAL_CONTINUATION_UNDER_EXECUTED_FROZEN_BUDGET",
+  "related_nonfunctional_work_remains_authorized": true,
+  "new_authorization_granted": false,
+  "audit_basis": "User sections9/11/12 plus pre-execution immutable budget choices, actual supersession diff and per-case CLI/process records; not prior stop decision or prior Auditor PASS.",
+  "user_text_vs_preregistration": {
+    "user_explicit_global_functional_revisions_maximum": 2,
+    "user_explicit_post_first_round_unified_revisions_maximum": 1,
+    "initial_candidate_number_explicit_in_user_text": false,
+    "initial_candidate_1_is_agent_preregistered_interpretation": true,
+    "r2_counted_2_before_numerical_results": true,
+    "unexecuted_r1_refund_rule_found": false,
+    "preexecution_r2_changes_runtime_preparation_behavior": true
+  },
+  "actual_per_case": {
+    "model_cli_requests": 4,
+    "preprocess_rejected_requests": 2,
+    "actual_model_process_starts": 2,
+    "independent_checker_process_starts": 3,
+    "final_process_starts": 0,
+    "terminal_status": "FAILED",
+    "additional_final_in_same_failed_terminal_allowed": false
+  },
+  "necessary_new_authorization_scope": [
+    "Additional shared functional revision without altering historical r1/r2 records",
+    "Explicit additional per-case CLI/checker/Final accounting, retaining prior4 CLI requests",
+    "New pre-registered episode/root inheriting immutable006/007 negative terminals, with no automatic budget reset",
+    "Fresh actual candidate qualification after appropriate neutral and Development validation"
+  ],
+  "currently_allowed_related_next_steps": [
+    "Isolated synthetic counterexample for missing-scenario public-entrypoint failure, without changing shared implementation",
+    "Recovery commands and precise future revision requirements",
+    "Relevant read-only consistency and dependency reproducibility closure within existing limits"
+  ],
+  "actual_read_command_count": 18,
+  "read_commands_exit_zero": 18,
+  "independent_field_assertions_passed": 31,
+  "new_true_case_model_starts": 0,
+  "new_true_case_checker_starts": 0,
+  "new_true_case_final_starts": 0,
+  "new_full_ci_runs": 0,
+  "public_file_writes": 0,
+  "git_mutations": 0,
+  "installation_or_global_configuration_changes": 0,
+  "inputs": [
+    {
+      "path": "CUMCM_PR12_RC9_REPAIR_AND_DEVELOPMENT_PLAN.md",
+      "sha256": "c5aa9cae6ffb559e7d7fb43f4d0062a0b267b87aaf3aa1544ad35dbdf7fd24eb"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/rc9_candidate_protocol.json",
+      "sha256": "3deae1f553830c7845d05d61f2041473bc9a85b1f0f50f558677484887e9dc61"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/shared_subject_r1.json",
+      "sha256": "e54e21d698233a6347e193e65791b53c33285b388b21d15ab64aaf019edbcdd7"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/shared_subject_r2.json",
+      "sha256": "351d966180dc0b0479d29bd8ff9fc47208b95ecb49e7613dd94cec2b0b5e535d"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/preexecution_supersession_r2.json",
+      "sha256": "58af8ea68fec924c0a46e95201ee740c7ada3aff67c284621095ff0c9719cba4"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/development_design.json",
+      "sha256": "245752b03729fd7bd4ac6e9368eca56891e6def2aa1f1f0fe506a0498911740b"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/registration/case_registration_r2.json",
+      "sha256": "4f5b45e0a88e7c8e2818840e78a0e3038eae70c39556c3adf7cab58e5b7e3ac4"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json",
+      "sha256": "8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/execution_evidence.json",
+      "sha256": "5b65fba4a8e242cb30626a329ad5fb215b32e59ce49bfcfd5953ab3e5b956da3"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/state/execution_budget.json",
+      "sha256": "8ed8838e0d6eeea7ea8deda7309da1ddd4e8ebb745429e20b2f389396db91d91"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/development_design.json",
+      "sha256": "8791bf99ad2987d49cb461182d7dbd2c27935ea642ba1cf8b91b0f3f3ad478cd"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/registration/case_registration_r2.json",
+      "sha256": "e916cbd482e7d294a36944fecc0a35bdf5ab4e0e1c8323cd74ef28287f6f8698"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json",
+      "sha256": "6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/execution_evidence.json",
+      "sha256": "f4d0fcf1a60c04bb6f807366e4f8b43a6a4c9cba91de71fe962ecafbc5d6f4ec"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/state/execution_budget.json",
+      "sha256": "ab388e433eabe5b9e35c8f062a0f26d860a27e97c7391424f16845b4300651fb"
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".cache/pr12-rc9/continuation-budget-audit-001/REVIEW.md",
+      "sha256": "1d9c65a0c579ffcb2dd7554c6ba9e9f746b110b69258c9165d6f9296cdbdded1"
+    },
+    {
+      "path": ".cache/pr12-rc9/continuation-budget-audit-001/commands.json",
+      "sha256": "7d916c78ddcd7caac37902ea83e14f77c20be8c1609ab692fb0913ffa613d68d"
+    },
+    {
+      "path": ".cache/pr12-rc9/continuation-budget-audit-001/authoring_error.json",
+      "sha256": "e4392523dc74a03da160c789c499615bcf96bbd6439c11c20c018b6b335f47c9"
+    }
+  ],
+  "limitations": [
+    "Budget interpretation review is not a legal authority or a grant of new permission.",
+    "User did not literally prescribe initial candidate numbering; report distinguishes the earlier Agent preregistration.",
+    "Outer CLI request budget and numerical subprocess ledger use different counts and must remain distinct.",
+    "This review does not verify scientific model output, final global delivery state, or remote SHA."
+  ],
+  "authoring_errors_retained": 1,
+  "input_and_evidence_bindings_verified": true
+}

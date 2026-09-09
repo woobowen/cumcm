@@ -1,0 +1,60 @@
+{
+  "schema_version": "scoped-audit-output-manifest/v1",
+  "created_at_utc": "2026-09-08T23:50:27.164034+00:00",
+  "audit_id": "AUDIT-RC8-M5-DELIVERY-REPORT-CONSISTENCY-001",
+  "bundle_sha256": "82f680580f96bce0f09dcd76207a23d281a6159a1949d8530ec6a562daaff3f7",
+  "reviewed_file_count": 31,
+  "original_inputs_changed": false,
+  "formal_or_public_writes": false,
+  "own_ignored_output_writes": true,
+  "substantive_command_count_before_seal": 12,
+  "final_seal_tool_receipt": "seal_command_tool_receipt.json",
+  "process_creation_rejection_receipt": "archival_rejection_receipt.json",
+  "model": "UNKNOWN",
+  "reasoning": "UNKNOWN",
+  "token_cost": "UNKNOWN",
+  "cash_cost": "UNKNOWN",
+  "installations": {
+    "system_packages": 0,
+    "language_packages": 0,
+    "toolchains": 0,
+    "configuration_changes": 0
+  },
+  "artifact_sha256": {
+    "REPORT.md": "383ad1061acd64b40e373df888f66190410c36cc8c933ab2d254295ef7ec220e",
+    "archival_rejection_receipt.json": "d1ce286c812fafa2bf6c85009f0b61ffd82236077370c9be23009982c0b814ee",
+    "audit.json": "1d27584b68a054ccbc3c4d31e0c9afbec2fa4bf56f212ea1cf82b11c5c4b26ea",
+    "audit_output_validation.json": "0f30008fa19fab02c85c068926b6eb5634b652486c0c30f46c13a7deb3df9c85",
+    "command_001.json": "11db9451920c4833fdd172ef3c487041d285725ccd9dc340dc7ff822d650cfbc",
+    "command_002.json": "e83e139b359883b762f868716d77c9381a5694576c9cb20cc0057c8762ba64db",
+    "command_003.json": "61cc2fa85ca916dd93b6b398906609917df42961595eddf0e6e6bf81374c0d5c",
+    "command_004.json": "669fa48bec5177be5b1b462c99054b3558120438d914b4f885b60f4c0d8face5",
+    "command_005.json": "887ed92d8c604f9abfb91297eb5367fbbd81e9c9121db4fbb824028a69511b27",
+    "command_006.json": "8054527343d42b2202507df0fe5b3b80d41931b31ead4327f86104656db91f12",
+    "command_007.json": "f1a5e33dc13620178df0ada104eb4731666a5609c2e886d400b2ce487917b5af",
+    "command_008.json": "60308617d210066f58be94668898ad88568885dbb97b19c46d7a26ff748fc937",
+    "command_009.json": "f8001a66bbbaee134d7654acaf86366e97d4c2547495f213472fb3077aee9829",
+    "command_010.json": "b8b91f909a9243553363a7e205d4e1873da21215df4cf1017a9d78cc43b1d856",
+    "command_011.json": "d543cac4c35403bcf39ce3c98c69c619a97a1b0ec9ec2ae07f8646bf2fa2ba0f",
+    "command_012.json": "72f197d73b9201e1578a57c33417644dad10440129a008b5a3abe1da3d01e64c",
+    "cross_checks.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cross_checks.stdout": "f839187e1a3e96560760a82cd40615eadd4ec702c2e887a354bc1e6dc561e268",
+    "cross_checks_execution_receipt.json": "6b33d6c72e9a424f605eb6b23de1187b4ebc6559fb893fcde339e8ace3b8fa48",
+    "final_subject_hash_check.json": "eb2170668fb8afeed274aa07cc764fa6820b0ef6c2a0ddc7f09da2a9856e6bc8",
+    "independent_cross_checks.json": "8b2fba613c39225f8cd736f46d5b1fc20219ebf41fda2f5c5414eb90b50f342f",
+    "independent_cross_checks.py": "3835c038caf5128539c99b27bde37ab4c73f7056e34315185062ef0578a3dbe3",
+    "post_hash_check.json": "1d63ae9298468bc12dd8d6d4f4e76a60218bb00b1665f61054702f348ef694cc",
+    "pre_hash_check.json": "40542357f40bea7ef69b353bb8ef948b4f34e4befcfd16c07da4d77ecc16ecca",
+    "tool_receipts.json": "3ae5650a88d09dc0c6cc4ee7c677f9e33fd10df97c65d9731870e32a37c33858"
+  },
+  "excluded_from_self_referential_hashing": [
+    "execution_manifest.json",
+    "seal_command_tool_receipt.json"
+  ],
+  "scope_limits": [
+    "No Git/history/remote or fresh CI validation.",
+    "No raw/answer/vault/held-out problem content.",
+    "No producer/checker/Final/native subagent launches.",
+    "First mandatory ls UTC boundaries not captured; early tool output streams merged."
+  ]
+}

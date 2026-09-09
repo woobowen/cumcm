@@ -216,7 +216,7 @@ def _selection_and_semantic(
                 "claim_id": f"CLAIM-{requirement_id}",
                 "requirement_id": requirement_id,
                 "claim_type": claim_type,
-                "statement": f"Bounded statement for {requirement_id}.",
+                "statement": f"Bounded result for {requirement_id}.",
                 "scope": {
                     "fields": requirements[index]["minimum_data_fields"],
                     "time": requirements[index]["required_time_scope"],
@@ -273,6 +273,13 @@ def _build_runtime_case(
     selection: dict,
     semantic: dict,
     seed: int = 20260906,
+    model_fixture: str = "tests/fixtures/runtime_portfolio_model.py",
+    checker_fixture: str | None = None,
+    nonpredictive: bool = False,
+    development_only: bool = False,
+    raw_data: dict | None = None,
+    plan_extra: dict | None = None,
+    execute_via_cli: bool = False,
 ):
     core = _module(
         repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
@@ -284,7 +291,10 @@ def _build_runtime_case(
     )
     case = tmp_path / "case"
     core.initialize_case(case, "NEUTRAL-RUNTIME-E2E", "general")
-    core.write_json(case / "data/raw/input.json", {"x": [1, 2], "y": [3, 4]})
+    core.write_json(
+        case / "data/raw/input.json",
+        raw_data if raw_data is not None else {"x": [1, 2], "y": [3, 4]},
+    )
     raw_hash = core.file_hash(case / "data/raw/input.json")
     sources = copy.deepcopy(sources)
     for source in sources:
@@ -365,19 +375,44 @@ def _build_runtime_case(
     ]
     _accepted(core, case, "model_candidates", {"candidates": candidates})
     core.advance_once(case)
-    fixture = repo_root / "tests/fixtures/runtime_portfolio_model.py"
+    fixture = repo_root / model_fixture
     model = case / "models/runtime_model.py"
     shutil.copyfile(fixture, model)
     code = synthetic._required_code_files(core) + [
         {
             "scope": "CASE_ROOT",
             "path": "models/runtime_model.py",
-            "repository_path": "tests/fixtures/runtime_portfolio_model.py",
+            "repository_path": model_fixture,
             "sha256": core.file_hash(model),
         }
     ]
+    if checker_fixture:
+        checker = case / "models/independent_check.py"
+        shutil.copyfile(repo_root / checker_fixture, checker)
+        code.append(
+            {
+                "scope": "CASE_ROOT",
+                "path": "models/independent_check.py",
+                "repository_path": checker_fixture,
+                "sha256": core.file_hash(checker),
+            }
+        )
     commit = core.current_git_commit()
     splits = {"train": [1], "validation": [2], "test": [3]}
+    if nonpredictive:
+        splits = {"train": [], "validation": [], "test": []}
+    elif development_only:
+        splits["test"] = []
+    design = (
+        {"mode": "NONPREDICTIVE_FINAL_VERIFICATION"}
+        if nonpredictive
+        else {"mode": "DEVELOPMENT_NO_FINAL_EVALUATION"}
+        if development_only
+        else None
+    )
+    if plan_extra is not None:
+        splits = plan_extra.get("splits", splits)
+        design = plan_extra.get("evaluation_design", design)
     inputs = {"data/raw/input.json": raw_hash}
     generated = "2026-09-05T00:00:00Z"
     freezes = synthetic._freezes(
@@ -393,6 +428,22 @@ def _build_runtime_case(
         commit,
     )
     freezes["seed_schedule"] = core.canonical_hash([seed])
+    if design is not None:
+        freezes["execution_policy"] = core.canonical_hash(
+            core.execution_policy_payload("one deterministic run per candidate", generated, design)
+        )
+    if plan_extra and "metric_definitions" in plan_extra:
+        freezes["metric"] = core.canonical_hash(
+            core.metric_freeze_payload(
+                {
+                    "metric": "metric_a",
+                    "metric_direction": "MIN",
+                    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+                    "selection_rule": "ARGMIN_THEN_ID",
+                    **plan_extra,
+                }
+            )
+        )
     _accepted(
         core,
         case,
@@ -414,7 +465,8 @@ def _build_runtime_case(
             "trusted_freeze_registry": freezes,
             "stop_rule": "one deterministic run per candidate",
             "handoff_generated_at": generated,
-            "scenario_hash": raw_hash,
+            **({"evaluation_design": design} if design is not None else {}),
+            **(plan_extra or {}),
         },
     )
     synthetic._write_output_contract_probe(
@@ -426,6 +478,30 @@ def _build_runtime_case(
     core.advance_once(case)
     core.advance_once(case)
     for candidate_id in ("BASE", "CAND"):
+        if execute_via_cli:
+            process = subprocess.run(
+                [
+                    sys.executable,
+                    str(core.SKILL_ROOT / "scripts/cumcm_case.py"),
+                    "execute",
+                    "--case-root",
+                    str(case),
+                    "--run-id",
+                    f"RUN-{candidate_id}-{seed}",
+                    "--candidate-id",
+                    candidate_id,
+                    "--seed",
+                    str(seed),
+                    "--code-path",
+                    "models/runtime_model.py",
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=60,
+            )
+            assert process.returncode == 0, (process.stdout, process.stderr)
+            continue
         core.execute_case_code(
             case,
             run_id=f"RUN-{candidate_id}-{seed}",
@@ -434,17 +510,38 @@ def _build_runtime_case(
             code_path="models/runtime_model.py",
             timeout_seconds=30,
         )
+    scenario = core.resolve_scenario_identity(case)
+    for record in (selection, semantic):
+        for run in record["runs"]:
+            run["scenario_hash"] = scenario
+    selection["selection"]["shared_scenario_hashes"] = [scenario]
+    for bridge in selection["selection"].get("dependency_bridges", []):
+        bridge["scenario_hash"] = scenario
+        bridge["lineage_hash"] = core.canonical_hash(
+            {key: value for key, value in bridge.items() if key != "lineage_hash"}
+        )
     _accepted(core, case, "requirement_selection", selection)
     _accepted(core, case, "semantic_claim_support", semantic)
     return core, case
 
 
-def test_neutral_per_requirement_actual_controller_reaches_handoff(repo_root, tmp_path) -> None:
-    probes = _module(
-        repo_root / "tests/integration/test_actual_controller_black_box.py",
-        f"neutral_probe_builder_{tmp_path.name}",
+def _build_authorized_per_requirement_case(
+    repo_root: Path, tmp_path: Path, *, reverse_requirements_before_freeze: bool = False
+):
+    p001 = _module(
+        repo_root / "tests/integration/test_p0_01_finalization_hf22_reproduction.py",
+        f"neutral_authorized_{tmp_path.name}",
     )
-    core, case = probes._build_running_case(repo_root, tmp_path)
+    return p001._build_case(
+        repo_root,
+        tmp_path,
+        model_fixture="tests/fixtures/authorized_final_eval_model.py",
+        reverse_requirements_before_freeze=reverse_requirements_before_freeze,
+    )
+
+
+def test_neutral_per_requirement_actual_controller_reaches_handoff(repo_root, tmp_path) -> None:
+    core, case = _build_authorized_per_requirement_case(repo_root, tmp_path)
     completed, result = _run_controller(repo_root, case)
     assert completed.returncode == 0, completed.stderr
     assert result["status"] == "PASS_NATIVE_CONTRACTS"
@@ -478,19 +575,12 @@ def test_neutral_per_requirement_legal_permutations_are_stable(
         repo_root / "tests/integration/test_actual_controller_black_box.py",
         f"neutral_legal_builder_{mutation}_{tmp_path.name}",
     )
-    core, case = probes._build_running_case(repo_root, tmp_path)
-    if mutation == "REQUIREMENT_ORDER":
-        requirement_record = core.read_artifact(case, "problem_requirements")["content"]
-        sufficiency = core.read_artifact(case, "data_sufficiency")["content"]
-        selection = core.read_artifact(case, "requirement_selection")["content"]
-        requirement_record["requirements"].reverse()
-        sufficiency["requirements"].reverse()
-        sufficiency["requirement_assessments"].reverse()
-        selection["requirements"].reverse()
-        _accepted(core, case, "problem_requirements", requirement_record)
-        _accepted(core, case, "data_sufficiency", sufficiency)
-        _accepted(core, case, "requirement_selection", selection)
-    else:
+    # Ordering is arbitrary at intake. Frozen requirement bytes must remain bound
+    # after actual capture; a test helper cannot bless a later upstream mutation.
+    core, case = _build_authorized_per_requirement_case(
+        repo_root, tmp_path, reverse_requirements_before_freeze=mutation == "REQUIREMENT_ORDER"
+    )
+    if mutation == "CLAIM_ORDER":
         semantic = core.read_artifact(case, "semantic_claim_support")["content"]
         semantic["claims"].reverse()
         _accepted(core, case, "semantic_claim_support", semantic)
@@ -498,6 +588,35 @@ def test_neutral_per_requirement_legal_permutations_are_stable(
     completed, result = _run_controller(repo_root, case)
     assert completed.returncode == 0, completed.stderr
     assert result["native_state"] == "READY_FOR_PAPER_HANDOFF"
+
+
+def test_post_capture_requirement_reorder_remains_stale(repo_root, tmp_path):
+    core, case = _build_authorized_per_requirement_case(repo_root, tmp_path)
+    captures_before = {
+        p: core.file_hash(p) for p in (case / "runs").glob("*/execution_capture.json")
+    }
+    requirements = core.read_artifact(case, "problem_requirements")["content"]
+    requirements["requirements"].reverse()
+    _accepted(core, case, "problem_requirements", requirements)
+    sufficiency = core.read_artifact(case, "data_sufficiency")["content"]
+    selection = core.read_artifact(case, "requirement_selection")["content"]
+    sufficiency["requirements"].reverse()
+    sufficiency["requirement_assessments"].reverse()
+    selection["requirements"].reverse()
+    _accepted(core, case, "data_sufficiency", sufficiency)
+    _accepted(core, case, "requirement_selection", selection)
+    probes = _module(
+        repo_root / "tests/integration/test_actual_controller_black_box.py",
+        f"neutral_postfreeze_reorder_{tmp_path.name}",
+    )
+    probes._sync_bound_hashes(core, case)
+    completed, result = _run_controller(repo_root, case)
+    assert completed.returncode != 0
+    assert "RC_EXECUTION_CAPTURE_SCENARIO_STALE" in result["reason_codes"]
+    assert result["test_access_count"] == 0
+    assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
+    assert all(core.file_hash(p) == digest for p, digest in captures_before.items())
 
 
 @pytest.mark.parametrize("mutation", ["RUN_BINDING", "OUTPUT_OWNER", "AGGREGATE_MAP"])

@@ -1,0 +1,621 @@
+{
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "source_commands_sha256": "1cd9974c57d14c7a7f531e9e8a1d4fe720422addf7971372bea8a397a4d04fa0",
+  "command_entries": 46,
+  "notes": [
+    "Commands preserve actual nonzero exits and tool truncation; truncated portions are not inferred.",
+    "Patch records identify audit-only file writes. This reviewer starts zero actual models/checkers/Final.",
+    "Metadata/arithmetic reads do not consume true case execution budgets."
+  ],
+  "transformation": "Keep actual command/time/exit metadata; large raw output replaced by SHA256/byte count to avoid publishing dense input-derived rows. Raw originals retained ignored.",
+  "commands": [
+    {
+      "command": "ls -la",
+      "started_at": "2026-09-09T03:54:30.781Z",
+      "ended_at": "2026-09-09T03:54:30.851Z",
+      "sequence": 1,
+      "result_summary": {
+        "chunk_id": "0d6f5d",
+        "wall_time_seconds": 7.542e-06,
+        "exit_code": 0,
+        "original_token_count": 719,
+        "output_sha256": "2adfcd507c63949f0ec6dd8e0239cfe97d5a25175463743bdd864b4d5a31aa6f",
+        "output_bytes": 2876
+      }
+    },
+    {
+      "command": "rg --files .cache/pr12-rc9/development-round-r2",
+      "started_at": "2026-09-09T03:54:57.438Z",
+      "ended_at": "2026-09-09T03:54:57.651Z",
+      "sequence": 2,
+      "result_summary": {
+        "chunk_id": "f9407f",
+        "wall_time_seconds": 5.963e-06,
+        "exit_code": 0,
+        "original_token_count": 614,
+        "output_sha256": "43fb3522d171ef10bfd36e81bb0511e0373d6c5f8bb1bc4144ac3fef78f470a5",
+        "output_bytes": 2456
+      }
+    },
+    {
+      "command": "rg --files .cache/pr12-rc9/development/2016/case-r2/runs .cache/pr12-rc9/development/2015/case-r2/runs",
+      "started_at": "2026-09-09T03:54:57.438Z",
+      "ended_at": "2026-09-09T03:54:57.676Z",
+      "sequence": 3,
+      "result_summary": {
+        "chunk_id": "8c8031",
+        "wall_time_seconds": 4.471e-06,
+        "exit_code": 0,
+        "original_token_count": 765,
+        "output_sha256": "bd6b5d5bf1949e6545db2d218b00c2258697b3e3aa9d394cc9c5fbdfb4b23f02",
+        "output_bytes": 3060
+      }
+    },
+    {
+      "command": "rg --files .cache/pr12-rc9/development/2016/case-r2/experiments .cache/pr12-rc9/development/2015/case-r2/experiments .cache/pr12-rc9/development/2016/case-r2/state .cache/pr12-rc9/development/2015/case-r2/state",
+      "started_at": "2026-09-09T03:54:57.438Z",
+      "ended_at": "2026-09-09T03:54:57.671Z",
+      "sequence": 4,
+      "result_summary": {
+        "chunk_id": "d3b6ce",
+        "wall_time_seconds": 5.361e-06,
+        "exit_code": 0,
+        "original_token_count": 116,
+        "output_sha256": "c74158996d656c699477d38e0d460cff293f720dd6e02eab6e6eca92b6f5f20d",
+        "output_bytes": 464
+      }
+    },
+    {
+      "command": "git show 10e8b038d571b88ce2b7f2388da00a618c774f69:scripts/finalize_fresh_c_validation.py | rg -n 'scenario_hash|GATE_COMPATIBILITY|selection|capture'",
+      "started_at": "2026-09-09T03:54:57.438Z",
+      "ended_at": "2026-09-09T03:54:57.704Z",
+      "sequence": 5,
+      "result_summary": {
+        "chunk_id": "f8311f",
+        "wall_time_seconds": 5.221e-06,
+        "exit_code": 0,
+        "original_token_count": 896,
+        "output_sha256": "2ea003bbb7cde796b9819d6ebc41623516421da21f102828b09b4a2318bbf3d7",
+        "output_bytes": 3581
+      }
+    },
+    {
+      "command": "git show 10e8b038d571b88ce2b7f2388da00a618c774f69:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py | rg -n 'scenario_hash|RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND'",
+      "started_at": "2026-09-09T03:54:57.438Z",
+      "ended_at": "2026-09-09T03:54:57.745Z",
+      "sequence": 6,
+      "result_summary": {
+        "chunk_id": "a116a2",
+        "wall_time_seconds": 4.824e-06,
+        "exit_code": 0,
+        "original_token_count": 507,
+        "output_sha256": "d823fc6f156a03d101cf9033b95a318963715e8c4c00c566eb7a5cb43d9cf67f",
+        "output_bytes": 2028
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfor year in (2016,2015):\n root=Path(f'.cache/pr12-rc9/development/{year}/case-r2');plan=json.loads((root/'experiments/experiment_plan.json').read_text())['content']\n print(json.dumps({'year':year,'plan_keys':list(plan),'scenario_hash':plan.get('scenario_hash'),'code_commit':plan.get('code_commit'),'metric':plan.get('metric'),'evaluation_design':plan.get('evaluation_design'),'splits':plan.get('splits'),'budget':json.loads((root/'state/execution_budget.json').read_text())},ensure_ascii=False))\n for run in sorted((root/'runs').iterdir()):\n  if not run.is_dir():continue\n  cap=json.loads((run/'execution_capture.json').read_text());out=json.loads((run/'output.json').read_text());check=json.loads((run/'scientific_check.json').read_text());cc=json.loads((run/'scientific_check_capture.json').read_text());manifest=json.loads((run/'manifest.json').read_text())\n  print(json.dumps({'year':year,'run':run.name,'capture':cap,'checker_capture':cc,'output_keys':list(out),'checker_keys':list(check),'manifest_keys':list(manifest)},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:55:30.982Z",
+      "ended_at": "2026-09-09T03:55:31.190Z",
+      "sequence": 7,
+      "result_summary": {
+        "chunk_id": "4433d1",
+        "wall_time_seconds": 4.436e-06,
+        "exit_code": 0,
+        "original_token_count": 9249,
+        "output_sha256": "79e0c4c5021ffeaf134cb26bd42532800d13c66d0659ae6407ddcbc991cdbcc9",
+        "output_bytes": 36993
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nroot=Path('.cache/pr12-rc9/development-round-r2')\nfor p in sorted(root.glob('*.json')): print(json.dumps({'path':str(p),'receipt':json.loads(p.read_text())},ensure_ascii=False))\nfor year in (2016,2015):\n p=root/f'{year}_complete.stdout';print(json.dumps({'path':str(p),'content':p.read_text()},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:55:30.982Z",
+      "ended_at": "2026-09-09T03:55:31.189Z",
+      "sequence": 8,
+      "result_summary": {
+        "chunk_id": "8278e8",
+        "wall_time_seconds": 8.46e-06,
+        "exit_code": 0,
+        "original_token_count": 172097,
+        "output_sha256": "0bf8956854c51af2e7d0e2a7644bcc5a0c369f3d7ba064677fcf8d26e0a3ad64",
+        "output_bytes": 56110
+      }
+    },
+    {
+      "command": "rg --files .cache/pr12-rc9/development/2016/case-r2 .cache/pr12-rc9/development/2015/case-r2 -g '!data/raw/**' -g '*state*' -g '*trace*' -g '*final*' -g '*decision*' -g '*.jsonl'",
+      "started_at": "2026-09-09T03:55:30.982Z",
+      "ended_at": "2026-09-09T03:55:31.216Z",
+      "sequence": 9,
+      "result_summary": {
+        "chunk_id": "445268",
+        "wall_time_seconds": 8.285e-06,
+        "exit_code": 0,
+        "original_token_count": 100,
+        "output_sha256": "a19620691796291ccc8162654b2e83a44c90888da983e5c3a5a6444f87af7eb6",
+        "output_bytes": 400
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfor year in (2016,2015):\n root=Path(f'.cache/pr12-rc9/development/{year}/case-r2')\n for r in sorted((root/'runs').iterdir()):\n  o=json.loads((r/'output.json').read_text());c=json.loads((r/'scientific_check.json').read_text())\n  print(json.dumps({'year':year,'run':r.name,'candidate':o['candidate_id'],'validation_metrics':o['validation_metrics'],'final_metrics':o['final_metrics'],'limitations':o['limitations'],'uncertainty':o['uncertainty'],'checker_independence':c['independence'],'checker_final_test_access':c['final_test_access'],'checker_requirements':c['requirements'],'other_output_fields':{k:(list(v) if isinstance(v,dict) else {'type':type(v).__name__,'length':len(v) if isinstance(v,list) else None}) for k,v in o.items() if k not in ['metric_samples','temporal_lineage','scientific_evidence','validation_metrics','final_metrics','limitations','uncertainty']}},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:56:24.575Z",
+      "ended_at": "2026-09-09T03:56:24.700Z",
+      "sequence": 10,
+      "result_summary": {
+        "chunk_id": "2d475b",
+        "wall_time_seconds": 3.154e-06,
+        "exit_code": 1,
+        "original_token_count": 3311,
+        "output_sha256": "48bd3fe6fa3d3ec4940636310755fc546ea71fa540b93cea0edb26e3d8330a8d",
+        "output_bytes": 13242
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfor year in (2016,2015):\n root=Path(f'.cache/pr12-rc9/development/{year}/case-r2')\n for relative in ('problem/problem_requirements.json','results/requirement_selection.json','results/final_result.json','evidence/gate_execution_trace.json','case_state.json'):\n  p=root/relative\n  if not p.exists():print(json.dumps({'path':str(p),'exists':False}));continue\n  d=json.loads(p.read_text());d=d.get('content',d)\n  if relative.startswith('problem/'):\n   d=[{k:r.get(k) for k in ('requirement_id','description','minimum_data_fields','prediction_spec','metric_contracts','accuracy_scope')} for r in d['requirements']]\n  print(json.dumps({'path':str(p),'content':d},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:56:24.575Z",
+      "ended_at": "2026-09-09T03:56:24.683Z",
+      "sequence": 11,
+      "result_summary": {
+        "chunk_id": "927423",
+        "wall_time_seconds": 5.309e-06,
+        "exit_code": 0,
+        "original_token_count": 9676,
+        "output_sha256": "a8ab70d144814f45cf98fd602392753b5ee5a56021edc9d70019b73cf74574fd",
+        "output_bytes": 38703
+      }
+    },
+    {
+      "command": "git show 10e8b038d571b88ce2b7f2388da00a618c774f69:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py | nl -ba | sed -n '1100,1190p;5580,5630p;6170,6210p'",
+      "started_at": "2026-09-09T03:56:24.575Z",
+      "ended_at": "2026-09-09T03:56:24.699Z",
+      "sequence": 12,
+      "result_summary": {
+        "chunk_id": "96be6e",
+        "wall_time_seconds": 6.107e-06,
+        "exit_code": 0,
+        "original_token_count": 2296,
+        "output_sha256": "6beb06173551b062c9361ef1f9fd695e1099d61058d1e94a958668bb1cca1c17",
+        "output_bytes": 9181
+      }
+    },
+    {
+      "command": "git show 10e8b038d571b88ce2b7f2388da00a618c774f69:scripts/finalize_fresh_c_validation.py | nl -ba | sed -n '575,640p'",
+      "started_at": "2026-09-09T03:56:24.575Z",
+      "ended_at": "2026-09-09T03:56:24.683Z",
+      "sequence": 13,
+      "result_summary": {
+        "chunk_id": "92806f",
+        "wall_time_seconds": 5.748e-06,
+        "exit_code": 0,
+        "original_token_count": 755,
+        "output_sha256": "d3167491215091d80db90105868d7d0328567b84a36d7f51356d34c2ee08034b",
+        "output_bytes": 3019
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfor year in (2016,2015):\n root=Path(f'.cache/pr12-rc9/development/{year}/case-r2')\n for filename in ('evidence/gate_execution_trace.json','results/final_result.json','case_state.json'):\n  d=json.loads((root/filename).read_text());v=d.get('content',d)\n  if filename.endswith('gate_execution_trace.json'):\n   v={'keys':list(d),'status':d.get('status'),'events':[{k:e.get(k) for k in ('sequence','gate_id','gate','result','reason_codes','evaluator','started_at','ended_at')} for e in d.get('events',[])],'state_before_hash':d.get('state_before_hash'),'state_after_hash':d.get('state_after_hash')}\n  elif filename=='case_state.json':v={k:d.get(k) for k in ('state','last_gate','skill_version','case_id')}\n  print(json.dumps({'year':year,'file':filename,'value':v},ensure_ascii=False))\n for r in sorted((root/'runs').iterdir()):\n  c=json.loads((r/'execution_capture.json').read_text());cc=json.loads((r/'scientific_check_capture.json').read_text())\n  print(json.dumps({'year':year,'run':r.name,'candidate':c['candidate_id'],'scenario':c['scenario_hash'],'outcome':c['outcome'],'model_times':[c['started_at'],c['ended_at']],'checker_times':[cc['started_at'],cc['ended_at']],'checker_status':cc['status'],'exit_codes':[c['exit_code'],cc['exit_code']]}))\nPY",
+      "started_at": "2026-09-09T03:57:12.262Z",
+      "ended_at": "2026-09-09T03:57:12.355Z",
+      "sequence": 14,
+      "result_summary": {
+        "chunk_id": "c6b13a",
+        "wall_time_seconds": 1.5289e-05,
+        "exit_code": 0,
+        "original_token_count": 807,
+        "output_sha256": "94979b0c12b4836fd4b92cc915f32aabaf35684ef07e69668cfa6300e60914d6",
+        "output_bytes": 3225
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nroot=Path('.cache/pr12-rc9/development/2015/case-r2')\nfor run in sorted((root/'runs').iterdir()):\n o=json.loads((run/'output.json').read_text());c=json.loads((run/'scientific_check.json').read_text())\n print(json.dumps({'run':run.name,'candidate':o['candidate_id'],'validation_metrics':o['validation_metrics'],'final_metrics':o['final_metrics'],'limitations':o['limitations'],'uncertainty':o.get('uncertainty'),'checker_independence':c.get('independence'),'checker_final_test_access':c.get('final_test_access'),'checker_requirements':c['requirements'],'other_output_fields':{k:(list(v) if isinstance(v,dict) else {'type':type(v).__name__,'length':len(v) if isinstance(v,list) else None}) for k,v in o.items() if k not in ['metric_samples','temporal_lineage','scientific_evidence','validation_metrics','final_metrics','limitations','uncertainty']}},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:57:12.262Z",
+      "ended_at": "2026-09-09T03:57:12.444Z",
+      "sequence": 15,
+      "result_summary": {
+        "chunk_id": "758db9",
+        "wall_time_seconds": 8.498e-06,
+        "exit_code": 0,
+        "original_token_count": 4302,
+        "output_sha256": "da632d0f13966d4d01984aec8d76eb1cf33c985751b89bcc6e095a35b4a19705",
+        "output_bytes": 17207
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nbase=Path('.cache/pr12-rc9/development-round-r2')\nfor year in (2016,2015):\n for name in ('model_1','model_2','model_valid_1','model_valid_2','complete'):\n  p=base/f'{year}_{name}.json';d=json.loads(p.read_text());out=json.loads(p.with_suffix('.stdout').read_text())\n  print(json.dumps({'file':str(p),'exit_code':d.get('exit_code'),'started_at':d.get('started_at'),'ended_at':d.get('ended_at'),'status':out.get('status'),'reason_codes':out.get('reason_codes'),'reason':out.get('reason'),'stdout_keys':list(out)},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:57:12.262Z",
+      "ended_at": "2026-09-09T03:57:12.449Z",
+      "sequence": 16,
+      "result_summary": {
+        "chunk_id": "f4e39b",
+        "wall_time_seconds": 5.024e-06,
+        "exit_code": 0,
+        "original_token_count": 819,
+        "output_sha256": "c21241b951caa6ae71c875bb8a36aa8aed57a2c1fbb51192a0513907bb1ff429",
+        "output_bytes": 3274
+      }
+    },
+    {
+      "command": "git show 10e8b038d571b88ce2b7f2388da00a618c774f69:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py | rg -n '^(PREFINAL_SELECTION|SCIENTIFIC_FINAL_LEDGER|FINAL_EVALUATION_LEDGER|FINAL_PROTOCOL_EVENTS)'",
+      "started_at": "2026-09-09T03:57:12.262Z",
+      "ended_at": "2026-09-09T03:57:12.521Z",
+      "sequence": 17,
+      "result_summary": {
+        "chunk_id": "8cbec9",
+        "wall_time_seconds": 7.044e-06,
+        "exit_code": 0,
+        "original_token_count": 70,
+        "output_sha256": "a18301e21b1ba960ff1c711244948139f0db4b26a3d975feb69fa173a4c73f62",
+        "output_bytes": 278
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfor year in (2016,2015):\n root=Path(f'.cache/pr12-rc9/development/{year}/case-r2');trace=json.loads((root/'evidence/gate_execution_trace.json').read_text())\n print(json.dumps({'year':year,'disposition':trace['final_disposition'],'sequence':trace['gate_sequence'],'final_artifact_exists':{p:(root/p).exists() for p in ['evidence/prefinal_selection_freeze.json','evidence/scientific_final_ledger.json','evidence/final_evaluation_ledger.json','evidence/final_protocol_events.jsonl']}},ensure_ascii=False))\nfor run in sorted(Path('.cache/pr12-rc9/development/2016/case-r2/runs').iterdir()):\n o=json.loads((run/'output.json').read_text())\n print(json.dumps({'run':run.name,'Q1_per_current_MRE':o['Q1']['per_current_MRE'],'Q1_remaining_at_9_8V_min':o['Q1']['remaining_at_9_8V_min'],'Q2_duration55_min':o['Q2']['duration55_min'],'Q2_loco_first':o['Q2']['leave_one_current_out'][0],'Q3':{k:v for k,v in o['Q3'].items() if k not in ['prediction_voltage_V','predicted_elapsed_min','state2_development_prediction_min','state1_validation_prediction_min','rolling_origin_development']},'Q3_sample_rows':o['metric_samples']['q3_remaining_MRE'],'Q1_first_sample':o['metric_samples']['q1_mean_fitted_MRE'][0],'Q2_first_sample':o['metric_samples']['q2_loco_MRE'][0]},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:57:55.329Z",
+      "ended_at": "2026-09-09T03:57:55.435Z",
+      "sequence": 18,
+      "result_summary": {
+        "chunk_id": "5af932",
+        "wall_time_seconds": 5.187e-06,
+        "exit_code": 0,
+        "original_token_count": 5346,
+        "output_sha256": "5a8c6e73b3be2a9a88c065c6dd73f49a2df26a14e6eb1e252431c543ed50671b",
+        "output_bytes": 21384
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nfor run in sorted(Path('.cache/pr12-rc9/development/2015/case-r2/runs').iterdir()):\n o=json.loads((run/'output.json').read_text())\n print(json.dumps({'run':run.name,'reference_first':o['reference_comparison'][0],'rmse_sample_first':o['metric_samples']['reference_altitude_rmse_deg'][0],'max_sample_first':o['metric_samples']['reference_altitude_max_abs_deg'][0],'calendar_first':o['daily_calendar']['Beijing'][0],'event_first':o['events']['Beijing'][0],'sensitivity':{k:{'parameters':v['parameters'],'keys':list(v)} for k,v in o['sensitivity'].items()},'robustness':o['robustness_evidence']},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:57:55.329Z",
+      "ended_at": "2026-09-09T03:57:55.453Z",
+      "sequence": 19,
+      "result_summary": {
+        "chunk_id": "88f46e",
+        "wall_time_seconds": 5.023e-06,
+        "exit_code": 0,
+        "original_token_count": 1413,
+        "output_sha256": "a79c688f422baf2a483cc7e391fd6a8fd63fdc9d7e53b9b95ddf63b964501772",
+        "output_bytes": 5649
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nfrom openpyxl import load_workbook\nimport json\np=Path('.cache/pr12-rc9/development/2016/case-r2/data/raw/appendix.xlsx')\nbook=load_workbook(p,read_only=True,data_only=True)\nfor name in ('附件1','附件2'):\n sheet=book[name]\n print(json.dumps({'source':str(p),'sheet':name,'rows_1_2_only':list(sheet.iter_rows(min_row=1,max_row=2,values_only=True))},ensure_ascii=False))\nbook.close()\np=Path('.cache/pr12-rc9/development/2015/case-r2/data/processed/settings.json')\nprint(json.dumps({'source':str(p),'settings':json.loads(p.read_text())},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T03:59:18.305Z",
+      "ended_at": "2026-09-09T03:59:18.621Z",
+      "sequence": 20,
+      "result_summary": {
+        "chunk_id": "e16956",
+        "wall_time_seconds": 0.112720722,
+        "exit_code": 0,
+        "original_token_count": 419,
+        "output_sha256": "78cba208660b9e17220180c4163bc7c67acd4207baffa21465ce872aaa05aa41",
+        "output_bytes": 1676
+      }
+    },
+    {
+      "command": "rg --files evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006 evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007 -g '*scientific_summary*' -g '*execution_evidence*' -g '*decision*'",
+      "started_at": "2026-09-09T04:00:12.347Z",
+      "ended_at": "2026-09-09T04:00:12.555Z",
+      "sequence": 21,
+      "result_summary": {
+        "chunk_id": "8e8ea1",
+        "wall_time_seconds": 4.838e-06,
+        "exit_code": 0,
+        "original_token_count": 181,
+        "output_sha256": "c26a1187854118bd67886bd3ada5f9cdf4c66898036f9875eb3a1a453729c92a",
+        "output_bytes": 724
+      }
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfor year,num in [(2016,'006'),(2015,'007')]:\n base=Path(f'evals/results/phase-004c6/CUMCM-{year}-C-POSTVALIDATION-DEVELOPMENT-{num}/execution')\n e=json.loads((base/'execution_evidence.json').read_text()); print(json.dumps({'path':str(base/'execution_evidence.json'),'evidence':e},ensure_ascii=False))\n for p in sorted((base/'runs').glob('*/scientific_summary.json')):\n  d=json.loads(p.read_text());print(json.dumps({'path':str(p),'keys':list(d),'summary':{k:v for k,v in d.items() if k not in ('scientific_check','temporal_lineage','metric_samples','requirements')}},ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T04:00:26.552Z",
+      "ended_at": "2026-09-09T04:00:26.638Z",
+      "sequence": 22,
+      "result_summary": {
+        "chunk_id": "4909cd",
+        "wall_time_seconds": 1.2845e-05,
+        "exit_code": 0,
+        "original_token_count": 17228,
+        "output_sha256": "7d9554d4a5d6e9f7b75e718da0fd0850023237dfaacf18a2dab7119930a25944",
+        "output_bytes": 36106
+      }
+    },
+    {
+      "command": "rg --files .cache/pr12-rc9/development/2016/case-r2/runs .cache/pr12-rc9/development/2016/case-r2/data/processed .cache/pr12-rc9/development/2015/case-r2/runs | head -60",
+      "started_at": "2026-09-09T04:03:50.086Z",
+      "ended_at": "2026-09-09T04:03:50.258Z",
+      "sequence": 23,
+      "result_summary": {
+        "chunk_id": "3a9a09",
+        "wall_time_seconds": 8.433e-06,
+        "exit_code": 0,
+        "original_token_count": 784,
+        "output_sha256": "dc5e47fdbf45041b157555ab42f5995abf162136fc1e002a07512ff2b076ee13",
+        "output_bytes": 3136
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor y,c in [(2016,'006'),(2015,'007')]:\n p=Path(f'evals/results/phase-004c6/CUMCM-{y}-C-POSTVALIDATION-DEVELOPMENT-{c}')\n for rel in ['terminal/decision.json','execution/execution_evidence.json']:\n  d=json.loads((p/rel).read_text()); print(str(p/rel));print(json.dumps(d if rel.startswith('terminal') else {k:v for k,v in d.items() if k not in ['artifacts','scientific_summaries']},ensure_ascii=False,indent=2))\nPY",
+      "started_at": "2026-09-09T04:03:50.086Z",
+      "ended_at": "2026-09-09T04:03:50.241Z",
+      "sequence": 24,
+      "result_summary": {
+        "chunk_id": "781a01",
+        "wall_time_seconds": 7.693e-06,
+        "exit_code": 0,
+        "original_token_count": 5669,
+        "output_sha256": "f44b39a8d2677ec331f595d1ee06c85fb874fa8d8a1f5e62e4359ef5da28a574",
+        "output_bytes": 20106
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor y in [2016,2015]:\n r=Path(f'.cache/pr12-rc9/development/{y}/case-r2')\n for f in ['output.json','scientific_check.json','execution_capture.json','manifest.json']:\n  d=json.loads((r/f'runs/RUN-RC9-D{y}-R2-02'/f).read_text()); print(y,f,list(d))\n  if f=='output.json':\n   for k,v in d.items():\n    if isinstance(v,dict):print(k,'dict',list(v)[:20])\n    elif isinstance(v,list): print(k,'list',len(v),str(v[:1])[:1300])\n  if f=='scientific_check.json':print('reqexample',str(d['requirements'][:1])[:300])\n if y==2016:\n  d=json.loads((r/'data/processed/temporal_index.json').read_text());print('temporal',list(d));print(str(d)[:2800])\nfor n in ['development_results_r2.json','main_independent_replay_r2.json']:\n p=Path('evals/results/phase-004c6/qualification/receipts')/n;d=json.loads(p.read_text());print(n,json.dumps(d,ensure_ascii=False)[:5000])\nPY",
+      "started_at": "2026-09-09T04:04:06.718Z",
+      "ended_at": "2026-09-09T04:04:07.008Z",
+      "sequence": 25,
+      "result_summary": {
+        "chunk_id": "3c0bf2",
+        "wall_time_seconds": 0.108832399,
+        "exit_code": 1,
+        "original_token_count": 857,
+        "output_sha256": "be278e51e2c02df069bbcb76fff9974755dddb2edfce9fd64e078e716f16b3c3",
+        "output_bytes": 3428
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nfor y in [2016,2015]:\n r=Path(f'.cache/pr12-rc9/development/{y}/case-r2')\n for f in ['output.json','scientific_check.json','execution_capture.json','manifest.json']:\n  d=json.loads((r/f'runs/RUN-RC9-D{y}-R2-02'/f).read_text());print(y,f,list(d))\n  if f=='output.json':\n   for k in ['metric_samples','temporal_lineage','daily_calendar','events','reference_validation','sensitivity','metric_accounting']:\n    if k in d:print(k,str(d[k])[:1500])\n  if f=='scientific_check.json':print('reqexample',str(d['requirements'])[:700])\n if y==2016:\n  d=json.loads((r/'data/processed/temporal_index.json').read_text());print('temporal',list(d));print(str(d)[:2200])\nfor n in ['development_results_r2.json','main_independent_replay_r2.json']:\n p=Path('evals/results/phase-004c6/qualification/receipts')/n;d=json.loads(p.read_text());print(n,json.dumps(d,ensure_ascii=False)[:4400])\nPY",
+      "started_at": "2026-09-09T04:04:21.858Z",
+      "ended_at": "2026-09-09T04:04:22.047Z",
+      "sequence": 26,
+      "result_summary": {
+        "chunk_id": "72451d",
+        "wall_time_seconds": 7.586e-06,
+        "exit_code": 0,
+        "original_token_count": 5623,
+        "output_sha256": "f9cfd84b956d1a08d4438c07748b33d6cb0e2332ce2069405af98c87474005f8",
+        "output_bytes": 19305
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nr=Path('.cache/pr12-rc9/development/2016/case-r2');o=json.loads((r/'runs/RUN-RC9-D2016-R2-02/output.json').read_text());s=o['temporal_lineage']['samples'][0];print('lineage', {k:(v[:2] if isinstance(v,list) else v) for k,v in s.items()});print('q3sample',o['metric_samples']['q3_remaining_MRE'][0]);print('q3future',o['metric_samples']['q3_remaining_min']);print('defs',o['metric_definitions']);print('rolling',str(o['Q3']['rolling_origin_development'])[:1000]);\nr=Path('.cache/pr12-rc9/development/2015/case-r2');o=json.loads((r/'runs/RUN-RC9-D2015-R2-02/output.json').read_text());print('2015defs',o['metric_definitions']['reference_altitude_rmse_deg']);print('ref',str(o['reference_comparison'])[:600]);print('event',str(o['events']['Beijing'][:1])[:800]);print('sensitivitytype',type(o['sensitivity']).__name__);print('sens',str(o['sensitivity'])[:150]);\nfor y,c in [(2016,'006'),(2015,'007')]:\n p=Path(f'evals/results/phase-004c6/CUMCM-{y}-C-POSTVALIDATION-DEVELOPMENT-{c}/execution');d=json.loads((p/'raw_to_public_provenance.json').read_text());print('provenance',y,type(d).__name__,str(d)[:1300]);b=json.loads((p/'state/execution_budget.json').read_text());print('budget',y,list(b),str(b)[:1300]);e=json.loads((p/'execution_evidence.json').read_text());print('artfirst',e['artifacts'][0]);print('summarykeys',list(json.loads((p/f'runs/RUN-RC9-D{y}-R2-02/scientific_summary.json').read_text())))\nPY",
+      "started_at": "2026-09-09T04:04:43.364Z",
+      "ended_at": "2026-09-09T04:04:43.495Z",
+      "sequence": 27,
+      "result_summary": {
+        "chunk_id": "150569",
+        "wall_time_seconds": 5.505e-06,
+        "exit_code": 0,
+        "original_token_count": 2554,
+        "output_sha256": "4dd72b8294301184cf48d521eb7a23b80f21de3d8283b8589fefb25b17dcb953",
+        "output_bytes": 10213
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nr=Path('.cache/pr12-rc9/development/2016/case-r2')\nprint('experiments', [str(p) for p in (r/'experiments').glob('*.json')])\np=Path('evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/raw_to_public_provenance.json');d=json.loads(p.read_text());print('provenance last',json.dumps(d['records'][-3:],ensure_ascii=False)[:2100]);\nd=json.loads((r/'runs/RUN-RC9-D2016-R2-02/output.json').read_text());print('lastlineage', {k:(v[:1] if isinstance(v,list) else v) for k,v in d['temporal_lineage']['samples'][-1].items()});print('summarytransfer',json.loads((p.parent/'runs/RUN-RC9-D2016-R2-02/scientific_summary.json').read_text())['q3_transfer_parameters']);t=json.loads((r/'evidence/gate_execution_trace.json').read_text());print('tracekeys',list(t));print('traceart',str(t.get('artifact_hashes'))[:1700]);print('firstgate',t['gate_sequence'][0]);print('capturefreeze',json.loads((r/'runs/RUN-RC9-D2016-R2-02/execution_capture.json').read_text())['freeze_bindings']);\nr=Path('evals/results/phase-004c6/qualification/receipts/development_results_r2.json');d=json.loads(r.read_text());print('development keys',list(d), 'casekeys',list(d['cases'][0]));\nPY",
+      "started_at": "2026-09-09T04:05:06.609Z",
+      "ended_at": "2026-09-09T04:05:06.737Z",
+      "sequence": 28,
+      "result_summary": {
+        "chunk_id": "1462f1",
+        "wall_time_seconds": 1.3097e-05,
+        "exit_code": 0,
+        "original_token_count": 889,
+        "output_sha256": "c5f1020fc6bc9da694a265dba37df72cb2ef6b8f4172b30c386daafb92480c63",
+        "output_bytes": 3555
+      }
+    },
+    {
+      "command": "apply_patch audit-only arithmetic_review.py (full content retained in file)",
+      "started_at": "2026-09-09T04:07:33.012Z",
+      "ended_at": "2026-09-09T04:07:33.052Z",
+      "sequence": 29,
+      "result_summary": {
+        "exit_code": 0,
+        "output_sha256": "2e80fa3420cccada945cf7f864d63c0e4a519ba71295b1faca1297c9b18e9dc9",
+        "output_bytes": 49
+      }
+    },
+    {
+      "command": ".venv/bin/python .cache/pr12-rc9/scientific-semantics-review-007/arithmetic_review.py",
+      "started_at": "2026-09-09T04:07:40.650Z",
+      "ended_at": "2026-09-09T04:07:40.774Z",
+      "sequence": 30,
+      "result_summary": {
+        "chunk_id": "a2ddad",
+        "wall_time_seconds": 6.38e-06,
+        "exit_code": 1,
+        "original_token_count": 74,
+        "output_sha256": "0bee24a9c3e48881738c85b8fe1bf3d0b8b78973fa6b5d84208d9a2cffdf31cd",
+        "output_bytes": 294
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('.cache/pr12-rc9/development/2016/case-r2/experiments/experiment_plan.json');d=json.loads(p.read_text());print(list(d));print({k:(list(v) if isinstance(v,dict) else type(v).__name__) for k,v in d.items()});c=json.loads((p.parents[1]/'runs/RUN-RC9-D2016-R2-02/scientific_check_capture.json').read_text());print('checkerkeys',list(c));print({k:v for k,v in c.items() if k in ['status','exit_code','outcome']})\nPY",
+      "started_at": "2026-09-09T04:07:54.180Z",
+      "ended_at": "2026-09-09T04:07:54.323Z",
+      "sequence": 31,
+      "result_summary": {
+        "chunk_id": "4753cd",
+        "wall_time_seconds": 5.694e-06,
+        "exit_code": 0,
+        "original_token_count": 218,
+        "output_sha256": "7aeff429a8983a93fdc9cdf79c44f40197808aa3b49474e50b2047079d310d0f",
+        "output_bytes": 872
+      }
+    },
+    {
+      "command": "cat evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/SCIENTIFIC_REPORT.md evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/SCIENTIFIC_REPORT.md",
+      "started_at": "2026-09-09T04:07:54.323Z",
+      "ended_at": "2026-09-09T04:07:54.378Z",
+      "sequence": 32,
+      "result_summary": {
+        "chunk_id": "3444c9",
+        "wall_time_seconds": 6.125e-06,
+        "exit_code": 0,
+        "original_token_count": 1934,
+        "output_sha256": "ed423682eb99d662a722be00c09dcf8f2508c66504b76ba98a1f698debb54ebe",
+        "output_bytes": 7734
+      }
+    },
+    {
+      "command": "apply_patch audit script only: read experiment_plan content envelope",
+      "sequence": 33,
+      "result_summary": {
+        "exit_code": 0
+      }
+    },
+    {
+      "command": ".venv/bin/python .cache/pr12-rc9/scientific-semantics-review-007/arithmetic_review.py",
+      "started_at": "2026-09-09T04:08:15.695Z",
+      "ended_at": "2026-09-09T04:08:15.794Z",
+      "sequence": 34,
+      "result_summary": {
+        "chunk_id": "acb93c",
+        "wall_time_seconds": 6.162e-06,
+        "exit_code": 1,
+        "original_token_count": 89,
+        "output_sha256": "2850f17f5b26bde9a73790cf073b03435f8bcbab37b4d9d129de4dd12f5b8fbf",
+        "output_bytes": 353
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nr=Path('.cache/pr12-rc9/development/2016/case-r2');d=json.loads((r/'results/final_result.json').read_text());print('final',d)\nc=json.loads((r/'runs/RUN-RC9-D2016-R2-02/execution_capture.json').read_text());print('inputfirst',c['input_files'][:1]);print('codefiles',c['code_files']);t=json.loads((r/'evidence/gate_execution_trace.json').read_text());print('traceinputs',list(t['input_artifact_hashes']));p=Path('evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json');print('sensitivitysummaryfirst',next(iter(json.loads(p.read_text())['sensitivity_counts'].values())))\nPY",
+      "started_at": "2026-09-09T04:08:36.245Z",
+      "ended_at": "2026-09-09T04:08:36.361Z",
+      "sequence": 35,
+      "result_summary": {
+        "chunk_id": "ce22a3",
+        "wall_time_seconds": 5.326e-06,
+        "exit_code": 0,
+        "original_token_count": 425,
+        "output_sha256": "982820580c79f272c5647e45bc707d6df6362ecaa18def6666523f660ef64695",
+        "output_bytes": 1698
+      }
+    },
+    {
+      "command": "apply_patch audit script only: read final_result content envelope",
+      "sequence": 36,
+      "result_summary": {
+        "exit_code": 0
+      }
+    },
+    {
+      "command": ".venv/bin/python .cache/pr12-rc9/scientific-semantics-review-007/arithmetic_review.py",
+      "started_at": "2026-09-09T04:08:45.925Z",
+      "ended_at": "2026-09-09T04:08:46.140Z",
+      "sequence": 37,
+      "result_summary": {
+        "chunk_id": "171697",
+        "wall_time_seconds": 0.023098433,
+        "exit_code": 1,
+        "original_token_count": 3654,
+        "output_sha256": "150e516762b1c090b486d491a966585345a79a51a8dba679b3e001b0776b0ab5",
+        "output_bytes": 12906
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json,subprocess\nfrom pathlib import Path\nr=Path('.cache/pr12-rc9/development/2016/case-r2');o=json.loads((r/'runs/RUN-RC9-D2016-R2-02/output.json').read_text())\nfor s in o['temporal_lineage']['samples']:\n target=set(s['feature_observation_ids']);same={i for i in s['model_fit_observation_ids']+s['preprocess_fit_observation_ids'] if i.startswith(s['sample_id'][:2]+'-')};print(s['sample_id'],'same_state_fit_equals_prefix',same==target,'same',len(same),'prefix',len(target))\nfor rel in ['scripts/prepare_phase004c6_development.py','evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/produce.py']:\n text=subprocess.check_output(['git','show','10e8b038d571b88ce2b7f2388da00a618c774f69:'+rel],text=True).splitlines()\n for i,line in enumerate(text):\n  if any(x in line for x in ['model_fit_observation_ids','preprocess_fit_observation_ids','for prior','refs =','previous','prior_states']):\n   print(rel,i+1,'\\n'.join(text[max(0,i-2):i+3]))\nPY",
+      "started_at": "2026-09-09T04:09:04.433Z",
+      "ended_at": "2026-09-09T04:09:04.735Z",
+      "sequence": 38,
+      "result_summary": {
+        "chunk_id": "466df3",
+        "wall_time_seconds": 0.029069003,
+        "exit_code": 0,
+        "original_token_count": 250,
+        "output_sha256": "4ca9905249f50e66583379ad9ace964dedbe04ecd729720d8a120d27130c52dd",
+        "output_bytes": 999
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nfrom pathlib import Path\np=Path('.cache/pr12-rc9/scientific-semantics-review-007')\nfor name in ['arithmetic_results.json','arithmetic_checks.json']:\n (p/('initial_'+name)).write_bytes((p/name).read_bytes())\nPY",
+      "started_at": "2026-09-09T04:09:26.343Z",
+      "ended_at": "2026-09-09T04:09:26.421Z",
+      "sequence": 39,
+      "result_summary": {
+        "exit_code": 0
+      }
+    },
+    {
+      "command": "apply_patch audit-only assertion: legitimate target prefix is fit input; independently inspected same-state fit == prefix all 7 samples",
+      "sequence": 40,
+      "result_summary": {
+        "exit_code": 0
+      }
+    },
+    {
+      "command": ".venv/bin/python .cache/pr12-rc9/scientific-semantics-review-007/arithmetic_review.py",
+      "started_at": "2026-09-09T04:09:26.457Z",
+      "ended_at": "2026-09-09T04:09:26.711Z",
+      "sequence": 41,
+      "result_summary": {
+        "chunk_id": "a5ef55",
+        "wall_time_seconds": 0.043885668,
+        "exit_code": 0,
+        "original_token_count": 3112,
+        "output_sha256": "736f4c37683e8c428382fb19d98edf1a349b47037854619073d9cc04167e808c",
+        "output_bytes": 2507
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport json,hashlib,subprocess,re\nfrom pathlib import Path\nrepo=Path.cwd();out=repo/'.cache/pr12-rc9/scientific-semantics-review-007'; checks=[]; material=json.loads((out/'material_manifest.json').read_text())\nsubject='10e8b038d571b88ce2b7f2388da00a618c774f69'\ndef digest(p):\n b=p.read_bytes();h=hashlib.sha256(b).hexdigest();material[str(p.relative_to(repo))]=h;return h\nfor y,c in [(2016,'006'),(2015,'007')]:\n root=repo/f'.cache/pr12-rc9/development/{y}/case-r2';pub=repo/f'evals/results/phase-004c6/CUMCM-{y}-C-POSTVALIDATION-DEVELOPMENT-{c}'\n for n in [1,2]:\n  cap=json.loads((root/f'runs/RUN-RC9-D{y}-R2-0{n}/execution_capture.json').read_text())\n  for item in cap['code_files']:\n   recorded=hashlib.sha256(subprocess.check_output(['git','show',subject+':'+item['repository_path']])).hexdigest()\n   actual=root/item['path'] if item['scope']=='CASE_ROOT' else repo/item['repository_path']\n   checks.append({'kind':'subject_code_capture_bytes','case':y,'run':n,'path':item['repository_path'],'pass':recorded==item['sha256']==digest(actual),'sha256':recorded})\n report=pub/'SCIENTIFIC_REPORT.md';digest(report)\n for target in re.findall(r'\\]\\(([^)]+)\\)',report.read_text()):checks.append({'kind':'report_link','case':y,'target':target,'pass':(report.parent/target).exists()})\n for name in ['execution/raw_to_public_provenance.json','terminal/decision.json','execution/execution_evidence.json']:digest(pub/name)\nreplay=repo/'evals/results/phase-004c6/qualification/receipts/main_independent_replay_r2.json';d=json.loads(replay.read_text());digest(replay)\nfor e in d['evidence']:checks.append({'kind':'replay_log_hash','pass':digest(repo/e['path'])==e['sha256']})\nfor e in d['evidence']:\n text=(repo/e['path']).read_text();print('REPLAY_LOG',text[:2500])\nfor y,c in [(2016,'006'),(2015,'007')]:\n paths=list((repo/f'evals/results/phase-004c6/CUMCM-{y}-C-POSTVALIDATION-DEVELOPMENT-{c}/reports').glob('*provenance*'));print('derivedprovenancepaths',list(map(str,paths)))\n for p in paths:print('derivedprovenance',p.name,p.read_text()[:2000]);digest(p)\n(out/'publication_checks.json').write_text(json.dumps(checks,ensure_ascii=False,indent=2)+'\\n');(out/'material_manifest.json').write_text(json.dumps(material,indent=2,ensure_ascii=False)+'\\n');print('CODE/PUBLICATION',json.dumps(checks,ensure_ascii=False));print('material_count',len(material))\nPY",
+      "started_at": "2026-09-09T04:10:13.489Z",
+      "ended_at": "2026-09-09T04:10:13.615Z",
+      "sequence": 42,
+      "result_summary": {
+        "chunk_id": "e56e1d",
+        "wall_time_seconds": 4.913e-06,
+        "exit_code": 0,
+        "original_token_count": 1316,
+        "output_sha256": "5f7c36ab24d1327909e5f9ac3443b7bff8986781493f2f62062a55600a112df0",
+        "output_bytes": 5263
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport csv,hashlib,json,re\nfrom pathlib import Path\nrepo=Path.cwd();out=repo/'.cache/pr12-rc9/scientific-semantics-review-007';m=json.loads((out/'material_manifest.json').read_text());extra=[]\np=repo/'evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/reports/derived_output_provenance.json';d=json.loads(p.read_text());c=p.parent/d['file'];b=c.read_bytes();h=hashlib.sha256(b).hexdigest();rows=list(csv.DictReader(b.decode().splitlines()));m[str(c.relative_to(repo))]=h;extra.append({'csv_hash_matches':h==d['sha256'],'row_count':len(rows),'declared_rows':d['rows'],'source_output_hash_matches':d['source_output_sha256']==hashlib.sha256((repo/'.cache/pr12-rc9/development/2015/case-r2/runs/RUN-RC9-D2015-R2-02/output.json').read_bytes()).hexdigest(),'scope':d['scope'],'coverage':'CSV hash and row cardinality only; no full per-cell CSV audit'})\nfor y,c in [(2016,'006'),(2015,'007')]:\n p=repo/f'evals/results/phase-004c6/CUMCM-{y}-C-POSTVALIDATION-DEVELOPMENT-{c}/SCIENTIFIC_REPORT.md';b=p.read_bytes();m[str(p.relative_to(repo))]=hashlib.sha256(b).hexdigest();print(y,[line for line in b.decode().splitlines() if 'scenario_hash' in line or '默认值' in line or '默认' in line])\n(out/'publication_supplement.json').write_text(json.dumps(extra,ensure_ascii=False,indent=2)+'\\n');(out/'material_manifest.json').write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\\n');print(json.dumps(extra,ensure_ascii=False));print('materials',len(m))\nPY",
+      "started_at": "2026-09-09T04:10:43.808Z",
+      "ended_at": "2026-09-09T04:10:43.928Z",
+      "sequence": 43,
+      "result_summary": {
+        "chunk_id": "5a7f8e",
+        "wall_time_seconds": 5.669e-06,
+        "exit_code": 0,
+        "original_token_count": 372,
+        "output_sha256": "bbc2de9450546657e6ac9d51fa749f4bddc59f6b17c9ff8494a6405f0a10c9e4",
+        "output_bytes": 1486
+      }
+    },
+    {
+      "command": "apply_patch audit-only REVIEW.md (full text retained)",
+      "started_at": "2026-09-09T04:12:56.359Z",
+      "ended_at": "2026-09-09T04:12:56.398Z",
+      "sequence": 44,
+      "result_summary": {
+        "exit_code": 0
+      }
+    },
+    {
+      "command": "python3 - <<'PY'\nimport hashlib,json,datetime\nfrom pathlib import Path\np=Path('.cache/pr12-rc9/scientific-semantics-review-007');a=json.loads((p/'arithmetic_results.json').read_text());pub=json.loads((p/'publication_checks.json').read_text());supp=json.loads((p/'publication_supplement.json').read_text())\nassert not a['failed_checks'];assert all(x['pass'] for x in pub);assert all(x['csv_hash_matches'] and x['source_output_hash_matches'] and x['row_count']==x['declared_rows'] for x in supp)\ndef b(name):\n q=p/name;return {'path':str(q),'sha256':hashlib.sha256(q.read_bytes()).hexdigest()}\nreceipt={'schema_version':'native-scientific-result-review/v1','kind':'native_result_review','review_scope':'ACTUAL_POSTVALIDATION_DEVELOPMENT_RESULTS','subject_commit':a['subject_commit'],'reviewed_subject':a['subject_commit'],'reviewer':'scientific_semantics_review','reviewed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'PASS','status_meaning':'Limited audit of faithful negative terminals and bounded numerical publication; not candidate or Final acceptance.','candidate_acceptance_status':'FAIL','negative_terminal_facts_status':'PASS','bounded_numerical_summary_status':'PASS','reason_codes':['RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND'],'major_unresolved_findings':[{'id':'R7-001','status':'OPEN','meaning':'Executor defaults missing scenario_hash; controller/core forward None; actual compatibility gate rejects both cases.'}],'reviewed_development_artifacts':a['reviewed_development_artifacts'],'actual_review_execution':{'method':'read-only source/metadata and arithmetic over existing outputs','arithmetic_assertions':a['check_count'],'arithmetic_exit_code':0,'new_model_process_starts':0,'new_checker_process_starts':0,'new_final_process_starts':0,'external_validation':False,'full_ci_run':False,'identity_blind_formal_gate':False},'evidence':[b(n) for n in ['REVIEW.md','arithmetic_review.py','arithmetic_results.json','arithmetic_checks.json','publication_checks.json','publication_supplement.json','material_manifest.json']],'limitations':['No true producer/checker/Final rerun by reviewer.','No raw/full-problem/answer or external observed truth audit.','No claim that semantic/aggregation/Final/handoff gates passed.','CSV hash and row cardinality verified; not every CSV cell.','Pre-run PASS and repeated independent checker computations do not establish external validation.']}\n(p/'receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\\n');print(json.dumps({'receipt':b('receipt.json'),'review':b('REVIEW.md'),'binding':a['reviewed_development_artifacts'],'verdicts':{k:receipt[k] for k in ['candidate_acceptance_status','negative_terminal_facts_status','bounded_numerical_summary_status']}},ensure_ascii=False,indent=2))\nPY",
+      "started_at": "2026-09-09T04:13:36.810Z",
+      "ended_at": "2026-09-09T04:13:36.935Z",
+      "sequence": 45,
+      "result_summary": {
+        "chunk_id": "a145a5",
+        "wall_time_seconds": 5.217e-06,
+        "exit_code": 0,
+        "original_token_count": 399,
+        "output_sha256": "5aa0c78e01c196f243f2dbb70719f2b5548cf1ef584f98b0b5f14cb2db0d1f62",
+        "output_bytes": 1593
+      }
+    },
+    {
+      "command": "ls -la .cache/pr12-rc9/scientific-semantics-review-007",
+      "started_at": null,
+      "ended_at": null,
+      "note": "Actual post-compaction directory existence lookup before audit directory creation; timestamp was not retained.",
+      "sequence": 46,
+      "result_summary": {
+        "exit_code": 2,
+        "output_sha256": "8c8a69030c9be2b50c53e8f37eaf534cb428ac1dd422a3de1b8ced443bf08040",
+        "output_bytes": 95
+      }
+    }
+  ]
+}

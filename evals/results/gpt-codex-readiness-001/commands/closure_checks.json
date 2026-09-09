@@ -1,0 +1,64 @@
+[
+  {
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "docs/gpt_codex_workflow/tests"
+    ],
+    "content_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+    "metadata_changes_uncommitted": true,
+    "exit_code": 0,
+    "elapsed_seconds": 1.229,
+    "raw_sha256": "9b11cb2f3356aba2b6bea79c5002067b83ed8c2e96bb42b301fec1fe49fd2c79",
+    "view_sha256": "9b11cb2f3356aba2b6bea79c5002067b83ed8c2e96bb42b301fec1fe49fd2c79",
+    "log": "commands/closure-0.log",
+    "tested_operator_manifest_sha256": "205795771af3f4c3beaaea5b1f544ce674d087a333a0b101e26c3d3a2178b098"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/validate_repo.py",
+      "--strict"
+    ],
+    "content_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+    "metadata_changes_uncommitted": true,
+    "exit_code": 0,
+    "elapsed_seconds": 4.65,
+    "raw_sha256": "d86ef4e66e773dc4be1ad3e17da6b3e8657f3b6a0a489dbb29579b365e2a9c58",
+    "view_sha256": "d86ef4e66e773dc4be1ad3e17da6b3e8657f3b6a0a489dbb29579b365e2a9c58",
+    "log": "commands/closure-1.log",
+    "tested_operator_manifest_sha256": "205795771af3f4c3beaaea5b1f544ce674d087a333a0b101e26c3d3a2178b098"
+  },
+  {
+    "argv": [
+      ".venv/bin/python",
+      "scripts/render_status.py",
+      "--check"
+    ],
+    "content_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+    "metadata_changes_uncommitted": true,
+    "exit_code": 0,
+    "elapsed_seconds": 0.02,
+    "raw_sha256": "485f06b720baf95874f16d5c478136279d65d90e8afcb28082b71c94b3b4e334",
+    "view_sha256": "485f06b720baf95874f16d5c478136279d65d90e8afcb28082b71c94b3b4e334",
+    "log": "commands/closure-2.log",
+    "tested_operator_manifest_sha256": "205795771af3f4c3beaaea5b1f544ce674d087a333a0b101e26c3d3a2178b098"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "content_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+    "metadata_changes_uncommitted": true,
+    "exit_code": 0,
+    "elapsed_seconds": 0.009,
+    "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "view_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "log": "commands/closure-3.log",
+    "tested_operator_manifest_sha256": "205795771af3f4c3beaaea5b1f544ce674d087a333a0b101e26c3d3a2178b098"
+  }
+]

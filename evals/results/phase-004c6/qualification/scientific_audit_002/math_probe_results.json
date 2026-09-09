@@ -1,0 +1,177 @@
+{
+  "subject": "8f5ad2514454cad8dd830c31fd1c4eb3aed9b0b7",
+  "source_hashes": {
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "8a526d2b633089f6b38fefd72380ceb98f56b90e705b40bc475056c8126587e5",
+    "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/check.py": "9539092dc1b6a3e503c17f83f86797a0ee4451b7a6842f2c95817ba1348058c6"
+  },
+  "method": "Only named source function definitions extracted by AST, stdlib synthetic arrays and Fraction calculations. No entire source module import or case execution.",
+  "extracted_functions": {
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": [
+      "conditional_prediction_evaluation",
+      "metric_output_binding_codes",
+      "recompute_metric",
+      "strict_score",
+      "validate_metric_definition",
+      "validate_temporal_design"
+    ],
+    "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/check.py": [
+      "average",
+      "coefficients",
+      "evaluate",
+      "inverse",
+      "regression"
+    ]
+  },
+  "probes": {
+    "SCI001_sample_binding": {
+      "valid": [],
+      "renamed": [
+        "RC_METRIC_TEMPORAL_SAMPLE_COVERAGE_INVALID"
+      ],
+      "old_preserved_aggregate_counterexample": [
+        "RC_METRIC_TEMPORAL_SAMPLE_MISMATCH"
+      ],
+      "changed_truth": [
+        "RC_METRIC_TEMPORAL_SAMPLE_MISMATCH"
+      ],
+      "missing_sample": [
+        "RC_METRIC_TEMPORAL_SAMPLE_COVERAGE_INVALID"
+      ]
+    },
+    "SCI002_root_mean": {
+      "invalid_codes": [
+        "RC_METRIC_AGGREGATION_UNIT_MISMATCH"
+      ],
+      "valid_rmse": {
+        "value": 4.0,
+        "included_count": 1,
+        "excluded_sample_ids": []
+      }
+    },
+    "SCI003_selection_time": {
+      "available_history": [],
+      "delayed_label": [
+        "RC_TEMPORAL_SELECTION_LABEL_NOT_AVAILABLE"
+      ]
+    },
+    "SCI004_endpoint_perturbation": {
+      "base_endpoint": 20,
+      "perturbed_endpoint": 21,
+      "actual_remaining_mape_percent": 7.291666666666667,
+      "new_fixture_formula_agrees": true,
+      "method": "Independent exact rational arithmetic plus source expression inspection; fixture main not run."
+    },
+    "2016_six_historical_origins": {
+      "samples": [
+        {
+          "state": 1,
+          "prefix_size": 2,
+          "origin": 11,
+          "predicted_endpoint": 56.0,
+          "observed_endpoint": 60,
+          "relative_remaining_error": 0.08163265306122448
+        },
+        {
+          "state": 1,
+          "prefix_size": 3,
+          "origin": 20,
+          "predicted_endpoint": 56.0,
+          "observed_endpoint": 60,
+          "relative_remaining_error": 0.1
+        },
+        {
+          "state": 1,
+          "prefix_size": 4,
+          "origin": 29,
+          "predicted_endpoint": 56.0,
+          "observed_endpoint": 60,
+          "relative_remaining_error": 0.12903225806451613
+        },
+        {
+          "state": 2,
+          "prefix_size": 2,
+          "origin": 11,
+          "predicted_endpoint": 52.68421052631579,
+          "observed_endpoint": 58,
+          "relative_remaining_error": 0.11310190369540878
+        },
+        {
+          "state": 2,
+          "prefix_size": 3,
+          "origin": 19,
+          "predicted_endpoint": 52.684210526315795,
+          "observed_endpoint": 58,
+          "relative_remaining_error": 0.1363022941970309
+        },
+        {
+          "state": 2,
+          "prefix_size": 4,
+          "origin": 27,
+          "predicted_endpoint": 52.684210526315795,
+          "observed_endpoint": 58,
+          "relative_remaining_error": 0.1714770797962647
+        }
+      ],
+      "exact_mean_fraction": "387004123/3174132780",
+      "mean_dimensionless": 0.12192436480240754,
+      "target_tail_changes_leave_fit_and_prediction_unchanged": true,
+      "absolute_state_offsets_cancel": true,
+      "limitation": "Invented arrays with valid ordering; no actual workbook or temporal-index construction inspected."
+    },
+    "2016_prefix_perturbation_origin": {
+      "baseline_remaining": 10.0,
+      "fixed_original_origin_remaining": 11.0,
+      "coherently_shifted_origin_remaining": 10.0,
+      "interpretation": "Current adapter uses fixed original reporting origin. It is fit-input sensitivity, not a uniform translation of every measured time including reporting origin."
+    },
+    "2016_current_interpolation": {
+      "linear_duration": 90.0,
+      "log_weight": 0.5227586988632231,
+      "geometric_duration": 88.98963955337236,
+      "LOCO_50_neighbors_after_omitting_50": [
+        40,
+        60
+      ],
+      "conditional_55_neighbors": [
+        50,
+        60
+      ],
+      "scope": "Synthetic neighboring durations; no measured 55A accuracy follows from either formula or LOCO."
+    },
+    "2016_checker_pchip_affine_case": {
+      "coefficients": [
+        [
+          0.0,
+          -2.7755575615628915e-18,
+          -0.1,
+          12
+        ],
+        [
+          0.0,
+          -2.7755575615628915e-18,
+          -0.1,
+          11
+        ]
+      ],
+      "inverse_at_11": 9.999999999999986
+    },
+    "2016_inverse_single_branch_requirement": {
+      "checker_bisection_result": 0.4999999999999998,
+      "last_downward_crossing": 3.5,
+      "scope": "Synthetic mathematical limitation: global bisection does not in general implement last downward crossing. Actual evaluation-domain uniqueness was not checked because raw curves are out of scope."
+    },
+    "2015_reference_epoch_coverage": {
+      "original_local_count_and_lookup_checks": true,
+      "duplicated_local_count_and_lookup_checks": true,
+      "duplicated_unique_epoch_count": 1,
+      "original_rmse": 6.493586579592718,
+      "duplicated_rmse": 0.0,
+      "scope": "Local coverage/arithmetic witness matching checker source conditions, not execution of physical transforms, actual checker main or public gate."
+    },
+    "2015_metric_counts": {
+      "calendar_rows": 2562,
+      "reference_positions": 168,
+      "scope": "Counts from preregistered design, not observed execution."
+    }
+  }
+}

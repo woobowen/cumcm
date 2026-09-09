@@ -1,0 +1,70 @@
+{
+  "case_id": "CUMCM-2016-C-VALIDATION-004",
+  "controller_command": [
+    "python",
+    "scripts/finalize_fresh_c_validation.py",
+    "--case-root",
+    "<case-root>"
+  ],
+  "controller_version": "0.2.0-competition-rc8",
+  "final_disposition": "BLOCK",
+  "gate_sequence": [
+    {
+      "duration": 6.6e-05,
+      "gate_id": "GATE_PROBLEM_REQUIREMENT",
+      "implementation_entrypoint": "cumcm_case.validate_runtime_requirements",
+      "input_hashes": {
+        "problem/problem_requirements.json": "9d8420f4fc8a1240879957c53b776e416e59ddc51c002fc99f5bfd2c910c4e9c"
+      },
+      "output_hash": "6a50d6def165e4088f0c0a1b86df304fd318f20ed48da61b9a013c08f399e95a",
+      "reason_codes": [],
+      "result": "PASS"
+    },
+    {
+      "duration": 0.001127,
+      "gate_id": "GATE_SOURCE_EVIDENCE",
+      "implementation_entrypoint": "cumcm_case.validate_runtime_sources",
+      "input_hashes": {
+        "data/data_audit.json": "5e3bc9dc36b521940407fa6f1bfaec9637e8efab306f3d8838f3fcde9a7ebb61",
+        "problem/problem_requirements.json": "9d8420f4fc8a1240879957c53b776e416e59ddc51c002fc99f5bfd2c910c4e9c",
+        "research/source_ledger.json": "c9e94b505250b20323692c773bdc29d255bc5b26463bc279196e7444f1942edf"
+      },
+      "output_hash": "6a50d6def165e4088f0c0a1b86df304fd318f20ed48da61b9a013c08f399e95a",
+      "reason_codes": [],
+      "result": "PASS"
+    },
+    {
+      "duration": 0.000219,
+      "gate_id": "GATE_DATA_SUFFICIENCY_PREFLIGHT",
+      "implementation_entrypoint": "cumcm_case.validate_data_sufficiency_record",
+      "input_hashes": {
+        "data/data_sufficiency.json": "5a63aa2c0b49919e52ea57a3e5cfcc9c566f59857d6d7e136659133515d3a839",
+        "problem/problem_requirements.json": "9d8420f4fc8a1240879957c53b776e416e59ddc51c002fc99f5bfd2c910c4e9c",
+        "research/source_ledger.json": "c9e94b505250b20323692c773bdc29d255bc5b26463bc279196e7444f1942edf"
+      },
+      "output_hash": "ae234b4e56321849ac38534638b90173763d75cf6839be1ac80b6b3819bc40e3",
+      "reason_codes": [
+        "RC_AGGREGATE_PRIMARY_REQUIREMENT_INCOMPLETE"
+      ],
+      "result": "BLOCK"
+    }
+  ],
+  "input_artifact_hashes": {
+    "data/data_audit.json": "5e3bc9dc36b521940407fa6f1bfaec9637e8efab306f3d8838f3fcde9a7ebb61",
+    "data/data_sufficiency.json": "5a63aa2c0b49919e52ea57a3e5cfcc9c566f59857d6d7e136659133515d3a839",
+    "evidence/claim_evidence.json": "af0d0492b5744d491815598ac76915a8e7321b2729295a52abcb08342608a314",
+    "evidence/semantic_claim_support.json": "2f87070bc995e06c2dfec723eb34339559d5a5880e46d2a503fd41f1faf39850",
+    "experiments/experiment_plan.json": "8f0b3a8ddd37f513d67611378db434d23ae86b8926b2e6e48b095590ece88325",
+    "problem/problem_requirements.json": "9d8420f4fc8a1240879957c53b776e416e59ddc51c002fc99f5bfd2c910c4e9c",
+    "research/source_ledger.json": "c9e94b505250b20323692c773bdc29d255bc5b26463bc279196e7444f1942edf",
+    "results/final_result.json": "42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848",
+    "results/model_comparison.json": "4583319b2323385e768f4f96b2649fe298c7332f7205c08cea93a3dbee6f3daa",
+    "results/requirement_selection.json": "495917f2cdf0772fbcffab10a5c00f938b6d0792ca690c8f3906d70dc25b8583",
+    "runs/RUN-2016-BASELINE-1729/execution_capture.json": "2ab72184a8436994992e520050fb148241e2c7ea9e63d2da32c7d086215751a1",
+    "runs/RUN-2016-CUBIC-1729/execution_capture.json": "eda3043cabeb055cc0dd7d12fe7012747431d61bb038d900bcedf1d200bab324"
+  },
+  "state_after_hash": "844209e3d27e5c134a681d821693488341f28d3c76eb51961dc7ff59a17e92d7",
+  "state_before_hash": "844209e3d27e5c134a681d821693488341f28d3c76eb51961dc7ff59a17e92d7",
+  "trace_hash": "de48c9d5d0ee9c92558334d7088e66e18523bb0d9fa40c63cec1ea07e7abe94d",
+  "trace_version": "gate-execution-trace/v1"
+}

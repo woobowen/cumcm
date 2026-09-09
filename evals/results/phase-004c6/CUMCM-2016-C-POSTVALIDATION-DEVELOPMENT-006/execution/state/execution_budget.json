@@ -1,0 +1,40 @@
+{
+  "events": [
+    {
+      "kind": "model_cli_starts",
+      "run_id": "RUN-RC9-D2016-R2-01",
+      "sequence": 1,
+      "started_at": "2026-09-09T03:47:57Z"
+    },
+    {
+      "kind": "model_cli_starts",
+      "run_id": "RUN-RC9-D2016-R2-02",
+      "sequence": 2,
+      "started_at": "2026-09-09T03:48:12Z"
+    },
+    {
+      "kind": "independent_checker_starts",
+      "run_id": "RUN-RC9-D2016-R2-01",
+      "sequence": 3,
+      "started_at": "2026-09-09T03:50:01Z"
+    },
+    {
+      "kind": "independent_checker_starts",
+      "run_id": "RUN-RC9-D2016-R2-02",
+      "sequence": 4,
+      "started_at": "2026-09-09T03:50:12Z"
+    },
+    {
+      "kind": "independent_checker_starts",
+      "run_id": "RUN-RC9-D2016-R2-02",
+      "sequence": 5,
+      "started_at": "2026-09-09T03:54:49Z"
+    }
+  ],
+  "limits": {
+    "final_starts": 1,
+    "independent_checker_starts": 4,
+    "model_cli_starts": 4
+  },
+  "schema_version": "execution-start-budget/v1"
+}

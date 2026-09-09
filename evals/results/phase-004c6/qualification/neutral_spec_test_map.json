@@ -1,0 +1,48 @@
+{
+  "status": "TEST_LINKS_NOT_EXECUTION_RECEIPTS",
+  "test_name_prefixes": {
+    "NONPRED-ORDER-POSITIVE": [
+      "test_public_completion_accepts_development_then_independent_final_once",
+      "test_three_real_cli_e2e_allow_bounded_scientific_completion[optimization]"
+    ],
+    "NONPRED-ORDER-NEGATIVE": [
+      "test_public_early_final_retains_request_and_starts_no_checker",
+      "test_missing_freeze_rejects_before_capture_or_data_hashing",
+      "test_rehashed_invalid_predecessors_still_require_actual_gates"
+    ],
+    "PREDICTIVE-RELABEL-NEGATIVE": [
+      "test_conditional_output_cannot_be_relabelled_or_upgraded",
+      "test_unknown_target_accuracy_requirement_is_not_satisfied_by_computation"
+    ],
+    "TEMPORAL-SAME-ENTITY-POSITIVE": [
+      "test_three_real_cli_e2e_allow_bounded_scientific_completion[prediction]",
+      "test_same_entity_origin_scale_order_and_identity_metamorphisms"
+    ],
+    "TEMPORAL-FUTURE-LABEL-NEGATIVE": [
+      "test_temporal_future_label_and_whole_data_transform_rejected_before_model",
+      "test_new_entity_transfer_keeps_entity_isolation",
+      "test_selection_cannot_use_labels_unavailable_at_forecast_origin"
+    ],
+    "TARGET-DENOMINATOR-NEGATIVE": [
+      "test_elapsed_error_is_not_remaining_error_even_with_same_ranking",
+      "test_metric_contract_drift_does_not_inherit_old_freeze",
+      "test_time_metric_rows_cross_bind_actual_history_not_only_aggregate"
+    ],
+    "REGISTRY-EXTENSION-POSITIVE": [
+      "test_current_records_and_registered_extension_are_not_a_closed_count"
+    ],
+    "REGISTRY-HISTORY-NEGATIVE": [
+      "test_extension_cannot_hide_history_or_contract_attacks"
+    ],
+    "TERMINAL-PHASE-POSITIVE-NEGATIVE": [
+      "test_historical_terminal_contexts_remain_valid_and_bound",
+      "test_current_maintenance_cannot_activate_wrong_version_or_start_validation",
+      "test_new_development_terminal_has_an_explicit_identity_tuple"
+    ],
+    "SUBJECT-IDENTITY-POSITIVE-NEGATIVE": [
+      "test_rc8_history_never_qualifies_changed_current_implementation",
+      "test_current_full_ci_is_not_replaceable_by_old_or_partial_receipts"
+    ]
+  },
+  "actual_results_must_bind_current_subject_junit": true
+}

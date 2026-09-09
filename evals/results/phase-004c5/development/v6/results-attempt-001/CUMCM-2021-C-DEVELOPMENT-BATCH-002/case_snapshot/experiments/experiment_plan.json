@@ -1,0 +1,77 @@
+{
+  "artifact_type": "experiment_plan",
+  "content": {
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "baseline_id": "BASELINE_MEAN_GREEDY",
+    "candidate_ids": [
+      "BASELINE_MEAN_GREEDY",
+      "ROBUST_QUANTILE_LEXICOGRAPHIC",
+      "SCENARIO_CVAR_PORTFOLIO"
+    ],
+    "code_commit": "04c78e82ee282ea9eee2e40816ce41e7a11ee848",
+    "execution_prepared": true,
+    "handoff_generated_at": "2026-09-08T19:00:18Z",
+    "metric": "validation_penalized_cost_per_effective_m3",
+    "metric_direction": "MIN",
+    "preregistered": true,
+    "random_seeds": [
+      20210904
+    ],
+    "required_code_files": [
+      {
+        "path": "scripts/cumcm_case.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "a6bc30183cf47a0ea0016735851a805630bde1ddac5c90dd814ae814ed9043f5"
+      },
+      {
+        "path": "models/c2021_supply_plan.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_supply_plan.py",
+        "scope": "CASE_ROOT",
+        "sha256": "7ddbda3009ac246ad71b7caf5bdc2407401c59bffced15a4934e88324bd07802"
+      },
+      {
+        "path": "models/c2021_feasibility.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_feasibility.py",
+        "scope": "CASE_ROOT",
+        "sha256": "3ef35baa9b6d0f8a0ea81bfd19631c2b6fd4656fb5857f8c8afabafcf1cef316"
+      },
+      {
+        "path": "models/c2021_independent_check.py",
+        "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_independent_check.py",
+        "scope": "CASE_ROOT",
+        "sha256": "1e7dafc64e1aeb3d9f7d39154aef00381089396a5e73356fb81f5c96fcdc53f6"
+      }
+    ],
+    "required_input_hashes": {
+      "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b",
+      "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685"
+    },
+    "selection_rule": "ARGMIN_THEN_ID",
+    "splits": {
+      "test": [
+        "W217-W240_UNACCESSED"
+      ],
+      "train": [
+        "W001-W168"
+      ],
+      "validation": [
+        "W169-W216"
+      ]
+    },
+    "stop_rule": "one preregistered RC7 Development-regression attempt per candidate",
+    "trusted_freeze_registry": {
+      "baseline": "19ca8888cfdff697ac490938ccda59eb16ba9e8d8b88dc23d6a9b90aa6ff839f",
+      "candidate_set": "917b4fe11628d47cb7eb385f0d6a7e67cde6037084dac74cae477131a065ab29",
+      "code_commit": "e82d40c1399b7eee98ef50b449c673ed697c2be7e82dfd00f0661812c379aae7",
+      "code_set": "7e3034ece78768cf7994912d37e1d2bf7c2dc73a39711adcbd3d2235cee183ee",
+      "execution_policy": "3d8edd590ea0a0b330bcc3653936ee00a980281bf9106d0c92d85f8525a2378e",
+      "input_set": "654df398e6f89f14576bd03b321cb4398cbc3b0eb41ec943dad60aefd63d56d5",
+      "metric": "9a0e80ea3d0cd361db2c89d5c22ca2003a005dcc4343cf147cddb597876237ed",
+      "seed_schedule": "11710339842d19d7a12d2dad6dc8d615356949ac66641ffcc641c1c7a6bb6add",
+      "split_assignment": "51c546b44b56ad1488c83b9a70553c29c86908632039b4a7cefee7698aa64ddf"
+    }
+  },
+  "content_hash": "cb80b6e9e513ffea1ec6ee6f2a4e734bdec4c73a7199ae483329b55c8ebd4458",
+  "status": "ACCEPTED"
+}

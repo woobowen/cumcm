@@ -1,0 +1,17 @@
+{
+  "scope": "ISOLATED_PROJECT_ORIGINAL_NEUTRAL_REPRODUCTION_ONLY",
+  "recorded_before_execution": "2026-09-09T05:14:34.485204+00:00",
+  "executed_head": "fb08bfed8a9a6edf6567a41461e70f068a3b36b9",
+  "shared_implementation_subject": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "script_sha256": "1c6473a0ce7711bd7eaea5ed401108487527feca5c1246093bf40f9f5a355c3d",
+  "fixture": "optimization from tests/integration/test_rc9_science_semantics.py",
+  "change_to_fresh_fixture": "Omit scenario_hash before accepting the new fixture plan; use deterministic default in declared selection/semantic Run identities.",
+  "existing_files_modified": false,
+  "max_neutral_model_cli_calls": 2,
+  "max_common_completion_calls": 1,
+  "expected_failure": "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND",
+  "expected_gate": "GATE_COMPATIBILITY_PORTFOLIO",
+  "expected_neutral_final_starts": 0,
+  "real_2016_2015_model_checker_final_starts": 0,
+  "fixture_setup_limit": "Existing test helpers construct input artifact envelopes. Actual controller Gate events and captures are produced by unchanged public code; no formal case or Gate acceptance is fabricated."
+}

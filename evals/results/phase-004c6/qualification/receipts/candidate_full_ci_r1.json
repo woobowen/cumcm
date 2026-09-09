@@ -1,0 +1,37 @@
+{
+  "schema_version": "phase-004c6-command-receipt/v1",
+  "kind": "full_ci",
+  "subject_commit": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+  "status": "FAIL",
+  "commands": [
+    {
+      "argv": [
+        "bash",
+        "scripts/ci.sh"
+      ],
+      "executed_head": "292d91b0ca2b460fba5c15ff5fbe9903d05773b9",
+      "started_at": "2026-09-09T03:28:50.490386+00:00",
+      "ended_at": "2026-09-09T03:39:03.854404+00:00",
+      "elapsed_seconds": 598.8283079350003,
+      "exit_code": 1,
+      "log": {
+        "path": "evals/results/phase-004c6/qualification/receipts/candidate_full_ci_r1.log",
+        "sha256": "a0ae00f233e13ac05db6010f516d329bbcfe8df79a0f2204c34ad005c2a1e751"
+      },
+      "raw_stdout_sha256": "e674238d237f347c6569359d5763afd9ecc38fb5938cc8132cdab34d3b53b294",
+      "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "implementation_mapping_sha256": "6444ee3fd8c0c0b516a837e4134779dfc7bfe8d1429d7ed5f1eac8a7da792547"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evals/results/phase-004c6/qualification/receipts/candidate_full_ci_r1.log",
+      "sha256": "a0ae00f233e13ac05db6010f516d329bbcfe8df79a0f2204c34ad005c2a1e751"
+    }
+  ],
+  "publication": "Private root normalization only; original streams retained ignored.",
+  "pytest_passed": 2233,
+  "pytest_failed": 3,
+  "pytest_skipped": 1,
+  "pytest_summary": "3 failed, 2233 passed, 1 skipped in 597.42s"
+}

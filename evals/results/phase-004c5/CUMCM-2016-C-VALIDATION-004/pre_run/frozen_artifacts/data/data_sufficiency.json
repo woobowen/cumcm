@@ -1,0 +1,227 @@
+{
+  "artifact_type": "data_sufficiency",
+  "content": {
+    "acquisition_plans": [],
+    "aggregate_completion_claimed": false,
+    "contract_version": "data-sufficiency/v1",
+    "coverage_mode_by_requirement": {
+      "REQ-Q1": {
+        "mode": "SINGLE_SOURCE",
+        "source_id": "SRC-CUMCM-2016-C-WORKBOOK"
+      },
+      "REQ-Q2": {
+        "mode": "SINGLE_SOURCE",
+        "source_id": "SRC-CUMCM-2016-C-WORKBOOK"
+      },
+      "REQ-Q3": {
+        "mode": "SINGLE_SOURCE",
+        "source_id": "SRC-CUMCM-2016-C-WORKBOOK"
+      }
+    },
+    "interpretation": "PARTIAL aggregate: Q1/Q2 model inputs exist, but primary Q3 necessary target terminal truth is missing. Only limited model computation and forecast diagnosis can proceed; full acceptance is blocked.",
+    "requirement_assessments": [
+      {
+        "acquisition_cost": "0; no additional source acquisition",
+        "acquisition_time": "0",
+        "affected_downstream_stages": [],
+        "allowed_substitutions": [],
+        "candidate_sources": [
+          "SRC-CUMCM-2016-C-WORKBOOK"
+        ],
+        "data_sufficiency_status": "SUFFICIENT",
+        "forbidden_substitutions": [
+          "Fabricated future state3 labels",
+          "Relabeling an audited data slice as untouched Final",
+          "PREDICTIVE-to-DESCRIPTIVE substitution"
+        ],
+        "missing_entities": [],
+        "missing_fields": [],
+        "missing_time_scope": [],
+        "requirement_id": "REQ-Q1"
+      },
+      {
+        "acquisition_cost": "0; no additional source acquisition",
+        "acquisition_time": "0",
+        "affected_downstream_stages": [
+          "FINAL_RUN",
+          "CLAIM_EVIDENCE_VALIDATION",
+          "MODELING_TO_PAPER_HANDOFF"
+        ],
+        "allowed_substitutions": [],
+        "candidate_sources": [
+          "SRC-CUMCM-2016-C-WORKBOOK"
+        ],
+        "data_sufficiency_status": "SUFFICIENT",
+        "forbidden_substitutions": [
+          "Fabricated future state3 labels",
+          "Relabeling an audited data slice as untouched Final",
+          "PREDICTIVE-to-DESCRIPTIVE substitution"
+        ],
+        "missing_entities": [],
+        "missing_fields": [],
+        "missing_time_scope": [],
+        "requirement_id": "REQ-Q2"
+      },
+      {
+        "acquisition_cost": "0; no additional source acquisition",
+        "acquisition_time": "0",
+        "affected_downstream_stages": [
+          "FINAL_RUN",
+          "CLAIM_EVIDENCE_VALIDATION",
+          "MODELING_TO_PAPER_HANDOFF"
+        ],
+        "allowed_substitutions": [],
+        "candidate_sources": [
+          "SRC-CUMCM-2016-C-WORKBOOK"
+        ],
+        "data_sufficiency_status": "PARTIAL",
+        "forbidden_substitutions": [
+          "Fabricated future state3 labels",
+          "Relabeling an audited data slice as untouched Final",
+          "PREDICTIVE-to-DESCRIPTIVE substitution"
+        ],
+        "missing_entities": [],
+        "missing_fields": [
+          "state3_terminal_elapsed_min"
+        ],
+        "missing_time_scope": [],
+        "requirement_id": "REQ-Q3"
+      }
+    ],
+    "requirements": [
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "EMPIRICAL",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q1",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "用初等函数表示附件1九条放电曲线，分别计算题定MRE；计算30、40、50、60、70A在9.8V的剩余放电时间。"
+      },
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "PREDICTIVE",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [
+          "REQ-Q1"
+        ],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q2",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "建立20至100A任意恒流曲线模型，按MRE评估精度，交付55A表格和曲线图形数据。"
+      },
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "PREDICTIVE",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min",
+          "state3_terminal_elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q3",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "预测附件2衰减状态3在最后观测时的剩余放电时间，并明确预测的证据和不确定性。"
+      }
+    ],
+    "source_compositions": [],
+    "sources": [
+      {
+        "authority": "CUMCM_OFFICIAL_PROVIDED_INPUT",
+        "entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "field_schema": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "freshness": "IMMUTABLE_COMPETITION_INPUT",
+        "geographic_scope": [],
+        "hash": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+        "license_or_usage_status": "OFFICIAL_PROBLEM_INPUT_LOCAL_ANALYSIS_ONLY_NO_RAW_REPUBLICATION",
+        "limitations": [
+          "Attachment2 current magnitude unspecified; same current across states is stated.",
+          "Only prefix state3 observed; future terminal label unavailable.",
+          "Repeated voltage samples are not independent battery entities."
+        ],
+        "provenance": "Official C-only workbook; archive lineage in this case registration/official_retrieval.json; immutable byte-identical case copy.",
+        "retrieval_time": "2026-09-08T20:41:34.881829+00:00",
+        "source_id": "SRC-CUMCM-2016-C-WORKBOOK",
+        "supports_requirement_ids": [
+          "REQ-Q1",
+          "REQ-Q2",
+          "REQ-Q3"
+        ],
+        "time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ]
+      }
+    ]
+  },
+  "content_hash": "096f4728c33388af3152690e50a2537da98313df059c73d1f370fa94689b8f5e",
+  "status": "ACCEPTED"
+}

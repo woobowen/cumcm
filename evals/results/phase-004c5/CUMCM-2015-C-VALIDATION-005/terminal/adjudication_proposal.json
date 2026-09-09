@@ -1,0 +1,45 @@
+{
+  "schema_version": "phase-004c5-terminal-adjudication-proposal/v1",
+  "case_id": "CUMCM-2015-C-VALIDATION-005",
+  "proposal_id": "DECISION-C-TARGET-VALIDATION-004C5-2015-PROPOSAL",
+  "created_at": "2026-09-08T22:36:42.151885+00:00",
+  "effective": false,
+  "proposed_status": "C_TARGET_VALIDATION_PASSED",
+  "proposed_scope": "Only the explicitly defined 2016 astronomical scenarios and numerical ephemeris consistency; no field observation, weather, terrain, historic poem-date, independent orbital ephemeris or broad-generalization claim.",
+  "options": [
+    "C_TARGET_VALIDATION_PASSED",
+    "C_TARGET_VALIDATION_FAILED",
+    "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+    "C_TARGET_VALIDATION_INCOMPLETE"
+  ],
+  "basis": [
+    "Both frozen models actually executed; two original independent-code checks and one selected nonpredictive Final verification have real captures/receipts.",
+    "Case-owned frozen controller uses actual frozen core/CLI and reaches READY with nine primary requirement claims; this is necessary machine evidence but not sufficient scientific PASS.",
+    "All seven nominal cities have complete date/time lists plus all366 daily separate event calendars, fixed astronomical reference comparisons and five recomputed definition/location perturbations.",
+    "Main tentatively considers the explicitly requested simplifying-definition problem answered within those conditions. Native audit must independently test scientific adequacy, computational independence, complete tables, limits and timing order before any formal PASS."
+  ],
+  "known_questions_requiring_independent_disposition": [
+    "Computed geocentric forcing and topocentric references share JPL dynamics; does stated bounded numerical-validation scope appropriately meet the original problem?",
+    "Final numerical check follows actual development comparisons/sensitivity and selection lock but precedes formal comparison/robustness Gate acceptance due frozen-core requirements. Assess actual order against the frozen protocol; no fictional earlier Gate PASS.",
+    "The actual route is case-owned frozen controller.py invoking frozen native core/CLI. Repository scripts/finalize_fresh_c_validation.py has not been invoked and only accepts RUNNING, while this case is already READY. Do not claim that outer wrapper passed, roll state back, or consume another Final. Assess whether the actual permitted Skill route establishes the stated machine/protocol result.",
+    "Nominal flat horizon/zero-height sites, movable tree direction, arbitrary explicit angle/dusk bands and very narrow windows limit physical interpretation.",
+    "The remaining published CI issue is separate from this scientific candidate and must not be treated as a passing current-head CI."
+  ],
+  "proposed_counts": {
+    "planned_batch": 2,
+    "this_case_started": 1,
+    "this_case_executed": 1,
+    "this_case_episode_completed_after_review": 1,
+    "this_case_scientific_passed_if_proposal_accepted": 1,
+    "model_captures": 2,
+    "original_checker_captures": 2,
+    "failed_model_captures": 0,
+    "nonpredictive_final_verification": 1,
+    "predictive_test_accesses": 0
+  },
+  "fixed_package": {
+    "path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/fixed_candidate_package.json",
+    "sha256": "6aa98e1331c2f33f35e8af07f13bee385b3c45a58c76b22b30bac74017043e40"
+  },
+  "audit_required": "Read-only independent native scientific and POST_DECISION audit. Auditor may reject this proposal; substantive scientific dissent need not be unit-testable."
+}

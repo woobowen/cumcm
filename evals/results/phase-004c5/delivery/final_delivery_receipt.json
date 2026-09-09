@@ -1,0 +1,192 @@
+{
+  "schema_version": "phase-004c5-bounded-task-delivery/v1",
+  "receipt_prepared_at": "2026-09-09T00:12:02.667640+00:00",
+  "global_started_at": "2026-09-08T17:46:50+00:00",
+  "global_hard_deadline": "2026-09-09T01:46:50Z",
+  "wall_elapsed_seconds_at_receipt": 23112.66764,
+  "start_commit": "17f109cadc8524c285af6a50776e6c3decb8b3e8",
+  "branch": "feat/phase004c5-p0-01-finalization-hf22-repro",
+  "content_commit": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf",
+  "content_tree": "349cc4e8d616207af1c1fdca9a20803b534e826e",
+  "task_commits_through_content": 49,
+  "remote_delivery_status": "REMOTE_DELIVERED",
+  "remote_sha": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf",
+  "actual_push_and_remote_read": [
+    {
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "HEAD:refs/heads/feat/phase004c5-p0-01-finalization-hf22-repro"
+      ],
+      "observed_at": "2026-09-08T23:57:23.023287+00:00",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr_display": "To <DESIGNATED_REMOTE_URL_FROM_rules/workflow_rules.yaml>\n   6be924e..4c4550d  HEAD -> feat/phase004c5-p0-01-finalization-hf22-repro\n",
+      "original_stderr_sha256": "6cd353ebfc4447704323e74de887c86eff1674e0aed4ca8549b76ebdee5e3e9c",
+      "representation": "DERIVED_REMOTE_URL_REFERENCE"
+    },
+    {
+      "argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/feat/phase004c5-p0-01-finalization-hf22-repro"
+      ],
+      "observed_at": "2026-09-08T23:57:24.320234+00:00",
+      "exit_code": 0,
+      "stdout": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf\trefs/heads/feat/phase004c5-p0-01-finalization-hf22-repro\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "observed_at": "2026-09-08T23:57:24.321573+00:00",
+      "exit_code": 0,
+      "stdout": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "origin/main",
+        "HEAD"
+      ],
+      "observed_at": "2026-09-08T23:57:24.333900+00:00",
+      "exit_code": 0,
+      "stdout": "349cc4e8d616207af1c1fdca9a20803b534e826e\n",
+      "stderr": ""
+    }
+  ],
+  "receipt_commit_self_reference": false,
+  "receipt_commit_remote_verification": "Performed after its separate ordinary commit/push; final response records that observed HEAD.",
+  "candidate": {
+    "subject_commit": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+    "activation_commit": "8ef732b45cf3cb04262317cdfa13a176b47eebe0",
+    "qualification": "ACCEPTED",
+    "scope": "RESEARCH_AND_FRESH_VALIDATION_ELIGIBILITY_ONLY",
+    "project_version": "0.3.0-competition-rc8",
+    "skill_version": "0.2.0-competition-rc8",
+    "python_distribution_version": "0.2.3",
+    "shared_files_unchanged": 772
+  },
+  "fresh_counts": {
+    "planned": 2,
+    "started": 2,
+    "executed": 2,
+    "terminally_completed": 2,
+    "scientific_passed": 0
+  },
+  "fresh_outcomes": {
+    "CUMCM-2016-C-VALIDATION-004": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+    "CUMCM-2015-C-VALIDATION-005": "C_TARGET_VALIDATION_FAILED"
+  },
+  "development": {
+    "new_cli_captures": 15,
+    "successful_cli_captures": 12,
+    "failed_cli_captures": 3,
+    "additional_q4_certificate_construction": 1,
+    "2021_attempts_used": 9,
+    "2021_attempt_limit": 9,
+    "2022_attempts_used": 7,
+    "2022_attempt_limit": 9,
+    "final_accesses": 0,
+    "whole_problem_scientifically_complete": false
+  },
+  "engineering_completion": "INCOMPLETE",
+  "current_local_full_ci": {
+    "subject": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf",
+    "status": "FAIL",
+    "passed": 2151,
+    "failed": 2,
+    "skipped": 1,
+    "pytest_seconds": 346.98
+  },
+  "current_remote_pr_merge_ci": {
+    "run_id": 34292908722,
+    "feature_head": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf",
+    "actual_tested_commit": "f5dd6ec33c9f3f3f5c95ea791e4332d569a95279",
+    "status": "failure",
+    "passed": 2151,
+    "failed": 2,
+    "skipped": 1,
+    "pytest_seconds": 579.11,
+    "actual_tested_tree": "349cc4e8d616207af1c1fdca9a20803b534e826e"
+  },
+  "separate_remote_feature_checkout_ci": "NOT_RUN",
+  "supplemental_post_ci_checks": {
+    "count": 15,
+    "passed": 15,
+    "full_ci_failure_not_overridden": true
+  },
+  "milestone_disposition": {
+    "M0": "ARTIFACTS_AND_LEGAL_TRANSITION_EXECUTED",
+    "M1": "IMPLEMENTED_AND_TESTED_WITH_NEWLY_EXPOSED_UNRESOLVED_BOUNDARIES",
+    "M2": "ACTUAL_DEVELOPMENT_EVIDENCE_AND_SCOPED_PROOF_DELIVERED_WHOLE_PROBLEM_FALSE",
+    "M3": "LIMITED_CANDIDATE_ACCEPTED_ACTIVATED_AND_FROZEN_BEFORE_INPUT",
+    "M4": "TWO_ACTUAL_AUDITED_NEGATIVE_TERMINALS_DELIVERED",
+    "M5": "REPORT_AUDITS_CHECKS_AND_CONTENT_REMOTE_DELIVERY_RECORDED_ENGINEERING_INCOMPLETE"
+  },
+  "remaining_blockers": [
+    "CURRENT_DELIVERY_CI_HISTORICAL_CASE_COUNT_ASSERTION",
+    "CURRENT_DELIVERY_CI_TERMINAL_PHASE_ASSERTION",
+    "VALIDATION_NONPREDICTIVE_FINAL_ORDERING_CONTRACT_FAILURE",
+    "RC8_FRESH_BATCH_NO_SCIENTIFIC_PASS"
+  ],
+  "safe_resume": "DELIVERY_AND_RECOVERY.md and delivery/next_subject_neutral_cases.json; new coherent subject required before shared fixes; no terminal rerun or budget reset",
+  "pr": {
+    "number": 12,
+    "url": "https://github.com/woobowen/cumcm/pull/12",
+    "is_draft_last_observed": true,
+    "ready_or_merge": false
+  },
+  "dependency_changes": {
+    "system_packages": 0,
+    "language_packages": 0,
+    "toolchains": 0,
+    "global_configuration": 0,
+    "case_local_gitattributes_files": 2,
+    "scope": "LOCAL_SHARED_WORKSPACE",
+    "remote_ci_bootstrap": "Existing workflow creates ephemeral CI environments; these are separate from the unchanged shared local .venv."
+  },
+  "protections": {
+    "answers_sealed": true,
+    "reserved2025_accessed": false,
+    "benchmark_vault_accessed": false,
+    "contest2026_accessed": false,
+    "old_results_mutated": false,
+    "foundation_model_training": false,
+    "paid_model_api_calls": 0,
+    "statistical_model_fits_occurred_in_development": true
+  },
+  "human_team_compliance_review": "NOT_RUN",
+  "monetary_cost": "UNKNOWN",
+  "bound_delivery_files": {
+    "evals/results/phase-004c5/FINAL_REPORT.md": "d0c206f7f0f7a236c986b9479f73d3128f1832c29767e5f3ba5871323a4e2819",
+    "evals/results/phase-004c5/delivery/full_ci_content_4c4550d.json": "45f33d2bc3c11aadd3401e0242411e5231815545a08dd4cf1113c719a9215b34",
+    "evals/results/phase-004c5/delivery/remote_ci_4c4550d_observation.json": "d838481e5c6a8af5e4d4253ab3aa1153937ec73730200ac75dd1c26bf908e4ec",
+    "evals/results/phase-004c5/delivery/post_ci_checks_content_4c4550d.json": "1f2ad3c8fd9376308f96da786df20784cbd8e89ce62b4ec27da2ee4cb9e2d761",
+    "evals/results/phase-004c5/delivery/final_publication_integrity.json": "fb0c3c53cd41585057183fd5a78440d804d2ef458fbcf2058c8bd3d13c6b6c8a",
+    "evals/results/phase-004c5/delivery/cost_observation.json": "8f10eaac1801b47f97380c33f307f96628f36e7e9376324e97e7a0e82fbd43ea"
+  },
+  "push_capture_publication": {
+    "original_ignored_path": ".cache/pr12-rc8/logs/m5-content-push.json",
+    "original_sha256": "2ae0ec1058a235916de9b31df4b00a18aee1eb96f2f9c776796fdf0556e357a7",
+    "transformation": "Only the displayed remote URL in push stderr is replaced with a reference to its sole tracked rule source; original stream and original SHA remain bound.",
+    "remote_authority": "rules/workflow_rules.yaml"
+  },
+  "metadata_validation_repair": {
+    "initial_status": "FAIL",
+    "initial_error": "GIT_DELIVERY_REMOTE_TRUTH_COUNT",
+    "cause": "Copied raw push stderr repeated the designated remote URL outside its sole tracked source.",
+    "repair": "Publish a labelled reference view with original capture/hash; no validator or rule change.",
+    "repair_attempt": 1,
+    "actual_recheck": "repository=PASS errors=0 warnings=0; status_report=current; git diff --check clean",
+    "recheck_observed_at": "2026-09-09T00:18:03.884853+00:00"
+  }
+}

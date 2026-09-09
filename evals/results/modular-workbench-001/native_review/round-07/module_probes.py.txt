@@ -1,0 +1,133 @@
+"""Existing module receipt-chain counterexamples, using original record copies only."""
+import copy
+import datetime
+import hashlib
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parents[4]
+OUT = Path(__file__).resolve().parent
+SOURCE = ROOT / 'scripts/check_modular_workbench.py'
+ORIGINAL = ROOT / 'evals/results/modular-workbench-001/development_exports/acceptance-001/mixed'
+sha = lambda b: hashlib.sha256(b).hexdigest()
+start = datetime.datetime.now(datetime.timezone.utc)
+RUN = OUT / ('module-' + start.strftime('%Y%m%dT%H%M%S%fZ'))
+fixture = RUN / 'fixture'
+fixture.mkdir(parents=True)
+before = sha(SOURCE.read_bytes())
+spec = importlib.util.spec_from_file_location('module_chain_round07', SOURCE)
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+read_files = {}
+
+def read(path):
+    data = path.read_bytes()
+    read_files[str(path.relative_to(ROOT))] = sha(data)
+    return json.loads(data)
+
+original_family = read(ORIGINAL / 'records.json')
+results = {}
+
+def save(name, data):
+    relative = m.BASE + '/' + name
+    path = fixture / relative
+    path.parent.mkdir(parents=True, exist_ok=True)
+    raw = json.dumps(data, ensure_ascii=False, indent=2).encode()
+    path.write_bytes(raw)
+    return {'path': relative, 'sha256': sha(raw)}
+
+def refresh(packet, key):
+    record = packet['records'][key]
+    raw = json.dumps(record['content'], ensure_ascii=False, indent=2) + '\n'
+    record.update(raw_utf8=raw, raw_sha256=sha(raw.encode()))
+
+def rebind(module_packet, family_packet):
+    records = module_packet['records']
+    request, done = [records[k]['content'] for k in ['request', 'completion']]
+    refresh(module_packet, 'request')
+    refresh(module_packet, 'work_report')
+    done['request_sha256'] = m.canonical(request)
+    done['artifact_hashes'][done['report_path']] = records['work_report']['raw_sha256']
+    refresh(module_packet, 'completion')
+    bindings = family_packet['records']['case_state']['content']['evidence_bindings']
+    for key in ['request', 'completion']:
+        bindings['evidence/module_requests/' + request['request_id'] + '/' + key + '.json'] = records[key]['raw_sha256']
+    refresh(family_packet, 'case_state')
+
+def probe(name, packet, receipt, mutation=None):
+    packet, receipt, family = copy.deepcopy(packet), copy.deepcopy(receipt), copy.deepcopy(original_family)
+    if mutation:
+        replacement = mutation(packet, receipt, family)
+        if replacement is not None:
+            receipt = replacement
+    row = {k: packet['records']['completion']['content'][k] for k in ['module', 'execution', 'engineering', 'scientific', 'human_review', 'next_module_started']}
+    row['record_packet'] = save(name + '-module.json', packet)
+    row['receipt'] = save(name + '-receipt.json', receipt)
+    family_binding = save(name + '-family.json', family)
+    try:
+        actual_family = m.exact_records(fixture, family_binding)
+        results[name] = {'returned': m.validate_module_evidence(fixture, row, actual_family)}
+    except Exception as exc:
+        results[name] = {'exception': type(exc).__name__, 'message': str(exc)}
+
+base_packet = base_receipt = None
+for i in range(1, 15):
+    mid = f'M{i:02}'
+    packet = read(ORIGINAL / 'modules' / (mid + '-records.json'))
+    receipt = read(ORIGINAL / 'modules' / (mid + '.json'))
+    probe('original_' + mid, packet, receipt)
+    if mid == 'M04':
+        base_packet, base_receipt = packet, receipt
+
+def changed_receipt(field, value):
+    def mutate(packet, receipt, family):
+        receipt[field] = value
+    return mutate
+
+probe('receipt_wrong_case_same_summary', base_packet, base_receipt, changed_receipt('case_id', 'ORIGINAL-OTHER-CASE'))
+probe('receipt_wrong_request_same_summary', base_packet, base_receipt, changed_receipt('request_id', 'OTHER-REQUEST'))
+def summary_only(packet, receipt, family):
+    return {k: receipt[k] for k in ['module', 'execution', 'engineering', 'scientific', 'human_review', 'next_module_started']}
+probe('replacement_receipt_has_only_six_matching_summary_fields', base_packet, base_receipt, summary_only)
+
+def report_change(field, value):
+    def mutate(packet, receipt, family):
+        packet['records']['work_report']['content'][field] = value
+        rebind(packet, family)
+        return copy.deepcopy(packet['records']['completion']['content'])
+    return mutate
+for field, value in [('case_id', 'OTHER-CASE'), ('request_id', 'OTHER-REQUEST'), ('requirement_scope', ['REQ-OTHER']), ('revision', 2), ('revision', True)]:
+    label = 'report_' + field + '_' + str(value).replace(' ', '')
+    probe(label, base_packet, base_receipt, report_change(field, value))
+
+for key in ['request', 'completion']:
+    def missing_binding(packet, receipt, family, key=key):
+        request = packet['records']['request']['content']
+        family['records']['case_state']['content']['evidence_bindings'].pop('evidence/module_requests/' + request['request_id'] + '/' + key + '.json')
+        refresh(family, 'case_state')
+    probe('missing_state_' + key + '_binding', base_packet, base_receipt, missing_binding)
+
+def stale_impl(packet, receipt, family):
+    packet['records']['request']['content']['implementation']['implementation_sha256'] = '0' * 64
+    rebind(packet, family)
+    return copy.deepcopy(packet['records']['completion']['content'])
+probe('old_implementation_with_rebound_records', base_packet, base_receipt, stale_impl)
+def early_done(packet, receipt, family):
+    packet['records']['completion']['content']['completed_at'] = '2026-09-08T00:00:00Z'
+    rebind(packet, family)
+    return copy.deepcopy(packet['records']['completion']['content'])
+probe('completion_precedes_request', base_packet, base_receipt, early_done)
+
+record = {'argv': ['.venv/bin/python', '-B', str(Path(__file__).relative_to(ROOT))],
+          'started_utc': start.isoformat(), 'ended_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'source_before': before, 'source_after': sha(SOURCE.read_bytes()), 'read_files': read_files,
+          'results': results, 'scope': {'only_existing_module_receipt_chain_issue': True,
+            'private_original_record_mutations': True, 'qualification_helpers_only': True,
+            'scientific_models': 0, 'scientific_checkers': 0, 'Final': 0, 'known_reads': 0,
+            'full_CI': 0, 'network': 0, 'public_writes': 0, 'Git_mutations': 0}}
+(RUN / 'results.json').write_text(json.dumps(record, ensure_ascii=False, indent=2) + '\n')
+print(json.dumps({'result_path': str((RUN / 'results.json').relative_to(ROOT)),
+                  **{k: v for k, v in record.items() if k != 'read_files'}}, ensure_ascii=False, indent=2))

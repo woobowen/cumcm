@@ -1,0 +1,73 @@
+import datetime
+import hashlib
+import json
+import subprocess
+import sys
+from pathlib import Path
+from audit_helpers import OUT, ROOT, read
+
+started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+PUB = 'evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/'
+SELF = '.cache/pr12-rc8/fresh/2016/native_terminal_audit/'
+
+def h(b):
+    return hashlib.sha256(b).hexdigest()
+
+def canon(v):
+    return json.dumps(v, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
+
+def finding(i, severity, target, statement, refs, testability='NON_TESTABLE_CLAIM', test=None, condition=None, status='UNRESOLVED'):
+    return {'finding_id':i,'severity':severity,'target':target,'statement':statement,'evidence_refs':refs,'file_references':refs,'testability':testability,'required_test':test,'pass_condition':condition,'status':status}
+
+findings = [
+    finding('F01','INFO','terminal/adjudication_proposal.json','PASS仅表示EVIDENCE_INSUFFICIENT终局提案有证据支撑。Controller在data sufficiency前置Gate短路，真实2个模型和2个checker均成功；attempts=[]不是零Run。Selection局部PASS不能越comparison/semantic阻断。正式状态仍RUNNING、Final与hand-off未接受。', [PUB+'terminal/adjudication_proposal.json',PUB+'candidate_artifacts/case_records/evidence/gate_execution_trace.json',PUB+'candidate_artifacts/diagnostic_gate_receipts.json',PUB+'stage_journal.json'], 'TESTABLE','核对trace、控制器短路顺序与2个实际capture。','提案不宣称科学PASS，不删除真实执行，不提前计已冻结决定。','RESOLVED'),
+    finding('F02','WARNING','Q3 requirement and data sufficiency','case将state3_terminal_elapsed_min列为必需输入过强：原题请求预测未知剩余时间。缺少未来目标不能单独证明预测任务不可完成；应区分可作有依据条件预测、能否证明目标准确性、是否满足冻结Final协议。本机器拒绝仍必须保留，不能本episode改字段或协议绕过。',[PUB+'pre_run/frozen_artifacts/problem/problem_requirements.json',PUB+'pre_run/frozen_artifacts/data/data_sufficiency.json',PUB+'pre_run/main_protocol_review.json',SELF+'REPORT.md']),
+    finding('F03','WARNING','Entity and temporal validation','同一电池跨状态本来就是目标结构；前序状态作为条件信息不自动泄漏目标状态。同一组重叠应限制独立实体/外部泛化声明，但generic group_overlap一律拒绝对本条件时序问题过粗。已有数据审计使本episode无untouched Final，不等于原始数据与参考答案污染等同。',[PUB+'code/produce.py',PUB+'pre_run/read_and_search_ledger.json','.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py',SELF+'REPORT.md']),
+    finding('F04','WARNING','Q3 forecast metric and selection objective','已放电时间MRE不能冒充剩余时间相对误差。既有CUBIC状态1/2剩余时间误差4.100089%/8.118599%，BASELINE为4.483860%/9.366193%。两者排序未逆转，但联合评分不是剩余时间损失，状态2未入选评分；选中候选报告0.599134%不代表剩余时间精度。',[SELF+'independent_recalculation.json',SELF+'independent_recalc.py',PUB+'candidate_artifacts/runs/RUN-2016-CUBIC-1729/output.json',PUB+'candidate_artifacts/runs/RUN-2016-BASELINE-1729/output.json'],'TESTABLE','对既有历史预测向量终止值减去各历史前缀终点，再与真实剩余时间比较。','保持既有选择且报告真实目标量误差，不能使用尾段MRE证明更小的剩余时间误差。'),
+    finding('F05','WARNING','Q1 MRE semantics and inverse domain','9+0.005k公共电压格与最后向下线性插值是已披露操作解释，不是唯一原题231点清单；实际原始低压格有最多4个向下穿越。分段多项式是合理初等函数表达。局部模型数值可支持，但拟合MRE不是新电池实测预测误差；checker一般全区间二分不构成非单调求逆证明，本次已由独立分段反解验证一致。',[PUB+'code/produce.py',PUB+'code/check.py',PUB+'pre_run/frozen_artifacts/problem/problem_requirements.json',SELF+'independent_recalculation.json',SELF+'REPORT.md']),
+    finding('F06','INFO','Numerical outputs and algorithmic independence','已实际复核PCHIP手写系数对SciPy构造、二分对多项式求根、闭式回归对lstsq的实现独立性；checker不导入producer。2次audit replay均逐字节复现原checker。另自写脚本复核既有Q1系数/逆时间、55A表、Q3回归/历史误差。Q1五值、Q2表图、Q3条件预测193.441777244min可支持，算术一致性不建立迁移假设或Final效度。',[SELF+'checker_replay_receipts.json',SELF+'independent_recalculation.json',SELF+'derived_deliverable_checks.json',PUB+'code/check.py',PUB+'code/produce.py'],'TESTABLE','固定checker仅输出到audit目录，并直接复算既有系数/向量。','复算在冻结容差内；没有producer/controller/Final新调用。','RESOLVED'),
+    finding('F07','WARNING','Q3 uncertainty and physical query consistency','选中模型前缀RMSE2.546383min、末观测时刻残差-5.151761min；参考范围184.826077至205.475497min未校准为预测区间。固定查询时点的前缀加减一分钟不是共同钟表平移。robustness metric_direction=MIN不能解释为剩余寿命越短越好；同一电池历史诊断不能推广到独立电池总体。',[SELF+'independent_recalculation.json',PUB+'candidate_artifacts/runs/RUN-2016-CUBIC-1729/output.json',PUB+'candidate_artifacts/case_records/results/robustness_candidate.json',SELF+'REPORT.md']),
+    finding('F08','WARNING','Frozen candidate metadata and handoff meaning','handoff_generated_at=22:17:30Z为预置停止截止值，晚于21:25:43Z固定包，不能当实际交接生成时刻。robustness_candidate.status=VALIDATED不覆盖stage11 NOT_REACHED；局部selection ACCEPTED亦不批准Final。部分handoff可审阅有限结果，但无批准、无Final、需同hash原始输入和单独replay workspace。',[PUB+'pre_run/frozen_artifacts/experiments/experiment_plan.json',PUB+'candidate_artifacts/case_records/results/model_comparison_candidate.json',PUB+'candidate_artifacts/case_records/results/robustness_candidate.json',PUB+'candidate_artifacts/partial_handoff_candidate.json',PUB+'stage_journal.json'],'TESTABLE','比较冻结时间、状态字段与正式stage trace。','终局保留原件并明确字段局限，不伪造已完成hand-off。'),
+    finding('F09','INFO','Freeze, input, Git and bounded access lineage','80绑定文件、2raw、bundle一致；3个Run必需code文件经git cat-file证实commit blob与运行/公有文件一致。shared release先于输入读取，pre-run远端确认先于21:14两个实际Run，worker固定包之后无新producer。只有本审核2次checker replay。最大4模型预算、7200秒单episode锚点及Final预算0保留。未重新联网验证远端，未重建完整可移植replay。',[SELF+'initial_hash_check.json',SELF+'git_code_binding_check.json',SELF+'selected_shared_snapshot_checks.json',PUB+'pre_run/pre_run_validation_freeze_delivery.json',PUB+'candidate_artifacts/worker_candidate_freeze.json'],'TESTABLE','比对实际输入/代码/输出hash，Git blob和冻结/执行时间。','被审核固定文件审后hash不变；计数区分原始模型、原始checker及审核replay。','RESOLVED')
+]
+audit = {'audit_id':'AUDIT-RC8-2016C-NATIVE-POST-001','role':'automated_decision_auditor','round':'POST_DECISION','independent':True,'read_only':True,'peer_output_access':'FROZEN_PREDECESSORS_ONLY','model':'UNKNOWN','reasoning_setting':'UNKNOWN','bundle_id':'RC8-2016C-TERMINAL-DECISION-AUDIT-001','bundle_hash':'ee8c8533f9437b378d61ae9c8c6638f0eda19c4dcfc5382b42b491a959b483cc','verdict':'PASS','findings':findings,'blockers':[],'writes_observed':False,'nested_codex_used':False,'api_key_used':False,'api_calls':0,'web_used':False,'mcp_used':False,'majority_vote_used':False,'uncertainties':['PASS is only a post-decision audit of the insufficient-evidence proposal; full scientific Validation remains unaccepted.','Model/reasoning runtime settings UNKNOWN; policy isolation does not imply OS isolation.','State3 actual future error UNKNOWN; conditional forecast is not proved accurate.','Prior-answer exposure and unrecorded external actions cannot be independently ruled out; no such access occurred in this role or appears in the permitted fixed ledger.','Audit is offline; remote delivery relied on fixed predecessor receipts, not a new network check.','No complete fresh-workspace end-to-end replay was attempted; only code/input bindings and read-only numerical checks.','writes_observed=false refers to audited/formal inputs; this role wrote only its authorized ignored audit outputs.','Scientific objections F02/F03 are not reducible to passing unit tests and do not authorize overriding frozen gates.'],'created_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+audit['output_hash']=h(canon(audit))
+(OUT/'audit.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2)+'\n')
+
+# Build an honest manifest: initial byte checks are distinguished from substantive reads.
+initial=json.loads((OUT/'initial_hash_check.json').read_text())
+events=[json.loads(s) for s in (OUT/'read_events.jsonl').read_text().splitlines()]
+by={r['path']:{'path':r['path'],'sha256_at_start':r['actual'],'byte_hash_verified':True,'read_purposes':['initial SHA256 check'],'read_count':1} for r in initial['records']}
+for e in events:
+    if e['path'].startswith(SELF):continue
+    r=by.setdefault(e['path'],{'path':e['path'],'sha256_at_start':e['sha256'],'byte_hash_verified':False,'read_purposes':[],'read_count':0})
+    r['read_count']+=1
+    if e['purpose'] not in r['read_purposes']:r['read_purposes'].append(e['purpose'])
+checks=[]
+for p,r in by.items():
+    now=h((ROOT/p).read_bytes());checks.append({'path':p,'expected_sha256':r['sha256_at_start'],'actual_sha256':now,'unchanged':now==r['sha256_at_start']})
+hashcheck={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'audited_file_count':len(checks),'mismatches':[x for x in checks if not x['unchanged']],'records':checks}
+(OUT/'final_hash_check.json').write_text(json.dumps(hashcheck,ensure_ascii=False,indent=2)+'\n')
+assert not hashcheck['mismatches']
+manifest={'schema_version':'native-audit-read-manifest/v1','case_id':'CUMCM-2016-C-VALIDATION-004','audit_input_bundle_sha256':audit['bundle_hash'],'official_raw_files':2,'bound_candidate_files':80,'fixed_external_files_read_or_hashed':len(by),'substantive_read_log_events':len(events),'scope':'All inputs within explicit case and generic framework allowlist. Initial full package pass was byte hashing only; content interpretation/selected excerpts and numeric access recorded separately. No other case/answer/history content opened.','files':list(by.values()),'hashes_unchanged_at_end':True,'raw_content_publication':'Report does not reproduce full official raw content. Tool stdout includes local official read excerpts and remains ignored.'}
+(OUT/'read_manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+
+# Actual syntax/schema/hash validation without writing bytecode outside this audit directory.
+validation_code="""import json,hashlib,pathlib,jsonschema,ast
+p=pathlib.Path('.cache/pr12-rc8/fresh/2016/native_terminal_audit')
+a=json.loads((p/'audit.json').read_text());s=json.loads(pathlib.Path('contracts/subagent_audit.schema.json').read_text())
+jsonschema.Draft202012Validator(s,format_checker=jsonschema.FormatChecker()).validate(a)
+out=a.pop('output_hash');assert hashlib.sha256(json.dumps(a,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()==out
+for n in ['audit_helpers.py','independent_recalc.py','finalize_audit.py']:ast.parse((p/n).read_text())
+print(json.dumps({'audit_schema':'PASS','canonical_output_hash':'PASS','audit_script_syntax':'PASS','fixed_hashes_unchanged':json.loads((p/'final_hash_check.json').read_text())['mismatches']==[],'verdict':a['verdict'],'output_hash':out}))
+"""
+argv=['.venv/bin/python','-c',validation_code]
+st=datetime.datetime.now(datetime.timezone.utc).isoformat();result=subprocess.run(argv,cwd=ROOT,capture_output=True,text=True);en=datetime.datetime.now(datetime.timezone.utc).isoformat()
+receipt={'argv':argv,'started_at':st,'ended_at':en,'exit_code':result.returncode,'stdout':result.stdout,'stderr':result.stderr}
+(OUT/'final_validation_receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n')
+print(result.stdout,end='');assert result.returncode==0,result.stderr
+receipts=json.loads((OUT/'tool_receipts.json').read_text());receipts['nested_command_receipts'].append('final_validation_receipt.json');receipts['finalization']={'argv':['.venv/bin/python',SELF+'finalize_audit.py'],'started_at':started,'ended_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'SUCCESS','effects':['write audit.json','hash all recorded fixed inputs','write read_manifest.json','run actual schema/hash/syntax validator']};receipts['operations']['audit_schema_validation_runs']=1;receipts['operations']['frozen_external_files_rechecked']=len(by)
+(OUT/'tool_receipts.json').write_text(json.dumps(receipts,ensure_ascii=False,indent=2)+'\n')
+for name in ['REPORT.md','audit.json','read_manifest.json','tool_receipts.json','independent_recalculation.json','final_hash_check.json','final_validation_receipt.json']:
+    print(name,h((OUT/name).read_bytes()))
+print('COUNTS',json.dumps({'fixed_external_files_checked':len(by),'substantive_read_events':len(events),'logged_shell_commands_before_finalization':len(receipts['commands'])+len(receipts['startup_commands']),'finalization_script_commands':1,'checker_replays':2,'independent_recalculation_runs':1,'git_blob_reads':3,'schema_validation_subprocess':1,'new_model_runs':0,'new_final_accesses':0}))

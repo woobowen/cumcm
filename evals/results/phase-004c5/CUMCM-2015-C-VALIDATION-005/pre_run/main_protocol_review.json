@@ -1,0 +1,52 @@
+{
+  "schema_version": "rc8-main-pre-run-protocol-review/v1",
+  "case_id": "CUMCM-2015-C-VALIDATION-005",
+  "reviewed_at": "2026-09-08T22:21:23.158386+00:00",
+  "role": "MAIN_ORCHESTRATOR_PROTOCOL_AND_STATIC_REVIEW_NOT_INDEPENDENT_AGENT_AUDIT",
+  "models_chosen_by_worker": true,
+  "case_model_recipe_supplied_by_main": false,
+  "actual_model_capture_count": 0,
+  "interventions": [
+    {
+      "issue": "Ruff322 issues in compressed pre-freeze code",
+      "resolution": "Worker preserved AST original and corrected local code; actual main ruff and AST PASS before subject."
+    },
+    {
+      "issue": "Mixed event-count/seconds residuals with tolerance2 could accept missing events",
+      "resolution": "Worker separated all count residuals to exact0 and time residuals to2seconds, and added date/midpoint checks. This is a static protocol mismatch correction, not model/tolerance tuning from results."
+    },
+    {
+      "issue": "Future handoff timestamp mistaken for actual generation",
+      "resolution": "Core frozen timestamp explicitly denotes episode-anchor protocol label; separate actual_generation sidecar binds real artifact creation time and hash."
+    },
+    {
+      "issue": "Raw source evidence class/coverage",
+      "resolution": "Computed JPL ephemerides declared THEORETICAL; reference entity scope narrowed to actual city. Geographic applicability is not empirical site coverage."
+    },
+    {
+      "issue": "Raw filesystem permissions writable",
+      "resolution": "21 raw files chmod0444 with content hashes unchanged before freeze."
+    }
+  ],
+  "worker_static_corrections": [
+    "CLI handoff check must precede READY transition.",
+    "Julian float calendar display rounds to milliseconds to avoid midnight underflow.",
+    "Future failed acquisition batch stops after first failure."
+  ],
+  "verification": {
+    "required_inputs_hash_match": 22,
+    "read_only_raw_files": 21,
+    "code_records_match_git_subject": 4,
+    "frozen_shared_test_files_unchanged": 772,
+    "pre_run_cli_state": "EXPERIMENT_PLAN_VALIDATED",
+    "numbers_available_to_main": "Input/reference acquisition only; no case model output."
+  },
+  "scientific_limits": [
+    "Explicit nominal geometry and dusk definitions are scenarios, not unique historical interpretation.",
+    "JPL-vs-coordinate-model consistency uses shared underlying dynamical ephemeris; it is not independent observation or weather/terrain validation.",
+    "Monthly fixed reference samples do not alone certify every date or real observing site; full numerical checker and later native scientific audit remain necessary."
+  ],
+  "delivery_ci_limitations": [
+    "Frozen historical case-count assertion and terminal-phase assertion remain open; new-case registry summaries may be corrected from real evidence without changing shared tests."
+  ]
+}

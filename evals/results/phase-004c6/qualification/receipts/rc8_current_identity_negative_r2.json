@@ -1,0 +1,28 @@
+{
+  "kind": "historical_identity_negative",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "status": "EXPECTED_REJECTION_OBSERVED",
+  "argv": [
+    ".venv/bin/python",
+    "scripts/check_phase004c4_rc7_release.py",
+    "--check",
+    "--stage",
+    "live",
+    "--release",
+    "rc8"
+  ],
+  "started_at": "2026-09-09T04:14:22.413333+00:00",
+  "ended_at": "2026-09-09T04:14:23.714285+00:00",
+  "exit_code": 1,
+  "actual_result": {
+    "reason_codes": [
+      "RC8_CANDIDATE_CURRENT_IMPLEMENTATION_DRIFT",
+      "RC8_CANDIDATE_STATE_INVALID"
+    ],
+    "release": "rc8",
+    "stage": "live",
+    "status": "BLOCK",
+    "verification_context": "CURRENT_CANDIDATE"
+  },
+  "explanation": "Current RC9 implementation cannot inherit the original RC8 historical qualification. The separate --historical command passes only the original subject."
+}

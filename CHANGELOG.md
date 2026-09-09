@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.3.0-competition-rc9 — 2026-09-09 (candidate)
+
+- Preserves original RC8 qualification and both immutable negative Validation terminals.
+  RC9 is a separate implementation subject; activation requires its own complete CI and audits.
+- Allows append-only registered Development children and validates explicit phase/version/case/
+  decision identities while retaining complete historical records and hashes.
+- Accepts nonpredictive development comparison and robustness before selection freeze, then records
+  authorization and STARTED before an independent Final process. Receipt review does not reexecute.
+- Binds conditional PREDICTIVE estimates to observed history, temporal availability, model assumptions,
+  target metrics and independent arithmetic; unknown future accuracy remains unverified.
+- Adds three actual common CLI scientific E2Es and negative temporal/metric/Final lifecycle cases.
+  Development after Validation is not fresh Validation or evidence of generalization.
+
+## 0.3.0-competition-rc8 — 2026-09-09
+
+- Introduces the sole Skill candidate `0.2.0-competition-rc8`; the Python distribution remains
+  `0.2.3`. Candidate qualification, live activation and delivery bind separate recorded subjects.
+- Binds source files, generation methods, scope, Run outputs and per-question metrics. Independent
+  checker execution and complete-result replay validate calculation fidelity separately from
+  domain feasibility. Missing evidence preserves partial outcomes.
+- Adds explicit Development without Final test access and nonpredictive final verification;
+  evaluation design is frozen. Preserves failed Final access budgets and inherited P0 boundaries.
+- Preserves RC7 at its historical implementation/release subjects. Research and fresh Validation
+  eligibility depend on the RC8 qualification manifest; this entry is not competition approval
+  or evidence of generalization.
+
 ## 0.3.0-competition-rc7 — 2026-09-05
 
 - Added a docs-only honest handover, environment/reproduction inventory, bounded continuation cards,

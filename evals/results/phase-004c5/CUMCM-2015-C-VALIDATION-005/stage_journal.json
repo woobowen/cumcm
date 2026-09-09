@@ -1,0 +1,138 @@
+{
+  "as_of": "2026-09-08T22:33:34.955320+00:00",
+  "case_id": "CUMCM-2015-C-VALIDATION-005",
+  "current_cli_state": "READY_FOR_PAPER_HANDOFF",
+  "code_commit": "675b37c5c804858518d57732e950122045826119",
+  "stages": [
+    {
+      "stage": 1,
+      "name": "PROBLEM_INTAKE",
+      "formal_status": "ACCEPTED",
+      "formal_state": "INTAKE_COMPLETE",
+      "formal_gate_observed_at": "2026-09-08T22:11:18.508149+00:00"
+    },
+    {
+      "stage": 2,
+      "name": "REQUIREMENT_DECOMPOSITION",
+      "formal_status": "ACCEPTED",
+      "formal_state": "REQUIREMENTS_VALIDATED",
+      "formal_gate_observed_at": "2026-09-08T22:11:18.583944+00:00"
+    },
+    {
+      "stage": 3,
+      "name": "RESEARCH_AND_SOURCE_PLANNING",
+      "formal_status": "ACCEPTED",
+      "formal_state": "SOURCES_PLANNED",
+      "formal_gate_observed_at": "2026-09-08T22:11:18.662212+00:00"
+    },
+    {
+      "stage": 4,
+      "name": "ASSUMPTION_AND_SYMBOL_DEFINITION",
+      "formal_status": "ACCEPTED",
+      "formal_state": "DATA_AUDITED",
+      "formal_gate_observed_at": "2026-09-08T22:11:18.746440+00:00"
+    },
+    {
+      "stage": 5,
+      "name": "DATA_AUDIT",
+      "formal_status": "ACCEPTED",
+      "formal_state": "DATA_AUDITED",
+      "formal_gate_observed_at": "2026-09-08T22:11:18.746440+00:00"
+    },
+    {
+      "stage": 6,
+      "name": "MODEL_PORTFOLIO_GENERATION",
+      "formal_status": "ACCEPTED",
+      "formal_state": "MODELS_PROPOSED",
+      "formal_gate_observed_at": "2026-09-08T22:11:18.900908+00:00"
+    },
+    {
+      "stage": 7,
+      "name": "BASELINE_DEFINITION",
+      "formal_status": "ACCEPTED",
+      "formal_state": "MODELS_PROPOSED",
+      "formal_gate_observed_at": "2026-09-08T22:11:18.900908+00:00"
+    },
+    {
+      "stage": 8,
+      "name": "EXPERIMENT_DESIGN",
+      "formal_status": "ACCEPTED",
+      "formal_state": "EXPERIMENT_PLAN_VALIDATED",
+      "formal_gate_observed_at": "2026-09-08T22:19:38.079548+00:00"
+    },
+    {
+      "stage": 9,
+      "name": "IMPLEMENTATION_AND_EXECUTION",
+      "formal_status": "ACCEPTED",
+      "formal_state": "RUN_VALIDATED",
+      "formal_gate_observed_at": "2026-09-08T22:27:00.493817+00:00",
+      "actual_numeric_interval": {
+        "start": "2026-09-08T22:24:03Z",
+        "end": "2026-09-08T22:24:48Z"
+      }
+    },
+    {
+      "stage": 10,
+      "name": "MODEL_COMPARISON",
+      "formal_status": "ACCEPTED",
+      "formal_state": "ROBUSTNESS_VALIDATED",
+      "formal_gate_observed_at": "2026-09-08T22:28:19.086355+00:00",
+      "actual_selection_locked_at": "2026-09-08T22:25:58.148546+00:00"
+    },
+    {
+      "stage": 11,
+      "name": "ROBUSTNESS_AND_SENSITIVITY",
+      "formal_status": "ACCEPTED",
+      "formal_state": "ROBUSTNESS_VALIDATED",
+      "formal_gate_observed_at": "2026-09-08T22:28:19.086355+00:00",
+      "actual_robustness_in_outputs_completed_at": "2026-09-08T22:24:48Z",
+      "independent_development_checks_completed_at": "2026-09-08T22:24:53Z"
+    },
+    {
+      "stage": 12,
+      "name": "FINAL_RUN",
+      "formal_status": "ACCEPTED",
+      "formal_state": "FINAL_CANDIDATE",
+      "formal_gate_observed_at": "2026-09-08T22:28:23.660309+00:00",
+      "actual_numerical_final": {
+        "started_at": "2026-09-08T22:28:14.968512+00:00",
+        "completed_at": "2026-09-08T22:28:18.872464+00:00",
+        "status": "PASS"
+      }
+    },
+    {
+      "stage": 13,
+      "name": "CLAIM_EVIDENCE_VALIDATION",
+      "formal_status": "ACCEPTED",
+      "formal_state": "EVIDENCE_VALIDATED",
+      "formal_gate_observed_at": "2026-09-08T22:28:23.780941+00:00"
+    },
+    {
+      "stage": 14,
+      "name": "MODELING_TO_PAPER_HANDOFF",
+      "formal_status": "ACCEPTED",
+      "formal_state": "READY_FOR_PAPER_HANDOFF",
+      "formal_gate_observed_at": "2026-09-08T22:28:28.367171+00:00"
+    }
+  ],
+  "formal_gate_evidence": "candidate_artifacts/case_bundle/state/cli_journal.jsonl",
+  "scientific_ordering_limit": "Actual comparison, robustness computation and independent development checks precede numerical Final. Frozen core formally accepts comparison/robustness after it has Final verification facts. The two timestamps are intentionally separate; original protocol limitation preserved.",
+  "model_capture_count": 2,
+  "successful_model_capture_count": 2,
+  "failed_model_capture_count": 0,
+  "development_checker_capture_count": 2,
+  "scientific_final_verification_count": 1,
+  "prediction_test_access_count": 0,
+  "numeric_model_revisions": 0,
+  "pre_model_metadata_revision_count": 1,
+  "pre_model_static_review_corrections_retained": true,
+  "answer_status": "SEALED",
+  "model_prior_exposure": "UNKNOWN",
+  "model_id": "UNKNOWN",
+  "reasoning_effort": "UNKNOWN",
+  "installations": [],
+  "global_configuration_changes": [],
+  "shared_code_changes": [],
+  "independent_native_review_status": "PENDING_MAIN_SERIAL_REVIEW",
+  "formal_scientific_disposition": "NOT_ISSUED_BY_WORKER"
+}

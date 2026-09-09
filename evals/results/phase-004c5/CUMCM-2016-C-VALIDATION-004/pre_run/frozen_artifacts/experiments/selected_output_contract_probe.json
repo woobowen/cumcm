@@ -1,0 +1,60 @@
+{
+  "candidate_id": "CONTRACT-PROBE",
+  "claim_scope": "NONRESULT_STRUCTURE_ONLY",
+  "figure_ready_data": [
+    {
+      "placeholder": true
+    }
+  ],
+  "final_metrics": {
+    "placeholder": 0.0
+  },
+  "limitations": [
+    "NONRESULT placeholders"
+  ],
+  "probe_only": true,
+  "ranking_eligible": false,
+  "requirement_claims": {
+    "REQ-Q1": {
+      "claim_id": "CLAIM-PROBE-Q1",
+      "claim_text": "NONRESULT placeholder",
+      "evidence_artifact_ids": [
+        "PLACEHOLDER"
+      ]
+    },
+    "REQ-Q2": {
+      "claim_id": "CLAIM-PROBE-Q2",
+      "claim_text": "NONRESULT placeholder",
+      "evidence_artifact_ids": [
+        "PLACEHOLDER"
+      ]
+    },
+    "REQ-Q3": {
+      "claim_id": "CLAIM-PROBE-Q3",
+      "claim_text": "NONRESULT placeholder",
+      "evidence_artifact_ids": [
+        "PLACEHOLDER"
+      ]
+    }
+  },
+  "result_values_are_placeholders": true,
+  "robustness_evidence": {
+    "failure_cases": [
+      "NONRESULT"
+    ],
+    "metric": "placeholder",
+    "metric_direction": "MIN",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "placeholder",
+        "perturbation_id": "P0",
+        "result": 0.0
+      }
+    ]
+  },
+  "status": "CONTRACT_PROBE",
+  "uncertainty": {
+    "placeholder": true
+  }
+}

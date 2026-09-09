@@ -1,0 +1,44 @@
+{
+  "schema_version": "web-feedback/v1",
+  "case_id": "READINESS-COOLANT-001",
+  "module": "M09",
+  "revision": 1,
+  "package_hash": "a5701562383424a47b2435505a8aa3f7eb43060bc351d58df8588a9f831c67dd",
+  "reviewer": "LOCAL_INTERFACE_EXERCISE_MAIN_AUTHORED_NOT_WEB",
+  "visible_materials": [
+    "views/000-input.json.txt"
+  ],
+  "executed_code": false,
+  "findings": [
+    {
+      "finding_id": "LOCAL-BOUNDARY-001",
+      "location": "views/000-input.json.txt",
+      "description": "限购场景不能沿用无限供货解；仅界定适用域，无当前计算错误。",
+      "reason_or_counterexample": "6L需求的两只3L箱，在每种限购一箱时违规。",
+      "affected_scope": "仅假设变化后的新场景，不否定原无上限模型结果。",
+      "suggested_verification": "独立枚举每种0或1箱，比较可行性和成本；保留原输入。",
+      "confidence": "HIGH",
+      "kind": "SCIENTIFIC"
+    },
+    {
+      "finding_id": "LOCAL-UNSUPPORTED-002",
+      "location": "views/000-input.json.txt",
+      "description": "练习无依据意见分流：觉得复杂候选一定更可靠。",
+      "reason_or_counterexample": "未提供新的数据、证明或可区分实验，无法支持该意见。",
+      "affected_scope": "候选方法选择建议；当前尚无额外可靠性证据。",
+      "suggested_verification": "列需补的可靠性定义与可区分情景，不自动换方法。",
+      "confidence": "UNKNOWN",
+      "kind": "SCIENTIFIC"
+    },
+    {
+      "finding_id": "LOCAL-ALTERNATIVE-003",
+      "location": "views/000-input.json.txt",
+      "description": "小规模正价整数采购可用有可行成本上界的枚举作为替代实现。",
+      "reason_or_counterexample": "正价与可行成本上界给有限计数范围，可覆盖最优候选。",
+      "affected_scope": "实现路线，未主张优于当前动态规划或基线。",
+      "suggested_verification": "核对边界覆盖与独立结果；若改正式模型先进入新实验设计。",
+      "confidence": "HIGH",
+      "kind": "ALTERNATIVE"
+    }
+  ]
+}

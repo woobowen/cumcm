@@ -1,0 +1,21 @@
+{
+  "receipt_id": "AUDIT-2015-AFTER-HASH-005",
+  "verified_at": "2026-09-08T22:53:16.754774+00:00",
+  "file_count": 144,
+  "mismatches": [],
+  "read_manifest_construction": {
+    "original_bundle": "all files keys and case_root/immutable_case_inputs keys plus bundle itself",
+    "supplement": "all allowed_file_references plus supplement itself",
+    "additional_exact_files": [
+      "contracts/subagent_audit.schema.json",
+      ".agents/skills/cumcm-modeling-evidence/SKILL.md",
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scripts/finalize_fresh_c_validation.py",
+      "contracts/modeling_to_paper.schema.json"
+    ]
+  },
+  "read_manifest_hash_sha256": "52ed202fd53b302be8ec5cf24f27124b392ea07e9d18f91f99f35b739669cfdb",
+  "manifest_semantics": "Every listed evidence file was read as bytes for hash verification; substantive interpretation focused on the primary problem, protocol, code, captures, outputs, claims and replay evidence. Hash reading does not imply line-by-line semantic review of every file.",
+  "exit_code": 0,
+  "stderr": ""
+}

@@ -1,0 +1,43 @@
+{
+  "scope": "INDEPENDENT_ARITHMETIC_ON_UPLOADED_SYNTHETIC_EXAMPLE_ONLY",
+  "uploaded_code_executed": false,
+  "reviewer_authored_code_executed": true,
+  "live_case_state_or_run_process_verified": false,
+  "real_future_observation_verified": false,
+  "comparisons": {
+    "synthetic_current_remaining_8_min": true,
+    "synthetic_historical_end_20_at_origin4": true,
+    "synthetic_historical_end_20_at_origin8": true,
+    "optimal_counts_match": true,
+    "optimal_cost_match": true,
+    "stock_path_match": true,
+    "baseline_cost_match": true,
+    "perturbation_demand9_cost12": true,
+    "reported_metric_matches_declared_formula": true
+  },
+  "passed": 9,
+  "total": 9,
+  "conditional_remaining_minutes": 8.0,
+  "optimal_allocation": {
+    "demand_litres": 8,
+    "cost": 11,
+    "n3": 1,
+    "n5": 1,
+    "quantity_litres": 8,
+    "finite_search_justification": "A feasible all-3L solution gives a cost upper bound; positive unit costs bound both counts."
+  },
+  "demand9_allocation": {
+    "demand_litres": 9,
+    "cost": 12,
+    "n3": 3,
+    "n5": 0,
+    "quantity_litres": 9,
+    "finite_search_justification": "A feasible all-3L solution gives a cost upper bound; positive unit costs bound both counts."
+  },
+  "recalculated_reported_mre_percent": 1.5173048003210474e-13,
+  "limitations": [
+    "Exact affine synthetic input only; this is not a generic noisy-regression checker.",
+    "No original model process, local case ledger, final access, or complete suite was replayed.",
+    "Byte hashes and arithmetic checks do not establish scientific generalization or user acceptance."
+  ]
+}

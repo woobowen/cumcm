@@ -1,0 +1,344 @@
+{
+  "schema_version": "main-controlled-independent-checker-replay/v1",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+  "run_id": "RUN-RC9-D2015-R2-02",
+  "started_at": "2026-09-09T03:55:00.144115+00:00",
+  "ended_at": "2026-09-09T03:55:08.138364+00:00",
+  "elapsed_seconds": 6.966035473997181,
+  "mechanism": "FRESH_PYTHON_PROCESS_THEN_FROZEN_INDEPENDENT_CHECKER_SUBPROCESS",
+  "status": "PASS",
+  "error": null,
+  "not_native_agent_review": true,
+  "not_external_truth_validation": true,
+  "result_summary": {
+    "run_id": "RUN-RC9-D2015-R2-02",
+    "output_sha256": "6a562080074a7726df1eed67ff7fa3a7743ae4d4fa7bd694f470d2fbbfacf8a5",
+    "requirements": {
+      "REQ-DEFINITION": {
+        "metric_values": {
+          "definition_tree_angle_deg": 10.0,
+          "definition_calendar_rows": 2562
+        },
+        "recalculation_residuals": {
+          "full_daily_solar_event_altitude_max": {
+            "value": 7.252813920111123e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          },
+          "full_daily_moon_event_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.0,
+            "unit": "count"
+          },
+          "full_daily_moon_event_times": {
+            "value": 0.0024944543838500977,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          },
+          "all_perturbation_counts": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.0,
+            "unit": "count"
+          },
+          "all_perturbation_endpoints": {
+            "value": 0.002092123031616211,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          },
+          "calendar_date_identity": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.0,
+            "unit": "count"
+          },
+          "event_midpoint_altitude_and_azimuth": {
+            "value": 7.1381267687797845e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "definition_geometry": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.0,
+            "unit": ""
+          }
+        }
+      },
+      "REQ-VALIDATION": {
+        "metric_values": {
+          "reference_altitude_rmse_deg": 0.0007493858157717232,
+          "reference_altitude_max_abs_deg": 0.0014453845183588498
+        },
+        "recalculation_residuals": {
+          "all_reference_input_and_arithmetic": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 1e-10,
+            "unit": "degrees"
+          },
+          "independent_physical_transform_max": {
+            "value": 4.1964399542848696e-05,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "reference_accuracy_deg": {
+            "value": 0.0014453845183588498,
+            "relation": "LE",
+            "limit": 0.05,
+            "tolerance": 0.0,
+            "unit": "degrees"
+          }
+        }
+      },
+      "REQ-BEIJING": {
+        "metric_values": {
+          "Beijing_event_count": 15
+        },
+        "recalculation_residuals": {
+          "full_window_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0,
+            "unit": ""
+          },
+          "full_window_endpoint_max_seconds": {
+            "value": 0.9713823795318604,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "all_window_conditions_deg": {
+            "value": 5.90060512095647e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        }
+      },
+      "REQ-CHENGDU": {
+        "metric_values": {
+          "Chengdu_event_count": 13
+        },
+        "recalculation_residuals": {
+          "full_window_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0,
+            "unit": ""
+          },
+          "full_window_endpoint_max_seconds": {
+            "value": 0.9922451972961426,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "all_window_conditions_deg": {
+            "value": 6.718606417877027e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        }
+      },
+      "REQ-GUANGZHOU": {
+        "metric_values": {
+          "Guangzhou_event_count": 12
+        },
+        "recalculation_residuals": {
+          "full_window_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0,
+            "unit": ""
+          },
+          "full_window_endpoint_max_seconds": {
+            "value": 0.918224573135376,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "all_window_conditions_deg": {
+            "value": 7.183186445658407e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        }
+      },
+      "REQ-HARBIN": {
+        "metric_values": {
+          "Harbin_event_count": 18
+        },
+        "recalculation_residuals": {
+          "full_window_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0,
+            "unit": ""
+          },
+          "full_window_endpoint_max_seconds": {
+            "value": 0.9963076114654541,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "all_window_conditions_deg": {
+            "value": 7.183186445658407e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        }
+      },
+      "REQ-KUNMING": {
+        "metric_values": {
+          "Kunming_event_count": 13
+        },
+        "recalculation_residuals": {
+          "full_window_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0,
+            "unit": ""
+          },
+          "full_window_endpoint_max_seconds": {
+            "value": 0.9607260227203369,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "all_window_conditions_deg": {
+            "value": 7.183186445658407e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        }
+      },
+      "REQ-SHANGHAI": {
+        "metric_values": {
+          "Shanghai_event_count": 12
+        },
+        "recalculation_residuals": {
+          "full_window_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0,
+            "unit": ""
+          },
+          "full_window_endpoint_max_seconds": {
+            "value": 0.9636342525482178,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "all_window_conditions_deg": {
+            "value": 7.183186445658407e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        }
+      },
+      "REQ-URUMQI": {
+        "metric_values": {
+          "Urumqi_event_count": 16
+        },
+        "recalculation_residuals": {
+          "full_window_count": {
+            "value": 0.0,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0,
+            "unit": ""
+          },
+          "full_window_endpoint_max_seconds": {
+            "value": 0.9693639278411865,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 2.0,
+            "unit": "seconds"
+          }
+        },
+        "feasible": true,
+        "constraint_residuals": {
+          "all_window_conditions_deg": {
+            "value": 7.183186445658407e-06,
+            "relation": "EQ",
+            "limit": 0.0,
+            "tolerance": 0.002,
+            "unit": "degrees"
+          }
+        }
+      }
+    },
+    "independence": "Independent local four-point Lagrange interpolation, scalar equatorial parallax, bisection and complete date enumeration; no producer/helper imports. Same underlying JPL ephemeris, not independent observations.",
+    "omitted_fields": [
+      "metric_definitions",
+      "metric_samples",
+      "diagnostics"
+    ]
+  },
+  "raw_receipt_sha256": "bfaf936dc56ced366499c593a942f5e952b36d4a6c2faa8f444e923dce5c6552",
+  "publication": "Derived main-check receipt; dense metric samples and temporal lineage excluded; raw source retained ignored."
+}

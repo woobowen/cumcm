@@ -1,0 +1,93 @@
+{
+  "argv": [
+    "models/produce.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "CUBIC_LOG_AFFINE",
+    "--seed",
+    "20260909",
+    "--output",
+    "runs/RUN-RC9-D2016-R2-02/output.json"
+  ],
+  "candidate_id": "CUBIC_LOG_AFFINE",
+  "capture_mode": "CONTROLLED_CASE_SUBPROCESS",
+  "code_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "8184f2bae137d1cf7a3c73031c13122cc33dde19c522401267e6b807e042f4a0"
+    },
+    {
+      "path": "models/produce.py",
+      "repository_path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/produce.py",
+      "scope": "CASE_ROOT",
+      "sha256": "93eace21d3ffc90063626da90c284ee6e2f3779b71948c23e1f0494020f8a007"
+    },
+    {
+      "path": "models/check.py",
+      "repository_path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code/check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "5851b286ba118af23a700904992455f66915ebe314994db04fcd8a8661ce2cb0"
+    }
+  ],
+  "configuration": {
+    "candidate_id": "CUBIC_LOG_AFFINE",
+    "seed": 20260909
+  },
+  "configuration_hash": "3d7f7890d99033285a07d1c2d6d7b67b1333c992efe17bb9a53dfc73a276f595",
+  "elapsed_seconds": 15.530039,
+  "ended_at": "2026-09-09T03:48:28Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20260909",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "ff3a37207d2ede21aa92dda5859b2ce1836d8e1568cff9db8ffea6818e5c6f58",
+    "candidate_set": "45954cfa1d47c4481dedd6aeee577e5c5b646473cfff769508b26d114329a62b",
+    "code_commit": "c553bfe67c08a6206888c9b7a0aaa687b1f75db13628afca1bd7a768ce429133",
+    "code_set": "31c609b6c629b45319674c1c99108f8356b2f89a081e9bfd058025d97f2af475",
+    "execution_policy": "faf8c0554022e0b1f525b8e686d096ba40d2a316105a77a3e5a3fea6a49443fe",
+    "input_set": "cf77a11a7f334d7848765165b7eba848a4e1db02311c165f542e1ffbbc23ee6b",
+    "metric": "a4eddc10b1c7749b7583cc688f65db5c9759e56ce2018cf4f6370b845b51646b",
+    "seed_schedule": "47a264ecc69a3032a7b845022874b7d131b5610ab34bdd3a21228b87a77559b3",
+    "split_assignment": "c74299e9c10c375dbee7e01fd7838f8469053c0604a37ed57d30088f3427a6bb"
+  },
+  "input_files": [
+    {
+      "path": "data/processed/temporal_index.json",
+      "sha256": "30367e31c69dc68b49d34c812afc5ba9f9be674d734488652dd9d0ad065830c9"
+    },
+    {
+      "path": "data/raw/appendix.xlsx",
+      "sha256": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf"
+    },
+    {
+      "path": "data/raw/problem.docx",
+      "sha256": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+    }
+  ],
+  "outcome": "SUCCESS",
+  "output": {
+    "path": "runs/RUN-RC9-D2016-R2-02/output.json",
+    "sha256": "dfc2a4cf3cc8525003c5bece3c013e19a4fe0956c47c7364c66f835e577c497f"
+  },
+  "run_id": "RUN-RC9-D2016-R2-02",
+  "runner_version": "0.2.0-competition-rc9",
+  "scenario_hash": "6125b5fb0afcd5caedafcc374f9b21f0450832e51e1e33e1f362328ee5aa171f",
+  "schema_version": "1.0.0",
+  "seed": 20260909,
+  "started_at": "2026-09-09T03:48:12Z",
+  "stderr": {
+    "path": "runs/RUN-RC9-D2016-R2-02/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "runs/RUN-RC9-D2016-R2-02/stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -15,7 +15,23 @@ def main() -> int:
     parser.add_argument("--candidate-id", required=True)
     parser.add_argument("--seed", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--final-evaluation", action="store_true")
+    parser.add_argument("--authorization-hash")
+    parser.add_argument("--final-output", type=Path)
     args = parser.parse_args()
+    if args.final_evaluation:
+        if not args.authorization_hash or args.final_output is None:
+            return 2
+        test_payload = json.dumps({"selected": args.candidate_id}, sort_keys=True).encode()
+        payload = {
+            "run_id": None,
+            "authorization_hash": args.authorization_hash,
+            "sealed_test_metrics_b64": base64.b64encode(test_payload).decode(),
+            "sealed_test_payload_sha256": hashlib.sha256(test_payload).hexdigest(),
+        }
+        args.final_output.parent.mkdir(parents=True, exist_ok=True)
+        args.final_output.write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
+        return 0
     requirement_artifact = json.loads(
         (args.case_root / "problem/problem_requirements.json").read_text(encoding="utf-8")
     )
@@ -29,7 +45,6 @@ def main() -> int:
         f"metric_{chr(ord('a') + index)}": value
         for index, value in enumerate(base_values[args.candidate_id][: len(requirement_ids)])
     }
-    test_payload = json.dumps({"selected": args.candidate_id}, sort_keys=True).encode()
     output = {
         "candidate_id": args.candidate_id,
         "status": "SUCCESS",
@@ -47,8 +62,6 @@ def main() -> int:
         "figure_ready_data": [{"figure_id": "NEUTRAL", "series": list(values.values())}],
         "uncertainty": {"status": "BOUNDED"},
         "limitations": ["Project-original deterministic neutral fixture."],
-        "sealed_test_metrics_b64": base64.b64encode(test_payload).decode(),
-        "sealed_test_payload_sha256": hashlib.sha256(test_payload).hexdigest(),
         "robustness_evidence": {
             "metric": "metric_a",
             "metric_direction": "MIN",
@@ -63,6 +76,27 @@ def main() -> int:
             "failure_cases": ["Fixture does not establish external validity."],
         },
     }
+    sources = json.loads(
+        (args.case_root / "research/source_ledger.json").read_text(encoding="utf-8")
+    )["content"]["sources"]
+    assumption_path = args.case_root / "models/assumptions_and_symbols.json"
+    output["scientific_evidence"] = {}
+    for index, requirement in enumerate(requirement_artifact["content"]["requirements"]):
+        requirement_id = requirement["requirement_id"]
+        relevant = [s for s in sources if requirement_id in s["supports_requirement_ids"]]
+        simulated = any(s["evidence_class"] == "SIMULATION" for s in relevant)
+        metric = f"metric_{chr(ord('a') + index)}"
+        output["scientific_evidence"][requirement_id] = {
+            "generation_method": "CONDITIONAL_SIMULATION" if simulated else "DESCRIPTIVE_STATISTIC",
+            "source_ids": [s["source_id"] for s in relevant],
+            "scope": {
+                "fields": requirement["minimum_data_fields"],
+                "time": requirement["required_time_scope"],
+                "entities": requirement["required_entity_scope"],
+            },
+            "metric_values": {metric: values[metric]},
+            "assumption_artifact_sha256": hashlib.sha256(assumption_path.read_bytes()).hexdigest(),
+        }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, sort_keys=True), encoding="utf-8")
     return 0

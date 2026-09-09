@@ -1,0 +1,71 @@
+{
+  "schema_version": "phase-004c5-merge-tree-observation/v1",
+  "kind": "ACTUAL_LOCAL_MERGE_TREE_ONLY",
+  "full_ci_on_this_locally_computed_tree": "NOT_RUN",
+  "records": [
+    {
+      "argv": [
+        "git",
+        "fetch",
+        "origin",
+        "main"
+      ],
+      "started_at": "2026-09-08T23:38:04.635538+00:00",
+      "ended_at": "2026-09-08T23:38:06.201867+00:00",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "From https://github.com/woobowen/cumcm\n * branch            main       -> FETCH_HEAD\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "started_at": "2026-09-08T23:38:06.201924+00:00",
+      "ended_at": "2026-09-08T23:38:06.203157+00:00",
+      "exit_code": 0,
+      "stdout": "6be924e7903a201236a9cdd93ee75d66b839d1d6\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "origin/main"
+      ],
+      "started_at": "2026-09-08T23:38:06.203184+00:00",
+      "ended_at": "2026-09-08T23:38:06.204243+00:00",
+      "exit_code": 0,
+      "stdout": "e1286b1f734ef1d23cfbfc2bb87fee5358dab212\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/feat/phase004c5-p0-01-finalization-hf22-repro"
+      ],
+      "started_at": "2026-09-08T23:38:06.204270+00:00",
+      "ended_at": "2026-09-08T23:38:07.479768+00:00",
+      "exit_code": 0,
+      "stdout": "6be924e7903a201236a9cdd93ee75d66b839d1d6\trefs/heads/feat/phase004c5-p0-01-finalization-hf22-repro\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "origin/main",
+        "HEAD"
+      ],
+      "started_at": "2026-09-08T23:38:07.479824+00:00",
+      "ended_at": "2026-09-08T23:38:07.502750+00:00",
+      "exit_code": 0,
+      "stdout": "1349ce00d0cf60acc9d158f7dfee51e1366dcc4c\n",
+      "stderr": ""
+    }
+  ]
+}

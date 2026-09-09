@@ -132,7 +132,7 @@ def evidence_hashes(case_root: Path, blocked: bool, *, batch_case: bool = False)
     if missing:
         raise ValueError(f"FIRST_RUN_EVIDENCE_MISSING:{missing[0]}")
     discovered = {
-        str(path.relative_to(case_root))
+        path.relative_to(case_root).as_posix()
         for pattern in ("results/*.json", "evidence/first_run*.json")
         for path in case_root.glob(pattern)
         if path.is_file()
@@ -338,7 +338,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         validate_manifest_skill_binding(core, record, manifest)
         for item in manifest["input_files"]:
             consumed_inputs[item["path"]] = item["sha256"]
-        manifest_hashes[str(path.relative_to(args.case_root))] = file_hash(path)
+        manifest_hashes[path.relative_to(args.case_root).as_posix()] = file_hash(path)
     if manifests and any(
         consumed_inputs.get(path) != digest
         for path, digest in record.get("data_hashes", {}).items()
@@ -376,7 +376,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
     for path in manifests:
         manifest = load_json_object(path, "RUN_MANIFEST_INVALID")
         if manifest.get("status") != "SUCCESS":
-            relative = str(path.relative_to(args.case_root))
+            relative = path.relative_to(args.case_root).as_posix()
             failure_hashes[relative] = manifest_hashes[relative]
     freeze_id = f"{args.case_id}-FIRST-RUN-FREEZE-001"
     skill_tree = skill_tree_evidence(str(record["skill_commit"]))
@@ -453,7 +453,7 @@ def freeze(args: argparse.Namespace) -> dict[str, Any]:
         record["first_run_evidence"] = evidence
         record["first_run_freeze"] = {
             "freeze_id": freeze_id,
-            "path": str(args.freeze_output.resolve().relative_to(REPO_ROOT)),
+            "path": args.freeze_output.resolve().relative_to(REPO_ROOT).as_posix(),
             "sha256": freeze_sha256,
             "subject_commit": args.worktree_commit,
         }

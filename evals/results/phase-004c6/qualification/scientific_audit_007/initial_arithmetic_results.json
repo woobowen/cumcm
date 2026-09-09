@@ -1,0 +1,492 @@
+{
+  "review_scope": "ACTUAL_POSTVALIDATION_DEVELOPMENT_RESULTS",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "computed_at": "2026-09-09T04:08:46.088453+00:00",
+  "execution_kind": "STDLIB_ARITHMETIC_AND_METADATA_ONLY",
+  "new_model_checker_final_starts": 0,
+  "check_count": 8381,
+  "failed_checks": [
+    {
+      "check": "RUN-RC9-D2016-R2-01/S1-CUT-9.95: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-01/S1-CUT-9.85: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-01/S1-CUT-9.765: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-01/S2-CUT-9.95: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-01/S2-CUT-9.85: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-01/S2-CUT-9.765: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-01/S3-LAST: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-02/S1-CUT-9.95: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-02/S1-CUT-9.85: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-02/S1-CUT-9.765: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-02/S2-CUT-9.95: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-02/S2-CUT-9.85: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-02/S2-CUT-9.765: model/preprocess references strictly earlier states",
+      "pass": false
+    },
+    {
+      "check": "RUN-RC9-D2016-R2-02/S3-LAST: model/preprocess references strictly earlier states",
+      "pass": false
+    }
+  ],
+  "results": {
+    "2016": {
+      "ledger_counts": {
+        "model_cli_starts": 2,
+        "independent_checker_starts": 3
+      },
+      "plan_sha256": "8947aa5e0e98a69176ba8d97af4f4329861332337b4fc0c8848459dd902f62dc",
+      "runs": {
+        "RUN-RC9-D2016-R2-01": {
+          "scenario_hash": "6125b5fb0afcd5caedafcc374f9b21f0450832e51e1e33e1f362328ee5aa171f",
+          "recomputed": {
+            "q1_mean_fitted_MRE": {
+              "value": 0.003009290255755831,
+              "count": 2079
+            },
+            "q2_loco_MRE": {
+              "value": 0.048930522478386425,
+              "count": 1617
+            },
+            "q3_remaining_MRE": {
+              "value": 0.059408550113034225,
+              "count": 6
+            },
+            "q3_remaining_min": {
+              "value": 192.2672077704376,
+              "count": 1
+            }
+          },
+          "feasibility": {
+            "REQ-Q1": true,
+            "REQ-Q2": true,
+            "REQ-Q3": true
+          },
+          "temporal": [
+            {
+              "sample_id": "S1-CUT-9.95",
+              "origin": 10671.1,
+              "feature_count": 111,
+              "reference_states": [
+                0,
+                1
+              ],
+              "target_time": 11104.8
+            },
+            {
+              "sample_id": "S1-CUT-9.85",
+              "origin": 10762.2,
+              "feature_count": 131,
+              "reference_states": [
+                0,
+                1
+              ],
+              "target_time": 11104.8
+            },
+            {
+              "sample_id": "S1-CUT-9.765",
+              "origin": 10827.5,
+              "feature_count": 148,
+              "reference_states": [
+                0,
+                1
+              ],
+              "target_time": 11104.8
+            },
+            {
+              "sample_id": "S2-CUT-9.95",
+              "origin": 20582.0,
+              "feature_count": 111,
+              "reference_states": [
+                0,
+                1,
+                2
+              ],
+              "target_time": 20979.0
+            },
+            {
+              "sample_id": "S2-CUT-9.85",
+              "origin": 20662.5,
+              "feature_count": 131,
+              "reference_states": [
+                0,
+                1,
+                2
+              ],
+              "target_time": 20979.0
+            },
+            {
+              "sample_id": "S2-CUT-9.765",
+              "origin": 20724.4,
+              "feature_count": 148,
+              "reference_states": [
+                0,
+                1,
+                2
+              ],
+              "target_time": 20979.0
+            },
+            {
+              "sample_id": "S3-LAST",
+              "origin": 30596.2,
+              "feature_count": 148,
+              "reference_states": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "target_time": null
+            }
+          ],
+          "remaining_error_terms": [
+            0.03265204072326273,
+            0.03887044568048963,
+            0.04483859728028785,
+            0.06730638566991488,
+            0.07912189782117394,
+            0.09366193350307629
+          ],
+          "incorrect_elapsed_denominator_MRE": 0.018892806862756403
+        },
+        "RUN-RC9-D2016-R2-02": {
+          "scenario_hash": "6125b5fb0afcd5caedafcc374f9b21f0450832e51e1e33e1f362328ee5aa171f",
+          "recomputed": {
+            "q1_mean_fitted_MRE": {
+              "value": 0.0007800323854870386,
+              "count": 2079
+            },
+            "q2_loco_MRE": {
+              "value": 0.010219758766339342,
+              "count": 1617
+            },
+            "q3_remaining_MRE": {
+              "value": 0.051965754106183794,
+              "count": 6
+            },
+            "q3_remaining_min": {
+              "value": 193.44177724399992,
+              "count": 1
+            }
+          },
+          "feasibility": {
+            "REQ-Q1": true,
+            "REQ-Q2": true,
+            "REQ-Q3": true
+          },
+          "temporal": [
+            {
+              "sample_id": "S1-CUT-9.95",
+              "origin": 10671.1,
+              "feature_count": 111,
+              "reference_states": [
+                0,
+                1
+              ],
+              "target_time": 11104.8
+            },
+            {
+              "sample_id": "S1-CUT-9.85",
+              "origin": 10762.2,
+              "feature_count": 131,
+              "reference_states": [
+                0,
+                1
+              ],
+              "target_time": 11104.8
+            },
+            {
+              "sample_id": "S1-CUT-9.765",
+              "origin": 10827.5,
+              "feature_count": 148,
+              "reference_states": [
+                0,
+                1
+              ],
+              "target_time": 11104.8
+            },
+            {
+              "sample_id": "S2-CUT-9.95",
+              "origin": 20582.0,
+              "feature_count": 111,
+              "reference_states": [
+                0,
+                1,
+                2
+              ],
+              "target_time": 20979.0
+            },
+            {
+              "sample_id": "S2-CUT-9.85",
+              "origin": 20662.5,
+              "feature_count": 131,
+              "reference_states": [
+                0,
+                1,
+                2
+              ],
+              "target_time": 20979.0
+            },
+            {
+              "sample_id": "S2-CUT-9.765",
+              "origin": 20724.4,
+              "feature_count": 148,
+              "reference_states": [
+                0,
+                1,
+                2
+              ],
+              "target_time": 20979.0
+            },
+            {
+              "sample_id": "S3-LAST",
+              "origin": 30596.2,
+              "feature_count": 148,
+              "reference_states": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "target_time": null
+            }
+          ],
+          "remaining_error_terms": [
+            0.03013385393131117,
+            0.035859017203021426,
+            0.04100088537934433,
+            0.05605498031821273,
+            0.0675597980137643,
+            0.08118598979144882
+          ],
+          "incorrect_elapsed_denominator_MRE": 0.01648769530208881
+        }
+      }
+    },
+    "2015": {
+      "ledger_counts": {
+        "model_cli_starts": 2,
+        "independent_checker_starts": 3
+      },
+      "plan_sha256": "c946d7daf39cfaefaadc3016c0ae6dbe6da85af99a73e70ccfc98d5243ddb53b",
+      "runs": {
+        "RUN-RC9-D2015-R2-01": {
+          "scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+          "recomputed": {
+            "Beijing_event_count": {
+              "value": 13.0,
+              "count": 1
+            },
+            "Chengdu_event_count": {
+              "value": 12.0,
+              "count": 1
+            },
+            "Guangzhou_event_count": {
+              "value": 11.0,
+              "count": 1
+            },
+            "Harbin_event_count": {
+              "value": 14.0,
+              "count": 1
+            },
+            "Kunming_event_count": {
+              "value": 11.0,
+              "count": 1
+            },
+            "Shanghai_event_count": {
+              "value": 11.0,
+              "count": 1
+            },
+            "Urumqi_event_count": {
+              "value": 16.0,
+              "count": 1
+            },
+            "definition_calendar_rows": {
+              "value": 2562.0,
+              "count": 1
+            },
+            "definition_tree_angle_deg": {
+              "value": 10.0,
+              "count": 1
+            },
+            "reference_altitude_max_abs_deg": {
+              "value": 1.0226913911258964,
+              "count": 168
+            },
+            "reference_altitude_rmse_deg": {
+              "value": 0.5280663445125289,
+              "count": 168
+            },
+            "scenario_event_count": {
+              "value": 88.0,
+              "count": 1
+            }
+          },
+          "feasibility": {
+            "REQ-DEFINITION": true,
+            "REQ-VALIDATION": false,
+            "REQ-BEIJING": true,
+            "REQ-CHENGDU": true,
+            "REQ-GUANGZHOU": true,
+            "REQ-HARBIN": true,
+            "REQ-KUNMING": true,
+            "REQ-SHANGHAI": true,
+            "REQ-URUMQI": true
+          },
+          "sensitivity_totals": {
+            "LOWER_TREE": 94,
+            "HIGHER_TREE": 93,
+            "WIDER_TREE_BAND": 131,
+            "CIVIL_TWILIGHT": 83,
+            "LATITUDE_PLUS_005": 88
+          },
+          "events_by_city": {
+            "Beijing": 13,
+            "Chengdu": 12,
+            "Guangzhou": 11,
+            "Harbin": 14,
+            "Kunming": 11,
+            "Shanghai": 11,
+            "Urumqi": 16
+          }
+        },
+        "RUN-RC9-D2015-R2-02": {
+          "scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+          "recomputed": {
+            "Beijing_event_count": {
+              "value": 15.0,
+              "count": 1
+            },
+            "Chengdu_event_count": {
+              "value": 13.0,
+              "count": 1
+            },
+            "Guangzhou_event_count": {
+              "value": 12.0,
+              "count": 1
+            },
+            "Harbin_event_count": {
+              "value": 18.0,
+              "count": 1
+            },
+            "Kunming_event_count": {
+              "value": 13.0,
+              "count": 1
+            },
+            "Shanghai_event_count": {
+              "value": 12.0,
+              "count": 1
+            },
+            "Urumqi_event_count": {
+              "value": 16.0,
+              "count": 1
+            },
+            "definition_calendar_rows": {
+              "value": 2562.0,
+              "count": 1
+            },
+            "definition_tree_angle_deg": {
+              "value": 10.0,
+              "count": 1
+            },
+            "reference_altitude_max_abs_deg": {
+              "value": 0.0014453845183588498,
+              "count": 168
+            },
+            "reference_altitude_rmse_deg": {
+              "value": 0.0007493858157717232,
+              "count": 168
+            },
+            "scenario_event_count": {
+              "value": 99.0,
+              "count": 1
+            }
+          },
+          "feasibility": {
+            "REQ-DEFINITION": true,
+            "REQ-VALIDATION": true,
+            "REQ-BEIJING": true,
+            "REQ-CHENGDU": true,
+            "REQ-GUANGZHOU": true,
+            "REQ-HARBIN": true,
+            "REQ-KUNMING": true,
+            "REQ-SHANGHAI": true,
+            "REQ-URUMQI": true
+          },
+          "sensitivity_totals": {
+            "LOWER_TREE": 96,
+            "HIGHER_TREE": 98,
+            "WIDER_TREE_BAND": 129,
+            "CIVIL_TWILIGHT": 81,
+            "LATITUDE_PLUS_005": 99
+          },
+          "events_by_city": {
+            "Beijing": 15,
+            "Chengdu": 13,
+            "Guangzhou": 12,
+            "Harbin": 18,
+            "Kunming": 13,
+            "Shanghai": 12,
+            "Urumqi": 16
+          }
+        }
+      }
+    }
+  },
+  "reviewed_development_artifacts": {
+    "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006": {
+      "terminal": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json",
+        "sha256": "8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73"
+      },
+      "execution_evidence": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/execution_evidence.json",
+        "sha256": "5b65fba4a8e242cb30626a329ad5fb215b32e59ce49bfcfd5953ab3e5b956da3"
+      }
+    },
+    "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007": {
+      "terminal": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json",
+        "sha256": "6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400"
+      },
+      "execution_evidence": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/execution_evidence.json",
+        "sha256": "f4d0fcf1a60c04bb6f807366e4f8b43a6a4c9cba91de71fe962ecafbc5d6f4ec"
+      }
+    }
+  }
+}

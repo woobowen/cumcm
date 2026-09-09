@@ -1,0 +1,253 @@
+{
+  "artifact_type": "data_sufficiency",
+  "content": {
+    "acquisition_plans": [],
+    "aggregate_completion_claimed": false,
+    "contract_version": "data-sufficiency/v1",
+    "coverage_mode_by_requirement": {
+      "REQ-A": {
+        "mode": "SINGLE_SOURCE",
+        "source_id": "SRC-ORIGINAL-WATER"
+      },
+      "REQ-B": {
+        "mode": "SINGLE_SOURCE",
+        "source_id": "SRC-ORIGINAL-WATER"
+      },
+      "REQ-C": {
+        "mode": "SINGLE_SOURCE",
+        "source_id": "SRC-ORIGINAL-WATER"
+      }
+    },
+    "requirement_assessments": [
+      {
+        "acquisition_cost": "NONE",
+        "acquisition_time": "NONE",
+        "affected_downstream_stages": [],
+        "allowed_substitutions": [],
+        "candidate_sources": [],
+        "data_sufficiency_status": "SUFFICIENT",
+        "forbidden_substitutions": [],
+        "missing_entities": [],
+        "missing_fields": [],
+        "missing_time_scope": [],
+        "requirement_id": "REQ-A"
+      },
+      {
+        "acquisition_cost": "NONE",
+        "acquisition_time": "NONE",
+        "affected_downstream_stages": [],
+        "allowed_substitutions": [],
+        "candidate_sources": [],
+        "data_sufficiency_status": "SUFFICIENT",
+        "forbidden_substitutions": [],
+        "missing_entities": [],
+        "missing_fields": [],
+        "missing_time_scope": [],
+        "requirement_id": "REQ-B"
+      },
+      {
+        "acquisition_cost": "NONE",
+        "acquisition_time": "NONE",
+        "affected_downstream_stages": [],
+        "allowed_substitutions": [],
+        "candidate_sources": [],
+        "data_sufficiency_status": "SUFFICIENT",
+        "forbidden_substitutions": [],
+        "missing_entities": [],
+        "missing_fields": [],
+        "missing_time_scope": [],
+        "requirement_id": "REQ-C"
+      }
+    ],
+    "requirements": [
+      {
+        "allowed_evidence_classes": [
+          "SIMULATION"
+        ],
+        "completion_rule": "ALL_REQUIRED_EVIDENCE",
+        "dependency_requirements": [
+          "REQ-B"
+        ],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "metric_contracts": {
+          "metric_a": {
+            "aggregation": "SINGLE",
+            "denominator": "ONE",
+            "direction": "MIN",
+            "formula": "VALUE",
+            "prediction_origin": "NOT_APPLICABLE",
+            "quantity": "SCALAR",
+            "sample_unit": "allocation",
+            "target": "purchase_cost",
+            "target_unit": "yuan",
+            "unit": "yuan",
+            "weights": "UNIFORM",
+            "zero_denominator_policy": "REJECT"
+          }
+        },
+        "minimum_data_fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "partial_completion_allowed": false,
+        "required_entity_scope": [
+          "ENTITY-SET"
+        ],
+        "required_evidence_classes": [
+          "SIMULATION"
+        ],
+        "required_time_scope": [
+          "FROZEN_SCOPE"
+        ],
+        "requirement_id": "REQ-A",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": true
+      },
+      {
+        "allowed_evidence_classes": [
+          "SIMULATION"
+        ],
+        "completion_rule": "ALL_REQUIRED_EVIDENCE",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "metric_contracts": {
+          "metric_b": {
+            "aggregation": "MEAN",
+            "denominator": "TRUE_REMAINING_TIME",
+            "direction": "MIN",
+            "formula": "ABSOLUTE_RELATIVE_ERROR",
+            "prediction_origin": "PER_SAMPLE",
+            "quantity": "REMAINING_TIME",
+            "sample_unit": "historical_origin",
+            "target": "water_remaining_time",
+            "target_unit": "min",
+            "unit": "%",
+            "weights": "UNIFORM",
+            "zero_denominator_policy": "REJECT"
+          }
+        },
+        "minimum_data_fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "partial_completion_allowed": false,
+        "prediction_spec": {
+          "claim_type": "PREDICTIVE",
+          "conditions": [
+            "Affine trend continues; no regime change."
+          ],
+          "empirical_accuracy_required": false,
+          "future_truth_field": "future_end_time",
+          "historical_validation_required": true,
+          "kind": "CONDITIONAL_ESTIMATE",
+          "known_input_fields": [
+            "time",
+            "level"
+          ],
+          "model_basis": "Prefix-only affine level model continued to declared threshold",
+          "target_field": "future_remaining_time"
+        },
+        "required_entity_scope": [
+          "ENTITY-SET"
+        ],
+        "required_evidence_classes": [
+          "SIMULATION"
+        ],
+        "required_time_scope": [
+          "FROZEN_SCOPE"
+        ],
+        "requirement_id": "REQ-B",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": true
+      },
+      {
+        "allowed_evidence_classes": [
+          "SIMULATION"
+        ],
+        "completion_rule": "ALL_REQUIRED_EVIDENCE",
+        "dependency_requirements": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "metric_contracts": {
+          "metric_c": {
+            "aggregation": "SINGLE",
+            "denominator": "ONE",
+            "direction": "MIN",
+            "formula": "VALUE",
+            "prediction_origin": "NOT_APPLICABLE",
+            "quantity": "SCALAR",
+            "sample_unit": "allocation",
+            "target": "terminal_stock",
+            "target_unit": "L",
+            "unit": "L",
+            "weights": "UNIFORM",
+            "zero_denominator_policy": "REJECT"
+          }
+        },
+        "minimum_data_fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "partial_completion_allowed": false,
+        "required_entity_scope": [
+          "ENTITY-SET"
+        ],
+        "required_evidence_classes": [
+          "SIMULATION"
+        ],
+        "required_time_scope": [
+          "FROZEN_SCOPE"
+        ],
+        "requirement_id": "REQ-C",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": true
+      }
+    ],
+    "source_compositions": [],
+    "sources": [
+      {
+        "authority": "FIRST_PARTY_FIXTURE",
+        "entity_scope": [
+          "ENTITY-SET"
+        ],
+        "evidence_class": "SIMULATION",
+        "field_schema": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "freshness": "CURRENT_FOR_SCOPE",
+        "geographic_scope": [],
+        "hash": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+        "license_or_usage_status": "ALLOWED",
+        "limitations": [
+          "Project-original neutral source."
+        ],
+        "provenance": "PROJECT_ORIGINAL_SYNTHETIC_NO_EMPIRICAL_CLAIM",
+        "retrieval_time": "2026-09-09T10:55:19Z",
+        "source_id": "SRC-ORIGINAL-WATER",
+        "supports_requirement_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "time_scope": [
+          "FROZEN_SCOPE"
+        ]
+      }
+    ]
+  },
+  "content_hash": "cb4fbb4053c04e47e2323047cedd452516fce8aa1ee40acf87f57a81b06859d9",
+  "status": "ACCEPTED"
+}

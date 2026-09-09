@@ -1,0 +1,1929 @@
+{
+  "candidate_id": "BASELINE_RAW_CENTROID",
+  "claim_scope": "Composition totals and invalid samples are explicitly audited.",
+  "data_scope": {
+    "artifact_grouping": true,
+    "blank_cell_policy": "NONDETECT_ZERO_WITH_MULTIPLICATIVE_REPLACEMENT_SENSITIVITY",
+    "invalid_known_sample_ids": [
+      "15",
+      "17"
+    ],
+    "known_rows": 69,
+    "unknown_rows": 8,
+    "unknown_valid_rows": 8,
+    "valid_known_rows": 67
+  },
+  "figure_ready_data": [
+    {
+      "figure_id": "UNKNOWN-TYPE-PREDICTIONS",
+      "rows": [
+        {
+          "decision_margin": 0.31808982930554575,
+          "perturbation_probability_interval": [
+            0.1729193790658349,
+            0.22809496283302738
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "高钾",
+          "probability_lead_barium": 0.18191017069445425,
+          "sample_id": "A1"
+        },
+        {
+          "decision_margin": 0.24257838521309294,
+          "perturbation_probability_interval": [
+            0.7358498386914917,
+            0.7571869983029738
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "铅钡",
+          "probability_lead_barium": 0.7425783852130929,
+          "sample_id": "A2"
+        },
+        {
+          "decision_margin": 0.26798680050990153,
+          "perturbation_probability_interval": [
+            0.7550767094867658,
+            0.7771121145790006
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "铅钡",
+          "probability_lead_barium": 0.7679868005099015,
+          "sample_id": "A3"
+        },
+        {
+          "decision_margin": 0.2604263036830362,
+          "perturbation_probability_interval": [
+            0.7345184669195816,
+            0.7775632089545096
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "铅钡",
+          "probability_lead_barium": 0.7604263036830362,
+          "sample_id": "A4"
+        },
+        {
+          "decision_margin": 0.09371965362960616,
+          "perturbation_probability_interval": [
+            0.3735272074383961,
+            0.46539328392351975
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "高钾",
+          "probability_lead_barium": 0.40628034637039384,
+          "sample_id": "A5"
+        },
+        {
+          "decision_margin": 0.2756943646691957,
+          "perturbation_probability_interval": [
+            0.18093749630489042,
+            0.22962296485186004
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "高钾",
+          "probability_lead_barium": 0.2243056353308043,
+          "sample_id": "A6"
+        },
+        {
+          "decision_margin": 0.2933564825606924,
+          "perturbation_probability_interval": [
+            0.16605257441767177,
+            0.21571520049729892
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "高钾",
+          "probability_lead_barium": 0.2066435174393076,
+          "sample_id": "A7"
+        },
+        {
+          "decision_margin": 0.1877144521483437,
+          "perturbation_probability_interval": [
+            0.6656896304905607,
+            0.7196507602285628
+          ],
+          "perturbation_same_class_fraction": 1.0,
+          "predicted_type": "铅钡",
+          "probability_lead_barium": 0.6877144521483437,
+          "sample_id": "A8"
+        }
+      ]
+    },
+    {
+      "figure_id": "SUBTYPE-SENSITIVITY",
+      "rows": {
+        "铅钡": {
+          "adjusted_rand_indices": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "minimum_adjusted_rand_index": 1.0,
+          "zero_replacement_fractions": [
+            0.25,
+            0.5,
+            0.75
+          ]
+        },
+        "高钾": {
+          "adjusted_rand_indices": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "minimum_adjusted_rand_index": 1.0,
+          "zero_replacement_fractions": [
+            0.25,
+            0.5,
+            0.75
+          ]
+        }
+      }
+    }
+  ],
+  "final_metrics": {
+    "unknown_valid_rows": 8,
+    "valid_known_rows": 67,
+    "validation_accuracy_diagnostic": 0.75,
+    "validation_composite_loss": 0.12165812822456483
+  },
+  "limitations": [
+    "Historical model-prior exposure is unverifiable.",
+    "Blank cells are nondetections, not ordinary missing-at-random values.",
+    "Only two within-artifact weathered versus unweathered pairs are apparent; backcasts rely on type-level exchangeability.",
+    "Multiple sampling points from one artifact are not independent and are grouped for validation.",
+    "Sparse contingency tables make asymptotic p-values diagnostic only.",
+    "Subtype count is exploratory and must pass sensitivity review before final selection.",
+    "Association differences are descriptive and do not establish causal chemical mechanisms."
+  ],
+  "pipeline_version": "2022-c-rc4-development-regression-v1",
+  "question_1": {
+    "preweathering_backcasts": [
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "02"
+      },
+      {
+        "glass_type": "高钾",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 8.541065980590277,
+          "BaO": 0.21291542330541263,
+          "CaO": 5.131624796437636,
+          "CuO": 2.2102108234769138,
+          "Fe2O3": 1.5828434859401534,
+          "K2O": 10.130434511982159,
+          "MgO": 1.1452993404073055,
+          "Na2O": 0.17378286703857254,
+          "P2O5": 0.8917844106463452,
+          "PbO": 0.2847799834475355,
+          "SO2": 0.18012172602533028,
+          "SiO2": 69.2313851190936,
+          "SnO2": 0.1269819370317195,
+          "SrO": 0.1567695945770402
+        },
+        "sample_id": "07"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "08"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "08严重风化点"
+      },
+      {
+        "glass_type": "高钾",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 8.541065980590277,
+          "BaO": 0.21291542330541263,
+          "CaO": 5.131624796437636,
+          "CuO": 2.2102108234769138,
+          "Fe2O3": 1.5828434859401534,
+          "K2O": 10.130434511982159,
+          "MgO": 1.1452993404073055,
+          "Na2O": 0.17378286703857254,
+          "P2O5": 0.8917844106463452,
+          "PbO": 0.2847799834475355,
+          "SO2": 0.18012172602533028,
+          "SiO2": 69.2313851190936,
+          "SnO2": 0.1269819370317195,
+          "SrO": 0.1567695945770402
+        },
+        "sample_id": "09"
+      },
+      {
+        "glass_type": "高钾",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 8.541065980590277,
+          "BaO": 0.21291542330541263,
+          "CaO": 5.131624796437636,
+          "CuO": 2.2102108234769138,
+          "Fe2O3": 1.5828434859401534,
+          "K2O": 10.130434511982159,
+          "MgO": 1.1452993404073055,
+          "Na2O": 0.17378286703857254,
+          "P2O5": 0.8917844106463452,
+          "PbO": 0.2847799834475355,
+          "SO2": 0.18012172602533028,
+          "SiO2": 69.2313851190936,
+          "SnO2": 0.1269819370317195,
+          "SrO": 0.1567695945770402
+        },
+        "sample_id": "10"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "11"
+      },
+      {
+        "glass_type": "高钾",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 8.541065980590277,
+          "BaO": 0.21291542330541263,
+          "CaO": 5.131624796437636,
+          "CuO": 2.2102108234769138,
+          "Fe2O3": 1.5828434859401534,
+          "K2O": 10.130434511982159,
+          "MgO": 1.1452993404073055,
+          "Na2O": 0.17378286703857254,
+          "P2O5": 0.8917844106463452,
+          "PbO": 0.2847799834475355,
+          "SO2": 0.18012172602533028,
+          "SiO2": 69.2313851190936,
+          "SnO2": 0.1269819370317195,
+          "SrO": 0.1567695945770402
+        },
+        "sample_id": "12"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "19"
+      },
+      {
+        "glass_type": "高钾",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 8.541065980590277,
+          "BaO": 0.21291542330541263,
+          "CaO": 5.131624796437636,
+          "CuO": 2.2102108234769138,
+          "Fe2O3": 1.5828434859401534,
+          "K2O": 10.130434511982159,
+          "MgO": 1.1452993404073055,
+          "Na2O": 0.17378286703857254,
+          "P2O5": 0.8917844106463452,
+          "PbO": 0.2847799834475355,
+          "SO2": 0.18012172602533028,
+          "SiO2": 69.2313851190936,
+          "SnO2": 0.1269819370317195,
+          "SrO": 0.1567695945770402
+        },
+        "sample_id": "22"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "26"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "26严重风化点"
+      },
+      {
+        "glass_type": "高钾",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 8.541065980590277,
+          "BaO": 0.21291542330541263,
+          "CaO": 5.131624796437636,
+          "CuO": 2.2102108234769138,
+          "Fe2O3": 1.5828434859401534,
+          "K2O": 10.130434511982159,
+          "MgO": 1.1452993404073055,
+          "Na2O": 0.17378286703857254,
+          "P2O5": 0.8917844106463452,
+          "PbO": 0.2847799834475355,
+          "SO2": 0.18012172602533028,
+          "SiO2": 69.2313851190936,
+          "SnO2": 0.1269819370317195,
+          "SrO": 0.1567695945770402
+        },
+        "sample_id": "27"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "34"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "36"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "38"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "39"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "40"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "41"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "43部位1"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "43部位2"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "48"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "49"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "50"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "51部位1"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "51部位2"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "52"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "54"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "54严重风化点"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "56"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "57"
+      },
+      {
+        "glass_type": "铅钡",
+        "method_scope": "TYPE_CONDITIONED_BACKCAST_NOT_CAUSAL_IDENTIFICATION",
+        "predicted_preweather_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "sample_id": "58"
+      }
+    ],
+    "type_conditioned_composition_effects": {
+      "铅钡": {
+        "largest_absolute_clr_shifts": [
+          {
+            "component": "P2O5",
+            "weathered_minus_unweathered_clr": 2.4658117781232596
+          },
+          {
+            "component": "SiO2",
+            "weathered_minus_unweathered_clr": -1.3086097309351619
+          },
+          {
+            "component": "Al2O3",
+            "weathered_minus_unweathered_clr": -0.8103812492053564
+          },
+          {
+            "component": "MgO",
+            "weathered_minus_unweathered_clr": -0.5280054024499563
+          },
+          {
+            "component": "CaO",
+            "weathered_minus_unweathered_clr": 0.49920395770891846
+          },
+          {
+            "component": "Fe2O3",
+            "weathered_minus_unweathered_clr": 0.4926510510444633
+          }
+        ],
+        "unweathered_center_percent": {
+          "Al2O3": 4.098360615125942,
+          "BaO": 9.254342883981987,
+          "CaO": 1.0489299136834627,
+          "CuO": 0.7410450335396462,
+          "Fe2O3": 0.1863729498868968,
+          "K2O": 0.20698085603587763,
+          "MgO": 0.6971985833407253,
+          "Na2O": 0.18039660918216555,
+          "P2O5": 0.2691849773759756,
+          "PbO": 25.40286976174379,
+          "SO2": 0.12345621546060699,
+          "SiO2": 57.413116541480846,
+          "SnO2": 0.12345621546060699,
+          "SrO": 0.25428884370145777
+        },
+        "unweathered_n": 23,
+        "weathered_center_percent": {
+          "Al2O3": 3.065550755611883,
+          "BaO": 10.793214817722829,
+          "CaO": 2.9066346170225703,
+          "CuO": 1.236700750642983,
+          "Fe2O3": 0.5130751238402288,
+          "K2O": 0.2915814126263462,
+          "MgO": 0.6916543453030184,
+          "Na2O": 0.21198518883475895,
+          "P2O5": 5.330668973141043,
+          "PbO": 48.01938882246872,
+          "SO2": 0.20292334652322105,
+          "SiO2": 26.093454775971797,
+          "SnO2": 0.20292334652322105,
+          "SrO": 0.44024372376737064
+        },
+        "weathered_n": 26
+      },
+      "高钾": {
+        "largest_absolute_clr_shifts": [
+          {
+            "component": "K2O",
+            "weathered_minus_unweathered_clr": -1.8312522255048518
+          },
+          {
+            "component": "SiO2",
+            "weathered_minus_unweathered_clr": 1.4449986943280368
+          },
+          {
+            "component": "MgO",
+            "weathered_minus_unweathered_clr": -1.078732705338708
+          },
+          {
+            "component": "SnO2",
+            "weathered_minus_unweathered_clr": 0.8332202381598943
+          },
+          {
+            "component": "Fe2O3",
+            "weathered_minus_unweathered_clr": -0.655190205203338
+          },
+          {
+            "component": "CaO",
+            "weathered_minus_unweathered_clr": -0.6548402781447797
+          }
+        ],
+        "unweathered_center_percent": {
+          "Al2O3": 8.541065980590277,
+          "BaO": 0.21291542330541263,
+          "CaO": 5.131624796437636,
+          "CuO": 2.2102108234769138,
+          "Fe2O3": 1.5828434859401534,
+          "K2O": 10.130434511982159,
+          "MgO": 1.1452993404073055,
+          "Na2O": 0.17378286703857254,
+          "P2O5": 0.8917844106463452,
+          "PbO": 0.2847799834475355,
+          "SO2": 0.18012172602533028,
+          "SiO2": 69.2313851190936,
+          "SnO2": 0.1269819370317195,
+          "SrO": 0.1567695945770402
+        },
+        "unweathered_n": 12,
+        "weathered_center_percent": {
+          "Al2O3": 1.8980327695759982,
+          "BaO": 0.0937467064073478,
+          "CaO": 0.8554851889978555,
+          "CuO": 1.3244821394405752,
+          "Fe2O3": 0.26378105558729675,
+          "K2O": 0.5208065723694012,
+          "MgO": 0.1249632951427812,
+          "Na2O": 0.0937467064073478,
+          "P2O5": 0.2156491128621596,
+          "PbO": 0.0937467064073478,
+          "SO2": 0.0937467064073478,
+          "SiO2": 94.23431962757988,
+          "SnO2": 0.0937467064073478,
+          "SrO": 0.0937467064073478
+        },
+        "weathered_n": 6
+      }
+    },
+    "weathering_associations": [
+      {
+        "asymptotic_p_value_diagnostic_only": 0.008714644061182655,
+        "cells_expected_below_5": 0,
+        "chi_square": 6.8803921568627455,
+        "counts": [
+          [
+            12,
+            28
+          ],
+          [
+            12,
+            6
+          ]
+        ],
+        "cramers_v": 0.3444233600968322,
+        "field": "glass_type",
+        "interpretation_guard": "ASSOCIATION_NOT_CAUSATION;SPARSE_TABLE_REQUIRES_EXACT_OR_PERMUTATION_CHECK",
+        "levels": [
+          "铅钡",
+          "高钾"
+        ],
+        "missing_excluded": 0,
+        "n": 58,
+        "weathering_levels": [
+          "无风化",
+          "风化"
+        ]
+      },
+      {
+        "asymptotic_p_value_diagnostic_only": 0.08388839673210007,
+        "cells_expected_below_5": 2,
+        "chi_square": 4.9565359477124185,
+        "counts": [
+          [
+            11,
+            11
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            13,
+            17
+          ]
+        ],
+        "cramers_v": 0.29233117579189066,
+        "field": "pattern",
+        "interpretation_guard": "ASSOCIATION_NOT_CAUSATION;SPARSE_TABLE_REQUIRES_EXACT_OR_PERMUTATION_CHECK",
+        "levels": [
+          "A",
+          "B",
+          "C"
+        ],
+        "missing_excluded": 0,
+        "n": 58,
+        "weathering_levels": [
+          "无风化",
+          "风化"
+        ]
+      },
+      {
+        "asymptotic_p_value_diagnostic_only": 0.5066496855976865,
+        "cells_expected_below_5": 12,
+        "chi_square": 6.287142857142857,
+        "counts": [
+          [
+            2,
+            1
+          ],
+          [
+            8,
+            12
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            6,
+            9
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "cramers_v": 0.34121631178560535,
+        "field": "color",
+        "interpretation_guard": "ASSOCIATION_NOT_CAUSATION;SPARSE_TABLE_REQUIRES_EXACT_OR_PERMUTATION_CHECK",
+        "levels": [
+          "浅绿",
+          "浅蓝",
+          "深绿",
+          "深蓝",
+          "紫",
+          "绿",
+          "蓝绿",
+          "黑"
+        ],
+        "missing_excluded": 4,
+        "n": 54,
+        "weathering_levels": [
+          "无风化",
+          "风化"
+        ]
+      }
+    ]
+  },
+  "question_2": {
+    "subtype_sensitivity": {
+      "铅钡": {
+        "adjusted_rand_indices": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "minimum_adjusted_rand_index": 1.0,
+        "zero_replacement_fractions": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      },
+      "高钾": {
+        "adjusted_rand_indices": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "minimum_adjusted_rand_index": 1.0,
+        "zero_replacement_fractions": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      }
+    },
+    "type_classifier": {
+      "candidate_id": "BASELINE_RAW_CENTROID",
+      "decision_threshold": 0.5,
+      "validation": {
+        "access_scope": "DEVELOPMENT_ALREADY_EXPOSED_INTERNAL_KNOWN_TEST_LABELS",
+        "effective_train_ids": [
+          "01",
+          "02",
+          "03",
+          "07",
+          "08",
+          "09",
+          "14",
+          "18",
+          "19",
+          "21",
+          "23",
+          "24",
+          "25",
+          "27",
+          "28",
+          "30",
+          "33",
+          "34",
+          "36",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "45",
+          "46",
+          "48",
+          "49",
+          "52",
+          "53",
+          "55",
+          "58"
+        ],
+        "effective_validation_ids": [
+          "06",
+          "11",
+          "12",
+          "16",
+          "22",
+          "26",
+          "32",
+          "35",
+          "37",
+          "38",
+          "44",
+          "51"
+        ],
+        "group_unit": "ARTIFACT_ID",
+        "invalid_composition_artifacts_absent": [
+          "15",
+          "17"
+        ],
+        "split_assignment": {
+          "test": [
+            "04",
+            "05",
+            "10",
+            "13",
+            "20",
+            "29",
+            "31",
+            "47",
+            "50",
+            "54",
+            "56",
+            "57"
+          ],
+          "train": [
+            "01",
+            "02",
+            "03",
+            "07",
+            "08",
+            "09",
+            "14",
+            "15",
+            "17",
+            "18",
+            "19",
+            "21",
+            "23",
+            "24",
+            "25",
+            "27",
+            "28",
+            "30",
+            "33",
+            "34",
+            "36",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "45",
+            "46",
+            "48",
+            "49",
+            "52",
+            "53",
+            "55",
+            "58"
+          ],
+          "validation": [
+            "06",
+            "11",
+            "12",
+            "16",
+            "22",
+            "26",
+            "32",
+            "35",
+            "37",
+            "38",
+            "44",
+            "51"
+          ]
+        },
+        "test_labels_accessed": true,
+        "validation_accuracy_diagnostic": 0.75,
+        "validation_brier_loss": 0.12165812822456483
+      }
+    },
+    "within_type_subtypes": {
+      "铅钡": {
+        "artifact_assignments": {
+          "02": "铅钡-S2",
+          "08": "铅钡-S2",
+          "11": "铅钡-S1",
+          "19": "铅钡-S2",
+          "20": "铅钡-S1",
+          "23": "铅钡-S1",
+          "24": "铅钡-S1",
+          "25": "铅钡-S1",
+          "26": "铅钡-S2",
+          "28": "铅钡-S1",
+          "29": "铅钡-S1",
+          "30": "铅钡-S2",
+          "31": "铅钡-S1",
+          "32": "铅钡-S1",
+          "33": "铅钡-S1",
+          "34": "铅钡-S2",
+          "35": "铅钡-S1",
+          "36": "铅钡-S2",
+          "37": "铅钡-S1",
+          "38": "铅钡-S2",
+          "39": "铅钡-S2",
+          "40": "铅钡-S2",
+          "41": "铅钡-S2",
+          "42": "铅钡-S1",
+          "43": "铅钡-S2",
+          "44": "铅钡-S1",
+          "45": "铅钡-S1",
+          "46": "铅钡-S1",
+          "47": "铅钡-S1",
+          "48": "铅钡-S1",
+          "49": "铅钡-S1",
+          "50": "铅钡-S2",
+          "51": "铅钡-S2",
+          "52": "铅钡-S2",
+          "53": "铅钡-S1",
+          "54": "铅钡-S2",
+          "55": "铅钡-S1",
+          "56": "铅钡-S2",
+          "57": "铅钡-S2",
+          "58": "铅钡-S2"
+        },
+        "candidate_k_diagnostics": [
+          {
+            "k": 2,
+            "silhouette": 0.5102262204535429
+          },
+          {
+            "k": 3,
+            "silhouette": 0.37088743550086467
+          },
+          {
+            "k": 4,
+            "silhouette": 0.4248018598902249
+          }
+        ],
+        "feature_selection_rule": "TOP_SIX_WITHIN_TYPE_VARIANCES_BEFORE_CLUSTERING",
+        "feature_space": "BASELINE_RAW_CENTROID",
+        "linkage": "ward",
+        "selected_components": [
+          "SiO2",
+          "Al2O3",
+          "CuO",
+          "PbO",
+          "BaO",
+          "P2O5"
+        ],
+        "selected_k": 2,
+        "selection_rule": "MAX_SILHOUETTE_THEN_SMALLEST_K;K_IN_2_TO_4"
+      },
+      "高钾": {
+        "artifact_assignments": {
+          "01": "高钾-S1",
+          "03": "高钾-S1",
+          "04": "高钾-S1",
+          "05": "高钾-S1",
+          "06": "高钾-S1",
+          "07": "高钾-S2",
+          "09": "高钾-S2",
+          "10": "高钾-S2",
+          "12": "高钾-S2",
+          "13": "高钾-S1",
+          "14": "高钾-S1",
+          "16": "高钾-S1",
+          "18": "高钾-S1",
+          "21": "高钾-S1",
+          "22": "高钾-S2",
+          "27": "高钾-S2"
+        },
+        "candidate_k_diagnostics": [
+          {
+            "k": 2,
+            "silhouette": 0.6642663041011139
+          },
+          {
+            "k": 3,
+            "silhouette": 0.5239192550275782
+          },
+          {
+            "k": 4,
+            "silhouette": 0.4615207260404606
+          }
+        ],
+        "feature_selection_rule": "TOP_SIX_WITHIN_TYPE_VARIANCES_BEFORE_CLUSTERING",
+        "feature_space": "BASELINE_RAW_CENTROID",
+        "linkage": "ward",
+        "selected_components": [
+          "SiO2",
+          "K2O",
+          "CaO",
+          "Al2O3",
+          "Fe2O3",
+          "CuO"
+        ],
+        "selected_k": 2,
+        "selection_rule": "MAX_SILHOUETTE_THEN_SMALLEST_K;K_IN_2_TO_4"
+      }
+    }
+  },
+  "question_3": {
+    "answer_labels_available": false,
+    "sensitivity_design": "200 SEEDED ONE_PERCENT_SIMPLEX_PERTURBATIONS_PER_UNKNOWN",
+    "unknown_type_predictions": [
+      {
+        "decision_margin": 0.31808982930554575,
+        "perturbation_probability_interval": [
+          0.1729193790658349,
+          0.22809496283302738
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "高钾",
+        "probability_lead_barium": 0.18191017069445425,
+        "sample_id": "A1"
+      },
+      {
+        "decision_margin": 0.24257838521309294,
+        "perturbation_probability_interval": [
+          0.7358498386914917,
+          0.7571869983029738
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "铅钡",
+        "probability_lead_barium": 0.7425783852130929,
+        "sample_id": "A2"
+      },
+      {
+        "decision_margin": 0.26798680050990153,
+        "perturbation_probability_interval": [
+          0.7550767094867658,
+          0.7771121145790006
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "铅钡",
+        "probability_lead_barium": 0.7679868005099015,
+        "sample_id": "A3"
+      },
+      {
+        "decision_margin": 0.2604263036830362,
+        "perturbation_probability_interval": [
+          0.7345184669195816,
+          0.7775632089545096
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "铅钡",
+        "probability_lead_barium": 0.7604263036830362,
+        "sample_id": "A4"
+      },
+      {
+        "decision_margin": 0.09371965362960616,
+        "perturbation_probability_interval": [
+          0.3735272074383961,
+          0.46539328392351975
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "高钾",
+        "probability_lead_barium": 0.40628034637039384,
+        "sample_id": "A5"
+      },
+      {
+        "decision_margin": 0.2756943646691957,
+        "perturbation_probability_interval": [
+          0.18093749630489042,
+          0.22962296485186004
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "高钾",
+        "probability_lead_barium": 0.2243056353308043,
+        "sample_id": "A6"
+      },
+      {
+        "decision_margin": 0.2933564825606924,
+        "perturbation_probability_interval": [
+          0.16605257441767177,
+          0.21571520049729892
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "高钾",
+        "probability_lead_barium": 0.2066435174393076,
+        "sample_id": "A7"
+      },
+      {
+        "decision_margin": 0.1877144521483437,
+        "perturbation_probability_interval": [
+          0.6656896304905607,
+          0.7196507602285628
+        ],
+        "perturbation_same_class_fraction": 1.0,
+        "predicted_type": "铅钡",
+        "probability_lead_barium": 0.6877144521483437,
+        "sample_id": "A8"
+      }
+    ]
+  },
+  "question_4": {
+    "between_type_difference": {
+      "frobenius_norm": 5.132953084191995,
+      "guard": "COMPOSITIONAL_ASSOCIATION_IS_DESCRIPTIVE;NO_CAUSAL_DIRECTION",
+      "largest_absolute_pair_differences": [
+        {
+          "left": "SrO",
+          "right": "SnO2",
+          "spearman_difference": -1.01719024451886
+        },
+        {
+          "left": "Fe2O3",
+          "right": "SnO2",
+          "spearman_difference": 0.8714421558096922
+        },
+        {
+          "left": "Fe2O3",
+          "right": "BaO",
+          "spearman_difference": -0.7971049472420547
+        },
+        {
+          "left": "CaO",
+          "right": "P2O5",
+          "spearman_difference": 0.7832869990101303
+        },
+        {
+          "left": "K2O",
+          "right": "SnO2",
+          "spearman_difference": 0.7449633537625577
+        },
+        {
+          "left": "SiO2",
+          "right": "SnO2",
+          "spearman_difference": -0.722219203470862
+        },
+        {
+          "left": "Fe2O3",
+          "right": "CuO",
+          "spearman_difference": -0.7073514669025505
+        },
+        {
+          "left": "K2O",
+          "right": "SrO",
+          "spearman_difference": 0.7058884606474168
+        },
+        {
+          "left": "CaO",
+          "right": "SnO2",
+          "spearman_difference": 0.6488299530338452
+        },
+        {
+          "left": "K2O",
+          "right": "CaO",
+          "spearman_difference": -0.6312401802826393
+        },
+        {
+          "left": "Al2O3",
+          "right": "P2O5",
+          "spearman_difference": -0.6302913797097787
+        },
+        {
+          "left": "SiO2",
+          "right": "P2O5",
+          "spearman_difference": -0.6258328594595732
+        }
+      ]
+    },
+    "铅钡": {
+      "sample_n": 49,
+      "strongest_absolute_pairs": [
+        {
+          "left": "SiO2",
+          "right": "P2O5",
+          "spearman_clr": -0.6516326530612244
+        },
+        {
+          "left": "SiO2",
+          "right": "Al2O3",
+          "spearman_clr": 0.6296938775510204
+        },
+        {
+          "left": "SnO2",
+          "right": "SO2",
+          "spearman_clr": 0.6296938775510204
+        },
+        {
+          "left": "Na2O",
+          "right": "P2O5",
+          "spearman_clr": -0.6082653061224489
+        },
+        {
+          "left": "Al2O3",
+          "right": "SO2",
+          "spearman_clr": -0.5993877551020408
+        },
+        {
+          "left": "Fe2O3",
+          "right": "BaO",
+          "spearman_clr": -0.5277551020408163
+        },
+        {
+          "left": "CaO",
+          "right": "BaO",
+          "spearman_clr": -0.5169387755102041
+        },
+        {
+          "left": "Fe2O3",
+          "right": "CuO",
+          "spearman_clr": -0.49785714285714283
+        },
+        {
+          "left": "MgO",
+          "right": "Al2O3",
+          "spearman_clr": 0.493673469387755
+        },
+        {
+          "left": "MgO",
+          "right": "BaO",
+          "spearman_clr": -0.4714285714285714
+        },
+        {
+          "left": "CuO",
+          "right": "BaO",
+          "spearman_clr": 0.46653061224489795
+        },
+        {
+          "left": "CaO",
+          "right": "P2O5",
+          "spearman_clr": 0.4540816326530612
+        }
+      ]
+    },
+    "高钾": {
+      "sample_n": 18,
+      "strongest_absolute_pairs": [
+        {
+          "left": "SrO",
+          "right": "SnO2",
+          "spearman_clr": 0.9133126934984519
+        },
+        {
+          "left": "K2O",
+          "right": "SrO",
+          "spearman_clr": -0.7791537667698658
+        },
+        {
+          "left": "CaO",
+          "right": "SnO2",
+          "spearman_clr": -0.7048503611971104
+        },
+        {
+          "left": "Al2O3",
+          "right": "SrO",
+          "spearman_clr": -0.6883384932920537
+        },
+        {
+          "left": "Na2O",
+          "right": "P2O5",
+          "spearman_clr": -0.6800825593395253
+        },
+        {
+          "left": "CaO",
+          "right": "SrO",
+          "spearman_clr": -0.6615067079463364
+        },
+        {
+          "left": "SiO2",
+          "right": "Fe2O3",
+          "spearman_clr": -0.6408668730650156
+        },
+        {
+          "left": "Fe2O3",
+          "right": "SnO2",
+          "spearman_clr": -0.6284829721362228
+        },
+        {
+          "left": "MgO",
+          "right": "Al2O3",
+          "spearman_clr": 0.6160990712074303
+        },
+        {
+          "left": "K2O",
+          "right": "Al2O3",
+          "spearman_clr": 0.587203302373581
+        },
+        {
+          "left": "K2O",
+          "right": "SnO2",
+          "spearman_clr": -0.5603715170278638
+        },
+        {
+          "left": "Al2O3",
+          "right": "SO2",
+          "spearman_clr": -0.5541795665634675
+        }
+      ]
+    }
+  },
+  "requirement_claims": {
+    "REQ-1A": {
+      "claim_id": "CLAIM-RC4-03",
+      "claim_text": "Weathering associations are computed with sparse-table guards.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-1B": {
+      "claim_id": "CLAIM-RC4-04",
+      "claim_text": "Type-conditioned component effects are computed from valid samples.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-1C": {
+      "claim_id": "CLAIM-RC4-05",
+      "claim_text": "Pre-weathering values are bounded backcasts with an identifiability limitation.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-2A": {
+      "claim_id": "CLAIM-RC4-06",
+      "claim_text": "A grouped validation classifier distinguishes the registered types.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-2B": {
+      "claim_id": "CLAIM-RC4-07",
+      "claim_text": "Within-type subgroups are selected by a frozen clustering rule.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-2C": {
+      "claim_id": "CLAIM-RC4-08",
+      "claim_text": "Subgroup stability is recomputed under zero-replacement perturbations.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-3A": {
+      "claim_id": "CLAIM-RC4-09",
+      "claim_text": "Every unknown valid sample receives a type prediction.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-3B": {
+      "claim_id": "CLAIM-RC4-10",
+      "claim_text": "Unknown predictions include seeded perturbation intervals and stability.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-4A": {
+      "claim_id": "CLAIM-RC4-11",
+      "claim_text": "Within-type component associations are reported descriptively.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-4B": {
+      "claim_id": "CLAIM-RC4-12",
+      "claim_text": "Between-type association differences are reported without causal claims.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-COMPOSITION": {
+      "claim_id": "CLAIM-RC4-02",
+      "claim_text": "The pipeline treats component vectors as constrained compositions.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-EVIDENCE": {
+      "claim_id": "CLAIM-RC4-13",
+      "claim_text": "The output includes finite metrics, robustness and downstream evidence.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    },
+    "REQ-VALIDITY": {
+      "claim_id": "CLAIM-RC4-01",
+      "claim_text": "Composition totals and invalid samples are explicitly audited.",
+      "evidence_artifact_ids": [
+        "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json"
+      ]
+    }
+  },
+  "robustness_evidence": {
+    "failure_cases": [
+      "Sparse grouped validation cannot establish external validity.",
+      "Pre-weathering backcasts are not causally identified from the available pairs.",
+      "Subtype assignments can change under zero replacement or new observations."
+    ],
+    "metric": "validation_composite_loss",
+    "metric_direction": "MIN",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "validation_composite_loss",
+        "perturbation_id": "ZERO-REPLACEMENT-FRACTION-0.25",
+        "result": 0.12165812822456483
+      },
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "validation_composite_loss",
+        "perturbation_id": "ZERO-REPLACEMENT-FRACTION-0.75",
+        "result": 0.12165812822456483
+      }
+    ]
+  },
+  "schema_version": "1.0.0",
+  "scientific_diagnostics": {
+    "fixed_split_zero_loss_warning": "NOT_APPLICABLE",
+    "grouped_repeated_cv": {
+      "access_scope": "DEVELOPMENT_ALREADY_EXPOSED_INTERNAL_KNOWN_TEST_LABELS",
+      "accuracy": {
+        "maximum": 1.0,
+        "mean": 0.8500000000000002,
+        "minimum": 0.6428571428571429
+      },
+      "brier_loss": {
+        "maximum": 0.1706605384630833,
+        "mean": 0.10646793850116225,
+        "median": 0.09926015458674566,
+        "minimum": 0.07352426135504332
+      },
+      "effective_group_count": 56,
+      "external_validity_status": "UNESTABLISHED",
+      "group_unit": "ARTIFACT_ID",
+      "held_out_group_predictions": 280,
+      "n_repeats": 5,
+      "n_splits": 4,
+      "selection_role": "DIAGNOSTIC_ONLY_NOT_USED_FOR_CANDIDATE_SELECTION",
+      "test_labels_accessed": true
+    }
+  },
+  "seed": 20220904,
+  "status": "SUCCESS",
+  "uncertainty": {
+    "backcast_identifiability": "type-level exchangeability assumption required",
+    "classification": "grouped validation plus seeded simplex perturbations",
+    "subtyping": "zero-replacement sensitivity with adjusted Rand indices"
+  },
+  "validation_detail": {
+    "access_scope": "DEVELOPMENT_ALREADY_EXPOSED_INTERNAL_KNOWN_TEST_LABELS",
+    "effective_train_ids": [
+      "01",
+      "02",
+      "03",
+      "07",
+      "08",
+      "09",
+      "14",
+      "18",
+      "19",
+      "21",
+      "23",
+      "24",
+      "25",
+      "27",
+      "28",
+      "30",
+      "33",
+      "34",
+      "36",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "45",
+      "46",
+      "48",
+      "49",
+      "52",
+      "53",
+      "55",
+      "58"
+    ],
+    "effective_validation_ids": [
+      "06",
+      "11",
+      "12",
+      "16",
+      "22",
+      "26",
+      "32",
+      "35",
+      "37",
+      "38",
+      "44",
+      "51"
+    ],
+    "group_unit": "ARTIFACT_ID",
+    "invalid_composition_artifacts_absent": [
+      "15",
+      "17"
+    ],
+    "split_assignment": {
+      "test": [
+        "04",
+        "05",
+        "10",
+        "13",
+        "20",
+        "29",
+        "31",
+        "47",
+        "50",
+        "54",
+        "56",
+        "57"
+      ],
+      "train": [
+        "01",
+        "02",
+        "03",
+        "07",
+        "08",
+        "09",
+        "14",
+        "15",
+        "17",
+        "18",
+        "19",
+        "21",
+        "23",
+        "24",
+        "25",
+        "27",
+        "28",
+        "30",
+        "33",
+        "34",
+        "36",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "45",
+        "46",
+        "48",
+        "49",
+        "52",
+        "53",
+        "55",
+        "58"
+      ],
+      "validation": [
+        "06",
+        "11",
+        "12",
+        "16",
+        "22",
+        "26",
+        "32",
+        "35",
+        "37",
+        "38",
+        "44",
+        "51"
+      ]
+    },
+    "test_labels_accessed": true,
+    "validation_accuracy_diagnostic": 0.75,
+    "validation_brier_loss": 0.12165812822456483
+  },
+  "validation_metrics": {
+    "validation_composite_loss": 0.12165812822456483
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "argv": [
+    "models/check.py",
+    "--case-root",
+    ".",
+    "--run-id",
+    "RUN-2016-BASELINE-1729",
+    "--output",
+    "runs/RUN-2016-BASELINE-1729/scientific_check.json"
+  ],
+  "bound_files": {
+    "data/raw/appendix.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+    "data/raw/problem.docx": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440",
+    "models/check.py": "8bb27f459d4aa6fcaeaedf0bf3041396b602d1ff1cfad4649c0a973c1ec02964",
+    "runs/RUN-2016-BASELINE-1729/execution_capture.json": "2ab72184a8436994992e520050fb148241e2c7ea9e63d2da32c7d086215751a1",
+    "runs/RUN-2016-BASELINE-1729/output.json": "afa010db53c66a279b2a5e6f606c464b361588499ce052b4946a9706d334763e",
+    "runs/RUN-2016-BASELINE-1729/scientific_check.json": "035b0735d25ea50e209b6fcd1ee910ea2831c6ebc008bdf04be900378410a6d5"
+  },
+  "capture_mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+  "checker": {
+    "path": "models/check.py",
+    "repository_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py",
+    "scope": "CASE_ROOT",
+    "sha256": "8bb27f459d4aa6fcaeaedf0bf3041396b602d1ff1cfad4649c0a973c1ec02964"
+  },
+  "code_commit": "bee0a94cd0b04a17ceaf80830d482ac91366de1e",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "elapsed_seconds": 4.212254777999988,
+  "ended_at": "2026-09-08T21:14:16Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "1729",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "final_test_access": false,
+  "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
+  "run_id": "RUN-2016-BASELINE-1729",
+  "runner_version": "0.2.0-competition-rc8",
+  "schema_version": "scientific-check-capture/v2",
+  "started_at": "2026-09-08T21:14:12Z",
+  "status": "SUCCESS",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "timeout_seconds": 300
+}

@@ -1,5 +1,6 @@
 """Composite repository validation with stable finding identifiers."""
 
+import contextlib
 import csv
 import hashlib
 import json
@@ -32,6 +33,14 @@ PRIVATE_PATH_PATTERNS = {
     "PRIVATE_UNIX_HOME_PATH": re.compile(r"(?<![A-Za-z0-9_<])/(?:home|Users)/[^/\s`]+/"),
     "PRIVATE_WINDOWS_HOME_PATH": re.compile(r"(?i)\b[A-Z]:\\Users\\[^\\\s`]+\\"),
 }
+
+
+def _text_file_sha256(path: Path) -> str:
+    """Hash tracked text bytes independently of a platform's checkout EOL."""
+    payload = path.read_bytes()
+    with contextlib.suppress(UnicodeDecodeError):
+        payload = payload.decode("utf-8").replace("\r\n", "\n").encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def scan_secrets(root: Path):
@@ -102,6 +111,10 @@ def validate_delivery_policy(root: Path):
     if isinstance(remote_url, str) and remote_url:
         occurrences: list[dict] = []
         for candidate in tracked_text_files(root):
+            # This user-supplied task records an observed repository URL; it is
+            # authorization/history, not a second delivery configuration.
+            if relative(candidate, root) == "CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md":
+                continue
             count = candidate.read_text(encoding="utf-8").count(remote_url)
             if count:
                 occurrences.append({"path": relative(candidate, root), "count": count})
@@ -302,7 +315,7 @@ def _active_plan_errors(root: Path) -> list[dict]:
     manifest = state.get("verification_manifest")
     if manifest:
         manifest_path = root / manifest["path"]
-        actual_hash = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+        actual_hash = _text_file_sha256(manifest_path)
         if actual_hash != manifest["sha256"]:
             errors.append(
                 {

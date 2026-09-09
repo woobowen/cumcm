@@ -1,0 +1,125 @@
+{
+  "schema_version": "postvalidation-development-design/v1",
+  "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "created_at": "2026-09-09T02:28:05.567278+00:00",
+  "parent_case_id": "CUMCM-2016-C-VALIDATION-004",
+  "parent_terminal_path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/decision.json",
+  "parent_terminal_sha256": "e82fc399ca2206ef088eeaee896f9b132864d544af70566efb698e41b5ec4d5a",
+  "evidence_role": "DEVELOPMENT_AFTER_VALIDATION",
+  "independent_problem": false,
+  "known_problem_and_prior_results": true,
+  "answer_access_status": "SEALED",
+  "new_independent_validation": 0,
+  "case_root": ".cache/pr12-rc9/development/2016/case-r2",
+  "budget": {
+    "model_cli_starts": 4,
+    "independent_checker_starts": 4,
+    "final_starts": 1
+  },
+  "planned_starts": {
+    "model_cli": 2,
+    "development_checkers": 2,
+    "selected_final_checker": 1,
+    "separate_independent_recomputation_reserve": 1
+  },
+  "shared_candidate": "TO_BE_FROZEN_AFTER_CODE_AND_NEUTRAL_REVIEW",
+  "revision_policy": "Both cases finish first shared subject before at most one unified second subject; never modify the parent root or terminal.",
+  "candidates": [
+    "BASELINE",
+    "CUBIC_LOG_AFFINE"
+  ],
+  "seeds": [
+    20260909
+  ],
+  "finite_suite": {
+    "q1": {
+      "currents_A": [
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "inverse_grid_V": {
+        "start": 9,
+        "step": 0.005,
+        "count": 231
+      },
+      "remaining_at_9_8V_currents_A": [
+        30,
+        40,
+        50,
+        60,
+        70
+      ],
+      "curve_knots": "17 linear or 33 PCHIP uniform-time indices plus first31 samples"
+    },
+    "q2": {
+      "leave_one_current_out_A": [
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "inverse_grid_count": 231,
+      "forecast_current_A": 55,
+      "forecast_table_rows": 101,
+      "interpolation_domain_A": [
+        20,
+        100
+      ]
+    },
+    "q3": {
+      "historical_target_states": [
+        1,
+        2
+      ],
+      "prefix_cutoff_voltage_V": [
+        9.95,
+        9.85,
+        9.765
+      ],
+      "validation_origin_count": 6,
+      "known_reference_states": "strictly earlier discharge states only; target-state tail excluded from fitting",
+      "forecast_state": 3,
+      "forecast_origin": "last supplied state3 prefix at 9.765 V",
+      "forecast_truth": "UNKNOWN_NOT_INPUT",
+      "reference_sensitivity_variants": 3,
+      "prefix_sensitivity": [
+        "PLUS_1_MIN",
+        "MINUS_1_MIN",
+        "DROP_LAST_10"
+      ]
+    }
+  },
+  "selection_metric": "q3_remaining_MRE",
+  "selection_direction": "MIN",
+  "metric_sample_unit": "historical_state_origin; six correlated origins from one battery, not six independent batteries",
+  "supported_conclusions": [
+    "Q1 supplied-data fit and model remaining-time calculations",
+    "Q2 conditional within-current-range curve; LOCO history is not 55A measured accuracy",
+    "Q3 conditionally extrapolated remaining time with explicit model sensitivity; state3 actual error unknown"
+  ],
+  "scientific_limits": [
+    "Piecewise elementary polynomial interpretation is explicit; no claim of a unique compact global elementary formula",
+    "Known Validation problem and prior results; no blind/generalization evidence",
+    "All preprocessing/fitting per historical origin uses only previously available reference states and target prefix"
+  ],
+  "required_question_ids": [
+    "REQ-Q1",
+    "REQ-Q2",
+    "REQ-Q3"
+  ],
+  "preregistration_amendment": {
+    "recorded_at": "2026-09-09T03:15:19.548214+00:00",
+    "reason": "Explicit requirement-set binding for future Development terminal/result audit; no numerical processes started."
+  }
+}

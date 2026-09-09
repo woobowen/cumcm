@@ -1,0 +1,180 @@
+"""Isolated arithmetic review of Git 7ed9dd1; no model, checker, Final, or state execution."""
+import ast
+import copy
+import hashlib
+import json
+import math
+from fractions import Fraction
+from pathlib import Path
+import subprocess
+from typing import Any
+
+ROOT = Path(__file__).resolve().parent
+SUBJECT = "7ed9dd18c35bed79cc9dd4e96926fef9b35b7e81"
+SOURCE_PATH = ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py"
+source = subprocess.check_output(["git", "show", SUBJECT + ":" + SOURCE_PATH], text=True)
+names = {
+    "strict_score", "conditional_prediction_evaluation", "validate_metric_definition",
+    "recompute_metric", "metric_output_binding_codes", "validate_temporal_design",
+    "validate_science_design", "validate_conditional_prediction",
+}
+nodes = [n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name in names]
+assert {n.name for n in nodes} == names
+artifacts = {}
+def file_hash(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+def canonical_hash(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()).hexdigest()
+env = {
+    "Any": Any, "Path": Path, "math": math,
+    "relative_case_path": lambda root, relative: root / relative,
+    "file_hash": file_hash, "load_json": lambda p: json.loads(p.read_text()),
+    "read_artifact": lambda root, name: {"content": artifacts[name]},
+    "canonical_hash": canonical_hash,
+    "ARTIFACT_PATHS": {"assumptions_and_symbols": "probe_assumptions.json"},
+}
+exec(compile(ast.Module(body=nodes, type_ignores=[]), SUBJECT + ":" + SOURCE_PATH, "exec"), env)
+report = {
+    "subject": SUBJECT,
+    "source_sha256": hashlib.sha256(source.encode()).hexdigest(),
+    "method": "Execute only listed function definitions extracted by AST from frozen Git source; filesystem/registry helpers operate only on reviewer-owned synthetic cache data. No runtime integration or model/checker main execution.",
+    "extracted_functions": sorted(names),
+    "probes": {},
+}
+probes = report["probes"]
+definition = {
+    "target": "neutral_remaining_time", "quantity": "REMAINING_TIME", "target_unit": "min",
+    "unit": "%", "prediction_origin": "PER_SAMPLE", "formula": "ABSOLUTE_RELATIVE_ERROR",
+    "denominator": "TRUE_REMAINING_TIME", "sample_unit": "historical_origin", "aggregation": "MEAN",
+    "weights": "UNIFORM", "direction": "MIN", "zero_denominator_policy": "REJECT",
+}
+def sample(key, origin, predicted=21, observed=20):
+    return {"sample_id": key, "target": definition["target"], "unit": "min", "origin": origin,
+            "predicted_end_time": predicted, "observed_end_time": observed}
+def calculate(d, rows):
+    try:
+        return env["recompute_metric"](d, rows)
+    except ValueError as exc:
+        return {"error": str(exc)}
+rows = [sample("V4", 4), sample("V8", 8)]
+actual = calculate(definition, rows)
+one = [sample("V90", 90, 101, 100)]
+elapsed = {**definition, "quantity": "ELAPSED_TIME", "denominator": "TRUE_ELAPSED_TIME"}
+probes["remaining_elapsed"] = {"remaining": calculate(definition, one), "elapsed": calculate(elapsed, one)}
+assert probes["remaining_elapsed"]["remaining"]["value"] == 10
+assert probes["remaining_elapsed"]["elapsed"]["value"] == 1
+zero_rows = one + [sample("ZERO", 100, 101, 100)]
+probes["zero_denominator"] = {
+    "reject": calculate(definition, zero_rows),
+    "exclude": calculate({**definition, "zero_denominator_policy": "EXCLUDE_WITH_COUNT"}, zero_rows),
+    "exclude_all": calculate({**definition, "zero_denominator_policy": "EXCLUDE_WITH_COUNT"}, zero_rows[1:]),
+    "near_zero": calculate(definition, [sample("NEAR", 0, 1e-6, 1e-12)]),
+}
+root_abs = {**definition, "formula": "ABSOLUTE_ERROR", "denominator": "ONE", "aggregation": "ROOT_MEAN", "unit": "min"}
+root_squared = {**root_abs, "formula": "SQUARED_ERROR"}
+four = [sample("FOUR", 0, 24, 20)]
+probes["root_mean_units"] = {
+    "absolute_error_validation_codes": sorted(env["validate_metric_definition"](root_abs)),
+    "absolute_error_result": calculate(root_abs, four),
+    "rmse_result": calculate(root_squared, four),
+    "independent_expected_mae_minutes": 4,
+    "dimensional_comment": "sqrt(mean(abs(error))) has units sqrt(min), not declared min; error 4 min is emitted as 2 min.",
+}
+claim = {"metric_ids": ["m"], "requirement_id": "R", "claim_type": "PREDICTIVE", "prediction_scope": "CONDITIONAL_ESTIMATE", "claim_strength": "BOUNDED", "limitations": ["Affine extension only"], "uncertainty": {"kind": "UNCALIBRATED_POINT_ESTIMATE", "calibrated": False}}
+req = {"metric_contracts": {"m": definition}}
+lineage = {"samples": [{"sample_id": "V4", "origin": 4}, {"sample_id": "V8", "origin": 8}]}
+def bind(candidate_rows):
+    accounting = calculate(definition, candidate_rows)
+    producer = {"metric_definitions": {"m": definition}, "temporal_lineage": lineage, "metric_samples": {"m": candidate_rows},
+                "validation_metrics": {"m": accounting["value"]}, "final_metrics": {"m": accounting["value"]}, "metric_accounting": {"m": accounting}}
+    checker = {"metric_definitions": {"m": definition}, "temporal_lineage": lineage, "metric_samples": {"m": candidate_rows}}
+    return {"binding_codes": sorted(env["metric_output_binding_codes"](claim, req, producer, checker)),
+            "metric": accounting["value"], "original_metric": actual["value"],
+            "checker_endpoint_residual": max(abs(x["predicted_end_time"] - y["predicted_end_time"]) for x,y in zip(rows,candidate_rows,strict=True)),
+            "checker_aggregate_abs_diff": abs(accounting["value"] - actual["value"])}
+renamed = copy.deepcopy(rows)
+renamed[0]["sample_id"], renamed[1]["sample_id"] = "NOT_IN_DESIGN_1", "NOT_IN_DESIGN_2"
+tampered = [sample("V4", 0), sample("V8", float(Fraction(220,23)))]
+probes["unbound_sample_ids"] = bind(renamed)
+probes["unbound_origins_preserve_aggregate"] = {**bind(tampered), "tampered_rows": tampered,
+    "exact_original_percent_mean": str((Fraction(1,16)+Fraction(1,12))*50),
+    "exact_altered_percent_mean": str((Fraction(1,20)+Fraction(23,240))*50)}
+assert not probes["unbound_sample_ids"]["binding_codes"]
+assert not probes["unbound_origins_preserve_aggregate"]["binding_codes"]
+assert probes["unbound_origins_preserve_aggregate"]["checker_aggregate_abs_diff"] < 1e-9
+entity_rows = [sample("A1",0,22,20), sample("A2",0,24,20), sample("B1",0,40,20)]
+probes["sample_unit_not_enforced"] = {
+    "declared_entity_but_aggregated_rows": calculate({**definition, "sample_unit":"entity"},entity_rows),
+    "row_weighted_percent": float(Fraction(10+20+100,3)),
+    "equal_entity_weighted_percent": float((Fraction(10+20,2)+100)/2),
+}
+observations = []
+for entity, maximum in [("A",8),("B",12)]:
+    for t in range(0,maximum+1,2):
+        observations.append({"observation_id":f"{entity}-{t}","entity_id":entity,"observed_at":t,"available_at":t,"value":12-t/10})
+observations.append({"observation_id":"A-end","entity_id":"A","observed_at":20,"available_at":20,"value":10})
+synthetic_index=ROOT/"probe_temporal_index.json"
+synthetic_index.write_text(json.dumps({"observations":observations}))
+temporal_samples=[]
+for entity, origin, split in [("A",4,"VALIDATION"),("A",8,"VALIDATION"),("B",12,"FORECAST")]:
+    ids=[f"{entity}-{t}" for t in range(0,origin+1,2)]
+    temporal_samples.append({"sample_id":f"{entity}-{origin}","entity_id":entity,"origin":origin,"target_time":20,"split":split,
+        "target_observation_id":"A-end" if split=="VALIDATION" else None,
+        "feature_observation_ids":ids,"preprocess_fit_observation_ids":ids,"model_fit_observation_ids":ids})
+design={"schema_version":"temporal-visibility/v1","task":"SAME_ENTITY_FUTURE","index_path":synthetic_index.name,"samples":temporal_samples}
+plan={"required_input_hashes":{synthetic_index.name:file_hash(synthetic_index)},"temporal_design":design,
+    "metric_definitions":{"m":definition},"metric":"m","metric_direction":"MIN",
+    "evaluation_design":{"mode":"CONDITIONAL_PREDICTION_FINAL_VERIFICATION"}}
+probes["selection_clock_unrepresented"]={
+    "temporal_codes":sorted(env["validate_temporal_design"](ROOT,plan)),
+    "validation_target_available_at":20,"forecast_origin":12,
+    "conclusion":"The validator accepts this chronology. Selection using that validation target cannot have occurred at forecast origin 12; selection lineage is not represented among the checked usages. This is a local-validator result, not execution of candidate selection.",
+}
+future=copy.deepcopy(plan)
+future["temporal_design"]["samples"][0]["feature_observation_ids"].append("A-end")
+probes["future_label_rejected"]={"codes":sorted(env["validate_temporal_design"](ROOT,future))}
+newentity=copy.deepcopy(plan)
+newentity["temporal_design"]["task"]="NEW_ENTITY_GENERALIZATION"
+probes["new_entity_overlap_rejected"]={"codes":sorted(env["validate_temporal_design"](ROOT,newentity))}
+spec={"kind":"CONDITIONAL_ESTIMATE","claim_type":"PREDICTIVE","target_field":"remaining","future_truth_field":"future_end",
+    "known_input_fields":["time","value"],"model_basis":"Affine prefix continuation","conditions":["No regime change"],
+    "historical_validation_required":True,"empirical_accuracy_required":False}
+req["prediction_spec"]=spec
+artifacts.update(experiment_plan=plan,problem_requirements={"requirements":[req]})
+(ROOT/"probe_assumptions.json").write_text(json.dumps({"assumption":"Affine continuation"}))
+evidence={"prediction_spec_sha256":canonical_hash(spec),"temporal_design_sha256":canonical_hash(design),"empirical_accuracy_verified":False,
+    "predictions":[{"sample_id":"B-12","entity_id":"B","origin":12,"target":"remaining","value":8}],
+    "historical_validation":{"sample_ids":["A-4","A-8"],"metric_ids":["m"]},"uncertainty":claim["uncertainty"]}
+output={"temporal_lineage":design,"scientific_evidence":{"R":{"prediction_evidence":evidence,"assumption_artifact_sha256":file_hash(ROOT/"probe_assumptions.json")}}}
+probes["conditional_baseline"]={"codes":sorted(env["validate_conditional_prediction"](claim,req,output,ROOT))}
+empirical_req=copy.deepcopy(req)
+empirical_req["prediction_spec"]["empirical_accuracy_required"]=True
+empirical_output=copy.deepcopy(output)
+empirical_output["scientific_evidence"]["R"]["prediction_evidence"]["prediction_spec_sha256"]=canonical_hash(empirical_req["prediction_spec"])
+probes["empirical_requirement_rejected"]={"codes":sorted(env["validate_conditional_prediction"](claim,empirical_req,empirical_output,ROOT))}
+sens_claim,sens_output=copy.deepcopy(claim),copy.deepcopy(output)
+sens_claim["uncertainty"]={"kind":"MODEL_SENSITIVITY","calibrated":False}
+sens_output["scientific_evidence"]["R"]["prediction_evidence"]["uncertainty"]=sens_claim["uncertainty"]
+probes["sensitivity_label_without_interval"]={"codes":sorted(env["validate_conditional_prediction"](sens_claim,req,sens_output,ROOT)),
+    "comment":"Only confirms allowed labeling; no perturbation set, interval bounds, or sensitivity recomputation was supplied."}
+# Independent physical-scale arithmetic for the fixture's named +1 endpoint perturbation.
+probes["fixture_robustness_plus_one"]={
+    "actual_remaining_mape_change_for_endpoint_plus_one":float((Fraction(1,16)+Fraction(1,12))*50),
+    "fixture_reported_metric_increment":1,
+    "unit":"percentage points",
+    "conclusion":"Adding 1 minute to the endpoint produces 7.291666666666667 percentage points over these origins, not the fixture's metric + 1.",
+}
+# Derive the fixture trajectory with exact rational arithmetic, independently of both programs.
+ols_results=[]
+for origin in [4,8,12]:
+    points=[(Fraction(t), Fraction(12)-Fraction(t,10)) for t in range(0,origin+1,2)]
+    n=Fraction(len(points))
+    mean_x=sum(x for x,y in points)/n
+    mean_y=sum(y for x,y in points)/n
+    slope=sum((x-mean_x)*(y-mean_y) for x,y in points)/sum((x-mean_x)**2 for x,y in points)
+    end=(10-mean_y+slope*mean_x)/slope
+    ols_results.append({"origin":origin,"slope":str(slope),"endpoint":str(end),"remaining":str(end-origin)})
+probes["independent_exact_affine_endpoints"]={"results":ols_results,"scope":"Algebraic consistency for noiseless affine synthetic trajectories only; no empirical or regime-change claim."}
+target=ROOT/"math_probe_results.json"
+target.write_text(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False)+"\n")
+print(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False))

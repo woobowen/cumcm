@@ -1,0 +1,163 @@
+{
+  "schema_version": "phase-004c6-fixed-output-comparison/v1",
+  "started_at": "2026-09-09T05:35:05.010826+00:00",
+  "ended_at": "2026-09-09T05:35:05.016900+00:00",
+  "status": "READ_ONLY_ARITHMETIC_VERIFIED",
+  "method": "Standard-library arithmetic on frozen predictions, historical published audit-derived endpoint/remaining truth, and new already-frozen publicly published six-origin samples. No fit, inverse-curve solver, model code, registered checker, Final or candidate adjudicator was invoked.",
+  "raw_workbook_or_answer_reads": 0,
+  "new_model_registered_checker_final_starts": 0,
+  "input_hashes_unchanged_after_read": true,
+  "sources": [
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/independent_recalculation.json",
+      "sha256": "653aff8b26f8abbe493b0f5c305386f9b93dba268549956440b4fbdef341d6b7"
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/candidate_artifacts/runs/RUN-2016-BASELINE-1729/output.json",
+      "sha256": "afa010db53c66a279b2a5e6f606c464b361588499ce052b4946a9706d334763e"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/runs/RUN-RC9-D2016-R2-01/scientific_summary.json",
+      "sha256": "2ad4d05b2befa78bc080825e6f7fe655fd4f0a2fdb8dd9ce84c780400edf023c"
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/candidate_artifacts/runs/RUN-2016-CUBIC-1729/output.json",
+      "sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/runs/RUN-RC9-D2016-R2-02/scientific_summary.json",
+      "sha256": "e136e396a0c030595903038e53e7eb3defeefd9f35d673d61f23e19302163fc1"
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/tables/scene_windows_2016.csv",
+      "sha256": "02c1ffe823bb37d0c3ac8a92941e6483f6e5ce562926037cbdc1ea5cc24f491f"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/reports/conditional_windows.csv",
+      "sha256": "75fb1e4ae3f690d5c125665998abdf17f8e33d53a9228b9302ac9c223f0199c7"
+    },
+    {
+      "path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts/tables/reference_position_comparison.csv",
+      "sha256": "23a2e4803acd4dcb81b8aa154fa4e0ae04837027bbcd376167238218c0afb81b"
+    },
+    {
+      "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/runs/RUN-RC9-D2015-R2-02/scientific_summary.json",
+      "sha256": "8cc9c1d69b7e285a5c4b9756d34477e9251240841f4d76f79ea515141cf58b7c"
+    }
+  ],
+  "comparisons": [
+    {
+      "old_run_id": "RUN-2016-BASELINE-1729",
+      "new_run_id": "RUN-RC9-D2016-R2-01",
+      "old_joint_validation_score_different_target": 0.027872362922746727,
+      "old_q1_mean_of_nine_stored_group_MRE": 0.0030092902557558275,
+      "new_q1_mean_MRE": 0.003009290255755827,
+      "old_q2_mean_of_seven_stored_LOCO_MRE": 0.04893052247838644,
+      "new_q2_LOCO_MRE": 0.048930522478386536,
+      "q3_matched_origin_checks": [
+        {
+          "history_state": 1,
+          "fixed_cutoff_voltage_V": 9.765,
+          "old_fixed_terminal_absolute_error_min": 12.433743025824015,
+          "old_fixed_remaining_relative_error": 0.04483859728028856,
+          "old_fixed_terminal_elapsed_relative_error": 0.011254293108095597,
+          "new_matching_origin_remaining_relative_error": 0.04483859728028785,
+          "same_origin_absolute_metric_difference": 7.077671781985373e-16,
+          "remaining_denominator_difference_min": 6.821210263296962e-13
+        },
+        {
+          "history_state": 2,
+          "fixed_cutoff_voltage_V": 9.765,
+          "old_fixed_terminal_absolute_error_min": 23.846328269883884,
+          "old_fixed_remaining_relative_error": 0.09366193350307887,
+          "old_fixed_terminal_elapsed_relative_error": 0.02435784297230223,
+          "new_matching_origin_remaining_relative_error": 0.09366193350307629,
+          "same_origin_absolute_metric_difference": 2.581268532253489e-15,
+          "remaining_denominator_difference_min": 1.4779288903810084e-12
+        }
+      ],
+      "old_two_origin_remaining_mean": 0.06925026539168372,
+      "new_six_origin_remaining_mean": 0.059408550113034225,
+      "old_current_conditional_remaining_min": 192.2672077704376,
+      "new_current_conditional_remaining_min": 192.2672077704376,
+      "conditional_prediction_difference_min": 0.0,
+      "old_and_new_55A_duration_min": [
+        1176.0,
+        1176.0
+      ]
+    },
+    {
+      "old_run_id": "RUN-2016-CUBIC-1729",
+      "new_run_id": "RUN-RC9-D2016-R2-02",
+      "old_joint_validation_score_different_target": 0.008105548796496765,
+      "old_q1_mean_of_nine_stored_group_MRE": 0.0007800323854870368,
+      "new_q1_mean_MRE": 0.0007800323854870368,
+      "old_q2_mean_of_seven_stored_LOCO_MRE": 0.010219758766339264,
+      "new_q2_LOCO_MRE": 0.010219758766339319,
+      "q3_matched_origin_checks": [
+        {
+          "history_state": 1,
+          "fixed_cutoff_voltage_V": 9.765,
+          "old_fixed_terminal_absolute_error_min": 11.369545515693062,
+          "old_fixed_remaining_relative_error": 0.041000885379347506,
+          "old_fixed_terminal_elapsed_relative_error": 0.010291044094580976,
+          "new_matching_origin_remaining_relative_error": 0.04100088537934433,
+          "same_origin_absolute_metric_difference": 3.1780134079895106e-15,
+          "remaining_denominator_difference_min": 6.821210263296962e-13
+        },
+        {
+          "history_state": 2,
+          "fixed_cutoff_voltage_V": 9.765,
+          "old_fixed_terminal_absolute_error_min": 20.66995300090207,
+          "old_fixed_remaining_relative_error": 0.08118598979144567,
+          "old_fixed_terminal_elapsed_relative_error": 0.021113332993771265,
+          "new_matching_origin_remaining_relative_error": 0.08118598979144882,
+          "same_origin_absolute_metric_difference": 3.1502578323738817e-15,
+          "remaining_denominator_difference_min": 1.4779288903810084e-12
+        }
+      ],
+      "old_two_origin_remaining_mean": 0.06109343758539659,
+      "new_six_origin_remaining_mean": 0.051965754106183794,
+      "old_current_conditional_remaining_min": 193.44177724399992,
+      "new_current_conditional_remaining_min": 193.44177724399992,
+      "conditional_prediction_difference_min": 0.0,
+      "old_and_new_55A_duration_min": [
+        1162.5881174419153,
+        1162.5881174419153
+      ]
+    }
+  ],
+  "comparison_2015": {
+    "old_run_id": "RUN-2015-TOPOCENTRIC",
+    "new_run_id": "RUN-RC9-D2015-R2-02",
+    "old_event_count": 99,
+    "new_event_count": 99,
+    "matched_city_date_keys": 99,
+    "different_rows_excluding_run_id": 0,
+    "new_per_city_counts_recomputed_from_csv": {
+      "Beijing": 15,
+      "Chengdu": 13,
+      "Guangzhou": 12,
+      "Harbin": 18,
+      "Kunming": 13,
+      "Shanghai": 12,
+      "Urumqi": 16
+    },
+    "max_start_end_difference_seconds": 0.0,
+    "old_reference_rows": 168,
+    "old_reference_rmse_recomputed_from_positions_deg": 0.0007493858157717232,
+    "new_reference_rmse_deg": 0.0007493858157717232,
+    "old_reference_max_abs_recomputed_from_positions_deg": 0.0014453845183588498,
+    "new_reference_max_abs_deg": 0.0014453845183588498,
+    "stored_old_residual_max_recalculation_difference_deg": 0.0,
+    "limitation": "Stored theoretical-position residual and conditional-window arithmetic only; no new ephemeris calculation, field observation, Final or accepted handoff."
+  },
+  "limits": [
+    "Old two-origin and new six-origin means use different sample sets and cannot establish performance improvement.",
+    "Old joint_validation_MRE has a different target/aggregation and cannot replace remaining-time error.",
+    "Q1/Q2 comparison reaggregates stored per-group errors; it does not independently reconstruct every original curve sample.",
+    "Historical truth values are from the published frozen old audit, not newly acquired external evidence.",
+    "The known current future termination remains unobserved; unchanged conditional prediction is not verified future accuracy.",
+    "Old and new negative terminals, Run identities, budgets and shared subjects remain unchanged."
+  ]
+}

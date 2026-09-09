@@ -1,0 +1,148 @@
+{
+  "audit_id": "RC8-2021-Q4-CERTIFICATE-NATIVE-AUDIT-001",
+  "role": "evidence_sufficiency_auditor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "model": "UNKNOWN",
+  "reasoning_setting": "UNKNOWN",
+  "bundle_id": "RC8-2021-Q4-EXACT-CERTIFICATE-AUDIT-001",
+  "bundle_hash": "6bf38ebe06215ed38c4617670cd41d792955b9d1d125a8ab4ebb8543f4aab612",
+  "verdict": "PASS",
+  "findings": [
+    {
+      "finding_id": "Q4-NATIVE-001",
+      "severity": "INFO",
+      "target": "fixed_serialized_decimal_stationary_first_objective",
+      "statement": "The certified maximization LP matches the original Q4 first-stage constraint matrix: 3216 nonnegative transportation variables, 402 supplier bounds, eight carrier bounds, coefficients (1-loss)/consumption. No first-stage constraint is omitted.",
+      "evidence_refs": [
+        "input_bundle.json",
+        "independent_arithmetic.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/v6/2021/code/c2021_supply_plan.py:264",
+        "evals/results/phase-004c5/development/v6/2021/code/c2021_supply_plan.py:310",
+        "evals/results/phase-004c5/development/v6/2021/code/c2021_supply_plan.py:333",
+        "evals/results/phase-004c5/development/q4_certificate/code/verify_certificate.py:34"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Inspect original first-stage rows, objective, and serialized parameter export; compare certificate identities.",
+      "pass_condition": "All first-stage rows and objective coefficients accounted for.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "Q4-NATIVE-002",
+      "severity": "INFO",
+      "target": "rational_primal_dual_certificate",
+      "statement": "Independent Decimal-lexeme Fraction arithmetic confirms all 3216 dual inequalities, 410 nonnegative multipliers, 403 nonnegative recorded primal flows, 402 supplier and eight carrier bounds, all 3626 published slacks, maximal common original-plan scaling, and the exact weak-duality gap decomposition. Gap 0.000040246447396282534... <= 0.001.",
+      "evidence_refs": [
+        "independent_arithmetic.json",
+        "execution_receipts/independent_arithmetic.json",
+        "replayed_verification.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/q4_certificate/certificate.json",
+        "evals/results/phase-004c5/development/q4_certificate/verification.json"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Recompute the certificate without importing producer, constructor, or verifier and compare every published rational residual.",
+      "pass_condition": "Exact equality of all bounds and slacks; every feasibility residual >= 0 and gap <= 1/1000.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "Q4-NATIVE-003",
+      "severity": "INFO",
+      "target": "raw_parameter_link",
+      "statement": "An independent stdlib XLSX XML reader converts numeric values only after filtering to W001-W168 coordinates. All 1214 parameter comparisons pass; maximum exact raw-derived versus serialized difference is 1.8155520243441619e-13. This is a parameter reproduction tolerance, not an exact proof about unrounded workbook-derived or future enterprise capacities.",
+      "evidence_refs": [
+        "independent_arithmetic.json",
+        "independent_raw_parameter_residuals.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/q4_certificate/PRE_RUN_PROTOCOL.md:30",
+        "evals/results/phase-004c5/development/q4_certificate/code/verify_certificate.py:113"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Recompute quantile, clipped fulfillment mean, supply capacity, carrier loss from bound training cells.",
+      "pass_condition": "402*3+8 comparisons within 1e-9; raw workbook hashes match.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "Q4-NATIVE-004",
+      "severity": "INFO",
+      "target": "solver_independence_and_tolerance",
+      "statement": "The supplied verifier calls no optimizer and imports no producer or constructor. Twenty-four independent synthetic cases all behave as expected: four accepts and twenty rejections, including sub-floating-resolution dual/primal violations and exact gap-threshold boundaries. An alternate valid dual is accepted even with an adverse synthetic solver status.",
+      "evidence_refs": [
+        "synthetic_probe_results.json",
+        "execution_receipts/synthetic_probes.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/q4_certificate/code/verify_certificate.py:34"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Run isolated synthetic mutations and boundary cases without optimization.",
+      "pass_condition": "All 24 expected outcomes match; exact 1/1000 gap accepted and any larger exact gap rejected.",
+      "status": "RESOLVED"
+    },
+    {
+      "finding_id": "Q4-NATIVE-005",
+      "severity": "WARNING",
+      "target": "rounded_report_endpoints",
+      "statement": "REPORT.md decimal lower endpoint is rounded upward and decimal upper endpoint downward relative to the exact rational bounds. The text points to corresponding rational bounds, so the fixed proof remains valid; consumers must not reuse these rounded decimals as an exact enclosure. Use approximate notation or the outward enclosure [40246.40307264614, 40246.40311289260].",
+      "evidence_refs": [
+        "tool_receipts/010_reporting_checks.json",
+        "independent_arithmetic.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/q4_certificate/REPORT.md:3",
+        "evals/results/phase-004c5/development/q4_certificate/REPORT.md:6",
+        "evals/results/phase-004c5/development/q4_certificate/REPORT.md:7"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Compare printed endpoints with exact Fraction bounds.",
+      "pass_condition": "Printed values explicitly marked approximate or outward-rounded if advertised as a strict decimal interval.",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "Q4-NATIVE-006",
+      "severity": "INFO",
+      "target": "scope_and_provenance_limits",
+      "statement": "All 22 bound hashes are unchanged and source Run, output, original code hashes, raw hashes, supplement code subject, pre-run binding, execution log hashes and recorded chronology are internally consistent. This audit did not independently observe Git commit contents or the historical remote push, inspect the problem statement, certify later lexicographic objectives, original unscaled full-plan feasibility, future feasibility, startup inventory, costs, attachments, Final evidence, or a formal Gate.",
+      "evidence_refs": [
+        "subject_hashes_before.json",
+        "subject_hashes_after.json",
+        "independent_arithmetic.json"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/development/q4_certificate/pre_run_binding.json",
+        "evals/results/phase-004c5/development/q4_certificate/pre_run_delivery.json",
+        "evals/results/phase-004c5/development/q4_certificate/execution_receipts.json",
+        "evals/results/phase-004c5/development/q4_certificate/REPORT.md:38"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "Cross-check all accessible frozen bindings; restrict conclusions to the fixed first-objective LP.",
+      "pass_condition": "Bindings agree and unsupported broader scientific/remote claims remain excluded.",
+      "status": "RESOLVED"
+    }
+  ],
+  "blockers": [],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "api_calls": 0,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "uncertainties": [
+    "PASS is limited to the fixed serialized-decimal Q4 first-objective transportation LP; this is one independent native review and does not route or pass a formal role chain.",
+    "The original producer output and supplied supplement report were inspected as audit subjects; no prescribed verdict or peer native audit output was supplied.",
+    "Historical Git/remote events are checked only through bound records because Git/network inspection is outside this audit authorization.",
+    "The official problem statement and assumptions artifact contents are not in the allowed bundle; full problem fidelity is not adjudicated.",
+    "writes_observed false means no writes to audited subjects or formal/public/shared state. Own new ignored audit outputs were written as authorized.",
+    "Runtime model and reasoning effort are not exposed and are recorded UNKNOWN.",
+    "Initial inspection exec_command responses expose merged output only; separate stdout/stderr and start/end capture are available for all actual arithmetic/verifier/synthetic probe executions."
+  ],
+  "created_at": "2026-09-08T23:24:01.917317+00:00",
+  "output_hash": "80a44ee4eb83d6b314bcc8c57451ff0dd04cf88eb9a21994dae8f9a37d04a049"
+}

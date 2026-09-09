@@ -1,0 +1,94 @@
+import datetime
+import hashlib
+import json
+import pathlib
+import subprocess
+
+ROOT = pathlib.Path('<PRIVATE_USER_ROOT>/project/cumcm')
+OUT = pathlib.Path(__file__).resolve().parent
+read_files = []
+
+def raw(path):
+    path = pathlib.Path(path)
+    if '/data/raw/' in str(path) or '/problem/' in str(path) or '/views/' in str(path):
+        raise ValueError('raw/problem/view content is outside this metadata inspection')
+    b = path.read_bytes()
+    read_files.append({'path': str(path), 'sha256': hashlib.sha256(b).hexdigest(),
+                       'bytes': len(b), 'utc': datetime.datetime.now(datetime.timezone.utc).isoformat()})
+    return b
+
+def read(path):
+    return json.loads(raw(path))
+
+def canonical(value):
+    return hashlib.sha256(json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+result = {'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'head': subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+          'families': {}}
+for kind in ['mixed','optimization','prediction']:
+    command = read(ROOT / f'evals/results/modular-workbench-001/commands/public-water-{kind}-005.json')
+    argv = command['argv']; case = pathlib.Path(argv[argv.index('--case-root')+1])
+    log = raw(ROOT / command['log']['path'])
+    rows = []
+    for index in range(1,15):
+        module=f'M{index:02}'; rid=f'WATER-{module}'
+        resume = read(case / f'evidence/module_resume/{module}.json')
+        report = read(case / f'work/{module}.json')
+        done = read(case / f'evidence/module_requests/{rid}/completion.json')
+        done_raw_sha = read_files[-1]['sha256']
+        request = read(case / f'evidence/module_requests/{rid}/request.json')
+        manifest = read(case / f'reviews/{rid}/manifest.json')
+        included = {v['source_path'] for v in manifest['views']}
+        expected = {'problem/original.md','data/raw/input.json'}
+        if index >= 4: expected.add('models/assumptions_and_symbols.json')
+        if index >= 7: expected.update(['models/runtime_model.py','models/independent_check.py'])
+        if index >= 8: expected.add('experiments/experiment_plan.json')
+        if index >= 9: expected.update(['runs/RUN-CAND-20260906/output.json','runs/RUN-CAND-20260906/scientific_check.json','runs/RUN-BASE-20260906/output.json','runs/RUN-BASE-20260906/scientific_check.json'])
+        rows.append({'module':module,'resume_module_matches':resume.get('module')==module,
+                     'resume_request_matches':resume.get('request_id')==rid,
+                     'state_hash_unchanged':resume['state_before_sha256']==resume['state_after_sha256'],
+                     'automatic_starts':resume['actual_resume']['recovery']['automatic_starts'],
+                     'next_request_existed_at_resume':resume['next_request_exists'],
+                     'resume_module_count':len(resume['actual_resume'].get('modules',[])),
+                     'completion_next_module_started':done.get('next_module_started'),
+                     'manifest_package_hash_valid':manifest['package_hash']==canonical({k:v for k,v in manifest.items() if k!='package_hash'}),
+                     'manifest_request_hash_valid':manifest['request_sha256']==canonical(request),
+                     'manifest_completion_raw_hash_valid':manifest['completion_sha256']==done_raw_sha,
+                     'manifest_artifact_hashes_match_receipt':all(manifest['original_hashes'].get(p)==h and any(v['source_path']==p and v['source_sha256']==h for v in manifest['views']) for p,h in done['artifact_hashes'].items()),
+                     'missing_required_sources':sorted(expected-included),
+                     'report_artifacts_in_export':set(report['artifacts'])<=included,
+                     'capture_sources':sorted(p for p in included if p.endswith('/execution_capture.json')),
+                     'final_sources':sorted(p for p in included if p.endswith('/final_check.json') or 'final' in p.lower() and p.startswith('evidence/')),
+                     'manifest_request':manifest.get('request_id'),
+                     'manifest_case':manifest.get('case_id'),
+                     'completion_case':done.get('case_id'),
+                     'completion_module':done.get('module')})
+    result['families'][kind]={'executed_head':command['executed_head'],'exit_code':command['exit_code'],
+                            'command_started_at':command['started_at'],'command_ended_at':command['ended_at'],
+                            'bound_log_hash_matches':hashlib.sha256(log).hexdigest()==command['log']['sha256'],
+                            'rows':rows}
+
+matrix_path='evals/results/phase-004c4/frozen_adversarial_controller_probe_matrix.json'
+matrix_bytes=raw(ROOT/matrix_path);matrix=json.loads(matrix_bytes)
+frozen_test=subprocess.check_output(['git','show','604c7facda586cecb6785c44949f0cd1217cd297:'+matrix['test_file']],cwd=ROOT)
+old_matrix=subprocess.check_output(['git','show','929d2874e711ca4dd58484555009b028555898a3:'+matrix_path],cwd=ROOT)
+result['history']={'matrix_unchanged_since_failed_ci_subject':matrix_bytes==old_matrix,
+                   'frozen_git_test_sha256':hashlib.sha256(frozen_test).hexdigest(),
+                   'matrix_test_sha256':matrix['test_sha256'],
+                   'frozen_git_test_matches_matrix':hashlib.sha256(frozen_test).hexdigest()==matrix['test_sha256']}
+result['read_files']=read_files
+result['ended_at']=datetime.datetime.now(datetime.timezone.utc).isoformat()
+(OUT/'metadata_results_v2.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+summary={'history':result['history'],'families':{}}
+for kind,item in result['families'].items():
+    summary['families'][kind]={'executed_head':item['executed_head'],'exit_code':item['exit_code'],
+      'log_bound':item['bound_log_hash_matches'],'resume_count':len(item['rows']),
+      'state_changed':sum(not r['state_hash_unchanged'] for r in item['rows']),
+      'automatic_starts':sum(r['automatic_starts'] for r in item['rows']),
+      'next_request_existed':sum(r['next_request_existed_at_resume'] for r in item['rows']),
+      'missing_sources':[r for r in item['rows'] if r['missing_required_sources']],
+      'invalid_package_hashes':[r['module'] for r in item['rows'] if not r['manifest_package_hash_valid']],
+      'invalid_metadata_bindings':[r['module'] for r in item['rows'] if not all(r[k] for k in ['manifest_request_hash_valid','manifest_completion_raw_hash_valid','manifest_artifact_hashes_match_receipt'])],
+      'selected_rows':[r for r in item['rows'] if r['module'] in ['M09','M12','M14']]}
+print(json.dumps(summary,ensure_ascii=False,indent=2))

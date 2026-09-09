@@ -1,0 +1,137 @@
+{
+  "all_primary_questions_complete": false,
+  "api_calls": 0,
+  "case_id": "CUMCM-2021-C-DEVELOPMENT-RC8-V6-002",
+  "development_evaluation": {
+    "final_evaluator_invoked": false,
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "test_access_count": 0
+  },
+  "elapsed_seconds": 8.898474,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "foundation_model_training": false,
+  "native_state": "RUN_VALIDATED",
+  "official_input_provenance": {
+    "archive_sha256": "3391573f546fce4511e9a99c24c386e28203d8fee3d29bb2dccada5921cefe7b",
+    "bound_data_hashes": {
+      "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b",
+      "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685"
+    }
+  },
+  "requirements_incomplete": [
+    "REQ-Q2-MINIMUM-SUPPLIERS",
+    "REQ-Q2-ORDER-PLAN",
+    "REQ-Q2-TRANSPORT-PLAN",
+    "REQ-Q3-MATERIAL-PREFERENCE",
+    "REQ-Q3-ORDER-PLAN",
+    "REQ-Q3-TRANSPORT-PLAN",
+    "REQ-Q4-CAPACITY-INCREASE",
+    "REQ-Q4-ORDER-PLAN",
+    "REQ-Q4-TRANSPORT-PLAN",
+    "REQ-OUTPUT-ATTACHMENT-A",
+    "REQ-OUTPUT-ATTACHMENT-B",
+    "REQ-INVENTORY-PRODUCTION",
+    "REQ-TRANSPORT-BUSINESS-RULES"
+  ],
+  "requirements_supported": [
+    "REQ-Q1-IMPORTANCE-MODEL",
+    "REQ-Q1-TOP50",
+    "REQ-Q2-EFFECT",
+    "REQ-Q3-EFFECT"
+  ],
+  "requirements_total": 17,
+  "route": "DEVELOPMENT_REGRESSION",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_MEAN_GREEDY",
+      "capture_sha256": "b9566bd2a3e3812b89628106bb3f7fb3086aa6257383bac02a9c8c1b9c5ae6af",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC7-BASELINE_MEAN_GREEDY-S20210904",
+      "scientific_check_status": "SUCCESS"
+    },
+    {
+      "candidate_id": "ROBUST_QUANTILE_LEXICOGRAPHIC",
+      "capture_sha256": "b6155d692c3a3f9a4ed7237b1b850a0e5c9b50b97070c6651e6e11b662a9e670",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+      "scientific_check_status": "SUCCESS"
+    },
+    {
+      "candidate_id": "SCENARIO_CVAR_PORTFOLIO",
+      "capture_sha256": "f73235f1fa6c5d9f166cddf75ae4cfe59f0fdc59a5cf5cff0a0a2c3873cd91af",
+      "outcome": "SUCCESS",
+      "random_seed": 20210904,
+      "run_id": "RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904",
+      "scientific_check_status": "SUCCESS"
+    }
+  ],
+  "schema_version": "development-scientific-evidence/v1",
+  "scientific_quality_pass": false,
+  "selected_candidate_id": "ROBUST_QUANTILE_LEXICOGRAPHIC",
+  "selection_decision_hash": "5a58d91a3fd25e0ba460393d26fd10f50c1341d657efc536ee72670601dcfeab",
+  "semantic_validation": {
+    "reason_codes": [
+      "RC_CLAIM_FACTS_NOT_SUPPORTED",
+      "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING",
+      "RC_OPTIMALITY_CERTIFICATE_MISSING",
+      "RC_SEMANTIC_CLAIM_INPUT_INVALID"
+    ],
+    "status": "BLOCK"
+  },
+  "skill": {
+    "execution_code_commit": "4d2a0b8f451e95438fa0b79dd569207a96e5df52",
+    "version": "0.2.0-competition-rc7"
+  },
+  "snapshot_hashes": {
+    "case_state.json": "44f6158312eb61926e8a23f1e89790f86349cada671e37635c84549df6800b76",
+    "data/data_audit.json": "4241ff6c9ad260cc006dd4988964b4f3976197ef8f5e3cc64b60340c1ff7f2ef",
+    "data/data_sufficiency.json": "494d3bad2d5ae19a9428ec3052abfaed8a528094d83ab7b83a84db6731e14cb4",
+    "evidence/claim_evidence.json": "af0d0492b5744d491815598ac76915a8e7321b2729295a52abcb08342608a314",
+    "evidence/semantic_claim_support.json": "5686d614374df8f773d9623bf3f9f7d6afc7503d85f68a335c14e41c78f78d61",
+    "experiments/experiment_plan.json": "1f4a02ece283dcf58337dc91ad0a4b08aa3ba6bd9fdaca98b1053b97d88a06a1",
+    "handoff/modeling_to_paper.json": "892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f",
+    "models/assumptions_and_symbols.json": "1b5cda12b8e46ecd875649e7c20ec1a8171bb7108998d092d08242c0ff362d84",
+    "models/model_candidates.json": "2d6c2591f1e7180eed002f7db659e4d074b31ebcd6ef37c3f22e2013de28a068",
+    "problem/problem_requirements.json": "fd6d21aa8f6e574ad14289958590196eee2f4780e43e555431da338ef6dd138a",
+    "research/research_plan.json": "5b2c160440776ac5deaa350e0133a82c366072634fa703f5a0f3f2f76eaeccc1",
+    "research/source_ledger.json": "7b9cbece127aab63795e2f6b7061787f48fdef719418222d899e0905dfbd97af",
+    "results/final_result.json": "42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848",
+    "results/model_comparison.json": "bead9c6fa6673b9a5b422da853a7a06f948babbe26d309a249cb9fb19637d1c8",
+    "results/requirement_selection.json": "3579f2b54230fa25e7ca128f5103b0c736b9cf659ff658823d056f05d5bbe558",
+    "results/robustness.json": "056f89e4aa8e0a2e45488a6e92568be1944c166792d4124dd5b4e3d4982cc531",
+    "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/execution_capture.json": "b9566bd2a3e3812b89628106bb3f7fb3086aa6257383bac02a9c8c1b9c5ae6af",
+    "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/manifest.json": "c6eda50039bafba9c8b9076ef5c77c37646c96758ab2e537958cb7f2cbb38224",
+    "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/output.json": "be907168ec993243c52c077f95c8a6e0a944bac8d333f1202dbcffdabf37563d",
+    "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/scientific_check.json": "c532e196a37ddb28b2fb39ef73d2780f332203e82fc8c6053d3553e976ecd06d",
+    "runs/RUN-RC7-BASELINE_MEAN_GREEDY-S20210904/scientific_check_capture.json": "20ba8e20802cc36928484d2063aa646bbd33c73a487bebde7b8a2fa75c940138",
+    "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/execution_capture.json": "b6155d692c3a3f9a4ed7237b1b850a0e5c9b50b97070c6651e6e11b662a9e670",
+    "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/manifest.json": "16141b14128aedc237d1fcc9623e7ed0bdeda2560d762aab39fff60aa7f2f495",
+    "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/output.json": "445da58a0d398a1c5d1b1a8a7bb60c34d189688834061104be5dfbe0ebf3abf8",
+    "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/scientific_check.json": "e2d525964fc064f02ebc7030f55566bb4113066c4270094455d4791fb5bda219",
+    "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/scientific_check_capture.json": "eff8290e596a6fa9550bd2b683c2bf0837b9c16bb8ca3e019326d7b37531b9c5",
+    "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/execution_capture.json": "f73235f1fa6c5d9f166cddf75ae4cfe59f0fdc59a5cf5cff0a0a2c3873cd91af",
+    "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/manifest.json": "fa0e69917124dc8a8e0d8b15e8815216ef17a6aae7ff4456c27d18e3396ca4e6",
+    "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/output.json": "e0b3b19d66b2c4eaeacf4112b757ea142d4db868c63c893a5249774e12957052",
+    "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/scientific_check.json": "b1a7336799c73b49ff68078dda341b423466e4bef3a2642b4b22a69bf71f351e",
+    "runs/RUN-RC7-SCENARIO_CVAR_PORTFOLIO-S20210904/scientific_check_capture.json": "ce0c4d8c3e6654c18b00124bc14f63ae14834e6a6b4c0177271ea858a015cef4"
+  },
+  "source_first_run_case_id": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+  "statistical_models_fitted": true,
+  "terminal_state": "PARTIAL_SCIENTIFIC_EVIDENCE",
+  "timing": {
+    "completed_at": "2026-09-08T19:03:10Z",
+    "elapsed_seconds": 8.898469,
+    "started_at": "2026-09-08T19:03:01Z"
+  },
+  "valid_run_count": 3,
+  "validation_route_executed": false,
+  "validation_scores": {
+    "BASELINE_MEAN_GREEDY": 9.705397983437495,
+    "ROBUST_QUANTILE_LEXICOGRAPHIC": 3.3186818964006832,
+    "SCENARIO_CVAR_PORTFOLIO": 7.580714799350235
+  },
+  "workspace_relative": ".cache/official_inputs/CUMCM-2021-C-DEVELOPMENT-RC8-V6-002-ATTEMPT-002"
+}

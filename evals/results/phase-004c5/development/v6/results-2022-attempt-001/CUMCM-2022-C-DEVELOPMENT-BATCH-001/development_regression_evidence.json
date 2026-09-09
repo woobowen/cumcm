@@ -1,0 +1,131 @@
+{
+  "all_primary_questions_complete": false,
+  "api_calls": 0,
+  "case_id": "CUMCM-2022-C-DEVELOPMENT-RC8-V6-001",
+  "development_evaluation": {
+    "final_evaluator_invoked": false,
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "test_access_count": 0
+  },
+  "elapsed_seconds": 7.198792,
+  "evidence_class": "DEVELOPMENT_REGRESSION_NOT_BLIND_NOT_VALIDATION",
+  "failed_run_count": 0,
+  "foundation_model_training": false,
+  "native_state": "RUN_VALIDATED",
+  "official_input_provenance": {
+    "archive_sha256": "c27eb1b665f070341e134f5dc13bb2af469230424ff2eedabf594eee708bfee4",
+    "bound_data_hashes": {
+      "raw/case_files/附件.xlsx": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c"
+    }
+  },
+  "requirements_incomplete": [
+    "REQ-3A",
+    "REQ-EVIDENCE"
+  ],
+  "requirements_supported": [
+    "REQ-VALIDITY",
+    "REQ-COMPOSITION",
+    "REQ-1A",
+    "REQ-1B",
+    "REQ-1C",
+    "REQ-2A",
+    "REQ-2B",
+    "REQ-2C",
+    "REQ-3B",
+    "REQ-4A",
+    "REQ-4B"
+  ],
+  "requirements_total": 13,
+  "route": "DEVELOPMENT_REGRESSION",
+  "runs": [
+    {
+      "candidate_id": "BASELINE_RAW_CENTROID",
+      "capture_sha256": "9ab8ffcd93dcc9f6718eb0818194e45500e0b3b210b24ae4339068171a1d1566",
+      "outcome": "SUCCESS",
+      "random_seed": 20220904,
+      "run_id": "RUN-RC7-BASELINE_RAW_CENTROID-S20220904",
+      "scientific_check_status": "SUCCESS"
+    },
+    {
+      "candidate_id": "CLR_RIDGE_WARD",
+      "capture_sha256": "315d6efe3dfbca01225f94c4db02ef12501ab3677c406c318bdf0bb861c3f6ca",
+      "outcome": "SUCCESS",
+      "random_seed": 20220904,
+      "run_id": "RUN-RC7-CLR_RIDGE_WARD-S20220904",
+      "scientific_check_status": "SUCCESS"
+    },
+    {
+      "candidate_id": "HELLINGER_KNN_COMPLETE",
+      "capture_sha256": "2e34d2d5fa870ee22fe3fc6dd94a224b63880247276f0f6dd92cac7f3e04ca0b",
+      "outcome": "SUCCESS",
+      "random_seed": 20220904,
+      "run_id": "RUN-RC7-HELLINGER_KNN_COMPLETE-S20220904",
+      "scientific_check_status": "SUCCESS"
+    }
+  ],
+  "schema_version": "development-scientific-evidence/v1",
+  "scientific_quality_pass": false,
+  "selected_candidate_id": "HELLINGER_KNN_COMPLETE",
+  "selection_decision_hash": "102b0db41af0c2599db2e05987bafa3ea13f581cbfeba4e98387be87caf9e631",
+  "semantic_validation": {
+    "reason_codes": [
+      "RC_CLAIM_FACTS_NOT_SUPPORTED",
+      "RC_PREDICTIVE_VALIDATION_MISSING",
+      "RC_SEMANTIC_CLAIM_INPUT_INVALID"
+    ],
+    "status": "BLOCK"
+  },
+  "skill": {
+    "execution_code_commit": "ff2f7ba2cd1b9a8995d4f65b9936855b6cbb00e1",
+    "version": "0.2.0-competition-rc7"
+  },
+  "snapshot_hashes": {
+    "case_state.json": "d31b13c552440f6fb42da8ccae33e7f7663e96fcc4f173ebd85d14ada9739a2f",
+    "data/data_audit.json": "6467e4d63f9e63b95673346a009149a8f7729277d3dbd8ff9e9afc6f678dba0f",
+    "data/data_sufficiency.json": "05af54ffc6a0b94a6d2e37789de32343aefdbff1b6a93e71d4fe749b5bb6994c",
+    "evidence/claim_evidence.json": "af0d0492b5744d491815598ac76915a8e7321b2729295a52abcb08342608a314",
+    "evidence/semantic_claim_support.json": "f8adf1127017c11f48183251c454045846cb5155058820b30b7444b26c14ba49",
+    "experiments/experiment_plan.json": "684b81a3b9e8ed397a66d8b7f73ca8a091de09dc8f5251a06dc737d0f4f4f2b9",
+    "handoff/modeling_to_paper.json": "892bfd65a7b025d3baa482f92885425e4f83e7e7fe751c41bce41cf79ea2538f",
+    "models/assumptions_and_symbols.json": "56409457ad0bd59cdcfd39db15830c7139ef2dd4f1f52dc0dca90b219e680465",
+    "models/model_candidates.json": "4f7886394b9d32876d448e5ab0000910a9fb6ce3954d6f2710fec6a3fa4481fd",
+    "problem/problem_requirements.json": "c1cbfca5cfbed9b281bd334d388add4f42ea3d43d4a733474d616788f94a64d4",
+    "research/research_plan.json": "6fd9339a8d9f5c8e1d75400e57d35ac238d0eb768ce6dbf8457742aea09864cc",
+    "research/source_ledger.json": "c611c8d4f5cf9d35599f4f8fda4ef32477345a33f2c266b9d86a809d6e279696",
+    "results/final_result.json": "42ade3cbc9780a01c7b7cd51dbd68282c656fc9a1dcff5415989e70f6c05b848",
+    "results/model_comparison.json": "357d65df7c9febd6f847a6b6942d84209af1a337906eb69e7c08319b2bcf964e",
+    "results/requirement_selection.json": "8c11be81807301067f83b1c13ed226e139346d00d7402fc702c9f44c43feeaea",
+    "results/robustness.json": "802e979250f32f7ad59f85921062c72f3b2f6d67bad508a5445021f64d9795d7",
+    "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/execution_capture.json": "9ab8ffcd93dcc9f6718eb0818194e45500e0b3b210b24ae4339068171a1d1566",
+    "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/manifest.json": "04a0c605a72a5a64124e3c8bd4ab537a93d16784710d2e28491c12d79abe29a5",
+    "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/output.json": "950a174bac77af1db5cd5fb0f78f70bf833b1084bf7d725624f5e6b047591649",
+    "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/scientific_check.json": "4d392ffff898f608d431730ccca2b7a7147b33119a396ee82a22f0dd274c52e8",
+    "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/scientific_check_capture.json": "ac6865169644c96a99d71ef953546120c052f020c7aeb15cd4e6c44f505034d6",
+    "runs/RUN-RC7-CLR_RIDGE_WARD-S20220904/execution_capture.json": "315d6efe3dfbca01225f94c4db02ef12501ab3677c406c318bdf0bb861c3f6ca",
+    "runs/RUN-RC7-CLR_RIDGE_WARD-S20220904/manifest.json": "e698a027c59f3f24f29942eb73c17e57dd5149a54aa562e98134b704b8990940",
+    "runs/RUN-RC7-CLR_RIDGE_WARD-S20220904/output.json": "c44ef16a3fd18ed49787bd868ba1c021f8649472759b3df5bdd5c138b481ef49",
+    "runs/RUN-RC7-CLR_RIDGE_WARD-S20220904/scientific_check.json": "dc4d979bf8831fb0694e11181159da029ba23bc0a8b162fceca409b87efe5042",
+    "runs/RUN-RC7-CLR_RIDGE_WARD-S20220904/scientific_check_capture.json": "f5794b879c3ab199a5cf34b5ba27c2de5e4c776f9876da6de48243174477e5c0",
+    "runs/RUN-RC7-HELLINGER_KNN_COMPLETE-S20220904/execution_capture.json": "2e34d2d5fa870ee22fe3fc6dd94a224b63880247276f0f6dd92cac7f3e04ca0b",
+    "runs/RUN-RC7-HELLINGER_KNN_COMPLETE-S20220904/manifest.json": "98b8c3e389db964e21920028d62845037c55353e28413eeda662b481c0187ee6",
+    "runs/RUN-RC7-HELLINGER_KNN_COMPLETE-S20220904/output.json": "94826175f5541fe1c7612f9962d28e4ed4bab103817f66bf97d170a5055d0ab1",
+    "runs/RUN-RC7-HELLINGER_KNN_COMPLETE-S20220904/scientific_check.json": "b330819fda9df5f6aafd143d46b66ef57d408456e2433f680e6849400859aa4b",
+    "runs/RUN-RC7-HELLINGER_KNN_COMPLETE-S20220904/scientific_check_capture.json": "4d2712e38ed66bcf049f89e5bf0e125f8c52a62f8ed0fb0cc46b51bb1012a31f"
+  },
+  "source_first_run_case_id": "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+  "statistical_models_fitted": true,
+  "terminal_state": "PARTIAL_SCIENTIFIC_EVIDENCE",
+  "timing": {
+    "completed_at": "2026-09-08T19:19:51Z",
+    "elapsed_seconds": 7.198788,
+    "started_at": "2026-09-08T19:19:44Z"
+  },
+  "valid_run_count": 3,
+  "validation_route_executed": false,
+  "validation_scores": {
+    "BASELINE_RAW_CENTROID": 0.12165812822456483,
+    "CLR_RIDGE_WARD": 0.019885469855900024,
+    "HELLINGER_KNN_COMPLETE": 0.0
+  },
+  "workspace_relative": ".cache/official_inputs/CUMCM-2022-C-DEVELOPMENT-RC8-V6-001-ATTEMPT-001"
+}

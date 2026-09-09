@@ -15,3 +15,7 @@
 `ranking_eligible=false`、`result_values_are_placeholders=true`；它只验证所有 requirement 的
 下游 output/evidence 结构，不是 Run、结果、评分或可用于模型选择的证据。实验计划 Gate 会
 重新校验并把 probe hash 绑定到 case state；预检 BLOCK 时不得冻结计划。
+
+RC9 明确设计例外：非预测使用三组空 prediction splits；条件时间预测保留历史训练/验证
+标识，未知未来 test 为空。不能用空 split 绕过真实独立 Final。条件预测、完整指标定义、
+每起点的特征/预处理/拟合观测 lineage 和观测可用时间都必须在 execute 前绑定。

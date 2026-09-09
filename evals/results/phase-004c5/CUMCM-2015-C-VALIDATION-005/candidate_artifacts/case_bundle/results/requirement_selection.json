@@ -1,0 +1,202 @@
+{
+  "artifact_type": "requirement_selection",
+  "content": {
+    "contract_version": "requirement-selection/v1",
+    "requirements": [
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-DEFINITION",
+        "selection_direction": "MIN",
+        "selection_metric": "definition_tree_angle_deg"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-VALIDATION",
+        "selection_direction": "MIN",
+        "selection_metric": "reference_altitude_rmse_deg"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-BEIJING",
+        "selection_direction": "MIN",
+        "selection_metric": "Beijing_event_count"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-HARBIN",
+        "selection_direction": "MIN",
+        "selection_metric": "Harbin_event_count"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-SHANGHAI",
+        "selection_direction": "MIN",
+        "selection_metric": "Shanghai_event_count"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-GUANGZHOU",
+        "selection_direction": "MIN",
+        "selection_metric": "Guangzhou_event_count"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-KUNMING",
+        "selection_direction": "MIN",
+        "selection_metric": "Kunming_event_count"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-CHENGDU",
+        "selection_direction": "MIN",
+        "selection_metric": "Chengdu_event_count"
+      },
+      {
+        "cross_requirement_constraints": [],
+        "dependency_requirements": [],
+        "requirement_id": "REQ-URUMQI",
+        "selection_direction": "MIN",
+        "selection_metric": "Urumqi_event_count"
+      }
+    ],
+    "runs": [
+      {
+        "current": true,
+        "input_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+        "metric_ids": [
+          "reference_altitude_rmse_deg",
+          "reference_altitude_max_abs_deg",
+          "definition_tree_angle_deg",
+          "definition_calendar_rows",
+          "scenario_event_count",
+          "Beijing_event_count",
+          "Chengdu_event_count",
+          "Guangzhou_event_count",
+          "Harbin_event_count",
+          "Kunming_event_count",
+          "Shanghai_event_count",
+          "Urumqi_event_count"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-2015-TOPOCENTRIC",
+        "scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUT-REQ-DEFINITION",
+          "OUT-REQ-VALIDATION",
+          "OUT-REQ-BEIJING",
+          "OUT-REQ-HARBIN",
+          "OUT-REQ-SHANGHAI",
+          "OUT-REQ-GUANGZHOU",
+          "OUT-REQ-KUNMING",
+          "OUT-REQ-CHENGDU",
+          "OUT-REQ-URUMQI"
+        ],
+        "supported_requirement_ids": [
+          "REQ-DEFINITION",
+          "REQ-VALIDATION",
+          "REQ-BEIJING",
+          "REQ-HARBIN",
+          "REQ-SHANGHAI",
+          "REQ-GUANGZHOU",
+          "REQ-KUNMING",
+          "REQ-CHENGDU",
+          "REQ-URUMQI"
+        ]
+      }
+    ],
+    "selection": {
+      "aggregate_objective": "Minimum predeclared JPL reference altitude RMSE selects the common coordinate model. Counts are requirement outputs, not objectives to maximize.",
+      "compatibility_checks": [
+        "INPUT",
+        "SCENARIO",
+        "CONSTRAINTS"
+      ],
+      "cross_requirement_constraints": [],
+      "limitations": [
+        "Dates are conditional on the explicit tree-angle and post-civil-twilight definitions; these are not unique historical interpretations.",
+        "JPL ephemerides are model-derived astronomical reference data, not local field observations; the reference check shares the JPL ephemeris family.",
+        "Nominal city coordinates, zero ellipsoid height, airless lunar centre, flat unobstructed horizon, UTC approximately UT1; no weather, terrain, leaf season, or human encounter probability.",
+        "The astronomical reconstruction is not a statistical prediction accuracy or a verification of the poem historical event.",
+        "Sunset uses conventional solar centre -0.833 deg; primary dusk and lunar altitude use airless centre geometry."
+      ],
+      "requirement_to_output_map": {
+        "REQ-BEIJING": [
+          "OUT-REQ-BEIJING"
+        ],
+        "REQ-CHENGDU": [
+          "OUT-REQ-CHENGDU"
+        ],
+        "REQ-DEFINITION": [
+          "OUT-REQ-DEFINITION"
+        ],
+        "REQ-GUANGZHOU": [
+          "OUT-REQ-GUANGZHOU"
+        ],
+        "REQ-HARBIN": [
+          "OUT-REQ-HARBIN"
+        ],
+        "REQ-KUNMING": [
+          "OUT-REQ-KUNMING"
+        ],
+        "REQ-SHANGHAI": [
+          "OUT-REQ-SHANGHAI"
+        ],
+        "REQ-URUMQI": [
+          "OUT-REQ-URUMQI"
+        ],
+        "REQ-VALIDATION": [
+          "OUT-REQ-VALIDATION"
+        ]
+      },
+      "requirement_to_run_map": {
+        "REQ-BEIJING": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-CHENGDU": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-DEFINITION": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-GUANGZHOU": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-HARBIN": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-KUNMING": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-SHANGHAI": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-URUMQI": [
+          "RUN-2015-TOPOCENTRIC"
+        ],
+        "REQ-VALIDATION": [
+          "RUN-2015-TOPOCENTRIC"
+        ]
+      },
+      "selection_mode": "GLOBAL_JOINT",
+      "shared_input_hashes": [
+        "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6"
+      ],
+      "shared_scenario_hashes": [
+        "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6"
+      ],
+      "tradeoff_rule": "Global minimum RMSE then ID; preserve all definitions and cities."
+    }
+  },
+  "content_hash": "ba1f833d772f51600ddbab9fc082c4a32b4ebbc769ea9bc938194bff7073ed7e",
+  "status": "ACCEPTED"
+}

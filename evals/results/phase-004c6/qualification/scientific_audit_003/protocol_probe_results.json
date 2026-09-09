@@ -1,0 +1,402 @@
+{
+  "subject": "ee0159c68aaeb1a60eba947ad73f1ed0de8b4e2a",
+  "source_hashes": {
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "a5d8fa99406e0fba0c8ad68b06eb2807addaca96b2c2ccb5a924ca4fd62fe1ae",
+    "scripts/prepare_phase004c6_development.py": "c162fb51a32a4f0bb3a0cc11d0baec8f6686b1d697aa493bd44d8decc38db2e0"
+  },
+  "method": "Static API argument-shape checks and AST-extracted helpers with explicitly synthetic dependencies. No production state/raw/results or model main read/execution.",
+  "probes": {
+    "metric_definition_codes": {
+      "2016": {
+        "q1_mean_fitted_MRE": [],
+        "q2_loco_MRE": [],
+        "q3_remaining_MRE": [],
+        "q3_remaining_min": []
+      },
+      "2015": {
+        "reference_altitude_rmse_deg": [],
+        "reference_altitude_max_abs_deg": [],
+        "definition_tree_angle_deg": [],
+        "definition_calendar_rows": [],
+        "scenario_event_count": [],
+        "Beijing_event_count": [],
+        "Harbin_event_count": [],
+        "Shanghai_event_count": [],
+        "Guangzhou_event_count": [],
+        "Kunming_event_count": [],
+        "Chengdu_event_count": [],
+        "Urumqi_event_count": []
+      }
+    },
+    "metric_units": {
+      "2016": {
+        "q1_mean_fitted_MRE": "1",
+        "q2_loco_MRE": "1",
+        "q3_remaining_MRE": "1",
+        "q3_remaining_min": "min"
+      },
+      "2015": {
+        "reference_altitude_rmse_deg": "degree",
+        "reference_altitude_max_abs_deg": "degree",
+        "definition_tree_angle_deg": "degree",
+        "definition_calendar_rows": "count",
+        "scenario_event_count": "count",
+        "Beijing_event_count": "count",
+        "Harbin_event_count": "count",
+        "Shanghai_event_count": "count",
+        "Guangzhou_event_count": "count",
+        "Kunming_event_count": "count",
+        "Chengdu_event_count": "count",
+        "Urumqi_event_count": "count"
+      }
+    },
+    "core_api_call_shapes": [
+      {
+        "function": "write_json",
+        "line": 144,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "write_json",
+        "line": 166,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_json",
+        "line": 180,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_json",
+        "line": 189,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "initialize_case",
+        "line": 192,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "write_json",
+        "line": 297,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "trusted_freezes",
+        "line": 392,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "write_json",
+        "line": 393,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_json",
+        "line": 418,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "_development_attempt_registry",
+        "line": 423,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "select_development_candidate",
+        "line": 424,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "build_captured_run_manifest",
+        "line": 430,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_json",
+        "line": 433,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "write_json",
+        "line": 554,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "artifact",
+        "line": 166,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "advance_once",
+        "line": 173,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "file_hash",
+        "line": 209,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_json",
+        "line": 295,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 422,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 194,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "file_hash",
+        "line": 197,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 203,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 275,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 277,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "file_hash",
+        "line": 317,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 331,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "utc_now",
+        "line": 339,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "file_hash",
+        "line": 350,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "metric_freeze_payload",
+        "line": 377,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "execution_policy_payload",
+        "line": 383,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "utc_now",
+        "line": 398,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "file_hash",
+        "line": 401,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_state",
+        "line": 420,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "canonical_hash",
+        "line": 431,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 434,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "utc_now",
+        "line": 557,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "canonical_hash",
+        "line": 560,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "file_hash",
+        "line": 151,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_state",
+        "line": 171,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "read_artifact",
+        "line": 261,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "file_hash",
+        "line": 328,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      },
+      {
+        "function": "load_state",
+        "line": 409,
+        "result": "ARGUMENT_SHAPE_MATCH"
+      }
+    ],
+    "proposal_claim_strength_fields": {
+      "REQ-Q1": null,
+      "REQ-Q2": null,
+      "REQ-Q3": null
+    },
+    "actual_proposal_to_conditional_validator": {
+      "REQ-Q2": {
+        "actual_proposal_codes": [
+          "RC_CONDITIONAL_PREDICTION_SCOPE_INVALID"
+        ],
+        "with_only_bounded_field_added": []
+      },
+      "REQ-Q3": {
+        "actual_proposal_codes": [
+          "RC_CONDITIONAL_PREDICTION_SCOPE_INVALID"
+        ],
+        "with_only_bounded_field_added": []
+      }
+    },
+    "synthetic_preparer_temporal_index": {
+      "codes": [],
+      "validation_count": 6,
+      "forecast": {
+        "sample_id": "S3-LAST",
+        "entity_id": "BATTERY-1",
+        "origin": 30035.0,
+        "target_time": null,
+        "target_event": "discharge voltage reaches 9 V",
+        "split": "FORECAST",
+        "target_observation_id": null,
+        "feature_observation_ids": [
+          "S3-U0",
+          "S3-U1",
+          "S3-U2",
+          "S3-U3",
+          "S3-U4",
+          "S3-U5"
+        ],
+        "preprocess_fit_observation_ids": [
+          "S0-U0",
+          "S0-U1",
+          "S0-U2",
+          "S0-U3",
+          "S0-U4",
+          "S0-U5",
+          "S0-U6",
+          "S0-U7",
+          "S1-U0",
+          "S1-U1",
+          "S1-U2",
+          "S1-U3",
+          "S1-U4",
+          "S1-U5",
+          "S1-U6",
+          "S1-U7",
+          "S2-U0",
+          "S2-U1",
+          "S2-U2",
+          "S2-U3",
+          "S2-U4",
+          "S2-U5",
+          "S2-U6",
+          "S2-U7",
+          "S3-U0",
+          "S3-U1",
+          "S3-U2",
+          "S3-U3",
+          "S3-U4",
+          "S3-U5"
+        ],
+        "model_fit_observation_ids": [
+          "S0-U0",
+          "S0-U1",
+          "S0-U2",
+          "S0-U3",
+          "S0-U4",
+          "S0-U5",
+          "S0-U6",
+          "S0-U7",
+          "S1-U0",
+          "S1-U1",
+          "S1-U2",
+          "S1-U3",
+          "S1-U4",
+          "S1-U5",
+          "S1-U6",
+          "S1-U7",
+          "S2-U0",
+          "S2-U1",
+          "S2-U2",
+          "S2-U3",
+          "S2-U4",
+          "S2-U5",
+          "S2-U6",
+          "S2-U7",
+          "S3-U0",
+          "S3-U1",
+          "S3-U2",
+          "S3-U3",
+          "S3-U4",
+          "S3-U5"
+        ]
+      },
+      "method": "Frozen temporal_index executed with in-memory synthetic workbook; no actual workbook opened; source hash is explicit placeholder."
+    },
+    "selected_domain_gate": {
+      "valid": "ACCEPTED",
+      "infeasible": "RC_FINAL_SELECTED_DOMAIN_NOT_VERIFIED:R",
+      "failed_residual": "RC_FINAL_SELECTED_DOMAIN_NOT_VERIFIED:R"
+    },
+    "budget_unit_accounting": {
+      "first_four_checker_reservations": "ACCEPTED",
+      "fifth_checker_reservation": "RC_EXECUTION_BUDGET_EXHAUSTED:independent_checker_starts",
+      "final_reservation_after_checker_exhaustion": "ACCEPTED",
+      "actual_model_checker_final_processes_started": 0,
+      "interpretation": "Counters enforce their own limits; Final-slot consumption has no checker-capacity preflight. These are synthetic reservations, not evidence of numerical execution."
+    },
+    "voltage_prefix_equivalence_boundary": {
+      "descending_grid": "filter(voltage>=cut) equals first count rows",
+      "unsorted_example_grid": [
+        10.0,
+        9.6,
+        9.95,
+        9.85
+      ],
+      "cut": 9.9,
+      "index_filter_positions": [
+        0,
+        2
+      ],
+      "producer_count_prefix_positions": [
+        0,
+        1
+      ],
+      "scope": "Ordering assumption must be checked before actual preparation; no claim actual workbook is unsorted."
+    }
+  }
+}

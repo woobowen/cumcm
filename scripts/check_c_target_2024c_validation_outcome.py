@@ -334,7 +334,7 @@ def validate_delivery(freeze: dict[str, Any]) -> list[str]:
         or record.get("validation_decision") != EXPECTED_DECISION
         or record.get("same_case_future_role") != "DEVELOPMENT_ONLY"
         or not isinstance(registered_freeze, dict)
-        or registered_freeze.get("path") != str(FREEZE_PATH.relative_to(ROOT))
+        or registered_freeze.get("path") != FREEZE_PATH.relative_to(ROOT).as_posix()
         or registered_freeze.get("sha256") != file_hash(FREEZE_PATH)
         or registered_freeze.get("payload_sha256") != freeze.get("freeze_payload_sha256")
         or registered_freeze.get("freeze_commit") != receipt.get("freeze_commit")

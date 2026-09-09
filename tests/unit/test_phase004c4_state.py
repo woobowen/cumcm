@@ -14,7 +14,7 @@ def _load(path):
 def test_phase004c4_fresh_validation_state_is_schema_valid_and_preserves_blocked_history(
     repo_root,
 ) -> None:
-    state = _load(repo_root / "state/project_state.json")
+    state = _load(repo_root / "evals/results/phase-004c5/qualification/predecessor_state.json")
     schema = _load(repo_root / "contracts/project_state.schema.json")
 
     Draft202012Validator(schema).validate(state)
@@ -60,7 +60,9 @@ def test_phase004c4_fresh_validation_state_is_schema_valid_and_preserves_blocked
     ],
 )
 def test_phase004c4_fresh_validation_state_mutations_fail_closed(repo_root, field, value) -> None:
-    state = copy.deepcopy(_load(repo_root / "state/project_state.json"))
+    state = copy.deepcopy(
+        _load(repo_root / "evals/results/phase-004c5/qualification/predecessor_state.json")
+    )
     schema = _load(repo_root / "contracts/project_state.schema.json")
     state[field] = value
 

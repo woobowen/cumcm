@@ -5,8 +5,11 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 MATRIX = Path("evals/results/phase-004c4/frozen_adversarial_controller_probe_matrix.json")
 PROBES = {
@@ -85,7 +88,16 @@ def test_frozen_adversarial_probe_matrix_is_complete_and_hash_bound(repo_root) -
     assert [item["probe_id"] for item in matrix["probes"]] == list(PROBES)
     assert (
         matrix["test_sha256"]
-        == hashlib.sha256((repo_root / matrix["test_file"]).read_bytes()).hexdigest()
+        == hashlib.sha256(
+            subprocess.check_output(
+                [
+                    "git",
+                    "show",
+                    "604c7facda586cecb6785c44949f0cd1217cd297:" + matrix["test_file"],
+                ],
+                cwd=repo_root,
+            )
+        ).hexdigest()
     )
     assert (
         matrix["auditor_report_sha256"]
@@ -169,14 +181,22 @@ def test_rejected_portfolio_does_not_seal_manifests(repo_root, tmp_path) -> None
     assert not list(case.glob("runs/*/manifest.json"))
 
 
-def test_scenario_hash_must_be_bound_by_execution_capture_and_manifest(repo_root, tmp_path) -> None:
+@pytest.mark.parametrize("forge_explicit_plan", [False, True])
+def test_scenario_hash_must_be_bound_by_execution_capture_and_manifest(
+    repo_root, tmp_path, forge_explicit_plan
+) -> None:
+    # The original matrix remains bound to its historical test bytes above.
+    # Scenario/v2 additionally rejects an invalid explicit plan during manifest
+    # preview, and a forged proposal against a valid plan at portfolio comparison.
     neutral, frozen = _builders(repo_root, tmp_path.name)
     core, case = neutral._build_portfolio_case(repo_root, tmp_path)
     forged = "c" * 64
     plan = core.read_artifact(case, "experiment_plan")["content"]
     selection = core.read_artifact(case, "requirement_selection")["content"]
     semantic = core.read_artifact(case, "semantic_claim_support")["content"]
-    plan["scenario_hash"] = forged
+    if forge_explicit_plan:
+        plan["scenario_hash"] = forged
+    captured_before = {p: core.file_hash(p) for p in case.glob("runs/*/execution_capture.json")}
     selection["selection"]["shared_scenario_hashes"] = [forged]
     for run in selection["runs"]:
         run["scenario_hash"] = forged
@@ -194,11 +214,22 @@ def test_scenario_hash_must_be_bound_by_execution_capture_and_manifest(repo_root
     completed, _ = neutral._run_controller(repo_root, case)
     _assert_structured_block(
         completed,
-        gate_id=PROBES["AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND"][0],
-        reason_code=PROBES["AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND"][1],
+        gate_id=(
+            "GATE_COMPARISON_SELECTION"
+            if forge_explicit_plan
+            else PROBES["AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND"][0]
+        ),
+        reason_code=(
+            "RC_SCENARIO_HASH_CONTENT_MISMATCH"
+            if forge_explicit_plan
+            else "RC_SELECTION_PORTFOLIO_HASH_MISMATCH"
+        ),
         core=core,
         case=case,
     )
+    assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
+    assert captured_before == {p: core.file_hash(p) for p in captured_before}
 
 
 def test_policy_claim_requires_run_output_policy_evidence(repo_root, tmp_path) -> None:

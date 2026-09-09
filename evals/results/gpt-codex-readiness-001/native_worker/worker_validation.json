@@ -1,0 +1,54 @@
+{
+  "checks": {
+    "work_report_exact_template_keys": true,
+    "work_report_template_value_types": true,
+    "request_bound_identity": true,
+    "proposal_is_content_only": true,
+    "baseline_and_candidate": true,
+    "same_requirement_coverage": true,
+    "no_selected_candidate": true,
+    "proposal_source_paths_match_visible_case_sources": true,
+    "artifact_case_relative_destination": true,
+    "human_review_not_run": true,
+    "startup_payload_integrity": true,
+    "startup_no_case": true,
+    "m06_payload_and_binding_integrity": true,
+    "arithmetic_constants_match_actual_inputs": true,
+    "arithmetic_current_minimum": true,
+    "arithmetic_distinguishing_example": true,
+    "arithmetic_source_current": true,
+    "all_worker_json_parse": true,
+    "all_worker_jsonl_parse": true,
+    "all_self_authored_scripts_syntax": true,
+    "all_local_markdown_links_resolve": true
+  },
+  "all_passed": true,
+  "local_markdown_link_count": 28,
+  "json_files_parsed": [
+    "STARTUP_RAW_FINDINGS.json",
+    "archive_inventory.json",
+    "initial_commands.json",
+    "limited_arithmetic_output.json",
+    "m06_inventory.json",
+    "m06_verification.json",
+    "model_candidates.proposal.json",
+    "verification.json",
+    "work-report.proposal.json"
+  ],
+  "scripts_syntax_checked": [
+    "audit_m06.py",
+    "audit_package.py",
+    "limited_arithmetic.py",
+    "validate_worker_outputs.py",
+    "verify_m06.py"
+  ],
+  "jsonl_record_counts_before_this_record": {
+    "command_log.jsonl": 6,
+    "m06_command_log.jsonl": 5
+  },
+  "proposal_hashes": {
+    "model_candidates.proposal.json": "b397aa418aa3276e8fc45faefa9a10ad063722c5292fea56d7017706f231a715",
+    "work-report.proposal.json": "548f25d691a0dcd8d9147898364b814ed7d157fa80e8bb6409319c3a344fc08c"
+  },
+  "scope": "Worker outputs and explicitly supplied package bytes only; no native case contract or current-state verification."
+}

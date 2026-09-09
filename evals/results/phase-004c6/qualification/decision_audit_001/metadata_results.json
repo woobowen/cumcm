@@ -1,0 +1,156 @@
+{
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "decision_sha256": "c27c464858f0738807945cdd2acb4500669e2153d496a77538d6b6f837aed625",
+  "status": "PASS",
+  "assertions": 1829,
+  "failed": [],
+  "receipts": [
+    {
+      "kind": "focused_tests",
+      "status": "PASS",
+      "evidence_count": 2,
+      "command_count": 1
+    },
+    {
+      "kind": "full_ci",
+      "status": "PASS",
+      "evidence_count": 1,
+      "command_count": 1
+    },
+    {
+      "kind": "strict",
+      "status": "PASS",
+      "evidence_count": 1,
+      "command_count": 1
+    },
+    {
+      "kind": "neutral_spec_results",
+      "status": "PASS",
+      "evidence_count": 3
+    },
+    {
+      "kind": "native_protocol_review",
+      "status": "PASS",
+      "evidence_count": 4
+    },
+    {
+      "kind": "native_result_review",
+      "status": "FAIL",
+      "evidence_count": 6
+    },
+    {
+      "kind": "development_results",
+      "status": "PASS",
+      "evidence_count": 4
+    },
+    {
+      "kind": "historical_subjects",
+      "status": "PASS",
+      "evidence_count": 1,
+      "command_count": 1
+    }
+  ],
+  "development": [
+    {
+      "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+      "status": "FAILED",
+      "actual_starts": {
+        "final_starts": 0,
+        "independent_checker_starts": 3,
+        "model_cli_starts": 2
+      },
+      "actual_model_cli_requests": 4,
+      "preprocess_rejections": 2,
+      "artifact_bindings": 35,
+      "scenario_defaults": [
+        "6125b5fb0afcd5caedafcc374f9b21f0450832e51e1e33e1f362328ee5aa171f"
+      ],
+      "gate_sequence": [
+        [
+          "GATE_PROBLEM_REQUIREMENT",
+          "PASS"
+        ],
+        [
+          "GATE_SOURCE_EVIDENCE",
+          "PASS"
+        ],
+        [
+          "GATE_DATA_SUFFICIENCY_PREFLIGHT",
+          "PASS"
+        ],
+        [
+          "GATE_COMPARISON_SELECTION",
+          "PASS"
+        ],
+        [
+          "GATE_RUN_ELIGIBILITY",
+          "PASS"
+        ],
+        [
+          "GATE_COMPATIBILITY_PORTFOLIO",
+          "BLOCK"
+        ]
+      ]
+    },
+    {
+      "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+      "status": "FAILED",
+      "actual_starts": {
+        "final_starts": 0,
+        "independent_checker_starts": 3,
+        "model_cli_starts": 2
+      },
+      "actual_model_cli_requests": 4,
+      "preprocess_rejections": 2,
+      "artifact_bindings": 35,
+      "scenario_defaults": [
+        "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6"
+      ],
+      "gate_sequence": [
+        [
+          "GATE_PROBLEM_REQUIREMENT",
+          "PASS"
+        ],
+        [
+          "GATE_SOURCE_EVIDENCE",
+          "PASS"
+        ],
+        [
+          "GATE_DATA_SUFFICIENCY_PREFLIGHT",
+          "PASS"
+        ],
+        [
+          "GATE_COMPARISON_SELECTION",
+          "PASS"
+        ],
+        [
+          "GATE_RUN_ELIGIBILITY",
+          "PASS"
+        ],
+        [
+          "GATE_COMPATIBILITY_PORTFOLIO",
+          "BLOCK"
+        ]
+      ]
+    }
+  ],
+  "clock_observations": [
+    {
+      "kind": "focused_tests",
+      "utc_span_seconds": 50.782317,
+      "recorded_monotonic_seconds": 49.23137510599918,
+      "note": "Both clocks are recorded; no fabricated repair or throughput claim."
+    },
+    {
+      "kind": "full_ci",
+      "utc_span_seconds": 656.550844,
+      "recorded_monotonic_seconds": 639.9027430790011,
+      "note": "Both clocks are recorded; no fabricated repair or throughput claim."
+    }
+  ],
+  "limitations": [
+    "Read-only metadata/hash/source audit. No model, scientific checker, Final or full CI rerun.",
+    "Native7 actual calls are corroborated by recorded tool entries and source log digest; no external scheduler attestation.",
+    "Global terminal state and remote delivery are not covered."
+  ]
+}

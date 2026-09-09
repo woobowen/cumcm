@@ -1,0 +1,112 @@
+{
+  "schema_version": "phase-004c6-native-decision-audit/v1",
+  "mechanism": "NATIVE_READ_ONLY_DECISION_AUDITOR",
+  "actual_agent_task": "/root/decision_audit_rc9",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "decision_sha256": "c27c464858f0738807945cdd2acb4500669e2153d496a77538d6b6f837aed625",
+  "candidate_sha256": "dea0eb8b3597129ccf73532c15e1dd884e1f5e3d99a909eed4ae6bcf93e71023",
+  "status": "PASS_FOR_REJECTION",
+  "audit_status": "PASS",
+  "candidate_acceptance_status": "FAIL",
+  "effective_acceptance": false,
+  "review_scope": "EXISTING_REJECTED_R2_DECISION_AND_FROZEN_EVIDENCE_ONLY",
+  "reviewed_at": "2026-09-09T04:28:12.912186+00:00",
+  "blocking_objections_to_rejection": [],
+  "candidate_blockers_preserved": [
+    "R7-001: missing scenario defaults disagree across executor/controller/core"
+  ],
+  "reason_codes": [
+    "RC9_NATIVE_REVIEW_INSUFFICIENT:native_result_review",
+    "RC9_RECEIPT_NOT_PASS:native_result_review"
+  ],
+  "actual_command_count": 2,
+  "actual_command_count_scope": "Timed evidence-bearing validation subprocesses in commands.json; preliminary read/inspection/authoring tool calls are excluded, not claimed as zero.",
+  "actual_candidate_checker_replays": 1,
+  "actual_independent_metadata_audit_runs": 1,
+  "metadata_assertions_passed": 1829,
+  "new_case_model_starts": 0,
+  "new_case_scientific_checker_starts": 0,
+  "new_case_final_starts": 0,
+  "full_ci_executions_by_auditor": 0,
+  "decision_replay_equal": true,
+  "input_hashes_unchanged_after_replay": true,
+  "old_validation": {
+    "passed": 0,
+    "total": 2
+  },
+  "new_independent_validation": 0,
+  "evidence": [
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/REVIEW.md",
+      "sha256": "445984c8a56cf2d4e7cc41bef6f4231b4cbb41da496ef323e462932f81493f60"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/commands.json",
+      "sha256": "f4b3a0ea15917b76b1651ddcd0bc46e10a53b396c2368d1c75d63fd6d4713db9"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/audit_metadata.py",
+      "sha256": "1e7904a85677b9eb02fbd9dbf5d698d98fc4fdbdb7868e73bac875d9dcd6c614"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/metadata_results.json",
+      "sha256": "c0a8ca64df6fab80f036541a5379d906c46908c8a0bee38ee42c3f5e8ecb9afe"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/metadata_checks.json",
+      "sha256": "5f788eeaa7598ee9356b8dc2d37087984fcd1488cd961009d2365522b2d2ca75"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/candidate_replay.stdout",
+      "sha256": "720908b815b13786dc67b6771dac34dd8f21de15dba9b9c60673581601262258"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/candidate_replay.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/metadata_audit.stdout",
+      "sha256": "c0a8ca64df6fab80f036541a5379d906c46908c8a0bee38ee42c3f5e8ecb9afe"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/metadata_audit.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/supplement_binding_checks.json",
+      "sha256": "4ee5c84065d53a18af0e7e672a58da8e2b4955e8a0478e51b7cd6669487edbef"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/initial_read_error.txt",
+      "sha256": "acbb98f43aad4772947c7f120835259062dbaba093274924baf780182561ad8d"
+    },
+    {
+      "path": ".cache/pr12-rc9/decision-auditor-001/inspection_error_observation.json",
+      "sha256": "730f13418180a2928a0e4baa09c8b1d63d7e3a6c8e3167365623ac62bcda1389"
+    }
+  ],
+  "clarifications": [
+    {
+      "path": "evals/results/phase-004c6/qualification/rejected_r2/timing_clarification.json",
+      "sha256": "992126e9e76f59ef9fe1e4a3f6912f9578d54f5fa4a74a2e589e4de2a7d19903"
+    },
+    {
+      "path": "evals/results/phase-004c6/qualification/rejected_r2/protocol_review_scope_clarification.json",
+      "sha256": "6b185b69f74bdbd356821b70a8f35a351dc2dde132b558f9ef549484d661eac3"
+    }
+  ],
+  "limitations": [
+    "PASS audits rejection only; it is not candidate acceptance, RC9 activation, or semantic/Final/handoff acceptance.",
+    "Original protocol006 audit scope is VERSION_PLAN_TARGET_REGISTRATION_PREPARATION_DIFF_ONLY; actual r2 registration/root readiness was not audited by that role.",
+    "Original adjudication elapsed_seconds mixes first adjudication and later replay/recording; exact missing timings remain UNKNOWN; original bytes preserved.",
+    "Existing focused/full-CI UTC and monotonic durations differ; both preserved and no exact throughput/cost claim made.",
+    "No independent scientific model recalculation, original problem/raw data/answer/vault access, or external truth review.",
+    "Final global state, generated reports, subsequent full CI, commit/push and remote SHA are outside scope."
+  ],
+  "environment_changes": {
+    "system_packages": [],
+    "language_packages": [],
+    "toolchains": [],
+    "global_configuration": []
+  }
+}

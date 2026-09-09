@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-09-08T22:28:14.905449+00:00",
+  "current_cli_state": "RUN_VALIDATED",
+  "bound_files": {
+    "evidence/selected_configuration_lock.json": "303d191706a980541d0ee3e15d9e14dedfb9b3196d8a8dca2fe8a92c788a7473",
+    "runs/RUN-2015-GEOCENTRIC/execution_capture.json": "8bd1baf2947b0476d1fa26a2c2681edf260eb5e14c576183089712f3490c65a0",
+    "runs/RUN-2015-GEOCENTRIC/scientific_check_capture.json": "b5f55d388c7d689c3adf32f6181fcb498cb175f869a0b1e42d0cab0ffb65e93b",
+    "runs/RUN-2015-GEOCENTRIC/scientific_check.json": "d056ab3b49527f115f6e9ed6592c40de1cbe03e1aeba27f58da0a2e5f568a155",
+    "runs/RUN-2015-GEOCENTRIC/manifest.json": "c9113972e9f22cf5d59dc0fb8ae8acd2f562cb773bde2f80fcce07eb9115cb20",
+    "runs/RUN-2015-GEOCENTRIC/output.json": "8ff2cfd00c186241ec608b7cd73f637a4161ed94b0b3d86c8e39f278eb16be95",
+    "runs/RUN-2015-TOPOCENTRIC/execution_capture.json": "12ec5813646b5f6fd9507d12aaed23b029d1a73a3f6d538c9181853791b30b44",
+    "runs/RUN-2015-TOPOCENTRIC/scientific_check_capture.json": "b5d38f7c37c9d27f757a4f5ebb01f846e74a557b05b91155e3d993c2dd51d3ca",
+    "runs/RUN-2015-TOPOCENTRIC/scientific_check.json": "ac8710e4caf35a1d6085ded7d7a247b386e36339954d5170cbbda145a3455b1b",
+    "runs/RUN-2015-TOPOCENTRIC/manifest.json": "85a4b52d610ef845804a0c93dc749055b3b59b0e31a4b6c5c3d0c354f07ffcff",
+    "runs/RUN-2015-TOPOCENTRIC/output.json": "8ad25d36aa0c62149ee72dd26ebdbe55f58416c572aaf8f2350ef0eac1de2f17"
+  },
+  "actual_scientific_steps": {
+    "model_comparison": "Two real captured RMSE values, selected/configuration locked by preregistered argmin.",
+    "robustness": "All five frozen perturbations present in both hash-bound actual outputs; independent development checker reconstructed all dates/windows and exact counts.",
+    "formal_comparison_gate": "NOT_YET_ACCEPTED",
+    "formal_robustness_gate": "NOT_YET_ACCEPTED"
+  },
+  "frozen_core_ordering_limit": "validate_comparison NONPREDICTIVE_FINAL_VERIFICATION requires scientific_verification_count=1; hence formal comparison/robustness acceptance follows actual numerical Final verification. Actual completed scientific steps and formal Gate acceptance timestamps are distinct.",
+  "final_ledger_exists_before": false,
+  "final_authorizations_consumed_before": 0,
+  "main_routing_authorization": "Keep frozen controller bytes and execute original finish once; no parallel manual controller, fake count, threshold change or automatic PASS. Independent terminal reviewer will assess this limitation.",
+  "no_model_or_config_changes": true
+}

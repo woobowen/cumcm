@@ -1,0 +1,245 @@
+{
+  "actual_agent_task": "/root/workbench_protocol_review",
+  "actual_tool_record": {
+    "path": "evals/results/modular-workbench-001/native_review/round-08/actual_tool_record.json",
+    "sha256": "6ef10691c60e633e0bfccc03dd21d0b372fc15dcf1d691e0f7472e32253d80ae"
+  },
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-08/resolver_semantics.py"
+      ],
+      "ended_at": "2026-09-09T10:18:43.690574+00:00",
+      "exit_code": 0,
+      "result": {
+        "argv": [
+          ".venv/bin/python",
+          "-B",
+          ".cache/modular-workbench-001/protocol-review/round-08/resolver_semantics.py"
+        ],
+        "ended_utc": "2026-09-09T10:18:43.690574+00:00",
+        "results": {
+          "artifact_whitespace_invariant": true,
+          "initial_scenario_hash": "d3170e82d6ccc4e9f33057cbe8f6ebe542f28d8135b3e8ca3e982aef4adfb247",
+          "old_scenario_reuse_guard": {
+            "exception": "ValueError",
+            "message": "RC_EXECUTION_CAPTURE_SCENARIO_STALE"
+          },
+          "reordered_declared_scope_hash": "d3170e82d6ccc4e9f33057cbe8f6ebe542f28d8135b3e8ca3e982aef4adfb247",
+          "requirement_array_order_bound": true,
+          "requirement_artifact_reformatted_hash": "d3170e82d6ccc4e9f33057cbe8f6ebe542f28d8135b3e8ca3e982aef4adfb247",
+          "reversed_requirement_array_hash": "57abff2c8c93d7acdd5f33e1e205b55091333d9deed395879d80d738a0568916",
+          "scope_set_order_invariant": true
+        },
+        "scope": {
+          "Final": 0,
+          "Git_mutations": 0,
+          "case_state_rebinding_executed": false,
+          "full_CI": 0,
+          "known_reads": 0,
+          "network": 0,
+          "original_minimal_artifact_fixture": true,
+          "public_writes": 0,
+          "real_capture_created": false,
+          "scientific_checkers": 0,
+          "scientific_models": 0
+        },
+        "source_after": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+        "source_before": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+        "started_utc": "2026-09-09T10:18:43.650959+00:00"
+      },
+      "started_at": "2026-09-09T10:18:43.650959+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-08/runtime_identity.py"
+      ],
+      "ended_at": "2026-09-09T10:20:58.694180+00:00",
+      "exit_code": 0,
+      "result": {
+        "argv": [
+          ".venv/bin/python",
+          "-B",
+          ".cache/modular-workbench-001/protocol-review/round-08/runtime_identity.py"
+        ],
+        "ended_utc": "2026-09-09T10:20:58.694180+00:00",
+        "executed_subject_argument": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+        "head_observed": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+        "read_files_after": {
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+          ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+          "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62",
+          "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+          "scripts/check_modular_workbench.py": "d919558d71235b8bce606dbfa4d98f8b6403c6e1ce1168c30cd8197d7ae7005f",
+          "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+          "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+          "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011"
+        },
+        "read_files_before": {
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+          ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+          "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62",
+          "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+          "scripts/check_modular_workbench.py": "d919558d71235b8bce606dbfa4d98f8b6403c6e1ce1168c30cd8197d7ae7005f",
+          "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+          "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+          "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011"
+        },
+        "results": {
+          "actual_import_and_copied_code_paths_included": {
+            ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": true,
+            ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": true,
+            ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": true,
+            "evals/results/modular-workbench-001/known_code/check.py": true,
+            "evals/results/modular-workbench-001/known_code/produce.py": true,
+            "scripts/finalize_fresh_c_validation.py": true,
+            "scripts/prepare_phase004c6_development.py": true,
+            "scripts/prepare_workbench_known.py": true
+          },
+          "candidate_file_count": 826,
+          "current_working_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+          "executed_map_equals_current_runtime_bytes": true,
+          "executed_map_equals_head_map": true,
+          "executed_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+          "head_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+          "neutral_test_in_full_candidate_map": true,
+          "qualification_code_excluded_from_runtime": true,
+          "qualification_code_in_full_candidate_map": true,
+          "runtime_file_count": 346,
+          "test_files_excluded_from_runtime": true
+        },
+        "scope": {
+          "Final": 0,
+          "Git_mutations": 0,
+          "Git_read_only": true,
+          "known_inputs_or_numeric_results_read": false,
+          "mapped_public_Git_blobs_hashed_only": true,
+          "network": 0,
+          "prepare_model_checker_not_imported_or_run": true,
+          "public_writes": 0,
+          "qualification_acceptance": false,
+          "scientific_checkers": 0,
+          "scientific_models": 0,
+          "scope_limit": "Source-code identity only; no claim about external dependency/environment equality or completed known result."
+        },
+        "started_utc": "2026-09-09T10:20:56.990349+00:00"
+      },
+      "started_at": "2026-09-09T10:20:56.990349+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-08/runtime_identity.py"
+      ],
+      "ended_at": "2026-09-09T10:22:43.667684+00:00",
+      "exit_code": 0,
+      "result": {
+        "argv": [
+          ".venv/bin/python",
+          "-B",
+          ".cache/modular-workbench-001/protocol-review/round-08/runtime_identity.py"
+        ],
+        "ended_utc": "2026-09-09T10:22:43.667684+00:00",
+        "executed_subject_argument": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+        "head_observed": "929d2874e711ca4dd58484555009b028555898a3",
+        "read_files_after": {
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+          ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+          "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62",
+          "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+          "scripts/check_modular_workbench.py": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c",
+          "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+          "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+          "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011"
+        },
+        "read_files_before": {
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+          ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+          ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+          "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62",
+          "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+          "scripts/check_modular_workbench.py": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c",
+          "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+          "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+          "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011"
+        },
+        "results": {
+          "actual_import_and_copied_code_paths_included": {
+            ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": true,
+            ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": true,
+            ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": true,
+            "evals/results/modular-workbench-001/known_code/check.py": true,
+            "evals/results/modular-workbench-001/known_code/produce.py": true,
+            "scripts/finalize_fresh_c_validation.py": true,
+            "scripts/prepare_phase004c6_development.py": true,
+            "scripts/prepare_workbench_known.py": true
+          },
+          "candidate_file_count": 828,
+          "current_working_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+          "executed_map_equals_current_runtime_bytes": true,
+          "executed_map_equals_head_map": true,
+          "executed_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+          "head_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+          "neutral_test_in_full_candidate_map": true,
+          "qualification_code_excluded_from_runtime": true,
+          "qualification_code_in_full_candidate_map": true,
+          "runtime_file_count": 346,
+          "test_files_excluded_from_runtime": true
+        },
+        "scope": {
+          "Final": 0,
+          "Git_mutations": 0,
+          "Git_read_only": true,
+          "known_inputs_or_numeric_results_read": false,
+          "mapped_public_Git_blobs_hashed_only": true,
+          "network": 0,
+          "prepare_model_checker_not_imported_or_run": true,
+          "public_writes": 0,
+          "qualification_acceptance": false,
+          "scientific_checkers": 0,
+          "scientific_models": 0,
+          "scope_limit": "Source-code identity only; no claim about external dependency/environment equality or completed known result."
+        },
+        "started_utc": "2026-09-09T10:22:40.417484+00:00"
+      },
+      "started_at": "2026-09-09T10:22:40.417484+00:00"
+    }
+  ],
+  "implementation_hash": "SET_AT_FROZEN_QUALIFICATION",
+  "material_open_findings": [],
+  "overall_scientific_or_release_acceptance": "NOT_CLAIMED_BY_PROTOCOL_REVIEWER",
+  "previous_closed_scopes": [
+    "round06-Q05",
+    "round07-Q03"
+  ],
+  "read_files": {
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+    ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+    "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62",
+    "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+    "rules/workflow_rules.yaml": "d9a4ad87a7b798d133714bec940aaf672b02af0633b8f34d11cae0a22a833b50",
+    "scripts/check_modular_workbench.py": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c",
+    "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+    "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+    "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011",
+    "tests/integration/test_actual_controller_black_box.py": "284114efb085b052b31fcc985b642f5efc383ce1e054cf757ebf8ac2744fe2cd",
+    "tests/integration/test_actual_controller_neutral_e2e.py": "c6d9e45652d25eb886f8ad5bd96e110954d86e6c53ca4b24f8b712d3a3033b95",
+    "tests/integration/test_p0_01_finalization_hf22_reproduction.py": "a28e5c6a666d6bfc229501516f5234af56a25997d8b051d80f9731fed839fe1a",
+    "tests/integration/test_workbench_scenario.py": "2d1a24cd1fddd53b7990c7ed9cc09af7b6d64a9f7d8e4c314ae349be7fdb51ef"
+  },
+  "read_files_scope": "Frozen implementation subset of actual native read catalogue; full read catalogue and historical observations retained in actual_tool_record. Mutable plan/checkpoint is not an implementation input.",
+  "review_report": {
+    "path": "evals/results/modular-workbench-001/native_review/round-08/REVIEW.md",
+    "sha256": "632fad3d505e5a0474cabe49f8d96137a52064f20a59a17994e2ca5f79a66c02"
+  },
+  "schema_version": "workbench-native-review/v1"
+}

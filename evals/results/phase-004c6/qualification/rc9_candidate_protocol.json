@@ -1,0 +1,63 @@
+{
+  "schema_version": "phase-004c6-rc9-protocol/v1",
+  "candidate_id": "CANDIDATE-COMPETITION-RC9-004C6",
+  "phase": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+  "target_versions": {
+    "project": "0.3.0-competition-rc9",
+    "skill": "0.2.0-competition-rc9"
+  },
+  "accepted_scope": "LIMITED_RESEARCH_AND_POSTVALIDATION_DEVELOPMENT_ONLY",
+  "distribution_version": "0.2.3",
+  "history_subject": "bcf498907cbf282e2c79580ea56b043fc1a7b52b",
+  "rc8_subject": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+  "old_validation_passed": 0,
+  "old_validation_total": 2,
+  "new_independent_validation": 0,
+  "required_receipts": [
+    "focused_tests",
+    "full_ci",
+    "strict",
+    "neutral_spec_results",
+    "native_protocol_review",
+    "native_result_review",
+    "development_results",
+    "historical_subjects"
+  ],
+  "minimum_focused_passed": 40,
+  "minimum_full_pytest_passed": 2153,
+  "whole_development_scientific_pass_required": false,
+  "all_scientific_limits_and_negative_outcomes_required": true,
+  "required_development_cases": [
+    "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+    "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007"
+  ],
+  "implementation_prefixes": [
+    ".agents/skills/cumcm-modeling-evidence",
+    "src",
+    "scripts",
+    "contracts",
+    "rules",
+    "tests"
+  ],
+  "implementation_files": [
+    "VERSION",
+    "CHANGELOG.md",
+    "pyproject.toml"
+  ],
+  "case_code_prefixes": [
+    "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/code",
+    "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/code"
+  ],
+  "functional_candidate_limit": 2,
+  "subject_then_receipts_then_decision_then_auditor_then_activation": true,
+  "activation_changes_implementation": false,
+  "native_decision_auditor_required": true,
+  "development_minimum_model_cli_starts": 1,
+  "development_minimum_independent_checker_starts": 1,
+  "final_required_only_for_scoped_complete": true,
+  "negative_terminal_registration_does_not_require_qualification_minimums": true,
+  "pre_execution_clarification": {
+    "recorded_at": "2026-09-09T03:17:22.128426+00:00",
+    "basis": "User requires at least one numerical process and independent checker for each new Development. Failed terminals with fewer starts remain recordable but do not satisfy task qualification; no Final is started to meet a count after scientific rejection. No child process has started."
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "argv": [
+    "models/runtime_model.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "BASE",
+    "--seed",
+    "20260906",
+    "--output",
+    "runs/RUN-BASE-20260906/output.json"
+  ],
+  "candidate_id": "BASE",
+  "capture_mode": "CONTROLLED_CASE_SUBPROCESS",
+  "code_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384"
+    },
+    {
+      "path": "scripts/synthetic_cases.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62"
+    },
+    {
+      "path": "models/runtime_model.py",
+      "repository_path": "CASE_GIT/218dd47e4a0ad2f670e743da90c384efcfc42b05/models/runtime_model.py",
+      "scope": "CASE_ROOT",
+      "sha256": "b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4"
+    },
+    {
+      "path": "models/independent_check.py",
+      "repository_path": "CASE_GIT/218dd47e4a0ad2f670e743da90c384efcfc42b05/models/independent_check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0"
+    }
+  ],
+  "configuration": {
+    "candidate_id": "BASE",
+    "seed": 20260906
+  },
+  "configuration_hash": "8ea23df3cc6fd3a2f81871e938570d08d46eed4a875d6e50f95247e47814b874",
+  "elapsed_seconds": 0.031951,
+  "ended_at": "2026-09-09T10:55:22Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20260906",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "2bc2ab82efc889dee4e371f40002d01a88cd26f8383a0f7da31cdafbdc5f90ff",
+    "candidate_set": "ac8c25d2fb89ca774157b16e32e7c5d5801a90bd5ddebfbba802f41112a2f116",
+    "code_commit": "d2ad43821b66647de5d9c2e979353d3f4bec17faaeca3981fb9fe582cbb4fa03",
+    "code_set": "91a583228edbe9969297cbbd67b3464555175ec6aff4d83a48917b8a1398fe75",
+    "execution_policy": "54d47e0ec7c308f06ff3fff98a56e3212fb06694829fa407a9d4e5a1487a752b",
+    "input_set": "81886aaaab1dd25127550c454d284d1a135db1bcc7ac6e8e77fe30f1f918cf51",
+    "metric": "f1f3553236a3d330b455da3731ad3649ed4dc51fc549c994050c2cab6ecdc76a",
+    "seed_schedule": "321b07634b30073793fd5ea82582608e2c64e9dc85f28cf82d2b789a899c3617",
+    "split_assignment": "17a728d1da7f91022a038b527414894bb63aaf483a3aca4d35670253d661bab7"
+  },
+  "input_files": [
+    {
+      "path": "data/raw/input.json",
+      "sha256": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2"
+    }
+  ],
+  "outcome": "SUCCESS",
+  "output": {
+    "path": "runs/RUN-BASE-20260906/output.json",
+    "sha256": "4635f933cf35ff7001770547e31b4b09c697ce1be607e57a793c7a638f31b202"
+  },
+  "run_id": "RUN-BASE-20260906",
+  "runner_version": "0.2.0-competition-rc10",
+  "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+  "schema_version": "1.0.0",
+  "seed": 20260906,
+  "started_at": "2026-09-09T10:55:22Z",
+  "stderr": {
+    "path": "runs/RUN-BASE-20260906/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "runs/RUN-BASE-20260906/stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

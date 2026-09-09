@@ -1,0 +1,38 @@
+{
+  "schema_version": "phase-004c5-post-activation-ci-observation/v1",
+  "observed_at": "2026-09-08T21:01:59.742904+00:00",
+  "subject_commit": "44c5ebd58b403b573755c7b6d2415a61381bfb1e",
+  "remote_ci": {
+    "url": "https://github.com/woobowen/cumcm/actions/runs/34276913450",
+    "status": "FAILURE",
+    "pytest_passed": 2151,
+    "pytest_failed": 2,
+    "pytest_skipped": 1,
+    "duration_seconds": 381.49,
+    "raw_log_sha256": "fdf0d28da173a979ec15635067ee8175af78331b51c310f5ec5ec6530591c2a5"
+  },
+  "failures": [
+    {
+      "test": "tests/unit/test_competition_rc_development_eval.py::test_case_registry_declares_required_training_fields",
+      "reason": "Historical test fixes registry case count and IDs to eight. New registered 2016 case makes actual count nine.",
+      "status": "OPEN_FROZEN_TEST_CHANGE_DEFERRED",
+      "candidate_subject_test_bytes_unchanged": true
+    },
+    {
+      "test": "tests/unit/test_target_problem_policy.py::test_target_problem_policy_accepts_canonical_strategy",
+      "reason": "New 2016 registry record omitted first_run_freeze, reference_unlock and nonempty generalization_axis.",
+      "repair": "Added truthful null freeze, LOCKED reference and registered fresh-context axes to only the new case record.",
+      "status": "LOCAL_TARGETED_PASS_PENDING_DELIVERY"
+    }
+  ],
+  "local_targeted_after_registry_repair": {
+    "passed": 1,
+    "failed": 1,
+    "duration_seconds": 0.15,
+    "output_sha256": "0d37147b03467aa04c758d193c619249e29096f9feb2d254a5d853d92aeb7862",
+    "target_policy_errors": 0
+  },
+  "qualification_scope": "RC8 qualification remains bound to the original 29cf1d7566809519ca92b6a29f555ce0c0b5b204 subject CI:2153 passed,1 skipped,full command exit0. It does not assert this subsequent registration commit passes CI.",
+  "fresh_freeze_scope": "No accepted shared implementation or tests changed during the fresh episode. Do not delete registered cases, skip the failing test or change frozen hashes to report CI PASS.",
+  "main_orchestration_error": "Missing registry fields escaped the registration strict check. Original remote failure and subsequent targeted result are retained."
+}

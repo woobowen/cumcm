@@ -1,0 +1,23 @@
+[
+  {
+    "claim_id": "CLAIM-REQ-A",
+    "statement": "正价整箱且无限供应：采购[2, 0]箱，成本8元，覆盖6 L。",
+    "run_id": "RUN-BASE-20260910",
+    "source_field": "allocation.cost / allocation.counts",
+    "source_output_sha256": "e5c74aa5e0557dfdfd7877f3ee93981bc60b9bb128c5e879da1845b3585d0f62"
+  },
+  {
+    "claim_id": "CLAIM-REQ-B",
+    "statement": "仿射合成前缀持续时，剩余估计6 min；未来精度未验证。",
+    "run_id": "RUN-BASE-20260910",
+    "source_field": "scientific_evidence.REQ-B.prediction_evidence.predictions[0].value / validation_metrics.metric_b",
+    "source_output_sha256": "e5c74aa5e0557dfdfd7877f3ee93981bc60b9bb128c5e879da1845b3585d0f62"
+  },
+  {
+    "claim_id": "CLAIM-REQ-C",
+    "statement": "1 L/min消耗且无泄漏，库存从6 L至0 L，逐点守恒。",
+    "run_id": "RUN-BASE-20260910",
+    "source_field": "allocation.balance_litres / validation_metrics.metric_c",
+    "source_output_sha256": "e5c74aa5e0557dfdfd7877f3ee93981bc60b9bb128c5e879da1845b3585d0f62"
+  }
+]

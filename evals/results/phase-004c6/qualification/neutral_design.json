@@ -1,0 +1,124 @@
+{
+  "schema_version": "phase-004c6-neutral-design/v1",
+  "created_at": "2026-09-09T01:39:40.432708+00:00",
+  "status": "FROZEN_EXPECTATIONS_NOT_EXECUTED",
+  "author": "main-agent",
+  "original_shared_subject": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+  "basis": [
+    "CUMCM-2016-C-VALIDATION-004/terminal/decision.json",
+    "CUMCM-2015-C-VALIDATION-005/terminal/decision.json",
+    "delivery/local_ci_terminal_6be924e.json"
+  ],
+  "requires_new_coherent_subject": true,
+  "changes_to_frozen_skill_or_tests": 0,
+  "new_model_runs": 0,
+  "final_accesses": 0,
+  "cases": [
+    {
+      "id": "NONPRED-ORDER-POSITIVE",
+      "fixture": "Two finite deterministic optimization candidates, independently checked primary objective and full feasible constraint rows; selected model/config fixed before Final.",
+      "expected": "The actual common CLI/controller admits selection, comparison and robustness before exactly one independent nonpredictive Final; no invented prediction test set.",
+      "preserve": "Final STARTED before execution, authoritative checker replay and input/code/config binding.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "NONPRED-ORDER-NEGATIVE",
+      "fixture": "Same legal nonpredictive candidates, but caller invokes Final before required formal selection/comparison/robustness.",
+      "expected": "Reject before any Final execution/access; retain the rejected request and unchanged budget.",
+      "preserve": "Already frozen2015 trace remains FAILED; never retroactively reorder its events.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "PREDICTIVE-RELABEL-NEGATIVE",
+      "fixture": "Predictive target relabeled DESCRIPTIVE, empirical source or successful arithmetic substituted for sealed target evaluation.",
+      "expected": "Reject predictive support despite labels; retain prediction-specific heldout guard.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "TEMPORAL-SAME-ENTITY-POSITIVE",
+      "fixture": "Synthetic entity history prefix observed before target forecast origin, target suffix sealed; intended claim only conditional within-entity continuation.",
+      "expected": "Do not reject solely because entity IDs overlap; require explicit temporal target/availability, appropriate frozen evaluation and honest uncertainty scope.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "TEMPORAL-FUTURE-LABEL-NEGATIVE",
+      "fixture": "Same entity plus a feature or transform derived from post-origin targets.",
+      "expected": "Reject leakage; do not relax independent-entity rules for population-transfer claims.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "TARGET-DENOMINATOR-NEGATIVE",
+      "fixture": "Requirement asks remaining-time error; supplied metric computes elapsed-time relative error or unrelated aggregate stress.",
+      "expected": "Reject substitute metric even when both rankings happen to agree; check target, units, aggregation and denominator.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "REGISTRY-EXTENSION-POSITIVE",
+      "fixture": "All historical registered cases retained plus a valid new case with required source/training/freeze fields.",
+      "expected": "Validate each record and preserve historical ID coverage without asserting a closed-world total of eight.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "REGISTRY-HISTORY-NEGATIVE",
+      "fixture": "Historical case removed or original freeze/input/decision hash changed while new record is otherwise valid.",
+      "expected": "Reject actual historical drift; dynamic count is not a history exemption.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "TERMINAL-PHASE-POSITIVE-NEGATIVE",
+      "fixture": "Valid phase004C5 FAILED/INSUFFICIENT terminal versus illegal phase/RC/case or an inconsistent decision binding.",
+      "expected": "Accept only explicit schema/routing-compatible tuples and verify corresponding original subject; reject mismatched tuples.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    },
+    {
+      "id": "SUBJECT-IDENTITY-POSITIVE-NEGATIVE",
+      "fixture": "Original RC8 subject with its original snapshot, then a proposed maintenance subject with changed tests/controller.",
+      "expected": "Historical RC8 resolves at its immutable original subject; new subject needs its own tested qualification. Old hashes never justify current drift.",
+      "old_observation": "NOT_RUN_IN_THIS_WINDOW",
+      "new_observation": "NOT_RUN",
+      "actual_evidence": []
+    }
+  ],
+  "stop_conditions": [
+    "Do not modify original frozen tests/manifests to make old qualification cover a different current tree.",
+    "Do not rerun or reselect either fresh terminal; future work is Development after exposure.",
+    "No new release, Gate bypass, acceptance or generalization is conferred by this specification."
+  ],
+  "inherited_specification": {
+    "path": "evals/results/phase-004c5/delivery/next_subject_neutral_cases.json",
+    "sha256": "e8cc17ea80c2fc77c5928c5430331f49a7aa0f6b89cd6f8c4f4b2fb810c58702"
+  },
+  "implementation_subject": "PENDING_NEW_SUBJECT",
+  "additional_attack_matrix": [
+    "selected code/config/input drift",
+    "stale comparison",
+    "missing robustness",
+    "STARTED failure and partial output",
+    "concurrent repeated Final requests",
+    "per-requirement different models",
+    "mixed requirements partial evidence",
+    "future labels/features/windows/full-data transforms",
+    "new-entity group isolation",
+    "metric target/unit/origin/formula/denominator/aggregation/direction/zero policy",
+    "relabel and interval calibration",
+    "fixture scale/order/entity metamorphisms"
+  ]
+}

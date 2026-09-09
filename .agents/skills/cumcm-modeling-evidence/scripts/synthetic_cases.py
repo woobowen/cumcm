@@ -237,6 +237,21 @@ def _write_run(
 ) -> dict[str, Any]:
     run_id = f"RUN-{candidate_id}"
     output_path = case_root / f"runs/{run_id}/output.json"
+    source = core.read_artifact(case_root, "source_ledger")["content"]["sources"][0]
+    metrics = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}
+    output["scientific_evidence"] = {
+        requirement_id: {
+            "generation_method": "DEVELOPMENT_DIAGNOSTIC",
+            "source_ids": [source["source_id"]],
+            "scope": {
+                "fields": source["field_schema"],
+                "time": source["time_scope"],
+                "entities": source["entity_scope"],
+            },
+            "metric_values": metrics,
+        }
+        for requirement_id in output.get("requirement_claims", {})
+    }
     core.write_json(output_path, output)
     output_file_hash = core.file_hash(output_path)
     input_files = [
@@ -260,7 +275,7 @@ def _write_run(
         "environment_allowlist": {"PYTHONHASHSEED": "0", "TZ": "UTC"},
         "output_files": [
             {
-                "path": str(output_path.relative_to(case_root)),
+                "path": output_path.relative_to(case_root).as_posix(),
                 "sha256": output_file_hash,
             }
         ],
@@ -369,6 +384,14 @@ def _write_semantic_bundle(
 ) -> None:
     requirement_ids = [item["requirement_id"] for item in requirements]
     run_id = manifest["run_id"]
+    metric_ids = list(
+        dict.fromkeys(
+            [
+                *selected_output.get("validation_metrics", {}),
+                *selected_output.get("final_metrics", {}),
+            ]
+        )
+    )
     claims = []
     outputs = []
     claim_ids: dict[str, str] = {}
@@ -376,7 +399,14 @@ def _write_semantic_bundle(
         record = selected_output["requirement_claims"][requirement_id]
         output_id = f"OUT-{requirement_id}"
         claim_ids[requirement_id] = record["claim_id"]
-        outputs.append({"output_id": output_id, "metric_ids": [metric]})
+        outputs.append(
+            {
+                "output_id": output_id,
+                "metric_ids": metric_ids,
+                "owner_run_id": run_id,
+                "requirement_id": requirement_id,
+            }
+        )
         claims.append(
             {
                 "claim_id": record["claim_id"],
@@ -384,14 +414,16 @@ def _write_semantic_bundle(
                 "claim_type": "DESCRIPTIVE",
                 "statement": record["claim_text"],
                 "scope": {
-                    "fields": [],
+                    "fields": selected_output["scientific_evidence"][requirement_id]["scope"][
+                        "fields"
+                    ],
                     "time": ["FROZEN_CASE_SCOPE"],
                     "entities": ["SYNTHETIC_CASE"],
                 },
                 "evidence_class": "PROVIDED_EMPIRICAL",
                 "selected_run_ids": [run_id],
                 "selected_output_ids": [output_id],
-                "metric_ids": [metric],
+                "metric_ids": metric_ids,
                 "comparator_ids": [],
                 "support_predicates": {"scope_bounded": True},
                 "uncertainty": {"status": "BOUNDED"},
@@ -416,7 +448,7 @@ def _write_semantic_bundle(
                     "current": True,
                     "supported_requirement_ids": requirement_ids,
                     "selected_output_ids": [item["output_id"] for item in outputs],
-                    "metric_ids": [metric],
+                    "metric_ids": metric_ids,
                     "input_hash": manifest["input_hash"],
                     "scenario_hash": manifest["input_hash"],
                     "policy_exposure": 1,

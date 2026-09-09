@@ -1,0 +1,471 @@
+{
+  "schema_version": "bounded-readonly-auditor-checks/v1",
+  "checks": {
+    "start_outer_integrity": true,
+    "next_outer_integrity": true,
+    "new_review_integrity": true,
+    "new_finite_arithmetic_and_claim_binding": true,
+    "old_review_integrity": true,
+    "old_finite_arithmetic_and_claim_binding": true,
+    "context_canonical_identity_only": true,
+    "rehearsal_all_157_record_view_hashes": true,
+    "checker_process_count_2_plus_1_plus_4": true,
+    "selection_robustness_final_order_and_repeat_rejection_record": true,
+    "old_reading_output_hash_bindings": true,
+    "new_reading_statement_output_bindings": true,
+    "operator_content_map_canonical_hash": true
+  },
+  "details": {
+    "start_identity": {
+      "archive_sha256": "df9d74142ed50cdc5ab860c5d15ce4c194a66362fdd17bea4373a7b8886cccf8",
+      "kind": "NO_CASE",
+      "members": 19,
+      "payload_set_sha256": "8330b425363087ead08ebd4060a288b8046d233821595aa229602e3855cff0d8"
+    },
+    "next_identity": {
+      "archive_sha256": "46c753c339b191cddfbc07a2032eddc29af399507eadb6de1ad8b900cd83a1e9",
+      "kind": "NEXT_WEB",
+      "members": 49,
+      "payload_set_sha256": "cb5ffb2180467515d029b1d76873be4bb49b8fc83736bf927075c306fda4b631"
+    },
+    "new_review": {
+      "case_id": "READINESS-COOLANT-001",
+      "package_hash": "e47e97051c2380bd39f65bab643d2b572e560c9bcafaacdadad40e1d98cbf036",
+      "module": "M14",
+      "revision": 1,
+      "available_source_views": 20,
+      "referenced_sources": 72,
+      "source_bytes_not_available_here": [
+        "data/data_audit.json",
+        "data/data_sufficiency.json",
+        "evidence/claim_evidence.json",
+        "evidence/intake_registry.json",
+        "evidence/module_requests/KIT-M01/completion.json",
+        "evidence/module_requests/KIT-M01/request.json",
+        "evidence/module_requests/KIT-M02/completion.json",
+        "evidence/module_requests/KIT-M02/request.json",
+        "evidence/module_requests/KIT-M03/completion.json",
+        "evidence/module_requests/KIT-M03/request.json",
+        "evidence/module_requests/KIT-M04/completion.json",
+        "evidence/module_requests/KIT-M04/request.json",
+        "evidence/module_requests/KIT-M05/completion.json",
+        "evidence/module_requests/KIT-M05/request.json",
+        "evidence/module_requests/KIT-M06/completion.json",
+        "evidence/module_requests/KIT-M06/request.json",
+        "evidence/module_requests/KIT-M07/completion.json",
+        "evidence/module_requests/KIT-M07/request.json",
+        "evidence/module_requests/KIT-M08/completion.json",
+        "evidence/module_requests/KIT-M08/request.json",
+        "evidence/module_requests/KIT-M09/completion.json",
+        "evidence/module_requests/KIT-M09/request.json",
+        "evidence/module_requests/KIT-M10/completion.json",
+        "evidence/module_requests/KIT-M10/request.json",
+        "evidence/module_requests/KIT-M11/completion.json",
+        "evidence/module_requests/KIT-M11/request.json",
+        "evidence/module_requests/KIT-M12/completion.json",
+        "evidence/module_requests/KIT-M12/request.json",
+        "evidence/module_requests/KIT-M13/completion.json",
+        "evidence/module_requests/KIT-M13/request.json",
+        "evidence/semantic_claim_support.json",
+        "models/model_candidates.json",
+        "research/research_plan.json",
+        "research/source_ledger.json",
+        "results/final_result.json",
+        "results/model_comparison.json",
+        "results/requirement_selection.json",
+        "results/robustness.json",
+        "state/case_policy.json",
+        "work/M01.json",
+        "work/M02.json",
+        "work/M03.json",
+        "work/M04.json",
+        "work/M05.json",
+        "work/M06.json",
+        "work/M07.json",
+        "work/M08.json",
+        "work/M09.json",
+        "work/M10.json",
+        "work/M11.json",
+        "work/M12.json",
+        "work/M13.json"
+      ]
+    },
+    "new_arithmetic": {
+      "conditional_remaining_minutes": 6,
+      "demand_litres": 6,
+      "optimum_cost_counts_quantity": [
+        8,
+        2,
+        0,
+        6
+      ],
+      "perturbed_optimum": [
+        11,
+        1,
+        1,
+        8
+      ],
+      "outputs": {
+        "BASE": {
+          "allocation": {
+            "balance_litres": [
+              6,
+              5,
+              4,
+              3,
+              2,
+              1,
+              0
+            ],
+            "cost": 8,
+            "counts": [
+              2,
+              0
+            ],
+            "demand_litres": 6,
+            "quantity_litres": 6
+          },
+          "metric_b": 1.5173048003210474e-13,
+          "perturbed_cost": 12,
+          "sha256": "e5c74aa5e0557dfdfd7877f3ee93981bc60b9bb128c5e879da1845b3585d0f62"
+        },
+        "CAND": {
+          "allocation": {
+            "balance_litres": [
+              6,
+              5,
+              4,
+              3,
+              2,
+              1,
+              0
+            ],
+            "cost": 8,
+            "counts": [
+              2,
+              0
+            ],
+            "demand_litres": 6,
+            "quantity_litres": 6
+          },
+          "metric_b": 1.5173048003210474e-13,
+          "perturbed_cost": 11,
+          "sha256": "ac0c3f4c02643dec55e935a74eea5bfeae2fd4708f0a99a3694f0417319ee1a1"
+        }
+      },
+      "exact_historical_mre": 0,
+      "historical_entities": 1,
+      "historical_origins": 2,
+      "future_truth_observed": false
+    },
+    "checker_imports": [
+      "fractions",
+      "pathlib",
+      "argparse",
+      "hashlib",
+      "json",
+      "math"
+    ],
+    "captures": [
+      {
+        "source": "runs/RUN-BASE-20260910/execution_capture.json",
+        "mode": "CONTROLLED_CASE_SUBPROCESS",
+        "run": "RUN-BASE-20260910",
+        "started_at": "2026-09-09T17:28:58Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      },
+      {
+        "source": "runs/RUN-BASE-20260910/scientific_check_capture.json",
+        "mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+        "run": "RUN-BASE-20260910",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      },
+      {
+        "source": "runs/RUN-CAND-20260910/execution_capture.json",
+        "mode": "CONTROLLED_CASE_SUBPROCESS",
+        "run": "RUN-CAND-20260910",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      },
+      {
+        "source": "runs/RUN-CAND-20260910/scientific_check_capture.json",
+        "mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+        "run": "RUN-CAND-20260910",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      }
+    ],
+    "final_ledger": {
+      "checks": {
+        "RUN-BASE-20260910": {
+          "argv": [
+            "models/independent_check.py",
+            "--case-root",
+            ".",
+            "--run-id",
+            "RUN-BASE-20260910",
+            "--output",
+            "runs/RUN-BASE-20260910/final_check.json"
+          ],
+          "elapsed_seconds": 0.02666568300082872,
+          "ended_at": "2026-09-09T17:31:02Z",
+          "exit_code": 0,
+          "files": {
+            "runs/RUN-BASE-20260910/final_check.json": "819c0db956a68d54a5f3102633798b3b3a9e5d0e9c393b0396a533a99e5207d1",
+            "runs/RUN-BASE-20260910/final_check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "runs/RUN-BASE-20260910/final_check.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "started_at": "2026-09-09T17:31:02Z"
+        }
+      },
+      "count": 1,
+      "decision_hash": "f581022058303b19c7c9583598238d697bcc8f304ffe0765b44d057a4763cefc",
+      "ended_at": "2026-09-09T17:31:02Z",
+      "schema_version": "scientific-final/v1",
+      "selected_run_ids": [
+        "RUN-BASE-20260910"
+      ],
+      "selection_freeze_sha256": "29ed45678b5f0719e0115bc6645f981e59d0a2ab225eba09d4b639657b89d89f",
+      "started_at": "2026-09-09T17:31:02Z",
+      "status": "SUCCESS",
+      "test_access_count": 0
+    },
+    "old_review": {
+      "case_id": "ORIGINAL-WATER-MIXED",
+      "package_hash": "09784e197709c5c5657d5eedac9959c7a72312e0ea30631a7bbeeb46afe05c71",
+      "module": "M14",
+      "revision": 1,
+      "available_source_views": 21,
+      "referenced_sources": 73,
+      "source_bytes_not_available_here": [
+        "data/data_audit.json",
+        "data/data_sufficiency.json",
+        "evidence/claim_evidence.json",
+        "evidence/intake_registry.json",
+        "evidence/module_requests/WATER-M01/completion.json",
+        "evidence/module_requests/WATER-M01/request.json",
+        "evidence/module_requests/WATER-M02/completion.json",
+        "evidence/module_requests/WATER-M02/request.json",
+        "evidence/module_requests/WATER-M03/completion.json",
+        "evidence/module_requests/WATER-M03/request.json",
+        "evidence/module_requests/WATER-M04/completion.json",
+        "evidence/module_requests/WATER-M04/request.json",
+        "evidence/module_requests/WATER-M05/completion.json",
+        "evidence/module_requests/WATER-M05/request.json",
+        "evidence/module_requests/WATER-M06/completion.json",
+        "evidence/module_requests/WATER-M06/request.json",
+        "evidence/module_requests/WATER-M07/completion.json",
+        "evidence/module_requests/WATER-M07/request.json",
+        "evidence/module_requests/WATER-M08/completion.json",
+        "evidence/module_requests/WATER-M08/request.json",
+        "evidence/module_requests/WATER-M09/completion.json",
+        "evidence/module_requests/WATER-M09/request.json",
+        "evidence/module_requests/WATER-M10/completion.json",
+        "evidence/module_requests/WATER-M10/request.json",
+        "evidence/module_requests/WATER-M11/completion.json",
+        "evidence/module_requests/WATER-M11/request.json",
+        "evidence/module_requests/WATER-M12/completion.json",
+        "evidence/module_requests/WATER-M12/request.json",
+        "evidence/module_requests/WATER-M13/completion.json",
+        "evidence/module_requests/WATER-M13/request.json",
+        "evidence/semantic_claim_support.json",
+        "models/model_candidates.json",
+        "research/research_plan.json",
+        "research/source_ledger.json",
+        "results/final_result.json",
+        "results/model_comparison.json",
+        "results/requirement_selection.json",
+        "results/robustness.json",
+        "state/case_policy.json",
+        "work/M01.json",
+        "work/M02.json",
+        "work/M03.json",
+        "work/M04.json",
+        "work/M05.json",
+        "work/M06.json",
+        "work/M07.json",
+        "work/M08.json",
+        "work/M09.json",
+        "work/M10.json",
+        "work/M11.json",
+        "work/M12.json",
+        "work/M13.json"
+      ]
+    },
+    "old_arithmetic": {
+      "conditional_remaining_minutes": 8,
+      "demand_litres": 8,
+      "optimum_cost_counts_quantity": [
+        11,
+        1,
+        1,
+        8
+      ],
+      "perturbed_optimum": [
+        12,
+        3,
+        0,
+        9
+      ],
+      "outputs": {
+        "BASE": {
+          "allocation": {
+            "balance_litres": [
+              9,
+              8,
+              7,
+              6,
+              5,
+              4,
+              3,
+              2,
+              1
+            ],
+            "cost": 12,
+            "counts": [
+              3,
+              0
+            ],
+            "demand_litres": 8,
+            "quantity_litres": 9
+          },
+          "metric_b": 1.5173048003210474e-13,
+          "perturbed_cost": 12,
+          "sha256": "4635f933cf35ff7001770547e31b4b09c697ce1be607e57a793c7a638f31b202"
+        },
+        "CAND": {
+          "allocation": {
+            "balance_litres": [
+              8,
+              7,
+              6,
+              5,
+              4,
+              3,
+              2,
+              1,
+              0
+            ],
+            "cost": 11,
+            "counts": [
+              1,
+              1
+            ],
+            "demand_litres": 8,
+            "quantity_litres": 8
+          },
+          "metric_b": 1.5173048003210474e-13,
+          "perturbed_cost": 12,
+          "sha256": "cb6516994e10587418191cf42e80ce5ea597c3c52bda07fc9ab3873b4aa59dd7"
+        }
+      },
+      "exact_historical_mre": 0,
+      "historical_entities": 1,
+      "historical_origins": 2,
+      "future_truth_observed": false
+    },
+    "record_redactions": [],
+    "internal_checker_replays": [
+      {
+        "run_id": "RUN-BASE-20260910",
+        "status": "PASS",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z",
+        "result_sha256": "819c0db956a68d54a5f3102633798b3b3a9e5d0e9c393b0396a533a99e5207d1"
+      },
+      {
+        "run_id": "RUN-BASE-20260910",
+        "status": "PASS",
+        "started_at": "2026-09-09T17:31:03Z",
+        "ended_at": "2026-09-09T17:31:03Z",
+        "result_sha256": "819c0db956a68d54a5f3102633798b3b3a9e5d0e9c393b0396a533a99e5207d1"
+      },
+      {
+        "run_id": "RUN-CAND-20260910",
+        "status": "PASS",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z",
+        "result_sha256": "ebe7242c12f151eec0464fb3203f91893af29cf351c73db2bb1e7c552366945d"
+      },
+      {
+        "run_id": "RUN-BASE-20260910",
+        "status": "PASS",
+        "started_at": "2026-09-09T17:31:01Z",
+        "ended_at": "2026-09-09T17:31:01Z",
+        "result_sha256": "819c0db956a68d54a5f3102633798b3b3a9e5d0e9c393b0396a533a99e5207d1"
+      }
+    ],
+    "public_run_events": [
+      {
+        "request": "KIT-M09",
+        "operation": "model",
+        "started_at": "2026-09-09T17:28:58Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      },
+      {
+        "request": "KIT-M09",
+        "operation": "checker",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      },
+      {
+        "request": "KIT-M09",
+        "operation": "model",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      },
+      {
+        "request": "KIT-M09",
+        "operation": "checker",
+        "started_at": "2026-09-09T17:28:59Z",
+        "ended_at": "2026-09-09T17:28:59Z"
+      },
+      {
+        "request": "KIT-M10",
+        "operation": "controller",
+        "started_at": "2026-09-09T17:30:18Z",
+        "ended_at": "2026-09-09T17:30:18Z"
+      },
+      {
+        "request": "KIT-M11",
+        "operation": "controller",
+        "started_at": "2026-09-09T17:30:19Z",
+        "ended_at": "2026-09-09T17:30:19Z"
+      },
+      {
+        "request": "KIT-M12",
+        "operation": "controller",
+        "started_at": "2026-09-09T17:31:01Z",
+        "ended_at": "2026-09-09T17:31:02Z"
+      },
+      {
+        "request": "KIT-M13",
+        "operation": "controller",
+        "started_at": "2026-09-09T17:31:03Z",
+        "ended_at": "2026-09-09T17:31:04Z"
+      },
+      {
+        "request": "KIT-M14",
+        "operation": "controller",
+        "started_at": "2026-09-09T17:31:05Z",
+        "ended_at": "2026-09-09T17:31:05Z"
+      }
+    ],
+    "current_operator_file_mismatches_at_audit_time": []
+  },
+  "execution_level": "INDEPENDENT_ARITHMETIC_AND_STATIC_RECORD_BINDING",
+  "not_run": [
+    "supplied_code",
+    "case_cli",
+    "model",
+    "checker",
+    "Final",
+    "complete",
+    "CI",
+    "web",
+    "human_acceptance",
+    "current_live_case_verification"
+  ],
+  "all_checks_passed": true
+}

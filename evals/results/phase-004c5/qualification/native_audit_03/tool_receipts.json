@@ -1,0 +1,437 @@
+{
+  "execution_kind": "NATIVE_READ_ONLY_AGENT",
+  "role": "adversarial_evidence_auditor",
+  "normalization": "Only absolute repository prefix replaced by dot; original hashes retained. Raw synthetic cases and exact local command files remain ignored. Frozen source inputs recoverable at recorded Git subjects.",
+  "original_evidence_index_sha256": "460c5f7b768cdfc1f6579b4a55f23d9ef9fa09b0caefaec7b6a69c6932c64075",
+  "command_receipts": [
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/admission.command.json",
+      "command_original_sha256": "e2167f05bc2f4902740b4ec895a799e63847b478bd41488067e93f6de4ee3169",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "-B",
+          "./.cache/pr12-rc8/native-audit-03/run_admission_probes.py"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.427337646484375,
+        "exit_code": 0,
+        "started_unix": 1788897694.969126
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission.stdout",
+        "original_sha256": "5102e7979d2fecf71672bdfce2eee3b36e644ead53d3e5fef68b34605594d8ad",
+        "text": "{\"probe\": \"historical_rc7_candidate\", \"exit_code\": 0, \"result\": {\"reason_codes\": [], \"stage\": \"candidate\", \"status\": \"PASS\"}}\n{\"probe\": \"historical_rc7_live\", \"exit_code\": 0, \"result\": {\"reason_codes\": [], \"stage\": \"live\", \"status\": \"PASS\"}}\n{\"probe\": \"current_rc8_candidate_unregistered\", \"exit_code\": 1, \"result\": {\"reason_codes\": [\"RC8_CANDIDATE_MISSING\"], \"stage\": \"candidate\", \"status\": \"BLOCK\"}}\n{\"probe\": \"staged_rc8_version_consistency\", \"exit_code\": 0, \"result\": {\"check\": \"skill_release_consistency\", \"reason_codes\": [], \"snapshot\": {\"blocked_history_records\": [\"RC5_VERSION_FILE_MISMATCH\"], \"changelog_versions\": [\"0.3.0-competition-rc8\", \"0.2.0-competition-rc8\", \"0.3.0-competition-rc7\", \"0.2.0-competition-rc7\", \"0.3.0-competition-rc6\", \"0.3.0-competition-rc6\", \"0.2.0-competition-rc6\", \"0.3.0-competition-rc5\", \"0.3.0-competition-rc4\", \"0.2.0-competition-rc4\", \"0.3.0-competition-rc3\", \"0.2.0-competition-rc3\", \"0.3.0-competition-rc2\", \"0.2.0-competition-rc2\", \"0.3.0-competition-rc1\", \"0.2.0-competition-rc1\"], \"consistency_scope\": \"CANDIDATE_STAGED_NOT_ACCEPTED\", \"discovered_skill_versions\": [\"0.2.0-competition-rc8\"], \"manifest_project_version\": \"0.3.0-competition-rc8\", \"manifest_skill_version\": \"0.2.0-competition-rc8\", \"project_version\": \"0.3.0-competition-rc8\", \"runner_version\": \"0.2.0-competition-rc8\", \"skill_metadata_version\": \"0.2.0-competition-rc8\", \"skill_version_file\": \"0.2.0-competition-rc8\", \"state_skill_version\": \"0.2.0-competition-rc7\"}, \"status\": \"PASS\"}}\n{\"probe\": \"capture_budget\", \"existing\": 8, \"scheduled\": 1, \"reached_preparation\": true, \"result\": \"AUDIT_STOP_BEFORE_CASE_PREPARATION\", \"scope\": \"ACTUAL_PREEXECUTION_GUARD;CASE_PREPARATION_REPLACED_WITH_STOP_SENTINEL\"}\n{\"probe\": \"capture_budget\", \"existing\": 8, \"scheduled\": 3, \"reached_preparation\": false, \"result\": \"RC8_DEVELOPMENT_CAPTURE_BUDGET_EXHAUSTED\", \"scope\": \"ACTUAL_PREEXECUTION_GUARD;CASE_PREPARATION_REPLACED_WITH_STOP_SENTINEL\"}\n{\"probe\": \"capture_budget\", \"existing\": 9, \"scheduled\": 1, \"reached_preparation\": false, \"result\": \"RC8_DEVELOPMENT_CAPTURE_BUDGET_EXHAUSTED\", \"scope\": \"ACTUAL_PREEXECUTION_GUARD;CASE_PREPARATION_REPLACED_WITH_STOP_SENTINEL\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/admission_probes/current_rc8_candidate_unregistered.command.json",
+      "command_original_sha256": "95c3c3be75a8f20e32209cfb481164e4f01c57d2cb1ba660a837bd58a3cf97cb",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./scripts/check_phase004c4_rc7_release.py",
+          "--stage",
+          "candidate",
+          "--release",
+          "rc8",
+          "--check"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.06551074981689453,
+        "exit_code": 1,
+        "started_unix": 1788897695.2219036
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/current_rc8_candidate_unregistered.stdout",
+        "original_sha256": "a6f882604d2c31950ef9003cde51a729e49898e51b13240d14b85a474826da18",
+        "text": "{\"reason_codes\": [\"RC8_CANDIDATE_MISSING\"], \"stage\": \"candidate\", \"status\": \"BLOCK\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/current_rc8_candidate_unregistered.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/admission_probes/historical_rc7_candidate.command.json",
+      "command_original_sha256": "d24943f14fd7fbf53a7b75de8a33d1b83e8f12f12da72cb035324c59c714ec69",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./scripts/check_phase004c4_rc7_release.py",
+          "--stage",
+          "candidate",
+          "--release",
+          "rc7",
+          "--check"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.0897371768951416,
+        "exit_code": 0,
+        "started_unix": 1788897694.9874592
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/historical_rc7_candidate.stdout",
+        "original_sha256": "57d863f298ff58ab6ebcef516ce065db4722055638417ba107687d3accd042eb",
+        "text": "{\"reason_codes\": [], \"stage\": \"candidate\", \"status\": \"PASS\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/historical_rc7_candidate.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/admission_probes/historical_rc7_live.command.json",
+      "command_original_sha256": "5052e972844bdeede56233fcc3543010697b6b45a8c198f42dca54e1446fc3c1",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./scripts/check_phase004c4_rc7_release.py",
+          "--stage",
+          "live",
+          "--release",
+          "rc7",
+          "--check"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.14419102668762207,
+        "exit_code": 0,
+        "started_unix": 1788897695.0774555
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/historical_rc7_live.stdout",
+        "original_sha256": "698aeb79471090d3ffd3a280785411a580316c5994442a48deb61cbeeaccd4ac",
+        "text": "{\"reason_codes\": [], \"stage\": \"live\", \"status\": \"PASS\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/historical_rc7_live.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/admission_probes/staged_rc8_version_consistency.command.json",
+      "command_original_sha256": "ee2ce70ba52710fcb36afac4348748bb125661ca2106557ea8d9a1b277f36b80",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./scripts/check_skill_release_consistency.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.02362823486328125,
+        "exit_code": 0,
+        "started_unix": 1788897695.2876756
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/staged_rc8_version_consistency.stdout",
+        "original_sha256": "59469b4288a773767a1c92801bf6780a3c2776bf0d6d4c834ab249204e39678e",
+        "text": "{\"check\": \"skill_release_consistency\", \"reason_codes\": [], \"snapshot\": {\"blocked_history_records\": [\"RC5_VERSION_FILE_MISMATCH\"], \"changelog_versions\": [\"0.3.0-competition-rc8\", \"0.2.0-competition-rc8\", \"0.3.0-competition-rc7\", \"0.2.0-competition-rc7\", \"0.3.0-competition-rc6\", \"0.3.0-competition-rc6\", \"0.2.0-competition-rc6\", \"0.3.0-competition-rc5\", \"0.3.0-competition-rc4\", \"0.2.0-competition-rc4\", \"0.3.0-competition-rc3\", \"0.2.0-competition-rc3\", \"0.3.0-competition-rc2\", \"0.2.0-competition-rc2\", \"0.3.0-competition-rc1\", \"0.2.0-competition-rc1\"], \"consistency_scope\": \"CANDIDATE_STAGED_NOT_ACCEPTED\", \"discovered_skill_versions\": [\"0.2.0-competition-rc8\"], \"manifest_project_version\": \"0.3.0-competition-rc8\", \"manifest_skill_version\": \"0.2.0-competition-rc8\", \"project_version\": \"0.3.0-competition-rc8\", \"runner_version\": \"0.2.0-competition-rc8\", \"skill_metadata_version\": \"0.2.0-competition-rc8\", \"skill_version_file\": \"0.2.0-competition-rc8\", \"state_skill_version\": \"0.2.0-competition-rc7\"}, \"status\": \"PASS\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/admission_probes/staged_rc8_version_consistency.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/release_receipt_probes.command.json",
+      "command_original_sha256": "670b9e202a3d00efde2e3e94930b41b9c1387f33ab8cb4a160adde584ccf71d9",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "-B",
+          "./.cache/pr12-rc8/native-audit-03/run_release_receipt_probes.py"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 5.636101484298706,
+        "exit_code": 0,
+        "started_unix": 1788897576.7912269
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/release_receipt_probes.stdout",
+        "original_sha256": "63b8197f97f6b00953bdb8846343ab37cd9fea437f743960605bb4a4dbdf510c",
+        "text": "{\"probe\": \"finite_count_control\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"PASS\", \"reason_codes\": []}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"d9a43b8d6d0d1fdc57e639080a26b3a88054ac31\"}\n{\"probe\": \"zero_full_tests\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_FULL_TESTS_INSUFFICIENT\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"d9a43b8d6d0d1fdc57e639080a26b3a88054ac31\"}\n{\"probe\": \"nan_full_tests\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"PASS\", \"reason_codes\": []}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"d9a43b8d6d0d1fdc57e639080a26b3a88054ac31\"}\n{\"probe\": \"infinite_focused_tests\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"PASS\", \"reason_codes\": []}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"d9a43b8d6d0d1fdc57e639080a26b3a88054ac31\"}\n{\"probe\": \"wrong_subject_receipt\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_RECEIPT_FAILED:strict\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"d9a43b8d6d0d1fdc57e639080a26b3a88054ac31\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/release_receipt_probes.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/release_receipt_probes_r2.command.json",
+      "command_original_sha256": "5800f29ee45ea05a93cdcb1d7824f8e93f4f156035f73642c1d73a94e29959b9",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "-B",
+          "./.cache/pr12-rc8/native-audit-03/run_release_receipt_probes_r2.py"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 9.945869445800781,
+        "exit_code": 0,
+        "started_unix": 1788898212.1603782
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/release_receipt_probes_r2.stdout",
+        "original_sha256": "c24c7ec33fc4fe0481e353f74409552fc14679f54aa08bbbbdfe4451c0122e1f",
+        "text": "{\"probe\": \"finite_count_control\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"PASS\", \"reason_codes\": []}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"zero_full_tests\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_FULL_TESTS_INSUFFICIENT\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"nan_full_tests\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_FULL_TESTS_INSUFFICIENT\", \"RC8_CANDIDATE_RECEIPT_FAILED:full_ci\", \"RC8_RECEIPT_EVIDENCE:full_ci_MISSING\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"infinite_focused_tests\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_FOCUSED_TESTS_INSUFFICIENT\", \"RC8_CANDIDATE_RECEIPT_FAILED:focused_tests\", \"RC8_RECEIPT_EVIDENCE:focused_tests_MISSING\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"wrong_subject_receipt\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_RECEIPT_FAILED:strict\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"bool_exit_code\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_RECEIPT_FAILED:strict\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"bool_final_count\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_DEVELOPMENT_INVALID\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"float_full_count\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_FULL_TESTS_INSUFFICIENT\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n{\"probe\": \"exponent_overflow_full_count\", \"result\": {\"stage\": \"candidate\", \"release\": \"rc8\", \"status\": \"BLOCK\", \"reason_codes\": [\"RC8_CANDIDATE_FULL_TESTS_INSUFFICIENT\"]}, \"evidence_level\": \"REAL_REPOSITORY_EVALUATOR_WITH_IGNORED_FACADE_AND_SYNTHETIC_RECEIPTS;NOT_REAL_CI\", \"subject\": \"1b508aabd3948ff0977ac5e77b451fd72b82cc00\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/release_receipt_probes_r2.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/checker.command.json",
+      "command_original_sha256": "b977941c9c07965a36a7ed37b7bfcb6efacb9a19d4d499fbd61098db030e512c",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "verify-evidence",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/case",
+          "--run-id",
+          "RUN-CAND-20260906",
+          "--code-path",
+          "models/independent_check.py"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.1574077606201172,
+        "exit_code": 0,
+        "started_unix": 1788897509.7785175
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/checker.stdout",
+        "original_sha256": "555653eaebb40c5ddde6852feac6ec7fca617af9c138b2a253cc361361af89e3",
+        "text": "{\"command\": \"verify-evidence\", \"result\": {\"argv\": [\"models/independent_check.py\", \"--case-root\", \".\", \"--run-id\", \"RUN-CAND-20260906\", \"--output\", \"runs/RUN-CAND-20260906/scientific_check.json\"], \"bound_files\": {\"data/raw/input.json\": \"986d09614a890a19646beedca742bd4c7e140cb603fa905a469946220b0a6a2b\", \"models/independent_check.py\": \"3d864cb35cde9cea2e15b3f289dd96341211cf149361199f06fa55ca0e41776d\", \"runs/RUN-CAND-20260906/execution_capture.json\": \"f59ead4ed5bedfffb989b21f7abb4a13ad078300065e926445bf573ee716e069\", \"runs/RUN-CAND-20260906/output.json\": \"3405f8cba952165294d1683ae664f1d8fae84459f1e5d64e5abd27d9ce69c9a5\", \"runs/RUN-CAND-20260906/scientific_check.json\": \"1bdef67eac1bfd08e56bd4692aa4bf7f9d5a44028f6a78cd6730d58010454149\"}, \"capture_mode\": \"CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS\", \"checker\": {\"path\": \"models/independent_check.py\", \"repository_path\": \"tests/fixtures/scientific_independent_check.py\", \"scope\": \"CASE_ROOT\", \"sha256\": \"3d864cb35cde9cea2e15b3f289dd96341211cf149361199f06fa55ca0e41776d\"}, \"code_commit\": \"d9a43b8d6d0d1fdc57e639080a26b3a88054ac31\", \"cwd_policy\": \"CASE_ROOT_RELATIVE\", \"elapsed_seconds\": 0.02347696800097765, \"ended_at\": \"2026-09-08T19:58:29Z\", \"environment_allowlist\": {\"PYTHONHASHSEED\": \"20260906\", \"TZ\": \"UTC\"}, \"exit_code\": 0, \"final_test_access\": false, \"independence_limit\": \"Distinct entrypoint; algorithmic independence requires review.\", \"run_id\": \"RUN-CAND-20260906\", \"runner_version\": \"0.2.0-competition-rc8\", \"schema_version\": \"scientific-check-capture/v2\", \"started_at\": \"2026-09-08T19:58:29Z\", \"status\": \"SUCCESS\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"timeout_seconds\": 600}, \"status\": \"PASS\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/checker.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/controller.command.json",
+      "command_original_sha256": "688afcc55a86af24c656a59cbe75b92e469e4a0df1e5f329aa675cb97aedc74b",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./scripts/finalize_fresh_c_validation.py",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/case"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.5316193103790283,
+        "exit_code": 0,
+        "started_unix": 1788897509.9360387
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/controller.stdout",
+        "original_sha256": "d05b3e49b5ec532d78481fcfc61a789cbbe6f8c2b2d060c323f8cb6a7535ea95",
+        "text": "{\"attempts\": [{\"candidate_id\": \"BASE\", \"outcome\": \"SUCCESS\", \"random_seed\": 20260906, \"run_id\": \"RUN-BASE-20260906\", \"validation_score\": 4}, {\"candidate_id\": \"CAND\", \"outcome\": \"SUCCESS\", \"random_seed\": 20260906, \"run_id\": \"RUN-CAND-20260906\", \"validation_score\": 3}], \"gate_execution_trace\": {\"path\": \"evidence/gate_execution_trace.json\", \"sha256\": \"b6cf79a166c95897b1fa8fa5d862650475606b9bd42fcf0ffe402382b3b0ba19\", \"trace_hash\": \"c70cd3dd9084092d92fb4bb536cebad4b8d554724ee7fa5c2a4cdf101c24d766\"}, \"native_state\": \"READY_FOR_PAPER_HANDOFF\", \"scientific_final_verification_count\": 1, \"selected_candidate_id\": \"CAND\", \"selected_run_ids\": [\"RUN-CAND-20260906\"], \"selection_decision_hash\": \"f8cbd8e699952f1455266ebc595296a1847dc170f4c5f3464078ea9d9064c405\", \"status\": \"PASS_NATIVE_CONTRACTS\", \"test_access_count\": 0}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/controller.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/evaluate_final_changed_design.command.json",
+      "command_original_sha256": "d1b7902f45051c32a420874ba1680cc751ac46f2df66313625b1591a76a5dca5",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "evaluate-final",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/case",
+          "--run-id",
+          "RUN-CAND-20260906",
+          "--decision-hash",
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.08871316909790039,
+        "exit_code": 3,
+        "started_unix": 1788897510.947692
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/evaluate_final_changed_design.stdout",
+        "original_sha256": "756629b3e49a3ff619aaab596fd6634cc699dd1d0c14f7580720ae693c83f74f",
+        "text": "{\"accepted\": false, \"command\": \"evaluate-final\", \"final\": false, \"reason_codes\": [\"RC_TRUSTED_FREEZE_REGISTRY_INVALID\"], \"status\": \"BLOCK\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/evaluate_final_changed_design.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/evaluate_final_development.command.json",
+      "command_original_sha256": "c124bac85bc22f51628e5763da0ecc16e63020b99a4603999b228336269fcc0d",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "evaluate-final",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/case",
+          "--run-id",
+          "RUN-CAND-20260906",
+          "--decision-hash",
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.07192254066467285,
+        "exit_code": 3,
+        "started_unix": 1788897510.8751004
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/evaluate_final_development.stdout",
+        "original_sha256": "96a996a1d9b43d4dded83818f9b0b72af8a9ac0197a939d6a7fc98e82fcf33d0",
+        "text": "{\"accepted\": false, \"command\": \"evaluate-final\", \"final\": false, \"reason_codes\": [\"RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN\"], \"status\": \"BLOCK\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/evaluate_final_development.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes/forged_complete_scientific_receipt/controller.command.json",
+      "command_original_sha256": "e0de64594f8bfd70bf13743d74da8799c8add489aa2a6fd6fdfb3bff4c4ad22f",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./scripts/finalize_fresh_c_validation.py",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes/forged_complete_scientific_receipt/case"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.1945176124572754,
+        "exit_code": 1,
+        "started_unix": 1788897510.5662603
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/forged_complete_scientific_receipt/controller.stdout",
+        "original_sha256": "7321f4ddef6d9ec320129386293648a99ed3ebb50fa6143c7fd41aaee4ab0eee",
+        "text": "{\"attempts\": [{\"candidate_id\": \"BASE\", \"outcome\": \"SUCCESS\", \"random_seed\": 20260906, \"run_id\": \"RUN-BASE-20260906\", \"validation_score\": 4}, {\"candidate_id\": \"CAND\", \"outcome\": \"SUCCESS\", \"random_seed\": 20260906, \"run_id\": \"RUN-CAND-20260906\", \"validation_score\": 3}], \"gate_execution_trace\": {\"path\": \"evidence/gate_execution_trace.json\", \"sha256\": \"8bebdbdd75b67dc6a093c950d673e810c7d1628ccb2220e4de1da69fd0b19e4d\", \"trace_hash\": \"e06a64db599e5427c61868ae845caa172902b2fccae8667d72f53b9b4d62a06d\"}, \"reason_codes\": [\"RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING\"], \"status\": \"BLOCK_NATIVE_CONTRACTS\", \"test_access_count\": 0}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes/forged_complete_scientific_receipt/controller.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/evaluate_final_changed_design.command.json",
+      "command_original_sha256": "85315ca2105627865756abc9a414f9a075eea0965d9641551bcfa7349afa0140",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "evaluate-final",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/case",
+          "--run-id",
+          "RUN-CAND-20260906",
+          "--decision-hash",
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.07926177978515625,
+        "exit_code": 3,
+        "started_unix": 1788897614.8453615
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/evaluate_final_changed_design.stdout",
+        "original_sha256": "756629b3e49a3ff619aaab596fd6634cc699dd1d0c14f7580720ae693c83f74f",
+        "text": "{\"accepted\": false, \"command\": \"evaluate-final\", \"final\": false, \"reason_codes\": [\"RC_TRUSTED_FREEZE_REGISTRY_INVALID\"], \"status\": \"BLOCK\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/evaluate_final_changed_design.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/evaluate_final_development.command.json",
+      "command_original_sha256": "02e1d9023436adc81f3e4f45d3b0e6790d1dd80e02207855a13e67eb556b1c5c",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "evaluate-final",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/case",
+          "--run-id",
+          "RUN-CAND-20260906",
+          "--decision-hash",
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.07024145126342773,
+        "exit_code": 3,
+        "started_unix": 1788897614.7746181
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/evaluate_final_development.stdout",
+        "original_sha256": "96a996a1d9b43d4dded83818f9b0b72af8a9ac0197a939d6a7fc98e82fcf33d0",
+        "text": "{\"accepted\": false, \"command\": \"evaluate-final\", \"final\": false, \"reason_codes\": [\"RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN\"], \"status\": \"BLOCK\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/evaluate_final_development.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/execute_changed_design_extra_field.command.json",
+      "command_original_sha256": "c0422aa56196bf947afd48973a56fef949f2580304efbc3bf980a02652dcf903",
+      "command": {
+        "argv": [
+          "./.venv/bin/python",
+          "./.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+          "execute",
+          "--case-root",
+          "./.cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/case",
+          "--run-id",
+          "RUN-AUDIT-DESIGN-FIELD",
+          "--candidate-id",
+          "CAND",
+          "--seed",
+          "20260906",
+          "--code-path",
+          "models/runtime_model.py"
+        ],
+        "cwd": ".",
+        "elapsed_seconds": 0.10257863998413086,
+        "exit_code": 3,
+        "started_unix": 1788898114.861197
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/execute_changed_design_extra_field.stdout",
+        "original_sha256": "47f23bb33b041e974286dd3e12cb5b6fd439a05435a01c866f87a2fcfd9d6be5",
+        "text": "{\"accepted\": false, \"command\": \"execute\", \"final\": false, \"reason_codes\": [\"RC_TRUSTED_FREEZE_REGISTRY_INVALID\"], \"status\": \"BLOCK\"}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03/runtime_probes_development_r2/development_legal_and_final_block/execute_changed_design_extra_field.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    }
+  ]
+}

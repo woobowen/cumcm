@@ -1,0 +1,44 @@
+{
+  "argv": [
+    "models/scientific_checks.py",
+    "--case-root",
+    ".",
+    "--run-id",
+    "RUN-RC8-BASELINE_RAW_CENTROID-S20220904",
+    "--output",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/scientific_check.json"
+  ],
+  "bound_files": {
+    "models/scientific_checks.py": "e22e3b0121dca8199349ad709860927f7403c0e4555cd4f88fb4d04899646108",
+    "raw/case_files/附件.xlsx": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/execution_capture.json": "d0281aa1dd58ebe88a96367bc4d36ffcf14cc3d8134d71e76e762deaafa8bdf1",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/output.json": "4c1b0edff6267a5c92cc41504f03388606f7e2491301953c59d87eaea298503b",
+    "runs/RUN-RC8-BASELINE_RAW_CENTROID-S20220904/scientific_check.json": "ace75afc83cda438f9e1892ee3e23f898c5544d589b9e8e94a91f82c2a884cb5"
+  },
+  "capture_mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+  "checker": {
+    "path": "models/scientific_checks.py",
+    "repository_path": "evals/results/phase-004c5/development/v6/2022/code/scientific_checks.py",
+    "scope": "CASE_ROOT",
+    "sha256": "e22e3b0121dca8199349ad709860927f7403c0e4555cd4f88fb4d04899646108"
+  },
+  "code_commit": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "elapsed_seconds": 0.8258386620000238,
+  "ended_at": "2026-09-08T19:53:53Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20220904",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "final_test_access": false,
+  "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
+  "run_id": "RUN-RC8-BASELINE_RAW_CENTROID-S20220904",
+  "runner_version": "0.2.0-competition-rc8",
+  "schema_version": "scientific-check-capture/v2",
+  "started_at": "2026-09-08T19:53:52Z",
+  "status": "SUCCESS",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "68e40afb5464caaba431bc142e220aba2cdfc22024785bb5f65eecc8f335879f",
+  "timeout_seconds": 600
+}

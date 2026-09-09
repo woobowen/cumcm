@@ -1,0 +1,22 @@
+from pathlib import Path
+import sys,json,hashlib,datetime,subprocess
+BASE=Path(__file__).resolve().parent
+ROOT=BASE.parents[2]
+def now(): return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def h(b): return hashlib.sha256(b).hexdigest()
+def log(obj):
+ with (BASE/'actual_tool_records.jsonl').open('a') as f: f.write(json.dumps(obj,ensure_ascii=False)+'\n')
+mode=sys.argv[1]
+if mode=='read':
+ for name in sys.argv[2:]:
+  b=(ROOT/name).read_bytes(); rec={'kind':'read','utc':now(),'path':name,'sha256':h(b),'size':len(b)}; log(rec)
+  print('FILE '+name+' SHA256 '+h(b)); print(b.decode())
+elif mode=='run':
+ start=now(); argv=sys.argv[2:]; proc=subprocess.run(argv,cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.STDOUT); end=now()
+ n=sum(1 for _ in (BASE/'actual_tool_records.jsonl').open()) if (BASE/'actual_tool_records.jsonl').exists() else 0
+ name='command-%03d.log'%n; (BASE/name).write_bytes(proc.stdout)
+ rec={'kind':'command','argv':argv,'started_utc':start,'finished_utc':end,'exit_code':proc.returncode,'log_path':str((BASE/name).relative_to(ROOT)),'log_sha256':h(proc.stdout)}; log(rec)
+ print(json.dumps(rec)); print(proc.stdout.decode(errors='replace')); sys.exit(proc.returncode)
+elif mode=='hash':
+ for name in sys.argv[2:]:
+  b=(ROOT/name).read_bytes(); rec={'kind':'read_hash','utc':now(),'path':name,'sha256':h(b),'size':len(b)}; log(rec); print(json.dumps(rec))

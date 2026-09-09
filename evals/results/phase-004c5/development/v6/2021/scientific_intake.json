@@ -1,0 +1,647 @@
+{
+  "schema_version": "development-scientific-intake/v1",
+  "case_id": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+  "requirements": [
+    {
+      "requirement_id": "REQ-Q1-IMPORTANCE-MODEL",
+      "text": "Q1 IMPORTANCE MODEL",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "SUPPLIERS_402"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q1-TOP50",
+      "text": "Q1 TOP50",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "SUPPLIERS_402"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q2-MINIMUM-SUPPLIERS",
+      "text": "Q2 MINIMUM SUPPLIERS",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q2-ORDER-PLAN",
+      "text": "Q2 ORDER PLAN",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q2-TRANSPORT-PLAN",
+      "text": "Q2 TRANSPORT PLAN",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q2-EFFECT",
+      "text": "Q2 EFFECT",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q3-MATERIAL-PREFERENCE",
+      "text": "Q3 MATERIAL PREFERENCE",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q3-ORDER-PLAN",
+      "text": "Q3 ORDER PLAN",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q3-TRANSPORT-PLAN",
+      "text": "Q3 TRANSPORT PLAN",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q3-EFFECT",
+      "text": "Q3 EFFECT",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q4-CAPACITY-INCREASE",
+      "text": "Q4 CAPACITY INCREASE",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q4-ORDER-PLAN",
+      "text": "Q4 ORDER PLAN",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-Q4-TRANSPORT-PLAN",
+      "text": "Q4 TRANSPORT PLAN",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-OUTPUT-ATTACHMENT-A",
+      "text": "OUTPUT ATTACHMENT A",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-OUTPUT-ATTACHMENT-B",
+      "text": "OUTPUT ATTACHMENT B",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-INVENTORY-PRODUCTION",
+      "text": "INVENTORY PRODUCTION",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    },
+    {
+      "requirement_id": "REQ-TRANSPORT-BUSINESS-RULES",
+      "text": "TRANSPORT BUSINESS RULES",
+      "role": "PRIMARY",
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "minimum_data_fields": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3",
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "required_time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "required_entity_scope": [
+        "COMPANY_2021"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "simulation_substitution_allowed": false,
+      "partial_completion_allowed": true,
+      "dependency_requirements": [],
+      "completion_rule": "ACTUAL_QUESTION_RESULT_AND_INDEPENDENT_SCIENTIFIC_CHECK",
+      "scientific_facts_required": true
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "SRC-2021-SUPPLIER-WORKBOOK",
+      "registered_file": "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx",
+      "supports_requirement_ids": [
+        "REQ-Q1-IMPORTANCE-MODEL",
+        "REQ-Q1-TOP50",
+        "REQ-Q2-MINIMUM-SUPPLIERS",
+        "REQ-Q2-ORDER-PLAN",
+        "REQ-Q2-TRANSPORT-PLAN",
+        "REQ-Q2-EFFECT",
+        "REQ-Q3-MATERIAL-PREFERENCE",
+        "REQ-Q3-ORDER-PLAN",
+        "REQ-Q3-TRANSPORT-PLAN",
+        "REQ-Q3-EFFECT",
+        "REQ-Q4-CAPACITY-INCREASE",
+        "REQ-Q4-ORDER-PLAN",
+        "REQ-Q4-TRANSPORT-PLAN",
+        "REQ-OUTPUT-ATTACHMENT-A",
+        "REQ-OUTPUT-ATTACHMENT-B",
+        "REQ-INVENTORY-PRODUCTION",
+        "REQ-TRANSPORT-BUSINESS-RULES"
+      ],
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "field_schema": [
+        "supplier_id",
+        "material_type",
+        "order_m3",
+        "supply_m3"
+      ],
+      "time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "entity_scope": [
+        "SUPPLIERS_402",
+        "COMPANY_2021"
+      ]
+    },
+    {
+      "source_id": "SRC-2021-CARRIER-WORKBOOK",
+      "registered_file": "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx",
+      "supports_requirement_ids": [
+        "REQ-Q2-MINIMUM-SUPPLIERS",
+        "REQ-Q2-ORDER-PLAN",
+        "REQ-Q2-TRANSPORT-PLAN",
+        "REQ-Q2-EFFECT",
+        "REQ-Q3-MATERIAL-PREFERENCE",
+        "REQ-Q3-ORDER-PLAN",
+        "REQ-Q3-TRANSPORT-PLAN",
+        "REQ-Q3-EFFECT",
+        "REQ-Q4-CAPACITY-INCREASE",
+        "REQ-Q4-ORDER-PLAN",
+        "REQ-Q4-TRANSPORT-PLAN",
+        "REQ-OUTPUT-ATTACHMENT-A",
+        "REQ-OUTPUT-ATTACHMENT-B",
+        "REQ-INVENTORY-PRODUCTION",
+        "REQ-TRANSPORT-BUSINESS-RULES"
+      ],
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "field_schema": [
+        "carrier_id",
+        "loss_rate_pct"
+      ],
+      "time_scope": [
+        "W001-W168",
+        "W169-W216"
+      ],
+      "entity_scope": [
+        "CARRIERS_8",
+        "COMPANY_2021"
+      ]
+    }
+  ],
+  "assumptions": [
+    "All supplied material is purchased: purchase cost equals actual supply times normalized material price, not ordered amount.",
+    "Stationary supplier order capacity is the W001-W168 positive-order 75th percentile; fulfillment and loss estimators differ by preregistered candidate.",
+    "No claim is made about true external maximum capacity or weather-realized future performance.",
+    "Nominal plan repeats for24weeks; initial inventory equals two target-production weeks. Stress recursively uses W169-W216 only; W217-W240 is excluded.",
+    "Q2 uses conditional minimum cardinality, then purchase cost, then transport loss. Q3 preference uses declared C-min/A-max/purchase/loss lexicographic order, an interpretation of the underspecified tradeoff.",
+    "Absolute transport and storage tariffs are missing; normalized purchase/loss objectives do not equal fully specified total monetary cost.",
+    "Supplier and carrier tables share the company/week context; conditional routing combines their complete sets, not an observed supplier-carrier empirical crosswalk.",
+    "Only derived24week plan CSVs are created; missing native Attachment A/B template conformance remains incomplete."
+  ]
+}

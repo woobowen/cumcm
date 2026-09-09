@@ -2,12 +2,12 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4`
-- Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
+- Phase: `PHASE-SKILL-MODULAR-WORKBENCH-004C7`
+- Subphase: `WORKBENCH-ENGINEERING-TERMINAL`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md`
-- Branch: `feat/phase004c2-claim-scope-repair-validation-2019c`
-- Skill version: `0.2.0-competition-rc7`
+- Active plan: `plans/active/PLAN-0004C7-modular-workbench.md`
+- Branch: `feat/phase004c5-p0-01-finalization-hf22-repro`
+- Skill version: `0.2.0-competition-rc10`
 - Primary target problem type: `C`
 - Current batch: `C-TARGET-BATCH-001`
 - Batch Skill frozen: `true`
@@ -15,22 +15,19 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_VALIDATION_FAILED`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3`
+- Technical adjudication: `MODULAR_WORKBENCH_ENGINEERING_ACCEPTED`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3, DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5, DECISION-C-TARGET-VALIDATION-004C5-2016, DECISION-C-TARGET-VALIDATION-004C5-2015, DECISION-RC9-RESEARCH-QUALIFICATION-004C6, DECISION-MODULAR-WORKBENCH-004C7`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
-- Next phase allowed: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`
-- Content-verified commit: `22abe92d2b5da2e3f1be3161e8376fb83b0cee0a`
-- Delivery receipt commit: `22abe92d2b5da2e3f1be3161e8376fb83b0cee0a`
+- Next phase allowed: `None`
+- Content-verified commit: `4352efe054d0097d39572bb8d4b06247a015b049`
+- Delivery receipt commit: `4352efe054d0097d39572bb8d4b06247a015b049`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-05T22:57:50+08:00` by `main-agent`
+- Updated: `2026-09-09T11:32:53.509848Z` by `main-agent`
 
 ## Blockers
 
-- VALIDATION_FINALIZATION_INTERFACE_CONTRACT_FAILURE
-- VALIDATION_FINAL_RUN_NOT_COMPLETED
-- VALIDATION_HANDOFF_NOT_REACHED
-- HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION
+- None
 
 ## Risks
 
@@ -70,3 +67,14 @@
 - Phase 004C4 is a new bounded repair window. RC7 cannot be released until actual-controller black-box probes, ordered gate traces, neutral end-to-end cases, adversarial audit, historical regressions and candidate/live consistency all pass.
 - The answer-sealed 2017 C one-shot executed all nine frozen development attempts successfully, but released RC7 blocked at GATE_FINALIZATION because its execute output cannot supply the controller-required sealed-test payload; no test access or accepted handoff occurred.
 - The read-only fresh Validation integrity audit found HF22: the post-selection builder asserted held_out_test_valid=true for REQ2 despite a DEVELOPMENT_GROUPED_OOS selected output with test access NOT_AUTHORIZED/0 and held_out_test_valid=false; semantic support was not cross-bound to authoritative Run facts.
+- RC8 is accepted only for research and fresh Validation eligibility; no contest compliance or broad generalization is proven.
+- 2021 and 2022 remain exposed Development with whole-problem scientific completion false; 15 new captures and negative outcomes are preserved.
+- Legacy batch001 fields describe the inherited Development batch; fresh RC8 planned denominator2 is separately frozen in the candidate protocol. Fresh answers remain sealed.
+- RC8 activation8ef732b was verified at the designated remote before fresh input access; this is research/Validation qualification only.
+- Fresh registration exposes a CI test that hardcodes eight historical cases; current delivery CI fails with the ninth case. The frozen 29cf1d7 candidate CI remains a separate passing observation. Shared/test bytes are unchanged during both planned Validation episodes; this delivery blocker is preserved, not skipped.
+- RC8 2016C terminal is evidence insufficient despite2 successful model captures. Native audit accepts conditional numerical results but identifies overstrong future-truth requirement, coarse group-overlap rejection, remaining-time metric mismatch and uncalibrated uncertainty; frozen outputs and negative gates are preserved.
+- Terminal commita03597b also exposed a frozen fault-injection test routing every evidence-insufficient terminal to historical004C2. The 004C5 schema route is valid, but this test must be updated under a future explicitly tested maintenance subject. A missing first_run_evidence summary for new2016 registry is corrected from the existing fixed decision; no case outputs change.
+- RC8 fresh batch planned2/started2/executed2/completed2/scientificPASS0.2016 is EVIDENCE_INSUFFICIENT;2015 is FAILED for Final prerequisite order despite independently supported conditional numerical outputs. Original positive-proposal audit FAIL and second audit PASS of the negative decision are distinct. Both terminal cases are immutable and cannot be rerun under this episode.
+- 004C6 is a new authorized bounded repair and known-case Development window; historical 004C5 Validation remains scientific 0/2 and no new independent Validation is authorized. RC9 candidate is not yet qualified.
+- 004C6 RC9 subject10e8b038 has full CI and neutral E2E evidence, but both known-case Development children terminal FAILED before Final due missing-scenario default disagreement. Native result review rejects candidate acceptance; independent Decision Auditor passes the machine rejection. No RC9 activation; old Validation0/2 and new independentValidation0 remain.
+- 004C7 engineering acceptance is limited to the frozen modular-workbench public paths and bounded demonstrations. Old Validation0/2, old Development0/2 and RC9 rejection remain unchanged; new independent Validation0. Conditional prediction future truth, whole known-task completion, native Windows, actual web/team acceptance and compliance remain unproven or NOT_RUN. Known module R1/R2 Final budgets are consumed; R1 unpublished subject remains development gap evidence only.

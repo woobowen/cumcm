@@ -1,0 +1,479 @@
+{
+  "access_ledger": {
+    "answer_access": "Official solutions remain SEALED and NOT_ACCESSED; no solution retrieval.",
+    "decision": "No strict untouched prediction test exists in this episode after this audit. Use DEVELOPMENT_NO_FINAL_EVALUATION; retain PREDICTIVE Q2/Q3 types. Formal Final/Claim/Handoff cannot claim full validation.",
+    "human_model_visible_values": "Attachment1 first10 observations and20A terminal5 observations; Attachment2 first10 rows and9.020..9.000 terminal5 rows, including state2 terminal979.0; target state3 endpoint9.765V596.2min.",
+    "initial_input_read": "DOCX body; workbook sheet head/tail; all worksheet rows materialized by metadata audit before split design.",
+    "program_materialization": "list(sheet.values) and numeric count iteration materialized ALL workbook labels. Not printed is not equivalent to not accessed.",
+    "proposed_intermediate_tail_not_promoted": "The idea of reserving state2 9.755..9.030 was rejected before numerical results because audited cells had already been materialized. It is not a blind test."
+  },
+  "anticipated_limits": [
+    "No full scientific PASS can be asserted merely from computation/CLI success.",
+    "Q2 andQ3 remain PREDICTIVE; absence of valid heldout and state3 future truth retained.",
+    "Ordinary source/metadata audit read too much for later untouched holdout; permanent access history retained."
+  ],
+  "assumptions": {
+    "assumptions": [
+      {
+        "challenge": "Strongly oscillatory or high-curvature gaps may be poorly represented.",
+        "id": "A1",
+        "statement": "Within each observed current a piecewise polynomial interpolant represents measured voltage; initial relaxation is retained rather than forcing false global monotonicity."
+      },
+      {
+        "challenge": "No55A observation; evaluate via leave-one-interior-current-out diagnostics.",
+        "id": "A2",
+        "statement": "Between adjacent measured currents, normalized voltage shape and total discharge time vary smoothly."
+      },
+      {
+        "challenge": "Only one battery; future state3 behavior and error unknown; transfer may fail.",
+        "id": "A3",
+        "statement": "At fixed current, aging-state elapsed time at equal voltage is approximately scale or affine transform of complete reference curves."
+      }
+    ],
+    "formulas": [
+      {
+        "expression": "P_I(t)=c3_j(t-x_j)^3+c2_j(t-x_j)^2+c1_j(t-x_j)+c0_j on [x_j,x_{j+1}]; R_I(9.8)=T_I-P_I^{-1}(9.8).",
+        "formula_id": "F-Q1",
+        "requirement_ids": [
+          "REQ-Q1"
+        ]
+      },
+      {
+        "expression": "MRE=(1/231)sum_k abs(t_model(9+0.005k)-t_sample(9+0.005k))/t_sample(9+0.005k), k=0..230.",
+        "formula_id": "F-MRE",
+        "requirement_ids": [
+          "REQ-Q1",
+          "REQ-Q2"
+        ]
+      },
+      {
+        "expression": "U(t,I)=(1-w)P_L(t*T_L/T_I)+w*P_H(t*T_H/T_I). Baseline w=(I-L)/(H-L), T arithmetic; candidate w=log(I/L)/log(H/L), T geometric.",
+        "formula_id": "F-Q2",
+        "requirement_ids": [
+          "REQ-Q2"
+        ]
+      },
+      {
+        "expression": "t_3(U)=a+b*(t_new(U)+t_state1(U)+t_state2(U))/3; R_3=t_3(9)-596.2. Fit only observed target prefix; baseline a=0, candidate free a.",
+        "formula_id": "F-Q3",
+        "requirement_ids": [
+          "REQ-Q3"
+        ]
+      }
+    ],
+    "symbols": {
+      "I": {
+        "meaning": "constant current",
+        "unit": "A"
+      },
+      "T": {
+        "meaning": "time at9V",
+        "unit": "min"
+      },
+      "U": {
+        "meaning": "terminal voltage",
+        "unit": "V"
+      },
+      "a": {
+        "meaning": "aging time offset",
+        "unit": "min"
+      },
+      "b": {
+        "meaning": "aging time scale",
+        "unit": "1"
+      },
+      "s": {
+        "meaning": "t/T",
+        "unit": "1"
+      },
+      "t": {
+        "meaning": "elapsed discharge time",
+        "unit": "min"
+      }
+    }
+  },
+  "candidates": [
+    {
+      "baseline": true,
+      "candidate_id": "BASELINE",
+      "method": "17 uniform-time knots plus first31 records; piecewise linear voltage; arithmetic current/time interpolation; zero-intercept aging scale.",
+      "rationale": "Simplest local interpolation and one-parameter aging transfer."
+    },
+    {
+      "baseline": false,
+      "candidate_id": "CUBIC_LOG_AFFINE",
+      "method": "33 uniform-time knots plus first31 records; shape-preserving piecewise cubic; logarithmic current/geometric duration interpolation; affine aging transfer.",
+      "rationale": "Resolves curvature and allows aging offset; extra flexibility may extrapolate poorly."
+    }
+  ],
+  "case_artifact_hashes": {
+    "assumptions_and_symbols": "7e2a663d60a78a1cfc0eabd100927115c4f8d4bbb7d84983950f14f65b868ac4",
+    "data_audit": "5e3bc9dc36b521940407fa6f1bfaec9637e8efab306f3d8838f3fcde9a7ebb61",
+    "data_sufficiency": "5a63aa2c0b49919e52ea57a3e5cfcc9c566f59857d6d7e136659133515d3a839",
+    "model_candidates": "a0522603ea2b3cd270c714b88e1f3bc19decc66478429d7c7c72a916e88f1580",
+    "problem_requirements": "9d8420f4fc8a1240879957c53b776e416e59ddc51c002fc99f5bfd2c910c4e9c",
+    "research_plan": "3b83925476dd2ebb0c25e5b48ee713e940eab2c374d1e6208cd91aa6b89d3ce0",
+    "source_ledger": "c9e94b505250b20323692c773bdc29d255bc5b26463bc279196e7444f1942edf"
+  },
+  "case_budget": {
+    "absolute_deadline": "2026-09-08T22:37:30Z",
+    "anchor": "2026-09-08T20:37:30Z",
+    "candidate_stop": "2026-09-08T22:17:30Z",
+    "wall_seconds": 7200
+  },
+  "case_id": "CUMCM-2016-C-VALIDATION-004",
+  "created_at": "2026-09-08T21:03:13Z",
+  "data_audit": {
+    "acquisition_plans": [],
+    "data_dictionary": [
+      {
+        "field": "current_A",
+        "location": "attachment1 columns",
+        "unit": "A"
+      },
+      {
+        "field": "voltage_V",
+        "location": "attachment1 cells; attachment2 first column",
+        "unit": "V"
+      },
+      {
+        "field": "elapsed_min",
+        "location": "attachment1 first column; attachment2 state columns",
+        "unit": "min"
+      }
+    ],
+    "data_hashes": {
+      "data/raw/appendix.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+      "data/raw/problem.docx": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+    },
+    "leakage_findings": [
+      {
+        "answer_access": "Official solutions remain SEALED and NOT_ACCESSED; no solution retrieval.",
+        "decision": "No strict untouched prediction test exists in this episode after this audit. Use DEVELOPMENT_NO_FINAL_EVALUATION; retain PREDICTIVE Q2/Q3 types. Formal Final/Claim/Handoff cannot claim full validation.",
+        "human_model_visible_values": "Attachment1 first10 observations and20A terminal5 observations; Attachment2 first10 rows and9.020..9.000 terminal5 rows, including state2 terminal979.0; target state3 endpoint9.765V596.2min.",
+        "initial_input_read": "DOCX body; workbook sheet head/tail; all worksheet rows materialized by metadata audit before split design.",
+        "program_materialization": "list(sheet.values) and numeric count iteration materialized ALL workbook labels. Not printed is not equivalent to not accessed.",
+        "proposed_intermediate_tail_not_promoted": "The idea of reserving state2 9.755..9.030 was rejected before numerical results because audited cells had already been materialized. It is not a blind test."
+      }
+    ],
+    "processed_lineage": [],
+    "quality_report": {
+      "attachment1": [
+        {
+          "current_A": 20,
+          "maximum_increase_V": 0.008100000000000662,
+          "observations": 1883,
+          "time_max_min": 3764,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 43
+        },
+        {
+          "current_A": 30,
+          "maximum_increase_V": 0.00429999999999886,
+          "observations": 1228,
+          "time_max_min": 2454,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 156
+        },
+        {
+          "current_A": 40,
+          "maximum_increase_V": 0.0058000000000006935,
+          "observations": 863,
+          "time_max_min": 1724,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 94
+        },
+        {
+          "current_A": 50,
+          "maximum_increase_V": 0.007200000000000983,
+          "observations": 655,
+          "time_max_min": 1308,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 44
+        },
+        {
+          "current_A": 60,
+          "maximum_increase_V": 0.01150000000000162,
+          "observations": 523,
+          "time_max_min": 1044,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 29
+        },
+        {
+          "current_A": 70,
+          "maximum_increase_V": 0.019999999999999574,
+          "observations": 432,
+          "time_max_min": 862,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 11
+        },
+        {
+          "current_A": 80,
+          "maximum_increase_V": 0.023600000000000065,
+          "observations": 366,
+          "time_max_min": 730,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 8
+        },
+        {
+          "current_A": 90,
+          "maximum_increase_V": 0.03139999999999965,
+          "observations": 311,
+          "time_max_min": 620,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 7
+        },
+        {
+          "current_A": 100,
+          "maximum_increase_V": 0.04860000000000042,
+          "observations": 270,
+          "time_max_min": 538,
+          "time_min_min": 0,
+          "trailing_blanks": "structural_end_of_discharge_not_imputed",
+          "voltage_increases": 7
+        }
+      ],
+      "attachment2_counts": {
+        "new": 301,
+        "state1": 301,
+        "state2": 301,
+        "state3": 148
+      },
+      "target3_endpoint": {
+        "elapsed_min": 596.2,
+        "voltage_V": 9.765
+      },
+      "target3_missing_future_labels": 153
+    },
+    "raw_immutable": true
+  },
+  "evaluation_design": {
+    "mode": "DEVELOPMENT_NO_FINAL_EVALUATION",
+    "predictive_final_authorized": false,
+    "reason": "All official workbook labels were materialized by intake audit; no later internal split can be asserted untouched; actual future state3 label absent."
+  },
+  "execution_budget": {
+    "final_access_budget": 0,
+    "fixed_candidate_attempts": 2,
+    "maximum_captured_attempts_entire_episode_all_revisions": 4,
+    "maximum_repairs_same_root_cause": 3,
+    "remaining_repair_captures_after_two_planned": 2,
+    "repair_rule": "No erased attempts. No default post-result model changes. Any necessary code correction requires main Git delivery and retained failed capture; unresolved freeze incompatibility yields PARTIAL/BLOCK.",
+    "seeds_each": 1,
+    "timeout_seconds_each": 300
+  },
+  "independent_checker": {
+    "algorithm": "Manual scalar Hermite coefficients, binary-search inverses, closed-form OLS; never imports producer or common solution helper.",
+    "coverage": "All polynomial coefficients; nine231-point inverse vectors; seven231-point LOCO vectors;55A101 rows; state3/state2/reference predictions; all perturbation results; per-requirement metrics.",
+    "domain": "Nonnegative predicted remaining duration separate from arithmetic agreement; does not establish future truth or aging invariance.",
+    "path": "models/check.py",
+    "tolerances": {
+      "coefficient_absolute": 1e-09,
+      "metric_absolute": 1e-09,
+      "time_vector_min_absolute": 1e-07
+    }
+  },
+  "metric": {
+    "direction": "MIN",
+    "formula": "0.5*mean seven leave-one-interior-current-out MRE +0.5*state1 temporal-tail transfer MRE from new-state reference",
+    "name": "joint_validation_MRE",
+    "q1_fitted_MRE": "diagnostic only, not selection",
+    "tie_rule": "ARGMIN_THEN_ID",
+    "units": "dimensionless"
+  },
+  "random_seeds": [
+    1729
+  ],
+  "required_code_repository_paths": [
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/produce.py",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py",
+    "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/prepare.py"
+  ],
+  "requirements": [
+    {
+      "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "claim_type": "EMPIRICAL",
+      "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+      "dependency_requirements": [],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "minimum_data_fields": [
+        "current_A",
+        "voltage_V",
+        "elapsed_min"
+      ],
+      "partial_completion_allowed": true,
+      "required_entity_scope": [
+        "PROVIDED_BATTERY_CURVES"
+      ],
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "required_time_scope": [
+        "PROVIDED_DISCHARGE_RECORDS"
+      ],
+      "requirement_id": "REQ-Q1",
+      "role": "PRIMARY",
+      "scientific_facts_required": true,
+      "simulation_substitution_allowed": false,
+      "text": "用初等函数表示附件1九条放电曲线，分别计算题定MRE；计算30、40、50、60、70A在9.8V的剩余放电时间。"
+    },
+    {
+      "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "claim_type": "PREDICTIVE",
+      "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+      "dependency_requirements": [
+        "REQ-Q1"
+      ],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "minimum_data_fields": [
+        "current_A",
+        "voltage_V",
+        "elapsed_min"
+      ],
+      "partial_completion_allowed": true,
+      "required_entity_scope": [
+        "PROVIDED_BATTERY_CURVES"
+      ],
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "required_time_scope": [
+        "PROVIDED_DISCHARGE_RECORDS"
+      ],
+      "requirement_id": "REQ-Q2",
+      "role": "PRIMARY",
+      "scientific_facts_required": true,
+      "simulation_substitution_allowed": false,
+      "text": "建立20至100A任意恒流曲线模型，按MRE评估精度，交付55A表格和曲线图形数据。"
+    },
+    {
+      "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+      "allowed_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "claim_type": "PREDICTIVE",
+      "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+      "dependency_requirements": [],
+      "external_data_allowed": false,
+      "external_data_required": false,
+      "minimum_data_fields": [
+        "current_A",
+        "voltage_V",
+        "elapsed_min",
+        "state3_terminal_elapsed_min"
+      ],
+      "partial_completion_allowed": true,
+      "required_entity_scope": [
+        "PROVIDED_BATTERY_CURVES"
+      ],
+      "required_evidence_classes": [
+        "PROVIDED_EMPIRICAL"
+      ],
+      "required_time_scope": [
+        "PROVIDED_DISCHARGE_RECORDS"
+      ],
+      "requirement_id": "REQ-Q3",
+      "role": "PRIMARY",
+      "scientific_facts_required": true,
+      "simulation_substitution_allowed": false,
+      "text": "预测附件2衰减状态3在最后观测时的剩余放电时间，并明确预测的证据和不确定性。"
+    }
+  ],
+  "research_log": [
+    {
+      "accessed_at": "2026-09-08",
+      "local_version_checked": "scipy1.17.1 PchipInterpolator.__doc__",
+      "no_solution_search": true,
+      "purpose": "Verify coefficient ordering, shape preservation and independent Hermite formula.",
+      "query": "site:docs.scipy.org PchipInterpolator monotonic piecewise cubic",
+      "source_id": "SRC-SCIPY-PCHIP-DOCS",
+      "status": "READ_OFFICIAL_DOCUMENTATION",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.PchipInterpolator.html"
+    }
+  ],
+  "revision": {
+    "active_case_root": ".cache/pr12-rc8/fresh/2016/case-r2",
+    "archive_index": "pre_run/revision_history.json",
+    "number": 2,
+    "prior_model_capture_count": 0,
+    "same_episode": true,
+    "superseded_case_root": ".cache/pr12-rc8/fresh/2016/case"
+  },
+  "robustness": [
+    "State3 prefix times+1min and-1min",
+    "Drop last10 state3 prefix observations and refit",
+    "Each of all3 complete references separately; range is not a confidence interval"
+  ],
+  "schema_version": "rc8-case-pre-run-proposal/v1",
+  "scientific_evidence_needs": {
+    "Q1": "Per-current full coefficient vectors,231 inverse predictions and actual sample-crossing MRE; required5 remaining times.",
+    "Q2": "Arbitrary-current formula, seven current-level LOCO errors and55A101-point table/figure data.",
+    "Q3": "Prefix-only fitted aging transfer, total and remaining forecast, state1 development-tail error, actual input perturbation and template spread; state3 actual accuracy UNKNOWN."
+  },
+  "sources": [
+    {
+      "authority": "CUMCM_OFFICIAL_PROVIDED_INPUT",
+      "entity_scope": [
+        "PROVIDED_BATTERY_CURVES"
+      ],
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "field_schema": [
+        "current_A",
+        "voltage_V",
+        "elapsed_min"
+      ],
+      "freshness": "IMMUTABLE_COMPETITION_INPUT",
+      "geographic_scope": [],
+      "hash": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+      "license_or_usage_status": "OFFICIAL_PROBLEM_INPUT_LOCAL_ANALYSIS_ONLY_NO_RAW_REPUBLICATION",
+      "limitations": [
+        "Attachment2 current magnitude unspecified; same current across states is stated.",
+        "Only prefix state3 observed; future terminal label unavailable.",
+        "Repeated voltage samples are not independent battery entities."
+      ],
+      "provenance": "Official C-only workbook; archive lineage in this case registration/official_retrieval.json; immutable byte-identical case copy.",
+      "retrieval_time": "2026-09-08T20:41:34.881829+00:00",
+      "source_id": "SRC-CUMCM-2016-C-WORKBOOK",
+      "supports_requirement_ids": [
+        "REQ-Q1",
+        "REQ-Q2",
+        "REQ-Q3"
+      ],
+      "time_scope": [
+        "PROVIDED_DISCHARGE_RECORDS"
+      ]
+    }
+  ],
+  "status": "PROPOSED_BEFORE_NUMERICAL_MODEL_RESULTS",
+  "stop_rule": "At most4 total model captures across every revision, normally2 fixed candidates, plus independent checkers; stop main numeric work on completion or22:17:30Z, whichever earlier. No re-run after candidate terminal freeze. No Final test authorized; preserve subsequent scientific BLOCK.",
+  "validation_boundary": {
+    "interpretation": "Development cross-validation and temporal transfer diagnostics; no untouched heldout.",
+    "test": [],
+    "train": [
+      "ATTACHMENT1_CURVES",
+      "ATTACHMENT2_NEW_COMPLETE",
+      "ATTACHMENT2_STATE1_PREFIX",
+      "ATTACHMENT2_STATE2_COMPLETE",
+      "ATTACHMENT2_STATE3_PREFIX"
+    ],
+    "validation": [
+      "ATTACHMENT2_STATE1_TAIL_9.760_TO_9.030"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "artifact_type": "robustness_analysis",
+  "content": {
+    "configuration_hash": "bba2cf4577920e0d55f5f24abb3ffcedc288a19a824d0d1ea8ad5c3545ed7887",
+    "decision_hash": "173bc75a19f621daad13e9d18b8136c66fbb7ae8dc3c67f61f142121280838ca",
+    "failure_cases": [
+      "Nonlinear future trend, purchase shortage and zero denominator are outside scope."
+    ],
+    "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+    "metric": "metric_a",
+    "metric_direction": "MIN",
+    "output_hash": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396",
+    "perturbations": [
+      {
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+        "metric": "metric_a",
+        "perturbation_id": "DEMAND_PLUS_ONE_OR_END_PLUS_ONE",
+        "result": 12
+      }
+    ],
+    "run_id": "RUN-CAND-20260906",
+    "selected_model": "CAND",
+    "status": "VALIDATED"
+  },
+  "content_hash": "13eed0a0122cf9405ab76d8aea2f1d140a4b84ec553b362a8088d711d377535b",
+  "status": "ACCEPTED"
+}

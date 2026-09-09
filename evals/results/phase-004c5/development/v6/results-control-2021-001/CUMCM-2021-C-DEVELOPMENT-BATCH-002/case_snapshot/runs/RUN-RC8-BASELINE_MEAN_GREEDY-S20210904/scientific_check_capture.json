@@ -1,0 +1,45 @@
+{
+  "argv": [
+    "models/c2021_independent_check.py",
+    "--case-root",
+    ".",
+    "--run-id",
+    "RUN-RC8-BASELINE_MEAN_GREEDY-S20210904",
+    "--output",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/scientific_check.json"
+  ],
+  "bound_files": {
+    "models/c2021_independent_check.py": "469aea41bc2f408bdfeef33e36822d2c68b69c4dce8461fe9a35b4c2f97c8646",
+    "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b",
+    "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/execution_capture.json": "64e364ae1c414cdbea9ec8becc4fa285b82c0c0395957216d0265b51fc08ce58",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/output.json": "71ebbbe9cdf2919e6a4658e0144121e041ad972ab220ca3dc792bc7744bdf1a0",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/scientific_check.json": "4402fa2c95637979c308ee5db0bc92cc3f0449e86113aa5bd5f22516438114f4"
+  },
+  "capture_mode": "CONTROLLED_SCIENTIFIC_CHECK_SUBPROCESS",
+  "checker": {
+    "path": "models/c2021_independent_check.py",
+    "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_independent_check.py",
+    "scope": "CASE_ROOT",
+    "sha256": "469aea41bc2f408bdfeef33e36822d2c68b69c4dce8461fe9a35b4c2f97c8646"
+  },
+  "code_commit": "4515597441da07ef0b654f16be787beea1ee089c",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "elapsed_seconds": 0.6109281560002273,
+  "ended_at": "2026-09-08T19:49:56Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20210904",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "final_test_access": false,
+  "independence_limit": "Distinct entrypoint; algorithmic independence requires review.",
+  "run_id": "RUN-RC8-BASELINE_MEAN_GREEDY-S20210904",
+  "runner_version": "0.2.0-competition-rc7",
+  "schema_version": "scientific-check-capture/v2",
+  "started_at": "2026-09-08T19:49:56Z",
+  "status": "SUCCESS",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "66c076823917e34b70f6dcb2049b85409125bf237e08c9786dcf06f0c935ac7c",
+  "timeout_seconds": 600
+}

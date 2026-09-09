@@ -11,6 +11,8 @@ from pathlib import Path
 import pytest
 import yaml
 
+from cumcm_skill_lab.training_registry import repository_registry_errors
+
 
 def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -43,6 +45,9 @@ def legacy_development_start_is_locked(state: dict) -> bool:
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
         "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
         "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
     }
 
 
@@ -150,8 +155,8 @@ def test_case_registry_declares_required_training_fields(repo_root: Path) -> Non
         "CUMCM-2019-C-VALIDATION-002",
         "CUMCM-2017-C-VALIDATION-003F",
     }
-    assert len(registry["cases"]) == len(expected_case_ids)
-    assert {case["case_id"] for case in registry["cases"]} == expected_case_ids
+    assert expected_case_ids <= {case["case_id"] for case in registry["cases"]}
+    assert repository_registry_errors(repo_root, registry) == []
     fresh_validation = next(
         case for case in registry["cases"] if case["case_id"] == "CUMCM-2019-C-VALIDATION-002"
     )

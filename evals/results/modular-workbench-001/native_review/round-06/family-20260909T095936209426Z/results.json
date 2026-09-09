@@ -1,0 +1,72 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-B",
+    ".cache/modular-workbench-001/protocol-review/round-06/family_probes.py"
+  ],
+  "started_utc": "2026-09-09T09:59:36.209426+00:00",
+  "ended_utc": "2026-09-09T09:59:36.300444+00:00",
+  "source_before": {
+    "scripts/check_modular_workbench.py": "346b49276c97237af1804d5af3aa2cd2208a08a0a6aff0e352bd076e26e67545",
+    "evals/results/modular-workbench-001/qualification/protocol.json": "eede9891116280234ec3584659d0f38f351173c52c130ca946129eaa25896221",
+    "evals/results/modular-workbench-001/development_exports/acceptance-001/mixed/records.json": "0ea4cf84bdb39d90392c92e52c3fd8808533dd8e9471f548898fb459a55ef4de"
+  },
+  "source_after": {
+    "scripts/check_modular_workbench.py": "346b49276c97237af1804d5af3aa2cd2208a08a0a6aff0e352bd076e26e67545",
+    "evals/results/modular-workbench-001/qualification/protocol.json": "eede9891116280234ec3584659d0f38f351173c52c130ca946129eaa25896221",
+    "evals/results/modular-workbench-001/development_exports/acceptance-001/mixed/records.json": "0ea4cf84bdb39d90392c92e52c3fd8808533dd8e9471f548898fb459a55ef4de"
+  },
+  "results": {
+    "unchanged_existing_original_records": {
+      "returned": []
+    },
+    "content_change_without_raw_refresh": {
+      "exception": "ValueError",
+      "message": "WB_RAW_RECORD_IDENTITY_INVALID"
+    },
+    "final_checks_omit_primary_req_c_with_correct_raw_hashes": {
+      "returned": [
+        "WB_FINAL_RECALCULATION_BINDING_INVALID",
+        "WB_FINAL_RECALCULATION_BINDING_INVALID"
+      ]
+    },
+    "final_recalculation_residual_fails_but_feasible_summary_true": {
+      "returned": [
+        "WB_FINAL_RECALCULATION_BINDING_INVALID",
+        "WB_FINAL_RECALCULATION_BINDING_INVALID"
+      ]
+    },
+    "manifest_references_wrong_capture_hash": {
+      "returned": [
+        "WB_MANIFEST_CAPTURE_BINDING_INVALID",
+        "WB_MANIFEST_CAPTURE_BINDING_INVALID"
+      ]
+    },
+    "mixed_three_requirements_but_only_two_primary": {
+      "returned": [
+        "WB_MIXED_PRIMARY_COVERAGE_INCOMPLETE"
+      ]
+    },
+    "final_time_precedes_actual_models_by_one_day": {
+      "returned": [
+        "WB_FINAL_PRECEDES_CAPTURE"
+      ]
+    },
+    "raw_ledger_boolean_count_but_content_integer_count": {
+      "exception": "ValueError",
+      "message": "WB_RAW_RECORD_IDENTITY_INVALID"
+    }
+  },
+  "scope": {
+    "qualification_helpers_only": true,
+    "private_copies_of_allowed_original_records": true,
+    "model_execution": 0,
+    "scientific_checker_execution": 0,
+    "final_execution": 0,
+    "known_reads": 0,
+    "full_ci": 0,
+    "network": 0,
+    "public_writes": 0,
+    "git_mutations": 0
+  }
+}

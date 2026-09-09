@@ -1,0 +1,55 @@
+{
+  "view_kind": "DERIVED_READING_VIEW",
+  "view_version": "1.0.0",
+  "package_hash": "09784e197709c5c5657d5eedac9959c7a72312e0ea30631a7bbeeb46afe05c71",
+  "rows": [
+    {
+      "claim_id": "CLAIM-REQ-A",
+      "requirement_id": "REQ-A",
+      "original_statement": "Bounded result for REQ-A.",
+      "reading_cn": "在严格仿射条件估计的8 L备水需求、正价格/整箱/无限供应模型内，采购一只3 L和一只5 L容器，成本11元；独立有限枚举支持该整数模型内最优，不证明现实效果。",
+      "run_id": "RUN-CAND-20260906",
+      "metric_ids": [
+        "metric_a"
+      ],
+      "original_claim_field": "claim_evidence.CLAIM-REQ-A",
+      "source_output_path": "runs/RUN-CAND-20260906/output.json",
+      "source_output_sha256": "cb6516994e10587418191cf42e80ce5ea597c3c52bda07fc9ab3873b4aa59dd7",
+      "view_path": "views/017-output.json.txt",
+      "view_sha256": "cb6516994e10587418191cf42e80ce5ea597c3c52bda07fc9ab3873b4aa59dd7",
+      "value_field": "allocation.cost; allocation.counts"
+    },
+    {
+      "claim_id": "CLAIM-REQ-B",
+      "requirement_id": "REQ-B",
+      "original_statement": "Bounded result for REQ-B.",
+      "reading_cn": "在B组112 min以前的严格仿射合成轨迹持续条件下，到10 L阈值的剩余时间估计为8 min（条件终点120 min）；历史A组两个起点算术误差近零，不证明B的真实未来精度或一般噪声预测效果。",
+      "run_id": "RUN-BASE-20260906",
+      "metric_ids": [
+        "metric_b"
+      ],
+      "original_claim_field": "claim_evidence.CLAIM-REQ-B",
+      "source_output_path": "runs/RUN-BASE-20260906/output.json",
+      "source_output_sha256": "4635f933cf35ff7001770547e31b4b09c697ce1be607e57a793c7a638f31b202",
+      "view_path": "views/012-output.json.txt",
+      "view_sha256": "4635f933cf35ff7001770547e31b4b09c697ce1be607e57a793c7a638f31b202",
+      "value_field": "scientific_evidence.REQ-B.prediction_evidence.predictions[0].value; validation_metrics.metric_b"
+    },
+    {
+      "claim_id": "CLAIM-REQ-C",
+      "requirement_id": "REQ-C",
+      "original_statement": "Bounded result for REQ-C.",
+      "reading_cn": "以选中采购方案的8 L库存、1 L/min固定消耗、无泄漏为条件，相对分钟0..8的库存为8,7,6,5,4,3,2,1,0 L，终点0 L且逐点守恒；未核验真实供应或损耗。",
+      "run_id": "RUN-CAND-20260906",
+      "metric_ids": [
+        "metric_c"
+      ],
+      "original_claim_field": "claim_evidence.CLAIM-REQ-C",
+      "source_output_path": "runs/RUN-CAND-20260906/output.json",
+      "source_output_sha256": "cb6516994e10587418191cf42e80ce5ea597c3c52bda07fc9ab3873b4aa59dd7",
+      "view_path": "views/017-output.json.txt",
+      "view_sha256": "cb6516994e10587418191cf42e80ce5ea597c3c52bda07fc9ab3873b4aa59dd7",
+      "value_field": "allocation.balance_litres; validation_metrics.metric_c"
+    }
+  ]
+}

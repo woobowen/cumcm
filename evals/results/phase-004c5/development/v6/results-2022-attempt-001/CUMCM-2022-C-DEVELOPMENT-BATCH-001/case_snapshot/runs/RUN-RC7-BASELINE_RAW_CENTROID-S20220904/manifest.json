@@ -1,0 +1,82 @@
+{
+  "argv": [
+    "models/model_pipeline.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "BASELINE_RAW_CENTROID",
+    "--seed",
+    "20220904",
+    "--output",
+    "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/output.json"
+  ],
+  "capture_record": {
+    "path": "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/execution_capture.json",
+    "sha256": "9ab8ffcd93dcc9f6718eb0818194e45500e0b3b210b24ae4339068171a1d1566"
+  },
+  "code_commit": "ff2f7ba2cd1b9a8995d4f65b9936855b6cbb00e1",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "8ba9d1dda8f49771ea14efc2ba8127abf0418763cfca325856e24ae359da7020"
+    },
+    {
+      "path": "models/model_pipeline.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2022/code/model_pipeline.py",
+      "scope": "CASE_ROOT",
+      "sha256": "6bafa8c5a62b60dd826e84ea9b7c763e7f2141eeaf11b8e8e0b5ae7c4a237b0d"
+    },
+    {
+      "path": "models/scientific_checks.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2022/code/scientific_checks.py",
+      "scope": "CASE_ROOT",
+      "sha256": "f39010ab9e144e77734796185089ab26c8ba3bc3795521216b20244bc8c31c38"
+    }
+  ],
+  "code_tree_hash": "9f93db6f80fe4f1b0bb9a0976a58e406ca7863b0b097dd693fee8b6b53ed8a21",
+  "configuration": {
+    "candidate_id": "BASELINE_RAW_CENTROID",
+    "seed": 20220904
+  },
+  "configuration_hash": "6533fcfbe40def82536fdf5dfadaf08893f2a6fe0e14e1dae25934d46e2e9e7c",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "decision_hash": "102b0db41af0c2599db2e05987bafa3ea13f581cbfeba4e98387be87caf9e631",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20220904",
+    "TZ": "UTC"
+  },
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "7db86edf6ea5386afc2544c21fed8315fd2253f3d5de7fb1548b2e54fc3c0765",
+    "candidate_set": "4eb8f500ecccf287dd004a670e8371f28941c8813e97096e3944de84d28d330f",
+    "code_commit": "c64deaa54f70e1ad9de3e18d4475148b2405ba46111d6276b7df657d1e691a9a",
+    "code_set": "eab0b5000a382ba5643a62a2e8fabf3150b6775e9a3176461ffb52a0c1c18402",
+    "execution_policy": "5f4d6a5fb66bfe6675dbef9ce4598603f87ee69dd1e26ec1f0b3cc4ce28b6600",
+    "input_set": "ffb9ebf7f2db2e0e53fc772f416cbfcebffe5f3c3517741c5e8a423cb964d114",
+    "metric": "575918b07c8d9d93e70641c3ecb019c21e4efa7cb346f0d6fc64ed5b6fe56997",
+    "seed_schedule": "8344d77e665311afa15259152afe6811338de8e505ec29bedefaa5bd97da4de1",
+    "split_assignment": "eebad25b264a827b9cfd5760cc0e41fd0600482c77f1b813e41d0cdea2e13f90"
+  },
+  "input_files": [
+    {
+      "path": "raw/case_files/附件.xlsx",
+      "sha256": "ffb82a8e209a005f26883e115de3ddea42ab6e0a34986d312a52a3cea6b1063c"
+    }
+  ],
+  "input_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+  "outcome": "SUCCESS",
+  "output_files": [
+    {
+      "path": "runs/RUN-RC7-BASELINE_RAW_CENTROID-S20220904/output.json",
+      "sha256": "950a174bac77af1db5cd5fb0f78f70bf833b1084bf7d725624f5e6b047591649"
+    }
+  ],
+  "output_hash": "1d16150cf547b7ebc5fd722f9421d193d6ba78087f1b761c03bafea1ba6aa376",
+  "random_seed": 20220904,
+  "run_id": "RUN-RC7-BASELINE_RAW_CENTROID-S20220904",
+  "scenario_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+  "supersession": null,
+  "trusted_capture": true
+}

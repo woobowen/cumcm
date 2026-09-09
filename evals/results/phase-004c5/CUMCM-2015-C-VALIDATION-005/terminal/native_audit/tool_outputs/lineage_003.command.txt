@@ -1,0 +1,27 @@
+.venv/bin/python - <<'PY'
+import pathlib,json,hashlib,csv,datetime
+base=pathlib.Path('evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005');cb=base/'candidate_artifacts/case_bundle';snap=json.loads(pathlib.Path('evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json').read_text());shared={}
+for p in ['.agents/skills/cumcm-modeling-evidence/SKILL.md','.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py','scripts/finalize_fresh_c_validation.py','contracts/subagent_audit.schema.json']:
+ actual=hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest();expected=snap['implementation_files'].get(p);shared[p]={'actual':actual,'frozen':expected,'matches':actual==expected if expected else None}
+obs={'shared_allowed_files':shared,'run_lineage':{},'handoff':{}}
+for cand in ['GEOCENTRIC','TOPOCENTRIC']:
+ d=cb/'runs'/('RUN-2015-'+cand);m=json.loads((d/'manifest.json').read_text());cap=json.loads((d/'execution_capture.json').read_text());o=json.loads((d/'output.json').read_text());chk=json.loads((d/'scientific_check_capture.json').read_text());expectedplan=json.loads((cb/'experiments/experiment_plan.json').read_text())['content'];stats={}
+ for stream in ['stdout','stderr']:
+  stats['producer_'+stream+'_matches']=hashlib.sha256((d/(stream+'.txt')).read_bytes()).hexdigest()==cap[stream]['sha256'];stats['checker_'+stream+'_matches']=hashlib.sha256((d/('scientific_check.'+stream)).read_bytes()).hexdigest()==chk[stream+'_sha256']
+ stats.update(code_commit=cap['code_commit'],started_at=cap['started_at'],ended_at=cap['ended_at'],exit_code=cap['exit_code'],input_count=len(cap['input_files']),inputs_match_freeze={r['path']:r['sha256'] for r in cap['input_files']}==expectedplan['required_input_hashes'],configuration=m.get('configuration'),manifest_output_files=m.get('output_files'),checker_started_at=chk['started_at'],checker_ended_at=chk['ended_at'],checker_exit=chk['exit_code'],code_matches={r['path']:hashlib.sha256(pathlib.Path(r['repository_path']).read_bytes()).hexdigest()==r['sha256'] for r in cap['code_files']})
+ obs['run_lineage'][cand]=stats
+h=json.loads((cb/'handoff/modeling_to_paper.json').read_text());ag=json.loads((cb/'handoff/actual_generation.json').read_text());obs['handoff']={'keys':list(h),'actual_generation':ag,'hash_matches':hashlib.sha256((cb/'handoff/modeling_to_paper.json').read_bytes()).hexdigest()==ag['handoff_sha256']}
+o=json.loads((cb/'runs/RUN-2015-TOPOCENTRIC/output.json').read_text());tabs=base/'candidate_artifacts/tables';mismatches=[]
+for fn,expected in [('scene_windows_2016.csv',[{'city':c,**r} for c,v in o['events'].items() for r in v]),('reference_position_comparison.csv',o['reference_comparison'])]:
+ rows=list(csv.DictReader((tabs/fn).open()));bad=[]
+ for j,(got,exp) in enumerate(zip(rows,expected,strict=True)):
+  for k,v in got.items():
+   if k not in exp:bad.append([j,k,'EXTRA_FIELD']);continue
+   ev=exp[k]
+   if isinstance(ev,(int,float)):
+    if float(v)!=ev:bad.append([j,k,v,ev])
+   elif v!=str(ev):bad.append([j,k,v,ev])
+ mismatches.append({'file':fn,'rows':len(rows),'mismatches':bad[:5],'mismatch_count':len(bad)})
+obs['csv_exact_checks']=mismatches
+s=json.dumps(obs,ensure_ascii=False,sort_keys=True,separators=(',',':'));print(json.dumps({'receipt_id':'AUDIT-2015-LINEAGE-003','at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':0,'stdout':s,'stdout_sha256':hashlib.sha256(s.encode()).hexdigest(),'stderr':''},ensure_ascii=False,indent=2))
+PY

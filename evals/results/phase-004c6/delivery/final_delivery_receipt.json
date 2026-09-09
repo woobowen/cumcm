@@ -1,0 +1,258 @@
+{
+  "schema_version": "phase-004c6-final-delivery/v1",
+  "recorded_at": "2026-09-09T04:47:29.934031+00:00",
+  "delivery_status": "REMOTE_DELIVERED",
+  "delivery_scope": "Tested content commit only; this receipt and its publication commit are observed separately.",
+  "branch": "feat/phase004c5-p0-01-finalization-hf22-repro",
+  "starting_commit": "bcf498907cbf282e2c79580ea56b043fc1a7b52b",
+  "tested_content_commit": "99e96dc40314c6b80d5f94bdad2ce48773f228c4",
+  "remote_verified_commit": "99e96dc40314c6b80d5f94bdad2ce48773f228c4",
+  "shared_implementation_subject": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "publication_commit": "NOT_SELF_REFERENCED; exact later publication HEAD and its current remote CI are verified in PR12 body and final response",
+  "pr_observation": {
+    "headRefName": "feat/phase004c5-p0-01-finalization-hf22-repro",
+    "headRefOid": "99e96dc40314c6b80d5f94bdad2ce48773f228c4",
+    "isDraft": true,
+    "number": 12,
+    "state": "OPEN",
+    "url": "https://github.com/woobowen/cumcm/pull/12"
+  },
+  "outcomes": {
+    "engineering_closure": false,
+    "neutral_specifications": {
+      "passed": 10,
+      "total": 10
+    },
+    "actual_cli_e2e": {
+      "passed": 3,
+      "total": 3
+    },
+    "scoped_development_completion": {
+      "passed": 0,
+      "total": 2
+    },
+    "old_validation_scientific": {
+      "passed": 0,
+      "total": 2,
+      "unchanged": true
+    },
+    "new_independent_validation": 0,
+    "candidate_qualification": "BLOCK",
+    "effective_acceptance": false,
+    "candidate_activated": false,
+    "native_result_candidate_acceptance": "FAIL",
+    "decision_auditor": "PASS_FOR_REJECTION",
+    "team_compliance_review": "NOT_RUN"
+  },
+  "historical_rc8": {
+    "qualified_subject": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+    "activation_commit": "8ef732b45cf3cb04262317cdfa13a176b47eebe0",
+    "qualification_applies_to_current_rc9_bytes": false
+  },
+  "current_state": {
+    "path": "state/project_state.json",
+    "sha256": "88d6fa29c25be5684b2e21b9df597c8f8bfde57e2a8794b00b2a4184cc43918e"
+  },
+  "evidence": {
+    "final_full_ci": {
+      "path": "evals/results/phase-004c6/qualification/receipts/final_full_ci.json",
+      "sha256": "e41c104f43473cada558499e159391244daafc510b66aa0b4a69322c7c3d9386"
+    },
+    "final_remote_ci": {
+      "path": "evals/results/phase-004c6/qualification/receipts/remote_ci_99e96dc.json",
+      "sha256": "f1fca45daa6432c95a559c2023a7b0ac3e88f6854551bec44e94dd32553b940a"
+    },
+    "repository_checks": {
+      "path": "evals/results/phase-004c6/qualification/receipts/final_repository_checks.json",
+      "sha256": "d0f1208f17d5f7f39f4e55c597df97c545814bc6f637e861034f4966e03cd48a"
+    },
+    "preservation_checks": {
+      "path": "evals/results/phase-004c6/qualification/receipts/final_preservation_checks.json",
+      "sha256": "eddb7a639b297d2c4013472dc03062c17a1bc5d36f87860d7273b3372bb05f64"
+    },
+    "focused_tests": {
+      "path": "evals/results/phase-004c6/qualification/receipts/focused_r2.json",
+      "sha256": "1c39797b6c740e2ed973f20f5d845fd916db2e7502cd7ca10b57541f1ee21d82"
+    },
+    "neutral_specs_and_three_cli_e2es": {
+      "path": "evals/results/phase-004c6/qualification/receipts/neutral_r2.json",
+      "sha256": "21826e4fda7a9dd849ecd9a26b5893ae028a96f363598ebf247ac2deaa1f7ecb"
+    },
+    "shared_subject": {
+      "path": "evals/results/phase-004c6/qualification/shared_subject_r2.json",
+      "sha256": "351d966180dc0b0479d29bd8ff9fc47208b95ecb49e7613dd94cec2b0b5e535d"
+    },
+    "candidate_snapshot": {
+      "path": "evals/results/phase-004c6/qualification/rejected_r2/rc9_candidate_snapshot.json",
+      "sha256": "dea0eb8b3597129ccf73532c15e1dd884e1f5e3d99a909eed4ae6bcf93e71023"
+    },
+    "machine_rejection": {
+      "path": "evals/results/phase-004c6/qualification/rejected_r2/rc9_candidate_decision.json",
+      "sha256": "c27c464858f0738807945cdd2acb4500669e2153d496a77538d6b6f837aed625"
+    },
+    "actual_native_result_review": {
+      "path": "evals/results/phase-004c6/qualification/receipts/native_result_r2.json",
+      "sha256": "4a6c6cdbc6a0cda3832706418841746f2e55737df846b2f0a926cd1c63e41072"
+    },
+    "decision_auditor": {
+      "path": "evals/results/phase-004c6/qualification/decision_audit_001/receipt.json",
+      "sha256": "2d63c04d8d96a4eaf6f2926ae5358a4631cba5a7c89e8407151d78e1589b0c60"
+    },
+    "state_transition": {
+      "path": "evals/results/phase-004c6/qualification/terminal_state_transition.json",
+      "sha256": "4489e188f5d106fa3df830e2c014368641de33339db59634cbb550dde7aa4b70"
+    },
+    "environment": {
+      "path": "evals/results/phase-004c6/qualification/environment_changes.json",
+      "sha256": "f25d98e7127dd38461997a319194a92b3de43a40b8da9779db4a5ffd73783327"
+    },
+    "cost_observation": {
+      "path": "evals/results/phase-004c6/qualification/cost_observations.json",
+      "sha256": "57872449b8dbe99b9c6eb3b904d641570345e7f6da7d62b4e63a8d82b3d6e25e"
+    },
+    "final_report": {
+      "path": "evals/results/phase-004c6/FINAL_REPORT.md",
+      "sha256": "f3a20388cbd9091599ca5fa3dd798547eedffa92ba9acfc6defe1420a30d7f29"
+    },
+    "recovery": {
+      "path": "evals/results/phase-004c6/DELIVERY_AND_RECOVERY.md",
+      "sha256": "880520e9aa1466d1ef05b6745fd82572d44dbfd7f1013bb9597caba7ca23f4ba"
+    }
+  },
+  "development_cases": [
+    {
+      "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+      "status": "FAILED",
+      "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+      "terminal": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json",
+        "sha256": "8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73"
+      },
+      "execution": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/execution/execution_evidence.json",
+        "sha256": "5b65fba4a8e242cb30626a329ad5fb215b32e59ce49bfcfd5953ab3e5b956da3"
+      },
+      "scientific_report": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/SCIENTIFIC_REPORT.md",
+        "sha256": "a5278ef17d87ac7ad702e22a15362db1fb68cbeead54c69643215cfb4ef14ccf"
+      },
+      "model_cli_requests": 4,
+      "preprocess_rejected_requests": 2,
+      "actual_model_starts": 2,
+      "actual_independent_checker_starts": 3,
+      "actual_final_starts": 0,
+      "accepted_handoff": false
+    },
+    {
+      "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+      "status": "FAILED",
+      "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+      "terminal": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json",
+        "sha256": "6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400"
+      },
+      "execution": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/execution/execution_evidence.json",
+        "sha256": "f4d0fcf1a60c04bb6f807366e4f8b43a6a4c9cba91de71fe962ecafbc5d6f4ec"
+      },
+      "scientific_report": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/SCIENTIFIC_REPORT.md",
+        "sha256": "f870c6520e219afddb91a35491dd4c59cdd45d1fba152045788d247eaed6788c"
+      },
+      "model_cli_requests": 4,
+      "preprocess_rejected_requests": 2,
+      "actual_model_starts": 2,
+      "actual_independent_checker_starts": 3,
+      "actual_final_starts": 0,
+      "accepted_handoff": false
+    }
+  ],
+  "commits_through_tested_content": [
+    {
+      "commit": "71774dc6e3e214a3e69a8189507ee1ef3d735648",
+      "subject": "plan: freeze RC9 repair expectations and open bounded 004C6 window"
+    },
+    {
+      "commit": "926d5315816b7af9ad518b1d36b96097e2bc0a75",
+      "subject": "fix: preserve historical identities while validating registered extensions"
+    },
+    {
+      "commit": "9d53dbba75dad5d97ac8ae185574a3d0e4b28ca9",
+      "subject": "fix: order nonpredictive Final after frozen development gates"
+    },
+    {
+      "commit": "509717b070ec7a3f3a78e80b3b29ec7daec0c693",
+      "subject": "feat: bind conditional forecasts to temporal lineage and target metrics"
+    },
+    {
+      "commit": "08e71708dae2e68d99792f1143bfef787c1be14c",
+      "subject": "fix: derive comparison freezes from bound metric definitions"
+    },
+    {
+      "commit": "7ed9dd18c35bed79cc9dd4e96926fef9b35b7e81",
+      "subject": "feat: stage explicit RC9 contracts and preserve native review findings"
+    },
+    {
+      "commit": "8f5ad2514454cad8dd830c31fd1c4eb3aed9b0b7",
+      "subject": "fix: verify forecast-origin selection and independent metric samples"
+    },
+    {
+      "commit": "ee0159c68aaeb1a60eba947ad73f1ed0de8b4e2a",
+      "subject": "feat: preregister development preparation and count actual process starts"
+    },
+    {
+      "commit": "be94b3b719e4da30ed8360b1a4f175795c0d1da0",
+      "subject": "fix: close scientific review gaps and adjudicate RC9 evidence separately"
+    },
+    {
+      "commit": "38fae5f09555448f690efcaf7caa2e13b114eaff",
+      "subject": "feat: preserve native science audits and bind validation command receipts"
+    },
+    {
+      "commit": "1696c9d2014b9be6ba6aec0a4656336e60aacd4e",
+      "subject": "fix: bind development terminal tuples and actual native result reviews"
+    },
+    {
+      "commit": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+      "subject": "fix: use canonical development decisions and declare CI math dependencies"
+    },
+    {
+      "commit": "292d91b0ca2b460fba5c15ff5fbe9903d05773b9",
+      "subject": "feat: freeze shared RC9 subject and register two postvalidation children"
+    },
+    {
+      "commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+      "subject": "fix(rc9): bind version and plan tests and complete child registry contracts"
+    },
+    {
+      "commit": "1b3473266efc2ea602e5b20ea2fbeb22cf95b1b9",
+      "subject": "record(rc9): freeze shared revision two before any development execution"
+    },
+    {
+      "commit": "7169ecb4f0d49eff2d8b11b5e6caa1029e29e86c",
+      "subject": "record(rc9): preserve full CI and both independently checked development failures"
+    },
+    {
+      "commit": "99e96dc40314c6b80d5f94bdad2ce48773f228c4",
+      "subject": "record(rc9): audit and preserve rejected candidate without activation"
+    }
+  ],
+  "remaining_blockers": [
+    "R7-001: execute derives default scenario_hash from input SHA list; common completion and prefinal verification pass None and reject both actual cases.",
+    "Two registered functional candidates and each case four model CLI requests are exhausted; no third subject or retry within frozen child episodes."
+  ],
+  "frozen_registry_delivery_fields": "LOCAL_FROZEN_PENDING_REMOTE_DELIVERY is the immutable observation at first-run freeze; this later receipt separately records actual remote delivery.",
+  "local_untracked_preserved": "Supplied task document Zone.Identifier remains local and untracked.",
+  "publication_exclusions": [
+    "original problem text",
+    "raw input workbooks",
+    "dense observations",
+    "answers",
+    "benchmark vault",
+    "credentials",
+    "private absolute paths",
+    "caches",
+    "virtual environments",
+    "raw audit transport"
+  ]
+}

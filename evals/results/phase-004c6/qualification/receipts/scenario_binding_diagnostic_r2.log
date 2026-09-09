@@ -1,0 +1,50 @@
+STDOUT
+{
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "observed_at": "2026-09-09T03:59:16.740735+00:00",
+  "records": [
+    {
+      "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+      "plan_sha256": "8947aa5e0e98a69176ba8d97af4f4329861332337b4fc0c8848459dd902f62dc",
+      "scenario_key_present": false,
+      "capture_scenario_hash": "6125b5fb0afcd5caedafcc374f9b21f0450832e51e1e33e1f362328ee5aa171f",
+      "independently_derived_from_frozen_input_hashes": true,
+      "actual_argument_result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND"
+        ]
+      },
+      "memory_only_declared_argument_diagnostic": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "case_files_modified": false,
+      "candidate_acceptance": false,
+      "final_started": false
+    },
+    {
+      "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+      "plan_sha256": "c946d7daf39cfaefaadc3016c0ae6dbe6da85af99a73e70ccfc98d5243ddb53b",
+      "scenario_key_present": false,
+      "capture_scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+      "independently_derived_from_frozen_input_hashes": true,
+      "actual_argument_result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND"
+        ]
+      },
+      "memory_only_declared_argument_diagnostic": {
+        "status": "PASS",
+        "reason_codes": []
+      },
+      "case_files_modified": false,
+      "candidate_acceptance": false,
+      "final_started": false
+    }
+  ],
+  "scope": "Root-cause diagnostic of one pure contract call. It does not modify a frozen plan or execute/accept Final, semantic gates or handoff."
+}
+
+STDERR

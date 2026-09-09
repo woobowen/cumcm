@@ -1,0 +1,107 @@
+{
+  "schema_version": "phase-004c5-native-audit/v1",
+  "role": "adversarial_evidence_auditor",
+  "tool": "collaboration.spawn_agent",
+  "task_name": "rc8_fact_binding_audit",
+  "fork_turns": "none",
+  "input_commit": "17f109cadc8524c285af6a50776e6c3decb8b3e8",
+  "observed_end_commit": "aeaaac5fcf62de966ca3efc94c0a5282337c94e1",
+  "verdict": "BLOCK",
+  "scope": "EARLY_FACT_BINDING_DEFECT_DISCOVERY_NOT_CANDIDATE_ACCEPTANCE",
+  "input_hashes": {
+    "scripts/run_c_target_rc7_development_regressions.py": "5e931a9a413de9a43d2afa22f93bd8f2cf9ad1ba30e8a0e53c1f0b03fa0e57fc",
+    "scripts/finalize_fresh_c_validation.py": "7e5a6fc1d7757792dd11e905a13af4e8262f6c437a51e2e5e77390960bffaba2",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "342eb19813a463a7ec4b47a31cd827a353547a750fe0eb6a72682a1593f5e2a2",
+    ".agents/skills/cumcm-modeling-evidence/SKILL.md": "2cde42f058843b61fc1952e8168c25f41c3c879a90b23c7660a57fb9942065db",
+    "tests/fixtures/authorized_final_eval_model.py": "15e10c495bc9773679895c3e00d4b5fc7a16dfb0b2d04535f19bd4c7a19365ec"
+  },
+  "findings": [
+    {
+      "finding_id": "FA-001",
+      "severity": "BLOCKER",
+      "claim": "Claim scope is not cross-bound to source/input scope",
+      "probe": "scope_outside_source",
+      "observed_trace_sha256": "dc609f5c0aefbb2a7741a6c0470649c798c71410d68ebc072d0302eb34f56f91",
+      "disposition": "OPEN"
+    },
+    {
+      "finding_id": "FA-002",
+      "severity": "BLOCKER",
+      "claim": "Semantic statement can replace captured local statement",
+      "probe": "statement_changed",
+      "observed_trace_sha256": "cc339f2b5e465c088556c27650537cc3915d10be4ef9c599509b970684044dd2",
+      "disposition": "OPEN"
+    },
+    {
+      "finding_id": "FA-003",
+      "severity": "BLOCKER",
+      "claim": "Nonpredictive support predicates can self-attest",
+      "probe": "feasibility_without_certificate",
+      "observed_trace_sha256": "9aa68c150fb81879398deec02de7a148c07083e306fe1d0dcce680e468e201a8",
+      "disposition": "OPEN"
+    },
+    {
+      "finding_id": "FA-004",
+      "severity": "HIGH",
+      "claim": "Development builder substitutes nonempty containers for assumption and requirement-specific verification",
+      "probe": "synthetic_builder_probe",
+      "observed_trace_sha256": null,
+      "disposition": "OPEN"
+    },
+    {
+      "finding_id": "FA-005",
+      "severity": "HIGH",
+      "claim": "Source hash has no actual input/derivation binding",
+      "probe": "source_hash_not_in_input_registry",
+      "observed_trace_sha256": "b5425e9bf42c586bf46da8d727b5f71d255f952f46eba2b6927316119a754dbb",
+      "disposition": "OPEN"
+    },
+    {
+      "finding_id": "FA-006",
+      "severity": "HIGH",
+      "claim": "Development legacy completion only validates a self-contained semantic bundle",
+      "probe": "static_actual_call_path",
+      "observed_trace_sha256": null,
+      "disposition": "OPEN"
+    }
+  ],
+  "actual_tool_observations": {
+    "controller_control": {
+      "exit_code": 0,
+      "state": "READY_FOR_PAPER_HANDOFF"
+    },
+    "controller_attack_count": 6,
+    "controller_attack_wrong_acceptances": 6,
+    "controller_attacks": [
+      "scope",
+      "statement",
+      "feasibility",
+      "simulation_assumptions",
+      "causal_design",
+      "source_hash"
+    ],
+    "development_synthetic_builder_cases": 2,
+    "development_synthetic_cli_exit_codes": [
+      0,
+      0
+    ],
+    "predictive_missing_ledger_control": {
+      "exit_code": 1,
+      "reason": "RC_PREDICTIVE_SUPPORT_CONTRADICTS_SELECTED_OUTPUT"
+    }
+  },
+  "tool_commands": [
+    ".venv/bin/python -B - (project-original temporary fixture orchestration)",
+    ".venv/bin/python scripts/finalize_fresh_c_validation.py --case-root <temporary_case>",
+    ".venv/bin/python .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py semantic-check --case-root <temporary_case> --path semantic.json"
+  ],
+  "limitations": [
+    "Raw tool responses were delivered in the native agent turn; this record preserves the returned verdict and exact available metadata.",
+    "Auditor temporary trace files were auto-cleaned; their hashes alone are not replayable retained artifacts. Main-agent prospective pytest output is retained separately.",
+    "No real problem raw inputs or numerical scientific results were reviewed in this early audit.",
+    "A distinct candidate-subject audit is still required."
+  ],
+  "independence": "Native fresh context; policy read-only filesystem, no OS sandbox",
+  "scientific_boundary": "Empirical source may parameterize conditional simulation; source class and inference scope are separate.",
+  "recorded_at": "2026-09-08T18:13:16.989579+00:00"
+}

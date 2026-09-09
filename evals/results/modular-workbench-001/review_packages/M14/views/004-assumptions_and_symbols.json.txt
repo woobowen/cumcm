@@ -1,0 +1,22 @@
+{
+  "artifact_type": "assumptions_and_symbols",
+  "content": {
+    "assumptions": [
+      "strict affine synthetic trajectory continues",
+      "fixed unit flow",
+      "positive integer prices and unlimited stock; no leakage"
+    ],
+    "formulas": [
+      "min 4*n3+7*n5; 3*n3+5*n5>=ceil((T-t)*flow)",
+      "s(t)=s(0)-t"
+    ],
+    "symbols": {
+      "T,t": "min",
+      "cost": "yuan",
+      "d": "L",
+      "n3,n5": "integer counts"
+    }
+  },
+  "content_hash": "049f72632c1964b237bd39c7479206c21ca8210878616c2844dce7836aec5fe0",
+  "status": "ACCEPTED"
+}

@@ -1,0 +1,138 @@
+{
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/recalculate_workbench_originals.py",
+        "--packets",
+        "evals/results/modular-workbench-001/original/prediction/records.json",
+        "evals/results/modular-workbench-001/original/optimization/records.json",
+        "evals/results/modular-workbench-001/original/mixed/records.json"
+      ],
+      "elapsed_seconds": 0.044130333997600246,
+      "ended_at": "2026-09-09T10:55:37.346209+00:00",
+      "executed_head": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/independent-original-recalculation-004.log",
+        "sha256": "221c57d2bb8dc7c77a10edb72df4471059f6651e80615db9add90e74501df32b"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_AND_TRAILING_WHITESPACE_REMOVAL",
+      "raw_log_sha256": "221c57d2bb8dc7c77a10edb72df4471059f6651e80615db9add90e74501df32b",
+      "started_at": "2026-09-09T10:55:37.302042+00:00"
+    }
+  ],
+  "implementation_hash": "c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca",
+  "independent_code": {
+    "path": "evals/results/modular-workbench-001/independent_recalculation/independent_code.py.txt",
+    "sha256": "5fb7067d0ed03763873ebffd0b7b8fe967adf96a7157073b9aa7c54c09fe6cdb"
+  },
+  "producer_imported": false,
+  "results": [
+    {
+      "kind": "prediction",
+      "max_abs_residual": 1.5187850976872141e-13,
+      "numeric_values_checked": 37,
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/prediction/records.json",
+        "sha256": "87529c3a229f0c43ac3a11bda6aefee991b25bed0170f1c61e8c0f7bfd043f06"
+      },
+      "results": [
+        {
+          "conditional_remaining_min": [
+            9.0
+          ],
+          "cost_yuan": 12,
+          "counts": [
+            3,
+            0
+          ],
+          "demand_litres": 9,
+          "run_id": "RUN-BASE-20260906"
+        },
+        {
+          "conditional_remaining_min": [
+            8.0
+          ],
+          "cost_yuan": 11,
+          "counts": [
+            1,
+            1
+          ],
+          "demand_litres": 8,
+          "run_id": "RUN-CAND-20260906"
+        }
+      ],
+      "scientific_limit": "Exact synthetic affine case only; no observed forecast truth or generalization"
+    },
+    {
+      "kind": "optimization",
+      "max_abs_residual": 0,
+      "numeric_values_checked": 32,
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/optimization/records.json",
+        "sha256": "23fc6d3538d7cb9b4447c8a7d0247c54ce58c024c701217d1dcd56e1fd622a50"
+      },
+      "results": [
+        {
+          "conditional_remaining_min": [],
+          "cost_yuan": 12,
+          "counts": [
+            3,
+            0
+          ],
+          "demand_litres": 8,
+          "run_id": "RUN-BASE-20260906"
+        },
+        {
+          "conditional_remaining_min": [],
+          "cost_yuan": 11,
+          "counts": [
+            1,
+            1
+          ],
+          "demand_litres": 8,
+          "run_id": "RUN-CAND-20260906"
+        }
+      ],
+      "scientific_limit": "Exact synthetic affine case only; no observed forecast truth or generalization"
+    },
+    {
+      "kind": "mixed",
+      "max_abs_residual": 1.5173048003210474e-13,
+      "numeric_values_checked": 36,
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/records.json",
+        "sha256": "87cdf3e2b0a12d2f7e8ef54b57d08216b448f5fb104f7cae89f8504aae897760"
+      },
+      "results": [
+        {
+          "conditional_remaining_min": [
+            8.0
+          ],
+          "cost_yuan": 12,
+          "counts": [
+            3,
+            0
+          ],
+          "demand_litres": 8,
+          "run_id": "RUN-BASE-20260906"
+        },
+        {
+          "conditional_remaining_min": [
+            8.0
+          ],
+          "cost_yuan": 11,
+          "counts": [
+            1,
+            1
+          ],
+          "demand_litres": 8,
+          "run_id": "RUN-CAND-20260906"
+        }
+      ],
+      "scientific_limit": "Exact synthetic affine case only; no observed forecast truth or generalization"
+    }
+  ],
+  "schema_version": "workbench-independent-recalculation/v1"
+}

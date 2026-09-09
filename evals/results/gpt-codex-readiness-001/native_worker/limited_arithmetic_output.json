@@ -1,0 +1,158 @@
+{
+  "execution_class": "LIMITED_SELF_AUTHORED_EXACT_ARITHMETIC_FOR_M06_REASONING_ONLY",
+  "archive_sha256": "ded75f3cc783d52bf71f7deffbcaf44acf7ec89d7f061bd3f7796d8148ceb9f2",
+  "input_member": "review/views/002-input.json.txt",
+  "input_sha256": "6c6b1044d4bfaa810700f088a91b33514b98697a63a67e5cec803371c46d04b1",
+  "script_sha256": "7714aa1aba3a603ccac17851b709b6c9467986799bf1954cd88c0333ea04c0e7",
+  "observation_count": 13,
+  "observation_ids_unique": true,
+  "prefix_checks": [
+    {
+      "entity": "EA",
+      "origin_min": 4,
+      "visible_observation_ids": [
+        "A-0",
+        "A-2",
+        "A-4"
+      ],
+      "slope_L_per_min": "-1/10",
+      "all_affine_residuals_zero": true,
+      "conditional_endpoint_min": "20",
+      "remaining_min": "16"
+    },
+    {
+      "entity": "EA",
+      "origin_min": 8,
+      "visible_observation_ids": [
+        "A-0",
+        "A-2",
+        "A-4",
+        "A-6",
+        "A-8"
+      ],
+      "slope_L_per_min": "-1/10",
+      "all_affine_residuals_zero": true,
+      "conditional_endpoint_min": "20",
+      "remaining_min": "12"
+    },
+    {
+      "entity": "EB",
+      "origin_min": 112,
+      "visible_observation_ids": [
+        "B-0",
+        "B-2",
+        "B-4",
+        "B-6",
+        "B-8",
+        "B-10",
+        "B-12"
+      ],
+      "slope_L_per_min": "-1/10",
+      "all_affine_residuals_zero": true,
+      "conditional_endpoint_min": "118",
+      "remaining_min": "6"
+    }
+  ],
+  "historical_A_label_available_at_min": 20,
+  "historical_error_denominators_min": [
+    16,
+    12
+  ],
+  "historical_relative_error_percent": [
+    "0",
+    "0"
+  ],
+  "independent_historical_entity_count": 1,
+  "conditional_demand_L": 6,
+  "purchasing_bound_examples": [
+    {
+      "demand_L": 6,
+      "baseline_n3": 2,
+      "baseline_n5": 0,
+      "baseline_cost_yuan": 8,
+      "positive_price_cost_bound_yuan": 8,
+      "bounded_feasible_cost_n3_n5_supply_rows": [
+        [
+          8,
+          2,
+          0,
+          6
+        ]
+      ],
+      "minimum_cost_yuan": 8,
+      "minimizers": [
+        [
+          8,
+          2,
+          0,
+          6
+        ]
+      ]
+    },
+    {
+      "demand_L": 7,
+      "baseline_n3": 3,
+      "baseline_n5": 0,
+      "baseline_cost_yuan": 12,
+      "positive_price_cost_bound_yuan": 12,
+      "bounded_feasible_cost_n3_n5_supply_rows": [
+        [
+          11,
+          1,
+          1,
+          8
+        ],
+        [
+          12,
+          3,
+          0,
+          9
+        ]
+      ],
+      "minimum_cost_yuan": 11,
+      "minimizers": [
+        [
+          11,
+          1,
+          1,
+          8
+        ]
+      ]
+    }
+  ],
+  "conditional_stock_example": {
+    "minute": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "stock_L": [
+      "6",
+      "5",
+      "4",
+      "3",
+      "2",
+      "1",
+      "0"
+    ],
+    "all_nonnegative": true
+  },
+  "ignored_auxiliary_fields": [
+    "baseline_delay",
+    "fixed_demand_litres",
+    "x",
+    "y"
+  ],
+  "not_claimed": [
+    "Formal candidate Run",
+    "DP implementation executed",
+    "Independent original checker replay",
+    "Validated B future accuracy",
+    "Formal M06 completion",
+    "Final execution"
+  ]
+}

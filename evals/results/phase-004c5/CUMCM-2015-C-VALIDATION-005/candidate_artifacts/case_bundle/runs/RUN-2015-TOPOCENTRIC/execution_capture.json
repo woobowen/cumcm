@@ -1,0 +1,175 @@
+{
+  "argv": [
+    "models/solve.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "TOPOCENTRIC",
+    "--seed",
+    "201509",
+    "--output",
+    "runs/RUN-2015-TOPOCENTRIC/output.json"
+  ],
+  "candidate_id": "TOPOCENTRIC",
+  "capture_mode": "CONTROLLED_CASE_SUBPROCESS",
+  "code_commit": "675b37c5c804858518d57732e950122045826119",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "85ca1e4618a873573bf759680c52b029cef7abd62bf7b2d1cb82533bdda6e4a6"
+    },
+    {
+      "path": "models/solve.py",
+      "repository_path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/solve.py",
+      "scope": "CASE_ROOT",
+      "sha256": "742b0e42a4f73e41b90949cd978125dfab0ebd95a0a0809782e6c00b8bfae066"
+    },
+    {
+      "path": "models/check.py",
+      "repository_path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "a69320cd7b444ff2bc87b8ac71aa0d42f71b717c5f01c01dc89fc931c637867b"
+    },
+    {
+      "path": "models/controller.py",
+      "repository_path": "evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/code/controller.py",
+      "scope": "CASE_ROOT",
+      "sha256": "b0b2e1a03f0a08be04061913b08a2793c595fbc65d1d1ca1e5e9b7f00de50ad2"
+    }
+  ],
+  "configuration": {
+    "candidate_id": "TOPOCENTRIC",
+    "seed": 201509
+  },
+  "configuration_hash": "9286690963ddf2ab510ad441fac272358ca98c53f6414dd05f43ae1bc31b2d06",
+  "elapsed_seconds": 20.468113,
+  "ended_at": "2026-09-08T22:24:48Z",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "201509",
+    "TZ": "UTC"
+  },
+  "exit_code": 0,
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "9c384012b3a12a6ea86d5514a3c895213a35591d50373909cb1e367adf985cff",
+    "candidate_set": "9ae8cb5c93c8383503ae07de5270fa745ee9bdc89951c9f3c9567f376ceef105",
+    "code_commit": "95c13fde4fd743b8dc6957880e6195a4e8407269b20edf18b88ee4a10035bdf9",
+    "code_set": "eff58b343d41760d5805a0be60fdaabe8d8b875b2f5b61c236c2f01794c7c98f",
+    "execution_policy": "da53f4ec5603df5a49c835ddcd31f72137deef7983d9a855236559a8cb76ad22",
+    "input_set": "4fd7f53b798ae254de458f28d9e5214454ad962e27d96d4fe3981f98053c5491",
+    "metric": "da987dcf46574845f24e8ef765b1b8e7117f7f7dd567d94313847022d336c801",
+    "seed_schedule": "a7808590bcbe50522ab4ed604b4490119d9e89770914832282a155acd3a0302c",
+    "split_assignment": "a879f737ae61d5676bbe29cd09826902b38224af10843e985b838106f159ab9f"
+  },
+  "input_files": [
+    {
+      "path": "data/processed/settings.json",
+      "sha256": "4e03c21a7c78e8e2e87c2ea3f37728b0ff9bb32ad0aa286d82c32fa5adceb951"
+    },
+    {
+      "path": "data/raw/Beijing_moon_reference.txt",
+      "sha256": "98eab1105dbe1043a215987442b7b6750680eb76f77030f9872e97353610a33e"
+    },
+    {
+      "path": "data/raw/Beijing_sun_reference.txt",
+      "sha256": "f03f93dc00e43da966fadbb3b62e584bade0e8f774b017412664f249a96c33b6"
+    },
+    {
+      "path": "data/raw/Chengdu_moon_reference.txt",
+      "sha256": "f213f7f1a7e97808bd38f6b36efb5c52d8d9eed5602155adeb01a7d872c64ad4"
+    },
+    {
+      "path": "data/raw/Chengdu_sun_reference.txt",
+      "sha256": "c303aae99b48c96a3c2946b5b85aa7e063cba14c8f1891ec466b39fc0edb5845"
+    },
+    {
+      "path": "data/raw/Guangzhou_moon_reference.txt",
+      "sha256": "71c27bcec88b4165d41be620302f6b8651896c0c3bce03e9406ff6232e39c244"
+    },
+    {
+      "path": "data/raw/Guangzhou_sun_reference.txt",
+      "sha256": "040ce310604fb5535156e97c1c7d3ddbc048cf615d8b1faec83ca854788f53df"
+    },
+    {
+      "path": "data/raw/Harbin_moon_reference.txt",
+      "sha256": "4c83c75958d442352bef92a76a0b62eedf6ae0b7c8c8b06b04e931b73df94ad5"
+    },
+    {
+      "path": "data/raw/Harbin_sun_reference.txt",
+      "sha256": "e9650b1925ed64f31635a4fbd3073a7f2cab0bf4bee060b3f470e47854a7b00e"
+    },
+    {
+      "path": "data/raw/Kunming_moon_reference.txt",
+      "sha256": "1d9721ef0b186f1659f68ea6657c464d9466b6f06069d2cbe385e7213162a0f5"
+    },
+    {
+      "path": "data/raw/Kunming_sun_reference.txt",
+      "sha256": "660cb08378035f2016ffa6f4d0a67ab7194efc51d224c0cf0709bafb32a54df9"
+    },
+    {
+      "path": "data/raw/Shanghai_moon_reference.txt",
+      "sha256": "b6aaac37242ec5db4d36562d752acd0d93b4a77748fc58261a357901e55bf625"
+    },
+    {
+      "path": "data/raw/Shanghai_sun_reference.txt",
+      "sha256": "24a8dc789cc17cb4f8e53c574e7c5a43a751a16472c8e2d32c2d8b32ffb7fd28"
+    },
+    {
+      "path": "data/raw/Urumqi_moon_reference.txt",
+      "sha256": "e6e47aac350681cb21633db3c613ae78a148b7bc4eee9cf747467959ef0c9011"
+    },
+    {
+      "path": "data/raw/Urumqi_sun_reference.txt",
+      "sha256": "29a46af85cb7c6794db5e769ec5bc5f4e09e1a11cd62b6bf9c866b7f5aa420b8"
+    },
+    {
+      "path": "data/raw/horizons_api.html",
+      "sha256": "6ca45d9c222d6e5c425ae3e0a3c44225cf8b6d30c4a14892b0f1157b0ab4cfe4"
+    },
+    {
+      "path": "data/raw/horizons_manual.html",
+      "sha256": "5c5100b08abeb10f4a6074e02102e4fe5d915203eed360bb4dd839a77210ddcc"
+    },
+    {
+      "path": "data/raw/moon_geocentric.txt",
+      "sha256": "68343841400d48d45d164180cfe79a9418a2055c78657a7dbb24e617c1191bf1"
+    },
+    {
+      "path": "data/raw/noaa_twilight.html",
+      "sha256": "cc6e397796e7edc7639bebd223740134d019f7598f6d4ae6bc29def2706f8e7b"
+    },
+    {
+      "path": "data/raw/problem.docx",
+      "sha256": "b25aee13059c58f2b62c46dedcb1cc069dd0f3b08a69a97bca1e9b90a3f4e889"
+    },
+    {
+      "path": "data/raw/sun_geocentric.txt",
+      "sha256": "3eb1e06a953d2bb28e6f200b56d881916cc736808590bc3f6377dda712aaa7c7"
+    },
+    {
+      "path": "data/raw/usno_sidereal.html",
+      "sha256": "c0a6256702ca71af496015b73f7a61be4c07cb2816dbc438d775a08e08d02371"
+    }
+  ],
+  "outcome": "SUCCESS",
+  "output": {
+    "path": "runs/RUN-2015-TOPOCENTRIC/output.json",
+    "sha256": "8ad25d36aa0c62149ee72dd26ebdbe55f58416c572aaf8f2350ef0eac1de2f17"
+  },
+  "run_id": "RUN-2015-TOPOCENTRIC",
+  "runner_version": "0.2.0-competition-rc8",
+  "scenario_hash": "b993bac3a526d38def4e133cd4112a60ac58bb04c1b623a5986e79116eff42e6",
+  "schema_version": "1.0.0",
+  "seed": 201509,
+  "started_at": "2026-09-08T22:24:27Z",
+  "stderr": {
+    "path": "runs/RUN-2015-TOPOCENTRIC/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "runs/RUN-2015-TOPOCENTRIC/stdout.txt",
+    "sha256": "fe46cf12806f0ae23ea1baab0c63f607a06964c18bfc400832d1f449765a96c9"
+  }
+}

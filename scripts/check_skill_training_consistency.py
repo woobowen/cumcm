@@ -12,6 +12,8 @@ from typing import Any
 
 import yaml
 
+from cumcm_skill_lab.training_registry import repository_registry_errors
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
 SKILL = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/SKILL.md"
@@ -78,6 +80,9 @@ ACTIVE_VERSIONS = {
     "0.2.0-competition-rc5-blocked",
     "0.2.0-competition-rc6",
     "0.2.0-competition-rc7",
+    "0.2.0-competition-rc8",
+    "0.2.0-competition-rc9",
+    "0.2.0-competition-rc10",
 }
 PHASE004A_VERSION = "0.2.0-competition-rc2"
 ALLOWED_CASE_VERSIONS = {
@@ -87,6 +92,8 @@ ALLOWED_CASE_VERSIONS = {
     "0.2.0-competition-rc4",
     "0.2.0-competition-rc5",
     "0.2.0-competition-rc7",
+    "0.2.0-competition-rc8",
+    "0.2.0-competition-rc9",
 }
 REQUIRED_FIELDS = {
     "case_id",
@@ -169,6 +176,33 @@ def check() -> dict[str, Any]:
             for version in ("0.2.0-competition-rc6", "0.2.0-competition-rc7")
         )
     )
+    rc8_candidate_staged = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+        and state.get("technical_adjudication_status") == "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+        and state.get("target_candidate_version") == "0.2.0-competition-rc8"
+        and active_version == "0.2.0-competition-rc7"
+        and "Version: `0.2.0-competition-rc8`" in skill_text
+    )
+    rc9_candidate_staged = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"
+        and state.get("technical_adjudication_status")
+        in {"C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS", "RC9_RELEASE_REPAIR_BLOCKED"}
+        and state.get("target_candidate_version") == "0.2.0-competition-rc9"
+        and active_version == "0.2.0-competition-rc8"
+        and "Version: `0.2.0-competition-rc9`" in skill_text
+    )
+    rc10_candidate_staged = (
+        state.get("phase") == "PHASE-SKILL-MODULAR-WORKBENCH-004C7"
+        and state.get("technical_adjudication_status")
+        in {
+            "MODULAR_WORKBENCH_BUILD_IN_PROGRESS",
+            "MODULAR_WORKBENCH_LIMITED",
+            "MODULAR_WORKBENCH_BLOCKED",
+        }
+        and state.get("target_candidate_version") == "0.2.0-competition-rc10"
+        and active_version == "0.2.0-competition-rc8"
+        and "Version: `0.2.0-competition-rc10`" in skill_text
+    )
     if active_version not in ACTIVE_VERSIONS:
         errors.append("PROJECT_STATE_SKILL_VERSION_MISMATCH")
     if state.get("skill_capability_status") != "COMPETITION_RC":
@@ -185,6 +219,9 @@ def check() -> dict[str, Any]:
         )
         or rc6_candidate_staged
         or rc7_repair_staged
+        or rc8_candidate_staged
+        or rc9_candidate_staged
+        or rc10_candidate_staged
     ):
         errors.append("FORMAL_SKILL_VERSION_MISMATCH")
     if EXPECTED_VERSION not in changelog:
@@ -195,6 +232,7 @@ def check() -> dict[str, Any]:
     declared_fields = registry.get("required_case_fields")
     if not isinstance(declared_fields, list) or set(declared_fields) != REQUIRED_FIELDS:
         errors.append("REGISTRY_FIELD_CONTRACT_INVALID")
+    errors.extend(repository_registry_errors(REPO_ROOT, registry))
     cases = registry.get("cases")
     if not isinstance(cases, list):
         errors.append("REGISTRY_CASES_INVALID")
@@ -212,7 +250,16 @@ def check() -> dict[str, Any]:
             errors.append(f"CASE_ANSWER_STATUS_INVALID:{case_id}")
         if case.get("first_run_status") not in RUN_STATES:
             errors.append(f"CASE_FIRST_RUN_STATUS_INVALID:{case_id}")
-        if case.get("skill_version") not in ALLOWED_CASE_VERSIONS:
+        module_development_version = (
+            case.get("skill_version") == "0.2.0-competition-rc10"
+            and case.get("evidence_role") == "MODULE_USABILITY_DEVELOPMENT"
+            and case.get("set_type") == "DEVELOPMENT"
+            and case.get("independent_problem") is False
+        )
+        if (
+            case.get("skill_version") not in ALLOWED_CASE_VERSIONS
+            and not module_development_version
+        ):
             errors.append(f"CASE_SKILL_VERSION_MISMATCH:{case_id}")
         if not GIT_SHA.fullmatch(str(case.get("skill_commit", ""))):
             errors.append(f"CASE_SKILL_COMMIT_INVALID:{case_id}")
@@ -230,10 +277,16 @@ def check() -> dict[str, Any]:
         if case.get("answer_access_status") != "SEALED" and case.get("set_type") != "DEVELOPMENT":
             errors.append(f"UNSEALED_CASE_NOT_DEVELOPMENT:{case_id}")
         if case.get("first_run_status") == "FROZEN":
-            evidence = case.get("first_run_evidence")
+            # Module exercises use the registered terminal binding. The shared
+            # registry check above validates its actual hash and subject tuple.
+            evidence = case.get(
+                "terminal_decision" if module_development_version else "first_run_evidence"
+            )
             if not isinstance(evidence, dict):
                 errors.append(f"FIRST_RUN_EVIDENCE_MISSING:{case_id}")
-            elif evidence.get("skill_commit") != case.get("skill_commit"):
+            elif not module_development_version and evidence.get("skill_commit") != case.get(
+                "skill_commit"
+            ):
                 errors.append(f"FIRST_RUN_SKILL_COMMIT_MISMATCH:{case_id}")
             if not case.get("freeze_time"):
                 errors.append(f"FIRST_RUN_FREEZE_TIME_MISSING:{case_id}")

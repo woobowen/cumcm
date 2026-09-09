@@ -1,0 +1,3 @@
+# The frozen CSV exports use CRLF. Preserve their evidence hashes while checking
+# actual trailing spaces, extra blank lines and spaces before indentation tabs.
+candidate_artifacts/*.csv whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

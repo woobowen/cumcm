@@ -1,0 +1,47 @@
+{
+  "subject_commit": "38fae5f09555448f690efcaf7caa2e13b114eaff",
+  "real_model_starts": 0,
+  "real_checker_starts": 0,
+  "real_final_starts": 0,
+  "temporal": {
+    "valid_sample_count": 7,
+    "historical_origin_count": 6,
+    "future_label": null,
+    "nondecreasing_voltage": "ATTACHMENT2_ORDER_NOT_STRICTLY_DECREASING",
+    "missing_historical_row": "HISTORICAL_STATE_ROWS_INCOMPLETE",
+    "target_interior_gap": "FORECAST_PREFIX_HAS_INTERIOR_GAP"
+  },
+  "claim_strength_literal": "BOUNDED",
+  "final_budget": {
+    "two_required_one_available": "RC_EXECUTION_BUDGET_EXHAUSTED:independent_checker_starts",
+    "four_used": "RC_EXECUTION_BUDGET_EXHAUSTED:independent_checker_starts",
+    "events": [
+      "FINAL_REQUESTED",
+      "FINAL_REQUEST_REJECTED"
+    ],
+    "ledger_reservations": 4,
+    "synthetic_final_reservations": 0
+  },
+  "qualification": {
+    "honest_failed_before_checker_final": [
+      "RC9_DEVELOPMENT_START_BUDGET_INVALID",
+      "RC9_DEVELOPMENT_START_BUDGET_INVALID",
+      "RC9_DEVELOPMENT_START_BUDGET_INVALID",
+      "RC9_DEVELOPMENT_START_BUDGET_INVALID"
+    ],
+    "pre_execution_only_native_result_review_errors": [],
+    "meaning": "No real result review claimed; this checks receipt semantic eligibility only"
+  },
+  "independent_numeric": [
+    {
+      "candidate": "BASELINE",
+      "voltages": 6,
+      "max_inverse_difference_min": 1.7763568394002505e-15
+    },
+    {
+      "candidate": "CUBIC_LOG_AFFINE",
+      "voltages": 6,
+      "max_inverse_difference_min": 8.881784197001252e-16
+    }
+  ]
+}

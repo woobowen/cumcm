@@ -1,0 +1,29 @@
+{
+  "schema_version": "phase-004c5-ci-observation/v1",
+  "observed_at": "2026-09-08T23:31:00.931110+00:00",
+  "run_id": 34289738652,
+  "url": "https://github.com/woobowen/cumcm/actions/runs/34289738652",
+  "event": "pull_request",
+  "feature_head": "6be924e7903a201236a9cdd93ee75d66b839d1d6",
+  "actual_checkout_ref": "refs/remotes/pull/12/merge",
+  "actual_tested_commit": "22c097256777009083e107768992c14de822685b",
+  "base_commit": "e1286b1f734ef1d23cfbfc2bb87fee5358dab212",
+  "status": "completed",
+  "conclusion": "failure",
+  "passed": 2151,
+  "failed": 2,
+  "skipped": 1,
+  "pytest_seconds": 461.27,
+  "post_pytest_steps": "NOT_RUN_SET_E",
+  "remote_feature_tree_ci": "NOT_RUN_AS_SEPARATE_FEATURE_CHECKOUT",
+  "log_path": ".cache/pr12-rc8/logs/remote-ci-34289738652.log",
+  "log_sha256": "67506ce80452e5badf2d3a903e4c3443baade666bfd7eb200ef630149d984f37",
+  "supporting_actual_log_lines": [
+    "offline-validation\tRun actions/checkout@v4\t2026-09-08T23:14:43.7291968Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-08T23:14:43.8943467Z HEAD is now at 22c0972 Merge 6be924e7903a201236a9cdd93ee75d66b839d1d6 into e1286b1f734ef1d23cfbfc2bb87fee5358dab212",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-08T23:14:43.9007327Z 22c097256777009083e107768992c14de822685b",
+    "offline-validation\tRun the sole CI command\t2026-09-08T23:22:28.3535133Z FAILED tests/fault_injection/test_eval_policy_faults.py::test_human_gate_and_integration_flags_remain_false - AssertionError: assert 'PHASE-SKILL-...-REPAIR-004C5' == 'PHASE-SKILL-...CLOSURE-004C4'",
+    "offline-validation\tRun the sole CI command\t2026-09-08T23:22:28.3537761Z FAILED tests/unit/test_competition_rc_development_eval.py::test_case_registry_declares_required_training_fields - AssertionError: assert 10 == 8",
+    "offline-validation\tRun the sole CI command\t2026-09-08T23:22:28.5420772Z 2 failed, 2151 passed, 1 skipped in 461.27s (0:07:41)"
+  ]
+}

@@ -1,0 +1,1138 @@
+{
+  "artifact_type": "modeling_to_paper_handoff_candidate",
+  "status": "PARTIAL_BLOCKED_NOT_ACCEPTED_HANDOFF",
+  "contract_note": "Supplementary partial deliverable; not asserted compliant with the accepted modeling-to-paper/v1 Final contract. Formal stage14 NOT_REACHED.",
+  "approved_by": [],
+  "case_id": "CUMCM-2016-C-VALIDATION-004",
+  "problem_requirements": {
+    "ambiguities": [
+      "初等函数允许分段多项式；若要求一个低参数全局公式，本方案不满足该更强解释。",
+      "附件MRE使用231点，按9+0.005k(k=0..230)构造公共电压格；采样时间用最后向下线性穿越得到。"
+    ],
+    "case_id": "CUMCM-2016-C-VALIDATION-004",
+    "contract_version": "requirement-evidence/v1",
+    "requirements": [
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "EMPIRICAL",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q1",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "用初等函数表示附件1九条放电曲线，分别计算题定MRE；计算30、40、50、60、70A在9.8V的剩余放电时间。"
+      },
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "PREDICTIVE",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [
+          "REQ-Q1"
+        ],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q2",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "建立20至100A任意恒流曲线模型，按MRE评估精度，交付55A表格和曲线图形数据。"
+      },
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "PREDICTIVE",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min",
+          "state3_terminal_elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q3",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "预测附件2衰减状态3在最后观测时的剩余放电时间，并明确预测的证据和不确定性。"
+      }
+    ],
+    "title": "电池剩余放电时间预测"
+  },
+  "requirement_traceability": {
+    "REQ-Q1": {
+      "run_id": "RUN-2016-CUBIC-1729",
+      "output_path": "runs/RUN-2016-CUBIC-1729/output.json",
+      "claim_id": "CLAIM-2016-Q1",
+      "support": "LOCAL_NUMERICAL_EVIDENCE"
+    },
+    "REQ-Q2": {
+      "run_id": "RUN-2016-CUBIC-1729",
+      "output_path": "runs/RUN-2016-CUBIC-1729/output.json",
+      "claim_id": "CLAIM-2016-Q2",
+      "support": "INSUFFICIENT_PREDICTIVE_VALIDATION"
+    },
+    "REQ-Q3": {
+      "run_id": "RUN-2016-CUBIC-1729",
+      "output_path": "runs/RUN-2016-CUBIC-1729/output.json",
+      "claim_id": "CLAIM-2016-Q3",
+      "support": "INSUFFICIENT_PREDICTIVE_VALIDATION"
+    }
+  },
+  "data_dictionary": [
+    {
+      "field": "current_A",
+      "location": "attachment1 columns",
+      "unit": "A"
+    },
+    {
+      "field": "voltage_V",
+      "location": "attachment1 cells; attachment2 first column",
+      "unit": "V"
+    },
+    {
+      "field": "elapsed_min",
+      "location": "attachment1 first column; attachment2 state columns",
+      "unit": "min"
+    }
+  ],
+  "data_quality_report": {
+    "attachment1": [
+      {
+        "current_A": 20,
+        "maximum_increase_V": 0.008100000000000662,
+        "observations": 1883,
+        "time_max_min": 3764,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 43
+      },
+      {
+        "current_A": 30,
+        "maximum_increase_V": 0.00429999999999886,
+        "observations": 1228,
+        "time_max_min": 2454,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 156
+      },
+      {
+        "current_A": 40,
+        "maximum_increase_V": 0.0058000000000006935,
+        "observations": 863,
+        "time_max_min": 1724,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 94
+      },
+      {
+        "current_A": 50,
+        "maximum_increase_V": 0.007200000000000983,
+        "observations": 655,
+        "time_max_min": 1308,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 44
+      },
+      {
+        "current_A": 60,
+        "maximum_increase_V": 0.01150000000000162,
+        "observations": 523,
+        "time_max_min": 1044,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 29
+      },
+      {
+        "current_A": 70,
+        "maximum_increase_V": 0.019999999999999574,
+        "observations": 432,
+        "time_max_min": 862,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 11
+      },
+      {
+        "current_A": 80,
+        "maximum_increase_V": 0.023600000000000065,
+        "observations": 366,
+        "time_max_min": 730,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 8
+      },
+      {
+        "current_A": 90,
+        "maximum_increase_V": 0.03139999999999965,
+        "observations": 311,
+        "time_max_min": 620,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 7
+      },
+      {
+        "current_A": 100,
+        "maximum_increase_V": 0.04860000000000042,
+        "observations": 270,
+        "time_max_min": 538,
+        "time_min_min": 0,
+        "trailing_blanks": "structural_end_of_discharge_not_imputed",
+        "voltage_increases": 7
+      }
+    ],
+    "attachment2_counts": {
+      "new": 301,
+      "state1": 301,
+      "state2": 301,
+      "state3": 148
+    },
+    "target3_endpoint": {
+      "elapsed_min": 596.2,
+      "voltage_V": 9.765
+    },
+    "target3_missing_future_labels": 153
+  },
+  "assumptions": [
+    {
+      "challenge": "Strongly oscillatory or high-curvature gaps may be poorly represented.",
+      "id": "A1",
+      "statement": "Within each observed current a piecewise polynomial interpolant represents measured voltage; initial relaxation is retained rather than forcing false global monotonicity."
+    },
+    {
+      "challenge": "No55A observation; evaluate via leave-one-interior-current-out diagnostics.",
+      "id": "A2",
+      "statement": "Between adjacent measured currents, normalized voltage shape and total discharge time vary smoothly."
+    },
+    {
+      "challenge": "Only one battery; future state3 behavior and error unknown; transfer may fail.",
+      "id": "A3",
+      "statement": "At fixed current, aging-state elapsed time at equal voltage is approximately scale or affine transform of complete reference curves."
+    }
+  ],
+  "symbols": {
+    "I": {
+      "meaning": "constant current",
+      "unit": "A"
+    },
+    "T": {
+      "meaning": "time at9V",
+      "unit": "min"
+    },
+    "U": {
+      "meaning": "terminal voltage",
+      "unit": "V"
+    },
+    "a": {
+      "meaning": "aging time offset",
+      "unit": "min"
+    },
+    "b": {
+      "meaning": "aging time scale",
+      "unit": "1"
+    },
+    "s": {
+      "meaning": "t/T",
+      "unit": "1"
+    },
+    "t": {
+      "meaning": "elapsed discharge time",
+      "unit": "min"
+    }
+  },
+  "formulas": [
+    {
+      "expression": "P_I(t)=c3_j(t-x_j)^3+c2_j(t-x_j)^2+c1_j(t-x_j)+c0_j on [x_j,x_{j+1}]; R_I(9.8)=T_I-P_I^{-1}(9.8).",
+      "formula_id": "F-Q1",
+      "requirement_ids": [
+        "REQ-Q1"
+      ]
+    },
+    {
+      "expression": "MRE=(1/231)sum_k abs(t_model(9+0.005k)-t_sample(9+0.005k))/t_sample(9+0.005k), k=0..230.",
+      "formula_id": "F-MRE",
+      "requirement_ids": [
+        "REQ-Q1",
+        "REQ-Q2"
+      ]
+    },
+    {
+      "expression": "U(t,I)=(1-w)P_L(t*T_L/T_I)+w*P_H(t*T_H/T_I). Baseline w=(I-L)/(H-L), T arithmetic; candidate w=log(I/L)/log(H/L), T geometric.",
+      "formula_id": "F-Q2",
+      "requirement_ids": [
+        "REQ-Q2"
+      ]
+    },
+    {
+      "expression": "t_3(U)=a+b*(t_new(U)+t_state1(U)+t_state2(U))/3; R_3=t_3(9)-596.2. Fit only observed target prefix; baseline a=0, candidate free a.",
+      "formula_id": "F-Q3",
+      "requirement_ids": [
+        "REQ-Q3"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "authority": "CUMCM_OFFICIAL_PROVIDED_INPUT",
+      "entity_scope": [
+        "PROVIDED_BATTERY_CURVES"
+      ],
+      "evidence_class": "PROVIDED_EMPIRICAL",
+      "field_schema": [
+        "current_A",
+        "voltage_V",
+        "elapsed_min"
+      ],
+      "freshness": "IMMUTABLE_COMPETITION_INPUT",
+      "geographic_scope": [],
+      "hash": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+      "license_or_usage_status": "OFFICIAL_PROBLEM_INPUT_LOCAL_ANALYSIS_ONLY_NO_RAW_REPUBLICATION",
+      "limitations": [
+        "Attachment2 current magnitude unspecified; same current across states is stated.",
+        "Only prefix state3 observed; future terminal label unavailable.",
+        "Repeated voltage samples are not independent battery entities."
+      ],
+      "provenance": "Official C-only workbook; archive lineage in this case registration/official_retrieval.json; immutable byte-identical case copy.",
+      "retrieval_time": "2026-09-08T20:41:34.881829+00:00",
+      "source_id": "SRC-CUMCM-2016-C-WORKBOOK",
+      "supports_requirement_ids": [
+        "REQ-Q1",
+        "REQ-Q2",
+        "REQ-Q3"
+      ],
+      "time_scope": [
+        "PROVIDED_DISCHARGE_RECORDS"
+      ]
+    }
+  ],
+  "selected_models": [
+    {
+      "candidate_id": "CUBIC_LOG_AFFINE",
+      "scope": "DEVELOPMENT_SELECTION_ONLY"
+    }
+  ],
+  "final_runs": [],
+  "development_runs": [
+    "RUN-2016-BASELINE-1729",
+    "RUN-2016-CUBIC-1729"
+  ],
+  "final_metrics": {},
+  "development_metrics": {
+    "q1_mean_fitted_MRE": 0.0007800323854870368,
+    "q2_loco_MRE": 0.010219758766339264,
+    "q3_validation_tail_MRE": 0.0059913388266542664,
+    "q3_remaining_min": 193.44177724399992,
+    "q1_MRE_20A": 0.0005997600695761777,
+    "q1_MRE_30A": 0.000970803817084585,
+    "q1_MRE_40A": 0.001114712531689968,
+    "q1_MRE_50A": 0.0015197671351572417,
+    "q1_MRE_60A": 0.0014218623861218123,
+    "q1_MRE_70A": 0.00038885082416820394,
+    "q1_MRE_80A": 0.0003662743422383348,
+    "q1_MRE_90A": 0.00031723097445851377,
+    "q1_MRE_100A": 0.0003210293888884941,
+    "q1_remaining_30A_min": 591.6781530955875,
+    "q1_remaining_40A_min": 429.7914547407929,
+    "q1_remaining_50A_min": 326.1973895551347,
+    "q1_remaining_60A_min": 277.93658682099135,
+    "q1_remaining_70A_min": 254.68548351701736
+  },
+  "result_tables": [
+    "q1_summary.csv",
+    "q2_55A_curve.csv",
+    "q2_loco_summary.csv",
+    "q3_predicted_curve.csv"
+  ],
+  "figure_ready_data": [
+    {
+      "figure_id": "FIG-55A",
+      "x": "time_min",
+      "y": "voltage_V",
+      "data": [
+        {
+          "time_min": 0.0,
+          "voltage_V": 11.093705243114764
+        },
+        {
+          "time_min": 11.625881174419153,
+          "voltage_V": 10.463606681768786
+        },
+        {
+          "time_min": 23.251762348838305,
+          "voltage_V": 10.486096367886708
+        },
+        {
+          "time_min": 34.877643523257454,
+          "voltage_V": 10.489294634969408
+        },
+        {
+          "time_min": 46.50352469767661,
+          "voltage_V": 10.486697211274375
+        },
+        {
+          "time_min": 58.12940587209577,
+          "voltage_V": 10.483303058704646
+        },
+        {
+          "time_min": 69.75528704651491,
+          "voltage_V": 10.476589003980903
+        },
+        {
+          "time_min": 81.38116822093409,
+          "voltage_V": 10.470548767435023
+        },
+        {
+          "time_min": 93.00704939535322,
+          "voltage_V": 10.463585939798332
+        },
+        {
+          "time_min": 104.63293056977237,
+          "voltage_V": 10.4563465657859
+        },
+        {
+          "time_min": 116.25881174419153,
+          "voltage_V": 10.449409351777284
+        },
+        {
+          "time_min": 127.88469291861068,
+          "voltage_V": 10.442568340566734
+        },
+        {
+          "time_min": 139.51057409302982,
+          "voltage_V": 10.435609868444317
+        },
+        {
+          "time_min": 151.136455267449,
+          "voltage_V": 10.42838256079115
+        },
+        {
+          "time_min": 162.76233644186817,
+          "voltage_V": 10.420911331331208
+        },
+        {
+          "time_min": 174.38821761628728,
+          "voltage_V": 10.413240017117136
+        },
+        {
+          "time_min": 186.01409879070644,
+          "voltage_V": 10.405391120335073
+        },
+        {
+          "time_min": 197.6399799651256,
+          "voltage_V": 10.39727485736191
+        },
+        {
+          "time_min": 209.26586113954474,
+          "voltage_V": 10.389001913565867
+        },
+        {
+          "time_min": 220.8917423139639,
+          "voltage_V": 10.38073788758986
+        },
+        {
+          "time_min": 232.51762348838307,
+          "voltage_V": 10.37253951255419
+        },
+        {
+          "time_min": 244.1435046628022,
+          "voltage_V": 10.364284235187252
+        },
+        {
+          "time_min": 255.76938583722136,
+          "voltage_V": 10.355827325223999
+        },
+        {
+          "time_min": 267.39526701164056,
+          "voltage_V": 10.347004968440594
+        },
+        {
+          "time_min": 279.02114818605963,
+          "voltage_V": 10.338027184230388
+        },
+        {
+          "time_min": 290.6470293604788,
+          "voltage_V": 10.329235283296015
+        },
+        {
+          "time_min": 302.272910534898,
+          "voltage_V": 10.320872654176132
+        },
+        {
+          "time_min": 313.89879170931715,
+          "voltage_V": 10.312666877309878
+        },
+        {
+          "time_min": 325.52467288373634,
+          "voltage_V": 10.304238528033746
+        },
+        {
+          "time_min": 337.1505540581554,
+          "voltage_V": 10.29535016754152
+        },
+        {
+          "time_min": 348.77643523257456,
+          "voltage_V": 10.286135896300213
+        },
+        {
+          "time_min": 360.40231640699375,
+          "voltage_V": 10.276690430863683
+        },
+        {
+          "time_min": 372.0281975814129,
+          "voltage_V": 10.267012172556472
+        },
+        {
+          "time_min": 383.6540787558321,
+          "voltage_V": 10.257060427441466
+        },
+        {
+          "time_min": 395.2799599302512,
+          "voltage_V": 10.247061881591897
+        },
+        {
+          "time_min": 406.9058411046704,
+          "voltage_V": 10.237139961306234
+        },
+        {
+          "time_min": 418.5317222790895,
+          "voltage_V": 10.227188263648795
+        },
+        {
+          "time_min": 430.15760345350867,
+          "voltage_V": 10.21738107619169
+        },
+        {
+          "time_min": 441.7834846279278,
+          "voltage_V": 10.20790929985339
+        },
+        {
+          "time_min": 453.409365802347,
+          "voltage_V": 10.1987970775124
+        },
+        {
+          "time_min": 465.03524697676613,
+          "voltage_V": 10.189736978064662
+        },
+        {
+          "time_min": 476.6611281511853,
+          "voltage_V": 10.180390981341978
+        },
+        {
+          "time_min": 488.2870093256044,
+          "voltage_V": 10.17067175272807
+        },
+        {
+          "time_min": 499.9128905000236,
+          "voltage_V": 10.160844846376545
+        },
+        {
+          "time_min": 511.5387716744427,
+          "voltage_V": 10.151199894577903
+        },
+        {
+          "time_min": 523.1646528488619,
+          "voltage_V": 10.141827027696113
+        },
+        {
+          "time_min": 534.7905340232811,
+          "voltage_V": 10.132442674876014
+        },
+        {
+          "time_min": 546.4164151977002,
+          "voltage_V": 10.122712552923133
+        },
+        {
+          "time_min": 558.0422963721193,
+          "voltage_V": 10.112325768220842
+        },
+        {
+          "time_min": 569.6681775465385,
+          "voltage_V": 10.101615609486217
+        },
+        {
+          "time_min": 581.2940587209577,
+          "voltage_V": 10.091167308171602
+        },
+        {
+          "time_min": 592.9199398953768,
+          "voltage_V": 10.08131970210821
+        },
+        {
+          "time_min": 604.545821069796,
+          "voltage_V": 10.0716998692703
+        },
+        {
+          "time_min": 616.1717022442151,
+          "voltage_V": 10.061825401324795
+        },
+        {
+          "time_min": 627.7975834186343,
+          "voltage_V": 10.051359654380125
+        },
+        {
+          "time_min": 639.4234645930535,
+          "voltage_V": 10.040516214821482
+        },
+        {
+          "time_min": 651.0493457674727,
+          "voltage_V": 10.029616207576936
+        },
+        {
+          "time_min": 662.6752269418918,
+          "voltage_V": 10.018809519269228
+        },
+        {
+          "time_min": 674.3011081163108,
+          "voltage_V": 10.007769506353679
+        },
+        {
+          "time_min": 685.92698929073,
+          "voltage_V": 9.996463441030798
+        },
+        {
+          "time_min": 697.5528704651491,
+          "voltage_V": 9.9848868990114
+        },
+        {
+          "time_min": 709.1787516395683,
+          "voltage_V": 9.973015519678306
+        },
+        {
+          "time_min": 720.8046328139875,
+          "voltage_V": 9.96091453446393
+        },
+        {
+          "time_min": 732.4305139884067,
+          "voltage_V": 9.948650511083196
+        },
+        {
+          "time_min": 744.0563951628258,
+          "voltage_V": 9.936163170452087
+        },
+        {
+          "time_min": 755.682276337245,
+          "voltage_V": 9.923522651582193
+        },
+        {
+          "time_min": 767.3081575116641,
+          "voltage_V": 9.910830027426725
+        },
+        {
+          "time_min": 778.9340386860833,
+          "voltage_V": 9.898071690007805
+        },
+        {
+          "time_min": 790.5599198605024,
+          "voltage_V": 9.88518399314911
+        },
+        {
+          "time_min": 802.1858010349216,
+          "voltage_V": 9.872118182242062
+        },
+        {
+          "time_min": 813.8116822093408,
+          "voltage_V": 9.858961684684257
+        },
+        {
+          "time_min": 825.4375633837598,
+          "voltage_V": 9.845575173478174
+        },
+        {
+          "time_min": 837.063444558179,
+          "voltage_V": 9.831710567489285
+        },
+        {
+          "time_min": 848.6893257325981,
+          "voltage_V": 9.81722281951691
+        },
+        {
+          "time_min": 860.3152069070173,
+          "voltage_V": 9.802268381245447
+        },
+        {
+          "time_min": 871.9410880814364,
+          "voltage_V": 9.787047106991412
+        },
+        {
+          "time_min": 883.5669692558556,
+          "voltage_V": 9.771644265063472
+        },
+        {
+          "time_min": 895.1928504302748,
+          "voltage_V": 9.756002513230587
+        },
+        {
+          "time_min": 906.818731604694,
+          "voltage_V": 9.740078799720077
+        },
+        {
+          "time_min": 918.4446127791132,
+          "voltage_V": 9.723902814045054
+        },
+        {
+          "time_min": 930.0704939535323,
+          "voltage_V": 9.707415980902287
+        },
+        {
+          "time_min": 941.6963751279515,
+          "voltage_V": 9.690321653301442
+        },
+        {
+          "time_min": 953.3222563023706,
+          "voltage_V": 9.672392680754125
+        },
+        {
+          "time_min": 964.9481374767898,
+          "voltage_V": 9.653696610671526
+        },
+        {
+          "time_min": 976.5740186512088,
+          "voltage_V": 9.634329155014184
+        },
+        {
+          "time_min": 988.199899825628,
+          "voltage_V": 9.614392563060319
+        },
+        {
+          "time_min": 999.8257810000472,
+          "voltage_V": 9.593864000332776
+        },
+        {
+          "time_min": 1011.4516621744663,
+          "voltage_V": 9.572496608802505
+        },
+        {
+          "time_min": 1023.0775433488855,
+          "voltage_V": 9.550092839487093
+        },
+        {
+          "time_min": 1034.7034245233046,
+          "voltage_V": 9.526739050018662
+        },
+        {
+          "time_min": 1046.3293056977238,
+          "voltage_V": 9.502111282977102
+        },
+        {
+          "time_min": 1057.955186872143,
+          "voltage_V": 9.475880592185343
+        },
+        {
+          "time_min": 1069.5810680465622,
+          "voltage_V": 9.448260535485783
+        },
+        {
+          "time_min": 1081.2069492209812,
+          "voltage_V": 9.418391512375099
+        },
+        {
+          "time_min": 1092.8328303954004,
+          "voltage_V": 9.385330304616836
+        },
+        {
+          "time_min": 1104.4587115698196,
+          "voltage_V": 9.35033501633188
+        },
+        {
+          "time_min": 1116.0845927442385,
+          "voltage_V": 9.310220813054327
+        },
+        {
+          "time_min": 1127.7104739186577,
+          "voltage_V": 9.260299129079769
+        },
+        {
+          "time_min": 1139.336355093077,
+          "voltage_V": 9.19151986479105
+        },
+        {
+          "time_min": 1150.962236267496,
+          "voltage_V": 9.102921827272633
+        },
+        {
+          "time_min": 1162.5881174419153,
+          "voltage_V": 9.0
+        }
+      ]
+    }
+  ],
+  "figure_artifacts": [
+    "q2_55A_curve.svg"
+  ],
+  "validation_results": {
+    "independent_checker_captures": {
+      "RUN-2016-CUBIC-1729": {
+        "run_id": "RUN-2016-CUBIC-1729",
+        "output_sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78",
+        "requirements": {
+          "REQ-Q1": {
+            "metric_values": {
+              "q1_MRE_20A": 0.0005997600695762963,
+              "q1_MRE_30A": 0.0009708038170843795,
+              "q1_remaining_30A_min": 591.6781530955864,
+              "q1_MRE_40A": 0.001114712531689947,
+              "q1_remaining_40A_min": 429.7914547407936,
+              "q1_MRE_50A": 0.0015197671351572099,
+              "q1_remaining_50A_min": 326.1973895551355,
+              "q1_MRE_60A": 0.0014218623861218267,
+              "q1_remaining_60A_min": 277.93658682099203,
+              "q1_MRE_70A": 0.00038885082416817576,
+              "q1_remaining_70A_min": 254.68548351701793,
+              "q1_MRE_80A": 0.00036627434223863607,
+              "q1_MRE_90A": 0.00031723097445859845,
+              "q1_MRE_100A": 0.000321029388888665,
+              "q1_mean_fitted_MRE": 0.0007800323854870817
+            },
+            "recalculation_residuals": {
+              "all_coefficients": {
+                "value": 2.7755575615628914e-17,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              },
+              "all_2079_inverse_times_min": {
+                "value": 8.640199666842818e-12,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              },
+              "metric_max_difference": {
+                "value": 1.1368683772161603e-12,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              }
+            },
+            "feasible": true,
+            "constraint_residuals": {
+              "bounded_interpolation_domain": {
+                "value": 0.0,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              }
+            },
+            "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+          },
+          "REQ-Q2": {
+            "metric_values": {
+              "q2_loco_MRE": 0.010219758766339682
+            },
+            "recalculation_residuals": {
+              "all_LOCO_and_55A_vectors": {
+                "value": 5.4797055781818926e-11,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              },
+              "metric_max_difference": {
+                "value": 4.180683577104105e-16,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              }
+            },
+            "feasible": true,
+            "constraint_residuals": {
+              "bounded_interpolation_domain": {
+                "value": 0.0,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              }
+            },
+            "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+          },
+          "REQ-Q3": {
+            "metric_values": {
+              "q3_validation_tail_MRE": 0.005991338826654545,
+              "q3_remaining_min": 193.44177724400015
+            },
+            "recalculation_residuals": {
+              "all_aging_vectors_and_perturbations_min": {
+                "value": 4.765077221691172e-13,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              },
+              "metric_max_difference": {
+                "value": 2.2737367544323206e-13,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              }
+            },
+            "feasible": true,
+            "constraint_residuals": {
+              "nonnegative_remaining_time_min": {
+                "value": 0.0,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              }
+            },
+            "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+          }
+        },
+        "independence": "Manual scalar PCHIP coefficients, bisection, closed-form regression; no producer imports; same model assumptions are not independently established.",
+        "final_test_access": false
+      },
+      "RUN-2016-BASELINE-1729": {
+        "run_id": "RUN-2016-BASELINE-1729",
+        "output_sha256": "afa010db53c66a279b2a5e6f606c464b361588499ce052b4946a9706d334763e",
+        "requirements": {
+          "REQ-Q1": {
+            "metric_values": {
+              "q1_MRE_20A": 0.0034912755221976404,
+              "q1_MRE_30A": 0.0034245079994849634,
+              "q1_remaining_30A_min": 593.3026315789502,
+              "q1_MRE_40A": 0.003119218479581955,
+              "q1_remaining_40A_min": 429.86842105263395,
+              "q1_MRE_50A": 0.004106278657640806,
+              "q1_remaining_50A_min": 326.33623188405977,
+              "q1_MRE_60A": 0.004294899526450057,
+              "q1_remaining_60A_min": 279.4201954397406,
+              "q1_MRE_70A": 0.002530750517549016,
+              "q1_remaining_70A_min": 255.267052023122,
+              "q1_MRE_80A": 0.00214301246683333,
+              "q1_MRE_90A": 0.0018795634812213751,
+              "q1_MRE_100A": 0.0020941056508474135,
+              "q1_mean_fitted_MRE": 0.0030092902557562837
+            },
+            "recalculation_residuals": {
+              "all_coefficients": {
+                "value": 0.0,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              },
+              "all_2079_inverse_times_min": {
+                "value": 3.183231456205249e-12,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              },
+              "metric_max_difference": {
+                "value": 1.1368683772161603e-12,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              }
+            },
+            "feasible": true,
+            "constraint_residuals": {
+              "bounded_interpolation_domain": {
+                "value": 0.0,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              }
+            },
+            "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+          },
+          "REQ-Q2": {
+            "metric_values": {
+              "q2_loco_MRE": 0.04893052247838587
+            },
+            "recalculation_residuals": {
+              "all_LOCO_and_55A_vectors": {
+                "value": 5.502442945726216e-11,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              },
+              "metric_max_difference": {
+                "value": 5.620504062164855e-16,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              }
+            },
+            "feasible": true,
+            "constraint_residuals": {
+              "bounded_interpolation_domain": {
+                "value": 0.0,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              }
+            },
+            "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+          },
+          "REQ-Q3": {
+            "metric_values": {
+              "q3_validation_tail_MRE": 0.0068142033671070214,
+              "q3_remaining_min": 192.26720777043772
+            },
+            "recalculation_residuals": {
+              "all_aging_vectors_and_perturbations_min": {
+                "value": 7.958078640513122e-13,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              },
+              "metric_max_difference": {
+                "value": 1.1368683772161603e-13,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-09
+              }
+            },
+            "feasible": true,
+            "constraint_residuals": {
+              "nonnegative_remaining_time_min": {
+                "value": 0.0,
+                "relation": "LE",
+                "limit": 0.0,
+                "tolerance": 1e-07
+              }
+            },
+            "domain_interpretation": "Numerical/domain consistency only; no validation of state3 future truth or aging invariance."
+          }
+        },
+        "independence": "Manual scalar PCHIP coefficients, bisection, closed-form regression; no producer imports; same model assumptions are not independently established.",
+        "final_test_access": false
+      }
+    },
+    "compare_check": "BLOCK_GROUP_OVERLAP",
+    "semantic_check": "BLOCK_MISSING_PREDICTIVE_VALIDATION",
+    "controller": "BLOCK_NATIVE_CONTRACTS",
+    "test_access_count": 0
+  },
+  "robustness_results": {
+    "metric": "q3_remaining_min",
+    "metric_direction": "MIN",
+    "perturbations": [
+      {
+        "perturbation_id": "PREFIX_TIME_PLUS_1_MIN",
+        "metric": "q3_remaining_min",
+        "result": 194.44177724399992,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "PREFIX_TIME_MINUS_1_MIN",
+        "metric": "q3_remaining_min",
+        "result": 192.44177724399992,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      },
+      {
+        "perturbation_id": "PREFIX_DROP_LAST_10",
+        "metric": "q3_remaining_min",
+        "result": 191.9917845677527,
+        "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS"
+      }
+    ],
+    "failure_cases": [
+      "No state3 target error can be established without its future termination.",
+      "Transfer shape may change with aging; sensitivity spread is not calibrated uncertainty."
+    ]
+  },
+  "uncertainty": {
+    "kind": "MODEL_AND_PREFIX_SENSITIVITY_NOT_CONFIDENCE_INTERVAL",
+    "reference_spread_min": [
+      184.8260766817284,
+      192.96386667432728,
+      205.4754966063881
+    ],
+    "prefix_perturbations": [
+      {
+        "id": "PREFIX_TIME_PLUS_1_MIN",
+        "remaining_min": 194.44177724399992,
+        "delta_min": 1.0
+      },
+      {
+        "id": "PREFIX_TIME_MINUS_1_MIN",
+        "remaining_min": 192.44177724399992,
+        "delta_min": -1.0
+      },
+      {
+        "id": "PREFIX_DROP_LAST_10",
+        "remaining_min": 191.9917845677527,
+        "delta_min": -1.4499926762472342
+      }
+    ],
+    "independent_battery_count": 1,
+    "target_error": "UNKNOWN"
+  },
+  "failure_cases": [
+    "No state3 target error can be established without its future termination.",
+    "Transfer shape may change with aging; sensitivity spread is not calibrated uncertainty."
+  ],
+  "limitations": [
+    "State3 true 9V termination is absent; prediction accuracy unknown.",
+    "Only one battery across aging states; voltage rows are correlated, not independent battery replicates.",
+    "Initial voltage relaxation violates literal global monotonicity; inverse uses last downward crossing.",
+    "Q1 piecewise polynomial representation uses 17 or33 uniform-time knots plus first31 sample points, not one compact global elementary formula.",
+    "Q2 interpolates within20–100A only; no observation at55A exists.",
+    "All workbook rows were materialized by intake audit; no untouched Final labels are claimed. All reported cross-validation errors are Development diagnostics."
+  ],
+  "claim_evidence_candidate": "case_records/evidence/semantic_claim_support_candidate.json",
+  "reproduction": {
+    "code_commit": "bee0a94cd0b04a17ceaf80830d482ac91366de1e",
+    "prerun_remote_freeze": "b71d00fc8944784c5213ba468d3e85afaed47949",
+    "executor": ".venv/bin/python",
+    "frozen_environment": "qualification/environment.json",
+    "raw_hashes": {
+      "data/raw/appendix.xlsx": "062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf",
+      "data/raw/problem.docx": "19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440"
+    },
+    "run_manifests": [
+      "runs/RUN-2016-CUBIC-1729/manifest.json",
+      "runs/RUN-2016-BASELINE-1729/manifest.json"
+    ],
+    "selected_output_sha256": "a83aba2e542e78ce5d0dcecce98662a2ab39f012086f5807b690fcd8b2531c78",
+    "instruction": "Materialize preregistered inputs/code/state in a fresh replay workspace; use execute and verify-evidence CLI with frozen seed1729. Never overwrite this episode or invoke its unauthorized Final evaluator."
+  },
+  "overall_scientific_claim": "PARTIAL; no empirical state3 terminal accuracy or broad generalization claim."
+}

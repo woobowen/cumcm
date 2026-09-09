@@ -1,0 +1,43 @@
+{
+  "name": "m3-subject-focused-004",
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_phase004c5_release_subjects.py",
+    "tests/unit/test_phase004c4_rc7_release.py",
+    "tests/unit/test_competition_rc_skill.py",
+    "tests/integration/test_rc8_nonpredictive_and_final_lifecycle.py",
+    "tests/integration/test_rc8_scientific_fact_binding.py",
+    "tests/integration/test_p0_01_finalization_hf22_reproduction.py",
+    "tests/integration/test_p0_02_final_evaluation.py",
+    "tests/integration/test_actual_controller_neutral_e2e.py"
+  ],
+  "subject_commit": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+  "started_at": "2026-09-08T20:17:55.336872+00:00",
+  "ended_at": "2026-09-08T20:18:11.454836+00:00",
+  "elapsed_seconds": 15.51866008899924,
+  "exit_code": 0,
+  "status": "PASS",
+  "stdout": {
+    "path": ".cache/pr12-rc8/logs/m3-subject-focused-004.stdout.log",
+    "sha256": "1fab83599a7420dd0201d1283852c8ed10d9df7d9cd68e3007313989ab5a4f64"
+  },
+  "stderr": {
+    "path": ".cache/pr12-rc8/logs/m3-subject-focused-004.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "schema_version": "rc8-verification-receipt/v1",
+  "evidence": {
+    "stdout": {
+      "path": "evals/results/phase-004c5/qualification/verification_logs/m3-subject-focused-004.stdout.log",
+      "sha256": "1fab83599a7420dd0201d1283852c8ed10d9df7d9cd68e3007313989ab5a4f64"
+    },
+    "stderr": {
+      "path": "evals/results/phase-004c5/qualification/verification_logs/m3-subject-focused-004.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "passed": 100
+}

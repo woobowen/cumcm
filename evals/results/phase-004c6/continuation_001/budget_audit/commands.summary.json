@@ -1,0 +1,169 @@
+{
+  "schema_version": "native-budget-audit-command-summary/v1",
+  "original_commands_sha256": "7d916c78ddcd7caac37902ea83e14f77c20be8c1609ab692fb0913ffa613d68d",
+  "commands": [
+    {
+      "command": "ls -la",
+      "started_at": "2026-09-09T05:04:31.364Z",
+      "ended_at": "2026-09-09T05:04:31.415Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 2.8988e-05,
+      "output_sha256": "99a6fdd83222680eefabcb21709702c8a8e49a8eaa2e185ed92c5dd9f9cce048",
+      "output_bytes": 2876
+    },
+    {
+      "command": "rg -n '^(##|###)|\u4fee\u8ba2|\u4fee\u590d|\u7ec8\u5c40|\u51bb\u7ed3|CLI|\u9884\u7b97|\u5019\u9009' CUMCM_PR12_RC9_REPAIR_AND_DEVELOPMENT_PLAN.md",
+      "started_at": "2026-09-09T05:04:43.014Z",
+      "ended_at": "2026-09-09T05:04:43.118Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 3.896e-06,
+      "output_sha256": "5a3e7928d96d0dd475a4286f1b3698a0b23766cd33496e7bd7875654180e4cac",
+      "output_bytes": 10701
+    },
+    {
+      "command": "cat evals/results/phase-004c6/qualification/rc9_candidate_protocol.json evals/results/phase-004c6/qualification/preexecution_supersession_r2.json",
+      "started_at": "2026-09-09T05:04:43.014Z",
+      "ended_at": "2026-09-09T05:04:43.081Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 5.37e-06,
+      "output_sha256": "7d6e67669557f10790d457bcb24a375608bcd5946ac3afb1447745864549115c",
+      "output_bytes": 5031
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "started_at": "2026-09-09T05:04:43.014Z",
+      "ended_at": "2026-09-09T05:04:43.097Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 3.393e-06,
+      "output_sha256": "1dcf2b5c45eadfdc48fa8911898d0ce50c3dd4cd37184e53b5acd14094a8bf3e",
+      "output_bytes": 41
+    },
+    {
+      "command": "git log --format='%h %aI %s' -- evals/results/phase-004c6/qualification/rc9_candidate_protocol.json evals/results/phase-004c6/qualification/shared_subject_r1.json evals/results/phase-004c6/qualification/shared_subject_r2.json",
+      "started_at": "2026-09-09T05:04:43.014Z",
+      "ended_at": "2026-09-09T05:04:43.172Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 3.534e-06,
+      "output_sha256": "81d92922c34909aba9b2ace840cc224b43c8d90e92f133616ef617ac136fb8cb",
+      "output_bytes": 424
+    },
+    {
+      "command": "sed -n '259,294p' CUMCM_PR12_RC9_REPAIR_AND_DEVELOPMENT_PLAN.md",
+      "started_at": "2026-09-09T05:05:13.187Z",
+      "ended_at": "2026-09-09T05:05:13.339Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 3.454e-06,
+      "output_sha256": "3294169e019a2d6d574124266e527d4038f180c025c4884242ec1985fa171af3",
+      "output_bytes": 2923
+    },
+    {
+      "command": "sed -n '312,359p' CUMCM_PR12_RC9_REPAIR_AND_DEVELOPMENT_PLAN.md",
+      "started_at": "2026-09-09T05:05:13.187Z",
+      "ended_at": "2026-09-09T05:05:13.347Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 6.242e-06,
+      "output_sha256": "56d52934c49e21a89ad0218e1437d4b7e77c42a9c8f50441c4fa8ec658d69cb4",
+      "output_bytes": 3529
+    },
+    {
+      "command": "git show --stat --oneline 10e8b038d571b88ce2b7f2388da00a618c774f69",
+      "started_at": "2026-09-09T05:05:13.187Z",
+      "ended_at": "2026-09-09T05:05:13.327Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 2.173e-06,
+      "output_sha256": "18b54273c20193f75e65ed7b2496aa56eeebaa3cee00c1ef88215fe854b9ed82",
+      "output_bytes": 865
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib\nq=Path('evals/results/phase-004c6/qualification')\nfor name in ['shared_subject_r1.json','shared_subject_r2.json']:\n p=q/name;d=json.loads(p.read_text());print(name,'sha256',hashlib.sha256(p.read_bytes()).hexdigest());print(json.dumps({k:v for k,v in d.items() if k!='implementation_sha256'},indent=2,ensure_ascii=False));print('mapped_files',len(d['implementation_sha256']))\nPY",
+      "started_at": "2026-09-09T05:05:13.187Z",
+      "ended_at": "2026-09-09T05:05:13.340Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 4.098e-06,
+      "output_sha256": "a940eb9c77ba91d658e39db12efd91bc2f4cd77f4f1d4093fe30d322e3873ba0",
+      "output_bytes": 3472
+    },
+    {
+      "command": "git diff 2d74ca82e2d52799e81bf5d95850570f14d93a58 10e8b038d571b88ce2b7f2388da00a618c774f69 --stat",
+      "started_at": "2026-09-09T05:05:13.187Z",
+      "ended_at": "2026-09-09T05:05:13.342Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 9.99e-07,
+      "output_sha256": "e2f2404b09933a5dd54a9a7ab0ecf205af4998b560754a9013276f7a43422c2f",
+      "output_bytes": 1174
+    },
+    {
+      "command": "git show 7ed9dd1:evals/results/phase-004c6/qualification/rc9_candidate_protocol.json",
+      "started_at": "2026-09-09T05:05:13.187Z",
+      "ended_at": "2026-09-09T05:05:13.344Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 4.621e-06,
+      "output_sha256": "b89ec66d581331393dab35d770b7bac4a8950e2d73e7e7fbaa6163d8149a1acf",
+      "output_bytes": 1779
+    },
+    {
+      "command": "git diff 2d74ca82e2d52799e81bf5d95850570f14d93a58 10e8b038d571b88ce2b7f2388da00a618c774f69 -- scripts/prepare_phase004c6_development.py tests/unit/test_competition_rc_skill.py tests/unit/test_phase002d_r2a_start_freeze_dependencies.py tests/unit/test_target_problem_policy.py",
+      "started_at": "2026-09-09T05:05:34.958Z",
+      "ended_at": "2026-09-09T05:05:35.016Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 4.326e-06,
+      "output_sha256": "9b062b1a16ca1b7e530dda6a5aad559a0e9d7d0ea7df63c8791b69a8421fa458",
+      "output_bytes": 6890
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib\nbase=Path('evals/results/phase-004c6')\nfor case in ['CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006','CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007']:\n print('CASE',case)\n for name in ['development_design.json','terminal/decision.json','execution/execution_evidence.json','execution/state/execution_budget.json','registration/case_registration_r2.json']:\n  p=base/case/name;d=json.loads(p.read_text());print('FILE',name,'sha256',hashlib.sha256(p.read_bytes()).hexdigest())\n  exclude=['question_results','limitations','artifacts','scientific_summaries','input_hashes','required_input_hashes']\n  if name=='development_design.json':keep=['schema_version','case_id','parent_case_id','parent_terminal','budget','frozen_at','revision','subject_commit','freeze_policy','terminal_policy'];d={k:v for k,v in d.items() if k in keep}\n  else:d={k:v for k,v in d.items() if k not in exclude}\n  print(json.dumps(d,indent=2,ensure_ascii=False))\nPY",
+      "started_at": "2026-09-09T05:05:34.958Z",
+      "ended_at": "2026-09-09T05:05:35.038Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 3.419e-06,
+      "output_sha256": "51586f669c6cd7d6e674ca0ea6a73a2f77907b527e092a43d30b9696ecf78476",
+      "output_bytes": 19533
+    },
+    {
+      "command": "rg -n 'budget|four|4\u6b21|functional|revision|\u4fee\u8ba2|\u7ec8\u5c40|FAILED|FROZEN|forbid|freeze' evals/results/phase-004c6/qualification/proposal.json evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/development_design.json evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/development_design.json scripts/prepare_phase004c6_development.py scripts/check_phase004c6_rc9_release.py",
+      "started_at": "2026-09-09T05:05:34.958Z",
+      "ended_at": "2026-09-09T05:05:35.100Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 4.576e-06,
+      "output_sha256": "2e9a54aa98768f41b0936efab2409336da8e867b6d23bbe6751492ec40a20a35",
+      "output_bytes": 2279
+    },
+    {
+      "command": "git show 926d531:evals/results/phase-004c6/qualification/proposal.json",
+      "started_at": "2026-09-09T05:07:02.467Z",
+      "ended_at": "2026-09-09T05:07:02.527Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 9.297e-06,
+      "output_sha256": "bda868a8147719ad588514834f2fb4c4bc92054b25c2fcfbed9cfc595fd287b7",
+      "output_bytes": 1118
+    },
+    {
+      "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,subprocess\nroot=Path.cwd();q=root/'evals/results/phase-004c6/qualification';load=lambda p:json.loads(p.read_text());h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nchecks=[]\ndef c(name,value):checks.append({'name':name,'pass':bool(value)})\nr1=load(q/'shared_subject_r1.json');r2=load(q/'shared_subject_r2.json');p=load(q/'rc9_candidate_protocol.json');sup=load(q/'preexecution_supersession_r2.json')\nc('protocol_limit_2',p['functional_candidate_limit']==2)\nc('r1_revision_1',r1['functional_revision']==1)\nc('r2_revision_2',r2['functional_revision']==2)\nc('both_bind_same_current_protocol',r1['protocol_sha256']==r2['protocol_sha256']==h(q/'rc9_candidate_protocol.json'))\nc('r2_supersedes_exact_r1',r2['supersedes']['sha256']==h(q/'shared_subject_r1.json'))\nc('supersession_subjects',sup['previous_subject']==r1['subject_commit'] and sup['subject_commit']==r2['subject_commit'])\nc('supersession_revision',sup['functional_revision']==2)\nchanged=[x for x in r1['implementation_sha256'] if r1['implementation_sha256'][x]!=r2['implementation_sha256'][x]]\nprint('changed_mapped_paths',json.dumps(changed))\nfor child in sup['children']:\n cid=child['case_id'];base=root/'evals/results/phase-004c6'/cid;year=cid.split('-')[1]\n terminal=load(base/'terminal/decision.json');execution=load(base/'execution/execution_evidence.json');ledger=load(base/'execution/state/execution_budget.json');design=load(base/'development_design.json');reg=load(base/'registration/case_registration_r2.json')\n c(cid+':r1_no_processes',all(child[x]==0 for x in ['model_starts_before_supersession','checker_starts_before_supersession','final_starts_before_supersession']))\n c(cid+':preexecution_supersession',r1['frozen_at']<r2['frozen_at']<terminal['started_at']<terminal['frozen_at'])\n c(cid+':all_caps_4_4_1',design['budget']==reg['budget']==ledger['limits']=={'model_cli_starts':4,'independent_checker_starts':4,'final_starts':1})\n counts={k:sum(e['kind']==k for e in ledger['events']) for k in ledger['limits']}\n c(cid+':actual_counts',counts==terminal['actual_starts']=={'model_cli_starts':2,'independent_checker_starts':3,'final_starts':0})\n c(cid+':requests_4_rejected_2',terminal['actual_model_cli_requests']==execution['actual_model_cli_requests']==4 and terminal['pre_execution_model_request_rejections']==execution['preprocess_rejected_model_cli_requests']==2)\n c(cid+':binds_r2',terminal['subject_commit']==reg['shared_subject']==r2['subject_commit'] and terminal['functional_candidate_revision']==reg['functional_revision']==2)\n c(cid+':failed_terminal',terminal['status']=='FAILED' and not terminal['accepted_final'] and not terminal['accepted_handoff'])\n c(cid+':budget_hash',execution['budget_ledger']['sha256']==h(base/'execution/state/execution_budget.json'))\n for suffix,code in [('model_1',3),('model_2',3),('model_valid_1',0),('model_valid_2',0)]:\n  cp=base/'execution/commands'/f'{year}_{suffix}.json';command=load(cp)\n  c(cid+':'+suffix,command['exit_code']==code and command['subject_commit']==r2['subject_commit'] and 'execute' in command['argv'])\nprint(json.dumps({'check_count':len(checks),'checks':checks,'all_pass':all(x['pass'] for x in checks)},indent=2));assert all(x['pass'] for x in checks)\nPY",
+      "started_at": "2026-09-09T05:07:02.468Z",
+      "ended_at": "2026-09-09T05:07:02.580Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 2.652e-06,
+      "output_sha256": "9204954aee4ede3e8f91c3269bab666187c0ee38c0033139092c474fd7d50520",
+      "output_bytes": 3539
+    },
+    {
+      "command": "sed -n '1,38p' evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/development_design.json",
+      "started_at": "2026-09-09T05:07:02.468Z",
+      "ended_at": "2026-09-09T05:07:02.533Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 3.493e-06,
+      "output_sha256": "0c6527dc90142d6ae6868d23ea213bde625cb3cc8ddbc2b1a81c0f3834c0cf93",
+      "output_bytes": 1368
+    },
+    {
+      "command": "git show 2d74ca82e2d52799e81bf5d95850570f14d93a58:evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/development_design.json",
+      "started_at": "2026-09-09T05:07:02.468Z",
+      "ended_at": "2026-09-09T05:07:02.560Z",
+      "exit_code": 0,
+      "tool_wall_time_seconds": 3.435e-06,
+      "output_sha256": "525bebb400dd75e0bb2bc519f0d4d8847d32f0ed46b4ce480923a184aeb2021b",
+      "output_bytes": 3852
+    }
+  ],
+  "publication": "Raw outputs and native transport identifiers remain ignored; command texts/times/exit/output hashes are published."
+}

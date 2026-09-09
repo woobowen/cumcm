@@ -1,0 +1,66 @@
+{
+  "schema_version": "operator-rehearsal-evidence/v1",
+  "case_id": "READINESS-COOLANT-001",
+  "revision": 1,
+  "classification": "NEW_ORIGINAL_INSTANCE_OF_KNOWN_WORKFLOW_NOT_VALIDATION",
+  "core_version": "0.2.0-competition-rc10",
+  "numeric_tool_subject": "637d102d2db3a63596a20931df96080a8c29d76f",
+  "early_module_subject": "0ad91e3b73228c3fa8b5b77795055bb5d406b8d0",
+  "module_completions": 14,
+  "native_state": "READY_FOR_PAPER_HANDOFF",
+  "actual_model_captures": 2,
+  "explicit_checker_captures": 2,
+  "scientific_final_count": 1,
+  "final_checker_processes": 1,
+  "test_access_count": 0,
+  "internal_checker_replays": 4,
+  "selected_runs": [
+    "RUN-BASE-20260910"
+  ],
+  "selected_values": {
+    "RUN-BASE-20260910": {
+      "allocation": {
+        "balance_litres": [
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "cost": 8,
+        "counts": [
+          2,
+          0
+        ],
+        "demand_litres": 6,
+        "quantity_litres": 6
+      },
+      "metrics": {
+        "metric_a": 8,
+        "metric_b": 1.5173048003210474e-13,
+        "metric_c": 0
+      },
+      "robustness": {
+        "failure_cases": [
+          "Nonlinear future trend, purchase shortage and zero denominator are outside scope."
+        ],
+        "metric": "metric_a",
+        "metric_direction": "MIN",
+        "perturbations": [
+          {
+            "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+            "metric": "metric_a",
+            "perturbation_id": "DEMAND_PLUS_ONE_OR_END_PLUS_ONE",
+            "result": 12
+          }
+        ]
+      }
+    }
+  },
+  "next_web_review": "PENDING_USER_NOT_RUN",
+  "human_acceptance": "NOT_RUN",
+  "final_once_verified": true,
+  "total_observed_checker_processes": 7
+}

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_competition_rc_development_eval.py::test_case_registry_declares_required_training_fields",
+    "tests/fault_injection/test_eval_policy_faults.py::test_human_gate_and_integration_flags_remain_false"
+  ],
+  "subject": "bcf498907cbf282e2c79580ea56b043fc1a7b52b",
+  "started_at": "2026-09-09T01:39:40.433756+00:00",
+  "ended_at": "2026-09-09T01:39:40.736032+00:00",
+  "exit_code": 1,
+  "passed": 0,
+  "failed": 2,
+  "stdout_sha256": "c8f417614e11917c0de9fcb0358743ad5ac2f4f06428555e45b1c16383c4cd9c",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_path": ".cache/pr12-rc9/logs/baseline.stdout",
+  "stderr_path": ".cache/pr12-rc9/logs/baseline.stderr"
+}

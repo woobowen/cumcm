@@ -1,0 +1,24 @@
+{
+  "artifact_type": "assumptions_and_symbols",
+  "content": {
+    "assumptions": [
+      "All supplied material is purchased: purchase cost equals actual supply times normalized material price, not ordered amount.",
+      "Stationary supplier order capacity is the W001-W168 positive-order 75th percentile; fulfillment and loss estimators differ by preregistered candidate.",
+      "No claim is made about true external maximum capacity or weather-realized future performance.",
+      "Nominal plan repeats for24weeks; initial inventory equals two target-production weeks. Stress recursively uses W169-W216 only; W217-W240 is excluded.",
+      "Q2 uses conditional minimum cardinality, then purchase cost, then transport loss. Q3 preference uses declared C-min/A-max/purchase/loss lexicographic order, an interpretation of the underspecified tradeoff.",
+      "Absolute transport and storage tariffs are missing; normalized purchase/loss objectives do not equal fully specified total monetary cost.",
+      "Supplier and carrier tables share the company/week context; conditional routing combines their complete sets, not an observed supplier-carrier empirical crosswalk.",
+      "Only derived24week plan CSVs are created; missing native Attachment A/B template conformance remains incomplete."
+    ],
+    "formulas": [
+      "observed_metric = deterministic_recomputation(bound_inputs)"
+    ],
+    "symbols": {
+      "CASE": "CUMCM-2021-C-DEVELOPMENT-BATCH-002",
+      "SEED": "20210904"
+    }
+  },
+  "content_hash": "fae3da2c4ca7a87ac65486a32b8ec99646a1d6a9ff55a7d5326c7f3913d60ef8",
+  "status": "ACCEPTED"
+}

@@ -91,6 +91,10 @@
     },
     "technical_adjudication_status": {
       "enum": [
+        "MODULAR_WORKBENCH_BUILD_IN_PROGRESS",
+        "MODULAR_WORKBENCH_ENGINEERING_ACCEPTED",
+        "MODULAR_WORKBENCH_LIMITED",
+        "MODULAR_WORKBENCH_BLOCKED",
         "AUTOMATED_ADJUDICATION_PENDING",
         "AUTOMATED_ADJUDICATION_RECOVERY_IN_PROGRESS",
         "AUTOMATED_EVIDENCE_SUFFICIENCY_IN_PROGRESS",
@@ -118,6 +122,9 @@
         "C_TARGET_RUNTIME_PIPELINE_REPAIR_IN_PROGRESS",
         "C_TARGET_RC6_READY_VALIDATION_PENDING",
         "C_TARGET_RC7_READY_VALIDATION_PENDING",
+        "C_TARGET_RC8_READY_VALIDATION_PENDING",
+        "C_TARGET_RC9_RESEARCH_READY",
+        "RC9_RELEASE_REPAIR_BLOCKED",
         "C_TARGET_VALIDATION_IN_PROGRESS",
         "CLAIM_SCOPE_REPAIR_BLOCKED",
         "RC6_RELEASE_REPAIR_BLOCKED",
@@ -560,7 +567,214 @@
     "updated_by": {"type": "string", "minLength": 1}
   },
   "allOf": [
-    {"if": {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"phase": {"enum": ["PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C", "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2", "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3", "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"]}}}},
+    {"if": {"properties": {"phase": {"const": "PHASE-SKILL-MODULAR-WORKBENCH-004C7"}}, "required": ["phase"]}, "then": {"properties": {"current_plan": {"const": "plans/active/PLAN-0004C7-modular-workbench.md"}, "current_branch": {"const": "feat/phase004c5-p0-01-finalization-hf22-repro"}, "current_validation_case": {"const": null}, "target_candidate_version": {"const": "0.2.0-competition-rc10"}, "active_skill_version": {"enum": ["0.2.0-competition-rc8", "0.2.0-competition-rc10"]}, "technical_adjudication_status": {"enum": ["MODULAR_WORKBENCH_BUILD_IN_PROGRESS", "MODULAR_WORKBENCH_ENGINEERING_ACCEPTED", "MODULAR_WORKBENCH_LIMITED", "MODULAR_WORKBENCH_BLOCKED"]}, "subphase": {"enum": ["WORKBENCH-BUILD-AND-ACCEPT", "WORKBENCH-ENGINEERING-TERMINAL"]}, "next_phase_allowed": {"const": null}, "team_compliance_review_status": {"const": "NOT_RUN"}, "base_selected": {"const": false}, "third_party_integrated": {"const": false}}, "required": ["current_plan", "current_branch", "current_validation_case", "target_candidate_version", "active_skill_version", "technical_adjudication_status", "subphase", "next_phase_allowed", "team_compliance_review_status", "base_selected", "third_party_integrated"]}},
+    {"if": {"properties": {"technical_adjudication_status": {"enum": ["MODULAR_WORKBENCH_BUILD_IN_PROGRESS", "MODULAR_WORKBENCH_ENGINEERING_ACCEPTED", "MODULAR_WORKBENCH_LIMITED", "MODULAR_WORKBENCH_BLOCKED"]}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"phase": {"const": "PHASE-SKILL-MODULAR-WORKBENCH-004C7"}}}},
+    {"if": {"properties": {"technical_adjudication_status": {"const": "MODULAR_WORKBENCH_BUILD_IN_PROGRESS"}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"active_skill_version": {"const": "0.2.0-competition-rc8"}, "subphase": {"const": "WORKBENCH-BUILD-AND-ACCEPT"}}}},
+    {"if": {"properties": {"technical_adjudication_status": {"enum": ["MODULAR_WORKBENCH_LIMITED", "MODULAR_WORKBENCH_BLOCKED"]}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"active_skill_version": {"const": "0.2.0-competition-rc8"}, "subphase": {"const": "WORKBENCH-ENGINEERING-TERMINAL"}, "blockers": {"minItems": 1}}}},
+    {"if": {"properties": {"technical_adjudication_status": {"const": "MODULAR_WORKBENCH_ENGINEERING_ACCEPTED"}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"active_skill_version": {"const": "0.2.0-competition-rc10"}, "subphase": {"const": "WORKBENCH-ENGINEERING-TERMINAL"}, "blockers": {"maxItems": 0}, "automated_decision_ids": {"contains": {"const": "DECISION-MODULAR-WORKBENCH-004C7"}}, "verification_manifest": {"type": "object", "required": ["path", "sha256", "subject_commit"], "properties": {"path": {"const": "evals/results/modular-workbench-001/qualification/candidate_snapshot.json"}}}}}},
+    {
+      "if": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"}}, "required": ["phase"]},
+      "then": {
+        "required": ["target_candidate_version", "current_validation_case"],
+        "properties": {
+          "status": {"const": "IN_PROGRESS"},
+          "current_plan": {"const": "plans/active/PLAN-0004C6-rc9-repair-and-development.md"},
+          "current_branch": {"const": "feat/phase004c5-p0-01-finalization-hf22-repro"},
+          "target_candidate_version": {"const": "0.2.0-competition-rc9"},
+          "current_validation_case": {"const": null},
+          "answer_access_status": {"const": "SEALED_AT_TERMINAL_FREEZE"},
+          "skill_capability_status": {"const": "COMPETITION_RC"},
+          "selected_architecture": {"const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"},
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "next_phase_allowed": {"const": null}
+        },
+        "oneOf": [
+          {"properties": {
+            "technical_adjudication_status": {"const": "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"},
+            "subphase": {"enum": ["RC9-REPAIR-AND-NEUTRAL-VALIDATION", "RC9-POSTVALIDATION-DEVELOPMENT"]},
+            "active_skill_version": {"const": "0.2.0-competition-rc8"}
+          }},
+          {"properties": {
+            "technical_adjudication_status": {"const": "C_TARGET_RC9_RESEARCH_READY"},
+            "subphase": {"const": "RC9-RESEARCH-QUALIFIED-DEVELOPMENT-TERMINAL"},
+            "active_skill_version": {"const": "0.2.0-competition-rc9"},
+            "blockers": {"maxItems": 0}
+          }},
+          {"properties": {
+            "technical_adjudication_status": {"const": "RC9_RELEASE_REPAIR_BLOCKED"},
+            "subphase": {"const": "RC9-REPAIR-TERMINAL-BLOCKED"},
+            "active_skill_version": {"const": "0.2.0-competition-rc8"},
+            "blockers": {"minItems": 1}
+          }}
+        ]
+      }
+    },
+    {
+      "if": {"properties": {"technical_adjudication_status": {"enum": ["C_TARGET_RC9_RESEARCH_READY", "RC9_RELEASE_REPAIR_BLOCKED"]}}, "required": ["technical_adjudication_status"]},
+      "then": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "target_candidate_version",
+          "current_validation_case"
+        ],
+        "properties": {
+          "status": {
+            "const": "IN_PROGRESS"
+          },
+          "current_plan": {
+            "const": "plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"
+          },
+          "current_branch": {
+            "const": "feat/phase004c5-p0-01-finalization-hf22-repro"
+          },
+          "target_candidate_version": {
+            "const": "0.2.0-competition-rc8"
+          },
+          "skill_capability_status": {
+            "const": "COMPETITION_RC"
+          },
+          "selected_architecture": {
+            "const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+          },
+          "base_selected": {
+            "const": false
+          },
+          "third_party_integrated": {
+            "const": false
+          },
+          "next_phase_allowed": {
+            "const": null
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "technical_adjudication_status": {
+                "const": "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"
+              },
+              "subphase": {
+                "const": "RC8-FACT-BINDING-REPAIR"
+              },
+              "active_skill_version": {
+                "const": "0.2.0-competition-rc7"
+              },
+              "current_validation_case": {
+                "const": null
+              },
+              "answer_access_status": {
+                "const": "SEALED_NOT_ACCESSED"
+              }
+            }
+          },
+          {
+            "properties": {
+              "technical_adjudication_status": {
+                "const": "C_TARGET_RC8_READY_VALIDATION_PENDING"
+              },
+              "subphase": {
+                "const": "RC8-FROZEN-PENDING-FRESH-C-VALIDATION"
+              },
+              "active_skill_version": {
+                "const": "0.2.0-competition-rc8"
+              },
+              "current_validation_case": {
+                "const": null
+              },
+              "blockers": {
+                "maxItems": 0
+              }
+            }
+          },
+          {
+            "properties": {
+              "technical_adjudication_status": {
+                "const": "C_TARGET_VALIDATION_IN_PROGRESS"
+              },
+              "subphase": {
+                "const": "C-TARGET-FRESH-VALIDATION-IN-PROGRESS"
+              },
+              "active_skill_version": {
+                "const": "0.2.0-competition-rc8"
+              },
+              "current_validation_case": {
+                "enum": [
+                  "CUMCM-2016-C-VALIDATION-004",
+                  "CUMCM-2015-C-VALIDATION-005",
+                  "CUMCM-2014-C-VALIDATION-004F"
+                ]
+              },
+              "answer_access_status": {
+                "const": "SEALED"
+              }
+            }
+          },
+          {
+            "properties": {
+              "technical_adjudication_status": {
+                "enum": [
+                  "C_TARGET_VALIDATION_PASSED",
+                  "C_TARGET_VALIDATION_FAILED",
+                  "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+                  "C_TARGET_VALIDATION_INCOMPLETE"
+                ]
+              },
+              "subphase": {
+                "const": "C-TARGET-FRESH-VALIDATION-TERMINAL"
+              },
+              "active_skill_version": {
+                "const": "0.2.0-competition-rc8"
+              },
+              "current_validation_case": {
+                "enum": [
+                  "CUMCM-2016-C-VALIDATION-004",
+                  "CUMCM-2015-C-VALIDATION-005",
+                  "CUMCM-2014-C-VALIDATION-004F"
+                ]
+              },
+              "answer_access_status": {
+                "const": "SEALED_AT_TERMINAL_FREEZE"
+              }
+            }
+          },
+          {
+            "properties": {
+              "technical_adjudication_status": {
+                "enum": [
+                  "C_TARGET_BATCH_INCOMPLETE",
+                  "OFFICIAL_INPUTS_REQUIRED",
+                  "FIRST_RUN_CONTAMINATION_SUSPECTED",
+                  "INFRASTRUCTURE_BLOCKED",
+                  "VALIDATION_CANDIDATE_DRIFT"
+                ]
+              },
+              "subphase": {
+                "const": "C-TARGET-FRESH-VALIDATION-BLOCKED"
+              },
+              "active_skill_version": {
+                "enum": [
+                  "0.2.0-competition-rc7",
+                  "0.2.0-competition-rc8"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {"if": {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"}}, "required": ["technical_adjudication_status"]}, "then": {"properties": {"phase": {"enum": ["PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C", "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2", "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3", "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4", "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"]}}}},
     {"if": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"}}, "required": ["phase"]}, "then": {"required": ["previous_validation_case", "previous_validation_result", "current_validation_case"], "properties": {"current_plan": {"const": "plans/active/PLAN-0004C2-claim-scope-repair-and-fresh-validation.md"}, "current_branch": {"const": "feat/phase004c2-claim-scope-repair-validation-2019c"}, "primary_target_problem_type": {"const": "C"}, "selected_architecture": {"const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"}, "skill_capability_status": {"const": "COMPETITION_RC"}, "base_selected": {"const": false}, "third_party_integrated": {"const": false}}, "oneOf": [{"properties": {"technical_adjudication_status": {"const": "C_TARGET_CLAIM_SCOPE_REPAIR_IN_PROGRESS"}, "subphase": {"const": "MULTI-REQUIREMENT-CLAIM-SCOPE-REPAIR"}, "active_skill_version": {"const": "0.2.0-competition-rc4"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"type": "null"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_CLAIM_SCOPE_REPAIR_COMPLETE"}, "subphase": {"const": "RC5-FROZEN-PENDING-FRESH-C-VALIDATION"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"type": "null"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_IN_PROGRESS"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-IN-PROGRESS"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_PASSED"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-PASSED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": "PHASE-SKILL-C-TARGET-HELDOUT-004D"}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}, "answer_access_status": {"const": "SEALED_AT_TERMINAL_FREEZE"}, "blockers": {"const": []}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_FAILED"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-TERMINAL"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-TERMINAL"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "C_TARGET_VALIDATION_INCOMPLETE"}, "subphase": {"const": "C-TARGET-2019C-VALIDATION-TERMINAL"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}, "current_validation_case": {"const": "CUMCM-2019-C-VALIDATION-002"}}}, {"properties": {"technical_adjudication_status": {"const": "VALIDATION_CASE_CONTAMINATED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "OFFICIAL_INPUTS_REQUIRED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "FIRST_RUN_CONTAMINATION_SUSPECTED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "INFRASTRUCTURE_BLOCKED"}, "subphase": {"const": "C-TARGET-FRESH-VALIDATION-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc5"}, "next_phase_allowed": {"const": null}}}, {"properties": {"technical_adjudication_status": {"const": "CLAIM_SCOPE_REPAIR_BLOCKED"}, "subphase": {"const": "CLAIM-SCOPE-REPAIR-TERMINAL-BLOCKED"}, "active_skill_version": {"const": "0.2.0-competition-rc4"}, "next_phase_allowed": {"const": null}}}]}},
     {
       "if": {

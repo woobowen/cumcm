@@ -1,0 +1,140 @@
+{
+  "audit_id": "AUDIT-RC8-M5-DELIVERY-REPORT-CONSISTENCY-001",
+  "role": "reproducibility_auditor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "FROZEN_PREDECESSORS_ONLY",
+  "model": "UNKNOWN",
+  "reasoning_setting": "UNKNOWN",
+  "bundle_id": "RC8-M5-DELIVERY-REPORT-CONSISTENCY-001",
+  "bundle_hash": "82f680580f96bce0f09dcd76207a23d281a6159a1949d8530ec6a562daaff3f7",
+  "verdict": "FAIL",
+  "findings": [
+    {
+      "finding_id": "M5-001",
+      "severity": "ERROR",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:77",
+      "statement": "“168实际可用供应商”误述了旧对照实际使用供应商数，不能由实际使用数推出全部可用数。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:19"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:77",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:19"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "改为399候选池、旧对照实际使用168、当前使用14且限定固定参数下界14。",
+      "pass_condition": "报告明确168属于旧对照实际使用数，并不宣称可用供应商总数为168。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "M5-002",
+      "severity": "WARNING",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:78",
+      "statement": "9.705398/1.758417数值正确，但forecast相关指标没有保留统一支付/库存/超载历史压力指标的具体口径。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:27"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:78",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:27"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "改为同一定义的独立历史综合压力指标（越小越好），避免预测准确率含义。",
+      "pass_condition": "报告使用与v6一致的指标含义，并保留当前压力更差与非排名资格。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "M5-003",
+      "severity": "ERROR",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:122",
+      "statement": "4.1001%/8.1186%是历史状态1/2各自前缀末端剩余时间相对误差，被误称MRE；原尾段已放电时间MRE是0.5991%/1.0869%。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/REPORT.md:44"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:122",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/terminal/native_audit/REPORT.md:44"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "改为历史状态1/2前缀末端剩余时间相对误差，并分别保留原elapsed-time MRE。",
+      "pass_condition": "报告不再把两个单目标相对误差称作尾段均值指标或状态3准确率。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "M5-004",
+      "severity": "WARNING",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:91",
+      "statement": "三个候选的validation composite loss被统称Hellinger选择值，混淆候选身份与指标含义。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:70"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:91",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:70"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "明确三个值是三候选validation composite loss，Hellinger/KNN按该指标选中。",
+      "pass_condition": "候选损失向量与被选中模型身份分开，12组、内部诊断、非校准限制保留。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "M5-005",
+      "severity": "WARNING",
+      "target": "evals/results/phase-004c5/FINAL_REPORT.md:72",
+      "statement": "15个capture之后笼统称实际科学代码subject为d9，会把旧对照及早期改进候选的实际执行身份混入d9。",
+      "evidence_refs": [
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:14"
+      ],
+      "file_references": [
+        "evals/results/phase-004c5/FINAL_REPORT.md:72",
+        "evals/results/phase-004c5/development/v6/SCIENCE_REPORT.md:14"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "限定d9为当前RC8候选数值运行subject，各capture保留自己的实际subject，旧对照4515597与早期4d2a0b8不迁移。",
+      "pass_condition": "报告不能被合理读作15个capture全部在d9或资格29cf1d7执行。",
+      "status": "OPEN"
+    }
+  ],
+  "blockers": [],
+  "cost_assessment": {
+    "benefit_metrics": [
+      "31 input files hashed before and after the scoped review.",
+      "Two confirmed metric-semantic errors and three clarification warnings identified.",
+      "Independent count, rational-display interval, chronology, identity, audit-schema/hash and CI-scope checks performed."
+    ],
+    "token_cost": "UNKNOWN",
+    "time_cost": "Actual command UTC/elapsed observations are recorded; first mandatory ls start/end timestamps were not captured and remain UNKNOWN.",
+    "maintenance_cost": "Report-only corrections can be disposed separately; no model, frozen subject or technical terminal mutation is implied.",
+    "stop_conditions": [
+      "Stop if any input hash changes.",
+      "No raw/answer/vault/network/Git/model/Final/CI access.",
+      "No expansion beyond the 31-file allowlist.",
+      "Hard audit deadline 2026-09-09T00:00:00Z; finish within the assigned 20-minute scope."
+    ],
+    "simplest_alternative": "Correct the five identified report phrases and perform a targeted wording check; preserve every original model, audit, Gate and CI verdict."
+  },
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "api_calls": 0,
+  "web_used": false,
+  "mcp_used": false,
+  "majority_vote_used": false,
+  "uncertainties": [
+    "FAIL is a report-consistency verdict for the frozen report hash only, not a new scientific audit, gate judgment, candidate rejection or delivery authorization.",
+    "Historical frozen reviewer reports are audit subjects within the bundle; FROZEN_PREDECESSORS_ONLY is intentional. No prescribed final audit verdict or same-level new peer output was supplied.",
+    "writes_observed=false means no writes to audited inputs or formal/public/shared state; authorized own ignored outputs were created.",
+    "No independent Git/history/remote/HEAD/Draft/merge-tree verification was performed. The reviewed delivery receipts are records, not freshly observed events.",
+    "Underlying targeted-test, HF22, full CI skip, raw source, access-control, paid-API and platform cumulative usage evidence is outside this bundle; unsupported-by-scope is not proof of falsehood.",
+    "The second 2015 native decision-review JSON is outside the allowlist. Its PASS is supported here by the formal decision and rendered report only.",
+    "2015 pre-run commit identity is corroborated, but its exact22:23:38Z timestamp is not independently sourced in this bundle.",
+    "First ls -la UTC start/end were not captured. Earlier tool output streams are merged and cannot honestly be split; exact command/output/exit metadata is preserved.",
+    "All runtime model, reasoning, token and cash-cost settings remain UNKNOWN. No packages/toolchains/configurations were installed or changed.",
+    "Q4 calculations here check published rational endpoints/gap and counts only, not fresh LP or raw-parameter scientific verification.",
+    "All allowed hashes are checked before and after this review. Subsequent main-agent edits or delivery records are outside this original verdict."
+  ],
+  "created_at": "2026-09-08T23:46:59.511387+00:00",
+  "output_hash": "cb75335a5fd6525f9bbc35aebf8b4a78c609ec87e9b0c761f9dc8763fb969951"
+}

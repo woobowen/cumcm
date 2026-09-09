@@ -1,0 +1,97 @@
+{
+  "artifact_type": "claim_evidence",
+  "content": {
+    "aggregate": {
+      "claim_id": "CLAIM-AGGREGATE-0E7E043A31EDC84D7691E0C3",
+      "primary_requirement_ids": [
+        "REQ-A",
+        "REQ-B",
+        "REQ-C"
+      ],
+      "requirement_claim_ids": {
+        "REQ-A": "CLAIM-REQ-A",
+        "REQ-B": "CLAIM-REQ-B",
+        "REQ-C": "CLAIM-REQ-C"
+      },
+      "supported_requirement_ids": [
+        "REQ-C",
+        "REQ-B",
+        "REQ-A"
+      ]
+    },
+    "claims": {
+      "REQ-A": {
+        "claim_id": "CLAIM-REQ-A",
+        "claim_type": "OPTIMALITY",
+        "evidence_class": "SIMULATION",
+        "manifest_hashes": {
+          "RUN-CAND-20260906": "406eccfe6288adcb76fb27f64620dcaef76d655cd5c31f3c3c18938fe5d36afc"
+        },
+        "metric_ids": [
+          "metric_a"
+        ],
+        "output_hashes": {
+          "RUN-CAND-20260906": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396"
+        },
+        "requirement_id": "REQ-A",
+        "scope_hash": "12089f025ccead3915baf846e0a76731570be6e812a4ab2962efae055b3627fc",
+        "selected_output_ids": [
+          "OUT-REQ-A"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ]
+      },
+      "REQ-B": {
+        "claim_id": "CLAIM-REQ-B",
+        "claim_type": "PREDICTIVE",
+        "evidence_class": "SIMULATION",
+        "manifest_hashes": {
+          "RUN-BASE-20260906": "2289a41b91c0fb1527897c2d8f526c391bc43a871dde7cdbd9b08c1cc8f65698"
+        },
+        "metric_ids": [
+          "metric_b"
+        ],
+        "output_hashes": {
+          "RUN-BASE-20260906": "b1ec86501e72473c0846a7a7953fc1570377be7cc2d38500809cd09922054904"
+        },
+        "requirement_id": "REQ-B",
+        "scope_hash": "12089f025ccead3915baf846e0a76731570be6e812a4ab2962efae055b3627fc",
+        "selected_output_ids": [
+          "OUT-REQ-B"
+        ],
+        "selected_run_ids": [
+          "RUN-BASE-20260906"
+        ]
+      },
+      "REQ-C": {
+        "claim_id": "CLAIM-REQ-C",
+        "claim_type": "FEASIBILITY",
+        "evidence_class": "SIMULATION",
+        "manifest_hashes": {
+          "RUN-CAND-20260906": "406eccfe6288adcb76fb27f64620dcaef76d655cd5c31f3c3c18938fe5d36afc"
+        },
+        "metric_ids": [
+          "metric_c"
+        ],
+        "output_hashes": {
+          "RUN-CAND-20260906": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396"
+        },
+        "requirement_id": "REQ-C",
+        "scope_hash": "12089f025ccead3915baf846e0a76731570be6e812a4ab2962efae055b3627fc",
+        "selected_output_ids": [
+          "OUT-REQ-C"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ]
+      }
+    },
+    "contract_version": "claim-evidence/runtime-v3",
+    "contradiction_status": "NONE",
+    "decision_hash": "173bc75a19f621daad13e9d18b8136c66fbb7ae8dc3c67f61f142121280838ca",
+    "evidence_status": "CURRENT"
+  },
+  "content_hash": "26016496e4a4f2cb20d0ea19559f002a21f34e8e1f378cecdf85bfb1f3f1365e",
+  "status": "ACCEPTED"
+}

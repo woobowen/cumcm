@@ -1,0 +1,260 @@
+{
+  "derivation": "EXACT_UTF8_JSON_NO_REDACTION",
+  "records": {
+    "completion": {
+      "content": {
+        "artifact_hashes": {
+          "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+          "models/assumptions_and_symbols.json": "e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3",
+          "problem/original.md": "361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "work/M04.json": "a7d78245556939172ef0be990789f30eeb035da96440823d85d5fada21dfc5cd"
+        },
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "completed_at": "2026-09-09T10:55:19Z",
+        "engineering": "CONTRACTS_CHECKED",
+        "execution": "COMPLETED",
+        "human_review": "NOT_RUN",
+        "module": "M04",
+        "native_state": "SOURCES_PLANNED",
+        "next_module_started": false,
+        "report_path": "work/M04.json",
+        "request_id": "WATER-M04",
+        "request_sha256": "6393b8d1b16af90eea7eeaedab57706c22e4404a94e8900ab995eeec1aee6740",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "schema_version": "module-completion/v1",
+        "scientific": "分析/设计，待数值验证"
+      },
+      "raw_sha256": "ae96a66ceedf7e4b39abd1060307e61e77c2987b8a87030fa6d22dbe668472df",
+      "raw_utf8": "{\n  \"artifact_hashes\": {\n    \"data/raw/input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\",\n    \"models/assumptions_and_symbols.json\": \"e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3\",\n    \"problem/original.md\": \"361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"work/M04.json\": \"a7d78245556939172ef0be990789f30eeb035da96440823d85d5fada21dfc5cd\"\n  },\n  \"case_id\": \"ORIGINAL-WATER-MIXED\",\n  \"completed_at\": \"2026-09-09T10:55:19Z\",\n  \"engineering\": \"CONTRACTS_CHECKED\",\n  \"execution\": \"COMPLETED\",\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M04\",\n  \"native_state\": \"SOURCES_PLANNED\",\n  \"next_module_started\": false,\n  \"report_path\": \"work/M04.json\",\n  \"request_id\": \"WATER-M04\",\n  \"request_sha256\": \"6393b8d1b16af90eea7eeaedab57706c22e4404a94e8900ab995eeec1aee6740\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\",\n    \"REQ-C\"\n  ],\n  \"schema_version\": \"module-completion/v1\",\n  \"scientific\": \"分析/设计，待数值验证\"\n}\n"
+    },
+    "recovery_proof": {
+      "content": {
+        "actual_resume": {
+          "case_id": "ORIGINAL-WATER-MIXED",
+          "human_review": "NOT_RUN",
+          "implementation": {
+            "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+            "tool_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb"
+          },
+          "modules": [
+            {
+              "module": "M01",
+              "request_id": "WATER-M01",
+              "scope": [
+                "ALL"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M02",
+              "request_id": "WATER-M02",
+              "scope": [
+                "ALL"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M03",
+              "request_id": "WATER-M03",
+              "scope": [
+                "REQ-A",
+                "REQ-B",
+                "REQ-C"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M04",
+              "request_id": "WATER-M04",
+              "scope": [
+                "REQ-A",
+                "REQ-B",
+                "REQ-C"
+              ],
+              "status": "COMPLETED"
+            }
+          ],
+          "native_state": {
+            "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+            "capability": "COMPETITION_RC",
+            "case_id": "ORIGINAL-WATER-MIXED",
+            "case_kind": "general",
+            "evidence_bindings": {
+              "evidence/module_requests/WATER-M01/completion.json": "24c59c53bb4363a0f807ea925b88c15c168d7ecd7f26d841dc7bae8bd1a296b5",
+              "evidence/module_requests/WATER-M01/request.json": "9672c2973ad4e41bb82ec7876fa47aba928a6fc7cc512d96e37de8c731d9cc5c",
+              "evidence/module_requests/WATER-M02/completion.json": "de5d2398d8572cf96d5e30b47c904a85ff2fc418b3d021a5ef6450b908edeae5",
+              "evidence/module_requests/WATER-M02/request.json": "581031f33e7f6bc2907de65ba0820c5428cba68d1ebb5a97ac34f5c114765de1",
+              "evidence/module_requests/WATER-M03/completion.json": "5414c92dda926ddacbda917144d1636ba93fc75c01482e8b8278c96796d01e5f",
+              "evidence/module_requests/WATER-M03/request.json": "415df6002c1c953e7a84f74f09d17e822fc1b86034d334b0f8bb3e9f3a64dee2",
+              "evidence/module_requests/WATER-M04/completion.json": "ae96a66ceedf7e4b39abd1060307e61e77c2987b8a87030fa6d22dbe668472df",
+              "evidence/module_requests/WATER-M04/request.json": "515cddd6e379a1eb978f0155edc33e63a31a739680fdc317af65a0d5d64e3d1a",
+              "problem/problem_requirements.json": "302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9",
+              "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+              "research/source_ledger.json": "26ddb314589850251510d2e51a8814d61165111f23d1cfe233ad784194223fc0",
+              "state/case_policy.json": "b01c9e94d2f44253479e3cfff85f1db2b1e62437e9d8e4bd1e91134227c247c7"
+            },
+            "history": [
+              {
+                "evidence": [
+                  "state/case_policy.json"
+                ],
+                "from": null,
+                "gate": "INIT",
+                "sequence": 0,
+                "status": "PASS",
+                "to": "CREATED"
+              },
+              {
+                "evidence": [
+                  "problem/problem_requirements.json"
+                ],
+                "from": "CREATED",
+                "gate": "GATE_PROBLEM_INTAKE",
+                "sequence": 1,
+                "status": "PASS",
+                "to": "INTAKE_COMPLETE"
+              },
+              {
+                "evidence": [
+                  "problem/problem_requirements.json"
+                ],
+                "from": "INTAKE_COMPLETE",
+                "gate": "GATE_REQUIREMENT_COVERAGE",
+                "sequence": 2,
+                "status": "PASS",
+                "to": "REQUIREMENTS_VALIDATED"
+              },
+              {
+                "evidence": [
+                  "research/research_plan.json",
+                  "research/source_ledger.json"
+                ],
+                "from": "REQUIREMENTS_VALIDATED",
+                "gate": "GATE_SOURCE_PLAN",
+                "sequence": 3,
+                "status": "PASS",
+                "to": "SOURCES_PLANNED"
+              }
+            ],
+            "last_gate": "GATE_SOURCE_PLAN",
+            "schema_version": "1.0.0",
+            "skill_version": "0.2.0-competition-rc10",
+            "state": "SOURCES_PLANNED"
+          },
+          "operations": [],
+          "policy": {
+            "automatic_publication": false,
+            "case_id": "ORIGINAL-WATER-MIXED",
+            "created_at": "2026-09-09T10:55:18Z",
+            "execution_mode": "GUIDED_SINGLE_MODULE",
+            "mode": "GUIDED_LOCAL",
+            "research_policy": "USER_AUTHORIZED_GENERAL_SOURCES_ONLY",
+            "revision": 1,
+            "schema_version": "case-policy/v1",
+            "team_compliance_review": "NOT_RUN"
+          },
+          "recovery": {
+            "automatic_starts": 0,
+            "changed_input": "原件不可覆盖。新输入另行登记，新root重做受影响模块，不继承Final通过。",
+            "completed_operation": "相同run参数复用已记录结果，不启动第二次。",
+            "interrupted_operation": "保留STARTED/FAILED；核对实际capture和Final账本后新建revision。",
+            "prepared": "继续原请求；complete可重入并补导出审查包。"
+          }
+        },
+        "module": "M04",
+        "next_request_exists": false,
+        "request_id": "WATER-M04",
+        "state_after_sha256": "a86ff5af318be0f941892c8fd30f896cbd0839b39e8b8bdbc1c365affafa78dc",
+        "state_before_sha256": "a86ff5af318be0f941892c8fd30f896cbd0839b39e8b8bdbc1c365affafa78dc"
+      },
+      "raw_sha256": "a5b62feb1f29660c4f300e52263d70b3952414accb0d02cfea7d7ce14fe3d959",
+      "raw_utf8": "{\n  \"actual_resume\": {\n    \"case_id\": \"ORIGINAL-WATER-MIXED\",\n    \"human_review\": \"NOT_RUN\",\n    \"implementation\": {\n      \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n      \"tool_commit\": \"d1f8532d498307e3b4755c088ce6a0fadfb432bb\"\n    },\n    \"modules\": [\n      {\n        \"module\": \"M01\",\n        \"request_id\": \"WATER-M01\",\n        \"scope\": [\n          \"ALL\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M02\",\n        \"request_id\": \"WATER-M02\",\n        \"scope\": [\n          \"ALL\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M03\",\n        \"request_id\": \"WATER-M03\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\",\n          \"REQ-C\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M04\",\n        \"request_id\": \"WATER-M04\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\",\n          \"REQ-C\"\n        ],\n        \"status\": \"COMPLETED\"\n      }\n    ],\n    \"native_state\": {\n      \"architecture\": \"ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL\",\n      \"capability\": \"COMPETITION_RC\",\n      \"case_id\": \"ORIGINAL-WATER-MIXED\",\n      \"case_kind\": \"general\",\n      \"evidence_bindings\": {\n        \"evidence/module_requests/WATER-M01/completion.json\": \"24c59c53bb4363a0f807ea925b88c15c168d7ecd7f26d841dc7bae8bd1a296b5\",\n        \"evidence/module_requests/WATER-M01/request.json\": \"9672c2973ad4e41bb82ec7876fa47aba928a6fc7cc512d96e37de8c731d9cc5c\",\n        \"evidence/module_requests/WATER-M02/completion.json\": \"de5d2398d8572cf96d5e30b47c904a85ff2fc418b3d021a5ef6450b908edeae5\",\n        \"evidence/module_requests/WATER-M02/request.json\": \"581031f33e7f6bc2907de65ba0820c5428cba68d1ebb5a97ac34f5c114765de1\",\n        \"evidence/module_requests/WATER-M03/completion.json\": \"5414c92dda926ddacbda917144d1636ba93fc75c01482e8b8278c96796d01e5f\",\n        \"evidence/module_requests/WATER-M03/request.json\": \"415df6002c1c953e7a84f74f09d17e822fc1b86034d334b0f8bb3e9f3a64dee2\",\n        \"evidence/module_requests/WATER-M04/completion.json\": \"ae96a66ceedf7e4b39abd1060307e61e77c2987b8a87030fa6d22dbe668472df\",\n        \"evidence/module_requests/WATER-M04/request.json\": \"515cddd6e379a1eb978f0155edc33e63a31a739680fdc317af65a0d5d64e3d1a\",\n        \"problem/problem_requirements.json\": \"302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9\",\n        \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\n        \"research/source_ledger.json\": \"26ddb314589850251510d2e51a8814d61165111f23d1cfe233ad784194223fc0\",\n        \"state/case_policy.json\": \"b01c9e94d2f44253479e3cfff85f1db2b1e62437e9d8e4bd1e91134227c247c7\"\n      },\n      \"history\": [\n        {\n          \"evidence\": [\n            \"state/case_policy.json\"\n          ],\n          \"from\": null,\n          \"gate\": \"INIT\",\n          \"sequence\": 0,\n          \"status\": \"PASS\",\n          \"to\": \"CREATED\"\n        },\n        {\n          \"evidence\": [\n            \"problem/problem_requirements.json\"\n          ],\n          \"from\": \"CREATED\",\n          \"gate\": \"GATE_PROBLEM_INTAKE\",\n          \"sequence\": 1,\n          \"status\": \"PASS\",\n          \"to\": \"INTAKE_COMPLETE\"\n        },\n        {\n          \"evidence\": [\n            \"problem/problem_requirements.json\"\n          ],\n          \"from\": \"INTAKE_COMPLETE\",\n          \"gate\": \"GATE_REQUIREMENT_COVERAGE\",\n          \"sequence\": 2,\n          \"status\": \"PASS\",\n          \"to\": \"REQUIREMENTS_VALIDATED\"\n        },\n        {\n          \"evidence\": [\n            \"research/research_plan.json\",\n            \"research/source_ledger.json\"\n          ],\n          \"from\": \"REQUIREMENTS_VALIDATED\",\n          \"gate\": \"GATE_SOURCE_PLAN\",\n          \"sequence\": 3,\n          \"status\": \"PASS\",\n          \"to\": \"SOURCES_PLANNED\"\n        }\n      ],\n      \"last_gate\": \"GATE_SOURCE_PLAN\",\n      \"schema_version\": \"1.0.0\",\n      \"skill_version\": \"0.2.0-competition-rc10\",\n      \"state\": \"SOURCES_PLANNED\"\n    },\n    \"operations\": [],\n    \"policy\": {\n      \"automatic_publication\": false,\n      \"case_id\": \"ORIGINAL-WATER-MIXED\",\n      \"created_at\": \"2026-09-09T10:55:18Z\",\n      \"execution_mode\": \"GUIDED_SINGLE_MODULE\",\n      \"mode\": \"GUIDED_LOCAL\",\n      \"research_policy\": \"USER_AUTHORIZED_GENERAL_SOURCES_ONLY\",\n      \"revision\": 1,\n      \"schema_version\": \"case-policy/v1\",\n      \"team_compliance_review\": \"NOT_RUN\"\n    },\n    \"recovery\": {\n      \"automatic_starts\": 0,\n      \"changed_input\": \"原件不可覆盖。新输入另行登记，新root重做受影响模块，不继承Final通过。\",\n      \"completed_operation\": \"相同run参数复用已记录结果，不启动第二次。\",\n      \"interrupted_operation\": \"保留STARTED/FAILED；核对实际capture和Final账本后新建revision。\",\n      \"prepared\": \"继续原请求；complete可重入并补导出审查包。\"\n    }\n  },\n  \"module\": \"M04\",\n  \"next_request_exists\": false,\n  \"request_id\": \"WATER-M04\",\n  \"state_after_sha256\": \"a86ff5af318be0f941892c8fd30f896cbd0839b39e8b8bdbc1c365affafa78dc\",\n  \"state_before_sha256\": \"a86ff5af318be0f941892c8fd30f896cbd0839b39e8b8bdbc1c365affafa78dc\"\n}\n"
+    },
+    "request": {
+      "content": {
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "execution_mode": "GUIDED_SINGLE_MODULE",
+        "implementation": {
+          "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+          "tool_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb"
+        },
+        "mode": "GUIDED_LOCAL",
+        "module": "M04",
+        "prepared_at": "2026-09-09T10:55:19Z",
+        "prerequisite_files": {
+          "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+          "evidence/intake_registry.json": "7af27da255c9708b65ee94f18653daa84f5a37d0a2bdacd3c93022c94a93f3c8",
+          "evidence/module_requests/WATER-M01/completion.json": "24c59c53bb4363a0f807ea925b88c15c168d7ecd7f26d841dc7bae8bd1a296b5",
+          "evidence/module_requests/WATER-M01/request.json": "9672c2973ad4e41bb82ec7876fa47aba928a6fc7cc512d96e37de8c731d9cc5c",
+          "evidence/module_requests/WATER-M02/completion.json": "de5d2398d8572cf96d5e30b47c904a85ff2fc418b3d021a5ef6450b908edeae5",
+          "evidence/module_requests/WATER-M02/request.json": "581031f33e7f6bc2907de65ba0820c5428cba68d1ebb5a97ac34f5c114765de1",
+          "evidence/module_requests/WATER-M03/completion.json": "5414c92dda926ddacbda917144d1636ba93fc75c01482e8b8278c96796d01e5f",
+          "evidence/module_requests/WATER-M03/request.json": "415df6002c1c953e7a84f74f09d17e822fc1b86034d334b0f8bb3e9f3a64dee2",
+          "problem/original.md": "361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2",
+          "problem/problem_requirements.json": "302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+          "research/source_ledger.json": "26ddb314589850251510d2e51a8814d61165111f23d1cfe233ad784194223fc0",
+          "state/case_policy.json": "b01c9e94d2f44253479e3cfff85f1db2b1e62437e9d8e4bd1e91134227c247c7",
+          "work/M01.json": "8078a776d38694df671ea65283f638ab3a52c158c57a36007829c69ff700b50f",
+          "work/M02.json": "359c5568ec5f1b95714d308dc4b86881a688f214500d7edbfe51a7c6c333be9f",
+          "work/M03.json": "8a2240b6293c4cd09edf6394140119834917bc993b64f49379022eb29ff4b599"
+        },
+        "request_id": "WATER-M04",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "revision": 1,
+        "schema_version": "module-request/v1"
+      },
+      "raw_sha256": "515cddd6e379a1eb978f0155edc33e63a31a739680fdc317af65a0d5d64e3d1a",
+      "raw_utf8": "{\n  \"case_id\": \"ORIGINAL-WATER-MIXED\",\n  \"execution_mode\": \"GUIDED_SINGLE_MODULE\",\n  \"implementation\": {\n    \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n    \"tool_commit\": \"d1f8532d498307e3b4755c088ce6a0fadfb432bb\"\n  },\n  \"mode\": \"GUIDED_LOCAL\",\n  \"module\": \"M04\",\n  \"prepared_at\": \"2026-09-09T10:55:19Z\",\n  \"prerequisite_files\": {\n    \"data/raw/input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\",\n    \"evidence/intake_registry.json\": \"7af27da255c9708b65ee94f18653daa84f5a37d0a2bdacd3c93022c94a93f3c8\",\n    \"evidence/module_requests/WATER-M01/completion.json\": \"24c59c53bb4363a0f807ea925b88c15c168d7ecd7f26d841dc7bae8bd1a296b5\",\n    \"evidence/module_requests/WATER-M01/request.json\": \"9672c2973ad4e41bb82ec7876fa47aba928a6fc7cc512d96e37de8c731d9cc5c\",\n    \"evidence/module_requests/WATER-M02/completion.json\": \"de5d2398d8572cf96d5e30b47c904a85ff2fc418b3d021a5ef6450b908edeae5\",\n    \"evidence/module_requests/WATER-M02/request.json\": \"581031f33e7f6bc2907de65ba0820c5428cba68d1ebb5a97ac34f5c114765de1\",\n    \"evidence/module_requests/WATER-M03/completion.json\": \"5414c92dda926ddacbda917144d1636ba93fc75c01482e8b8278c96796d01e5f\",\n    \"evidence/module_requests/WATER-M03/request.json\": \"415df6002c1c953e7a84f74f09d17e822fc1b86034d334b0f8bb3e9f3a64dee2\",\n    \"problem/original.md\": \"361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2\",\n    \"problem/problem_requirements.json\": \"302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\n    \"research/source_ledger.json\": \"26ddb314589850251510d2e51a8814d61165111f23d1cfe233ad784194223fc0\",\n    \"state/case_policy.json\": \"b01c9e94d2f44253479e3cfff85f1db2b1e62437e9d8e4bd1e91134227c247c7\",\n    \"work/M01.json\": \"8078a776d38694df671ea65283f638ab3a52c158c57a36007829c69ff700b50f\",\n    \"work/M02.json\": \"359c5568ec5f1b95714d308dc4b86881a688f214500d7edbfe51a7c6c333be9f\",\n    \"work/M03.json\": \"8a2240b6293c4cd09edf6394140119834917bc993b64f49379022eb29ff4b599\"\n  },\n  \"request_id\": \"WATER-M04\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\",\n    \"REQ-C\"\n  ],\n  \"revision\": 1,\n  \"schema_version\": \"module-request/v1\"\n}\n"
+    },
+    "work_report": {
+      "content": {
+        "actions": [
+          "主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。"
+        ],
+        "artifacts": [
+          "data/raw/input.json",
+          "models/assumptions_and_symbols.json",
+          "problem/original.md",
+          "research/analysis.md"
+        ],
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "checks": [
+          "当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。"
+        ],
+        "human_review": "NOT_RUN",
+        "module": "M04",
+        "negative_results": [
+          "合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。"
+        ],
+        "original_requirements": [
+          "条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。"
+        ],
+        "request_id": "WATER-M04",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "review_questions": [
+          "本模块数据、公式、边界和独立核验是否与原问一致？"
+        ],
+        "revision": 1,
+        "scientific_scope": "分析/设计，待数值验证",
+        "summary_cn": "M04原创mixed备水案例；动作和科学边界见所附分析及当前真实产物。"
+      },
+      "raw_sha256": "a7d78245556939172ef0be990789f30eeb035da96440823d85d5fada21dfc5cd",
+      "raw_utf8": "{\n  \"actions\": [\n    \"主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。\"\n  ],\n  \"artifacts\": [\n    \"data/raw/input.json\",\n    \"models/assumptions_and_symbols.json\",\n    \"problem/original.md\",\n    \"research/analysis.md\"\n  ],\n  \"case_id\": \"ORIGINAL-WATER-MIXED\",\n  \"checks\": [\n    \"当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。\"\n  ],\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M04\",\n  \"negative_results\": [\n    \"合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。\"\n  ],\n  \"original_requirements\": [\n    \"条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。\"\n  ],\n  \"request_id\": \"WATER-M04\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\",\n    \"REQ-C\"\n  ],\n  \"review_questions\": [\n    \"本模块数据、公式、边界和独立核验是否与原问一致？\"\n  ],\n  \"revision\": 1,\n  \"scientific_scope\": \"分析/设计，待数值验证\",\n  \"summary_cn\": \"M04原创mixed备水案例；动作和科学边界见所附分析及当前真实产物。\"\n}\n"
+    }
+  }
+}

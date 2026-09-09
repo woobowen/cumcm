@@ -1,0 +1,1625 @@
+{
+  "schema_version": "m04-private-arithmetic/v1",
+  "case_id": "ORIGINAL-BRAIN-R2",
+  "request_id": "BRAIN-M04",
+  "revision": 2,
+  "implementation": {
+    "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+    "tool_commit": "7e5bd4297c74cfa3b6c0920bc553d56181097afc"
+  },
+  "module": "M04",
+  "classification": "ARITHMETIC_EXAMPLES_NOT_FORMAL_RUN",
+  "input_sha256": {
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef"
+  },
+  "script_sha256": "509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523",
+  "prefix_prediction_example": {
+    "origin": {
+      "fraction": "112",
+      "decimal": 112.0
+    },
+    "slope": {
+      "fraction": "-1/10",
+      "decimal": -0.1
+    },
+    "alpha": {
+      "fraction": "54/5",
+      "decimal": 10.8
+    },
+    "remaining": {
+      "fraction": "8",
+      "decimal": 8.0
+    },
+    "conditional_endpoint": {
+      "fraction": "120",
+      "decimal": 120.0
+    },
+    "fit_observation_ids": [
+      "B-0",
+      "B-2",
+      "B-4",
+      "B-6",
+      "B-8",
+      "B-10",
+      "B-12"
+    ],
+    "fit_residuals": [
+      {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      {
+        "fraction": "0",
+        "decimal": 0.0
+      }
+    ]
+  },
+  "purchase_example": {
+    "demand": {
+      "fraction": "8",
+      "decimal": 8.0
+    },
+    "feasible_upper_cost_bound": {
+      "fraction": "12",
+      "decimal": 12.0
+    },
+    "minimum_cost": {
+      "fraction": "11",
+      "decimal": 11.0
+    },
+    "all_cost_minimizers": [
+      {
+        "counts": [
+          1,
+          1
+        ],
+        "volume": {
+          "fraction": "8",
+          "decimal": 8.0
+        },
+        "cost": {
+          "fraction": "11",
+          "decimal": 11.0
+        }
+      }
+    ],
+    "all_strictly_cheaper_allocations": [
+      {
+        "counts": [
+          0,
+          0
+        ],
+        "volume": {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        "cost": {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        "capacity_residual": {
+          "fraction": "-8",
+          "decimal": -8.0
+        }
+      },
+      {
+        "counts": [
+          0,
+          1
+        ],
+        "volume": {
+          "fraction": "5",
+          "decimal": 5.0
+        },
+        "cost": {
+          "fraction": "7",
+          "decimal": 7.0
+        },
+        "capacity_residual": {
+          "fraction": "-3",
+          "decimal": -3.0
+        }
+      },
+      {
+        "counts": [
+          1,
+          0
+        ],
+        "volume": {
+          "fraction": "3",
+          "decimal": 3.0
+        },
+        "cost": {
+          "fraction": "4",
+          "decimal": 4.0
+        },
+        "capacity_residual": {
+          "fraction": "-5",
+          "decimal": -5.0
+        }
+      },
+      {
+        "counts": [
+          2,
+          0
+        ],
+        "volume": {
+          "fraction": "6",
+          "decimal": 6.0
+        },
+        "cost": {
+          "fraction": "8",
+          "decimal": 8.0
+        },
+        "capacity_residual": {
+          "fraction": "-2",
+          "decimal": -2.0
+        }
+      }
+    ]
+  },
+  "inventory_example": [
+    {
+      "relative_minute": 0,
+      "absolute_time": {
+        "fraction": "112",
+        "decimal": 112.0
+      },
+      "stock_litres": {
+        "fraction": "8",
+        "decimal": 8.0
+      }
+    },
+    {
+      "relative_minute": 1,
+      "absolute_time": {
+        "fraction": "113",
+        "decimal": 113.0
+      },
+      "stock_litres": {
+        "fraction": "7",
+        "decimal": 7.0
+      }
+    },
+    {
+      "relative_minute": 2,
+      "absolute_time": {
+        "fraction": "114",
+        "decimal": 114.0
+      },
+      "stock_litres": {
+        "fraction": "6",
+        "decimal": 6.0
+      }
+    },
+    {
+      "relative_minute": 3,
+      "absolute_time": {
+        "fraction": "115",
+        "decimal": 115.0
+      },
+      "stock_litres": {
+        "fraction": "5",
+        "decimal": 5.0
+      }
+    },
+    {
+      "relative_minute": 4,
+      "absolute_time": {
+        "fraction": "116",
+        "decimal": 116.0
+      },
+      "stock_litres": {
+        "fraction": "4",
+        "decimal": 4.0
+      }
+    },
+    {
+      "relative_minute": 5,
+      "absolute_time": {
+        "fraction": "117",
+        "decimal": 117.0
+      },
+      "stock_litres": {
+        "fraction": "3",
+        "decimal": 3.0
+      }
+    },
+    {
+      "relative_minute": 6,
+      "absolute_time": {
+        "fraction": "118",
+        "decimal": 118.0
+      },
+      "stock_litres": {
+        "fraction": "2",
+        "decimal": 2.0
+      }
+    },
+    {
+      "relative_minute": 7,
+      "absolute_time": {
+        "fraction": "119",
+        "decimal": 119.0
+      },
+      "stock_litres": {
+        "fraction": "1",
+        "decimal": 1.0
+      }
+    },
+    {
+      "relative_minute": 8,
+      "absolute_time": {
+        "fraction": "120",
+        "decimal": 120.0
+      },
+      "stock_litres": {
+        "fraction": "0",
+        "decimal": 0.0
+      }
+    }
+  ],
+  "inventory_recurrence_residuals": [
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    },
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    },
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    },
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    },
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    },
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    },
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    },
+    {
+      "fraction": "0",
+      "decimal": 0.0
+    }
+  ],
+  "historical_arithmetic_examples": [
+    {
+      "origin": {
+        "fraction": "2",
+        "decimal": 2.0
+      },
+      "slope": {
+        "fraction": "-1/10",
+        "decimal": -0.1
+      },
+      "alpha": {
+        "fraction": "59/5",
+        "decimal": 11.8
+      },
+      "remaining": {
+        "fraction": "18",
+        "decimal": 18.0
+      },
+      "conditional_endpoint": {
+        "fraction": "20",
+        "decimal": 20.0
+      },
+      "fit_observation_ids": [
+        "A-0",
+        "A-2"
+      ],
+      "fit_residuals": [
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        }
+      ],
+      "true_remaining": {
+        "fraction": "18",
+        "decimal": 18.0
+      },
+      "label_observation_id": "A-end",
+      "label_available_at": 20,
+      "absolute_relative_error_percent": {
+        "fraction": "0",
+        "decimal": 0.0
+      }
+    },
+    {
+      "origin": {
+        "fraction": "4",
+        "decimal": 4.0
+      },
+      "slope": {
+        "fraction": "-1/10",
+        "decimal": -0.1
+      },
+      "alpha": {
+        "fraction": "58/5",
+        "decimal": 11.6
+      },
+      "remaining": {
+        "fraction": "16",
+        "decimal": 16.0
+      },
+      "conditional_endpoint": {
+        "fraction": "20",
+        "decimal": 20.0
+      },
+      "fit_observation_ids": [
+        "A-0",
+        "A-2",
+        "A-4"
+      ],
+      "fit_residuals": [
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        }
+      ],
+      "true_remaining": {
+        "fraction": "16",
+        "decimal": 16.0
+      },
+      "label_observation_id": "A-end",
+      "label_available_at": 20,
+      "absolute_relative_error_percent": {
+        "fraction": "0",
+        "decimal": 0.0
+      }
+    },
+    {
+      "origin": {
+        "fraction": "6",
+        "decimal": 6.0
+      },
+      "slope": {
+        "fraction": "-1/10",
+        "decimal": -0.1
+      },
+      "alpha": {
+        "fraction": "57/5",
+        "decimal": 11.4
+      },
+      "remaining": {
+        "fraction": "14",
+        "decimal": 14.0
+      },
+      "conditional_endpoint": {
+        "fraction": "20",
+        "decimal": 20.0
+      },
+      "fit_observation_ids": [
+        "A-0",
+        "A-2",
+        "A-4",
+        "A-6"
+      ],
+      "fit_residuals": [
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        }
+      ],
+      "true_remaining": {
+        "fraction": "14",
+        "decimal": 14.0
+      },
+      "label_observation_id": "A-end",
+      "label_available_at": 20,
+      "absolute_relative_error_percent": {
+        "fraction": "0",
+        "decimal": 0.0
+      }
+    },
+    {
+      "origin": {
+        "fraction": "8",
+        "decimal": 8.0
+      },
+      "slope": {
+        "fraction": "-1/10",
+        "decimal": -0.1
+      },
+      "alpha": {
+        "fraction": "56/5",
+        "decimal": 11.2
+      },
+      "remaining": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "conditional_endpoint": {
+        "fraction": "20",
+        "decimal": 20.0
+      },
+      "fit_observation_ids": [
+        "A-0",
+        "A-2",
+        "A-4",
+        "A-6",
+        "A-8"
+      ],
+      "fit_residuals": [
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        },
+        {
+          "fraction": "0",
+          "decimal": 0.0
+        }
+      ],
+      "true_remaining": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "label_observation_id": "A-end",
+      "label_available_at": 20,
+      "absolute_relative_error_percent": {
+        "fraction": "0",
+        "decimal": 0.0
+      }
+    }
+  ],
+  "historical_mare_percent": {
+    "fraction": "0",
+    "decimal": 0.0
+  },
+  "historical_independent_entities": 1,
+  "historical_origin_count": 4,
+  "late_availability_filter": "PASS",
+  "entity_filter": "PASS",
+  "dimension_checks": {
+    "exponent_order": [
+      "L",
+      "min",
+      "yuan",
+      "container"
+    ],
+    "actual": {
+      "slope": [
+        1,
+        -1,
+        0,
+        0
+      ],
+      "remaining_time": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "demand": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "purchased_volume": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "purchase_cost": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "relative_error": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "status": "PASS"
+  },
+  "expected_rejections": [
+    {
+      "expected": "NO_FINITE_DOWNWARD_CROSSING",
+      "observed": "NO_FINITE_DOWNWARD_CROSSING",
+      "status": "PASS"
+    },
+    {
+      "expected": "NO_FINITE_DOWNWARD_CROSSING",
+      "observed": "NO_FINITE_DOWNWARD_CROSSING",
+      "status": "PASS"
+    },
+    {
+      "expected": "INSUFFICIENT_PREFIX",
+      "observed": "INSUFFICIENT_PREFIX",
+      "status": "PASS"
+    },
+    {
+      "expected": "TIME_VARIATION_REQUIRED",
+      "observed": "TIME_VARIATION_REQUIRED",
+      "status": "PASS"
+    },
+    {
+      "expected": "TRUE_REMAINING_TIME_MUST_BE_POSITIVE",
+      "observed": "TRUE_REMAINING_TIME_MUST_BE_POSITIVE",
+      "status": "PASS"
+    }
+  ],
+  "zero_remaining_check": "PASS",
+  "integer_boundaries": [
+    {
+      "demand": {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      "minimum_cost": {
+        "fraction": "0",
+        "decimal": 0.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": []
+    },
+    {
+      "demand": {
+        "fraction": "3",
+        "decimal": 3.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "4",
+        "decimal": 4.0
+      },
+      "minimum_cost": {
+        "fraction": "4",
+        "decimal": 4.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-3",
+            "decimal": -3.0
+          }
+        }
+      ]
+    },
+    {
+      "demand": {
+        "fraction": "5",
+        "decimal": 5.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "8",
+        "decimal": 8.0
+      },
+      "minimum_cost": {
+        "fraction": "7",
+        "decimal": 7.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            0,
+            1
+          ],
+          "volume": {
+            "fraction": "5",
+            "decimal": 5.0
+          },
+          "cost": {
+            "fraction": "7",
+            "decimal": 7.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-5",
+            "decimal": -5.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          },
+          "capacity_residual": {
+            "fraction": "-2",
+            "decimal": -2.0
+          }
+        }
+      ]
+    },
+    {
+      "demand": {
+        "fraction": "6",
+        "decimal": 6.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "8",
+        "decimal": 8.0
+      },
+      "minimum_cost": {
+        "fraction": "8",
+        "decimal": 8.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            2,
+            0
+          ],
+          "volume": {
+            "fraction": "6",
+            "decimal": 6.0
+          },
+          "cost": {
+            "fraction": "8",
+            "decimal": 8.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-6",
+            "decimal": -6.0
+          }
+        },
+        {
+          "counts": [
+            0,
+            1
+          ],
+          "volume": {
+            "fraction": "5",
+            "decimal": 5.0
+          },
+          "cost": {
+            "fraction": "7",
+            "decimal": 7.0
+          },
+          "capacity_residual": {
+            "fraction": "-1",
+            "decimal": -1.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          },
+          "capacity_residual": {
+            "fraction": "-3",
+            "decimal": -3.0
+          }
+        }
+      ]
+    },
+    {
+      "demand": {
+        "fraction": "8",
+        "decimal": 8.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "minimum_cost": {
+        "fraction": "11",
+        "decimal": 11.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            1,
+            1
+          ],
+          "volume": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "cost": {
+            "fraction": "11",
+            "decimal": 11.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-8",
+            "decimal": -8.0
+          }
+        },
+        {
+          "counts": [
+            0,
+            1
+          ],
+          "volume": {
+            "fraction": "5",
+            "decimal": 5.0
+          },
+          "cost": {
+            "fraction": "7",
+            "decimal": 7.0
+          },
+          "capacity_residual": {
+            "fraction": "-3",
+            "decimal": -3.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          },
+          "capacity_residual": {
+            "fraction": "-5",
+            "decimal": -5.0
+          }
+        },
+        {
+          "counts": [
+            2,
+            0
+          ],
+          "volume": {
+            "fraction": "6",
+            "decimal": 6.0
+          },
+          "cost": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "capacity_residual": {
+            "fraction": "-2",
+            "decimal": -2.0
+          }
+        }
+      ]
+    },
+    {
+      "demand": {
+        "fraction": "801/100",
+        "decimal": 8.01
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "minimum_cost": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            3,
+            0
+          ],
+          "volume": {
+            "fraction": "9",
+            "decimal": 9.0
+          },
+          "cost": {
+            "fraction": "12",
+            "decimal": 12.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-801/100",
+            "decimal": -8.01
+          }
+        },
+        {
+          "counts": [
+            0,
+            1
+          ],
+          "volume": {
+            "fraction": "5",
+            "decimal": 5.0
+          },
+          "cost": {
+            "fraction": "7",
+            "decimal": 7.0
+          },
+          "capacity_residual": {
+            "fraction": "-301/100",
+            "decimal": -3.01
+          }
+        },
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          },
+          "capacity_residual": {
+            "fraction": "-501/100",
+            "decimal": -5.01
+          }
+        },
+        {
+          "counts": [
+            1,
+            1
+          ],
+          "volume": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "cost": {
+            "fraction": "11",
+            "decimal": 11.0
+          },
+          "capacity_residual": {
+            "fraction": "-1/100",
+            "decimal": -0.01
+          }
+        },
+        {
+          "counts": [
+            2,
+            0
+          ],
+          "volume": {
+            "fraction": "6",
+            "decimal": 6.0
+          },
+          "cost": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "capacity_residual": {
+            "fraction": "-201/100",
+            "decimal": -2.01
+          }
+        }
+      ]
+    },
+    {
+      "demand": {
+        "fraction": "9",
+        "decimal": 9.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "minimum_cost": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            3,
+            0
+          ],
+          "volume": {
+            "fraction": "9",
+            "decimal": 9.0
+          },
+          "cost": {
+            "fraction": "12",
+            "decimal": 12.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-9",
+            "decimal": -9.0
+          }
+        },
+        {
+          "counts": [
+            0,
+            1
+          ],
+          "volume": {
+            "fraction": "5",
+            "decimal": 5.0
+          },
+          "cost": {
+            "fraction": "7",
+            "decimal": 7.0
+          },
+          "capacity_residual": {
+            "fraction": "-4",
+            "decimal": -4.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          },
+          "capacity_residual": {
+            "fraction": "-6",
+            "decimal": -6.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            1
+          ],
+          "volume": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "cost": {
+            "fraction": "11",
+            "decimal": 11.0
+          },
+          "capacity_residual": {
+            "fraction": "-1",
+            "decimal": -1.0
+          }
+        },
+        {
+          "counts": [
+            2,
+            0
+          ],
+          "volume": {
+            "fraction": "6",
+            "decimal": 6.0
+          },
+          "cost": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "capacity_residual": {
+            "fraction": "-3",
+            "decimal": -3.0
+          }
+        }
+      ]
+    },
+    {
+      "demand": {
+        "fraction": "10",
+        "decimal": 10.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "16",
+        "decimal": 16.0
+      },
+      "minimum_cost": {
+        "fraction": "14",
+        "decimal": 14.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            0,
+            2
+          ],
+          "volume": {
+            "fraction": "10",
+            "decimal": 10.0
+          },
+          "cost": {
+            "fraction": "14",
+            "decimal": 14.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-10",
+            "decimal": -10.0
+          }
+        },
+        {
+          "counts": [
+            0,
+            1
+          ],
+          "volume": {
+            "fraction": "5",
+            "decimal": 5.0
+          },
+          "cost": {
+            "fraction": "7",
+            "decimal": 7.0
+          },
+          "capacity_residual": {
+            "fraction": "-5",
+            "decimal": -5.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          },
+          "capacity_residual": {
+            "fraction": "-7",
+            "decimal": -7.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            1
+          ],
+          "volume": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "cost": {
+            "fraction": "11",
+            "decimal": 11.0
+          },
+          "capacity_residual": {
+            "fraction": "-2",
+            "decimal": -2.0
+          }
+        },
+        {
+          "counts": [
+            2,
+            0
+          ],
+          "volume": {
+            "fraction": "6",
+            "decimal": 6.0
+          },
+          "cost": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "capacity_residual": {
+            "fraction": "-4",
+            "decimal": -4.0
+          }
+        },
+        {
+          "counts": [
+            3,
+            0
+          ],
+          "volume": {
+            "fraction": "9",
+            "decimal": 9.0
+          },
+          "cost": {
+            "fraction": "12",
+            "decimal": 12.0
+          },
+          "capacity_residual": {
+            "fraction": "-1",
+            "decimal": -1.0
+          }
+        }
+      ]
+    },
+    {
+      "demand": {
+        "fraction": "11",
+        "decimal": 11.0
+      },
+      "feasible_upper_cost_bound": {
+        "fraction": "16",
+        "decimal": 16.0
+      },
+      "minimum_cost": {
+        "fraction": "15",
+        "decimal": 15.0
+      },
+      "all_cost_minimizers": [
+        {
+          "counts": [
+            2,
+            1
+          ],
+          "volume": {
+            "fraction": "11",
+            "decimal": 11.0
+          },
+          "cost": {
+            "fraction": "15",
+            "decimal": 15.0
+          }
+        }
+      ],
+      "all_strictly_cheaper_allocations": [
+        {
+          "counts": [
+            0,
+            0
+          ],
+          "volume": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "cost": {
+            "fraction": "0",
+            "decimal": 0.0
+          },
+          "capacity_residual": {
+            "fraction": "-11",
+            "decimal": -11.0
+          }
+        },
+        {
+          "counts": [
+            0,
+            1
+          ],
+          "volume": {
+            "fraction": "5",
+            "decimal": 5.0
+          },
+          "cost": {
+            "fraction": "7",
+            "decimal": 7.0
+          },
+          "capacity_residual": {
+            "fraction": "-6",
+            "decimal": -6.0
+          }
+        },
+        {
+          "counts": [
+            0,
+            2
+          ],
+          "volume": {
+            "fraction": "10",
+            "decimal": 10.0
+          },
+          "cost": {
+            "fraction": "14",
+            "decimal": 14.0
+          },
+          "capacity_residual": {
+            "fraction": "-1",
+            "decimal": -1.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            0
+          ],
+          "volume": {
+            "fraction": "3",
+            "decimal": 3.0
+          },
+          "cost": {
+            "fraction": "4",
+            "decimal": 4.0
+          },
+          "capacity_residual": {
+            "fraction": "-8",
+            "decimal": -8.0
+          }
+        },
+        {
+          "counts": [
+            1,
+            1
+          ],
+          "volume": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "cost": {
+            "fraction": "11",
+            "decimal": 11.0
+          },
+          "capacity_residual": {
+            "fraction": "-3",
+            "decimal": -3.0
+          }
+        },
+        {
+          "counts": [
+            2,
+            0
+          ],
+          "volume": {
+            "fraction": "6",
+            "decimal": 6.0
+          },
+          "cost": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "capacity_residual": {
+            "fraction": "-5",
+            "decimal": -5.0
+          }
+        },
+        {
+          "counts": [
+            3,
+            0
+          ],
+          "volume": {
+            "fraction": "9",
+            "decimal": 9.0
+          },
+          "cost": {
+            "fraction": "12",
+            "decimal": 12.0
+          },
+          "capacity_residual": {
+            "fraction": "-2",
+            "decimal": -2.0
+          }
+        }
+      ]
+    }
+  ],
+  "deterministic_slope_scenarios": [
+    {
+      "downward_rate": {
+        "fraction": "9/100",
+        "decimal": 0.09
+      },
+      "remaining": {
+        "fraction": "80/9",
+        "decimal": 8.88888888888889
+      },
+      "minimum_cost": {
+        "fraction": "12",
+        "decimal": 12.0
+      },
+      "optima": [
+        {
+          "counts": [
+            3,
+            0
+          ],
+          "volume": {
+            "fraction": "9",
+            "decimal": 9.0
+          },
+          "cost": {
+            "fraction": "12",
+            "decimal": 12.0
+          }
+        }
+      ]
+    },
+    {
+      "downward_rate": {
+        "fraction": "1/10",
+        "decimal": 0.1
+      },
+      "remaining": {
+        "fraction": "8",
+        "decimal": 8.0
+      },
+      "minimum_cost": {
+        "fraction": "11",
+        "decimal": 11.0
+      },
+      "optima": [
+        {
+          "counts": [
+            1,
+            1
+          ],
+          "volume": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "cost": {
+            "fraction": "11",
+            "decimal": 11.0
+          }
+        }
+      ]
+    },
+    {
+      "downward_rate": {
+        "fraction": "11/100",
+        "decimal": 0.11
+      },
+      "remaining": {
+        "fraction": "80/11",
+        "decimal": 7.2727272727272725
+      },
+      "minimum_cost": {
+        "fraction": "11",
+        "decimal": 11.0
+      },
+      "optima": [
+        {
+          "counts": [
+            1,
+            1
+          ],
+          "volume": {
+            "fraction": "8",
+            "decimal": 8.0
+          },
+          "cost": {
+            "fraction": "11",
+            "decimal": 11.0
+          }
+        }
+      ]
+    }
+  ],
+  "fractional_minute_semantics": {
+    "remaining": {
+      "fraction": "801/100",
+      "decimal": 8.01
+    },
+    "continuous_demand": {
+      "fraction": "801/100",
+      "decimal": 8.01
+    },
+    "started_minute_demand": {
+      "fraction": "9",
+      "decimal": 9.0
+    },
+    "eight_litre_plan_continuous_terminal_stock": {
+      "fraction": "-1/100",
+      "decimal": -0.01
+    }
+  },
+  "unused_undefined_input_fields": [
+    "baseline_delay",
+    "fixed_demand_litres",
+    "x",
+    "y"
+  ],
+  "formal_engineering_gate": "NOT_RUN",
+  "future_endpoint_truth": "UNKNOWN",
+  "future_accuracy": "NOT_VERIFIED",
+  "web_review": "NOT_RUN",
+  "team_review": "NOT_RUN",
+  "automatically_entered_M05": false,
+  "all_internal_assertions": "PASS"
+}

@@ -1,0 +1,112 @@
+{
+  "artifact_type": "problem_requirements",
+  "content": {
+    "ambiguities": [
+      "初等函数允许分段多项式；若要求一个低参数全局公式，本方案不满足该更强解释。",
+      "附件MRE使用231点，按9+0.005k(k=0..230)构造公共电压格；采样时间用最后向下线性穿越得到。"
+    ],
+    "case_id": "CUMCM-2016-C-VALIDATION-004",
+    "contract_version": "requirement-evidence/v1",
+    "requirements": [
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "EMPIRICAL",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q1",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "用初等函数表示附件1九条放电曲线，分别计算题定MRE；计算30、40、50、60、70A在9.8V的剩余放电时间。"
+      },
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "PREDICTIVE",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [
+          "REQ-Q1"
+        ],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q2",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "建立20至100A任意恒流曲线模型，按MRE评估精度，交付55A表格和曲线图形数据。"
+      },
+      {
+        "accuracy_scope": "Q3 actual target error cannot be established without future terminal truth; no full completion claim.",
+        "allowed_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "claim_type": "PREDICTIVE",
+        "completion_rule": "REQUIRED_MODEL_DELIVERABLES_AND_APPROPRIATE_SCIENTIFIC_VALIDATION",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "minimum_data_fields": [
+          "current_A",
+          "voltage_V",
+          "elapsed_min",
+          "state3_terminal_elapsed_min"
+        ],
+        "partial_completion_allowed": true,
+        "required_entity_scope": [
+          "PROVIDED_BATTERY_CURVES"
+        ],
+        "required_evidence_classes": [
+          "PROVIDED_EMPIRICAL"
+        ],
+        "required_time_scope": [
+          "PROVIDED_DISCHARGE_RECORDS"
+        ],
+        "requirement_id": "REQ-Q3",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": false,
+        "text": "预测附件2衰减状态3在最后观测时的剩余放电时间，并明确预测的证据和不确定性。"
+      }
+    ],
+    "title": "电池剩余放电时间预测"
+  },
+  "content_hash": "8298724f822c4bfe602f5cc142baa1fb1a6320932aa12bd7753a8b8ecbe7ee22",
+  "status": "ACCEPTED"
+}

@@ -1,0 +1,275 @@
+{
+  "basis": "ACTUAL_PUBLIC_CLI_LOCAL_INTERFACE_EXERCISE_NOT_WEB",
+  "case_id": "READINESS-COOLANT-001",
+  "package_hash": "a5701562383424a47b2435505a8aa3f7eb43060bc351d58df8588a9f831c67dd",
+  "state_before_sha256": "8bc4ec1826c0c52f10bfcac824cb69d57bf6b9a470bbb1d7e26c3494aceb2119",
+  "state_after_sha256": "8bc4ec1826c0c52f10bfcac824cb69d57bf6b9a470bbb1d7e26c3494aceb2119",
+  "formal_state_unchanged": true,
+  "automatic_model_or_final_starts": 0,
+  "valid_feedback": {
+    "schema_version": "web-feedback/v1",
+    "case_id": "READINESS-COOLANT-001",
+    "module": "M09",
+    "revision": 1,
+    "package_hash": "a5701562383424a47b2435505a8aa3f7eb43060bc351d58df8588a9f831c67dd",
+    "reviewer": "LOCAL_INTERFACE_EXERCISE_MAIN_AUTHORED_NOT_WEB",
+    "visible_materials": [
+      "views/000-input.json.txt"
+    ],
+    "executed_code": false,
+    "findings": [
+      {
+        "finding_id": "LOCAL-BOUNDARY-001",
+        "location": "views/000-input.json.txt",
+        "description": "限购场景不能沿用无限供货解；仅界定适用域，无当前计算错误。",
+        "reason_or_counterexample": "6L需求的两只3L箱，在每种限购一箱时违规。",
+        "affected_scope": "仅假设变化后的新场景，不否定原无上限模型结果。",
+        "suggested_verification": "独立枚举每种0或1箱，比较可行性和成本；保留原输入。",
+        "confidence": "HIGH",
+        "kind": "SCIENTIFIC"
+      },
+      {
+        "finding_id": "LOCAL-UNSUPPORTED-002",
+        "location": "views/000-input.json.txt",
+        "description": "练习无依据意见分流：觉得复杂候选一定更可靠。",
+        "reason_or_counterexample": "未提供新的数据、证明或可区分实验，无法支持该意见。",
+        "affected_scope": "候选方法选择建议；当前尚无额外可靠性证据。",
+        "suggested_verification": "列需补的可靠性定义与可区分情景，不自动换方法。",
+        "confidence": "UNKNOWN",
+        "kind": "SCIENTIFIC"
+      },
+      {
+        "finding_id": "LOCAL-ALTERNATIVE-003",
+        "location": "views/000-input.json.txt",
+        "description": "小规模正价整数采购可用有可行成本上界的枚举作为替代实现。",
+        "reason_or_counterexample": "正价与可行成本上界给有限计数范围，可覆盖最优候选。",
+        "affected_scope": "实现路线，未主张优于当前动态规划或基线。",
+        "suggested_verification": "核对边界覆盖与独立结果；若改正式模型先进入新实验设计。",
+        "confidence": "HIGH",
+        "kind": "ALTERNATIVE"
+      }
+    ]
+  },
+  "no_finding_receipt": "NON_AUTHORITATIVE_NO_FINDING",
+  "counterexample": {
+    "source_input_sha256": "6c6b1044d4bfaa810700f088a91b33514b98697a63a67e5cec803371c46d04b1",
+    "scope": "COUNTERFACTUAL_LIMIT_ONE_EACH_NOT_CURRENT_MODEL",
+    "feasible_plans": [
+      [
+        11,
+        1,
+        1
+      ]
+    ],
+    "minimum": [
+      11,
+      1,
+      1
+    ],
+    "current_two_small_violates_new_cap": true
+  },
+  "commands": [
+    {
+      "argv": [
+        "feedback-import",
+        "--feedback",
+        "feedback/local-valid.json"
+      ],
+      "exit_code": 0,
+      "result": {
+        "findings": [
+          "a5701562383424a4-LOCAL-BOUNDARY-001",
+          "a5701562383424a4-LOCAL-UNSUPPORTED-002",
+          "a5701562383424a4-LOCAL-ALTERNATIVE-003"
+        ],
+        "formal_state_changed": false,
+        "scripts_executed": 0,
+        "status": "REGISTERED_PENDING"
+      }
+    },
+    {
+      "argv": [
+        "feedback-import",
+        "--feedback",
+        "feedback/local-valid.md"
+      ],
+      "exit_code": 0,
+      "result": {
+        "findings": [
+          "a5701562383424a4-LOCAL-BOUNDARY-001",
+          "a5701562383424a4-LOCAL-UNSUPPORTED-002",
+          "a5701562383424a4-LOCAL-ALTERNATIVE-003"
+        ],
+        "formal_state_changed": false,
+        "scripts_executed": 0,
+        "status": "REGISTERED_PENDING"
+      }
+    },
+    {
+      "argv": [
+        "feedback-resolve",
+        "--finding",
+        "a5701562383424a4-LOCAL-BOUNDARY-001",
+        "--disposition",
+        "CONFIRMED",
+        "--evidence",
+        "feedback/resolution-0.json"
+      ],
+      "exit_code": 0,
+      "result": {
+        "bound_files": {
+          "data/raw/input.json": "6c6b1044d4bfaa810700f088a91b33514b98697a63a67e5cec803371c46d04b1",
+          "evidence/local_counterexample.json": "3684c32800391a9530f4ec4732b9303ea189c31a62234c1ab096b939807a71b1"
+        },
+        "disposition": "CONFIRMED",
+        "evidence_path": "feedback/resolution-0.json",
+        "evidence_sha256": "6275ce8eae790c8eb9c9e2ff49f4d39d1f0825e21c91b421b08dbf169f2ae4ec",
+        "finding_key": "a5701562383424a4-LOCAL-BOUNDARY-001",
+        "formal_acceptance": false,
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-resolve",
+        "--finding",
+        "a5701562383424a4-LOCAL-UNSUPPORTED-002",
+        "--disposition",
+        "CONFIRMED",
+        "--evidence",
+        "feedback/resolution-1.json"
+      ],
+      "exit_code": 3,
+      "result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "WB_COUNTEREXAMPLE_NOT_REPRODUCED"
+        ],
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-resolve",
+        "--finding",
+        "a5701562383424a4-LOCAL-UNSUPPORTED-002",
+        "--disposition",
+        "NEEDS_EVIDENCE",
+        "--evidence",
+        "feedback/resolution-1.json"
+      ],
+      "exit_code": 0,
+      "result": {
+        "bound_files": {
+          "data/raw/input.json": "6c6b1044d4bfaa810700f088a91b33514b98697a63a67e5cec803371c46d04b1",
+          "evidence/local_counterexample.json": "3684c32800391a9530f4ec4732b9303ea189c31a62234c1ab096b939807a71b1"
+        },
+        "disposition": "NEEDS_EVIDENCE",
+        "evidence_path": "feedback/resolution-1.json",
+        "evidence_sha256": "3a1b3baf6302b2f56b912fc3596cf9473653288ec40fd44ad4cd8d3f8136243c",
+        "finding_key": "a5701562383424a4-LOCAL-UNSUPPORTED-002",
+        "formal_acceptance": false,
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-resolve",
+        "--finding",
+        "a5701562383424a4-LOCAL-ALTERNATIVE-003",
+        "--disposition",
+        "ALTERNATIVE_DESIGN",
+        "--evidence",
+        "feedback/resolution-2.json"
+      ],
+      "exit_code": 0,
+      "result": {
+        "bound_files": {
+          "data/raw/input.json": "6c6b1044d4bfaa810700f088a91b33514b98697a63a67e5cec803371c46d04b1",
+          "evidence/local_counterexample.json": "3684c32800391a9530f4ec4732b9303ea189c31a62234c1ab096b939807a71b1"
+        },
+        "disposition": "ALTERNATIVE_DESIGN",
+        "evidence_path": "feedback/resolution-2.json",
+        "evidence_sha256": "14f54e98421d729a73cd4e1b3fd3661fca87b678887f8faf348907f374b235b6",
+        "finding_key": "a5701562383424a4-LOCAL-ALTERNATIVE-003",
+        "formal_acceptance": false,
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-import",
+        "--feedback",
+        "feedback/wrong-case.json"
+      ],
+      "exit_code": 3,
+      "result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "WB_FEEDBACK_IDENTITY_MISMATCH"
+        ],
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-import",
+        "--feedback",
+        "feedback/wrong-hash.json"
+      ],
+      "exit_code": 3,
+      "result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "WB_PACKAGE_UNKNOWN"
+        ],
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-import",
+        "--feedback",
+        "feedback/empty-findings.json"
+      ],
+      "exit_code": 3,
+      "result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "WB_FEEDBACK_FINDING_COUNT_INVALID"
+        ],
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-import",
+        "--feedback",
+        "feedback/extra-field.json"
+      ],
+      "exit_code": 3,
+      "result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "WB_FEEDBACK_SCHEMA_INVALID"
+        ],
+        "next_module_started": false
+      }
+    },
+    {
+      "argv": [
+        "feedback-import",
+        "--feedback",
+        "feedback/malicious.json"
+      ],
+      "exit_code": 3,
+      "result": {
+        "status": "BLOCK",
+        "reason_codes": [
+          "WB_FEEDBACK_UNAUTHORIZED_INSTRUCTION_OR_SECRET"
+        ],
+        "next_module_started": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,1478 @@
+{
+  "artifact_type": "semantic_claim_support",
+  "content": {
+    "aggregate": {
+      "primary_requirement_ids": [
+        "REQ-Q1-IMPORTANCE-MODEL",
+        "REQ-Q1-TOP50",
+        "REQ-Q2-MINIMUM-SUPPLIERS",
+        "REQ-Q2-ORDER-PLAN",
+        "REQ-Q2-TRANSPORT-PLAN",
+        "REQ-Q2-EFFECT",
+        "REQ-Q3-MATERIAL-PREFERENCE",
+        "REQ-Q3-ORDER-PLAN",
+        "REQ-Q3-TRANSPORT-PLAN",
+        "REQ-Q3-EFFECT",
+        "REQ-Q4-CAPACITY-INCREASE",
+        "REQ-Q4-ORDER-PLAN",
+        "REQ-Q4-TRANSPORT-PLAN",
+        "REQ-OUTPUT-ATTACHMENT-A",
+        "REQ-OUTPUT-ATTACHMENT-B",
+        "REQ-INVENTORY-PRODUCTION",
+        "REQ-TRANSPORT-BUSINESS-RULES"
+      ],
+      "requirement_claim_ids": {
+        "REQ-INVENTORY-PRODUCTION": "CLAIM-C2021-16",
+        "REQ-OUTPUT-ATTACHMENT-A": "CLAIM-C2021-14",
+        "REQ-OUTPUT-ATTACHMENT-B": "CLAIM-C2021-15",
+        "REQ-Q1-IMPORTANCE-MODEL": "CLAIM-C2021-01",
+        "REQ-Q1-TOP50": "CLAIM-C2021-02",
+        "REQ-Q2-EFFECT": "CLAIM-C2021-06",
+        "REQ-Q2-MINIMUM-SUPPLIERS": "CLAIM-C2021-03",
+        "REQ-Q2-ORDER-PLAN": "CLAIM-C2021-04",
+        "REQ-Q2-TRANSPORT-PLAN": "CLAIM-C2021-05",
+        "REQ-Q3-EFFECT": "CLAIM-C2021-10",
+        "REQ-Q3-MATERIAL-PREFERENCE": "CLAIM-C2021-07",
+        "REQ-Q3-ORDER-PLAN": "CLAIM-C2021-08",
+        "REQ-Q3-TRANSPORT-PLAN": "CLAIM-C2021-09",
+        "REQ-Q4-CAPACITY-INCREASE": "CLAIM-C2021-11",
+        "REQ-Q4-ORDER-PLAN": "CLAIM-C2021-12",
+        "REQ-Q4-TRANSPORT-PLAN": "CLAIM-C2021-13",
+        "REQ-TRANSPORT-BUSINESS-RULES": "CLAIM-C2021-17"
+      },
+      "supported_requirement_ids": [
+        "REQ-Q1-IMPORTANCE-MODEL",
+        "REQ-Q1-TOP50",
+        "REQ-Q2-EFFECT",
+        "REQ-Q3-EFFECT"
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "CLAIM-C2021-01",
+        "claim_strength": "BOUNDED",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q1.minimum_weight_sensitivity_top50_overlap",
+          "Q1.top50_supplier_count"
+        ],
+        "requirement_id": "REQ-Q1-IMPORTANCE-MODEL",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-IMPORTANCE-MODEL"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Historical four-factor supplier importance with bounded weight sensitivity.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-02",
+        "claim_strength": "BOUNDED",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q1.minimum_weight_sensitivity_top50_overlap",
+          "Q1.top50_supplier_count"
+        ],
+        "requirement_id": "REQ-Q1-TOP50",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-TOP50"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Fifty ranked suppliers under the declared min-max weights and tie rule.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-03",
+        "claim_strength": "GLOBAL_OPTIMUM",
+        "claim_type": "OPTIMALITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.minimum_supplier_count",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q2-MINIMUM-SUPPLIERS",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-MINIMUM-SUPPLIERS"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Conditional supplier cardinality with incumbent, dual bound and solver gap.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": true,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_OPTIMALITY_CERTIFICATE_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-04",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q2-ORDER-PLAN",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-ORDER-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Conditional 24-week order plan, minimizing all-supply purchase cost after supplier count.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-05",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q2-TRANSPORT-PLAN",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-TRANSPORT-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Conditional transport loss minimization after frozen supplier count and purchase cost.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-06",
+        "claim_strength": "BOUNDED",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.stress_carrier_capacity_violation_weeks",
+          "Q2.stress_inventory_floor_violation_weeks",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q2-EFFECT",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-EFFECT"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Development historical inventory and carrier-capacity stress, including failures.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-07",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q3-MATERIAL-PREFERENCE",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-MATERIAL-PREFERENCE"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Conditional C-min then A-max priorities with reported material mix.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-08",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q3-ORDER-PLAN",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-ORDER-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Conditional question-3 24-week order plan and purchase cost.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-09",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q3-TRANSPORT-PLAN",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-TRANSPORT-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Conditional question-3 transport plan and loss.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-10",
+        "claim_strength": "BOUNDED",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.stress_carrier_capacity_violation_weeks",
+          "Q3.stress_inventory_floor_violation_weeks",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q3-EFFECT",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-EFFECT"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Question-3 Development historical inventory and capacity stress.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-11",
+        "claim_strength": "GLOBAL_OPTIMUM",
+        "claim_type": "OPTIMALITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q4-CAPACITY-INCREASE",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-CAPACITY-INCREASE"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Stationary conditional capacity bound, not a future capacity guarantee.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_CLAIM_FACTS_NOT_SUPPORTED",
+          "RC_OPTIMALITY_CERTIFICATE_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-12",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q4-ORDER-PLAN",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-ORDER-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Question-4 24-week order plan at increased modeled demand.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-13",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-Q4-TRANSPORT-PLAN",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-TRANSPORT-PLAN"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Question-4 transport and two-increased-demand-week inventory plan.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-14",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "ATTACHMENTS.verified_derived_plan_table_count"
+        ],
+        "requirement_id": "REQ-OUTPUT-ATTACHMENT-A",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Derived numerical 24-week order tables; official named template submission incomplete.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_CLAIM_FACTS_NOT_SUPPORTED",
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-15",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "ATTACHMENTS.verified_derived_plan_table_count"
+        ],
+        "requirement_id": "REQ-OUTPUT-ATTACHMENT-B",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Derived numerical 24-week transport tables; official named template submission incomplete.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_CLAIM_FACTS_NOT_SUPPORTED",
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-16",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.stress_carrier_capacity_violation_weeks",
+          "Q2.stress_inventory_floor_violation_weeks",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-INVENTORY-PRODUCTION",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-INVENTORY-PRODUCTION"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "Nominal 24-week inventory and separate historical stress at each question's demand.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2021-17",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "All optimization statements are conditional on stationary training-derived capacity, fulfillment and loss parameters.",
+          "Q2 cardinality is globally minimal only inside that conditional model when a zero-gap optimal solver stage exists.",
+          "Q3 C-min then A-max is a declared priority interpretation, not a unique priority prescribed by the question.",
+          "Normalized all-supply purchase prices exclude unspecified absolute transport/storage tariffs; total economic optimum is unidentified.",
+          "Inventory is in product equivalents with initial stock assumed to equal two weeks of the question-specific target; Q4 needs additional initial stock.",
+          "All positive supplied volume is purchased; stress routing follows fixed shares and reports overload rather than discarding surplus.",
+          "Carrier splitting is a soft preference; split supplier counts are reported but not globally minimized.",
+          "W169-W216 stresses are counterfactual Development replays, never Final evaluation or stochastic feasibility guarantees.",
+          "Derived CSV plans are supplied; official attachment A/B template submission is incomplete.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "requirement_id": "REQ-TRANSPORT-BUSINESS-RULES",
+        "scope": {
+          "entities": [
+            "SUPPLIERS_402",
+            "CARRIERS_8"
+          ],
+          "fields": [
+            "supplier_id",
+            "material_type",
+            "order_m3",
+            "supply_m3",
+            "carrier_id",
+            "loss_rate_pct"
+          ],
+          "time": [
+            "W001-W168",
+            "W169-W216"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-TRANSPORT-BUSINESS-RULES"
+        ],
+        "selected_run_ids": [
+          "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904"
+        ],
+        "statement": "All-supply routing, carrier capacity and soft supplier splitting diagnostics.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+        ],
+        "uncertainty": {
+          "future_feasibility": "Unestablished; historical overload and stock violations are preserved.",
+          "parameter_scope": "Stationary W001-W168 estimates; no external capacity identification.",
+          "robustness_design": "Development counterfactual historical replay with declared perturbations."
+        }
+      }
+    ],
+    "comparators": [],
+    "contract_version": "claim-evidence/v3",
+    "outputs": [
+      {
+        "metric_ids": [
+          "Q1.minimum_weight_sensitivity_top50_overlap",
+          "Q1.top50_supplier_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-IMPORTANCE-MODEL",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q1-IMPORTANCE-MODEL"
+      },
+      {
+        "metric_ids": [
+          "Q1.minimum_weight_sensitivity_top50_overlap",
+          "Q1.top50_supplier_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-TOP50",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q1-TOP50"
+      },
+      {
+        "metric_ids": [
+          "Q2.minimum_supplier_count",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-MINIMUM-SUPPLIERS",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q2-MINIMUM-SUPPLIERS"
+      },
+      {
+        "metric_ids": [
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-ORDER-PLAN",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q2-ORDER-PLAN"
+      },
+      {
+        "metric_ids": [
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-TRANSPORT-PLAN",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q2-TRANSPORT-PLAN"
+      },
+      {
+        "metric_ids": [
+          "Q2.stress_carrier_capacity_violation_weeks",
+          "Q2.stress_inventory_floor_violation_weeks",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-EFFECT",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q2-EFFECT"
+      },
+      {
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-MATERIAL-PREFERENCE",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q3-MATERIAL-PREFERENCE"
+      },
+      {
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-ORDER-PLAN",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q3-ORDER-PLAN"
+      },
+      {
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-TRANSPORT-PLAN",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q3-TRANSPORT-PLAN"
+      },
+      {
+        "metric_ids": [
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.stress_carrier_capacity_violation_weeks",
+          "Q3.stress_inventory_floor_violation_weeks",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-EFFECT",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q3-EFFECT"
+      },
+      {
+        "metric_ids": [
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-CAPACITY-INCREASE",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q4-CAPACITY-INCREASE"
+      },
+      {
+        "metric_ids": [
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-ORDER-PLAN",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q4-ORDER-PLAN"
+      },
+      {
+        "metric_ids": [
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-TRANSPORT-PLAN",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-Q4-TRANSPORT-PLAN"
+      },
+      {
+        "metric_ids": [
+          "ATTACHMENTS.verified_derived_plan_table_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-A",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-OUTPUT-ATTACHMENT-A"
+      },
+      {
+        "metric_ids": [
+          "ATTACHMENTS.verified_derived_plan_table_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-B",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-OUTPUT-ATTACHMENT-B"
+      },
+      {
+        "metric_ids": [
+          "Q2.stress_carrier_capacity_violation_weeks",
+          "Q2.stress_inventory_floor_violation_weeks",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-INVENTORY-PRODUCTION",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-INVENTORY-PRODUCTION"
+      },
+      {
+        "metric_ids": [
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3"
+        ],
+        "output_id": "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-TRANSPORT-BUSINESS-RULES",
+        "owner_run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "requirement_id": "REQ-TRANSPORT-BUSINESS-RULES"
+      }
+    ],
+    "runs": [
+      {
+        "configuration_hash": "b1d88cad87db7493d34fa58d1065de29a6470ccad4b74f520b75efd3cd701bf5",
+        "current": true,
+        "input_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+        "metric_ids": [
+          "validation_penalized_cost_per_effective_m3",
+          "ATTACHMENTS.verified_derived_plan_table_count",
+          "Q1.minimum_weight_sensitivity_top50_overlap",
+          "Q1.top50_supplier_count",
+          "Q2.minimum_supplier_count",
+          "Q2.stress_carrier_capacity_violation_weeks",
+          "Q2.stress_inventory_floor_violation_weeks",
+          "Q2.used_supplier_count",
+          "Q2.weekly_all_supply_purchase_cost",
+          "Q2.weekly_effective_received_product_m3",
+          "Q2.weekly_transport_loss_m3",
+          "Q3.material_A_supply_m3",
+          "Q3.material_C_supply_m3",
+          "Q3.stress_carrier_capacity_violation_weeks",
+          "Q3.stress_inventory_floor_violation_weeks",
+          "Q3.used_supplier_count",
+          "Q3.weekly_all_supply_purchase_cost",
+          "Q3.weekly_effective_received_product_m3",
+          "Q3.weekly_transport_loss_m3",
+          "Q4.capacity_increase_product_m3",
+          "Q4.conditional_capacity_product_m3",
+          "Q4.used_supplier_count",
+          "Q4.weekly_all_supply_purchase_cost",
+          "Q4.weekly_effective_received_product_m3",
+          "Q4.weekly_transport_loss_m3",
+          "question_2_supplier_count",
+          "question_4_weekly_capacity_product_m3"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+        "scenario_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-IMPORTANCE-MODEL",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q1-TOP50",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-MINIMUM-SUPPLIERS",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-ORDER-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-TRANSPORT-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q2-EFFECT",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-MATERIAL-PREFERENCE",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-ORDER-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-TRANSPORT-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q3-EFFECT",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-CAPACITY-INCREASE",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-ORDER-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-Q4-TRANSPORT-PLAN",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-A",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-OUTPUT-ATTACHMENT-B",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-INVENTORY-PRODUCTION",
+          "OUTPUT-RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904-REQ-TRANSPORT-BUSINESS-RULES"
+        ],
+        "supported_requirement_ids": [
+          "REQ-Q1-IMPORTANCE-MODEL",
+          "REQ-Q1-TOP50",
+          "REQ-Q2-MINIMUM-SUPPLIERS",
+          "REQ-Q2-ORDER-PLAN",
+          "REQ-Q2-TRANSPORT-PLAN",
+          "REQ-Q2-EFFECT",
+          "REQ-Q3-MATERIAL-PREFERENCE",
+          "REQ-Q3-ORDER-PLAN",
+          "REQ-Q3-TRANSPORT-PLAN",
+          "REQ-Q3-EFFECT",
+          "REQ-Q4-CAPACITY-INCREASE",
+          "REQ-Q4-ORDER-PLAN",
+          "REQ-Q4-TRANSPORT-PLAN",
+          "REQ-OUTPUT-ATTACHMENT-A",
+          "REQ-OUTPUT-ATTACHMENT-B",
+          "REQ-INVENTORY-PRODUCTION",
+          "REQ-TRANSPORT-BUSINESS-RULES"
+        ]
+      }
+    ],
+    "validation": {
+      "counter_evidence_detected": false
+    }
+  },
+  "content_hash": "40708045fafa8214c3a0d659fc34845b37862cb02599dd1884485cf4ad75c8a1",
+  "status": "ACCEPTED"
+}

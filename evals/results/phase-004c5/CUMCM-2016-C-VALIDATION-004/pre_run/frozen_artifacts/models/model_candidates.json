@@ -1,0 +1,22 @@
+{
+  "artifact_type": "model_candidates",
+  "content": {
+    "baseline_definition": "Unique BASELINE; compare fixed full portfolios with equal weights on two dimensionless development MRE diagnostics.",
+    "candidates": [
+      {
+        "baseline": true,
+        "candidate_id": "BASELINE",
+        "method": "17 uniform-time knots plus first31 records; piecewise linear voltage; arithmetic current/time interpolation; zero-intercept aging scale.",
+        "rationale": "Simplest local interpolation and one-parameter aging transfer."
+      },
+      {
+        "baseline": false,
+        "candidate_id": "CUBIC_LOG_AFFINE",
+        "method": "33 uniform-time knots plus first31 records; shape-preserving piecewise cubic; logarithmic current/geometric duration interpolation; affine aging transfer.",
+        "rationale": "Resolves curvature and allows aging offset; extra flexibility may extrapolate poorly."
+      }
+    ]
+  },
+  "content_hash": "b17d5d7f1b41b3902ed3b3f41be04ff92ff9470e7ded63cae00f328df35c8f37",
+  "status": "ACCEPTED"
+}

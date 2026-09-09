@@ -1,0 +1,22 @@
+{
+  "schema_version": "phase-004c6-remote-ci-observation/v1",
+  "observed_at": "2026-09-09T04:19:58.953763+00:00",
+  "run_id": "34309524062",
+  "url": "https://github.com/woobowen/cumcm/actions/runs/34309524062",
+  "feature_head": "7169ecb4f0d49eff2d8b11b5e6caa1029e29e86c",
+  "conclusion": "SUCCESS",
+  "event": "pull_request",
+  "raw_log_sha256": "3c8ff216e303749c73ad748288cb82ffc108ddce69b8e91e9748cbc53b949d93",
+  "selected_actual_log_lines": [
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:04:14.7641667Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +23f965b6c18a3380bd54d4e185d49e9ec3b4c466:refs/remotes/pull/12/merge",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:04:15.5315385Z ##[group]Checking out the ref",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:04:15.5320320Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:04:15.7632990Z Note: switching to 'refs/remotes/pull/12/merge'.",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:04:15.7655813Z HEAD is now at 23f965b Merge 7169ecb4f0d49eff2d8b11b5e6caa1029e29e86c into e1286b1f734ef1d23cfbfc2bb87fee5358dab212",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:04:15.7708323Z [command]/usr/bin/git log -1 --format=%H",
+    "offline-validation\tRun astral-sh/setup-uv@v6\t2026-09-09T04:04:16.8935588Z Successfully installed uv version 0.12.11",
+    "offline-validation\tRun the sole CI command\t2026-09-09T04:14:37.3211309Z 2240 passed, 1 skipped in 617.74s (0:10:17)",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:04:15.7736582Z 23f965b6c18a3380bd54d4e185d49e9ec3b4c466"
+  ],
+  "purpose": "Distinguish feature delivery SHA and actual PR checkout/merge SHA; record full pytest and dev dependency bootstrap."
+}

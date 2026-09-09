@@ -1,0 +1,30 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+    "execute",
+    "--case-root",
+    ".cache/modular-workbench-001/known/2016-q3-r2",
+    "--run-id",
+    "RUN-Q3-BASELINE-R2",
+    "--candidate-id",
+    "BASELINE",
+    "--seed",
+    "20260909",
+    "--code-path",
+    "models/produce.py",
+    "--timeout-seconds",
+    "60"
+  ],
+  "elapsed_seconds": 0.3886926310005947,
+  "ended_at": "2026-09-09T10:14:15.821517+00:00",
+  "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+  "exit_code": 0,
+  "log": {
+    "path": "evals/results/modular-workbench-001/commands/known-q3-baseline-r2.log",
+    "sha256": "5c7e7bdd90432610905ba56620b215095eee8ffa07db4267d76f64a9fc99265a"
+  },
+  "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+  "raw_log_sha256": "5c7e7bdd90432610905ba56620b215095eee8ffa07db4267d76f64a9fc99265a",
+  "started_at": "2026-09-09T10:14:15.432800+00:00"
+}

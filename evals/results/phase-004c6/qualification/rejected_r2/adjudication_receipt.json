@@ -1,0 +1,39 @@
+{
+  "schema_version": "phase-004c6-negative-adjudication-receipt/v1",
+  "decision_id": "DECISION-RC9-RESEARCH-QUALIFICATION-004C6",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "status": "EXPECTED_REJECTION_REPLAYED",
+  "effective_acceptance": false,
+  "candidate": {
+    "path": "evals/results/phase-004c6/qualification/rejected_r2/rc9_candidate_snapshot.json",
+    "sha256": "dea0eb8b3597129ccf73532c15e1dd884e1f5e3d99a909eed4ae6bcf93e71023"
+  },
+  "decision": {
+    "path": "evals/results/phase-004c6/qualification/rejected_r2/rc9_candidate_decision.json",
+    "sha256": "c27c464858f0738807945cdd2acb4500669e2153d496a77538d6b6f837aed625"
+  },
+  "started_at": "2026-09-09T04:17:27.777181+00:00",
+  "ended_at": "2026-09-09T04:17:37.049258+00:00",
+  "elapsed_seconds": 15.928334133001044,
+  "argv": [
+    "<REPO_ROOT>/.venv/bin/python",
+    "scripts/check_phase004c6_rc9_release.py",
+    "--stage",
+    "candidate",
+    "--write-decision"
+  ],
+  "cwd": ".cache/pr12-rc9/qualification-replay-r2",
+  "exact_worktree_head": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "exit_code": 2,
+  "raw_stdout_sha256": "720908b815b13786dc67b6771dac34dd8f21de15dba9b9c60673581601262258",
+  "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "log": {
+    "path": "evals/results/phase-004c6/qualification/rejected_r2/adjudication.log",
+    "sha256": "6fb0c1c03a04c4509d1a5c0d87d9bc4a016693ee97b2347dd2ffcdbf15100d19"
+  },
+  "deterministic_replay_exit_code": 2,
+  "deterministic_replay_equal": true,
+  "unchanged_checker_sha256": "43f471d71f086ac7af2ca550a0a88693b810f712a83fb9df8b72defae6a7df68",
+  "main_workspace_active_slot_created": false,
+  "explanation": "A technical rejection is retained as a rejected candidate, not activated. Main workspace CI independently checks the staged implementation and legal inactive state; it does not turn this rejection into PASS."
+}

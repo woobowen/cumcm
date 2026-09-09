@@ -1,0 +1,53 @@
+{
+  "status": "PASS_PRE_RUN_SYNTAX_SYNTHETIC_AND_FINAL_REJECTION",
+  "no_actual_model_data_used": true,
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "py_compile",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/produce.py",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/check.py",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/prepare.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/code/produce.py",
+        "--case-root",
+        "NO_OFFICIAL_INPUT_ACCESS",
+        "--candidate-id",
+        "BASELINE",
+        "--seed",
+        "1729",
+        "--output",
+        "NO_OUTPUT",
+        "--final-evaluation"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "FINAL_EVALUATION_NOT_AUTHORIZED_BY_DEVELOPMENT_ONLY_PROTOCOL\n",
+      "expected": "REJECT_UNAUTHORIZED_FINAL"
+    }
+  ],
+  "synthetic_input_definition": "t=0..100; U=11-2(t/100)^2; transfer x=1..19,y=2+0.9x prefix10",
+  "synthetic_results": [
+    {
+      "candidate": "BASELINE",
+      "synthetic_coefficient_residual": 0.0,
+      "synthetic_inverse_residual": 2.842170943040401e-14,
+      "synthetic_regression_residual": 0.0
+    },
+    {
+      "candidate": "CUBIC_LOG_AFFINE",
+      "synthetic_coefficient_residual": 6.938893903907228e-18,
+      "synthetic_inverse_residual": 1.1368683772161603e-13,
+      "synthetic_regression_residual": 5.551115123125783e-16
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "artifact_type": "experiment_plan",
+  "content": {
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "baseline_id": "BASE",
+    "candidate_ids": [
+      "BASE",
+      "CAND"
+    ],
+    "code_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+    "evaluation_design": {
+      "mode": "CONDITIONAL_PREDICTION_FINAL_VERIFICATION"
+    },
+    "execution_prepared": true,
+    "handoff_generated_at": "2026-09-09T10:55:21Z",
+    "metric": "metric_a",
+    "metric_definitions": {
+      "metric_a": {
+        "aggregation": "SINGLE",
+        "denominator": "ONE",
+        "direction": "MIN",
+        "formula": "VALUE",
+        "prediction_origin": "NOT_APPLICABLE",
+        "quantity": "SCALAR",
+        "sample_unit": "allocation",
+        "target": "purchase_cost",
+        "target_unit": "yuan",
+        "unit": "yuan",
+        "weights": "UNIFORM",
+        "zero_denominator_policy": "REJECT"
+      },
+      "metric_b": {
+        "aggregation": "MEAN",
+        "denominator": "TRUE_REMAINING_TIME",
+        "direction": "MIN",
+        "formula": "ABSOLUTE_RELATIVE_ERROR",
+        "prediction_origin": "PER_SAMPLE",
+        "quantity": "REMAINING_TIME",
+        "sample_unit": "historical_origin",
+        "target": "water_remaining_time",
+        "target_unit": "min",
+        "unit": "%",
+        "weights": "UNIFORM",
+        "zero_denominator_policy": "REJECT"
+      },
+      "metric_c": {
+        "aggregation": "SINGLE",
+        "denominator": "ONE",
+        "direction": "MIN",
+        "formula": "VALUE",
+        "prediction_origin": "NOT_APPLICABLE",
+        "quantity": "SCALAR",
+        "sample_unit": "allocation",
+        "target": "terminal_stock",
+        "target_unit": "L",
+        "unit": "L",
+        "weights": "UNIFORM",
+        "zero_denominator_policy": "REJECT"
+      }
+    },
+    "metric_direction": "MIN",
+    "preregistered": true,
+    "random_seeds": [
+      20260906
+    ],
+    "required_code_files": [
+      {
+        "path": "scripts/cumcm_case.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384"
+      },
+      {
+        "path": "scripts/synthetic_cases.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62"
+      },
+      {
+        "path": "models/runtime_model.py",
+        "repository_path": "CASE_GIT/218dd47e4a0ad2f670e743da90c384efcfc42b05/models/runtime_model.py",
+        "scope": "CASE_ROOT",
+        "sha256": "b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4"
+      },
+      {
+        "path": "models/independent_check.py",
+        "repository_path": "CASE_GIT/218dd47e4a0ad2f670e743da90c384efcfc42b05/models/independent_check.py",
+        "scope": "CASE_ROOT",
+        "sha256": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0"
+      }
+    ],
+    "required_input_hashes": {
+      "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2"
+    },
+    "selection_rule": "ARGMIN_THEN_ID",
+    "splits": {
+      "test": [],
+      "train": [
+        "PREFIX"
+      ],
+      "validation": [
+        "A-origin-4",
+        "A-origin-8"
+      ]
+    },
+    "stop_rule": "one actual run per candidate",
+    "temporal_design": {
+      "index_path": "data/raw/input.json",
+      "samples": [
+        {
+          "entity_id": "EA",
+          "feature_observation_ids": [
+            "A-0",
+            "A-2",
+            "A-4"
+          ],
+          "model_fit_observation_ids": [
+            "A-0",
+            "A-2",
+            "A-4"
+          ],
+          "origin": 4,
+          "preprocess_fit_observation_ids": [
+            "A-0",
+            "A-2",
+            "A-4"
+          ],
+          "sample_id": "A-origin-4",
+          "split": "VALIDATION",
+          "target_event": "water level first reaches 10 L",
+          "target_observation_id": "A-end",
+          "target_time": 20
+        },
+        {
+          "entity_id": "EA",
+          "feature_observation_ids": [
+            "A-0",
+            "A-2",
+            "A-4",
+            "A-6",
+            "A-8"
+          ],
+          "model_fit_observation_ids": [
+            "A-0",
+            "A-2",
+            "A-4",
+            "A-6",
+            "A-8"
+          ],
+          "origin": 8,
+          "preprocess_fit_observation_ids": [
+            "A-0",
+            "A-2",
+            "A-4",
+            "A-6",
+            "A-8"
+          ],
+          "sample_id": "A-origin-8",
+          "split": "VALIDATION",
+          "target_event": "water level first reaches 10 L",
+          "target_observation_id": "A-end",
+          "target_time": 20
+        },
+        {
+          "entity_id": "EB",
+          "feature_observation_ids": [
+            "B-0",
+            "B-2",
+            "B-4",
+            "B-6",
+            "B-8",
+            "B-10",
+            "B-12"
+          ],
+          "model_fit_observation_ids": [
+            "B-0",
+            "B-2",
+            "B-4",
+            "B-6",
+            "B-8",
+            "B-10",
+            "B-12"
+          ],
+          "origin": 112,
+          "preprocess_fit_observation_ids": [
+            "B-0",
+            "B-2",
+            "B-4",
+            "B-6",
+            "B-8",
+            "B-10",
+            "B-12"
+          ],
+          "sample_id": "B-origin-12",
+          "split": "FORECAST",
+          "target_event": "water level first reaches 10 L",
+          "target_observation_id": null,
+          "target_time": null
+        }
+      ],
+      "schema_version": "temporal-visibility/v1",
+      "task": "SAME_ENTITY_FUTURE"
+    },
+    "trusted_freeze_registry": {
+      "baseline": "2bc2ab82efc889dee4e371f40002d01a88cd26f8383a0f7da31cdafbdc5f90ff",
+      "candidate_set": "ac8c25d2fb89ca774157b16e32e7c5d5801a90bd5ddebfbba802f41112a2f116",
+      "code_commit": "d2ad43821b66647de5d9c2e979353d3f4bec17faaeca3981fb9fe582cbb4fa03",
+      "code_set": "91a583228edbe9969297cbbd67b3464555175ec6aff4d83a48917b8a1398fe75",
+      "execution_policy": "54d47e0ec7c308f06ff3fff98a56e3212fb06694829fa407a9d4e5a1487a752b",
+      "input_set": "81886aaaab1dd25127550c454d284d1a135db1bcc7ac6e8e77fe30f1f918cf51",
+      "metric": "f1f3553236a3d330b455da3731ad3649ed4dc51fc549c994050c2cab6ecdc76a",
+      "seed_schedule": "321b07634b30073793fd5ea82582608e2c64e9dc85f28cf82d2b789a899c3617",
+      "split_assignment": "17a728d1da7f91022a038b527414894bb63aaf483a3aca4d35670253d661bab7"
+    }
+  },
+  "content_hash": "b99f4a0c5a06f62bfe6d3053b0fe5dfd19f226b6124aaba94ae585dd5c8d9de5",
+  "status": "ACCEPTED"
+}

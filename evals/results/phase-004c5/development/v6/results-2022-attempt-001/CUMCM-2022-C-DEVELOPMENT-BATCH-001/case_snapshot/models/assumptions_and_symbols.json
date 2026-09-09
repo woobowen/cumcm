@@ -1,0 +1,26 @@
+{
+  "artifact_type": "assumptions_and_symbols",
+  "content": {
+    "assumptions": [
+      "Zero or unreported composition values use frozen nondetection replacement before logratio analysis; they are not confirmed structural zeros.",
+      "Artifact, not sampling point or repeated fold, is the independent grouping unit.",
+      "The deterministic internal train/validation/test groups are exposed Development groups; no split restores blind status and no formal Final evaluator is used.",
+      "Known classification CV excludes old internal test groups; all-known descriptive analysis remains contaminated Development evidence.",
+      "Sampling point CLR centers are first averaged within artifact, then artifacts receive equal weight.",
+      "Backcasts assume type exchangeability and estimated weathering shifts; two paired artifacts do not identify causal alteration or original composition truth.",
+      "Subclasses and bootstrap association differences are exploratory, with fixed k/features per stability analysis and no multiplicity or coverage guarantees.",
+      "Composition perturbations add Gaussian noise of 0.01 simplex units, then floor and reclose; this is not 1 percent relative multiplicative noise.",
+      "Decision scores and neighbor votes are uncalibrated; unknown sample labels are missing, so distance applicability and flip stability cannot establish predictive accuracy.",
+      "Frozen budgets: 2 CV repeats, 999 permutations, 20 subtype bootstrap, 30 association bootstrap, 50 perturbations per unknown sample."
+    ],
+    "formulas": [
+      "observed_metric = deterministic_recomputation(bound_inputs)"
+    ],
+    "symbols": {
+      "CASE": "CUMCM-2022-C-DEVELOPMENT-BATCH-001",
+      "SEED": "20220904"
+    }
+  },
+  "content_hash": "875983e1c7c6f710d7664ea72a537b961186a5172f37e90e0d9251cc6cacc6b6",
+  "status": "ACCEPTED"
+}

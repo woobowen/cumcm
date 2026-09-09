@@ -1,0 +1,39 @@
+{
+  "schema_version": "scientific-semantics-prerun-review/v1",
+  "reviewed_subject": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+  "earlier_subject": "1696c9d2014b9be6ba6aec0a4656336e60aacd4e",
+  "reviewer": "/root/scientific_semantics_review",
+  "status": "PASS_WITHIN_REVIEWED_PRE_EXECUTION_SCOPE",
+  "review_scope": "PRE_EXECUTION_SOURCE_AND_NEUTRAL_TESTS_ONLY",
+  "native_result_review_eligible": false,
+  "material_open_findings": [],
+  "closed_findings": [
+    "R4-001",
+    "R4-002",
+    "R4-003",
+    "canonical_terminal_path_equality"
+  ],
+  "real_model_starts": 0,
+  "real_checker_starts": 0,
+  "real_final_starts": 0,
+  "actual_test_runs": [
+    {
+      "subject": "1696c9d2014b9be6ba6aec0a4656336e60aacd4e",
+      "passed": 16,
+      "failed": 0
+    },
+    {
+      "subject": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+      "passed": 16,
+      "failed": 0
+    }
+  ],
+  "not_covered": [
+    "actual Development results",
+    "actual raw-input compliance",
+    "full CI",
+    "actual registry and terminal adjudication",
+    "actual result review",
+    "Formal Gate"
+  ]
+}

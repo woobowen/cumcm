@@ -1,0 +1,176 @@
+{
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/prepare_workbench_known.py",
+        "register",
+        "--revision",
+        "2",
+        "--subject",
+        "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a"
+      ],
+      "elapsed_seconds": 0.15226082599838264,
+      "ended_at": "2026-09-09T10:12:59.959050+00:00",
+      "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/known-q3-register-r2.log",
+        "sha256": "07850fc4fecd3ae416191e72355e10ed0706c0f552a9fc0ec7bc86adfad8de0b"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+      "raw_log_sha256": "07850fc4fecd3ae416191e72355e10ed0706c0f552a9fc0ec7bc86adfad8de0b",
+      "started_at": "2026-09-09T10:12:59.806764+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/prepare_workbench_known.py",
+        "prepare",
+        "--revision",
+        "2"
+      ],
+      "elapsed_seconds": 0.9310712049991707,
+      "ended_at": "2026-09-09T10:13:43.456685+00:00",
+      "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/known-q3-prepare-r2-002.log",
+        "sha256": "90d8fcfbef239077af9248d60c015f0669895d52937f87ff3c01181b0163ef8a"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+      "raw_log_sha256": "90d8fcfbef239077af9248d60c015f0669895d52937f87ff3c01181b0163ef8a",
+      "started_at": "2026-09-09T10:13:42.525591+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "validate",
+        "--case-root",
+        ".cache/modular-workbench-001/known/2016-q3-r2"
+      ],
+      "elapsed_seconds": 0.11924634400202194,
+      "ended_at": "2026-09-09T10:14:15.353025+00:00",
+      "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/known-q3-authorize-r2.log",
+        "sha256": "db46548347635107689ecd12987b13b1bf69e753ab5f4108c95549346bafeff9"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+      "raw_log_sha256": "db46548347635107689ecd12987b13b1bf69e753ab5f4108c95549346bafeff9",
+      "started_at": "2026-09-09T10:14:15.233752+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "execute",
+        "--case-root",
+        ".cache/modular-workbench-001/known/2016-q3-r2",
+        "--run-id",
+        "RUN-Q3-BASELINE-R2",
+        "--candidate-id",
+        "BASELINE",
+        "--seed",
+        "20260909",
+        "--code-path",
+        "models/produce.py",
+        "--timeout-seconds",
+        "60"
+      ],
+      "elapsed_seconds": 0.3886926310005947,
+      "ended_at": "2026-09-09T10:14:15.821517+00:00",
+      "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/known-q3-baseline-r2.log",
+        "sha256": "5c7e7bdd90432610905ba56620b215095eee8ffa07db4267d76f64a9fc99265a"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+      "raw_log_sha256": "5c7e7bdd90432610905ba56620b215095eee8ffa07db4267d76f64a9fc99265a",
+      "started_at": "2026-09-09T10:14:15.432800+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "execute",
+        "--case-root",
+        ".cache/modular-workbench-001/known/2016-q3-r2",
+        "--run-id",
+        "RUN-Q3-AFFINE-R2",
+        "--candidate-id",
+        "AFFINE",
+        "--seed",
+        "20260909",
+        "--code-path",
+        "models/produce.py",
+        "--timeout-seconds",
+        "60"
+      ],
+      "elapsed_seconds": 0.4020453880002606,
+      "ended_at": "2026-09-09T10:14:16.453935+00:00",
+      "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/known-q3-affine-r2.log",
+        "sha256": "4abf91181ed217c5cdbc33a9309a9d97b532ddc63d83584546dfb789448da38b"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+      "raw_log_sha256": "4abf91181ed217c5cdbc33a9309a9d97b532ddc63d83584546dfb789448da38b",
+      "started_at": "2026-09-09T10:14:16.051855+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/prepare_workbench_known.py",
+        "propose",
+        "--revision",
+        "2"
+      ],
+      "elapsed_seconds": 0.18320991799555486,
+      "ended_at": "2026-09-09T10:14:16.708346+00:00",
+      "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/known-q3-proposal-r2.log",
+        "sha256": "747fa8d74d2d267db16c7d3d648d59779b93b4f0006cb93d187873ac07c76f37"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+      "raw_log_sha256": "747fa8d74d2d267db16c7d3d648d59779b93b4f0006cb93d187873ac07c76f37",
+      "started_at": "2026-09-09T10:14:16.525113+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/finalize_fresh_c_validation.py",
+        "--case-root",
+        ".cache/modular-workbench-001/known/2016-q3-r2",
+        "--check-code",
+        "models/check.py"
+      ],
+      "elapsed_seconds": 4.771098290999362,
+      "ended_at": "2026-09-09T10:14:21.547149+00:00",
+      "executed_head": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/known-q3-controller-r2.log",
+        "sha256": "49392b5f9b6e48f6bbd3e452759b7990079bc922146c6c970657f0f7ad22f686"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_ONLY",
+      "raw_log_sha256": "49392b5f9b6e48f6bbd3e452759b7990079bc922146c6c970657f0f7ad22f686",
+      "started_at": "2026-09-09T10:14:16.776025+00:00"
+    }
+  ],
+  "executed_subject": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+  "implementation_hash": "c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca",
+  "record_packet": {
+    "path": "evals/results/modular-workbench-001/CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R2/records.json",
+    "sha256": "eb400210adef7a77ca01e82f7d404c1335c87ef22bea87119cc8dee1d6afb73b"
+  },
+  "runtime_scope": "Repository code, Skill, modules, contracts, rules and guides; external dependency/OS identity is separate.",
+  "runtime_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+  "schema_version": "workbench-known-interface/v1"
+}

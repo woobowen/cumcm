@@ -1,0 +1,23 @@
+{
+  "schema_version": "native-review-scope-clarification/v1",
+  "recorded_at": "2026-09-09T04:22:51.252549+00:00",
+  "normalized_receipt": {
+    "path": "evals/results/phase-004c6/qualification/receipts/native_protocol_r2.json",
+    "sha256": "e45d5edcfa5466048cf5f098b367d2dd8fe2ba0cda4f2b8444c12b729ff19161"
+  },
+  "native_original_publication": {
+    "path": "evals/results/phase-004c6/qualification/scientific_audit_006/review_receipt.json",
+    "sha256": "85eaa001a11fa787c35bfbb22d9d93b303c8896acea03862f22d9efad3b8f072"
+  },
+  "authoritative_scope": "VERSION_PLAN_TARGET_REGISTRATION_PREPARATION_DIFF_ONLY",
+  "covered": "Actual 16 tests, version/plan/target contract, pre-initialization registration guards and archived design equality; scientific code unchanged from referenced prior subject.",
+  "not_covered": [
+    "All-protocol independent completeness",
+    "Actual r2 registration/root readiness",
+    "Actual Development numerical outcomes",
+    "Final acceptance",
+    "External scientific validation"
+  ],
+  "original_bytes_preserved": true,
+  "effect_on_decision": "No candidate acceptance; the separate actual-result native review rejects activation. Prior R4/R5 reviews retain their own limited scopes and are not silently combined into an unqualified complete protocol PASS."
+}

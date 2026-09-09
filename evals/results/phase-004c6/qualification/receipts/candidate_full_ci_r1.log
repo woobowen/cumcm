@@ -1,0 +1,77 @@
+STDOUT
+All checks passed!
+933 files already formatted
+........................................................................ [  3%]
+........................................................................ [  6%]
+........................................................................ [  9%]
+........................................................................ [ 12%]
+........................................................................ [ 16%]
+........................................................................ [ 19%]
+........................................................................ [ 22%]
+....................F................................................... [ 25%]
+........................................................................ [ 28%]
+........................................................................ [ 32%]
+........................................................................ [ 35%]
+........................................................................ [ 38%]
+........................................................................ [ 41%]
+........................................................................ [ 45%]
+........................................................................ [ 48%]
+........................................................................ [ 51%]
+........................................................................ [ 54%]
+........................................................................ [ 57%]
+........................................................................ [ 61%]
+........................................................................ [ 64%]
+........................................................................ [ 67%]
+........................................................................ [ 70%]
+..................................................................F..... [ 74%]
+........................................................................ [ 77%]
+........................................................................ [ 80%]
+.........................s.............................................. [ 83%]
+........................................................................ [ 86%]
+........................................................................ [ 90%]
+........................................................................ [ 93%]
+........................................................................ [ 96%]
+.....................F.................................................. [ 99%]
+.....                                                                    [100%]
+=================================== FAILURES ===================================
+____________ test_skill_is_competition_rc_and_has_one_workflow_set _____________
+
+skill_root = PosixPath('<REPO_ROOT>/.agents/skills/cumcm-modeling-evidence')
+
+    def test_skill_is_competition_rc_and_has_one_workflow_set(skill_root: Path) -> None:
+        skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
+>       assert "Version: `0.2.0-competition-rc8`" in skill
+E       AssertionError: assert 'Version: `0.2.0-competition-rc8`' in '---\nname: cumcm-modeling-evidence\ndescription: Use for mathematical-modeling competition work from problem intake t...ng-time 与 elapsed-time 的分母不能互换。模型敏感性范围不能称为校准预测区间；\n独立程序验算不能称为独立外部数据验证。完整字段示例见 `references/rc9_science_contracts.md`。\n'
+
+tests/unit/test_competition_rc_skill.py:32: AssertionError
+______________ test_r3_plan_is_preserved_after_successor_advances ______________
+
+repo_root = PosixPath('<REPO_ROOT>')
+
+    def test_r3_plan_is_preserved_after_successor_advances(repo_root):
+        plans = list((repo_root / "plans/active").glob("*.md"))
+>       assert [item.name for item in plans] == ["PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"]
+E       AssertionError: assert ['PLAN-0004C6...velopment.md'] == ['PLAN-0004C5...alidation.md']
+E         
+E         At index 0 diff: 'PLAN-0004C6-rc9-repair-and-development.md' != 'PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md'
+E         Use -v to get more diff
+
+tests/unit/test_phase002d_r2a_start_freeze_dependencies.py:220: AssertionError
+____________ test_target_problem_policy_accepts_canonical_strategy _____________
+
+repo_root = PosixPath('<REPO_ROOT>')
+
+    def test_target_problem_policy_accepts_canonical_strategy(repo_root: Path) -> None:
+        result = evaluate(repo_root)
+    
+>       assert result["ok"] is True
+E       assert False is True
+
+tests/unit/test_target_problem_policy.py:41: AssertionError
+=========================== short test summary info ============================
+FAILED tests/unit/test_competition_rc_skill.py::test_skill_is_competition_rc_and_has_one_workflow_set
+FAILED tests/unit/test_phase002d_r2a_start_freeze_dependencies.py::test_r3_plan_is_preserved_after_successor_advances
+FAILED tests/unit/test_target_problem_policy.py::test_target_problem_policy_accepts_canonical_strategy
+3 failed, 2233 passed, 1 skipped in 597.42s (0:09:57)
+
+STDERR

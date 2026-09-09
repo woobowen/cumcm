@@ -1,0 +1,113 @@
+{
+  "authority": "TASK_SUPPORT_EVIDENCE_NOT_PROJECT_TECHNICAL_GATE",
+  "rows": [
+    {
+      "id": 1,
+      "requirement": "输入ZIP与双层manifest",
+      "evidence": "input_audit.json; historical_protection_check.json",
+      "status": "PASS"
+    },
+    {
+      "id": 2,
+      "requirement": "NO_CASE不携带示例活动状态",
+      "evidence": "native_worker/BRAIN_START_RESPONSE.md; package tests",
+      "status": "PASS"
+    },
+    {
+      "id": 3,
+      "requirement": "单模块停止与恢复",
+      "evidence": "rehearsal/records.json; rehearsal/m06_stop.json",
+      "status": "PASS"
+    },
+    {
+      "id": 4,
+      "requirement": "命令变量与真实CLI",
+      "evidence": "commands/manual_bash_smoke.json; rehearsal/public_commands.jsonl",
+      "status": "PASS"
+    },
+    {
+      "id": 5,
+      "requirement": "早期阶段无未来Final循环",
+      "evidence": "rehearsal/public_commands.jsonl; rehearsal/final_precheck.json",
+      "status": "PASS"
+    },
+    {
+      "id": 6,
+      "requirement": "五类审核实质不同",
+      "evidence": "native_audit/REVIEW_SUMMARY.md; native_audit/FOLLOWUP_REVIEW.json",
+      "status": "PASS_NATIVE_READ_ONLY_AUDIT"
+    },
+    {
+      "id": 7,
+      "requirement": "严格finding及非执行导入",
+      "evidence": "rehearsal/feedback_exercise.json",
+      "status": "PASS"
+    },
+    {
+      "id": 8,
+      "requirement": "无finding单独覆盖说明",
+      "evidence": "rehearsal/feedback_exercise.json; REVIEW_EXCHANGE_GUIDE",
+      "status": "PASS"
+    },
+    {
+      "id": 9,
+      "requirement": "真实网页反馈来源/处置/限制",
+      "evidence": "external_feedback_receipt.json; old_reading_bindings.json",
+      "status": "PASS_WITH_NATIVE_IMPORT_NOT_RUN_IMMUTABLE_SOURCE"
+    },
+    {
+      "id": 10,
+      "requirement": "旧context/错case/hash/上游STALE",
+      "evidence": "rehearsal/stale_context_rejection.json; commands/directed-core.log; feedback_exercise",
+      "status": "PASS"
+    },
+    {
+      "id": 11,
+      "requirement": "十二经验卡有来源及正反边界",
+      "evidence": "lesson_boundary_checks.json; docs/gpt_codex_workflow/experience_index.json",
+      "status": "PASS"
+    },
+    {
+      "id": 12,
+      "requirement": "算术、代码重放、网页范围分开",
+      "evidence": "input_arithmetic.json; native_worker/view_manifest.json; rehearsal/summary.json",
+      "status": "PASS"
+    },
+    {
+      "id": 13,
+      "requirement": "原创真实数值与独立检查",
+      "evidence": "rehearsal/records.json; rehearsal/internal_checker_replays.json",
+      "status": "PASS"
+    },
+    {
+      "id": 14,
+      "requirement": "Final一次性不退款/重复拒绝",
+      "evidence": "rehearsal/final_precheck.json; rehearsal/repeat_final_rejection.json",
+      "status": "PASS"
+    },
+    {
+      "id": 15,
+      "requirement": "人读符号/结论回连证据",
+      "evidence": "old_reading_bindings.json; rehearsal/reading_bindings.json",
+      "status": "PASS"
+    },
+    {
+      "id": 16,
+      "requirement": "真实受限跨会话接手",
+      "evidence": "native_worker/worker_validation.json; rehearsal/m06_installation.json",
+      "status": "PASS_NATIVE_NOT_WEB_OR_OS_ISOLATION"
+    },
+    {
+      "id": 17,
+      "requirement": "旧RC8/9/10及历史成绩保护",
+      "evidence": "historical_protection_check.json",
+      "status": "PASS"
+    },
+    {
+      "id": 18,
+      "requirement": "公开内容与本地三包边界",
+      "evidence": "native_audit/EXAMPLE_REVIEW.json; native_audit/FOLLOWUP_REVIEW.json; native_audit/SCOPE_CORRECTION_REVIEW.json; local DELIVERY_INDEX and delivery_receipt at final HEAD",
+      "status": "PASS_LOCAL_ASSEMBLY_AND_SCOPED_PUBLIC_CONTENT"
+    }
+  ]
+}

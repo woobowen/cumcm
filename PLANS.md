@@ -93,3 +93,34 @@ rerun as Validation, and the next plan must be `PHASE-SKILL-C-TARGET-BATCH-REPAI
 The independent terminal integrity audit returned `CHALLENGE` with additional blocker
 `HF22_SEMANTIC_SUPPORT_FALSE_DECLARATION`; it did not change the frozen verdict or authorize a
 same-case repair.
+
+## Current 004C5 continuation
+
+The user explicitly resumed PR #12 for RC8 fact binding, real Development evidence and fresh C
+Validation. The byte-identical 004C4 terminal plan now lives in `plans/completed/`; references in
+old freezes resolve at their original Git subject. The sole active plan is
+`plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md`. Its eight-hour budget and
+pre-result case order do not reset any historical episode or acceptance decision.
+
+## Current 004C6 continuation
+
+The new one-time task explicitly requires a maintenance plan. The byte-preserved predecessor is
+plans/archived/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md; its historical active path
+continues to resolve at the old Git subject. The sole current plan is
+plans/active/PLAN-0004C6-rc9-repair-and-development.md. Seven-hour deadline 2026-09-09T08:35:18Z;
+no inherited episode budget is renewed. New evidence lives under evals/results/phase-004c6/.
+
+## Current modular workbench construction (004C7)
+
+The current explicit BUILD_AND_ACCEPT task opens PHASE-SKILL-MODULAR-WORKBENCH-004C7 after
+004C6's immutable RC9 rejection. Execution is plans/active/PLAN-0004C7-modular-workbench.md;
+the byte-preserved 004C6 plan is in plans/archived/. Evidence is under
+evals/results/modular-workbench-001/ (repository-relative; no old result is overwritten).
+This window builds the shared R7 resolver, fourteen scoped modules, local review/feedback,
+context handoff and actual usability acceptance. It authorizes no new blind Validation.
+Future use defaults to GUIDED_SINGLE_MODULE with GUIDED_LOCAL case policy and no automatic
+remote publication. LAB_EVAL histories and budgets cannot be changed by switching modes.
+Users direct research priorities and lawful next modules; evidence gates still reject failures.
+MODULAR_WORKBENCH_BUILD_IN_PROGRESS may terminate ENGINEERING_ACCEPTED, LIMITED or BLOCKED
+only from actual current evidence and an independent Decision Auditor. Engineering acceptance
+is distinct from contest release, scientific generalization and TEAM_COMPLIANCE_REVIEW.

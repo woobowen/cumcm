@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<PRIVATE_USER_ROOT>/project/cumcm/scripts/prepare_workbench_known.py", line 374, in <module>
+    main()
+  File "<PRIVATE_USER_ROOT>/project/cumcm/scripts/prepare_workbench_known.py", line 364, in main
+    result = prepare(args.revision)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "<PRIVATE_USER_ROOT>/project/cumcm/scripts/prepare_workbench_known.py", line 126, in prepare
+    raise ValueError(";".join(errors))
+ValueError: CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1;CASE_REGISTRATION_HASH_INVALID:CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1

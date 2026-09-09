@@ -1,0 +1,97 @@
+{
+  "derivation": "EXACT_UTF8_JSON_NO_REDACTION",
+  "records": {
+    "completion": {
+      "content": {
+        "artifact_hashes": {
+          "problem/problem_requirements.json": "302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "work/M02.json": "76873b974f943f22beb26192271af2c29d3ea06bb433db4b7bd7e764a12c3e03"
+        },
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "completed_at": "2026-09-09T09:46:25Z",
+        "engineering": "CONTRACTS_CHECKED",
+        "execution": "COMPLETED",
+        "human_review": "NOT_RUN",
+        "module": "M02",
+        "native_state": "REQUIREMENTS_VALIDATED",
+        "next_module_started": false,
+        "report_path": "work/M02.json",
+        "request_id": "WATER-M02",
+        "request_sha256": "d336065dbe6f7b026a65b3ce581b7087de833d24989745e6beb6de9ce9586243",
+        "requirement_scope": [
+          "ALL"
+        ],
+        "schema_version": "module-completion/v1",
+        "scientific": "分析/设计，待数值验证"
+      },
+      "raw_sha256": "2534154d76c3adcce04e4be8cf6aa32aa226176904f9caece1d0e37cb28cd03f",
+      "raw_utf8": "{\n  \"artifact_hashes\": {\n    \"problem/problem_requirements.json\": \"302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"work/M02.json\": \"76873b974f943f22beb26192271af2c29d3ea06bb433db4b7bd7e764a12c3e03\"\n  },\n  \"case_id\": \"ORIGINAL-WATER-MIXED\",\n  \"completed_at\": \"2026-09-09T09:46:25Z\",\n  \"engineering\": \"CONTRACTS_CHECKED\",\n  \"execution\": \"COMPLETED\",\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M02\",\n  \"native_state\": \"REQUIREMENTS_VALIDATED\",\n  \"next_module_started\": false,\n  \"report_path\": \"work/M02.json\",\n  \"request_id\": \"WATER-M02\",\n  \"request_sha256\": \"d336065dbe6f7b026a65b3ce581b7087de833d24989745e6beb6de9ce9586243\",\n  \"requirement_scope\": [\n    \"ALL\"\n  ],\n  \"schema_version\": \"module-completion/v1\",\n  \"scientific\": \"分析/设计，待数值验证\"\n}\n"
+    },
+    "request": {
+      "content": {
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "execution_mode": "GUIDED_SINGLE_MODULE",
+        "implementation": {
+          "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+          "tool_commit": "9e6b7dca27bbbb2d8a50845bfbeba5706231afb8"
+        },
+        "mode": "GUIDED_LOCAL",
+        "module": "M02",
+        "prepared_at": "2026-09-09T09:46:25Z",
+        "prerequisite_files": {
+          "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+          "evidence/intake_registry.json": "71f0a63429e180431ef2024d64c87e07181fc4fc8495ea61f75be20c5ebba750",
+          "evidence/module_requests/WATER-M01/completion.json": "30b7f1350de0c37192c7ef4f50a4c30553221985368e1defccbd62673dc6abc5",
+          "evidence/module_requests/WATER-M01/request.json": "b9772fc69b8de39aaa7bb9373477e2d320eb897592c5233e20ab9d4c10ddc796",
+          "problem/original.md": "361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "state/case_policy.json": "46f99213cd1a9e3dac7876032674567a03098c0b59c5828df5b19d57c64c6149",
+          "work/M01.json": "e921c129114d8d7f76f8b177f1de3697dc4995fd655853c2649c52ab7737dfc6"
+        },
+        "request_id": "WATER-M02",
+        "requirement_scope": [
+          "ALL"
+        ],
+        "revision": 1,
+        "schema_version": "module-request/v1"
+      },
+      "raw_sha256": "0cb9f46573387f9da8531082a09bf029ebccf563696370db7b37db746f133949",
+      "raw_utf8": "{\n  \"case_id\": \"ORIGINAL-WATER-MIXED\",\n  \"execution_mode\": \"GUIDED_SINGLE_MODULE\",\n  \"implementation\": {\n    \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n    \"tool_commit\": \"9e6b7dca27bbbb2d8a50845bfbeba5706231afb8\"\n  },\n  \"mode\": \"GUIDED_LOCAL\",\n  \"module\": \"M02\",\n  \"prepared_at\": \"2026-09-09T09:46:25Z\",\n  \"prerequisite_files\": {\n    \"data/raw/input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\",\n    \"evidence/intake_registry.json\": \"71f0a63429e180431ef2024d64c87e07181fc4fc8495ea61f75be20c5ebba750\",\n    \"evidence/module_requests/WATER-M01/completion.json\": \"30b7f1350de0c37192c7ef4f50a4c30553221985368e1defccbd62673dc6abc5\",\n    \"evidence/module_requests/WATER-M01/request.json\": \"b9772fc69b8de39aaa7bb9373477e2d320eb897592c5233e20ab9d4c10ddc796\",\n    \"problem/original.md\": \"361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"state/case_policy.json\": \"46f99213cd1a9e3dac7876032674567a03098c0b59c5828df5b19d57c64c6149\",\n    \"work/M01.json\": \"e921c129114d8d7f76f8b177f1de3697dc4995fd655853c2649c52ab7737dfc6\"\n  },\n  \"request_id\": \"WATER-M02\",\n  \"requirement_scope\": [\n    \"ALL\"\n  ],\n  \"revision\": 1,\n  \"schema_version\": \"module-request/v1\"\n}\n"
+    },
+    "work_report": {
+      "content": {
+        "actions": [
+          "主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。"
+        ],
+        "artifacts": [
+          "research/analysis.md"
+        ],
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "checks": [
+          "当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。"
+        ],
+        "human_review": "NOT_RUN",
+        "module": "M02",
+        "negative_results": [
+          "合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。"
+        ],
+        "original_requirements": [
+          "条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。"
+        ],
+        "request_id": "WATER-M02",
+        "requirement_scope": [
+          "ALL"
+        ],
+        "review_questions": [
+          "本模块数据、公式、边界和独立核验是否与原问一致？"
+        ],
+        "revision": 1,
+        "scientific_scope": "分析/设计，待数值验证",
+        "summary_cn": "M02原创mixed备水案例；动作和科学边界见所附分析及当前真实产物。"
+      },
+      "raw_sha256": "76873b974f943f22beb26192271af2c29d3ea06bb433db4b7bd7e764a12c3e03",
+      "raw_utf8": "{\n  \"actions\": [\n    \"主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。\"\n  ],\n  \"artifacts\": [\n    \"research/analysis.md\"\n  ],\n  \"case_id\": \"ORIGINAL-WATER-MIXED\",\n  \"checks\": [\n    \"当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。\"\n  ],\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M02\",\n  \"negative_results\": [\n    \"合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。\"\n  ],\n  \"original_requirements\": [\n    \"条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。\"\n  ],\n  \"request_id\": \"WATER-M02\",\n  \"requirement_scope\": [\n    \"ALL\"\n  ],\n  \"review_questions\": [\n    \"本模块数据、公式、边界和独立核验是否与原问一致？\"\n  ],\n  \"revision\": 1,\n  \"scientific_scope\": \"分析/设计，待数值验证\",\n  \"summary_cn\": \"M02原创mixed备水案例；动作和科学边界见所附分析及当前真实产物。\"\n}\n"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "argv": [
+    "models/c2021_supply_plan.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "ROBUST_QUANTILE_LEXICOGRAPHIC",
+    "--seed",
+    "20210904",
+    "--output",
+    "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/output.json"
+  ],
+  "capture_record": {
+    "path": "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/execution_capture.json",
+    "sha256": "b6155d692c3a3f9a4ed7237b1b850a0e5c9b50b97070c6651e6e11b662a9e670"
+  },
+  "code_commit": "4d2a0b8f451e95438fa0b79dd569207a96e5df52",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "a6bc30183cf47a0ea0016735851a805630bde1ddac5c90dd814ae814ed9043f5"
+    },
+    {
+      "path": "models/c2021_supply_plan.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_supply_plan.py",
+      "scope": "CASE_ROOT",
+      "sha256": "7a84279bf2a1f50646d988b3438093eb22232a51daccdde494654e363c9e1643"
+    },
+    {
+      "path": "models/c2021_feasibility.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_feasibility.py",
+      "scope": "CASE_ROOT",
+      "sha256": "3ef35baa9b6d0f8a0ea81bfd19631c2b6fd4656fb5857f8c8afabafcf1cef316"
+    },
+    {
+      "path": "models/c2021_independent_check.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_independent_check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "1e7dafc64e1aeb3d9f7d39154aef00381089396a5e73356fb81f5c96fcdc53f6"
+    }
+  ],
+  "code_tree_hash": "724a036ca5344ebfe91f8a70f29d4ed299f40d544162794f3993a9741decdffe",
+  "configuration": {
+    "candidate_id": "ROBUST_QUANTILE_LEXICOGRAPHIC",
+    "seed": 20210904
+  },
+  "configuration_hash": "b1d88cad87db7493d34fa58d1065de29a6470ccad4b74f520b75efd3cd701bf5",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "decision_hash": "5a58d91a3fd25e0ba460393d26fd10f50c1341d657efc536ee72670601dcfeab",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20210904",
+    "TZ": "UTC"
+  },
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "19ca8888cfdff697ac490938ccda59eb16ba9e8d8b88dc23d6a9b90aa6ff839f",
+    "candidate_set": "917b4fe11628d47cb7eb385f0d6a7e67cde6037084dac74cae477131a065ab29",
+    "code_commit": "62b845cb9b34acbfa1f3bb4389efa05a1721bd0ae933b6f82c620b5036775866",
+    "code_set": "bcde4f25e4f60eb11b8ef9169741d5eb66d2e82287f25248d56e59c4977707a0",
+    "execution_policy": "4e2fac03115adc2dad399ba49544b048da468ab8fd1f11d7d0008e80c640545f",
+    "input_set": "654df398e6f89f14576bd03b321cb4398cbc3b0eb41ec943dad60aefd63d56d5",
+    "metric": "9a0e80ea3d0cd361db2c89d5c22ca2003a005dcc4343cf147cddb597876237ed",
+    "seed_schedule": "11710339842d19d7a12d2dad6dc8d615356949ac66641ffcc641c1c7a6bb6add",
+    "split_assignment": "51c546b44b56ad1488c83b9a70553c29c86908632039b4a7cefee7698aa64ddf"
+  },
+  "input_files": [
+    {
+      "path": "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx",
+      "sha256": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b"
+    },
+    {
+      "path": "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx",
+      "sha256": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685"
+    }
+  ],
+  "input_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+  "outcome": "SUCCESS",
+  "output_files": [
+    {
+      "path": "runs/RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904/output.json",
+      "sha256": "445da58a0d398a1c5d1b1a8a7bb60c34d189688834061104be5dfbe0ebf3abf8"
+    }
+  ],
+  "output_hash": "ef876f74cc9f5dcd6ea5e6840e03faee549748f1240628140b6bf7a36666ee06",
+  "random_seed": 20210904,
+  "run_id": "RUN-RC7-ROBUST_QUANTILE_LEXICOGRAPHIC-S20210904",
+  "scenario_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+  "supersession": null,
+  "trusted_capture": true
+}

@@ -1,0 +1,1005 @@
+{
+  "artifact_type": "semantic_claim_support",
+  "content": {
+    "aggregate": {
+      "primary_requirement_ids": [
+        "REQ-VALIDITY",
+        "REQ-COMPOSITION",
+        "REQ-1A",
+        "REQ-1B",
+        "REQ-1C",
+        "REQ-2A",
+        "REQ-2B",
+        "REQ-2C",
+        "REQ-3A",
+        "REQ-3B",
+        "REQ-4A",
+        "REQ-4B",
+        "REQ-EVIDENCE"
+      ],
+      "requirement_claim_ids": {
+        "REQ-1A": "CLAIM-C2022-V6-03",
+        "REQ-1B": "CLAIM-C2022-V6-04",
+        "REQ-1C": "CLAIM-C2022-V6-05",
+        "REQ-2A": "CLAIM-C2022-V6-06",
+        "REQ-2B": "CLAIM-C2022-V6-07",
+        "REQ-2C": "CLAIM-C2022-V6-08",
+        "REQ-3A": "CLAIM-C2022-V6-09",
+        "REQ-3B": "CLAIM-C2022-V6-10",
+        "REQ-4A": "CLAIM-C2022-V6-11",
+        "REQ-4B": "CLAIM-C2022-V6-12",
+        "REQ-COMPOSITION": "CLAIM-C2022-V6-02",
+        "REQ-EVIDENCE": "CLAIM-C2022-V6-13",
+        "REQ-VALIDITY": "CLAIM-C2022-V6-01"
+      },
+      "supported_requirement_ids": [
+        "REQ-VALIDITY",
+        "REQ-COMPOSITION",
+        "REQ-1A",
+        "REQ-1B",
+        "REQ-1C",
+        "REQ-2A",
+        "REQ-2B",
+        "REQ-2C",
+        "REQ-3B",
+        "REQ-4A",
+        "REQ-4B"
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "CLAIM-C2022-V6-01",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "DATA.known_rows",
+          "DATA.valid_known_rows"
+        ],
+        "requirement_id": "REQ-VALIDITY",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-VALIDITY"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Original composition totals and invalid sample exclusions are audited.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-02",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "DATA.maximum_closed_sum_error"
+        ],
+        "requirement_id": "REQ-COMPOSITION",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-COMPOSITION"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Valid composition vectors close to one under the declared nondetection assumption.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-03",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q1.association_table_count",
+          "Q1.total_permutation_replicates"
+        ],
+        "requirement_id": "REQ-1A",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Weathering associations use bounded 999-shuffle permutation checks with sparse-table limitations.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-04",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q1.paired_artifact_count",
+          "Q1.type_effect_count"
+        ],
+        "requirement_id": "REQ-1B",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Type and weathering centers weight each artifact equally within strata; associations are descriptive.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-05",
+        "claim_strength": "BOUNDED",
+        "claim_type": "SIMULATION_CONDITIONAL",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q1.backcast_artifact_count",
+          "Q1.paired_artifact_count"
+        ],
+        "requirement_id": "REQ-1C",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1C"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Artifact-level pre-weathering backcasts assume type exchangeability; sparse pairs do not identify a causal effect.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-06",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.cv_artifact_count",
+          "Q2.cv_internal_test_overlap_count",
+          "Q2.cv_prediction_count"
+        ],
+        "requirement_id": "REQ-2A",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Two-repeat CV covers only effective train-plus-validation artifacts; previously exposed Development labels do not establish external performance.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-07",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.subtype_assigned_artifact_count",
+          "Q2.subtype_cluster_count"
+        ],
+        "requirement_id": "REQ-2B",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Exploratory subtypes include chemical centers and artifact counts; silhouette does not prove scientific validity.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-08",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q2.minimum_perturbation_feature_change",
+          "Q2.subtype_bootstrap_requested_per_type"
+        ],
+        "requirement_id": "REQ-2C",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2C"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Subtype stability uses bounded artifact resampling and actual composition perturbations with nonzero feature changes.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-09",
+        "claim_strength": "BOUNDED",
+        "claim_type": "PREDICTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q3.unknown_available_label_count",
+          "Q3.unknown_prediction_count"
+        ],
+        "requirement_id": "REQ-3A",
+        "scope": {
+          "entities": [
+            "UNKNOWN_8_SAMPLES"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Eight unknown samples receive predictions; their unavailable labels prevent a claim of unknown-sample accuracy.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_CLAIM_FACTS_NOT_SUPPORTED",
+          "RC_PREDICTIVE_VALIDATION_MISSING"
+        ],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-10",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q3.mean_unknown_perturbation_flip_rate",
+          "Q3.unknown_in_training_domain_count"
+        ],
+        "requirement_id": "REQ-3B",
+        "scope": {
+          "entities": [
+            "UNKNOWN_8_SAMPLES"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Unknown predictions include training-distance domain checks and perturbation flips; model scores are uncalibrated.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-11",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q4.association_artifact_count",
+          "Q4.undefined_correlation_entry_count"
+        ],
+        "requirement_id": "REQ-4A",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4A"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Within-type chemical associations weight artifacts equally and preserve undefined correlations as null.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-12",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "Q4.association_bootstrap_replicates",
+          "Q4.component_pair_count"
+        ],
+        "requirement_id": "REQ-4B",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4B"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Between-type association differences have exploratory 30-bootstrap ranges without multiplicity or causal guarantees.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": true,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      },
+      {
+        "claim_id": "CLAIM-C2022-V6-13",
+        "claim_strength": "BOUNDED",
+        "claim_type": "DESCRIPTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "PROVIDED_EMPIRICAL",
+        "limitations": [
+          "Case is Development and historically contaminated; old internal test labels are exposed.",
+          "Blank/nondetection handling is an assumption.",
+          "CV, subtype geometry and bootstrap stability do not establish external scientific truth.",
+          "Unknown decision scores and KNN votes are not calibrated probabilities.",
+          "Permutation and bootstrap outputs are exploratory with no multiplicity adjustment.",
+          "Backcasts are conditional and not causal estimates; unknown labels remain unavailable.",
+          "Development; no Final evaluator or external validation."
+        ],
+        "metric_ids": [
+          "DATA.scientific_requirement_count"
+        ],
+        "requirement_id": "REQ-EVIDENCE",
+        "scope": {
+          "entities": [
+            "KNOWN_58_ARTIFACTS"
+          ],
+          "fields": [
+            "artifact_id",
+            "glass_type",
+            "pattern",
+            "color",
+            "weathering",
+            "composition_14"
+          ],
+          "time": [
+            "ARCHAEOLOGICAL_COLLECTION_UNDATED"
+          ]
+        },
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-EVIDENCE"
+        ],
+        "selected_run_ids": [
+          "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904"
+        ],
+        "statement": "Development outputs distinguish measured diagnostics, conditional analyses and unresolved scientific requirements.",
+        "status": "INSUFFICIENT",
+        "support_predicates": {
+          "global_optimality_certificate": false,
+          "independent_constraint_recalculation": false,
+          "registered_assumptions_bound": true,
+          "scope_bounded": true
+        },
+        "support_reason_codes": [
+          "RC_CLAIM_FACTS_NOT_SUPPORTED",
+          "RC_SCIENTIFIC_RECALCULATION_INCONSISTENT"
+        ],
+        "uncertainty": {
+          "association": "30 bootstrap exploratory ranges; no multiplicity adjustment",
+          "backcast": "equal-artifact type exchangeability; only sparse within-artifact pairing",
+          "classification": "finite-group Development diagnosis; no unknown true labels or calibration evidence"
+        }
+      }
+    ],
+    "comparators": [],
+    "contract_version": "claim-evidence/v3",
+    "outputs": [
+      {
+        "metric_ids": [
+          "DATA.known_rows",
+          "DATA.valid_known_rows"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-VALIDITY",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-VALIDITY"
+      },
+      {
+        "metric_ids": [
+          "DATA.maximum_closed_sum_error"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-COMPOSITION",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-COMPOSITION"
+      },
+      {
+        "metric_ids": [
+          "Q1.association_table_count",
+          "Q1.total_permutation_replicates"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1A",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-1A"
+      },
+      {
+        "metric_ids": [
+          "Q1.paired_artifact_count",
+          "Q1.type_effect_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1B",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-1B"
+      },
+      {
+        "metric_ids": [
+          "Q1.backcast_artifact_count",
+          "Q1.paired_artifact_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1C",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-1C"
+      },
+      {
+        "metric_ids": [
+          "Q2.cv_artifact_count",
+          "Q2.cv_internal_test_overlap_count",
+          "Q2.cv_prediction_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2A",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-2A"
+      },
+      {
+        "metric_ids": [
+          "Q2.subtype_assigned_artifact_count",
+          "Q2.subtype_cluster_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2B",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-2B"
+      },
+      {
+        "metric_ids": [
+          "Q2.minimum_perturbation_feature_change",
+          "Q2.subtype_bootstrap_requested_per_type"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2C",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-2C"
+      },
+      {
+        "metric_ids": [
+          "Q3.unknown_available_label_count",
+          "Q3.unknown_prediction_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3A",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-3A"
+      },
+      {
+        "metric_ids": [
+          "Q3.mean_unknown_perturbation_flip_rate",
+          "Q3.unknown_in_training_domain_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3B",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-3B"
+      },
+      {
+        "metric_ids": [
+          "Q4.association_artifact_count",
+          "Q4.undefined_correlation_entry_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4A",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-4A"
+      },
+      {
+        "metric_ids": [
+          "Q4.association_bootstrap_replicates",
+          "Q4.component_pair_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4B",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-4B"
+      },
+      {
+        "metric_ids": [
+          "DATA.scientific_requirement_count"
+        ],
+        "output_id": "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-EVIDENCE",
+        "owner_run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "requirement_id": "REQ-EVIDENCE"
+      }
+    ],
+    "runs": [
+      {
+        "configuration_hash": "53528884ae16ad3b812b1948ca14b8ff149549dfd99ebce406801fefd24a36ac",
+        "current": true,
+        "input_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+        "metric_ids": [
+          "validation_composite_loss",
+          "DATA.known_rows",
+          "DATA.maximum_closed_sum_error",
+          "DATA.scientific_requirement_count",
+          "DATA.valid_known_rows",
+          "Q1.association_table_count",
+          "Q1.backcast_artifact_count",
+          "Q1.paired_artifact_count",
+          "Q1.total_permutation_replicates",
+          "Q1.type_effect_count",
+          "Q2.cv_artifact_count",
+          "Q2.cv_internal_test_overlap_count",
+          "Q2.cv_prediction_count",
+          "Q2.minimum_perturbation_feature_change",
+          "Q2.subtype_assigned_artifact_count",
+          "Q2.subtype_bootstrap_requested_per_type",
+          "Q2.subtype_cluster_count",
+          "Q3.mean_unknown_perturbation_flip_rate",
+          "Q3.unknown_available_label_count",
+          "Q3.unknown_in_training_domain_count",
+          "Q3.unknown_prediction_count",
+          "Q4.association_artifact_count",
+          "Q4.association_bootstrap_replicates",
+          "Q4.component_pair_count",
+          "Q4.undefined_correlation_entry_count"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904",
+        "scenario_hash": "770fb91b2263cd554a5afc130c71bec1b0ea132ff299e4891de58ef0fb0c2762",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-VALIDITY",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-COMPOSITION",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-1C",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-2C",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-3B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4A",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-4B",
+          "OUTPUT-RUN-RC8-HELLINGER_KNN_COMPLETE-S20220904-REQ-EVIDENCE"
+        ],
+        "supported_requirement_ids": [
+          "REQ-VALIDITY",
+          "REQ-COMPOSITION",
+          "REQ-1A",
+          "REQ-1B",
+          "REQ-1C",
+          "REQ-2A",
+          "REQ-2B",
+          "REQ-2C",
+          "REQ-3A",
+          "REQ-3B",
+          "REQ-4A",
+          "REQ-4B",
+          "REQ-EVIDENCE"
+        ]
+      }
+    ],
+    "validation": {
+      "counter_evidence_detected": false
+    }
+  },
+  "content_hash": "959edb143240c50dfbe0bc690a0598cf00c2182dcadc25d37c0ddf75b299d935",
+  "status": "ACCEPTED"
+}

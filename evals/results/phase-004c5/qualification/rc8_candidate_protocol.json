@@ -1,0 +1,49 @@
+{
+  "schema_version": "phase-004c5-rc8-protocol/v1",
+  "candidate_id": "CANDIDATE-COMPETITION-RC8-004C5",
+  "target_versions": {
+    "project": "0.3.0-competition-rc8",
+    "skill": "0.2.0-competition-rc8"
+  },
+  "distribution_version": "0.2.3",
+  "accepted_scope": "RESEARCH_AND_FRESH_VALIDATION_ELIGIBILITY_ONLY",
+  "required_receipts": [
+    "focused_tests",
+    "full_ci",
+    "strict",
+    "native_audit",
+    "development_science",
+    "historical_subjects"
+  ],
+  "minimum_focused_passed": 80,
+  "minimum_full_pytest_passed": 2000,
+  "required_development_years": [
+    2021,
+    2022
+  ],
+  "whole_problem_success_required": false,
+  "development_negative_outcomes_preserved": true,
+  "native_audit_required": true,
+  "native_unresolved_release_blockers": 0,
+  "release_before_fresh_input": true,
+  "activation_changes_implementation": false,
+  "shared_implementation_paths": [
+    ".agents/skills/cumcm-modeling-evidence",
+    "src",
+    "scripts",
+    "contracts",
+    "rules",
+    "pyproject.toml",
+    "VERSION",
+    "CHANGELOG.md"
+  ],
+  "test_paths": [
+    "tests"
+  ],
+  "legacy_subject": {
+    "rc7_implementation": "cd02e61994b906364789c65609de695b6912f1c7",
+    "rc7_release": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
+    "predecessor_state": "17f109cadc8524c285af6a50776e6c3decb8b3e8"
+  },
+  "receipt_binding": "subject commit and complete frozen shared file mapping; receipt commits separate; no self-reference"
+}

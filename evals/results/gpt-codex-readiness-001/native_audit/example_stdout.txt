@@ -1,0 +1,33 @@
+{
+  "conclusion": "NO_ASSEMBLY_BLOCKER_WITHIN_VERIFIED_FIXED_ARCHIVE",
+  "archive": {
+    "path": "<REPO_ROOT>/.cache/gpt-codex-readiness-001/example-audit.zip",
+    "sha256": "8be545f774343af5b2a063dce7f4c0076fe358a78851d6fd37feae3a379798f3",
+    "bytes": 100878,
+    "members": 50,
+    "payload_set_sha256": "dd3837bdcd42b2894469b2adc403209c6a93df6c01a5a2f2907558d4e93795cf",
+    "kind": "EXAMPLE_ONLY"
+  },
+  "inner_identity": {
+    "case_id": "ORIGINAL-WATER-MIXED",
+    "module": "M14",
+    "revision": 1,
+    "package_hash": "09784e197709c5c5657d5eedac9959c7a72312e0ea30631a7bbeeb46afe05c71"
+  },
+  "checks": {
+    "archive_size_and_sha256": true,
+    "outer_crc_member_set_and_payload_hashes": true,
+    "offline_markdown_link_targets_present": true,
+    "all_previously_hashed_example_and_context_bytes_unchanged": true,
+    "old_inner_manifest_and_context_canonical_identity": true,
+    "context_markdown_agrees_with_currently_packaged_historical_json": true,
+    "original_feedback_exact_hash_and_strict_old_case_identity": true,
+    "no_new_case_id_or_current_review_payload": true,
+    "previously_audited_support_bytes_unchanged": true,
+    "example_only_final_currentness_and_native_import_boundaries_explicit": true,
+    "operator_content_unchanged_against_original_audit": true,
+    "original_reports_frozen": true
+  },
+  "all_checks_passed": true,
+  "baseline_unavailable_files": []
+}

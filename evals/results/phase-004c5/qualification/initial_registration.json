@@ -1,0 +1,80 @@
+{
+  "schema_version": "phase-004c5-registration/v1",
+  "task_id": "PR12-RC8-CLOSURE-AND-FRESH-C-VALIDATION",
+  "registered_at": "2026-09-08T17:55:12.451024+00:00",
+  "task_started_at": "2026-09-08T17:46:50Z",
+  "deadline": "2026-09-09T01:46:50Z",
+  "authorization": "EXPLICIT_USER_RESUME_PR12_M0_M5",
+  "starting_commit": "17f109cadc8524c285af6a50776e6c3decb8b3e8",
+  "inherited_unreleased_skill_git_tree_sha1": "bfc3be777fb42e01e40067a3cbb419448454164f",
+  "historical_rc7": {
+    "implementation_commit": "cd02e61994b906364789c65609de695b6912f1c7",
+    "release_commit": "22abe92d2b5da2e3f1be3161e8376fb83b0cee0a",
+    "manifest": "evals/results/phase-004c4/rc7_release.json"
+  },
+  "candidate_id": "CANDIDATE-COMPETITION-RC8-004C5",
+  "target_project_version": "0.3.0-competition-rc8",
+  "target_skill_version": "0.2.0-competition-rc8",
+  "distribution_version": "0.2.3",
+  "candidate_subject_commit": null,
+  "initial_acceptance": "NOT_EVALUATED",
+  "protected_history": {
+    "base_commit": "17f109cadc8524c285af6a50776e6c3decb8b3e8",
+    "existing_paths_under": [
+      "evals/results/",
+      "experiments/"
+    ],
+    "exception_new_root": "evals/results/phase-004c5/",
+    "registry_existing_cases_sha256": "fd59aa0dc162ba661df24f2ca35819f45cd446453c444a9c56401bfadcd57550",
+    "archived_plan": {
+      "original_path": "plans/active/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md",
+      "current_path": "plans/completed/PLAN-0004C4-actual-controller-closure-and-fresh-validation.md",
+      "sha256": "8a41d957fc44b1a8f91f27822ba19b14a60cf678699c893243e9194a06ebe7a4"
+    }
+  },
+  "fresh_protocol": {
+    "planned_years": [
+      2016,
+      2015
+    ],
+    "fallback_year": 2014,
+    "fallback_reasons": [
+      "OFFICIAL_INPUT_UNAVAILABLE",
+      "CORRUPT_OR_MISSING_REQUIRED_INPUT",
+      "PRE_RESULT_CONTAMINATION"
+    ],
+    "execution": "SERIAL_ONE_FRESH_WORKER_PLUS_ORCHESTRATOR",
+    "max_concurrent_units": 2,
+    "per_case_complete_window_seconds": 7200,
+    "second_case_start_requires_remaining_seconds": 8100,
+    "first_case_priority": true,
+    "answers": "SEALED",
+    "model_prior": "MODEL_PRIOR_EXPOSURE_UNVERIFIABLE",
+    "worker_context": "fork_turns=none; policy isolation, not OS sandbox",
+    "freeze_before_input": true,
+    "same_shared_subject_and_environment": true
+  },
+  "development_budget": {
+    "years": [
+      2021,
+      2022
+    ],
+    "initial_candidates_per_case": 3,
+    "seeds_per_candidate": 1,
+    "maximum_additional_captured_attempts_per_case": 6,
+    "maximum_runtime_seconds_per_attempt": 900,
+    "final_test_access": 0,
+    "role": "DEVELOPMENT_REGRESSION"
+  },
+  "repair_budget": {
+    "implementation_milestones": 3,
+    "audit_triggered_loops": 3,
+    "same_root_cause_failures": 3
+  },
+  "cost": {
+    "paid_api_calls": 0,
+    "monetary_cost": "UNKNOWN",
+    "tokens": "GOAL_TOOL_VISIBLE_CUMULATIVE_ONLY",
+    "new_dependencies": []
+  }
+}

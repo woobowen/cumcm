@@ -1,0 +1,18 @@
+.venv/bin/python - <<'PY'
+import pathlib,json,csv,hashlib,datetime
+began=datetime.datetime.now(datetime.timezone.utc).isoformat();b=pathlib.Path('evals/results/phase-004c5/CUMCM-2015-C-VALIDATION-005/candidate_artifacts');o=json.loads((b/'case_bundle/runs/RUN-2015-TOPOCENTRIC/output.json').read_text());summ={}
+for name,exp,key in [('scene_windows_2016.csv',[{'city':c,**r} for c,v in o['events'].items() for r in v],lambda r:(r['city'],r['date'])),('reference_position_comparison.csv',o['reference_comparison'],lambda r:(r['city'],r['body'],float(r['jd']))),('sensitivity_scene_windows_2016.csv',[{'perturbation':lab,'city':c,**r} for lab,v in o['sensitivity'].items() for c,rows in v['events'].items() for r in rows],lambda r:(r['perturbation'],r['city'],r['date']))]:
+ got=list(csv.DictReader((b/'tables'/name).open()));print('TABLE_HEADER',name,list(got[0]));index={key(r):r for r in exp};bad=[]
+ for j,r in enumerate(got):
+  er=index.get(key(r))
+  if er is None:bad.append([j,'MISSING_IDENTITY']);continue
+  for k,v in r.items():
+   if k=='run_id':
+    if v!='RUN-2015-TOPOCENTRIC':bad.append([j,k])
+   elif k not in er:bad.append([j,k,'UNEXPECTED_FIELD'])
+   elif isinstance(er[k],(int,float)):
+    if float(v)!=er[k]:bad.append([j,k,v,er[k]])
+   elif v!=str(er[k]):bad.append([j,k,v,er[k]])
+ summ[name]={'row_count':len(got),'identities_exact':set(map(key,got))==set(index),'mismatch_count':len(bad),'examples':bad[:3]}
+s=json.dumps({'correction_to_prior_audit_check':'Prior positional zip incorrectly assumed CSV city order equals producer dictionary order and treated additional run_id provenance as mismatch. This keyed comparison fixes the auditor comparator only; candidate evidence unchanged.','tables':summ},ensure_ascii=False,sort_keys=True,separators=(',',':'));print(json.dumps({'receipt_id':'AUDIT-2015-CSV-004','started_at':began,'ended_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_code':0,'stdout':s,'stdout_sha256':hashlib.sha256(s.encode()).hexdigest(),'stderr':''},ensure_ascii=False,indent=2))
+PY

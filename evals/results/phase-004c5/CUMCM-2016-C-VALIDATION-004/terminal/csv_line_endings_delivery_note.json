@@ -1,0 +1,50 @@
+{
+  "schema_version": "rc8-case-csv-delivery-format/v1",
+  "recorded_at": "2026-09-08T21:36:20.961784+00:00",
+  "original_commit_preserved": "6a0ce61ed776aaf89ef91969fe2a55a0826c0ab7",
+  "original_diff_check": "FAIL_CSV_CRLF_INTERPRETED_AS_TRAILING_WHITESPACE",
+  "original_log_sha256": "7a07b10360748b65449e1af405328ea291d95370ec28f77278f422a4ef07fb42",
+  "repair": "Case-local .gitattributes declares cr-at-eol while preserving blank-at-eol,blank-at-eof,space-before-tab checks. No CSV bytes changed.",
+  "documentation": [
+    "Installed Git gitattributes(5): Checking whitespace errors",
+    "Installed Git git-config(1): core.whitespace cr-at-eol"
+  ],
+  "global_configuration_changed": false,
+  "case_configuration_added": "evals/results/phase-004c5/CUMCM-2016-C-VALIDATION-004/.gitattributes",
+  "frozen_worker_files_reverified": 45,
+  "actual_diff_recheck_exit": 0,
+  "positive_negative_probes": [
+    {
+      "name": "valid_crlf",
+      "argv": [
+        "git",
+        "-c",
+        "core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol",
+        "diff",
+        "--no-index",
+        "--check",
+        "/dev/null",
+        ".cache/pr12-rc8/csv-whitespace/valid_crlf.csv"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "invalid_space_before_crlf",
+      "argv": [
+        "git",
+        "-c",
+        "core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol",
+        "diff",
+        "--no-index",
+        "--check",
+        "/dev/null",
+        ".cache/pr12-rc8/csv-whitespace/invalid_space_before_crlf.csv"
+      ],
+      "exit_code": 3,
+      "stdout": ".cache/pr12-rc8/csv-whitespace/invalid_space_before_crlf.csv:2: trailing whitespace.\n+1,2 \n",
+      "stderr": ""
+    }
+  ]
+}

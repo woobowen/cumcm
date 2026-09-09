@@ -1,0 +1,29 @@
+{
+  "case_id": "READINESS-COOLANT-001",
+  "models": [
+    {
+      "run_id": "RUN-BASE-20260910",
+      "outcome": "SUCCESS"
+    },
+    {
+      "run_id": "RUN-CAND-20260910",
+      "outcome": "SUCCESS"
+    }
+  ],
+  "selection": {
+    "REQ-A": [
+      "RUN-BASE-20260910"
+    ],
+    "REQ-B": [
+      "RUN-BASE-20260910"
+    ],
+    "REQ-C": [
+      "RUN-BASE-20260910"
+    ]
+  },
+  "robustness_sha256": "ab6a2a15205eced9f18d89cf22fb2cf44d248fea4c11e75da43edc71ddc01cc5",
+  "ledger_before": "ABSENT",
+  "authorization": "CURRENT_BUILD_OPERATOR_KIT_AND_VERIFY_NEW_ORIGINAL_CASE_ONLY",
+  "final_budget": 1,
+  "next_action": "PUBLIC_M12_CONTROLLER"
+}

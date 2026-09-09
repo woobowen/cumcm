@@ -1,0 +1,114 @@
+"""Mutate private copies of allowed original records; execute only qualification helpers."""
+import copy
+import datetime
+import hashlib
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parents[4]
+OUT = Path(__file__).resolve().parent
+PATHS = ['scripts/check_modular_workbench.py', 'evals/results/modular-workbench-001/qualification/protocol.json',
+         'evals/results/modular-workbench-001/development_exports/acceptance-001/mixed/records.json']
+sha = lambda b: hashlib.sha256(b).hexdigest()
+hashes = lambda: {p: sha((ROOT / p).read_bytes()) for p in PATHS}
+start = datetime.datetime.now(datetime.timezone.utc)
+RUN = OUT / ('family-' + start.strftime('%Y%m%dT%H%M%S%fZ'))
+fixture = RUN / 'fixture'
+fixture.mkdir(parents=True)
+before = hashes()
+spec = importlib.util.spec_from_file_location('qualification_family_round05', ROOT / PATHS[0])
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+base = json.loads((ROOT / PATHS[2]).read_text())
+results = {}
+
+def refresh(packet, key):
+    record = packet['records'][key]
+    raw = json.dumps(record['content'], ensure_ascii=False, indent=2) + '\n'
+    record.update(raw_utf8=raw, raw_sha256=sha(raw.encode()))
+
+def run(name, mutation=None):
+    packet = copy.deepcopy(base)
+    if mutation:
+        mutation(packet)
+    relative = m.BASE + '/' + name + '.json'
+    path = fixture / relative
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = json.dumps(packet, ensure_ascii=False).encode()
+    path.write_bytes(data)
+    records = packet['records']
+    captures = [r['content'] for k, r in records.items() if k.startswith('capture:')]
+    family = {'record_packet': {'path': relative, 'sha256': sha(data)}, 'case_id': 'ORIGINAL-WATER-MIXED',
+              'kind': 'mixed', 'native_state': 'READY_FOR_PAPER_HANDOFF', 'actual_model_starts': 2,
+              'primary_requirements': 3, 'numerical_results': [
+                  {'run_id': c['run_id'], 'metrics': records['output:' + c['run_id']]['content']['final_metrics']}
+                  for c in captures]}
+    try:
+        value = m.validate_family_evidence(fixture, family)
+        results[name] = {'returned': value}
+    except Exception as exc:
+        results[name] = {'exception': type(exc).__name__, 'message': str(exc)}
+
+run('unchanged_existing_original_records')
+
+def wrong_raw(p):
+    p['records']['case_state']['content']['case_id'] = 'SYNTHETIC-WRONG-CASE'
+run('content_change_without_raw_refresh', wrong_raw)
+
+def no_q3(p):
+    for rid in p['records']['final_ledger']['content']['selected_run_ids']:
+        p['records']['final_check:' + rid]['content']['requirements'].pop('REQ-C')
+        refresh(p, 'final_check:' + rid)
+        p['records']['final_ledger']['content']['checks'][rid]['files'][f'runs/{rid}/final_check.json'] = p['records']['final_check:' + rid]['raw_sha256']
+    refresh(p, 'final_ledger')
+run('final_checks_omit_primary_req_c_with_correct_raw_hashes', no_q3)
+
+def bad_residual(p):
+    for rid in p['records']['final_ledger']['content']['selected_run_ids']:
+        p['records']['final_check:' + rid]['content']['requirements']['REQ-C']['recalculation_residuals']['full_numeric_vector']['value'] = 1000000
+        refresh(p, 'final_check:' + rid)
+        p['records']['final_ledger']['content']['checks'][rid]['files'][f'runs/{rid}/final_check.json'] = p['records']['final_check:' + rid]['raw_sha256']
+    refresh(p, 'final_ledger')
+run('final_recalculation_residual_fails_but_feasible_summary_true', bad_residual)
+
+def wrong_manifest(p):
+    for run in p['records']['handoff']['content']['final_runs']:
+        key = 'manifest:' + run['run_id']
+        p['records'][key]['content']['capture_record']['sha256'] = '0' * 64
+        refresh(p, key)
+        run['manifest_hash'] = m.canonical(p['records'][key]['content'])
+    refresh(p, 'handoff')
+run('manifest_references_wrong_capture_hash', wrong_manifest)
+
+def fewer_primary(p):
+    p['records']['problem_requirements']['content']['content']['requirements'][2]['role'] = 'SUPPORTING'
+    refresh(p, 'problem_requirements')
+run('mixed_three_requirements_but_only_two_primary', fewer_primary)
+
+def early_final(p):
+    ledger = p['records']['final_ledger']['content']
+    ledger['started_at'] = ledger['ended_at'] = '2026-09-08T00:00:00Z'
+    for command in ledger['checks'].values():
+        command['started_at'] = command['ended_at'] = '2026-09-08T00:00:00Z'
+    refresh(p, 'final_ledger')
+run('final_time_precedes_actual_models_by_one_day', early_final)
+
+def boolean_raw_ledger(p):
+    record = p['records']['final_ledger']
+    raw_value = copy.deepcopy(record['content'])
+    raw_value['count'] = True
+    record['raw_utf8'] = json.dumps(raw_value)
+    record['raw_sha256'] = sha(record['raw_utf8'].encode())
+run('raw_ledger_boolean_count_but_content_integer_count', boolean_raw_ledger)
+
+record = {'argv': ['.venv/bin/python', '-B', str(Path(__file__).relative_to(ROOT))],
+          'started_utc': start.isoformat(), 'ended_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'source_before': before, 'source_after': hashes(), 'results': results,
+          'scope': {'qualification_helpers_only': True, 'private_copies_of_allowed_original_records': True,
+                    'model_execution': 0, 'scientific_checker_execution': 0, 'final_execution': 0,
+                    'known_reads': 0, 'full_ci': 0, 'network': 0, 'public_writes': 0, 'git_mutations': 0}}
+(RUN / 'results.json').write_text(json.dumps(record, indent=2) + '\n')
+print(json.dumps({'result_path': str((RUN / 'results.json').relative_to(ROOT)), **record}, indent=2))

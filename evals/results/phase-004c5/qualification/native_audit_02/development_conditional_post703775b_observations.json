@@ -1,0 +1,32 @@
+[
+  {
+    "actual_checker_capture_status": "FAILED",
+    "actual_checker_cli_exit_code": 3,
+    "case_root": ".cache/pr12-rc8/native-audit-02/development_probes_post703775b/simulation_conditional/case",
+    "failed_checker_statuses": {
+      "REQ-A": "INSUFFICIENT",
+      "REQ-B": "INSUFFICIENT"
+    },
+    "injection_limit": "Function-level checker return substitution; not an executed scientific recalculation.",
+    "kind": "SIMULATION_CONDITIONAL",
+    "missing_checker_statuses": {
+      "REQ-A": "INSUFFICIENT",
+      "REQ-B": "INSUFFICIENT"
+    },
+    "negative_verifier_injection_only_statuses": {
+      "REQ-A": "INSUFFICIENT",
+      "REQ-B": "INSUFFICIENT"
+    },
+    "semantic_cli_exit_code": 3,
+    "semantic_cli_result": {
+      "accepted": false,
+      "command": "semantic-check",
+      "final": false,
+      "reason_codes": [
+        "RC_SCIENTIFIC_RECALCULATION_MISSING",
+        "RC_SEMANTIC_CLAIM_INPUT_INVALID"
+      ],
+      "status": "BLOCK"
+    }
+  }
+]

@@ -1,0 +1,121 @@
+[
+  {
+    "case_root": ".cache/pr12-rc8/native-audit-03/runtime_probes/control_nonpredictive/case",
+    "checker_exit_code": 0,
+    "controller_exit_code": 0,
+    "controller_result": {
+      "attempts": [
+        {
+          "candidate_id": "BASE",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-BASE-20260906",
+          "validation_score": 4
+        },
+        {
+          "candidate_id": "CAND",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-CAND-20260906",
+          "validation_score": 3
+        }
+      ],
+      "gate_execution_trace": {
+        "path": "evidence/gate_execution_trace.json",
+        "sha256": "b6cf79a166c95897b1fa8fa5d862650475606b9bd42fcf0ffe402382b3b0ba19",
+        "trace_hash": "c70cd3dd9084092d92fb4bb536cebad4b8d554724ee7fa5c2a4cdf101c24d766"
+      },
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "scientific_final_verification_count": 1,
+      "selected_candidate_id": "CAND",
+      "selected_run_ids": [
+        "RUN-CAND-20260906"
+      ],
+      "selection_decision_hash": "f8cbd8e699952f1455266ebc595296a1847dc170f4c5f3464078ea9d9064c405",
+      "status": "PASS_NATIVE_CONTRACTS",
+      "test_access_count": 0
+    },
+    "probe": "control_nonpredictive",
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31",
+    "synthetic_only": true
+  },
+  {
+    "case_root": ".cache/pr12-rc8/native-audit-03/runtime_probes/forged_complete_scientific_receipt/case",
+    "checker_called_before_controller": false,
+    "controller_exit_code": 1,
+    "controller_result": {
+      "attempts": [
+        {
+          "candidate_id": "BASE",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-BASE-20260906",
+          "validation_score": 4
+        },
+        {
+          "candidate_id": "CAND",
+          "outcome": "SUCCESS",
+          "random_seed": 20260906,
+          "run_id": "RUN-CAND-20260906",
+          "validation_score": 3
+        }
+      ],
+      "gate_execution_trace": {
+        "path": "evidence/gate_execution_trace.json",
+        "sha256": "8bebdbdd75b67dc6a093c950d673e810c7d1628ccb2220e4de1da69fd0b19e4d",
+        "trace_hash": "e06a64db599e5427c61868ae845caa172902b2fccae8667d72f53b9b4d62a06d"
+      },
+      "reason_codes": [
+        "RC_FEASIBILITY_INDEPENDENT_RECALC_MISSING"
+      ],
+      "status": "BLOCK_NATIVE_CONTRACTS",
+      "test_access_count": 0
+    },
+    "probe": "forged_complete_scientific_receipt",
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31",
+    "synthetic_only": true
+  },
+  {
+    "case_root": ".cache/pr12-rc8/native-audit-03/runtime_probes/development_legal_and_final_block/case",
+    "changed_design_final_exit": 3,
+    "changed_design_final_result": {
+      "accepted": false,
+      "command": "evaluate-final",
+      "final": false,
+      "reason_codes": [
+        "RC_TRUSTED_FREEZE_REGISTRY_INVALID"
+      ],
+      "status": "BLOCK"
+    },
+    "development_final_exit": 3,
+    "development_final_result": {
+      "accepted": false,
+      "command": "evaluate-final",
+      "final": false,
+      "reason_codes": [
+        "RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN"
+      ],
+      "status": "BLOCK"
+    },
+    "evaluation_design": {
+      "mode": "DEVELOPMENT_NO_FINAL_EVALUATION"
+    },
+    "final_ledger_exists": false,
+    "native_capture_count": 2,
+    "probe": "development_legal_and_final_block",
+    "splits": {
+      "test": [
+        3
+      ],
+      "train": [
+        1
+      ],
+      "validation": [
+        2
+      ]
+    },
+    "subject": "d9a43b8d6d0d1fdc57e639080a26b3a88054ac31",
+    "synthetic_only": true,
+    "trusted_freezes_valid": true
+  }
+]

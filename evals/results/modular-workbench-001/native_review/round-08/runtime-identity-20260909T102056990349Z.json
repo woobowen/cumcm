@@ -1,0 +1,70 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-B",
+    ".cache/modular-workbench-001/protocol-review/round-08/runtime_identity.py"
+  ],
+  "started_utc": "2026-09-09T10:20:56.990349+00:00",
+  "ended_utc": "2026-09-09T10:20:58.694180+00:00",
+  "executed_subject_argument": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+  "head_observed": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+  "read_files_before": {
+    "scripts/check_modular_workbench.py": "d919558d71235b8bce606dbfa4d98f8b6403c6e1ce1168c30cd8197d7ae7005f",
+    "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011",
+    "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+    "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+    ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+    "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+    "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62"
+  },
+  "read_files_after": {
+    "scripts/check_modular_workbench.py": "d919558d71235b8bce606dbfa4d98f8b6403c6e1ce1168c30cd8197d7ae7005f",
+    "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011",
+    "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+    "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+    ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+    "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+    "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62"
+  },
+  "results": {
+    "executed_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+    "head_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+    "current_working_runtime_mapping_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+    "executed_map_equals_head_map": true,
+    "executed_map_equals_current_runtime_bytes": true,
+    "runtime_file_count": 346,
+    "candidate_file_count": 826,
+    "actual_import_and_copied_code_paths_included": {
+      "scripts/prepare_workbench_known.py": true,
+      "scripts/prepare_phase004c6_development.py": true,
+      "scripts/finalize_fresh_c_validation.py": true,
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": true,
+      ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": true,
+      ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": true,
+      "evals/results/modular-workbench-001/known_code/produce.py": true,
+      "evals/results/modular-workbench-001/known_code/check.py": true
+    },
+    "qualification_code_excluded_from_runtime": true,
+    "test_files_excluded_from_runtime": true,
+    "qualification_code_in_full_candidate_map": true,
+    "neutral_test_in_full_candidate_map": true
+  },
+  "scope": {
+    "Git_read_only": true,
+    "mapped_public_Git_blobs_hashed_only": true,
+    "known_inputs_or_numeric_results_read": false,
+    "prepare_model_checker_not_imported_or_run": true,
+    "scientific_models": 0,
+    "scientific_checkers": 0,
+    "Final": 0,
+    "network": 0,
+    "Git_mutations": 0,
+    "public_writes": 0,
+    "qualification_acceptance": false,
+    "scope_limit": "Source-code identity only; no claim about external dependency/environment equality or completed known result."
+  }
+}

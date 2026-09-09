@@ -1,0 +1,115 @@
+{
+  "execution_kind": "NATIVE_READ_ONLY_AGENT",
+  "role": "adversarial_evidence_auditor",
+  "normalization": "Only absolute repository prefix replaced by dot; original hashes retained. Raw synthetic cases and exact local command files remain ignored. Frozen source inputs recoverable at recorded Git subjects.",
+  "original_evidence_index_sha256": "10f4def4d3e8cb87ca676af57f352f7989d9777efed2043abf7ebcde2a9053dd",
+  "command_receipts": [
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03-incremental29/01_claim_scope.command.json",
+      "command_original_sha256": "f6d4e6e5c5b3fadf75ea08f8d1ef42dc9c08274ad7efa0f3f69bd08200536b36",
+      "command": {
+        "argv": [
+          ".venv/bin/python",
+          "-B",
+          "scripts/check_claim_scope_repair.py",
+          "--check"
+        ],
+        "cwd": ".",
+        "environment_overrides": {
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "started_at_utc": "2026-09-08T20:21:44.252553+00:00",
+        "duration_seconds": 0.1643001379998168,
+        "exit_code": 0,
+        "stdout_path": "01_claim_scope.stdout",
+        "stdout_sha256": "c2189b67fc133898a96ccf5171879e9186eaaee37a32ad799cbdaf4d106a08dc",
+        "stderr_path": "01_claim_scope.stderr",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03-incremental29/01_claim_scope.stdout",
+        "original_sha256": "c2189b67fc133898a96ccf5171879e9186eaaee37a32ad799cbdaf4d106a08dc",
+        "text": "{\"error_count\": 0, \"errors\": [], \"held_out_unchanged\": true, \"ok\": true, \"old_validation_unchanged\": true}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03-incremental29/01_claim_scope.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03-incremental29/02_2019_validation.command.json",
+      "command_original_sha256": "2cf8710edbfffe8b342ee074539fc6ae45a3f1a33dd7f6921d997fad131aadf3",
+      "command": {
+        "argv": [
+          ".venv/bin/python",
+          "-B",
+          "scripts/check_c_target_2019c_validation.py",
+          "--check",
+          "--require-delivery"
+        ],
+        "cwd": ".",
+        "environment_overrides": {
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "started_at_utc": "2026-09-08T20:21:44.417002+00:00",
+        "duration_seconds": 0.20462576300087676,
+        "exit_code": 0,
+        "stdout_path": "02_2019_validation.stdout",
+        "stdout_sha256": "07d1355b010913c04b08a37071b0e23515cb5611744753de5c9dc5f27f052690",
+        "stderr_path": "02_2019_validation.stderr",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03-incremental29/02_2019_validation.stdout",
+        "original_sha256": "07d1355b010913c04b08a37071b0e23515cb5611744753de5c9dc5f27f052690",
+        "text": "{\"case_id\": \"CUMCM-2019-C-VALIDATION-002\", \"error_count\": 0, \"errors\": [], \"ok\": true, \"pre_run_frozen\": true, \"terminal_frozen\": true, \"workspace_verified\": false}\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03-incremental29/02_2019_validation.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    },
+    {
+      "command_path": ".cache/pr12-rc8/native-audit-03-incremental29/03_new_targeted_tests.command.json",
+      "command_original_sha256": "ca92fd3e1580a1bbb3949c6a3aabf2f993da252ee8d7ed1c66e1ebcfdf60c6cf",
+      "command": {
+        "argv": [
+          ".venv/bin/python",
+          "-B",
+          "-m",
+          "pytest",
+          "-q",
+          "-p",
+          "no:cacheprovider",
+          "--basetemp",
+          "./.cache/pr12-rc8/native-audit-03-incremental29/pytest-temp",
+          "tests/unit/test_phase004c5_release_subjects.py::test_rc5_history_resolves_its_subject_and_rejects_a_changed_original_hash",
+          "tests/unit/test_phase004c5_release_subjects.py::test_2019_terminal_artifacts_are_checked_at_original_subject"
+        ],
+        "cwd": ".",
+        "environment_overrides": {
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "started_at_utc": "2026-09-08T20:21:44.621778+00:00",
+        "duration_seconds": 0.7762521679997008,
+        "exit_code": 0,
+        "stdout_path": "03_new_targeted_tests.stdout",
+        "stdout_sha256": "c178449272bb51b7cf4ea950c6169cee3d94d323b8186f6cd7eca96df22dc4a9",
+        "stderr_path": "03_new_targeted_tests.stderr",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": ".cache/pr12-rc8/native-audit-03-incremental29/03_new_targeted_tests.stdout",
+        "original_sha256": "c178449272bb51b7cf4ea950c6169cee3d94d323b8186f6cd7eca96df22dc4a9",
+        "text": "..                                                                       [100%]\n2 passed in 0.63s\n"
+      },
+      "stderr": {
+        "path": ".cache/pr12-rc8/native-audit-03-incremental29/03_new_targeted_tests.stderr",
+        "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      }
+    }
+  ]
+}

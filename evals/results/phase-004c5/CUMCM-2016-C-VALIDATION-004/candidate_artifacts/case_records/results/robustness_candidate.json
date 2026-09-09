@@ -1,0 +1,35 @@
+{
+  "configuration_hash": "bb728a16596597b636c2ea39600e121c19f9d815f0fad4b727ab2cf44ee06359",
+  "decision_hash": "8c526ff54e35f304db310c8169810a80ac6d9b9b711dfc821198b8bb18a15d0d",
+  "failure_cases": [
+    "No state3 target error can be established without its future termination.",
+    "Transfer shape may change with aging; sensitivity spread is not calibrated uncertainty."
+  ],
+  "input_hash": "f2373d992e959ab75d604c14dbdc33dc73b2467611362f125eab46a5c946af55",
+  "metric": "q3_remaining_min",
+  "metric_direction": "MIN",
+  "output_hash": "8867b63e6c70ea2fa777fc9d5a4cb46b244bf1a0ba872b876a6e90d75ad1fa8a",
+  "perturbations": [
+    {
+      "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+      "metric": "q3_remaining_min",
+      "perturbation_id": "PREFIX_TIME_PLUS_1_MIN",
+      "result": 194.44177724399992
+    },
+    {
+      "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+      "metric": "q3_remaining_min",
+      "perturbation_id": "PREFIX_TIME_MINUS_1_MIN",
+      "result": 192.44177724399992
+    },
+    {
+      "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
+      "metric": "q3_remaining_min",
+      "perturbation_id": "PREFIX_DROP_LAST_10",
+      "result": 191.9917845677527
+    }
+  ],
+  "run_id": "RUN-2016-CUBIC-1729",
+  "selected_model": "CUBIC_LOG_AFFINE",
+  "status": "VALIDATED"
+}

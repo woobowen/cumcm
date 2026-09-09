@@ -1,0 +1,22 @@
+{
+  "schema_version": "readonly-scope-correction-execution-receipt/v1",
+  "command": ".venv/bin/python .cache/gpt-codex-readiness-001/final-auditor/scope_correction_audit.py > .cache/gpt-codex-readiness-001/final-auditor/scope_correction_stdout.txt",
+  "exit_code": 0,
+  "attempts": 1,
+  "old_subject": "6b505c44b1d160372b9c6ca696bce4fa838043b1",
+  "new_subject": "bb29f03fb8eb4edc5513b1b9e8515089feb51b13",
+  "read_only_git": true,
+  "project_programs_executed": false,
+  "test_or_ci_runs": 0,
+  "model_checker_final_starts": 0,
+  "formal_state_writes": 0,
+  "network_accesses": 0,
+  "dependency_installs": [],
+  "artifact_sha256": {
+    "scope_correction_audit.py": "fd54f184d982ac63938891fe894b24c37281e9c722d209e9ce5366332997a520",
+    "scope_correction_stdout.txt": "d170c01e6b9880183852e4dcb5131939bb4426a3676d35db04c320f29836b3d6",
+    "scope_correction.diff": "4a12439ca3518e561113ab7939fd702e08679a77606fc21d059288731652699b",
+    "SCOPE_CORRECTION_REVIEW.md": "26eb0d20d2f4ba1478a5dec59bfeacf075941dc6124b1771261d3e76f224ce49",
+    "SCOPE_CORRECTION_REVIEW.json": "4ef26d4d04d55dc62061d1425df568df1783115f38bfd51298693aac49fe9a09"
+  }
+}

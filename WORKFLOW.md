@@ -321,3 +321,54 @@ route is `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`.
 The post-freeze read-only integrity audit adds HF22 without rewriting that decision: semantic
 support declared held-out validity contrary to the selected Run's development boundary and zero
 authorized test access. The successor route must enforce predicate-to-output cross-binding.
+
+## Phase 004C5 fact-binding and RC8 route
+
+The explicit PR #12 continuation consumes 004C4's legal next phase
+`PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`. Historical 004C4 failure and RC7 release are unchanged.
+`C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS` here uses subphase `RC8-FACT-BINDING-REPAIR`, active RC7
+and candidate RC8. Neutral expectations precede implementation; source class, generated result
+method and Claim support scope must bind authoritative evidence. Development without final
+evaluation may produce an explicitly provisional engineering package, with scientific coverage
+reported separately. It cannot satisfy a predictive Validation or full empirical Claim.
+
+`C_TARGET_RC8_READY_VALIDATION_PENDING` requires a native independent audit, relevant real
+Development checks, full CI and a candidate decision bound to an existing subject. Candidate version
+surfaces are already part of that subject while active state is still RC7. Activation changes only
+live metadata and release evidence; shared implementation and environment must remain identical.
+Remotely verified activation precedes any fresh official input access.
+
+The predeclared 2016/2015 C pair (2014 input/contamination-only fallback) uses a single shared frozen
+subject, sealed answers and fresh contexts. Each case pre-run protocol and remote freeze precedes
+major numerical results. Bounded development/debugging is permitted within that frozen episode;
+final model selection precedes one authorized appropriate final evaluation. Independent terminal
+review precedes immutable decision/freeze. No post-terminal Run or Skill mutation is allowed.
+All outcomes keep `next_phase_allowed=null` in this task; 2025 access is never authorized.
+Engineering, scientific coverage, fresh-case counts and contest compliance remain separate.
+
+## Phase 004C6 bounded repair and known-case Development route
+
+The explicit new PR12 task authorizes 004C6 from the immutable 004C5 terminal with old
+next_phase_allowed=null. The old route and budgets are unchanged. C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS
+uses active RC8 and target RC9; subphase RC9-REPAIR-AND-NEUTRAL-VALIDATION precedes
+RC9-POSTVALIDATION-DEVELOPMENT. Both new Development roots bind their parent terminals, known-case
+status and one frozen shared candidate. They cannot write old Validation roots or add to its denominator.
+Full current CI, neutral/public E2E evidence, scoped Development and native Decision Auditor PASS
+precede C_TARGET_RC9_RESEARCH_READY and activation. Missing requirements retain
+RC9_RELEASE_REPAIR_BLOCKED with active historical RC8. Both outcomes keep next_phase_allowed=null.
+Candidate qualification authorizes research only; TEAM_COMPLIANCE_REVIEW is separate.
+
+## Current modular workbench construction (004C7)
+
+The current explicit BUILD_AND_ACCEPT task opens PHASE-SKILL-MODULAR-WORKBENCH-004C7 after
+004C6's immutable RC9 rejection. Execution is plans/active/PLAN-0004C7-modular-workbench.md;
+the byte-preserved 004C6 plan is in plans/archived/. Evidence is under
+evals/results/modular-workbench-001/ (repository-relative; no old result is overwritten).
+This window builds the shared R7 resolver, fourteen scoped modules, local review/feedback,
+context handoff and actual usability acceptance. It authorizes no new blind Validation.
+Future use defaults to GUIDED_SINGLE_MODULE with GUIDED_LOCAL case policy and no automatic
+remote publication. LAB_EVAL histories and budgets cannot be changed by switching modes.
+Users direct research priorities and lawful next modules; evidence gates still reject failures.
+MODULAR_WORKBENCH_BUILD_IN_PROGRESS may terminate ENGINEERING_ACCEPTED, LIMITED or BLOCKED
+only from actual current evidence and an independent Decision Auditor. Engineering acceptance
+is distinct from contest release, scientific generalization and TEAM_COMPLIANCE_REVIEW.

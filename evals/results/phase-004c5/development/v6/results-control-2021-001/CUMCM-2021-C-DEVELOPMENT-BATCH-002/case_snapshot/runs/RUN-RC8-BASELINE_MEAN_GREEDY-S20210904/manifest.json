@@ -1,0 +1,92 @@
+{
+  "argv": [
+    "models/c2021_v5_control.py",
+    "--case-root",
+    ".",
+    "--candidate-id",
+    "BASELINE_MEAN_GREEDY",
+    "--seed",
+    "20210904",
+    "--output",
+    "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/output.json"
+  ],
+  "capture_record": {
+    "path": "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/execution_capture.json",
+    "sha256": "64e364ae1c414cdbea9ec8becc4fa285b82c0c0395957216d0265b51fc08ce58"
+  },
+  "code_commit": "4515597441da07ef0b654f16be787beea1ee089c",
+  "code_files": [
+    {
+      "path": "scripts/cumcm_case.py",
+      "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "scope": "SKILL_ROOT",
+      "sha256": "741a5d28163599976fe17460183917adc0df3fb94dae836597da3e74b90dff08"
+    },
+    {
+      "path": "models/c2021_v5_control.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_v5_control.py",
+      "scope": "CASE_ROOT",
+      "sha256": "ad76a5c55d9142de0b1f1d2744024bfaa5e7c93f7cd7b5815e544ecc2cb4b70e"
+    },
+    {
+      "path": "models/c2021_v5_control_feasibility.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_v5_control_feasibility.py",
+      "scope": "CASE_ROOT",
+      "sha256": "f64bcb3942e10bbe804ae979e85f4f7d26ce8315eef650e0d9bedb397e606ef6"
+    },
+    {
+      "path": "models/c2021_independent_check.py",
+      "repository_path": "evals/results/phase-004c5/development/v6/2021/code/c2021_independent_check.py",
+      "scope": "CASE_ROOT",
+      "sha256": "469aea41bc2f408bdfeef33e36822d2c68b69c4dce8461fe9a35b4c2f97c8646"
+    }
+  ],
+  "code_tree_hash": "53afc731709774014e961c5b53f8bf2fcf8f788e34bfd4c1fd923925d2ef83b2",
+  "configuration": {
+    "candidate_id": "BASELINE_MEAN_GREEDY",
+    "seed": 20210904
+  },
+  "configuration_hash": "53e83090abaeee5c2b5e0a3a05c78e999864f2daae61c34e74d706307e112e28",
+  "cwd_policy": "CASE_ROOT_RELATIVE",
+  "decision_hash": "fe5cbeec6e4ffcbef771266d0972480b8af43c3127a141f2ff816db393322937",
+  "environment_allowlist": {
+    "PYTHONHASHSEED": "20210904",
+    "TZ": "UTC"
+  },
+  "failure": null,
+  "freeze_bindings": {
+    "baseline": "19ca8888cfdff697ac490938ccda59eb16ba9e8d8b88dc23d6a9b90aa6ff839f",
+    "candidate_set": "917b4fe11628d47cb7eb385f0d6a7e67cde6037084dac74cae477131a065ab29",
+    "code_commit": "4ae1f9fb23f9a4fe11acdbca138baaa7cc109c061098bb70ee59386d370f6f7d",
+    "code_set": "ff890675ae749273f99df17bf837d8e60cd5d0311f418990c0e53a5b2182d49f",
+    "execution_policy": "4e9e6d145dbbd1f8c58be1b57a068f1744c82397084a57b3f9446165848bc55e",
+    "input_set": "654df398e6f89f14576bd03b321cb4398cbc3b0eb41ec943dad60aefd63d56d5",
+    "metric": "9a0e80ea3d0cd361db2c89d5c22ca2003a005dcc4343cf147cddb597876237ed",
+    "seed_schedule": "11710339842d19d7a12d2dad6dc8d615356949ac66641ffcc641c1c7a6bb6add",
+    "split_assignment": "60111745959e7833f48d26b3ccb70f802bbc9040133347227a00cf3fdb9aa982"
+  },
+  "input_files": [
+    {
+      "path": "raw/case_files/附件1 近5年402家供应商的相关数据.xlsx",
+      "sha256": "1b93a7598b8f0489e3c054439967bca654a83654837908c833752617cf950e1b"
+    },
+    {
+      "path": "raw/case_files/附件2 近5年8家转运商的相关数据.xlsx",
+      "sha256": "29e1499b133aa88d765902081bfb827f78ffb4c091f5f75341fc37d844344685"
+    }
+  ],
+  "input_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+  "outcome": "SUCCESS",
+  "output_files": [
+    {
+      "path": "runs/RUN-RC8-BASELINE_MEAN_GREEDY-S20210904/output.json",
+      "sha256": "71ebbbe9cdf2919e6a4658e0144121e041ad972ab220ca3dc792bc7744bdf1a0"
+    }
+  ],
+  "output_hash": "a905c366bb981187aaacfe5c9c68e46bbf9c12559a15f114eb1d917f783427eb",
+  "random_seed": 20210904,
+  "run_id": "RUN-RC8-BASELINE_MEAN_GREEDY-S20210904",
+  "scenario_hash": "b8e3aff8f6f7ac147f7f2dfe35f68576ef63844ddf2eb2e7bf2998b459b77429",
+  "supersession": null,
+  "trusted_capture": true
+}

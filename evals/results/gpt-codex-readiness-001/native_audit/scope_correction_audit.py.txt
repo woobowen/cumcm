@@ -1,0 +1,149 @@
+"""Read-only anchored Git/AST diff audit. Runs only git reads, no repository programs."""
+from pathlib import Path
+import ast
+import copy
+import hashlib
+import json
+import subprocess
+
+B=Path('<REPO_ROOT>')
+O=Path(__file__).parent
+OLD='6b505c44b1d160372b9c6ca696bce4fa838043b1'
+NEW='bb29f03'
+reads=[];git_commands=[]
+def sha(data):return hashlib.sha256(data).hexdigest()
+def git(*args):
+    p=subprocess.run(['git',*args],cwd=B,capture_output=True,check=True)
+    git_commands.append({'argv':['git',*args],'exit_code':p.returncode,'stdout_sha256':sha(p.stdout)})
+    return p.stdout
+NEW=git('rev-parse','--verify',NEW+'^{commit}').decode().strip()
+def blob(ref,path):
+    data=git('show',ref+':'+path)
+    reads.append({'git_commit':ref,'path':path,'bytes':len(data),'sha256':sha(data)})
+    return data
+checks={}
+frozen={n:sha((O/n).read_bytes()) for n in ['REVIEW_SUMMARY.md','RAW_FINDINGS.json','FOLLOWUP_REVIEW.json','EXAMPLE_REVIEW.json']}
+diff=git('diff','--no-ext-diff','--find-renames',OLD,NEW)
+name_status=git('diff','--no-ext-diff','--no-renames','--name-status',OLD,NEW).decode()
+changed=[l.split('\t')[-1] for l in name_status.splitlines()]
+oldtest='tests/unit/test_operator_kit_packages.py'
+newtest='docs/gpt_codex_workflow/tests/test_operator_kit_packages.py'
+expected={'README.md','docs/INDEX.md','OPERATOR_START_HERE.md',oldtest,newtest,
+ 'docs/gpt_codex_workflow/operator_kit_manifest.json','evals/results/gpt-codex-readiness-001/WORK_LOG.md',
+ 'evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.json',
+ 'evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.log'}
+assert set(changed)==expected
+checks['exact_declared_change_set']=True
+for path,target in [('README.md','docs/gpt_codex_workflow/START_HERE.md'),('docs/INDEX.md','gpt_codex_workflow/START_HERE.md')]:
+    before=blob(OLD,path);after=blob(NEW,path)
+    removed=('GPT研究协调＋Codex逐模块操作资料：[从这里开始]('+target+')（独立版本，RC10核心保持）。\n\n').encode()
+    assert before.count(removed)==1 and before.replace(removed,b'',1)==after
+checks['readme_and_index_only_remove_exact_operator_navigation']=True
+before=blob(OLD,oldtest).decode();after=blob(NEW,newtest).decode()
+oldast=ast.parse(before);newast=ast.parse(after)
+oldfunc={n.name:n for n in oldast.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))}
+newfunc={n.name:n for n in newast.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))}
+assert oldfunc.keys()==newfunc.keys()
+for n in oldfunc:
+    if n!='kit':assert ast.dump(oldfunc[n],include_attributes=False)==ast.dump(newfunc[n],include_attributes=False)
+oldfixture=copy.deepcopy(oldfunc['kit']);newfixture=copy.deepcopy(newfunc['kit'])
+assert isinstance(oldfixture.body[0],ast.Assign) and isinstance(newfixture.body[0],ast.Assign)
+assert ast.unparse(oldfixture.body[0].targets[0])==ast.unparse(newfixture.body[0].targets[0])=='path'
+oldpath=ast.unparse(oldfixture.body[0].value);newpath=ast.unparse(newfixture.body[0].value)
+assert oldpath=="Path(__file__).resolve().parents[2] / 'docs/gpt_codex_workflow/tools/package_operator_kit.py'"
+assert newpath=="Path(__file__).resolve().parents[1] / 'tools/package_operator_kit.py'"
+oldfixture.body[0].value=ast.Constant('POSITION_ONLY')
+newfixture.body[0].value=ast.Constant('POSITION_ONLY')
+assert ast.dump(oldfixture,include_attributes=False)==ast.dump(newfixture,include_attributes=False)
+# Check complete module equivalence after normalizing that one relocation expression.
+oldast.body[oldast.body.index(oldfunc['kit'])]=oldfixture
+newast.body[newast.body.index(newfunc['kit'])]=newfixture
+assert ast.dump(oldast,include_attributes=False)==ast.dump(newast,include_attributes=False)
+test_counts={}
+for name,fn in newfunc.items():
+    if not name.startswith('test_'):continue
+    count=1
+    for deco in fn.decorator_list:
+        if isinstance(deco,ast.Call) and ast.unparse(deco.func)=='pytest.mark.parametrize':
+            count*=len(ast.literal_eval(deco.args[1]))
+    test_counts[name]=count
+assert len(test_counts)==5 and sum(test_counts.values())==11
+checks['all_test_and_helper_logic_preserved_except_fixture_path']=True
+checks['five_test_functions_preserve_eleven_parametrized_cases']=True
+
+guard_old=blob(OLD,'scripts/check_modular_workbench.py')
+guard_new=blob(NEW,'scripts/check_modular_workbench.py')
+assert guard_old==guard_new
+guardtree=ast.parse(guard_new)
+constants={}
+def constant(node):
+    if isinstance(node,ast.Constant):return node.value
+    if isinstance(node,ast.Name):return constants[node.id]
+    if isinstance(node,ast.BinOp) and isinstance(node.op,ast.Add):return constant(node.left)+constant(node.right)
+    if isinstance(node,(ast.List,ast.Tuple,ast.Set)):return [constant(x) for x in node.elts]
+    raise ValueError('Nonconstant required boundary')
+needed={'BASE','QUAL','PREFIXES','EXACT','KNOWN_RUNTIME_PREFIXES','KNOWN_RUNTIME_EXACT'}
+for node in guardtree.body:
+    if isinstance(node,ast.Assign) and len(node.targets)==1 and isinstance(node.targets[0],ast.Name):
+        if node.targets[0].id in needed:constants[node.targets[0].id]=constant(node.value)
+assert needed<=set(constants)
+def in_qualification(path):return path in constants['EXACT'] or any(path.startswith(x) for x in constants['PREFIXES'])
+def in_known_runtime(path):return in_qualification(path) and (path in constants['KNOWN_RUNTIME_EXACT'] or any(path.startswith(x) for x in constants['KNOWN_RUNTIME_PREFIXES']))
+scope_rows=[{'path':p,'qualification_mapping_member':in_qualification(p),'known_runtime_mapping_member':in_known_runtime(p)} for p in changed]
+assert in_qualification(oldtest) and not in_qualification(newtest) and not in_qualification('OPERATOR_START_HERE.md')
+assert not in_known_runtime(newtest) and not in_known_runtime('OPERATOR_START_HERE.md')
+assert {r['path'] for r in scope_rows if r['qualification_mapping_member']}=={'README.md','docs/INDEX.md',oldtest}
+assert {r['path'] for r in scope_rows if r['known_runtime_mapping_member']}=={'README.md','docs/INDEX.md'}
+assert not any(p.startswith(constants['QUAL']+'/') for p in changed)
+assert not any(p.startswith(('state/','.agents/skills/','scripts/','rules/','contracts/','src/','evals/results/modular-workbench-001/')) for p in changed)
+checks['guard_whole_file_identical_and_frozen_predicates_unchanged']=True
+checks['new_entry_and_tests_outside_existing_static_mappings']=True
+checks['no_existing_qualification_artifact_or_core_change_in_anchored_diff']=True
+
+manifest_before=json.loads(blob(OLD,'docs/gpt_codex_workflow/operator_kit_manifest.json'))
+manifest_after=json.loads(blob(NEW,'docs/gpt_codex_workflow/operator_kit_manifest.json'))
+assert {k for k in manifest_before if manifest_before[k]!=manifest_after[k]}=={'files','content_sha256','verification_status'}
+assert set(manifest_after['files'])-set(manifest_before['files'])=={'tests/test_operator_kit_packages.py'}
+assert all(manifest_after['files'][k]==v for k,v in manifest_before['files'].items())
+assert manifest_after['files']['tests/test_operator_kit_packages.py']==sha(after.encode())
+canonical=json.dumps(manifest_after['files'],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
+assert manifest_after['content_sha256']==sha(canonical)
+assert manifest_after['verification_status']=='REHEARSAL_AUDIT_VERIFIED_CI1_GUARD_BLOCKED_SCOPE_CORRECTION_PENDING_CI2'
+checks['manifest_only_adds_relocated_test_hash_and_honest_pending_status']=True
+entry=blob(NEW,'OPERATOR_START_HERE.md').decode()
+assert '.venv/bin/python -m pytest -q docs/gpt_codex_workflow/tests' in entry
+assert '不能把它的测试数自动加上本资料测试' in entry and '单独执行' in entry
+checks['entry_explicitly_separates_operator_tests_from_original_ci']=True
+
+logrel='evals/results/gpt-codex-readiness-001/commands/full-ci-attempt1.log'
+ci_log=blob(NEW,logrel)
+ci_receipt=json.loads(blob(NEW,logrel[:-3]+'json'))
+assert ci_receipt['subject']==OLD and ci_receipt['exit_code']==2
+assert ci_receipt['view_sha256']==sha(ci_log)
+assert '2380 passed, 1 skipped' in ci_log.decode()
+terminal=json.loads(ci_log.decode().splitlines()[-1])
+assert terminal['status']=='BLOCK'
+for expected_reason in ['WB_CURRENT_IMPLEMENTATION_DRIFT:README.md','WB_CURRENT_IMPLEMENTATION_DRIFT:docs/INDEX.md','WB_CURRENT_PATH_SET_DRIFT','WB_DECISION_REPLAY_MISMATCH','WB_RECEIPT_INVALID:known_interface:WB_KNOWN_EXECUTED_RUNTIME_DRIFT']:
+    assert expected_reason in terminal['reason_codes']
+worklog=blob(NEW,'evals/results/gpt-codex-readiness-001/WORK_LOG.md').decode()
+assert '失败不能报为完整 CI 通过' in worklog
+checks['first_ci_failure_preserved_log_hash_exit2_and_block']=True
+assert {n:sha((O/n).read_bytes()) for n in frozen}==frozen
+checks['prior_auditor_reports_and_findings_frozen']=True
+result={'schema_version':'bounded-readonly-scope-correction-review/v1',
+ 'old_subject':OLD,'new_subject':NEW,
+ 'conclusion':'DIRECTED_SCOPE_CORRECTION_SUPPORTED_AWAIT_INDEPENDENT_TEST_AND_CI2_EVIDENCE',
+ 'non_authoritative':True,'formal_acceptance':False,'all_checks_passed':all(checks.values()),'checks':checks,
+ 'test_semantics':{'function_count':len(test_counts),'parametrized_case_count':sum(test_counts.values()),'cases':test_counts,'old_fixture_path':oldpath,'new_fixture_path':newpath,'tests_executed_here':False},
+ 'boundary_rows':scope_rows,'guard_sha256':sha(guard_new),
+ 'first_ci':{'receipt':ci_receipt,'verified_log_sha256':sha(ci_log),'pytest_passed':2380,'pytest_skipped':1,'terminal':terminal},
+ 'limits':['Only the anchored 6b505c44..bb29f03 diff was inspected; no independent d1 full qualification/runtime-map equality computation was performed.',
+           'Guard membership was independently classified from unchanged static constants; guard evaluate/mapping functions were not executed.',
+           'Eleven tests were AST-compared and counted, not collected or executed; their relocation does not establish default CI inclusion.',
+           'Historical qualification artifacts were unchanged across these two commits, which does not alone prove equality to every earlier baseline.',
+           'CI2 and later status/metadata commits are outside this fixed diff audit.'],
+ 'execution':{'only_self_authored_standard_library_and_read_only_git':True,'repository_programs_executed':False,'case_cli_executed':False,'model_checker_final_starts':0,'ci_runs':0,'formal_state_writes':0,'network_accesses':0,'dependency_installs':[]},
+ 'git_read_commands':git_commands,'read_inventory':reads,'frozen_prior_artifact_sha256':frozen}
+with (O/'SCOPE_CORRECTION_REVIEW.json').open('x') as s:json.dump(result,s,ensure_ascii=False,indent=2);s.write('\n')
+with (O/'scope_correction.diff').open('xb') as s:s.write(diff)
+print(json.dumps({k:result[k] for k in ('old_subject','new_subject','conclusion','all_checks_passed','checks','test_semantics','guard_sha256')},ensure_ascii=False,indent=2))

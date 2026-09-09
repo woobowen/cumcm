@@ -1,0 +1,12 @@
+{
+  "argv": [
+    ".venv/bin/python",
+    "-c",
+    "import json,hashlib,pathlib,jsonschema,ast\np=pathlib.Path('.cache/pr12-rc8/fresh/2016/native_terminal_audit')\na=json.loads((p/'audit.json').read_text());s=json.loads(pathlib.Path('contracts/subagent_audit.schema.json').read_text())\njsonschema.Draft202012Validator(s,format_checker=jsonschema.FormatChecker()).validate(a)\nout=a.pop('output_hash');assert hashlib.sha256(json.dumps(a,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()==out\nfor n in ['audit_helpers.py','independent_recalc.py','finalize_audit.py']:ast.parse((p/n).read_text())\nprint(json.dumps({'audit_schema':'PASS','canonical_output_hash':'PASS','audit_script_syntax':'PASS','fixed_hashes_unchanged':json.loads((p/'final_hash_check.json').read_text())['mismatches']==[],'verdict':a['verdict'],'output_hash':out}))\n"
+  ],
+  "started_at": "2026-09-08T21:44:14.393042+00:00",
+  "ended_at": "2026-09-08T21:44:14.499224+00:00",
+  "exit_code": 0,
+  "stdout": "{\"audit_schema\": \"PASS\", \"canonical_output_hash\": \"PASS\", \"audit_script_syntax\": \"PASS\", \"fixed_hashes_unchanged\": true, \"verdict\": \"PASS\", \"output_hash\": \"1b625422971a1301fc0ee42594711fec8a30c27b50c00cd98ab25c89b0ed4c77\"}\n",
+  "stderr": ""
+}

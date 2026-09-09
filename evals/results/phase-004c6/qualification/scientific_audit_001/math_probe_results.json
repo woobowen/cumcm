@@ -1,0 +1,164 @@
+{
+  "subject": "7ed9dd18c35bed79cc9dd4e96926fef9b35b7e81",
+  "source_sha256": "c685698cc633b75b43e07d555f3da41c50cf9092128d34280665f5d04c12aee4",
+  "method": "Execute only listed function definitions extracted by AST from frozen Git source; filesystem/registry helpers operate only on reviewer-owned synthetic cache data. No runtime integration or model/checker main execution.",
+  "extracted_functions": [
+    "conditional_prediction_evaluation",
+    "metric_output_binding_codes",
+    "recompute_metric",
+    "strict_score",
+    "validate_conditional_prediction",
+    "validate_metric_definition",
+    "validate_science_design",
+    "validate_temporal_design"
+  ],
+  "probes": {
+    "remaining_elapsed": {
+      "remaining": {
+        "value": 10.0,
+        "included_count": 1,
+        "excluded_sample_ids": []
+      },
+      "elapsed": {
+        "value": 1.0,
+        "included_count": 1,
+        "excluded_sample_ids": []
+      }
+    },
+    "zero_denominator": {
+      "reject": {
+        "error": "RC_METRIC_ZERO_DENOMINATOR"
+      },
+      "exclude": {
+        "value": 10.0,
+        "included_count": 1,
+        "excluded_sample_ids": [
+          "ZERO"
+        ]
+      },
+      "exclude_all": {
+        "error": "RC_METRIC_AGGREGATION_INVALID"
+      },
+      "near_zero": {
+        "value": 99999900.0,
+        "included_count": 1,
+        "excluded_sample_ids": []
+      }
+    },
+    "root_mean_units": {
+      "absolute_error_validation_codes": [],
+      "absolute_error_result": {
+        "value": 2.0,
+        "included_count": 1,
+        "excluded_sample_ids": []
+      },
+      "rmse_result": {
+        "value": 4.0,
+        "included_count": 1,
+        "excluded_sample_ids": []
+      },
+      "independent_expected_mae_minutes": 4,
+      "dimensional_comment": "sqrt(mean(abs(error))) has units sqrt(min), not declared min; error 4 min is emitted as 2 min."
+    },
+    "unbound_sample_ids": {
+      "binding_codes": [],
+      "metric": 7.291666666666666,
+      "original_metric": 7.291666666666666,
+      "checker_endpoint_residual": 0,
+      "checker_aggregate_abs_diff": 0.0
+    },
+    "unbound_origins_preserve_aggregate": {
+      "binding_codes": [],
+      "metric": 7.291666666666666,
+      "original_metric": 7.291666666666666,
+      "checker_endpoint_residual": 0,
+      "checker_aggregate_abs_diff": 0.0,
+      "tampered_rows": [
+        {
+          "sample_id": "V4",
+          "target": "neutral_remaining_time",
+          "unit": "min",
+          "origin": 0,
+          "predicted_end_time": 21,
+          "observed_end_time": 20
+        },
+        {
+          "sample_id": "V8",
+          "target": "neutral_remaining_time",
+          "unit": "min",
+          "origin": 9.565217391304348,
+          "predicted_end_time": 21,
+          "observed_end_time": 20
+        }
+      ],
+      "exact_original_percent_mean": "175/24",
+      "exact_altered_percent_mean": "175/24"
+    },
+    "sample_unit_not_enforced": {
+      "declared_entity_but_aggregated_rows": {
+        "value": 43.333333333333336,
+        "included_count": 3,
+        "excluded_sample_ids": []
+      },
+      "row_weighted_percent": 43.333333333333336,
+      "equal_entity_weighted_percent": 57.5
+    },
+    "selection_clock_unrepresented": {
+      "temporal_codes": [],
+      "validation_target_available_at": 20,
+      "forecast_origin": 12,
+      "conclusion": "The validator accepts this chronology. Selection using that validation target cannot have occurred at forecast origin 12; selection lineage is not represented among the checked usages. This is a local-validator result, not execution of candidate selection."
+    },
+    "future_label_rejected": {
+      "codes": [
+        "RC_TEMPORAL_FUTURE_INFORMATION:feature_observation_ids"
+      ]
+    },
+    "new_entity_overlap_rejected": {
+      "codes": [
+        "RC_TEMPORAL_NEW_ENTITY_GROUP_OVERLAP"
+      ]
+    },
+    "conditional_baseline": {
+      "codes": []
+    },
+    "empirical_requirement_rejected": {
+      "codes": [
+        "RC_PREDICTIVE_EMPIRICAL_ACCURACY_UNVERIFIED"
+      ]
+    },
+    "sensitivity_label_without_interval": {
+      "codes": [],
+      "comment": "Only confirms allowed labeling; no perturbation set, interval bounds, or sensitivity recomputation was supplied."
+    },
+    "fixture_robustness_plus_one": {
+      "actual_remaining_mape_change_for_endpoint_plus_one": 7.291666666666667,
+      "fixture_reported_metric_increment": 1,
+      "unit": "percentage points",
+      "conclusion": "Adding 1 minute to the endpoint produces 7.291666666666667 percentage points over these origins, not the fixture's metric + 1."
+    },
+    "independent_exact_affine_endpoints": {
+      "results": [
+        {
+          "origin": 4,
+          "slope": "-1/10",
+          "endpoint": "20",
+          "remaining": "16"
+        },
+        {
+          "origin": 8,
+          "slope": "-1/10",
+          "endpoint": "20",
+          "remaining": "12"
+        },
+        {
+          "origin": 12,
+          "slope": "-1/10",
+          "endpoint": "20",
+          "remaining": "8"
+        }
+      ],
+      "scope": "Algebraic consistency for noiseless affine synthetic trajectories only; no empirical or regime-change claim."
+    }
+  }
+}

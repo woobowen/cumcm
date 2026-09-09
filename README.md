@@ -1,8 +1,10 @@
 # CUMCM Modeling Evidence Lab
 
-研发当前暂停。团队与接手者先读 [`HANDOVER.md`](HANDOVER.md)；独立 Codex 启动提示词见
-[`CODEX_TAKEOVER.md`](CODEX_TAKEOVER.md)，环境、运行手册和后续任务见
-[`docs/handover/`](docs/handover/)。交接就绪不表示 RC8 已实施或 fresh C Validation 已通过。
+PR #12 当前建设十四模块工作台；执行真源是 `state/project_state.json` 及其 active plan。
+新用户与新大脑先读 [START_HERE](docs/modular_workbench/START_HERE.md)，再按
+[模块目录](docs/modular_workbench/MODULES.md) 指定单个模块；
+[本轮证据](evals/results/modular-workbench-001/checkpoint.md) 分开记录工程结果与科学边界。
+`HANDOVER.md`、`CODEX_TAKEOVER.md` 和以下版本叙述保留为历史背景；不授予当前代码旧版本资格。
 
 Evidence-first repository for one executable CUMCM modeling Skill, covering problem intake,
 requirements, sources, data audit, model portfolio/baseline, experiment execution and comparison,
@@ -15,8 +17,7 @@ The active phase froze the same RC3 across three structurally different C Develo
 postponed every Skill change and reference access until all three runs were independently frozen,
 and admitted one unified cross-case revision after the bounded postmortem.
 
-Current repository version: `0.3.0-competition-rc7`. The sole formal Skill code and active release
-are `cumcm-modeling-evidence` `0.2.0-competition-rc7` with capability `COMPETITION_RC`. RC7 closes
+Historical competition release version: `0.3.0-competition-rc7`. The historical active release is `cumcm-modeling-evidence` `0.2.0-competition-rc7` with capability `COMPETITION_RC`. RC7 closes
 the actual-controller blockers that kept RC6 unreleased while preserving both blocked histories.
 New K1 and W1
 revisions both pass the unchanged eight public hard Gates (117 symmetric cases each); the frozen
