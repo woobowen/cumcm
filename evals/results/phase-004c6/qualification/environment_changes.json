@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-09-09T03:25:05.002601+00:00",
+  "local_installations": {
+    "system_packages": [],
+    "language_packages": [],
+    "toolchains": []
+  },
+  "global_configuration_changes": [],
+  "project_dependency_declarations": {
+    "path": "pyproject.toml",
+    "added_to_dev": [
+      "numpy==2.4.6",
+      "scipy==1.17.1"
+    ],
+    "reason": "Run the actual case-specific polynomial reference test in the same existing bootstrap used by remote CI; these versions were already present locally.",
+    "remote_installation_status": "PENDING_NEXT_CI_BOOTSTRAP"
+  },
+  "existing_local_scientific_versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "openpyxl": "3.1.5"
+  }
+}

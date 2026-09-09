@@ -243,6 +243,8 @@ def validate_receipts(snapshot, protocol, root=ROOT):
                         or terminal.get("status") != case.get("terminal_status")
                         or execution.get("case_id") != case["case_id"]
                         or execution.get("subject_commit") != subject
+                        or case["terminal"]["path"]
+                        != f"evals/results/phase-004c6/{case['case_id']}/terminal/decision.json"
                     ):
                         errors.append("RC9_DEVELOPMENT_RESULT_BINDING_INVALID")
                     if (

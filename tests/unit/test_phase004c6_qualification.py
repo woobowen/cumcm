@@ -149,18 +149,20 @@ def development_fixture(q, root, case_id, status="SCOPED_DEVELOPMENT_COMPLETE"):
         {"limits": budget, "events": [{"kind": k} for k, n in starts.items() for _ in range(n)]},
     )
     questions = [{"requirement_id": "REQ-A", "scope": "conditional"}]
-    terminal = binding(
-        q,
-        root,
-        case_id + "-terminal.json",
-        {
-            "case_id": case_id,
-            "subject_commit": "a" * 40,
-            "status": status,
-            "question_results": questions,
-            "actual_starts": starts,
-        },
-    )
+    terminal_body = {
+        "case_id": case_id,
+        "subject_commit": "a" * 40,
+        "status": status,
+        "question_results": questions,
+        "actual_starts": starts,
+    }
+    terminal_path = folder / "terminal/decision.json"
+    terminal_path.parent.mkdir()
+    terminal_path.write_text(json.dumps(terminal_body))
+    terminal = {
+        "path": terminal_path.relative_to(root).as_posix(),
+        "sha256": q.digest(terminal_path.read_bytes()),
+    }
     execution = binding(
         q,
         root,
