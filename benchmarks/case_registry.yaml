@@ -1354,3 +1354,34 @@ cases:
     final_evaluator_calls: 0
     predictive_test_accesses: 0
     accepted_handoff: false
+- case_id: CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1
+  set_type: DEVELOPMENT
+  problem_source: .cache/pr12-rc8/fresh/2016/official/c_files/CUMCM2016-Problem-C-Chinese-version.docx
+  problem_hash: 19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440
+  data_hashes:
+    data/raw/appendix.xlsx: 062583d35b471838d3f72353c898ab87e2a2407c9ad5579291aec91a7124e0bf
+    data/raw/problem.docx: 19cd536e12e78a4270d621f977cea37859efaf7af77526ae680bec7b6993d440
+  answer_access_status: SEALED
+  first_run_status: FROZEN
+  skill_version: 0.2.0-competition-rc10
+  skill_commit: 6646ffb98602ae6f94c332bb97ba45ede09bf6e2
+  model: CURRENT_MAIN_AGENT
+  reasoning: CURRENT_SESSION_NOT_INFERRED
+  start_time: '2026-09-09T10:02:01Z'
+  freeze_time: '2026-09-09T10:06:01.568488+00:00'
+  unlock_time: null
+  generalizable_failures: []
+  problem_specific_findings: []
+  evidence_role: MODULE_USABILITY_DEVELOPMENT
+  independent_problem: false
+  contamination_status: KNOWN_PROBLEM_AND_PRIOR_RESULTS
+  parent_case_id: CUMCM-2016-C-VALIDATION-004
+  parent_terminal_sha256: e82fc399ca2206ef088eeaee896f9b132864d544af70566efb698e41b5ec4d5a
+  case_root: .cache/modular-workbench-001/known/2016-q3-r1
+  registration:
+    path: evals/results/modular-workbench-001/CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1/registration/case_registration.json
+    sha256: a17d685db42986c414bced28799732ac0cccbd5778adfc315ced99e7a9a22d14
+  terminal_decision:
+    path: evals/results/modular-workbench-001/CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1/terminal.json
+    sha256: 429d134f3022337629d897f9f3cd349229e755b6c18ce6c210863cb28bb88955
+  terminal_decision_id: DECISION-CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R1

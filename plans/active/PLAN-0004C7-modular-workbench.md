@@ -137,3 +137,23 @@ actual PRIMARY roles, specific feedback branches and replayed independent arithm
 25 focused adjudication tests pass; the actual missing-primary public M12 negative also passes.
 The previous successful mixed export is preserved under development_exports/acceptance-001;
 final unified-subject original/known execution and full CI remain outstanding. No release PASS.
+
+## Checkpoint B5/B6 correction, 2026-09-09T10:10Z
+
+The three original families at unpublished6646ffb each actually completed14 modules; independent
+arithmetic agreed. Known Q3 R1 reached READY_FOR_PAPER_HANDOFF via the default scenario, two
+models, three checker starts and one consumed scientific Final. Its terminal is frozen; it is
+known Development only, Q1/Q2 excluded and future endpoint UNKNOWN. No Validation changes.
+
+Pre-delivery strict privacy scanning found a private absolute input path in the optional worker
+numerical record. Preserve the original hash and place a redacted view separately. Correct only
+the main agent's unpublished6646ffb commit (replacementeec8b5f), retaining its exact object in
+an unpushed private local ref. Verified the remote is still the original604c7fac anchor; no
+remote history was rewritten. Preserve all observed6646ffb command/Run identities as development
+records under acceptance-002 and knownR1; they are not the final unified qualification subject.
+Use the authorized second known revision at the final clean subject; do not refund R1 Final.
+
+Native review also closes module request/report/completion/state-binding gaps, including typed
+revision checks.32 focused adjudication tests and current strict repository validation pass.
+No candidate or overall acceptance yet. Final evidence uses the corrected common subject and
+will include fresh directed tests/full CI. Public artifact editing is still main-only.

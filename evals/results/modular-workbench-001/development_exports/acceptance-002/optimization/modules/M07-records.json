@@ -1,0 +1,125 @@
+{
+  "derivation": "EXACT_UTF8_JSON_NO_REDACTION",
+  "records": {
+    "completion": {
+      "content": {
+        "artifact_hashes": {
+          "models/independent_check.py": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0",
+          "models/runtime_model.py": "b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "work/M07.json": "c9cca48c1a3ebddee973c29b05d7e4747eed9f796250cf320e8531d4245c4fd4"
+        },
+        "case_id": "ORIGINAL-WATER-OPTIMIZATION",
+        "completed_at": "2026-09-09T10:00:18Z",
+        "engineering": "CONTRACTS_CHECKED",
+        "execution": "COMPLETED",
+        "human_review": "NOT_RUN",
+        "module": "M07",
+        "native_state": "MODELS_PROPOSED",
+        "next_module_started": false,
+        "report_path": "work/M07.json",
+        "request_id": "WATER-M07",
+        "request_sha256": "402f64b9f234d0bfe6874164f31123c0b4c7a4c55a5eb824fe2d57db035639a8",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "schema_version": "module-completion/v1",
+        "scientific": "分析/设计，待数值验证"
+      },
+      "raw_sha256": "f3bc23faf301933df63a865c691e8873c88094ed8bfd63117ac39bf2908b9a8a",
+      "raw_utf8": "{\n  \"artifact_hashes\": {\n    \"models/independent_check.py\": \"54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0\",\n    \"models/runtime_model.py\": \"b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"work/M07.json\": \"c9cca48c1a3ebddee973c29b05d7e4747eed9f796250cf320e8531d4245c4fd4\"\n  },\n  \"case_id\": \"ORIGINAL-WATER-OPTIMIZATION\",\n  \"completed_at\": \"2026-09-09T10:00:18Z\",\n  \"engineering\": \"CONTRACTS_CHECKED\",\n  \"execution\": \"COMPLETED\",\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M07\",\n  \"native_state\": \"MODELS_PROPOSED\",\n  \"next_module_started\": false,\n  \"report_path\": \"work/M07.json\",\n  \"request_id\": \"WATER-M07\",\n  \"request_sha256\": \"402f64b9f234d0bfe6874164f31123c0b4c7a4c55a5eb824fe2d57db035639a8\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\"\n  ],\n  \"schema_version\": \"module-completion/v1\",\n  \"scientific\": \"分析/设计，待数值验证\"\n}\n"
+    },
+    "request": {
+      "content": {
+        "case_id": "ORIGINAL-WATER-OPTIMIZATION",
+        "execution_mode": "GUIDED_SINGLE_MODULE",
+        "implementation": {
+          "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+          "tool_commit": "6646ffb98602ae6f94c332bb97ba45ede09bf6e2"
+        },
+        "mode": "GUIDED_LOCAL",
+        "module": "M07",
+        "prepared_at": "2026-09-09T10:00:18Z",
+        "prerequisite_files": {
+          "data/data_audit.json": "ee1f6a354c4feffa3cd94e1da3429eb1dac0e6731b153a813c311aeb824af20b",
+          "data/data_sufficiency.json": "e7a519a60f8b0c8415da53b4b1be68c62b8504c3a9b81edc3c3ff06c853814da",
+          "data/raw/input.json": "f9e38d75fbe5010bdf5779bfe1c8f75af7880073f38688a4476ee3ccd3a39485",
+          "evidence/intake_registry.json": "d2f468012a470bd9a43c152cbce19e65f8c1da3f3744c1539302552d486ef33c",
+          "evidence/module_requests/WATER-M01/completion.json": "476a3b72b3641024b905f6a8fde038542c65436d9a141a19eb839bd071acc1b4",
+          "evidence/module_requests/WATER-M01/request.json": "f8eb985c85805b69f97461d47d0839f72b23998fa85102e5c0891a7ae95e0dff",
+          "evidence/module_requests/WATER-M02/completion.json": "7f41b9947153c67bdb8a5db4a775a473c69e436a252b097b9a8c65157be4640a",
+          "evidence/module_requests/WATER-M02/request.json": "b1d592110473a807fbb54098bb92247700aec4c8922bd770889ca2d5fdb116f7",
+          "evidence/module_requests/WATER-M03/completion.json": "6c09b5530f1a646a24935a7484b2ed6b1719cdd946dc1e2d1f6bb07d09e4a64a",
+          "evidence/module_requests/WATER-M03/request.json": "691029f4cf4f37cc4889afcf10ecc4afa5ce1cd74a3a00f8708534ee5b8b841c",
+          "evidence/module_requests/WATER-M04/completion.json": "7a716f9f72bafab71a9fb8bdf0515fb7fdbe7b6ef269d1af1f5ee23dbaa4458c",
+          "evidence/module_requests/WATER-M04/request.json": "417c4ec725b5bdb37281b3b1cbcfb976ab3ae8aabf9de2a9e416caa773c0f755",
+          "evidence/module_requests/WATER-M05/completion.json": "ffd0c0c829fecc88ad8d140898727c0f96576cb506d6e3bc2b3acd36ebc2dbdf",
+          "evidence/module_requests/WATER-M05/request.json": "0484f0d22fda8337834935147ab3268b0948236e9038cce7cdab352ca6ffa715",
+          "evidence/module_requests/WATER-M06/completion.json": "e7a36eeb425ceb807a2091b7b5e74310c6ff748d205e40b7a6c94a39cd68ebe0",
+          "evidence/module_requests/WATER-M06/request.json": "9596770a8bb22397f374e929b9cdd17ae45c5a647332e910597e0164eb668d33",
+          "models/assumptions_and_symbols.json": "e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3",
+          "models/model_candidates.json": "76c284f3102fda5a8baa81df8bc07c18aca09d4125ca086417b317cade77b122",
+          "problem/original.md": "46da00b467455d570e9016d278e814c6237334e7e5b1fa0c691bd98db5e786d2",
+          "problem/problem_requirements.json": "685053189fffeb40de2d74c0b9e9babb462d7a3b5118168718405c5e83c24924",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+          "research/source_ledger.json": "4158c7339f6db44f1bd2d3c43113c813afc8c7763f1796a3d4ef15d0b271c719",
+          "state/case_policy.json": "43a7cbd1403e1e5802c810b830f4e274e88863703e59935cbcb27afb1274d0e9",
+          "work/M01.json": "129de9c031625508b073263f5f8d04892245d5bff5a21d4cee9ea8ad168d46e1",
+          "work/M02.json": "6c2c1c29a0b4aa9c21b019227bf95ce14cbbeb1b8919a713de5bdd6cbed62836",
+          "work/M03.json": "07c9cee785481be032c960f653c3f00863c4696dc74df9ec2dd75765ce145acc",
+          "work/M04.json": "cb3b033179f127ab97fc7437a0a724e517b9a27c17a5abaab02afecc3bc51249",
+          "work/M05.json": "3aba8d8eb452a580a0fae896265cf0e498198d8a050f602a12a82db1a0b88bd3",
+          "work/M06.json": "c8786fe29fa7e964b4efa248cc78178b37be8994669c0277ef9bfd01dab4d2b0"
+        },
+        "request_id": "WATER-M07",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "revision": 1,
+        "schema_version": "module-request/v1"
+      },
+      "raw_sha256": "61d12f05ddce0c388c4eed4cd6e18149aea3cddfb99daa521ed75bca833ca30b",
+      "raw_utf8": "{\n  \"case_id\": \"ORIGINAL-WATER-OPTIMIZATION\",\n  \"execution_mode\": \"GUIDED_SINGLE_MODULE\",\n  \"implementation\": {\n    \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n    \"tool_commit\": \"6646ffb98602ae6f94c332bb97ba45ede09bf6e2\"\n  },\n  \"mode\": \"GUIDED_LOCAL\",\n  \"module\": \"M07\",\n  \"prepared_at\": \"2026-09-09T10:00:18Z\",\n  \"prerequisite_files\": {\n    \"data/data_audit.json\": \"ee1f6a354c4feffa3cd94e1da3429eb1dac0e6731b153a813c311aeb824af20b\",\n    \"data/data_sufficiency.json\": \"e7a519a60f8b0c8415da53b4b1be68c62b8504c3a9b81edc3c3ff06c853814da\",\n    \"data/raw/input.json\": \"f9e38d75fbe5010bdf5779bfe1c8f75af7880073f38688a4476ee3ccd3a39485\",\n    \"evidence/intake_registry.json\": \"d2f468012a470bd9a43c152cbce19e65f8c1da3f3744c1539302552d486ef33c\",\n    \"evidence/module_requests/WATER-M01/completion.json\": \"476a3b72b3641024b905f6a8fde038542c65436d9a141a19eb839bd071acc1b4\",\n    \"evidence/module_requests/WATER-M01/request.json\": \"f8eb985c85805b69f97461d47d0839f72b23998fa85102e5c0891a7ae95e0dff\",\n    \"evidence/module_requests/WATER-M02/completion.json\": \"7f41b9947153c67bdb8a5db4a775a473c69e436a252b097b9a8c65157be4640a\",\n    \"evidence/module_requests/WATER-M02/request.json\": \"b1d592110473a807fbb54098bb92247700aec4c8922bd770889ca2d5fdb116f7\",\n    \"evidence/module_requests/WATER-M03/completion.json\": \"6c09b5530f1a646a24935a7484b2ed6b1719cdd946dc1e2d1f6bb07d09e4a64a\",\n    \"evidence/module_requests/WATER-M03/request.json\": \"691029f4cf4f37cc4889afcf10ecc4afa5ce1cd74a3a00f8708534ee5b8b841c\",\n    \"evidence/module_requests/WATER-M04/completion.json\": \"7a716f9f72bafab71a9fb8bdf0515fb7fdbe7b6ef269d1af1f5ee23dbaa4458c\",\n    \"evidence/module_requests/WATER-M04/request.json\": \"417c4ec725b5bdb37281b3b1cbcfb976ab3ae8aabf9de2a9e416caa773c0f755\",\n    \"evidence/module_requests/WATER-M05/completion.json\": \"ffd0c0c829fecc88ad8d140898727c0f96576cb506d6e3bc2b3acd36ebc2dbdf\",\n    \"evidence/module_requests/WATER-M05/request.json\": \"0484f0d22fda8337834935147ab3268b0948236e9038cce7cdab352ca6ffa715\",\n    \"evidence/module_requests/WATER-M06/completion.json\": \"e7a36eeb425ceb807a2091b7b5e74310c6ff748d205e40b7a6c94a39cd68ebe0\",\n    \"evidence/module_requests/WATER-M06/request.json\": \"9596770a8bb22397f374e929b9cdd17ae45c5a647332e910597e0164eb668d33\",\n    \"models/assumptions_and_symbols.json\": \"e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3\",\n    \"models/model_candidates.json\": \"76c284f3102fda5a8baa81df8bc07c18aca09d4125ca086417b317cade77b122\",\n    \"problem/original.md\": \"46da00b467455d570e9016d278e814c6237334e7e5b1fa0c691bd98db5e786d2\",\n    \"problem/problem_requirements.json\": \"685053189fffeb40de2d74c0b9e9babb462d7a3b5118168718405c5e83c24924\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\n    \"research/source_ledger.json\": \"4158c7339f6db44f1bd2d3c43113c813afc8c7763f1796a3d4ef15d0b271c719\",\n    \"state/case_policy.json\": \"43a7cbd1403e1e5802c810b830f4e274e88863703e59935cbcb27afb1274d0e9\",\n    \"work/M01.json\": \"129de9c031625508b073263f5f8d04892245d5bff5a21d4cee9ea8ad168d46e1\",\n    \"work/M02.json\": \"6c2c1c29a0b4aa9c21b019227bf95ce14cbbeb1b8919a713de5bdd6cbed62836\",\n    \"work/M03.json\": \"07c9cee785481be032c960f653c3f00863c4696dc74df9ec2dd75765ce145acc\",\n    \"work/M04.json\": \"cb3b033179f127ab97fc7437a0a724e517b9a27c17a5abaab02afecc3bc51249\",\n    \"work/M05.json\": \"3aba8d8eb452a580a0fae896265cf0e498198d8a050f602a12a82db1a0b88bd3\",\n    \"work/M06.json\": \"c8786fe29fa7e964b4efa248cc78178b37be8994669c0277ef9bfd01dab4d2b0\"\n  },\n  \"request_id\": \"WATER-M07\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\"\n  ],\n  \"revision\": 1,\n  \"schema_version\": \"module-request/v1\"\n}\n"
+    },
+    "work_report": {
+      "content": {
+        "actions": [
+          "主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。"
+        ],
+        "artifacts": [
+          "research/analysis.md",
+          "models/runtime_model.py",
+          "models/independent_check.py"
+        ],
+        "case_id": "ORIGINAL-WATER-OPTIMIZATION",
+        "checks": [
+          "当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。"
+        ],
+        "human_review": "NOT_RUN",
+        "module": "M07",
+        "negative_results": [
+          "合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。"
+        ],
+        "original_requirements": [
+          "条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。"
+        ],
+        "request_id": "WATER-M07",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "review_questions": [
+          "本模块数据、公式、边界和独立核验是否与原问一致？"
+        ],
+        "revision": 1,
+        "scientific_scope": "分析/设计，待数值验证",
+        "summary_cn": "M07原创optimization备水案例；动作和科学边界见所附分析及当前真实产物。"
+      },
+      "raw_sha256": "c9cca48c1a3ebddee973c29b05d7e4747eed9f796250cf320e8531d4245c4fd4",
+      "raw_utf8": "{\n  \"actions\": [\n    \"主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。\"\n  ],\n  \"artifacts\": [\n    \"research/analysis.md\",\n    \"models/runtime_model.py\",\n    \"models/independent_check.py\"\n  ],\n  \"case_id\": \"ORIGINAL-WATER-OPTIMIZATION\",\n  \"checks\": [\n    \"当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。\"\n  ],\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M07\",\n  \"negative_results\": [\n    \"合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。\"\n  ],\n  \"original_requirements\": [\n    \"条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。\"\n  ],\n  \"request_id\": \"WATER-M07\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\"\n  ],\n  \"review_questions\": [\n    \"本模块数据、公式、边界和独立核验是否与原问一致？\"\n  ],\n  \"revision\": 1,\n  \"scientific_scope\": \"分析/设计，待数值验证\",\n  \"summary_cn\": \"M07原创optimization备水案例；动作和科学边界见所附分析及当前真实产物。\"\n}\n"
+    }
+  }
+}

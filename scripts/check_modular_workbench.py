@@ -249,6 +249,14 @@ def timestamp(value):
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
+@lru_cache(maxsize=1)
+def module_identity():
+    shared_core()
+    import cumcm_workbench
+
+    return cumcm_workbench.identity()["implementation_sha256"]
+
+
 def check_numeric_records(checked, requirements, output):
     core = shared_core()
     if set(checked.get("requirements", {})) != {r["requirement_id"] for r in requirements}:
@@ -478,6 +486,54 @@ def validate_matrix(matrix):
     if matrix.get("new_independent_validation") != 0 or matrix.get("human_review") != "NOT_RUN":
         errors.append("WB_ACCEPTANCE_SCOPE_ESCALATION")
     return errors
+
+
+def validate_module_evidence(root, row, family_records):
+    records = exact_records(root, row["record_packet"])
+    request, done, report = [
+        records[k]["content"] for k in ("request", "completion", "work_report")
+    ]
+    state = family_records["case_state"]["content"]
+    receipt = strict_json(bound(root, row["receipt"]))
+    scope_keys = ("case_id", "module", "request_id", "requirement_scope")
+    request_path = "evidence/module_requests/" + request["request_id"]
+    if (
+        canonical(receipt) != canonical(done)
+        or done.get("schema_version") != "module-completion/v1"
+        or request.get("schema_version") != "module-request/v1"
+        or any(
+            canonical(done.get(k)) != canonical(request.get(k))
+            or canonical(report.get(k)) != canonical(request.get(k))
+            for k in scope_keys
+        )
+        or request.get("case_id") != state.get("case_id")
+        or done.get("request_sha256") != canonical(request)
+        or type(report.get("revision")) is not int
+        or report.get("revision") != request.get("revision")
+        or type(request.get("revision")) is not int
+        or request["revision"] < 1
+        or done["artifact_hashes"].get(done["report_path"]) != records["work_report"]["raw_sha256"]
+        or any(
+            state["evidence_bindings"].get(request_path + "/" + key + ".json")
+            != records[key]["raw_sha256"]
+            for key in ("request", "completion")
+        )
+        or any(
+            canonical(done.get(k)) != canonical(row.get(k))
+            for k in (
+                "module",
+                "execution",
+                "engineering",
+                "scientific",
+                "human_review",
+                "next_module_started",
+            )
+        )
+        or timestamp(done["completed_at"]) < timestamp(request["prepared_at"])
+        or request["implementation"]["implementation_sha256"] != module_identity()
+    ):
+        return ["WB_MODULE_FORMAL_BINDING_INVALID"]
+    return []
 
 
 def passed_nodes(data):
@@ -814,20 +870,10 @@ def evaluate(stage="workspace", root=ROOT):
         matrix = strict_json(bound(root, snapshot["acceptance_matrix"]))
         errors.extend(validate_matrix(matrix))
         errors.extend(validate_coverage_logs(root, matrix, snapshot))
+        mixed = next(f for f in matrix["families"] if f["kind"] == "mixed")
+        family_records = exact_records(root, mixed["record_packet"])
         for row in matrix.get("modules", []):
-            actual = strict_json(bound(root, row["receipt"]))
-            if any(
-                actual.get(k) != row.get(k)
-                for k in [
-                    "module",
-                    "execution",
-                    "engineering",
-                    "scientific",
-                    "human_review",
-                    "next_module_started",
-                ]
-            ):
-                errors.append("WB_MODULE_RECEIPT_MISMATCH")
+            errors.extend(validate_module_evidence(root, row, family_records))
         for family in matrix.get("families", []):
             errors.extend(validate_family_evidence(root, family))
             for evidence in family.get("evidence", []):

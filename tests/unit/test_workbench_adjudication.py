@@ -266,3 +266,80 @@ def test_actual_development_family_remains_replayable(adjudicator, repo_root):
         },
     }
     assert adjudicator.validate_family_evidence(repo_root, family) == []
+
+
+@pytest.mark.parametrize(
+    "fault", ["none", "case", "request", "report", "binding", "implementation"]
+)
+def test_module_receipts_bind_actual_request_report_and_formal_case(
+    adjudicator, repo_root, tmp_path, fault
+):
+    import copy
+
+    base = adjudicator.BASE + "/development_exports/acceptance-001/mixed"
+    packet = json.loads((repo_root / base / "modules/M04-records.json").read_text())
+    family = json.loads((repo_root / base / "records.json").read_text())["records"]
+    done = packet["records"]["completion"]["content"]
+    if fault in {"case", "request"}:
+        key = "case_id" if fault == "case" else "request_id"
+        done[key] = "DIFFERENT"
+    elif fault == "report":
+        packet["records"]["work_report"]["content"]["case_id"] = "DIFFERENT"
+    elif fault == "binding":
+        del family["case_state"]["content"]["evidence_bindings"][
+            "evidence/module_requests/WATER-M04/completion.json"
+        ]
+    elif fault == "implementation":
+        packet["records"]["request"]["content"]["implementation"]["implementation_sha256"] = (
+            "0" * 64
+        )
+    if fault != "none":
+        for value in packet["records"].values():
+            value["raw_utf8"] = json.dumps(value["content"])
+            value["raw_sha256"] = adjudicator.digest(value["raw_utf8"].encode())
+    destination = tmp_path / adjudicator.BASE
+    destination.mkdir(parents=True)
+    row = copy.deepcopy(done)
+    for name, value in [("receipt", done), ("record_packet", packet)]:
+        path = destination / (name + ".json")
+        path.write_text(json.dumps(value))
+        row[name] = {
+            "path": path.relative_to(tmp_path).as_posix(),
+            "sha256": adjudicator.digest(path.read_bytes()),
+        }
+    errors = adjudicator.validate_module_evidence(tmp_path, row, family)
+    assert bool(errors) is (fault != "none")
+
+
+def test_report_boolean_revision_rejects_after_all_hashes_are_rebound(
+    adjudicator, repo_root, tmp_path
+):
+    base = repo_root / adjudicator.BASE / "development_exports/acceptance-001/mixed"
+    packet = json.loads((base / "modules/M04-records.json").read_text())
+    family = json.loads((base / "records.json").read_text())["records"]
+    records = packet["records"]
+    records["work_report"]["content"]["revision"] = True
+    for key in ["work_report", "completion"]:
+        value = records[key]
+        value["raw_utf8"] = json.dumps(value["content"])
+        value["raw_sha256"] = adjudicator.digest(value["raw_utf8"].encode())
+        if key == "work_report":
+            records["completion"]["content"]["artifact_hashes"]["work/M04.json"] = value[
+                "raw_sha256"
+            ]
+    family["case_state"]["content"]["evidence_bindings"][
+        "evidence/module_requests/WATER-M04/completion.json"
+    ] = records["completion"]["raw_sha256"]
+    root = tmp_path / adjudicator.BASE
+    root.mkdir(parents=True)
+    row = dict(records["completion"]["content"])
+    for key, value in [("record_packet", packet), ("receipt", records["completion"]["content"])]:
+        p = root / (key + ".json")
+        p.write_text(json.dumps(value))
+        row[key] = {
+            "path": p.relative_to(tmp_path).as_posix(),
+            "sha256": adjudicator.digest(p.read_bytes()),
+        }
+    assert adjudicator.validate_module_evidence(tmp_path, row, family) == [
+        "WB_MODULE_FORMAL_BINDING_INVALID"
+    ]
