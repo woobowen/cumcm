@@ -1,7 +1,5 @@
 # CUMCM Modeling Evidence Lab
 
-GPT研究协调＋Codex逐模块操作资料：[从这里开始](docs/gpt_codex_workflow/START_HERE.md)（独立版本，RC10核心保持）。
-
 PR #12 当前建设十四模块工作台；执行真源是 `state/project_state.json` 及其 active plan。
 新用户与新大脑先读 [START_HERE](docs/modular_workbench/START_HERE.md)，再按
 [模块目录](docs/modular_workbench/MODULES.md) 指定单个模块；

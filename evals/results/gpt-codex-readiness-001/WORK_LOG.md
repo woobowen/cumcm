@@ -33,3 +33,7 @@ Checkpoint：数值 subject 637d102 已完成新例 M07–M14；模型 2、显�
 第二原生只读审核独立 13 组核验通过，冻结一条非阻断 finding：原预审包未附 4 次内置重放 receipt。已向新的修订包补入既有凭据，删除会误导为 M14 当前反馈的本地 M09 示例；原包和 finding 保持，补证独立复核中。主编排器仅发布脱敏视图，原始运行/会话材料留本地。
 
 补证复核完成：另一原生只读审核 10 项通过，F001 为 CLOSED_BY_ADDED_EXISTING_OFFLINE_EVIDENCE。原 findings/report hash 未变，没有新模型/checker/Final 启动。冻结当前内容作为一次完整 CI 的待验 subject。
+
+完整 CI 第一次（subject 6b505c44b1d160372b9c6ca696bce4fa838043b1）实际 pytest 2380 passed / 1 skipped，随后 check_modular_workbench 拒绝，整体 exit 2。根因是历史资格集合比运行 identity 更广：还冻结 README、docs/INDEX、tests/ 与 scripts/ 等路径集合。本轮仅预先核了运行 identity 与 1989 项旧文件，未识别新增 tests 路径和两处导航的额外资格约束；失败不能报为完整 CI 通过。原日志/receipt 改存 full-ci-attempt1，未丢失。
+
+有界修正：仅撤回主代理本轮新增的 README/INDEX 两条导航，逐字节恢复起点；新增测试原逻辑移到独立 operator kit 的 tests 子目录，显式独立执行，保留全部 11 个正负例；新增不在冻结集合内的 OPERATOR_START_HERE.md 作为明确入口。未改 hash 函数、覆盖范围、旧测试/期望、历史资格/决定/receipt 或核心。资料测试与原完整 CI 此后分开计数。先核新 subject 的两个完整 map 都等于旧资格，再进行必要的第二次完整 CI；不重跑原创模型/Final。

@@ -10,10 +10,7 @@ import pytest
 
 @pytest.fixture
 def kit():
-    path = (
-        Path(__file__).resolve().parents[2]
-        / "docs/gpt_codex_workflow/tools/package_operator_kit.py"
-    )
+    path = Path(__file__).resolve().parents[1] / "tools/package_operator_kit.py"
     spec = importlib.util.spec_from_file_location("operator_packages", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
