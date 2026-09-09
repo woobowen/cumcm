@@ -6,6 +6,7 @@
 
 | 对象 | 可审查记录 | 范围 |
 |---|---|---|
+| 本轮最终交付资料 | [最终报告](FINAL_REPORT.md)、[网页回执](WEB_RECEIPT.md)、[交付恢复](DELIVERY_AND_RECOVERY.md)、[实际远端回执](delivery/evidence_delivery.json) | 工程范围、明确限制与后续单模块使用 |
 | 完整任务与授权 | [根任务书](../../../CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md)、[Plan](../../../plans/active/PLAN-0004C7-modular-workbench.md) | BUILD_AND_ACCEPT仅本轮；未来逐模块 |
 | R7复现与修复 | [baseline](baseline/)、[B1定向回执](b1_directed_receipt.json)、[最新定向日志](commands/final-directed-003.log) | 原始失败保留，缺省/等价显式路径与拒绝边界 |
 | 真实公共CLI逐调用 | [预测54次](original/prediction/cli_commands.jsonl)、[优化54次](original/optimization/cli_commands.jsonl)、[混合54次](original/mixed/cli_commands.jsonl) | 精确保留驱动当时记录的PYTHON/WORKBENCH/CASE_ROOT别名及实际时间、退出码、结果hash |
@@ -21,7 +22,7 @@
 | 新worker M04接手 | [报告](context_handoff/REVIEW.md)、[原生工作记录](context_handoff/tool_record.json)、[正式完成链](context_handoff/records.json) | 原生受限上下文、真实数学分析，M04停止；非OS隔离或严格盲审 |
 | 原生协议审查 | [审查目录](native_review/) | 逐轮反例与闭合；不以多数票决定技术PASS |
 | 冻结工程资格 | [候选](qualification/candidate_snapshot.json)、[机器决定](qualification/decision.json)、[Decision Auditor](qualification/decision_audit.json)、[原生报告](qualification/decision_auditor/REVIEW.md) | 精确subject与2806项独立审查；仅MODULAR_WORKBENCH_ENGINEERING_ONLY |
-| 接受后复验 | [active重放](commands/active-adjudication-001.log)、[状态相关测试](commands/post-acceptance-tests-001.log)、[提交前strict时序拒绝](commands/strict-post-acceptance-001.log) | 激活RC10后的实际检查，未重新消费科学预算 |
+| 接受后复验 | [active重放](commands/active-adjudication-001.log)、[状态相关测试](commands/post-acceptance-tests-001.log)、[提交后strict通过](commands/strict-post-acceptance-002.log) | 激活RC10后的实际检查，未重新消费科学预算 |
 | 完整CI | [命令与日志目录](commands/) | 只认本轮full-ci记录，不用历史2240/1替代 |
 | 环境 | [实际环境输出](commands/environment-final-001.log) | 既有WSL/Linux与.venv；Windows原生NOT_RUN |
 | 历史保护与隐私修正 | [未发布subject说明](unpublished_subject_notice.json)、[开发证据](development_exports/) | 旧RC8/RC9及Validation/Development终局不改；开发记录不混入最终资格 |

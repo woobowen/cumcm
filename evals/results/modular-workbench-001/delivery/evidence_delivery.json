@@ -1,0 +1,137 @@
+{
+  "branch": "feat/phase004c5-p0-01-finalization-hf22-repro",
+  "evidence_commit": "4352efe054d0097d39572bb8d4b06247a015b049",
+  "hosted_ci": "PENDING_SEPARATE_OBSERVATION",
+  "implementation_subject": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+  "pr": {
+    "headRefName": "feat/phase004c5-p0-01-finalization-hf22-repro",
+    "headRefOid": "4352efe054d0097d39572bb8d4b06247a015b049",
+    "isDraft": true,
+    "number": 12,
+    "state": "OPEN",
+    "url": "https://github.com/woobowen/cumcm/pull/12"
+  },
+  "previous_remote_sha": "604c7facda586cecb6785c44949f0cd1217cd297",
+  "remote": "origin",
+  "remote_sha": "4352efe054d0097d39572bb8d4b06247a015b049",
+  "repository": "woobowen/cumcm",
+  "schema_version": "modular-workbench-remote-delivery/v1",
+  "scope": "EVIDENCE_AND_ENGINEERING_ACCEPTANCE_COMMIT",
+  "status": "REMOTE_DELIVERED",
+  "steps": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "ended_at": "2026-09-09T11:31:18.444709+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:18.435459+00:00",
+      "stderr": "",
+      "stdout": "4352efe054d0097d39572bb8d4b06247a015b049\n"
+    },
+    {
+      "argv": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "ended_at": "2026-09-09T11:31:18.446539+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:18.444734+00:00",
+      "stderr": "",
+      "stdout": "feat/phase004c5-p0-01-finalization-hf22-repro\n"
+    },
+    {
+      "argv": [
+        "git",
+        "remote",
+        "get-url",
+        "origin"
+      ],
+      "ended_at": "2026-09-09T11:31:18.448275+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:18.446557+00:00",
+      "stderr": "",
+      "stdout": "REMOTE_URL_FROM_rules/workflow_rules.yaml\n",
+      "stdout_derivation": "EXACT_CONFIGURED_REMOTE_URL_REPLACED_WITH_RULE_REFERENCE",
+      "stdout_raw_sha256": "f3919b3a561e9932a5f8da602ebe4bca687555b14a7ce790e279754ac1815eff"
+    },
+    {
+      "argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/feat/phase004c5-p0-01-finalization-hf22-repro"
+      ],
+      "ended_at": "2026-09-09T11:31:20.079070+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:18.448293+00:00",
+      "stderr": "",
+      "stdout": "604c7facda586cecb6785c44949f0cd1217cd297\trefs/heads/feat/phase004c5-p0-01-finalization-hf22-repro\n"
+    },
+    {
+      "argv": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "604c7facda586cecb6785c44949f0cd1217cd297",
+        "4352efe054d0097d39572bb8d4b06247a015b049"
+      ],
+      "ended_at": "2026-09-09T11:31:20.091201+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:20.079110+00:00",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "git",
+        "push",
+        "origin",
+        "HEAD:refs/heads/feat/phase004c5-p0-01-finalization-hf22-repro"
+      ],
+      "ended_at": "2026-09-09T11:31:27.810017+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:20.091469+00:00",
+      "stderr": "To REMOTE_URL_FROM_rules/workflow_rules.yaml\n   604c7fa..4352efe  HEAD -> feat/phase004c5-p0-01-finalization-hf22-repro\n",
+      "stderr_derivation": "EXACT_CONFIGURED_REMOTE_URL_REPLACED_WITH_RULE_REFERENCE",
+      "stderr_raw_sha256": "d0067db27fb71a8d5ed63653cfbb2d5057a26d0960a5e3c28533e8bf05489f4a",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/feat/phase004c5-p0-01-finalization-hf22-repro"
+      ],
+      "ended_at": "2026-09-09T11:31:29.201042+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:27.810049+00:00",
+      "stderr": "",
+      "stdout": "4352efe054d0097d39572bb8d4b06247a015b049\trefs/heads/feat/phase004c5-p0-01-finalization-hf22-repro\n"
+    },
+    {
+      "argv": [
+        "gh",
+        "pr",
+        "view",
+        "12",
+        "--repo",
+        "woobowen/cumcm",
+        "--json",
+        "number,state,isDraft,headRefName,headRefOid,url"
+      ],
+      "ended_at": "2026-09-09T11:31:30.735086+00:00",
+      "exit_code": 0,
+      "started_at": "2026-09-09T11:31:29.201087+00:00",
+      "stderr": "",
+      "stdout": "{\"headRefName\":\"feat/phase004c5-p0-01-finalization-hf22-repro\",\"headRefOid\":\"4352efe054d0097d39572bb8d4b06247a015b049\",\"isDraft\":true,\"number\":12,\"state\":\"OPEN\",\"url\":\"https://github.com/woobowen/cumcm/pull/12\"}\n"
+    }
+  ],
+  "transport_record_raw_sha256": "a74374fb53fcef7aa08b48f6972a02f1b4ea8246fdb545fc784306cd79ff34de",
+  "transport_record_view": "Configured remote URL text appears only in rules; actual output raw hashes are preserved separately.",
+  "verified_at": "2026-09-09T11:31:30.735143Z"
+}

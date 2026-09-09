@@ -1,7 +1,7 @@
 # PLAN-0004C7 — modular modeling workbench
 
 Owner: main modeling orchestrator; sole public code/state/Git writer.
-Phase: PHASE-SKILL-MODULAR-WORKBENCH-004C7. Status: ENGINEERING_ACCEPTED_PENDING_DELIVERY.
+Phase: PHASE-SKILL-MODULAR-WORKBENCH-004C7. Status: ENGINEERING_ACCEPTED_REMOTE_DELIVERED.
 Authorization: CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md and current user Goal.
 Start: 2026-09-09T07:47:12Z; safety deadline: 2026-09-09T17:47:12Z.
 Reserve final 45 minutes for truthful closure. No minimum duration. No inherited budget.
@@ -219,3 +219,9 @@ is still pending. These ancillary checker/test changes do not alter the known sc
 Frozen subject `d1f8532d498307e3b4755c088ce6a0fadfb432bb` passed 361 directed tests and final offline CI 2369 passed / 1 existing skip / 0 failed. The nine typed receipts, 14-module matrix and three actual 54-command numerical families replay to machine PASS. The subsequent native Decision Auditor passed the same frozen decision; its actual report, command receipts, independent checks and source hashes are in qualification/decision_auditor/. Main alone activated RC10 for modular-workbench engineering, with no new Validation or human acceptance. Historical RC8/RC9 and known R1/R2 budgets remain sealed. Only acceptance records, generated status and delivery documentation follow; implementation mapping remains c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca. Remote push/SHA/CI verification is still pending.
 
 Acceptance post-check: active replay equals the frozen PASS byte-for-byte; 87 state/adjudication/target-policy tests pass. The pre-commit strict check rejected only PROJECT_STATE_SELF_REFERENCE because content_verified_commit=d1f8532 still equals HEAD before the acceptance commit. Preserve that failed receipt; create the acceptance commit, rerun strict with d1f8532 now a prior content commit, and push only after success. This is a record-order correction; implementation/evidence identities are unchanged.
+
+## 2026-09-09T11:31:30.735143Z — B7 evidence remotely delivered
+
+Acceptance/evidence commit `4352efe054d0097d39572bb8d4b06247a015b049` was ordinarily pushed to the designated task branch and independently matched by git ls-remote; PR12 is OPEN/DRAFT at that SHA. Post-commit strict passed with 0 errors / 0 warnings and 87 post-acceptance state tests passed. The first strict rejection was the pre-commit prior-content constraint, resolved by the acceptance commit without implementation changes. Public FINAL_REPORT, DELIVERY_AND_RECOVERY and the 1634-Han-character WEB_RECEIPT link this delivered evidence commit. Their closing documentation commit is delivered separately; the final exact HEAD and hosted PR merge-checkout CI observation are reported in PR checks and the final conversation, avoiding a recursive self-referencing commit. No source mapping or scientific evidence changes follow acceptance; no further module is authorized.
+
+Delivery-record validation corrected two metadata issues before closing commit: the observed remote URL must be represented by a reference to rules/workflow_rules.yaml (raw transport output hashes are retained separately), and delivery_receipt_for_commit must match content_verified_commit. Both now bind the actually verified evidence commit 4352efe; its prior-commit condition becomes true at the following documentation commit. Keep strict-delivery-docs-001 as the failed observation and verify strict again after that commit before pushing it. No runtime or candidate mutation.
