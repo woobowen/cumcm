@@ -132,6 +132,16 @@ def main():
             "claim_text": f"Bounded result for {req_id}.",
             "evidence_artifact_ids": [str(a.output)],
         }
+    first_rows = samples["metric_a"]
+    if definitions["metric_a"]["formula"] == "ABSOLUTE_RELATIVE_ERROR":
+        perturbation_score = sum(
+            abs(r["predicted_end_time"] + 1 - r["observed_end_time"])
+            / (r["observed_end_time"] - r["origin"])
+            * 100
+            for r in first_rows
+        ) / len(first_rows)
+    else:
+        perturbation_score = q + 1
     output = {
         "candidate_id": a.candidate_id,
         "status": "SUCCESS",
@@ -155,7 +165,7 @@ def main():
                 {
                     "perturbation_id": "FORECAST_END_PLUS_ONE_OR_DEMAND_PLUS_ONE",
                     "metric": "metric_a",
-                    "result": values["metric_a"] + 1,
+                    "result": perturbation_score,
                     "evidence": "DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS",
                 }
             ],

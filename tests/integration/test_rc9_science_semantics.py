@@ -43,8 +43,8 @@ def temporal_data(kind, *, scale=1, reverse=False, entity_prefix="E"):
                 {
                     "observation_id": f"{entity}-{t}",
                     "entity_id": entity_prefix + entity,
-                    "observed_at": t * scale,
-                    "available_at": t * scale,
+                    "observed_at": (t + (100 if entity == "B" else 0)) * scale,
+                    "available_at": (t + (100 if entity == "B" else 0)) * scale,
                     "value": 12 - t / 10,
                 }
             )
@@ -68,8 +68,9 @@ def temporal_data(kind, *, scale=1, reverse=False, entity_prefix="E"):
             {
                 "sample_id": f"{entity}-origin-{origin}",
                 "entity_id": entity_prefix + entity,
-                "origin": origin * scale,
-                "target_time": 20 * scale,
+                "origin": (origin + (100 if entity == "B" else 0)) * scale,
+                "target_time": None if split == "FORECAST" else 20 * scale,
+                "target_event": "voltage first reaches 10 V",
                 "split": split,
                 "target_observation_id": "A-end" if split == "VALIDATION" else None,
                 "feature_observation_ids": ids,
@@ -328,3 +329,64 @@ def test_same_entity_origin_scale_order_and_identity_metamorphisms(
     )
     p, result = complete(repo_root, case)
     assert p.returncode == 0, (result, p.stderr)
+
+
+def test_selection_cannot_use_labels_unavailable_at_forecast_origin(repo_root, tmp_path):
+    def mutate(data, plan, reqs, semantic):
+        next(r for r in data["observations"] if r["observation_id"] == "A-end")["available_at"] = (
+            200
+        )
+
+    with pytest.raises(ValueError, match="RC_TEMPORAL_SELECTION_LABEL_NOT_AVAILABLE"):
+        build(repo_root, tmp_path, mutation=mutate)
+    assert not list((tmp_path / "case").glob("runs/*/execution_capture.json"))
+
+
+def test_root_mean_of_absolute_error_is_dimensionally_rejected(repo_root):
+    core = module(repo_root)._module(
+        repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "rc9_root_metric",
+    )
+    definition = metric()
+    definition.update(
+        formula="ABSOLUTE_ERROR", denominator="ONE", unit="min", aggregation="ROOT_MEAN"
+    )
+    assert core.validate_metric_definition(definition) == {"RC_METRIC_AGGREGATION_UNIT_MISMATCH"}
+    definition["formula"] = "SQUARED_ERROR"
+    assert not core.validate_metric_definition(definition)
+
+
+@pytest.mark.parametrize("mutation", ["sample_id", "origin", "truth", "omit_sample"])
+def test_time_metric_rows_cross_bind_actual_history_not_only_aggregate(
+    repo_root, tmp_path, mutation
+):
+    _, core, case = build(repo_root, tmp_path)
+    output = core.load_json(case / "runs/RUN-CAND-20260906/output.json")
+    requirement = core.read_artifact(case, "problem_requirements")["content"]["requirements"][0]
+    rows = output["metric_samples"]["metric_a"]
+    if mutation == "sample_id":
+        rows[0]["sample_id"] = "UNREGISTERED"
+    elif mutation == "origin":
+        rows[0]["origin"] = 0
+    elif mutation == "truth":
+        rows[0]["observed_end_time"] += 1
+    else:
+        rows.pop()
+    checked = {
+        "metric_definitions": output["metric_definitions"],
+        "metric_samples": output["metric_samples"],
+        "temporal_lineage": output["temporal_lineage"],
+    }
+    claim = {"metric_ids": ["metric_a"]}
+    assert core.metric_output_binding_codes(claim, requirement, output, checked, case)
+
+
+def test_unknown_target_accuracy_requirement_is_not_satisfied_by_computation(repo_root, tmp_path):
+    def mutate(data, plan, reqs, semantic):
+        reqs[0]["prediction_spec"]["empirical_accuracy_required"] = True
+
+    _, core, case = build(repo_root, tmp_path, mutation=mutate)
+    p, result = complete(repo_root, case)
+    assert p.returncode != 0
+    assert "RC_PREDICTIVE_EMPIRICAL_ACCURACY_UNVERIFIED" in result["reason_codes"]
+    assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()

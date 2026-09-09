@@ -1523,7 +1523,7 @@ def validate_metric_definition(value: Any) -> set[str]:
         or value["formula"]
         not in {"ABSOLUTE_RELATIVE_ERROR", "ABSOLUTE_ERROR", "SQUARED_ERROR", "VALUE"}
         or value["direction"] not in {"MIN", "MAX"}
-        or value["aggregation"] not in {"MEAN", "ROOT_MEAN", "SUM", "SINGLE"}
+        or value["aggregation"] not in {"MEAN", "ROOT_MEAN", "SUM", "SINGLE", "MAX"}
         or value["prediction_origin"] not in {"PER_SAMPLE", "NOT_APPLICABLE"}
         or value["zero_denominator_policy"] not in {"REJECT", "EXCLUDE_WITH_COUNT"}
         or value["weights"] != "UNIFORM"
@@ -1548,6 +1548,8 @@ def validate_metric_definition(value: Any) -> set[str]:
         return {"RC_METRIC_ORIGIN_MISSING"}
     if value["formula"] in {"ABSOLUTE_ERROR", "VALUE"} and value["unit"] != value["target_unit"]:
         return {"RC_METRIC_UNIT_MISMATCH"}
+    if value["aggregation"] == "ROOT_MEAN" and value["formula"] != "SQUARED_ERROR":
+        return {"RC_METRIC_AGGREGATION_UNIT_MISMATCH"}
     if value["formula"] == "SQUARED_ERROR" and (
         value["aggregation"] != "ROOT_MEAN" or value["unit"] != value["target_unit"]
     ):
@@ -1570,6 +1572,8 @@ def recompute_metric(definition: dict[str, Any], samples: Any) -> dict[str, Any]
         ):
             raise ValueError("RC_METRIC_SAMPLE_ID_INVALID")
         seen.add(sample["sample_id"])
+        if sample.get("weight", 1) != 1 or isinstance(sample.get("weight"), bool):
+            raise ValueError("RC_METRIC_UNREGISTERED_WEIGHT")
         if (
             sample.get("target") != definition["target"]
             or sample.get("unit") != definition["target_unit"]
@@ -1615,7 +1619,7 @@ def recompute_metric(definition: dict[str, Any], samples: Any) -> dict[str, Any]
         values.append(value)
     if not values or (definition["aggregation"] == "SINGLE" and len(values) != 1):
         raise ValueError("RC_METRIC_AGGREGATION_INVALID")
-    result = sum(values)
+    result = max(values) if definition["aggregation"] == "MAX" else sum(values)
     if definition["aggregation"] in {"MEAN", "ROOT_MEAN"}:
         result /= len(values)
     if definition["aggregation"] == "ROOT_MEAN":
@@ -1663,14 +1667,17 @@ def validate_temporal_design(case_root: Path, plan: dict[str, Any]) -> set[str]:
         fit_entities, target_entities = set(), set()
         for sample in samples:
             origin = sample["origin"]
-            if (
-                not strict_score(origin)
-                or not strict_score(sample["target_time"])
-                or sample["target_time"] <= origin
-            ):
+            if not strict_score(origin) or sample["split"] not in {"VALIDATION", "FORECAST"}:
                 raise ValueError("RC_TEMPORAL_ORIGIN_INVALID")
-            if sample["split"] not in {"VALIDATION", "FORECAST"}:
-                raise ValueError("RC_TEMPORAL_SPLIT_INVALID")
+            target_time = sample.get("target_time")
+            unknown_event = (
+                sample["split"] == "FORECAST"
+                and target_time is None
+                and isinstance(sample.get("target_event"), str)
+                and bool(sample["target_event"])
+            )
+            if not unknown_event and (not strict_score(target_time) or target_time <= origin):
+                raise ValueError("RC_TEMPORAL_ORIGIN_INVALID")
             target_entities.add(sample["entity_id"])
             for usage in (
                 "feature_observation_ids",
@@ -1707,6 +1714,13 @@ def validate_temporal_design(case_root: Path, plan: dict[str, Any]) -> set[str]:
                     raise ValueError("RC_CONDITIONAL_FUTURE_TRUTH_NOT_UNKNOWN")
         if not has_validation or not has_forecast:
             raise ValueError("RC_TEMPORAL_HISTORY_OR_FORECAST_MISSING")
+        selection_cutoff = min(s["origin"] for s in samples if s["split"] == "FORECAST")
+        if any(
+            index[s["target_observation_id"]]["available_at"] > selection_cutoff
+            for s in samples
+            if s["split"] == "VALIDATION"
+        ):
+            raise ValueError("RC_TEMPORAL_SELECTION_LABEL_NOT_AVAILABLE")
         if design["task"] == "NEW_ENTITY_GENERALIZATION" and fit_entities & target_entities:
             raise ValueError("RC_TEMPORAL_NEW_ENTITY_GROUP_OVERLAP")
         return set()
@@ -1785,7 +1799,26 @@ def validate_conditional_prediction(
             != file_hash(case_root / ARTIFACT_PATHS["assumptions_and_symbols"])
         ):
             raise ValueError("RC_CONDITIONAL_PREDICTION_BINDING_INVALID")
-        expected = [s for s in plan["temporal_design"]["samples"] if s["split"] == "FORECAST"]
+        axis = spec.get("prediction_axis", "TIME_CONTINUATION")
+        if axis == "TIME_CONTINUATION":
+            expected = [s for s in plan["temporal_design"]["samples"] if s["split"] == "FORECAST"]
+            expected_ids = [
+                s["sample_id"]
+                for s in plan["temporal_design"]["samples"]
+                if s["split"] == "VALIDATION"
+            ]
+        elif axis == "CONDITION_INTERPOLATION":
+            condition_design = plan["condition_design"][claim["requirement_id"]]
+            if condition_design.get("schema_version") != "condition-query/v1" or evidence.get(
+                "condition_design_sha256"
+            ) != canonical_hash(condition_design):
+                raise ValueError("RC_CONDITIONAL_QUERY_DESIGN_INVALID")
+            expected = condition_design["queries"]
+            expected_ids = condition_design["historical_sample_ids"]
+            if not expected or not expected_ids:
+                raise ValueError("RC_CONDITIONAL_QUERY_DESIGN_INVALID")
+        else:
+            raise ValueError("RC_CONDITIONAL_PREDICTION_AXIS_INVALID")
         predictions = evidence["predictions"]
         if len(predictions) != len(expected):
             raise ValueError("RC_CONDITIONAL_PREDICTION_COVERAGE_INVALID")
@@ -1796,10 +1829,22 @@ def validate_conditional_prediction(
                 or not strict_score(p.get("value"))
             ):
                 raise ValueError("RC_CONDITIONAL_PREDICTION_TARGET_INVALID")
+            if axis == "CONDITION_INTERPOLATION" and (
+                not target.get("conditions") or p.get("conditions") != target["conditions"]
+            ):
+                raise ValueError("RC_CONDITIONAL_QUERY_CONDITIONS_MISMATCH")
+        for metric, definition in requirement.get("metric_contracts", {}).items():
+            if (
+                definition.get("formula") == "VALUE"
+                and definition.get("target") == spec["target_field"]
+            ):
+                rows = output["metric_samples"][metric]
+                if len(rows) != len(predictions) or any(
+                    r.get("sample_id") != p["sample_id"] or r.get("value") != p["value"]
+                    for r, p in zip(rows, predictions, strict=True)
+                ):
+                    raise ValueError("RC_PREDICTION_VALUE_METRIC_MISMATCH")
         history = evidence["historical_validation"]
-        expected_ids = [
-            s["sample_id"] for s in plan["temporal_design"]["samples"] if s["split"] == "VALIDATION"
-        ]
         if (
             history.get("sample_ids") != expected_ids
             or not history.get("metric_ids")
@@ -1813,6 +1858,23 @@ def validate_conditional_prediction(
             or uncertainty.get("calibrated") is not False
         ):
             raise ValueError("RC_PREDICTION_INTERVAL_UNCALIBRATED")
+        if uncertainty["kind"] == "MODEL_SENSITIVITY":
+            variants = uncertainty.get("variant_values")
+            if (
+                not isinstance(variants, list)
+                or len(variants) < 2
+                or not all(strict_score(v) for v in variants)
+                or uncertainty.get("lower_min") != min(variants)
+                or uncertainty.get("upper_min") != max(variants)
+            ):
+                raise ValueError("RC_MODEL_SENSITIVITY_VALUES_MISSING")
+        for run_id in claim.get("selected_run_ids", []):
+            checked = verify_scientific_check(case_root, run_id=run_id)
+            if (
+                checked["requirements"][claim["requirement_id"]].get("prediction_evidence")
+                != evidence
+            ):
+                raise ValueError("RC_CONDITIONAL_INDEPENDENT_PREDICTION_MISMATCH")
         if claim.get("claim_strength") != "BOUNDED" or not claim.get("limitations"):
             raise ValueError("RC_CONDITIONAL_PREDICTION_SCOPE_INVALID")
     except (OSError, KeyError, TypeError, ValueError) as exc:
@@ -1823,7 +1885,11 @@ def validate_conditional_prediction(
 
 
 def metric_output_binding_codes(
-    claim: dict[str, Any], requirement: dict[str, Any], output: dict[str, Any], checked: Any
+    claim: dict[str, Any],
+    requirement: dict[str, Any],
+    output: dict[str, Any],
+    checked: Any,
+    case_root: Path | None = None,
 ) -> set[str]:
     contracts = requirement.get("metric_contracts")
     if contracts is None:
@@ -1842,13 +1908,48 @@ def metric_output_binding_codes(
             samples = output["metric_samples"][metric]
             if checked["metric_samples"][metric] != samples:
                 raise ValueError("RC_METRIC_INDEPENDENT_SAMPLES_MISMATCH")
+            if definition["quantity"] in {"REMAINING_TIME", "ELAPSED_TIME"}:
+                if case_root is None:
+                    raise ValueError("RC_METRIC_TEMPORAL_CONTEXT_MISSING")
+                plan = read_artifact(case_root, "experiment_plan")["content"]
+                design = plan["temporal_design"]
+                sample_index = {s["sample_id"]: s for s in design["samples"]}
+                index = {
+                    r["observation_id"]: r
+                    for r in load_json(case_root / design["index_path"])["observations"]
+                }
+                expected_ids = {
+                    s["sample_id"] for s in design["samples"] if s["split"] == "VALIDATION"
+                }
+                if {r["sample_id"] for r in samples} != expected_ids:
+                    raise ValueError("RC_METRIC_TEMPORAL_SAMPLE_COVERAGE_INVALID")
+                for row in samples:
+                    origin = sample_index[row["sample_id"]]
+                    target = index[origin["target_observation_id"]]
+                    if (
+                        origin["split"] != "VALIDATION"
+                        or row["origin"] != origin["origin"]
+                        or row["observed_end_time"] != target["observed_at"]
+                        or definition["target_unit"] != design.get("time_unit", "min")
+                    ):
+                        raise ValueError("RC_METRIC_TEMPORAL_SAMPLE_MISMATCH")
             actual = recompute_metric(definition, samples)
             value = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}[
                 metric
             ]
             if (
                 not math.isclose(actual["value"], value, rel_tol=1e-10, abs_tol=1e-9)
-                or output["metric_accounting"][metric] != actual
+                or set(output["metric_accounting"][metric]) != set(actual)
+                or type(output["metric_accounting"][metric]["included_count"]) is not int
+                or output["metric_accounting"][metric]["included_count"] != actual["included_count"]
+                or output["metric_accounting"][metric]["excluded_sample_ids"]
+                != actual["excluded_sample_ids"]
+                or not math.isclose(
+                    output["metric_accounting"][metric]["value"],
+                    actual["value"],
+                    rel_tol=1e-10,
+                    abs_tol=1e-9,
+                )
             ):
                 raise ValueError("RC_METRIC_RECALCULATION_MISMATCH")
         except (KeyError, TypeError, ValueError) as exc:
@@ -1997,7 +2098,9 @@ def validate_runtime_semantic_claims(
                         )
                     codes.update(scientific_metric_binding_codes(claim, run_output, checked))
                     codes.update(
-                        metric_output_binding_codes(claim, requirement, run_output, checked)
+                        metric_output_binding_codes(
+                            claim, requirement, run_output, checked, case_root
+                        )
                     )
         selection_metric = (selection_requirements.get(requirement_id) or {}).get(
             "selection_metric"

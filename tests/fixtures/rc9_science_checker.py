@@ -69,6 +69,11 @@ def main():
                             ],
                         }
                     )
+            for expected, supplied in zip(records, output["metric_samples"][metric], strict=True):
+                assert set(expected) == set(supplied)
+                assert all(
+                    supplied[k] == expected[k] for k in expected if k != "predicted_end_time"
+                )
             # Independent arithmetic uses a numeric tolerance; sample identity stays exact.
             residual = max(
                 abs(x["predicted_end_time"] - y["predicted_end_time"])
@@ -121,6 +126,22 @@ def main():
                 }
             },
         }
+    for req in reqs:
+        if "prediction_spec" in req:
+            requirements[req["requirement_id"]]["prediction_evidence"] = output[
+                "scientific_evidence"
+            ][req["requirement_id"]]["prediction_evidence"]
+    first_rows = metric_samples["metric_a"]
+    if plan["metric_definitions"]["metric_a"]["formula"] == "ABSOLUTE_RELATIVE_ERROR":
+        sensitivity = sum(
+            abs(ends[r["sample_id"]] + 1 - r["observed_end_time"])
+            / (r["observed_end_time"] - r["origin"])
+            * 100
+            for r in first_rows
+        ) / len(first_rows)
+    else:
+        sensitivity = sum(raw["x"]) + int(output["candidate_id"] == "BASE") + 1
+    assert abs(sensitivity - output["robustness_evidence"]["perturbations"][0]["result"]) < 1e-9
     result = {
         "run_id": a.run_id,
         "output_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
