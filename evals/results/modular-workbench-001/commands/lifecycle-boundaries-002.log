@@ -1,0 +1,150 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-8.4.2, pluggy-1.6.0 -- <PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: <PRIVATE_USER_ROOT>/project/cumcm
+configfile: pyproject.toml
+collecting ... collected 102 items
+
+tests/integration/test_modular_workbench.py::test_context_and_local_staleness_follow_actual_dependencies PASSED [  0%]
+tests/integration/test_modular_workbench.py::test_scoped_child_has_own_identity_and_no_parent_acceptance PASSED [  1%]
+tests/integration/test_modular_workbench.py::test_prepared_resume_and_failed_operation_never_restart_implicitly PASSED [  2%]
+tests/integration/test_modular_workbench.py::test_real_fourteen_module_water_path_stops_and_preserves_one_final[prediction] PASSED [  3%]
+tests/integration/test_modular_workbench.py::test_real_fourteen_module_water_path_stops_and_preserves_one_final[optimization] PASSED [  4%]
+tests/integration/test_modular_workbench.py::test_real_fourteen_module_water_path_stops_and_preserves_one_final[mixed] PASSED [  5%]
+tests/integration/test_modular_workbench.py::test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[INFEASIBLE] FAILED [  6%]
+tests/integration/test_modular_workbench.py::test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[TIMEOUT] PASSED [  7%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M02] PASSED [  8%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M03] PASSED [  9%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M04] PASSED [ 10%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M05] PASSED [ 11%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M06] PASSED [ 12%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M07] PASSED [ 13%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M08] PASSED [ 14%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M09] PASSED [ 15%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M10] PASSED [ 16%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M11] PASSED [ 17%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M12] PASSED [ 18%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M13] PASSED [ 19%]
+tests/integration/test_modular_workbench.py::test_each_module_requires_real_predecessor[M14] PASSED [ 20%]
+tests/integration/test_modular_workbench.py::test_intake_idempotence_stop_scope_and_request_identity PASSED [ 21%]
+tests/integration/test_modular_workbench.py::test_completion_tamper_is_not_acceptance[artifact_hashes] PASSED [ 22%]
+tests/integration/test_modular_workbench.py::test_completion_tamper_is_not_acceptance[module] PASSED [ 23%]
+tests/integration/test_modular_workbench.py::test_completion_tamper_is_not_acceptance[requirement_scope] PASSED [ 24%]
+tests/integration/test_modular_workbench.py::test_report_cannot_close_another_request PASSED [ 25%]
+tests/integration/test_modular_workbench.py::test_module_operation_stop_and_writer_lock PASSED [ 26%]
+tests/integration/test_modular_workbench.py::test_review_feedback_is_inert_and_stale_is_derived PASSED [ 27%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_case] PASSED [ 28%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_hash] PASSED [ 29%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[bool_revision] PASSED [ 30%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_location] PASSED [ 31%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[instruction] PASSED [ 32%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[secret] PASSED [ 33%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[extra] PASSED [ 34%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[long] PASSED [ 35%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[malformed] PASSED [ 36%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[duplicate_json] PASSED [ 37%]
+tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[zip] PASSED [ 38%]
+tests/integration/test_modular_workbench.py::test_export_symlink_secret_and_deterministic_zip PASSED [ 39%]
+tests/integration/test_modular_workbench.py::test_local_git_has_real_sha_no_remote_and_rejects_unrelated_index PASSED [ 40%]
+tests/unit/test_workbench_adjudication.py::test_strict_parser_rejects_ambiguous_or_nonfinite_evidence[{"status":"BLOCK","status":"PASS"}] PASSED [ 41%]
+tests/unit/test_workbench_adjudication.py::test_strict_parser_rejects_ambiguous_or_nonfinite_evidence[{"score":NaN}] PASSED [ 42%]
+tests/unit/test_workbench_adjudication.py::test_strict_parser_rejects_ambiguous_or_nonfinite_evidence[{"score":Infinity}] PASSED [ 43%]
+tests/unit/test_workbench_adjudication.py::test_summary_labels_cannot_substitute_for_execution_records PASSED [ 44%]
+tests/unit/test_workbench_adjudication.py::test_exact_record_raw_bytes_must_reconstruct_content PASSED [ 45%]
+tests/unit/test_workbench_adjudication.py::test_matrix_requires_actual_protocol_coverage PASSED [ 46%]
+tests/unit/test_workbench_adjudication.py::test_noncommand_receipt_requires_substantive_typed_detail[native_review] PASSED [ 47%]
+tests/unit/test_workbench_adjudication.py::test_noncommand_receipt_requires_substantive_typed_detail[context_handoff] PASSED [ 48%]
+tests/unit/test_workbench_adjudication.py::test_noncommand_receipt_requires_substantive_typed_detail[known_interface] PASSED [ 49%]
+tests/unit/test_workbench_adjudication.py::test_noncommand_receipt_requires_substantive_typed_detail[review_roundtrip] PASSED [ 50%]
+tests/unit/test_workbench_adjudication.py::test_noncommand_receipt_requires_substantive_typed_detail[independent_recalculation] PASSED [ 50%]
+tests/unit/test_workbench_adjudication.py::test_read_and_binding_reject_symlinks PASSED [ 51%]
+tests/unit/test_workbench_adjudication.py::test_command_records_reject_wrong_types_or_time[change0] PASSED [ 52%]
+tests/unit/test_workbench_adjudication.py::test_command_records_reject_wrong_types_or_time[change1] PASSED [ 53%]
+tests/unit/test_workbench_adjudication.py::test_command_records_reject_wrong_types_or_time[change2] PASSED [ 54%]
+tests/unit/test_workbench_adjudication.py::test_command_records_reject_wrong_types_or_time[change3] PASSED [ 55%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[none] PASSED [ 56%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[old_plan] PASSED [ 57%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[wrong_phase] PASSED [ 58%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[blind_case] PASSED [ 59%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[early_active] PASSED [ 60%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[human_override] PASSED [ 61%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[research_status] PASSED [ 62%]
+tests/unit/test_workbench_state_and_budget.py::test_build_tuple_is_enforced_at_schema_root[wrong_subphase] PASSED [ 63%]
+tests/unit/test_workbench_state_and_budget.py::test_registered_usability_child_has_its_own_bounded_identity[none] PASSED [ 64%]
+tests/unit/test_workbench_state_and_budget.py::test_registered_usability_child_has_its_own_bounded_identity[old_version] PASSED [ 65%]
+tests/unit/test_workbench_state_and_budget.py::test_registered_usability_child_has_its_own_bounded_identity[wrong_role] PASSED [ 66%]
+tests/unit/test_workbench_state_and_budget.py::test_registered_usability_child_has_its_own_bounded_identity[excess] PASSED [ 67%]
+tests/unit/test_workbench_state_and_budget.py::test_registered_usability_child_has_its_own_bounded_identity[wrong_root] PASSED [ 68%]
+tests/unit/test_workbench_state_and_budget.py::test_engineering_accepted_requires_actual_manifest_object PASSED [ 69%]
+tests/unit/test_workbench_state_and_budget.py::test_registered_lab_budget_cannot_be_omitted[True] PASSED [ 70%]
+tests/unit/test_workbench_state_and_budget.py::test_registered_lab_budget_cannot_be_omitted[False] PASSED [ 71%]
+tests/unit/test_workbench_state_and_budget.py::test_budget_policy_does_not_refund_or_silently_inherit_four[LEGACY-5-RC_EXECUTION_BUDGET_INVALID] PASSED [ 72%]
+tests/unit/test_workbench_state_and_budget.py::test_budget_policy_does_not_refund_or_silently_inherit_four[LAB_EVAL-6-None] PASSED [ 73%]
+tests/unit/test_workbench_state_and_budget.py::test_budget_policy_does_not_refund_or_silently_inherit_four[LAB_EVAL-7-RC_EXECUTION_BUDGET_INVALID] PASSED [ 74%]
+tests/unit/test_workbench_state_and_budget.py::test_budget_policy_does_not_refund_or_silently_inherit_four[GUIDED_LOCAL-8-None] PASSED [ 75%]
+tests/unit/test_phase004c6_registry.py::test_rc8_history_never_qualifies_changed_current_implementation PASSED [ 76%]
+tests/unit/test_phase004c6_registry.py::test_current_records_and_registered_extension_are_not_a_closed_count PASSED [ 77%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[delete-REGISTRY_HISTORY_MISSING] PASSED [ 78%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[old_hash-REGISTRY_HISTORY_DRIFT] PASSED [ 79%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[old_freeze-REGISTRY_HISTORY_DRIFT] PASSED [ 80%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[old_answer-REGISTRY_HISTORY_DRIFT] PASSED [ 81%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[duplicate-CASE_ID_DUPLICATE] PASSED [ 82%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[missing-CASE_REQUIRED_FIELDS_MISSING] PASSED [ 83%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[wrong_type-CASE_DEVELOPMENT_IDENTITY_INVALID] PASSED [ 84%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[unregistered-CASE_REGISTRATION_MISSING] PASSED [ 85%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[parent-CASE_PARENT_TERMINAL_INVALID] PASSED [ 86%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[budget-CASE_DEVELOPMENT_BUDGET_INVALID] PASSED [ 87%]
+tests/unit/test_phase004c6_registry.py::test_extension_cannot_hide_history_or_contract_attacks[root-CASE_DEVELOPMENT_ROOT_INVALID] PASSED [ 88%]
+tests/unit/test_phase004c6_registry.py::test_historical_terminal_contexts_remain_valid_and_bound[a03597be9a83a38ce4bcc4dba76cf8c574327045] PASSED [ 89%]
+tests/unit/test_phase004c6_registry.py::test_historical_terminal_contexts_remain_valid_and_bound[bcf498907cbf282e2c79580ea56b043fc1a7b52b] PASSED [ 90%]
+tests/unit/test_phase004c6_registry.py::test_historical_terminal_contexts_remain_valid_and_bound[17f109cadc8524c285af6a50776e6c3decb8b3e8] PASSED [ 91%]
+tests/unit/test_phase004c6_registry.py::test_current_maintenance_cannot_activate_wrong_version_or_start_validation PASSED [ 92%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[None] PASSED [ 93%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[phase] PASSED [ 94%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[case] PASSED [ 95%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[version] PASSED [ 96%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[subject] PASSED [ 97%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[decision] PASSED [ 98%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[validation] PASSED [ 99%]
+tests/unit/test_phase004c6_registry.py::test_new_development_terminal_has_an_explicit_identity_tuple[time] PASSED [100%]
+
+=================================== FAILURES ===================================
+_ test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[INFEASIBLE] _
+
+wb = <module 'wb_boundary_tests' from '<PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py'>
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+fault = 'INFEASIBLE'
+
+    @pytest.mark.parametrize("fault", ["INFEASIBLE", "TIMEOUT"])
+    def test_actual_failed_numeric_attempt_is_retained_and_cannot_complete(
+        wb, repo_root, tmp_path, fault
+    ):
+        root = tmp_path / "failed"
+        process = subprocess.run(
+            [
+                sys.executable,
+                str(repo_root / "scripts/exercise_modular_workbench.py"),
+                "--build-exercise",
+                "--case-root",
+                str(root),
+                "--kind",
+                "optimization",
+                "--stop-after",
+                "M09",
+                "--fault",
+                fault,
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=90,
+        )
+>       assert process.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python', '<PRIVATE_USER_ROOT>/project/cumcm/scripts/exercise_modular_workbench.py', '--build-exercise', '--case-root', '<PYTEST_TEMP_PATH>', '--kind', 'optimization', '--stop-after', 'M09', '--fault', 'INFEASIBLE'], returncode=0, stdout='{"module": "M01", "native_state": "CREATED", "package": "7cab3a95b02362f872b8e427364deda0ddd2466cc5e9e0f9a7cbf60bf8af7287"}\n{"module": "M02", "native_state": "REQUIREMENTS_VALIDATED", "package": "25bbfda91b8fcd8f11fac218150afc38523462a9ddef84f9bdb1a6ac7630dffe"}\n{"module": "M03", "native_state": "SOURCES_PLANNED", "package": "a0404a3b33d8eb2cc45c11aa818a7e2096cb88926f170768ace648f262242540"}\n{"module": "M04", "native_state": "SOURCES_PLANNED", "package": "c8a1284d942d768ddb80740afecaf64cdbaa439381ab0bfa8d99d8a6bda693dc"}\n{"module": "M05", "native_state": "DATA_AUDITED", "package": "a220c3193ce70a3e929cbf96529ce647279dd2b1e0a31846ed82b29401c96791"}\n{"module": "M06", "native_state": "MODELS_PROPOSED", "package": "1053a37ed0ac76519140fecf22ac670ea73c5c4df066932e3bf2d21be8c83553"}\n{"module": "M07", "native_state": "MODELS_PROPOSED", "package": "ad6e9e38fec7c699bf6ca6678eb5c0d6c609302cb1bf7a1b1d4b998ccd175c9d"}\n{"module": "M08", "native_state": "EXPERIMENT_PLAN_VALIDATED", "package": "56291b7e203be31a61b158e5c0597dc35165de555d4d48fb3a7f375c2dd93cd5"}\n{"module": "M09", "native_state": "RUNNING", "package": "c296ac1258f545094b9628024e7dad681bf93158222890b0d9c0b96d41533d16"}\n', stderr='').returncode
+
+tests/integration/test_modular_workbench.py:198: AssertionError
+=========================== short test summary info ============================
+FAILED tests/integration/test_modular_workbench.py::test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[INFEASIBLE]
+=================== 1 failed, 101 passed in 75.84s (0:01:15) ===================

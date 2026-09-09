@@ -476,6 +476,11 @@ def complete_module(root, rid, report_path):
             observed.add(pair)
             files[path.relative_to(root).as_posix()] = core.file_hash(path)
             files[capture["output"]["path"]] = core.file_hash(root / capture["output"]["path"])
+            if capture["outcome"] == "SUCCESS":
+                core.verify_scientific_check(root, run_id=capture["run_id"])
+                for name in ("scientific_check.json", "scientific_check_capture.json"):
+                    relative = f"runs/{capture['run_id']}/{name}"
+                    files[relative] = core.file_hash(root / relative)
         if observed != expected:
             raise ValueError("WB_EXECUTION_INCOMPLETE")
     if mid >= "M10":

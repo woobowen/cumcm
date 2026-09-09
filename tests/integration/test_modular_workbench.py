@@ -186,7 +186,7 @@ def test_actual_failed_numeric_attempt_is_retained_and_cannot_complete(
             "--kind",
             "optimization",
             "--stop-after",
-            "M09",
+            "M14" if fault == "INFEASIBLE" else "M09",
             "--fault",
             fault,
         ],
@@ -197,7 +197,7 @@ def test_actual_failed_numeric_attempt_is_retained_and_cannot_complete(
     )
     assert process.returncode != 0
     captures = list((root / "runs").glob("*/execution_capture.json"))
-    assert len(captures) == 1
+    assert len(captures) == (2 if fault == "INFEASIBLE" else 1)
     capture = wb.core.load_json(captures[0])
     if fault == "TIMEOUT":
         assert capture["outcome"] == "FAILED"
@@ -209,16 +209,70 @@ def test_actual_failed_numeric_attempt_is_retained_and_cannot_complete(
         assert output["allocation"]["quantity_litres"] == 0
         assert output["allocation"]["demand_litres"] > 0
     before = wb.core.file_hash(captures[0])
-    resumed = cli(wb, root, "resume", "--request", "WATER-M09")
+    resumed = cli(wb, root, "resume")
     assert resumed["recovery"]["automatic_starts"] == 0
     assert any(row["status"] == "FAILED" for row in resumed["operations"])
-    assert not (root / "evidence/module_requests/WATER-M09/completion.json").exists()
+    if fault == "TIMEOUT":
+        assert not (root / "evidence/module_requests/WATER-M09/completion.json").exists()
+    else:
+        assert (root / "evidence/module_requests/WATER-M09/completion.json").exists()
+        assert (
+            "FEASIBILITY" in process.stderr
+            or "OPTIMALITY" in process.stderr
+            or "RECALCULATION" in process.stderr
+        )
+    assert not (root / "evidence/module_requests/WATER-M14/completion.json").exists()
     assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
     assert (
         "WB_PREREQUISITE_MISSING_OR_STALE"
-        in cli(wb, root, "prepare", "--module", "M10", accepted=False)["reason_codes"][0]
+        in cli(wb, root, "prepare", "--module", "M14", accepted=False)["reason_codes"][0]
     )
     assert wb.core.file_hash(captures[0]) == before
+
+
+def test_m09_cannot_close_successful_models_without_independent_checks(wb, repo_root, tmp_path):
+    root = tmp_path / "case"
+    build_water(repo_root, root, stop="M08", kind="optimization")
+    cli(wb, root, "prepare", "--module", "M09", "--request-id", "MODEL-ONLY")
+    for candidate in ("BASE", "CAND"):
+        cli(
+            wb,
+            root,
+            "run",
+            "--request",
+            "MODEL-ONLY",
+            "--operation",
+            "model",
+            "--candidate",
+            candidate,
+            "--seed",
+            "20260906",
+            "--run-id",
+            f"RUN-{candidate}-20260906",
+            "--code",
+            "models/runtime_model.py",
+        )
+    report = wb.core.load_json(root / "work/M08.json")
+    report.update(
+        module="M09",
+        request_id="MODEL-ONLY",
+        artifacts=["research/analysis.md"],
+        scientific_scope="只有模型输出，独立核验尚未执行",
+    )
+    wb.core.write_json(root / "work/model-only.json", report)
+    result = cli(
+        wb,
+        root,
+        "complete",
+        "--request",
+        "MODEL-ONLY",
+        "--report",
+        "work/model-only.json",
+        accepted=False,
+    )
+    assert "scientific_check_capture.json" in str(result)
+    assert not (root / "evidence/module_requests/MODEL-ONLY/completion.json").exists()
+    assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
 
 
 @pytest.fixture

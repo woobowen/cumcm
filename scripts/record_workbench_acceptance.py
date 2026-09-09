@@ -40,6 +40,8 @@ def record(path):
 def run(name, argv):
     if not argv or not re.fullmatch(r"[a-z0-9_-]+", name):
         raise ValueError("EXPLICIT_COMMAND_AND_UNIQUE_NAME_REQUIRED")
+    if any((BASE / "commands" / (name + suffix)).exists() for suffix in (".log", ".json")):
+        raise ValueError("RECORDED_COMMAND_NAME_ALREADY_USED_NO_EXECUTION")
     start = datetime.now(UTC).isoformat()
     tick = time.monotonic()
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()

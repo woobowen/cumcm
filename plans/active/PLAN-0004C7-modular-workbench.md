@@ -96,7 +96,7 @@ B4 static technical materials and original water analysis exist; B5 numerical ex
 after the implementation commit. Native reviewer used read-only original helper probes only;
 model/checker/Final0 for reviewer. Known child remains NOT_RUN. Install ledger remains empty.
 
-## Checkpoint B3–B6, 2026-09-09T09:30Z
+## Checkpoint B3–B6, 2026-09-09
 
 At 49ba547, new lifecycle/budget/history suite ran84 tests:83 passed, one assertion expected
 generic STALE rather than the actual more precise STALE_OUTPUT. Its corrected isolated retest

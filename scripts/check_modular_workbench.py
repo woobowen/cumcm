@@ -432,10 +432,13 @@ def validate_detail(root, name, item):
         ]
         if (
             detail.get("actual_agent_task") != item["actual_agent_task"]
-            or done["request_sha256"] != records["request"]["raw_sha256"]
+            or done["request_sha256"] != canonical(request)
             or done["module"] != item["module_executed"]
             or done["module"] != request["module"]
             or report["module"] != done["module"]
+            or any(done[k] != request[k] for k in ["case_id", "request_id", "requirement_scope"])
+            or done["artifact_hashes"].get(done["report_path"])
+            != records["work_report"]["raw_sha256"]
             or done["execution"] != "COMPLETED"
             or done["next_module_started"] is not False
             or context["execution_mode"] != "GUIDED_SINGLE_MODULE"
@@ -628,6 +631,8 @@ def evaluate(stage="workspace", root=ROOT):
         if (
             snapshot.get("protocol_sha256") != digest((root / QUAL / "protocol.json").read_bytes())
             or protocol.get("target_skill_version") != "0.2.0-competition-rc10"
+            or protocol.get("target_repository_version") != "0.3.0-competition-rc10"
+            or (root / "VERSION").read_text().strip() != "0.3.0-competition-rc10"
             or (root / ".agents/skills/cumcm-modeling-evidence/VERSION").read_text().strip()
             != "0.2.0-competition-rc10"
         ):

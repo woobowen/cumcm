@@ -183,9 +183,12 @@ def build_plan(root, kind, temporal):
 
 def proposals(root, kind):
     reqs = core.read_artifact(root, "problem_requirements")["content"]["requirements"]
+    infeasible_probe = core.load_json(root / "data/raw/input.json").get("fault") == "INFEASIBLE"
     mapping = {
         r["requirement_id"]: (
-            "BASE" if kind == "mixed" and r["requirement_id"] == "REQ-B" else "CAND"
+            "BASE"
+            if infeasible_probe or (kind == "mixed" and r["requirement_id"] == "REQ-B")
+            else "CAND"
         )
         for r in reqs
     }
