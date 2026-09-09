@@ -3559,12 +3559,22 @@ def validate_comparison(
         derived_freezes = {
             "candidate_set": canonical_hash(candidates),
             "metric": canonical_hash(
-                {
-                    "name": metric,
-                    "direction": direction,
-                    "aggregation_rule": aggregation_rule,
-                    "selection_rule": selection_rule,
-                }
+                metric_freeze_payload(
+                    {
+                        **comparison,
+                        **(
+                            {
+                                "metric_definitions": read_artifact(case_root, "experiment_plan")[
+                                    "content"
+                                ]["metric_definitions"]
+                            }
+                            if case_root is not None
+                            and "metric_definitions"
+                            in read_artifact(case_root, "experiment_plan")["content"]
+                            else {}
+                        ),
+                    }
+                )
             ),
             "seed_schedule": canonical_hash(seeds),
             "split_assignment": canonical_hash(splits),
