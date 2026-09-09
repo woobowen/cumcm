@@ -199,6 +199,7 @@ def validate_state_and_registry() -> list[str]:
     if state.get("phase") in {
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
     }:
         state = json.loads(
             subprocess.check_output(

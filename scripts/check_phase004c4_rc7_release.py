@@ -351,6 +351,7 @@ def evaluate_live_repository() -> dict[str, Any]:
     if state.get("phase") in {
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
     }:
         state = json.loads(
             _git("show", "17f109cadc8524c285af6a50776e6c3decb8b3e8:state/project_state.json")

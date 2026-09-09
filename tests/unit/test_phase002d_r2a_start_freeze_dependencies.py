@@ -224,6 +224,7 @@ def test_r3_plan_is_preserved_after_successor_advances(repo_root):
             "PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"
         ),
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6": "PLAN-0004C6-rc9-repair-and-development.md",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7": "PLAN-0004C7-modular-workbench.md",
     }
     expected = phase_plans[state["phase"]]
     assert state["current_plan"] == f"plans/active/{expected}"
@@ -232,6 +233,11 @@ def test_r3_plan_is_preserved_after_successor_advances(repo_root):
         previous = "PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"
         assert (repo_root / "plans/archived" / previous).read_bytes() == git_file_bytes(
             repo_root, "bcf498907cbf282e2c79580ea56b043fc1a7b52b", f"plans/active/{previous}"
+        )
+    elif state["phase"].endswith("004C7"):
+        previous = "PLAN-0004C6-rc9-repair-and-development.md"
+        assert (repo_root / "plans/archived" / previous).read_bytes() == git_file_bytes(
+            repo_root, "604c7facda586cecb6785c44949f0cd1217cd297", f"plans/active/{previous}"
         )
     assert (
         repo_root / "plans/completed/PLAN-0004C3-release-evidence-repair-and-fresh-validation.md"

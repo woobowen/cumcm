@@ -181,3 +181,35 @@ rules, source harness, docs, known code and preparation/controller). It must not
 old Run as executed at the delivery SHA. Test/adjudication bytes remain in the complete
 candidate map and must pass current full CI. All new original public-path receipts will be
 collected again under that final test/qualification subject. No generic quality claim follows.
+
+## Checkpoint final review packets and CI diagnosis, 2026-09-09T10:46Z
+
+The first full-CI attempt was intentionally interrupted when a review-packet gap was found.
+Its actual partial outcome is11 failed/1584 passed, exit2; preserve full-ci-001 command/log.
+Original reports now attach already-produced problem/input/formula/code/plan and actual checks,
+without future Final or mutable run-manifests. Every stage executes public resume and verifies
+unchanged formal-state bytes, automatic starts0 and no next request. Three family tests pass
+in68.26s. Initial attachment testing correctly detected premature binding of an empty template;
+attachments now follow their actual production stage, preserving dependency freshness.
+
+CI failures exposed missing004C7 routing in historical consistency/freeze checks and legacy
+test assumptions about scenario identity/guard ordering. Add schema-valid successor routes
+while retaining old hashes and locked historical development-start rejection. The toy fixture
+now derives its real scenario; pre-freeze scientific requirements without checker reject, and
+post-capture changes remain STALE. The old AP matrix still hashes its exact test bytes at604c7fac;
+current tests separately exercise forged explicit-plan and proposal rejection. No historical
+matrix/result changes. Relevant73 tests pass in8.43s. Scientific runtime and knownR2 budgets
+remain unchanged. Original development exports004 are preserved in ignored scratch; their
+actual command receipts remain public history. Final659ccf5 receipts are collected anew.
+
+Candidate adjudication, native closure, completed full CI, Decision Auditor and remote delivery
+remain pending.191 passing directed tests are a previous observation, not final659ccf5 evidence.
+
+Static CI-tail preflight exposed additional successor routing in RC5/2019C/RC7 historical
+checkers, target-policy and training-consistency checks. These now validate original Git-bound
+predecessor evidence in004C7; old release refusals remain refusals. The module-only known
+children use their existing hash-bound terminal registration rather than a legacy independent
+problem's axis/first_run alias. Shared registry validation remains mandatory; target-policy
+checks alone are not an evidence gate. Added negative allocation escalation tests.80 relevant
+tests pass in14.79s and every Python script in the CI tail actually exits0. Full-CI completion
+is still pending. These ancillary checker/test changes do not alter the known scientific runtime.

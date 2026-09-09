@@ -51,6 +51,23 @@ def test_target_problem_policy_accepts_canonical_strategy(repo_root: Path) -> No
 
 
 @pytest.mark.parametrize(
+    ("field", "value"), [("independent_problem", True), ("set_type", "VALIDATION")]
+)
+def test_module_exercise_cannot_enter_independent_allocation(repo_root, tmp_path, field, value):
+    root = _copy_target_inputs(repo_root, tmp_path / "project")
+    path = root / "benchmarks/case_registry.yaml"
+    registry = _yaml(path)
+    child = next(
+        c for c in registry["cases"] if c["evidence_role"] == "MODULE_USABILITY_DEVELOPMENT"
+    )
+    child[field] = value
+    _write_yaml(path, registry)
+    result = evaluate(root)
+    assert result["ok"] is False
+    assert f"TARGET_MODULE_SCOPE_INVALID:{child['case_id']}" in result["errors"]
+
+
+@pytest.mark.parametrize(
     ("field", "value", "reason"),
     [
         ("formal_skill_commit", "0" * 40, "TARGET_CASE_SKILL_COMMIT_ALIAS_DRIFT"),

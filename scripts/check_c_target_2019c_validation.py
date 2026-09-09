@@ -75,6 +75,7 @@ def evaluate(root=ROOT, *, verify_workspace=False, require_delivery=False):
         "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
     }
     release = read(root / RESULTS / "rc5_release.json")
     receipt = read(root / RESULTS / "rc5_release_delivery.json")

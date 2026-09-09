@@ -28,6 +28,7 @@ EXPECTED_EVIDENCE_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
 EXPECTED_RUNTIME_CLOSURE_PHASE = "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
 EXPECTED_FACT_BINDING_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
 EXPECTED_MAINTENANCE_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"
+EXPECTED_WORKBENCH_PHASE = "PHASE-SKILL-MODULAR-WORKBENCH-004C7"
 RC3 = "0.2.0-competition-rc3"
 RC4 = "0.2.0-competition-rc4"
 RC4_COMMIT = "297cad0a29c659b18484d4f3b67d69a942ad415c"
@@ -142,6 +143,17 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     if not isinstance(declared, list) or set(declared) != TARGET_CASE_FIELDS:
         errors.append("TARGET_REGISTRY_FIELD_CONTRACT_INVALID")
     for case in cases:
+        if case.get("evidence_role") == "MODULE_USABILITY_DEVELOPMENT":
+            # Registered interface exercises are excluded from the historical
+            # independent-problem allocation; their registration/terminal hashes
+            # are checked by the shared training registry validator.
+            if (
+                case.get("set_type") != "DEVELOPMENT"
+                or case.get("independent_problem") is not False
+                or case.get("contamination_status") != "KNOWN_PROBLEM_AND_PRIOR_RESULTS"
+            ):
+                errors.append(f"TARGET_MODULE_SCOPE_INVALID:{case.get('case_id')}")
+            continue
         if not TARGET_CASE_FIELDS.issubset(case):
             errors.append(f"TARGET_CASE_FIELDS_MISSING:{case.get('case_id')}")
         if case.get("formal_skill_version") != case.get("skill_version"):
@@ -288,6 +300,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         EXPECTED_RUNTIME_CLOSURE_PHASE,
         EXPECTED_FACT_BINDING_PHASE,
         EXPECTED_MAINTENANCE_PHASE,
+        EXPECTED_WORKBENCH_PHASE,
     }
     if repair:
         for field in (
@@ -315,10 +328,16 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                 EXPECTED_MAINTENANCE_PHASE: (
                     "plans/active/PLAN-0004C6-rc9-repair-and-development.md"
                 ),
+                EXPECTED_WORKBENCH_PHASE: "plans/active/PLAN-0004C7-modular-workbench.md",
             }[state["phase"]],
             current_branch=(
                 "feat/phase004c5-p0-01-finalization-hf22-repro"
-                if state["phase"] in {EXPECTED_FACT_BINDING_PHASE, EXPECTED_MAINTENANCE_PHASE}
+                if state["phase"]
+                in {
+                    EXPECTED_FACT_BINDING_PHASE,
+                    EXPECTED_MAINTENANCE_PHASE,
+                    EXPECTED_WORKBENCH_PHASE,
+                }
                 else "feat/phase004c2-claim-scope-repair-validation-2019c"
             ),
         )
@@ -385,6 +404,11 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         skill_text = skills[0].read_text(encoding="utf-8")
         if ARCHITECTURE not in skill_text or (
             RC4 not in skill_text
+            and not (
+                state.get("phase") == EXPECTED_WORKBENCH_PHASE
+                and state.get("target_candidate_version") == "0.2.0-competition-rc10"
+                and "Version: `0.2.0-competition-rc10`" in skill_text
+            )
             and not (
                 repair
                 and any(

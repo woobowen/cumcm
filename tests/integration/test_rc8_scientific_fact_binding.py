@@ -126,10 +126,12 @@ def test_declared_scientific_requirement_cannot_ignore_missing_checker(repo_root
     assert "RC_SCIENTIFIC_RECALCULATION_MISSING" in result["reason_codes"]
     assert result["test_access_count"] == 0
     assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
 
 
 def test_postcapture_scientific_requirement_change_is_stale_before_checker(repo_root, tmp_path):
     helpers, core, case = _case(repo_root, tmp_path)
+    captured_before = {p: core.file_hash(p) for p in case.glob("runs/*/execution_capture.json")}
     requirements = core.read_artifact(case, "problem_requirements")["content"]
     for requirement in requirements["requirements"]:
         requirement["scientific_facts_required"] = True
@@ -142,6 +144,8 @@ def test_postcapture_scientific_requirement_change_is_stale_before_checker(repo_
     assert "RC_EXECUTION_CAPTURE_SCENARIO_STALE" in result["reason_codes"]
     assert result["test_access_count"] == 0
     assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
+    assert captured_before == {p: core.file_hash(p) for p in captured_before}
 
 
 @pytest.mark.parametrize("mutation", ["none", "calculation", "metric", "missing"])

@@ -196,6 +196,7 @@ def test_scenario_hash_must_be_bound_by_execution_capture_and_manifest(
     semantic = core.read_artifact(case, "semantic_claim_support")["content"]
     if forge_explicit_plan:
         plan["scenario_hash"] = forged
+    captured_before = {p: core.file_hash(p) for p in case.glob("runs/*/execution_capture.json")}
     selection["selection"]["shared_scenario_hashes"] = [forged]
     for run in selection["runs"]:
         run["scenario_hash"] = forged
@@ -227,6 +228,8 @@ def test_scenario_hash_must_be_bound_by_execution_capture_and_manifest(
         case=case,
     )
     assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
+    assert captured_before == {p: core.file_hash(p) for p in captured_before}
 
 
 def test_policy_claim_requires_run_output_policy_evidence(repo_root, tmp_path) -> None:

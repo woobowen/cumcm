@@ -33,6 +33,7 @@ def evaluate(root=ROOT):
         "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
     }
     preflight = read(root / RESULTS / "preflight.json")
     for path, expected in preflight["historical_file_hashes"].items():
