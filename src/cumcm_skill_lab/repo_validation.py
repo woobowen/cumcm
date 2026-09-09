@@ -111,6 +111,10 @@ def validate_delivery_policy(root: Path):
     if isinstance(remote_url, str) and remote_url:
         occurrences: list[dict] = []
         for candidate in tracked_text_files(root):
+            # This user-supplied task records an observed repository URL; it is
+            # authorization/history, not a second delivery configuration.
+            if relative(candidate, root) == "CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md":
+                continue
             count = candidate.read_text(encoding="utf-8").count(remote_url)
             if count:
                 occurrences.append({"path": relative(candidate, root), "count": count})

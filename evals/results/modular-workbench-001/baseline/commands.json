@@ -1,0 +1,82 @@
+[
+  {
+    "argv": [
+      "<REPO>/.venv/bin/python",
+      "<REPO>/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "execute",
+      "--case-root",
+      "<REPO>/.cache/pr12-rc9/modular-workbench-b0-reproduction/fixture/case",
+      "--run-id",
+      "RUN-BASE-20260906",
+      "--candidate-id",
+      "BASE",
+      "--seed",
+      "20260906",
+      "--code-path",
+      "models/runtime_model.py"
+    ],
+    "started_at": "2026-09-09T07:48:21.907455+00:00",
+    "ended_at": "2026-09-09T07:48:22.064127+00:00",
+    "elapsed_seconds": 0.15667738799675135,
+    "exit_code": 0,
+    "stdout": {
+      "file": "command-1.stdout",
+      "sha256": "f5018a501f4e3caf296160173b2dcf1cfe589aadd1c9c9492f0260702645b5dc"
+    },
+    "stderr": {
+      "file": "command-1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "argv": [
+      "<REPO>/.venv/bin/python",
+      "<REPO>/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "execute",
+      "--case-root",
+      "<REPO>/.cache/pr12-rc9/modular-workbench-b0-reproduction/fixture/case",
+      "--run-id",
+      "RUN-CAND-20260906",
+      "--candidate-id",
+      "CAND",
+      "--seed",
+      "20260906",
+      "--code-path",
+      "models/runtime_model.py"
+    ],
+    "started_at": "2026-09-09T07:48:22.064377+00:00",
+    "ended_at": "2026-09-09T07:48:22.188864+00:00",
+    "elapsed_seconds": 0.12450064899894642,
+    "exit_code": 0,
+    "stdout": {
+      "file": "command-2.stdout",
+      "sha256": "945358030975474e596c8bb712af344438b9fb8bf297ddf28a8dd335b7087763"
+    },
+    "stderr": {
+      "file": "command-2.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "argv": [
+      "<REPO>/.venv/bin/python",
+      "<REPO>/scripts/finalize_fresh_c_validation.py",
+      "--case-root",
+      "<REPO>/.cache/pr12-rc9/modular-workbench-b0-reproduction/fixture/case",
+      "--check-code",
+      "models/independent_check.py"
+    ],
+    "started_at": "2026-09-09T07:48:22.190050+00:00",
+    "ended_at": "2026-09-09T07:48:22.434248+00:00",
+    "elapsed_seconds": 0.24420413399639074,
+    "exit_code": 1,
+    "stdout": {
+      "file": "command-3.stdout",
+      "sha256": "5896f38b0f5ae3135fa0b566349ef0181ba6168d0a7b7241cb16eaed70f994e7"
+    },
+    "stderr": {
+      "file": "command-3.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+]

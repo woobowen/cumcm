@@ -55,8 +55,9 @@
   "batch_skill_frozen": true,
   "blocked_candidate_version": "0.2.0-competition-rc6",
   "blockers": [
-    "WORKBENCH_ACCEPTANCE_PENDING",
-    "R7_001_PUBLIC_PATH_REPAIR_PENDING"
+    "SCENARIO_HASH_DEFAULT_SEMANTICS_DISAGREE_AT_COMMON_COMPLETION",
+    "RC9_NATIVE_RESULT_REVIEW_MATERIAL_FINDING_R7_001_OPEN",
+    "REGISTERED_FUNCTIONAL_CANDIDATE_AND_MODEL_CLI_REQUEST_LIMITS_REACHED"
   ],
   "competition_rc1": {
     "api_calls": 0,
@@ -122,7 +123,7 @@
   "content_verified_commit": "8ef732b45cf3cb04262317cdfa13a176b47eebe0",
   "current_batch_id": "C-TARGET-BATCH-001",
   "current_branch": "feat/phase004c5-p0-01-finalization-hf22-repro",
-  "current_plan": "plans/active/PLAN-0004C7-modular-workbench.md",
+  "current_plan": "plans/active/PLAN-0004C6-rc9-repair-and-development.md",
   "current_validation_case": null,
   "delivery_receipt_for_commit": {
     "commit": "8ef732b45cf3cb04262317cdfa13a176b47eebe0",
@@ -198,7 +199,7 @@
     "unknown_slots": 0
   },
   "next_phase_allowed": null,
-  "phase": "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
+  "phase": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
   "previous_validation_case": "CUMCM-2024-C-VALIDATION-001",
   "previous_validation_cases": [
     "CUMCM-2024-C-VALIDATION-001",
@@ -311,12 +312,12 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "WORKBENCH-BUILD-AND-ACCEPT",
-  "target_candidate_version": "0.2.0-competition-rc10",
+  "subphase": "RC9-REPAIR-TERMINAL-BLOCKED",
+  "target_candidate_version": "0.2.0-competition-rc9",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "MODULAR_WORKBENCH_BUILD_IN_PROGRESS",
+  "technical_adjudication_status": "RC9_RELEASE_REPAIR_BLOCKED",
   "third_party_integrated": false,
-  "updated_at": "2026-09-09T07:47:12Z",
+  "updated_at": "2026-09-09T04:31:50.093823+00:00",
   "updated_by": "main-agent",
   "verification_manifest": {
     "path": "evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json",

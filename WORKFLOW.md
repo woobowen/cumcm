@@ -357,3 +357,18 @@ Full current CI, neutral/public E2E evidence, scoped Development and native Deci
 precede C_TARGET_RC9_RESEARCH_READY and activation. Missing requirements retain
 RC9_RELEASE_REPAIR_BLOCKED with active historical RC8. Both outcomes keep next_phase_allowed=null.
 Candidate qualification authorizes research only; TEAM_COMPLIANCE_REVIEW is separate.
+
+## Current modular workbench construction (004C7)
+
+The current explicit BUILD_AND_ACCEPT task opens PHASE-SKILL-MODULAR-WORKBENCH-004C7 after
+004C6's immutable RC9 rejection. Execution is plans/active/PLAN-0004C7-modular-workbench.md;
+the byte-preserved 004C6 plan is in plans/archived/. Evidence is under
+evals/results/modular-workbench-001/ (repository-relative; no old result is overwritten).
+This window builds the shared R7 resolver, fourteen scoped modules, local review/feedback,
+context handoff and actual usability acceptance. It authorizes no new blind Validation.
+Future use defaults to GUIDED_SINGLE_MODULE with GUIDED_LOCAL case policy and no automatic
+remote publication. LAB_EVAL histories and budgets cannot be changed by switching modes.
+Users direct research priorities and lawful next modules; evidence gates still reject failures.
+MODULAR_WORKBENCH_BUILD_IN_PROGRESS may terminate ENGINEERING_ACCEPTED, LIMITED or BLOCKED
+only from actual current evidence and an independent Decision Auditor. Engineering acceptance
+is distinct from contest release, scientific generalization and TEAM_COMPLIANCE_REVIEW.
