@@ -11,7 +11,8 @@ RC9 共享实现 `10e8b038d571b88ce2b7f2388da00a618c774f69` 不应激活。
 - [共同 subject r1](qualification/shared_subject_r1.json) 是未执行数值实验的第一次冻结。
 - [统一 r2 转换](qualification/preexecution_supersession_r2.json) 保存首轮完整 CI 的3失败与零模型/零checker/零Final前提；原r1设计、登记和root保留。
 - [共同 subject r2](qualification/shared_subject_r2.json) 绑定实际执行的792文件实现与两个数值设计。
-- [当前完整 CI 回执](qualification/receipts/candidate_full_ci_r2.json)：2240 passed、1 skipped，完整 `bash scripts/ci.sh` exit0；受测HEAD与共享实现映射分别记录。
+- [最终本地完整 CI 回执](qualification/receipts/final_full_ci.json)：在99e96dc执行，2240 passed、1 skipped，完整 `bash scripts/ci.sh` exit0；受测HEAD与共享实现映射分别记录。
+- [同内容远端CI](qualification/receipts/remote_ci_99e96dc.json)：run34311473962 SUCCESS，实际PR merge checkout7565ac12；[交付回执](delivery/final_delivery_receipt.json)绑定负终局与受测内容。回执发布提交的最终SHA/当前CI另由PR说明与远端实时观察给出，避免提交自引用。
 - [101项定向回归](qualification/receipts/focused_r2.json) 与 [十项中立规格/三类CLI](qualification/receipts/neutral_r2.json) 均为当前subject实际执行。
 - [2016失败终局](CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/terminal/decision.json) 与 [科学报告](CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/SCIENTIFIC_REPORT.md)。
 - [2015失败终局](CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/terminal/decision.json) 与 [科学报告](CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/SCIENTIFIC_REPORT.md)。
@@ -41,7 +42,7 @@ RC9 共享实现 `10e8b038d571b88ce2b7f2388da00a618c774f69` 不应激活。
 本轮维护协议已经登记两个功能候选，且两题模型CLI请求已达每题4次上限。
 两题当前轮均已完成并冻结后确认同一新阻断。不会通过重命名subject、删除失败请求、
 覆盖r1/r2、补写实验前哈希或扩大预算继续寻找成功。
-剩余工作限于真实审查、证据复核、负决定、报告与远端交付。
+真实审查、证据复核、负决定及受测内容远端交付均已有回执；最后回执发布提交只承载文档和观测，不修订共享实现。
 
 ## 后续新授权窗口需要处理的精确范围
 

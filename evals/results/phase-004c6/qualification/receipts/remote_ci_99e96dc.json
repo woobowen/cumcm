@@ -1,0 +1,21 @@
+{
+  "schema_version": "phase-004c6-remote-ci-observation/v1",
+  "observed_at": "2026-09-09T04:43:27.461039+00:00",
+  "run_id": "34311473962",
+  "url": "https://github.com/woobowen/cumcm/actions/runs/34311473962",
+  "feature_head": "99e96dc40314c6b80d5f94bdad2ce48773f228c4",
+  "actual_pr_merge_checkout": "7565ac12e799b664c026d7a34325167796ad31b9",
+  "conclusion": "SUCCESS",
+  "event": "pull_request",
+  "completed_at": "2026-09-09T04:42:43Z",
+  "remote_branch_sha": "99e96dc40314c6b80d5f94bdad2ce48773f228c4",
+  "raw_log_sha256": "b281d3d839ede0d534c1dc9a26f54696221727660a36cd4364a1bfc3d471f5a2",
+  "selected_actual_log_lines": [
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:34:16.9674228Z HEAD is now at 7565ac1 Merge 99e96dc40314c6b80d5f94bdad2ce48773f228c4 into e1286b1f734ef1d23cfbfc2bb87fee5358dab212",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:34:16.9719032Z [command]/usr/bin/git log -1 --format=%H",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-09T04:34:16.9742520Z 7565ac12e799b664c026d7a34325167796ad31b9",
+    "offline-validation\tRun astral-sh/setup-uv@v6\t2026-09-09T04:34:18.1042379Z Successfully installed uv version 0.12.11",
+    "offline-validation\tRun the sole CI command\t2026-09-09T04:42:34.5469463Z 2240 passed, 1 skipped in 494.27s (0:08:14)"
+  ],
+  "purpose": "Actual completed sole CI and remote delivery for final tested content; feature and PR merge checkout identities are distinct."
+}

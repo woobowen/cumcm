@@ -1,0 +1,52 @@
+STDOUT
+All checks passed!
+942 files already formatted
+........................................................................ [  3%]
+........................................................................ [  6%]
+........................................................................ [  9%]
+........................................................................ [ 12%]
+........................................................................ [ 16%]
+........................................................................ [ 19%]
+........................................................................ [ 22%]
+........................................................................ [ 25%]
+........................................................................ [ 28%]
+........................................................................ [ 32%]
+........................................................................ [ 35%]
+........................................................................ [ 38%]
+........................................................................ [ 41%]
+........................................................................ [ 44%]
+........................................................................ [ 48%]
+........................................................................ [ 51%]
+........................................................................ [ 54%]
+........................................................................ [ 57%]
+........................................................................ [ 61%]
+........................................................................ [ 64%]
+........................................................................ [ 67%]
+........................................................................ [ 70%]
+........................................................................ [ 73%]
+........................................................................ [ 77%]
+........................................................................ [ 80%]
+.........................s.............................................. [ 83%]
+........................................................................ [ 86%]
+........................................................................ [ 89%]
+........................................................................ [ 93%]
+........................................................................ [ 96%]
+........................................................................ [ 99%]
+.........                                                                [100%]
+2240 passed, 1 skipped in 456.23s (0:07:36)
+{"batch_id": "C-TARGET-BATCH-001", "case_count": 3, "error_count": 0, "errors": [], "freeze_payload_sha256": "1c075ede5dfe636e6f6ca946bc19b2dc71b8f36e1601653f58de7a8df7fb8a09", "ok": true}
+{"batch_id": "C-TARGET-BATCH-001", "error_count": 0, "errors": [], "expected_case_count": 3, "frozen_count": 3, "in_progress_count": 0, "ok": true}
+{"authorized_change_sets": 1, "batch_id": "C-TARGET-BATCH-001", "case_count": 3, "error_count": 0, "errors": [], "finding_count": 6, "ok": true, "reference_bodies_verified": false}
+{"candidate_id": "C-TARGET-RC4-CANDIDATE-001", "check_count": 13, "checks": {"anti_hardcoding": true, "authorized_lineage": true, "candidate_not_release": true, "exact_changed_files": true, "focused_tests": true, "identity": true, "no_scope_expansion": true, "one_change_set": true, "one_formal_skill": true, "rc3_identity": true, "rc4_identity": true, "remote_receipt": true, "single_revision_cycle": true}, "failed_checks": [], "ok": true}
+{"case_count": 3, "error_count": 0, "errors": [], "ok": true, "verify_workspaces": false}
+{"batch_case_count": 3, "error_count": 0, "errors": [], "negative_scenario_count": 30, "ok": true, "synthetic_case_count": 2, "verify_workspaces": false}
+{"case_id": "CUMCM-2024-C-VALIDATION-001", "error_count": 0, "errors": [], "freeze_payload_sha256": "d1b5456fbf174b01bc9e9b67f6e2fbf7f9894f6de2a54c9632ab2e0f2ddf4c86", "ok": true}
+{"case_id": "CUMCM-2024-C-VALIDATION-001", "decision": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT", "error_count": 0, "errors": [], "freeze_payload_sha256": "d53c4280f09b369c4ab09a66c6bbba454c8b739e710f21f7481a375454523033", "ok": true}
+{"error_count": 0, "errors": [], "held_out_unchanged": true, "ok": true, "old_validation_unchanged": true}
+{"case_id": "CUMCM-2019-C-VALIDATION-002", "error_count": 0, "errors": [], "ok": true, "pre_run_frozen": true, "terminal_frozen": true, "workspace_verified": false}
+{"errors": [], "meaning": "Reporting consistency only; a PASS does not accept the blocked release.", "ok": true, "release_acceptance": "BLOCK", "release_version_consistent": false, "validation_status": "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT"}
+{"qualified": false, "reason_codes": [], "status": "PASS_PENDING_CANDIDATE"}
+repository=PASS errors=0 warnings=0
+{"error_count": 0, "errors": [], "ok": true, "sections": {"contracts": {"errors": [], "invalid_rejected": 68, "schema_count": 78, "valid_fixtures": 78}, "delivery": {"errors": []}, "instructions": {"errors": [], "sizes": {".agents/skills/cumcm-modeling-evidence/AGENTS.md": 571, "AGENTS.md": 5354, "benchmarks/AGENTS.md": 425, "research/upstream_candidates/AGENTS.md": 482, "tests/AGENTS.md": 317}, "total_project_bytes": 7149, "warnings": []}, "leakage": {"errors": [], "findings": []}, "privacy": {"errors": []}, "secrets": {"errors": []}, "skills": {"errors": [], "names": ["cumcm-modeling-evidence"], "skills": [".agents/skills/cumcm-modeling-evidence/SKILL.md"]}, "upstreams": {"cache_ignored": true, "candidate_count": 8, "component_card_count": 4, "errors": []}}, "strict": true, "warning_count": 0, "warnings": [], "yaml_count": 59}
+
+STDERR

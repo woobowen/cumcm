@@ -1,6 +1,6 @@
 # Phase 004C6：CI与流程修复、开发验证及候选拒绝
 
-状态：`RC9_RELEASE_REPAIR_BLOCKED`；机器拒绝经独立Decision Auditor复核，最终交付验证正在收口。
+状态：`RC9_RELEASE_REPAIR_BLOCKED`；机器拒绝经独立Decision Auditor复核，受测内容已核验远端交付。
 
 **本轮未达到全部目标。** 当前完整CI与十项中立规格通过，公共核心已经有真实的非预测Final无环正向路径；
 两个新Development都完成真实模型计算与独立验算，但因执行端与后续Gate的缺省场景哈希语义不一致，
@@ -111,8 +111,19 @@ TEAM_COMPLIANCE_REVIEW保持NOT_RUN；无比赛资格或技术拒绝的人类覆
 
 目标分支：`feat/phase004c5-p0-01-finalization-hf22-repro`；PR #12保持OPEN Draft。
 共享实现/本地完整CI/远端feature SHA/PR实际merge-checkout SHA分开记录，避免提交自引用。
-已观察远端run34309524062在feature7169ecb对应PR merge `23f965b6c18a3380bd54d4e185d49e9ec3b4c466`
-执行完整CI：2240 passed、1 skipped。最终交付HEAD及最终CI在交付回执另列，不把此前观察冒充未来HEAD验证。
+最终受测内容HEAD为 `99e96dc40314c6b80d5f94bdad2ce48773f228c4`，本地完整 `bash scripts/ci.sh`
+通过：2240 passed、1 skipped（pytest 456.23s），见[实际回执](qualification/receipts/final_full_ci.json)。
+同一feature HEAD的远端run34311473962已SUCCESS，实际PR merge checkout为
+`7565ac12e799b664c026d7a34325167796ad31b9`：2240 passed、1 skipped（494.27s），
+见[远端日志观察](qualification/receipts/remote_ci_99e96dc.json)。唯一skip来自已经执行过的不可变Phase002D Batch1，未跳过新增失败。
+
+[最终交付回执](delivery/final_delivery_receipt.json)绑定上述受测内容与科学/资格负终局。
+回执自身随后单独提交；其发布提交不包含自己的未来SHA，最后发布HEAD及对应当前远端CI在PR #12说明中实时核验。
+registry里的 `LOCAL_FROZEN_PENDING_REMOTE_DELIVERY` 是首跑冻结当时的状态；本次交付另有已观察远端SHA，不改写该历史冻结记录。
+
+本轮于2026-09-09 01:35:18 UTC开始；收口时的实际钟表时长及同口径token增量见
+[成本观察](qualification/cost_observations.json)。5–7小时目标未满：两个已登记功能候选及每题4次CLI请求的边界已经触及，
+本轮以负结论收口，不能把提前收口描述成全部目标成立。精确有效工作时长、input/cached/output拆分与费用为UNKNOWN。
 
 [环境记录](qualification/environment_changes.json)：本机新增系统包/语言包/工具链/全局配置均0；
 项目dev声明NumPy2.4.6/SciPy1.17.1并已由远端现有bootstrap验证。无付费模型API；token/cost按实际观测口径记录，未知计费字段不推算。
