@@ -210,3 +210,10 @@ Ordinary plan progress updates are already authorized; record changed decisions 
  whitespace rule changed. M5 content ready for final content commit/CI/push. Existing engineering
  and scientific BLOCKERs remain, no shared repair/new candidate or terminal rerun is authorized
  by this report review. Prospective10 neutral repair cases are recorded as NOT_EXECUTED.
+
+- 2026-09-09T00:12:02.667640+00:00: M5 content4c4550d remotely delivered, DraftPR updated. Final local fullCI
+ 2151passed/2failed/1skip (346.98s); actual remotePR mergef5dd6ec has the same counts (579.11s).
+ All15 separate remaining checks and772 shared-file/publication integrity checks PASS. No fullCI
+ PASS or overall engineering DoD is claimed. Bounded research/Validation attempts and reporting
+ are delivered; open engineering/scientific issues remain visible under IN_PROGRESS. Receipt-only
+ commit/ordinary push/remote observation closes this delivery without changing the tested subject.

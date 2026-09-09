@@ -1,0 +1,41 @@
+{
+  "schema_version": "phase-004c5-ci-observation/v1",
+  "observed_at": "2026-09-09T00:09:07.530609+00:00",
+  "run_id": 34292908722,
+  "url": "https://github.com/woobowen/cumcm/actions/runs/34292908722",
+  "event": "pull_request",
+  "feature_head": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf",
+  "actual_checkout_ref": "refs/remotes/pull/12/merge",
+  "actual_tested_commit": "f5dd6ec33c9f3f3f5c95ea791e4332d569a95279",
+  "base_commit": "e1286b1f734ef1d23cfbfc2bb87fee5358dab212",
+  "status": "completed",
+  "conclusion": "failure",
+  "failed": 2,
+  "passed": 2151,
+  "skipped": 1,
+  "pytest_seconds": 579.11,
+  "post_pytest_steps": "NOT_RUN_SET_E",
+  "remote_feature_tree_ci": "NOT_RUN_AS_SEPARATE_FEATURE_CHECKOUT",
+  "log_path": ".cache/pr12-rc8/logs/remote-ci-34292908722.log",
+  "log_sha256": "048bf2fee9e4558c333be51809bad22ffa51495817895246e826915cc7cc7f50",
+  "supporting_actual_log_lines": [
+    "offline-validation\tRun actions/checkout@v4\t2026-09-08T23:57:36.0533331Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-08T23:57:36.2728142Z HEAD is now at f5dd6ec Merge 4c4550d92c12ffbba4f4a438fe1cbb648855a5bf into e1286b1f734ef1d23cfbfc2bb87fee5358dab212",
+    "offline-validation\tRun actions/checkout@v4\t2026-09-08T23:57:36.2823858Z f5dd6ec33c9f3f3f5c95ea791e4332d569a95279",
+    "offline-validation\tRun the sole CI command\t2026-09-09T00:07:20.0992118Z FAILED tests/fault_injection/test_eval_policy_faults.py::test_human_gate_and_integration_flags_remain_false - AssertionError: assert 'PHASE-SKILL-...-REPAIR-004C5' == 'PHASE-SKILL-...CLOSURE-004C4'",
+    "offline-validation\tRun the sole CI command\t2026-09-09T00:07:20.0994237Z FAILED tests/unit/test_competition_rc_development_eval.py::test_case_registry_declares_required_training_fields - AssertionError: assert 10 == 8",
+    "offline-validation\tRun the sole CI command\t2026-09-09T00:07:20.3693335Z 2 failed, 2151 passed, 1 skipped in 579.11s (0:09:39)"
+  ],
+  "actual_tested_tree": "349cc4e8d616207af1c1fdca9a20803b534e826e",
+  "tree_observation": {
+    "method": "Actual gh api repos/woobowen/cumcm/git/commits/f5dd6ec33c9f3f3f5c95ea791e4332d569a95279 query",
+    "commit": "f5dd6ec33c9f3f3f5c95ea791e4332d569a95279",
+    "parents": [
+      "e1286b1f734ef1d23cfbfc2bb87fee5358dab212",
+      "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf"
+    ],
+    "tree": "349cc4e8d616207af1c1fdca9a20803b534e826e",
+    "matches_local_merge_tree_and_content_tree": true,
+    "recorded_at": "2026-09-09T00:13:48.827216+00:00"
+  }
+}

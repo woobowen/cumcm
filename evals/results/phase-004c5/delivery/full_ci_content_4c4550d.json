@@ -1,0 +1,34 @@
+{
+  "name": "m5-content-final-full-ci-001",
+  "argv": [
+    "bash",
+    "scripts/ci.sh"
+  ],
+  "subject_commit": "4c4550d92c12ffbba4f4a438fe1cbb648855a5bf",
+  "started_at": "2026-09-08T23:57:17.942272+00:00",
+  "ended_at": "2026-09-09T00:03:15.527628+00:00",
+  "elapsed_seconds": 347.829720963,
+  "exit_code": 1,
+  "status": "FAIL",
+  "stdout": {
+    "path": ".cache/pr12-rc8/logs/m5-content-final-full-ci-001.stdout.log",
+    "sha256": "b09902f52c3d12b77e1df8fdd9278682859607aa5c29429b786de708f1f6ed87"
+  },
+  "stderr": {
+    "path": ".cache/pr12-rc8/logs/m5-content-final-full-ci-001.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "actual_pytest_summary": "2 failed, 2151 passed, 1 skipped in 346.98s (0:05:46)",
+  "pytest_failed": 2,
+  "pytest_passed": 2151,
+  "pytest_skipped": 1,
+  "pytest_seconds": 346.98,
+  "tested_tree": "349cc4e8d616207af1c1fdca9a20803b534e826e",
+  "tracked_content_subject_unchanged_during_ci": true,
+  "post_pytest_steps": "NOT_RUN_SET_E_STOP; separate supplemental records do not change full CI FAIL",
+  "failure_nodes": [
+    "tests/fault_injection/test_eval_policy_faults.py::test_human_gate_and_integration_flags_remain_false",
+    "tests/unit/test_competition_rc_development_eval.py::test_case_registry_declares_required_training_fields"
+  ],
+  "new_model_or_final_executions": 0
+}

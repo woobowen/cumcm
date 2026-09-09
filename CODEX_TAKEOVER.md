@@ -22,9 +22,10 @@ TAKEOVER_ONLY与单P0切片限制。授权总窗口自17:46:50 UTC起最多8小�
   首次原生audit FAIL，修订负面决定后Decision Auditor PASS。两题计划2/启动2/实算2/
   终局完成2/科学通过0；均禁止终局后重跑，答案始终封存。
 - 候选subject CI通过2153项、1项skip；后续交付CI另有历史固定案例数和终局phase
-  路由断言失败。本机6be924e和PR合并提交22c0972实际均为2151passed/2failed/1skip；
+  路由断言失败。最终内容4c4550d的本机和PR合并提交f5dd6ec实际均为2151passed/2failed/1skip；
   15项后续补查通过，完整CI仍失败。新增registry摘要缺失已修并定向复验。
-  综合报告见[FINAL_REPORT.md](evals/results/phase-004c5/FINAL_REPORT.md)。
+  综合报告见[FINAL_REPORT.md](evals/results/phase-004c5/FINAL_REPORT.md)，最新交付观察见
+  [final_delivery_receipt.json](evals/results/phase-004c5/delivery/final_delivery_receipt.json)。
 - PR #12保持Draft，普通push仅到指定任务分支；禁止ready/merge/main push、付费API、
   全局安全配置改动、2025保留题、benchmark-vault及2026当届赛题访问。
 

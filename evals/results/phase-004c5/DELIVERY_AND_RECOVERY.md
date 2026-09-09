@@ -114,3 +114,8 @@ subject must freeze neutral prerequisite-order and positive nonpredictive end-to
 before shared implementation changes. Also preserve temporal same-entity positives, future-label
 leakage negatives and historical/new-case phase tests. This is future repair design, not implemented
 code or permission to rerun these fresh terminals. Comprehensive findings are in FINAL_REPORT.md.
+
+Final content delivery is4c4550d92c12ffbba4f4a438fe1cbb648855a5bf. Its actual local fullCI
+and remotePR mergef5dd6ec each report2151pass/2fail/1skip. The separate receipt is
+`delivery/final_delivery_receipt.json`; it binds existing content and cannot contain its own
+future commit. Final receipt-head remote confirmation is an actual later Git/session observation.
