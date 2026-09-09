@@ -1,0 +1,56 @@
+{
+  "checks": {
+    "RUN-BASE-20260906": {
+      "argv": [
+        "models/independent_check.py",
+        "--case-root",
+        ".",
+        "--run-id",
+        "RUN-BASE-20260906",
+        "--output",
+        "runs/RUN-BASE-20260906/final_check.json"
+      ],
+      "elapsed_seconds": 0.043372690000978764,
+      "ended_at": "2026-09-09T10:55:28Z",
+      "exit_code": 0,
+      "files": {
+        "runs/RUN-BASE-20260906/final_check.json": "a55dbbb978e5233eafc421fa9941407c1e62044e943456fc812187eaaf1bc63d",
+        "runs/RUN-BASE-20260906/final_check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runs/RUN-BASE-20260906/final_check.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "started_at": "2026-09-09T10:55:28Z"
+    },
+    "RUN-CAND-20260906": {
+      "argv": [
+        "models/independent_check.py",
+        "--case-root",
+        ".",
+        "--run-id",
+        "RUN-CAND-20260906",
+        "--output",
+        "runs/RUN-CAND-20260906/final_check.json"
+      ],
+      "elapsed_seconds": 0.04116340499604121,
+      "ended_at": "2026-09-09T10:55:28Z",
+      "exit_code": 0,
+      "files": {
+        "runs/RUN-CAND-20260906/final_check.json": "337b3e9247b20d8fceb686b64a3187628f727066978b8e6fa61ea787ed8e2672",
+        "runs/RUN-CAND-20260906/final_check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runs/RUN-CAND-20260906/final_check.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "started_at": "2026-09-09T10:55:28Z"
+    }
+  },
+  "count": 1,
+  "decision_hash": "173bc75a19f621daad13e9d18b8136c66fbb7ae8dc3c67f61f142121280838ca",
+  "ended_at": "2026-09-09T10:55:28Z",
+  "schema_version": "scientific-final/v1",
+  "selected_run_ids": [
+    "RUN-BASE-20260906",
+    "RUN-CAND-20260906"
+  ],
+  "selection_freeze_sha256": "88cea1c9eedc0c5c5558a396e2e2a917baf301472b1470d8218de9179a3e0f60",
+  "started_at": "2026-09-09T10:55:28Z",
+  "status": "SUCCESS",
+  "test_access_count": 0
+}

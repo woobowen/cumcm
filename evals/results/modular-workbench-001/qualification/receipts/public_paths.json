@@ -1,0 +1,87 @@
+{
+  "commands": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/exercise_modular_workbench.py",
+        "--build-exercise",
+        "--case-root",
+        "/tmp/cumcm-modular-workbench-001/acceptance-006/prediction",
+        "--kind",
+        "prediction"
+      ],
+      "elapsed_seconds": 14.206628294996335,
+      "ended_at": "2026-09-09T10:55:03.429665+00:00",
+      "executed_head": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/public-water-prediction-006.log",
+        "sha256": "f76a4eeeba56440b79d0efbc38e203eaf83efc5a2adc511b5ddb0aab515bd01a"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_AND_TRAILING_WHITESPACE_REMOVAL",
+      "raw_log_sha256": "f76a4eeeba56440b79d0efbc38e203eaf83efc5a2adc511b5ddb0aab515bd01a",
+      "started_at": "2026-09-09T10:54:48.100103+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/exercise_modular_workbench.py",
+        "--build-exercise",
+        "--case-root",
+        "/tmp/cumcm-modular-workbench-001/acceptance-006/optimization",
+        "--kind",
+        "optimization"
+      ],
+      "elapsed_seconds": 14.340366159995028,
+      "ended_at": "2026-09-09T10:55:17.874179+00:00",
+      "executed_head": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/public-water-optimization-006.log",
+        "sha256": "71b2b442488b44f838b3261a19f5df9e3f5bde450e2b0f147572ea2ca1fd5d9a"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_AND_TRAILING_WHITESPACE_REMOVAL",
+      "raw_log_sha256": "71b2b442488b44f838b3261a19f5df9e3f5bde450e2b0f147572ea2ca1fd5d9a",
+      "started_at": "2026-09-09T10:55:03.533787+00:00"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/exercise_modular_workbench.py",
+        "--build-exercise",
+        "--case-root",
+        "/tmp/cumcm-modular-workbench-001/acceptance-006/mixed",
+        "--kind",
+        "mixed"
+      ],
+      "elapsed_seconds": 15.784872342999734,
+      "ended_at": "2026-09-09T10:55:34.965021+00:00",
+      "executed_head": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+      "exit_code": 0,
+      "log": {
+        "path": "evals/results/modular-workbench-001/commands/public-water-mixed-006.log",
+        "sha256": "19368a322a13ca8ce1e6188ef4c40848664f40e02aebced1df36c35a9ea21fd2"
+      },
+      "log_derivation": "PRIVATE_USER_AND_PYTEST_PATH_REDACTION_AND_TRAILING_WHITESPACE_REMOVAL",
+      "raw_log_sha256": "19368a322a13ca8ce1e6188ef4c40848664f40e02aebced1df36c35a9ea21fd2",
+      "started_at": "2026-09-09T10:55:17.986180+00:00"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evals/results/modular-workbench-001/commands/public-water-prediction-006.log",
+      "sha256": "f76a4eeeba56440b79d0efbc38e203eaf83efc5a2adc511b5ddb0aab515bd01a"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/commands/public-water-optimization-006.log",
+      "sha256": "71b2b442488b44f838b3261a19f5df9e3f5bde450e2b0f147572ea2ca1fd5d9a"
+    },
+    {
+      "path": "evals/results/modular-workbench-001/commands/public-water-mixed-006.log",
+      "sha256": "19368a322a13ca8ce1e6188ef4c40848664f40e02aebced1df36c35a9ea21fd2"
+    }
+  ],
+  "implementation_hash": "c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca",
+  "kind": "public_paths",
+  "status": "PASS"
+}

@@ -43,8 +43,8 @@ target_case_fields:
 - formal_skill_commit
 - contamination_status
 - generalization_axis
-active_skill_release:
-  version: 0.2.0-competition-rc8
+historical_skill_releases:
+- version: 0.2.0-competition-rc8
   implementation_commit: 29cf1d7566809519ca92b6a29f555ce0c0b5b204
   tree: 601d05ec094b9724487fe11beca44cb2e060514d30a9511a809c15c083268b0e
   tree_hash_method: SHA256_CANONICAL_SORTED_PATH_TO_SHA256_MAPPING
@@ -56,6 +56,18 @@ active_skill_release:
   delivery_status: REMOTE_DELIVERED
   release_commit: 8ef732b45cf3cb04262317cdfa13a176b47eebe0
   release_delivery: evals/results/phase-004c5/qualification/rc8_release_delivery.json
+active_skill_release:
+  version: 0.2.0-competition-rc10
+  implementation_commit: d1f8532d498307e3b4755c088ce6a0fadfb432bb
+  tree: c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca
+  tree_hash_method: SHA256_CANONICAL_SORTED_PATH_TO_SHA256_MAPPING
+  release_manifest: evals/results/modular-workbench-001/qualification/release.json
+  validation_status: NO_NEW_INDEPENDENT_VALIDATION
+  release_acceptance: MODULAR_WORKBENCH_ENGINEERING_ACCEPTED
+  unresolved_blocker: null
+  delivery_status: PENDING_REMOTE_DELIVERY
+  release_commit: null
+  release_delivery: null
 planned_cases:
 - case_id: CUMCM-2016-C-VALIDATION-004
   year: 2016

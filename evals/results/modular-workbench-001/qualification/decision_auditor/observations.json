@@ -1,0 +1,156 @@
+{
+  "implementation": {
+    "subject": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+    "files": 828,
+    "sha256": "c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca"
+  },
+  "evals/results/phase-004c5": {
+    "tree_sha256": "9d277abd4b7f9777832ac2b1dfe36f5026de765d6cc7303b466ed4cd7ee40ef4",
+    "entry_count": 649
+  },
+  "evals/results/phase-004c6": {
+    "tree_sha256": "3bfaa67d4cd42b091e1a82f4e363751410c33c69265044f90b1349540a48c3eb",
+    "entry_count": 283
+  },
+  "native_review": {
+    "actual_agent_task": "/root/workbench_protocol_review",
+    "review_report": {
+      "path": "evals/results/modular-workbench-001/native_review/round-10/REVIEW.md",
+      "sha256": "45087ce7919ef6b6ff0c82651d9b946b6ff5a8419a4e51dbb029bfa969c01d0c"
+    },
+    "actual_tool_record": {
+      "path": "evals/results/modular-workbench-001/native_review/round-10/actual_tool_record.json",
+      "sha256": "1b928b9838c48389ee3eb8ebf10c9b88b0dd3b7dd13e284e19418a0f30a923a4"
+    },
+    "material_open_findings": [],
+    "scope": "Native code/protocol/metadata review only. Original005 metadata observed at659ccf5; final006 public paths independently recorded atd1f8532. No native scientific model/checker/Final/known/full CI execution.",
+    "commands": 34
+  },
+  "tests": {
+    "directed_passed": 361,
+    "declared_nodes": 40,
+    "boundaries": 16,
+    "scenario_variants": 6,
+    "full_ci_passed": 2369,
+    "full_ci_skipped": 1,
+    "full_ci_tail": [
+      "{\"error_count\": 0, \"errors\": [], \"held_out_unchanged\": true, \"ok\": true, \"old_validation_unchanged\": true}",
+      "{\"case_id\": \"CUMCM-2019-C-VALIDATION-002\", \"error_count\": 0, \"errors\": [], \"ok\": true, \"pre_run_frozen\": true, \"terminal_frozen\": true, \"workspace_verified\": false}",
+      "{\"errors\": [], \"meaning\": \"Reporting consistency only; a PASS does not accept the blocked release.\", \"ok\": true, \"release_acceptance\": \"BLOCK\", \"release_version_consistent\": false, \"validation_status\": \"C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT\"}",
+      "{\"qualified\": false, \"reason_codes\": [], \"status\": \"PASS_PENDING_CANDIDATE\"}",
+      "{\"qualified\": false, \"reason_codes\": [], \"status\": \"PASS_BUILD_NOT_QUALIFIED\"}",
+      "{\"status\": \"CURRENT\", \"stale\": []}",
+      "repository=PASS errors=0 warnings=0",
+      "{\"error_count\": 0, \"errors\": [], \"ok\": true, \"sections\": {\"contracts\": {\"errors\": [], \"invalid_rejected\": 68, \"schema_count\": 78, \"valid_fixtures\": 78}, \"delivery\": {\"errors\": []}, \"instructions\": {\"errors\": [], \"sizes\": {\".agents/skills/cumcm-modeling-evidence/AGENTS.md\": 571, \"AGENTS.md\": 5354, \"benchmarks/AGENTS.md\": 425, \"research/upstream_candidates/AGENTS.md\": 482, \"tests/AGENTS.md\": 317}, \"total_project_bytes\": 7149, \"warnings\": []}, \"leakage\": {\"errors\": [], \"findings\": []}, \"privacy\": {\"errors\": []}, \"secrets\": {\"errors\": []}, \"skills\": {\"errors\": [], \"names\": [\"cumcm-modeling-evidence\"], \"skills\": [\".agents/skills/cumcm-modeling-evidence/SKILL.md\"]}, \"upstreams\": {\"cache_ignored\": true, \"candidate_count\": 8, \"component_card_count\": 4, \"errors\": []}}, \"strict\": true, \"warning_count\": 0, \"warnings\": [], \"yaml_count\": 59}"
+    ]
+  },
+  "prediction": {
+    "cli_count": 54,
+    "modules": 14,
+    "model_captures": 2,
+    "final_count": 1,
+    "primary_count": 2,
+    "state": "READY_FOR_PAPER_HANDOFF",
+    "scenario_hashes": [
+      "802e5fd8dd6a225421f72b19314dfda6a811bdce8c9218592d5fdbaa350c7738"
+    ]
+  },
+  "optimization": {
+    "cli_count": 54,
+    "modules": 14,
+    "model_captures": 2,
+    "final_count": 1,
+    "primary_count": 2,
+    "state": "READY_FOR_PAPER_HANDOFF",
+    "scenario_hashes": [
+      "0f408ffd693dcba0493cd920c811403440f9d23c35833742fbe1b39406211974"
+    ]
+  },
+  "mixed": {
+    "cli_count": 54,
+    "modules": 14,
+    "model_captures": 2,
+    "final_count": 1,
+    "primary_count": 3,
+    "state": "READY_FOR_PAPER_HANDOFF",
+    "scenario_hashes": [
+      "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b"
+    ]
+  },
+  "known": {
+    "executed_subject": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+    "runtime_files": 346,
+    "runtime_sha256": "bad03abd428352a45cf2b6ecabdc2566bc27b39beaa00205b3432c6165fbddd2",
+    "starts": {
+      "model_cli_starts": 2,
+      "independent_checker_starts": 3,
+      "final_starts": 1
+    },
+    "registration": {
+      "case_id": "CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R2",
+      "evidence_role": "MODULE_USABILITY_DEVELOPMENT",
+      "parent_case_id": "CUMCM-2016-C-VALIDATION-004",
+      "required_question_ids": [
+        "REQ-Q3"
+      ]
+    },
+    "terminal": {
+      "actual_starts": {
+        "final_starts": 1,
+        "independent_checker_starts": 3,
+        "model_cli_starts": 2
+      },
+      "case_id": "CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R2",
+      "decision_id": "DECISION-CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R2",
+      "final_ledger_raw_sha256": "7afe57c773b05a4ea73decc512edfd0ab30b36df7901ff38eb02090b6bc0829b",
+      "gate_trace_raw_sha256": "dd5105c9e5922642b4239fa8caf6c4f679448b8c6f96ae3d214ef92801f49b35",
+      "independent_validation": false,
+      "limitations": [
+        "Known battery, development only; Q1 and Q2 excluded.",
+        "Six correlated historical origins are not six independent batteries.",
+        "State3 endpoint unknown; estimate conditional on frozen transfer assumptions.",
+        "No improvement/generalization/new Validation claim. Team/web review NOT_RUN."
+      ],
+      "parent_terminal_sha256": "e82fc399ca2206ef088eeaee896f9b132864d544af70566efb698e41b5ec4d5a",
+      "phase": "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
+      "question_results": [
+        {
+          "future_truth": "UNKNOWN",
+          "metrics": {
+            "q3_remaining_MRE": 0.051965754106183794,
+            "q3_remaining_min": 193.44177724399924
+          },
+          "native_state": "READY_FOR_PAPER_HANDOFF",
+          "requirement_id": "REQ-Q3",
+          "selected_run_id": "RUN-Q3-AFFINE-R2",
+          "whole_parent_problem_completed": false
+        }
+      ],
+      "schema_version": "module-usability-development-terminal/v1",
+      "skill_version": "0.2.0-competition-rc10",
+      "status": "SCOPED_DEVELOPMENT_COMPLETE",
+      "subject_commit": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "terminal_at": "2026-09-09T10:17:20.238292+00:00"
+    }
+  },
+  "M09_review": {
+    "views": 17,
+    "source_hashes": 48,
+    "package_hash": "b741d35e87974ffefc833a78872b0c37a909ac004783469d05667a811a3a41c1",
+    "missing_items": []
+  },
+  "M12_review": {
+    "views": 21,
+    "source_hashes": 64,
+    "package_hash": "c782d628f9e4744ceae10cd6e65096e03cb78d4f5cd30f87e922a0473781fdd1",
+    "missing_items": []
+  },
+  "M14_review": {
+    "views": 21,
+    "source_hashes": 73,
+    "package_hash": "09784e197709c5c5657d5eedac9959c7a72312e0ea30631a7bbeeb46afe05c71",
+    "missing_items": []
+  },
+  "checks_total": 2600,
+  "checks_failed": []
+}

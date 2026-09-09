@@ -1,0 +1,244 @@
+{
+  "artifact_type": "semantic_claim_support",
+  "content": {
+    "aggregate": {
+      "primary_requirement_ids": [
+        "REQ-A",
+        "REQ-B",
+        "REQ-C"
+      ],
+      "requirement_claim_ids": {
+        "REQ-A": "CLAIM-REQ-A",
+        "REQ-B": "CLAIM-REQ-B",
+        "REQ-C": "CLAIM-REQ-C"
+      },
+      "supported_requirement_ids": [
+        "REQ-C",
+        "REQ-B",
+        "REQ-A"
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "CLAIM-REQ-A",
+        "claim_strength": "GLOBAL_OPTIMUM",
+        "claim_type": "OPTIMALITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "SIMULATION",
+        "limitations": [
+          "Project-original neutral Claim."
+        ],
+        "metric_ids": [
+          "metric_a"
+        ],
+        "requirement_id": "REQ-A",
+        "scope": {
+          "entities": [
+            "ENTITY-SET"
+          ],
+          "fields": [
+            "time",
+            "level",
+            "containers"
+          ],
+          "time": [
+            "FROZEN_SCOPE"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-A"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ],
+        "statement": "Bounded result for REQ-A.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "global_optimality_certificate": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "status": "BOUNDED"
+        }
+      },
+      {
+        "claim_id": "CLAIM-REQ-B",
+        "claim_strength": "BOUNDED",
+        "claim_type": "PREDICTIVE",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "SIMULATION",
+        "limitations": [
+          "Project-original neutral Claim."
+        ],
+        "metric_ids": [
+          "metric_b"
+        ],
+        "prediction_scope": "CONDITIONAL_ESTIMATE",
+        "requirement_id": "REQ-B",
+        "scope": {
+          "entities": [
+            "ENTITY-SET"
+          ],
+          "fields": [
+            "time",
+            "level",
+            "containers"
+          ],
+          "time": [
+            "FROZEN_SCOPE"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-B"
+        ],
+        "selected_run_ids": [
+          "RUN-BASE-20260906"
+        ],
+        "statement": "Bounded result for REQ-B.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "conditional_model_bound": true,
+          "held_out_test_valid": false,
+          "historical_validation_recorded": true,
+          "scope_bounded": true,
+          "target_accuracy_verified": false,
+          "validation_boundary_frozen": true
+        },
+        "uncertainty": {
+          "calibrated": false,
+          "kind": "UNCALIBRATED_POINT_ESTIMATE"
+        }
+      },
+      {
+        "claim_id": "CLAIM-REQ-C",
+        "claim_strength": "BOUNDED",
+        "claim_type": "FEASIBILITY",
+        "comparator_ids": [],
+        "counter_evidence": [],
+        "evidence_class": "SIMULATION",
+        "limitations": [
+          "Project-original neutral Claim."
+        ],
+        "metric_ids": [
+          "metric_c"
+        ],
+        "requirement_id": "REQ-C",
+        "scope": {
+          "entities": [
+            "ENTITY-SET"
+          ],
+          "fields": [
+            "time",
+            "level",
+            "containers"
+          ],
+          "time": [
+            "FROZEN_SCOPE"
+          ]
+        },
+        "selected_output_ids": [
+          "OUT-REQ-C"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ],
+        "statement": "Bounded result for REQ-C.",
+        "status": "SUPPORTED",
+        "support_predicates": {
+          "independent_constraint_recalculation": true,
+          "scope_bounded": true
+        },
+        "uncertainty": {
+          "status": "BOUNDED"
+        }
+      }
+    ],
+    "comparators": [],
+    "contract_version": "claim-evidence/v3",
+    "outputs": [
+      {
+        "metric_ids": [
+          "metric_a"
+        ],
+        "output_id": "OUT-REQ-A",
+        "owner_run_id": "RUN-CAND-20260906",
+        "requirement_id": "REQ-A"
+      },
+      {
+        "metric_ids": [
+          "metric_b"
+        ],
+        "output_id": "OUT-REQ-B",
+        "owner_run_id": "RUN-BASE-20260906",
+        "requirement_id": "REQ-B"
+      },
+      {
+        "metric_ids": [
+          "metric_c"
+        ],
+        "output_id": "OUT-REQ-C",
+        "owner_run_id": "RUN-CAND-20260906",
+        "requirement_id": "REQ-C"
+      }
+    ],
+    "runs": [
+      {
+        "configuration_hash": "8ea23df3cc6fd3a2f81871e938570d08d46eed4a875d6e50f95247e47814b874",
+        "current": true,
+        "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+        "metric_ids": [
+          "metric_a",
+          "metric_b",
+          "metric_c"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-BASE-20260906",
+        "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUT-REQ-A",
+          "OUT-REQ-B",
+          "OUT-REQ-C"
+        ],
+        "supported_requirement_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ]
+      },
+      {
+        "configuration_hash": "bba2cf4577920e0d55f5f24abb3ffcedc288a19a824d0d1ea8ad5c3545ed7887",
+        "current": true,
+        "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+        "metric_ids": [
+          "metric_a",
+          "metric_b",
+          "metric_c"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-CAND-20260906",
+        "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUT-REQ-A",
+          "OUT-REQ-B",
+          "OUT-REQ-C"
+        ],
+        "supported_requirement_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ]
+      }
+    ],
+    "validation": {
+      "counter_evidence_detected": false
+    }
+  },
+  "content_hash": "7d2fcc23f5aeac245c85ed5b01d90dbb1835190958c2d850b4a4b989a1bed657",
+  "status": "ACCEPTED"
+}

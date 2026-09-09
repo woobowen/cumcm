@@ -1,0 +1,600 @@
+{
+  "boundary_coverage": {
+    "credential_and_injection_rejection": [
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[bool_revision]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[duplicate_json]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[extra]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[instruction]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[long]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[malformed]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[secret]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_case]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_hash]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_location]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[zip]"
+    ],
+    "future_information": [
+      "tests/integration/test_rc9_science_semantics.py::test_temporal_future_label_and_whole_data_transform_rejected_before_model[feature_observation_ids]",
+      "tests/integration/test_rc9_science_semantics.py::test_temporal_future_label_and_whole_data_transform_rejected_before_model[model_fit_observation_ids]",
+      "tests/integration/test_rc9_science_semantics.py::test_temporal_future_label_and_whole_data_transform_rejected_before_model[preprocess_fit_observation_ids]"
+    ],
+    "idempotent_request_export_feedback": [
+      "tests/integration/test_modular_workbench.py::test_review_feedback_is_inert_and_stale_is_derived"
+    ],
+    "infeasible_solution": [
+      "tests/integration/test_modular_workbench.py::test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[INFEASIBLE]"
+    ],
+    "input_change": [
+      "tests/integration/test_workbench_scenario.py::test_conflicting_prepared_identity_rejected_before_start[INPUT]"
+    ],
+    "interrupted_request": [
+      "tests/integration/test_modular_workbench.py::test_actual_failed_numeric_attempt_is_retained_and_cannot_complete[TIMEOUT]"
+    ],
+    "local_dependency_stale": [
+      "tests/integration/test_modular_workbench.py::test_context_and_local_staleness_follow_actual_dependencies"
+    ],
+    "malformed_and_archive_feedback_rejection": [
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[bool_revision]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[duplicate_json]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[extra]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[instruction]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[long]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[malformed]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[secret]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_case]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_hash]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_location]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[zip]"
+    ],
+    "missing_primary_question": [
+      "tests/integration/test_modular_workbench.py::test_three_question_omission_cannot_become_whole_handoff"
+    ],
+    "one_shot_final": [
+      "tests/integration/test_rc9_final_protocol.py::test_public_completion_accepts_development_then_independent_final_once"
+    ],
+    "partial_not_whole": [
+      "tests/integration/test_modular_workbench.py::test_scoped_child_has_own_identity_and_no_parent_acceptance"
+    ],
+    "scope_conflict": [
+      "tests/integration/test_modular_workbench.py::test_scoped_child_has_own_identity_and_no_parent_acceptance"
+    ],
+    "single_module_stop": [
+      "tests/integration/test_modular_workbench.py::test_real_fourteen_module_water_path_stops_and_preserves_one_final[mixed]",
+      "tests/integration/test_modular_workbench.py::test_real_fourteen_module_water_path_stops_and_preserves_one_final[optimization]",
+      "tests/integration/test_modular_workbench.py::test_real_fourteen_module_water_path_stops_and_preserves_one_final[prediction]"
+    ],
+    "writer_lock": [
+      "tests/integration/test_modular_workbench.py::test_module_operation_stop_and_writer_lock"
+    ],
+    "wrong_case_package_hash": [
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[bool_revision]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[duplicate_json]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[extra]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[instruction]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[long]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[malformed]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[secret]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_case]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_hash]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_location]",
+      "tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[zip]"
+    ],
+    "wrong_scenario": [
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[42]",
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[False]",
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[None]",
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[]",
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]",
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[bad4]",
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[bad5]",
+      "tests/integration/test_workbench_scenario.py::test_bad_explicit_rejected_before_model_start[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]"
+    ]
+  },
+  "families": [
+    {
+      "actual_model_starts": 2,
+      "case_id": "ORIGINAL-WATER-PREDICTION",
+      "evidence": [
+        {
+          "path": "evals/results/modular-workbench-001/original/prediction/records.json",
+          "sha256": "87529c3a229f0c43ac3a11bda6aefee991b25bed0170f1c61e8c0f7bfd043f06"
+        },
+        {
+          "path": "evals/results/modular-workbench-001/commands/public-water-prediction-006.log",
+          "sha256": "f76a4eeeba56440b79d0efbc38e203eaf83efc5a2adc511b5ddb0aab515bd01a"
+        }
+      ],
+      "independent_final_starts": 1,
+      "kind": "prediction",
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "negative_cases_passed": 1,
+      "numerical_results": [
+        {
+          "metrics": {
+            "metric_a": 7.291666666666515,
+            "metric_b": 7.291666666666515
+          },
+          "run_id": "RUN-BASE-20260906"
+        },
+        {
+          "metrics": {
+            "metric_a": 1.5173048003210474e-13,
+            "metric_b": 1.5173048003210474e-13
+          },
+          "run_id": "RUN-CAND-20260906"
+        }
+      ],
+      "primary_requirements": 2,
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/prediction/records.json",
+        "sha256": "87529c3a229f0c43ac3a11bda6aefee991b25bed0170f1c61e8c0f7bfd043f06"
+      }
+    },
+    {
+      "actual_model_starts": 2,
+      "case_id": "ORIGINAL-WATER-OPTIMIZATION",
+      "evidence": [
+        {
+          "path": "evals/results/modular-workbench-001/original/optimization/records.json",
+          "sha256": "23fc6d3538d7cb9b4447c8a7d0247c54ce58c024c701217d1dcd56e1fd622a50"
+        },
+        {
+          "path": "evals/results/modular-workbench-001/commands/public-water-optimization-006.log",
+          "sha256": "71b2b442488b44f838b3261a19f5df9e3f5bde450e2b0f147572ea2ca1fd5d9a"
+        }
+      ],
+      "independent_final_starts": 1,
+      "kind": "optimization",
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "negative_cases_passed": 1,
+      "numerical_results": [
+        {
+          "metrics": {
+            "metric_a": 12,
+            "metric_b": 1
+          },
+          "run_id": "RUN-BASE-20260906"
+        },
+        {
+          "metrics": {
+            "metric_a": 11,
+            "metric_b": 0
+          },
+          "run_id": "RUN-CAND-20260906"
+        }
+      ],
+      "primary_requirements": 2,
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/optimization/records.json",
+        "sha256": "23fc6d3538d7cb9b4447c8a7d0247c54ce58c024c701217d1dcd56e1fd622a50"
+      }
+    },
+    {
+      "actual_model_starts": 2,
+      "case_id": "ORIGINAL-WATER-MIXED",
+      "evidence": [
+        {
+          "path": "evals/results/modular-workbench-001/original/mixed/records.json",
+          "sha256": "87cdf3e2b0a12d2f7e8ef54b57d08216b448f5fb104f7cae89f8504aae897760"
+        },
+        {
+          "path": "evals/results/modular-workbench-001/commands/public-water-mixed-006.log",
+          "sha256": "19368a322a13ca8ce1e6188ef4c40848664f40e02aebced1df36c35a9ea21fd2"
+        }
+      ],
+      "independent_final_starts": 1,
+      "kind": "mixed",
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "negative_cases_passed": 1,
+      "numerical_results": [
+        {
+          "metrics": {
+            "metric_a": 12,
+            "metric_b": 1.5173048003210474e-13,
+            "metric_c": 1
+          },
+          "run_id": "RUN-BASE-20260906"
+        },
+        {
+          "metrics": {
+            "metric_a": 11,
+            "metric_b": 1.5173048003210474e-13,
+            "metric_c": 0
+          },
+          "run_id": "RUN-CAND-20260906"
+        }
+      ],
+      "primary_requirements": 3,
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/records.json",
+        "sha256": "87cdf3e2b0a12d2f7e8ef54b57d08216b448f5fb104f7cae89f8504aae897760"
+      }
+    }
+  ],
+  "human_review": "NOT_RUN",
+  "implementation_hash": "c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca",
+  "modules": [
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M01.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M01",
+      "native_state": "CREATED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M01; complete --request WATER-M01; resume --request WATER-M01",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M01.json",
+        "sha256": "24c59c53bb4363a0f807ea925b88c15c168d7ecd7f26d841dc7bae8bd1a296b5"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M01-records.json",
+        "sha256": "2b222b5654da498f04531888637d6fd15c33c37d90fcf8c1e9a701a13c442c58"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M02.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M02",
+      "native_state": "REQUIREMENTS_VALIDATED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M02; complete --request WATER-M02; resume --request WATER-M02",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M02.json",
+        "sha256": "de5d2398d8572cf96d5e30b47c904a85ff2fc418b3d021a5ef6450b908edeae5"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M02-records.json",
+        "sha256": "f3f8841dbd14f169c07e5d95b1b2588f4ff6f2d13bea61a4f19c083ea7d78e9b"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M03.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M03",
+      "native_state": "SOURCES_PLANNED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M03; complete --request WATER-M03; resume --request WATER-M03",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M03.json",
+        "sha256": "5414c92dda926ddacbda917144d1636ba93fc75c01482e8b8278c96796d01e5f"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M03-records.json",
+        "sha256": "1965a59e9356be686f5c212d915da83d6b4fb7e35ac51feec0a622bf5e337e0b"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M04.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M04",
+      "native_state": "SOURCES_PLANNED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M04; complete --request WATER-M04; resume --request WATER-M04",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M04.json",
+        "sha256": "ae96a66ceedf7e4b39abd1060307e61e77c2987b8a87030fa6d22dbe668472df"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M04-records.json",
+        "sha256": "cccbe5d4109fe13ae1db3f187fb74c73dd60721a6195715fe2c8ad8517e18e27"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M05.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M05",
+      "native_state": "DATA_AUDITED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M05; complete --request WATER-M05; resume --request WATER-M05",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M05.json",
+        "sha256": "9928454560f1c62f2247934e8d8d761b3fec89e8d99691a92874323a63cbe282"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M05-records.json",
+        "sha256": "875195f82ad0556bb6c6584c0ca1095f8d09017e48e00413f894964b36e1d1ef"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M06.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M06",
+      "native_state": "MODELS_PROPOSED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M06; complete --request WATER-M06; resume --request WATER-M06",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M06.json",
+        "sha256": "a5dc1b3762e37810eb78a6b63c0038b4e47f48aabb653362b80a3e7505069685"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M06-records.json",
+        "sha256": "c4cef1e8faf186763db2f5a833e5a9bd01b8066fc8f9474e8dce285e4d94e7e1"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M07.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M07",
+      "native_state": "MODELS_PROPOSED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M07; complete --request WATER-M07; resume --request WATER-M07",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M07.json",
+        "sha256": "17e5c40c26c5df1ed9d24a86e0a06c0713531247d202b166c13a368d826d6f72"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M07-records.json",
+        "sha256": "106073075b95fa27a5c480279b2d950699b989b74e2b0f2596b51faf1eb4a7f1"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M08.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M08",
+      "native_state": "EXPERIMENT_PLAN_VALIDATED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M08; complete --request WATER-M08; resume --request WATER-M08",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M08.json",
+        "sha256": "7d56c8f28c70f8d64b08ff48daa70c5e849fdfd188f54f9f146c55d387b787c8"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M08-records.json",
+        "sha256": "549601d4c5e9370afad7b4f48cf296bb813d7591513c57703b4f733e2f1856a1"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "分析/设计，待数值验证",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M09.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M09",
+      "native_state": "RUNNING",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M09; complete --request WATER-M09; resume --request WATER-M09",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M09.json",
+        "sha256": "e49178d38f12ae432776cbc099b668e346e3c325afc03292c24161cdbab83cb2"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M09-records.json",
+        "sha256": "694704f04353933df992a148204a9113569fa66ba666299866172decc52c4a4a"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "仅本次原创合成条件模型，见实际核验产物",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M10.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M10",
+      "native_state": "RUNNING",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M10; complete --request WATER-M10; resume --request WATER-M10",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M10.json",
+        "sha256": "6a10cf2e28dd4ce2142bc58b40833c5a81bc78d2b52e1cd4a90b610043518e20"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M10-records.json",
+        "sha256": "443fb67aea09266f7135c33aa8b8e4cc638357edfe6597534be4d46fa8ac5f69"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "仅本次原创合成条件模型，见实际核验产物",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M11.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M11",
+      "native_state": "RUNNING",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M11; complete --request WATER-M11; resume --request WATER-M11",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M11.json",
+        "sha256": "b5fb51fe26a8a01e8fde50c5348c954f994c7219c2eadc90f690d772bb0233ba"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M11-records.json",
+        "sha256": "49f018420199d5581fd6bc2b9b8c531a329425039526f8a63f966cedd7b687c7"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "仅本次原创合成条件模型，见实际核验产物",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M12.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M12",
+      "native_state": "FINAL_CANDIDATE",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M12; complete --request WATER-M12; resume --request WATER-M12",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M12.json",
+        "sha256": "5e755f42089b084b4aba42ac7f2dd3b2966d64b088acda650b75c0ea49e5ca9d"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M12-records.json",
+        "sha256": "ae5537b6bc4af3919ef45329affb0013508b5f70148621e71f53a58981c27c45"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "仅本次原创合成条件模型，见实际核验产物",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M13.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M13",
+      "native_state": "EVIDENCE_VALIDATED",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M13; complete --request WATER-M13; resume --request WATER-M13",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M13.json",
+        "sha256": "3ea8421310297e128b3aee818d958c6b56d4d42ea23118e4a6e12a210cd6e73b"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M13-records.json",
+        "sha256": "f645d3d394099c5e17b2cf07749eaf5a724920a08888f0eba272c13f06470044"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "仅本次原创合成条件模型，见实际核验产物",
+      "stop": "NEXT_REQUEST_ABSENT"
+    },
+    {
+      "documentation": {
+        "card": ".agents/skills/cumcm-modeling-evidence/references/modules/M14.md",
+        "catalog": ".agents/skills/cumcm-modeling-evidence/references/modules.json",
+        "status": "RENDER_CHECK_CURRENT"
+      },
+      "engineering": "CONTRACTS_CHECKED",
+      "execution": "COMPLETED",
+      "human_review": "NOT_RUN",
+      "module": "M14",
+      "native_state": "READY_FOR_PAPER_HANDOFF",
+      "next_module_started": false,
+      "preparation": "ACTUALLY_PREPARED",
+      "public_entry": "cumcm_workbench.py prepare --module M14; complete --request WATER-M14; resume --request WATER-M14",
+      "receipt": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M14.json",
+        "sha256": "952b6806d05272ae900bd8d32c479c013d68acbc80fca63de0c2c33a897498e2"
+      },
+      "record_packet": {
+        "path": "evals/results/modular-workbench-001/original/mixed/modules/M14-records.json",
+        "sha256": "77df0b4c5290a5a77ebefb2c7f9381d7299d4072489af6c46d51f494bf2f6145"
+      },
+      "recovery": "PUBLIC_RESUME_NO_MUTATION_NO_AUTOMATIC_START",
+      "scientific": "仅本次原创合成条件模型，见实际核验产物",
+      "stop": "NEXT_REQUEST_ABSENT"
+    }
+  ],
+  "new_independent_validation": 0,
+  "scenario_equivalence": {
+    "mixed": {
+      "default": "tests/integration/test_workbench_scenario.py::test_default_and_equivalent_explicit_reach_public_handoff[False-mixed]",
+      "equivalent_explicit": "tests/integration/test_workbench_scenario.py::test_default_and_equivalent_explicit_reach_public_handoff[True-mixed]"
+    },
+    "optimization": {
+      "default": "tests/integration/test_workbench_scenario.py::test_default_and_equivalent_explicit_reach_public_handoff[False-optimization]",
+      "equivalent_explicit": "tests/integration/test_workbench_scenario.py::test_default_and_equivalent_explicit_reach_public_handoff[True-optimization]"
+    },
+    "prediction": {
+      "default": "tests/integration/test_workbench_scenario.py::test_default_and_equivalent_explicit_reach_public_handoff[False-prediction]",
+      "equivalent_explicit": "tests/integration/test_workbench_scenario.py::test_default_and_equivalent_explicit_reach_public_handoff[True-prediction]"
+    }
+  },
+  "schema_version": "modular-workbench-acceptance-matrix/v1",
+  "subject_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+  "whole_known_problem_completed": false
+}

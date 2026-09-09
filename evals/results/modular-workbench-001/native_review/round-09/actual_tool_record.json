@@ -1,0 +1,124 @@
+{
+  "round": "09",
+  "reviewer": "/root/workbench_protocol_review",
+  "scope": "read-only diagnosis of existing11failures",
+  "started_observation_utc": "2026-09-09T10:40:02.376386+00:00",
+  "final_record_utc": "2026-09-09T10:48:23.704937+00:00",
+  "subject": "929d2874e711ca4dd58484555009b028555898a3",
+  "log_snapshot_sha256": "1fe4fdbd799f56f51a192dc16e905ba011f6f973c0c6eff71d4feabb047b5672",
+  "commands": [
+    {
+      "command": "ls -la",
+      "purpose": "first command; directory scan",
+      "result": "exit0; repo directory listing observed"
+    },
+    {
+      "command": "rg -n 'FAILED|FAILURES|^_{4,}|^E +|Interrupted|KeyboardInterrupt|short test summary|ERROR|^tests/.+ F' evals/results/modular-workbench-001/commands/full-ci-001.log",
+      "result": "identified11 failure node IDs"
+    },
+    {
+      "command": "sed -n '1,460p' .cache/modular-workbench-001/protocol-review/round-09/full-ci-001.log.read-snapshot",
+      "chunk_id": "f26a35",
+      "result": "exit0; first9failure tracebacks"
+    },
+    {
+      "command": "sed -n '460,715p' .cache/modular-workbench-001/protocol-review/round-09/full-ci-001.log.read-snapshot",
+      "chunk_id": "9395d7",
+      "result": "exit0; False controller traceback"
+    },
+    {
+      "command": "tail -n 22 .cache/modular-workbench-001/protocol-review/round-09/full-ci-001.log.read-snapshot",
+      "chunk_id": "2d71c2",
+      "result": "exit0; 11failed1584passed480.42s interrupted"
+    },
+    {
+      "command": "sed -n '1,220p' tests/unit/test_fresh_completion_controller.py\nsed -n '1,250p' tests/integration/test_rc8_scientific_fact_binding.py",
+      "chunk_id": "be461a",
+      "result": "exit0"
+    },
+    {
+      "command": "sed -n '1,230p' tests/integration/test_actual_controller_adversarial.py\nsed -n '1,180p' tests/unit/test_c_target_batch_freeze.py",
+      "chunk_id": "cb7d6a",
+      "result": "exit0"
+    },
+    {
+      "command": "sed -n '1,120p' tests/unit/test_competition_rc_development_eval.py\nsed -n '1,220p' scripts/check_c_target_batch_freeze.py\nrg -n 'def |PHASE-SKILL|COMPETITION_RC_NOT_READY|technical_adjudication_status|skill_capability' scripts/start_skill_development_eval.py scripts/check_competition_rc_consistency.py tests/unit/test_competition_rc_skill.py tests/unit/test_competition_rc_state.py",
+      "result": "exit0; combined outer output truncated, followed by bounded rereads"
+    },
+    {
+      "command": "sed -n '1,65p' tests/unit/test_competition_rc_development_eval.py\nsed -n '120,182p' scripts/start_skill_development_eval.py\nsed -n '105,186p' scripts/check_competition_rc_consistency.py\nsed -n '410,470p' scripts/check_competition_rc_consistency.py\nsed -n '220,350p' scripts/check_c_target_batch_freeze.py",
+      "chunk_id": "4be1a1",
+      "result": "exit0; exact routing exclusions"
+    },
+    {
+      "command": "sed -n '1,108p' scripts/check_competition_rc_consistency.py\nsed -n '184,233p' scripts/check_competition_rc_consistency.py\nsed -n '340,416p' scripts/check_competition_rc_consistency.py\nsed -n '470,546p' scripts/check_competition_rc_consistency.py\nsed -n '28,62p' tests/unit/test_competition_rc_skill.py\nsed -n '92,124p' tests/unit/test_competition_rc_state.py\nsed -n '1,42p' tests/unit/test_c_target_batch_freeze.py",
+      "chunk_id": "2959cd",
+      "result": "exit0"
+    },
+    {
+      "command": "rg -n 'scenario_hash|SCENARIO_HASH|CAPTURE_SCENARIO_STALE|def native|def finalize|RC_SCIENTIFIC_RECALCULATION_MISSING|def scientific' scripts/finalize_fresh_c_validation.py .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py tests/integration/test_p0_01_finalization_hf22_reproduction.py tests/integration/test_actual_controller_neutral_e2e.py tests/unit/test_fresh_completion_controller.py\nrg -n '004C7|modular_workbench|candidate_skill_version|active_skill_version|workbench_build_status' contracts/project_state.schema.json rules/modular_workbench_rules.yaml",
+      "chunk_id": "04b19d",
+      "result": "exit2: rules/modular_workbench_rules.yaml does not exist; other named source matches obtained; not treated as a check success"
+    },
+    {
+      "command": ".venv/bin/python -B - <<'PY' [standard-library source hash/Git blob snapshot collector as actually shown in tool transcript] PY",
+      "chunk_id": "92b580",
+      "result": "exit0; source_observation.json and20private byte snapshots; subprocess argv git rev-parse HEAD; git show HEAD:path for each explicitly listed source file",
+      "exact_full_script_location": "conversation tool call; bracketed description is not literal executed shell"
+    },
+    {
+      "command": "sed -n '55,84p' tests/integration/test_actual_controller_adversarial.py\nsed -n '595,666p' scripts/finalize_fresh_c_validation.py\nsed -n '847,925p' scripts/finalize_fresh_c_validation.py\nsed -n '90,200p' tests/integration/test_p0_01_finalization_hf22_reproduction.py",
+      "chunk_id": "d628c6",
+      "result": "exit0"
+    },
+    {
+      "command": "sed -n '5330,5470p' .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py\nsed -n '6045,6084p' .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py\nsed -n '210,297p' tests/unit/test_fresh_completion_controller.py\nsed -n '280,345p' tests/integration/test_actual_controller_neutral_e2e.py",
+      "chunk_id": "887803",
+      "result": "exit0"
+    },
+    {
+      "command": "rg -n '^def _attempt_registry|^def _preview_attempts|^def complete|GATE_.*|SCIENTIFIC_RECALCULATION_MISSING|scientific_facts_required|execute_case_code' scripts/finalize_fresh_c_validation.py tests/integration/test_p0_01_finalization_hf22_reproduction.py .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py | head -n 115\nsed -n '285,350p' scripts/finalize_fresh_c_validation.py\nsed -n '460,580p' scripts/finalize_fresh_c_validation.py\nsed -n '220,292p' tests/integration/test_p0_01_finalization_hf22_reproduction.py\nsed -n '82,96p' tests/integration/test_actual_controller_adversarial.py",
+      "chunk_id": "8aa165",
+      "result": "exit0; output slightly truncated; decisive source reread subsequently"
+    },
+    {
+      "command": "sed -n '185,245p' scripts/finalize_fresh_c_validation.py\nsed -n '2023,2055p' .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py\nsed -n '1,95p' evals/results/phase-004c4/frozen_adversarial_controller_probe_matrix.json\nrg -n 'frozen_adversarial_controller_probe_matrix|eddb38912cd|test_actual_controller_adversarial.py' scripts tests/fault_injection tests/unit tests/integration/test_actual_controller_adversarial.py",
+      "chunk_id": "9dcbbf",
+      "result": "exit0; raw frozenmatrix hash binding demonstrated"
+    },
+    {
+      "command": "sed -n '6940,7015p' .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py\nsed -n '1,155p' tests/AGENTS.md\nsed -n '1,35p' scripts/check_c_target_batch_freeze.py\nsed -n '80,95p' tests/integration/test_p0_01_finalization_hf22_reproduction.py\nsed -n '2075,2105p' .agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+      "chunk_id": "340427",
+      "result": "exit0; current helper gained prefreeze scientific flag, drift from saved snapshot observed"
+    },
+    {
+      "command": "sed -n '7015,7072p' .cache/modular-workbench-001/protocol-review/round-09/source-snapshot/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py\nsed -n '3400,3450p' .cache/modular-workbench-001/protocol-review/round-09/source-snapshot/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py\nsed -n '78,88p' .cache/modular-workbench-001/protocol-review/round-09/source-snapshot/tests/integration/test_p0_01_finalization_hf22_reproduction.py",
+      "chunk_id": "7d3e05",
+      "result": "exit0; original snapshot reconfirmed"
+    }
+  ],
+  "recording_limit": "Per-shell wall-clock timestamps were not independently captured for text reads; source observation and end UTC bound the versioned snapshots. Tool transcript carries exact calls; no invented per-command UTC. Initial snapshot preparation and this record-writing heredoc are metadata-only private writes, not tests.",
+  "read_files_observation": "source_observation.json",
+  "read_files_final": "source_end.json",
+  "execution_counts": {
+    "pytest": 0,
+    "full_ci": 0,
+    "model": 0,
+    "scientific_checker": 0,
+    "final": 0,
+    "known_case": 0,
+    "project_validator": 0,
+    "network": 0,
+    "public_writes": 0,
+    "git_writes": 0
+  },
+  "observed_external_log": {
+    "failed": 11,
+    "passed": 1584,
+    "elapsed_seconds": 480.42,
+    "interrupted": true,
+    "independently_rerun": false
+  },
+  "report_sha256": "224fa6cbe1a95e53081f8716db7442d87b074c40faa259f63285fa860e0eedab",
+  "claim": "DIAGNOSIS_ONLY_NO_OVERALL_PASS"
+}

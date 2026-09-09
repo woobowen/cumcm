@@ -1,0 +1,596 @@
+{
+  "derivation": "EXACT_UTF8_JSON_NO_REDACTION",
+  "records": {
+    "completion": {
+      "content": {
+        "artifact_hashes": {
+          "data/raw/input.json": "0bbfc96f554254e9adf6832e07df1d58bb50700631768da88b9d20e6fe35fa90",
+          "evidence/scientific_final_ledger.json": "2a7414b22dd94d3f61a4dcdcad1b3cc7e9bfdfcc28cd79309fff4a1139dc5cae",
+          "experiments/experiment_plan.json": "5bbb9ee6b70380c1ef3c976dbc1b7214a49fbab00b5c4240abe73560ad639cc6",
+          "handoff/modeling_to_paper.json": "c036b1c4218215ee9a00e1abbbde15c738ba03b1ea5e703d9f26f5c9720fbc6e",
+          "models/assumptions_and_symbols.json": "e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3",
+          "models/independent_check.py": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0",
+          "models/runtime_model.py": "b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4",
+          "problem/original.md": "75949939094a764701326be425a997f0fcc8aa11af2a162cfaf5f56aa82523d9",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "runs/RUN-BASE-20260906/execution_capture.json": "ee5ecc8612335a09ff8757ea7450ea44bc13bb14e5feed68140ed65305cdee9d",
+          "runs/RUN-BASE-20260906/output.json": "b1b81dcf18da98765ded39e371c65abcc63868f570e92e0adcb3793978c38d58",
+          "runs/RUN-BASE-20260906/scientific_check.json": "49efb78fe18b934b68d84f3109f21c0540402e0bee8a8166a9e10d041331a7ca",
+          "runs/RUN-BASE-20260906/scientific_check_capture.json": "0106cfd06bdebd342d6d5a7344c442a07d4d7c6ce9e0013b98ed8a0bcab02449",
+          "runs/RUN-CAND-20260906/execution_capture.json": "370393a593e51f79f10725191df6797345fa01ba966c08885cf2caf0dd9e6a47",
+          "runs/RUN-CAND-20260906/final_check.json": "5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4",
+          "runs/RUN-CAND-20260906/output.json": "07e193057eb5764c7d57d414c35de11882a2bd22e56fffe827691f92ea518ed4",
+          "runs/RUN-CAND-20260906/scientific_check.json": "5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4",
+          "runs/RUN-CAND-20260906/scientific_check_capture.json": "0d7e2eeda7966f1ebfe525f5e5640c5ae041c696d3a3afbb0ecf25cf77fd698a",
+          "work/M14.json": "62e564703ceb583266d44cc82124ce4c6c8738affc4e0909cbe342d6808e7226"
+        },
+        "case_id": "ORIGINAL-WATER-PREDICTION",
+        "completed_at": "2026-09-09T10:55:02Z",
+        "engineering": "CONTRACTS_CHECKED",
+        "execution": "COMPLETED",
+        "human_review": "NOT_RUN",
+        "module": "M14",
+        "native_state": "READY_FOR_PAPER_HANDOFF",
+        "next_module_started": false,
+        "report_path": "work/M14.json",
+        "request_id": "WATER-M14",
+        "request_sha256": "cae3c718142dd26ae314e88c47a843afdb8a6212002a12b506854e451347eac9",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "schema_version": "module-completion/v1",
+        "scientific": "仅本次原创合成条件模型，见实际核验产物"
+      },
+      "raw_sha256": "ed7b8cb247ec5883ac69ddf8565015c11bef3d79f1059f0e2f594eefffcd1926",
+      "raw_utf8": "{\n  \"artifact_hashes\": {\n    \"data/raw/input.json\": \"0bbfc96f554254e9adf6832e07df1d58bb50700631768da88b9d20e6fe35fa90\",\n    \"evidence/scientific_final_ledger.json\": \"2a7414b22dd94d3f61a4dcdcad1b3cc7e9bfdfcc28cd79309fff4a1139dc5cae\",\n    \"experiments/experiment_plan.json\": \"5bbb9ee6b70380c1ef3c976dbc1b7214a49fbab00b5c4240abe73560ad639cc6\",\n    \"handoff/modeling_to_paper.json\": \"c036b1c4218215ee9a00e1abbbde15c738ba03b1ea5e703d9f26f5c9720fbc6e\",\n    \"models/assumptions_and_symbols.json\": \"e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3\",\n    \"models/independent_check.py\": \"54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0\",\n    \"models/runtime_model.py\": \"b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4\",\n    \"problem/original.md\": \"75949939094a764701326be425a997f0fcc8aa11af2a162cfaf5f56aa82523d9\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"runs/RUN-BASE-20260906/execution_capture.json\": \"ee5ecc8612335a09ff8757ea7450ea44bc13bb14e5feed68140ed65305cdee9d\",\n    \"runs/RUN-BASE-20260906/output.json\": \"b1b81dcf18da98765ded39e371c65abcc63868f570e92e0adcb3793978c38d58\",\n    \"runs/RUN-BASE-20260906/scientific_check.json\": \"49efb78fe18b934b68d84f3109f21c0540402e0bee8a8166a9e10d041331a7ca\",\n    \"runs/RUN-BASE-20260906/scientific_check_capture.json\": \"0106cfd06bdebd342d6d5a7344c442a07d4d7c6ce9e0013b98ed8a0bcab02449\",\n    \"runs/RUN-CAND-20260906/execution_capture.json\": \"370393a593e51f79f10725191df6797345fa01ba966c08885cf2caf0dd9e6a47\",\n    \"runs/RUN-CAND-20260906/final_check.json\": \"5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4\",\n    \"runs/RUN-CAND-20260906/output.json\": \"07e193057eb5764c7d57d414c35de11882a2bd22e56fffe827691f92ea518ed4\",\n    \"runs/RUN-CAND-20260906/scientific_check.json\": \"5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4\",\n    \"runs/RUN-CAND-20260906/scientific_check_capture.json\": \"0d7e2eeda7966f1ebfe525f5e5640c5ae041c696d3a3afbb0ecf25cf77fd698a\",\n    \"work/M14.json\": \"62e564703ceb583266d44cc82124ce4c6c8738affc4e0909cbe342d6808e7226\"\n  },\n  \"case_id\": \"ORIGINAL-WATER-PREDICTION\",\n  \"completed_at\": \"2026-09-09T10:55:02Z\",\n  \"engineering\": \"CONTRACTS_CHECKED\",\n  \"execution\": \"COMPLETED\",\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M14\",\n  \"native_state\": \"READY_FOR_PAPER_HANDOFF\",\n  \"next_module_started\": false,\n  \"report_path\": \"work/M14.json\",\n  \"request_id\": \"WATER-M14\",\n  \"request_sha256\": \"cae3c718142dd26ae314e88c47a843afdb8a6212002a12b506854e451347eac9\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\"\n  ],\n  \"schema_version\": \"module-completion/v1\",\n  \"scientific\": \"仅本次原创合成条件模型，见实际核验产物\"\n}\n"
+    },
+    "recovery_proof": {
+      "content": {
+        "actual_resume": {
+          "case_id": "ORIGINAL-WATER-PREDICTION",
+          "human_review": "NOT_RUN",
+          "implementation": {
+            "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+            "tool_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb"
+          },
+          "modules": [
+            {
+              "module": "M01",
+              "request_id": "WATER-M01",
+              "scope": [
+                "ALL"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M02",
+              "request_id": "WATER-M02",
+              "scope": [
+                "ALL"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M03",
+              "request_id": "WATER-M03",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M04",
+              "request_id": "WATER-M04",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M05",
+              "request_id": "WATER-M05",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M06",
+              "request_id": "WATER-M06",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M07",
+              "request_id": "WATER-M07",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M08",
+              "request_id": "WATER-M08",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M09",
+              "request_id": "WATER-M09",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M10",
+              "request_id": "WATER-M10",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M11",
+              "request_id": "WATER-M11",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M12",
+              "request_id": "WATER-M12",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M13",
+              "request_id": "WATER-M13",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M14",
+              "request_id": "WATER-M14",
+              "scope": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "status": "COMPLETED"
+            }
+          ],
+          "native_state": {
+            "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+            "capability": "COMPETITION_RC",
+            "case_id": "ORIGINAL-WATER-PREDICTION",
+            "case_kind": "general",
+            "evidence_bindings": {
+              "data/data_audit.json": "cf67c24d238b276086639e3840226623d35f94bc77c906c4eba2d4a5b395d57f",
+              "data/data_sufficiency.json": "ffc30e6c43ef1f93f06a34a412ca2b3bd6bcf5170fde7f1affcdf792bfbd385c",
+              "data/raw/input.json": "0bbfc96f554254e9adf6832e07df1d58bb50700631768da88b9d20e6fe35fa90",
+              "evidence/claim_evidence.json": "0aead004aa52bed17f821e2f6ee4512c2ae9f27a8220a1e657ef51cab889313b",
+              "evidence/module_requests/WATER-M01/completion.json": "eabf41abb5866b305fe56aa744367ff3ec463fdeee2e489746a6d15ccb576b8a",
+              "evidence/module_requests/WATER-M01/request.json": "20babe3e8a56449334fbe6543e4b1718f9dd2164396cb8ff28bbcc3603c45264",
+              "evidence/module_requests/WATER-M02/completion.json": "493af8bd7a65d33cccd7b30221c16e9420c77dd65974de86bfcb06ec6403068d",
+              "evidence/module_requests/WATER-M02/request.json": "6a485cc7991f78eda9bdadf8efcad61fd66649952475f5408ea7b89b9cae216d",
+              "evidence/module_requests/WATER-M03/completion.json": "2016b74ed57b47ee0f20787ea65aef1415f4c732a1b3c1a2f7f01e669fab14aa",
+              "evidence/module_requests/WATER-M03/request.json": "0d4ac13c8a7b7b061ff9a108e669ff83052824351819c29768922cf9fe213ef3",
+              "evidence/module_requests/WATER-M04/completion.json": "a7bb16fca9da057cecc08e092bbba5d07ecc6b8cb159a061aac4d3812488ea4d",
+              "evidence/module_requests/WATER-M04/request.json": "a2705105de02999df54b535497ea2ef5a1cc7e4db136741e88885d81edd93a35",
+              "evidence/module_requests/WATER-M05/completion.json": "8f65d796684e95214abc76775a9d65a64fd18e84c02d47420c985bae30aeb112",
+              "evidence/module_requests/WATER-M05/request.json": "5dc9817ae461e9a7287155db1b4972e5752b60c453c59c6fafe4c6ca024f3d29",
+              "evidence/module_requests/WATER-M06/completion.json": "3d234104daa39f88319580d35826ae98eeac2479c04696125e88fec11d639e0e",
+              "evidence/module_requests/WATER-M06/request.json": "c10c4a9b936e2551591abdf731940a8c68092bc7f166e90fb084e9091626981a",
+              "evidence/module_requests/WATER-M07/completion.json": "5cfba70b0f6e070185d1a769faebf9679e256e7569e3c26abc8f699f412c37e1",
+              "evidence/module_requests/WATER-M07/request.json": "cd3b0dbfcf7993af8fd1c1d52d06b802f0d3e09426af797e7549cd2b240c751a",
+              "evidence/module_requests/WATER-M08/completion.json": "f18fcfb29fb85dbdc7f6b585207d663c28502f47f97f58528209dea50397eb72",
+              "evidence/module_requests/WATER-M08/request.json": "b6d71c1b213b0f573f12501a5893290235f0d4f0213f073b4505897f2e0197ea",
+              "evidence/module_requests/WATER-M09/completion.json": "e8f9cae1e91b76d566b2c09a641f08f2fe643b8bffe0ff2b54f12775f9a54a51",
+              "evidence/module_requests/WATER-M09/request.json": "575dba33e2514e3ea5eae49b16d5267ab8872c94c802d3a6667f7a77f716b8d5",
+              "evidence/module_requests/WATER-M10/completion.json": "c77ccf12a3b701bbddd91b93ec885dff3a07795d1c9e1b2781d6aed598459781",
+              "evidence/module_requests/WATER-M10/request.json": "2b0087f1a16c830a72ae45484e9b5320696b16a2036b6e58f9fb232e7387ec0d",
+              "evidence/module_requests/WATER-M11/completion.json": "a8e2586087d811cb38412cc9d427985a1aa2827003ca41d1e138ad72e6a0574a",
+              "evidence/module_requests/WATER-M11/request.json": "43f81bda365a7bc0d4edbc7973f6ee4bd847ab8a07bc183c98bc24cae0bc864a",
+              "evidence/module_requests/WATER-M12/completion.json": "50719ce01dcc46eefa7e6e57313f270617abfc286b4849fa12a35eed76e2d52f",
+              "evidence/module_requests/WATER-M12/request.json": "2aedededf92d13044bf5af7ef0437a8e2a89d867531920c38af136cb88288de1",
+              "evidence/module_requests/WATER-M13/completion.json": "7b7d08953c247cfd4decb092b557ce8ef1529c9a3ecfa917025538a8536dc8da",
+              "evidence/module_requests/WATER-M13/request.json": "303942afc74a65b6295cde97850bfb682d0a25c1b25af327d1c0e8bc0b987203",
+              "evidence/module_requests/WATER-M14/completion.json": "ed7b8cb247ec5883ac69ddf8565015c11bef3d79f1059f0e2f594eefffcd1926",
+              "evidence/module_requests/WATER-M14/request.json": "b7ae8a732f9d8b3c44224d087e5ad0a89a3234582ab78ba9e97d2c3f18311312",
+              "evidence/semantic_claim_support.json": "4d8be90c8aa4203172cd1c2846e37fe7232940acf018892359e3d4687d56e18b",
+              "experiments/experiment_plan.json": "5bbb9ee6b70380c1ef3c976dbc1b7214a49fbab00b5c4240abe73560ad639cc6",
+              "experiments/selected_output_contract_probe.json": "ad470283c8f9032ed819a3bc4de56d0d24b7c12745bc4fe29f7e1f156f0c34c1",
+              "handoff/modeling_to_paper.json": "c036b1c4218215ee9a00e1abbbde15c738ba03b1ea5e703d9f26f5c9720fbc6e",
+              "models/assumptions_and_symbols.json": "e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3",
+              "models/model_candidates.json": "76c284f3102fda5a8baa81df8bc07c18aca09d4125ca086417b317cade77b122",
+              "problem/problem_requirements.json": "90d88c0ff3952b997f7df069c7551204554572801ffaeca61c748cd9b22d8a17",
+              "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+              "research/source_ledger.json": "3a7bde1823b8d7620904b10d68b7bb3974d5f7f231ec8ad527a1600f6cea2ee8",
+              "results/final_result.json": "3f68b2360e65cc76aacbd846cbdd7a7d34dea151019bfadc004ed4ddeda43365",
+              "results/model_comparison.json": "cdba2d2b25f637ccf0841a5962af8b779dbce1a75e438966dbfc0add5061cbdf",
+              "results/requirement_selection.json": "cdffb7388f7f1e86caeaa7c907ec0aafcb91e4300e739bf8e7e6a32ae84a669c",
+              "results/robustness.json": "ac61863a25f648718b04488a69fa3c308405e21982d0e1f041beeb585151756a",
+              "runs/RUN-BASE-20260906/manifest.json": "df78a958ace6239d0ae1877b28268628b07c8eaafe3bdac45f9cd01060386245",
+              "runs/RUN-BASE-20260906/output.json": "b1b81dcf18da98765ded39e371c65abcc63868f570e92e0adcb3793978c38d58",
+              "runs/RUN-CAND-20260906/manifest.json": "129d7f285d60e6c31a2a4c0db060752d389f495ee0ca0a88b750ce21b7eeae03",
+              "runs/RUN-CAND-20260906/output.json": "07e193057eb5764c7d57d414c35de11882a2bd22e56fffe827691f92ea518ed4",
+              "state/case_policy.json": "ff68a4c3994d49e6a73ef34041061cbc43a1b15b0152e40fd77a12ddf4b79931"
+            },
+            "history": [
+              {
+                "evidence": [
+                  "state/case_policy.json"
+                ],
+                "from": null,
+                "gate": "INIT",
+                "sequence": 0,
+                "status": "PASS",
+                "to": "CREATED"
+              },
+              {
+                "evidence": [
+                  "problem/problem_requirements.json"
+                ],
+                "from": "CREATED",
+                "gate": "GATE_PROBLEM_INTAKE",
+                "sequence": 1,
+                "status": "PASS",
+                "to": "INTAKE_COMPLETE"
+              },
+              {
+                "evidence": [
+                  "problem/problem_requirements.json"
+                ],
+                "from": "INTAKE_COMPLETE",
+                "gate": "GATE_REQUIREMENT_COVERAGE",
+                "sequence": 2,
+                "status": "PASS",
+                "to": "REQUIREMENTS_VALIDATED"
+              },
+              {
+                "evidence": [
+                  "research/research_plan.json",
+                  "research/source_ledger.json"
+                ],
+                "from": "REQUIREMENTS_VALIDATED",
+                "gate": "GATE_SOURCE_PLAN",
+                "sequence": 3,
+                "status": "PASS",
+                "to": "SOURCES_PLANNED"
+              },
+              {
+                "evidence": [
+                  "models/assumptions_and_symbols.json",
+                  "data/data_audit.json",
+                  "data/raw/input.json"
+                ],
+                "from": "SOURCES_PLANNED",
+                "gate": "GATE_ASSUMPTIONS_AND_DATA",
+                "sequence": 4,
+                "status": "PASS",
+                "to": "DATA_AUDITED"
+              },
+              {
+                "evidence": [
+                  "data/data_sufficiency.json",
+                  "models/model_candidates.json"
+                ],
+                "from": "DATA_AUDITED",
+                "gate": "GATE_MODEL_PORTFOLIO",
+                "sequence": 5,
+                "status": "PASS",
+                "to": "MODELS_PROPOSED"
+              },
+              {
+                "evidence": [
+                  "experiments/experiment_plan.json",
+                  "experiments/selected_output_contract_probe.json"
+                ],
+                "from": "MODELS_PROPOSED",
+                "gate": "GATE_EXPERIMENT_PLAN",
+                "sequence": 6,
+                "status": "PASS",
+                "to": "EXPERIMENT_PLAN_VALIDATED"
+              },
+              {
+                "evidence": [
+                  "experiments/experiment_plan.json"
+                ],
+                "from": "EXPERIMENT_PLAN_VALIDATED",
+                "gate": "GATE_EXECUTION_AUTHORIZED",
+                "sequence": 7,
+                "status": "PASS",
+                "to": "RUNNING"
+              },
+              {
+                "evidence": [
+                  "runs/RUN-BASE-20260906/manifest.json",
+                  "runs/RUN-CAND-20260906/manifest.json",
+                  "runs/RUN-BASE-20260906/output.json",
+                  "runs/RUN-CAND-20260906/output.json"
+                ],
+                "from": "RUNNING",
+                "gate": "GATE_RUN_COMPLETION",
+                "sequence": 8,
+                "status": "PASS",
+                "to": "RUN_COMPLETED"
+              },
+              {
+                "evidence": [
+                  "runs/RUN-BASE-20260906/manifest.json",
+                  "runs/RUN-CAND-20260906/manifest.json",
+                  "runs/RUN-BASE-20260906/output.json",
+                  "runs/RUN-CAND-20260906/output.json"
+                ],
+                "from": "RUN_COMPLETED",
+                "gate": "GATE_REPRODUCIBILITY_MANIFEST",
+                "sequence": 9,
+                "status": "PASS",
+                "to": "RUN_VALIDATED"
+              },
+              {
+                "evidence": [
+                  "results/model_comparison.json",
+                  "results/requirement_selection.json",
+                  "results/robustness.json"
+                ],
+                "from": "RUN_VALIDATED",
+                "gate": "GATE_COMPARISON_AND_ROBUSTNESS",
+                "sequence": 10,
+                "status": "PASS",
+                "to": "ROBUSTNESS_VALIDATED"
+              },
+              {
+                "evidence": [
+                  "results/final_result.json"
+                ],
+                "from": "ROBUSTNESS_VALIDATED",
+                "gate": "GATE_FINAL_RUN",
+                "sequence": 11,
+                "status": "PASS",
+                "to": "FINAL_CANDIDATE"
+              },
+              {
+                "evidence": [
+                  "evidence/claim_evidence.json",
+                  "evidence/semantic_claim_support.json",
+                  "runs/RUN-CAND-20260906/manifest.json"
+                ],
+                "from": "FINAL_CANDIDATE",
+                "gate": "GATE_CLAIM_EVIDENCE",
+                "sequence": 12,
+                "status": "PASS",
+                "to": "EVIDENCE_VALIDATED"
+              },
+              {
+                "evidence": [
+                  "handoff/modeling_to_paper.json"
+                ],
+                "from": "EVIDENCE_VALIDATED",
+                "gate": "GATE_MODELING_TO_PAPER",
+                "sequence": 13,
+                "status": "PASS",
+                "to": "READY_FOR_PAPER_HANDOFF"
+              }
+            ],
+            "last_gate": "GATE_MODELING_TO_PAPER",
+            "schema_version": "1.0.0",
+            "skill_version": "0.2.0-competition-rc10",
+            "state": "READY_FOR_PAPER_HANDOFF"
+          },
+          "operations": [
+            {
+              "arguments": {
+                "candidate": null,
+                "code": null,
+                "operation": "controller",
+                "run_id": null,
+                "seed": null,
+                "timeout": 600
+              },
+              "ended_at": "2026-09-09T10:55:02Z",
+              "request_id": "WATER-M14",
+              "result": {
+                "native_state": "READY_FOR_PAPER_HANDOFF",
+                "status": "MODULE_STOPPED"
+              },
+              "started_at": "2026-09-09T10:55:02Z",
+              "status": "COMPLETED"
+            }
+          ],
+          "policy": {
+            "automatic_publication": false,
+            "case_id": "ORIGINAL-WATER-PREDICTION",
+            "created_at": "2026-09-09T10:54:48Z",
+            "execution_mode": "GUIDED_SINGLE_MODULE",
+            "mode": "GUIDED_LOCAL",
+            "research_policy": "USER_AUTHORIZED_GENERAL_SOURCES_ONLY",
+            "revision": 1,
+            "schema_version": "case-policy/v1",
+            "team_compliance_review": "NOT_RUN"
+          },
+          "recovery": {
+            "automatic_starts": 0,
+            "changed_input": "原件不可覆盖。新输入另行登记，新root重做受影响模块，不继承Final通过。",
+            "completed_operation": "相同run参数复用已记录结果，不启动第二次。",
+            "interrupted_operation": "保留STARTED/FAILED；核对实际capture和Final账本后新建revision。",
+            "prepared": "继续原请求；complete可重入并补导出审查包。"
+          }
+        },
+        "module": "M14",
+        "next_request_exists": false,
+        "request_id": "WATER-M14",
+        "state_after_sha256": "fd8d3a1dac196f1a5fa28ffea5fd0600c396b7c0849464d040d369da691f4bdd",
+        "state_before_sha256": "fd8d3a1dac196f1a5fa28ffea5fd0600c396b7c0849464d040d369da691f4bdd"
+      },
+      "raw_sha256": "dbb1b9281631fe16b2ac8dac152a86fef95355236121da378f4e83017ee56c5a",
+      "raw_utf8": "{\n  \"actual_resume\": {\n    \"case_id\": \"ORIGINAL-WATER-PREDICTION\",\n    \"human_review\": \"NOT_RUN\",\n    \"implementation\": {\n      \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n      \"tool_commit\": \"d1f8532d498307e3b4755c088ce6a0fadfb432bb\"\n    },\n    \"modules\": [\n      {\n        \"module\": \"M01\",\n        \"request_id\": \"WATER-M01\",\n        \"scope\": [\n          \"ALL\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M02\",\n        \"request_id\": \"WATER-M02\",\n        \"scope\": [\n          \"ALL\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M03\",\n        \"request_id\": \"WATER-M03\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M04\",\n        \"request_id\": \"WATER-M04\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M05\",\n        \"request_id\": \"WATER-M05\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M06\",\n        \"request_id\": \"WATER-M06\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M07\",\n        \"request_id\": \"WATER-M07\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M08\",\n        \"request_id\": \"WATER-M08\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M09\",\n        \"request_id\": \"WATER-M09\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M10\",\n        \"request_id\": \"WATER-M10\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M11\",\n        \"request_id\": \"WATER-M11\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M12\",\n        \"request_id\": \"WATER-M12\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M13\",\n        \"request_id\": \"WATER-M13\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      },\n      {\n        \"module\": \"M14\",\n        \"request_id\": \"WATER-M14\",\n        \"scope\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"status\": \"COMPLETED\"\n      }\n    ],\n    \"native_state\": {\n      \"architecture\": \"ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL\",\n      \"capability\": \"COMPETITION_RC\",\n      \"case_id\": \"ORIGINAL-WATER-PREDICTION\",\n      \"case_kind\": \"general\",\n      \"evidence_bindings\": {\n        \"data/data_audit.json\": \"cf67c24d238b276086639e3840226623d35f94bc77c906c4eba2d4a5b395d57f\",\n        \"data/data_sufficiency.json\": \"ffc30e6c43ef1f93f06a34a412ca2b3bd6bcf5170fde7f1affcdf792bfbd385c\",\n        \"data/raw/input.json\": \"0bbfc96f554254e9adf6832e07df1d58bb50700631768da88b9d20e6fe35fa90\",\n        \"evidence/claim_evidence.json\": \"0aead004aa52bed17f821e2f6ee4512c2ae9f27a8220a1e657ef51cab889313b\",\n        \"evidence/module_requests/WATER-M01/completion.json\": \"eabf41abb5866b305fe56aa744367ff3ec463fdeee2e489746a6d15ccb576b8a\",\n        \"evidence/module_requests/WATER-M01/request.json\": \"20babe3e8a56449334fbe6543e4b1718f9dd2164396cb8ff28bbcc3603c45264\",\n        \"evidence/module_requests/WATER-M02/completion.json\": \"493af8bd7a65d33cccd7b30221c16e9420c77dd65974de86bfcb06ec6403068d\",\n        \"evidence/module_requests/WATER-M02/request.json\": \"6a485cc7991f78eda9bdadf8efcad61fd66649952475f5408ea7b89b9cae216d\",\n        \"evidence/module_requests/WATER-M03/completion.json\": \"2016b74ed57b47ee0f20787ea65aef1415f4c732a1b3c1a2f7f01e669fab14aa\",\n        \"evidence/module_requests/WATER-M03/request.json\": \"0d4ac13c8a7b7b061ff9a108e669ff83052824351819c29768922cf9fe213ef3\",\n        \"evidence/module_requests/WATER-M04/completion.json\": \"a7bb16fca9da057cecc08e092bbba5d07ecc6b8cb159a061aac4d3812488ea4d\",\n        \"evidence/module_requests/WATER-M04/request.json\": \"a2705105de02999df54b535497ea2ef5a1cc7e4db136741e88885d81edd93a35\",\n        \"evidence/module_requests/WATER-M05/completion.json\": \"8f65d796684e95214abc76775a9d65a64fd18e84c02d47420c985bae30aeb112\",\n        \"evidence/module_requests/WATER-M05/request.json\": \"5dc9817ae461e9a7287155db1b4972e5752b60c453c59c6fafe4c6ca024f3d29\",\n        \"evidence/module_requests/WATER-M06/completion.json\": \"3d234104daa39f88319580d35826ae98eeac2479c04696125e88fec11d639e0e\",\n        \"evidence/module_requests/WATER-M06/request.json\": \"c10c4a9b936e2551591abdf731940a8c68092bc7f166e90fb084e9091626981a\",\n        \"evidence/module_requests/WATER-M07/completion.json\": \"5cfba70b0f6e070185d1a769faebf9679e256e7569e3c26abc8f699f412c37e1\",\n        \"evidence/module_requests/WATER-M07/request.json\": \"cd3b0dbfcf7993af8fd1c1d52d06b802f0d3e09426af797e7549cd2b240c751a\",\n        \"evidence/module_requests/WATER-M08/completion.json\": \"f18fcfb29fb85dbdc7f6b585207d663c28502f47f97f58528209dea50397eb72\",\n        \"evidence/module_requests/WATER-M08/request.json\": \"b6d71c1b213b0f573f12501a5893290235f0d4f0213f073b4505897f2e0197ea\",\n        \"evidence/module_requests/WATER-M09/completion.json\": \"e8f9cae1e91b76d566b2c09a641f08f2fe643b8bffe0ff2b54f12775f9a54a51\",\n        \"evidence/module_requests/WATER-M09/request.json\": \"575dba33e2514e3ea5eae49b16d5267ab8872c94c802d3a6667f7a77f716b8d5\",\n        \"evidence/module_requests/WATER-M10/completion.json\": \"c77ccf12a3b701bbddd91b93ec885dff3a07795d1c9e1b2781d6aed598459781\",\n        \"evidence/module_requests/WATER-M10/request.json\": \"2b0087f1a16c830a72ae45484e9b5320696b16a2036b6e58f9fb232e7387ec0d\",\n        \"evidence/module_requests/WATER-M11/completion.json\": \"a8e2586087d811cb38412cc9d427985a1aa2827003ca41d1e138ad72e6a0574a\",\n        \"evidence/module_requests/WATER-M11/request.json\": \"43f81bda365a7bc0d4edbc7973f6ee4bd847ab8a07bc183c98bc24cae0bc864a\",\n        \"evidence/module_requests/WATER-M12/completion.json\": \"50719ce01dcc46eefa7e6e57313f270617abfc286b4849fa12a35eed76e2d52f\",\n        \"evidence/module_requests/WATER-M12/request.json\": \"2aedededf92d13044bf5af7ef0437a8e2a89d867531920c38af136cb88288de1\",\n        \"evidence/module_requests/WATER-M13/completion.json\": \"7b7d08953c247cfd4decb092b557ce8ef1529c9a3ecfa917025538a8536dc8da\",\n        \"evidence/module_requests/WATER-M13/request.json\": \"303942afc74a65b6295cde97850bfb682d0a25c1b25af327d1c0e8bc0b987203\",\n        \"evidence/module_requests/WATER-M14/completion.json\": \"ed7b8cb247ec5883ac69ddf8565015c11bef3d79f1059f0e2f594eefffcd1926\",\n        \"evidence/module_requests/WATER-M14/request.json\": \"b7ae8a732f9d8b3c44224d087e5ad0a89a3234582ab78ba9e97d2c3f18311312\",\n        \"evidence/semantic_claim_support.json\": \"4d8be90c8aa4203172cd1c2846e37fe7232940acf018892359e3d4687d56e18b\",\n        \"experiments/experiment_plan.json\": \"5bbb9ee6b70380c1ef3c976dbc1b7214a49fbab00b5c4240abe73560ad639cc6\",\n        \"experiments/selected_output_contract_probe.json\": \"ad470283c8f9032ed819a3bc4de56d0d24b7c12745bc4fe29f7e1f156f0c34c1\",\n        \"handoff/modeling_to_paper.json\": \"c036b1c4218215ee9a00e1abbbde15c738ba03b1ea5e703d9f26f5c9720fbc6e\",\n        \"models/assumptions_and_symbols.json\": \"e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3\",\n        \"models/model_candidates.json\": \"76c284f3102fda5a8baa81df8bc07c18aca09d4125ca086417b317cade77b122\",\n        \"problem/problem_requirements.json\": \"90d88c0ff3952b997f7df069c7551204554572801ffaeca61c748cd9b22d8a17\",\n        \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\n        \"research/source_ledger.json\": \"3a7bde1823b8d7620904b10d68b7bb3974d5f7f231ec8ad527a1600f6cea2ee8\",\n        \"results/final_result.json\": \"3f68b2360e65cc76aacbd846cbdd7a7d34dea151019bfadc004ed4ddeda43365\",\n        \"results/model_comparison.json\": \"cdba2d2b25f637ccf0841a5962af8b779dbce1a75e438966dbfc0add5061cbdf\",\n        \"results/requirement_selection.json\": \"cdffb7388f7f1e86caeaa7c907ec0aafcb91e4300e739bf8e7e6a32ae84a669c\",\n        \"results/robustness.json\": \"ac61863a25f648718b04488a69fa3c308405e21982d0e1f041beeb585151756a\",\n        \"runs/RUN-BASE-20260906/manifest.json\": \"df78a958ace6239d0ae1877b28268628b07c8eaafe3bdac45f9cd01060386245\",\n        \"runs/RUN-BASE-20260906/output.json\": \"b1b81dcf18da98765ded39e371c65abcc63868f570e92e0adcb3793978c38d58\",\n        \"runs/RUN-CAND-20260906/manifest.json\": \"129d7f285d60e6c31a2a4c0db060752d389f495ee0ca0a88b750ce21b7eeae03\",\n        \"runs/RUN-CAND-20260906/output.json\": \"07e193057eb5764c7d57d414c35de11882a2bd22e56fffe827691f92ea518ed4\",\n        \"state/case_policy.json\": \"ff68a4c3994d49e6a73ef34041061cbc43a1b15b0152e40fd77a12ddf4b79931\"\n      },\n      \"history\": [\n        {\n          \"evidence\": [\n            \"state/case_policy.json\"\n          ],\n          \"from\": null,\n          \"gate\": \"INIT\",\n          \"sequence\": 0,\n          \"status\": \"PASS\",\n          \"to\": \"CREATED\"\n        },\n        {\n          \"evidence\": [\n            \"problem/problem_requirements.json\"\n          ],\n          \"from\": \"CREATED\",\n          \"gate\": \"GATE_PROBLEM_INTAKE\",\n          \"sequence\": 1,\n          \"status\": \"PASS\",\n          \"to\": \"INTAKE_COMPLETE\"\n        },\n        {\n          \"evidence\": [\n            \"problem/problem_requirements.json\"\n          ],\n          \"from\": \"INTAKE_COMPLETE\",\n          \"gate\": \"GATE_REQUIREMENT_COVERAGE\",\n          \"sequence\": 2,\n          \"status\": \"PASS\",\n          \"to\": \"REQUIREMENTS_VALIDATED\"\n        },\n        {\n          \"evidence\": [\n            \"research/research_plan.json\",\n            \"research/source_ledger.json\"\n          ],\n          \"from\": \"REQUIREMENTS_VALIDATED\",\n          \"gate\": \"GATE_SOURCE_PLAN\",\n          \"sequence\": 3,\n          \"status\": \"PASS\",\n          \"to\": \"SOURCES_PLANNED\"\n        },\n        {\n          \"evidence\": [\n            \"models/assumptions_and_symbols.json\",\n            \"data/data_audit.json\",\n            \"data/raw/input.json\"\n          ],\n          \"from\": \"SOURCES_PLANNED\",\n          \"gate\": \"GATE_ASSUMPTIONS_AND_DATA\",\n          \"sequence\": 4,\n          \"status\": \"PASS\",\n          \"to\": \"DATA_AUDITED\"\n        },\n        {\n          \"evidence\": [\n            \"data/data_sufficiency.json\",\n            \"models/model_candidates.json\"\n          ],\n          \"from\": \"DATA_AUDITED\",\n          \"gate\": \"GATE_MODEL_PORTFOLIO\",\n          \"sequence\": 5,\n          \"status\": \"PASS\",\n          \"to\": \"MODELS_PROPOSED\"\n        },\n        {\n          \"evidence\": [\n            \"experiments/experiment_plan.json\",\n            \"experiments/selected_output_contract_probe.json\"\n          ],\n          \"from\": \"MODELS_PROPOSED\",\n          \"gate\": \"GATE_EXPERIMENT_PLAN\",\n          \"sequence\": 6,\n          \"status\": \"PASS\",\n          \"to\": \"EXPERIMENT_PLAN_VALIDATED\"\n        },\n        {\n          \"evidence\": [\n            \"experiments/experiment_plan.json\"\n          ],\n          \"from\": \"EXPERIMENT_PLAN_VALIDATED\",\n          \"gate\": \"GATE_EXECUTION_AUTHORIZED\",\n          \"sequence\": 7,\n          \"status\": \"PASS\",\n          \"to\": \"RUNNING\"\n        },\n        {\n          \"evidence\": [\n            \"runs/RUN-BASE-20260906/manifest.json\",\n            \"runs/RUN-CAND-20260906/manifest.json\",\n            \"runs/RUN-BASE-20260906/output.json\",\n            \"runs/RUN-CAND-20260906/output.json\"\n          ],\n          \"from\": \"RUNNING\",\n          \"gate\": \"GATE_RUN_COMPLETION\",\n          \"sequence\": 8,\n          \"status\": \"PASS\",\n          \"to\": \"RUN_COMPLETED\"\n        },\n        {\n          \"evidence\": [\n            \"runs/RUN-BASE-20260906/manifest.json\",\n            \"runs/RUN-CAND-20260906/manifest.json\",\n            \"runs/RUN-BASE-20260906/output.json\",\n            \"runs/RUN-CAND-20260906/output.json\"\n          ],\n          \"from\": \"RUN_COMPLETED\",\n          \"gate\": \"GATE_REPRODUCIBILITY_MANIFEST\",\n          \"sequence\": 9,\n          \"status\": \"PASS\",\n          \"to\": \"RUN_VALIDATED\"\n        },\n        {\n          \"evidence\": [\n            \"results/model_comparison.json\",\n            \"results/requirement_selection.json\",\n            \"results/robustness.json\"\n          ],\n          \"from\": \"RUN_VALIDATED\",\n          \"gate\": \"GATE_COMPARISON_AND_ROBUSTNESS\",\n          \"sequence\": 10,\n          \"status\": \"PASS\",\n          \"to\": \"ROBUSTNESS_VALIDATED\"\n        },\n        {\n          \"evidence\": [\n            \"results/final_result.json\"\n          ],\n          \"from\": \"ROBUSTNESS_VALIDATED\",\n          \"gate\": \"GATE_FINAL_RUN\",\n          \"sequence\": 11,\n          \"status\": \"PASS\",\n          \"to\": \"FINAL_CANDIDATE\"\n        },\n        {\n          \"evidence\": [\n            \"evidence/claim_evidence.json\",\n            \"evidence/semantic_claim_support.json\",\n            \"runs/RUN-CAND-20260906/manifest.json\"\n          ],\n          \"from\": \"FINAL_CANDIDATE\",\n          \"gate\": \"GATE_CLAIM_EVIDENCE\",\n          \"sequence\": 12,\n          \"status\": \"PASS\",\n          \"to\": \"EVIDENCE_VALIDATED\"\n        },\n        {\n          \"evidence\": [\n            \"handoff/modeling_to_paper.json\"\n          ],\n          \"from\": \"EVIDENCE_VALIDATED\",\n          \"gate\": \"GATE_MODELING_TO_PAPER\",\n          \"sequence\": 13,\n          \"status\": \"PASS\",\n          \"to\": \"READY_FOR_PAPER_HANDOFF\"\n        }\n      ],\n      \"last_gate\": \"GATE_MODELING_TO_PAPER\",\n      \"schema_version\": \"1.0.0\",\n      \"skill_version\": \"0.2.0-competition-rc10\",\n      \"state\": \"READY_FOR_PAPER_HANDOFF\"\n    },\n    \"operations\": [\n      {\n        \"arguments\": {\n          \"candidate\": null,\n          \"code\": null,\n          \"operation\": \"controller\",\n          \"run_id\": null,\n          \"seed\": null,\n          \"timeout\": 600\n        },\n        \"ended_at\": \"2026-09-09T10:55:02Z\",\n        \"request_id\": \"WATER-M14\",\n        \"result\": {\n          \"native_state\": \"READY_FOR_PAPER_HANDOFF\",\n          \"status\": \"MODULE_STOPPED\"\n        },\n        \"started_at\": \"2026-09-09T10:55:02Z\",\n        \"status\": \"COMPLETED\"\n      }\n    ],\n    \"policy\": {\n      \"automatic_publication\": false,\n      \"case_id\": \"ORIGINAL-WATER-PREDICTION\",\n      \"created_at\": \"2026-09-09T10:54:48Z\",\n      \"execution_mode\": \"GUIDED_SINGLE_MODULE\",\n      \"mode\": \"GUIDED_LOCAL\",\n      \"research_policy\": \"USER_AUTHORIZED_GENERAL_SOURCES_ONLY\",\n      \"revision\": 1,\n      \"schema_version\": \"case-policy/v1\",\n      \"team_compliance_review\": \"NOT_RUN\"\n    },\n    \"recovery\": {\n      \"automatic_starts\": 0,\n      \"changed_input\": \"原件不可覆盖。新输入另行登记，新root重做受影响模块，不继承Final通过。\",\n      \"completed_operation\": \"相同run参数复用已记录结果，不启动第二次。\",\n      \"interrupted_operation\": \"保留STARTED/FAILED；核对实际capture和Final账本后新建revision。\",\n      \"prepared\": \"继续原请求；complete可重入并补导出审查包。\"\n    }\n  },\n  \"module\": \"M14\",\n  \"next_request_exists\": false,\n  \"request_id\": \"WATER-M14\",\n  \"state_after_sha256\": \"fd8d3a1dac196f1a5fa28ffea5fd0600c396b7c0849464d040d369da691f4bdd\",\n  \"state_before_sha256\": \"fd8d3a1dac196f1a5fa28ffea5fd0600c396b7c0849464d040d369da691f4bdd\"\n}\n"
+    },
+    "request": {
+      "content": {
+        "case_id": "ORIGINAL-WATER-PREDICTION",
+        "execution_mode": "GUIDED_SINGLE_MODULE",
+        "implementation": {
+          "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+          "tool_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb"
+        },
+        "mode": "GUIDED_LOCAL",
+        "module": "M14",
+        "prepared_at": "2026-09-09T10:55:02Z",
+        "prerequisite_files": {
+          "data/data_audit.json": "cf67c24d238b276086639e3840226623d35f94bc77c906c4eba2d4a5b395d57f",
+          "data/data_sufficiency.json": "ffc30e6c43ef1f93f06a34a412ca2b3bd6bcf5170fde7f1affcdf792bfbd385c",
+          "data/raw/input.json": "0bbfc96f554254e9adf6832e07df1d58bb50700631768da88b9d20e6fe35fa90",
+          "evidence/claim_evidence.json": "0aead004aa52bed17f821e2f6ee4512c2ae9f27a8220a1e657ef51cab889313b",
+          "evidence/intake_registry.json": "81e6cc4ee094162868199a98d24b31d0b2c7917c42ddfbca5e0cb082b179039b",
+          "evidence/module_requests/WATER-M01/completion.json": "eabf41abb5866b305fe56aa744367ff3ec463fdeee2e489746a6d15ccb576b8a",
+          "evidence/module_requests/WATER-M01/request.json": "20babe3e8a56449334fbe6543e4b1718f9dd2164396cb8ff28bbcc3603c45264",
+          "evidence/module_requests/WATER-M02/completion.json": "493af8bd7a65d33cccd7b30221c16e9420c77dd65974de86bfcb06ec6403068d",
+          "evidence/module_requests/WATER-M02/request.json": "6a485cc7991f78eda9bdadf8efcad61fd66649952475f5408ea7b89b9cae216d",
+          "evidence/module_requests/WATER-M03/completion.json": "2016b74ed57b47ee0f20787ea65aef1415f4c732a1b3c1a2f7f01e669fab14aa",
+          "evidence/module_requests/WATER-M03/request.json": "0d4ac13c8a7b7b061ff9a108e669ff83052824351819c29768922cf9fe213ef3",
+          "evidence/module_requests/WATER-M04/completion.json": "a7bb16fca9da057cecc08e092bbba5d07ecc6b8cb159a061aac4d3812488ea4d",
+          "evidence/module_requests/WATER-M04/request.json": "a2705105de02999df54b535497ea2ef5a1cc7e4db136741e88885d81edd93a35",
+          "evidence/module_requests/WATER-M05/completion.json": "8f65d796684e95214abc76775a9d65a64fd18e84c02d47420c985bae30aeb112",
+          "evidence/module_requests/WATER-M05/request.json": "5dc9817ae461e9a7287155db1b4972e5752b60c453c59c6fafe4c6ca024f3d29",
+          "evidence/module_requests/WATER-M06/completion.json": "3d234104daa39f88319580d35826ae98eeac2479c04696125e88fec11d639e0e",
+          "evidence/module_requests/WATER-M06/request.json": "c10c4a9b936e2551591abdf731940a8c68092bc7f166e90fb084e9091626981a",
+          "evidence/module_requests/WATER-M07/completion.json": "5cfba70b0f6e070185d1a769faebf9679e256e7569e3c26abc8f699f412c37e1",
+          "evidence/module_requests/WATER-M07/request.json": "cd3b0dbfcf7993af8fd1c1d52d06b802f0d3e09426af797e7549cd2b240c751a",
+          "evidence/module_requests/WATER-M08/completion.json": "f18fcfb29fb85dbdc7f6b585207d663c28502f47f97f58528209dea50397eb72",
+          "evidence/module_requests/WATER-M08/request.json": "b6d71c1b213b0f573f12501a5893290235f0d4f0213f073b4505897f2e0197ea",
+          "evidence/module_requests/WATER-M09/completion.json": "e8f9cae1e91b76d566b2c09a641f08f2fe643b8bffe0ff2b54f12775f9a54a51",
+          "evidence/module_requests/WATER-M09/request.json": "575dba33e2514e3ea5eae49b16d5267ab8872c94c802d3a6667f7a77f716b8d5",
+          "evidence/module_requests/WATER-M10/completion.json": "c77ccf12a3b701bbddd91b93ec885dff3a07795d1c9e1b2781d6aed598459781",
+          "evidence/module_requests/WATER-M10/request.json": "2b0087f1a16c830a72ae45484e9b5320696b16a2036b6e58f9fb232e7387ec0d",
+          "evidence/module_requests/WATER-M11/completion.json": "a8e2586087d811cb38412cc9d427985a1aa2827003ca41d1e138ad72e6a0574a",
+          "evidence/module_requests/WATER-M11/request.json": "43f81bda365a7bc0d4edbc7973f6ee4bd847ab8a07bc183c98bc24cae0bc864a",
+          "evidence/module_requests/WATER-M12/completion.json": "50719ce01dcc46eefa7e6e57313f270617abfc286b4849fa12a35eed76e2d52f",
+          "evidence/module_requests/WATER-M12/request.json": "2aedededf92d13044bf5af7ef0437a8e2a89d867531920c38af136cb88288de1",
+          "evidence/module_requests/WATER-M13/completion.json": "7b7d08953c247cfd4decb092b557ce8ef1529c9a3ecfa917025538a8536dc8da",
+          "evidence/module_requests/WATER-M13/request.json": "303942afc74a65b6295cde97850bfb682d0a25c1b25af327d1c0e8bc0b987203",
+          "evidence/scientific_final_ledger.json": "2a7414b22dd94d3f61a4dcdcad1b3cc7e9bfdfcc28cd79309fff4a1139dc5cae",
+          "evidence/semantic_claim_support.json": "4d8be90c8aa4203172cd1c2846e37fe7232940acf018892359e3d4687d56e18b",
+          "experiments/experiment_plan.json": "5bbb9ee6b70380c1ef3c976dbc1b7214a49fbab00b5c4240abe73560ad639cc6",
+          "models/assumptions_and_symbols.json": "e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3",
+          "models/independent_check.py": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0",
+          "models/model_candidates.json": "76c284f3102fda5a8baa81df8bc07c18aca09d4125ca086417b317cade77b122",
+          "models/runtime_model.py": "b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4",
+          "problem/original.md": "75949939094a764701326be425a997f0fcc8aa11af2a162cfaf5f56aa82523d9",
+          "problem/problem_requirements.json": "90d88c0ff3952b997f7df069c7551204554572801ffaeca61c748cd9b22d8a17",
+          "research/analysis.md": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+          "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+          "research/source_ledger.json": "3a7bde1823b8d7620904b10d68b7bb3974d5f7f231ec8ad527a1600f6cea2ee8",
+          "results/final_result.json": "3f68b2360e65cc76aacbd846cbdd7a7d34dea151019bfadc004ed4ddeda43365",
+          "results/model_comparison.json": "cdba2d2b25f637ccf0841a5962af8b779dbce1a75e438966dbfc0add5061cbdf",
+          "results/requirement_selection.json": "cdffb7388f7f1e86caeaa7c907ec0aafcb91e4300e739bf8e7e6a32ae84a669c",
+          "results/robustness.json": "ac61863a25f648718b04488a69fa3c308405e21982d0e1f041beeb585151756a",
+          "runs/RUN-BASE-20260906/execution_capture.json": "ee5ecc8612335a09ff8757ea7450ea44bc13bb14e5feed68140ed65305cdee9d",
+          "runs/RUN-BASE-20260906/output.json": "b1b81dcf18da98765ded39e371c65abcc63868f570e92e0adcb3793978c38d58",
+          "runs/RUN-BASE-20260906/scientific_check.json": "49efb78fe18b934b68d84f3109f21c0540402e0bee8a8166a9e10d041331a7ca",
+          "runs/RUN-BASE-20260906/scientific_check_capture.json": "0106cfd06bdebd342d6d5a7344c442a07d4d7c6ce9e0013b98ed8a0bcab02449",
+          "runs/RUN-CAND-20260906/execution_capture.json": "370393a593e51f79f10725191df6797345fa01ba966c08885cf2caf0dd9e6a47",
+          "runs/RUN-CAND-20260906/final_check.json": "5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4",
+          "runs/RUN-CAND-20260906/output.json": "07e193057eb5764c7d57d414c35de11882a2bd22e56fffe827691f92ea518ed4",
+          "runs/RUN-CAND-20260906/scientific_check.json": "5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4",
+          "runs/RUN-CAND-20260906/scientific_check_capture.json": "0d7e2eeda7966f1ebfe525f5e5640c5ae041c696d3a3afbb0ecf25cf77fd698a",
+          "state/case_policy.json": "ff68a4c3994d49e6a73ef34041061cbc43a1b15b0152e40fd77a12ddf4b79931",
+          "work/M01.json": "7d5c8512cbfccbb8d88e8259529b5de608d9fa0b30dfe6a26227221207858ee9",
+          "work/M02.json": "43e9f888d6e807ce81510f2bd14b2fae9ae34c8d106a06a294603e770c26b810",
+          "work/M03.json": "db99fed274aa7d85e9d0892da1661404a87ec7a9f6815cb610561e574957dacf",
+          "work/M04.json": "04275277e11475f7caea0fb090195866578fe04176a3d30b518c39ade99ad92f",
+          "work/M05.json": "50b1ae30aca4033abdd5daa1e9e1c07de0ca64e663385a8450e2056046bdb9c4",
+          "work/M06.json": "fa34e658ff998ce8d987c35a033a1250ee5cc4cfd98f4a43e3fa117c9143210f",
+          "work/M07.json": "fa1785d1840adedb5c2300babeb99a1267c5abdde016f03fb9a69b8453f4abcf",
+          "work/M08.json": "92f651316d20fa7f434adc9ebcc60c14f5ab32adc56369793b6e01226bc02ff4",
+          "work/M09.json": "7cdf9d7282d9c7aecc391b991b963744288622556cda7e7fade9fe1476dba24e",
+          "work/M10.json": "60644211ddb6ccfa61dab3480651e1a9b720e460def44d53cf3e39bac518a5e9",
+          "work/M11.json": "461f97a3f770210dd08a1b1b9840a696ff93dd0dc151060c6a5b271f95749093",
+          "work/M12.json": "b64a27ec661901255d26f1514a6a66b674bd608c94dd3ae287f57be7b5716e33",
+          "work/M13.json": "074c8da0b857ca9099c8b4ccbe18cddd5efb2f398887c80a1893c58997a689a0"
+        },
+        "request_id": "WATER-M14",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "revision": 1,
+        "schema_version": "module-request/v1"
+      },
+      "raw_sha256": "b7ae8a732f9d8b3c44224d087e5ad0a89a3234582ab78ba9e97d2c3f18311312",
+      "raw_utf8": "{\n  \"case_id\": \"ORIGINAL-WATER-PREDICTION\",\n  \"execution_mode\": \"GUIDED_SINGLE_MODULE\",\n  \"implementation\": {\n    \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n    \"tool_commit\": \"d1f8532d498307e3b4755c088ce6a0fadfb432bb\"\n  },\n  \"mode\": \"GUIDED_LOCAL\",\n  \"module\": \"M14\",\n  \"prepared_at\": \"2026-09-09T10:55:02Z\",\n  \"prerequisite_files\": {\n    \"data/data_audit.json\": \"cf67c24d238b276086639e3840226623d35f94bc77c906c4eba2d4a5b395d57f\",\n    \"data/data_sufficiency.json\": \"ffc30e6c43ef1f93f06a34a412ca2b3bd6bcf5170fde7f1affcdf792bfbd385c\",\n    \"data/raw/input.json\": \"0bbfc96f554254e9adf6832e07df1d58bb50700631768da88b9d20e6fe35fa90\",\n    \"evidence/claim_evidence.json\": \"0aead004aa52bed17f821e2f6ee4512c2ae9f27a8220a1e657ef51cab889313b\",\n    \"evidence/intake_registry.json\": \"81e6cc4ee094162868199a98d24b31d0b2c7917c42ddfbca5e0cb082b179039b\",\n    \"evidence/module_requests/WATER-M01/completion.json\": \"eabf41abb5866b305fe56aa744367ff3ec463fdeee2e489746a6d15ccb576b8a\",\n    \"evidence/module_requests/WATER-M01/request.json\": \"20babe3e8a56449334fbe6543e4b1718f9dd2164396cb8ff28bbcc3603c45264\",\n    \"evidence/module_requests/WATER-M02/completion.json\": \"493af8bd7a65d33cccd7b30221c16e9420c77dd65974de86bfcb06ec6403068d\",\n    \"evidence/module_requests/WATER-M02/request.json\": \"6a485cc7991f78eda9bdadf8efcad61fd66649952475f5408ea7b89b9cae216d\",\n    \"evidence/module_requests/WATER-M03/completion.json\": \"2016b74ed57b47ee0f20787ea65aef1415f4c732a1b3c1a2f7f01e669fab14aa\",\n    \"evidence/module_requests/WATER-M03/request.json\": \"0d4ac13c8a7b7b061ff9a108e669ff83052824351819c29768922cf9fe213ef3\",\n    \"evidence/module_requests/WATER-M04/completion.json\": \"a7bb16fca9da057cecc08e092bbba5d07ecc6b8cb159a061aac4d3812488ea4d\",\n    \"evidence/module_requests/WATER-M04/request.json\": \"a2705105de02999df54b535497ea2ef5a1cc7e4db136741e88885d81edd93a35\",\n    \"evidence/module_requests/WATER-M05/completion.json\": \"8f65d796684e95214abc76775a9d65a64fd18e84c02d47420c985bae30aeb112\",\n    \"evidence/module_requests/WATER-M05/request.json\": \"5dc9817ae461e9a7287155db1b4972e5752b60c453c59c6fafe4c6ca024f3d29\",\n    \"evidence/module_requests/WATER-M06/completion.json\": \"3d234104daa39f88319580d35826ae98eeac2479c04696125e88fec11d639e0e\",\n    \"evidence/module_requests/WATER-M06/request.json\": \"c10c4a9b936e2551591abdf731940a8c68092bc7f166e90fb084e9091626981a\",\n    \"evidence/module_requests/WATER-M07/completion.json\": \"5cfba70b0f6e070185d1a769faebf9679e256e7569e3c26abc8f699f412c37e1\",\n    \"evidence/module_requests/WATER-M07/request.json\": \"cd3b0dbfcf7993af8fd1c1d52d06b802f0d3e09426af797e7549cd2b240c751a\",\n    \"evidence/module_requests/WATER-M08/completion.json\": \"f18fcfb29fb85dbdc7f6b585207d663c28502f47f97f58528209dea50397eb72\",\n    \"evidence/module_requests/WATER-M08/request.json\": \"b6d71c1b213b0f573f12501a5893290235f0d4f0213f073b4505897f2e0197ea\",\n    \"evidence/module_requests/WATER-M09/completion.json\": \"e8f9cae1e91b76d566b2c09a641f08f2fe643b8bffe0ff2b54f12775f9a54a51\",\n    \"evidence/module_requests/WATER-M09/request.json\": \"575dba33e2514e3ea5eae49b16d5267ab8872c94c802d3a6667f7a77f716b8d5\",\n    \"evidence/module_requests/WATER-M10/completion.json\": \"c77ccf12a3b701bbddd91b93ec885dff3a07795d1c9e1b2781d6aed598459781\",\n    \"evidence/module_requests/WATER-M10/request.json\": \"2b0087f1a16c830a72ae45484e9b5320696b16a2036b6e58f9fb232e7387ec0d\",\n    \"evidence/module_requests/WATER-M11/completion.json\": \"a8e2586087d811cb38412cc9d427985a1aa2827003ca41d1e138ad72e6a0574a\",\n    \"evidence/module_requests/WATER-M11/request.json\": \"43f81bda365a7bc0d4edbc7973f6ee4bd847ab8a07bc183c98bc24cae0bc864a\",\n    \"evidence/module_requests/WATER-M12/completion.json\": \"50719ce01dcc46eefa7e6e57313f270617abfc286b4849fa12a35eed76e2d52f\",\n    \"evidence/module_requests/WATER-M12/request.json\": \"2aedededf92d13044bf5af7ef0437a8e2a89d867531920c38af136cb88288de1\",\n    \"evidence/module_requests/WATER-M13/completion.json\": \"7b7d08953c247cfd4decb092b557ce8ef1529c9a3ecfa917025538a8536dc8da\",\n    \"evidence/module_requests/WATER-M13/request.json\": \"303942afc74a65b6295cde97850bfb682d0a25c1b25af327d1c0e8bc0b987203\",\n    \"evidence/scientific_final_ledger.json\": \"2a7414b22dd94d3f61a4dcdcad1b3cc7e9bfdfcc28cd79309fff4a1139dc5cae\",\n    \"evidence/semantic_claim_support.json\": \"4d8be90c8aa4203172cd1c2846e37fe7232940acf018892359e3d4687d56e18b\",\n    \"experiments/experiment_plan.json\": \"5bbb9ee6b70380c1ef3c976dbc1b7214a49fbab00b5c4240abe73560ad639cc6\",\n    \"models/assumptions_and_symbols.json\": \"e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3\",\n    \"models/independent_check.py\": \"54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0\",\n    \"models/model_candidates.json\": \"76c284f3102fda5a8baa81df8bc07c18aca09d4125ca086417b317cade77b122\",\n    \"models/runtime_model.py\": \"b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4\",\n    \"problem/original.md\": \"75949939094a764701326be425a997f0fcc8aa11af2a162cfaf5f56aa82523d9\",\n    \"problem/problem_requirements.json\": \"90d88c0ff3952b997f7df069c7551204554572801ffaeca61c748cd9b22d8a17\",\n    \"research/analysis.md\": \"6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1\",\n    \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\n    \"research/source_ledger.json\": \"3a7bde1823b8d7620904b10d68b7bb3974d5f7f231ec8ad527a1600f6cea2ee8\",\n    \"results/final_result.json\": \"3f68b2360e65cc76aacbd846cbdd7a7d34dea151019bfadc004ed4ddeda43365\",\n    \"results/model_comparison.json\": \"cdba2d2b25f637ccf0841a5962af8b779dbce1a75e438966dbfc0add5061cbdf\",\n    \"results/requirement_selection.json\": \"cdffb7388f7f1e86caeaa7c907ec0aafcb91e4300e739bf8e7e6a32ae84a669c\",\n    \"results/robustness.json\": \"ac61863a25f648718b04488a69fa3c308405e21982d0e1f041beeb585151756a\",\n    \"runs/RUN-BASE-20260906/execution_capture.json\": \"ee5ecc8612335a09ff8757ea7450ea44bc13bb14e5feed68140ed65305cdee9d\",\n    \"runs/RUN-BASE-20260906/output.json\": \"b1b81dcf18da98765ded39e371c65abcc63868f570e92e0adcb3793978c38d58\",\n    \"runs/RUN-BASE-20260906/scientific_check.json\": \"49efb78fe18b934b68d84f3109f21c0540402e0bee8a8166a9e10d041331a7ca\",\n    \"runs/RUN-BASE-20260906/scientific_check_capture.json\": \"0106cfd06bdebd342d6d5a7344c442a07d4d7c6ce9e0013b98ed8a0bcab02449\",\n    \"runs/RUN-CAND-20260906/execution_capture.json\": \"370393a593e51f79f10725191df6797345fa01ba966c08885cf2caf0dd9e6a47\",\n    \"runs/RUN-CAND-20260906/final_check.json\": \"5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4\",\n    \"runs/RUN-CAND-20260906/output.json\": \"07e193057eb5764c7d57d414c35de11882a2bd22e56fffe827691f92ea518ed4\",\n    \"runs/RUN-CAND-20260906/scientific_check.json\": \"5b1c019119aec7acc93b4869ef083f529548b98dc5a3602c306f5d013ded88e4\",\n    \"runs/RUN-CAND-20260906/scientific_check_capture.json\": \"0d7e2eeda7966f1ebfe525f5e5640c5ae041c696d3a3afbb0ecf25cf77fd698a\",\n    \"state/case_policy.json\": \"ff68a4c3994d49e6a73ef34041061cbc43a1b15b0152e40fd77a12ddf4b79931\",\n    \"work/M01.json\": \"7d5c8512cbfccbb8d88e8259529b5de608d9fa0b30dfe6a26227221207858ee9\",\n    \"work/M02.json\": \"43e9f888d6e807ce81510f2bd14b2fae9ae34c8d106a06a294603e770c26b810\",\n    \"work/M03.json\": \"db99fed274aa7d85e9d0892da1661404a87ec7a9f6815cb610561e574957dacf\",\n    \"work/M04.json\": \"04275277e11475f7caea0fb090195866578fe04176a3d30b518c39ade99ad92f\",\n    \"work/M05.json\": \"50b1ae30aca4033abdd5daa1e9e1c07de0ca64e663385a8450e2056046bdb9c4\",\n    \"work/M06.json\": \"fa34e658ff998ce8d987c35a033a1250ee5cc4cfd98f4a43e3fa117c9143210f\",\n    \"work/M07.json\": \"fa1785d1840adedb5c2300babeb99a1267c5abdde016f03fb9a69b8453f4abcf\",\n    \"work/M08.json\": \"92f651316d20fa7f434adc9ebcc60c14f5ab32adc56369793b6e01226bc02ff4\",\n    \"work/M09.json\": \"7cdf9d7282d9c7aecc391b991b963744288622556cda7e7fade9fe1476dba24e\",\n    \"work/M10.json\": \"60644211ddb6ccfa61dab3480651e1a9b720e460def44d53cf3e39bac518a5e9\",\n    \"work/M11.json\": \"461f97a3f770210dd08a1b1b9840a696ff93dd0dc151060c6a5b271f95749093\",\n    \"work/M12.json\": \"b64a27ec661901255d26f1514a6a66b674bd608c94dd3ae287f57be7b5716e33\",\n    \"work/M13.json\": \"074c8da0b857ca9099c8b4ccbe18cddd5efb2f398887c80a1893c58997a689a0\"\n  },\n  \"request_id\": \"WATER-M14\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\"\n  ],\n  \"revision\": 1,\n  \"schema_version\": \"module-request/v1\"\n}\n"
+    },
+    "work_report": {
+      "content": {
+        "actions": [
+          "主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。"
+        ],
+        "artifacts": [
+          "data/raw/input.json",
+          "evidence/scientific_final_ledger.json",
+          "experiments/experiment_plan.json",
+          "models/assumptions_and_symbols.json",
+          "models/independent_check.py",
+          "models/runtime_model.py",
+          "problem/original.md",
+          "research/analysis.md",
+          "runs/RUN-BASE-20260906/execution_capture.json",
+          "runs/RUN-BASE-20260906/output.json",
+          "runs/RUN-BASE-20260906/scientific_check.json",
+          "runs/RUN-BASE-20260906/scientific_check_capture.json",
+          "runs/RUN-CAND-20260906/execution_capture.json",
+          "runs/RUN-CAND-20260906/final_check.json",
+          "runs/RUN-CAND-20260906/output.json",
+          "runs/RUN-CAND-20260906/scientific_check.json",
+          "runs/RUN-CAND-20260906/scientific_check_capture.json"
+        ],
+        "case_id": "ORIGINAL-WATER-PREDICTION",
+        "checks": [
+          "当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。"
+        ],
+        "human_review": "NOT_RUN",
+        "module": "M14",
+        "negative_results": [
+          "合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。"
+        ],
+        "original_requirements": [
+          "条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。"
+        ],
+        "request_id": "WATER-M14",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "review_questions": [
+          "本模块数据、公式、边界和独立核验是否与原问一致？"
+        ],
+        "revision": 1,
+        "scientific_scope": "仅本次原创合成条件模型，见实际核验产物",
+        "summary_cn": "M14原创prediction备水案例；动作和科学边界见所附分析及当前真实产物。"
+      },
+      "raw_sha256": "62e564703ceb583266d44cc82124ce4c6c8738affc4e0909cbe342d6808e7226",
+      "raw_utf8": "{\n  \"actions\": [\n    \"主Agent编写分析与代码；建设脚本复用已审阅材料并调用公共CLI。\"\n  ],\n  \"artifacts\": [\n    \"data/raw/input.json\",\n    \"evidence/scientific_final_ledger.json\",\n    \"experiments/experiment_plan.json\",\n    \"models/assumptions_and_symbols.json\",\n    \"models/independent_check.py\",\n    \"models/runtime_model.py\",\n    \"problem/original.md\",\n    \"research/analysis.md\",\n    \"runs/RUN-BASE-20260906/execution_capture.json\",\n    \"runs/RUN-BASE-20260906/output.json\",\n    \"runs/RUN-BASE-20260906/scientific_check.json\",\n    \"runs/RUN-BASE-20260906/scientific_check_capture.json\",\n    \"runs/RUN-CAND-20260906/execution_capture.json\",\n    \"runs/RUN-CAND-20260906/final_check.json\",\n    \"runs/RUN-CAND-20260906/output.json\",\n    \"runs/RUN-CAND-20260906/scientific_check.json\",\n    \"runs/RUN-CAND-20260906/scientific_check_capture.json\"\n  ],\n  \"case_id\": \"ORIGINAL-WATER-PREDICTION\",\n  \"checks\": [\n    \"当前模块公共CLI与原生状态检查；数值证据仅以实际Run/checker为准。\"\n  ],\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M14\",\n  \"negative_results\": [\n    \"合成资料，不证明真实未来精度；真实网页/队员核验NOT_RUN。\"\n  ],\n  \"original_requirements\": [\n    \"条件预测、正价格整数采购、逐分钟守恒；按本次类型适用范围。\"\n  ],\n  \"request_id\": \"WATER-M14\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\"\n  ],\n  \"review_questions\": [\n    \"本模块数据、公式、边界和独立核验是否与原问一致？\"\n  ],\n  \"revision\": 1,\n  \"scientific_scope\": \"仅本次原创合成条件模型，见实际核验产物\",\n  \"summary_cn\": \"M14原创prediction备水案例；动作和科学边界见所附分析及当前真实产物。\"\n}\n"
+    }
+  }
+}

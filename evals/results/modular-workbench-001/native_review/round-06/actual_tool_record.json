@@ -1,0 +1,215 @@
+{
+  "schema_version": "native-readonly-review-tool-record/v1",
+  "recorded_at_utc": "2026-09-09T10:04:04.584381+00:00",
+  "actual_agent_task": "/root/workbench_protocol_review",
+  "round": "06",
+  "authorization": "Parent authorized exact round05 counterexample closure only; sole public writer remains main agent.",
+  "head_observed": "6646ffb98602ae6f94c332bb97ba45ede09bf6e2",
+  "read_files": {
+    "scripts/check_modular_workbench.py": "346b49276c97237af1804d5af3aa2cd2208a08a0a6aff0e352bd076e26e67545",
+    "evals/results/modular-workbench-001/qualification/protocol.json": "eede9891116280234ec3584659d0f38f351173c52c130ca946129eaa25896221",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+    ".agents/skills/cumcm-modeling-evidence/scripts/review_exchange.py": "b440cbbd6985ea753b325ba5c7727e92192228fd50909b4d4c21c1f26429490f",
+    ".agents/skills/cumcm-modeling-evidence/references/modules.json": "881117c7a325b704e1a850b1b8507497ddda43b7513e3bc4f4143144a5483ba9",
+    "scripts/recalculate_workbench_originals.py": "5fb7067d0ed03763873ebffd0b7b8fe967adf96a7157073b9aa7c54c09fe6cdb",
+    "evals/results/modular-workbench-001/development_exports/acceptance-001/mixed/records.json": "0ea4cf84bdb39d90392c92e52c3fd8808533dd8e9471f548898fb459a55ef4de"
+  },
+  "read_files_scope": "Current bytes read and hashed here; old observations retain their own snapshot/log identities.",
+  "validation_invocations": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-06/family_probes.py"
+      ],
+      "started_utc": "2026-09-09T09:59:36.209426+00:00",
+      "ended_utc": "2026-09-09T09:59:36.300444+00:00",
+      "process_exit_code": 0,
+      "evidence": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-06/family-20260909T095936209426Z/results.json",
+        "sha256": "a7db5e7f896dd6218b5a1193f12d47689c6e4177942a463e035cd6229554ec8f"
+      },
+      "meaning": "A successfully recorded helper probe; not qualification PASS."
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-06/detail_probes.py"
+      ],
+      "started_utc": "2026-09-09T09:59:36.340937+00:00",
+      "ended_utc": "2026-09-09T09:59:36.348022+00:00",
+      "process_exit_code": 0,
+      "evidence": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-06/detail-20260909T095936340937Z/results.json",
+        "sha256": "dfef425b7098aaf174c81ea807890ac79f8182178b1a0d8a3ef5c77c24b463f6"
+      },
+      "meaning": "A successfully recorded helper probe; not qualification PASS."
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-06/detail_probes.py"
+      ],
+      "started_utc": "2026-09-09T10:00:16.737933+00:00",
+      "ended_utc": "2026-09-09T10:00:16.754658+00:00",
+      "process_exit_code": 0,
+      "evidence": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-06/detail-20260909T100016737933Z/results.json",
+        "sha256": "0899e665dc3edf1297afc5247202dd8714fffb2803d394eb9e39f39353fcd5db"
+      },
+      "meaning": "A successfully recorded helper probe; not qualification PASS."
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "scripts/check_modular_workbench.py",
+        "--stage",
+        "workspace"
+      ],
+      "started_utc": "2026-09-09T10:01:46.331814+00:00",
+      "ended_utc": "2026-09-09T10:01:46.442604+00:00",
+      "returncode": 0,
+      "stdout": "{\"qualified\": false, \"reason_codes\": [], \"status\": \"PASS_BUILD_NOT_QUALIFIED\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "scripts/check_modular_workbench.py",
+        "--stage",
+        "candidate"
+      ],
+      "started_utc": "2026-09-09T10:01:46.442636+00:00",
+      "ended_utc": "2026-09-09T10:01:46.505120+00:00",
+      "returncode": 2,
+      "stdout": "{\"qualified\": false, \"reason_codes\": [\"WB_CANDIDATE_EVIDENCE_REQUIRED\"], \"status\": \"BLOCK\"}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "scripts/check_modular_workbench.py",
+        "--stage",
+        "active"
+      ],
+      "started_utc": "2026-09-09T10:01:46.505145+00:00",
+      "ended_utc": "2026-09-09T10:01:46.570295+00:00",
+      "returncode": 2,
+      "stdout": "{\"qualified\": false, \"reason_codes\": [\"WB_CANDIDATE_EVIDENCE_REQUIRED\"], \"status\": \"BLOCK\"}\n",
+      "stderr": ""
+    }
+  ],
+  "recorded_validation_invocation_count": 6,
+  "prior_and_current_evidence_index": [
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/review_round_01.md",
+      "sha256": "2f6507aeaed527c00757685ad2db31633cf1f136cda4157aa87c7e5478545729"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/review_round_02.md",
+      "sha256": "f6af746fb7c2a5aa89a5d699f2f2543b62388bca59500d51ea82cd0d119efccc"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-03/REVIEW.md",
+      "sha256": "3f5943458ff35f3bd15a6840827e72dce9de9b05c02d1889ac03f4e5d8fb8718"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-04/REVIEW.md",
+      "sha256": "aabe2e52c47edce5ed354507a7904db84da50ebb30ccd51a9bd33262d67eee70"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-05/REVIEW.md",
+      "sha256": "829c273e63929e633612f0e0126535d45175d5c31f5ba9f800f92142db36ffc5"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-05/source_start.json",
+      "sha256": "f156f7a11b4b685a6acdec7e0e9bb474a47b0ff3f711f5ff62a685ec4627e41e"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-05/source_end.json",
+      "sha256": "aa2f33f64438230bc0c80232cd96cc0bfc74883adab12c6c34c1e20261629f56"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-05/family-20260909T095313122317Z/results.json",
+      "sha256": "51961a801541ed0edc045a3824cc7f615f2ba57edc44b725722a3ce16a07c73a"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-05/detail-20260909T095313058902Z/results.json",
+      "sha256": "655cefb9b792a5bec10c6b7176f6776609e4ccebb441b92d22eff809dbd9db97"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-05/shared-20260909T095452448770Z/results.json",
+      "sha256": "f569893099e8d7bba816689112916803eb54f297eee828e70bff4ee1a1012497"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-05/existing-records-20260909T095528499462Z.json",
+      "sha256": "5f757abec4092c9e1f03389ec96d68dd6cd0bf355b51fdfd0026b8d9bc903e2b"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-06/source_start.json",
+      "sha256": "165a4dbfd9ce0af8bad85bd4e116bc86e27ab3ac9760f8b1b1543af9b238d65b"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-06/family-20260909T095936209426Z/results.json",
+      "sha256": "a7db5e7f896dd6218b5a1193f12d47689c6e4177942a463e035cd6229554ec8f"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-06/detail-20260909T095936340937Z/results.json",
+      "sha256": "dfef425b7098aaf174c81ea807890ac79f8182178b1a0d8a3ef5c77c24b463f6"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-06/detail-20260909T100016737933Z/results.json",
+      "sha256": "0899e665dc3edf1297afc5247202dd8714fffb2803d394eb9e39f39353fcd5db"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-06/cli-20260909T100146331796Z.json",
+      "sha256": "4da3b4788ee2b405815e4a854a0c711c49a932a17cd9ea16a0db865f70c931c3"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-06/REVIEW.md",
+      "sha256": "bddfa0888b7017d5d859bc1ec50358f9d70bb0a368483e58867a8ca9f3482d37"
+    }
+  ],
+  "version_interpretation": {
+    "round04": "59e3dd5b negative evidence only; no candidate qualification.",
+    "round05": "c9b32b17 concrete semantic/type/coverage counterexamples; source drift recorded.",
+    "round06": "346b4927 rejects the concrete Q05 counterexamples; original relocated packet byte-identical. Does not close every round04 static issue."
+  },
+  "material_open_findings": [
+    {
+      "id": "WB-Q03-module-receipt-chain",
+      "severity": "P1",
+      "status": "OPEN",
+      "evidence_level": "STATIC",
+      "file": "scripts/check_modular_workbench.py",
+      "line": 817,
+      "finding": "Module adjudication compares six summary fields without request/completion/work-report packet and family state binding cross-check. Previously reported round04 issue remains; full candidate bypass not executed."
+    }
+  ],
+  "not_submitted_to_this_reviewer": [
+    "known formal result",
+    "current full CI result",
+    "unified candidate decision",
+    "independent Decision Auditor receipt"
+  ],
+  "scope_counts": {
+    "scientific_models": 0,
+    "scientific_checkers": 0,
+    "Final": 0,
+    "known_raw_reads": 0,
+    "full_CI": 0,
+    "pytest": 0,
+    "independent_recompute_calls": 0,
+    "network": 0,
+    "Git_mutations": 0,
+    "public_writes": 0,
+    "formal_state_writes": 0
+  },
+  "acceptance_claim": "NONE; bounded counterexample closure only; no engineering/scientific/Audit PASS"
+}

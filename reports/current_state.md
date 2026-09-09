@@ -3,11 +3,11 @@
 
 - Project: `cumcm-skill-lab`
 - Phase: `PHASE-SKILL-MODULAR-WORKBENCH-004C7`
-- Subphase: `WORKBENCH-BUILD-AND-ACCEPT`
+- Subphase: `WORKBENCH-ENGINEERING-TERMINAL`
 - Status: `IN_PROGRESS`
 - Active plan: `plans/active/PLAN-0004C7-modular-workbench.md`
 - Branch: `feat/phase004c5-p0-01-finalization-hf22-repro`
-- Skill version: `0.2.0-competition-rc8`
+- Skill version: `0.2.0-competition-rc10`
 - Primary target problem type: `C`
 - Current batch: `C-TARGET-BATCH-001`
 - Batch Skill frozen: `true`
@@ -15,20 +15,19 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `MODULAR_WORKBENCH_BUILD_IN_PROGRESS`
-- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3, DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5, DECISION-C-TARGET-VALIDATION-004C5-2016, DECISION-C-TARGET-VALIDATION-004C5-2015, DECISION-RC9-RESEARCH-QUALIFICATION-004C6`
+- Technical adjudication: `MODULAR_WORKBENCH_ENGINEERING_ACCEPTED`
+- Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3, DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5, DECISION-C-TARGET-VALIDATION-004C5-2016, DECISION-C-TARGET-VALIDATION-004C5-2015, DECISION-RC9-RESEARCH-QUALIFICATION-004C6, DECISION-MODULAR-WORKBENCH-004C7`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
 - Next phase allowed: `None`
-- Content-verified commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
-- Delivery receipt commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
+- Content-verified commit: `d1f8532d498307e3b4755c088ce6a0fadfb432bb`
+- Delivery receipt commit: `UNVERIFIED`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-09T07:47:12Z` by `main-agent`
+- Updated: `2026-09-09T11:27:59.607839Z` by `main-agent`
 
 ## Blockers
 
-- WORKBENCH_ACCEPTANCE_PENDING
-- R7_001_PUBLIC_PATH_REPAIR_PENDING
+- None
 
 ## Risks
 
@@ -78,3 +77,4 @@
 - RC8 fresh batch planned2/started2/executed2/completed2/scientificPASS0.2016 is EVIDENCE_INSUFFICIENT;2015 is FAILED for Final prerequisite order despite independently supported conditional numerical outputs. Original positive-proposal audit FAIL and second audit PASS of the negative decision are distinct. Both terminal cases are immutable and cannot be rerun under this episode.
 - 004C6 is a new authorized bounded repair and known-case Development window; historical 004C5 Validation remains scientific 0/2 and no new independent Validation is authorized. RC9 candidate is not yet qualified.
 - 004C6 RC9 subject10e8b038 has full CI and neutral E2E evidence, but both known-case Development children terminal FAILED before Final due missing-scenario default disagreement. Native result review rejects candidate acceptance; independent Decision Auditor passes the machine rejection. No RC9 activation; old Validation0/2 and new independentValidation0 remain.
+- 004C7 engineering acceptance is limited to the frozen modular-workbench public paths and bounded demonstrations. Old Validation0/2, old Development0/2 and RC9 rejection remain unchanged; new independent Validation0. Conditional prediction future truth, whole known-task completion, native Windows, actual web/team acceptance and compliance remain unproven or NOT_RUN. Known module R1/R2 Final budgets are consumed; R1 unpublished subject remains development gap evidence only.

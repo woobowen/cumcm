@@ -1,0 +1,56 @@
+"""Read-only Git/runtime source mapping; no known inputs or scientific execution."""
+import datetime
+import hashlib
+import importlib.util
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parents[4]
+OUT = Path(__file__).resolve().parent
+SOURCE = ROOT / 'scripts/check_modular_workbench.py'
+EXECUTED = 'df430c0f0785e83b1a84726e88d25b7b2e0b9d0a'
+sha = lambda b: hashlib.sha256(b).hexdigest()
+start = datetime.datetime.now(datetime.timezone.utc)
+paths = ['scripts/check_modular_workbench.py', 'scripts/prepare_workbench_known.py',
+         'scripts/prepare_phase004c6_development.py', 'scripts/finalize_fresh_c_validation.py',
+         '.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py',
+         '.agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py',
+         '.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py',
+         'evals/results/modular-workbench-001/known_code/produce.py',
+         'evals/results/modular-workbench-001/known_code/check.py']
+before = {p: sha((ROOT / p).read_bytes()) for p in paths}
+spec = importlib.util.spec_from_file_location('known_runtime_mapping_readonly_review', SOURCE)
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+executed_map = m.known_runtime_mapping(ROOT, EXECUTED)
+head_map = m.known_runtime_mapping(ROOT, 'HEAD')
+current_map = {p: sha((ROOT / p).read_bytes()) for p in executed_map}
+full_map = m.mapping(ROOT, 'HEAD')
+expected_runtime_paths = [p for p in paths if p != 'scripts/check_modular_workbench.py']
+record = {'argv': ['.venv/bin/python', '-B', str(Path(__file__).relative_to(ROOT))],
+          'started_utc': start.isoformat(), 'ended_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'executed_subject_argument': EXECUTED, 'head_observed': head,
+          'read_files_before': before, 'read_files_after': {p: sha((ROOT / p).read_bytes()) for p in paths},
+          'results': {'executed_runtime_mapping_sha256': m.canonical(executed_map),
+                      'head_runtime_mapping_sha256': m.canonical(head_map),
+                      'current_working_runtime_mapping_sha256': m.canonical(current_map),
+                      'executed_map_equals_head_map': executed_map == head_map,
+                      'executed_map_equals_current_runtime_bytes': executed_map == current_map,
+                      'runtime_file_count': len(executed_map), 'candidate_file_count': len(full_map),
+                      'actual_import_and_copied_code_paths_included': {p: p in executed_map for p in expected_runtime_paths},
+                      'qualification_code_excluded_from_runtime': 'scripts/check_modular_workbench.py' not in executed_map,
+                      'test_files_excluded_from_runtime': not any(p.startswith('tests/') for p in executed_map),
+                      'qualification_code_in_full_candidate_map': 'scripts/check_modular_workbench.py' in full_map,
+                      'neutral_test_in_full_candidate_map': 'tests/integration/test_actual_controller_neutral_e2e.py' in full_map},
+          'scope': {'Git_read_only': True, 'mapped_public_Git_blobs_hashed_only': True,
+                    'known_inputs_or_numeric_results_read': False, 'prepare_model_checker_not_imported_or_run': True,
+                    'scientific_models': 0, 'scientific_checkers': 0, 'Final': 0, 'network': 0,
+                    'Git_mutations': 0, 'public_writes': 0, 'qualification_acceptance': False,
+                    'scope_limit': 'Source-code identity only; no claim about external dependency/environment equality or completed known result.'}}
+path = OUT / ('runtime-identity-' + start.strftime('%Y%m%dT%H%M%S%fZ') + '.json')
+path.write_text(json.dumps(record,indent=2)+'\n')
+print(json.dumps({'result_path': str(path.relative_to(ROOT)), **record},indent=2))

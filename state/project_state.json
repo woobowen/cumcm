@@ -5,7 +5,7 @@
     "hash-bound-reproducibility-manifest",
     "leakage-safe-model-comparison-gate"
   ],
-  "active_skill_version": "0.2.0-competition-rc8",
+  "active_skill_version": "0.2.0-competition-rc10",
   "answer_access_status": "SEALED_AT_TERMINAL_FREEZE",
   "architecture_candidate_set": [
     "ARCH-S0-RETAIN-SCAFFOLD-ONLY",
@@ -36,7 +36,8 @@
     "DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5",
     "DECISION-C-TARGET-VALIDATION-004C5-2016",
     "DECISION-C-TARGET-VALIDATION-004C5-2015",
-    "DECISION-RC9-RESEARCH-QUALIFICATION-004C6"
+    "DECISION-RC9-RESEARCH-QUALIFICATION-004C6",
+    "DECISION-MODULAR-WORKBENCH-004C7"
   ],
   "base_selected": false,
   "batch_pre_run_freeze": {
@@ -54,10 +55,7 @@
   "batch_reference_unlocked": true,
   "batch_skill_frozen": true,
   "blocked_candidate_version": "0.2.0-competition-rc6",
-  "blockers": [
-    "WORKBENCH_ACCEPTANCE_PENDING",
-    "R7_001_PUBLIC_PATH_REPAIR_PENDING"
-  ],
+  "blockers": [],
   "competition_rc1": {
     "api_calls": 0,
     "architecture_decision": {
@@ -119,17 +117,12 @@
     "real_comparison_model_starts": 0,
     "third_party_executions": 0
   },
-  "content_verified_commit": "8ef732b45cf3cb04262317cdfa13a176b47eebe0",
+  "content_verified_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
   "current_batch_id": "C-TARGET-BATCH-001",
   "current_branch": "feat/phase004c5-p0-01-finalization-hf22-repro",
   "current_plan": "plans/active/PLAN-0004C7-modular-workbench.md",
   "current_validation_case": null,
-  "delivery_receipt_for_commit": {
-    "commit": "8ef732b45cf3cb04262317cdfa13a176b47eebe0",
-    "remote": "origin",
-    "remote_sha": "8ef732b45cf3cb04262317cdfa13a176b47eebe0",
-    "verified_at": "2026-09-08T20:37:30Z"
-  },
+  "delivery_receipt_for_commit": null,
   "development_eval": {
     "answer_access_status": "UNLOCKED_AFTER_FIRST_RUN",
     "case_id": "CUMCM-2020-A-DEVELOPMENT-002",
@@ -253,7 +246,8 @@
     "Terminal commita03597b also exposed a frozen fault-injection test routing every evidence-insufficient terminal to historical004C2. The 004C5 schema route is valid, but this test must be updated under a future explicitly tested maintenance subject. A missing first_run_evidence summary for new2016 registry is corrected from the existing fixed decision; no case outputs change.",
     "RC8 fresh batch planned2/started2/executed2/completed2/scientificPASS0.2016 is EVIDENCE_INSUFFICIENT;2015 is FAILED for Final prerequisite order despite independently supported conditional numerical outputs. Original positive-proposal audit FAIL and second audit PASS of the negative decision are distinct. Both terminal cases are immutable and cannot be rerun under this episode.",
     "004C6 is a new authorized bounded repair and known-case Development window; historical 004C5 Validation remains scientific 0/2 and no new independent Validation is authorized. RC9 candidate is not yet qualified.",
-    "004C6 RC9 subject10e8b038 has full CI and neutral E2E evidence, but both known-case Development children terminal FAILED before Final due missing-scenario default disagreement. Native result review rejects candidate acceptance; independent Decision Auditor passes the machine rejection. No RC9 activation; old Validation0/2 and new independentValidation0 remain."
+    "004C6 RC9 subject10e8b038 has full CI and neutral E2E evidence, but both known-case Development children terminal FAILED before Final due missing-scenario default disagreement. Native result review rejects candidate acceptance; independent Decision Auditor passes the machine rejection. No RC9 activation; old Validation0/2 and new independentValidation0 remain.",
+    "004C7 engineering acceptance is limited to the frozen modular-workbench public paths and bounded demonstrations. Old Validation0/2, old Development0/2 and RC9 rejection remain unchanged; new independent Validation0. Conditional prediction future truth, whole known-task completion, native Windows, actual web/team acceptance and compliance remain unproven or NOT_RUN. Known module R1/R2 Final budgets are consumed; R1 unpublished subject remains development gap evidence only."
   ],
   "schema_version": "2.4.0",
   "selected_architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
@@ -311,16 +305,16 @@
     "threshold_policy_status": "POLICY_FROZEN"
   },
   "status": "IN_PROGRESS",
-  "subphase": "WORKBENCH-BUILD-AND-ACCEPT",
+  "subphase": "WORKBENCH-ENGINEERING-TERMINAL",
   "target_candidate_version": "0.2.0-competition-rc10",
   "team_compliance_review_status": "NOT_RUN",
-  "technical_adjudication_status": "MODULAR_WORKBENCH_BUILD_IN_PROGRESS",
+  "technical_adjudication_status": "MODULAR_WORKBENCH_ENGINEERING_ACCEPTED",
   "third_party_integrated": false,
-  "updated_at": "2026-09-09T07:47:12Z",
+  "updated_at": "2026-09-09T11:27:59.607839Z",
   "updated_by": "main-agent",
   "verification_manifest": {
-    "path": "evals/results/phase-004c5/qualification/rc8_candidate_snapshot.json",
-    "sha256": "5f3ef02060d4e0bd09ec46a969018e3f3ee1ec1ddd60972146b66f1dd796bd55",
-    "subject_commit": "29cf1d7566809519ca92b6a29f555ce0c0b5b204"
+    "path": "evals/results/modular-workbench-001/qualification/candidate_snapshot.json",
+    "sha256": "8270baae2f5c18158ae00b8112bff351fce2102bb88241ac438d8c0e31f68e6c",
+    "subject_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb"
   }
 }

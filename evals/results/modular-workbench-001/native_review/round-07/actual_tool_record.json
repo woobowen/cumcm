@@ -1,0 +1,97 @@
+{
+  "schema_version": "native-readonly-review-tool-record/v1",
+  "recorded_at_utc": "2026-09-09T10:11:26.347275+00:00",
+  "actual_agent_task": "/root/workbench_protocol_review",
+  "round": "07",
+  "bounded_item": "WB-Q03-module-receipt-chain",
+  "bounded_item_status": "CLOSED",
+  "head_observed": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+  "read_files": {
+    "scripts/check_modular_workbench.py": "0d19d2f53425eed65b4da7abd2e9b6546b9b829df6727035aa51e0b82a88af31",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+    "evals/results/modular-workbench-001/qualification/protocol.json": "eede9891116280234ec3584659d0f38f351173c52c130ca946129eaa25896221"
+  },
+  "recorded_validation_invocations": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-07/module_probes.py"
+      ],
+      "started_utc": "2026-09-09T10:07:18.987546+00:00",
+      "ended_utc": "2026-09-09T10:07:19.347121+00:00",
+      "process_exit_code": 0,
+      "source_before": "f8f347c22603e4475101c7748551f10fba33d37124e15fe0c742f624d35ab665",
+      "source_after": "f8f347c22603e4475101c7748551f10fba33d37124e15fe0c742f624d35ab665",
+      "evidence": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-07/module-20260909T100718987546Z/results.json",
+        "sha256": "0c48e6187c428df94c611b651d5b403fde4ca0cb9559621feccf4bbe15b9e088"
+      }
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-07/revision_recheck.py"
+      ],
+      "started_utc": "2026-09-09T10:10:12.849293+00:00",
+      "ended_utc": "2026-09-09T10:10:12.890798+00:00",
+      "process_exit_code": 0,
+      "source_before": "0d19d2f53425eed65b4da7abd2e9b6546b9b829df6727035aa51e0b82a88af31",
+      "source_after": "0d19d2f53425eed65b4da7abd2e9b6546b9b829df6727035aa51e0b82a88af31",
+      "evidence": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-07/revision-recheck-20260909T101012849293Z.json",
+        "sha256": "2b3d642b3259d42dc72fd70c0791931b1609b0265ca74ba560c6dacc795302b9"
+      }
+    }
+  ],
+  "evidence_index": [
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-07/source_start.json",
+      "sha256": "3136d2fa34246be5ebbb71559e9c0bb7609eca741476c85d4d03168224471381"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-07/source_end.json",
+      "sha256": "cc99e805e4c1e4d47b36084ce946d683e3eb3465bb3db5bdea0f2e8a6bcb9c80"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-07/module-20260909T100718987546Z/results.json",
+      "sha256": "0c48e6187c428df94c611b651d5b403fde4ca0cb9559621feccf4bbe15b9e088"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-07/revision-recheck-20260909T101012849293Z.json",
+      "sha256": "2b3d642b3259d42dc72fd70c0791931b1609b0265ca74ba560c6dacc795302b9"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-07/REVIEW.md",
+      "sha256": "dcc389ef43a2cad7a5c3a2361ed2910ddcabf91f0f9a94692e0cdfb4c79fe5c0"
+    }
+  ],
+  "prior_open_record": {
+    "path": ".cache/modular-workbench-001/protocol-review/round-06/actual_tool_record.json",
+    "sha256": "e07ad2ba29840734ba9ad3eacf2ff6d844dc022d69c06e0510e6f619f2ea118a",
+    "interpretation": "Preserved prior OPEN observation at its own version; closed forward by round07 evidence."
+  },
+  "material_open_findings": [],
+  "material_open_findings_scope": "Only the existing authorized module receipt-chain issue; not a statement that all repository/qualification paths were audited.",
+  "scope_counts": {
+    "scientific_models": 0,
+    "scientific_checkers": 0,
+    "Final": 0,
+    "known_reads": 0,
+    "full_CI": 0,
+    "network": 0,
+    "Git_mutations": 0,
+    "public_writes": 0,
+    "formal_state_writes": 0
+  },
+  "not_verified": [
+    "known R1 or later known records",
+    "current full CI result",
+    "unified candidate decision",
+    "independent Decision Auditor",
+    "remote/private-ref history"
+  ],
+  "acceptance_claim": "No overall engineering, scientific, or Audit PASS."
+}

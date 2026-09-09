@@ -1,7 +1,7 @@
 # PLAN-0004C7 — modular modeling workbench
 
 Owner: main modeling orchestrator; sole public code/state/Git writer.
-Phase: PHASE-SKILL-MODULAR-WORKBENCH-004C7. Status: BUILD_IN_PROGRESS.
+Phase: PHASE-SKILL-MODULAR-WORKBENCH-004C7. Status: ENGINEERING_ACCEPTED_PENDING_DELIVERY.
 Authorization: CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md and current user Goal.
 Start: 2026-09-09T07:47:12Z; safety deadline: 2026-09-09T17:47:12Z.
 Reserve final 45 minutes for truthful closure. No minimum duration. No inherited budget.
@@ -213,3 +213,9 @@ problem's axis/first_run alias. Shared registry validation remains mandatory; ta
 checks alone are not an evidence gate. Added negative allocation escalation tests.80 relevant
 tests pass in14.79s and every Python script in the CI tail actually exits0. Full-CI completion
 is still pending. These ancillary checker/test changes do not alter the known scientific runtime.
+
+## 2026-09-09T11:27:59.607839Z — B6 accepted; B7 delivery pending
+
+Frozen subject `d1f8532d498307e3b4755c088ce6a0fadfb432bb` passed 361 directed tests and final offline CI 2369 passed / 1 existing skip / 0 failed. The nine typed receipts, 14-module matrix and three actual 54-command numerical families replay to machine PASS. The subsequent native Decision Auditor passed the same frozen decision; its actual report, command receipts, independent checks and source hashes are in qualification/decision_auditor/. Main alone activated RC10 for modular-workbench engineering, with no new Validation or human acceptance. Historical RC8/RC9 and known R1/R2 budgets remain sealed. Only acceptance records, generated status and delivery documentation follow; implementation mapping remains c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca. Remote push/SHA/CI verification is still pending.
+
+Acceptance post-check: active replay equals the frozen PASS byte-for-byte; 87 state/adjudication/target-policy tests pass. The pre-commit strict check rejected only PROJECT_STATE_SELF_REFERENCE because content_verified_commit=d1f8532 still equals HEAD before the acceptance commit. Preserve that failed receipt; create the acceptance commit, rerun strict with d1f8532 now a prior content commit, and push only after success. This is a record-order correction; implementation/evidence identities are unchanged.

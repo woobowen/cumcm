@@ -1,0 +1,758 @@
+{
+  "actual_agent_task": "/root/workbench_protocol_review",
+  "actual_tool_record": {
+    "path": "evals/results/modular-workbench-001/native_review/round-10/actual_tool_record.json",
+    "sha256": "1b928b9838c48389ee3eb8ebf10c9b88b0dd3b7dd13e284e19418a0f30a923a4"
+  },
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:05.049520+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "dfc61ea63a3de1149afe2b131a7b555658bd496ddb9a10235abacd53b83950da"
+      },
+      "started_at": "2026-09-09T10:49:05.047268+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "dfc61ea63a3de1149afe2b131a7b555658bd496ddb9a10235abacd53b83950da",
+      "tag": "01-revision"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "929d287",
+        "--",
+        "scripts/check_c_target_batch_freeze.py",
+        "scripts/check_competition_rc_consistency.py",
+        "tests/fault_injection/test_eval_policy_faults.py",
+        "tests/integration/test_actual_controller_adversarial.py",
+        "tests/integration/test_rc8_scientific_fact_binding.py",
+        "tests/unit/test_competition_rc_development_eval.py",
+        "tests/unit/test_competition_rc_skill.py",
+        "tests/unit/test_fresh_completion_controller.py",
+        "tests/integration/test_p0_01_finalization_hf22_reproduction.py",
+        "scripts/check_claim_scope_repair.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:05.171662+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "c2dfbdbd9b4271bb889cb712ef7e2153c86a913507cf48da56c030edffb04074"
+      },
+      "started_at": "2026-09-09T10:49:05.165148+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c2dfbdbd9b4271bb889cb712ef7e2153c86a913507cf48da56c030edffb04074",
+      "tag": "02-diff"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "929d287",
+        "--",
+        "scripts/exercise_modular_workbench.py",
+        "tests/integration/test_modular_workbench.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:21.355437+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "8865df3ff58e5f64784a5a8d1021a74a9512319565314672f441ecbd46b5367c"
+      },
+      "started_at": "2026-09-09T10:49:21.350434+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8865df3ff58e5f64784a5a8d1021a74a9512319565314672f441ecbd46b5367c",
+      "tag": "03-driver-diff"
+    },
+    {
+      "argv": [
+        "rg",
+        "-l",
+        "004C6",
+        "scripts",
+        "tests"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:21.474005+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "cb27e0b0f2b3b130271775b42f4bc0a5f42f72b37ccd97973baa49c56a918888"
+      },
+      "started_at": "2026-09-09T10:49:21.364492+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "cb27e0b0f2b3b130271775b42f4bc0a5f42f72b37ccd97973baa49c56a918888",
+      "tag": "04-c6-source-list"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "1,220p",
+        "scripts/check_claim_scope_repair.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:21.320139+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "d297202cf2011b0927f6071ff1cf36bcde10f41751451d6f79526e1fbb3a6c49"
+      },
+      "started_at": "2026-09-09T10:49:21.318409+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d297202cf2011b0927f6071ff1cf36bcde10f41751451d6f79526e1fbb3a6c49",
+      "tag": "05-claim-route"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "-C",
+        "6",
+        "004C6|state.get\\(\"phase\"\\)|state\\[\"phase\"\\]|successor|ACTIVE|current_phase",
+        "scripts/check_target_problem_policy.py",
+        "scripts/check_phase004c4_fresh_validation.py",
+        "scripts/check_phase004c4_rc7_release.py",
+        "scripts/check_skill_training_consistency.py",
+        "tests/unit/test_phase002d_r2a_start_freeze_dependencies.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:32.610842+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "6cedcf437fd9aa504adef2eb644eefe937826ba514ac9549cafc79fb2af48571"
+      },
+      "started_at": "2026-09-09T10:49:32.498788+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6cedcf437fd9aa504adef2eb644eefe937826ba514ac9549cafc79fb2af48571",
+      "tag": "06-routing-patterns"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "315,525p",
+        "scripts/exercise_modular_workbench.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:32.469728+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "0c002d1d87edbc643aaf85306d5f22733724ae1e1a4af9d4da9dc7fa05b9037f"
+      },
+      "started_at": "2026-09-09T10:49:32.467567+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0c002d1d87edbc643aaf85306d5f22733724ae1e1a4af9d4da9dc7fa05b9037f",
+      "tag": "07-driver-context"
+    },
+    {
+      "argv": [
+        "rg",
+        "--files",
+        "evals/results/modular-workbench-001/commands"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:32.626665+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "476598802e329e533219da29cd99b69d40ebb964070f89a15365d650be946947"
+      },
+      "started_at": "2026-09-09T10:49:32.518407+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "476598802e329e533219da29cd99b69d40ebb964070f89a15365d650be946947",
+      "tag": "08-record-paths"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "75,255p",
+        "scripts/check_skill_training_consistency.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:47.464315+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "6582f895f08b7730333de1991eb40d615eda79304a4315b785419960b32c2f3f"
+      },
+      "started_at": "2026-09-09T10:49:47.462598+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6582f895f08b7730333de1991eb40d615eda79304a4315b785419960b32c2f3f",
+      "tag": "09-training-route"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "-C",
+        "5",
+        "^def evaluate|_evaluate|_live_state|historical|release_path|phase-004c5|RC8|def main",
+        "scripts/check_phase004c4_rc7_release.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:47.634123+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "8d05a4c4f3751e659d55aaa1528892cbc7a0a5c94cd8e0a6736bd690930ee64a"
+      },
+      "started_at": "2026-09-09T10:49:47.522361+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8d05a4c4f3751e659d55aaa1528892cbc7a0a5c94cd8e0a6736bd690930ee64a",
+      "tag": "10-release-dispatch"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "248,365p",
+        "scripts/check_target_problem_policy.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:49:47.496235+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "44b99f023189ca2d5ef4635c0d4d8bc1ff2c47a85afa5c413570cd0a81cd44fa"
+      },
+      "started_at": "2026-09-09T10:49:47.494886+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "44b99f023189ca2d5ef4635c0d4d8bc1ff2c47a85afa5c413570cd0a81cd44fa",
+      "tag": "11-target-route"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "1,90p",
+        "evals/results/modular-workbench-001/commands/public-water-mixed-005.json"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:50:25.868083+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "b1ed524136ea57e7e2524315768f00bb6b218daf8d9f31ed4e8ba217145377a8"
+      },
+      "started_at": "2026-09-09T10:50:25.865848+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b1ed524136ea57e7e2524315768f00bb6b218daf8d9f31ed4e8ba217145377a8",
+      "tag": "12-original-command-meta"
+    },
+    {
+      "argv": [
+        "rg",
+        "--files",
+        ".cache/modular-workbench-001",
+        "-g",
+        "*73*",
+        "-g",
+        "*repair*",
+        "-g",
+        "*directed*",
+        "-g",
+        "*resume*",
+        "-g",
+        "*test*.log"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:50:25.997013+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "dc356b035eac6955f78787c8366749c5566fc2aa825db7b47673d1e31a5d9619"
+      },
+      "started_at": "2026-09-09T10:50:25.884305+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "dc356b035eac6955f78787c8366749c5566fc2aa825db7b47673d1e31a5d9619",
+      "tag": "13-test-evidence-list"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "0.2.0-competition-rc8|Version:",
+        ".agents/skills/cumcm-modeling-evidence/SKILL.md"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:50:26.012432+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "3df48d95804c08bde0d74d7f82d7b218aa28bf75c700658b216849896190d6d5"
+      },
+      "started_at": "2026-09-09T10:50:25.911630+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3df48d95804c08bde0d74d7f82d7b218aa28bf75c700658b216849896190d6d5",
+      "tag": "14-skill-version-mentions"
+    },
+    {
+      "argv": [
+        "rg",
+        "--files",
+        "/tmp/cumcm-modular-workbench-001/acceptance-005/mixed/evidence",
+        "/tmp/cumcm-modular-workbench-001/acceptance-005/mixed/reviews",
+        "-g",
+        "*resume*",
+        "-g",
+        "*manifest*",
+        "-g",
+        "*completion*",
+        "-g",
+        "*package*"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:51:03.585678+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "209ba385ad56ac596ee80560e664718202f15a1d40809ba697ffc451c68ccc70"
+      },
+      "started_at": "2026-09-09T10:51:03.470107+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "209ba385ad56ac596ee80560e664718202f15a1d40809ba697ffc451c68ccc70",
+      "tag": "15-original-metadata-paths"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "-C",
+        "5",
+        "def complete|review_package|def resume|def export|manifest.json|source_path|artifacts",
+        ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py",
+        ".agents/skills/cumcm-modeling-evidence/scripts/review_exchange.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:51:03.830272+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ebae2f2d722bd8656dba091204b2f789936bc0da849cc6ba7480d843b13334c5"
+      },
+      "started_at": "2026-09-09T10:51:03.681593+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ebae2f2d722bd8656dba091204b2f789936bc0da849cc6ba7480d843b13334c5",
+      "tag": "16-review-export-code"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-10/metadata_check.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:52:02.840997+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "770592ef6232211c13ac37dcb87df2ff89432970425b41d74faeefa188637152"
+      },
+      "started_at": "2026-09-09T10:52:02.770803+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "770592ef6232211c13ac37dcb87df2ff89432970425b41d74faeefa188637152",
+      "tag": "17-metadata-check"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "535,575p",
+        ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:52:17.281685+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "90d079c5b3b4a9e675997f8a48ed90e36ef85b531d9b0aeffa4041ba4ba7c409"
+      },
+      "started_at": "2026-09-09T10:52:17.279049+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "90d079c5b3b4a9e675997f8a48ed90e36ef85b531d9b0aeffa4041ba4ba7c409",
+      "tag": "18-receipt-fields"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "55,73p;127,148p",
+        ".agents/skills/cumcm-modeling-evidence/scripts/review_exchange.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:52:17.417618+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "15ea2f4531a608d64fc878c936304bd72ca7ee1cbc0ba71ee7766a0139554a3c"
+      },
+      "started_at": "2026-09-09T10:52:17.414202+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "15ea2f4531a608d64fc878c936304bd72ca7ee1cbc0ba71ee7766a0139554a3c",
+      "tag": "19-manifest-fields"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-10/metadata_check.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:52:42.990019+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "1129c8955c232c5bb142bc2122325501f82aabdf753267409447fede1c4de604"
+      },
+      "started_at": "2026-09-09T10:52:42.923995+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "1129c8955c232c5bb142bc2122325501f82aabdf753267409447fede1c4de604",
+      "tag": "20-metadata-bindings"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "-c",
+        "import json,pathlib; d=json.loads(pathlib.Path(\".cache/modular-workbench-001/protocol-review/round-10/metadata_results_v2.json\").read_text()); print(json.dumps({k:{\"rows\":len(v[\"rows\"]),\"issues\":[r[\"module\"] for r in v[\"rows\"] if r[\"missing_required_sources\"] or r[\"automatic_starts\"]!=0 or r[\"next_request_existed_at_resume\"] or not all(r[n] for n in [\"state_hash_unchanged\",\"manifest_package_hash_valid\",\"manifest_request_hash_valid\",\"manifest_completion_raw_hash_valid\",\"manifest_artifact_hashes_match_receipt\",\"report_artifacts_in_export\",\"resume_module_matches\",\"resume_request_matches\"])]} for k,v in d[\"families\"].items()},indent=2))"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:10.674955+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "fdd67065c43af1cb47dfdcbdd3fa10e7bccdd37f403d94b2016e5952227dd542"
+      },
+      "started_at": "2026-09-09T10:53:10.638421+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "fdd67065c43af1cb47dfdcbdd3fa10e7bccdd37f403d94b2016e5952227dd542",
+      "tag": "21-metadata-summary"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "659ccf5",
+        "--",
+        "scripts/check_target_problem_policy.py",
+        "scripts/check_phase004c4_fresh_validation.py",
+        "scripts/check_phase004c4_rc7_release.py",
+        "scripts/check_skill_training_consistency.py",
+        "tests/unit/test_phase002d_r2a_start_freeze_dependencies.py",
+        "tests/integration/test_actual_controller_adversarial.py",
+        "tests/integration/test_rc8_scientific_fact_binding.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:10.826734+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "654dc7abcf1cb27c64ba316504ac9bfab1c152f1693f35c3361a3a1b7349a951"
+      },
+      "started_at": "2026-09-09T10:53:10.817847+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "654dc7abcf1cb27c64ba316504ac9bfab1c152f1693f35c3361a3a1b7349a951",
+      "tag": "22-current-routing-diff"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "1,175p",
+        "scripts/check_target_problem_policy.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:20.080258+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "808b171d047b7a74e0f2472b1a2d00520cfde1cd5cf75b69b3b17b0ae34be155"
+      },
+      "started_at": "2026-09-09T10:53:20.077532+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "808b171d047b7a74e0f2472b1a2d00520cfde1cd5cf75b69b3b17b0ae34be155",
+      "tag": "23-target-current"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "MODULE_USABILITY_DEVELOPMENT|terminal_decision|repository_registry_errors|evidence_role|def ",
+        "src/cumcm_skill_lab/training_registry.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:20.328489+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "99c0d85663148e192194c3f8ccde9f572ca0c793ab884031a870b8f40a7567db"
+      },
+      "started_at": "2026-09-09T10:53:20.133162+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "99c0d85663148e192194c3f8ccde9f572ca0c793ab884031a870b8f40a7567db",
+      "tag": "24-registry-code-map"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "659ccf5",
+        "--",
+        "tests/unit/test_target_problem_policy.py",
+        "tests/unit/test_skill_training_consistency.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:20.183755+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "86e1141412cd6c29fdb80263f73112a95005378e9eb06cc30f43f7ce6339e534"
+      },
+      "started_at": "2026-09-09T10:53:20.176067+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "86e1141412cd6c29fdb80263f73112a95005378e9eb06cc30f43f7ce6339e534",
+      "tag": "25-relevant-test-diff"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "49,155p;198,309p",
+        "src/cumcm_skill_lab/training_registry.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:32.392501+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "c05185b4ad50ec4663bf9385383d16e307bbab24037c3007eed2bb3b56cc522e"
+      },
+      "started_at": "2026-09-09T10:53:32.390961+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c05185b4ad50ec4663bf9385383d16e307bbab24037c3007eed2bb3b56cc522e",
+      "tag": "26-registry-validation"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "check_target_problem_policy|check_skill_training_consistency|check_phase004c4|check_modular_workbench|validate_repo",
+        "scripts/ci.sh",
+        "scripts/validate_repo.py",
+        "scripts/check_modular_workbench.py",
+        "tests/unit/test_target_problem_policy.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:32.641765+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "89756be79c32f0f17962891a6f279e7f93e0db7d6d8ae1fca07923fb7bb94b13"
+      },
+      "started_at": "2026-09-09T10:53:32.523030+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "89756be79c32f0f17962891a6f279e7f93e0db7d6d8ae1fca07923fb7bb94b13",
+      "tag": "27-ci-routing"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "1,80p",
+        "scripts/ci.sh"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:51.128109+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ff7fc6b62c058566d23d5e29dcc5517fb192947db98c7d673e4af09a7156b675"
+      },
+      "started_at": "2026-09-09T10:53:51.126566+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ff7fc6b62c058566d23d5e29dcc5517fb192947db98c7d673e4af09a7156b675",
+      "tag": "28-ci-text"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "-C",
+        "3",
+        "check_skill_training_consistency|check_target_problem_policy|repository_registry_errors",
+        "src/cumcm_skill_lab/repo_validation.py",
+        "tests/unit/test_competition_rc_development_eval.py",
+        "scripts/run_checker_matrix.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:51.364278+00:00",
+      "exit_code": 2,
+      "result": {
+        "stderr_sha256": "dda7078059320232ee1da6f6762f174472af906dc9b0083c17f75f7bea749b88",
+        "stdout_sha256": "973598d4385242ede7b0d8d7052520e54b7859e726f28089f3fa865460b32daa"
+      },
+      "started_at": "2026-09-09T10:53:51.257000+00:00",
+      "stderr_sha256": "dda7078059320232ee1da6f6762f174472af906dc9b0083c17f75f7bea749b88",
+      "stdout_sha256": "973598d4385242ede7b0d8d7052520e54b7859e726f28089f3fa865460b32daa",
+      "tag": "29-shared-enforcement"
+    },
+    {
+      "argv": [
+        "sed",
+        "-n",
+        "145,198p",
+        "src/cumcm_skill_lab/training_registry.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:53:51.451904+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "8c9a4ab50387a08e0d541d782791566f189349a7cdf241ff26b1a3c8ceeaf128"
+      },
+      "started_at": "2026-09-09T10:53:51.450342+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8c9a4ab50387a08e0d541d782791566f189349a7cdf241ff26b1a3c8ceeaf128",
+      "tag": "30-terminal-enforcement"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-10/snapshot_sources.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:55:08.575925+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "c8380e99d77acabcdde8488603eda443c6301c4880bb7476300b030700f14d77"
+      },
+      "started_at": "2026-09-09T10:55:08.397776+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c8380e99d77acabcdde8488603eda443c6301c4880bb7476300b030700f14d77",
+      "tag": "31-source-identities"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "659ccf5",
+        "d1f8532",
+        "--",
+        "scripts/check_c_target_2019c_validation.py",
+        "scripts/check_claim_scope_repair.py",
+        "scripts/check_phase004c2_acceptance.py"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:55:16.692524+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "5e25cd3c0b92b5e801981ab48259c90d7cd27196bc3c121eb22c425d66b5a158"
+      },
+      "started_at": "2026-09-09T10:55:16.689824+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "5e25cd3c0b92b5e801981ab48259c90d7cd27196bc3c121eb22c425d66b5a158",
+      "tag": "32-successor-fixes"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:55:16.802779+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "a934bca9e0a23a80fce5984cc020c45e1d6272b3f0ed6ab0c1f829b624eafb8e"
+      },
+      "started_at": "2026-09-09T10:55:16.800946+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a934bca9e0a23a80fce5984cc020c45e1d6272b3f0ed6ab0c1f829b624eafb8e",
+      "tag": "33-final-status"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "-c",
+        "import json,pathlib; d=json.loads(pathlib.Path(\".cache/modular-workbench-001/protocol-review/round-10/metadata_results_v2.json\").read_text()); print(json.dumps({k:[r[\"module\"] for i,r in enumerate(v[\"rows\"],1) if r[\"manifest_case\"]!=r[\"completion_case\"] or r[\"manifest_case\"]!=\"ORIGINAL-WATER-\"+k.upper() or r[\"manifest_request\"]!=\"WATER-\"+r[\"module\"] or r[\"completion_module\"]!=r[\"module\"] or r[\"resume_module_count\"]!=i] for k,v in d[\"families\"].items()},indent=2))"
+      ],
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "ended_at": "2026-09-09T10:56:40.685231+00:00",
+      "exit_code": 0,
+      "result": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "465a4364d2756820e23ff0571edb0ea95c6a26b0df3724cad21987bd8993d860"
+      },
+      "started_at": "2026-09-09T10:56:40.661787+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "465a4364d2756820e23ff0571edb0ea95c6a26b0df3724cad21987bd8993d860",
+      "tag": "34-case-scope-metadata"
+    }
+  ],
+  "implementation_hash": "c71b5640c0cadfc7fc891e8f1a8f856342519194024566bc1e2d82078ef7cbca",
+  "material_open_findings": [],
+  "previous_closed_scopes": [
+    "round06-Q05",
+    "round07-Q03",
+    "round08-resolver-and-runtime",
+    "round09-CI-diagnosis"
+  ],
+  "read_files": {
+    ".agents/skills/cumcm-modeling-evidence/SKILL.md": "fda26bd62e5bc42644a692c158fd080781dde3bae78de8f37dfc90cbbd1dd332",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+    ".agents/skills/cumcm-modeling-evidence/scripts/review_exchange.py": "b440cbbd6985ea753b325ba5c7727e92192228fd50909b4d4c21c1f26429490f",
+    "contracts/project_state.schema.json": "412ad1ede2bd18abfecb81ea41e9c6e43ed88cd0495c9ce345f1fff2655aefb4",
+    "scripts/check_c_target_2019c_validation.py": "2782d35e980f4b23d141c54d70575ecffa3201cf1249fd3c2a2b0485df76dfd5",
+    "scripts/check_c_target_batch_freeze.py": "f8073ed1a96680b6221dba53639a6882a248c093f08f1c7a91dd4e6b43751144",
+    "scripts/check_claim_scope_repair.py": "d297202cf2011b0927f6071ff1cf36bcde10f41751451d6f79526e1fbb3a6c49",
+    "scripts/check_competition_rc_consistency.py": "1ed500dfdafc6a1aa8280ef48f18f9dd359cbefd2d7c82f634626323109280ee",
+    "scripts/check_modular_workbench.py": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c",
+    "scripts/check_phase004c2_acceptance.py": "4f66560ae72ed53eae8f685ca659a190f02b33dfe939434ca86c9b3e312f94e5",
+    "scripts/check_phase004c4_fresh_validation.py": "ac283fbdc59ebcef8a8aded7f41a3884fb3eeb1a294d882967ba05d591d2dae8",
+    "scripts/check_phase004c4_rc7_release.py": "d88e4916e1c0e508103591b28c87e11bac0b6abd1f9bfe6df88b1b25c43e07e5",
+    "scripts/check_skill_training_consistency.py": "0d51974015070cfabdd510b7cae1d06641433e5556a4ce61a4fb47513da30593",
+    "scripts/check_target_problem_policy.py": "5f2e011bb0c8b7209b56effbae3258d9b67eec36c222a90300850d1e5727f560",
+    "scripts/ci.sh": "ff7fc6b62c058566d23d5e29dcc5517fb192947db98c7d673e4af09a7156b675",
+    "scripts/exercise_modular_workbench.py": "89de5e119cbda51b926d634aa21a5b85b11bda9b2da3fb2aa8e78670adea4589",
+    "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+    "scripts/validate_repo.py": "ecda385ffed11bd582e87b571c02111be3fafdbae391a6239a296b531dbdef1b",
+    "src/cumcm_skill_lab/repo_validation.py": "172a7e7402cc7c4410e36bae9410cd40a2d7d458073b7533e33c63cc09c391f2",
+    "src/cumcm_skill_lab/training_registry.py": "926c5c774b81f9f04e516fe3d3b80c679ef753420ff2a137550e73d32206a13b",
+    "tests/fault_injection/test_eval_policy_faults.py": "39afccb8222db5116512390de96892f15abf7190d1b5ee59a1496e31268443cd",
+    "tests/integration/test_actual_controller_adversarial.py": "c8ac3803a9cf3dbefdacc9c348e1ea3037187389416ed63be63f74706b212fea",
+    "tests/integration/test_modular_workbench.py": "360728febaad7ff522c5bd45a29b21aa33204d402f143835fb467e5ddd3f4594",
+    "tests/integration/test_p0_01_finalization_hf22_reproduction.py": "8d817fc51b948834289abe945826d91b2346aa43ec51f0eae1f318b1196e10d7",
+    "tests/integration/test_rc8_scientific_fact_binding.py": "dc9fbc4f856029c1eba46ca38654702dd73de95ae620ee1ed1a8f5ce40935388",
+    "tests/unit/test_competition_rc_development_eval.py": "ed09ba4ef92ae8a411a654cc2a2c23ac66dc0f61528e3ddfd426c8a0ba1a6909",
+    "tests/unit/test_competition_rc_skill.py": "20d9df44fb0fb2e7857bc92cf47b1501bb66acb743b4e80b3e6390cbd11d7a0e",
+    "tests/unit/test_fresh_completion_controller.py": "68199f08728a086afc59b784c91a4d727c0ad660bb4e285d800820d53fc8d1be",
+    "tests/unit/test_phase002d_r2a_start_freeze_dependencies.py": "20aab04c25fa39714ed9e8aa9a3aea7f31085a54169c533ee81dac57f39f24af",
+    "tests/unit/test_target_problem_policy.py": "4d7b4c412d8acc47c01de26a1edbfe12d689bc72075b12b12a30323cd5130938",
+    "tests/unit/test_workbench_state_and_budget.py": "c8b0d801d680ba255413bb8ad779c7f0dd94474ba83ddcdca0398c2df587e67b"
+  },
+  "review_report": {
+    "path": "evals/results/modular-workbench-001/native_review/round-10/REVIEW.md",
+    "sha256": "45087ce7919ef6b6ff0c82651d9b946b6ff5a8419a4e51dbb029bfa969c01d0c"
+  },
+  "schema_version": "workbench-native-review/v1",
+  "scope": "Native code/protocol/metadata review only. Original005 metadata observed at659ccf5; final006 public paths independently recorded atd1f8532. No native scientific model/checker/Final/known/full CI execution."
+}

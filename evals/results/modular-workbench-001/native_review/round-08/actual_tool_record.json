@@ -1,0 +1,126 @@
+{
+  "schema_version": "native-readonly-review-tool-record/v1",
+  "recorded_at_utc": "2026-09-09T10:24:39.311914+00:00",
+  "actual_agent_task": "/root/workbench_protocol_review",
+  "round": "08",
+  "read_files": {
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384",
+    ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py": "90b913ee417c1ec2352e8e2381e6675aeab5a86401bf09e1a366a7da241a8147",
+    ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62",
+    "WORKFLOW.md": "df3042536b95a09414cccf586ec731044127ece50f9f2d2a8a4ef78ab87ddf20",
+    "evals/results/modular-workbench-001/commands/final-directed-001.log": "af31a7b279e489f538850db0d767df70adf3bdcbbddc0d4e5e9d81729c713113",
+    "evals/results/modular-workbench-001/known_code/check.py": "d5a3af0048c81d9e574de1dfe57c2ab3a2bfb7b06531ea594206cd5138b5fb62",
+    "evals/results/modular-workbench-001/known_code/produce.py": "aede5f36d5caa8a9da30ffc06bb08953f237155c49ee863852057ba67c3f361f",
+    "plans/active/PLAN-0004C7-modular-workbench.md": "4476194180dc9169527c356fa4270403cfd9036f6073073aa2eb44f93943cacd",
+    "rules/workflow_rules.yaml": "d9a4ad87a7b798d133714bec940aaf672b02af0633b8f34d11cae0a22a833b50",
+    "scripts/check_modular_workbench.py": "5368a7318d41c96ae6583d2ad9e372fa8c3481df3ee43c4894996a3e59366f8c",
+    "scripts/finalize_fresh_c_validation.py": "b712746d0ee717db1cdac86435a7b753b64930438372b5c7f019b2be651688a9",
+    "scripts/prepare_phase004c6_development.py": "26c0b8ae59dff024ac75e7ea294a625c894c9b6de91d46672c708767bb0b05ce",
+    "scripts/prepare_workbench_known.py": "a24abb86fb91bf0915e69edf42e82f1c899cb1c40432aa73f061dce2adbe9011",
+    "tests/integration/test_actual_controller_black_box.py": "284114efb085b052b31fcc985b642f5efc383ce1e054cf757ebf8ac2744fe2cd",
+    "tests/integration/test_actual_controller_neutral_e2e.py": "c6d9e45652d25eb886f8ad5bd96e110954d86e6c53ca4b24f8b712d3a3033b95",
+    "tests/integration/test_p0_01_finalization_hf22_reproduction.py": "a28e5c6a666d6bfc229501516f5234af56a25997d8b051d80f9731fed839fe1a",
+    "tests/integration/test_workbench_scenario.py": "2d1a24cd1fddd53b7990c7ed9cc09af7b6d64a9f7d8e4c314ae349be7fdb51ef"
+  },
+  "head_observed": "929d2874e711ca4dd58484555009b028555898a3",
+  "bounded_conclusions": [
+    "Post-capture requirement array reversal must remain scenario STALE; pre-freeze order invariance belongs in separate positive coverage.",
+    "Actual df430c0 and current 929d287 runtime mapping contain 346 identical source files; preserve distinct executed/qualification subjects."
+  ],
+  "material_open_findings": [],
+  "material_open_findings_scope": "Only requested requirement-order semantics and known source mapping boundary; no overall qualification review.",
+  "recorded_validation_invocations": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-08/resolver_semantics.py"
+      ],
+      "started_utc": "2026-09-09T10:18:43.650959+00:00",
+      "ended_utc": "2026-09-09T10:18:43.690574+00:00",
+      "process_exit_code": 0,
+      "record": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-08/resolver-20260909T101843650959Z/results.json",
+        "sha256": "dcf4fff01845a5a68ddd4ec2e7736a9985dcf01f56300681e764567f1e7ca8a1"
+      }
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-08/runtime_identity.py"
+      ],
+      "started_utc": "2026-09-09T10:20:56.990349+00:00",
+      "ended_utc": "2026-09-09T10:20:58.694180+00:00",
+      "process_exit_code": 0,
+      "record": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-08/runtime-identity-20260909T102056990349Z.json",
+        "sha256": "e911a41d74073040dd58123e624e624dc18d637e73f84ca91ecbb450890f6680"
+      }
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        ".cache/modular-workbench-001/protocol-review/round-08/runtime_identity.py"
+      ],
+      "started_utc": "2026-09-09T10:22:40.417484+00:00",
+      "ended_utc": "2026-09-09T10:22:43.667684+00:00",
+      "process_exit_code": 0,
+      "record": {
+        "path": ".cache/modular-workbench-001/protocol-review/round-08/runtime-identity-20260909T102240417484Z.json",
+        "sha256": "0ac0a55cb8277e52219d500ce78058dde6c3588ac1147e7eb63dc94cbab858ad"
+      }
+    }
+  ],
+  "evidence_index": [
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-08/source_start.json",
+      "sha256": "b9f00b6227bb6d9f3024fce441201cf63e308b20de27bf3526706306061071c7"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-08/source_end.json",
+      "sha256": "094c0835fc93d2b3879cd6a9135857e91a8e0d040ee6e43b4e1ba1ac58c0eff0"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-08/source_final.json",
+      "sha256": "d01055f3a2cdf63e4c9bef1ea4703ad419596b81bb5fde3ba42f715a26d58b1e"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-08/resolver-20260909T101843650959Z/results.json",
+      "sha256": "dcf4fff01845a5a68ddd4ec2e7736a9985dcf01f56300681e764567f1e7ca8a1"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-08/runtime-identity-20260909T102056990349Z.json",
+      "sha256": "e911a41d74073040dd58123e624e624dc18d637e73f84ca91ecbb450890f6680"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-08/runtime-identity-20260909T102240417484Z.json",
+      "sha256": "0ac0a55cb8277e52219d500ce78058dde6c3588ac1147e7eb63dc94cbab858ad"
+    },
+    {
+      "path": ".cache/modular-workbench-001/protocol-review/round-08/REVIEW.md",
+      "sha256": "632fad3d505e5a0474cabe49f8d96137a52064f20a59a17994e2ca5f79a66c02"
+    }
+  ],
+  "scope_counts": {
+    "scientific_models": 0,
+    "scientific_checkers": 0,
+    "Final": 0,
+    "known_raw_or_numeric_reads": 0,
+    "full_CI": 0,
+    "network": 0,
+    "Git_mutations": 0,
+    "public_writes": 0,
+    "formal_state_writes": 0
+  },
+  "known_code_access": "Read imports and hash project-authored code only; prepare/producer/checker not imported or run.",
+  "not_verified": [
+    "Known R2 scientific results or execution capture records",
+    "current final directed/full CI result",
+    "unified candidate decision",
+    "Decision Auditor",
+    "external runtime environment equality"
+  ],
+  "acceptance_claim": "No overall engineering/scientific/known/Audit PASS; no relabeling of actual Run subject."
+}

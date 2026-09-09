@@ -1,0 +1,83 @@
+from pathlib import Path
+from fractions import Fraction
+import json,hashlib,math,collections,datetime
+ROOT=Path.cwd();B=ROOT/'.cache/modular-workbench-001/decision-auditor';E='evals/results/modular-workbench-001';reads=json.loads((B/'read_file_hashes.json').read_text()); checks=[];out={}
+def h(x):return hashlib.sha256(x).hexdigest()
+def can(x):return h(json.dumps(x,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode())
+def b(p):
+ data=(ROOT/p).read_bytes();reads[str(p)]={'sha256':h(data),'bytes':len(data)};return data
+def j(p):return json.loads(b(p))
+def ck(n,ok):checks.append({'name':n,'pass':bool(ok)})
+def rec(p):
+ data=j(p)['records']
+ for key,r in data.items():ck('raw '+p+':'+key,h(r['raw_utf8'].encode())==r['raw_sha256'] and json.loads(r['raw_utf8'])==r['content'])
+ return data
+try:
+ d=j(E+'/review_roundtrip/detail.json');r=rec(d['record_packet']['path']);commands=d['commands']
+ ck('feedback formal state unchanged',d['formal_state_before_sha256']==d['formal_state_after_sha256']==r['case_state']['raw_sha256'])
+ expected={'COUNTEREXAMPLE':'CONFIRMED','UNSUPPORTED':'NEEDS_EVIDENCE','ALTERNATIVE':'ALTERNATIVE_DESIGN'}
+ for kind,disposition in expected.items():
+  x=r['disposition:'+kind]['content'];follow=r['followup:'+kind];ck(kind+' disposition',x['disposition']==disposition and x['evidence_sha256']==follow['raw_sha256'] and x['formal_acceptance'] is False and x['next_module_started'] is False)
+ calc=r['recalculation']['content'];ck('fault reproduced arithmetically',sum(calc['values'])==calc['sum']==10 and calc['draft']-calc['sum']==calc['residual']==1)
+ ck('fault origin honest',d['counterexample_origin']=='EXPLICIT_FAULT_INJECTED_DRAFT')
+ observed=[c['result'] for c in commands if 'result' in c]
+ ck('stale feedback registered',any(x.get('status')=='REGISTERED_STALE' and x['scripts_executed']==0 for x in observed))
+ ck('stale cannot resolve',any('WB_STALE_FINDING_CANNOT_RESOLVE_CURRENT' in x.get('reason_codes',[]) for x in observed))
+ ck('malicious import blocked',any('WB_FEEDBACK_UNAUTHORIZED_INSTRUCTION_OR_SECRET' in x.get('reason_codes',[]) for x in observed))
+ ck('imports inert',all(x.get('formal_state_changed') is False and x.get('scripts_executed')==0 for x in observed if x.get('status') in ['REGISTERED_PENDING','REGISTERED_STALE']))
+ out['feedback']={'commands':len(commands),'actual_injected_counterexample':calc,'dispositions':expected,'formal_state_sha256':d['formal_state_after_sha256'],'web':'NOT_RUN'}
+ d=j(E+'/context_handoff/detail.json');r=rec(d['record_packet']['path']);req=r['request']['content'];done=r['completion']['content'];report=r['work_report']['content'];state=r['case_state']['content'];installed=j(E+'/context_handoff/main_installation.json')
+ ck('worker current M04 implementation',req['implementation']['implementation_sha256']==d['workbench_implementation_hash']=='73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff')
+ ck('worker precise handoff',done['module']==req['module']==report['module']=='M04' and done['request_sha256']==can(req) and done['execution']=='COMPLETED' and done['next_module_started'] is False)
+ ck('worker report bound',done['artifact_hashes'][done['report_path']]==r['work_report']['raw_sha256'])
+ ck('worker installed proposal bound',installed['installed_sha256']==r['assumptions']['raw_sha256'])
+ ck('worker native state stop',state['state']=='SOURCES_PLANNED' and not any('/BRAIN-M05/' in p for p in state['evidence_bindings']))
+ ck('worker honest isolation',d['os_sandbox'] is False and d['strict_blind_audit'] is False and d['web_review']=='NOT_RUN')
+ out['worker']={'module':'M04','native_state':state['state'],'actual_subject':req['implementation']['tool_commit'],'symbols':installed['symbol_count'],'formula_count':len(r['assumptions']['content']['content']['formulas']),'main_installation':installed['transformation'],'worker_commands':len(d['commands'])-1,'main_complete_commands':1,'models':0,'Final':0,'web':'NOT_RUN','OS_sandbox':False}
+ out['known_revisions']=[]
+ for rev in [1,2]:
+  root=E+'/CUMCM-2016-C-MODULE-USABILITY-DEVELOPMENT-008-R'+str(rev);r=rec(root+'/records.json');design=j(root+'/development_design.json');terminal=j(root+'/terminal/decision.json');budget=r['budget']['content'];ledger=r['final_ledger']['content'];counts=dict(collections.Counter(e['kind'] for e in budget['events']))
+  ck('R'+str(rev)+' frozen design budget',design['revision']==rev and design['maximum_revisions']==2 and counts=={'model_cli_starts':2,'independent_checker_starts':3,'final_starts':1})
+  ck('R'+str(rev)+' Final consumed',ledger['count']==1 and ledger['status']=='SUCCESS' and terminal['actual_starts']==counts and terminal['final_ledger_raw_sha256']==r['final_ledger']['raw_sha256'])
+  ck('R'+str(rev)+' terminal bytes preserved',h(b(root+'/terminal/decision.json'))==r['terminal']['raw_sha256'])
+  out['known_revisions'].append({'revision':rev,'subject':terminal['subject_commit'],'budget_used':counts,'maximum_revisions':2,'terminal':terminal['status']})
+  if rev==1:ck('R1 original terminal locator copy exact',b(root+'/terminal.json')==b(root+'/terminal/decision.json'))
+ old=[]
+ for cid in ['CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006','CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007']:
+  p='evals/results/phase-004c6/'+cid+'/terminal/decision.json';d=j(p);ck(cid+' old negative',d['status']=='FAILED' and d['accepted_final'] is False and d['accepted_handoff'] is False);old.append({'case_id':cid,'status':d['status'],'sha256':h(b(p))})
+ rc8=j('evals/results/phase-004c5/qualification/accepted_decision.json');ck('RC8 research qualification retained',rc8['status']=='RESEARCH_VALIDATION_CANDIDATE_ACCEPTED' and rc8['accepted_scope']=='RESEARCH_AND_FRESH_VALIDATION_ELIGIBILITY_ONLY' and rc8['generalization_proven'] is False)
+ out['old_development']={'passed':0,'total':2,'terminals':old};out['RC8']={k:rc8[k] for k in ['status','subject_commit','accepted_scope','team_compliance_review','generalization_proven']}
+ out['auditor_arithmetic']=[]
+ for kind in ['prediction','optimization','mixed']:
+  r=rec(E+'/original/'+kind+'/records.json');data=r['input']['content'];p=r['experiment_plan']['content']['content'];obs={x['observation_id']:x for x in data['observations']};residuals=[];derived=[]
+  for k,v in r.items():
+   if not k.startswith('output:'):continue
+   result=v['content'];pred=[];forecast={};ends={}
+   for s in p.get('temporal_design',{}).get('samples',[]):
+    rows=[obs[i] for i in s['feature_observation_ids']];last,prev=rows[-1],rows[-2];t=Fraction(str(last['observed_at']));value=Fraction(str(last['value']));slope=(value-Fraction(str(prev['value'])))/(t-Fraction(str(prev['observed_at'])))
+    ck(kind+' affine observations',all(Fraction(str(x['value']))==value+slope*(Fraction(str(x['observed_at']))-t) for x in rows))
+    end=t+(Fraction(str(data['threshold']))-value)/slope
+    if kind=='prediction' and result['candidate_id']=='BASE':end+=Fraction(str(data['baseline_delay']))
+    ends[s['sample_id']]=end
+    if s['split']=='FORECAST':forecast[s['sample_id']]=end-Fraction(str(s['origin']))
+   demand=math.ceil(next(iter(forecast.values()))*Fraction(str(data['flow_litres_per_minute']))) if forecast else data['fixed_demand_litres'];a,bottle=data['containers'];base_n=math.ceil(demand/a['litres']);bound=base_n*a['cost']
+   feasible=[(x*a['cost']+y*bottle['cost'],x,y) for x in range(bound//a['cost']+1) for y in range(bound//bottle['cost']+1) if x*a['litres']+y*bottle['litres']>=demand]
+   cost,x,y=(bound,base_n,0) if result['candidate_id']=='BASE' else min(feasible)
+   got=result['allocation'];ck(kind+' own allocation '+result['candidate_id'],got['cost']==cost and got['counts']==[x,y] and got['demand_litres']==demand and got['quantity_litres']==x*a['litres']+y*bottle['litres'])
+   ck(kind+' own inventory '+result['candidate_id'],got['balance_litres']==[got['quantity_litres']-v for v in range(demand+1)])
+   for req in r['problem_requirements']['content']['content']['requirements']:
+    metric,contract=next(iter(req['metric_contracts'].items()))
+    if 'prediction_spec' in req:
+     errors=[abs(ends[s['sample_id']]-Fraction(str(obs[s['target_observation_id']]['observed_at'])))/(Fraction(str(obs[s['target_observation_id']]['observed_at']))-Fraction(str(s['origin'])))*100 for s in p['temporal_design']['samples'] if s['split']=='VALIDATION'];expect=sum(errors)/len(errors)
+    else:expect=cost if contract['target']=='purchase_cost' else got['quantity_litres']-demand
+    residuals.append(abs(result['final_metrics'][metric]-float(expect)))
+   derived.append({'candidate':result['candidate_id'],'forecast_remaining_min':[float(v) for v in forecast.values()],'demand':demand,'counts':[x,y],'cost':cost})
+  ck(kind+' own metric residual',max(residuals)<1e-10);out['auditor_arithmetic'].append({'kind':kind,'max_metric_residual':max(residuals),'derived':derived})
+ for p in ['GOALS.md','WORKFLOW.md','plans/active/PLAN-0004C7-modular-workbench.md','state/project_state.json','AGENTS.md','HANDOVER.md','CODEX_TAKEOVER.md','docs/SECURITY.md','docs/THIRD_PARTY_POLICY.md','docs/SEARCH_POLICY.md','docs/SOURCE_OF_TRUTH.md','tests/AGENTS.md']:b(p)
+ ck('frozen decision unchanged',h(b(E+'/qualification/decision.json'))=='aa518966cd1f528a77e982c4ccd3164382dddca75cdda042d93cb4df97f90d0b')
+ out['observation_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat()
+except Exception as e:
+ out['audit_script_exception']={'type':type(e).__name__,'message':str(e)};ck('script finished',False)
+finally:
+ out['checks_total']=len(checks);out['checks_failed']=[x for x in checks if not x['pass']]
+ (B/'read_file_hashes.json').write_text(json.dumps(reads,indent=2,sort_keys=True)+'\n');(B/'supplement_checks.json').write_text(json.dumps(checks,indent=2,ensure_ascii=False)+'\n');(B/'supplement_observations.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n');print(json.dumps(out,indent=2,ensure_ascii=False))

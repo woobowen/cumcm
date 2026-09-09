@@ -1,0 +1,87 @@
+{
+  "artifact_type": "final_result",
+  "content": {
+    "aggregate_status": "COMPLETE",
+    "contract_version": "final-result/v2",
+    "decision_hash": "173bc75a19f621daad13e9d18b8136c66fbb7ae8dc3c67f61f142121280838ca",
+    "limitations": [
+      "Project-original neutral selection."
+    ],
+    "requirement_results": {
+      "REQ-A": {
+        "claim_id": "CLAIM-REQ-A",
+        "metric_ids": [
+          "metric_a"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-A"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ]
+      },
+      "REQ-B": {
+        "claim_id": "CLAIM-REQ-B",
+        "metric_ids": [
+          "metric_b"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-B"
+        ],
+        "selected_run_ids": [
+          "RUN-BASE-20260906"
+        ]
+      },
+      "REQ-C": {
+        "claim_id": "CLAIM-REQ-C",
+        "metric_ids": [
+          "metric_c"
+        ],
+        "selected_output_ids": [
+          "OUT-REQ-C"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ]
+      }
+    },
+    "run_bindings": {
+      "RUN-BASE-20260906": {
+        "configuration_hash": "8ea23df3cc6fd3a2f81871e938570d08d46eed4a875d6e50f95247e47814b874",
+        "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+        "manifest_hash": "2289a41b91c0fb1527897c2d8f526c391bc43a871dde7cdbd9b08c1cc8f65698",
+        "output_hash": "b1ec86501e72473c0846a7a7953fc1570377be7cc2d38500809cd09922054904",
+        "output_ids": [
+          "OUT-REQ-B"
+        ],
+        "requirement_ids": [
+          "REQ-B"
+        ],
+        "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b"
+      },
+      "RUN-CAND-20260906": {
+        "configuration_hash": "bba2cf4577920e0d55f5f24abb3ffcedc288a19a824d0d1ea8ad5c3545ed7887",
+        "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+        "manifest_hash": "406eccfe6288adcb76fb27f64620dcaef76d655cd5c31f3c3c18938fe5d36afc",
+        "output_hash": "0c145069d1629fd492c2e87cbc01f0014fe8d090ae3ab6fcdb80e897695a6396",
+        "output_ids": [
+          "OUT-REQ-A",
+          "OUT-REQ-C"
+        ],
+        "requirement_ids": [
+          "REQ-A",
+          "REQ-C"
+        ],
+        "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b"
+      }
+    },
+    "selected_run_ids": [
+      "RUN-BASE-20260906",
+      "RUN-CAND-20260906"
+    ],
+    "selection_mode": "JOINT_PORTFOLIO",
+    "status": "FINAL_CANDIDATE"
+  },
+  "content_hash": "d82b9f938d5bc38a8d9dc9be3f7c6b27892da70b615512d3af3fa63593686563",
+  "status": "ACCEPTED"
+}

@@ -1,0 +1,110 @@
+from pathlib import Path
+import json,hashlib,subprocess,datetime,re,collections
+ROOT=Path.cwd(); BASE=ROOT/'.cache/modular-workbench-001/decision-auditor'; E='evals/results/modular-workbench-001'; Q=E+'/qualification'
+reads={}; observations={}; checks=[]
+def h(b): return hashlib.sha256(b).hexdigest()
+def canon(x): return h(json.dumps(x,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode())
+def b(path):
+ p=ROOT/path; v=p.read_bytes(); reads[str(path)]={'sha256':h(v),'bytes':len(v)}; return v
+def j(path): return json.loads(b(path))
+def git(*args):
+ start=datetime.datetime.now(datetime.timezone.utc).isoformat(); p=subprocess.run(['git',*args],capture_output=True,cwd=ROOT)
+ with (BASE/'git_read_records.jsonl').open('a') as f:f.write(json.dumps({'argv':['git',*args],'started_utc':start,'exit_code':p.returncode,'stdout_sha256':h(p.stdout),'stderr_sha256':h(p.stderr)})+'\n')
+ if p.returncode: raise ValueError(p.stderr.decode())
+ return p.stdout
+def ck(name,condition,detail=None):
+ checks.append({'name':name,'pass':bool(condition),'detail':detail})
+ if not condition: print('CHECK_FAIL',name,detail)
+def records(path):
+ data=j(path); ck('exact packet '+path,data.get('derivation')=='EXACT_UTF8_JSON_NO_REDACTION')
+ for key,r in data['records'].items(): ck('raw '+path+':'+key,h(r['raw_utf8'].encode())==r['raw_sha256'] and json.loads(r['raw_utf8'])==r['content'])
+ return data['records']
+def bindings(x):
+ if isinstance(x,dict):
+  if isinstance(x.get('path'),str) and isinstance(x.get('sha256'),str) and x['path'].startswith(E+'/'):
+   ck('binding '+x['path'],h(b(x['path']))==x['sha256'])
+  for value in x.values(): bindings(value)
+ elif isinstance(x,list):
+  for value in x:bindings(value)
+try:
+ snapshot=j(Q+'/candidate_snapshot.json'); subject=snapshot['subject_commit']; decision=j(Q+'/decision.json'); matrix=j(E+'/acceptance_matrix.json')
+ ck('snapshot exact',h(b(Q+'/candidate_snapshot.json'))=='8270baae2f5c18158ae00b8112bff351fce2102bb88241ac438d8c0e31f68e6c')
+ ck('decision exact',h(b(Q+'/decision.json'))=='aa518966cd1f528a77e982c4ccd3164382dddca75cdda042d93cb4df97f90d0b')
+ ck('HEAD subject',git('rev-parse','HEAD').decode().strip()==subject)
+ for path,sha in snapshot['implementation_sha256'].items():
+  ck('current implementation '+path,h(b(path))==sha)
+  ck('Git subject '+path,h(git('show',subject+':'+path))==sha)
+ ck('implementation root hash',canon(snapshot['implementation_sha256'])==snapshot['implementation_hash'])
+ observations['implementation']={'subject':subject,'files':len(snapshot['implementation_sha256']),'sha256':snapshot['implementation_hash']}
+ bindings(snapshot); bindings(matrix)
+ for history in ['evals/results/phase-004c5','evals/results/phase-004c6']:
+  anchor=git('ls-tree','-r','604c7facda586cecb6785c44949f0cd1217cd297','--',history)
+  current=git('ls-tree','-r',subject,'--',history)
+  ck('history tree '+history,anchor==current and not git('diff','HEAD','--',history).strip())
+  observations[history]={'tree_sha256':h(anchor),'entry_count':len(anchor.splitlines())}
+ receipts={}
+ for name,binding in snapshot['receipts'].items():
+  r=j(binding['path']);receipts[name]=r; bindings(r)
+  ck('receipt common subject '+name,r['implementation_hash']==snapshot['implementation_hash'])
+  for command in r.get('commands',[]):
+   ck('command current subject '+name,command['executed_head']==subject and command['exit_code']==0)
+  if 'detail' in r:
+   d=j(r['detail']['path']);bindings(d)
+   if name=='native_review':
+    ck('native read map current',all(h(b(p))==sha for p,sha in d['read_files'].items()))
+    observations['native_review']={k:d[k] for k in ['actual_agent_task','review_report','actual_tool_record','material_open_findings','scope']}
+    observations['native_review']['commands']=len(d['commands'])
+ log=b(receipts['boundary_tests']['commands'][0]['log']['path']).decode()
+ nodes=set(re.findall(r'^(tests/[^\r\n]+?) PASSED(?: |$)',log,re.M))
+ declared=set(n for rows in matrix['boundary_coverage'].values() for n in rows)|set(n for v in matrix['scenario_equivalence'].values() for n in v.values())
+ ck('361 passing nodes',len(nodes)==361 and '361 passed' in log)
+ ck('all frozen boundary nodes passed',declared<=nodes,sorted(declared-nodes))
+ full=b(receipts['full_ci']['commands'][0]['log']['path']).decode()
+ ck('complete CI result','2369 passed, 1 skipped' in full and 'FAILED' not in full and 'Traceback' not in full)
+ observations['tests']={'directed_passed':len(nodes),'declared_nodes':len(declared),'boundaries':len(matrix['boundary_coverage']),'scenario_variants':sum(len(v) for v in matrix['scenario_equivalence'].values()),'full_ci_passed':2369,'full_ci_skipped':1,'full_ci_tail':full.splitlines()[-8:]}
+ for kind in ['prediction','optimization','mixed']:
+  prefix=E+'/original/'+kind; rec=records(prefix+'/records.json'); state=rec['case_state']['content']; cli=[json.loads(line) for line in b(prefix+'/cli_commands.jsonl').decode().splitlines()]
+  counts=collections.Counter(c['argv'][2] for c in cli)
+  ck(kind+' 54 CLI',len(cli)==54 and counts=={'init':1,'prepare':14,'complete':14,'resume':14,'freeze-code':1,'run':9,'status':1})
+  ck(kind+' CLI subject/time/exit',all(c['implementation_commit']==subject and c['exit_code']==0 and c['started_at']<=c['ended_at'] for c in cli))
+  for n in range(1,15):
+   mod='M%02d'%n; mr=records(prefix+'/modules/'+mod+'-records.json'); request=mr['request']['content']; done=mr['completion']['content']; report=mr['work_report']['content']; recovery=mr['recovery_proof']['content']
+   ck(kind+'/'+mod+' scope identity',all(done[k]==request[k]==report[k] for k in ['case_id','module','request_id','requirement_scope']))
+   ck(kind+'/'+mod+' request report links',done['request_sha256']==canon(request) and done['artifact_hashes'][done['report_path']]==mr['work_report']['raw_sha256'])
+   ck(kind+'/'+mod+' state links',all(state['evidence_bindings']['evidence/module_requests/'+request['request_id']+'/'+key+'.json']==mr[key]['raw_sha256'] for key in ['request','completion']))
+   ck(kind+'/'+mod+' completion and recovery',done['execution']=='COMPLETED' and done['next_module_started'] is False and done['human_review']=='NOT_RUN' and recovery['state_before_sha256']==recovery['state_after_sha256'] and recovery['next_request_exists'] is False and recovery['actual_resume']['recovery']['automatic_starts']==0)
+   resume=[c for c in cli if c['argv'][2]=='resume' and request['request_id'] in c['argv']]
+   ck(kind+'/'+mod+' actual resume result',len(resume)==1 and resume[0]['result_sha256']==canon(recovery['actual_resume']))
+  captures=[r['content'] for k,r in rec.items() if k.startswith('capture:')]; ledger=rec['final_ledger']['content']; requirements=rec['problem_requirements']['content']['content']['requirements']
+  ck(kind+' current actual captures',len(captures)==2 and all(c['code_commit']==subject and c['outcome']=='SUCCESS' for c in captures))
+  ck(kind+' one Final and handoff',ledger['count']==1 and ledger['status']=='SUCCESS' and ledger['test_access_count']==0 and state['state']=='READY_FOR_PAPER_HANDOFF')
+  observations[kind]={'cli_count':len(cli),'modules':14,'model_captures':len(captures),'final_count':ledger['count'],'primary_count':sum(r['role']=='PRIMARY' for r in requirements),'state':state['state'],'scenario_hashes':sorted({c['scenario_hash'] for c in captures})}
+ known_detail=j(receipts['known_interface']['detail']['path']); kp=records(known_detail['record_packet']['path']); reg=kp['registration']['content']; ledger=kp['final_ledger']['content']; budget=kp['budget']['content']; terminal=kp['terminal']['content']
+ prefixes=('.agents/skills/cumcm-modeling-evidence/','contracts/','rules/','src/','docs/modular_workbench/',E+'/known_code/')
+ exact={'scripts/prepare_workbench_known.py','scripts/prepare_phase004c6_development.py','scripts/finalize_fresh_c_validation.py','README.md','docs/INDEX.md','VERSION','pyproject.toml'}
+ runtime={p:sha for p,sha in snapshot['implementation_sha256'].items() if p.startswith(prefixes) or p in exact}
+ oldpaths=git('ls-tree','-r','--name-only',reg['skill_commit']).decode().splitlines(); old_runtime={p:h(git('show',reg['skill_commit']+':'+p)) for p in oldpaths if p.startswith(prefixes) or p in exact}
+ ck('346 runtime exact byte equivalence',runtime==old_runtime and len(runtime)==346 and canon(runtime)==known_detail['runtime_sha256'])
+ used=dict(collections.Counter(e['kind'] for e in budget['events']))
+ ck('known actual budget',used=={'model_cli_starts':2,'independent_checker_starts':3,'final_starts':1})
+ ck('known preserved actual subject',reg['skill_commit']==known_detail['executed_subject']==terminal['subject_commit']=='df430c0f0785e83b1a84726e88d25b7b2e0b9d0a')
+ ck('known bounded scope',reg['required_question_ids']==['REQ-Q3'] and terminal['independent_validation'] is False and terminal['status']=='SCOPED_DEVELOPMENT_COMPLETE')
+ observations['known']={'executed_subject':reg['skill_commit'],'runtime_files':len(runtime),'runtime_sha256':canon(runtime),'starts':used,'registration':{k:v for k,v in reg.items() if k in ['case_id','revision','maximum_revisions','required_question_ids','evidence_role','parent_case_id']},'terminal':terminal}
+ for module in ['M09','M12','M14']:
+  prefix=E+'/review_packages/'+module; manifest=j(prefix+'/manifest.json'); source_root=Path('EXTERNAL_ORIGINAL_CASE_PATH')
+  ck(module+' view metadata',manifest['implementation']['tool_commit']==subject and manifest['human_review']=='NOT_RUN' and manifest['automatic_upload'] is False and not manifest['missing_items'])
+  for path,sha in manifest['files'].items(): ck(module+' derived file '+path,h(b(prefix+'/'+path))==sha)
+  for path,sha in manifest['original_hashes'].items(): ck(module+' source file '+path,h(b(source_root/path))==sha)
+  for view in manifest['views']: ck(module+' view source binding '+view['path'],view['source_sha256']==manifest['original_hashes'][view['source_path']] and view['view_sha256']==manifest['files'][view['path']])
+  base={k:v for k,v in manifest.items() if k!='package_hash'}
+  ck(module+' package hash',canon(base)==manifest['package_hash'])
+  observations[module+'_review']={'views':len(manifest['views']),'source_hashes':len(manifest['original_hashes']),'package_hash':manifest['package_hash'],'missing_items':manifest['missing_items']}
+except Exception as exc:
+ observations['audit_script_exception']={'type':type(exc).__name__,'message':str(exc)}
+ checks.append({'name':'audit_script_completion','pass':False,'detail':str(exc)})
+finally:
+ observations['checks_total']=len(checks);observations['checks_failed']=[c for c in checks if not c['pass']]
+ (BASE/'read_file_hashes.json').write_text(json.dumps(reads,indent=2,sort_keys=True)+'\n')
+ (BASE/'independent_checks.json').write_text(json.dumps(checks,indent=2,ensure_ascii=False)+'\n')
+ (BASE/'observations.json').write_text(json.dumps(observations,indent=2,ensure_ascii=False)+'\n')
+ print(json.dumps(observations,indent=2,ensure_ascii=False))

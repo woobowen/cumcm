@@ -1,0 +1,67 @@
+"""Original two-requirement identity probe; no scientific process or full case run."""
+import copy
+import datetime
+import hashlib
+import importlib.util
+import json
+import sys
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parents[4]
+OUT = Path(__file__).resolve().parent
+SOURCE = ROOT / '.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py'
+sha = lambda b: hashlib.sha256(b).hexdigest()
+start = datetime.datetime.now(datetime.timezone.utc)
+RUN = OUT / ('resolver-' + start.strftime('%Y%m%dT%H%M%S%fZ'))
+case = RUN / 'original-fixture'
+case.mkdir(parents=True)
+before = sha(SOURCE.read_bytes())
+sys.path.insert(0, str(SOURCE.parent))
+import cumcm_case as core
+
+raw = case / 'data/raw/original.json'
+raw.parent.mkdir(parents=True)
+raw.write_text('{"original_values":[2,3,5]}\n')
+requirements = {'case_id': 'ORIGINAL-ORDER-PROBE',
+                'requirements': [{'requirement_id': 'REQ-A'}, {'requirement_id': 'REQ-B'}]}
+plan = {'required_input_hashes': {'data/raw/original.json': sha(raw.read_bytes())},
+        'scenario': {'schema_version': 'scenario/v1', 'revision': 1, 'requirement_ids': ['REQ-A', 'REQ-B']}}
+def put(key, content):
+    core.write_json(case / core.ARTIFACT_PATHS[key], core.artifact(key, content))
+put('problem_requirements', requirements)
+put('assumptions_and_symbols', {'assumptions': ['Original deterministic metadata only.']})
+put('experiment_plan', plan)
+initial = core.resolve_scenario_identity(case)
+scope_reordered = copy.deepcopy(plan)
+scope_reordered['scenario']['requirement_ids'].reverse()
+scope_hash = core.resolve_scenario_identity(case, scope_reordered)
+req_path = case / core.ARTIFACT_PATHS['problem_requirements']
+original_bytes = req_path.read_bytes()
+parsed = json.loads(original_bytes)
+req_path.write_text(json.dumps(parsed, separators=(',', ':'), sort_keys=False))
+format_hash = core.resolve_scenario_identity(case)
+requirements['requirements'].reverse()
+put('problem_requirements', requirements)
+reversed_hash = core.resolve_scenario_identity(case)
+try:
+    # This minimal value is explicitly NOT a real execution capture. It isolates
+    # the reuse gate's first current-scenario comparison, before other bindings.
+    core.verify_current_capture_files(case, {'scenario_hash': initial})
+    guard = {'returned': None}
+except Exception as exc:
+    guard = {'exception': type(exc).__name__, 'message': str(exc)}
+record = {'argv': ['.venv/bin/python', '-B', str(Path(__file__).relative_to(ROOT))],
+          'started_utc': start.isoformat(), 'ended_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'source_before': before, 'source_after': sha(SOURCE.read_bytes()),
+          'results': {'initial_scenario_hash': initial, 'reordered_declared_scope_hash': scope_hash,
+                      'requirement_artifact_reformatted_hash': format_hash, 'reversed_requirement_array_hash': reversed_hash,
+                      'scope_set_order_invariant': initial == scope_hash,
+                      'artifact_whitespace_invariant': initial == format_hash,
+                      'requirement_array_order_bound': initial != reversed_hash,
+                      'old_scenario_reuse_guard': guard},
+          'scope': {'original_minimal_artifact_fixture': True, 'real_capture_created': False,
+                    'case_state_rebinding_executed': False, 'scientific_models': 0, 'scientific_checkers': 0,
+                    'Final': 0, 'known_reads': 0, 'full_CI': 0, 'network': 0, 'public_writes': 0, 'Git_mutations': 0}}
+(RUN / 'results.json').write_text(json.dumps(record,indent=2)+'\n')
+print(json.dumps({'result_path': str((RUN / 'results.json').relative_to(ROOT)), **record},indent=2))

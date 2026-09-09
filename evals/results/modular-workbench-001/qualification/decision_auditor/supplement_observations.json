@@ -1,0 +1,174 @@
+{
+  "feedback": {
+    "commands": 25,
+    "actual_injected_counterexample": {
+      "draft": 11,
+      "residual": 1,
+      "sum": 10,
+      "values": [
+        2,
+        3,
+        5
+      ]
+    },
+    "dispositions": {
+      "COUNTEREXAMPLE": "CONFIRMED",
+      "UNSUPPORTED": "NEEDS_EVIDENCE",
+      "ALTERNATIVE": "ALTERNATIVE_DESIGN"
+    },
+    "formal_state_sha256": "02222b64b016f25bb800cf08b842092a9b097e96223f5c402c6ca48897a43c08",
+    "web": "NOT_RUN"
+  },
+  "worker": {
+    "module": "M04",
+    "native_state": "SOURCES_PLANNED",
+    "actual_subject": "7e5bd4297c74cfa3b6c0920bc553d56181097afc",
+    "symbols": 42,
+    "formula_count": 7,
+    "main_installation": "Native artifact wrapper plus list-to-object symbols, all mathematical content retained",
+    "worker_commands": 9,
+    "main_complete_commands": 1,
+    "models": 0,
+    "Final": 0,
+    "web": "NOT_RUN",
+    "OS_sandbox": false
+  },
+  "known_revisions": [
+    {
+      "revision": 1,
+      "subject": "6646ffb98602ae6f94c332bb97ba45ede09bf6e2",
+      "budget_used": {
+        "model_cli_starts": 2,
+        "independent_checker_starts": 3,
+        "final_starts": 1
+      },
+      "maximum_revisions": 2,
+      "terminal": "SCOPED_DEVELOPMENT_COMPLETE"
+    },
+    {
+      "revision": 2,
+      "subject": "df430c0f0785e83b1a84726e88d25b7b2e0b9d0a",
+      "budget_used": {
+        "model_cli_starts": 2,
+        "independent_checker_starts": 3,
+        "final_starts": 1
+      },
+      "maximum_revisions": 2,
+      "terminal": "SCOPED_DEVELOPMENT_COMPLETE"
+    }
+  ],
+  "old_development": {
+    "passed": 0,
+    "total": 2,
+    "terminals": [
+      {
+        "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+        "status": "FAILED",
+        "sha256": "8dd9522317220b66b27f0698326785f9be5182de51cc838cb4c8667d25e09c73"
+      },
+      {
+        "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+        "status": "FAILED",
+        "sha256": "6c2021eebdc4cac676550b85902e9d9fbf4013bc0e0cc951a64df86177314400"
+      }
+    ]
+  },
+  "RC8": {
+    "status": "RESEARCH_VALIDATION_CANDIDATE_ACCEPTED",
+    "subject_commit": "29cf1d7566809519ca92b6a29f555ce0c0b5b204",
+    "accepted_scope": "RESEARCH_AND_FRESH_VALIDATION_ELIGIBILITY_ONLY",
+    "team_compliance_review": "NOT_RUN",
+    "generalization_proven": false
+  },
+  "auditor_arithmetic": [
+    {
+      "kind": "prediction",
+      "max_metric_residual": 1.5187850976872141e-13,
+      "derived": [
+        {
+          "candidate": "BASE",
+          "forecast_remaining_min": [
+            9.0
+          ],
+          "demand": 9,
+          "counts": [
+            3,
+            0
+          ],
+          "cost": 12
+        },
+        {
+          "candidate": "CAND",
+          "forecast_remaining_min": [
+            8.0
+          ],
+          "demand": 8,
+          "counts": [
+            1,
+            1
+          ],
+          "cost": 11
+        }
+      ]
+    },
+    {
+      "kind": "optimization",
+      "max_metric_residual": 0.0,
+      "derived": [
+        {
+          "candidate": "BASE",
+          "forecast_remaining_min": [],
+          "demand": 8,
+          "counts": [
+            3,
+            0
+          ],
+          "cost": 12
+        },
+        {
+          "candidate": "CAND",
+          "forecast_remaining_min": [],
+          "demand": 8,
+          "counts": [
+            1,
+            1
+          ],
+          "cost": 11
+        }
+      ]
+    },
+    {
+      "kind": "mixed",
+      "max_metric_residual": 1.5173048003210474e-13,
+      "derived": [
+        {
+          "candidate": "BASE",
+          "forecast_remaining_min": [
+            8.0
+          ],
+          "demand": 8,
+          "counts": [
+            3,
+            0
+          ],
+          "cost": 12
+        },
+        {
+          "candidate": "CAND",
+          "forecast_remaining_min": [
+            8.0
+          ],
+          "demand": 8,
+          "counts": [
+            1,
+            1
+          ],
+          "cost": 11
+        }
+      ]
+    }
+  ],
+  "observation_utc": "2026-09-09T11:23:17.309332+00:00",
+  "checks_total": 161,
+  "checks_failed": []
+}

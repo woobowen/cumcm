@@ -1,29 +1,12 @@
-# Workbench checkpoint B1
+# 模块工作台当前检查点
 
-2026-09-09: B0 registered at 0e0d324; B1 implementation commits de0f5fb then 421a918.
-Actual directed suite on 421a918: 76 passed in 37.90s. Public default and equivalent explicit
-optimization/conditional-prediction/mixed paths reach actual independent Final, Claim and handoff.
-Prestart malformed/role/scope/input negatives and direct-checker semantic STALE negatives pass.
-Original B0 R7 failure remains in baseline/. B1 initial run: 61passed/6failed because new tests
-looked for predictive ledger in scientific-Final cases; actual chains had reached handoff.
-Fixed assertions verify scientific_final_ledger SUCCESS/count and test access0.
-Reviewer helper findings condition_design and path aliases/types fixed and regressed.
-No known-task root/model/checker/Final yet. B2–B7 remain pending. Historical cases untouched.
-Next: scoped module CLI + separated controller stops + isolated local Git; then review/context.
-No installs or global config changes. Public reports/acceptance are not complete.
+工程状态：MODULAR_WORKBENCH_ENGINEERING_ACCEPTED；远端交付仍待实际核验。
 
-B2/B3: public boundary file33 passed (b2-boundary-tests-002.log); initial31/2 retained.
-New immutable request/completion binding and exact report scope added after independent review.
-Fourteen task cards, one thin CLI and technical handoff docs drafted. Actual original M01–M14
-and new known child are not yet accepted. Candidate rc10 is implementation identity only,
-not a release activation. Next: commit implementation, original numeric full paths, feedback
-round trip, restricted-context worker, then bounded engineering decision/CI/delivery.
+- [START_HERE](../../../docs/modular_workbench/START_HERE.md) 与 [证据索引](EVIDENCE_INDEX.md)。
+- 当前受测subject：`d1f8532d498307e3b4755c088ce6a0fadfb432bb`；Skill RC10，只限模块工作台工程范围。
+- 实际361项定向测试与完整CI 2369 passed / 1 skipped；机器决定和原生Decision Auditor均PASS。
+- 十四模块、三类数值公共路径、已知Q3 R2、审查回传与受限M04接手均有实际记录。
+- 原题整题通过、未来真值、泛化、真实网页/队员验收和合规不由本次工程PASS推出。
+- 下一步仅普通提交/推送同一Draft PR及核验远端；不启动下个赛题模块。
 
-2026-09-09, later checkpoint: 49ba547 lifecycle suite83 passed/1 assertion mismatch;
-corrected STALE_OUTPUT assertion passed alone. Prediction, optimization and three-question mixed
-original cases all actually completed fourteen modules, M09 stop and one Final. Implementation
-has subsequently changed, so these are development evidence pending the common-subject run.
-Local review exercise passed counterexample/unsupported/alternative/stale/malicious channels;
-the counterexample was explicitly fault-injected, independently recomputed, never real web review.
-Native round04 rejected shallow engineering evidence gates; exact record/test bindings under repair.
-No known child registered or started yet. No activation, full CI or remote delivery yet.
+旧检查点见 [checkpoint_history.md](checkpoint_history.md)，正式事实见 project_state 与 qualification。

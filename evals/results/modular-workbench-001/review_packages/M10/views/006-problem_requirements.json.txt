@@ -1,0 +1,164 @@
+{
+  "artifact_type": "problem_requirements",
+  "content": {
+    "case_id": "ORIGINAL-WATER-MIXED",
+    "contract_version": "requirement-evidence/v1",
+    "requirements": [
+      {
+        "allowed_evidence_classes": [
+          "SIMULATION"
+        ],
+        "completion_rule": "ALL_REQUIRED_EVIDENCE",
+        "dependency_requirements": [
+          "REQ-B"
+        ],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "metric_contracts": {
+          "metric_a": {
+            "aggregation": "SINGLE",
+            "denominator": "ONE",
+            "direction": "MIN",
+            "formula": "VALUE",
+            "prediction_origin": "NOT_APPLICABLE",
+            "quantity": "SCALAR",
+            "sample_unit": "allocation",
+            "target": "purchase_cost",
+            "target_unit": "yuan",
+            "unit": "yuan",
+            "weights": "UNIFORM",
+            "zero_denominator_policy": "REJECT"
+          }
+        },
+        "minimum_data_fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "partial_completion_allowed": false,
+        "required_entity_scope": [
+          "ENTITY-SET"
+        ],
+        "required_evidence_classes": [
+          "SIMULATION"
+        ],
+        "required_time_scope": [
+          "FROZEN_SCOPE"
+        ],
+        "requirement_id": "REQ-A",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": true
+      },
+      {
+        "allowed_evidence_classes": [
+          "SIMULATION"
+        ],
+        "completion_rule": "ALL_REQUIRED_EVIDENCE",
+        "dependency_requirements": [],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "metric_contracts": {
+          "metric_b": {
+            "aggregation": "MEAN",
+            "denominator": "TRUE_REMAINING_TIME",
+            "direction": "MIN",
+            "formula": "ABSOLUTE_RELATIVE_ERROR",
+            "prediction_origin": "PER_SAMPLE",
+            "quantity": "REMAINING_TIME",
+            "sample_unit": "historical_origin",
+            "target": "water_remaining_time",
+            "target_unit": "min",
+            "unit": "%",
+            "weights": "UNIFORM",
+            "zero_denominator_policy": "REJECT"
+          }
+        },
+        "minimum_data_fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "partial_completion_allowed": false,
+        "prediction_spec": {
+          "claim_type": "PREDICTIVE",
+          "conditions": [
+            "Affine trend continues; no regime change."
+          ],
+          "empirical_accuracy_required": false,
+          "future_truth_field": "future_end_time",
+          "historical_validation_required": true,
+          "kind": "CONDITIONAL_ESTIMATE",
+          "known_input_fields": [
+            "time",
+            "level"
+          ],
+          "model_basis": "Prefix-only affine level model continued to declared threshold",
+          "target_field": "future_remaining_time"
+        },
+        "required_entity_scope": [
+          "ENTITY-SET"
+        ],
+        "required_evidence_classes": [
+          "SIMULATION"
+        ],
+        "required_time_scope": [
+          "FROZEN_SCOPE"
+        ],
+        "requirement_id": "REQ-B",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": true
+      },
+      {
+        "allowed_evidence_classes": [
+          "SIMULATION"
+        ],
+        "completion_rule": "ALL_REQUIRED_EVIDENCE",
+        "dependency_requirements": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "external_data_allowed": false,
+        "external_data_required": false,
+        "metric_contracts": {
+          "metric_c": {
+            "aggregation": "SINGLE",
+            "denominator": "ONE",
+            "direction": "MIN",
+            "formula": "VALUE",
+            "prediction_origin": "NOT_APPLICABLE",
+            "quantity": "SCALAR",
+            "sample_unit": "allocation",
+            "target": "terminal_stock",
+            "target_unit": "L",
+            "unit": "L",
+            "weights": "UNIFORM",
+            "zero_denominator_policy": "REJECT"
+          }
+        },
+        "minimum_data_fields": [
+          "time",
+          "level",
+          "containers"
+        ],
+        "partial_completion_allowed": false,
+        "required_entity_scope": [
+          "ENTITY-SET"
+        ],
+        "required_evidence_classes": [
+          "SIMULATION"
+        ],
+        "required_time_scope": [
+          "FROZEN_SCOPE"
+        ],
+        "requirement_id": "REQ-C",
+        "role": "PRIMARY",
+        "scientific_facts_required": true,
+        "simulation_substitution_allowed": true
+      }
+    ]
+  },
+  "content_hash": "43c0a9974633f7069232210d020021a999e6f27b064f2c6f09e5beeb79db00c2",
+  "status": "ACCEPTED"
+}

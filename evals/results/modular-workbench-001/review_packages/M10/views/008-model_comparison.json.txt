@@ -1,0 +1,111 @@
+{
+  "artifact_type": "model_comparison",
+  "content": {
+    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+    "attempts": [
+      {
+        "candidate_id": "BASE",
+        "outcome": "SUCCESS",
+        "random_seed": 20260906,
+        "run_id": "RUN-BASE-20260906",
+        "validation_score": 12
+      },
+      {
+        "candidate_id": "CAND",
+        "outcome": "SUCCESS",
+        "random_seed": 20260906,
+        "run_id": "RUN-CAND-20260906",
+        "validation_score": 11
+      }
+    ],
+    "baseline_id": "BASE",
+    "candidate_ids": [
+      "BASE",
+      "CAND"
+    ],
+    "code_commit": "d1f8532d498307e3b4755c088ce6a0fadfb432bb",
+    "freeze_bindings": {
+      "baseline": "2bc2ab82efc889dee4e371f40002d01a88cd26f8383a0f7da31cdafbdc5f90ff",
+      "candidate_set": "ac8c25d2fb89ca774157b16e32e7c5d5801a90bd5ddebfbba802f41112a2f116",
+      "code_commit": "d2ad43821b66647de5d9c2e979353d3f4bec17faaeca3981fb9fe582cbb4fa03",
+      "code_set": "91a583228edbe9969297cbbd67b3464555175ec6aff4d83a48917b8a1398fe75",
+      "execution_policy": "54d47e0ec7c308f06ff3fff98a56e3212fb06694829fa407a9d4e5a1487a752b",
+      "input_set": "81886aaaab1dd25127550c454d284d1a135db1bcc7ac6e8e77fe30f1f918cf51",
+      "metric": "f1f3553236a3d330b455da3731ad3649ed4dc51fc549c994050c2cab6ecdc76a",
+      "seed_schedule": "321b07634b30073793fd5ea82582608e2c64e9dc85f28cf82d2b789a899c3617",
+      "split_assignment": "17a728d1da7f91022a038b527414894bb63aaf483a3aca4d35670253d661bab7"
+    },
+    "handoff_generated_at": "2026-09-09T10:55:21Z",
+    "leakage_checks": {
+      "future_information": false,
+      "group_overlap": true,
+      "target_in_features": false,
+      "test_used_for_candidate_generation": false,
+      "test_used_for_feature_selection": false,
+      "test_used_for_threshold_selection": false,
+      "time_order_valid": true
+    },
+    "metric": "metric_a",
+    "metric_direction": "MIN",
+    "random_seeds": [
+      20260906
+    ],
+    "reliability": {
+      "attempts": 2,
+      "failed_or_infeasible": 0,
+      "successful": 2
+    },
+    "required_code_files": [
+      {
+        "path": "scripts/cumcm_case.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "da5d02c792f4bfdd84f979d1d019b72071764d8de01ef743e68957527f808384"
+      },
+      {
+        "path": "scripts/synthetic_cases.py",
+        "repository_path": ".agents/skills/cumcm-modeling-evidence/scripts/synthetic_cases.py",
+        "scope": "SKILL_ROOT",
+        "sha256": "eb31b365adf5fbde05883bd5dd9351487215b56ab1db2f40ae19a104dea1ed62"
+      },
+      {
+        "path": "models/runtime_model.py",
+        "repository_path": "CASE_GIT/218dd47e4a0ad2f670e743da90c384efcfc42b05/models/runtime_model.py",
+        "scope": "CASE_ROOT",
+        "sha256": "b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4"
+      },
+      {
+        "path": "models/independent_check.py",
+        "repository_path": "CASE_GIT/218dd47e4a0ad2f670e743da90c384efcfc42b05/models/independent_check.py",
+        "scope": "CASE_ROOT",
+        "sha256": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0"
+      }
+    ],
+    "required_input_hashes": {
+      "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2"
+    },
+    "selected_candidate_id": "CAND",
+    "selection_decision_hash": "173bc75a19f621daad13e9d18b8136c66fbb7ae8dc3c67f61f142121280838ca",
+    "selection_rule": "ARGMIN_THEN_ID",
+    "splits": {
+      "test": [],
+      "train": [
+        "PREFIX"
+      ],
+      "validation": [
+        "A-origin-4",
+        "A-origin-8"
+      ]
+    },
+    "stop_rule": "one actual run per candidate",
+    "test_access": {
+      "authorized": false,
+      "count": 0,
+      "mode": "CONDITIONAL_DEVELOPMENT_COMPARISON",
+      "scientific_verification_count": 0,
+      "used_for_selection": false
+    }
+  },
+  "content_hash": "e4777869d6526ef884f9c967b1185ed9648b5d4f78d1f686746f05afdf7be220",
+  "status": "ACCEPTED"
+}

@@ -1,0 +1,230 @@
+{
+  "artifact_type": "requirement_selection",
+  "content": {
+    "contract_version": "requirement-selection/v1",
+    "requirements": [
+      {
+        "candidate_run_ids": [
+          "RUN-BASE-20260906",
+          "RUN-CAND-20260906"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [
+          "REQ-B"
+        ],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-A",
+        "selected_output_ids": [
+          "OUT-REQ-A"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "metric_a",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-BASE-20260906",
+          "RUN-CAND-20260906"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-B",
+        "selected_output_ids": [
+          "OUT-REQ-B"
+        ],
+        "selected_run_ids": [
+          "RUN-BASE-20260906"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "metric_b",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      },
+      {
+        "candidate_run_ids": [
+          "RUN-BASE-20260906",
+          "RUN-CAND-20260906"
+        ],
+        "cross_requirement_constraints": [],
+        "dependency_bindings": [],
+        "dependency_requirements": [
+          "REQ-A",
+          "REQ-B"
+        ],
+        "feasibility_gate": "PASS",
+        "requirement_id": "REQ-C",
+        "selected_output_ids": [
+          "OUT-REQ-C"
+        ],
+        "selected_run_ids": [
+          "RUN-CAND-20260906"
+        ],
+        "selection_direction": "MIN",
+        "selection_metric": "metric_c",
+        "support_predicates": {
+          "metric_bound": true
+        }
+      }
+    ],
+    "runs": [
+      {
+        "configuration_hash": "8ea23df3cc6fd3a2f81871e938570d08d46eed4a875d6e50f95247e47814b874",
+        "current": true,
+        "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+        "metric_ids": [
+          "metric_a",
+          "metric_b",
+          "metric_c"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-BASE-20260906",
+        "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUT-REQ-A",
+          "OUT-REQ-B",
+          "OUT-REQ-C"
+        ],
+        "supported_requirement_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ]
+      },
+      {
+        "configuration_hash": "bba2cf4577920e0d55f5f24abb3ffcedc288a19a824d0d1ea8ad5c3545ed7887",
+        "current": true,
+        "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+        "metric_ids": [
+          "metric_a",
+          "metric_b",
+          "metric_c"
+        ],
+        "outcome": "SUCCESS",
+        "policy_exposure": 0,
+        "run_id": "RUN-CAND-20260906",
+        "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+        "sealed": true,
+        "selected_output_ids": [
+          "OUT-REQ-A",
+          "OUT-REQ-B",
+          "OUT-REQ-C"
+        ],
+        "supported_requirement_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ]
+      }
+    ],
+    "selection": {
+      "aggregate_objective": "DECLARED_TRADEOFF",
+      "compatibility": {
+        "kind": "RUN_PORTFOLIO_V1",
+        "ordered_ids": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "permuted_ids": [
+          "REQ-C",
+          "REQ-B",
+          "REQ-A"
+        ],
+        "version": "compatibility/v1"
+      },
+      "compatibility_checks": [
+        "INPUT",
+        "SCENARIO",
+        "CONSTRAINTS"
+      ],
+      "cross_requirement_constraints": [],
+      "dependency_bridges": [
+        {
+          "dependency_requirement_id": "REQ-B",
+          "dependent_requirement_id": "REQ-A",
+          "downstream_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "lineage_hash": "aae0cda5cab47d279b6496f1e694ea6872bdcc85b31a81b91bae51799a0e9538",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "upstream_run_ids": [
+            "RUN-BASE-20260906"
+          ]
+        },
+        {
+          "dependency_requirement_id": "REQ-A",
+          "dependent_requirement_id": "REQ-C",
+          "downstream_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "lineage_hash": "ee9e459a7b1c283c9daa5d18dd09fa10de653b826070d58e973b67a1cbe1916f",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "upstream_run_ids": [
+            "RUN-CAND-20260906"
+          ]
+        },
+        {
+          "dependency_requirement_id": "REQ-B",
+          "dependent_requirement_id": "REQ-C",
+          "downstream_run_ids": [
+            "RUN-CAND-20260906"
+          ],
+          "input_hash": "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710",
+          "lineage_hash": "80d82e50f2e51f67c1488256cda3575ebc066f82ff400d996d18d91ba18dc6b7",
+          "scenario_hash": "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b",
+          "upstream_run_ids": [
+            "RUN-BASE-20260906"
+          ]
+        }
+      ],
+      "limitations": [
+        "Project-original neutral selection."
+      ],
+      "requirement_to_output_map": {
+        "REQ-A": [
+          "OUT-REQ-A"
+        ],
+        "REQ-B": [
+          "OUT-REQ-B"
+        ],
+        "REQ-C": [
+          "OUT-REQ-C"
+        ]
+      },
+      "requirement_to_run_map": {
+        "REQ-A": [
+          "RUN-CAND-20260906"
+        ],
+        "REQ-B": [
+          "RUN-BASE-20260906"
+        ],
+        "REQ-C": [
+          "RUN-CAND-20260906"
+        ]
+      },
+      "selection_mode": "JOINT_PORTFOLIO",
+      "shared_input_hashes": [
+        "e095d0a735cc1964fc7a4d44791829ac276acbcd0e2c3daab6345f5663195710"
+      ],
+      "shared_scenario_hashes": [
+        "8bfbbe60e127d24bd2fc277ec30ac8cd9cd01342ff90a4046e809a5d4188990b"
+      ],
+      "tradeoff_rule": "REQUIREMENT_LOCAL_METRICS"
+    }
+  },
+  "content_hash": "f6c9d9b6c7ed513f890c44c543223cc9eee05e534264d8a63a7d41aebcb79852",
+  "status": "ACCEPTED"
+}

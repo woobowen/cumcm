@@ -1,0 +1,110 @@
+"""Original typed-detail and coverage-parser negative fixtures; no claimed executions."""
+import copy
+import datetime
+import hashlib
+import importlib.util
+import json
+import math
+import sys
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parents[4]
+OUT = Path(__file__).resolve().parent
+SOURCE = ROOT / 'scripts/check_modular_workbench.py'
+start = datetime.datetime.now(datetime.timezone.utc)
+RUN = OUT / ('detail-' + start.strftime('%Y%m%dT%H%M%S%fZ'))
+fixture = RUN / 'fixture'
+fixture.mkdir(parents=True)
+sha = lambda b: hashlib.sha256(b).hexdigest()
+before = sha(SOURCE.read_bytes())
+spec = importlib.util.spec_from_file_location('qualification_details_round05', SOURCE)
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+results = {}
+
+def write(name, data):
+    relative = m.BASE + '/' + name
+    path = fixture / relative
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = data if isinstance(data, bytes) else json.dumps(data).encode()
+    path.write_bytes(data)
+    return {'path': relative, 'sha256': sha(data)}
+
+def observe(name, action):
+    try:
+        results[name] = {'returned': action()}
+    except Exception as exc:
+        results[name] = {'exception': type(exc).__name__, 'message': str(exc)}
+
+command = {'argv': ['ORIGINAL_NOT_EXECUTED'], 'exit_code': 42,
+           'started_at': '2026-09-09T00:00:00Z', 'ended_at': '2026-09-09T00:00:01Z',
+           'elapsed_seconds': 1, 'result': {'status': 'FAILED'}}
+empty = write('original-empty.json', {})
+code = write('original-not-executed.py', b'raise RuntimeError("ORIGINAL NOT EXECUTED")\n')
+detail = {'schema_version': 'workbench-independent-recalculation/v1', 'implementation_hash': 'ORIGINAL',
+          'commands': [command], 'producer_imported': False, 'independent_code': code,
+          'results': [{'kind': kind, 'max_abs_residual': -1, 'numeric_values_checked': 3,
+                       'record_packet': empty} for kind in ['prediction', 'optimization', 'mixed']]}
+item = {'implementation_hash': 'ORIGINAL', 'detail': write('original-recalculation-detail.json', detail)}
+observe('failed_recalculation_command_negative_abs_residual_empty_record_packets', lambda: m.validate_detail(fixture, 'independent_recalculation', item))
+
+# Supply the now-required exact independent source binding and a successful
+# synthetic command to reach each prior malformed-data branch. Recompute is
+# never reached: negative residual / empty packet must reject first.
+independent_path = ROOT / 'scripts/recalculate_workbench_originals.py'
+independent_source = independent_path.read_bytes()
+successful_detail = copy.deepcopy(detail)
+successful_detail['commands'][0].update(exit_code=0, result={'status': 'ORIGINAL SYNTHETIC COMMAND RECORD'})
+successful_detail['independent_code'] = write('original-independent-code-copy.py', independent_source)
+negative_item = {'implementation_hash': 'ORIGINAL', 'detail': write('negative-residual-after-command.json', successful_detail)}
+observe('negative_residual_after_valid_command_and_code_binding', lambda: m.validate_detail(fixture, 'independent_recalculation', negative_item))
+for row in successful_detail['results']:
+    row['max_abs_residual'] = 0
+empty_item = {'implementation_hash': 'ORIGINAL', 'detail': write('empty-packet-after-command.json', successful_detail)}
+observe('empty_packet_after_valid_command_code_residual', lambda: m.validate_detail(fixture, 'independent_recalculation', empty_item))
+
+# This parser probe has synthetic log text, and is never advertised as pytest execution.
+coverage = {name: ['tests/integration/test_modular_workbench.py::' + fragment]
+            for name, fragment in m.BOUNDARY_TEST_FRAGMENTS.items()}
+wrong_case_node = 'tests/integration/test_modular_workbench.py::test_untrusted_feedback_rejects_without_execution[wrong_case]'
+for name in ['credential_and_injection_rejection', 'wrong_case_package_hash', 'malformed_and_archive_feedback_rejection']:
+    coverage[name] = [wrong_case_node]
+variants = {kind: {variant: 'tests/integration/test_workbench_scenario.py::test_default_and_equivalent_explicit_reach_public_handoff[' + explicit + '-' + kind + ']'
+                   for variant, explicit in [('default', 'False'), ('equivalent_explicit', 'True')]}
+            for kind in ['prediction', 'optimization', 'mixed']}
+nodes = {node for values in coverage.values() for node in values}
+nodes.update(node for values in variants.values() for node in values.values())
+log = write('synthetic-parser-input.log', ('ORIGINAL PARSER INPUT: NO TEST WAS EXECUTED\n' + '\n'.join(node + ' PASSED' for node in sorted(nodes)) + '\n').encode())
+boundary = write('original-boundary-receipt.json', {'commands': [{'log': log}]})
+observe('wrong_case_param_substitutes_for_credentials_hash_malformed_archive_coverage',
+        lambda: m.validate_coverage_logs(fixture, {'boundary_coverage': coverage, 'scenario_equivalence': variants}, {'receipts': {'boundary_tests': boundary}}))
+verbose_boundary = write('original-verbose-boundary-receipt.json', {'commands': [
+    {'argv': ['.venv/bin/python', '-m', 'pytest', '-vv'], 'exit_code': 0, 'log': log}]})
+observe('wrong_case_param_with_valid_verbose_pytest_command_shape',
+        lambda: m.validate_coverage_logs(fixture, {'boundary_coverage': coverage, 'scenario_equivalence': variants}, {'receipts': {'boundary_tests': verbose_boundary}}))
+
+for name, text in [('duplicate_key', '{"status":"BLOCK","status":"PASS"}'), ('named_nan', '{"x":NaN}')]:
+    observe(name, lambda text=text: m.strict_json(text))
+def overflow():
+    parsed = m.strict_json('{"elapsed_seconds":1e309}')
+    m.actual_command({**command, **parsed})
+    return {'parser_value_is_finite': math.isfinite(parsed['elapsed_seconds']), 'actual_command_accepted': True}
+observe('json_decimal_overflow_infinite_command_elapsed', overflow)
+
+# A type-distinct raw projection that compares equal under Python's bool/int equality.
+raw = '{"count":true}'
+packet = {'derivation': 'EXACT_UTF8_JSON_NO_REDACTION',
+          'records': {'original': {'raw_utf8': raw, 'raw_sha256': sha(raw.encode()), 'content': {'count': 1}}}}
+binding = write('original-bool-int-projection.json', packet)
+observe('exact_records_boolean_raw_integer_projection', lambda: {'accepted_records': list(m.exact_records(fixture, binding))})
+record = {'argv': ['.venv/bin/python', '-B', str(Path(__file__).relative_to(ROOT))],
+          'started_utc': start.isoformat(), 'ended_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'source_before': before, 'source_after': sha(SOURCE.read_bytes()),
+          'independent_code_read_sha256': sha(independent_source), 'independent_code_end_sha256': sha(independent_path.read_bytes()),
+          'results': results,
+          'scope': {'original_synthetic_fixture_only': True, 'model_execution': 0, 'scientific_checker_execution': 0,
+                    'final_execution': 0, 'known_reads': 0, 'pytest_execution': 0, 'full_ci': 0, 'network': 0,
+                    'public_writes': 0, 'git_mutations': 0, 'candidate_qualification': 0}}
+(RUN / 'results.json').write_text(json.dumps(record, indent=2) + '\n')
+print(json.dumps({'result_path': str((RUN / 'results.json').relative_to(ROOT)), **record}, indent=2))
