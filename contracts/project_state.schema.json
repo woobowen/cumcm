@@ -119,6 +119,8 @@
         "C_TARGET_RC6_READY_VALIDATION_PENDING",
         "C_TARGET_RC7_READY_VALIDATION_PENDING",
         "C_TARGET_RC8_READY_VALIDATION_PENDING",
+        "C_TARGET_RC9_RESEARCH_READY",
+        "RC9_RELEASE_REPAIR_BLOCKED",
         "C_TARGET_VALIDATION_IN_PROGRESS",
         "CLAIM_SCOPE_REPAIR_BLOCKED",
         "RC6_RELEASE_REPAIR_BLOCKED",
@@ -561,6 +563,48 @@
     "updated_by": {"type": "string", "minLength": 1}
   },
   "allOf": [
+    {
+      "if": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"}}, "required": ["phase"]},
+      "then": {
+        "required": ["target_candidate_version", "current_validation_case"],
+        "properties": {
+          "status": {"const": "IN_PROGRESS"},
+          "current_plan": {"const": "plans/active/PLAN-0004C6-rc9-repair-and-development.md"},
+          "current_branch": {"const": "feat/phase004c5-p0-01-finalization-hf22-repro"},
+          "target_candidate_version": {"const": "0.2.0-competition-rc9"},
+          "current_validation_case": {"const": null},
+          "answer_access_status": {"const": "SEALED_AT_TERMINAL_FREEZE"},
+          "skill_capability_status": {"const": "COMPETITION_RC"},
+          "selected_architecture": {"const": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"},
+          "base_selected": {"const": false},
+          "third_party_integrated": {"const": false},
+          "next_phase_allowed": {"const": null}
+        },
+        "oneOf": [
+          {"properties": {
+            "technical_adjudication_status": {"const": "C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS"},
+            "subphase": {"enum": ["RC9-REPAIR-AND-NEUTRAL-VALIDATION", "RC9-POSTVALIDATION-DEVELOPMENT"]},
+            "active_skill_version": {"const": "0.2.0-competition-rc8"}
+          }},
+          {"properties": {
+            "technical_adjudication_status": {"const": "C_TARGET_RC9_RESEARCH_READY"},
+            "subphase": {"const": "RC9-RESEARCH-QUALIFIED-DEVELOPMENT-TERMINAL"},
+            "active_skill_version": {"const": "0.2.0-competition-rc9"},
+            "blockers": {"maxItems": 0}
+          }},
+          {"properties": {
+            "technical_adjudication_status": {"const": "RC9_RELEASE_REPAIR_BLOCKED"},
+            "subphase": {"const": "RC9-REPAIR-TERMINAL-BLOCKED"},
+            "active_skill_version": {"const": "0.2.0-competition-rc8"},
+            "blockers": {"minItems": 1}
+          }}
+        ]
+      }
+    },
+    {
+      "if": {"properties": {"technical_adjudication_status": {"enum": ["C_TARGET_RC9_RESEARCH_READY", "RC9_RELEASE_REPAIR_BLOCKED"]}}, "required": ["technical_adjudication_status"]},
+      "then": {"properties": {"phase": {"const": "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"}}}
+    },
     {
       "if": {
         "properties": {

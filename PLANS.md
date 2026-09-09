@@ -101,3 +101,11 @@ Validation. The byte-identical 004C4 terminal plan now lives in `plans/completed
 old freezes resolve at their original Git subject. The sole active plan is
 `plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md`. Its eight-hour budget and
 pre-result case order do not reset any historical episode or acceptance decision.
+
+## Current 004C6 continuation
+
+The new one-time task explicitly requires a maintenance plan. The byte-preserved predecessor is
+plans/archived/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md; its historical active path
+continues to resolve at the old Git subject. The sole current plan is
+plans/active/PLAN-0004C6-rc9-repair-and-development.md. Seven-hour deadline 2026-09-09T08:35:18Z;
+no inherited episode budget is renewed. New evidence lives under evals/results/phase-004c6/.

@@ -345,3 +345,15 @@ final model selection precedes one authorized appropriate final evaluation. Inde
 review precedes immutable decision/freeze. No post-terminal Run or Skill mutation is allowed.
 All outcomes keep `next_phase_allowed=null` in this task; 2025 access is never authorized.
 Engineering, scientific coverage, fresh-case counts and contest compliance remain separate.
+
+## Phase 004C6 bounded repair and known-case Development route
+
+The explicit new PR12 task authorizes 004C6 from the immutable 004C5 terminal with old
+next_phase_allowed=null. The old route and budgets are unchanged. C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS
+uses active RC8 and target RC9; subphase RC9-REPAIR-AND-NEUTRAL-VALIDATION precedes
+RC9-POSTVALIDATION-DEVELOPMENT. Both new Development roots bind their parent terminals, known-case
+status and one frozen shared candidate. They cannot write old Validation roots or add to its denominator.
+Full current CI, neutral/public E2E evidence, scoped Development and native Decision Auditor PASS
+precede C_TARGET_RC9_RESEARCH_READY and activation. Missing requirements retain
+RC9_RELEASE_REPAIR_BLOCKED with active historical RC8. Both outcomes keep next_phase_allowed=null.
+Candidate qualification authorizes research only; TEAM_COMPLIANCE_REVIEW is separate.

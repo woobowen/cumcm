@@ -2,10 +2,10 @@
 # Current project state
 
 - Project: `cumcm-skill-lab`
-- Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5`
-- Subphase: `C-TARGET-FRESH-VALIDATION-TERMINAL`
+- Phase: `PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6`
+- Subphase: `RC9-REPAIR-AND-NEUTRAL-VALIDATION`
 - Status: `IN_PROGRESS`
-- Active plan: `plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md`
+- Active plan: `plans/active/PLAN-0004C6-rc9-repair-and-development.md`
 - Branch: `feat/phase004c5-p0-01-finalization-hf22-repro`
 - Skill version: `0.2.0-competition-rc8`
 - Primary target problem type: `C`
@@ -15,7 +15,7 @@
 - Skill capability: `COMPETITION_RC`
 - Base selected: `false`
 - Third-party integrated: `false`
-- Technical adjudication: `C_TARGET_VALIDATION_FAILED`
+- Technical adjudication: `C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS`
 - Automated decisions: `DECISION-ARCHITECTURE-002D-R1, DECISION-ARCHITECTURE-CANDIDATE-SET-002D-R2, DECISION-C-TARGET-VALIDATION-004C, DECISION-C-TARGET-VALIDATION-004C2, DECISION-C-TARGET-VALIDATION-004C4, DECISION-COMPETITION-MVP-ARCHITECTURE-003F, DECISION-COMPETITION-RC1-ARCHITECTURE-003F-R1, DECISION-COMPONENT-READINESS-002D-R1, DECISION-COMPONENT-SPECIFICATION-FREEZE-002D-R2, DECISION-FAILURE-SEMANTICS-002D-R1, DECISION-INTERACTION-CONTRACT-002D-R2, DECISION-PROSPECTIVE-BENCHMARK-FREEZE-002D-R2, DECISION-QUALITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-RELIABILITY-EVIDENCE-SUFFICIENCY-002D-R1, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2, DECISION-SHADOW-PROTOTYPE-AUTHORIZATION-002D-R2A-C2, DECISION-SLOT-RESOLUTION-002D-R1, DECISION-SUPPLEMENTAL-RUN-AUTHORIZATION-002D-R1, DECISION-THRESHOLD-POLICY-FREEZE-002D-R2, DECISION-C-TARGET-VALIDATION-004C3, DECISION-RC8-RESEARCH-VALIDATION-QUALIFICATION-004C5, DECISION-C-TARGET-VALIDATION-004C5-2016, DECISION-C-TARGET-VALIDATION-004C5-2015`
 - Selected architecture: `ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL`
 - Accepted component specifications: `accepted-versus-done-workflow-state, claim-evidence-support-gate, hash-bound-reproducibility-manifest, leakage-safe-model-comparison-gate`
@@ -23,7 +23,7 @@
 - Content-verified commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Delivery receipt commit: `8ef732b45cf3cb04262317cdfa13a176b47eebe0`
 - Team compliance review: `NOT_RUN`
-- Updated: `2026-09-08T23:13:18.995181+00:00` by `main-agent`
+- Updated: `2026-09-09T01:40:55.110775+00:00` by `main-agent`
 
 ## Blockers
 
@@ -78,3 +78,4 @@
 - RC8 2016C terminal is evidence insufficient despite2 successful model captures. Native audit accepts conditional numerical results but identifies overstrong future-truth requirement, coarse group-overlap rejection, remaining-time metric mismatch and uncalibrated uncertainty; frozen outputs and negative gates are preserved.
 - Terminal commita03597b also exposed a frozen fault-injection test routing every evidence-insufficient terminal to historical004C2. The 004C5 schema route is valid, but this test must be updated under a future explicitly tested maintenance subject. A missing first_run_evidence summary for new2016 registry is corrected from the existing fixed decision; no case outputs change.
 - RC8 fresh batch planned2/started2/executed2/completed2/scientificPASS0.2016 is EVIDENCE_INSUFFICIENT;2015 is FAILED for Final prerequisite order despite independently supported conditional numerical outputs. Original positive-proposal audit FAIL and second audit PASS of the negative decision are distinct. Both terminal cases are immutable and cannot be rerun under this episode.
+- 004C6 is a new authorized bounded repair and known-case Development window; historical 004C5 Validation remains scientific 0/2 and no new independent Validation is authorized. RC9 candidate is not yet qualified.

@@ -142,3 +142,11 @@ The machine decision and terminal freeze live under
 RC5, case code, rubric and neutral tests remain frozen; no model retry or later same-case Validation
 is permitted. Answers remain sealed. The next phase is `null`; Held-out 004D is locked and all six
 2025 access flags remain false. Later work on this case can only be Development under new scope.
+
+## Phase 004C6 authorized objective
+
+The new PR12 user task preserves every RC8 qualification and negative 004C5 terminal while
+repairing CI compatibility, nonpredictive Final order, conditional temporal prediction and metric
+semantics under a new RC9 candidate. Ten neutral specifications, three public CLI E2Es and two
+new post-Validation Development children must yield actual evidence. Historical Validation remains
+0/2; this window adds no independent Validation and cannot establish generalization.
