@@ -41,12 +41,16 @@ def test_skill_is_competition_rc_and_has_one_workflow_set(
             "0.3.0-competition-rc9",
             "0.2.0-competition-rc9",
         ),
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7": (
+            "0.3.0-competition-rc10",
+            "0.2.0-competition-rc10",
+        ),
     }
     project_version, skill_version = versions[state["phase"]]
     assert (repo_root / "VERSION").read_text().strip() == project_version
     assert (skill_root / "VERSION").read_text().strip() == skill_version
     assert skill_version == case_cli.VERSION
-    if state["phase"].endswith("004C6"):
+    if state["phase"].endswith(("004C6", "004C7")):
         assert state["target_candidate_version"] == skill_version
     assert f"Version: `{skill_version}`" in skill
     assert "COMPETITION_RC" in skill

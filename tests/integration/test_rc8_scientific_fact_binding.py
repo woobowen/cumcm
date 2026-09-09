@@ -17,10 +17,13 @@ def _helpers(repo_root):
     return module
 
 
-def _case(repo_root, tmp_path):
+def _case(repo_root, tmp_path, *, scientific_facts_required_before_freeze=False):
     helpers = _helpers(repo_root)
     core, case = helpers._build_case(
-        repo_root, tmp_path, model_fixture="tests/fixtures/authorized_final_eval_model.py"
+        repo_root,
+        tmp_path,
+        model_fixture="tests/fixtures/authorized_final_eval_model.py",
+        scientific_facts_required_before_freeze=scientific_facts_required_before_freeze,
     )
     # A semantic proposal must quote the actually captured local result, never substitute prose.
     semantic = core.read_artifact(case, "semantic_claim_support")["content"]
@@ -117,6 +120,15 @@ def test_actual_semantic_cli_rejects_unsupported_proposal(repo_root, tmp_path):
 
 
 def test_declared_scientific_requirement_cannot_ignore_missing_checker(repo_root, tmp_path):
+    helpers, core, case = _case(repo_root, tmp_path, scientific_facts_required_before_freeze=True)
+    completed, result = helpers._run_controller(repo_root, case)
+    assert completed.returncode != 0, result
+    assert "RC_SCIENTIFIC_RECALCULATION_MISSING" in result["reason_codes"]
+    assert result["test_access_count"] == 0
+    assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+
+
+def test_postcapture_scientific_requirement_change_is_stale_before_checker(repo_root, tmp_path):
     helpers, core, case = _case(repo_root, tmp_path)
     requirements = core.read_artifact(case, "problem_requirements")["content"]
     for requirement in requirements["requirements"]:
@@ -127,7 +139,9 @@ def test_declared_scientific_requirement_cannot_ignore_missing_checker(repo_root
     _write(core, case, "data_sufficiency", sufficiency)
     completed, result = helpers._run_controller(repo_root, case)
     assert completed.returncode != 0, result
-    assert "RC_SCIENTIFIC_RECALCULATION_MISSING" in result["reason_codes"]
+    assert "RC_EXECUTION_CAPTURE_SCENARIO_STALE" in result["reason_codes"]
+    assert result["test_access_count"] == 0
+    assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
 
 
 @pytest.mark.parametrize("mutation", ["none", "calculation", "metric", "missing"])

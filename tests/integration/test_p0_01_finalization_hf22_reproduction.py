@@ -80,6 +80,7 @@ def _build_case(
     model_fixture: str,
     semantic_adjust: Callable[[dict], dict] | None = None,
     reverse_requirements_before_freeze: bool = False,
+    scientific_facts_required_before_freeze: bool = False,
 ):
     probes = _module(
         repo_root / "tests/integration/test_actual_controller_black_box.py",
@@ -100,6 +101,9 @@ def _build_case(
     requirements = probes._requirements()
     if reverse_requirements_before_freeze:
         requirements.reverse()
+    if scientific_facts_required_before_freeze:
+        for requirement in requirements:
+            requirement["scientific_facts_required"] = True
     probes._accepted(
         core,
         case,

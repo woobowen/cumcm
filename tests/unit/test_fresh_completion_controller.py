@@ -124,12 +124,14 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
             "trusted_freeze_registry": freezes,
             "stop_rule": stop,
             "handoff_generated_at": generated,
-            "scenario_hash": inputs["data/raw/toy.json"],
         },
     )
     synthetic._write_output_contract_probe(core, case, ["REQ-1"], metric="loss")
     core.advance_once(case)
     core.advance_once(case)
+    scenario_hash = core.resolve_scenario_identity(
+        case, core.read_artifact(case, "experiment_plan")["content"]
+    )
     for candidate in candidates:
         core.execute_case_code(
             case,
@@ -151,7 +153,7 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
         "selected_output_ids": ["OUT-REQ-1"],
         "metric_ids": ["loss"],
         "input_hash": input_hash,
-        "scenario_hash": inputs["data/raw/toy.json"],
+        "scenario_hash": scenario_hash,
         "configuration_hash": configuration_hash,
         "policy_exposure": 0,
     }
@@ -180,7 +182,7 @@ def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
                 "requirement_to_run_map": {"REQ-1": [run_id]},
                 "requirement_to_output_map": {"REQ-1": ["OUT-REQ-1"]},
                 "shared_input_hashes": [input_hash],
-                "shared_scenario_hashes": [inputs["data/raw/toy.json"]],
+                "shared_scenario_hashes": [scenario_hash],
                 "compatibility_checks": ["INPUT", "SCENARIO", "CONSTRAINTS"],
                 "compatibility": {
                     "kind": "SINGLE_RUN_V1",

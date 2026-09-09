@@ -153,6 +153,7 @@ def test_human_gate_and_integration_flags_remain_false(repo_root):
             "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+            "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
         }
         else "SCAFFOLD_ONLY"
     )

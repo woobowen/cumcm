@@ -441,6 +441,33 @@ def exercise(root, kind, stop_after, fault=None):
             if mid == "M10":
                 proposals(root, kind)
             cli(root, "run", "--request", rid, "--operation", "controller")
+        # A reviewer needs the actual inputs and executable mathematics alongside
+        # numerical claims. Include only artifacts already produced at this stage;
+        # mutable run manifests are deliberately left to the native acceptance
+        # records so later selection cannot invalidate an earlier module report.
+        review_context = [
+            "problem/original.md",
+            "data/raw/input.json",
+        ]
+        if index >= 4:
+            review_context.append("models/assumptions_and_symbols.json")
+        if index >= 7:
+            review_context += ["models/runtime_model.py", "models/independent_check.py"]
+        if index >= 8:
+            review_context.append("experiments/experiment_plan.json")
+        if index >= 12:
+            review_context.append(core.SCIENTIFIC_FINAL_LEDGER)
+        for name in [
+            "output.json",
+            "execution_capture.json",
+            "scientific_check.json",
+            "scientific_check_capture.json",
+            "final_check.json",
+        ]:
+            review_context.extend(
+                path.relative_to(root).as_posix() for path in (root / "runs").glob(f"*/{name}")
+            )
+        artifacts = sorted(set(artifacts + [p for p in review_context if (root / p).is_file()]))
         template = core.load_json(
             root / "evidence/module_requests" / rid / "work-report.template.json"
         )
@@ -459,6 +486,24 @@ def exercise(root, kind, stop_after, fault=None):
         core.write_json(root / f"work/{mid}.json", template)
         result = cli(root, "complete", "--request", rid, "--report", f"work/{mid}.json")
         assert result["next_module_started"] is False
+        before_resume = core.file_hash(core.state_path(root))
+        resumed = cli(root, "resume", "--request", rid)
+        after_resume = core.file_hash(core.state_path(root))
+        next_request_exists = (root / f"evidence/module_requests/WATER-M{index + 1:02}").exists()
+        assert before_resume == after_resume
+        assert resumed["recovery"]["automatic_starts"] == 0
+        assert not next_request_exists
+        core.write_json(
+            root / f"evidence/module_resume/{mid}.json",
+            {
+                "module": mid,
+                "request_id": rid,
+                "state_before_sha256": before_resume,
+                "state_after_sha256": after_resume,
+                "next_request_exists": next_request_exists,
+                "actual_resume": resumed,
+            },
+        )
         print(
             json.dumps(
                 {

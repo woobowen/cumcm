@@ -47,6 +47,7 @@ def legacy_development_start_is_locked(state: dict) -> bool:
         "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+        "PHASE-SKILL-MODULAR-WORKBENCH-004C7",
     }
 
 

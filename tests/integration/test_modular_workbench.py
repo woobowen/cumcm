@@ -160,6 +160,11 @@ def test_real_fourteen_module_water_path_stops_and_preserves_one_final(
     state = cli(wb, root, "status")
     assert len(state["modules"]) == 14
     assert all(row["status"] == "COMPLETED" for row in state["modules"])
+    for index in range(1, 15):
+        recovery = wb.core.load_json(root / f"evidence/module_resume/M{index:02}.json")
+        assert recovery["state_before_sha256"] == recovery["state_after_sha256"]
+        assert recovery["actual_resume"]["recovery"]["automatic_starts"] == 0
+        assert recovery["next_request_exists"] is False
     assert wb.core.load_state(root)["state"] == "READY_FOR_PAPER_HANDOFF"
     ledger = wb.core.load_json(root / wb.core.SCIENTIFIC_FINAL_LEDGER)
     assert ledger["count"] == 1 and ledger["status"] == "SUCCESS"
@@ -169,6 +174,27 @@ def test_real_fourteen_module_water_path_stops_and_preserves_one_final(
     )["reason_codes"] == ["WB_MODULE_ALREADY_COMPLETED"]
     cli(wb, root, "complete", "--request", "WATER-M12", "--report", "work/M12.json")
     assert wb.core.file_hash(root / wb.core.SCIENTIFIC_FINAL_LEDGER) == before
+    for module in ["M09", "M12", "M14"]:
+        destination = f"reviews/verified-{module}"
+        cli(wb, root, "review-export", "--request", f"WATER-{module}", "--output", destination)
+        manifest = wb.core.load_json(root / destination / "manifest.json")
+        included = {view["source_path"] for view in manifest["views"]}
+        assert {
+            "problem/original.md",
+            "data/raw/input.json",
+            "models/assumptions_and_symbols.json",
+            "models/runtime_model.py",
+            "models/independent_check.py",
+            "experiments/experiment_plan.json",
+            "runs/RUN-CAND-20260906/output.json",
+            "runs/RUN-CAND-20260906/scientific_check.json",
+        } <= included
+        if module == "M09":
+            assert wb.core.SCIENTIFIC_FINAL_LEDGER not in included
+            assert not any(path.endswith("/final_check.json") for path in included)
+        else:
+            assert wb.core.SCIENTIFIC_FINAL_LEDGER in included
+            assert any(path.endswith("/final_check.json") for path in included)
 
 
 @pytest.mark.parametrize("fault", ["INFEASIBLE", "TIMEOUT"])

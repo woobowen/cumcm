@@ -27,6 +27,7 @@ ACTIVE_SKILL_VERSIONS = {
     "0.2.0-competition-rc7",
     "0.2.0-competition-rc8",
     "0.2.0-competition-rc9",
+    "0.2.0-competition-rc10",
 }
 DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
@@ -157,6 +158,11 @@ def evaluate() -> dict[str, Any]:
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
     } and Draft202012Validator(load_json("contracts/project_state.schema.json")).is_valid(state)
+    workbench_state_valid = state.get(
+        "phase"
+    ) == "PHASE-SKILL-MODULAR-WORKBENCH-004C7" and Draft202012Validator(
+        load_json("contracts/project_state.schema.json")
+    ).is_valid(state)
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -182,6 +188,7 @@ def evaluate() -> dict[str, Any]:
             in workflow
         ),
         "state_phase": rc8_state_valid
+        or workbench_state_valid
         or state.get("phase")
         in {
             "PHASE-SKILL-INTEGRATION-003",
@@ -192,6 +199,7 @@ def evaluate() -> dict[str, Any]:
             "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
         },
         "state_subphase": rc8_state_valid
+        or workbench_state_valid
         or state.get("subphase")
         in {
             "CLAIM-SCOPE-REPAIR-TERMINAL-BLOCKED",
@@ -221,7 +229,8 @@ def evaluate() -> dict[str, Any]:
             "ACTUAL-CONTROLLER-BLACK-BOX-REPAIR",
             "RC7-FROZEN-PENDING-FRESH-C-VALIDATION",
         },
-        "state_technical_status": state.get("technical_adjudication_status")
+        "state_technical_status": workbench_state_valid
+        or state.get("technical_adjudication_status")
         in {"COMPETITION_SKILL_RC_READY", *DEVELOPMENT_STATUSES, *C_TARGET_STATUSES},
         "state_skill_version": state.get("active_skill_version") in ACTIVE_SKILL_VERSIONS,
         "state_capability": state.get("skill_capability_status") == "COMPETITION_RC",
@@ -229,6 +238,7 @@ def evaluate() -> dict[str, Any]:
         "state_base_unselected": state.get("base_selected") is False,
         "state_third_party_false": state.get("third_party_integrated") is False,
         "state_next_phase": rc8_state_valid
+        or workbench_state_valid
         or (
             state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
             and state.get("next_phase_allowed")
@@ -345,6 +355,7 @@ def evaluate() -> dict[str, Any]:
             and state.get("next_phase_allowed") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
         ),
         "state_blockers_match_outcome": rc8_state_valid
+        or workbench_state_valid
         or (
             state.get("blockers") == []
             or (
@@ -449,6 +460,11 @@ def evaluate() -> dict[str, Any]:
             or rc6_candidate_staged
             or rc7_repair_staged
             or (
+                workbench_state_valid
+                and state.get("target_candidate_version") == "0.2.0-competition-rc10"
+                and "Version: `0.2.0-competition-rc10`" in skill
+            )
+            or (
                 rc8_state_valid
                 and (
                     (
@@ -496,6 +512,7 @@ def evaluate() -> dict[str, Any]:
                 "0.3.0-competition-rc7",
                 "0.3.0-competition-rc8",
                 "0.3.0-competition-rc9",
+                "0.3.0-competition-rc10",
             }
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),

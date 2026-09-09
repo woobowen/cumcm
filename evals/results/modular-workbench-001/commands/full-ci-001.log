@@ -1,0 +1,977 @@
+All checks passed!
+991 files already formatted
+..................F.................................F................... [  3%]
+........................................................................ [  6%]
+........................................................................ [  9%]
+......F................................................................. [ 12%]
+........................................................................ [ 15%]
+......................................F................................. [ 18%]
+........................................................................ [ 21%]
+........................................................................ [ 24%]
+.FFF.................F..........................F...............FF...... [ 27%]
+........................................................................ [ 30%]
+........................................................................ [ 33%]
+........................................................................ [ 36%]
+........................................................................ [ 39%]
+........................................................................ [ 42%]
+........................................................................ [ 45%]
+........................................................................ [ 48%]
+........................................................................ [ 51%]
+........................................................................ [ 54%]
+........................................................................ [ 57%]
+........................................................................ [ 60%]
+........................................................................ [ 63%]
+........................................................................ [ 66%]
+...........
+=================================== FAILURES ===================================
+______________ test_human_gate_and_integration_flags_remain_false ______________
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+
+    def test_human_gate_and_integration_flags_remain_false(repo_root):
+        state = json.loads((repo_root / "state/project_state.json").read_text())
+        schema = json.loads((repo_root / "contracts/project_state.schema.json").read_text())
+        Draft202012Validator(schema).validate(state)
+        legal_statuses = set(schema["properties"]["technical_adjudication_status"]["enum"])
+        assert not any("HUMAN" in blocker for blocker in state["blockers"])
+        assert any("CONNECT_RESET" in risk.upper() for risk in state["risks"])
+        assert state["technical_adjudication_status"] in legal_statuses
+        if state["technical_adjudication_status"] in {
+            "AUTOMATED_ADJUDICATION_COMPLETE",
+            "FAILURE_AWARE_ADJUDICATION_COMPLETE",
+        }:
+            assert state["automated_decision_ids"]
+            assert state["next_phase_allowed"] in {
+                "PHASE-EVIDENCE-EXPANSION-002D",
+                "PHASE-SKILL-INTEGRATION-003",
+            }
+            if state["technical_adjudication_status"] == "FAILURE_AWARE_ADJUDICATION_COMPLETE":
+                assert state["next_phase_allowed"] == "PHASE-EVIDENCE-EXPANSION-002D"
+                assert state["selected_architecture"] is None
+                assert state["accepted_component_specifications"]
+        elif state["technical_adjudication_status"] == "EVIDENCE_EXPANSION_INCOMPLETE":
+            assert state["next_phase_allowed"] == "PHASE-EVIDENCE-EXPANSION-002D"
+        elif state["technical_adjudication_status"] == "FAILURE_AWARE_ADJUDICATION_IN_PROGRESS":
+            assert state["subphase"] == "PHASE-002D-R1-FAILURE-AWARE-OUTCOME-ADJUDICATION"
+            assert state["selected_architecture"] is None
+            assert state["accepted_component_specifications"] == []
+            assert not any(decision.endswith("002D-R1") for decision in state["automated_decision_ids"])
+            assert state["next_phase_allowed"] is None
+        elif state["technical_adjudication_status"] == "SPECIFICATION_PROTOCOL_COMPLETE":
+            assert state["selected_architecture"] is None
+            assert len(state["architecture_candidate_set"]) in {2, 3}
+            assert state["next_phase_allowed"] in {
+                "PHASE-002D-R2-CLEAN-ROOM-SPECIFICATION-AND-PROSPECTIVE-PROTOCOL",
+                "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION",
+                None,
+            }
+        elif state["technical_adjudication_status"] == "SHADOW_PROTOTYPE_AUTHORIZATION_COMPLETE":
+            shadow = state["shadow_authorization"]
+            assert state["next_phase_allowed"] == "PHASE-002D-R3-SHADOW-PROTOTYPE-VALIDATION"
+            assert shadow["active_decision_id"] in state["automated_decision_ids"]
+            assert shadow["final_audit_result"] == "PASS"
+            assert shadow["final_replay_stable"] is True
+        elif state["technical_adjudication_status"] == "COMPETITION_SKILL_RC_READY":
+            assert state["subphase"] == "COMPETITION-RC1-REPAIR-AND-INTEGRATION"
+            assert state["next_phase_allowed"] == "PHASE-SKILL-DEVELOPMENT-EVAL-004"
+            assert state["selected_architecture"] == (
+                "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL"
+            )
+            assert state["active_skill_version"] == "0.2.0-competition-rc1"
+        elif state["technical_adjudication_status"] == "DEVELOPMENT_EVAL_RC2_READY":
+            assert state["subphase"] == "CUMCM-2023-C-DEVELOPMENT-RC2"
+            assert state["next_phase_allowed"] == "PHASE-SKILL-DEVELOPMENT-EVAL-004-B"
+            assert state["development_eval"]["stress_statuses"] == {
+                "A": "PASS",
+                "B": "PASS",
+                "C": "PASS",
+            }
+            assert state["active_skill_version"] == "0.2.0-competition-rc2"
+        elif state["technical_adjudication_status"] == "DEVELOPMENT_EVAL_RC3_READY":
+            assert state["subphase"] == "CUMCM-2020-A-DEVELOPMENT-RC3"
+            assert state["next_phase_allowed"] == "PHASE-SKILL-VALIDATION-EVAL-004-C"
+            assert state["development_eval"]["stress_statuses"] == {
+                "A": "PASS",
+                "B": "PASS",
+                "C": "PASS",
+            }
+            assert state["active_skill_version"] == "0.2.0-competition-rc3"
+        elif state["technical_adjudication_status"] == "C_TARGET_BATCH_IN_PROGRESS":
+            assert state["subphase"] == "C-TARGET-STRATEGY-MIGRATION-AND-BATCH-FIRST-RUNS"
+            assert state["primary_target_problem_type"] == "C"
+            assert state["current_batch_id"] == "C-TARGET-BATCH-001"
+            assert state["batch_skill_frozen"] is True
+            assert state["batch_reference_unlocked"] is False
+            assert state["next_phase_allowed"] is None
+            assert state["active_skill_version"] == "0.2.0-competition-rc3"
+        elif state["technical_adjudication_status"] == "C_TARGET_BATCH_POSTMORTEM_IN_PROGRESS":
+            assert state["subphase"] == "C-TARGET-UNIFIED-REFERENCE-REVIEW-AND-POSTMORTEM"
+            assert state["primary_target_problem_type"] == "C"
+            assert state["current_batch_id"] == "C-TARGET-BATCH-001"
+            assert state["batch_skill_frozen"] is True
+            assert state["batch_reference_unlocked"] is True
+            assert state["next_phase_allowed"] is None
+            assert state["active_skill_version"] == "0.2.0-competition-rc3"
+        elif state["technical_adjudication_status"] in {
+            "C_TARGET_VALIDATION_FAILED",
+            "C_TARGET_VALIDATION_EVIDENCE_INSUFFICIENT",
+        }:
+            assert state_identity_errors(state, schema, historical_registry(repo_root)) == []
+        else:
+            assert state["next_phase_allowed"] is None
+        assert state["base_selected"] is False
+        assert state["third_party_integrated"] is False
+        expected_capability = (
+            "COMPETITION_RC"
+            if state["phase"]
+            in {
+                "PHASE-SKILL-INTEGRATION-003",
+                "PHASE-SKILL-DEVELOPMENT-EVAL-004",
+                "PHASE-SKILL-C-TARGET-BATCH-GENERALIZATION-004C",
+                "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2",
+                "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
+                "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
+                "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+                "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+            }
+            else "SCAFFOLD_ONLY"
+        )
+>       assert state["skill_capability_status"] == expected_capability
+E       AssertionError: assert 'COMPETITION_RC' == 'SCAFFOLD_ONLY'
+E
+E         - SCAFFOLD_ONLY
+E         + COMPETITION_RC
+
+tests/fault_injection/test_eval_policy_faults.py:159: AssertionError
+______ test_scenario_hash_must_be_bound_by_execution_capture_and_manifest ______
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+
+    def test_scenario_hash_must_be_bound_by_execution_capture_and_manifest(repo_root, tmp_path) -> None:
+        neutral, frozen = _builders(repo_root, tmp_path.name)
+        core, case = neutral._build_portfolio_case(repo_root, tmp_path)
+        forged = "c" * 64
+        plan = core.read_artifact(case, "experiment_plan")["content"]
+        selection = core.read_artifact(case, "requirement_selection")["content"]
+        semantic = core.read_artifact(case, "semantic_claim_support")["content"]
+        plan["scenario_hash"] = forged
+        selection["selection"]["shared_scenario_hashes"] = [forged]
+        for run in selection["runs"]:
+            run["scenario_hash"] = forged
+        for run in semantic["runs"]:
+            run["scenario_hash"] = forged
+        for bridge in selection["selection"]["dependency_bridges"]:
+            bridge["scenario_hash"] = forged
+            body = {key: value for key, value in bridge.items() if key != "lineage_hash"}
+            bridge["lineage_hash"] = core.canonical_hash(body)
+        neutral._accepted(core, case, "experiment_plan", plan)
+        neutral._accepted(core, case, "requirement_selection", selection)
+        neutral._accepted(core, case, "semantic_claim_support", semantic)
+        frozen._sync_bound_hashes(core, case)
+
+        completed, _ = neutral._run_controller(repo_root, case)
+>       _assert_structured_block(
+            completed,
+            gate_id=PROBES["AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND"][0],
+            reason_code=PROBES["AP-004-SCENARIO-HASH-NOT-RUN-MANIFEST-BOUND"][1],
+            core=core,
+            case=case,
+        )
+
+tests/integration/test_actual_controller_adversarial.py:195:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+completed = CompletedProcess(args=['<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python', '<PRIVATE_USER_ROOT>/project/cumcm/scripts/finalize...422106ca4168d8b357bb2263d441d5345300489baa", "status": "BLOCK_NATIVE_CONTRACTS", "test_access_count": 0}\n', stderr='')
+
+    def _assert_structured_block(completed, *, gate_id: str, reason_code: str, core, case: Path):
+        assert completed.returncode != 0
+        assert completed.stdout.strip(), completed.stderr
+        result = json.loads(completed.stdout.strip().splitlines()[-1])
+        assert result["status"] == "BLOCK_NATIVE_CONTRACTS"
+>       assert reason_code in result["reason_codes"]
+E       AssertionError: assert 'RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND' in ['RC_SCENARIO_HASH_CONTENT_MISMATCH']
+
+tests/integration/test_actual_controller_adversarial.py:62: AssertionError
+______ test_declared_scientific_requirement_cannot_ignore_missing_checker ______
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+
+    def test_declared_scientific_requirement_cannot_ignore_missing_checker(repo_root, tmp_path):
+        helpers, core, case = _case(repo_root, tmp_path)
+        requirements = core.read_artifact(case, "problem_requirements")["content"]
+        for requirement in requirements["requirements"]:
+            requirement["scientific_facts_required"] = True
+        _write(core, case, "problem_requirements", requirements)
+        sufficiency = core.read_artifact(case, "data_sufficiency")["content"]
+        sufficiency["requirements"] = requirements["requirements"]
+        _write(core, case, "data_sufficiency", sufficiency)
+        completed, result = helpers._run_controller(repo_root, case)
+        assert completed.returncode != 0, result
+>       assert "RC_SCIENTIFIC_RECALCULATION_MISSING" in result["reason_codes"]
+E       AssertionError: assert 'RC_SCIENTIFIC_RECALCULATION_MISSING' in ['RC_EXECUTION_CAPTURE_SCENARIO_STALE']
+
+tests/integration/test_rc8_scientific_fact_binding.py:130: AssertionError
+______________ test_c_target_batch_freeze_is_current_and_complete ______________
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+
+    def test_c_target_batch_freeze_is_current_and_complete(repo_root) -> None:
+        result = evaluate(repo_root)
+
+>       assert result["ok"] is True
+E       assert False is True
+
+tests/unit/test_c_target_batch_freeze.py:12: AssertionError
+____________ test_start_registers_sealed_case_and_rejects_duplicate ____________
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+
+    def test_start_registers_sealed_case_and_rejects_duplicate(repo_root: Path, tmp_path: Path) -> None:
+        registry = tmp_path / "registry.yaml"
+        shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+        isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+        isolated["cases"] = []
+        registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
+        case_root = tmp_path / "case"
+        problem = case_root / "problem/original.md"
+        data = case_root / "data/raw/input.dat"
+        problem.parent.mkdir(parents=True)
+        data.parent.mkdir(parents=True)
+        problem.write_text("opaque synthetic problem", encoding="utf-8")
+        data.write_text("opaque synthetic data", encoding="utf-8")
+        arguments = (
+            "--registry",
+            str(registry),
+            "--case-id",
+            "DEV-START-001",
+            "--set-type",
+            "DEVELOPMENT",
+            "--problem-source",
+            "problem/original.md",
+            "--problem-hash",
+            file_hash(problem),
+            "--data-hash",
+            f"data/raw/input.dat={file_hash(data)}",
+            "--skill-commit",
+            head_commit(repo_root),
+            "--model",
+            "MODEL-ID",
+            "--reasoning",
+            "medium",
+            "--start-time",
+            "2026-09-04T00:00:00Z",
+            "--case-root",
+            str(case_root),
+        )
+        started = command(repo_root, "start_skill_development_eval.py", *arguments)
+        state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+        if legacy_development_start_is_locked(state):
+            assert started.returncode == 3
+            assert json.loads(started.stdout)["reason_codes"] == [
+                "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+            ]
+            return
+>       assert started.returncode == 0, started.stdout + started.stderr
+E       AssertionError: {"reason_codes": ["COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"], "status": "BLOCK"}
+E
+E       assert 3 == 0
+E        +  where 3 = CompletedProcess(args=['<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python', '<PRIVATE_USER_ROOT>/project/cumcm/scripts/start_sk...rncode=3, stdout='{"reason_codes": ["COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"], "status": "BLOCK"}\n', stderr='').returncode
+
+tests/unit/test_competition_rc_development_eval.py:273: AssertionError
+_________________ test_start_rejects_nonexistent_skill_commit __________________
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+
+    def test_start_rejects_nonexistent_skill_commit(repo_root: Path, tmp_path: Path) -> None:
+        registry = tmp_path / "registry.yaml"
+        shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+        isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+        isolated["cases"] = []
+        registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
+        case_root = tmp_path / "case"
+        problem = case_root / "problem/original.md"
+        problem.parent.mkdir(parents=True)
+        problem.write_text("opaque synthetic problem", encoding="utf-8")
+
+        rejected = command(
+            repo_root,
+            "start_skill_development_eval.py",
+            "--registry",
+            str(registry),
+            "--case-id",
+            "DEV-COMMIT-003",
+            "--set-type",
+            "DEVELOPMENT",
+            "--problem-source",
+            "problem/original.md",
+            "--problem-hash",
+            file_hash(problem),
+            "--skill-commit",
+            "f" * 40,
+            "--model",
+            "MODEL-ID",
+            "--reasoning",
+            "medium",
+            "--case-root",
+            str(case_root),
+        )
+
+        state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+        if legacy_development_start_is_locked(state):
+            assert rejected.returncode == 3
+            assert json.loads(rejected.stdout)["reason_codes"] == [
+                "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+            ]
+            return
+        assert rejected.returncode == 3
+>       assert json.loads(rejected.stdout)["reason_codes"] == ["SKILL_COMMIT_NOT_FOUND"]
+E       AssertionError: assert ['COMPETITION...LOPMENT_EVAL'] == ['SKILL_COMMIT_NOT_FOUND']
+E
+E         At index 0 diff: 'COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL' != 'SKILL_COMMIT_NOT_FOUND'
+E         Use -v to get more diff
+
+tests/unit/test_competition_rc_development_eval.py:326: AssertionError
+_________ test_freeze_binds_terminal_first_run_before_optional_unlock __________
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+
+    def test_freeze_binds_terminal_first_run_before_optional_unlock(
+        repo_root: Path, tmp_path: Path
+    ) -> None:
+        registry = tmp_path / "registry.yaml"
+        shutil.copyfile(repo_root / "benchmarks/case_registry.yaml", registry)
+        isolated = yaml.safe_load(registry.read_text(encoding="utf-8"))
+        isolated["cases"] = []
+        registry.write_text(yaml.safe_dump(isolated, sort_keys=False), encoding="utf-8")
+        case_root = tmp_path / "case"
+        problem = case_root / "problem/original.md"
+        raw = case_root / "data/raw/prediction_rows.json"
+        problem.parent.mkdir(parents=True)
+        raw.parent.mkdir(parents=True)
+        problem.write_text("project-original synthetic prediction", encoding="utf-8")
+        rows = [
+            {
+                "time": index,
+                "target": 2 * index + 1 if index != 5 else None,
+                "future_target": 2 * (index + 1) + 1,
+            }
+            for index in range(1, 13)
+        ]
+        rows[5]["target"] = 99
+        raw.write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        commit = head_commit(repo_root)
+        started = command(
+            repo_root,
+            "start_skill_development_eval.py",
+            "--registry",
+            str(registry),
+            "--case-id",
+            "DEV-FREEZE-002",
+            "--set-type",
+            "DEVELOPMENT",
+            "--problem-source",
+            "problem/original.md",
+            "--problem-hash",
+            file_hash(problem),
+            "--data-hash",
+            f"data/raw/prediction_rows.json={file_hash(raw)}",
+            "--skill-commit",
+            commit,
+            "--model",
+            "MODEL-ID",
+            "--reasoning",
+            "medium",
+            "--start-time",
+            "2026-09-04T00:00:00Z",
+            "--case-root",
+            str(case_root),
+            "--case-kind",
+            "prediction",
+        )
+        state = json.loads((repo_root / "state/project_state.json").read_text(encoding="utf-8"))
+        if legacy_development_start_is_locked(state):
+            assert started.returncode == 3
+            assert json.loads(started.stdout)["reason_codes"] == [
+                "COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"
+            ]
+            return
+>       assert started.returncode == 0, started.stdout + started.stderr
+E       AssertionError: {"reason_codes": ["COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"], "status": "BLOCK"}
+E
+E       assert 3 == 0
+E        +  where 3 = CompletedProcess(args=['<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python', '<PRIVATE_USER_ROOT>/project/cumcm/scripts/start_sk...rncode=3, stdout='{"reason_codes": ["COMPETITION_RC_NOT_READY_FOR_DEVELOPMENT_EVAL"], "status": "BLOCK"}\n', stderr='').returncode
+
+tests/unit/test_competition_rc_development_eval.py:390: AssertionError
+____________ test_skill_is_competition_rc_and_has_one_workflow_set _____________
+
+skill_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence')
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+case_cli = <module 'cumcm_case_rc' from '<PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py'>
+
+    def test_skill_is_competition_rc_and_has_one_workflow_set(
+        skill_root: Path, repo_root: Path, case_cli
+    ) -> None:
+        skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
+        state = json.loads((repo_root / "state/project_state.json").read_text())
+        versions = {
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5": (
+                "0.3.0-competition-rc8",
+                "0.2.0-competition-rc8",
+            ),
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6": (
+                "0.3.0-competition-rc9",
+                "0.2.0-competition-rc9",
+            ),
+        }
+>       project_version, skill_version = versions[state["phase"]]
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'PHASE-SKILL-MODULAR-WORKBENCH-004C7'
+
+tests/unit/test_competition_rc_skill.py:45: KeyError
+_______ test_competition_rc_consistency_checker_accepts_canonical_state ________
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+
+    def test_competition_rc_consistency_checker_accepts_canonical_state(repo_root) -> None:
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(repo_root / "scripts/check_competition_rc_consistency.py"),
+                "--check",
+            ],
+            cwd=repo_root,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+
+>       assert completed.returncode == 0, completed.stdout + completed.stderr
+E       AssertionError: {"check_count": 37, "checks": {"decision_architecture": true, "decision_id": true, "decision_scope": true, "development_registry_answer_sealed_case": true, "e2e_raw_mutation_stale": true, "e2e_ready_states": true, "e2e_result_hash_current": true, "e2e_two_pass": true, "formal_revision_003": true, "formal_skill_capability": true, "formal_skill_count_one": true, "formal_skill_version": false, "gate_cases": true, "gate_k1_8_of_8": true, "gate_selected_k1": true, "integration_audit_pass": true, "negative_30_pass": true, "old_artifacts_byte_identical": true, "plan_defers_full_r3": true, "plan_marks_rc1_sprint": true, "project_version_relationship": false, "role_count_4": true, "state_architecture": true, "state_base_unselected": true, "state_blockers_match_outcome": false, "state_capability": true, "state_deferred_exact": true, "state_full_r3_deferred": true, "state_next_phase": false, "state_phase": false, "state_skill_version": true, "state_subphase": false, "state_technical_status": false, "state_third_party_false": true, "workflow_count_14": true, "workflow_routes_development_eval": true, "zero_api_training_comparison_third_party": true}, "failed_checks": ["formal_skill_version", "project_version_relationship", "state_blockers_match_outcome", "state_next_phase", "state_phase", "state_subphase", "state_technical_status"], "ok": false}
+E
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python', '<PRIVATE_USER_ROOT>/project/cumcm/scripts/check_co...h_outcome", "state_next_phase", "state_phase", "state_subphase", "state_technical_status"], "ok": false}\n', stderr='').returncode
+
+tests/unit/test_competition_rc_state.py:111: AssertionError
+_ test_captured_episode_preserves_failure_and_accesses_only_selected_test[False] _
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x78a7095c2e50>
+all_failed = False
+
+    @pytest.mark.parametrize("all_failed", [False, True])
+    def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
+        repo_root, tmp_path, monkeypatch, all_failed
+    ):
+        controller = module(
+            repo_root / "scripts/finalize_fresh_c_validation.py", "test_fresh_controller"
+        )
+        core = controller.load_core()
+        synthetic = module(core.SKILL_ROOT / "scripts/synthetic_cases.py", "fresh_toy_helpers")
+        monkeypatch.setattr(controller, "load_core", lambda: core)
+        case = tmp_path / "case"
+        core.initialize_case(case, "COMPLETION-TOY-001", "general")
+        core.write_json(case / "data/raw/toy.json", [2, 4])
+        synthetic._common_intake(
+            core,
+            case,
+            [{"requirement_id": "REQ-1"}],
+            ["toy mean"],
+            source_hash=core.file_hash(case / "data/raw/toy.json"),
+            source_fields=["x"],
+        )
+
+        def accepted(key, value):
+            synthetic._accepted(core, case, key, value)
+
+        accepted(
+            "assumptions_and_symbols",
+            {"assumptions": ["toy finite data"], "symbols": {"x": "unitless"}, "formulas": ["mean(x)"]},
+        )
+        inputs = {"data/raw/toy.json": core.file_hash(case / "data/raw/toy.json")}
+        accepted("data_audit", {"raw_immutable": True, "data_hashes": inputs})
+        core.advance_once(case)
+        candidates = ["BASE", "CAND", "FAILED"]
+        accepted(
+            "model_candidates",
+            {"candidates": [{"candidate_id": c, "baseline": c == "BASE"} for c in candidates]},
+        )
+        core.advance_once(case)
+        model = case / "models/toy.py"
+        model.write_text(
+            "import argparse, base64, hashlib, json\n"
+            "p=argparse.ArgumentParser();p.add_argument('--case-root');"
+            "p.add_argument('--candidate-id');p.add_argument('--seed');p.add_argument('--output');"
+            "p.add_argument('--final-evaluation',action='store_true');"
+            "p.add_argument('--authorization-hash');p.add_argument('--final-output');\n"
+            "a=p.parse_args()\n"
+            "if a.final_evaluation:\n"
+            " t=json.dumps({'selected':a.candidate_id}).encode();"
+            " json.dump({'authorization_hash':a.authorization_hash,"
+            "'sealed_test_metrics_b64':base64.b64encode(t).decode(),"
+            "'sealed_test_payload_sha256':hashlib.sha256(t).hexdigest()},"
+            "open(a.final_output,'w'));raise SystemExit(0)\n"
+            "v={'BASE':2.0,'CAND':1.0,'FAILED':0.0}[a.candidate_id]\n"
+            "o={'candidate_id':a.candidate_id,'status':'SUCCESS',"
+            "'validation_metrics':{'loss':v},'final_metrics':{'loss':v},'claim_scope':'toy scope',"
+            "'requirement_claims':{'REQ-1':{'claim_id':'CLAIM-TOY-1','claim_text':'local toy scope',"
+            "'evidence_artifact_ids':[a.output]}},'figure_ready_data':[{'series':[v]}],"
+            "'uncertainty':{'scope':'synthetic'},'limitations':['toy only'],"
+            "'robustness_evidence':{'metric':'loss','metric_direction':'MIN',"
+            "'perturbations':[{'perturbation_id':'SHIFT','metric':'loss','result':v+0.1,"
+            "'evidence':'DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS'}],"
+            "'failure_cases':['toy failure']}}\n"
+            "o['scientific_evidence']={'REQ-1':{'generation_method':'DESCRIPTIVE_STATISTIC',"
+            "'source_ids':['SRC-PROJECT-ORIGINAL'],'scope':{'fields':['x'],"
+            "'time':['FROZEN_CASE_SCOPE'],'entities':['SYNTHETIC_CASE']},"
+            "'metric_values':{'loss':v}}}\n"
+            "json.dump(o,open(a.output,'w'));raise SystemExit(23 if "
+            + ("True" if all_failed else "a.candidate_id=='FAILED'")
+            + " else 0)\n"
+        )
+        code = synthetic._required_code_files(core)[:1] + [
+            {
+                "scope": "CASE_ROOT",
+                "path": "models/toy.py",
+                "repository_path": "tests/fixtures/toy.py",
+                "sha256": core.file_hash(model),
+            }
+        ]
+        commit = core.current_git_commit()
+        blobs = {item["repository_path"]: item["sha256"] for item in code}
+        monkeypatch.setattr(
+            core, "git_blob_hash", lambda actual, path: blobs.get(path) if actual == commit else None
+        )
+        splits = {"train": [1], "validation": [2], "test": [3]}
+        stop = "one synthetic run per candidate"
+        generated = "2026-09-05T00:00:00Z"
+        freezes = synthetic._freezes(
+            core, candidates, "loss", splits, "BASE", inputs, stop, generated, code, commit
+        )
+        accepted(
+            "experiment_plan",
+            {
+                "preregistered": True,
+                "execution_prepared": True,
+                "candidate_ids": candidates,
+                "baseline_id": "BASE",
+                "metric": "loss",
+                "metric_direction": "MIN",
+                "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+                "selection_rule": "ARGMIN_THEN_ID",
+                "random_seeds": [20260904],
+                "splits": splits,
+                "required_input_hashes": inputs,
+                "required_code_files": code,
+                "code_commit": commit,
+                "trusted_freeze_registry": freezes,
+                "stop_rule": stop,
+                "handoff_generated_at": generated,
+                "scenario_hash": inputs["data/raw/toy.json"],
+            },
+        )
+        synthetic._write_output_contract_probe(core, case, ["REQ-1"], metric="loss")
+>       core.advance_once(case)
+
+tests/unit/test_fresh_completion_controller.py:131:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:7209: in advance_once
+    trusted_freezes(case_root)
+.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:5458: in trusted_freezes
+    resolve_scenario_identity(case_root, plan)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+case_root = PosixPath('<PYTEST_TEMP_PATH>')
+plan = {'aggregation_rule': 'MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID', 'baseline_id': 'BASE', 'candidate_ids': ['BASE', 'CAND', 'FAILED'], 'code_commit': '929d2874e711ca4dd58484555009b028555898a3', ...}
+
+    def resolve_scenario_identity(case_root: Path, plan: dict[str, Any] | None = None) -> str:
+        """Resolve scenario-input/v2 before a process starts, also used by every reviewer.
+
+        Input registries and requirement scopes are sets; file bytes and scientific lists
+        remain ordered. An absent hash requests derivation. Explicit null/empty/malformed
+        values are errors, and an explicit digest must equal the content-derived identity.
+        No capture, selected output or Final receipt participates in this payload.
+        """
+        if plan is None:
+            plan = read_artifact(case_root, "experiment_plan")["content"]
+        inputs = plan.get("required_input_hashes")
+        if not isinstance(inputs, dict) or not inputs:
+            raise ValueError("RC_SCENARIO_INPUTS_REQUIRED")
+        for relative, digest in inputs.items():
+            path = relative_case_path(case_root, relative)
+            if (
+                path is None
+                or relative != Path(relative).as_posix()
+                or "\\" in relative
+                or not isinstance(digest, str)
+                or HEX64.fullmatch(digest) is None
+                or not path.is_file()
+                or any(
+                    (case_root / Path(relative).parts[0])
+                    .joinpath(*Path(relative).parts[1:index])
+                    .is_symlink()
+                    for index in range(1, len(Path(relative).parts) + 1)
+                )
+                or file_hash(path) != digest
+            ):
+                raise ValueError("RC_SCENARIO_INPUT_IDENTITY_INVALID")
+        roles = plan.get("input_roles", {relative: relative for relative in inputs})
+        if (
+            not isinstance(roles, dict)
+            or not roles
+            or any(not isinstance(role, str) or not role.strip() for role in roles)
+            or any(not isinstance(path, str) for path in roles.values())
+            or len(set(roles.values())) != len(roles)
+            or set(roles.values()) != set(inputs)
+        ):
+            raise ValueError("RC_SCENARIO_INPUT_ROLES_CONFLICT")
+        declaration = plan.get("scenario", {"schema_version": "scenario/v1", "revision": 1})
+        if (
+            not isinstance(declaration, dict)
+            or declaration.get("schema_version") != "scenario/v1"
+            or type(declaration.get("revision")) is not int
+            or declaration["revision"] < 1
+            or set(declaration)
+            - {
+                "schema_version",
+                "revision",
+                "name",
+                "assumptions",
+                "constraints",
+                "configuration",
+                "requirement_ids",
+            }
+        ):
+            raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+        requirements = read_artifact(case_root, "problem_requirements")["content"]
+        assumptions = read_artifact(case_root, "assumptions_and_symbols")["content"]
+        for field in ("assumptions", "constraints"):
+            if field in declaration and (
+                not isinstance(declaration[field], list)
+                or not declaration[field]
+                or any(not isinstance(item, str) or not item.strip() for item in declaration[field])
+            ):
+                raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+        if ("configuration" in declaration and not isinstance(declaration["configuration"], dict)) or (
+            "name" in declaration
+            and (not isinstance(declaration["name"], str) or not declaration["name"].strip())
+        ):
+            raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+        scope = declaration.get("requirement_ids")
+        known = {r["requirement_id"] for r in requirements.get("requirements", [])}
+        if "requirement_ids" in declaration and (
+            not isinstance(scope, list)
+            or not scope
+            or any(not isinstance(item, str) for item in scope)
+            or len(set(scope)) != len(scope)
+            or not set(scope) <= known
+        ):
+            raise ValueError("RC_SCENARIO_REQUIREMENT_SCOPE_INVALID")
+        declaration = copy.deepcopy(declaration)
+        if scope is not None:
+            declaration["requirement_ids"] = sorted(scope)
+        payload = {
+            "schema_version": "scenario-input/v2",
+            "inputs": inputs,
+            "input_roles": roles,
+            "scenario": declaration,
+            "requirements": requirements,
+            "assumptions_and_symbols": assumptions,
+            "experiment_semantics": {
+                key: plan[key]
+                for key in (
+                    "evaluation_design",
+                    "splits",
+                    "temporal_design",
+                    "condition_design",
+                    "metric_definitions",
+                    "metric",
+                    "metric_direction",
+                    "aggregation_rule",
+                    "selection_rule",
+                )
+                if key in plan
+            },
+        }
+        expected = canonical_hash(payload)
+        if "scenario_hash" in plan:
+            supplied = plan["scenario_hash"]
+            if not isinstance(supplied, str) or HEX64.fullmatch(supplied) is None:
+                raise ValueError("RC_SCENARIO_HASH_INVALID")
+            if supplied != expected:
+>               raise ValueError("RC_SCENARIO_HASH_CONTENT_MISMATCH")
+E               ValueError: RC_SCENARIO_HASH_CONTENT_MISMATCH
+
+.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:5452: ValueError
+_ test_captured_episode_preserves_failure_and_accesses_only_selected_test[True] _
+
+repo_root = PosixPath('<PRIVATE_USER_ROOT>/project/cumcm')
+tmp_path = PosixPath('<PYTEST_TEMP_PATH>')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x78a709813c10>
+all_failed = True
+
+    @pytest.mark.parametrize("all_failed", [False, True])
+    def test_captured_episode_preserves_failure_and_accesses_only_selected_test(
+        repo_root, tmp_path, monkeypatch, all_failed
+    ):
+        controller = module(
+            repo_root / "scripts/finalize_fresh_c_validation.py", "test_fresh_controller"
+        )
+        core = controller.load_core()
+        synthetic = module(core.SKILL_ROOT / "scripts/synthetic_cases.py", "fresh_toy_helpers")
+        monkeypatch.setattr(controller, "load_core", lambda: core)
+        case = tmp_path / "case"
+        core.initialize_case(case, "COMPLETION-TOY-001", "general")
+        core.write_json(case / "data/raw/toy.json", [2, 4])
+        synthetic._common_intake(
+            core,
+            case,
+            [{"requirement_id": "REQ-1"}],
+            ["toy mean"],
+            source_hash=core.file_hash(case / "data/raw/toy.json"),
+            source_fields=["x"],
+        )
+
+        def accepted(key, value):
+            synthetic._accepted(core, case, key, value)
+
+        accepted(
+            "assumptions_and_symbols",
+            {"assumptions": ["toy finite data"], "symbols": {"x": "unitless"}, "formulas": ["mean(x)"]},
+        )
+        inputs = {"data/raw/toy.json": core.file_hash(case / "data/raw/toy.json")}
+        accepted("data_audit", {"raw_immutable": True, "data_hashes": inputs})
+        core.advance_once(case)
+        candidates = ["BASE", "CAND", "FAILED"]
+        accepted(
+            "model_candidates",
+            {"candidates": [{"candidate_id": c, "baseline": c == "BASE"} for c in candidates]},
+        )
+        core.advance_once(case)
+        model = case / "models/toy.py"
+        model.write_text(
+            "import argparse, base64, hashlib, json\n"
+            "p=argparse.ArgumentParser();p.add_argument('--case-root');"
+            "p.add_argument('--candidate-id');p.add_argument('--seed');p.add_argument('--output');"
+            "p.add_argument('--final-evaluation',action='store_true');"
+            "p.add_argument('--authorization-hash');p.add_argument('--final-output');\n"
+            "a=p.parse_args()\n"
+            "if a.final_evaluation:\n"
+            " t=json.dumps({'selected':a.candidate_id}).encode();"
+            " json.dump({'authorization_hash':a.authorization_hash,"
+            "'sealed_test_metrics_b64':base64.b64encode(t).decode(),"
+            "'sealed_test_payload_sha256':hashlib.sha256(t).hexdigest()},"
+            "open(a.final_output,'w'));raise SystemExit(0)\n"
+            "v={'BASE':2.0,'CAND':1.0,'FAILED':0.0}[a.candidate_id]\n"
+            "o={'candidate_id':a.candidate_id,'status':'SUCCESS',"
+            "'validation_metrics':{'loss':v},'final_metrics':{'loss':v},'claim_scope':'toy scope',"
+            "'requirement_claims':{'REQ-1':{'claim_id':'CLAIM-TOY-1','claim_text':'local toy scope',"
+            "'evidence_artifact_ids':[a.output]}},'figure_ready_data':[{'series':[v]}],"
+            "'uncertainty':{'scope':'synthetic'},'limitations':['toy only'],"
+            "'robustness_evidence':{'metric':'loss','metric_direction':'MIN',"
+            "'perturbations':[{'perturbation_id':'SHIFT','metric':'loss','result':v+0.1,"
+            "'evidence':'DETERMINISTIC_RECOMPUTATION_FROM_BOUND_INPUTS'}],"
+            "'failure_cases':['toy failure']}}\n"
+            "o['scientific_evidence']={'REQ-1':{'generation_method':'DESCRIPTIVE_STATISTIC',"
+            "'source_ids':['SRC-PROJECT-ORIGINAL'],'scope':{'fields':['x'],"
+            "'time':['FROZEN_CASE_SCOPE'],'entities':['SYNTHETIC_CASE']},"
+            "'metric_values':{'loss':v}}}\n"
+            "json.dump(o,open(a.output,'w'));raise SystemExit(23 if "
+            + ("True" if all_failed else "a.candidate_id=='FAILED'")
+            + " else 0)\n"
+        )
+        code = synthetic._required_code_files(core)[:1] + [
+            {
+                "scope": "CASE_ROOT",
+                "path": "models/toy.py",
+                "repository_path": "tests/fixtures/toy.py",
+                "sha256": core.file_hash(model),
+            }
+        ]
+        commit = core.current_git_commit()
+        blobs = {item["repository_path"]: item["sha256"] for item in code}
+        monkeypatch.setattr(
+            core, "git_blob_hash", lambda actual, path: blobs.get(path) if actual == commit else None
+        )
+        splits = {"train": [1], "validation": [2], "test": [3]}
+        stop = "one synthetic run per candidate"
+        generated = "2026-09-05T00:00:00Z"
+        freezes = synthetic._freezes(
+            core, candidates, "loss", splits, "BASE", inputs, stop, generated, code, commit
+        )
+        accepted(
+            "experiment_plan",
+            {
+                "preregistered": True,
+                "execution_prepared": True,
+                "candidate_ids": candidates,
+                "baseline_id": "BASE",
+                "metric": "loss",
+                "metric_direction": "MIN",
+                "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+                "selection_rule": "ARGMIN_THEN_ID",
+                "random_seeds": [20260904],
+                "splits": splits,
+                "required_input_hashes": inputs,
+                "required_code_files": code,
+                "code_commit": commit,
+                "trusted_freeze_registry": freezes,
+                "stop_rule": stop,
+                "handoff_generated_at": generated,
+                "scenario_hash": inputs["data/raw/toy.json"],
+            },
+        )
+        synthetic._write_output_contract_probe(core, case, ["REQ-1"], metric="loss")
+>       core.advance_once(case)
+
+tests/unit/test_fresh_completion_controller.py:131:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:7209: in advance_once
+    trusted_freezes(case_root)
+.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:5458: in trusted_freezes
+    resolve_scenario_identity(case_root, plan)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+case_root = PosixPath('<PYTEST_TEMP_PATH>')
+plan = {'aggregation_rule': 'MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID', 'baseline_id': 'BASE', 'candidate_ids': ['BASE', 'CAND', 'FAILED'], 'code_commit': '929d2874e711ca4dd58484555009b028555898a3', ...}
+
+    def resolve_scenario_identity(case_root: Path, plan: dict[str, Any] | None = None) -> str:
+        """Resolve scenario-input/v2 before a process starts, also used by every reviewer.
+
+        Input registries and requirement scopes are sets; file bytes and scientific lists
+        remain ordered. An absent hash requests derivation. Explicit null/empty/malformed
+        values are errors, and an explicit digest must equal the content-derived identity.
+        No capture, selected output or Final receipt participates in this payload.
+        """
+        if plan is None:
+            plan = read_artifact(case_root, "experiment_plan")["content"]
+        inputs = plan.get("required_input_hashes")
+        if not isinstance(inputs, dict) or not inputs:
+            raise ValueError("RC_SCENARIO_INPUTS_REQUIRED")
+        for relative, digest in inputs.items():
+            path = relative_case_path(case_root, relative)
+            if (
+                path is None
+                or relative != Path(relative).as_posix()
+                or "\\" in relative
+                or not isinstance(digest, str)
+                or HEX64.fullmatch(digest) is None
+                or not path.is_file()
+                or any(
+                    (case_root / Path(relative).parts[0])
+                    .joinpath(*Path(relative).parts[1:index])
+                    .is_symlink()
+                    for index in range(1, len(Path(relative).parts) + 1)
+                )
+                or file_hash(path) != digest
+            ):
+                raise ValueError("RC_SCENARIO_INPUT_IDENTITY_INVALID")
+        roles = plan.get("input_roles", {relative: relative for relative in inputs})
+        if (
+            not isinstance(roles, dict)
+            or not roles
+            or any(not isinstance(role, str) or not role.strip() for role in roles)
+            or any(not isinstance(path, str) for path in roles.values())
+            or len(set(roles.values())) != len(roles)
+            or set(roles.values()) != set(inputs)
+        ):
+            raise ValueError("RC_SCENARIO_INPUT_ROLES_CONFLICT")
+        declaration = plan.get("scenario", {"schema_version": "scenario/v1", "revision": 1})
+        if (
+            not isinstance(declaration, dict)
+            or declaration.get("schema_version") != "scenario/v1"
+            or type(declaration.get("revision")) is not int
+            or declaration["revision"] < 1
+            or set(declaration)
+            - {
+                "schema_version",
+                "revision",
+                "name",
+                "assumptions",
+                "constraints",
+                "configuration",
+                "requirement_ids",
+            }
+        ):
+            raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+        requirements = read_artifact(case_root, "problem_requirements")["content"]
+        assumptions = read_artifact(case_root, "assumptions_and_symbols")["content"]
+        for field in ("assumptions", "constraints"):
+            if field in declaration and (
+                not isinstance(declaration[field], list)
+                or not declaration[field]
+                or any(not isinstance(item, str) or not item.strip() for item in declaration[field])
+            ):
+                raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+        if ("configuration" in declaration and not isinstance(declaration["configuration"], dict)) or (
+            "name" in declaration
+            and (not isinstance(declaration["name"], str) or not declaration["name"].strip())
+        ):
+            raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+        scope = declaration.get("requirement_ids")
+        known = {r["requirement_id"] for r in requirements.get("requirements", [])}
+        if "requirement_ids" in declaration and (
+            not isinstance(scope, list)
+            or not scope
+            or any(not isinstance(item, str) for item in scope)
+            or len(set(scope)) != len(scope)
+            or not set(scope) <= known
+        ):
+            raise ValueError("RC_SCENARIO_REQUIREMENT_SCOPE_INVALID")
+        declaration = copy.deepcopy(declaration)
+        if scope is not None:
+            declaration["requirement_ids"] = sorted(scope)
+        payload = {
+            "schema_version": "scenario-input/v2",
+            "inputs": inputs,
+            "input_roles": roles,
+            "scenario": declaration,
+            "requirements": requirements,
+            "assumptions_and_symbols": assumptions,
+            "experiment_semantics": {
+                key: plan[key]
+                for key in (
+                    "evaluation_design",
+                    "splits",
+                    "temporal_design",
+                    "condition_design",
+                    "metric_definitions",
+                    "metric",
+                    "metric_direction",
+                    "aggregation_rule",
+                    "selection_rule",
+                )
+                if key in plan
+            },
+        }
+        expected = canonical_hash(payload)
+        if "scenario_hash" in plan:
+            supplied = plan["scenario_hash"]
+            if not isinstance(supplied, str) or HEX64.fullmatch(supplied) is None:
+                raise ValueError("RC_SCENARIO_HASH_INVALID")
+            if supplied != expected:
+>               raise ValueError("RC_SCENARIO_HASH_CONTENT_MISMATCH")
+E               ValueError: RC_SCENARIO_HASH_CONTENT_MISMATCH
+
+.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:5452: ValueError
+=========================== short test summary info ============================
+FAILED tests/fault_injection/test_eval_policy_faults.py::test_human_gate_and_integration_flags_remain_false
+FAILED tests/integration/test_actual_controller_adversarial.py::test_scenario_hash_must_be_bound_by_execution_capture_and_manifest
+FAILED tests/integration/test_rc8_scientific_fact_binding.py::test_declared_scientific_requirement_cannot_ignore_missing_checker
+FAILED tests/unit/test_c_target_batch_freeze.py::test_c_target_batch_freeze_is_current_and_complete
+FAILED tests/unit/test_competition_rc_development_eval.py::test_start_registers_sealed_case_and_rejects_duplicate
+FAILED tests/unit/test_competition_rc_development_eval.py::test_start_rejects_nonexistent_skill_commit
+FAILED tests/unit/test_competition_rc_development_eval.py::test_freeze_binds_terminal_first_run_before_optional_unlock
+FAILED tests/unit/test_competition_rc_skill.py::test_skill_is_competition_rc_and_has_one_workflow_set
+FAILED tests/unit/test_competition_rc_state.py::test_competition_rc_consistency_checker_accepts_canonical_state
+FAILED tests/unit/test_fresh_completion_controller.py::test_captured_episode_preserves_failure_and_accesses_only_selected_test[False]
+FAILED tests/unit/test_fresh_completion_controller.py::test_captured_episode_preserves_failure_and_accesses_only_selected_test[True]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+<PRIVATE_USER_ROOT>/.local/share/uv/python/cpython-3.11.14-linux-x86_64-gnu/lib/python3.11/selectors.py:415: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+11 failed, 1584 passed in 480.42s (0:08:00)

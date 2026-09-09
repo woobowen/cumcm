@@ -121,6 +121,9 @@ def original(root, name):
                     "request": record(request / "request.json"),
                     "completion": record(request / "completion.json"),
                     "work_report": record(root / done["report_path"]),
+                    "recovery_proof": record(
+                        root / "evidence/module_resume" / (done["module"] + ".json")
+                    ),
                 },
             },
         )
