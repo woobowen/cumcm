@@ -5257,6 +5257,8 @@ def resolve_scenario_identity(case_root: Path, plan: dict[str, Any] | None = Non
         path = relative_case_path(case_root, relative)
         if (
             path is None
+            or relative != Path(relative).as_posix()
+            or "\\" in relative
             or not isinstance(digest, str)
             or HEX64.fullmatch(digest) is None
             or not path.is_file()
@@ -5299,9 +5301,21 @@ def resolve_scenario_identity(case_root: Path, plan: dict[str, Any] | None = Non
         raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
     requirements = read_artifact(case_root, "problem_requirements")["content"]
     assumptions = read_artifact(case_root, "assumptions_and_symbols")["content"]
+    for field in ("assumptions", "constraints"):
+        if field in declaration and (
+            not isinstance(declaration[field], list)
+            or not declaration[field]
+            or any(not isinstance(item, str) or not item.strip() for item in declaration[field])
+        ):
+            raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+    if ("configuration" in declaration and not isinstance(declaration["configuration"], dict)) or (
+        "name" in declaration
+        and (not isinstance(declaration["name"], str) or not declaration["name"].strip())
+    ):
+        raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
     scope = declaration.get("requirement_ids")
     known = {r["requirement_id"] for r in requirements.get("requirements", [])}
-    if scope is not None and (
+    if "requirement_ids" in declaration and (
         not isinstance(scope, list)
         or not scope
         or any(not isinstance(item, str) for item in scope)
@@ -5325,6 +5339,7 @@ def resolve_scenario_identity(case_root: Path, plan: dict[str, Any] | None = Non
                 "evaluation_design",
                 "splits",
                 "temporal_design",
+                "condition_design",
                 "metric_definitions",
                 "metric",
                 "metric_direction",
