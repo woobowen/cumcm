@@ -1,0 +1,205 @@
+"""Reproduce R7-001 with unchanged core and a fresh project-original fixture.
+
+This is a negative neutral reproduction, not a functional repair or a real-case Run.
+Only fixture construction omits scenario_hash before execution. Declared selection
+hashes use the executor's documented input-hash default; no capture is rewritten.
+"""
+
+import argparse
+import copy
+import datetime as dt
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def write(path, value):
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+
+
+def verify_preserved(repo, out):
+    assert not (out / "receipt.json").exists(), "Preserve existing verification receipt"
+    design = json.loads((out / "design.json").read_text())
+    before_models = json.loads((out / "before_models.json").read_text())
+    commands = json.loads((out / "commands.json").read_text())
+    result = json.loads((out / "controller_result.json").read_text())
+    spec = importlib.util.spec_from_file_location(
+        "rc9_reproduction_verifier_core",
+        repo / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
+    )
+    core = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = core
+    spec.loader.exec_module(core)
+    case = out / "fixture/case"
+    plan_path = case / core.ARTIFACT_PATHS["experiment_plan"]
+    assert sha(plan_path) == before_models["plan_sha256_before_models"]
+    assert "scenario_hash" not in core.load_json(plan_path)["content"]
+    captures = sorted(case.glob("runs/*/execution_capture.json"))
+    assert len(captures) == 2
+    assert all(
+        core.load_json(path)["scenario_hash"] == before_models["default_scenario_hash"]
+        for path in captures
+    )
+    assert len(commands) == 3
+    assert [c["exit_code"] for c in commands[:2]] == [0, 0]
+    assert commands[2]["exit_code"] != 0
+    for command in commands:
+        for stream in ["stdout", "stderr"]:
+            assert sha(out / command[stream]["file"]) == command[stream]["sha256"]
+    assert "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND" in result["reason_codes"]
+    trace_path = case / result["gate_execution_trace"]["path"]
+    assert sha(trace_path) == result["gate_execution_trace"]["sha256"]
+    assert "GATE_COMPATIBILITY_PORTFOLIO" in trace_path.read_text()
+    assert not (case / core.FINAL_EVALUATION_LEDGER).exists()
+    write(out / "receipt.json", {
+        "status": "EXPECTED_PUBLIC_ENTRYPOINT_REJECTION_REPRODUCED",
+        "actual_public_execution_started_at": commands[0]["started_at"],
+        "actual_public_execution_ended_at": commands[-1]["ended_at"],
+        "verified_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "executed_head": design["executed_head"],
+        "shared_implementation_subject": design["shared_implementation_subject"],
+        "executed_source_v1_sha256": design["script_sha256"],
+        "verification_source_v2_sha256": sha(Path(__file__)),
+        "initial_wrapper_postcheck_error_retained": (out / "initial_wrapper_error.json").exists(),
+        "new_shared_functional_candidate": False,
+        "new_real_case_model_checker_final_starts": 0,
+        "neutral_model_cli_calls": 2,
+        "common_completion_calls": 1,
+        "neutral_final_starts": 0,
+        "verification_reexecutes_public_commands": False,
+        "plan_sha256_unchanged_after_models": sha(plan_path),
+        "default_scenario_hash_in_actual_captures": before_models["default_scenario_hash"],
+        "controller_exit_code": commands[-1]["exit_code"],
+        "controller_result_sha256": sha(out / "controller_result.json"),
+        "trace_sha256": sha(trace_path),
+        "commands_sha256": sha(out / "commands.json"),
+        "design_sha256": sha(out / "design.json"),
+        "limitation": "Negative synthetic reproduction only; R7-001 remains unfixed and neither real Development completion nor candidate qualification is established.",
+    })
+    print(json.dumps({"status": "EXPECTED_REJECTION_VERIFIED", "output_dir": str(out.relative_to(repo))}))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--repo-root", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--verify-existing", action="store_true")
+    args = parser.parse_args()
+    repo, out = args.repo_root.resolve(), args.output_dir.resolve()
+    if not out.is_relative_to(repo / ".cache/pr12-rc9"):
+        raise SystemExit("Output must be isolated inside the ignored task scratch")
+    if args.verify_existing:
+        verify_preserved(repo, out)
+        return
+    if out.exists():
+        raise SystemExit("Refusing to overwrite an existing reproduction directory")
+    out.mkdir(parents=True)
+    shared_path = repo / "evals/results/phase-004c6/qualification/shared_subject_r2.json"
+    shared = json.loads(shared_path.read_text())
+    for name, expected in shared["implementation_sha256"].items():
+        assert sha(repo / name) == expected, name
+    started = dt.datetime.now(dt.timezone.utc).isoformat()
+    head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+    design = {
+        "scope": "ISOLATED_PROJECT_ORIGINAL_NEUTRAL_REPRODUCTION_ONLY",
+        "recorded_before_execution": started,
+        "executed_head": head,
+        "shared_implementation_subject": shared["subject_commit"],
+        "script_sha256": sha(Path(__file__)),
+        "fixture": "optimization from tests/integration/test_rc9_science_semantics.py",
+        "change_to_fresh_fixture": "Omit scenario_hash before accepting the new fixture plan; use deterministic default in declared selection/semantic Run identities.",
+        "existing_files_modified": False,
+        "max_neutral_model_cli_calls": 2,
+        "max_common_completion_calls": 1,
+        "expected_failure": "RC_SELECTION_SCENARIO_NOT_CAPTURE_BOUND",
+        "expected_gate": "GATE_COMPATIBILITY_PORTFOLIO",
+        "expected_neutral_final_starts": 0,
+        "real_2016_2015_model_checker_final_starts": 0,
+        "fixture_setup_limit": "Existing test helpers construct input artifact envelopes. Actual controller Gate events and captures are produced by unchanged public code; no formal case or Gate acceptance is fabricated.",
+    }
+    write(out / "design.json", design)
+
+    spec = importlib.util.spec_from_file_location(
+        "rc9_missing_scenario_fixture", repo / "tests/integration/test_rc9_science_semantics.py"
+    )
+    science = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(science)
+    helper = science.module(repo)
+    science.module = lambda _repo: helper
+    original_accepted = helper._accepted
+    before_models = {}
+
+    def fresh_fixture_artifact(core, case, key, content):
+        value = copy.deepcopy(content)
+        if key == "experiment_plan":
+            del value["scenario_hash"]
+            expected = core.canonical_hash(
+                [digest for _, digest in sorted(value["required_input_hashes"].items())]
+            )
+            before_models.update(default_scenario_hash=expected)
+        elif key in {"requirement_selection", "semantic_claim_support"}:
+            for run in value["runs"]:
+                run["scenario_hash"] = before_models["default_scenario_hash"]
+            if key == "requirement_selection":
+                value["selection"]["shared_scenario_hashes"] = [
+                    before_models["default_scenario_hash"]
+                ]
+        original_accepted(core, case, key, value)
+        if key == "experiment_plan":
+            before_models["plan_sha256_before_models"] = sha(
+                case / core.ARTIFACT_PATHS["experiment_plan"]
+            )
+            before_models["recorded_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+            write(out / "before_models.json", before_models)
+
+    helper._accepted = fresh_fixture_artifact
+    commands = []
+    original_run = subprocess.run
+
+    def recorded_run(argv, *positional, **kwargs):
+        is_public = (
+            isinstance(argv, (list, tuple))
+            and len(argv) > 1
+            and Path(str(argv[1])).name in {"cumcm_case.py", "finalize_fresh_c_validation.py"}
+        )
+        if not is_public:
+            return original_run(argv, *positional, **kwargs)
+        stamp = dt.datetime.now(dt.timezone.utc).isoformat()
+        clock_start = time.monotonic()
+        result = original_run(argv, *positional, **kwargs)
+        index = len(commands) + 1
+        stdout, stderr = out / f"command-{index}.stdout", out / f"command-{index}.stderr"
+        stdout.write_text(result.stdout or "")
+        stderr.write_text(result.stderr or "")
+        commands.append({
+            "argv": [str(value).replace(str(repo), "<REPO>") for value in argv],
+            "started_at": stamp,
+            "ended_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "elapsed_seconds": time.monotonic() - clock_start,
+            "exit_code": result.returncode,
+            "stdout": {"file": stdout.name, "sha256": sha(stdout)},
+            "stderr": {"file": stderr.name, "sha256": sha(stderr)},
+        })
+        write(out / "commands.json", commands)
+        return result
+
+    subprocess.run = recorded_run
+    try:
+        _, core, case = science.build(repo, out / "fixture", "optimization")
+        process, result = science.complete(repo, case)
+    finally:
+        subprocess.run = original_run
+    write(out / "controller_result.json", result)
+    verify_preserved(repo, out)
+
+
+if __name__ == "__main__":
+    main()

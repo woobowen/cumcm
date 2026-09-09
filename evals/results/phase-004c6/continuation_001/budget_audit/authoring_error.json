@@ -1,0 +1,9 @@
+{
+  "tool_chunk_id": "0315a8",
+  "stage": "AUTHORING_RECEIPT_SELF_BINDING_VERIFICATION",
+  "exit_code": 1,
+  "output": "Traceback (most recent call last):\n  File \"<stdin>\", line 13, in <module>\n  File \"<stdin>\", line 13, in <genexpr>\nTypeError: 'PosixPath' object is not subscriptable\n",
+  "cause": "Local auditor receipt verifier used root[path] instead of root / path",
+  "scope": "Auditor own files only; no scientific or project check failed",
+  "resolution": "Corrected path join and rechecked all existing input/evidence bindings; no input mutation"
+}
