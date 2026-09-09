@@ -6,6 +6,7 @@ import hashlib
 import json
 import re
 import subprocess
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -44,7 +45,10 @@ def historical_registry(root: Path) -> dict[str, Any]:
 
 
 def validate_registry(
-    registry: Any, history: dict[str, Any], registrations: dict[str, Any]
+    registry: Any,
+    history: dict[str, Any],
+    registrations: dict[str, Any],
+    terminals: dict[str, Any] | None = None,
 ) -> list[str]:
     """Validate records and immutable historical projections, independent of list order."""
     errors: list[str] = []
@@ -153,6 +157,24 @@ def validate_registry(
             )
         ):
             errors.append(f"CASE_DEVELOPMENT_BUDGET_INVALID:{cid}")
+        try:
+            status = case["first_run_status"]
+            if status == "NOT_STARTED":
+                if case["start_time"] is not None or case["freeze_time"] is not None:
+                    raise ValueError("unstarted time")
+            else:
+                start = datetime.fromisoformat(case["start_time"].replace("Z", "+00:00"))
+                if start.tzinfo is None:
+                    raise ValueError("timezone")
+                if status == "IN_PROGRESS" and case["freeze_time"] is not None:
+                    raise ValueError("in-progress freeze")
+                if status == "FROZEN":
+                    freeze = datetime.fromisoformat(case["freeze_time"].replace("Z", "+00:00"))
+                    if freeze < start:
+                        raise ValueError("reversed time")
+                    errors.extend(validate_development_terminal(case, (terminals or {}).get(cid)))
+        except (ValueError, TypeError, AttributeError, KeyError):
+            errors.append(f"CASE_DEVELOPMENT_LIFECYCLE_INVALID:{cid}")
     for cid in old.keys() - seen:
         errors.append(f"REGISTRY_HISTORY_MISSING:{cid}")
     if registry.get("held_out_reservations") != history.get("held_out_reservations"):
@@ -160,8 +182,34 @@ def validate_registry(
     return sorted(set(errors))
 
 
+def validate_development_terminal(case: dict[str, Any], terminal: Any) -> list[str]:
+    cid = case["case_id"]
+    expected = {
+        "schema_version": "postvalidation-development-terminal/v1",
+        "phase": PHASE,
+        "case_id": cid,
+        "subject_commit": case["skill_commit"],
+        "skill_version": "0.2.0-competition-rc9",
+        "independent_validation": False,
+        "parent_terminal_sha256": case["parent_terminal_sha256"],
+        "decision_id": "DECISION-" + cid,
+    }
+    if (
+        not isinstance(terminal, dict)
+        or any(terminal.get(k) != v for k, v in expected.items())
+        or terminal.get("independent_validation") is not False
+        or terminal.get("status") not in {"SCOPED_DEVELOPMENT_COMPLETE", "FAILED", "INSUFFICIENT"}
+        or not terminal.get("question_results")
+        or not terminal.get("limitations")
+        or case.get("terminal_decision_id") != expected["decision_id"]
+    ):
+        return [f"CASE_DEVELOPMENT_TERMINAL_TUPLE_INVALID:{cid}"]
+    return []
+
+
 def repository_registry_errors(root: Path, registry: dict[str, Any]) -> list[str]:
     registrations: dict[str, Any] = {}
+    terminals: dict[str, Any] = {}
     errors: list[str] = []
     history = historical_registry(root)
     historical_ids = {case["case_id"] for case in history["cases"]}
@@ -192,9 +240,20 @@ def repository_registry_errors(root: Path, registry: dict[str, Any]) -> list[str
             ):
                 raise ValueError("parent terminal drift")
             registrations[case["case_id"]] = reg
+            if case.get("first_run_status") == "FROZEN":
+                binding = case["terminal_decision"]
+                expected_path = (
+                    f"evals/results/phase-004c6/{case['case_id']}/terminal/decision.json"
+                )
+                if binding["path"] != expected_path:
+                    raise ValueError("child terminal path")
+                data = (root / expected_path).read_bytes()
+                if hashlib.sha256(data).hexdigest() != binding["sha256"]:
+                    raise ValueError("child terminal hash")
+                terminals[case["case_id"]] = json.loads(data)
         except (KeyError, TypeError, ValueError, OSError, subprocess.CalledProcessError):
             errors.append(f"CASE_REGISTRATION_HASH_INVALID:{case.get('case_id')}")
-    return sorted(set(errors + validate_registry(registry, history, registrations)))
+    return sorted(set(errors + validate_registry(registry, history, registrations, terminals)))
 
 
 TERMINALS = {

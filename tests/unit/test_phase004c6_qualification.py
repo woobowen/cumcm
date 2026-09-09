@@ -1,6 +1,5 @@
 """RC9 eligibility requires its own command, review and immutable subject evidence."""
 
-import copy
 import importlib.util
 import json
 
@@ -102,7 +101,7 @@ def test_native_review_does_not_accept_substitute_or_unresolved_science(
     receipt = {
         "subject_commit": "a" * 40,
         "reviewed_subject": "a" * 40,
-        "kind": "native_result_review",
+        "kind": "native_protocol_review",
         "status": "PASS",
         "evidence": [log],
         "mechanism": "NATIVE_READ_ONLY_AGENT",
@@ -122,50 +121,141 @@ def test_native_review_does_not_accept_substitute_or_unresolved_science(
         receipt["mechanism"] = "MAIN_AGENT_SELF_REVIEW"
     snapshot = {
         "subject_commit": "a" * 40,
-        "receipts": {"native_result_review": binding(q, tmp_path, "native_review.json", receipt)},
+        "receipts": {"native_protocol_review": binding(q, tmp_path, "native_review.json", receipt)},
     }
     errors = q.validate_receipts(
-        snapshot, {"required_receipts": ["native_result_review"]}, tmp_path
+        snapshot, {"required_receipts": ["native_protocol_review"]}, tmp_path
     )
     assert errors
 
 
-def test_development_does_not_upgrade_validation_or_exceed_starts(repo_root, tmp_path):
-    q = module(repo_root)
-    log = binding(q, tmp_path, "development_log.json", {"actual": "bounded process receipt"})
-    case = {
-        "case_id": "D1",
+def development_fixture(q, root, case_id, status="SCOPED_DEVELOPMENT_COMPLETE"):
+    budget = {"model_cli_starts": 4, "independent_checker_starts": 4, "final_starts": 1}
+    starts = {
+        "model_cli_starts": 2,
+        "independent_checker_starts": 4,
+        "final_starts": 1 if status == "SCOPED_DEVELOPMENT_COMPLETE" else 0,
+    }
+    folder = root / "evals/results/phase-004c6" / case_id
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / "development_design.json").write_text(
+        json.dumps({"required_question_ids": ["REQ-A"], "budget": budget})
+    )
+    log = binding(q, root, case_id + "-execution.json", {"actual": "synthetic command receipt"})
+    ledger = binding(
+        q,
+        root,
+        case_id + "-budget.json",
+        {"limits": budget, "events": [{"kind": k} for k, n in starts.items() for _ in range(n)]},
+    )
+    questions = [{"requirement_id": "REQ-A", "scope": "conditional"}]
+    terminal = binding(
+        q,
+        root,
+        case_id + "-terminal.json",
+        {
+            "case_id": case_id,
+            "subject_commit": "a" * 40,
+            "status": status,
+            "question_results": questions,
+            "actual_starts": starts,
+        },
+    )
+    execution = binding(
+        q,
+        root,
+        case_id + "-evidence.json",
+        {
+            "case_id": case_id,
+            "subject_commit": "a" * 40,
+            "budget_ledger": ledger,
+            "artifacts": [log],
+            "model_run_ids": ["RUN-A", "RUN-B"],
+        },
+    )
+    return {
+        "case_id": case_id,
         "subject_commit": "a" * 40,
         "independent_validation": False,
-        "question_results": [{"scope": "conditional"}],
+        "question_results": questions,
         "limitations": ["unknown truth"],
-        "actual_starts": {
-            "model_cli_starts": 2,
-            "independent_checker_starts": 4,
-            "final_starts": 1,
-        },
-        "terminal_status": "SCOPED_DEVELOPMENT_COMPLETE",
+        "actual_starts": starts,
+        "terminal_status": status,
+        "terminal": terminal,
+        "execution_evidence": execution,
     }
-    second = {**copy.deepcopy(case), "case_id": "D2"}
+
+
+def development_bundle(q, root):
+    cases = [development_fixture(q, root, "D1"), development_fixture(q, root, "D2", "INSUFFICIENT")]
+    evidence = [c["terminal"] for c in cases]
+    receipt = {
+        "kind": "development_results",
+        "subject_commit": "a" * 40,
+        "status": "PASS",
+        "evidence": evidence,
+        "cases": cases,
+    }
     protocol = {
         "required_receipts": ["development_results"],
         "required_development_cases": ["D1", "D2"],
     }
+    return receipt, protocol
+
+
+def test_development_does_not_upgrade_validation_or_exceed_starts(repo_root, tmp_path):
+    q = module(repo_root)
+    receipt, protocol = development_bundle(q, tmp_path)
     for mutate in (False, True):
         if mutate:
-            second["independent_validation"] = True
-            second["actual_starts"]["independent_checker_starts"] = 5
-        receipt = {
-            "kind": "development_results",
-            "subject_commit": "a" * 40,
-            "status": "PASS",
-            "evidence": [log],
-            "cases": [case, second],
-        }
+            receipt["cases"][1]["independent_validation"] = True
+            receipt["cases"][1]["actual_starts"]["independent_checker_starts"] = 5
         snapshot = {
             "subject_commit": "a" * 40,
             "receipts": {"development_results": binding(q, tmp_path, "development.json", receipt)},
         }
         errors = q.validate_receipts(snapshot, protocol, tmp_path)
-        assert ("RC9_DEVELOPMENT_SCOPE_INVALID" in errors) is mutate
-        assert ("RC9_DEVELOPMENT_START_BUDGET_INVALID" in errors) is mutate
+        if not mutate:
+            assert (
+                errors == []
+            )  # An honest pre-Final negative remains eligible as negative evidence.
+        else:
+            assert "RC9_DEVELOPMENT_SCOPE_INVALID" in errors
+            assert "RC9_DEVELOPMENT_START_BUDGET_INVALID" in errors
+
+
+def test_native_result_review_binds_both_actual_case_artifact_sets(repo_root, tmp_path):
+    q = module(repo_root)
+    development, protocol = development_bundle(q, tmp_path)
+    protocol["required_receipts"].append("native_result_review")
+    review = {
+        "subject_commit": "a" * 40,
+        "reviewed_subject": "a" * 40,
+        "kind": "native_result_review",
+        "status": "PASS",
+        "evidence": development["evidence"],
+        "mechanism": "NATIVE_READ_ONLY_AGENT",
+        "actual_agent_task": "actual-results-review",
+        "actual_command_count": 1,
+        "material_open_findings": [],
+        "review_scope": "ACTUAL_POSTVALIDATION_DEVELOPMENT_RESULTS",
+        "reviewed_development_artifacts": {
+            c["case_id"]: {k: c[k] for k in ("terminal", "execution_evidence")}
+            for c in development["cases"]
+        },
+    }
+    for source_only in (False, True):
+        if source_only:
+            review["review_scope"] = "SOURCE_CODE_ONLY"
+            review["reviewed_development_artifacts"] = {}
+        snapshot = {
+            "subject_commit": "a" * 40,
+            "receipts": {
+                "development_results": binding(q, tmp_path, "development.json", development),
+                "native_result_review": binding(q, tmp_path, "review.json", review),
+            },
+        }
+        errors = q.validate_receipts(snapshot, protocol, tmp_path)
+        assert ("RC9_NATIVE_RESULT_ARTIFACT_BINDING_INVALID" in errors) is source_only
+        if not source_only:
+            assert errors == []

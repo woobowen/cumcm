@@ -237,7 +237,11 @@ def prepare(year, subject):
                 "REQ-Q2": ["q2_loco_MRE"],
                 "REQ-Q3": ["q3_remaining_MRE", "q3_remaining_min"],
             }[rid]
-            req["minimum_data_fields"] = ["current_A", "voltage_V", "elapsed_min"]
+            req["minimum_data_fields"] = (
+                ["voltage_V", "elapsed_min"]
+                if rid == "REQ-Q3"
+                else ["current_A", "voltage_V", "elapsed_min"]
+            )
             req["accuracy_scope"] = (
                 "Conditional calculation; historical diagnostics; target accuracy UNKNOWN."
             )
@@ -264,6 +268,10 @@ def prepare(year, subject):
                     "historical_validation_required": True,
                     "empirical_accuracy_required": False,
                 }
+                if rid == "REQ-Q3":
+                    req["prediction_spec"]["conditions"].append(
+                        "Discharge states share one constant current; its numeric value is unknown."
+                    )
         elif rid == "REQ-DEFINITION":
             mids = ["definition_tree_angle_deg", "definition_calendar_rows"]
         elif rid == "REQ-VALIDATION":

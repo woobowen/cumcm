@@ -68,6 +68,14 @@ def subject_mapping(root, subject, protocol):
 
 def validate_subject(snapshot, protocol, root=ROOT):
     errors = []
+    if (
+        snapshot.get("schema_version") != "phase-004c6-rc9-candidate/v1"
+        or snapshot.get("candidate_id") != protocol["candidate_id"]
+        or snapshot.get("accepted_scope") != protocol["accepted_scope"]
+        or type(snapshot.get("functional_revision")) is not int
+        or not 1 <= snapshot["functional_revision"] <= protocol["functional_candidate_limit"]
+    ):
+        errors.append("RC9_CANDIDATE_IDENTITY_INVALID")
     subject = snapshot.get("subject_commit", "")
     if not HEX40.fullmatch(subject):
         return ["RC9_SUBJECT_INVALID"]
@@ -189,10 +197,26 @@ def validate_receipts(snapshot, protocol, root=ROOT):
                     or receipt.get("material_open_findings") != []
                 ):
                     errors.append("RC9_NATIVE_REVIEW_INSUFFICIENT:" + key)
-                if receipt.get("reviewed_subject") != subject or not receipt.get(
-                    "actual_command_count", 0
+                if (
+                    receipt.get("reviewed_subject") != subject
+                    or type(receipt.get("actual_command_count")) is not int
+                    or receipt["actual_command_count"] < 1
                 ):
                     errors.append("RC9_NATIVE_REVIEW_SUBJECT_OR_CALLS_INVALID:" + key)
+                if key == "native_result_review":
+                    development = json.loads(binding_file(root, records["development_results"]))
+                    expected = {
+                        c["case_id"]: {
+                            "terminal": c["terminal"],
+                            "execution_evidence": c["execution_evidence"],
+                        }
+                        for c in development["cases"]
+                    }
+                    if (
+                        receipt.get("review_scope") != "ACTUAL_POSTVALIDATION_DEVELOPMENT_RESULTS"
+                        or receipt.get("reviewed_development_artifacts") != expected
+                    ):
+                        errors.append("RC9_NATIVE_RESULT_ARTIFACT_BINDING_INVALID")
             elif key == "development_results":
                 cases = receipt.get("cases", [])
                 if {c.get("case_id") for c in cases} != set(
@@ -200,6 +224,27 @@ def validate_receipts(snapshot, protocol, root=ROOT):
                 ) or len(cases) != 2:
                     errors.append("RC9_DEVELOPMENT_COVERAGE_INVALID")
                 for case in cases:
+                    design = read(
+                        root
+                        / "evals/results/phase-004c6"
+                        / case["case_id"]
+                        / "development_design.json"
+                    )
+                    terminal = json.loads(binding_file(root, case["terminal"]))
+                    execution = json.loads(binding_file(root, case["execution_evidence"]))
+                    expected_questions = set(design["required_question_ids"])
+                    questions = case.get("question_results", [])
+                    if (
+                        {r.get("requirement_id") for r in questions} != expected_questions
+                        or len(questions) != len(expected_questions)
+                        or terminal.get("question_results") != questions
+                        or terminal.get("case_id") != case["case_id"]
+                        or terminal.get("subject_commit") != subject
+                        or terminal.get("status") != case.get("terminal_status")
+                        or execution.get("case_id") != case["case_id"]
+                        or execution.get("subject_commit") != subject
+                    ):
+                        errors.append("RC9_DEVELOPMENT_RESULT_BINDING_INVALID")
                     if (
                         case.get("subject_commit") != subject
                         or case.get("independent_validation") is not False
@@ -208,13 +253,38 @@ def validate_receipts(snapshot, protocol, root=ROOT):
                     ):
                         errors.append("RC9_DEVELOPMENT_SCOPE_INVALID")
                     starts = case.get("actual_starts", {})
+                    ledger = json.loads(binding_file(root, execution["budget_ledger"]))
+                    actual_counts = {
+                        k: sum(e["kind"] == k for e in ledger["events"]) for k in design["budget"]
+                    }
+                    if (
+                        starts != actual_counts
+                        or terminal.get("actual_starts") != starts
+                        or ledger.get("limits") != design["budget"]
+                    ):
+                        errors.append("RC9_DEVELOPMENT_BUDGET_RECEIPT_MISMATCH")
+                    for artifact in execution.get("artifacts", []):
+                        binding_file(root, artifact)
+                    if not execution.get("artifacts") or not execution.get("model_run_ids"):
+                        errors.append("RC9_DEVELOPMENT_EXECUTION_EVIDENCE_MISSING")
                     for k, maximum in {
                         "model_cli_starts": 4,
                         "independent_checker_starts": 4,
                         "final_starts": 1,
                     }.items():
-                        if type(starts.get(k)) is not int or not 1 <= starts[k] <= maximum:
+                        if type(starts.get(k)) is not int or not 0 <= starts[k] <= maximum:
                             errors.append("RC9_DEVELOPMENT_START_BUDGET_INVALID")
+                    if starts.get("model_cli_starts", 0) < protocol.get(
+                        "development_minimum_model_cli_starts", 1
+                    ) or starts.get("independent_checker_starts", 0) < protocol.get(
+                        "development_minimum_independent_checker_starts", 1
+                    ):
+                        errors.append("RC9_DEVELOPMENT_MINIMUM_EXECUTION_EVIDENCE_NOT_MET")
+                    if (
+                        case.get("terminal_status") == "SCOPED_DEVELOPMENT_COMPLETE"
+                        and starts.get("final_starts") != 1
+                    ):
+                        errors.append("RC9_DEVELOPMENT_COMPLETE_WITHOUT_FINAL")
                     if case.get("terminal_status") not in {
                         "SCOPED_DEVELOPMENT_COMPLETE",
                         "FAILED",

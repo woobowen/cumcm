@@ -170,3 +170,46 @@ def test_current_maintenance_cannot_activate_wrong_version_or_start_validation(r
         changed = copy.deepcopy(state)
         changed[field] = value
         assert state_identity_errors(changed, schema, history)
+
+
+@pytest.mark.parametrize(
+    "change", [None, "phase", "case", "version", "subject", "decision", "validation", "time"]
+)
+def test_new_development_terminal_has_an_explicit_identity_tuple(repo_root, change):
+    registry, history, registrations = extension(repo_root)
+    case = registry["cases"][-1]
+    cid = case["case_id"]
+    case.update(
+        first_run_status="FROZEN",
+        start_time="2026-09-09T03:00:00Z",
+        freeze_time="2026-09-09T03:01:00Z",
+        terminal_decision_id="DECISION-" + cid,
+    )
+    terminal = {
+        "schema_version": "postvalidation-development-terminal/v1",
+        "phase": PHASE,
+        "case_id": cid,
+        "subject_commit": case["skill_commit"],
+        "skill_version": "0.2.0-competition-rc9",
+        "independent_validation": False,
+        "parent_terminal_sha256": case["parent_terminal_sha256"],
+        "decision_id": case["terminal_decision_id"],
+        "status": "INSUFFICIENT",
+        "question_results": [{"requirement_id": "REQ-A", "status": "INSUFFICIENT"}],
+        "limitations": ["No future target truth"],
+    }
+    mutations = {
+        "phase": ("phase", "ARBITRARY_PHASE"),
+        "case": ("case_id", "WRONG-CASE"),
+        "version": ("skill_version", "0.2.0-competition-rc8"),
+        "subject": ("subject_commit", "b" * 40),
+        "decision": ("decision_id", "WRONG-DECISION"),
+        "validation": ("independent_validation", True),
+    }
+    if change in mutations:
+        k, v = mutations[change]
+        terminal[k] = v
+    elif change == "time":
+        case["freeze_time"] = "2026-09-09T02:59:00Z"
+    errors = validate_registry(registry, history, registrations, {cid: terminal})
+    assert (errors == []) if change is None else errors

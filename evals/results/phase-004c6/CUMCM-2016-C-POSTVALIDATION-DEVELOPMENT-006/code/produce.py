@@ -496,6 +496,7 @@ def rc9_science(root, payload, candidate):
     for req in requirements:
         rid = req["requirement_id"]
         facts = payload["scientific_evidence"][rid]
+        facts["scope"]["fields"] = req["minimum_data_fields"]
         facts["metric_values"] = {m: metrics[m] for m in req["metric_contracts"]}
         facts["status"] = "COMPUTED_CONDITIONAL" if rid != "REQ-Q1" else "COMPUTED"
         facts["assumption_artifact_sha256"] = hashlib.sha256(
