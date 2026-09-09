@@ -26,6 +26,7 @@ ACTIVE_SKILL_VERSIONS = {
     "0.2.0-competition-rc6",
     "0.2.0-competition-rc7",
     "0.2.0-competition-rc8",
+    "0.2.0-competition-rc9",
 }
 DEVELOPMENT_STATUSES = {
     "DEVELOPMENT_FIRST_RUN_IN_PROGRESS",
@@ -41,6 +42,8 @@ C_TARGET_STATUSES = {
     "C_TARGET_RC6_READY_VALIDATION_PENDING",
     "C_TARGET_RC7_READY_VALIDATION_PENDING",
     "C_TARGET_RC8_READY_VALIDATION_PENDING",
+    "C_TARGET_RC9_RESEARCH_READY",
+    "RC9_RELEASE_REPAIR_BLOCKED",
     "C_TARGET_VALIDATION_IN_PROGRESS",
     "CLAIM_SCOPE_REPAIR_BLOCKED",
     "RC6_RELEASE_REPAIR_BLOCKED",
@@ -150,11 +153,10 @@ def evaluate() -> dict[str, Any]:
             for version in ("0.2.0-competition-rc6", "0.2.0-competition-rc7")
         )
     )
-    rc8_state_valid = state.get(
-        "phase"
-    ) == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5" and Draft202012Validator(
-        load_json("contracts/project_state.schema.json")
-    ).is_valid(state)
+    rc8_state_valid = state.get("phase") in {
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+    } and Draft202012Validator(load_json("contracts/project_state.schema.json")).is_valid(state)
     checks: dict[str, bool] = {
         "old_artifacts_byte_identical": all(
             sha256(path) == expected for path, expected in OLD_HASHES.items()
@@ -448,8 +450,17 @@ def evaluate() -> dict[str, Any]:
             or rc7_repair_staged
             or (
                 rc8_state_valid
-                and state.get("active_skill_version") == "0.2.0-competition-rc7"
-                and "Version: `0.2.0-competition-rc8`" in skill
+                and (
+                    (
+                        state.get("active_skill_version") == "0.2.0-competition-rc7"
+                        and "Version: `0.2.0-competition-rc8`" in skill
+                    )
+                    or (
+                        state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"
+                        and state.get("active_skill_version") == "0.2.0-competition-rc8"
+                        and "Version: `0.2.0-competition-rc9`" in skill
+                    )
+                )
             )
         )
         and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"),
@@ -484,6 +495,7 @@ def evaluate() -> dict[str, Any]:
                 "0.3.0-competition-rc6",
                 "0.3.0-competition-rc7",
                 "0.3.0-competition-rc8",
+                "0.3.0-competition-rc9",
             }
             and SKILL_VERSION in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         ),

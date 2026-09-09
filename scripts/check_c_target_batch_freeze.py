@@ -229,6 +229,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
             "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
             "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
         }
         or state.get("current_batch_id") != "C-TARGET-BATCH-001"
         or not isinstance(state_freeze, dict)

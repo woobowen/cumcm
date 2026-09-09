@@ -348,7 +348,10 @@ def evaluate_live_repository() -> dict[str, Any]:
     ):
         codes.add("RC7_RELEASE_LIVE_VERSION_OR_TREE_INVALID")
     state = _read_json(ROOT / "state/project_state.json")
-    if state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5":
+    if state.get("phase") in {
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+    }:
         state = json.loads(
             _git("show", "17f109cadc8524c285af6a50776e6c3decb8b3e8:state/project_state.json")
         )
@@ -428,7 +431,7 @@ def evaluate_rc8_candidate_snapshot(snapshot: Any, protocol: dict[str, Any]) -> 
     return {"status": "BLOCK" if codes else "PASS", "reason_codes": sorted(codes)}
 
 
-def evaluate_rc8_repository(*, stage: str) -> dict[str, Any]:
+def evaluate_rc8_repository(*, stage: str, historical: bool = False) -> dict[str, Any]:
     protocol = _read_json(ROOT / RC8_PROTOCOL)
     snapshot = _read_json(ROOT / RC8_CANDIDATE)
     if not protocol or not snapshot:
@@ -444,9 +447,12 @@ def evaluate_rc8_repository(*, stage: str) -> dict[str, Any]:
         if mapping != snapshot.get("implementation_files") or not mapping:
             codes.add("RC8_CANDIDATE_SUBJECT_MAPPING_INVALID")
         current_files = _git("ls-files", "--", *paths).splitlines()
-        if set(current_files) != set(mapping) or any(
-            not (ROOT / path).is_file() or _hash(ROOT / path) != digest
-            for path, digest in mapping.items()
+        if not historical and (
+            set(current_files) != set(mapping)
+            or any(
+                not (ROOT / path).is_file() or _hash(ROOT / path) != digest
+                for path, digest in mapping.items()
+            )
         ):
             codes.add("RC8_CANDIDATE_CURRENT_IMPLEMENTATION_DRIFT")
         if _git_blob_hash(subject, str(RC8_PROTOCOL)) != _hash(ROOT / RC8_PROTOCOL):
@@ -496,6 +502,10 @@ def evaluate_rc8_repository(*, stage: str) -> dict[str, Any]:
             codes.add("RC8_CANDIDATE_DEVELOPMENT_INVALID")
         _verify_path_bindings(receipt.get("evidence"), codes, f"RC8_RECEIPT_EVIDENCE:{name}")
     state = _read_json(ROOT / "state/project_state.json")
+    if historical:
+        state = json.loads(
+            _git("show", "8ef732b45cf3cb04262317cdfa13a176b47eebe0:state/project_state.json")
+        )
     if (
         state.get("phase") != "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
         or state.get("target_candidate_version") != RC8_SKILL
@@ -521,6 +531,7 @@ def evaluate_rc8_repository(*, stage: str) -> dict[str, Any]:
     return {
         "stage": stage,
         "release": "rc8",
+        "verification_context": "HISTORICAL_SUBJECT" if historical else "CURRENT_CANDIDATE",
         "status": "BLOCK" if codes else "PASS",
         "reason_codes": sorted(codes),
     }
@@ -531,9 +542,12 @@ def main() -> int:
     parser.add_argument("--stage", choices=("candidate", "live"), required=True)
     parser.add_argument("--check", action="store_true", required=True)
     parser.add_argument("--release", choices=("rc7", "rc8"), default="rc7")
+    parser.add_argument(
+        "--historical", action="store_true", help="Verify original RC8 subject only"
+    )
     args = parser.parse_args()
     result = (
-        evaluate_rc8_repository(stage=args.stage)
+        evaluate_rc8_repository(stage=args.stage, historical=args.historical)
         if args.release == "rc8"
         else evaluate_candidate_repository()
         if args.stage == "candidate"

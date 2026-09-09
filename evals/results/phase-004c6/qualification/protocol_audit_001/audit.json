@@ -1,0 +1,109 @@
+{
+  "audit_id": "PR12-RC9-PROTOCOL-AUDIT-001",
+  "role": "adjudication_policy_prosecutor",
+  "round": "FIRST_ROUND",
+  "independent": true,
+  "read_only": true,
+  "peer_output_access": "NONE",
+  "model": "UNKNOWN",
+  "reasoning_setting": "UNKNOWN",
+  "bundle_id": "PR12-RC9-STARTING-SUBJECT-bcf498907cbf282e2c79580ea56b043fc1a7b52b",
+  "bundle_hash": "939630caec0062492cdb7201c3ee6ddb4bc3bab1e9f6b64b6502c4dd363d3dec",
+  "verdict": "FAIL",
+  "findings": [
+    {
+      "finding_id": "PA-001",
+      "severity": "BLOCKER",
+      "target": "RC9 M2/M3/M8 PUBLIC_PROTOCOL",
+      "statement": "非预测 comparison 拒绝真实 zero-Final 开发状态，却在没有任何 Final/checker 回执时接受调用方 count=1。",
+      "counterexample": "见 report.md 对应独立发现；未将合成声明未验证夸大为真实未来数据读取。",
+      "evidence_refs": [
+        "nonpred_honest_count_zero.stdout",
+        "nonpred_claimed_count_one.stdout",
+        "execution_receipts.json"
+      ],
+      "file_references": [
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:2988",
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:scripts/finalize_fresh_c_validation.py:336",
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:scripts/finalize_fresh_c_validation.py:669",
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:scripts/finalize_fresh_c_validation.py:728"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "合法非预测开发比较与实际 Final 完整链；提前 Final、缺稳健性、stale选择、改code/config/input、失败/并发/重复请求",
+      "pass_condition": "开发比较不依赖未来回执；最终接受只依赖一次实际且绑定完整的Final；提前拒绝无checker执行。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "PA-002",
+      "severity": "BLOCKER",
+      "target": "RC9 M2/M3/M8 PUBLIC_PROTOCOL",
+      "statement": "核心必须 group_overlap=false，而时间可见性只受自声明 bool 约束，缺少评估目标对应的前缀边界。",
+      "counterexample": "见 report.md 对应独立发现；未将合成声明未验证夸大为真实未来数据读取。",
+      "evidence_refs": [
+        "future_visibility_declared.stdout",
+        "same_entity_overlap.stdout",
+        "execution_receipts.json"
+      ],
+      "file_references": [
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:2930",
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:2953",
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:scripts/finalize_fresh_c_validation.py:327",
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:scripts/run_c_target_rc7_development_regressions.py:1119"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "多实体多切点的真实同实体前缀正例；future label/feature/window/full-fit负例；新实体重叠负例",
+      "pass_condition": "合法同实体前缀通过；任何预测时点后的可见性与新实体泄漏均在非法执行前拒绝。",
+      "status": "OPEN"
+    },
+    {
+      "finding_id": "PA-003",
+      "severity": "BLOCKER",
+      "target": "RC9 M2/M3/M8 PUBLIC_PROTOCOL",
+      "statement": "metric freeze 不包含预测目标/起点/分母等语义，elapsed与remaining定义返回相同冻结值；完整plan STALE仍存在。",
+      "counterexample": "见 report.md 对应独立发现；未将合成声明未验证夸大为真实未来数据读取。",
+      "evidence_refs": [
+        "metric_semantics.json",
+        "probe.py"
+      ],
+      "file_references": [
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:3076",
+        "bcf498907cbf282e2c79580ea56b043fc1a7b52b:.agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py:4781"
+      ],
+      "testability": "TESTABLE",
+      "required_test": "elapsed/remaining、单终点/多切点、sample/entity聚合、零/近零分母中立测试",
+      "pass_condition": "目标、单位、时间起点、公式、分母、聚合、权重、方向及零分母规则预登记并与输出和checker精确绑定。",
+      "status": "OPEN"
+    }
+  ],
+  "blockers": [
+    "PA-001",
+    "PA-002",
+    "PA-003"
+  ],
+  "writes_observed": false,
+  "nested_codex_used": false,
+  "api_key_used": false,
+  "cost_assessment": {
+    "benefit_metrics": [
+      "4 actual CLI observations",
+      "2 preserved P0/HF22 rejection tests",
+      "1 metric semantics core probe"
+    ],
+    "token_cost": "UNKNOWN",
+    "time_cost": "Actual subprocess durations in execution receipts; native total UNKNOWN",
+    "maintenance_cost": "UNKNOWN",
+    "stop_conditions": [
+      "Bounded starting-subject audit complete; no full CI or fresh case execution authorized."
+    ],
+    "simplest_alternative": "Split Development comparison from Final transaction; freeze only necessary temporal/metric contracts and retain existing hash/stale/failure gates."
+  },
+  "uncertainties": [
+    "writes_observed means no shared/formal write; own ignored evidence outputs are authorized.",
+    "Temporal test declares incompatible visibility metadata; producer does not consume timestamp data.",
+    "Metric probe does not bypass complete-plan STALE checks.",
+    "Full nonpredictive/mixed/temporal E2E and concurrency were not executed in this audit.",
+    "All model/reasoning/token/cost details unavailable are UNKNOWN."
+  ],
+  "created_at": "2026-09-09T01:46:14.590385+00:00",
+  "output_hash": "ed7476fd67d744be898c36b1a2f80af158c5a9cd3b110fee05cbac35a9e46549"
+}

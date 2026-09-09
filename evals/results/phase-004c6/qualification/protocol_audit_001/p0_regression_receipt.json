@@ -1,0 +1,52 @@
+{
+  "subject": "bcf498907cbf282e2c79580ea56b043fc1a7b52b",
+  "tests": [
+    {
+      "test": "test_honest_development_output_blocks_at_finalization_without_test_payload",
+      "result": "PASS",
+      "duration_seconds": 0.4511375427246094,
+      "detail": null
+    },
+    {
+      "test": "test_hf22_false_heldout_predicate_blocks_semantic_gate",
+      "result": "PASS",
+      "duration_seconds": 0.18114542961120605,
+      "detail": null
+    }
+  ],
+  "executions": [
+    {
+      "argv": [
+        "<REPO_ROOT>/.venv/bin/python",
+        "<REPO_ROOT>/.cache/pr12-rc9/protocol-audit-001/subject/scripts/finalize_fresh_c_validation.py",
+        "--case-root",
+        "<REPO_ROOT>/.cache/pr12-rc9/protocol-audit-001/cases/test_honest_development_output_blocks_at_finalization_without_test_payload/case"
+      ],
+      "cwd": "<REPO_ROOT>/.cache/pr12-rc9/protocol-audit-001/subject",
+      "start_time": "2026-09-09T01:42:50.539922+00:00",
+      "duration_seconds": 0.14546871185302734,
+      "exit_code": 1,
+      "stdout_path": "test_honest_development_output_blocks_at_finalization_without_test_payload.stdout",
+      "stderr_path": "test_honest_development_output_blocks_at_finalization_without_test_payload.stderr",
+      "stdout_sha256": "9a7ba8e32db6aea4d76d89713bb7b243eb1647ebcf1bac65b02d6019e8e2ff4f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "<REPO_ROOT>/.venv/bin/python",
+        "<REPO_ROOT>/.cache/pr12-rc9/protocol-audit-001/subject/scripts/finalize_fresh_c_validation.py",
+        "--case-root",
+        "<REPO_ROOT>/.cache/pr12-rc9/protocol-audit-001/cases/test_hf22_false_heldout_predicate_blocks_semantic_gate/case"
+      ],
+      "cwd": "<REPO_ROOT>/.cache/pr12-rc9/protocol-audit-001/subject",
+      "start_time": "2026-09-09T01:42:50.784521+00:00",
+      "duration_seconds": 0.08234858512878418,
+      "exit_code": 1,
+      "stdout_path": "test_hf22_false_heldout_predicate_blocks_semantic_gate.stdout",
+      "stderr_path": "test_hf22_false_heldout_predicate_blocks_semantic_gate.stderr",
+      "stdout_sha256": "fd0bfecedd5ff202a60babc732a92aa802cbb8a518fd6a3d34281096d94d3e77",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "fixture_identity_override": "Only current_git_commit() during case setup returns fixed subject; production CLI bytes and all Git blob validators unchanged."
+}

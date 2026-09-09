@@ -196,7 +196,10 @@ def validate_state_and_registry() -> list[str]:
     audit_sha256 = file_hash(audit_path) if audit_path.is_file() else None
     challenge_sha256 = file_hash(challenge_path) if challenge_path.is_file() else None
     state = load_json(ROOT / "state/project_state.json")
-    if state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5":
+    if state.get("phase") in {
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
+    }:
         state = json.loads(
             subprocess.check_output(
                 [

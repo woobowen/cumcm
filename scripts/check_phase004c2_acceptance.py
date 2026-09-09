@@ -16,6 +16,7 @@ def assess(version_file, release, block, decision, state):
         "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
         "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
         "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+        "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
     }
     historical_version = block.get("version_file_value") if successor else version_file.strip()
     mismatch = historical_version != release["skill_version"]
@@ -42,6 +43,7 @@ def assess(version_file, release, block, decision, state):
             "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3",
             "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4",
             "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5",
+            "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6",
         }
         and state.get("previous_validation_cases") == ["CUMCM-2024-C-VALIDATION-001", CASE_ID]
         and "DECISION-C-TARGET-VALIDATION-004C2" in state.get("automated_decision_ids", [])

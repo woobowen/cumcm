@@ -12,6 +12,8 @@ from typing import Any
 
 import yaml
 
+from cumcm_skill_lab.training_registry import repository_registry_errors
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = REPO_ROOT / "benchmarks/case_registry.yaml"
 SKILL = REPO_ROOT / ".agents/skills/cumcm-modeling-evidence/SKILL.md"
@@ -79,6 +81,7 @@ ACTIVE_VERSIONS = {
     "0.2.0-competition-rc6",
     "0.2.0-competition-rc7",
     "0.2.0-competition-rc8",
+    "0.2.0-competition-rc9",
 }
 PHASE004A_VERSION = "0.2.0-competition-rc2"
 ALLOWED_CASE_VERSIONS = {
@@ -89,6 +92,7 @@ ALLOWED_CASE_VERSIONS = {
     "0.2.0-competition-rc5",
     "0.2.0-competition-rc7",
     "0.2.0-competition-rc8",
+    "0.2.0-competition-rc9",
 }
 REQUIRED_FIELDS = {
     "case_id",
@@ -178,6 +182,14 @@ def check() -> dict[str, Any]:
         and active_version == "0.2.0-competition-rc7"
         and "Version: `0.2.0-competition-rc8`" in skill_text
     )
+    rc9_candidate_staged = (
+        state.get("phase") == "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"
+        and state.get("technical_adjudication_status")
+        in {"C_TARGET_EVIDENCE_REPAIR_IN_PROGRESS", "RC9_RELEASE_REPAIR_BLOCKED"}
+        and state.get("target_candidate_version") == "0.2.0-competition-rc9"
+        and active_version == "0.2.0-competition-rc8"
+        and "Version: `0.2.0-competition-rc9`" in skill_text
+    )
     if active_version not in ACTIVE_VERSIONS:
         errors.append("PROJECT_STATE_SKILL_VERSION_MISMATCH")
     if state.get("skill_capability_status") != "COMPETITION_RC":
@@ -195,6 +207,7 @@ def check() -> dict[str, Any]:
         or rc6_candidate_staged
         or rc7_repair_staged
         or rc8_candidate_staged
+        or rc9_candidate_staged
     ):
         errors.append("FORMAL_SKILL_VERSION_MISMATCH")
     if EXPECTED_VERSION not in changelog:
@@ -205,6 +218,7 @@ def check() -> dict[str, Any]:
     declared_fields = registry.get("required_case_fields")
     if not isinstance(declared_fields, list) or set(declared_fields) != REQUIRED_FIELDS:
         errors.append("REGISTRY_FIELD_CONTRACT_INVALID")
+    errors.extend(repository_registry_errors(REPO_ROOT, registry))
     cases = registry.get("cases")
     if not isinstance(cases, list):
         errors.append("REGISTRY_CASES_INVALID")

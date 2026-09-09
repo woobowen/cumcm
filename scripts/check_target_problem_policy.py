@@ -27,6 +27,7 @@ EXPECTED_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C2"
 EXPECTED_EVIDENCE_REPAIR_PHASE = "PHASE-SKILL-C-TARGET-EVIDENCE-REPAIR-004C3"
 EXPECTED_RUNTIME_CLOSURE_PHASE = "PHASE-SKILL-C-TARGET-RUNTIME-PIPELINE-CLOSURE-004C4"
 EXPECTED_FACT_BINDING_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C5"
+EXPECTED_MAINTENANCE_PHASE = "PHASE-SKILL-C-TARGET-BATCH-REPAIR-004C6"
 RC3 = "0.2.0-competition-rc3"
 RC4 = "0.2.0-competition-rc4"
 RC4_COMMIT = "297cad0a29c659b18484d4f3b67d69a942ad415c"
@@ -286,6 +287,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         EXPECTED_EVIDENCE_REPAIR_PHASE,
         EXPECTED_RUNTIME_CLOSURE_PHASE,
         EXPECTED_FACT_BINDING_PHASE,
+        EXPECTED_MAINTENANCE_PHASE,
     }
     if repair:
         for field in (
@@ -310,10 +312,13 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                 EXPECTED_FACT_BINDING_PHASE: (
                     "plans/active/PLAN-0004C5-rc8-fact-binding-and-fresh-validation.md"
                 ),
+                EXPECTED_MAINTENANCE_PHASE: (
+                    "plans/active/PLAN-0004C6-rc9-repair-and-development.md"
+                ),
             }[state["phase"]],
             current_branch=(
                 "feat/phase004c5-p0-01-finalization-hf22-repro"
-                if state["phase"] == EXPECTED_FACT_BINDING_PHASE
+                if state["phase"] in {EXPECTED_FACT_BINDING_PHASE, EXPECTED_MAINTENANCE_PHASE}
                 else "feat/phase004c2-claim-scope-repair-validation-2019c"
             ),
         )
@@ -389,6 +394,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
                         "0.2.0-competition-rc6",
                         "0.2.0-competition-rc7",
                         "0.2.0-competition-rc8",
+                        "0.2.0-competition-rc9",
                     )
                 )
             )

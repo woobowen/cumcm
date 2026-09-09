@@ -71,3 +71,7 @@ design changes retain superseded decisions and explain the reason before editing
   004C4-only FAILED tuple reproduced. No new numerical case Run or Final has occurred.
 - One fresh-context native read-only protocol reviewer dispatched against the immutable startup
   subject. Next: save neutral design, implement/test registry and lifecycle, then core M2/M3.
+
+- M1 targeted regression: 62 passed in 5.00s, including registry attacks, historical RC5/RC7/RC8 identities, both baseline tests and wrong terminal tuples. Training consistency validates all ten records. Target-policy/competition consistency and strict PASS. First M1 run found the new registration resolver incorrectly interpreting two historical registration shapes; fixed by checking original records against their own immutable projection. Successor routing was extended explicitly to 004C6; historical hashes remain checked. No full CI PASS claimed.
+- Native protocol audit001 FAIL independently reproduced count self-attestation, missing time-visibility enforcement and metric-definition omission. Original audit is preserved; PA-001/002/003 remain open until new behavioral evidence and re-review.
+- Publication normalized four supplied Markdown hard-break trailing spaces after staged diff-check flagged them; original task bytes retained in ignored cache. No historical evidence bytes changed.

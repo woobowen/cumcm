@@ -1,0 +1,24 @@
+{
+  "elapsed_error": 0.01,
+  "remaining_error": 1.0,
+  "elapsed_definition": {
+    "target": "elapsed_time",
+    "origin": "process_start",
+    "unit": "time",
+    "formula": "abs(pred-true)/true",
+    "denominator": "elapsed_time",
+    "aggregation": "mean_per_query"
+  },
+  "remaining_definition": {
+    "target": "remaining_time",
+    "origin": "forecast_cut",
+    "unit": "time",
+    "formula": "abs(pred-true)/true",
+    "denominator": "remaining_time",
+    "aggregation": "mean_per_query"
+  },
+  "metric_freeze_elapsed": "da0e78e13f0c1073a001feb7afcc03749904465852566769624bab190a87c488",
+  "metric_freeze_remaining": "da0e78e13f0c1073a001feb7afcc03749904465852566769624bab190a87c488",
+  "all_freezes_equal": true,
+  "scope": "PURE_PUBLIC_CORE_FREEZE_PROBE_NOT_FRESH_RUN"
+}
