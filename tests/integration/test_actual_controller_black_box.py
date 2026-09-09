@@ -86,6 +86,13 @@ def _accepted(core, case: Path, key: str, content: dict) -> None:
     core.write_json(case / core.ARTIFACT_PATHS[key], core.artifact(key, content))
 
 
+def _bind_scenario(core, case, selection):
+    scenario = core.resolve_scenario_identity(case)
+    for run in selection["runs"]:
+        run["scenario_hash"] = scenario
+    selection["selection"]["shared_scenario_hashes"] = [scenario]
+
+
 def _advance_to(core, case: Path, target: str) -> None:
     while core.load_state(case)["state"] != target:
         core.advance_once(case)
@@ -412,7 +419,6 @@ def _build_running_case(repo_root: Path, tmp_path: Path):
             "trusted_freeze_registry": freezes,
             "stop_rule": "one deterministic run per candidate",
             "handoff_generated_at": generated,
-            "scenario_hash": raw_hash,
         },
     )
     synthetic._write_output_contract_probe(core, case, ["REQ-A", "REQ-B"], metric="loss")
@@ -428,6 +434,7 @@ def _build_running_case(repo_root: Path, tmp_path: Path):
             timeout_seconds=30,
         )
     selection = _selection(core, raw_hash)
+    _bind_scenario(core, case, selection)
     semantic = _semantic(selection)
     _accepted(core, case, "requirement_selection", selection)
     _accepted(core, case, "semantic_claim_support", semantic)

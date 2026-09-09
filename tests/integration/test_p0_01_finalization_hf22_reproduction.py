@@ -228,7 +228,6 @@ def _build_case(
             "trusted_freeze_registry": freezes,
             "stop_rule": "one deterministic run per candidate",
             "handoff_generated_at": generated,
-            "scenario_hash": raw_hash,
         },
     )
     synthetic._write_output_contract_probe(core, case, ["REQ-A", "REQ-B"], metric="loss")
@@ -245,6 +244,7 @@ def _build_case(
         )
         assert executed["outcome"] == "SUCCESS", executed
     selection = probes._selection(core, raw_hash)
+    probes._bind_scenario(core, case, selection)
     semantic = probes._semantic(selection)
     for claim in semantic["claims"]:
         captured = core.load_json(case / "runs" / claim["selected_run_ids"][0] / "output.json")

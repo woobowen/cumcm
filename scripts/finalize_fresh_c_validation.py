@@ -616,7 +616,7 @@ def complete(case_root: Path, test_field: str, check_code: str | None = None) ->
         lambda: core.validate_runtime_selection_compatibility(
             selection_record,
             manifests,
-            scenario_hash=plan.get("scenario_hash"),
+            scenario_hash=core.resolve_scenario_identity(case_root, plan),
         ),
     )
     if event["result"] != "PASS":

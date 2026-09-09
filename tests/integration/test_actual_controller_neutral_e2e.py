@@ -465,7 +465,6 @@ def _build_runtime_case(
             "trusted_freeze_registry": freezes,
             "stop_rule": "one deterministic run per candidate",
             "handoff_generated_at": generated,
-            "scenario_hash": raw_hash,
             **({"evaluation_design": design} if design is not None else {}),
             **(plan_extra or {}),
         },
@@ -510,6 +509,16 @@ def _build_runtime_case(
             seed=seed,
             code_path="models/runtime_model.py",
             timeout_seconds=30,
+        )
+    scenario = core.resolve_scenario_identity(case)
+    for record in (selection, semantic):
+        for run in record["runs"]:
+            run["scenario_hash"] = scenario
+    selection["selection"]["shared_scenario_hashes"] = [scenario]
+    for bridge in selection["selection"].get("dependency_bridges", []):
+        bridge["scenario_hash"] = scenario
+        bridge["lineage_hash"] = core.canonical_hash(
+            {key: value for key, value in bridge.items() if key != "lineage_hash"}
         )
     _accepted(core, case, "requirement_selection", selection)
     _accepted(core, case, "semantic_claim_support", semantic)

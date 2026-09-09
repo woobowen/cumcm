@@ -3351,6 +3351,11 @@ def validate_execution_capture(
         codes.add("RC_EXECUTION_CAPTURE_MANIFEST_MISMATCH")
     if "scenario_hash" in capture and not HEX64.fullmatch(str(capture.get("scenario_hash", ""))):
         codes.add("RC_EXECUTION_CAPTURE_SCENARIO_HASH_INVALID")
+    try:
+        if capture.get("scenario_hash") != resolve_scenario_identity(case_root):
+            codes.add("RC_EXECUTION_CAPTURE_SCENARIO_STALE")
+    except (OSError, ValueError, TypeError, KeyError):
+        codes.add("RC_EXECUTION_CAPTURE_SCENARIO_STALE")
     if (
         capture.get("schema_version") != "1.0.0"
         or capture.get("capture_mode") != "CONTROLLED_CASE_SUBPROCESS"
@@ -5235,8 +5240,113 @@ def read_artifact(case_root: Path, key: str) -> dict[str, Any]:
     return value
 
 
+def resolve_scenario_identity(case_root: Path, plan: dict[str, Any] | None = None) -> str:
+    """Resolve scenario-input/v2 before a process starts, also used by every reviewer.
+
+    Input registries and requirement scopes are sets; file bytes and scientific lists
+    remain ordered. An absent hash requests derivation. Explicit null/empty/malformed
+    values are errors, and an explicit digest must equal the content-derived identity.
+    No capture, selected output or Final receipt participates in this payload.
+    """
+    if plan is None:
+        plan = read_artifact(case_root, "experiment_plan")["content"]
+    inputs = plan.get("required_input_hashes")
+    if not isinstance(inputs, dict) or not inputs:
+        raise ValueError("RC_SCENARIO_INPUTS_REQUIRED")
+    for relative, digest in inputs.items():
+        path = relative_case_path(case_root, relative)
+        if (
+            path is None
+            or not isinstance(digest, str)
+            or HEX64.fullmatch(digest) is None
+            or not path.is_file()
+            or any(
+                (case_root / Path(relative).parts[0])
+                .joinpath(*Path(relative).parts[1:index])
+                .is_symlink()
+                for index in range(1, len(Path(relative).parts) + 1)
+            )
+            or file_hash(path) != digest
+        ):
+            raise ValueError("RC_SCENARIO_INPUT_IDENTITY_INVALID")
+    roles = plan.get("input_roles", {relative: relative for relative in inputs})
+    if (
+        not isinstance(roles, dict)
+        or not roles
+        or any(not isinstance(role, str) or not role.strip() for role in roles)
+        or any(not isinstance(path, str) for path in roles.values())
+        or len(set(roles.values())) != len(roles)
+        or set(roles.values()) != set(inputs)
+    ):
+        raise ValueError("RC_SCENARIO_INPUT_ROLES_CONFLICT")
+    declaration = plan.get("scenario", {"schema_version": "scenario/v1", "revision": 1})
+    if (
+        not isinstance(declaration, dict)
+        or declaration.get("schema_version") != "scenario/v1"
+        or type(declaration.get("revision")) is not int
+        or declaration["revision"] < 1
+        or set(declaration)
+        - {
+            "schema_version",
+            "revision",
+            "name",
+            "assumptions",
+            "constraints",
+            "configuration",
+            "requirement_ids",
+        }
+    ):
+        raise ValueError("RC_SCENARIO_DECLARATION_INVALID")
+    requirements = read_artifact(case_root, "problem_requirements")["content"]
+    assumptions = read_artifact(case_root, "assumptions_and_symbols")["content"]
+    scope = declaration.get("requirement_ids")
+    known = {r["requirement_id"] for r in requirements.get("requirements", [])}
+    if scope is not None and (
+        not isinstance(scope, list)
+        or not scope
+        or any(not isinstance(item, str) for item in scope)
+        or len(set(scope)) != len(scope)
+        or not set(scope) <= known
+    ):
+        raise ValueError("RC_SCENARIO_REQUIREMENT_SCOPE_INVALID")
+    declaration = copy.deepcopy(declaration)
+    if scope is not None:
+        declaration["requirement_ids"] = sorted(scope)
+    payload = {
+        "schema_version": "scenario-input/v2",
+        "inputs": inputs,
+        "input_roles": roles,
+        "scenario": declaration,
+        "requirements": requirements,
+        "assumptions_and_symbols": assumptions,
+        "experiment_semantics": {
+            key: plan[key]
+            for key in (
+                "evaluation_design",
+                "splits",
+                "temporal_design",
+                "metric_definitions",
+                "metric",
+                "metric_direction",
+                "aggregation_rule",
+                "selection_rule",
+            )
+            if key in plan
+        },
+    }
+    expected = canonical_hash(payload)
+    if "scenario_hash" in plan:
+        supplied = plan["scenario_hash"]
+        if not isinstance(supplied, str) or HEX64.fullmatch(supplied) is None:
+            raise ValueError("RC_SCENARIO_HASH_INVALID")
+        if supplied != expected:
+            raise ValueError("RC_SCENARIO_HASH_CONTENT_MISMATCH")
+    return expected
+
+
 def trusted_freezes(case_root: Path) -> dict[str, str]:
     plan = read_artifact(case_root, "experiment_plan")["content"]
+    resolve_scenario_identity(case_root, plan)
     value = plan.get("trusted_freeze_registry")
     candidate_ids = plan.get("candidate_ids")
     metric = plan.get("metric")
@@ -5489,6 +5599,7 @@ def execute_case_code(
         raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
     plan = read_artifact(case_root, "experiment_plan")["content"]
     freezes = trusted_freezes(case_root)
+    scenario_hash = resolve_scenario_identity(case_root, plan)
     if candidate_id not in plan["candidate_ids"] or seed not in plan["random_seeds"]:
         raise ValueError("RC_EXECUTION_NOT_PREREGISTERED")
     matches = [
@@ -5594,9 +5705,6 @@ def execute_case_code(
         {"path": relative, "sha256": digest}
         for relative, digest in sorted(plan["required_input_hashes"].items())
     ]
-    scenario_hash = plan.get("scenario_hash")
-    if HEX64.fullmatch(str(scenario_hash or "")) is None:
-        scenario_hash = canonical_hash([item["sha256"] for item in input_files])
     output_record = {"path": output_relative, "sha256": file_hash(output_path)}
     capture = {
         "schema_version": "1.0.0",
@@ -5828,6 +5936,8 @@ def verify_scientific_check(
 
 def verify_current_capture_files(case_root: Path, capture: dict[str, Any]) -> None:
     """Recheck actual frozen inputs and all producer/checker dependencies at every reuse."""
+    if capture.get("scenario_hash") != resolve_scenario_identity(case_root):
+        raise ValueError("RC_EXECUTION_CAPTURE_SCENARIO_STALE")
     if not capture.get("input_files") or not capture.get("code_files"):
         raise ValueError("RC_EXECUTION_CAPTURE_BINDINGS_MISSING")
     for item in capture["input_files"]:
@@ -6190,9 +6300,7 @@ def revalidate_prefinal_gates(case_root: Path, decision_hash: str) -> None:
         validate_runtime_selection_compatibility(
             selection,
             manifests,
-            scenario_hash=read_artifact(case_root, "experiment_plan")["content"].get(
-                "scenario_hash"
-            ),
+            scenario_hash=resolve_scenario_identity(case_root),
         ),
     ):
         if result["status"] != "PASS":
