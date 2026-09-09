@@ -158,3 +158,111 @@ def test_command_records_reject_wrong_types_or_time(adjudicator, change):
     command.update(change)
     with pytest.raises(ValueError):
         adjudicator.actual_command(command)
+
+
+@pytest.mark.parametrize("text", ['{"count":1e309}', '{"count":-1e309}'])
+def test_numeric_overflow_is_not_finite_json(adjudicator, text):
+    with pytest.raises(ValueError, match="NONFINITE"):
+        adjudicator.strict_json(text)
+
+
+@pytest.mark.parametrize(
+    "fault",
+    [
+        "missing_requirement",
+        "large_residual",
+        "manifest_capture",
+        "supporting_role",
+        "final_before_model",
+        "boolean_count",
+    ],
+)
+def test_native_tampering_of_actual_captured_family_is_rejected(
+    adjudicator, repo_root, tmp_path, fault
+):
+    source = repo_root / adjudicator.BASE / "development_exports/acceptance-001/mixed/records.json"
+    packet = json.loads(source.read_text())
+    records = packet["records"]
+
+    def replace(key, value):
+        raw = json.dumps(value, ensure_ascii=False, sort_keys=True)
+        records[key] = {
+            "content": value,
+            "raw_utf8": raw,
+            "raw_sha256": adjudicator.digest(raw.encode()),
+        }
+
+    ledger = records["final_ledger"]["content"]
+    if fault in {"missing_requirement", "large_residual"}:
+        for rid in ledger["selected_run_ids"]:
+            key = "final_check:" + rid
+            value = records[key]["content"]
+            if fault == "missing_requirement":
+                del value["requirements"]["REQ-C"]
+            else:
+                value["requirements"]["REQ-C"]["recalculation_residuals"]["full_numeric_vector"][
+                    "value"
+                ] = 1e6
+            replace(key, value)
+            ledger["checks"][rid]["files"][f"runs/{rid}/final_check.json"] = records[key][
+                "raw_sha256"
+            ]
+        replace("final_ledger", ledger)
+    elif fault == "manifest_capture":
+        handoff = records["handoff"]["content"]
+        for run in handoff["final_runs"]:
+            key = "manifest:" + run["run_id"]
+            value = records[key]["content"]
+            value["capture_record"]["sha256"] = "0" * 64
+            replace(key, value)
+            run["manifest_hash"] = adjudicator.canonical(value)
+        replace("handoff", handoff)
+    elif fault == "supporting_role":
+        value = records["problem_requirements"]["content"]
+        value["content"]["requirements"][2]["role"] = "SUPPORTING"
+        value["content_hash"] = adjudicator.canonical(value["content"])
+        replace("problem_requirements", value)
+    elif fault == "final_before_model":
+        for value in [ledger, *ledger["checks"].values()]:
+            for key in ["started_at", "ended_at"]:
+                value[key] = value[key].replace("2026-09-09", "2026-09-08")
+        replace("final_ledger", ledger)
+    else:
+        value = dict(ledger, count=True)
+        replace("final_ledger", value)
+        records["final_ledger"]["content"] = dict(value, count=1)
+    destination = tmp_path / adjudicator.BASE / "tampered.json"
+    destination.parent.mkdir(parents=True)
+    destination.write_text(json.dumps(packet))
+    family = {
+        "kind": "mixed",
+        "primary_requirements": 3,
+        "actual_model_starts": 2,
+        "native_state": "READY_FOR_PAPER_HANDOFF",
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "record_packet": {
+            "path": destination.relative_to(tmp_path).as_posix(),
+            "sha256": adjudicator.digest(destination.read_bytes()),
+        },
+    }
+    if fault == "boolean_count":
+        with pytest.raises(ValueError, match="RAW_RECORD_IDENTITY_INVALID"):
+            adjudicator.validate_family_evidence(tmp_path, family)
+    else:
+        assert adjudicator.validate_family_evidence(tmp_path, family)
+
+
+def test_actual_development_family_remains_replayable(adjudicator, repo_root):
+    path = adjudicator.BASE + "/development_exports/acceptance-001/mixed/records.json"
+    family = {
+        "kind": "mixed",
+        "primary_requirements": 3,
+        "actual_model_starts": 2,
+        "native_state": "READY_FOR_PAPER_HANDOFF",
+        "case_id": "ORIGINAL-WATER-MIXED",
+        "record_packet": {
+            "path": path,
+            "sha256": adjudicator.digest((repo_root / path).read_bytes()),
+        },
+    }
+    assert adjudicator.validate_family_evidence(repo_root, family) == []

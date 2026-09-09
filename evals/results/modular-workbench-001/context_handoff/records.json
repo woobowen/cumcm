@@ -1,0 +1,1024 @@
+{
+  "derivation": "EXACT_UTF8_JSON_NO_REDACTION",
+  "records": {
+    "assumptions": {
+      "content": {
+        "artifact_type": "assumptions_and_symbols",
+        "content": {
+          "arithmetic_example": {
+            "alpha_litres": 10.8,
+            "classification": "M04_PRIVATE_EXAMPLE_NOT_FORMAL_RUN",
+            "conditional_endpoint_min": 120,
+            "cost_yuan": 11,
+            "counts": {
+              "five_litre": 1,
+              "three_litre": 1
+            },
+            "demand_litres": 8,
+            "evidence_files": [
+              "independent_m04_check.py",
+              "numerical_results.json"
+            ],
+            "future_endpoint_truth": null,
+            "origin_min": 112,
+            "remaining_minutes": 8,
+            "slope_litres_per_minute": -0.1,
+            "stock_litres": [
+              8,
+              7,
+              6,
+              5,
+              4,
+              3,
+              2,
+              1,
+              0
+            ]
+          },
+          "assumptions": [
+            {
+              "basis": "TASK.md and REQ-B.prediction_spec; continuation remains unverified",
+              "failure_consequence": "REQ-B 剩余时间变化，并传播到 REQ-A 需求与 REQ-C 库存",
+              "id": "A01",
+              "requirement_ids": [
+                "REQ-B",
+                "REQ-A",
+                "REQ-C"
+              ],
+              "statement": "同一实体的可见前缀趋势可用仿射形式表达，且在条件外推区间内继续，不发生补水或机制变化。",
+              "status": "CONDITIONAL_NOT_ESTABLISHED",
+              "test": "新可见数据的斜率/残差检查；未来阈值终点到达后核对"
+            },
+            {
+              "basis": "input.json observed_at/available_at/entity_id semantics",
+              "failure_consequence": "历史误差泄漏，不得支撑预测准确性",
+              "id": "A02",
+              "requirement_ids": [
+                "REQ-B"
+              ],
+              "statement": "拟合只用同实体、观测时间和可用时间均不晚于起点的数据。",
+              "status": "EXPLICIT_VISIBILITY_RULE",
+              "test": "逐起点输出实际 fit_observation_ids；EA endpoint 只作事后标签"
+            },
+            {
+              "basis": "TASK.md units, input.json flow_litres_per_minute and threshold",
+              "failure_consequence": "所有时间、容量、库存结果失去含义",
+              "id": "A03",
+              "requirement_ids": [
+                "REQ-A",
+                "REQ-B",
+                "REQ-C"
+              ],
+              "statement": "value 与 threshold 的量纲为 L；绝对时间单位 min；备水 q 与原轨迹下降率属于不同过程。",
+              "status": "INPUT_SEMANTICS",
+              "test": "量纲核对；q=1 L/min 不代替 b=-0.1 L/min"
+            },
+            {
+              "basis": "TASK.md container prices; unlimited supply and no added costs are explicit modeling conditions",
+              "failure_consequence": "REQ-A 目标函数或可行域需改，REQ-C 库存随之失效",
+              "id": "A04",
+              "requirement_ids": [
+                "REQ-A",
+                "REQ-C"
+              ],
+              "statement": "3 L/4元与5 L/7元表示完整可用的采购供给单元；件数为非负整数、无额外限购，单价恒定且无附加成本。",
+              "status": "OPERATING_CONDITIONS_TO_CHALLENGE",
+              "test": "主Agent/用户核对是否为空容器、限购或存在运输填充费用"
+            },
+            {
+              "basis": "No contrary logistics supplied; declared conditional interpretation",
+              "failure_consequence": "终端容量约束不再足够证明逐时库存可行",
+              "id": "A05",
+              "requirement_ids": [
+                "REQ-A",
+                "REQ-C"
+              ],
+              "statement": "额外备水初始库存为零，购入水量在开始前全部到位且可合并释放；无损耗或中途回补。",
+              "status": "OPERATING_CONDITIONS_TO_CHALLENGE",
+              "test": "核对现有备用水、到货时间、出水速率与损耗限制"
+            },
+            {
+              "basis": "TASK.md 每分钟1 L interpreted explicitly as rate",
+              "failure_consequence": "非整数需求、末段库存与采购边界需重算",
+              "id": "A06",
+              "requirement_ids": [
+                "REQ-A",
+                "REQ-C"
+              ],
+              "statement": "基准需求为连续常率 q 在 [0,tau] 内累计；非整数末段按实际时长消费。",
+              "status": "EXPLICIT_CONDITIONAL_TIMING_CONVENTION",
+              "test": "与每个开始分钟整批1 L的解释对照；本例8 min两者一致"
+            },
+            {
+              "basis": "TASK.md no true noise distribution; synthetic provenance",
+              "failure_consequence": "若虚构概率或未来准确性，则该强结论无证据",
+              "id": "A07",
+              "requirement_ids": [
+                "REQ-B"
+              ],
+              "statement": "不给原题未给出的噪声分布、独立抽样结构或概率区间。",
+              "status": "EVIDENCE_BOUNDARY",
+              "test": "审查每个精度、区间和独立样本数表述"
+            }
+          ],
+          "case_id": "ORIGINAL-BRAIN-R2",
+          "formulas": [
+            {
+              "expression": "J={i: entity_i=e and t_i<=t_0 and a_i<=t_0}",
+              "id": "F01",
+              "preconditions": [
+                "A02"
+              ],
+              "requirement_ids": [
+                "REQ-B"
+              ],
+              "symbols": [
+                "J",
+                "i",
+                "e",
+                "t_i",
+                "t_0",
+                "a_i"
+              ],
+              "unit": "set"
+            },
+            {
+              "expression": "b=sum_J((t_i-t_bar)*(y_i-y_bar))/sum_J((t_i-t_bar)^2); alpha=y_bar+b*(t_0-t_bar); y_hat(t_0+s)=alpha+b*s",
+              "id": "F02",
+              "preconditions": [
+                "n>=2",
+                "time variation",
+                "A01",
+                "A02",
+                "A03"
+              ],
+              "requirement_ids": [
+                "REQ-B"
+              ],
+              "symbols": [
+                "b",
+                "t_i",
+                "t_bar",
+                "y_i",
+                "y_bar",
+                "alpha",
+                "t_0",
+                "y_hat",
+                "s",
+                "J"
+              ],
+              "unit": "b:L/min; alpha,y_hat:L"
+            },
+            {
+              "edge_cases": [
+                "alpha<=H: remaining demand horizon 0",
+                "alpha>H,b>=0: no finite downward crossing; report gap",
+                "insufficient prefix or zero time variance: reject"
+              ],
+              "expression": "tau_hat=(alpha-H)/(-b) when alpha>H,b<0; T_hat=t_0+tau_hat",
+              "id": "F03",
+              "preconditions": [
+                "A01",
+                "A03"
+              ],
+              "requirement_ids": [
+                "REQ-B"
+              ],
+              "symbols": [
+                "tau_hat",
+                "alpha",
+                "H",
+                "b",
+                "T_hat",
+                "t_0"
+              ],
+              "unit": "min"
+            },
+            {
+              "expression": "r_k=T_A-t_0,k; E_k=100*abs(tau_hat_k-r_k)/r_k; metric_b=sum_k(E_k)/K",
+              "id": "F04",
+              "preconditions": [
+                "r_k>0",
+                "A-end never enters historical fit",
+                "same-entity repeated origins are dependent"
+              ],
+              "requirement_ids": [
+                "REQ-B"
+              ],
+              "symbols": [
+                "r_k",
+                "T_A",
+                "t_0",
+                "E_k",
+                "tau_hat",
+                "metric_b",
+                "K",
+                "k"
+              ],
+              "unit": "%"
+            },
+            {
+              "expression": "D=q*tau_hat; V=v_3*n_3+v_5*n_5; minimize C=c_3*n_3+c_5*n_5 subject to V>=D and n_3,n_5 in nonnegative integers; metric_a=min C",
+              "id": "F05",
+              "preconditions": [
+                "A03",
+                "A04",
+                "A05",
+                "A06"
+              ],
+              "requirement_ids": [
+                "REQ-A"
+              ],
+              "symbols": [
+                "D",
+                "q",
+                "tau_hat",
+                "V",
+                "v_3",
+                "n_3",
+                "v_5",
+                "n_5",
+                "C",
+                "c_3",
+                "c_5",
+                "metric_a"
+              ],
+              "unit": "D,V:L; C,metric_a:yuan"
+            },
+            {
+              "expression": "U=c_3*ceil(D/v_3); enumerate 0<=n_3<=floor(U/c_3), 0<=n_5<=floor(U/c_5) with C<=U and V>=D",
+              "id": "F06",
+              "preconditions": [
+                "D>=0",
+                "positive capacities and costs",
+                "A04"
+              ],
+              "proof": "All-type-3 gives feasible U; positive costs exclude any better solution outside finite bounds.",
+              "requirement_ids": [
+                "REQ-A"
+              ],
+              "symbols": [
+                "U",
+                "c_3",
+                "D",
+                "v_3",
+                "n_3",
+                "n_5",
+                "c_5",
+                "C",
+                "V"
+              ],
+              "unit": "U:yuan"
+            },
+            {
+              "constraints": [
+                "0<=s<=tau_hat",
+                "I_j>=0",
+                "j=0..ceil(tau_hat/Delta_t)"
+              ],
+              "expression": "s_j=min(j*Delta_t,tau_hat); I_0=V; I_j=I_(j-1)-q*(s_j-s_(j-1)); I(s)=V-q*s; metric_c=V-D",
+              "id": "F07",
+              "preconditions": [
+                "A05",
+                "A06",
+                "q>=0"
+              ],
+              "proof": "Monotone decrease makes terminal nonnegativity sufficient only under listed operating conditions.",
+              "requirement_ids": [
+                "REQ-C"
+              ],
+              "symbols": [
+                "s_j",
+                "j",
+                "Delta_t",
+                "tau_hat",
+                "I_j",
+                "V",
+                "q",
+                "I",
+                "s",
+                "metric_c",
+                "D"
+              ],
+              "unit": "I,I_j,metric_c:L"
+            }
+          ],
+          "input_bindings": {
+            "context.json": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+            "input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+            "problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+            "request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+            "source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c"
+          },
+          "limitations": [
+            "No empirical trajectory or noise law; no calibrated interval.",
+            "Four EA retrospective origins are one synthetic entity, not four independent validations.",
+            "No frozen historical-validation protocol or scientific Final executed.",
+            "Supply fullness, initial reserve, delivery and fractional-minute semantics require challenge.",
+            "Generic scope labels must later be concretely bound to entities/times."
+          ],
+          "module": "M04",
+          "objects": [
+            {
+              "granularity": "one project-original synthetic trajectory",
+              "id": "EA",
+              "known_endpoint_min": 20,
+              "known_observed_times_min": [
+                0,
+                2,
+                4,
+                6,
+                8,
+                20
+              ],
+              "use": "prefix-only historical arithmetic; endpoint only as retrospective label"
+            },
+            {
+              "granularity": "one project-original synthetic trajectory",
+              "id": "EB",
+              "known_endpoint_min": null,
+              "known_observed_times_min": [
+                100,
+                102,
+                104,
+                106,
+                108,
+                110,
+                112
+              ],
+              "prediction_origin_min": 112,
+              "use": "same-entity continuation conditional on unchanged affine descent"
+            }
+          ],
+          "proposal_status": "DRAFT_CONTENT_ONLY_FOR_ORCHESTRATOR_REVIEW",
+          "request_id": "BRAIN-M04",
+          "requirement_ids": [
+            "REQ-A",
+            "REQ-B",
+            "REQ-C"
+          ],
+          "requirement_trace": [
+            {
+              "claim_boundary": "PREDICTIVE / CONDITIONAL_ESTIMATE; historical demonstration SIMULATION; future EB truth UNKNOWN",
+              "depends_on": [],
+              "formula_ids": [
+                "F01",
+                "F02",
+                "F03",
+                "F04"
+              ],
+              "requirement_id": "REQ-B"
+            },
+            {
+              "claim_boundary": "Minimum conditional cost for declared supply, prices, inventory and timing assumptions",
+              "depends_on": [
+                "REQ-B"
+              ],
+              "formula_ids": [
+                "F05",
+                "F06"
+              ],
+              "requirement_id": "REQ-A"
+            },
+            {
+              "claim_boundary": "Conditional inventory path for one specified procurement plan; no logistics-capacity claim",
+              "depends_on": [
+                "REQ-A",
+                "REQ-B"
+              ],
+              "formula_ids": [
+                "F07"
+              ],
+              "requirement_id": "REQ-C"
+            }
+          ],
+          "revalidation": {
+            "implementation": {
+              "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+              "tool_commit": "7e5bd4297c74cfa3b6c0920bc553d56181097afc"
+            },
+            "method": "Unchanged mathematical content; R2 identity read from actual request/template and independent exact arithmetic rerun PASS.",
+            "numerical_results_sha256": "8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2",
+            "parent_proposal_sha256": "f296ce3cb2767e2c5add355fb5cce8500b80c20ed8bd8b176f76dda5f2872b68"
+          },
+          "revision": 2,
+          "source_class": "SIMULATION",
+          "source_ids": [
+            "SRC-ORIGINAL-WATER"
+          ],
+          "state_boundary": {
+            "automatically_entered_M05": false,
+            "formal_acceptance": "NOT_RUN_BY_WORKER",
+            "native_state_observed": "SOURCES_PLANNED",
+            "request_status_observed": "PREPARED",
+            "team_review": "NOT_RUN",
+            "web_review": "NOT_RUN"
+          },
+          "symbols": {
+            "C": {
+              "domain_or_note": "c_3*n_3+c_5*n_5",
+              "meaning": "total paid cost",
+              "unit": "yuan"
+            },
+            "D": {
+              "domain_or_note": "q*tau_hat",
+              "meaning": "required external reserve volume",
+              "unit": "L"
+            },
+            "Delta_t": {
+              "domain_or_note": "1",
+              "meaning": "inventory output interval",
+              "unit": "min"
+            },
+            "E_k": {
+              "domain_or_note": "100*abs(prediction-truth)/truth",
+              "meaning": "historical absolute relative error",
+              "unit": "%"
+            },
+            "H": {
+              "domain_or_note": "10",
+              "meaning": "threshold water volume",
+              "unit": "L"
+            },
+            "I": {
+              "domain_or_note": "V-q*s",
+              "meaning": "reserve inventory at elapsed time s",
+              "unit": "L"
+            },
+            "I_j": {
+              "domain_or_note": "includes initial and terminal",
+              "meaning": "inventory at s_j",
+              "unit": "L"
+            },
+            "J": {
+              "domain_or_note": "both times <= t_0",
+              "meaning": "eligible same-entity prefix index set",
+              "unit": "set"
+            },
+            "K": {
+              "domain_or_note": "4 in arithmetic example",
+              "meaning": "number of historical origins",
+              "unit": "1"
+            },
+            "T_A": {
+              "domain_or_note": "20; label only",
+              "meaning": "known EA threshold endpoint",
+              "unit": "min"
+            },
+            "T_hat": {
+              "domain_or_note": "not observed future truth",
+              "meaning": "conditional absolute endpoint",
+              "unit": "min"
+            },
+            "U": {
+              "domain_or_note": "c_3*ceil(D/v_3)",
+              "meaning": "feasible upper cost bound",
+              "unit": "yuan"
+            },
+            "V": {
+              "domain_or_note": "v_3*n_3+v_5*n_5",
+              "meaning": "total purchased water",
+              "unit": "L"
+            },
+            "a_i": {
+              "domain_or_note": "absolute time",
+              "meaning": "availability time",
+              "unit": "min"
+            },
+            "alpha": {
+              "domain_or_note": "equals latest exact affine value in current example",
+              "meaning": "fitted volume at t_0",
+              "unit": "L"
+            },
+            "b": {
+              "domain_or_note": "negative for finite downward crossing above H",
+              "meaning": "affine volume slope",
+              "unit": "L/min"
+            },
+            "c_3": {
+              "domain_or_note": "4",
+              "meaning": "price per type 3 unit",
+              "unit": "yuan/container"
+            },
+            "c_5": {
+              "domain_or_note": "7",
+              "meaning": "price per type 5 unit",
+              "unit": "yuan/container"
+            },
+            "e": {
+              "domain_or_note": "EA or EB",
+              "meaning": "entity identifier",
+              "unit": "1"
+            },
+            "entity_i": {
+              "domain_or_note": "must equal e for prefix membership",
+              "meaning": "entity identifier attached to observation i",
+              "unit": "1"
+            },
+            "i": {
+              "domain_or_note": "input observations",
+              "meaning": "observation index",
+              "unit": "1"
+            },
+            "j": {
+              "domain_or_note": "0..ceil(tau_hat/Delta_t)",
+              "meaning": "inventory sample index",
+              "unit": "1"
+            },
+            "k": {
+              "domain_or_note": "not independent entity",
+              "meaning": "historical prediction-origin index",
+              "unit": "1"
+            },
+            "metric_a": {
+              "domain_or_note": "C minimized over feasible integers",
+              "meaning": "minimum conditional procurement cost",
+              "unit": "yuan"
+            },
+            "metric_b": {
+              "domain_or_note": "not future EB accuracy",
+              "meaning": "mean historical remaining-time relative error",
+              "unit": "%"
+            },
+            "metric_c": {
+              "domain_or_note": "V-D; no unspecified tie-breaking objective",
+              "meaning": "terminal inventory of selected cost-optimal plan",
+              "unit": "L"
+            },
+            "n": {
+              "domain_or_note": ">=2 with time variation",
+              "meaning": "number of eligible observations",
+              "unit": "1"
+            },
+            "n_3": {
+              "domain_or_note": "nonnegative integer",
+              "meaning": "purchased 3 L units",
+              "unit": "container"
+            },
+            "n_5": {
+              "domain_or_note": "nonnegative integer",
+              "meaning": "purchased 5 L units",
+              "unit": "container"
+            },
+            "q": {
+              "domain_or_note": "1",
+              "meaning": "external reserve demand rate",
+              "unit": "L/min"
+            },
+            "r_k": {
+              "domain_or_note": "T_A-t_0,k >0",
+              "meaning": "true historical remaining duration",
+              "unit": "min"
+            },
+            "s": {
+              "domain_or_note": ">=0",
+              "meaning": "time after prediction origin",
+              "unit": "min"
+            },
+            "s_j": {
+              "domain_or_note": "min(j*Delta_t,tau_hat)",
+              "meaning": "inventory sample time after origin",
+              "unit": "min"
+            },
+            "t_0": {
+              "domain_or_note": "EB example 112",
+              "meaning": "prediction origin",
+              "unit": "min"
+            },
+            "t_bar": {
+              "domain_or_note": "equal weights",
+              "meaning": "mean observation time over J",
+              "unit": "min"
+            },
+            "t_i": {
+              "domain_or_note": "absolute time",
+              "meaning": "observation time",
+              "unit": "min"
+            },
+            "tau_hat": {
+              "domain_or_note": "not elapsed time",
+              "meaning": "conditional remaining duration",
+              "unit": "min"
+            },
+            "v_3": {
+              "domain_or_note": "3",
+              "meaning": "capacity per type 3 unit",
+              "unit": "L/container"
+            },
+            "v_5": {
+              "domain_or_note": "5",
+              "meaning": "capacity per type 5 unit",
+              "unit": "L/container"
+            },
+            "y_bar": {
+              "domain_or_note": "equal weights",
+              "meaning": "mean volume over J",
+              "unit": "L"
+            },
+            "y_hat": {
+              "domain_or_note": "alpha+b*s",
+              "meaning": "conditional fitted/extrapolated volume",
+              "unit": "L"
+            },
+            "y_i": {
+              "domain_or_note": "not geometric height",
+              "meaning": "observed water volume",
+              "unit": "L"
+            }
+          },
+          "timing_alternative": {
+            "condition": "Whole 1 L batch required for every started minute",
+            "current_example": "tau_hat=8 min yields same D=8 L",
+            "demand_formula": "D=q*Delta_t*ceil(tau_hat/Delta_t)",
+            "fractional_example": "tau_hat=8.01 gives 8.01 L continuous vs 9 L started-minute demand",
+            "status": "NOT_SILENTLY_ADOPTED"
+          },
+          "unused_fields": [
+            {
+              "field": "fixed_demand_litres",
+              "reason": "No textual constraint binding it; actual D derived from prediction and q."
+            },
+            {
+              "field": "baseline_delay",
+              "reason": "Not defined in M04 task; not an assumed delivery delay."
+            },
+            {
+              "field": "x,y",
+              "reason": "No semantic link to task; excluded from analysis."
+            }
+          ]
+        },
+        "content_hash": "8311ff7b719b94dc96f949d16ade978763320fa6c55306feaf0f66befb0cb743",
+        "status": "ACCEPTED"
+      },
+      "raw_sha256": "f95c922ee5fad10db73940c34abab56b924b924d0f16c9ebb5d33a01f890be28",
+      "raw_utf8": "{\n  \"artifact_type\": \"assumptions_and_symbols\",\n  \"content\": {\n    \"arithmetic_example\": {\n      \"alpha_litres\": 10.8,\n      \"classification\": \"M04_PRIVATE_EXAMPLE_NOT_FORMAL_RUN\",\n      \"conditional_endpoint_min\": 120,\n      \"cost_yuan\": 11,\n      \"counts\": {\n        \"five_litre\": 1,\n        \"three_litre\": 1\n      },\n      \"demand_litres\": 8,\n      \"evidence_files\": [\n        \"independent_m04_check.py\",\n        \"numerical_results.json\"\n      ],\n      \"future_endpoint_truth\": null,\n      \"origin_min\": 112,\n      \"remaining_minutes\": 8,\n      \"slope_litres_per_minute\": -0.1,\n      \"stock_litres\": [\n        8,\n        7,\n        6,\n        5,\n        4,\n        3,\n        2,\n        1,\n        0\n      ]\n    },\n    \"assumptions\": [\n      {\n        \"basis\": \"TASK.md and REQ-B.prediction_spec; continuation remains unverified\",\n        \"failure_consequence\": \"REQ-B 剩余时间变化，并传播到 REQ-A 需求与 REQ-C 库存\",\n        \"id\": \"A01\",\n        \"requirement_ids\": [\n          \"REQ-B\",\n          \"REQ-A\",\n          \"REQ-C\"\n        ],\n        \"statement\": \"同一实体的可见前缀趋势可用仿射形式表达，且在条件外推区间内继续，不发生补水或机制变化。\",\n        \"status\": \"CONDITIONAL_NOT_ESTABLISHED\",\n        \"test\": \"新可见数据的斜率/残差检查；未来阈值终点到达后核对\"\n      },\n      {\n        \"basis\": \"input.json observed_at/available_at/entity_id semantics\",\n        \"failure_consequence\": \"历史误差泄漏，不得支撑预测准确性\",\n        \"id\": \"A02\",\n        \"requirement_ids\": [\n          \"REQ-B\"\n        ],\n        \"statement\": \"拟合只用同实体、观测时间和可用时间均不晚于起点的数据。\",\n        \"status\": \"EXPLICIT_VISIBILITY_RULE\",\n        \"test\": \"逐起点输出实际 fit_observation_ids；EA endpoint 只作事后标签\"\n      },\n      {\n        \"basis\": \"TASK.md units, input.json flow_litres_per_minute and threshold\",\n        \"failure_consequence\": \"所有时间、容量、库存结果失去含义\",\n        \"id\": \"A03\",\n        \"requirement_ids\": [\n          \"REQ-A\",\n          \"REQ-B\",\n          \"REQ-C\"\n        ],\n        \"statement\": \"value 与 threshold 的量纲为 L；绝对时间单位 min；备水 q 与原轨迹下降率属于不同过程。\",\n        \"status\": \"INPUT_SEMANTICS\",\n        \"test\": \"量纲核对；q=1 L/min 不代替 b=-0.1 L/min\"\n      },\n      {\n        \"basis\": \"TASK.md container prices; unlimited supply and no added costs are explicit modeling conditions\",\n        \"failure_consequence\": \"REQ-A 目标函数或可行域需改，REQ-C 库存随之失效\",\n        \"id\": \"A04\",\n        \"requirement_ids\": [\n          \"REQ-A\",\n          \"REQ-C\"\n        ],\n        \"statement\": \"3 L/4元与5 L/7元表示完整可用的采购供给单元；件数为非负整数、无额外限购，单价恒定且无附加成本。\",\n        \"status\": \"OPERATING_CONDITIONS_TO_CHALLENGE\",\n        \"test\": \"主Agent/用户核对是否为空容器、限购或存在运输填充费用\"\n      },\n      {\n        \"basis\": \"No contrary logistics supplied; declared conditional interpretation\",\n        \"failure_consequence\": \"终端容量约束不再足够证明逐时库存可行\",\n        \"id\": \"A05\",\n        \"requirement_ids\": [\n          \"REQ-A\",\n          \"REQ-C\"\n        ],\n        \"statement\": \"额外备水初始库存为零，购入水量在开始前全部到位且可合并释放；无损耗或中途回补。\",\n        \"status\": \"OPERATING_CONDITIONS_TO_CHALLENGE\",\n        \"test\": \"核对现有备用水、到货时间、出水速率与损耗限制\"\n      },\n      {\n        \"basis\": \"TASK.md 每分钟1 L interpreted explicitly as rate\",\n        \"failure_consequence\": \"非整数需求、末段库存与采购边界需重算\",\n        \"id\": \"A06\",\n        \"requirement_ids\": [\n          \"REQ-A\",\n          \"REQ-C\"\n        ],\n        \"statement\": \"基准需求为连续常率 q 在 [0,tau] 内累计；非整数末段按实际时长消费。\",\n        \"status\": \"EXPLICIT_CONDITIONAL_TIMING_CONVENTION\",\n        \"test\": \"与每个开始分钟整批1 L的解释对照；本例8 min两者一致\"\n      },\n      {\n        \"basis\": \"TASK.md no true noise distribution; synthetic provenance\",\n        \"failure_consequence\": \"若虚构概率或未来准确性，则该强结论无证据\",\n        \"id\": \"A07\",\n        \"requirement_ids\": [\n          \"REQ-B\"\n        ],\n        \"statement\": \"不给原题未给出的噪声分布、独立抽样结构或概率区间。\",\n        \"status\": \"EVIDENCE_BOUNDARY\",\n        \"test\": \"审查每个精度、区间和独立样本数表述\"\n      }\n    ],\n    \"case_id\": \"ORIGINAL-BRAIN-R2\",\n    \"formulas\": [\n      {\n        \"expression\": \"J={i: entity_i=e and t_i<=t_0 and a_i<=t_0}\",\n        \"id\": \"F01\",\n        \"preconditions\": [\n          \"A02\"\n        ],\n        \"requirement_ids\": [\n          \"REQ-B\"\n        ],\n        \"symbols\": [\n          \"J\",\n          \"i\",\n          \"e\",\n          \"t_i\",\n          \"t_0\",\n          \"a_i\"\n        ],\n        \"unit\": \"set\"\n      },\n      {\n        \"expression\": \"b=sum_J((t_i-t_bar)*(y_i-y_bar))/sum_J((t_i-t_bar)^2); alpha=y_bar+b*(t_0-t_bar); y_hat(t_0+s)=alpha+b*s\",\n        \"id\": \"F02\",\n        \"preconditions\": [\n          \"n>=2\",\n          \"time variation\",\n          \"A01\",\n          \"A02\",\n          \"A03\"\n        ],\n        \"requirement_ids\": [\n          \"REQ-B\"\n        ],\n        \"symbols\": [\n          \"b\",\n          \"t_i\",\n          \"t_bar\",\n          \"y_i\",\n          \"y_bar\",\n          \"alpha\",\n          \"t_0\",\n          \"y_hat\",\n          \"s\",\n          \"J\"\n        ],\n        \"unit\": \"b:L/min; alpha,y_hat:L\"\n      },\n      {\n        \"edge_cases\": [\n          \"alpha<=H: remaining demand horizon 0\",\n          \"alpha>H,b>=0: no finite downward crossing; report gap\",\n          \"insufficient prefix or zero time variance: reject\"\n        ],\n        \"expression\": \"tau_hat=(alpha-H)/(-b) when alpha>H,b<0; T_hat=t_0+tau_hat\",\n        \"id\": \"F03\",\n        \"preconditions\": [\n          \"A01\",\n          \"A03\"\n        ],\n        \"requirement_ids\": [\n          \"REQ-B\"\n        ],\n        \"symbols\": [\n          \"tau_hat\",\n          \"alpha\",\n          \"H\",\n          \"b\",\n          \"T_hat\",\n          \"t_0\"\n        ],\n        \"unit\": \"min\"\n      },\n      {\n        \"expression\": \"r_k=T_A-t_0,k; E_k=100*abs(tau_hat_k-r_k)/r_k; metric_b=sum_k(E_k)/K\",\n        \"id\": \"F04\",\n        \"preconditions\": [\n          \"r_k>0\",\n          \"A-end never enters historical fit\",\n          \"same-entity repeated origins are dependent\"\n        ],\n        \"requirement_ids\": [\n          \"REQ-B\"\n        ],\n        \"symbols\": [\n          \"r_k\",\n          \"T_A\",\n          \"t_0\",\n          \"E_k\",\n          \"tau_hat\",\n          \"metric_b\",\n          \"K\",\n          \"k\"\n        ],\n        \"unit\": \"%\"\n      },\n      {\n        \"expression\": \"D=q*tau_hat; V=v_3*n_3+v_5*n_5; minimize C=c_3*n_3+c_5*n_5 subject to V>=D and n_3,n_5 in nonnegative integers; metric_a=min C\",\n        \"id\": \"F05\",\n        \"preconditions\": [\n          \"A03\",\n          \"A04\",\n          \"A05\",\n          \"A06\"\n        ],\n        \"requirement_ids\": [\n          \"REQ-A\"\n        ],\n        \"symbols\": [\n          \"D\",\n          \"q\",\n          \"tau_hat\",\n          \"V\",\n          \"v_3\",\n          \"n_3\",\n          \"v_5\",\n          \"n_5\",\n          \"C\",\n          \"c_3\",\n          \"c_5\",\n          \"metric_a\"\n        ],\n        \"unit\": \"D,V:L; C,metric_a:yuan\"\n      },\n      {\n        \"expression\": \"U=c_3*ceil(D/v_3); enumerate 0<=n_3<=floor(U/c_3), 0<=n_5<=floor(U/c_5) with C<=U and V>=D\",\n        \"id\": \"F06\",\n        \"preconditions\": [\n          \"D>=0\",\n          \"positive capacities and costs\",\n          \"A04\"\n        ],\n        \"proof\": \"All-type-3 gives feasible U; positive costs exclude any better solution outside finite bounds.\",\n        \"requirement_ids\": [\n          \"REQ-A\"\n        ],\n        \"symbols\": [\n          \"U\",\n          \"c_3\",\n          \"D\",\n          \"v_3\",\n          \"n_3\",\n          \"n_5\",\n          \"c_5\",\n          \"C\",\n          \"V\"\n        ],\n        \"unit\": \"U:yuan\"\n      },\n      {\n        \"constraints\": [\n          \"0<=s<=tau_hat\",\n          \"I_j>=0\",\n          \"j=0..ceil(tau_hat/Delta_t)\"\n        ],\n        \"expression\": \"s_j=min(j*Delta_t,tau_hat); I_0=V; I_j=I_(j-1)-q*(s_j-s_(j-1)); I(s)=V-q*s; metric_c=V-D\",\n        \"id\": \"F07\",\n        \"preconditions\": [\n          \"A05\",\n          \"A06\",\n          \"q>=0\"\n        ],\n        \"proof\": \"Monotone decrease makes terminal nonnegativity sufficient only under listed operating conditions.\",\n        \"requirement_ids\": [\n          \"REQ-C\"\n        ],\n        \"symbols\": [\n          \"s_j\",\n          \"j\",\n          \"Delta_t\",\n          \"tau_hat\",\n          \"I_j\",\n          \"V\",\n          \"q\",\n          \"I\",\n          \"s\",\n          \"metric_c\",\n          \"D\"\n        ],\n        \"unit\": \"I,I_j,metric_c:L\"\n      }\n    ],\n    \"input_bindings\": {\n      \"context.json\": \"bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef\",\n      \"input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\",\n      \"problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\",\n      \"request.json\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\",\n      \"source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\"\n    },\n    \"limitations\": [\n      \"No empirical trajectory or noise law; no calibrated interval.\",\n      \"Four EA retrospective origins are one synthetic entity, not four independent validations.\",\n      \"No frozen historical-validation protocol or scientific Final executed.\",\n      \"Supply fullness, initial reserve, delivery and fractional-minute semantics require challenge.\",\n      \"Generic scope labels must later be concretely bound to entities/times.\"\n    ],\n    \"module\": \"M04\",\n    \"objects\": [\n      {\n        \"granularity\": \"one project-original synthetic trajectory\",\n        \"id\": \"EA\",\n        \"known_endpoint_min\": 20,\n        \"known_observed_times_min\": [\n          0,\n          2,\n          4,\n          6,\n          8,\n          20\n        ],\n        \"use\": \"prefix-only historical arithmetic; endpoint only as retrospective label\"\n      },\n      {\n        \"granularity\": \"one project-original synthetic trajectory\",\n        \"id\": \"EB\",\n        \"known_endpoint_min\": null,\n        \"known_observed_times_min\": [\n          100,\n          102,\n          104,\n          106,\n          108,\n          110,\n          112\n        ],\n        \"prediction_origin_min\": 112,\n        \"use\": \"same-entity continuation conditional on unchanged affine descent\"\n      }\n    ],\n    \"proposal_status\": \"DRAFT_CONTENT_ONLY_FOR_ORCHESTRATOR_REVIEW\",\n    \"request_id\": \"BRAIN-M04\",\n    \"requirement_ids\": [\n      \"REQ-A\",\n      \"REQ-B\",\n      \"REQ-C\"\n    ],\n    \"requirement_trace\": [\n      {\n        \"claim_boundary\": \"PREDICTIVE / CONDITIONAL_ESTIMATE; historical demonstration SIMULATION; future EB truth UNKNOWN\",\n        \"depends_on\": [],\n        \"formula_ids\": [\n          \"F01\",\n          \"F02\",\n          \"F03\",\n          \"F04\"\n        ],\n        \"requirement_id\": \"REQ-B\"\n      },\n      {\n        \"claim_boundary\": \"Minimum conditional cost for declared supply, prices, inventory and timing assumptions\",\n        \"depends_on\": [\n          \"REQ-B\"\n        ],\n        \"formula_ids\": [\n          \"F05\",\n          \"F06\"\n        ],\n        \"requirement_id\": \"REQ-A\"\n      },\n      {\n        \"claim_boundary\": \"Conditional inventory path for one specified procurement plan; no logistics-capacity claim\",\n        \"depends_on\": [\n          \"REQ-A\",\n          \"REQ-B\"\n        ],\n        \"formula_ids\": [\n          \"F07\"\n        ],\n        \"requirement_id\": \"REQ-C\"\n      }\n    ],\n    \"revalidation\": {\n      \"implementation\": {\n        \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n        \"tool_commit\": \"7e5bd4297c74cfa3b6c0920bc553d56181097afc\"\n      },\n      \"method\": \"Unchanged mathematical content; R2 identity read from actual request/template and independent exact arithmetic rerun PASS.\",\n      \"numerical_results_sha256\": \"8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2\",\n      \"parent_proposal_sha256\": \"f296ce3cb2767e2c5add355fb5cce8500b80c20ed8bd8b176f76dda5f2872b68\"\n    },\n    \"revision\": 2,\n    \"source_class\": \"SIMULATION\",\n    \"source_ids\": [\n      \"SRC-ORIGINAL-WATER\"\n    ],\n    \"state_boundary\": {\n      \"automatically_entered_M05\": false,\n      \"formal_acceptance\": \"NOT_RUN_BY_WORKER\",\n      \"native_state_observed\": \"SOURCES_PLANNED\",\n      \"request_status_observed\": \"PREPARED\",\n      \"team_review\": \"NOT_RUN\",\n      \"web_review\": \"NOT_RUN\"\n    },\n    \"symbols\": {\n      \"C\": {\n        \"domain_or_note\": \"c_3*n_3+c_5*n_5\",\n        \"meaning\": \"total paid cost\",\n        \"unit\": \"yuan\"\n      },\n      \"D\": {\n        \"domain_or_note\": \"q*tau_hat\",\n        \"meaning\": \"required external reserve volume\",\n        \"unit\": \"L\"\n      },\n      \"Delta_t\": {\n        \"domain_or_note\": \"1\",\n        \"meaning\": \"inventory output interval\",\n        \"unit\": \"min\"\n      },\n      \"E_k\": {\n        \"domain_or_note\": \"100*abs(prediction-truth)/truth\",\n        \"meaning\": \"historical absolute relative error\",\n        \"unit\": \"%\"\n      },\n      \"H\": {\n        \"domain_or_note\": \"10\",\n        \"meaning\": \"threshold water volume\",\n        \"unit\": \"L\"\n      },\n      \"I\": {\n        \"domain_or_note\": \"V-q*s\",\n        \"meaning\": \"reserve inventory at elapsed time s\",\n        \"unit\": \"L\"\n      },\n      \"I_j\": {\n        \"domain_or_note\": \"includes initial and terminal\",\n        \"meaning\": \"inventory at s_j\",\n        \"unit\": \"L\"\n      },\n      \"J\": {\n        \"domain_or_note\": \"both times <= t_0\",\n        \"meaning\": \"eligible same-entity prefix index set\",\n        \"unit\": \"set\"\n      },\n      \"K\": {\n        \"domain_or_note\": \"4 in arithmetic example\",\n        \"meaning\": \"number of historical origins\",\n        \"unit\": \"1\"\n      },\n      \"T_A\": {\n        \"domain_or_note\": \"20; label only\",\n        \"meaning\": \"known EA threshold endpoint\",\n        \"unit\": \"min\"\n      },\n      \"T_hat\": {\n        \"domain_or_note\": \"not observed future truth\",\n        \"meaning\": \"conditional absolute endpoint\",\n        \"unit\": \"min\"\n      },\n      \"U\": {\n        \"domain_or_note\": \"c_3*ceil(D/v_3)\",\n        \"meaning\": \"feasible upper cost bound\",\n        \"unit\": \"yuan\"\n      },\n      \"V\": {\n        \"domain_or_note\": \"v_3*n_3+v_5*n_5\",\n        \"meaning\": \"total purchased water\",\n        \"unit\": \"L\"\n      },\n      \"a_i\": {\n        \"domain_or_note\": \"absolute time\",\n        \"meaning\": \"availability time\",\n        \"unit\": \"min\"\n      },\n      \"alpha\": {\n        \"domain_or_note\": \"equals latest exact affine value in current example\",\n        \"meaning\": \"fitted volume at t_0\",\n        \"unit\": \"L\"\n      },\n      \"b\": {\n        \"domain_or_note\": \"negative for finite downward crossing above H\",\n        \"meaning\": \"affine volume slope\",\n        \"unit\": \"L/min\"\n      },\n      \"c_3\": {\n        \"domain_or_note\": \"4\",\n        \"meaning\": \"price per type 3 unit\",\n        \"unit\": \"yuan/container\"\n      },\n      \"c_5\": {\n        \"domain_or_note\": \"7\",\n        \"meaning\": \"price per type 5 unit\",\n        \"unit\": \"yuan/container\"\n      },\n      \"e\": {\n        \"domain_or_note\": \"EA or EB\",\n        \"meaning\": \"entity identifier\",\n        \"unit\": \"1\"\n      },\n      \"entity_i\": {\n        \"domain_or_note\": \"must equal e for prefix membership\",\n        \"meaning\": \"entity identifier attached to observation i\",\n        \"unit\": \"1\"\n      },\n      \"i\": {\n        \"domain_or_note\": \"input observations\",\n        \"meaning\": \"observation index\",\n        \"unit\": \"1\"\n      },\n      \"j\": {\n        \"domain_or_note\": \"0..ceil(tau_hat/Delta_t)\",\n        \"meaning\": \"inventory sample index\",\n        \"unit\": \"1\"\n      },\n      \"k\": {\n        \"domain_or_note\": \"not independent entity\",\n        \"meaning\": \"historical prediction-origin index\",\n        \"unit\": \"1\"\n      },\n      \"metric_a\": {\n        \"domain_or_note\": \"C minimized over feasible integers\",\n        \"meaning\": \"minimum conditional procurement cost\",\n        \"unit\": \"yuan\"\n      },\n      \"metric_b\": {\n        \"domain_or_note\": \"not future EB accuracy\",\n        \"meaning\": \"mean historical remaining-time relative error\",\n        \"unit\": \"%\"\n      },\n      \"metric_c\": {\n        \"domain_or_note\": \"V-D; no unspecified tie-breaking objective\",\n        \"meaning\": \"terminal inventory of selected cost-optimal plan\",\n        \"unit\": \"L\"\n      },\n      \"n\": {\n        \"domain_or_note\": \">=2 with time variation\",\n        \"meaning\": \"number of eligible observations\",\n        \"unit\": \"1\"\n      },\n      \"n_3\": {\n        \"domain_or_note\": \"nonnegative integer\",\n        \"meaning\": \"purchased 3 L units\",\n        \"unit\": \"container\"\n      },\n      \"n_5\": {\n        \"domain_or_note\": \"nonnegative integer\",\n        \"meaning\": \"purchased 5 L units\",\n        \"unit\": \"container\"\n      },\n      \"q\": {\n        \"domain_or_note\": \"1\",\n        \"meaning\": \"external reserve demand rate\",\n        \"unit\": \"L/min\"\n      },\n      \"r_k\": {\n        \"domain_or_note\": \"T_A-t_0,k >0\",\n        \"meaning\": \"true historical remaining duration\",\n        \"unit\": \"min\"\n      },\n      \"s\": {\n        \"domain_or_note\": \">=0\",\n        \"meaning\": \"time after prediction origin\",\n        \"unit\": \"min\"\n      },\n      \"s_j\": {\n        \"domain_or_note\": \"min(j*Delta_t,tau_hat)\",\n        \"meaning\": \"inventory sample time after origin\",\n        \"unit\": \"min\"\n      },\n      \"t_0\": {\n        \"domain_or_note\": \"EB example 112\",\n        \"meaning\": \"prediction origin\",\n        \"unit\": \"min\"\n      },\n      \"t_bar\": {\n        \"domain_or_note\": \"equal weights\",\n        \"meaning\": \"mean observation time over J\",\n        \"unit\": \"min\"\n      },\n      \"t_i\": {\n        \"domain_or_note\": \"absolute time\",\n        \"meaning\": \"observation time\",\n        \"unit\": \"min\"\n      },\n      \"tau_hat\": {\n        \"domain_or_note\": \"not elapsed time\",\n        \"meaning\": \"conditional remaining duration\",\n        \"unit\": \"min\"\n      },\n      \"v_3\": {\n        \"domain_or_note\": \"3\",\n        \"meaning\": \"capacity per type 3 unit\",\n        \"unit\": \"L/container\"\n      },\n      \"v_5\": {\n        \"domain_or_note\": \"5\",\n        \"meaning\": \"capacity per type 5 unit\",\n        \"unit\": \"L/container\"\n      },\n      \"y_bar\": {\n        \"domain_or_note\": \"equal weights\",\n        \"meaning\": \"mean volume over J\",\n        \"unit\": \"L\"\n      },\n      \"y_hat\": {\n        \"domain_or_note\": \"alpha+b*s\",\n        \"meaning\": \"conditional fitted/extrapolated volume\",\n        \"unit\": \"L\"\n      },\n      \"y_i\": {\n        \"domain_or_note\": \"not geometric height\",\n        \"meaning\": \"observed water volume\",\n        \"unit\": \"L\"\n      }\n    },\n    \"timing_alternative\": {\n      \"condition\": \"Whole 1 L batch required for every started minute\",\n      \"current_example\": \"tau_hat=8 min yields same D=8 L\",\n      \"demand_formula\": \"D=q*Delta_t*ceil(tau_hat/Delta_t)\",\n      \"fractional_example\": \"tau_hat=8.01 gives 8.01 L continuous vs 9 L started-minute demand\",\n      \"status\": \"NOT_SILENTLY_ADOPTED\"\n    },\n    \"unused_fields\": [\n      {\n        \"field\": \"fixed_demand_litres\",\n        \"reason\": \"No textual constraint binding it; actual D derived from prediction and q.\"\n      },\n      {\n        \"field\": \"baseline_delay\",\n        \"reason\": \"Not defined in M04 task; not an assumed delivery delay.\"\n      },\n      {\n        \"field\": \"x,y\",\n        \"reason\": \"No semantic link to task; excluded from analysis.\"\n      }\n    ]\n  },\n  \"content_hash\": \"8311ff7b719b94dc96f949d16ade978763320fa6c55306feaf0f66befb0cb743\",\n  \"status\": \"ACCEPTED\"\n}\n"
+    },
+    "case_state": {
+      "content": {
+        "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+        "capability": "COMPETITION_RC",
+        "case_id": "ORIGINAL-BRAIN-R2",
+        "case_kind": "general",
+        "evidence_bindings": {
+          "evidence/module_requests/BRAIN-M01/completion.json": "beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3",
+          "evidence/module_requests/BRAIN-M01/request.json": "a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814",
+          "evidence/module_requests/BRAIN-M02/completion.json": "5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894",
+          "evidence/module_requests/BRAIN-M02/request.json": "0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6",
+          "evidence/module_requests/BRAIN-M03/completion.json": "7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322",
+          "evidence/module_requests/BRAIN-M03/request.json": "043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf",
+          "evidence/module_requests/BRAIN-M04/completion.json": "aacf20e3698901a48a3d4f0e46367b135ea61c85c54129df6dd8dc46a8029d7f",
+          "evidence/module_requests/BRAIN-M04/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+          "evidence/parent_origin.json": "478ca15bc05b35c9db372e2caab3728b6876327f707684f777b0d2fd38dc45d9",
+          "problem/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+          "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+          "research/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+          "state/case_policy.json": "48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52"
+        },
+        "history": [
+          {
+            "evidence": [
+              "state/case_policy.json"
+            ],
+            "from": null,
+            "gate": "INIT",
+            "sequence": 0,
+            "status": "PASS",
+            "to": "CREATED"
+          },
+          {
+            "evidence": [
+              "problem/problem_requirements.json"
+            ],
+            "from": "CREATED",
+            "gate": "GATE_PROBLEM_INTAKE",
+            "sequence": 1,
+            "status": "PASS",
+            "to": "INTAKE_COMPLETE"
+          },
+          {
+            "evidence": [
+              "problem/problem_requirements.json"
+            ],
+            "from": "INTAKE_COMPLETE",
+            "gate": "GATE_REQUIREMENT_COVERAGE",
+            "sequence": 2,
+            "status": "PASS",
+            "to": "REQUIREMENTS_VALIDATED"
+          },
+          {
+            "evidence": [
+              "research/research_plan.json",
+              "research/source_ledger.json"
+            ],
+            "from": "REQUIREMENTS_VALIDATED",
+            "gate": "GATE_SOURCE_PLAN",
+            "sequence": 3,
+            "status": "PASS",
+            "to": "SOURCES_PLANNED"
+          }
+        ],
+        "last_gate": "GATE_SOURCE_PLAN",
+        "schema_version": "1.0.0",
+        "skill_version": "0.2.0-competition-rc10",
+        "state": "SOURCES_PLANNED"
+      },
+      "raw_sha256": "9b68e75e49d5badc94275e39a350200f365e45ce26cf9b0174ab50043d6ec7bd",
+      "raw_utf8": "{\n  \"architecture\": \"ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL\",\n  \"capability\": \"COMPETITION_RC\",\n  \"case_id\": \"ORIGINAL-BRAIN-R2\",\n  \"case_kind\": \"general\",\n  \"evidence_bindings\": {\n    \"evidence/module_requests/BRAIN-M01/completion.json\": \"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\",\n    \"evidence/module_requests/BRAIN-M01/request.json\": \"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\",\n    \"evidence/module_requests/BRAIN-M02/completion.json\": \"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\",\n    \"evidence/module_requests/BRAIN-M02/request.json\": \"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\",\n    \"evidence/module_requests/BRAIN-M03/completion.json\": \"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\",\n    \"evidence/module_requests/BRAIN-M03/request.json\": \"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\",\n    \"evidence/module_requests/BRAIN-M04/completion.json\": \"aacf20e3698901a48a3d4f0e46367b135ea61c85c54129df6dd8dc46a8029d7f\",\n    \"evidence/module_requests/BRAIN-M04/request.json\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\",\n    \"evidence/parent_origin.json\": \"478ca15bc05b35c9db372e2caab3728b6876327f707684f777b0d2fd38dc45d9\",\n    \"problem/problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\",\n    \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\n    \"research/source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\",\n    \"state/case_policy.json\": \"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\"\n  },\n  \"history\": [\n    {\n      \"evidence\": [\n        \"state/case_policy.json\"\n      ],\n      \"from\": null,\n      \"gate\": \"INIT\",\n      \"sequence\": 0,\n      \"status\": \"PASS\",\n      \"to\": \"CREATED\"\n    },\n    {\n      \"evidence\": [\n        \"problem/problem_requirements.json\"\n      ],\n      \"from\": \"CREATED\",\n      \"gate\": \"GATE_PROBLEM_INTAKE\",\n      \"sequence\": 1,\n      \"status\": \"PASS\",\n      \"to\": \"INTAKE_COMPLETE\"\n    },\n    {\n      \"evidence\": [\n        \"problem/problem_requirements.json\"\n      ],\n      \"from\": \"INTAKE_COMPLETE\",\n      \"gate\": \"GATE_REQUIREMENT_COVERAGE\",\n      \"sequence\": 2,\n      \"status\": \"PASS\",\n      \"to\": \"REQUIREMENTS_VALIDATED\"\n    },\n    {\n      \"evidence\": [\n        \"research/research_plan.json\",\n        \"research/source_ledger.json\"\n      ],\n      \"from\": \"REQUIREMENTS_VALIDATED\",\n      \"gate\": \"GATE_SOURCE_PLAN\",\n      \"sequence\": 3,\n      \"status\": \"PASS\",\n      \"to\": \"SOURCES_PLANNED\"\n    }\n  ],\n  \"last_gate\": \"GATE_SOURCE_PLAN\",\n  \"schema_version\": \"1.0.0\",\n  \"skill_version\": \"0.2.0-competition-rc10\",\n  \"state\": \"SOURCES_PLANNED\"\n}\n"
+    },
+    "completion": {
+      "content": {
+        "artifact_hashes": {
+          "models/assumptions_and_symbols.json": "f95c922ee5fad10db73940c34abab56b924b924d0f16c9ebb5d33a01f890be28",
+          "models/m04_analysis.md": "6035a923193e100be68aca8f9d03808bafee0a4fc14669a0d3a6ac7881152984",
+          "models/m04_independent_check.py": "509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523",
+          "models/m04_numerical_results.json": "8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2",
+          "work/M04.json": "95d219bf92f0ba5eb3c5209f0a00001ef43c8210e4f275ae63826c407e2c3a79"
+        },
+        "case_id": "ORIGINAL-BRAIN-R2",
+        "completed_at": "2026-09-09T09:55:57Z",
+        "engineering": "CONTRACTS_CHECKED",
+        "execution": "COMPLETED",
+        "human_review": "NOT_RUN",
+        "module": "M04",
+        "native_state": "SOURCES_PLANNED",
+        "next_module_started": false,
+        "report_path": "work/M04.json",
+        "request_id": "BRAIN-M04",
+        "request_sha256": "f481f361f3df4d167c009db3607c4da1fd185c46c71fdc5ed7e7dedbc4942ce1",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "schema_version": "module-completion/v1",
+        "scientific": "M04 assumptions/formulas and exact arithmetic examples on project-original SIMULATION only. Conditional EB remaining time 8 min, conditional minimum purchase cost 11 yuan, stock path 8..0 L. Future truth UNKNOWN; no empirical accuracy, confidence interval, formal scientific Final or independent blind audit established."
+      },
+      "raw_sha256": "aacf20e3698901a48a3d4f0e46367b135ea61c85c54129df6dd8dc46a8029d7f",
+      "raw_utf8": "{\n  \"artifact_hashes\": {\n    \"models/assumptions_and_symbols.json\": \"f95c922ee5fad10db73940c34abab56b924b924d0f16c9ebb5d33a01f890be28\",\n    \"models/m04_analysis.md\": \"6035a923193e100be68aca8f9d03808bafee0a4fc14669a0d3a6ac7881152984\",\n    \"models/m04_independent_check.py\": \"509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523\",\n    \"models/m04_numerical_results.json\": \"8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2\",\n    \"work/M04.json\": \"95d219bf92f0ba5eb3c5209f0a00001ef43c8210e4f275ae63826c407e2c3a79\"\n  },\n  \"case_id\": \"ORIGINAL-BRAIN-R2\",\n  \"completed_at\": \"2026-09-09T09:55:57Z\",\n  \"engineering\": \"CONTRACTS_CHECKED\",\n  \"execution\": \"COMPLETED\",\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M04\",\n  \"native_state\": \"SOURCES_PLANNED\",\n  \"next_module_started\": false,\n  \"report_path\": \"work/M04.json\",\n  \"request_id\": \"BRAIN-M04\",\n  \"request_sha256\": \"f481f361f3df4d167c009db3607c4da1fd185c46c71fdc5ed7e7dedbc4942ce1\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\",\n    \"REQ-C\"\n  ],\n  \"schema_version\": \"module-completion/v1\",\n  \"scientific\": \"M04 assumptions/formulas and exact arithmetic examples on project-original SIMULATION only. Conditional EB remaining time 8 min, conditional minimum purchase cost 11 yuan, stock path 8..0 L. Future truth UNKNOWN; no empirical accuracy, confidence interval, formal scientific Final or independent blind audit established.\"\n}\n"
+    },
+    "context": {
+      "content": {
+        "context_hash": "a96abe43c88c87c5f4f0bbd195a726e6d8e3a2e19e811deae3207e83a69254bf",
+        "derived_view_only": true,
+        "execution_mode": "GUIDED_SINGLE_MODULE",
+        "findings": [],
+        "local_facts_are_authoritative": true,
+        "schema_version": "brain-context/v1",
+        "source": {
+          "case_state_sha256": "39d26ba5418ec402d565172c671a61d6470b7ff855698a942d4d4eb0dab889be",
+          "files": {
+            "evidence/module_requests/BRAIN-M01/completion.json": "beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3",
+            "evidence/module_requests/BRAIN-M01/request.json": "a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814",
+            "evidence/module_requests/BRAIN-M01/work-report.template.json": "216bb08cdf4fa60c74e5eb35b8c982b9e141694082e713e89c9e470a3d0e0df3",
+            "evidence/module_requests/BRAIN-M02/completion.json": "5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894",
+            "evidence/module_requests/BRAIN-M02/request.json": "0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6",
+            "evidence/module_requests/BRAIN-M02/work-report.template.json": "915c78851a51a816e5f995d48b673c0d9e544bf8942988bce5359d12cb55c0ee",
+            "evidence/module_requests/BRAIN-M03/completion.json": "7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322",
+            "evidence/module_requests/BRAIN-M03/request.json": "043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf",
+            "evidence/module_requests/BRAIN-M03/work-report.template.json": "5c8fab45d89bca8dcbad776da858e0a1f227fc2bc9b940b0802659efdd7587d1",
+            "evidence/module_requests/BRAIN-M04/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+            "evidence/module_requests/BRAIN-M04/work-report.template.json": "659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190"
+          },
+          "policy_sha256": "48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52",
+          "requests": {
+            "BRAIN-M01": "79c127ffa93fa2fcac93689d40cf168c8a8695d5a53430ccb01b2f432eee4a7f",
+            "BRAIN-M02": "6febfefdd4970c2e7e8398e1d89e5c15a90b66e25c898f168a0cac8a6587481c",
+            "BRAIN-M03": "fa5b18669d0f9c9afd5a5aa3a20dcb7c35ed2a6de035b81d941d5d221589b6d9",
+            "BRAIN-M04": "f481f361f3df4d167c009db3607c4da1fd185c46c71fdc5ed7e7dedbc4942ce1"
+          }
+        },
+        "status": {
+          "case_id": "ORIGINAL-BRAIN-R2",
+          "human_review": "NOT_RUN",
+          "implementation": {
+            "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+            "tool_commit": "7e5bd4297c74cfa3b6c0920bc553d56181097afc"
+          },
+          "modules": [
+            {
+              "module": "M01",
+              "request_id": "BRAIN-M01",
+              "scope": [
+                "ALL"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M02",
+              "request_id": "BRAIN-M02",
+              "scope": [
+                "ALL"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M03",
+              "request_id": "BRAIN-M03",
+              "scope": [
+                "REQ-A",
+                "REQ-B",
+                "REQ-C"
+              ],
+              "status": "COMPLETED"
+            },
+            {
+              "module": "M04",
+              "request_id": "BRAIN-M04",
+              "scope": [
+                "REQ-A",
+                "REQ-B",
+                "REQ-C"
+              ],
+              "status": "PREPARED"
+            }
+          ],
+          "native_state": {
+            "architecture": "ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL",
+            "capability": "COMPETITION_RC",
+            "case_id": "ORIGINAL-BRAIN-R2",
+            "case_kind": "general",
+            "evidence_bindings": {
+              "evidence/module_requests/BRAIN-M01/completion.json": "beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3",
+              "evidence/module_requests/BRAIN-M01/request.json": "a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814",
+              "evidence/module_requests/BRAIN-M02/completion.json": "5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894",
+              "evidence/module_requests/BRAIN-M02/request.json": "0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6",
+              "evidence/module_requests/BRAIN-M03/completion.json": "7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322",
+              "evidence/module_requests/BRAIN-M03/request.json": "043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf",
+              "evidence/module_requests/BRAIN-M04/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+              "evidence/parent_origin.json": "478ca15bc05b35c9db372e2caab3728b6876327f707684f777b0d2fd38dc45d9",
+              "problem/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+              "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+              "research/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+              "state/case_policy.json": "48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52"
+            },
+            "history": [
+              {
+                "evidence": [
+                  "state/case_policy.json"
+                ],
+                "from": null,
+                "gate": "INIT",
+                "sequence": 0,
+                "status": "PASS",
+                "to": "CREATED"
+              },
+              {
+                "evidence": [
+                  "problem/problem_requirements.json"
+                ],
+                "from": "CREATED",
+                "gate": "GATE_PROBLEM_INTAKE",
+                "sequence": 1,
+                "status": "PASS",
+                "to": "INTAKE_COMPLETE"
+              },
+              {
+                "evidence": [
+                  "problem/problem_requirements.json"
+                ],
+                "from": "INTAKE_COMPLETE",
+                "gate": "GATE_REQUIREMENT_COVERAGE",
+                "sequence": 2,
+                "status": "PASS",
+                "to": "REQUIREMENTS_VALIDATED"
+              },
+              {
+                "evidence": [
+                  "research/research_plan.json",
+                  "research/source_ledger.json"
+                ],
+                "from": "REQUIREMENTS_VALIDATED",
+                "gate": "GATE_SOURCE_PLAN",
+                "sequence": 3,
+                "status": "PASS",
+                "to": "SOURCES_PLANNED"
+              }
+            ],
+            "last_gate": "GATE_SOURCE_PLAN",
+            "schema_version": "1.0.0",
+            "skill_version": "0.2.0-competition-rc10",
+            "state": "SOURCES_PLANNED"
+          },
+          "policy": {
+            "automatic_publication": false,
+            "case_id": "ORIGINAL-BRAIN-R2",
+            "created_at": "2026-09-09T09:40:54Z",
+            "execution_mode": "GUIDED_SINGLE_MODULE",
+            "mode": "GUIDED_LOCAL",
+            "parent_origin_sha256": "b77a59f9ddeef7bd898963f02666cf4a10d799422aed7967cee8425ed30288cf",
+            "research_policy": "USER_AUTHORIZED_GENERAL_SOURCES_ONLY",
+            "revision": 2,
+            "schema_version": "case-policy/v1",
+            "team_compliance_review": "NOT_RUN"
+          }
+        },
+        "web_and_team_acceptance": "NOT_RUN"
+      },
+      "raw_sha256": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+      "raw_utf8": "{\"context_hash\":\"a96abe43c88c87c5f4f0bbd195a726e6d8e3a2e19e811deae3207e83a69254bf\",\"derived_view_only\":true,\"execution_mode\":\"GUIDED_SINGLE_MODULE\",\"findings\":[],\"local_facts_are_authoritative\":true,\"schema_version\":\"brain-context/v1\",\"source\":{\"case_state_sha256\":\"39d26ba5418ec402d565172c671a61d6470b7ff855698a942d4d4eb0dab889be\",\"files\":{\"evidence/module_requests/BRAIN-M01/completion.json\":\"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\",\"evidence/module_requests/BRAIN-M01/request.json\":\"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\",\"evidence/module_requests/BRAIN-M01/work-report.template.json\":\"216bb08cdf4fa60c74e5eb35b8c982b9e141694082e713e89c9e470a3d0e0df3\",\"evidence/module_requests/BRAIN-M02/completion.json\":\"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\",\"evidence/module_requests/BRAIN-M02/request.json\":\"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\",\"evidence/module_requests/BRAIN-M02/work-report.template.json\":\"915c78851a51a816e5f995d48b673c0d9e544bf8942988bce5359d12cb55c0ee\",\"evidence/module_requests/BRAIN-M03/completion.json\":\"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\",\"evidence/module_requests/BRAIN-M03/request.json\":\"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\",\"evidence/module_requests/BRAIN-M03/work-report.template.json\":\"5c8fab45d89bca8dcbad776da858e0a1f227fc2bc9b940b0802659efdd7587d1\",\"evidence/module_requests/BRAIN-M04/request.json\":\"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\",\"evidence/module_requests/BRAIN-M04/work-report.template.json\":\"659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190\"},\"policy_sha256\":\"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\",\"requests\":{\"BRAIN-M01\":\"79c127ffa93fa2fcac93689d40cf168c8a8695d5a53430ccb01b2f432eee4a7f\",\"BRAIN-M02\":\"6febfefdd4970c2e7e8398e1d89e5c15a90b66e25c898f168a0cac8a6587481c\",\"BRAIN-M03\":\"fa5b18669d0f9c9afd5a5aa3a20dcb7c35ed2a6de035b81d941d5d221589b6d9\",\"BRAIN-M04\":\"f481f361f3df4d167c009db3607c4da1fd185c46c71fdc5ed7e7dedbc4942ce1\"}},\"status\":{\"case_id\":\"ORIGINAL-BRAIN-R2\",\"human_review\":\"NOT_RUN\",\"implementation\":{\"implementation_sha256\":\"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\"tool_commit\":\"7e5bd4297c74cfa3b6c0920bc553d56181097afc\"},\"modules\":[{\"module\":\"M01\",\"request_id\":\"BRAIN-M01\",\"scope\":[\"ALL\"],\"status\":\"COMPLETED\"},{\"module\":\"M02\",\"request_id\":\"BRAIN-M02\",\"scope\":[\"ALL\"],\"status\":\"COMPLETED\"},{\"module\":\"M03\",\"request_id\":\"BRAIN-M03\",\"scope\":[\"REQ-A\",\"REQ-B\",\"REQ-C\"],\"status\":\"COMPLETED\"},{\"module\":\"M04\",\"request_id\":\"BRAIN-M04\",\"scope\":[\"REQ-A\",\"REQ-B\",\"REQ-C\"],\"status\":\"PREPARED\"}],\"native_state\":{\"architecture\":\"ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL\",\"capability\":\"COMPETITION_RC\",\"case_id\":\"ORIGINAL-BRAIN-R2\",\"case_kind\":\"general\",\"evidence_bindings\":{\"evidence/module_requests/BRAIN-M01/completion.json\":\"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\",\"evidence/module_requests/BRAIN-M01/request.json\":\"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\",\"evidence/module_requests/BRAIN-M02/completion.json\":\"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\",\"evidence/module_requests/BRAIN-M02/request.json\":\"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\",\"evidence/module_requests/BRAIN-M03/completion.json\":\"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\",\"evidence/module_requests/BRAIN-M03/request.json\":\"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\",\"evidence/module_requests/BRAIN-M04/request.json\":\"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\",\"evidence/parent_origin.json\":\"478ca15bc05b35c9db372e2caab3728b6876327f707684f777b0d2fd38dc45d9\",\"problem/problem_requirements.json\":\"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\",\"research/research_plan.json\":\"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\"research/source_ledger.json\":\"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\",\"state/case_policy.json\":\"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\"},\"history\":[{\"evidence\":[\"state/case_policy.json\"],\"from\":null,\"gate\":\"INIT\",\"sequence\":0,\"status\":\"PASS\",\"to\":\"CREATED\"},{\"evidence\":[\"problem/problem_requirements.json\"],\"from\":\"CREATED\",\"gate\":\"GATE_PROBLEM_INTAKE\",\"sequence\":1,\"status\":\"PASS\",\"to\":\"INTAKE_COMPLETE\"},{\"evidence\":[\"problem/problem_requirements.json\"],\"from\":\"INTAKE_COMPLETE\",\"gate\":\"GATE_REQUIREMENT_COVERAGE\",\"sequence\":2,\"status\":\"PASS\",\"to\":\"REQUIREMENTS_VALIDATED\"},{\"evidence\":[\"research/research_plan.json\",\"research/source_ledger.json\"],\"from\":\"REQUIREMENTS_VALIDATED\",\"gate\":\"GATE_SOURCE_PLAN\",\"sequence\":3,\"status\":\"PASS\",\"to\":\"SOURCES_PLANNED\"}],\"last_gate\":\"GATE_SOURCE_PLAN\",\"schema_version\":\"1.0.0\",\"skill_version\":\"0.2.0-competition-rc10\",\"state\":\"SOURCES_PLANNED\"},\"policy\":{\"automatic_publication\":false,\"case_id\":\"ORIGINAL-BRAIN-R2\",\"created_at\":\"2026-09-09T09:40:54Z\",\"execution_mode\":\"GUIDED_SINGLE_MODULE\",\"mode\":\"GUIDED_LOCAL\",\"parent_origin_sha256\":\"b77a59f9ddeef7bd898963f02666cf4a10d799422aed7967cee8425ed30288cf\",\"research_policy\":\"USER_AUTHORIZED_GENERAL_SOURCES_ONLY\",\"revision\":2,\"schema_version\":\"case-policy/v1\",\"team_compliance_review\":\"NOT_RUN\"}},\"web_and_team_acceptance\":\"NOT_RUN\"}\n"
+    },
+    "request": {
+      "content": {
+        "case_id": "ORIGINAL-BRAIN-R2",
+        "execution_mode": "GUIDED_SINGLE_MODULE",
+        "implementation": {
+          "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+          "tool_commit": "7e5bd4297c74cfa3b6c0920bc553d56181097afc"
+        },
+        "mode": "GUIDED_LOCAL",
+        "module": "M04",
+        "prepared_at": "2026-09-09T09:40:55Z",
+        "prerequisite_files": {
+          "data/raw/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+          "evidence/intake_registry.json": "e062c6b2c288d8e2f221273c69071f76fda50d86750be1a815ef64c3da0f3c72",
+          "evidence/module_requests/BRAIN-M01/completion.json": "beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3",
+          "evidence/module_requests/BRAIN-M01/request.json": "a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814",
+          "evidence/module_requests/BRAIN-M02/completion.json": "5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894",
+          "evidence/module_requests/BRAIN-M02/request.json": "0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6",
+          "evidence/module_requests/BRAIN-M03/completion.json": "7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322",
+          "evidence/module_requests/BRAIN-M03/request.json": "043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf",
+          "problem/original.md": "361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2",
+          "problem/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+          "research/research_plan.json": "e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c",
+          "research/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+          "state/case_policy.json": "48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52",
+          "work/M01.json": "6f910b1c24c4e5d4b0327f3d9be58663e815441b9eceea094af72564a83c5b0e",
+          "work/M02.json": "45449a7e69ad1474213ec4d770ad160f2bef54c57ea0401fb737c9cdda95a12d",
+          "work/M03.json": "d5cb94f1cb3ec4c862eaadb2e37b3e6242f6f5001ac4476a44f1f937338f3022"
+        },
+        "request_id": "BRAIN-M04",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "revision": 2,
+        "schema_version": "module-request/v1"
+      },
+      "raw_sha256": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+      "raw_utf8": "{\n  \"case_id\": \"ORIGINAL-BRAIN-R2\",\n  \"execution_mode\": \"GUIDED_SINGLE_MODULE\",\n  \"implementation\": {\n    \"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\",\n    \"tool_commit\": \"7e5bd4297c74cfa3b6c0920bc553d56181097afc\"\n  },\n  \"mode\": \"GUIDED_LOCAL\",\n  \"module\": \"M04\",\n  \"prepared_at\": \"2026-09-09T09:40:55Z\",\n  \"prerequisite_files\": {\n    \"data/raw/input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\",\n    \"evidence/intake_registry.json\": \"e062c6b2c288d8e2f221273c69071f76fda50d86750be1a815ef64c3da0f3c72\",\n    \"evidence/module_requests/BRAIN-M01/completion.json\": \"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\",\n    \"evidence/module_requests/BRAIN-M01/request.json\": \"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\",\n    \"evidence/module_requests/BRAIN-M02/completion.json\": \"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\",\n    \"evidence/module_requests/BRAIN-M02/request.json\": \"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\",\n    \"evidence/module_requests/BRAIN-M03/completion.json\": \"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\",\n    \"evidence/module_requests/BRAIN-M03/request.json\": \"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\",\n    \"problem/original.md\": \"361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2\",\n    \"problem/problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\",\n    \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\",\n    \"research/source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\",\n    \"state/case_policy.json\": \"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\",\n    \"work/M01.json\": \"6f910b1c24c4e5d4b0327f3d9be58663e815441b9eceea094af72564a83c5b0e\",\n    \"work/M02.json\": \"45449a7e69ad1474213ec4d770ad160f2bef54c57ea0401fb737c9cdda95a12d\",\n    \"work/M03.json\": \"d5cb94f1cb3ec4c862eaadb2e37b3e6242f6f5001ac4476a44f1f937338f3022\"\n  },\n  \"request_id\": \"BRAIN-M04\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\",\n    \"REQ-C\"\n  ],\n  \"revision\": 2,\n  \"schema_version\": \"module-request/v1\"\n}\n"
+    },
+    "work_report": {
+      "content": {
+        "actions": [
+          "Read only the allowed R2 input pack and own prior analysis artifacts; reused previously read permitted M04 guidance.",
+          "Actually called R2 public status, resume --request BRAIN-M04, and context-verify: all exit 0, no model started.",
+          "Verified identical raw input, source ledger and TASK bytes; requirements mathematical content unchanged except case identity.",
+          "Rebound private assumptions and report identity from actual R2 request/template, preserving original output directory.",
+          "Executed independent_m04_check.py on R2 inputs; exact arithmetic passed and all non-metadata results equal the original private example.",
+          "Submitted content-only assumptions and report proposal for sole Orchestrator installation and formal complete."
+        ],
+        "artifacts": [
+          "models/assumptions_and_symbols.json",
+          "models/m04_analysis.md",
+          "models/m04_independent_check.py",
+          "models/m04_numerical_results.json"
+        ],
+        "case_id": "ORIGINAL-BRAIN-R2",
+        "checks": [
+          "R2 status exit 0: ORIGINAL-BRAIN-R2, revision 2, M01-M03 COMPLETED, M04 PREPARED, SOURCES_PLANNED.",
+          "R2 resume exit 0: automatic_starts=0; operations empty.",
+          "R2 context-verify exit 0: CONTEXT_CURRENT; scripts_executed=0.",
+          "Raw/source/TASK unchanged; requirements semantics unchanged; registered original.md hash unchanged but original.md not directly read.",
+          "Python syntax and exact arithmetic PASS; input and script hashes checked; five expected rejection cases, 9 demand boundaries, stock recurrence and units passed.",
+          "All non-metadata numerical results exactly match original private arithmetic; no future truth or accuracy added.",
+          "Template root keys and new identity match; native array element schema and formal complete remain for Orchestrator.",
+          "Main writer converted the 42 symbol records to the native symbols object keyed by symbol, preserving all values; formal complete is recorded separately."
+        ],
+        "human_review": "NOT_RUN",
+        "module": "M04",
+        "negative_results": [
+          "EB future endpoint and accuracy UNKNOWN; no fabricated future truth or confidence interval.",
+          "At 8.01 L demand the 8 L plan is infeasible by 0.01 L.",
+          "Nondecreasing trend above threshold has no finite downward crossing; zero time variation or one observation rejects.",
+          "Historical true remaining time zero rejects relative error computation.",
+          "No real web/team review, Final run, M05 or whole-problem acceptance."
+        ],
+        "original_requirements": [
+          "REQ-A: minimize actual integer procurement cost for the conditionally required reserve volume.",
+          "REQ-B: conditional remaining time to 10 L from visible EB prefix; historical arithmetic uses EA endpoint only as label.",
+          "REQ-C: inventory at each minute and exact terminal partial interval; no negative stock."
+        ],
+        "request_id": "BRAIN-M04",
+        "requirement_scope": [
+          "REQ-A",
+          "REQ-B",
+          "REQ-C"
+        ],
+        "review_questions": [
+          "Are procurement units full and immediately available, with zero initial external reserve and no loss/stock limit?",
+          "Is the 1 L/min demand continuous, or a full batch for each started minute? Current 8 min agrees; fractional horizons differ.",
+          "Are repeated EA origins correctly described as one synthetic entity, with no claim of EB future precision?",
+          "Does the canonical content wrapper preserve these assumptions and requirement dependencies without inventing ACCEPTED status?",
+          "Do the three undefined input groups remain excluded instead of silently setting demand or delay?"
+        ],
+        "revision": 2,
+        "scientific_scope": "M04 assumptions/formulas and exact arithmetic examples on project-original SIMULATION only. Conditional EB remaining time 8 min, conditional minimum purchase cost 11 yuan, stock path 8..0 L. Future truth UNKNOWN; no empirical accuracy, confidence interval, formal scientific Final or independent blind audit established.",
+        "summary_cn": "R2 身份复核与 M04 精确算术复跑通过；新请求仍 PREPARED、原生 SOURCES_PLANNED。所有提案只写 output-r2，原 output 保留。正式 complete 由唯一主 Agent 验收，未自动 M05。"
+      },
+      "raw_sha256": "95d219bf92f0ba5eb3c5209f0a00001ef43c8210e4f275ae63826c407e2c3a79",
+      "raw_utf8": "{\n  \"actions\": [\n    \"Read only the allowed R2 input pack and own prior analysis artifacts; reused previously read permitted M04 guidance.\",\n    \"Actually called R2 public status, resume --request BRAIN-M04, and context-verify: all exit 0, no model started.\",\n    \"Verified identical raw input, source ledger and TASK bytes; requirements mathematical content unchanged except case identity.\",\n    \"Rebound private assumptions and report identity from actual R2 request/template, preserving original output directory.\",\n    \"Executed independent_m04_check.py on R2 inputs; exact arithmetic passed and all non-metadata results equal the original private example.\",\n    \"Submitted content-only assumptions and report proposal for sole Orchestrator installation and formal complete.\"\n  ],\n  \"artifacts\": [\n    \"models/assumptions_and_symbols.json\",\n    \"models/m04_analysis.md\",\n    \"models/m04_independent_check.py\",\n    \"models/m04_numerical_results.json\"\n  ],\n  \"case_id\": \"ORIGINAL-BRAIN-R2\",\n  \"checks\": [\n    \"R2 status exit 0: ORIGINAL-BRAIN-R2, revision 2, M01-M03 COMPLETED, M04 PREPARED, SOURCES_PLANNED.\",\n    \"R2 resume exit 0: automatic_starts=0; operations empty.\",\n    \"R2 context-verify exit 0: CONTEXT_CURRENT; scripts_executed=0.\",\n    \"Raw/source/TASK unchanged; requirements semantics unchanged; registered original.md hash unchanged but original.md not directly read.\",\n    \"Python syntax and exact arithmetic PASS; input and script hashes checked; five expected rejection cases, 9 demand boundaries, stock recurrence and units passed.\",\n    \"All non-metadata numerical results exactly match original private arithmetic; no future truth or accuracy added.\",\n    \"Template root keys and new identity match; native array element schema and formal complete remain for Orchestrator.\",\n    \"Main writer converted the 42 symbol records to the native symbols object keyed by symbol, preserving all values; formal complete is recorded separately.\"\n  ],\n  \"human_review\": \"NOT_RUN\",\n  \"module\": \"M04\",\n  \"negative_results\": [\n    \"EB future endpoint and accuracy UNKNOWN; no fabricated future truth or confidence interval.\",\n    \"At 8.01 L demand the 8 L plan is infeasible by 0.01 L.\",\n    \"Nondecreasing trend above threshold has no finite downward crossing; zero time variation or one observation rejects.\",\n    \"Historical true remaining time zero rejects relative error computation.\",\n    \"No real web/team review, Final run, M05 or whole-problem acceptance.\"\n  ],\n  \"original_requirements\": [\n    \"REQ-A: minimize actual integer procurement cost for the conditionally required reserve volume.\",\n    \"REQ-B: conditional remaining time to 10 L from visible EB prefix; historical arithmetic uses EA endpoint only as label.\",\n    \"REQ-C: inventory at each minute and exact terminal partial interval; no negative stock.\"\n  ],\n  \"request_id\": \"BRAIN-M04\",\n  \"requirement_scope\": [\n    \"REQ-A\",\n    \"REQ-B\",\n    \"REQ-C\"\n  ],\n  \"review_questions\": [\n    \"Are procurement units full and immediately available, with zero initial external reserve and no loss/stock limit?\",\n    \"Is the 1 L/min demand continuous, or a full batch for each started minute? Current 8 min agrees; fractional horizons differ.\",\n    \"Are repeated EA origins correctly described as one synthetic entity, with no claim of EB future precision?\",\n    \"Does the canonical content wrapper preserve these assumptions and requirement dependencies without inventing ACCEPTED status?\",\n    \"Do the three undefined input groups remain excluded instead of silently setting demand or delay?\"\n  ],\n  \"revision\": 2,\n  \"scientific_scope\": \"M04 assumptions/formulas and exact arithmetic examples on project-original SIMULATION only. Conditional EB remaining time 8 min, conditional minimum purchase cost 11 yuan, stock path 8..0 L. Future truth UNKNOWN; no empirical accuracy, confidence interval, formal scientific Final or independent blind audit established.\",\n  \"summary_cn\": \"R2 身份复核与 M04 精确算术复跑通过；新请求仍 PREPARED、原生 SOURCES_PLANNED。所有提案只写 output-r2，原 output 保留。正式 complete 由唯一主 Agent 验收，未自动 M05。\"\n}\n"
+    }
+  }
+}

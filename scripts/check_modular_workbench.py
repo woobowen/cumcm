@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
+import math
 import re
 import subprocess
+import sys
 from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
@@ -72,6 +75,11 @@ BOUNDARY_TEST_FRAGMENTS = {
     "wrong_case_package_hash": "test_untrusted_feedback_rejects_without_execution",
     "malformed_and_archive_feedback_rejection": "test_untrusted_feedback_rejects_without_execution",
 }
+FEEDBACK_BRANCHES = {
+    "credential_and_injection_rejection": {"secret", "instruction", "extra", "wrong_location"},
+    "wrong_case_package_hash": {"wrong_case", "wrong_hash", "bool_revision"},
+    "malformed_and_archive_feedback_rejection": {"malformed", "duplicate_json", "zip", "long"},
+}
 PREFIXES = [
     ".agents/skills/cumcm-modeling-evidence/",
     "contracts/",
@@ -113,7 +121,13 @@ def strict_json(data):
     def invalid(value):
         raise ValueError("WB_NONFINITE_JSON_NUMBER:" + value)
 
-    return json.loads(data, object_pairs_hook=pairs, parse_constant=invalid)
+    def finite(value):
+        number = float(value)
+        if not math.isfinite(number):
+            invalid(value)
+        return number
+
+    return json.loads(data, object_pairs_hook=pairs, parse_constant=invalid, parse_float=finite)
 
 
 def read(root, relative):
@@ -138,7 +152,9 @@ def digest(data):
 
 def canonical(value):
     return digest(
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+        json.dumps(
+            value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+        ).encode()
     )
 
 
@@ -190,7 +206,11 @@ def exact_records(root, binding):
         raise ValueError("WB_CAPTURED_RECORDS_MISSING")
     for key, record in records.items():
         raw = record["raw_utf8"].encode()
-        if not key or digest(raw) != record["raw_sha256"] or strict_json(raw) != record["content"]:
+        if (
+            not key
+            or digest(raw) != record["raw_sha256"]
+            or canonical(strict_json(raw)) != canonical(record["content"])
+        ):
             raise ValueError("WB_RAW_RECORD_IDENTITY_INVALID")
     return records
 
@@ -211,9 +231,41 @@ def actual_command(command):
         or end.tzinfo is None
         or end < start
         or type(elapsed) not in {int, float}
+        or not math.isfinite(elapsed)
         or elapsed < 0
     ):
         raise ValueError("WB_COMMAND_TIME_INVALID")
+
+
+@lru_cache(maxsize=1)
+def shared_core():
+    sys.path.insert(0, str(ROOT / ".agents/skills/cumcm-modeling-evidence/scripts"))
+    import cumcm_case
+
+    return cumcm_case
+
+
+def timestamp(value):
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
+def check_numeric_records(checked, requirements, output):
+    core = shared_core()
+    if set(checked.get("requirements", {})) != {r["requirement_id"] for r in requirements}:
+        return False
+    for requirement in requirements:
+        row = checked["requirements"][requirement["requirement_id"]]
+        claim = {
+            "requirement_id": requirement["requirement_id"],
+            "metric_ids": list(requirement["metric_contracts"]),
+        }
+        if (
+            row.get("feasible") is not True
+            or not core.scientific_residuals_pass(row.get("constraint_residuals"))
+            or core.scientific_metric_binding_codes(claim, output, checked)
+        ):
+            return False
+    return True
 
 
 def validate_family_evidence(root, family):
@@ -251,6 +303,7 @@ def validate_family_evidence(root, family):
         output = records["output:" + rid]
         check = values["check:" + rid]
         check_capture = values["check_capture:" + rid]
+        manifest = values["manifest:" + rid]
         actual_command(check_capture)
         if (
             capture.get("outcome") != "SUCCESS"
@@ -277,6 +330,24 @@ def validate_family_evidence(root, family):
             != records["capture:" + rid]["raw_sha256"]
         ):
             errors.append("WB_INDEPENDENT_CHECK_BINDING_INVALID")
+        if not check_numeric_records(check, requirements, output["content"]):
+            errors.append("WB_INDEPENDENT_CHECK_NUMERIC_INVALID")
+        if (
+            manifest.get("capture_record")
+            != {
+                "path": f"runs/{rid}/execution_capture.json",
+                "sha256": records["capture:" + rid]["raw_sha256"],
+            }
+            or manifest.get("output_files")
+            != [{"path": f"runs/{rid}/output.json", "sha256": output["raw_sha256"]}]
+            or any(
+                manifest.get(key) != capture.get(key)
+                for key in ("code_commit", "input_files", "scenario_hash", "code_files")
+            )
+            or manifest.get("run_id") != rid
+            or manifest.get("trusted_capture") is not True
+        ):
+            errors.append("WB_MANIFEST_CAPTURE_BINDING_INVALID")
     selected = ledger.get("selected_run_ids", [])
     if (
         ledger.get("schema_version") != "scientific-final/v1"
@@ -292,6 +363,8 @@ def validate_family_evidence(root, family):
     ):
         return errors + ["WB_FINAL_LEDGER_NOT_SUCCESS"]
     actual_command({**ledger, "argv": ["SCIENTIFIC_FINAL"], "exit_code": 0})
+    if any(timestamp(ledger["started_at"]) < timestamp(c["ended_at"]) for c in captures):
+        errors.append("WB_FINAL_PRECEDES_CAPTURE")
     for rid in selected:
         final = values["final_check:" + rid]
         command = ledger["checks"][rid]
@@ -302,7 +375,13 @@ def validate_family_evidence(root, family):
             != records["final_check:" + rid]["raw_sha256"]
             or final.get("run_id") != rid
             or final.get("output_sha256") != records["output:" + rid]["raw_sha256"]
-            or any(r.get("feasible") is not True for r in final["requirements"].values())
+            or not check_numeric_records(final, requirements, values["output:" + rid])
+            or not (
+                timestamp(ledger["started_at"])
+                <= timestamp(command["started_at"])
+                <= timestamp(command["ended_at"])
+                <= timestamp(ledger["ended_at"])
+            )
         ):
             errors.append("WB_FINAL_RECALCULATION_BINDING_INVALID")
     final_runs = handoff.get("final_runs", [])
@@ -317,9 +396,8 @@ def validate_family_evidence(root, family):
         )
     ):
         errors.append("WB_HANDOFF_NOT_ACCEPTED")
-    if family["kind"] == "mixed" and (
-        len(requirements) < 3 or family.get("primary_requirements") != len(requirements)
-    ):
+    primary = sum(r.get("role") == "PRIMARY" for r in requirements)
+    if family["kind"] == "mixed" and (primary < 3 or family.get("primary_requirements") != primary):
         errors.append("WB_MIXED_PRIMARY_COVERAGE_INCOMPLETE")
     for row in family.get("numerical_results", []):
         if row["metrics"] != values["output:" + row["run_id"]]["final_metrics"]:
@@ -410,6 +488,16 @@ def validate_coverage_logs(root, matrix, snapshot):
     receipt = strict_json(bound(root, snapshot["receipts"]["boundary_tests"]))
     passed = set()
     for command in receipt["commands"]:
+        argv = command.get("argv", [])
+        if (
+            command.get("exit_code") != 0
+            or not any(a in {"-v", "-vv", "--verbose"} for a in argv)
+            or not (
+                any(a.endswith("/pytest") for a in argv)
+                or any(argv[i : i + 2] == ["-m", "pytest"] for i in range(len(argv)))
+            )
+        ):
+            return ["WB_COVERAGE_COMMAND_NOT_VERBOSE_PYTEST"]
         passed.update(passed_nodes(bound(root, command["log"])))
     declared = [node for nodes in matrix["boundary_coverage"].values() for node in nodes]
     declared += [
@@ -422,6 +510,12 @@ def validate_coverage_logs(root, matrix, snapshot):
         for name, nodes in matrix["boundary_coverage"].items()
     ):
         return ["WB_BOUNDARY_TEST_SEMANTIC_SCOPE_MISMATCH"]
+    for name, branches in FEEDBACK_BRANCHES.items():
+        expected = {
+            "test_untrusted_feedback_rejects_without_execution[" + b + "]" for b in branches
+        }
+        if not expected <= {node.split("::")[-1] for node in matrix["boundary_coverage"][name]}:
+            return ["WB_FEEDBACK_ATTACK_BRANCH_COVERAGE_INCOMPLETE"]
     for kind, variants in matrix["scenario_equivalence"].items():
         for variant, node in variants.items():
             explicit = "False" if variant == "default" else "True"
@@ -518,10 +612,29 @@ def validate_detail(root, name, item):
         ):
             raise ValueError("WB_INDEPENDENT_RECALCULATION_DETAIL_INCOMPLETE")
         bound(root, detail["independent_code"])
+        if any(command["exit_code"] != 0 for command in commands):
+            raise ValueError("WB_INDEPENDENT_RECALCULATION_COMMAND_FAILED")
+        path = ROOT / "scripts/recalculate_workbench_originals.py"
+        if digest(path.read_bytes()) != detail["independent_code"]["sha256"]:
+            raise ValueError("WB_INDEPENDENT_RECALCULATION_CODE_MISMATCH")
+        spec = importlib.util.spec_from_file_location("workbench_independent_replay", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
         for row in detail["results"]:
-            if row.get("max_abs_residual", 1) > 1e-6 or row.get("numeric_values_checked", 0) < 3:
+            residual = row.get("max_abs_residual")
+            if (
+                type(residual) not in {int, float}
+                or not math.isfinite(residual)
+                or not 0 <= residual <= 1e-6
+                or type(row.get("numeric_values_checked")) is not int
+                or row["numeric_values_checked"] < 3
+            ):
                 raise ValueError("WB_INDEPENDENT_RECALCULATION_NOT_PASS")
-            bound(root, row["record_packet"])
+            exact_records(root, row["record_packet"])
+            replayed = module.recompute(root / row["record_packet"]["path"])
+            supplied = {k: v for k, v in row.items() if k != "record_packet"}
+            if canonical(replayed) != canonical(supplied):
+                raise ValueError("WB_INDEPENDENT_RECALCULATION_REPLAY_MISMATCH")
     elif name == "known_interface":
         records = exact_records(root, detail["record_packet"])
         registration, terminal, budget, ledger = [

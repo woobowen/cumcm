@@ -119,3 +119,21 @@ It may execute read-only status/context checks and original arithmetic in its ow
 scratch, and write proposed analysis/report there. Main alone installs proposals and calls
 formal completion. It must stop after M04. These private proposals are the only worker write
 scope; no repository/public/case-state/Git edits, no known data or scientific Final.
+
+## Checkpoint B6, 2026-09-09T09:58Z
+
+Restricted native worker actually rejected a stale implementation, then verified revision2's
+current M04 request/context, derived 42 symbols and 7 formulas, and reran independent exact
+arithmetic. Main installed the content-only proposal using the native wrapper and a lossless
+symbol-list to symbol-object normalization. Public complete and subsequent status both exit0;
+M04 COMPLETED, native SOURCES_PLANNED, M05 not started, formal models/Final0. Public context
+handoff evidence preserves raw records and separates redacted tool views from original hashes.
+This was native constrained-context cooperation, not OS isolation, strict blind review, or web
+verification. Historical stale outputs remain in ignored scratch.
+
+Native round05 identified qualification-only cross-record/JSON/coverage holes. Fixes use the
+shared core's residual and metric checks, exact typed JSON, capture/manifest/Final ordering,
+actual PRIMARY roles, specific feedback branches and replayed independent arithmetic. Current
+25 focused adjudication tests pass; the actual missing-primary public M12 negative also passes.
+The previous successful mixed export is preserved under development_exports/acceptance-001;
+final unified-subject original/known execution and full CI remain outstanding. No release PASS.

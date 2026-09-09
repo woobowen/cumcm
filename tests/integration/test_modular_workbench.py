@@ -307,7 +307,9 @@ def test_three_question_omission_cannot_become_whole_handoff(wb, repo_root, tmp_
     )
     assert result["reason_codes"] == ["WB_CORE_REJECTED:['RC_AGGREGATE_CLAIM_MAPPING_INVALID']"]
     assert not (root / wb.core.SCIENTIFIC_FINAL_LEDGER).exists()
-    assert not (root / wb.core.ARTIFACT_PATHS["modeling_to_paper_handoff"]).exists()
+    handoff = wb.core.load_json(root / wb.core.ARTIFACT_PATHS["modeling_to_paper_handoff"])
+    assert handoff["final_runs"] == [] and handoff["approved_by"] == []
+    assert wb.core.load_state(root)["state"] == "RUNNING"
 
 
 @pytest.fixture

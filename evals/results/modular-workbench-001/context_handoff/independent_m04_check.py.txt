@@ -1,0 +1,235 @@
+"""M04-only arithmetic examples; no producer, checker, model runner or state writes."""
+from __future__ import annotations
+
+import argparse
+from decimal import Decimal
+from fractions import Fraction as F
+import hashlib
+import json
+from pathlib import Path
+
+
+def rational(value):
+    return F(str(value))
+
+
+def fit_prefix(rows, entity, origin, threshold):
+    visible = [r for r in rows if r['entity_id'] == entity
+               and rational(r['observed_at']) <= origin
+               and rational(r['available_at']) <= origin]
+    if len(visible) < 2:
+        raise ValueError('INSUFFICIENT_PREFIX')
+    times = [rational(r['observed_at']) for r in visible]
+    levels = [rational(r['value']) for r in visible]
+    mean_t, mean_y = sum(times) / len(times), sum(levels) / len(levels)
+    variance_sum = sum((t - mean_t) ** 2 for t in times)
+    if variance_sum == 0:
+        raise ValueError('TIME_VARIATION_REQUIRED')
+    slope = sum((t - mean_t) * (y - mean_y)
+                for t, y in zip(times, levels)) / variance_sum
+    alpha = mean_y + slope * (origin - mean_t)
+    if alpha <= threshold:
+        remaining = F(0)
+    elif slope >= 0:
+        raise ValueError('NO_FINITE_DOWNWARD_CROSSING')
+    else:
+        remaining = (alpha - threshold) / (-slope)
+    return {'origin': origin, 'slope': slope, 'alpha': alpha,
+            'remaining': remaining, 'conditional_endpoint': origin + remaining,
+            'fit_observation_ids': [r['observation_id'] for r in visible],
+            'fit_residuals': [y - (alpha + slope * (t - origin))
+                              for t, y in zip(times, levels)]}
+
+
+def ceil_nonnegative(value):
+    if value < 0:
+        raise ValueError('NEGATIVE_DEMAND')
+    return (value.numerator + value.denominator - 1) // value.denominator
+
+
+def purchase(demand, containers):
+    # One feasible all-type-0 purchase supplies an upper cost bound.
+    # Strictly positive costs then bound every potentially optimal count.
+    v = [rational(c['litres']) for c in containers]
+    c = [rational(c['cost']) for c in containers]
+    if len(v) != 2 or any(z <= 0 for z in v + c):
+        raise ValueError('TWO_POSITIVE_CONTAINER_TYPES_REQUIRED')
+    upper_bound = ceil_nonnegative(demand / v[0]) * c[0]
+    feasible = []
+    for n0 in range(int(upper_bound // c[0]) + 1):
+        for n1 in range(int(upper_bound // c[1]) + 1):
+            volume, cost = n0 * v[0] + n1 * v[1], n0 * c[0] + n1 * c[1]
+            if volume >= demand and cost <= upper_bound:
+                feasible.append({'counts': [n0, n1], 'volume': volume, 'cost': cost})
+    optimum_cost = min(row['cost'] for row in feasible)
+    optima = [row for row in feasible if row['cost'] == optimum_cost]
+    cheaper = []
+    for n0 in range(int(optimum_cost // c[0]) + 1):
+        for n1 in range(int(optimum_cost // c[1]) + 1):
+            cost = n0 * c[0] + n1 * c[1]
+            if cost < optimum_cost:
+                cheaper.append({'counts': [n0, n1], 'volume': n0*v[0] + n1*v[1],
+                                'cost': cost, 'capacity_residual': n0*v[0]+n1*v[1]-demand})
+    assert all(row['capacity_residual'] < 0 for row in cheaper)
+    return {'demand': demand, 'feasible_upper_cost_bound': upper_bound,
+            'minimum_cost': optimum_cost, 'all_cost_minimizers': optima,
+            'all_strictly_cheaper_allocations': cheaper}
+
+
+def required_rejection(fn, code):
+    try:
+        fn()
+    except ValueError as exc:
+        assert str(exc) == code
+        return {'expected': code, 'observed': str(exc), 'status': 'PASS'}
+    raise AssertionError(f'Expected {code}')
+
+
+def historical_error(predicted, true_remaining):
+    if true_remaining <= 0:
+        raise ValueError('TRUE_REMAINING_TIME_MUST_BE_POSITIVE')
+    return F(100) * abs(predicted - true_remaining) / true_remaining
+
+
+def dimension_checks():
+    # Exponents in order: litre, minute, yuan, container.
+    L, minute, yuan, count = (1,0,0,0), (0,1,0,0), (0,0,1,0), (0,0,0,1)
+    def mul(a,b): return tuple(x+y for x,y in zip(a,b))
+    def div(a,b): return tuple(x-y for x,y in zip(a,b))
+    actual = {'slope': div(L, minute),
+              'remaining_time': div(L, div(L,minute)),
+              'demand': mul(div(L,minute), minute),
+              'purchased_volume': mul(div(L,count), count),
+              'purchase_cost': mul(div(yuan,count), count),
+              'relative_error': div(minute,minute)}
+    expected = {'slope': (1,-1,0,0), 'remaining_time': minute, 'demand': L,
+                'purchased_volume': L, 'purchase_cost': yuan, 'relative_error': (0,0,0,0)}
+    assert actual == expected
+    return {'exponent_order': ['L','min','yuan','container'], 'actual': actual, 'status': 'PASS'}
+
+
+def encode(value):
+    if isinstance(value, F):
+        return {'fraction': str(value), 'decimal': float(value)}
+    if isinstance(value, dict): return {k: encode(v) for k,v in value.items()}
+    if isinstance(value, (list,tuple)): return [encode(v) for v in value]
+    return value
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input-root', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    paths = [args.input_root/n for n in ['input.json','problem_requirements.json',
+                                       'source_ledger.json','request.json','context.json']]
+    payloads = {p.name: p.read_bytes() for p in paths}
+    hashes = {str(p): hashlib.sha256(payloads[p.name]).hexdigest() for p in paths}
+    data = json.loads(payloads['input.json'], parse_float=Decimal)
+    req = json.loads(payloads['request.json'])
+    source = json.loads(payloads['source_ledger.json'])
+    requirements = json.loads(payloads['problem_requirements.json'])
+    context = json.loads(payloads['context.json'])
+    assert hashes[str(paths[0])] == req['prerequisite_files']['data/raw/input.json']
+    assert hashes[str(paths[1])] == req['prerequisite_files']['problem/problem_requirements.json']
+    assert hashes[str(paths[2])] == req['prerequisite_files']['research/source_ledger.json']
+    assert hashes[str(paths[0])] == source['content']['sources'][0]['hash']
+    assert req['case_id'] == context['status']['case_id'] == requirements['content']['case_id']
+    assert req['revision'] == context['status']['policy']['revision']
+    assert req['implementation'] == context['status']['implementation']
+    assert req['request_id'] == 'BRAIN-M04' and req['module'] == 'M04'
+    assert set(req['requirement_scope']) == {'REQ-A','REQ-B','REQ-C'}
+    assert set(r['requirement_id'] for r in requirements['content']['requirements']) == set(req['requirement_scope'])
+    rows, threshold = data['observations'], rational(data['threshold'])
+    b_rows = [r for r in rows if r['entity_id'] == 'EB']
+    origin = max(rational(r['available_at']) for r in b_rows)
+    future = fit_prefix(rows, 'EB', origin, threshold)
+    assert origin == 112 and future['alpha'] == F(54,5)
+    assert future['slope'] == -F(1,10) and future['remaining'] == 8
+    assert not any(rational(r['value']) <= threshold for r in b_rows)
+    assert all(residual == 0 for residual in future['fit_residuals'])
+    flow = rational(data['flow_litres_per_minute'])
+    demand = flow * future['remaining']
+    buying = purchase(demand, data['containers'])
+    assert buying['minimum_cost'] == 11
+    assert [r['counts'] for r in buying['all_cost_minimizers']] == [[1,1]]
+    volume = buying['all_cost_minimizers'][0]['volume']
+    stocks = [{'relative_minute': j, 'absolute_time': origin+j,
+               'stock_litres': volume-flow*j} for j in range(9)]
+    assert [r['stock_litres'] for r in stocks] == list(range(8,-1,-1))
+    stock_residuals = [stocks[j+1]['stock_litres']-stocks[j]['stock_litres']+flow
+                       for j in range(8)]
+    assert all(x == 0 for x in stock_residuals)
+    assert all(r['stock_litres'] >= 0 for r in stocks)
+    a_end = next(r for r in rows if r['observation_id'] == 'A-end')
+    end_time = rational(a_end['observed_at'])
+    historical = []
+    for historical_origin in map(F, [2,4,6,8]):
+        result = fit_prefix(rows,'EA',historical_origin,threshold)
+        assert 'A-end' not in result['fit_observation_ids']
+        true_remaining = end_time-historical_origin
+        error = historical_error(result['remaining'],true_remaining)
+        assert error == 0
+        historical.append({**result, 'true_remaining': true_remaining, 'label_observation_id': 'A-end',
+                           'label_available_at': a_end['available_at'], 'absolute_relative_error_percent': error})
+    original_result = fit_prefix(rows,'EB',origin,threshold)
+    late_row = {'entity_id':'EB','observation_id':'M04-WHATIF-LATE',
+                'observed_at':110,'available_at':113,'value':999}
+    assert fit_prefix(rows+[late_row],'EB',origin,threshold) == original_result
+    wrong_entity = {'entity_id':'OTHER','observation_id':'M04-WHATIF-OTHER',
+                    'observed_at':110,'available_at':110,'value':999}
+    assert fit_prefix(rows+[wrong_entity],'EB',origin,threshold) == original_result
+    flat = [{'entity_id':'X','observation_id':str(i),'observed_at':i,
+             'available_at':i,'value':12} for i in [0,1]]
+    upward = [{**r,'value':12+r['observed_at']} for r in flat]
+    same_time = [{**r,'observed_at':0} for r in flat]
+    rejections = [required_rejection(lambda: fit_prefix(flat,'X',F(1),threshold),'NO_FINITE_DOWNWARD_CROSSING'),
+                  required_rejection(lambda: fit_prefix(upward,'X',F(1),threshold),'NO_FINITE_DOWNWARD_CROSSING'),
+                  required_rejection(lambda: fit_prefix(flat[:1],'X',F(1),threshold),'INSUFFICIENT_PREFIX'),
+                  required_rejection(lambda: fit_prefix(same_time,'X',F(1),threshold),'TIME_VARIATION_REQUIRED'),
+                  required_rejection(lambda: historical_error(F(0),F(0)),'TRUE_REMAINING_TIME_MUST_BE_POSITIVE')]
+    at_threshold = [{**r,'value':10} for r in flat]
+    assert fit_prefix(at_threshold,'X',F(1),threshold)['remaining'] == 0
+    boundary_demands = [F(0),F(3),F(5),F(6),F(8),F(801,100),F(9),F(10),F(11)]
+    boundary = [purchase(d,data['containers']) for d in boundary_demands]
+    assert [b['minimum_cost'] for b in boundary] == [0,4,7,8,11,12,12,14,15]
+    # Deterministic slope scenarios, not a noise law or confidence interval.
+    sensitivity = []
+    for downward_rate in [F(9,100),F(1,10),F(11,100)]:
+        scenario_remaining = (future['alpha']-threshold)/downward_rate
+        scenario_purchase = purchase(flow*scenario_remaining,data['containers'])
+        sensitivity.append({'downward_rate':downward_rate,'remaining':scenario_remaining,
+                            'minimum_cost':scenario_purchase['minimum_cost'],
+                            'optima':scenario_purchase['all_cost_minimizers']})
+    fractional_tau = F(801,100)
+    fractional = {'remaining':fractional_tau, 'continuous_demand':flow*fractional_tau,
+                  'started_minute_demand':flow*ceil_nonnegative(fractional_tau),
+                  'eight_litre_plan_continuous_terminal_stock':F(8)-flow*fractional_tau}
+    assert fractional['eight_litre_plan_continuous_terminal_stock'] == -F(1,100)
+    result = {'schema_version':'m04-private-arithmetic/v1', 'case_id':req['case_id'],
+              'request_id':req['request_id'],'revision':req['revision'],'implementation':req['implementation'],
+              'module':'M04','classification':'ARITHMETIC_EXAMPLES_NOT_FORMAL_RUN',
+              'input_sha256':hashes, 'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              'prefix_prediction_example':future, 'purchase_example':buying, 'inventory_example':stocks,
+              'inventory_recurrence_residuals':stock_residuals, 'historical_arithmetic_examples':historical,
+              'historical_mare_percent':sum(r['absolute_relative_error_percent'] for r in historical)/len(historical),
+              'historical_independent_entities':1,'historical_origin_count':4,
+              'late_availability_filter':'PASS','entity_filter':'PASS',
+              'dimension_checks':dimension_checks(),'expected_rejections':rejections,
+              'zero_remaining_check':'PASS','integer_boundaries':boundary,
+              'deterministic_slope_scenarios':sensitivity,'fractional_minute_semantics':fractional,
+              'unused_undefined_input_fields':['baseline_delay','fixed_demand_litres','x','y'],
+              'formal_engineering_gate':'NOT_RUN','future_endpoint_truth':'UNKNOWN',
+              'future_accuracy':'NOT_VERIFIED','web_review':'NOT_RUN','team_review':'NOT_RUN',
+              'automatically_entered_M05':False,'all_internal_assertions':'PASS'}
+    args.output.write_text(json.dumps(encode(result),ensure_ascii=False,indent=2)+'\n')
+    print(json.dumps({'output':str(args.output),'output_sha256':hashlib.sha256(args.output.read_bytes()).hexdigest(),
+                      'script_sha256':result['script_sha256'],'input_sha256':hashes,
+                      'all_internal_assertions':'PASS','remaining_min':8,'purchase_cost_yuan':11,
+                      'counts':[1,1],'stock_litres':list(range(8,-1,-1)),
+                      'historical_mare_percent':0,'historical_origin_count':4,'independent_historical_entities':1,
+                      'formal_run':False,'automatically_entered_M05':False},ensure_ascii=False))
+
+
+if __name__ == '__main__':
+    main()

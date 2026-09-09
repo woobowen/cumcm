@@ -230,6 +230,8 @@ def exercise(root):
         "counterexample_origin": "EXPLICIT_FAULT_INJECTED_DRAFT",
         "real_web_review": "NOT_RUN",
         "formal_state_unchanged": True,
+        "formal_state_before_sha256": before,
+        "formal_state_after_sha256": wb.core.file_hash(wb.core.state_path(root)),
         "automatic_model_starts": 0,
         "next_module_started": False,
         "commands": events,

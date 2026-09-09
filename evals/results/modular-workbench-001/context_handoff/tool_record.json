@@ -1,0 +1,466 @@
+{
+  "schema_version": "restricted-worker-tool-record/v1",
+  "case_id": "ORIGINAL-BRAIN-R2",
+  "request_id": "BRAIN-M04",
+  "module": "M04",
+  "revision": 2,
+  "worker": "restricted_m04_worker",
+  "implementation": {
+    "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+    "tool_commit": "7e5bd4297c74cfa3b6c0920bc553d56181097afc"
+  },
+  "recording_method": "UTC clock tool readings bracket all explicit shell/Python calls. shell_argv specifies the requested /bin/bash -c launch and process_argv the issued child command. Merged stdout/stderr is preserved exactly as exec_command result.output; no claim of OS process tracing or separated streams.",
+  "input_hash_scope": "All directly read R2 files and own previous outputs are byte-hashed in read records. Allowed public CLI internally reads case data; its current implementation identity and supplied context bindings are recorded. No implementation source inspection or guessed script file hash.",
+  "read_catalogue": {
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json": {
+      "sha256": "317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8"
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/START_HERE.md": {
+      "sha256": "6a225549241d720c12105238e61ccf971cbd80020fc64f6d894fc546b8db8f8c",
+      "bytes_unchanged_from_r1": true
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/PROJECT_BRIEF.md": {
+      "sha256": "80b1f27571f873755a40fd905b0c3aa454d54282b8e9ac370d887baf25187a1f",
+      "bytes_unchanged_from_r1": true
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/ROLE_PROMPTS.md": {
+      "sha256": "6291b6b483fea098f5faf82364afbd3bfdf91ab2907816ed07cd117894a1dafb",
+      "bytes_unchanged_from_r1": true
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/M04.md": {
+      "sha256": "306477efb39265c159ee0c12b5ff6b36deca15da4e3c07dfe91b43febb543c50",
+      "bytes_unchanged_from_r1": true
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/TASK.md": {
+      "sha256": "b2bf03c893c235f126e177919e8b2b55166742530438575423bdc1ef0a89edd6",
+      "bytes_unchanged_from_r1": true
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/CONTEXT.md": {
+      "sha256": "9cde6f5b8dfa8a1e45cd3ff4ffe8b932fa99c9721a1452b7882b07597f2f3ce0",
+      "bytes_unchanged_from_r1": false
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json": {
+      "sha256": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+      "bytes_unchanged_from_r1": false
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json": {
+      "sha256": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+      "bytes_unchanged_from_r1": false
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json": {
+      "sha256": "659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190",
+      "bytes_unchanged_from_r1": false
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json": {
+      "sha256": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+      "bytes_unchanged_from_r1": true
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json": {
+      "sha256": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+      "bytes_unchanged_from_r1": false
+    },
+    "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json": {
+      "sha256": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+      "bytes_unchanged_from_r1": true
+    }
+  },
+  "shell_python_commands": [
+    {
+      "sequence": 1,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "ls -la"
+      ],
+      "process_argv": [
+        "ls",
+        "-la"
+      ],
+      "utc_start": "2026-09-09 09:42:04 UTC",
+      "utc_end": "2026-09-09 09:42:04 UTC",
+      "input_files": [],
+      "result": {
+        "chunk_id": "e57d68",
+        "wall_time_seconds": 0.000005912,
+        "exit_code": 0,
+        "original_token_count": 769,
+        "output": "total 388\ndrwxr-xr-x 27 addaswsw addaswsw  4096 Sep  9 15:26 .\ndrwxr-xr-x 10 addaswsw addaswsw  4096 Aug 31 13:23 ..\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Aug 31 00:31 .agents\ndrwxr-xr-x 17 addaswsw addaswsw  4096 Sep  9 15:49 .cache\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Sep  1 17:19 .codex\ndrwxr-xr-x  9 addaswsw addaswsw  4096 Sep  9 17:39 .git\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Sep  1 17:19 .github\n-rw-r--r--  1 addaswsw addaswsw   406 Sep  9 01:58 .gitignore\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Aug 31 00:51 .pytest_cache\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Aug 31 00:51 .ruff_cache\ndrwxr-xr-x  4 addaswsw addaswsw  4096 Aug 31 00:50 .venv\n-rw-r--r--  1 addaswsw addaswsw  5354 Sep  9 01:55 AGENTS.md\n-rw-r--r--  1 addaswsw addaswsw 21956 Sep  9 10:22 CHANGELOG.md\n-rw-r--r--  1 addaswsw addaswsw  8299 Sep  9 08:12 CODEX_TAKEOVER.md\n-rw-r--r--  1 addaswsw addaswsw 41544 Sep  9 15:25 CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md\n-rw-r--r--  1 addaswsw addaswsw   386 Sep  9 15:25 CUMCM_MODULAR_WORKBENCH_BUILD_PROMPT.md:Zone.Identifier\n-rw-r--r--  1 addaswsw addaswsw 34665 Sep  9 01:45 CUMCM_PR12_RC8_RELEASE_AND_GENERALIZATION_PLAN.md\n-rw-r--r--  1 addaswsw addaswsw   396 Sep  9 01:45 CUMCM_PR12_RC8_RELEASE_AND_GENERALIZATION_PLAN.md:Zone.Identifier\n-rw-r--r--  1 addaswsw addaswsw 28756 Sep  9 09:45 CUMCM_PR12_RC9_REPAIR_AND_DEVELOPMENT_PLAN.md\n-rw-r--r--  1 addaswsw addaswsw   392 Sep  9 09:34 CUMCM_PR12_RC9_REPAIR_AND_DEVELOPMENT_PLAN.md:Zone.Identifier\n-rw-r--r--  1 addaswsw addaswsw 12110 Sep  9 15:52 GOALS.md\n-rw-r--r--  1 addaswsw addaswsw 11275 Sep  9 08:12 HANDOVER.md\n-rw-r--r--  1 addaswsw addaswsw  2934 Aug 31 00:53 LICENSE_LEDGER.csv\n-rw-r--r--  1 addaswsw addaswsw  9578 Sep  9 15:52 PLANS.md\n-rw-r--r--  1 addaswsw addaswsw  9713 Sep  9 17:14 README.md\n-rw-r--r--  1 addaswsw addaswsw  1639 Aug 31 00:53 THIRD_PARTY_NOTICES.md\n-rw-r--r--  1 addaswsw addaswsw    23 Sep  9 17:35 VERSION\n-rw-r--r--  1 addaswsw addaswsw 27396 Sep  9 15:52 WORKFLOW.md\ndrwxr-xr-x  4 addaswsw addaswsw  4096 Sep  1 17:19 adjudication\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Sep  2 13:49 benchmark-vault\ndrwxr-xr-x  6 addaswsw addaswsw  4096 Sep  6 00:11 benchmarks\ndrwxr-xr-x  2 addaswsw addaswsw  4096 Sep  6 00:11 contracts\ndrwxr-xr-x  7 addaswsw addaswsw  4096 Sep  9 16:04 docs\ndrwxr-xr-x 11 addaswsw addaswsw  4096 Sep  5 07:24 evals\ndrwxr-xr-x  4 addaswsw addaswsw  4096 Sep  4 12:53 experiments\ndrwxr-xr-x  5 addaswsw addaswsw  4096 Sep  6 00:11 plans\n-rw-r--r--  1 addaswsw addaswsw   680 Sep  9 11:24 pyproject.toml\ndrwxr-xr-x  3 addaswsw addaswsw 12288 Sep  9 01:10 reports\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Sep  6 00:11 research\ndrwxr-xr-x  2 addaswsw addaswsw  4096 Sep  6 00:11 rules\ndrwxr-xr-x  3 addaswsw addaswsw 12288 Sep  9 17:32 scripts\ndrwxr-xr-x  5 addaswsw addaswsw  4096 Sep  3 18:37 specifications\ndrwxr-xr-x  3 addaswsw addaswsw  4096 Aug 31 00:31 src\ndrwxr-xr-x  2 addaswsw addaswsw  4096 Sep  6 00:11 state\ndrwxr-xr-x  2 addaswsw addaswsw  4096 Sep  2 12:00 state_templates\ndrwxr-xr-x  7 addaswsw addaswsw  4096 Aug 31 00:53 tests\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {}
+    },
+    {
+      "sequence": 2,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "rg --files .cache/modular-workbench-001/restricted-worker/input-r2"
+      ],
+      "process_argv": [
+        "rg",
+        "--files",
+        ".cache/modular-workbench-001/restricted-worker/input-r2"
+      ],
+      "utc_start": "2026-09-09 09:42:10 UTC",
+      "utc_end": "2026-09-09 09:42:11 UTC",
+      "input_files": [],
+      "result": {
+        "chunk_id": "6c6c4d",
+        "wall_time_seconds": 0.000005705,
+        "exit_code": 0,
+        "original_token_count": 214,
+        "output": ".cache/modular-workbench-001/restricted-worker/input-r2/ROLE_PROMPTS.md\n.cache/modular-workbench-001/restricted-worker/input-r2/TASK.md\n.cache/modular-workbench-001/restricted-worker/input-r2/M04.md\n.cache/modular-workbench-001/restricted-worker/input-r2/START_HERE.md\n.cache/modular-workbench-001/restricted-worker/input-r2/context.json\n.cache/modular-workbench-001/restricted-worker/input-r2/request.json\n.cache/modular-workbench-001/restricted-worker/input-r2/input.json\n.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json\n.cache/modular-workbench-001/restricted-worker/input-r2/PROJECT_BRIEF.md\n.cache/modular-workbench-001/restricted-worker/input-r2/CONTEXT.md\n.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json\n.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {}
+    },
+    {
+      "sequence": 3,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport hashlib,json\nroot=Path('<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2')\nold=Path('<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json')\nold_bytes=old.read_bytes()\nold_record=json.loads(old_bytes)\nprint(json.dumps({'path':str(old),'sha256':hashlib.sha256(old_bytes).hexdigest(),'purpose':'Read only own prior command archive for input identity comparison'}))\nold_catalogue=old_record['read_file_catalogue']\nfor name in ['START_HERE.md','PROJECT_BRIEF.md','ROLE_PROMPTS.md','M04.md','TASK.md','CONTEXT.md','context.json','request.json','work-report.template.json','input.json','problem_requirements.json','source_ledger.json']:\n p=root/name\n b=p.read_bytes()\n h=hashlib.sha256(b).hexdigest()\n prior=next((v['sha256'] for k,v in old_catalogue.items() if k.endswith('/input/'+name)),None)\n record={'path':str(p),'sha256':h,'prior_input_sha256':prior,'bytes_unchanged':h==prior}\n if h!=prior or name in ['TASK.md','input.json']:\n  record['content']=b.decode()\n print(json.dumps(record,ensure_ascii=False))\nPY"
+      ],
+      "process_argv": [
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python",
+        "-"
+      ],
+      "utc_start": "2026-09-09 09:42:41 UTC",
+      "utc_end": "2026-09-09 09:42:41 UTC",
+      "input_files": "Read paths and actual hashes printed per line",
+      "result": {
+        "chunk_id": "55bd4d",
+        "wall_time_seconds": 0.000005428,
+        "exit_code": 0,
+        "original_token_count": 5527,
+        "output": "{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json\", \"sha256\": \"317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8\", \"purpose\": \"Read only own prior command archive for input identity comparison\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/START_HERE.md\", \"sha256\": \"6a225549241d720c12105238e61ccf971cbd80020fc64f6d894fc546b8db8f8c\", \"prior_input_sha256\": \"6a225549241d720c12105238e61ccf971cbd80020fc64f6d894fc546b8db8f8c\", \"bytes_unchanged\": true}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/PROJECT_BRIEF.md\", \"sha256\": \"80b1f27571f873755a40fd905b0c3aa454d54282b8e9ac370d887baf25187a1f\", \"prior_input_sha256\": \"80b1f27571f873755a40fd905b0c3aa454d54282b8e9ac370d887baf25187a1f\", \"bytes_unchanged\": true}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/ROLE_PROMPTS.md\", \"sha256\": \"6291b6b483fea098f5faf82364afbd3bfdf91ab2907816ed07cd117894a1dafb\", \"prior_input_sha256\": \"6291b6b483fea098f5faf82364afbd3bfdf91ab2907816ed07cd117894a1dafb\", \"bytes_unchanged\": true}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/M04.md\", \"sha256\": \"306477efb39265c159ee0c12b5ff6b36deca15da4e3c07dfe91b43febb543c50\", \"prior_input_sha256\": \"306477efb39265c159ee0c12b5ff6b36deca15da4e3c07dfe91b43febb543c50\", \"bytes_unchanged\": true}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/TASK.md\", \"sha256\": \"b2bf03c893c235f126e177919e8b2b55166742530438575423bdc1ef0a89edd6\", \"prior_input_sha256\": \"b2bf03c893c235f126e177919e8b2b55166742530438575423bdc1ef0a89edd6\", \"bytes_unchanged\": true, \"content\": \"当前仅M04，scope=REQ-A,REQ-B,REQ-C。题面为原创合成：两组严格仿射水位下降历史，A有终点，B只有当前前缀且未来终点未知。到10 L阈值的剩余时间内，每分钟需备水1 L；3 L容器4元、5 L容器7元，整数购入，列出条件预测、最小成本和逐分钟库存的假设/符号/单位/公式/失效条件。不要采纳未来真值为已知，不提前执行M05或正式模型Final。请由你自己推导并用独立Python小算例核对量纲与整数采购边界。原题未给真实噪声分布，不可编造精度或置信区间。实际状态与request已由主Agentprepare；你提交私有提案，主Agent负责正式complete。\\n\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/CONTEXT.md\", \"sha256\": \"9cde6f5b8dfa8a1e45cd3ff4ffe8b932fa99c9721a1452b7882b07597f2f3ce0\", \"prior_input_sha256\": \"2562c457a25d8e18204e3eec9de7ae487c4b70182b6863a6dfa844f2dbec84f2\", \"bytes_unchanged\": false, \"content\": \"# 当前上下文：ORIGINAL-BRAIN-R2\\n\\n原生状态：SOURCES_PLANNED\\n来源指纹：a96abe43c88c87c5f4f0bbd195a726e6d8e3a2e19e811deae3207e83a69254bf\\n\\n当前模块记录：\\n- M01 ['ALL'] COMPLETED (BRAIN-M01)\\n- M02 ['ALL'] COMPLETED (BRAIN-M02)\\n- M03 ['REQ-A', 'REQ-B', 'REQ-C'] COMPLETED (BRAIN-M03)\\n- M04 ['REQ-A', 'REQ-B', 'REQ-C'] PREPARED (BRAIN-M04)\\n\\n待核查意见：0\\n默认只执行用户指定的一个模块。没有实际上传文件，网页不能声称读取本机。\\n新大脑负责当前协调，旧对话供历史咨询；同项目记忆不等于严格盲审或版本同步。\\n请同时提供START_HERE、角色提示词及本次相关审查包；这里不自动授权任何脚本或Git发布。\\n\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json\", \"sha256\": \"bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef\", \"prior_input_sha256\": \"0dac50c2ce144947728536256ea340048b5b9d0f8d9d0d0bb3d9e856fab04059\", \"bytes_unchanged\": false, \"content\": \"{\\\"context_hash\\\":\\\"a96abe43c88c87c5f4f0bbd195a726e6d8e3a2e19e811deae3207e83a69254bf\\\",\\\"derived_view_only\\\":true,\\\"execution_mode\\\":\\\"GUIDED_SINGLE_MODULE\\\",\\\"findings\\\":[],\\\"local_facts_are_authoritative\\\":true,\\\"schema_version\\\":\\\"brain-context/v1\\\",\\\"source\\\":{\\\"case_state_sha256\\\":\\\"39d26ba5418ec402d565172c671a61d6470b7ff855698a942d4d4eb0dab889be\\\",\\\"files\\\":{\\\"evidence/module_requests/BRAIN-M01/completion.json\\\":\\\"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\\\",\\\"evidence/module_requests/BRAIN-M01/request.json\\\":\\\"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\\\",\\\"evidence/module_requests/BRAIN-M01/work-report.template.json\\\":\\\"216bb08cdf4fa60c74e5eb35b8c982b9e141694082e713e89c9e470a3d0e0df3\\\",\\\"evidence/module_requests/BRAIN-M02/completion.json\\\":\\\"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\\\",\\\"evidence/module_requests/BRAIN-M02/request.json\\\":\\\"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\\\",\\\"evidence/module_requests/BRAIN-M02/work-report.template.json\\\":\\\"915c78851a51a816e5f995d48b673c0d9e544bf8942988bce5359d12cb55c0ee\\\",\\\"evidence/module_requests/BRAIN-M03/completion.json\\\":\\\"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\\\",\\\"evidence/module_requests/BRAIN-M03/request.json\\\":\\\"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\\\",\\\"evidence/module_requests/BRAIN-M03/work-report.template.json\\\":\\\"5c8fab45d89bca8dcbad776da858e0a1f227fc2bc9b940b0802659efdd7587d1\\\",\\\"evidence/module_requests/BRAIN-M04/request.json\\\":\\\"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\\\",\\\"evidence/module_requests/BRAIN-M04/work-report.template.json\\\":\\\"659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190\\\"},\\\"policy_sha256\\\":\\\"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\\\",\\\"requests\\\":{\\\"BRAIN-M01\\\":\\\"79c127ffa93fa2fcac93689d40cf168c8a8695d5a53430ccb01b2f432eee4a7f\\\",\\\"BRAIN-M02\\\":\\\"6febfefdd4970c2e7e8398e1d89e5c15a90b66e25c898f168a0cac8a6587481c\\\",\\\"BRAIN-M03\\\":\\\"fa5b18669d0f9c9afd5a5aa3a20dcb7c35ed2a6de035b81d941d5d221589b6d9\\\",\\\"BRAIN-M04\\\":\\\"f481f361f3df4d167c009db3607c4da1fd185c46c71fdc5ed7e7dedbc4942ce1\\\"}},\\\"status\\\":{\\\"case_id\\\":\\\"ORIGINAL-BRAIN-R2\\\",\\\"human_review\\\":\\\"NOT_RUN\\\",\\\"implementation\\\":{\\\"implementation_sha256\\\":\\\"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\\\",\\\"tool_commit\\\":\\\"7e5bd4297c74cfa3b6c0920bc553d56181097afc\\\"},\\\"modules\\\":[{\\\"module\\\":\\\"M01\\\",\\\"request_id\\\":\\\"BRAIN-M01\\\",\\\"scope\\\":[\\\"ALL\\\"],\\\"status\\\":\\\"COMPLETED\\\"},{\\\"module\\\":\\\"M02\\\",\\\"request_id\\\":\\\"BRAIN-M02\\\",\\\"scope\\\":[\\\"ALL\\\"],\\\"status\\\":\\\"COMPLETED\\\"},{\\\"module\\\":\\\"M03\\\",\\\"request_id\\\":\\\"BRAIN-M03\\\",\\\"scope\\\":[\\\"REQ-A\\\",\\\"REQ-B\\\",\\\"REQ-C\\\"],\\\"status\\\":\\\"COMPLETED\\\"},{\\\"module\\\":\\\"M04\\\",\\\"request_id\\\":\\\"BRAIN-M04\\\",\\\"scope\\\":[\\\"REQ-A\\\",\\\"REQ-B\\\",\\\"REQ-C\\\"],\\\"status\\\":\\\"PREPARED\\\"}],\\\"native_state\\\":{\\\"architecture\\\":\\\"ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL\\\",\\\"capability\\\":\\\"COMPETITION_RC\\\",\\\"case_id\\\":\\\"ORIGINAL-BRAIN-R2\\\",\\\"case_kind\\\":\\\"general\\\",\\\"evidence_bindings\\\":{\\\"evidence/module_requests/BRAIN-M01/completion.json\\\":\\\"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\\\",\\\"evidence/module_requests/BRAIN-M01/request.json\\\":\\\"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\\\",\\\"evidence/module_requests/BRAIN-M02/completion.json\\\":\\\"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\\\",\\\"evidence/module_requests/BRAIN-M02/request.json\\\":\\\"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\\\",\\\"evidence/module_requests/BRAIN-M03/completion.json\\\":\\\"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\\\",\\\"evidence/module_requests/BRAIN-M03/request.json\\\":\\\"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\\\",\\\"evidence/module_requests/BRAIN-M04/request.json\\\":\\\"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\\\",\\\"evidence/parent_origin.json\\\":\\\"478ca15bc05b35c9db372e2caab3728b6876327f707684f777b0d2fd38dc45d9\\\",\\\"problem/problem_requirements.json\\\":\\\"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\\\",\\\"research/research_plan.json\\\":\\\"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\\\",\\\"research/source_ledger.json\\\":\\\"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\\\",\\\"state/case_policy.json\\\":\\\"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\\\"},\\\"history\\\":[{\\\"evidence\\\":[\\\"state/case_policy.json\\\"],\\\"from\\\":null,\\\"gate\\\":\\\"INIT\\\",\\\"sequence\\\":0,\\\"status\\\":\\\"PASS\\\",\\\"to\\\":\\\"CREATED\\\"},{\\\"evidence\\\":[\\\"problem/problem_requirements.json\\\"],\\\"from\\\":\\\"CREATED\\\",\\\"gate\\\":\\\"GATE_PROBLEM_INTAKE\\\",\\\"sequence\\\":1,\\\"status\\\":\\\"PASS\\\",\\\"to\\\":\\\"INTAKE_COMPLETE\\\"},{\\\"evidence\\\":[\\\"problem/problem_requirements.json\\\"],\\\"from\\\":\\\"INTAKE_COMPLETE\\\",\\\"gate\\\":\\\"GATE_REQUIREMENT_COVERAGE\\\",\\\"sequence\\\":2,\\\"status\\\":\\\"PASS\\\",\\\"to\\\":\\\"REQUIREMENTS_VALIDATED\\\"},{\\\"evidence\\\":[\\\"research/research_plan.json\\\",\\\"research/source_ledger.json\\\"],\\\"from\\\":\\\"REQUIREMENTS_VALIDATED\\\",\\\"gate\\\":\\\"GATE_SOURCE_PLAN\\\",\\\"sequence\\\":3,\\\"status\\\":\\\"PASS\\\",\\\"to\\\":\\\"SOURCES_PLANNED\\\"}],\\\"last_gate\\\":\\\"GATE_SOURCE_PLAN\\\",\\\"schema_version\\\":\\\"1.0.0\\\",\\\"skill_version\\\":\\\"0.2.0-competition-rc10\\\",\\\"state\\\":\\\"SOURCES_PLANNED\\\"},\\\"policy\\\":{\\\"automatic_publication\\\":false,\\\"case_id\\\":\\\"ORIGINAL-BRAIN-R2\\\",\\\"created_at\\\":\\\"2026-09-09T09:40:54Z\\\",\\\"execution_mode\\\":\\\"GUIDED_SINGLE_MODULE\\\",\\\"mode\\\":\\\"GUIDED_LOCAL\\\",\\\"parent_origin_sha256\\\":\\\"b77a59f9ddeef7bd898963f02666cf4a10d799422aed7967cee8425ed30288cf\\\",\\\"research_policy\\\":\\\"USER_AUTHORIZED_GENERAL_SOURCES_ONLY\\\",\\\"revision\\\":2,\\\"schema_version\\\":\\\"case-policy/v1\\\",\\\"team_compliance_review\\\":\\\"NOT_RUN\\\"}},\\\"web_and_team_acceptance\\\":\\\"NOT_RUN\\\"}\\n\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json\", \"sha256\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\", \"prior_input_sha256\": \"a7e20da1f281ce5042703132845ece3c4e3b06221c3647a890fa3dac1cca73d3\", \"bytes_unchanged\": false, \"content\": \"{\\n  \\\"case_id\\\": \\\"ORIGINAL-BRAIN-R2\\\",\\n  \\\"execution_mode\\\": \\\"GUIDED_SINGLE_MODULE\\\",\\n  \\\"implementation\\\": {\\n    \\\"implementation_sha256\\\": \\\"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\\\",\\n    \\\"tool_commit\\\": \\\"7e5bd4297c74cfa3b6c0920bc553d56181097afc\\\"\\n  },\\n  \\\"mode\\\": \\\"GUIDED_LOCAL\\\",\\n  \\\"module\\\": \\\"M04\\\",\\n  \\\"prepared_at\\\": \\\"2026-09-09T09:40:55Z\\\",\\n  \\\"prerequisite_files\\\": {\\n    \\\"data/raw/input.json\\\": \\\"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\\\",\\n    \\\"evidence/intake_registry.json\\\": \\\"e062c6b2c288d8e2f221273c69071f76fda50d86750be1a815ef64c3da0f3c72\\\",\\n    \\\"evidence/module_requests/BRAIN-M01/completion.json\\\": \\\"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\\\",\\n    \\\"evidence/module_requests/BRAIN-M01/request.json\\\": \\\"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\\\",\\n    \\\"evidence/module_requests/BRAIN-M02/completion.json\\\": \\\"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\\\",\\n    \\\"evidence/module_requests/BRAIN-M02/request.json\\\": \\\"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\\\",\\n    \\\"evidence/module_requests/BRAIN-M03/completion.json\\\": \\\"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\\\",\\n    \\\"evidence/module_requests/BRAIN-M03/request.json\\\": \\\"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\\\",\\n    \\\"problem/original.md\\\": \\\"361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2\\\",\\n    \\\"problem/problem_requirements.json\\\": \\\"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\\\",\\n    \\\"research/research_plan.json\\\": \\\"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\\\",\\n    \\\"research/source_ledger.json\\\": \\\"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\\\",\\n    \\\"state/case_policy.json\\\": \\\"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\\\",\\n    \\\"work/M01.json\\\": \\\"6f910b1c24c4e5d4b0327f3d9be58663e815441b9eceea094af72564a83c5b0e\\\",\\n    \\\"work/M02.json\\\": \\\"45449a7e69ad1474213ec4d770ad160f2bef54c57ea0401fb737c9cdda95a12d\\\",\\n    \\\"work/M03.json\\\": \\\"d5cb94f1cb3ec4c862eaadb2e37b3e6242f6f5001ac4476a44f1f937338f3022\\\"\\n  },\\n  \\\"request_id\\\": \\\"BRAIN-M04\\\",\\n  \\\"requirement_scope\\\": [\\n    \\\"REQ-A\\\",\\n    \\\"REQ-B\\\",\\n    \\\"REQ-C\\\"\\n  ],\\n  \\\"revision\\\": 2,\\n  \\\"schema_version\\\": \\\"module-request/v1\\\"\\n}\\n\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json\", \"sha256\": \"659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190\", \"prior_input_sha256\": \"57e596e69699768dc4fc9247447f59f97990f0baf3159d1048ebcc19f891f586\", \"bytes_unchanged\": false, \"content\": \"{\\n  \\\"actions\\\": [],\\n  \\\"artifacts\\\": [],\\n  \\\"case_id\\\": \\\"ORIGINAL-BRAIN-R2\\\",\\n  \\\"checks\\\": [],\\n  \\\"human_review\\\": \\\"NOT_RUN\\\",\\n  \\\"module\\\": \\\"M04\\\",\\n  \\\"negative_results\\\": [],\\n  \\\"original_requirements\\\": [],\\n  \\\"request_id\\\": \\\"BRAIN-M04\\\",\\n  \\\"requirement_scope\\\": [\\n    \\\"REQ-A\\\",\\n    \\\"REQ-B\\\",\\n    \\\"REQ-C\\\"\\n  ],\\n  \\\"review_questions\\\": [],\\n  \\\"revision\\\": 2,\\n  \\\"scientific_scope\\\": \\\"\\\",\\n  \\\"summary_cn\\\": \\\"\\\"\\n}\\n\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json\", \"sha256\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\", \"prior_input_sha256\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\", \"bytes_unchanged\": true, \"content\": \"{\\n  \\\"baseline_delay\\\": 1,\\n  \\\"containers\\\": [\\n    {\\n      \\\"cost\\\": 4,\\n      \\\"litres\\\": 3\\n    },\\n    {\\n      \\\"cost\\\": 7,\\n      \\\"litres\\\": 5\\n    }\\n  ],\\n  \\\"experiment_kind\\\": \\\"mixed\\\",\\n  \\\"fixed_demand_litres\\\": 8,\\n  \\\"flow_litres_per_minute\\\": 1,\\n  \\\"kind\\\": \\\"mixed\\\",\\n  \\\"observations\\\": [\\n    {\\n      \\\"available_at\\\": 0,\\n      \\\"entity_id\\\": \\\"EA\\\",\\n      \\\"observation_id\\\": \\\"A-0\\\",\\n      \\\"observed_at\\\": 0,\\n      \\\"value\\\": 12.0\\n    },\\n    {\\n      \\\"available_at\\\": 2,\\n      \\\"entity_id\\\": \\\"EA\\\",\\n      \\\"observation_id\\\": \\\"A-2\\\",\\n      \\\"observed_at\\\": 2,\\n      \\\"value\\\": 11.8\\n    },\\n    {\\n      \\\"available_at\\\": 4,\\n      \\\"entity_id\\\": \\\"EA\\\",\\n      \\\"observation_id\\\": \\\"A-4\\\",\\n      \\\"observed_at\\\": 4,\\n      \\\"value\\\": 11.6\\n    },\\n    {\\n      \\\"available_at\\\": 6,\\n      \\\"entity_id\\\": \\\"EA\\\",\\n      \\\"observation_id\\\": \\\"A-6\\\",\\n      \\\"observed_at\\\": 6,\\n      \\\"value\\\": 11.4\\n    },\\n    {\\n      \\\"available_at\\\": 8,\\n      \\\"entity_id\\\": \\\"EA\\\",\\n      \\\"observation_id\\\": \\\"A-8\\\",\\n      \\\"observed_at\\\": 8,\\n      \\\"value\\\": 11.2\\n    },\\n    {\\n      \\\"available_at\\\": 100,\\n      \\\"entity_id\\\": \\\"EB\\\",\\n      \\\"observation_id\\\": \\\"B-0\\\",\\n      \\\"observed_at\\\": 100,\\n      \\\"value\\\": 12.0\\n    },\\n    {\\n      \\\"available_at\\\": 102,\\n      \\\"entity_id\\\": \\\"EB\\\",\\n      \\\"observation_id\\\": \\\"B-2\\\",\\n      \\\"observed_at\\\": 102,\\n      \\\"value\\\": 11.8\\n    },\\n    {\\n      \\\"available_at\\\": 104,\\n      \\\"entity_id\\\": \\\"EB\\\",\\n      \\\"observation_id\\\": \\\"B-4\\\",\\n      \\\"observed_at\\\": 104,\\n      \\\"value\\\": 11.6\\n    },\\n    {\\n      \\\"available_at\\\": 106,\\n      \\\"entity_id\\\": \\\"EB\\\",\\n      \\\"observation_id\\\": \\\"B-6\\\",\\n      \\\"observed_at\\\": 106,\\n      \\\"value\\\": 11.4\\n    },\\n    {\\n      \\\"available_at\\\": 108,\\n      \\\"entity_id\\\": \\\"EB\\\",\\n      \\\"observation_id\\\": \\\"B-8\\\",\\n      \\\"observed_at\\\": 108,\\n      \\\"value\\\": 11.2\\n    },\\n    {\\n      \\\"available_at\\\": 110,\\n      \\\"entity_id\\\": \\\"EB\\\",\\n      \\\"observation_id\\\": \\\"B-10\\\",\\n      \\\"observed_at\\\": 110,\\n      \\\"value\\\": 11.0\\n    },\\n    {\\n      \\\"available_at\\\": 112,\\n      \\\"entity_id\\\": \\\"EB\\\",\\n      \\\"observation_id\\\": \\\"B-12\\\",\\n      \\\"observed_at\\\": 112,\\n      \\\"value\\\": 10.8\\n    },\\n    {\\n      \\\"available_at\\\": 20,\\n      \\\"entity_id\\\": \\\"EA\\\",\\n      \\\"observation_id\\\": \\\"A-end\\\",\\n      \\\"observed_at\\\": 20,\\n      \\\"value\\\": 10\\n    }\\n  ],\\n  \\\"provenance\\\": \\\"PROJECT_ORIGINAL_SYNTHETIC_TRAJECTORY_NOT_EMPIRICAL\\\",\\n  \\\"threshold\\\": 10,\\n  \\\"x\\\": [\\n    1,\\n    2\\n  ],\\n  \\\"y\\\": [\\n    3,\\n    4\\n  ]\\n}\\n\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json\", \"sha256\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\", \"prior_input_sha256\": \"302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9\", \"bytes_unchanged\": false, \"content\": \"{\\n  \\\"artifact_type\\\": \\\"problem_requirements\\\",\\n  \\\"content\\\": {\\n    \\\"case_id\\\": \\\"ORIGINAL-BRAIN-R2\\\",\\n    \\\"contract_version\\\": \\\"requirement-evidence/v1\\\",\\n    \\\"requirements\\\": [\\n      {\\n        \\\"allowed_evidence_classes\\\": [\\n          \\\"SIMULATION\\\"\\n        ],\\n        \\\"completion_rule\\\": \\\"ALL_REQUIRED_EVIDENCE\\\",\\n        \\\"dependency_requirements\\\": [\\n          \\\"REQ-B\\\"\\n        ],\\n        \\\"external_data_allowed\\\": false,\\n        \\\"external_data_required\\\": false,\\n        \\\"metric_contracts\\\": {\\n          \\\"metric_a\\\": {\\n            \\\"aggregation\\\": \\\"SINGLE\\\",\\n            \\\"denominator\\\": \\\"ONE\\\",\\n            \\\"direction\\\": \\\"MIN\\\",\\n            \\\"formula\\\": \\\"VALUE\\\",\\n            \\\"prediction_origin\\\": \\\"NOT_APPLICABLE\\\",\\n            \\\"quantity\\\": \\\"SCALAR\\\",\\n            \\\"sample_unit\\\": \\\"allocation\\\",\\n            \\\"target\\\": \\\"purchase_cost\\\",\\n            \\\"target_unit\\\": \\\"yuan\\\",\\n            \\\"unit\\\": \\\"yuan\\\",\\n            \\\"weights\\\": \\\"UNIFORM\\\",\\n            \\\"zero_denominator_policy\\\": \\\"REJECT\\\"\\n          }\\n        },\\n        \\\"minimum_data_fields\\\": [\\n          \\\"time\\\",\\n          \\\"level\\\",\\n          \\\"containers\\\"\\n        ],\\n        \\\"partial_completion_allowed\\\": false,\\n        \\\"required_entity_scope\\\": [\\n          \\\"ENTITY-SET\\\"\\n        ],\\n        \\\"required_evidence_classes\\\": [\\n          \\\"SIMULATION\\\"\\n        ],\\n        \\\"required_time_scope\\\": [\\n          \\\"FROZEN_SCOPE\\\"\\n        ],\\n        \\\"requirement_id\\\": \\\"REQ-A\\\",\\n        \\\"role\\\": \\\"PRIMARY\\\",\\n        \\\"scientific_facts_required\\\": true,\\n        \\\"simulation_substitution_allowed\\\": true\\n      },\\n      {\\n        \\\"allowed_evidence_classes\\\": [\\n          \\\"SIMULATION\\\"\\n        ],\\n        \\\"completion_rule\\\": \\\"ALL_REQUIRED_EVIDENCE\\\",\\n        \\\"dependency_requirements\\\": [],\\n        \\\"external_data_allowed\\\": false,\\n        \\\"external_data_required\\\": false,\\n        \\\"metric_contracts\\\": {\\n          \\\"metric_b\\\": {\\n            \\\"aggregation\\\": \\\"MEAN\\\",\\n            \\\"denominator\\\": \\\"TRUE_REMAINING_TIME\\\",\\n            \\\"direction\\\": \\\"MIN\\\",\\n            \\\"formula\\\": \\\"ABSOLUTE_RELATIVE_ERROR\\\",\\n            \\\"prediction_origin\\\": \\\"PER_SAMPLE\\\",\\n            \\\"quantity\\\": \\\"REMAINING_TIME\\\",\\n            \\\"sample_unit\\\": \\\"historical_origin\\\",\\n            \\\"target\\\": \\\"water_remaining_time\\\",\\n            \\\"target_unit\\\": \\\"min\\\",\\n            \\\"unit\\\": \\\"%\\\",\\n            \\\"weights\\\": \\\"UNIFORM\\\",\\n            \\\"zero_denominator_policy\\\": \\\"REJECT\\\"\\n          }\\n        },\\n        \\\"minimum_data_fields\\\": [\\n          \\\"time\\\",\\n          \\\"level\\\",\\n          \\\"containers\\\"\\n        ],\\n        \\\"partial_completion_allowed\\\": false,\\n        \\\"prediction_spec\\\": {\\n          \\\"claim_type\\\": \\\"PREDICTIVE\\\",\\n          \\\"conditions\\\": [\\n            \\\"Affine trend continues; no regime change.\\\"\\n          ],\\n          \\\"empirical_accuracy_required\\\": false,\\n          \\\"future_truth_field\\\": \\\"future_end_time\\\",\\n          \\\"historical_validation_required\\\": true,\\n          \\\"kind\\\": \\\"CONDITIONAL_ESTIMATE\\\",\\n          \\\"known_input_fields\\\": [\\n            \\\"time\\\",\\n            \\\"level\\\"\\n          ],\\n          \\\"model_basis\\\": \\\"Prefix-only affine level model continued to declared threshold\\\",\\n          \\\"target_field\\\": \\\"future_remaining_time\\\"\\n        },\\n        \\\"required_entity_scope\\\": [\\n          \\\"ENTITY-SET\\\"\\n        ],\\n        \\\"required_evidence_classes\\\": [\\n          \\\"SIMULATION\\\"\\n        ],\\n        \\\"required_time_scope\\\": [\\n          \\\"FROZEN_SCOPE\\\"\\n        ],\\n        \\\"requirement_id\\\": \\\"REQ-B\\\",\\n        \\\"role\\\": \\\"PRIMARY\\\",\\n        \\\"scientific_facts_required\\\": true,\\n        \\\"simulation_substitution_allowed\\\": true\\n      },\\n      {\\n        \\\"allowed_evidence_classes\\\": [\\n          \\\"SIMULATION\\\"\\n        ],\\n        \\\"completion_rule\\\": \\\"ALL_REQUIRED_EVIDENCE\\\",\\n        \\\"dependency_requirements\\\": [\\n          \\\"REQ-A\\\",\\n          \\\"REQ-B\\\"\\n        ],\\n        \\\"external_data_allowed\\\": false,\\n        \\\"external_data_required\\\": false,\\n        \\\"metric_contracts\\\": {\\n          \\\"metric_c\\\": {\\n            \\\"aggregation\\\": \\\"SINGLE\\\",\\n            \\\"denominator\\\": \\\"ONE\\\",\\n            \\\"direction\\\": \\\"MIN\\\",\\n            \\\"formula\\\": \\\"VALUE\\\",\\n            \\\"prediction_origin\\\": \\\"NOT_APPLICABLE\\\",\\n            \\\"quantity\\\": \\\"SCALAR\\\",\\n            \\\"sample_unit\\\": \\\"allocation\\\",\\n            \\\"target\\\": \\\"terminal_stock\\\",\\n            \\\"target_unit\\\": \\\"L\\\",\\n            \\\"unit\\\": \\\"L\\\",\\n            \\\"weights\\\": \\\"UNIFORM\\\",\\n            \\\"zero_denominator_policy\\\": \\\"REJECT\\\"\\n          }\\n        },\\n        \\\"minimum_data_fields\\\": [\\n          \\\"time\\\",\\n          \\\"level\\\",\\n          \\\"containers\\\"\\n        ],\\n        \\\"partial_completion_allowed\\\": false,\\n        \\\"required_entity_scope\\\": [\\n          \\\"ENTITY-SET\\\"\\n        ],\\n        \\\"required_evidence_classes\\\": [\\n          \\\"SIMULATION\\\"\\n        ],\\n        \\\"required_time_scope\\\": [\\n          \\\"FROZEN_SCOPE\\\"\\n        ],\\n        \\\"requirement_id\\\": \\\"REQ-C\\\",\\n        \\\"role\\\": \\\"PRIMARY\\\",\\n        \\\"scientific_facts_required\\\": true,\\n        \\\"simulation_substitution_allowed\\\": true\\n      }\\n    ]\\n  },\\n  \\\"content_hash\\\": \\\"fb43571f411b95a94c5c3faf0ed45aca19392a6f8d9ef687b6390b2bfa04b32d\\\",\\n  \\\"status\\\": \\\"ACCEPTED\\\"\\n}\\n\"}\n{\"path\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json\", \"sha256\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\", \"prior_input_sha256\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\", \"bytes_unchanged\": true}\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json": "317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/START_HERE.md": "6a225549241d720c12105238e61ccf971cbd80020fc64f6d894fc546b8db8f8c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/PROJECT_BRIEF.md": "80b1f27571f873755a40fd905b0c3aa454d54282b8e9ac370d887baf25187a1f",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/ROLE_PROMPTS.md": "6291b6b483fea098f5faf82364afbd3bfdf91ab2907816ed07cd117894a1dafb",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/M04.md": "306477efb39265c159ee0c12b5ff6b36deca15da4e3c07dfe91b43febb543c50",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/TASK.md": "b2bf03c893c235f126e177919e8b2b55166742530438575423bdc1ef0a89edd6",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/CONTEXT.md": "9cde6f5b8dfa8a1e45cd3ff4ffe8b932fa99c9721a1452b7882b07597f2f3ce0",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json": "659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c"
+      }
+    },
+    {
+      "sequence": 4,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python <PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py status --case-root /tmp/cumcm-modular-workbench-001/context-worker-r2"
+      ],
+      "process_argv": [
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py",
+        "status",
+        "--case-root",
+        "/tmp/cumcm-modular-workbench-001/context-worker-r2"
+      ],
+      "utc_start": "2026-09-09 09:42:56 UTC",
+      "utc_end": "2026-09-09 09:42:56 UTC",
+      "input_files": {
+        "request_sha256": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+        "context_file_sha256": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+        "hash_provenance": "Actual supplied R2 bytes hashed by preceding command; internal CLI case hashes supplied through context, no implementation source opened"
+      },
+      "result": {
+        "chunk_id": "908ba5",
+        "wall_time_seconds": 0.001675601,
+        "exit_code": 0,
+        "original_token_count": 849,
+        "output": "{\"case_id\": \"ORIGINAL-BRAIN-R2\", \"human_review\": \"NOT_RUN\", \"implementation\": {\"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\", \"tool_commit\": \"7e5bd4297c74cfa3b6c0920bc553d56181097afc\"}, \"modules\": [{\"module\": \"M01\", \"request_id\": \"BRAIN-M01\", \"scope\": [\"ALL\"], \"status\": \"COMPLETED\"}, {\"module\": \"M02\", \"request_id\": \"BRAIN-M02\", \"scope\": [\"ALL\"], \"status\": \"COMPLETED\"}, {\"module\": \"M03\", \"request_id\": \"BRAIN-M03\", \"scope\": [\"REQ-A\", \"REQ-B\", \"REQ-C\"], \"status\": \"COMPLETED\"}, {\"module\": \"M04\", \"request_id\": \"BRAIN-M04\", \"scope\": [\"REQ-A\", \"REQ-B\", \"REQ-C\"], \"status\": \"PREPARED\"}], \"native_state\": {\"architecture\": \"ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL\", \"capability\": \"COMPETITION_RC\", \"case_id\": \"ORIGINAL-BRAIN-R2\", \"case_kind\": \"general\", \"evidence_bindings\": {\"evidence/module_requests/BRAIN-M01/completion.json\": \"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\", \"evidence/module_requests/BRAIN-M01/request.json\": \"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\", \"evidence/module_requests/BRAIN-M02/completion.json\": \"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\", \"evidence/module_requests/BRAIN-M02/request.json\": \"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\", \"evidence/module_requests/BRAIN-M03/completion.json\": \"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\", \"evidence/module_requests/BRAIN-M03/request.json\": \"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\", \"evidence/module_requests/BRAIN-M04/request.json\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\", \"evidence/parent_origin.json\": \"478ca15bc05b35c9db372e2caab3728b6876327f707684f777b0d2fd38dc45d9\", \"problem/problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\", \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\", \"research/source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\", \"state/case_policy.json\": \"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\"}, \"history\": [{\"evidence\": [\"state/case_policy.json\"], \"from\": null, \"gate\": \"INIT\", \"sequence\": 0, \"status\": \"PASS\", \"to\": \"CREATED\"}, {\"evidence\": [\"problem/problem_requirements.json\"], \"from\": \"CREATED\", \"gate\": \"GATE_PROBLEM_INTAKE\", \"sequence\": 1, \"status\": \"PASS\", \"to\": \"INTAKE_COMPLETE\"}, {\"evidence\": [\"problem/problem_requirements.json\"], \"from\": \"INTAKE_COMPLETE\", \"gate\": \"GATE_REQUIREMENT_COVERAGE\", \"sequence\": 2, \"status\": \"PASS\", \"to\": \"REQUIREMENTS_VALIDATED\"}, {\"evidence\": [\"research/research_plan.json\", \"research/source_ledger.json\"], \"from\": \"REQUIREMENTS_VALIDATED\", \"gate\": \"GATE_SOURCE_PLAN\", \"sequence\": 3, \"status\": \"PASS\", \"to\": \"SOURCES_PLANNED\"}], \"last_gate\": \"GATE_SOURCE_PLAN\", \"schema_version\": \"1.0.0\", \"skill_version\": \"0.2.0-competition-rc10\", \"state\": \"SOURCES_PLANNED\"}, \"policy\": {\"automatic_publication\": false, \"case_id\": \"ORIGINAL-BRAIN-R2\", \"created_at\": \"2026-09-09T09:40:54Z\", \"execution_mode\": \"GUIDED_SINGLE_MODULE\", \"mode\": \"GUIDED_LOCAL\", \"parent_origin_sha256\": \"b77a59f9ddeef7bd898963f02666cf4a10d799422aed7967cee8425ed30288cf\", \"research_policy\": \"USER_AUTHORIZED_GENERAL_SOURCES_ONLY\", \"revision\": 2, \"schema_version\": \"case-policy/v1\", \"team_compliance_review\": \"NOT_RUN\"}}\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {}
+    },
+    {
+      "sequence": 5,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python <PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py resume --case-root /tmp/cumcm-modular-workbench-001/context-worker-r2 --request BRAIN-M04"
+      ],
+      "process_argv": [
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py",
+        "resume",
+        "--case-root",
+        "/tmp/cumcm-modular-workbench-001/context-worker-r2",
+        "--request",
+        "BRAIN-M04"
+      ],
+      "utc_start": "2026-09-09 09:42:56 UTC",
+      "utc_end": "2026-09-09 09:42:56 UTC",
+      "input_files": {
+        "request_sha256": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+        "context_file_sha256": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+        "hash_provenance": "Actual supplied R2 bytes hashed by preceding command; internal CLI case hashes supplied through context, no implementation source opened"
+      },
+      "result": {
+        "chunk_id": "8a0870",
+        "wall_time_seconds": 0.024485758,
+        "exit_code": 0,
+        "original_token_count": 959,
+        "output": "{\"case_id\": \"ORIGINAL-BRAIN-R2\", \"human_review\": \"NOT_RUN\", \"implementation\": {\"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\", \"tool_commit\": \"7e5bd4297c74cfa3b6c0920bc553d56181097afc\"}, \"modules\": [{\"module\": \"M01\", \"request_id\": \"BRAIN-M01\", \"scope\": [\"ALL\"], \"status\": \"COMPLETED\"}, {\"module\": \"M02\", \"request_id\": \"BRAIN-M02\", \"scope\": [\"ALL\"], \"status\": \"COMPLETED\"}, {\"module\": \"M03\", \"request_id\": \"BRAIN-M03\", \"scope\": [\"REQ-A\", \"REQ-B\", \"REQ-C\"], \"status\": \"COMPLETED\"}, {\"module\": \"M04\", \"request_id\": \"BRAIN-M04\", \"scope\": [\"REQ-A\", \"REQ-B\", \"REQ-C\"], \"status\": \"PREPARED\"}], \"native_state\": {\"architecture\": \"ARCH-K1-THIN-SKILL-DETERMINISTIC-EVIDENCE-KERNEL\", \"capability\": \"COMPETITION_RC\", \"case_id\": \"ORIGINAL-BRAIN-R2\", \"case_kind\": \"general\", \"evidence_bindings\": {\"evidence/module_requests/BRAIN-M01/completion.json\": \"beda8ee093a59e308c0967a9e2e921a7ef5ec04dc1ebfdf89cd760396c8ac8b3\", \"evidence/module_requests/BRAIN-M01/request.json\": \"a6dd4546d07c174c50fa0fe8f4acf288a4a8f6d447fb2298de67006617da0814\", \"evidence/module_requests/BRAIN-M02/completion.json\": \"5b2e732df8477ddfb74752fd726719af1c7b4368bcbd7002cecc8bf360db0894\", \"evidence/module_requests/BRAIN-M02/request.json\": \"0cb8a673fa2e5cf79f3923777fde41ad495fdeff572639a3925c85c48fabc2a6\", \"evidence/module_requests/BRAIN-M03/completion.json\": \"7a009595b92eedbc8db7ed54ba96c092f2aedd18d3379ee4a1a701c9c8d48322\", \"evidence/module_requests/BRAIN-M03/request.json\": \"043238fa794f7fa925675eb0f67b877764bffc5f99d1f83d5f8dbade5dd87faf\", \"evidence/module_requests/BRAIN-M04/request.json\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\", \"evidence/parent_origin.json\": \"478ca15bc05b35c9db372e2caab3728b6876327f707684f777b0d2fd38dc45d9\", \"problem/problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\", \"research/research_plan.json\": \"e7244e476025f6dfcdc50f1bbec0157156e3011a09c16f163b1a2199010a4e7c\", \"research/source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\", \"state/case_policy.json\": \"48433787a662cfb139732d29de77b0e8ec85fd5149df11a543c74f4bbe853f52\"}, \"history\": [{\"evidence\": [\"state/case_policy.json\"], \"from\": null, \"gate\": \"INIT\", \"sequence\": 0, \"status\": \"PASS\", \"to\": \"CREATED\"}, {\"evidence\": [\"problem/problem_requirements.json\"], \"from\": \"CREATED\", \"gate\": \"GATE_PROBLEM_INTAKE\", \"sequence\": 1, \"status\": \"PASS\", \"to\": \"INTAKE_COMPLETE\"}, {\"evidence\": [\"problem/problem_requirements.json\"], \"from\": \"INTAKE_COMPLETE\", \"gate\": \"GATE_REQUIREMENT_COVERAGE\", \"sequence\": 2, \"status\": \"PASS\", \"to\": \"REQUIREMENTS_VALIDATED\"}, {\"evidence\": [\"research/research_plan.json\", \"research/source_ledger.json\"], \"from\": \"REQUIREMENTS_VALIDATED\", \"gate\": \"GATE_SOURCE_PLAN\", \"sequence\": 3, \"status\": \"PASS\", \"to\": \"SOURCES_PLANNED\"}], \"last_gate\": \"GATE_SOURCE_PLAN\", \"schema_version\": \"1.0.0\", \"skill_version\": \"0.2.0-competition-rc10\", \"state\": \"SOURCES_PLANNED\"}, \"operations\": [], \"policy\": {\"automatic_publication\": false, \"case_id\": \"ORIGINAL-BRAIN-R2\", \"created_at\": \"2026-09-09T09:40:54Z\", \"execution_mode\": \"GUIDED_SINGLE_MODULE\", \"mode\": \"GUIDED_LOCAL\", \"parent_origin_sha256\": \"b77a59f9ddeef7bd898963f02666cf4a10d799422aed7967cee8425ed30288cf\", \"research_policy\": \"USER_AUTHORIZED_GENERAL_SOURCES_ONLY\", \"revision\": 2, \"schema_version\": \"case-policy/v1\", \"team_compliance_review\": \"NOT_RUN\"}, \"recovery\": {\"automatic_starts\": 0, \"changed_input\": \"原件不可覆盖。新输入另行登记，新root重做受影响模块，不继承Final通过。\", \"completed_operation\": \"相同run参数复用已记录结果，不启动第二次。\", \"interrupted_operation\": \"保留STARTED/FAILED；核对实际capture和Final账本后新建revision。\", \"prepared\": \"继续原请求；complete可重入并补导出审查包。\"}}\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {}
+    },
+    {
+      "sequence": 6,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python <PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py context-verify --case-root /tmp/cumcm-modular-workbench-001/context-worker-r2 --context contexts/handoff-r2/context.json"
+      ],
+      "process_argv": [
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.agents/skills/cumcm-modeling-evidence/scripts/cumcm_workbench.py",
+        "context-verify",
+        "--case-root",
+        "/tmp/cumcm-modular-workbench-001/context-worker-r2",
+        "--context",
+        "contexts/handoff-r2/context.json"
+      ],
+      "utc_start": "2026-09-09 09:42:56 UTC",
+      "utc_end": "2026-09-09 09:42:56 UTC",
+      "input_files": {
+        "request_sha256": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+        "context_file_sha256": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+        "hash_provenance": "Actual supplied R2 bytes hashed by preceding command; internal CLI case hashes supplied through context, no implementation source opened"
+      },
+      "result": {
+        "chunk_id": "04e141",
+        "wall_time_seconds": 0.027884685,
+        "exit_code": 0,
+        "original_token_count": 35,
+        "output": "{\"context_hash\": \"a96abe43c88c87c5f4f0bbd195a726e6d8e3a2e19e811deae3207e83a69254bf\", \"scripts_executed\": 0, \"status\": \"CONTEXT_CURRENT\"}\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {}
+    },
+    {
+      "sequence": 7,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,copy,hashlib,json\nbase=Path('<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker')\nroot=base/'input-r2'\nold=base/'output'\nout=base/'output-r2'\nread_hashes={}\ndef read(p):\n b=p.read_bytes();read_hashes[str(p)]=hashlib.sha256(b).hexdigest();return b\narchive=json.loads(read(old/'tool_record.json'))\nprior_contents={}\nfor command in archive['shell_python_commands']:\n for line in command['result']['output'].splitlines():\n  try: value=json.loads(line)\n  except json.JSONDecodeError: continue\n  if 'path' in value and 'content' in value: prior_contents[Path(value['path']).name]=value['content']\nrequest=json.loads(read(root/'request.json'))\ncontext=json.loads(read(root/'context.json'))\nrequirements=json.loads(read(root/'problem_requirements.json'))\nsource=json.loads(read(root/'source_ledger.json'))\nraw=read(root/'input.json')\ntask=read(root/'TASK.md')\ntemplate=json.loads(read(root/'work-report.template.json'))\nold_requirements=json.loads(prior_contents['problem_requirements.json'])\nold_request=json.loads(prior_contents['request.json'])\nold_req_content=copy.deepcopy(old_requirements['content'])\nnew_req_content=copy.deepcopy(requirements['content'])\nold_case_id=old_req_content.pop('case_id');new_case_id=new_req_content.pop('case_id')\nassert old_req_content==new_req_content\nassert request['case_id']==context['status']['case_id']==requirements['content']['case_id']==template['case_id']=='ORIGINAL-BRAIN-R2'\nassert request['revision']==context['status']['policy']['revision']==template['revision']==2\nassert request['request_id']==template['request_id']=='BRAIN-M04'\nassert request['module']==template['module']=='M04'\nassert request['requirement_scope']==template['requirement_scope']==['REQ-A','REQ-B','REQ-C']\nassert request['implementation']==context['status']['implementation']\nfor name,canonical in [('input.json','data/raw/input.json'),('problem_requirements.json','problem/problem_requirements.json'),('source_ledger.json','research/source_ledger.json')]:\n assert read_hashes[str(root/name)]==request['prerequisite_files'][canonical]\nassert read_hashes[str(root/'input.json')]==old_request['prerequisite_files']['data/raw/input.json']==source['content']['sources'][0]['hash']\nassert read_hashes[str(root/'source_ledger.json')]==old_request['prerequisite_files']['research/source_ledger.json']\nassert task.decode()==prior_contents['TASK.md']\nassert request['prerequisite_files']['problem/original.md']==old_request['prerequisite_files']['problem/original.md']\nassumptions=json.loads(read(old/'assumptions_and_symbols.json'))\noriginal_assumptions=copy.deepcopy(assumptions)\nassumptions.update(case_id=request['case_id'],request_id=request['request_id'],revision=request['revision'],requirement_ids=request['requirement_scope'])\nassumptions['input_bindings']={n:read_hashes[str(root/n)] for n in ['input.json','problem_requirements.json','source_ledger.json','request.json','context.json']}\nassumptions['revalidation']={'method':'Unchanged mathematical content; R2 identity from actual request/template and prefix arithmetic rerun required.','implementation':request['implementation'],'parent_proposal_sha256':read_hashes[str(old/'assumptions_and_symbols.json')]}\nfor key in ['objects','assumptions','symbols','formulas','requirement_trace','timing_alternative','arithmetic_example','unused_fields','limitations']:\n assert assumptions[key]==original_assumptions[key]\nscript=read(old/'independent_m04_check.py').decode()\nold_identity=\"assert req['case_id'] == context['status']['case_id'] == 'ORIGINAL-WATER-MIXED'\"\nnew_identity=\"assert req['case_id'] == context['status']['case_id'] == requirements['content']['case_id']\\n    assert req['revision'] == context['status']['policy']['revision']\\n    assert req['implementation'] == context['status']['implementation']\"\nassert script.count(old_identity)==1\nnew_script=script.replace(old_identity,new_identity)\nresult_marker=\"'request_id':req['request_id'],'module':'M04','classification':'ARITHMETIC_EXAMPLES_NOT_FORMAL_RUN',\"\nassert new_script.count(result_marker)==1\nnew_script=new_script.replace(result_marker,\"'request_id':req['request_id'],'revision':req['revision'],'implementation':req['implementation'],\\n              'module':'M04','classification':'ARITHMETIC_EXAMPLES_NOT_FORMAL_RUN',\")\nold_functions={x.name:ast.dump(x) for x in ast.parse(script).body if isinstance(x,ast.FunctionDef)}\nnew_functions={x.name:ast.dump(x) for x in ast.parse(new_script).body if isinstance(x,ast.FunctionDef)}\nassert {k:v for k,v in old_functions.items() if k!='main'}=={k:v for k,v in new_functions.items() if k!='main'}\nanalysis=read(old/'analysis.md').decode()\nassert analysis.count('ORIGINAL-WATER-MIXED / BRAIN-M04 / revision 1')==1\nanalysis=analysis.replace('ORIGINAL-WATER-MIXED / BRAIN-M04 / revision 1','ORIGINAL-BRAIN-R2 / BRAIN-M04 / revision 2')\nanalysis+='\\n## R2 身份复核\\n\\n本次仅由新 request/template 绑定 case 身份和 revision。raw input、source ledger、TASK 字节一致；requirements 除 case_id 和其包装 hash 外语义一致。原题 original.md 未直接读取，只核对两轮 request 登记的 hash 一致。独立算术程序仅修正身份断言及输出元数据，数学函数 AST 未变；实际复跑证据单独保存在本 output-r2。旧 output 未覆盖。\\n'\ncomparison={'case_id':request['case_id'],'revision':2,'request_id':request['request_id'],'implementation':request['implementation'],'raw_bytes_unchanged':True,'source_ledger_bytes_unchanged':True,'task_bytes_unchanged':True,'requirements_content_equal_after_removing_case_id':True,'requirements_changes':['content.case_id','content_hash'],'original_statement_registered_hash_unchanged':True,'original_statement_directly_read':False,'math_function_asts_unchanged':True,'assumption_math_sections_unchanged':True,'initial_original_case_id':old_case_id,'current_case_id':new_case_id,'input_sha256':read_hashes,'formal_acceptance':'NOT_RUN_BY_WORKER'}\nout.mkdir(exist_ok=False)\nfor name,text in [('assumptions_and_symbols.json',json.dumps(assumptions,ensure_ascii=False,indent=2)+'\\n'),('independent_m04_check.py',new_script),('analysis.md',analysis),('input_comparison.json',json.dumps(comparison,ensure_ascii=False,indent=2)+'\\n')]:\n (out/name).write_text(text)\noutputs={str(out/n):hashlib.sha256((out/n).read_bytes()).hexdigest() for n in ['assumptions_and_symbols.json','independent_m04_check.py','analysis.md','input_comparison.json']}\nprint(json.dumps({'comparison':'PASS','case_id':request['case_id'],'revision':2,'raw_and_source_and_task_unchanged':True,'requirements_only_identity_changed':True,'math_function_asts_unchanged':True,'input_sha256':read_hashes,'output_sha256':outputs},ensure_ascii=False))\nPY"
+      ],
+      "process_argv": [
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python",
+        "-"
+      ],
+      "utc_start": "2026-09-09 09:44:12 UTC",
+      "utc_end": "2026-09-09 09:44:12 UTC",
+      "input_files": "Actual per-file read SHA-256 and output hashes in stdout",
+      "result": {
+        "chunk_id": "1002d8",
+        "wall_time_seconds": 0.000008553,
+        "exit_code": 0,
+        "original_token_count": 714,
+        "output": "{\"comparison\": \"PASS\", \"case_id\": \"ORIGINAL-BRAIN-R2\", \"revision\": 2, \"raw_and_source_and_task_unchanged\": true, \"requirements_only_identity_changed\": true, \"math_function_asts_unchanged\": true, \"input_sha256\": {\"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json\": \"317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json\": \"bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/TASK.md\": \"b2bf03c893c235f126e177919e8b2b55166742530438575423bdc1ef0a89edd6\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json\": \"659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/assumptions_and_symbols.json\": \"f296ce3cb2767e2c5add355fb5cce8500b80c20ed8bd8b176f76dda5f2872b68\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/independent_m04_check.py\": \"efcc9b1a767f12b3c06ba5cc8405ef4ed15fe77a01fe0630d64cf2e497559300\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/analysis.md\": \"5d1f2b4a3912d25bd83b07ae5ff7ca36450e64aa34b7fe01db81e46539bf087b\"}, \"output_sha256\": {\"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/assumptions_and_symbols.json\": \"fdc2ba448a3b886197a595111d6bc590df12950a23f1c5189140f0dcad0e20d4\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py\": \"509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/analysis.md\": \"6035a923193e100be68aca8f9d03808bafee0a4fc14669a0d3a6ac7881152984\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/input_comparison.json\": \"a9442d6d29dcb6f89816fc52b5b87c87323a45c43898e4155965bd3c1041b77d\"}}\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json": "317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/TASK.md": "b2bf03c893c235f126e177919e8b2b55166742530438575423bdc1ef0a89edd6",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json": "659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/assumptions_and_symbols.json": "f296ce3cb2767e2c5add355fb5cce8500b80c20ed8bd8b176f76dda5f2872b68",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/independent_m04_check.py": "efcc9b1a767f12b3c06ba5cc8405ef4ed15fe77a01fe0630d64cf2e497559300",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/analysis.md": "5d1f2b4a3912d25bd83b07ae5ff7ca36450e64aa34b7fe01db81e46539bf087b"
+      }
+    },
+    {
+      "sequence": 8,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python <PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py --input-root <PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2 --output <PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json"
+      ],
+      "process_argv": [
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py",
+        "--input-root",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2",
+        "--output",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json"
+      ],
+      "utc_start": "2026-09-09 09:44:28 UTC",
+      "utc_end": "2026-09-09 09:44:28 UTC",
+      "input_files": "Actual inputs and executed-script SHA-256 are recorded in stdout",
+      "result": {
+        "chunk_id": "ae71ca",
+        "wall_time_seconds": 0.000008473,
+        "exit_code": 0,
+        "original_token_count": 368,
+        "output": "{\"output\": \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json\", \"output_sha256\": \"8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2\", \"script_sha256\": \"509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523\", \"input_sha256\": {\"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json\": \"bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef\"}, \"all_internal_assertions\": \"PASS\", \"remaining_min\": 8, \"purchase_cost_yuan\": 11, \"counts\": [1, 1], \"stock_litres\": [8, 7, 6, 5, 4, 3, 2, 1, 0], \"historical_mare_percent\": 0, \"historical_origin_count\": 4, \"independent_historical_entities\": 1, \"formal_run\": false, \"automatically_entered_M05\": false}\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef"
+      }
+    },
+    {
+      "sequence": 9,
+      "cwd": "<PRIVATE_USER_ROOT>/project/cumcm",
+      "shell_argv": [
+        "/bin/bash",
+        "-c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,copy,hashlib,json\nbase=Path('<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker')\nroot=base/'input-r2';old=base/'output';out=base/'output-r2'\nread_hashes={}\ndef read(p):\n b=p.read_bytes();read_hashes[str(p)]=hashlib.sha256(b).hexdigest();return b\ntemplate=json.loads(read(root/'work-report.template.json'))\nrequest=json.loads(read(root/'request.json'))\ncontext=json.loads(read(root/'context.json'))\nprior_report=json.loads(read(old/'work-report.proposal.json'))\nprior_numeric=json.loads(read(old/'numerical_results.json'))\nnumeric=json.loads(read(out/'numerical_results.json'))\nassumptions=json.loads(read(out/'assumptions_and_symbols.json'))\ncomparison=json.loads(read(out/'input_comparison.json'))\nscript=read(out/'independent_m04_check.py').decode()\nast.parse(script)\nassert numeric['all_internal_assertions']=='PASS'\nassert numeric['case_id']==request['case_id']==template['case_id']==context['status']['case_id']=='ORIGINAL-BRAIN-R2'\nassert numeric['revision']==request['revision']==template['revision']==2\nassert numeric['implementation']==request['implementation']==context['status']['implementation']\nassert numeric['script_sha256']==read_hashes[str(out/'independent_m04_check.py')]\nfor path,h in numeric['input_sha256'].items():\n assert hashlib.sha256(read(Path(path))).hexdigest()==h\nmetadata={'case_id','request_id','revision','implementation','input_sha256','script_sha256'}\nassert {k:v for k,v in numeric.items() if k not in metadata}=={k:v for k,v in prior_numeric.items() if k not in metadata}\nassumptions['revalidation']['method']='Unchanged mathematical content; R2 identity read from actual request/template and independent exact arithmetic rerun PASS.'\nassumptions['revalidation']['numerical_results_sha256']=read_hashes[str(out/'numerical_results.json')]\n(out/'assumptions_and_symbols.json').write_text(json.dumps(assumptions,ensure_ascii=False,indent=2)+'\\n')\nreport=copy.deepcopy(prior_report)\nfor key in ['case_id','module','request_id','requirement_scope','revision','human_review']:\n report[key]=template[key]\nreport['actions']=[\n 'Read only the allowed R2 input pack and own prior analysis artifacts; reused previously read permitted M04 guidance.',\n 'Actually called R2 public status, resume --request BRAIN-M04, and context-verify: all exit 0, no model started.',\n 'Verified identical raw input, source ledger and TASK bytes; requirements mathematical content unchanged except case identity.',\n 'Rebound private assumptions and report identity from actual R2 request/template, preserving original output directory.',\n 'Executed independent_m04_check.py on R2 inputs; exact arithmetic passed and all non-metadata results equal the original private example.',\n 'Submitted content-only assumptions and report proposal for sole Orchestrator installation and formal complete.'\n]\nreport['checks']=[\n 'R2 status exit 0: ORIGINAL-BRAIN-R2, revision 2, M01-M03 COMPLETED, M04 PREPARED, SOURCES_PLANNED.',\n 'R2 resume exit 0: automatic_starts=0; operations empty.',\n 'R2 context-verify exit 0: CONTEXT_CURRENT; scripts_executed=0.',\n 'Raw/source/TASK unchanged; requirements semantics unchanged; registered original.md hash unchanged but original.md not directly read.',\n 'Python syntax and exact arithmetic PASS; input and script hashes checked; five expected rejection cases, 9 demand boundaries, stock recurrence and units passed.',\n 'All non-metadata numerical results exactly match original private arithmetic; no future truth or accuracy added.',\n 'Template root keys and new identity match; native array element schema and formal complete remain for Orchestrator.'\n]\nreport['summary_cn']='R2 身份复核与 M04 精确算术复跑通过；新请求仍 PREPARED、原生 SOURCES_PLANNED。所有提案只写 output-r2，原 output 保留。正式 complete 由唯一主 Agent 验收，未自动 M05。'\nassert set(report)==set(template)\nfor key in ['case_id','module','request_id','revision','requirement_scope']:\n assert report[key]==template[key]==request[key]\n(out/'work-report.proposal.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\\n')\nsymbols=[v['symbol'] for v in assumptions['symbols']]\nassert len(symbols)==len(set(symbols))\nfor formula in assumptions['formulas']:\n assert set(formula['symbols'])<=set(symbols)\n assert set(formula['requirement_ids'])<=set(request['requirement_scope'])\nassert assumptions['state_boundary']['automatically_entered_M05'] is False\nassert numeric['future_endpoint_truth']=='UNKNOWN'\narchive=json.loads(read(old/'tool_record.json'))\nold_expected={}\nfor command in archive['shell_python_commands']:\n for line in command['result']['output'].splitlines():\n  try: value=json.loads(line)\n  except json.JSONDecodeError: continue\n  old_expected.update(value.get('input_and_artifact_sha256',{}))\nfor name in ['assumptions_and_symbols.json','analysis.md','independent_m04_check.py','numerical_results.json','work-report.proposal.json']:\n p=old/name\n assert hashlib.sha256(read(p)).hexdigest()==old_expected[str(p)]\npaths=[out/n for n in ['assumptions_and_symbols.json','analysis.md','independent_m04_check.py','numerical_results.json','work-report.proposal.json','input_comparison.json']]\noutput_hashes={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}\nverification={'case_id':request['case_id'],'revision':request['revision'],'request_id':request['request_id'],'implementation':request['implementation'],'syntax':'PASS','input_identity':'PASS','private_arithmetic':'PASS','all_nonmetadata_results_equal_r1':True,'old_five_outputs_hash_unchanged':True,'unique_symbols':len(symbols),'formula_count':len(assumptions['formulas']),'native_template_root_fields_match':True,'formal_complete':'NOT_RUN_BY_WORKER','automatically_entered_M05':False,'input_sha256':read_hashes,'output_sha256':output_hashes}\n(out/'verification.json').write_text(json.dumps(verification,ensure_ascii=False,indent=2)+'\\n')\nprint(json.dumps({**verification,'verification_sha256':hashlib.sha256((out/'verification.json').read_bytes()).hexdigest()},ensure_ascii=False))\nPY"
+      ],
+      "process_argv": [
+        "<PRIVATE_USER_ROOT>/project/cumcm/.venv/bin/python",
+        "-"
+      ],
+      "utc_start": "2026-09-09 09:45:34 UTC",
+      "utc_end": "2026-09-09 09:45:34 UTC",
+      "input_files": "Actual read, final output and verification hashes in stdout",
+      "result": {
+        "chunk_id": "9a9415",
+        "wall_time_seconds": 0.000006387,
+        "exit_code": 0,
+        "original_token_count": 1150,
+        "output": "{\"case_id\": \"ORIGINAL-BRAIN-R2\", \"revision\": 2, \"request_id\": \"BRAIN-M04\", \"implementation\": {\"implementation_sha256\": \"73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff\", \"tool_commit\": \"7e5bd4297c74cfa3b6c0920bc553d56181097afc\"}, \"syntax\": \"PASS\", \"input_identity\": \"PASS\", \"private_arithmetic\": \"PASS\", \"all_nonmetadata_results_equal_r1\": true, \"old_five_outputs_hash_unchanged\": true, \"unique_symbols\": 42, \"formula_count\": 7, \"native_template_root_fields_match\": true, \"formal_complete\": \"NOT_RUN_BY_WORKER\", \"automatically_entered_M05\": false, \"input_sha256\": {\"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json\": \"659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json\": \"90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json\": \"bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/work-report.proposal.json\": \"2b10a35efdd34e544008d3461a98c9a0c17a9db95a767803c8e4c0b715a45b34\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/numerical_results.json\": \"c763746e0ff49fa7d4767b61e318acc4167d8770828218a41b0a525115a01e11\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json\": \"8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/assumptions_and_symbols.json\": \"fdc2ba448a3b886197a595111d6bc590df12950a23f1c5189140f0dcad0e20d4\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/input_comparison.json\": \"a9442d6d29dcb6f89816fc52b5b87c87323a45c43898e4155965bd3c1041b77d\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py\": \"509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json\": \"571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json\": \"eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json\": \"0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json\": \"317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/assumptions_and_symbols.json\": \"f296ce3cb2767e2c5add355fb5cce8500b80c20ed8bd8b176f76dda5f2872b68\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/analysis.md\": \"5d1f2b4a3912d25bd83b07ae5ff7ca36450e64aa34b7fe01db81e46539bf087b\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/independent_m04_check.py\": \"efcc9b1a767f12b3c06ba5cc8405ef4ed15fe77a01fe0630d64cf2e497559300\"}, \"output_sha256\": {\"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/assumptions_and_symbols.json\": \"a0d679f838f2ede47f241098e72d9f075f65baa8311396eba472950b05950e35\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/analysis.md\": \"6035a923193e100be68aca8f9d03808bafee0a4fc14669a0d3a6ac7881152984\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py\": \"509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json\": \"8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/work-report.proposal.json\": \"6d58459ca57655ae72323bcec9e0201703c10da326dbad3e5f4fe2b10e213c8f\", \"<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/input_comparison.json\": \"a9442d6d29dcb6f89816fc52b5b87c87323a45c43898e4155965bd3c1041b77d\"}, \"verification_sha256\": \"70eb388d6deeed77ccf93dd1b57d75be446c5ec880ac766868e17f017b747d3a\"}\n"
+      },
+      "exit_code": 0,
+      "directly_observed_input_sha256": {
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json": "659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/work-report.proposal.json": "2b10a35efdd34e544008d3461a98c9a0c17a9db95a767803c8e4c0b715a45b34",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/numerical_results.json": "c763746e0ff49fa7d4767b61e318acc4167d8770828218a41b0a525115a01e11",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json": "8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/assumptions_and_symbols.json": "fdc2ba448a3b886197a595111d6bc590df12950a23f1c5189140f0dcad0e20d4",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/input_comparison.json": "a9442d6d29dcb6f89816fc52b5b87c87323a45c43898e4155965bd3c1041b77d",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py": "509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json": "317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/assumptions_and_symbols.json": "f296ce3cb2767e2c5add355fb5cce8500b80c20ed8bd8b176f76dda5f2872b68",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/analysis.md": "5d1f2b4a3912d25bd83b07ae5ff7ca36450e64aa34b7fe01db81e46539bf087b",
+        "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/independent_m04_check.py": "efcc9b1a767f12b3c06ba5cc8405ef4ed15fe77a01fe0630d64cf2e497559300"
+      }
+    }
+  ],
+  "output_verification": {
+    "case_id": "ORIGINAL-BRAIN-R2",
+    "revision": 2,
+    "request_id": "BRAIN-M04",
+    "implementation": {
+      "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff",
+      "tool_commit": "7e5bd4297c74cfa3b6c0920bc553d56181097afc"
+    },
+    "syntax": "PASS",
+    "input_identity": "PASS",
+    "private_arithmetic": "PASS",
+    "all_nonmetadata_results_equal_r1": true,
+    "old_five_outputs_hash_unchanged": true,
+    "unique_symbols": 42,
+    "formula_count": 7,
+    "native_template_root_fields_match": true,
+    "formal_complete": "NOT_RUN_BY_WORKER",
+    "automatically_entered_M05": false,
+    "input_sha256": {
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/work-report.template.json": "659e503964b17ecdd005e6de2cf8fd97e925282e19e1cb3ef45ee20aa0e70190",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/request.json": "90146de24e46d4f40191925e7a934517bd463b2278817bcdde4817ab6c762b1a",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/context.json": "bde0b9775630670e8fa7a73089f9988cd8d69c0a009d2ce63cb62bccb8cbf3ef",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/work-report.proposal.json": "2b10a35efdd34e544008d3461a98c9a0c17a9db95a767803c8e4c0b715a45b34",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/numerical_results.json": "c763746e0ff49fa7d4767b61e318acc4167d8770828218a41b0a525115a01e11",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json": "8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/assumptions_and_symbols.json": "fdc2ba448a3b886197a595111d6bc590df12950a23f1c5189140f0dcad0e20d4",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/input_comparison.json": "a9442d6d29dcb6f89816fc52b5b87c87323a45c43898e4155965bd3c1041b77d",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py": "509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/input.json": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/problem_requirements.json": "eb0fdfaa318c09d3fef199f67eddab8b0edf24eadebfab65fd97e765fdd0a9fc",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/input-r2/source_ledger.json": "0236b93e98ca172808f6f6c8b318e0a595ce5d108cbdcda08c8d5bf3feb90b2c",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/tool_record.json": "317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/assumptions_and_symbols.json": "f296ce3cb2767e2c5add355fb5cce8500b80c20ed8bd8b176f76dda5f2872b68",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/analysis.md": "5d1f2b4a3912d25bd83b07ae5ff7ca36450e64aa34b7fe01db81e46539bf087b",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output/independent_m04_check.py": "efcc9b1a767f12b3c06ba5cc8405ef4ed15fe77a01fe0630d64cf2e497559300"
+    },
+    "output_sha256": {
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/assumptions_and_symbols.json": "a0d679f838f2ede47f241098e72d9f075f65baa8311396eba472950b05950e35",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/analysis.md": "6035a923193e100be68aca8f9d03808bafee0a4fc14669a0d3a6ac7881152984",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/independent_m04_check.py": "509d810fc36e2928924b1f70042c3824cc2eb00b18a401f1019cfa04bc8e0523",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/numerical_results.json": "8cb9df3543f3e4985ae4705e61f7522aff35f800f6856a1c41292272ca881fd2",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/work-report.proposal.json": "6d58459ca57655ae72323bcec9e0201703c10da326dbad3e5f4fe2b10e213c8f",
+      "<PRIVATE_USER_ROOT>/project/cumcm/.cache/modular-workbench-001/restricted-worker/output-r2/input_comparison.json": "a9442d6d29dcb6f89816fc52b5b87c87323a45c43898e4155965bd3c1041b77d"
+    },
+    "verification_sha256": "70eb388d6deeed77ccf93dd1b57d75be446c5ec880ac766868e17f017b747d3a"
+  },
+  "r1_evidence": {
+    "directory": "../output",
+    "five_analysis_outputs_unchanged": true,
+    "prior_tool_record_sha256": "317d875e3df660491f3efde16bf52e086b96bfb25cd0578914c6e18b9f1d36d8",
+    "old_stale_context_preserved": true
+  },
+  "scope_boundary": {
+    "only_module": "M04",
+    "only_requirements": [
+      "REQ-A",
+      "REQ-B",
+      "REQ-C"
+    ],
+    "public_state_writer": "main Agent",
+    "formal_complete": "NOT_RUN_BY_WORKER",
+    "automatically_entered_M05": false,
+    "web_review": "NOT_RUN",
+    "team_review": "NOT_RUN",
+    "future_truth": "UNKNOWN"
+  },
+  "access_boundary": {
+    "new_source_pack": "input-r2 only",
+    "own_prior_artifacts_read": true,
+    "old_input_directory_read": false,
+    "producer_checker_read": false,
+    "other_case_read": false,
+    "old_chat_read": false,
+    "benchmark_vault_read": false,
+    "implementation_source_read": false,
+    "web_access": false,
+    "restriction_type": "Instruction-enforced allowlist; not OS sandbox or a blind-audit certificate."
+  },
+  "install_log": {
+    "system_packages": [],
+    "language_packages": [],
+    "toolchains": [],
+    "configuration_changes": []
+  },
+  "final_journal_write": {
+    "tool": "apply_patch",
+    "files": [
+      "output-r2/REVIEW.md",
+      "output-r2/tool_record.json"
+    ],
+    "note": "Final journal serialized immediately before apply_patch; no shell or Python call issued for this write."
+  },
+  "delivery_status": "R2_PRIVATE_REVALIDATION_PASS; FORMAL_COMPLETE_PENDING_MAIN_AGENT"
+}
