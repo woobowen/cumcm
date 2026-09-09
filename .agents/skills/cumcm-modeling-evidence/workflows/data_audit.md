@@ -15,3 +15,7 @@
 - STALE/recovery：raw/processing hash 变化使所有 Run 下游 STALE；新 processed revision。
 - Next：通过 `data-sufficiency` 后进入 `MODEL_PORTFOLIO_GENERATION`；未通过时不得进行与缺失
   requirement 无关的昂贵调参，aggregate final 不得声称完整。
+
+生成条件预测时，最低输入只列起点前可得字段。未来真值未知与历史数据不足分开判定；
+输出预测不证明实际精度。`prediction_spec` 及必要历史验证在运行前冻结，禁止用
+DESCRIPTIVE 改名覆盖预测要求，也不能把模型敏感性范围当作校准预测区间。

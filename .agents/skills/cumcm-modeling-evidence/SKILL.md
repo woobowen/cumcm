@@ -5,7 +5,7 @@ description: Use for mathematical-modeling competition work from problem intake 
 
 # CUMCM Modeling Evidence
 
-Version: `0.2.0-competition-rc8`
+Version: `0.2.0-competition-rc9`
 
 Capability: `COMPETITION_RC`
 
@@ -73,7 +73,7 @@ Assurance: `PUBLIC_DETERMINISTIC_REQUIREMENT_EVIDENCE_SELECTION_SEMANTIC_GATES`
 `init` 创建 `problem/ research/ data/{raw,processed}/ models/ experiments/ runs/ results/ evidence/ handoff/ state/`，以及根级 `case_state.json`。模板在 `templates/`；不能另建冲突 schema。
 
 集中式入口 `python scripts/cumcm_case.py` 提供：`init`、`status`、`validate`、
-`data-sufficiency`、`preflight-output`、`execute`、`verify-evidence`、`evaluate-final`、`seal-run`、`manifest`、`compare-check`、
+`data-sufficiency`、`preflight-output`、`execute`、`verify-evidence`、`prepare-final`、`evaluate-final`、`seal-run`、`manifest`、`compare-check`、
 `selection-check`、`claim-check`、`semantic-check`、`stale-check`、`finalize`、`handoff`、
 `smoke`。在候选建模前先运行 `data-sufficiency`；在 Final 前运行 `selection-check`；在
 handoff 前运行 `semantic-check`。在实验计划冻结前，先于 `MODELS_PROPOSED` 状态用
@@ -174,3 +174,25 @@ Development 的显式 `DEVELOPMENT_NO_FINAL_EVALUATION` 仍允许零 Final 访�
 跨题检查要点：区分拟合样本、独立实体、重复预测次数；区分类别可分、概率校准与外部
 泛化；确认扰动确实改变模型输入；按独立实体处理重复采样。优化需按题意核对实际支付量、
 物料/运输守恒、跨期状态递推、目标优先级和极值证据。题目参数与配方只进入 case 目录。
+
+## RC9 的条件预测和独立 Final
+
+非预测任务的开发比较使用 `NONPREDICTIVE_DEVELOPMENT_COMPARISON`，访问计数为零。
+开发比较、逐问选择、必要稳健性和独立核验通过后，公共 `prepare-final` 冻结具体产物；
+`evaluate-final` 先记录授权与 STARTED，再执行独立 checker。`ROBUSTNESS_VALIDATED` 到
+`FINAL_CANDIDATE` 必须验证成功 Final 回执。失败、超时和部分输出消费一次预算；
+`evaluate-final --review-existing` 仅复核既有回执，禁止再次执行。完整控制器可用
+`--check-code <已冻结的独立程序>` 在同一进程捕获开发核验，避免重复审核隐式追加核验启动。
+
+未知未来终点不属于生成条件预测的最低输入；`prediction_spec` 预先声明目标、已知输入、
+模型依据、条件和历史验证要求。Claim 保持 `PREDICTIVE`，用 `prediction_scope=CONDITIONAL_ESTIMATE`
+明确未来精度未验证。若题目要求已验证的实际精度，缺失目标证据仍拒绝该强结论。
+`CONDITIONAL_PREDICTION_FINAL_VERIFICATION` 使用独立算术 Final，不声称新增独立 Validation。
+
+同实体延续预测使用 `temporal-visibility/v1`：每个起点绑定特征、预处理和拟合观测 ID，
+每条观测绑定实体、观测时间和可用时间。任一使用晚于起点的记录即拒绝；
+`NEW_ENTITY_GENERALIZATION` 仍要求拟合实体与目标实体隔离。
+指标合同绑定 target、quantity、target_unit、unit、prediction_origin、formula、denominator、
+sample_unit、aggregation、weights、direction、zero_denominator_policy，并从逐样本数值独立重算。
+remaining-time 与 elapsed-time 的分母不能互换。模型敏感性范围不能称为校准预测区间；
+独立程序验算不能称为独立外部数据验证。完整字段示例见 `references/rc9_science_contracts.md`。

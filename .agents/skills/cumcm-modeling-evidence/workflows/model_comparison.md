@@ -13,3 +13,8 @@
   未授权/多次 test、selection mismatch、错误 Run/output、metric 错配或 portfolio 不一致。
 - STALE/recovery：任一绑定变化使 comparison/final/claim/handoff STALE；按冻结规则重跑。
 - Next：`ROBUSTNESS_AND_SENSITIVITY`。
+
+RC9 的非预测开发比较使用 `NONPREDICTIVE_DEVELOPMENT_COMPARISON`；条件预测使用
+`CONDITIONAL_DEVELOPMENT_COMPARISON`，两者 Final count 均为零。指标定义属于 metric freeze；
+逐问所需 target/单位/时点/公式/分母/样本单位/聚合/方向/零分母政策必须与输出和 checker 相等。
+仅当完整时间可见性合同通过时允许同实体历史重叠；总体或新实体迁移继续要求实体隔离。

@@ -13,6 +13,14 @@ def main():
     p.add_argument("--output", type=Path, required=True)
     a = p.parse_args()
     raw = json.loads((a.case_root / "data/raw/input.json").read_text())
+    if a.output.name == "final_check.json" and raw.get("final_behavior"):
+        a.output.write_text('{"partial": true}')
+        print("partial output after Final STARTED", flush=True)
+        if raw["final_behavior"] == "TIMEOUT":
+            import time
+
+            time.sleep(3)
+        raise SystemExit(23)
     path = a.case_root / "runs" / a.run_id / "output.json"
     output = json.loads(path.read_text())
     plan = json.loads((a.case_root / "experiments/experiment_plan.json").read_text())["content"]

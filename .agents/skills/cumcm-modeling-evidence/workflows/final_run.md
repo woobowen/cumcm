@@ -23,3 +23,8 @@ Development 的无 Final 设计显式设 `evaluation_design.mode=DEVELOPMENT_NO_
 与空 `test` split。`evaluation_design` 作为整体进入执行策略 freeze；Final 前不得改它。
 科学核验的完整 capture 还需实际冻结 checker 复算对照。原 Run/模型结果不覆盖；核验流水
 另存 ignored 路径。冻结后不得基于最终测试反馈修改共享 Skill、模型或重跑模型候选。
+
+RC9 公共顺序：开发 Run 与核验 → compare/selection/robustness 接受 → `prepare-final` →
+selection freeze → Final request/authorization → STARTED → 独立执行 → 回执 → Final 接受。
+开发比较不需要未来 Final 回执。重复回执复核不执行 checker；已启动失败保留消费记录。
+仅明确注册的新 Development 子案例可开始新预算；旧 Final 与 Validation 终局不可修改。

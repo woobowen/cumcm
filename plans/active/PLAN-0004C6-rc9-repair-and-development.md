@@ -75,3 +75,17 @@ design changes retain superseded decisions and explain the reason before editing
 - M1 targeted regression: 62 passed in 5.00s, including registry attacks, historical RC5/RC7/RC8 identities, both baseline tests and wrong terminal tuples. Training consistency validates all ten records. Target-policy/competition consistency and strict PASS. First M1 run found the new registration resolver incorrectly interpreting two historical registration shapes; fixed by checking original records against their own immutable projection. Successor routing was extended explicitly to 004C6; historical hashes remain checked. No full CI PASS claimed.
 - Native protocol audit001 FAIL independently reproduced count self-attestation, missing time-visibility enforcement and metric-definition omission. Original audit is preserved; PA-001/002/003 remain open until new behavioral evidence and re-review.
 - Publication normalized four supplied Markdown hard-break trailing spaces after staged diff-check flagged them; original task bytes retained in ignored cache. No historical evidence bytes changed.
+
+- First checkpoint (2026-09-09T02:23:07Z, approximately 48 minutes): M1 committed and remotely verified at
+  926d5315816b7af9ad518b1d36b96097e2bc0a75. Initial M2 lifecycle regression passed 23 tests. Native
+  audit002 independently found three rehashed invalid-predecessor cases; review was later interrupted
+  by platform content review and is not a completed audit. Core now revalidates actual predecessor
+  Gates on receipt review. Preserve this finding and require new regression evidence.
+- M3 first execution: 5 positive CLI paths blocked on metric-freeze derivation while 34 negatives/
+  inherited checks passed. Root cause: comparison still derived the legacy metric payload. One
+  corrective implementation now includes bound metric definitions; rerun of new semantic/lifecycle
+  tests passed 23 in 11.64s. Optimization, conditional same-entity and mixed per-requirement common
+  CLI paths all reached bounded handoff; future empirical accuracy remains unverified.
+- RC9 version surfaces and Skill instructions are staged, not activated. New failure/timeout/
+  concurrency regressions are being added. Next: finish native/math review, freeze complete shared
+  candidate and both Development numerical designs, run the two new roots within registered budgets.

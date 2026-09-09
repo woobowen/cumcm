@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0-competition-rc9 — 2026-09-09 (candidate)
+
+- Preserves original RC8 qualification and both immutable negative Validation terminals.
+  RC9 is a separate implementation subject; activation requires its own complete CI and audits.
+- Allows append-only registered Development children and validates explicit phase/version/case/
+  decision identities while retaining complete historical records and hashes.
+- Accepts nonpredictive development comparison and robustness before selection freeze, then records
+  authorization and STARTED before an independent Final process. Receipt review does not reexecute.
+- Binds conditional PREDICTIVE estimates to observed history, temporal availability, model assumptions,
+  target metrics and independent arithmetic; unknown future accuracy remains unverified.
+- Adds three actual common CLI scientific E2Es and negative temporal/metric/Final lifecycle cases.
+  Development after Validation is not fresh Validation or evidence of generalization.
+
 ## 0.3.0-competition-rc8 — 2026-09-09
 
 - Introduces the sole Skill candidate `0.2.0-competition-rc8`; the Python distribution remains
