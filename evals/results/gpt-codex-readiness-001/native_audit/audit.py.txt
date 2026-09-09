@@ -1,0 +1,273 @@
+"""Read-only, standard-library package/record/finite-arithmetic audit.
+
+Does not import or execute supplied code. All writes stay beside this file.
+Canonical JSON is independently implemented, using the package builder's
+documented sorted UTF-8 JSON convention (no newline in digest).
+"""
+from pathlib import Path
+from fractions import Fraction as F
+import ast
+import hashlib
+import json
+import math
+import re
+import zipfile
+
+B = Path('<REPO_ROOT>')
+O = Path(__file__).parent
+R = B / 'evals/results/gpt-codex-readiness-001'
+S = B / '.cache/gpt-codex-readiness-001/input_snapshot'
+reads, checks, details = [], {}, {}
+
+
+def h(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def canon(value):
+    return json.dumps(value, sort_keys=True, ensure_ascii=False,
+                      separators=(',', ':'), allow_nan=False).encode()
+
+
+def read(path, purpose='programmatic verification'):
+    data = path.read_bytes()
+    reads.append({'path':str(path), 'sha256':h(data), 'bytes':len(data), 'purpose':purpose})
+    return data
+
+
+def js(path):
+    return json.loads(read(path))
+
+
+for tag in ('start','next'):
+    path=B/f'.cache/gpt-codex-readiness-001/{tag}-audit.zip'
+    read(path, 'archive hash and member integrity')
+    with zipfile.ZipFile(path) as z:
+        names=z.namelist()
+        assert len(names)==len(set(names))
+        assert z.testzip() is None
+        manifest=json.loads(z.read('PACKAGE_MANIFEST.json'))
+        assert set(names)-{'PACKAGE_MANIFEST.json'}==set(manifest['files'])
+        for name,digest in manifest['files'].items():
+            data=z.read(name)
+            assert h(data)==digest
+            assert data==read(O/tag/name, 'archive content; hashed/parsed or separately text-reviewed')
+        assert h(canon(manifest['files']))==manifest['payload_set_sha256']
+        checks[f'{tag}_outer_integrity']=True
+        details[f'{tag}_identity']={'archive_sha256':h(path.read_bytes()),
+            'kind':manifest['kind'],'members':len(names),
+            'payload_set_sha256':manifest['payload_set_sha256']}
+
+for tag,root in [('new',O/'next/review'),('old',S/'original_example_review')]:
+    m=js(root/'manifest.json')
+    for name,digest in m['files'].items():
+        assert h(read(root/name))==digest
+    assert h(canon({k:v for k,v in m.items() if k!='package_hash'}))==m['package_hash']
+    available={}
+    for v in m['views']:
+        data=read(root/v['path'])
+        assert h(data)==v['view_sha256']
+        available[v['source_path']]={'data':data,'view_hash':h(data),
+                                    'source_hash':v['source_sha256']}
+    checks[f'{tag}_review_integrity']=True
+    details[f'{tag}_review']={'case_id':m['case_id'],'package_hash':m['package_hash'],
+       'module':m['module'],'revision':m['revision'],
+       'available_source_views':len(available),'referenced_sources':len(m['original_hashes']),
+       'source_bytes_not_available_here': sorted(set(m['original_hashes'])-set(available))}
+    raw=json.loads(available['data/raw/input.json']['data'])
+    plan=json.loads(available['experiments/experiment_plan.json']['data'])['content']
+    rows={r['observation_id']:r for r in raw['observations']}
+    assert len(rows)==len(raw['observations'])==13
+    ends={}
+    # Independent exact OLS using normal-equation sums, different from endpoint
+    # checker and producer centered-float implementation.
+    for s in plan['temporal_design']['samples']:
+        pts=[rows[k] for k in s['feature_observation_ids']]
+        n=len(pts);x=[F(p['observed_at']) for p in pts];y=[F(str(p['value'])) for p in pts]
+        slope=(n*sum(a*b for a,b in zip(x,y))-sum(x)*sum(y))/(n*sum(a*a for a in x)-sum(x)**2)
+        intercept=(sum(y)-slope*sum(x))/n
+        assert all(a*slope+intercept==b for a,b in zip(x,y))
+        assert slope==F(-1,10)
+        for key in ('feature_observation_ids','preprocess_fit_observation_ids','model_fit_observation_ids'):
+            assert all(rows[k]['observed_at']<=s['origin'] and rows[k]['available_at']<=s['origin'] for k in s[key])
+        end=(F(str(raw['threshold']))-intercept)/slope
+        ends[s['sample_id']]=end
+        if s['split']=='FORECAST':
+            assert s['target_observation_id'] is None
+            remaining=end-s['origin']
+        else:
+            assert end==rows[s['target_observation_id']]['observed_at']
+    demand=math.ceil(remaining*F(str(raw['flow_litres_per_minute'])))
+    def optimum(d):
+        # Positive-cost feasible solution gives finite exhaustive rectangle.
+        capacities=[c['litres'] for c in raw['containers']]
+        prices=[c['cost'] for c in raw['containers']]
+        bound=math.ceil(F(d,capacities[0]))*prices[0]
+        feasible=[(i*prices[0]+j*prices[1],i,j,i*capacities[0]+j*capacities[1])
+                  for i in range(bound//prices[0]+1)
+                  for j in range(bound//prices[1]+1)
+                  if i*capacities[0]+j*capacities[1]>=d]
+        return min(feasible)
+    expected=6 if tag=='new' else 8
+    assert remaining==expected and demand==expected
+    best=optimum(demand); perturb=optimum(demand+1)
+    outputs={}
+    for source,v in available.items():
+        if source.startswith('runs/') and source.endswith('/output.json'):
+            out=json.loads(v['data']);a=out['allocation'];counts=a['counts']
+            assert a['demand_litres']==demand
+            assert all(type(k) is int and k>=0 for k in counts)
+            assert a['quantity_litres']==sum(k*c['litres'] for k,c in zip(counts,raw['containers']))
+            assert a['cost']==sum(k*c['cost'] for k,c in zip(counts,raw['containers']))
+            assert a['balance_litres']==[a['quantity_litres']-t for t in range(demand+1)]
+            assert a['quantity_litres']>=demand
+            if out['candidate_id']=='CAND':assert (a['cost'],*counts,a['quantity_litres'])==best
+            else:assert counts==[math.ceil(F(demand,3)),0]
+            samples=out['metric_samples']['metric_b']
+            score=sum(abs(s['predicted_end_time']-s['observed_end_time'])/(s['observed_end_time']-s['origin'])*100 for s in samples)/len(samples)
+            assert score==out['validation_metrics']['metric_b']
+            assert abs(score)<1e-9
+            prediction=out['scientific_evidence']['REQ-B']['prediction_evidence']
+            assert abs(prediction['predictions'][0]['value']-expected)<1e-9
+            assert prediction['empirical_accuracy_verified'] is False
+            sens=out['robustness_evidence']['perturbations'][0]['result']
+            expected_sens=math.ceil(F(demand+1,3))*4 if out['candidate_id']=='BASE' else perturb[0]
+            assert sens==expected_sens
+            outputs[out['candidate_id']]={'allocation':a,'metric_b':score,'perturbed_cost':sens,'sha256':v['view_hash']}
+    handoff=json.loads(available['handoff/modeling_to_paper.json']['data'])
+    for cid,c in handoff['claim_evidence'].items():
+        rid=c['requirement_id'];run=c['selected_run_ids'][0]
+        out=json.loads(available[f'runs/{run}/output.json']['data'])
+        if tag=='new':
+            assert c['statement']==out['requirement_claims'][rid]['claim_text']
+            assert re.search(r'[\u4e00-\u9fff]',c['statement'])
+            assert c['selected_run_ids']==['RUN-BASE-20260910']
+        else:assert c['statement']==f'Bounded result for {rid}.'
+    assert handoff['sources'][0]['hash']==h(available['data/raw/input.json']['data'])
+    checks[f'{tag}_finite_arithmetic_and_claim_binding']=True
+    details[f'{tag}_arithmetic']={'conditional_remaining_minutes':expected,'demand_litres':demand,
+        'optimum_cost_counts_quantity':best,'perturbed_optimum':perturb,
+        'outputs':outputs,'exact_historical_mre':0,'historical_entities':1,'historical_origins':2,
+        'future_truth_observed':False}
+    if tag=='new':
+        assert plan['selection_rule']=='ARGMIN_THEN_ID'
+        assert min((v['allocation']['cost'],k) for k,v in outputs.items())==(8,'BASE')
+        assert set(handoff['symbols'])>={'T','t','t0','tau','b','q','s','cost','n3','n5','d'}
+        assert available['models/runtime_model.py']['data']!=available['models/independent_check.py']['data']
+        # Static parse only, no supplied code execution or importing.
+        for source in ('models/runtime_model.py','models/independent_check.py'):
+            ast.parse(available[source]['data'])
+        checker_ast=ast.parse(available['models/independent_check.py']['data'])
+        imports=[n.module for n in ast.walk(checker_ast) if isinstance(n,ast.ImportFrom)]
+        imports += [a.name for n in ast.walk(checker_ast) if isinstance(n,ast.Import) for a in n.names]
+        assert not any('runtime_model' in i for i in imports)
+        details['checker_imports']=imports
+        captures=[]
+        for src,v in available.items():
+            if src.endswith('capture.json'):
+                d=json.loads(v['data'])
+                assert d['exit_code']==0
+                for p,digest in d.get('bound_files',{}).items():
+                    if p in available:assert available[p]['source_hash']==digest
+                if 'output' in d:assert available[d['output']['path']]['source_hash']==d['output']['sha256']
+                for cf in d.get('code_files',[]):
+                    if cf['path'] in available:assert available[cf['path']]['source_hash']==cf['sha256']
+                captures.append({'source':src,'mode':d['capture_mode'],'run':d['run_id'],
+                                 'started_at':d['started_at'],'ended_at':d['ended_at']})
+        ledger=json.loads(available['evidence/scientific_final_ledger.json']['data'])
+        assert ledger['count']==1 and ledger['test_access_count']==0 and ledger['status']=='SUCCESS'
+        assert len(ledger['checks'])==1
+        for run,check in ledger['checks'].items():
+            assert check['exit_code']==0
+            for p,digest in check['files'].items():
+                if p in available:assert available[p]['source_hash']==digest
+        details['captures']=captures
+        details['final_ledger']=ledger
+
+context=js(O/'next/context/context.json')
+assert h(canon({k:v for k,v in context.items() if k!='context_hash'}))==context['context_hash']
+old_context=js(S/'original_example_context/context.json')
+assert h(canon({k:v for k,v in old_context.items() if k!='context_hash'}))==old_context['context_hash']
+checks['context_canonical_identity_only']=True
+
+records=js(R/'rehearsal/records.json')['records']
+record_map={}
+for rec in records:
+    assert h(rec['view_utf8'].encode())==rec['view_sha256']
+    record_map[rec['path']]=rec
+checks['rehearsal_all_157_record_view_hashes']=len(records)==157
+details['record_redactions']=[rec['path'] for rec in records if rec['raw_sha256']!=rec['view_sha256']]
+
+replays=js(R/'rehearsal/internal_checker_replays.json')['receipts']
+assert len(replays)==4 and len({r['raw_sha256'] for r in replays})==4
+replay_details=[]
+for rec in replays:
+    assert h(rec['view_utf8'].encode())==rec['view_sha256']
+    d=json.loads(rec['view_utf8'])
+    assert d['exit_code']==0 and d['status']=='PASS' and d['final_test_access'] is False
+    result_path=f"runs/{d['run_id']}/scientific_check.json"
+    assert record_map[result_path]['raw_sha256']==d['result_sha256']
+    replay_details.append({k:d[k] for k in ('run_id','status','started_at','ended_at','result_sha256')})
+details['internal_checker_replays']=replay_details
+summary=js(R/'rehearsal/summary.json')
+assert summary['total_observed_checker_processes']==summary['explicit_checker_captures']+summary['final_checker_processes']+len(replays)==7
+checks['checker_process_count_2_plus_1_plus_4']=True
+
+commands=[json.loads(l) for l in read(R/'rehearsal/public_commands.jsonl').decode().splitlines()]
+def arg(c,key):
+    a=c['argv'];return a[a.index(key)+1] if key in a else None
+events=[c for c in commands if len(c['argv'])>2 and c['argv'][2]=='run']
+assert len([c for c in events if arg(c,'--operation')=='model'])==2
+assert len([c for c in events if arg(c,'--operation')=='checker'])==2
+controller={arg(c,'--request'):c for c in events if arg(c,'--operation')=='controller'}
+assert controller['KIT-M10']['ended_at']<=controller['KIT-M11']['started_at']
+assert controller['KIT-M11']['ended_at']<details['final_ledger']['started_at']
+assert controller['KIT-M12']['started_at']<=details['final_ledger']['started_at']<=controller['KIT-M12']['ended_at']
+assert all(c['exit_code']==0 for c in events)
+details['public_run_events']=[{'request':arg(c,'--request'),'operation':arg(c,'--operation'),
+    'started_at':c['started_at'],'ended_at':c['ended_at']} for c in events]
+reject=js(R/'rehearsal/repeat_final_rejection.json')
+assert reject['exit_code']==3 and reject['state_unchanged']
+assert reject['ledger_sha256_before']==reject['ledger_sha256_after']
+assert reject['new_model_starts']==reject['new_final_starts']==0
+checks['selection_robustness_final_order_and_repeat_rejection_record']=True
+
+oldbindings=js(R/'old_reading_bindings.json')
+for row in oldbindings['rows']:
+    assert h(read(S/'original_example_review'/row['view_path']))==row['view_sha256']==row['source_output_sha256']
+checks['old_reading_output_hash_bindings']=True
+newbindings=js(O/'next/support/reading_bindings.json')
+newhandoff=js(O/'next/review/views/003-modeling_to_paper.json.txt')
+for row in newbindings:
+    assert row['statement']==newhandoff['claim_evidence'][row['claim_id']]['statement']
+    assert row['source_output_sha256']==details['new_arithmetic']['outputs']['BASE']['sha256']
+checks['new_reading_statement_output_bindings']=True
+
+# Read current operator sources; verify exact archive manifest references.
+kit=js(O/'start/operator_kit_manifest.json')
+kit_mismatches=[]
+for name,digest in kit['files'].items():
+    actual=h(read(B/'docs/gpt_codex_workflow'/name,'current operator file hash comparison'))
+    if actual!=digest:kit_mismatches.append(name)
+details['current_operator_file_mismatches_at_audit_time']=kit_mismatches
+checks['operator_content_map_canonical_hash']=h(canon(kit['files']))==kit['content_sha256']
+
+for rel in ('cumcm_workbench.py','review_exchange.py'):
+    read(B/'.agents/skills/cumcm-modeling-evidence/scripts'/rel,'static CLI/schema inspection only')
+for name in ('input_audit.json','input_arithmetic.json','external_feedback_receipt.json','old_reading.md',
+             'rehearsal/feedback_exercise.json','rehearsal/final_precheck.json'):
+    read(R/name,'text-reviewed evidence/limitation')
+for p in sorted((R/'native_worker').glob('*')):
+    if p.is_file():read(p,'historical worker record; parsed/static reviewed, not re-executed')
+
+result={'schema_version':'bounded-readonly-auditor-checks/v1','checks':checks,'details':details,
+        'execution_level':'INDEPENDENT_ARITHMETIC_AND_STATIC_RECORD_BINDING',
+        'not_run':['supplied_code','case_cli','model','checker','Final','complete','CI',
+                   'web','human_acceptance','current_live_case_verification'],
+        'all_checks_passed':all(checks.values())}
+(O/'audit_result.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n')
+(O/'read_inventory.json').write_text(json.dumps(reads,indent=2,ensure_ascii=False)+'\n')
+print(json.dumps({'all_checks_passed':result['all_checks_passed'],'checks':checks,
+                  'current_operator_file_mismatches':kit_mismatches,'reads_logged':len(reads),
+                  'new_arithmetic':details['new_arithmetic'],'old_arithmetic':details['old_arithmetic']},
+                 indent=2,ensure_ascii=False))

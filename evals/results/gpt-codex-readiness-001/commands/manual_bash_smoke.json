@@ -1,0 +1,17 @@
+{
+  "platform": "WSL2_LINUX_BASH_EXISTING_VENV",
+  "purpose": "PLAYBOOK_VARIABLE_AND_CLI_SMOKE_NOT_MODEL_CASE",
+  "commands": [
+    "modules",
+    "show M01",
+    "init fresh external root",
+    "prepare M01",
+    "resume"
+  ],
+  "exit_code": 0,
+  "state": "PREPARED",
+  "model_starts": 0,
+  "final_starts": 0,
+  "next_module_started": false,
+  "preparation_is_not_problem_completion": true
+}

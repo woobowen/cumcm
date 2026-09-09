@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "PYTHON",
+    "WORKBENCH",
+    "context-verify",
+    "--case-root",
+    "CASE_ROOT",
+    "--context",
+    "contexts/worker-m06/context.json"
+  ],
+  "exit_code": 3,
+  "result": {
+    "status": "BLOCK",
+    "reason_codes": [
+      "WB_CONTEXT_STALE_REEXPORT_REQUIRED"
+    ],
+    "next_module_started": false
+  },
+  "scope": "Actual earlier M06 context after later modules and feedback; no automatic starts"
+}

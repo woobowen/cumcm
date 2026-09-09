@@ -25,3 +25,11 @@ Checkpoint：独立资料subject 0ad91e3 已提交；原core implementation保�
 模型前预检发现新演练adapter复用helper的seed默认仍为旧seed、语义statement默认仍为占位。尚未模型/Final启动；显式传入新SEED并从新实际output字段绑定statement。该修正限新演练adapter，核心和旧case未改；下一数值阶段使用新的提交subject。
 
 M06首次安装遇init预建DRAFT模板，complete因work/M06.json缺失拒绝；无模型/Final启动。精确比对现行DRAFT模板并确认未绑定后安装，原始失败回执保留。第二次公共complete的execution=COMPLETED、MODELS_PROPOSED、next_module_started=false；resume automatic_starts=0且M07不存在。主摘要脚本一度误读status字段，已按实际execution字段核验，未改变case。
+
+Checkpoint：数值 subject 637d102 已完成新例 M07–M14；模型 2、显式 checker 2、Final checker 1、内置 checker 重放 4，Final 恰好一次 SUCCESS。提取统计时最初误找 receipt.json，随后误用 argv 绝对 root 搜索；按实际 execution.json 与 case 绑定 hash 修正只读统计，没有补跑或丢弃执行记录。基线平局胜出，7 L 扰动显示候选更便宜，均如实保留。
+
+本地反馈练习实际 11 次公共调用，三条 LOCAL_NOT_WEB 意见分别为范围反例、无依据建议、合法替代；所有负例与一次性 Final 拒绝留证。真实用户旧反馈单独核查，native import 未运行。当前新 case 的 405 份文件原样迁出临时目录到仓库外持久目录，逐文件 hash 不变；此为同一新工作区保管，不是伪造旧 case/index。迁移后 context-verify 实际 CURRENT，0 脚本启动；每次新 Git HEAD 后还须新导出 context。
+
+第二原生只读审核独立 13 组核验通过，冻结一条非阻断 finding：原预审包未附 4 次内置重放 receipt。已向新的修订包补入既有凭据，删除会误导为 M14 当前反馈的本地 M09 示例；原包和 finding 保持，补证独立复核中。主编排器仅发布脱敏视图，原始运行/会话材料留本地。
+
+补证复核完成：另一原生只读审核 10 项通过，F001 为 CLOSED_BY_ADDED_EXISTING_OFFLINE_EVIDENCE。原 findings/report hash 未变，没有新模型/checker/Final 启动。冻结当前内容作为一次完整 CI 的待验 subject。

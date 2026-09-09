@@ -1,0 +1,21 @@
+{
+  "schema_version": "read-only-followup-execution-receipt/v1",
+  "command": ".venv/bin/python .cache/gpt-codex-readiness-001/final-auditor/followup_audit.py > .cache/gpt-codex-readiness-001/final-auditor/followup_stdout.txt",
+  "exit_code": 0,
+  "attempts": 1,
+  "source_archive_sha256": "fae7a280ed4257a84b8957f0dcc6422e15e09c1d3d6bdf2186a439ff9f0ba7c7",
+  "source_archive_bytes": 96632,
+  "scope": "Only explicitly supplied revised archive and auditor scratch; independent standard-library hash/record checks.",
+  "package_code_executed": false,
+  "case_cli_executed": false,
+  "model_or_checker_or_final_starts": 0,
+  "formal_state_writes": 0,
+  "network_accesses": 0,
+  "dependency_installs": [],
+  "artifact_sha256": {
+    "followup_audit.py": "d81e9d47b2edf6b56904377e66549daba08c0c32cfc4457aace51b6715b43c3d",
+    "followup_stdout.txt": "2b0110e061ccfefeddf6afd5a7a5aaae6145837bb183c4a709b366f442ee2513",
+    "FOLLOWUP_REVIEW.md": "43931c12843eb262a74e9cc6e0d02004b30ab5cec2b6a83baf00c031c25b2dfe",
+    "FOLLOWUP_REVIEW.json": "fecad7fc10863547ba6999450fa835ed71abceab17b8d56667acc8df085298df"
+  }
+}

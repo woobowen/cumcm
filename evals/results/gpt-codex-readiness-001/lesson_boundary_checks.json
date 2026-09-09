@@ -1,0 +1,27 @@
+{
+  "basis": "ACTUAL_DIRECTED_TESTS_AND_NEW_ORIGINAL_ARITHMETIC",
+  "automatic_gate": false,
+  "cases": [
+    {
+      "lesson": "L04 same entity",
+      "positive": "test_same_entity_origin_scale_order_and_identity_metamorphisms; passed",
+      "negative": "test_temporal_future_label_and_whole_data_transform_rejected_before_model; passed",
+      "evidence": "commands/directed-core.log"
+    },
+    {
+      "lesson": "L09 feasible vs optimal",
+      "positive": "New demand6 actual independent lower=upper=8; BASE selected under frozen tie rule",
+      "negative": "Actual demand7 perturbation BASE cost12 while independent feasible optimum11; current demand6 certificate not extrapolated",
+      "evidence": [
+        "rehearsal/summary.json",
+        "native_worker/limited_arithmetic_output.json"
+      ]
+    },
+    {
+      "lesson": "L11 interval meaning",
+      "positive": "Actual M14 UNCAlIBRATED_POINT_ESTIMATE remains conditional",
+      "negative": "test_conditional_output_cannot_be_relabelled_or_upgraded[interval] rejects unsupported calibrated interval before Final",
+      "evidence": "commands/directed-core.log"
+    }
+  ]
+}

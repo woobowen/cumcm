@@ -1,0 +1,37 @@
+{
+  "finding_id": "FINAL-AUDIT-F001",
+  "closure": "CLOSED_BY_ADDED_EXISTING_OFFLINE_EVIDENCE",
+  "archive": {
+    "path": "<REPO_ROOT>/.cache/gpt-codex-readiness-001/next-audit-revised.zip",
+    "bytes": 96632,
+    "sha256": "fae7a280ed4257a84b8957f0dcc6422e15e09c1d3d6bdf2186a439ff9f0ba7c7",
+    "members": 49,
+    "payload_set_sha256": "2ef4fa5fde58003e4a3f5b5b495e5b1f1a3f2d359564a28b1236b67cf40b324b"
+  },
+  "changes": {
+    "added": [
+      "support/internal_checker_replays.json"
+    ],
+    "removed": [
+      "support/LOCAL_FEEDBACK_EXAMPLE.json"
+    ],
+    "changed": [
+      "PACKAGE_MANIFEST.json",
+      "support/REVIEW_SUMMARY.md"
+    ],
+    "unchanged_inner_review_context_files": 24
+  },
+  "checks": {
+    "revised_archive_size_and_sha256": true,
+    "revised_member_set_crc_and_all_payload_hashes": true,
+    "only_declared_outer_support_changes": true,
+    "all_inner_review_context_and_operator_payloads_unchanged": true,
+    "inner_m14_identity_and_hashes_unchanged": true,
+    "added_receipts_equal_previously_audited_local_bytes": true,
+    "four_distinct_receipt_view_hashes_run_results_and_subject": true,
+    "package_visible_process_accounting_2_plus_1_plus_4": true,
+    "user_web_and_human_acceptance_remain_not_run": true,
+    "original_finding_and_main_report_frozen": true
+  },
+  "all_checks_passed": true
+}

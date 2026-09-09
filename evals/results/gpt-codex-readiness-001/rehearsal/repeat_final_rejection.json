@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "PYTHON",
+    "WORKBENCH",
+    "run",
+    "--case-root",
+    "CASE_ROOT",
+    "--request",
+    "KIT-M12",
+    "--operation",
+    "controller"
+  ],
+  "exit_code": 3,
+  "result": {
+    "status": "BLOCK",
+    "reason_codes": [
+      "WB_MODULE_ALREADY_COMPLETED"
+    ],
+    "next_module_started": false
+  },
+  "ledger_sha256_before": "6baffca5f29c0503ba08e6d07db2a9abad4dafc7c58ba35ec2e74b6a242fa2c3",
+  "ledger_sha256_after": "6baffca5f29c0503ba08e6d07db2a9abad4dafc7c58ba35ec2e74b6a242fa2c3",
+  "state_unchanged": true,
+  "new_model_starts": 0,
+  "new_final_starts": 0
+}

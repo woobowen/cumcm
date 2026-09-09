@@ -1,0 +1,26 @@
+{
+  "read_only": true,
+  "first_shell_command": "ls -la",
+  "verification_command": ".venv/bin/python .cache/gpt-codex-readiness-001/final-auditor/audit.py > .cache/gpt-codex-readiness-001/final-auditor/audit_stdout.txt",
+  "exit_code": 0,
+  "attempts": 1,
+  "supplied_code_executed": false,
+  "case_cli_executed": false,
+  "model_starts": 0,
+  "checker_starts": 0,
+  "final_starts": 0,
+  "formal_state_writes": 0,
+  "package_installs": [],
+  "configuration_changes": [],
+  "network_accesses": 0,
+  "artifact_sha256": {
+    "audit.py": "0bc7cbc8eecc14661b3746bde7f85a9754e42a7481fbd8862af69c7127958a26",
+    "audit_stdout.txt": "abc05977af11138784c4f66d07919598f534c1d9831965454c66fdc1395b2285",
+    "audit_result.json": "2bf15f4309dcb5050019dba978144e3484eb9c23c3c7754724e95331a3218f2a",
+    "read_inventory.json": "5851ad11385bde190c1caf47d25cb300b6f9cc7b934055e525538e07c015a478",
+    "RAW_FINDINGS.json": "56f57c6de86d0557a414446e4ce823b706dc1b5d1b4ec0fb2709c1677677e6c3",
+    "REVIEW_SUMMARY.md": "24ecec3caec59f032a4cc053c82652e62bf7b2677effaadd411549a49154ecef",
+    "READ_LOG.md": "2aaf8ea8b55373e1b8729376cd0b3cfd7d38215c456e3f3a4c6ecc1dd9a87d79",
+    "offline_link_checks.json": "dfa15b14b1738c65e39c27dcb76c3e8f0cb1a03129952fc5d372e5764db42a8e"
+  }
+}

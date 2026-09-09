@@ -1,0 +1,22 @@
+{
+  "schema_version": "non-authoritative-final-auditor-observations/v1",
+  "source_archives": {
+    "start_identity": "df9d74142ed50cdc5ab860c5d15ce4c194a66362fdd17bea4373a7b8886cccf8",
+    "next_identity": "46c753c339b191cddfbc07a2032eddc29af399507eadb6de1ad8b900cd83a1e9"
+  },
+  "case_formal_acceptance": false,
+  "native_import_executed": false,
+  "findings": [
+    {
+      "finding_id": "FINAL-AUDIT-F001",
+      "classification": "NON_BLOCKING_OFFLINE_REVIEW_EVIDENCE_GAP",
+      "location": "next-audit.zip/support/summary.json:16,65; next-audit.zip/PACKAGE_MANIFEST.json:files",
+      "description": "新网页包宣称7次checker进程，但包中缺4次内置重放的逐次receipt。",
+      "reason_or_counterexample": "ZIP载荷提供两份scientific_check_capture及Final账本中的一次检查；internal_checker_replays.json的4份脱敏receipt仅在授权本地rehearsal目录。仅用新网页包可核3次记录，不能独立核足summary所述7次。此审阅在本地读取4份receipt后，hash与结果绑定核验通过，未发现7次本地口径错误。",
+      "affected_scope": "下一次网页审核对checker进程计数的离线可核查性；不否定数学结果、Final唯一性或NO_CASE启动。",
+      "suggested_verification": "将已存在的4份脱敏receipt原样加入最终包外层support，保留raw/view hash差别；独立核包内receipt数、view hash、Run/result hash及2+1+4总数。不重启任何checker或Final。",
+      "confidence": "HIGH",
+      "kind": "EVIDENCE"
+    }
+  ]
+}
