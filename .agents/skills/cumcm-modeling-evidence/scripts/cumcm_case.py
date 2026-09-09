@@ -2169,9 +2169,15 @@ def boundary_validate(payload: Any, context: Any) -> GateResult:
 
 def write_json(path: Path, value: Any, *, overwrite: bool = True) -> None:
     assert_json_safe(value)
-    if path.exists() and not overwrite:
-        raise FileExistsError(path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    if not overwrite:
+        # O_EXCL consumes a one-shot slot atomically even across separate CLI processes.
+        with path.open("x", encoding="utf-8") as handle:
+            json.dump(value, handle, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        return
     temporary = path.with_name(f".{path.name}.tmp")
     temporary.write_text(
         json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n",
@@ -2922,9 +2928,10 @@ def validate_comparison(
     if not isinstance(baseline, str) or baseline not in candidate_items:
         codes.add("RC_COMPARISON_BASELINE_MISSING")
     splits = comparison.get("splits")
-    nonpredictive = (comparison.get("test_access") or {}).get("mode") == (
-        "NONPREDICTIVE_FINAL_VERIFICATION"
-    )
+    nonpredictive = (comparison.get("test_access") or {}).get("mode") in {
+        "NONPREDICTIVE_FINAL_VERIFICATION",
+        "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+    }
     if not isinstance(splits, dict) or set(splits) != {"train", "validation", "test"}:
         codes.add("RC_COMPARISON_SPLIT_INVALID")
     else:
@@ -2985,6 +2992,21 @@ def validate_comparison(
             codes.add("RC_DEVELOPMENT_EVALUATOR_INVOCATION_INVALID")
         if access.get("ledger_status") != "NOT_ACCESSED":
             codes.add("RC_DEVELOPMENT_TEST_ACCESS_LEDGER_INVALID")
+    elif access.get("mode") == "NONPREDICTIVE_DEVELOPMENT_COMPARISON":
+        if (
+            access
+            != {
+                "mode": "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+                "authorized": False,
+                "count": 0,
+                "scientific_verification_count": 0,
+                "used_for_selection": False,
+            }
+            or splits != {"train": [], "validation": [], "test": []}
+            or case_root is None
+            or not nonpredictive_evaluation(read_artifact(case_root, "experiment_plan")["content"])
+        ):
+            codes.add("RC_NONPREDICTIVE_DEVELOPMENT_COMPARISON_INVALID")
     elif access.get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION":
         if (
             access.get("authorized") is not True
@@ -2998,6 +3020,15 @@ def validate_comparison(
             read_artifact(case_root, "experiment_plan")["content"]
         ):
             codes.add("RC_NONPREDICTIVE_FINAL_VERIFICATION_INVALID")
+        if case_root is None:
+            codes.add("RC_NONPREDICTIVE_FINAL_RECEIPT_MISSING")
+        else:
+            try:
+                verify_scientific_final(
+                    case_root, decision_hash=comparison.get("selection_decision_hash")
+                )
+            except (OSError, ValueError, KeyError, TypeError):
+                codes.add("RC_NONPREDICTIVE_FINAL_RECEIPT_MISSING")
     elif access.get("mode") not in (None, "FINAL_EVALUATION"):
         codes.add("RC_COMPARISON_TEST_ACCESS_MODE_INVALID")
     elif access.get("authorized") is not True:
@@ -5468,6 +5499,340 @@ def _verify_final_evaluation_ledger(
     }
 
 
+PREFINAL_SELECTION = "evidence/prefinal_selection_freeze.json"
+SCIENTIFIC_FINAL_LEDGER = "evidence/scientific_final_ledger.json"
+FINAL_PROTOCOL_EVENTS = "evidence/final_protocol_events.jsonl"
+
+
+def final_protocol_event(case_root: Path, event: str, **facts: Any) -> None:
+    path = case_root / FINAL_PROTOCOL_EVENTS
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = canonical_bytes({"event": event, "observed_at": utc_now(), **facts}) + b"\n"
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+    try:
+        os.write(fd, data)
+    finally:
+        os.close(fd)
+
+
+def verify_prefinal_selection(case_root: Path, decision_hash: str) -> dict[str, Any]:
+    """Validate accepted predecessors before input hashing or a checker can execute."""
+    path = case_root / PREFINAL_SELECTION
+    if not path.is_file():
+        raise ValueError("RC_FINAL_PREREQUISITES_NOT_ACCEPTED")
+    freeze = load_json(path)
+    body = {k: v for k, v in freeze.items() if k != "freeze_sha256"}
+    if (
+        freeze.get("schema_version") != "prefinal-selection/v1"
+        or freeze.get("decision_hash") != decision_hash
+        or freeze.get("freeze_sha256") != canonical_hash(body)
+        or freeze.get("accepted_gates")
+        != ["DEVELOPMENT_COMPARISON", "REQUIREMENT_SELECTION", "DEVELOPMENT_ROBUSTNESS"]
+        or not freeze.get("selected_run_ids")
+        or parse_utc_timestamp(freeze.get("accepted_at")) is None
+    ):
+        raise ValueError("RC_FINAL_SELECTION_FREEZE_INVALID")
+    expected_paths = {
+        ARTIFACT_PATHS[k]
+        for k in (
+            "experiment_plan",
+            "problem_requirements",
+            "source_ledger",
+            "data_audit",
+            "data_sufficiency",
+            "assumptions_and_symbols",
+            "model_comparison",
+            "requirement_selection",
+            "robustness_analysis",
+        )
+    }
+    for run_id in freeze["selected_run_ids"]:
+        expected_paths.update(
+            f"runs/{run_id}/{name}"
+            for name in (
+                "manifest.json",
+                "execution_capture.json",
+                "output.json",
+                "scientific_check.json",
+                "scientific_check_capture.json",
+            )
+        )
+    if set(freeze.get("bound_files", {})) != expected_paths:
+        raise ValueError("RC_FINAL_SELECTION_BINDINGS_INCOMPLETE")
+    for relative, digest in freeze["bound_files"].items():
+        target = relative_case_path(case_root, relative)
+        if target is None or not target.is_file() or file_hash(target) != digest:
+            raise ValueError("RC_FINAL_SELECTION_STALE")
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    if _selected_runtime_run_ids(selection) != freeze["selected_run_ids"]:
+        raise ValueError("RC_FINAL_SELECTION_STALE")
+    for run_id in freeze["selected_run_ids"]:
+        verify_current_capture_files(
+            case_root, load_json(case_root / "runs" / run_id / "execution_capture.json")
+        )
+    return freeze
+
+
+def prepare_final_selection(case_root: Path, *, decision_hash: str) -> dict[str, Any]:
+    """Accept real development gates and freeze their selected artifacts; no Final access."""
+    if (case_root / PREFINAL_SELECTION).exists():
+        return verify_prefinal_selection(case_root, decision_hash)
+    if load_state(case_root)["state"] != "RUNNING":
+        raise ValueError("RC_FINAL_PREPARATION_STATE_INVALID")
+    plan = read_artifact(case_root, "experiment_plan")["content"]
+    if not nonpredictive_evaluation(plan):
+        raise ValueError("RC_FINAL_PREPARATION_DESIGN_INVALID")
+    comparison = read_artifact(case_root, "model_comparison")["content"]
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    robustness = read_artifact(case_root, "robustness_analysis")["content"]
+    if comparison.get("selection_decision_hash") != decision_hash:
+        raise ValueError("RC_FINAL_SELECTION_FREEZE_INVALID")
+    if comparison.get("test_access", {}).get("mode") != "NONPREDICTIVE_DEVELOPMENT_COMPARISON":
+        raise ValueError("RC_FINAL_DEVELOPMENT_COMPARISON_REQUIRED")
+    checked = validate_comparison(comparison, trusted_freezes(case_root), case_root=case_root)
+    if not checked.accepted:
+        raise ValueError(";".join(checked.reason_codes))
+    checked_selection = validate_requirement_selection(selection)
+    if checked_selection["status"] != "PASS":
+        raise ValueError(";".join(checked_selection["reason_codes"]))
+    checked = validate_robustness(robustness, comparison, case_root=case_root)
+    if not checked.accepted:
+        raise ValueError(";".join(checked.reason_codes))
+    selected_ids = _selected_runtime_run_ids(selection)
+    if not selected_ids:
+        raise ValueError("RC_FINAL_SELECTED_RUNS_MISSING")
+    paths = {
+        ARTIFACT_PATHS[k]
+        for k in (
+            "experiment_plan",
+            "problem_requirements",
+            "source_ledger",
+            "data_audit",
+            "data_sufficiency",
+            "assumptions_and_symbols",
+            "model_comparison",
+            "requirement_selection",
+            "robustness_analysis",
+        )
+    }
+    for run_id in selected_ids:
+        manifest = load_json(case_root / "runs" / run_id / "manifest.json")
+        result = validate_manifest(
+            manifest, case_root=case_root, trusted_freezes=trusted_freezes(case_root)
+        )
+        if not result.accepted or manifest.get("decision_hash") != decision_hash:
+            raise ValueError("RC_FINAL_SELECTED_MANIFEST_INVALID")
+        verify_scientific_check(case_root, run_id=run_id)
+        # Every selected requirement Run has its own output-bound robustness, including portfolios.
+        output = load_json(case_root / "runs" / run_id / "output.json")
+        alternate = copy.deepcopy(comparison)
+        candidate = manifest["configuration"]["candidate_id"]
+        alternate["selected_candidate_id"] = candidate
+        observed = {
+            "status": "VALIDATED",
+            "selected_model": candidate,
+            "run_id": run_id,
+            **{
+                key: manifest[key]
+                for key in ("input_hash", "configuration_hash", "output_hash", "decision_hash")
+            },
+            **output["robustness_evidence"],
+        }
+        result = validate_robustness(observed, alternate, case_root=case_root)
+        if not result.accepted:
+            raise ValueError(";".join(result.reason_codes))
+        paths.update(
+            f"runs/{run_id}/{name}"
+            for name in (
+                "manifest.json",
+                "execution_capture.json",
+                "output.json",
+                "scientific_check.json",
+                "scientific_check_capture.json",
+            )
+        )
+    freeze = {
+        "schema_version": "prefinal-selection/v1",
+        "accepted_at": utc_now(),
+        "decision_hash": decision_hash,
+        "selected_run_ids": selected_ids,
+        "accepted_gates": [
+            "DEVELOPMENT_COMPARISON",
+            "REQUIREMENT_SELECTION",
+            "DEVELOPMENT_ROBUSTNESS",
+        ],
+        "bound_files": {p: file_hash(case_root / p) for p in sorted(paths)},
+    }
+    freeze["freeze_sha256"] = canonical_hash(freeze)
+    write_json(case_root / PREFINAL_SELECTION, freeze, overwrite=False)
+    final_protocol_event(
+        case_root,
+        "DEVELOPMENT_GATES_ACCEPTED",
+        decision_hash=decision_hash,
+        freeze_sha256=freeze["freeze_sha256"],
+    )
+    final_protocol_event(
+        case_root,
+        "SELECTION_FROZEN",
+        selected_run_ids=selected_ids,
+        freeze_sha256=freeze["freeze_sha256"],
+    )
+    return freeze
+
+
+def verify_scientific_final(case_root: Path, *, decision_hash: str) -> dict[str, Any]:
+    """Receipt review re-hashes inputs/code/results; it never reruns a Final checker."""
+    freeze = verify_prefinal_selection(case_root, decision_hash)
+    ledger = load_json(case_root / SCIENTIFIC_FINAL_LEDGER)
+    if (
+        ledger.get("status") != "SUCCESS"
+        or ledger.get("count") != 1
+        or ledger.get("selection_freeze_sha256") != freeze["freeze_sha256"]
+        or ledger.get("decision_hash") != decision_hash
+        or ledger.get("selected_run_ids") != freeze["selected_run_ids"]
+        or ledger.get("test_access_count") != 0
+        or parse_utc_timestamp(ledger.get("started_at")) is None
+        or parse_utc_timestamp(ledger["started_at"]) < parse_utc_timestamp(freeze["accepted_at"])
+        or parse_utc_timestamp(ledger.get("ended_at")) is None
+        or parse_utc_timestamp(ledger["ended_at"]) < parse_utc_timestamp(ledger["started_at"])
+    ):
+        raise ValueError("RC_SCIENTIFIC_FINAL_NOT_SUCCESS")
+    results = {}
+    if set(ledger.get("checks", {})) != set(freeze["selected_run_ids"]):
+        raise ValueError("RC_SCIENTIFIC_FINAL_COVERAGE_INVALID")
+    for run_id, receipt in ledger["checks"].items():
+        if receipt.get("exit_code") != 0:
+            raise ValueError("RC_SCIENTIFIC_FINAL_NOT_SUCCESS")
+        for relative, digest in receipt.get("files", {}).items():
+            path = relative_case_path(case_root, relative)
+            if path is None or not path.is_file() or file_hash(path) != digest:
+                raise ValueError("RC_SCIENTIFIC_FINAL_RECEIPT_STALE")
+        required = {
+            f"runs/{run_id}/final_check.{suffix}" for suffix in ("json", "stdout", "stderr")
+        }
+        if set(receipt.get("files", {})) != required:
+            raise ValueError("RC_SCIENTIFIC_FINAL_RECEIPT_INCOMPLETE")
+        result = load_json(case_root / "runs" / run_id / "final_check.json")
+        if result != load_json(case_root / "runs" / run_id / "scientific_check.json"):
+            raise ValueError("RC_SCIENTIFIC_FINAL_RECALCULATION_MISMATCH")
+        results[run_id] = result
+    return {"test_metrics": results, "decoded_hash": canonical_hash(results), "ledger": ledger}
+
+
+def evaluate_scientific_final(
+    case_root: Path, *, decision_hash: str, timeout_seconds: int = 600, allow_existing: bool = False
+) -> dict[str, Any]:
+    final_protocol_event(case_root, "FINAL_REQUESTED", decision_hash=decision_hash)
+    try:
+        freeze = verify_prefinal_selection(case_root, decision_hash)
+        if not 1 <= timeout_seconds <= 900:
+            raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
+        if not nonpredictive_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
+            raise ValueError("RC_FINAL_PREPARATION_DESIGN_INVALID")
+    except (OSError, ValueError, KeyError, TypeError):
+        final_protocol_event(case_root, "FINAL_REQUEST_REJECTED", reason="PREREQUISITES_INVALID")
+        raise
+    path = case_root / SCIENTIFIC_FINAL_LEDGER
+    if path.exists():
+        if allow_existing:
+            return verify_scientific_final(case_root, decision_hash=decision_hash)
+        raise ValueError("RC_SCIENTIFIC_FINAL_ALREADY_STARTED")
+    if load_state(case_root).get("state") != "RUNNING":
+        raise ValueError("RC_EXECUTE_STATE_INVALID")
+    final_protocol_event(
+        case_root, "FINAL_AUTHORIZED", selection_freeze_sha256=freeze["freeze_sha256"]
+    )
+    ledger = {
+        "schema_version": "scientific-final/v1",
+        "status": "STARTED",
+        "count": 1,
+        "test_access_count": 0,
+        "decision_hash": decision_hash,
+        "selection_freeze_sha256": freeze["freeze_sha256"],
+        "selected_run_ids": freeze["selected_run_ids"],
+        "started_at": utc_now(),
+        "checks": {},
+    }
+    try:
+        write_json(path, ledger, overwrite=False)
+    except FileExistsError as exc:
+        raise ValueError("RC_SCIENTIFIC_FINAL_ALREADY_STARTED") from exc
+    final_protocol_event(
+        case_root, "FINAL_STARTED", selection_freeze_sha256=freeze["freeze_sha256"]
+    )
+    try:
+        for run_id in freeze["selected_run_ids"]:
+            capture = load_json(case_root / "runs" / run_id / "scientific_check_capture.json")
+            output = f"runs/{run_id}/final_check.json"
+            if (case_root / output).exists():
+                raise ValueError("RC_IMMUTABLE_OUTPUT_ALREADY_EXISTS")
+            argv = [sys.executable, *capture["argv"][:-1], output]
+            _, environment = controlled_subprocess_environment(
+                int(load_json(case_root / "runs" / run_id / "execution_capture.json")["seed"])
+            )
+            start = time.monotonic()
+            receipt = {"argv": argv[1:], "started_at": utc_now(), "files": {}}
+            ledger["checks"][run_id] = receipt
+            write_json(path, ledger)
+            try:
+                process = subprocess.run(
+                    argv,
+                    cwd=case_root,
+                    env=environment,
+                    capture_output=True,
+                    check=False,
+                    timeout=timeout_seconds,
+                )
+            except subprocess.TimeoutExpired as exc:
+                receipt.update(
+                    exit_code=None,
+                    ended_at=utc_now(),
+                    elapsed_seconds=time.monotonic() - start,
+                    status="TIMED_OUT_AFTER_START",
+                )
+                for stream, raw in (("stdout", exc.stdout or b""), ("stderr", exc.stderr or b"")):
+                    rel = f"runs/{run_id}/final_check.{stream}"
+                    (case_root / rel).write_bytes(raw)
+                    receipt["files"][rel] = file_hash(case_root / rel)
+                if (case_root / output).is_file():
+                    receipt["files"][output] = file_hash(case_root / output)
+                raise
+            receipt.update(
+                exit_code=process.returncode,
+                ended_at=utc_now(),
+                elapsed_seconds=time.monotonic() - start,
+            )
+            for stream, raw in (("stdout", process.stdout), ("stderr", process.stderr)):
+                rel = f"runs/{run_id}/final_check.{stream}"
+                (case_root / rel).write_bytes(raw)
+                receipt["files"][rel] = file_hash(case_root / rel)
+            if (case_root / output).is_file():
+                receipt["files"][output] = file_hash(case_root / output)
+            if process.returncode != 0 or not (case_root / output).is_file():
+                raise ValueError("RC_SCIENTIFIC_FINAL_EXECUTION_FAILED")
+            if load_json(case_root / output) != load_json(
+                case_root / "runs" / run_id / "scientific_check.json"
+            ):
+                raise ValueError("RC_SCIENTIFIC_FINAL_RECALCULATION_MISMATCH")
+        verify_prefinal_selection(case_root, decision_hash)
+        ledger.update(status="SUCCESS", ended_at=utc_now())
+        write_json(path, ledger)
+        result = verify_scientific_final(case_root, decision_hash=decision_hash)
+        final_protocol_event(case_root, "FINAL_RECEIPT_ACCEPTED", ledger_sha256=file_hash(path))
+        return result
+    except (OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired) as exc:
+        ledger.update(
+            status="FAILED",
+            failure_reason=type(exc).__name__
+            if isinstance(exc, subprocess.TimeoutExpired)
+            else str(exc),
+            ended_at=utc_now(),
+        )
+        write_json(path, ledger)
+        final_protocol_event(case_root, "FINAL_FAILED", ledger_sha256=file_hash(path))
+        raise ValueError("RC_SCIENTIFIC_FINAL_EXECUTION_FAILED") from exc
+
+
 def evaluate_authorized_final_test(
     case_root: Path,
     *,
@@ -5477,14 +5842,23 @@ def evaluate_authorized_final_test(
     allow_existing: bool = False,
 ) -> dict[str, Any]:
     """Run one hash-bound Final test evaluation after development selection."""
-    if load_state(case_root).get("state") != "RUNNING":
-        raise ValueError("RC_EXECUTE_STATE_INVALID")
     if timeout_seconds < 1 or timeout_seconds > 900:
         raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
     if not HEX64.fullmatch(decision_hash):
         raise ValueError("RC_RUN_DECISION_HASH_INVALID")
     plan = read_artifact(case_root, "experiment_plan")["content"]
-    if development_only_evaluation(plan) or nonpredictive_evaluation(plan):
+    if nonpredictive_evaluation(plan):
+        return evaluate_scientific_final(
+            case_root,
+            decision_hash=decision_hash,
+            timeout_seconds=timeout_seconds,
+            allow_existing=allow_existing,
+        )
+    if load_state(case_root).get("state") != "RUNNING" and not (
+        allow_existing and (case_root / FINAL_EVALUATION_LEDGER).is_file()
+    ):
+        raise ValueError("RC_EXECUTE_STATE_INVALID")
+    if development_only_evaluation(plan):
         raise ValueError("RC_FINAL_TEST_NOT_AUTHORIZED_BY_EVALUATION_DESIGN")
     trusted_freezes(case_root)
     ledger_path = case_root / FINAL_EVALUATION_LEDGER
@@ -6004,6 +6378,11 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             check=check,
         )
     if current == "ROBUSTNESS_VALIDATED":
+        if nonpredictive_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
+            decision = read_artifact(case_root, "model_comparison")["content"][
+                "selection_decision_hash"
+            ]
+            verify_scientific_final(case_root, decision_hash=decision)
         final = read_artifact(case_root, "final_result")["content"]
         comparison = read_artifact(case_root, "model_comparison")["content"]
         if final.get("contract_version") == "final-result/v2":
@@ -6275,6 +6654,12 @@ def build_parser() -> argparse.ArgumentParser:
         "evaluate-final",
         help="在候选选择后对 selected Run 做一次 hash-bound Final test 评估",
     )
+    prepare = subparsers.add_parser(
+        "prepare-final", help="Accept development gates and freeze Final selection"
+    )
+    prepare.add_argument("--case-root", type=Path, required=True)
+    prepare.add_argument("--decision-hash", required=True)
+    evaluate_final.add_argument("--review-existing", action="store_true")
     evaluate_final.add_argument("--case-root", type=Path, required=True)
     evaluate_final.add_argument("--run-id", required=True)
     evaluate_final.add_argument("--decision-hash", required=True)
@@ -6498,13 +6883,16 @@ def main(argv: list[str] | None = None) -> int:
                 timeout_seconds=args.timeout_seconds,
             )
             return emit({"command": "execute", "status": "PASS", "result": result})
+        if args.command == "prepare-final":
+            result = prepare_final_selection(args.case_root, decision_hash=args.decision_hash)
+            return emit({"command": "prepare-final", "status": "PASS", "result": result})
         if args.command == "evaluate-final":
             result = evaluate_authorized_final_test(
                 args.case_root,
                 run_id=args.run_id,
                 decision_hash=args.decision_hash,
                 timeout_seconds=args.timeout_seconds,
-                allow_existing=False,
+                allow_existing=args.review_existing,
             )
             return emit(
                 {
@@ -6512,11 +6900,15 @@ def main(argv: list[str] | None = None) -> int:
                     "status": "PASS",
                     "result": {
                         "run_id": args.run_id,
-                        "payload_path": result["payload_path"],
-                        "payload_sha256": result["payload_sha256"],
+                        "payload_path": result.get("payload_path"),
+                        "payload_sha256": result.get("payload_sha256"),
                         "decoded_payload_sha256": result["decoded_hash"],
-                        "ledger_path": FINAL_EVALUATION_LEDGER,
-                        "authorization_hash": result["ledger"]["authorization_hash"],
+                        "ledger_path": SCIENTIFIC_FINAL_LEDGER
+                        if "selected_run_ids" in result["ledger"]
+                        else FINAL_EVALUATION_LEDGER,
+                        "authorization_hash": result["ledger"].get(
+                            "authorization_hash", result["ledger"].get("selection_freeze_sha256")
+                        ),
                     },
                 }
             )

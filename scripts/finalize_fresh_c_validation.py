@@ -335,10 +335,10 @@ def _comparison_payload(
     )
     if (plan.get("evaluation_design") or {}).get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION":
         comparison["test_access"] = {
-            "mode": "NONPREDICTIVE_FINAL_VERIFICATION",
-            "authorized": True,
+            "mode": "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+            "authorized": False,
             "count": 0,
-            "scientific_verification_count": 1,
+            "scientific_verification_count": 0,
             "used_for_selection": False,
         }
     return comparison
@@ -452,7 +452,7 @@ def _block_result(
     )
 
 
-def complete(case_root: Path, test_field: str) -> dict[str, Any]:
+def complete(case_root: Path, test_field: str, check_code: str | None = None) -> dict[str, Any]:
     core = load_core()
     state = core.load_state(case_root)
     if state["state"] != "RUNNING":
@@ -564,6 +564,16 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
     if event["result"] != "PASS":
         return _block_result(trace, event, attempts)
 
+    # Captures are sealed before any independent development check. This optional
+    # frozen checker path shares a process with gate review, avoiding hidden replays.
+    if check_code is not None:
+        _persist_manifests(core, case_root, manifests)
+        for run_id, manifest in manifests.items():
+            if manifest.get("outcome") == "SUCCESS":
+                core.execute_scientific_check(
+                    case_root, run_id=run_id, code_path=check_code, timeout_seconds=600
+                )
+
     semantic_record = core.read_artifact(case_root, "semantic_claim_support")["content"]
     event = trace.invoke(
         "GATE_RUN_ELIGIBILITY",
@@ -667,30 +677,40 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         selected_output = output_registry[selected_run_id]
         core.reject_self_attested_development_test(selected_output, test_field=test_field)
         if core.nonpredictive_evaluation(plan):
-            checks = {
-                run_id: core.verify_scientific_check(case_root, run_id=run_id)
-                for run_id in final_result["selected_run_ids"]
-            }
             for claim in semantic_record["claims"]:
                 if claim["claim_type"] in {"PREDICTIVE", "CAUSAL", "POLICY_EVALUATION"}:
                     raise ValueError("RC_NONPREDICTIVE_INFERENCE_NOT_AUTHORIZED")
-                for run_id in claim["selected_run_ids"]:
-                    checked = (
-                        checks[run_id].get("requirements", {}).get(claim["requirement_id"], {})
-                    )
-                    if checked.get("feasible") is not True or not core.scientific_residuals_pass(
-                        checked.get("constraint_residuals")
-                    ):
-                        raise ValueError("RC_NONPREDICTIVE_FINAL_VERIFICATION_INVALID")
-            authorized = {"test_metrics": checks, "decoded_hash": core.canonical_hash(checks)}
-        else:
-            authorized = core.evaluate_authorized_final_test(
-                case_root,
-                run_id=selected_run_id,
-                decision_hash=decision_hash,
-                timeout_seconds=30,
-                allow_existing=True,
+            _persist_manifests(core, case_root, manifests)
+            for key, value in (
+                ("model_comparison", comparison),
+                (
+                    "robustness_analysis",
+                    _robustness_payload(selected_manifest, selected_output, selected_candidate_id),
+                ),
+            ):
+                core.write_json(case_root / core.ARTIFACT_PATHS[key], core.artifact(key, value))
+            # The public core validates these predecessors, freezes their exact files,
+            # and consumes the Final budget before starting an independent process.
+            core.prepare_final_selection(case_root, decision_hash=decision_hash)
+        selection_receipt = case_root / "evidence/selection_before_test_access.json"
+        if not selection_receipt.exists():
+            core.write_json(
+                selection_receipt,
+                {
+                    "selected_at": core.utc_now(),
+                    "decision_hash": decision_hash,
+                    "payload": selected,
+                    "requirement_selection_hash": core.canonical_hash(selection_record),
+                },
+                overwrite=False,
             )
+        authorized = core.evaluate_authorized_final_test(
+            case_root,
+            run_id=selected_run_id,
+            decision_hash=decision_hash,
+            timeout_seconds=600,
+            allow_existing=True,
+        )
         selected_payload.update(
             candidate_id=selected_candidate_id,
             run_id=selected_run_id,
@@ -730,16 +750,6 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
     selected_global_run_id = selected_payload["run_id"]
     selected_manifest = selected_payload["manifest"]
     selected_output = selected_payload["output"]
-    core.write_json(
-        case_root / "evidence/selection_before_test_access.json",
-        {
-            "selected_at": core.utc_now(),
-            "decision_hash": decision_hash,
-            "payload": selected,
-            "requirement_selection_hash": core.canonical_hash(selection_record),
-        },
-        overwrite=False,
-    )
     _record_selected_test_access(
         core,
         case_root,
@@ -750,11 +760,12 @@ def complete(case_root: Path, test_field: str) -> dict[str, Any]:
         selected_payload["decoded_hash"],
         nonpredictive=core.nonpredictive_evaluation(plan),
     )
-    accepted("model_comparison", comparison)
-    accepted(
-        "robustness_analysis",
-        _robustness_payload(selected_manifest, selected_output, selected_candidate_id),
-    )
+    if not core.nonpredictive_evaluation(plan):
+        accepted("model_comparison", comparison)
+        accepted(
+            "robustness_analysis",
+            _robustness_payload(selected_manifest, selected_output, selected_candidate_id),
+        )
     accepted("final_result", final_result)
     accepted("claim_evidence", claim_evidence)
     while core.load_state(case_root)["state"] != "EVIDENCE_VALIDATED":
@@ -803,8 +814,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case-root", type=Path, required=True)
     parser.add_argument("--test-field", default="sealed_test_metrics_b64")
+    parser.add_argument("--check-code", help="Frozen case-relative development checker")
     args = parser.parse_args()
-    result = complete(args.case_root.resolve(), args.test_field)
+    result = complete(args.case_root.resolve(), args.test_field, args.check_code)
     print(json.dumps(result, sort_keys=True))
     return 0 if result["status"] == "PASS_NATIVE_CONTRACTS" else 1
 
