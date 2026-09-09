@@ -1,5 +1,7 @@
 # Documentation index
 
+GPT研究协调＋Codex逐模块操作资料：[从这里开始](gpt_codex_workflow/START_HERE.md)（独立版本，RC10核心保持）。
+
 - 当前模块工作台：[START_HERE](modular_workbench/START_HERE.md)、[模块目录](modular_workbench/MODULES.md)、[Runbook](modular_workbench/RUNBOOK.md)、[角色提示词](modular_workbench/ROLE_PROMPTS.md)
 - RC7 暂停与诚实交接：`../HANDOVER.md`、`../CODEX_TAKEOVER.md`、`handover/`
 - Architecture and truth: `ARCHITECTURE.md`, `SOURCE_OF_TRUTH.md`, `adr/`

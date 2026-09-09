@@ -1,0 +1,171 @@
+[
+  {
+    "id": "L01",
+    "title": "主问覆盖",
+    "modules": [
+      "M02",
+      "M05",
+      "M13",
+      "M14"
+    ],
+    "trigger": "需求表字段齐全但仍无法回答原问",
+    "source": "GOALS.md",
+    "source_sha256": "3a00dc22cee7a4e0d03ad97864189d1b742c8f234508ca50f9ab3a6e2d7b9eea",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L02",
+    "title": "缺失、零与连接",
+    "modules": [
+      "M05",
+      "M08"
+    ],
+    "trigger": "缺值处理或多表连接改变样本数",
+    "source": "docs/modular_workbench/MODULES.md",
+    "source_sha256": "0b5a53a0364522666f8773134554729be4de2ef5ad4927f3714de4e7662e4fc3",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L03",
+    "title": "测点与独立样本",
+    "modules": [
+      "M05",
+      "M08"
+    ],
+    "trigger": "同对象多次记录被当多对象证据",
+    "source": "tests/integration/test_rc9_science_semantics.py",
+    "source_sha256": "09e7dbbe570e4d968cafc61f95457fa887be92ddb943677780f812dd2ba0e522",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L04",
+    "title": "同实体前缀与未来",
+    "modules": [
+      "M05",
+      "M08",
+      "M09"
+    ],
+    "trigger": "预测出现同一实体重叠或未来信息",
+    "source": "tests/integration/test_rc9_science_semantics.py",
+    "source_sha256": "09e7dbbe570e4d968cafc61f95457fa887be92ddb943677780f812dd2ba0e522",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L05",
+    "title": "开发、Final与条件预测",
+    "modules": [
+      "M08",
+      "M10",
+      "M12",
+      "M13"
+    ],
+    "trigger": "把开发指标当Final或缺未来标签",
+    "source": "HANDOVER.md",
+    "source_sha256": "0e0489206845f70d6fe151ec4430efbab2c436135a361ffeb403ffc1c9d8c9cf",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L06",
+    "title": "指标的目标与分母",
+    "modules": [
+      "M02",
+      "M08",
+      "M09"
+    ],
+    "trigger": "同排名掩盖指标语义不同",
+    "source": "tests/integration/test_rc9_science_semantics.py",
+    "source_sha256": "09e7dbbe570e4d968cafc61f95457fa887be92ddb943677780f812dd2ba0e522",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L07",
+    "title": "完美小样本",
+    "modules": [
+      "M09",
+      "M13"
+    ],
+    "trigger": "合成或少量数据近零误差",
+    "source": "evals/results/modular-workbench-001/original_analysis.md",
+    "source_sha256": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L08",
+    "title": "可靠基线",
+    "modules": [
+      "M06",
+      "M07",
+      "M10"
+    ],
+    "trigger": "候选改进幅度被当成功必要条件",
+    "source": "docs/modular_workbench/MODULES.md",
+    "source_sha256": "0b5a53a0364522666f8773134554729be4de2ef5ad4927f3714de4e7662e4fc3",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L09",
+    "title": "可行与最优",
+    "modules": [
+      "M06",
+      "M09",
+      "M12",
+      "M13"
+    ],
+    "trigger": "求解成功或有可行方案就称全局最优",
+    "source": "tests/fixtures/workbench_water_checker.py",
+    "source_sha256": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L10",
+    "title": "来源与生成方法",
+    "modules": [
+      "M03",
+      "M05",
+      "M13"
+    ],
+    "trigger": "source真实被误当所有推导都实测",
+    "source": "GOALS.md",
+    "source_sha256": "3a00dc22cee7a4e0d03ad97864189d1b742c8f234508ca50f9ab3a6e2d7b9eea",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L11",
+    "title": "区间含义",
+    "modules": [
+      "M11",
+      "M13",
+      "M14"
+    ],
+    "trigger": "把扰动范围叫置信或预测区间",
+    "source": "evals/results/modular-workbench-001/original_analysis.md",
+    "source_sha256": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  },
+  {
+    "id": "L12",
+    "title": "多问、场景与阅读血缘",
+    "modules": [
+      "M04",
+      "M10",
+      "M13",
+      "M14"
+    ],
+    "trigger": "上游变化、图表摘要或附页版本错位",
+    "source": "tests/integration/test_modular_workbench.py",
+    "source_sha256": "360728febaad7ff522c5bd45a29b21aa33204d402f143835fb467e5ddd3f4594",
+    "operator_kit_version": "1.0.0",
+    "automatic_gate": false
+  }
+]

@@ -1,0 +1,229 @@
+{
+  "schema_version": "operator-input-audit/v1",
+  "input_hashes": {
+    "WEB_PACKAGE_AUDIT.md": "07fb76d13a3225b716c5d81147cac361e5f9e843fae41415be5d64bfb5dde1d9",
+    "WEB_RECHECK_CALCULATIONS.py": "043a96fb038d2a2785c96f81f6fb72769664852b0a3aa63dfa44101dd8a0967c",
+    "brain-a3d2279.zip": "d807d3a9e21aa04eb169a2e0a1db24117c4a7a48e4ae8fb0f1d0a62c7a6f825d",
+    "WEB_RECHECK_RESULTS.json": "5faabfd16d1d333c2d8dae15521653b60f5a463bffe9815477dccaec1170a060",
+    "WEB_PACKAGE_AUDIT.json": "3fb7f20c645079d741210958c8598b97f066b20943d60fe8b9484dc229c39a56",
+    "WEB_FEEDBACK_ORIGINAL_WATER_M14.json": "f44257672f89343d216f45adc6714f61bc4d914614e20f2876ba62370aae3eea"
+  },
+  "archive": {
+    "bytes": 81822,
+    "members": 39,
+    "uncompressed_bytes": 224753,
+    "crc": "PASS",
+    "safe_paths": "PASS",
+    "outer_payloads_checked": 38,
+    "inner_payloads_checked": 22
+  },
+  "package_hash": "09784e197709c5c5657d5eedac9959c7a72312e0ea30631a7bbeeb46afe05c71",
+  "context_hash": "ae22c16c443303cad2c19eb2fe32b4adbc6ab47e9e1436b68c6d5e4e87efeba9",
+  "core_identity": {
+    "tool_commit": "a3d2279b439a332239bab2ff75362bb070100042",
+    "implementation_sha256": "73fbd01944221102b2c3e09ed05f49ca3057ecd7aeb6f23b95fd29f7db9603ff"
+  },
+  "arithmetic_recomputed": {
+    "passed": 9,
+    "total": 9,
+    "matches_supplied_results": true,
+    "uploaded_producer_or_checker_executed": false
+  },
+  "source_references": [
+    {
+      "source": "docs/modular_workbench/START_HERE.md",
+      "source_sha256": "6a225549241d720c12105238e61ccf971cbd80020fc64f6d894fc546b8db8f8c",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "docs/modular_workbench/MODULES.md",
+      "source_sha256": "0b5a53a0364522666f8773134554729be4de2ef5ad4927f3714de4e7662e4fc3",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "docs/modular_workbench/RUNBOOK.md",
+      "source_sha256": "756a9778e8e723512d97b0584b5c6377418485459bef3c614a9255261d067e25",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "docs/modular_workbench/PROJECT_BRIEF.md",
+      "source_sha256": "80b1f27571f873755a40fd905b0c3aa454d54282b8e9ac370d887baf25187a1f",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "docs/modular_workbench/REVIEW_FORMAT.md",
+      "source_sha256": "b69e98581d8d21b74f720a34375404905ab280abd37a2b66984ff1464ad44aaa",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "docs/modular_workbench/ROLE_PROMPTS.md",
+      "source_sha256": "6291b6b483fea098f5faf82364afbd3bfdf91ab2907816ed07cd117894a1dafb",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/FINAL_REPORT.md",
+      "source_sha256": "d46dddf1c0f3c04acf7a578b22efc1a0ea1e8f47027a2cf025558b617b1a542e",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/WEB_RECEIPT.md",
+      "source_sha256": "5063e75bbe473562a40db358147b2324c9b28ec3abf7c90b1693ec8e56a2177f",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/EVIDENCE_INDEX.md",
+      "source_sha256": "e756614cc18cd05e083ccd2c6c928e6d24abe09a76eef965f716c037eb827f83",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/DELIVERY_AND_RECOVERY.md",
+      "source_sha256": "dc1da310dd7c0dd9797e08a2ccaf7daf92dde629762cec1dc068a2e3112b944e",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "ORIGINAL_CASE/context/delivery-a3d2279/context.json",
+      "source_sha256": "e90d2788665a3f8619d7f8202720b5f80a23e02ebedd6aef06a93ed17fb1ead0",
+      "local_reference_check": "SOURCE_BYTES_NOT_AVAILABLE_HERE"
+    },
+    {
+      "source": "ORIGINAL_CASE/context/delivery-a3d2279/CONTEXT.md",
+      "source_sha256": "0aa7c92f9641b1854ab86d1eb12c05d0eb1cab434b3abd6d6bff33e9811b33e2",
+      "local_reference_check": "SOURCE_BYTES_NOT_AVAILABLE_HERE"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/REVIEW.md",
+      "source_sha256": "1c086415a9d6b20faf25c887fc2620a47d70d35f364eee0a0234072d4740d305",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/manifest.json",
+      "source_sha256": "49b7bbbd70e0bd82974b8ec1c14017aeaf8f5ede266e82c0d7053cbd7b79d516",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/000-input.json.txt",
+      "source_sha256": "571a5a82f687c39f8f824c8aa23aa7a74dfb6a2525e18c4e1884b599510ca4b2",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/001-scientific_final_ledger.json.txt",
+      "source_sha256": "9707c2a84bba644bc196c3c688cce629469fb419c6465f384f93cbc69472674b",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/002-experiment_plan.json.txt",
+      "source_sha256": "24f0e7ac2157dc5f95260a682bc4a900cc23005a479014e40030a59c9bf18f6f",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/003-modeling_to_paper.json.txt",
+      "source_sha256": "773281e07fee78b02f27dcd03be0148b0e730ad7a76bfce625930d8315a3d35a",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/004-assumptions_and_symbols.json.txt",
+      "source_sha256": "e0327362f8ce301a6eb36e1ecf6af84890557271c3ec31060c3b76fc1d2045f3",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/005-independent_check.py.txt",
+      "source_sha256": "54f124c119699166a5686a289de9daef84431b342306d1e5e4ab6dbdefee87e0",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/006-runtime_model.py.txt",
+      "source_sha256": "b2860969d47762eaef3935fc4ff5bc136f6164fea446d50367a985c072ae0ae4",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/007-original.md.txt",
+      "source_sha256": "361fe5eec4ca7fa71fc244b87bc0421139cb661f85df9ecf00ef972c4dd62ef2",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/008-problem_requirements.json.txt",
+      "source_sha256": "302cc86671f4c142cae3c643db798c16d4f77bdd03fa5a43f63c99aa1943cba9",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/009-analysis.md.txt",
+      "source_sha256": "6ed3bc7aa4fe9554b3ed60abdb11e1c92730a5d1789fcc5d26e4e166a762bdc1",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/010-execution_capture.json.txt",
+      "source_sha256": "b38cf83dce4b8243950edc33f72da1e462597fb2f27a893bfa2428d956a056cf",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/011-final_check.json.txt",
+      "source_sha256": "a55dbbb978e5233eafc421fa9941407c1e62044e943456fc812187eaaf1bc63d",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/012-output.json.txt",
+      "source_sha256": "4635f933cf35ff7001770547e31b4b09c697ce1be607e57a793c7a638f31b202",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/013-scientific_check.json.txt",
+      "source_sha256": "a55dbbb978e5233eafc421fa9941407c1e62044e943456fc812187eaaf1bc63d",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/014-scientific_check_capture.json.txt",
+      "source_sha256": "6b4711dc1a74fc69fadf1127d36a497e6a60bf18d25fbfbe9ffd01a349c0cea4",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/015-execution_capture.json.txt",
+      "source_sha256": "2ce37925a9f1fecb53986264c04e058caa546daa85c6aead6f78d7ec460fee9f",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/016-final_check.json.txt",
+      "source_sha256": "337b3e9247b20d8fceb686b64a3187628f727066978b8e6fa61ea787ed8e2672",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/017-output.json.txt",
+      "source_sha256": "cb6516994e10587418191cf42e80ce5ea597c3c52bda07fc9ab3873b4aa59dd7",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/018-scientific_check.json.txt",
+      "source_sha256": "337b3e9247b20d8fceb686b64a3187628f727066978b8e6fa61ea787ed8e2672",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/019-scientific_check_capture.json.txt",
+      "source_sha256": "43c152be0818984748567d66f9b31540b5f2527dfe0743e46f57a8c787b9711f",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "evals/results/modular-workbench-001/review_packages/M14/views/020-M14.json.txt",
+      "source_sha256": "9f368e030e8684e71941260cfe428e12c2d1a594e7a2bc1426c47555af2d13c5",
+      "local_reference_check": "MATCH"
+    },
+    {
+      "source": "DERIVED_FROM_LISTED_FORMAL_SOURCE_HASHES",
+      "source_sha256": null,
+      "local_reference_check": "SOURCE_BYTES_NOT_AVAILABLE_HERE"
+    },
+    {
+      "source": "MAIN_AGENT_HANDOFF_INSTRUCTIONS",
+      "source_sha256": null,
+      "local_reference_check": "SOURCE_BYTES_NOT_AVAILABLE_HERE"
+    },
+    {
+      "source": "https://github.com/woobowen/cumcm/actions/runs/34346424303",
+      "source_sha256": null,
+      "local_reference_check": "SOURCE_BYTES_NOT_AVAILABLE_HERE"
+    }
+  ],
+  "live_case_current_claimed": false,
+  "real_web_status": "ACTUAL_WEB_REVIEW_RECEIVED_AND_EVALUATED",
+  "native_import_status": "NATIVE_IMPORT_NOT_RUN_IMMUTABLE_SOURCE",
+  "freeze_basis": "BUILD_PROMPT sections 1 and 13; original terminal is immutable; no original root append performed",
+  "new_live_web_status": "NEW_LIVE_WEB_ROUNDTRIP_PENDING_USER"
+}
