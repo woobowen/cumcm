@@ -143,7 +143,7 @@ def test_registered_process_budget_counts_models_checkers_and_single_final(repo_
     assert core.file_hash(case / "state/execution_budget.json") == before
 
 
-def prepared_science_case(repo_root, tmp_path, behavior=None):
+def prepared_science_case(repo_root, tmp_path, behavior=None, budget=False):
     path = repo_root / "tests/integration/test_rc9_science_semantics.py"
     spec = importlib.util.spec_from_file_location("rc9_protocol_science", path)
     science = importlib.util.module_from_spec(spec)
@@ -152,6 +152,12 @@ def prepared_science_case(repo_root, tmp_path, behavior=None):
     def configure(data, plan, requirements, semantic):
         if behavior:
             data["final_behavior"] = behavior
+        if budget:
+            plan["evaluation_design"]["start_budget"] = {
+                "model_cli_starts": 4,
+                "independent_checker_starts": 4,
+                "final_starts": 1,
+            }
 
     h, core, case = science.build(repo_root, tmp_path, "optimization", mutation=configure)
     spec = importlib.util.spec_from_file_location(
@@ -182,6 +188,28 @@ def prepared_science_case(repo_root, tmp_path, behavior=None):
     process, receipt = cli(repo_root, case, "prepare-final", "--decision-hash", decision)
     assert process.returncode == 0, receipt
     return h, core, case, decision
+
+
+def test_checker_budget_exhaustion_rejects_final_before_authorization(repo_root, tmp_path):
+    _, core, case, decision = prepared_science_case(repo_root, tmp_path, budget=True)
+    for _ in range(2):
+        core._SCIENTIFIC_CHECKS_THIS_PROCESS.clear()
+        core.verify_scientific_check(case, run_id="RUN-CAND-20260906")
+    process, result = cli(
+        repo_root,
+        case,
+        "evaluate-final",
+        "--run-id",
+        "RUN-CAND-20260906",
+        "--decision-hash",
+        decision,
+    )
+    assert process.returncode != 0, result
+    assert "RC_EXECUTION_BUDGET_EXHAUSTED:independent_checker_starts" in result["reason_codes"]
+    assert not (case / core.SCIENTIFIC_FINAL_LEDGER).exists()
+    events = core.load_json(case / "state/execution_budget.json")["events"]
+    assert sum(e["kind"] == "independent_checker_starts" for e in events) == 4
+    assert not any(e["kind"] == "final_starts" for e in events)
 
 
 @pytest.mark.parametrize("mutation", ["missing_robustness", "leakage", "empty_selection"])

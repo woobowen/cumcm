@@ -5418,7 +5418,9 @@ def controlled_subprocess_environment(seed: int) -> tuple[dict[str, str], dict[s
     return recorded, process_environment
 
 
-def consume_start_budget(case_root: Path, kind: str, run_id: str) -> None:
+def consume_start_budget(
+    case_root: Path, kind: str, run_id: str, *, check_only: bool = False, needed: int = 1
+) -> None:
     """Count actual process starts, including independent verification replays."""
     plan = read_artifact(case_root, "experiment_plan")["content"]
     limits = (plan.get("evaluation_design") or {}).get("start_budget")
@@ -5446,8 +5448,14 @@ def consume_start_budget(case_root: Path, kind: str, run_id: str) -> None:
         if ledger.get("limits") != limits or not isinstance(ledger.get("events"), list):
             raise ValueError("RC_EXECUTION_BUDGET_INVALID")
         used = sum(e.get("kind") == kind for e in ledger["events"])
-        if kind not in limits or used >= limits[kind]:
+        if type(needed) is not int or needed < 1:
+            raise ValueError("RC_EXECUTION_BUDGET_INVALID")
+        if kind not in limits or used + needed > limits[kind]:
             raise ValueError("RC_EXECUTION_BUDGET_EXHAUSTED:" + kind)
+        if check_only:
+            return
+        if needed != 1:
+            raise ValueError("RC_EXECUTION_BUDGET_INVALID")
         ledger["events"].append(
             {
                 "sequence": len(ledger["events"]) + 1,
@@ -6420,6 +6428,14 @@ def evaluate_scientific_final(
             raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
         if not scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
             raise ValueError("RC_FINAL_PREPARATION_DESIGN_INVALID")
+        if not (case_root / SCIENTIFIC_FINAL_LEDGER).exists():
+            consume_start_budget(
+                case_root,
+                "independent_checker_starts",
+                "SCIENTIFIC-FINAL",
+                check_only=True,
+                needed=len(freeze["selected_run_ids"]),
+            )
     except (OSError, ValueError, KeyError, TypeError):
         final_protocol_event(case_root, "FINAL_REQUEST_REJECTED", reason="PREREQUISITES_INVALID")
         raise

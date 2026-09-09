@@ -98,6 +98,21 @@ def temporal_index(root, core):
     book = load_workbook(root / "data/raw/appendix.xlsx", read_only=True, data_only=True)
     rows = [r for r in book["附件2"].values][2:303]
     book.close()
+    if (
+        len(rows) != 301
+        or any(not isinstance(r[0], (int, float)) for r in rows)
+        or any(rows[j][0] <= rows[j + 1][0] for j in range(len(rows) - 1))
+    ):
+        raise ValueError("ATTACHMENT2_ORDER_NOT_STRICTLY_DECREASING")
+    if any(not isinstance(r[s + 1], (int, float)) for r in rows for s in range(3)):
+        raise ValueError("HISTORICAL_STATE_ROWS_INCOMPLETE")
+    known_target = [isinstance(r[4], (int, float)) for r in rows]
+    if (
+        not known_target
+        or not known_target[0]
+        or known_target != sorted(known_target, reverse=True)
+    ):
+        raise ValueError("FORECAST_PREFIX_HAS_INTERIOR_GAP")
     states = {}
     observations = []
     for state in range(4):
@@ -517,6 +532,7 @@ def propose(year):
             "counter_evidence": [],
             "limitations": output["limitations"],
             "status": "SUPPORTED",
+            "claim_strength": "BOUNDED",
         }
         if predictive:
             claim["prediction_scope"] = "CONDITIONAL_ESTIMATE"

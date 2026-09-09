@@ -283,7 +283,19 @@ def main():
     perturb_counts = {}
     pert_res = []
     pert_count_res = []
+    frozen_perturbations = {
+        "LOWER_TREE": {"moonlo": 3.0, "moonhi": 7.0},
+        "HIGHER_TREE": {"moonlo": 13.0, "moonhi": 17.0},
+        "WIDER_TREE_BAND": {"moonlo": 6.0, "moonhi": 14.0},
+        "CIVIL_TWILIGHT": {"sunlo": -6.0, "sunhi": -0.833},
+        "LATITUDE_PLUS_005": {"latitude_shift": 0.05},
+    }
+    assert set(o["sensitivity"]) == set(frozen_perturbations)
+    perturbations = o["robustness_evidence"]["perturbations"]
+    assert len(perturbations) == 5
+    assert {r["perturbation_id"] for r in perturbations} == set(frozen_perturbations)
     for label, rec in o["sensitivity"].items():
+        assert rec["parameters"] == frozen_perturbations[label]
         recomputed = reconstruct(sky, cities, first, rec["parameters"])
         perturb_counts[label] = {c: len(rows) for c, rows in recomputed.items()}
         for city, rows in recomputed.items():

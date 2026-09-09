@@ -63,8 +63,39 @@ def evaluate(x, c, t):
 def inverse(fun, end, voltage):
     if abs(fun(end) - voltage) < 1e-9:
         return end
-    lo = 0.0
-    hi = end
+    # A sum of scaled cubic pieces can turn inside a merged knot interval.
+    # Split at every derivative root before choosing the last downward bracket.
+    knots = fun.knots
+    boundaries = list(knots)
+    for left, right in zip(knots[:-1], knots[1:], strict=True):
+        width = right - left
+        eps = min(width / 1000, 1e-6)
+        d0 = fun.derivative(left + eps)
+        dm = fun.derivative((left + right) / 2)
+        d1 = fun.derivative(right - eps)
+        # Interpolate the quadratic derivative at interior coordinates, avoiding
+        # the one-sided slope ambiguity of piecewise-linear knot derivatives.
+        z0, zm, z1 = eps, width / 2, width - eps
+        a = ((d1 - dm) / (z1 - zm) - (dm - d0) / (zm - z0)) / (z1 - z0)
+        b = (dm - d0) / (zm - z0) - a * (zm + z0)
+        c = d0 - a * z0 * z0 - b * z0
+        roots = []
+        if abs(a) < 1e-16:
+            if abs(b) > 1e-16:
+                roots = [-c / b]
+        elif b * b - 4 * a * c >= 0:
+            disc = math.sqrt(b * b - 4 * a * c)
+            roots = [(-b - disc) / (2 * a), (-b + disc) / (2 * a)]
+        boundaries.extend(left + z for z in roots if 0 < z < width)
+    points = sorted(set(boundaries))
+    brackets = [
+        (a, b)
+        for a, b in zip(points[:-1], points[1:], strict=True)
+        if fun(a) >= voltage >= fun(b) and fun(a) > fun(b)
+    ]
+    if not brackets:
+        raise ValueError("CHECK_MODEL_DOWNWARD_CROSSING_MISSING")
+    lo, hi = brackets[-1]
     for _ in range(75):
         mid = (lo + hi) / 2
         if fun(mid) > voltage:
@@ -156,6 +187,14 @@ def main():
         def fun(t, x=x, c=c):
             return evaluate(x, c, t)
 
+        def derivative(t, x=x, c=c):
+            j = min(max(0, bisect.bisect_right(x, t) - 1), len(c) - 1)
+            z = t - x[j]
+            a, b, d, _ = c[j]
+            return (3 * a * z + 2 * b) * z + d
+
+        fun.knots = x
+        fun.derivative = derivative
         polys[i] = fun
         values = [inverse(fun, durations[i], u) for u in grid]
         actual = [sample_time(points, u) for u in grid]
@@ -181,12 +220,21 @@ def main():
             if cubic
             else (1 - w) * durations[lo] + w * durations[hi]
         )
-        return (
-            lambda t: (
-                (1 - w) * polys[lo](t * durations[lo] / T) + w * polys[hi](t * durations[hi] / T)
-            ),
-            T,
+
+        def combined(t):
+            return (1 - w) * polys[lo](t * durations[lo] / T) + w * polys[hi](t * durations[hi] / T)
+
+        combined.knots = sorted(
+            set(
+                [t * T / durations[lo] for t in polys[lo].knots]
+                + [t * T / durations[hi] for t in polys[hi].knots]
+            )
         )
+        combined.derivative = lambda t: (
+            (1 - w) * polys[lo].derivative(t * durations[lo] / T) * durations[lo] / T
+            + w * polys[hi].derivative(t * durations[hi] / T) * durations[hi] / T
+        )
+        return combined, T
 
     q2_errors = []
     q2_vector_residual = 0.0
