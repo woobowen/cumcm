@@ -277,6 +277,9 @@ def _build_runtime_case(
     checker_fixture: str | None = None,
     nonpredictive: bool = False,
     development_only: bool = False,
+    raw_data: dict | None = None,
+    plan_extra: dict | None = None,
+    execute_via_cli: bool = False,
 ):
     core = _module(
         repo_root / ".agents/skills/cumcm-modeling-evidence/scripts/cumcm_case.py",
@@ -288,7 +291,10 @@ def _build_runtime_case(
     )
     case = tmp_path / "case"
     core.initialize_case(case, "NEUTRAL-RUNTIME-E2E", "general")
-    core.write_json(case / "data/raw/input.json", {"x": [1, 2], "y": [3, 4]})
+    core.write_json(
+        case / "data/raw/input.json",
+        raw_data if raw_data is not None else {"x": [1, 2], "y": [3, 4]},
+    )
     raw_hash = core.file_hash(case / "data/raw/input.json")
     sources = copy.deepcopy(sources)
     for source in sources:
@@ -404,6 +410,9 @@ def _build_runtime_case(
         if development_only
         else None
     )
+    if plan_extra is not None:
+        splits = plan_extra.get("splits", splits)
+        design = plan_extra.get("evaluation_design", design)
     inputs = {"data/raw/input.json": raw_hash}
     generated = "2026-09-05T00:00:00Z"
     freezes = synthetic._freezes(
@@ -422,6 +431,18 @@ def _build_runtime_case(
     if design is not None:
         freezes["execution_policy"] = core.canonical_hash(
             core.execution_policy_payload("one deterministic run per candidate", generated, design)
+        )
+    if plan_extra and "metric_definitions" in plan_extra:
+        freezes["metric"] = core.canonical_hash(
+            core.metric_freeze_payload(
+                {
+                    "metric": "metric_a",
+                    "metric_direction": "MIN",
+                    "aggregation_rule": "MEAN_PER_CANDIDATE_THEN_DIRECTION_THEN_ID",
+                    "selection_rule": "ARGMIN_THEN_ID",
+                    **plan_extra,
+                }
+            )
         )
     _accepted(
         core,
@@ -446,6 +467,7 @@ def _build_runtime_case(
             "handoff_generated_at": generated,
             "scenario_hash": raw_hash,
             **({"evaluation_design": design} if design is not None else {}),
+            **(plan_extra or {}),
         },
     )
     synthetic._write_output_contract_probe(
@@ -457,6 +479,30 @@ def _build_runtime_case(
     core.advance_once(case)
     core.advance_once(case)
     for candidate_id in ("BASE", "CAND"):
+        if execute_via_cli:
+            process = subprocess.run(
+                [
+                    sys.executable,
+                    str(core.SKILL_ROOT / "scripts/cumcm_case.py"),
+                    "execute",
+                    "--case-root",
+                    str(case),
+                    "--run-id",
+                    f"RUN-{candidate_id}-{seed}",
+                    "--candidate-id",
+                    candidate_id,
+                    "--seed",
+                    str(seed),
+                    "--code-path",
+                    "models/runtime_model.py",
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=60,
+            )
+            assert process.returncode == 0, (process.stdout, process.stderr)
+            continue
         core.execute_case_code(
             case,
             run_id=f"RUN-{candidate_id}-{seed}",

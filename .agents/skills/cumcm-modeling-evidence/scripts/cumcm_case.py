@@ -410,6 +410,21 @@ def validate_runtime_requirements(requirements: Any) -> dict[str, Any]:
         ):
             codes.add("RC_REQUIREMENT_CONTRACT_INVALID")
             continue
+        spec = requirement.get("prediction_spec")
+        if spec is not None and (
+            not isinstance(spec, dict)
+            or spec.get("kind") != "CONDITIONAL_ESTIMATE"
+            or spec.get("claim_type") != "PREDICTIVE"
+            or not spec.get("target_field")
+            or not spec.get("model_basis")
+            or not _string_set(spec.get("conditions"))
+            or spec.get("historical_validation_required") is not True
+            or not isinstance(spec.get("empirical_accuracy_required"), bool)
+            or spec.get("future_truth_field") in requirement.get("minimum_data_fields", [])
+            or not set(spec.get("known_input_fields", []))
+            <= set(requirement.get("minimum_data_fields", []))
+        ):
+            codes.add("RC_CONDITIONAL_REQUIREMENT_INVALID")
         identifiers.add(requirement_id)
     if identifiers:
         for requirement in requirements:
@@ -926,10 +941,25 @@ def validate_semantic_claim_support(payload: Any) -> dict[str, Any]:
         codes.add("RC_OPTIMALITY_CERTIFICATE_MISSING")
     if claim_type == "CAUSAL" and predicates.get("causal_identification_design") is not True:
         codes.add("RC_CAUSAL_IDENTIFICATION_MISSING")
-    if claim_type == "PREDICTIVE" and not all(
-        predicates.get(key) is True for key in ("validation_boundary_frozen", "held_out_test_valid")
-    ):
-        codes.add("RC_PREDICTIVE_VALIDATION_MISSING")
+    if claim_type == "PREDICTIVE":
+        if claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE":
+            if (
+                not all(
+                    predicates.get(k) is True
+                    for k in (
+                        "validation_boundary_frozen",
+                        "conditional_model_bound",
+                        "historical_validation_recorded",
+                    )
+                )
+                or predicates.get("held_out_test_valid") is not False
+                or predicates.get("target_accuracy_verified") is not False
+            ):
+                codes.add("RC_PREDICTIVE_CONDITIONAL_SUPPORT_INVALID")
+        elif not all(
+            predicates.get(k) is True for k in ("validation_boundary_frozen", "held_out_test_valid")
+        ):
+            codes.add("RC_PREDICTIVE_VALIDATION_MISSING")
     if validation.get("counter_evidence_detected") is True and not claim.get("counter_evidence"):
         codes.add("RC_CLAIM_COUNTER_EVIDENCE_UNRESOLVED")
     aggregate = payload.get("aggregate")
@@ -1315,7 +1345,10 @@ def _scientific_claim_facts(
         if facts.get("status") in {"STALE", "CONTRADICTED", "INSUFFICIENT", "UNKNOWN"}:
             codes.add("RC_CLAIM_FACTS_NOT_SUPPORTED")
     scope = claim.get("scope") or {}
-    conditional = claim.get("claim_type") in {"SIMULATION_CONDITIONAL", "FEASIBILITY"}
+    conditional = claim.get("claim_type") in {"SIMULATION_CONDITIONAL", "FEASIBILITY"} or (
+        claim.get("claim_type") == "PREDICTIVE"
+        and claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE"
+    )
     assumptions_bound = False
     if isinstance(facts, dict) and case_root is not None:
         assumption_path = case_root / ARTIFACT_PATHS["assumptions_and_symbols"]
@@ -1444,6 +1477,387 @@ def nonpredictive_evaluation(plan: dict[str, Any]) -> bool:
     return (plan.get("evaluation_design") or {}).get("mode") == "NONPREDICTIVE_FINAL_VERIFICATION"
 
 
+def conditional_prediction_evaluation(plan: dict[str, Any]) -> bool:
+    return (plan.get("evaluation_design") or {}).get(
+        "mode"
+    ) == "CONDITIONAL_PREDICTION_FINAL_VERIFICATION"
+
+
+def scientific_final_evaluation(plan: dict[str, Any]) -> bool:
+    return nonpredictive_evaluation(plan) or conditional_prediction_evaluation(plan)
+
+
+def metric_freeze_payload(plan: dict[str, Any]) -> dict[str, Any]:
+    value = {
+        "name": plan.get("metric"),
+        "direction": plan.get("metric_direction"),
+        "aggregation_rule": plan.get("aggregation_rule"),
+        "selection_rule": plan.get("selection_rule"),
+    }
+    if "metric_definitions" in plan:
+        value["definitions"] = plan["metric_definitions"]
+    return value
+
+
+def validate_metric_definition(value: Any) -> set[str]:
+    fields = {
+        "target",
+        "quantity",
+        "target_unit",
+        "unit",
+        "prediction_origin",
+        "formula",
+        "denominator",
+        "sample_unit",
+        "aggregation",
+        "weights",
+        "direction",
+        "zero_denominator_policy",
+    }
+    if not isinstance(value, dict) or set(value) != fields:
+        return {"RC_METRIC_DEFINITION_FIELDS_INVALID"}
+    if any(not isinstance(value[k], str) or not value[k].strip() for k in fields - {"weights"}):
+        return {"RC_METRIC_DEFINITION_FIELDS_INVALID"}
+    if (
+        value["quantity"] not in {"REMAINING_TIME", "ELAPSED_TIME", "SCALAR"}
+        or value["formula"]
+        not in {"ABSOLUTE_RELATIVE_ERROR", "ABSOLUTE_ERROR", "SQUARED_ERROR", "VALUE"}
+        or value["direction"] not in {"MIN", "MAX"}
+        or value["aggregation"] not in {"MEAN", "ROOT_MEAN", "SUM", "SINGLE"}
+        or value["prediction_origin"] not in {"PER_SAMPLE", "NOT_APPLICABLE"}
+        or value["zero_denominator_policy"] not in {"REJECT", "EXCLUDE_WITH_COUNT"}
+        or value["weights"] != "UNIFORM"
+    ):
+        return {"RC_METRIC_DEFINITION_INVALID"}
+    expected = (
+        "TRUE_REMAINING_TIME"
+        if value["quantity"] == "REMAINING_TIME"
+        else "TRUE_ELAPSED_TIME"
+        if value["quantity"] == "ELAPSED_TIME"
+        else "TRUE_VALUE"
+    )
+    if value["formula"] == "ABSOLUTE_RELATIVE_ERROR":
+        if value["denominator"] != expected or value["unit"] not in {"1", "%"}:
+            return {"RC_METRIC_TARGET_DENOMINATOR_MISMATCH"}
+    elif value["denominator"] != "ONE":
+        return {"RC_METRIC_TARGET_DENOMINATOR_MISMATCH"}
+    if (
+        value["quantity"] in {"REMAINING_TIME", "ELAPSED_TIME"}
+        and value["prediction_origin"] != "PER_SAMPLE"
+    ):
+        return {"RC_METRIC_ORIGIN_MISSING"}
+    if value["formula"] in {"ABSOLUTE_ERROR", "VALUE"} and value["unit"] != value["target_unit"]:
+        return {"RC_METRIC_UNIT_MISMATCH"}
+    if value["formula"] == "SQUARED_ERROR" and (
+        value["aggregation"] != "ROOT_MEAN" or value["unit"] != value["target_unit"]
+    ):
+        return {"RC_METRIC_UNIT_MISMATCH"}
+    return set()
+
+
+def recompute_metric(definition: dict[str, Any], samples: Any) -> dict[str, Any]:
+    codes = validate_metric_definition(definition)
+    if codes:
+        raise ValueError(";".join(sorted(codes)))
+    if not isinstance(samples, list) or not samples:
+        raise ValueError("RC_METRIC_SAMPLES_MISSING")
+    values, excluded, seen = [], [], set()
+    for sample in samples:
+        if (
+            not isinstance(sample, dict)
+            or not isinstance(sample.get("sample_id"), str)
+            or sample["sample_id"] in seen
+        ):
+            raise ValueError("RC_METRIC_SAMPLE_ID_INVALID")
+        seen.add(sample["sample_id"])
+        if (
+            sample.get("target") != definition["target"]
+            or sample.get("unit") != definition["target_unit"]
+        ):
+            raise ValueError("RC_METRIC_SAMPLE_TARGET_UNIT_MISMATCH")
+        if definition["formula"] == "VALUE":
+            if not strict_score(sample.get("value")):
+                raise ValueError("RC_METRIC_SAMPLE_NONFINITE")
+            values.append(sample["value"])
+            continue
+        if definition["quantity"] in {"REMAINING_TIME", "ELAPSED_TIME"}:
+            if not all(
+                strict_score(sample.get(k))
+                for k in ("origin", "predicted_end_time", "observed_end_time")
+            ):
+                raise ValueError("RC_METRIC_TIME_COMPONENTS_MISSING")
+            origin = sample["origin"] if definition["quantity"] == "REMAINING_TIME" else 0
+            prediction, truth = (
+                sample["predicted_end_time"] - origin,
+                sample["observed_end_time"] - origin,
+            )
+            if (
+                sample["observed_end_time"] < sample["origin"]
+                or sample["predicted_end_time"] < sample["origin"]
+            ):
+                raise ValueError("RC_METRIC_REMAINING_TIME_NEGATIVE")
+        else:
+            if not all(strict_score(sample.get(k)) for k in ("prediction", "truth")):
+                raise ValueError("RC_METRIC_SAMPLE_NONFINITE")
+            prediction, truth = sample["prediction"], sample["truth"]
+        value = abs(prediction - truth)
+        if definition["formula"] == "ABSOLUTE_RELATIVE_ERROR":
+            if truth == 0:
+                if definition["zero_denominator_policy"] == "REJECT":
+                    raise ValueError("RC_METRIC_ZERO_DENOMINATOR")
+                excluded.append(sample["sample_id"])
+                continue
+            value /= abs(truth)
+            if definition["unit"] == "%":
+                value *= 100
+        elif definition["formula"] == "SQUARED_ERROR":
+            value *= value
+        values.append(value)
+    if not values or (definition["aggregation"] == "SINGLE" and len(values) != 1):
+        raise ValueError("RC_METRIC_AGGREGATION_INVALID")
+    result = sum(values)
+    if definition["aggregation"] in {"MEAN", "ROOT_MEAN"}:
+        result /= len(values)
+    if definition["aggregation"] == "ROOT_MEAN":
+        result = math.sqrt(result)
+    return {"value": result, "included_count": len(values), "excluded_sample_ids": excluded}
+
+
+def validate_temporal_design(case_root: Path, plan: dict[str, Any]) -> set[str]:
+    design = plan.get("temporal_design")
+    if design is None:
+        return {"RC_TEMPORAL_DESIGN_MISSING"} if conditional_prediction_evaluation(plan) else set()
+    try:
+        if design.get("schema_version") != "temporal-visibility/v1" or design.get("task") not in {
+            "SAME_ENTITY_FUTURE",
+            "NEW_ENTITY_GENERALIZATION",
+        }:
+            raise ValueError("RC_TEMPORAL_DESIGN_INVALID")
+        relative = design["index_path"]
+        path = relative_case_path(case_root, relative)
+        if (
+            path is None
+            or relative not in plan["required_input_hashes"]
+            or file_hash(path) != plan["required_input_hashes"][relative]
+        ):
+            raise ValueError("RC_TEMPORAL_INDEX_UNBOUND")
+        raw = load_json(path)
+        rows = raw["observations"]
+        index = {r["observation_id"]: r for r in rows}
+        if not rows or len(index) != len(rows):
+            raise ValueError("RC_TEMPORAL_OBSERVATION_ID_INVALID")
+        for row in rows:
+            if (
+                not isinstance(row["entity_id"], str)
+                or not row["entity_id"]
+                or not all(
+                    strict_score(row.get(k)) for k in ("observed_at", "available_at", "value")
+                )
+                or row["available_at"] < row["observed_at"]
+            ):
+                raise ValueError("RC_TEMPORAL_OBSERVATION_INVALID")
+        samples = design["samples"]
+        if not samples or len({s["sample_id"] for s in samples}) != len(samples):
+            raise ValueError("RC_TEMPORAL_SAMPLE_ID_INVALID")
+        has_forecast = has_validation = False
+        fit_entities, target_entities = set(), set()
+        for sample in samples:
+            origin = sample["origin"]
+            if (
+                not strict_score(origin)
+                or not strict_score(sample["target_time"])
+                or sample["target_time"] <= origin
+            ):
+                raise ValueError("RC_TEMPORAL_ORIGIN_INVALID")
+            if sample["split"] not in {"VALIDATION", "FORECAST"}:
+                raise ValueError("RC_TEMPORAL_SPLIT_INVALID")
+            target_entities.add(sample["entity_id"])
+            for usage in (
+                "feature_observation_ids",
+                "preprocess_fit_observation_ids",
+                "model_fit_observation_ids",
+            ):
+                ids = sample[usage]
+                if not ids or len(ids) != len(set(ids)):
+                    raise ValueError("RC_TEMPORAL_LINEAGE_MISSING")
+                for observation_id in ids:
+                    row = index[observation_id]
+                    if max(row["observed_at"], row["available_at"]) > origin:
+                        raise ValueError("RC_TEMPORAL_FUTURE_INFORMATION:" + usage)
+                    if usage != "feature_observation_ids":
+                        fit_entities.add(row["entity_id"])
+                    if (
+                        usage == "feature_observation_ids"
+                        and row["entity_id"] != sample["entity_id"]
+                    ):
+                        raise ValueError("RC_TEMPORAL_FEATURE_ENTITY_MISMATCH")
+                    if observation_id == sample.get("target_observation_id"):
+                        raise ValueError("RC_TEMPORAL_TARGET_IN_FEATURES")
+            if sample["split"] == "VALIDATION":
+                has_validation = True
+                target = index[sample["target_observation_id"]]
+                if (
+                    target["entity_id"] != sample["entity_id"]
+                    or target["observed_at"] != sample["target_time"]
+                ):
+                    raise ValueError("RC_TEMPORAL_VALIDATION_TARGET_MISMATCH")
+            else:
+                has_forecast = True
+                if sample.get("target_observation_id") is not None:
+                    raise ValueError("RC_CONDITIONAL_FUTURE_TRUTH_NOT_UNKNOWN")
+        if not has_validation or not has_forecast:
+            raise ValueError("RC_TEMPORAL_HISTORY_OR_FORECAST_MISSING")
+        if design["task"] == "NEW_ENTITY_GENERALIZATION" and fit_entities & target_entities:
+            raise ValueError("RC_TEMPORAL_NEW_ENTITY_GROUP_OVERLAP")
+        return set()
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        return {str(exc) if str(exc).startswith("RC_") else "RC_TEMPORAL_DESIGN_INVALID"}
+
+
+def validate_science_design(case_root: Path, plan: dict[str, Any]) -> set[str]:
+    codes = validate_temporal_design(case_root, plan)
+    definitions = plan.get("metric_definitions")
+    if definitions is None:
+        if conditional_prediction_evaluation(plan):
+            codes.add("RC_METRIC_DEFINITIONS_MISSING")
+        return codes
+    if (
+        not isinstance(definitions, dict)
+        or not definitions
+        or plan.get("metric") not in definitions
+    ):
+        return codes | {"RC_METRIC_DEFINITIONS_MISSING"}
+    for definition in definitions.values():
+        codes.update(validate_metric_definition(definition))
+    if definitions[plan["metric"]].get("direction") != plan.get("metric_direction"):
+        codes.add("RC_METRIC_DIRECTION_MISMATCH")
+    requirements = read_artifact(case_root, "problem_requirements")["content"]["requirements"]
+    for requirement in requirements:
+        contracts = requirement.get("metric_contracts")
+        if (
+            not isinstance(contracts, dict)
+            or not contracts
+            or any(definitions.get(k) != v for k, v in contracts.items())
+        ):
+            codes.add("RC_METRIC_REQUIREMENT_CONTRACT_MISMATCH")
+    return codes
+
+
+def validate_conditional_prediction(
+    claim: dict[str, Any],
+    requirement: dict[str, Any],
+    output: dict[str, Any],
+    case_root: Path | None,
+) -> set[str]:
+    spec = requirement.get("prediction_spec")
+    if spec is None:
+        return (
+            {"RC_CONDITIONAL_PREDICTION_SPEC_MISSING"}
+            if claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE"
+            else set()
+        )
+    codes = set()
+    if claim.get("claim_type") != "PREDICTIVE":
+        codes.add("RC_PREDICTIVE_REQUIREMENT_RELABELLED")
+    if (
+        spec.get("empirical_accuracy_required") is True
+        and claim.get("prediction_scope") == "CONDITIONAL_ESTIMATE"
+    ):
+        codes.add("RC_PREDICTIVE_EMPIRICAL_ACCURACY_UNVERIFIED")
+    if claim.get("prediction_scope") != "CONDITIONAL_ESTIMATE":
+        return codes
+    if case_root is None:
+        return codes | {"RC_CONDITIONAL_PREDICTION_CONTEXT_MISSING"}
+    try:
+        plan = read_artifact(case_root, "experiment_plan")["content"]
+        if not conditional_prediction_evaluation(plan):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_DESIGN_MISMATCH")
+        codes.update(validate_science_design(case_root, plan))
+        facts = output["scientific_evidence"][claim["requirement_id"]]
+        evidence = facts["prediction_evidence"]
+        if output.get("temporal_lineage") != plan["temporal_design"]:
+            raise ValueError("RC_TEMPORAL_EXECUTED_LINEAGE_MISMATCH")
+        if (
+            evidence["prediction_spec_sha256"] != canonical_hash(spec)
+            or evidence["temporal_design_sha256"] != canonical_hash(plan["temporal_design"])
+            or evidence["empirical_accuracy_verified"] is not False
+            or facts.get("assumption_artifact_sha256")
+            != file_hash(case_root / ARTIFACT_PATHS["assumptions_and_symbols"])
+        ):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_BINDING_INVALID")
+        expected = [s for s in plan["temporal_design"]["samples"] if s["split"] == "FORECAST"]
+        predictions = evidence["predictions"]
+        if len(predictions) != len(expected):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_COVERAGE_INVALID")
+        for p, target in zip(predictions, expected, strict=True):
+            if (
+                any(p.get(k) != target[k] for k in ("sample_id", "entity_id", "origin"))
+                or p.get("target") != spec["target_field"]
+                or not strict_score(p.get("value"))
+            ):
+                raise ValueError("RC_CONDITIONAL_PREDICTION_TARGET_INVALID")
+        history = evidence["historical_validation"]
+        expected_ids = [
+            s["sample_id"] for s in plan["temporal_design"]["samples"] if s["split"] == "VALIDATION"
+        ]
+        if (
+            history.get("sample_ids") != expected_ids
+            or not history.get("metric_ids")
+            or not set(history["metric_ids"]) <= set(claim["metric_ids"])
+        ):
+            raise ValueError("RC_CONDITIONAL_HISTORY_VALIDATION_MISSING")
+        uncertainty = claim.get("uncertainty", {})
+        if (
+            uncertainty != evidence.get("uncertainty")
+            or uncertainty.get("kind") not in {"MODEL_SENSITIVITY", "UNCALIBRATED_POINT_ESTIMATE"}
+            or uncertainty.get("calibrated") is not False
+        ):
+            raise ValueError("RC_PREDICTION_INTERVAL_UNCALIBRATED")
+        if claim.get("claim_strength") != "BOUNDED" or not claim.get("limitations"):
+            raise ValueError("RC_CONDITIONAL_PREDICTION_SCOPE_INVALID")
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        codes.add(
+            str(exc) if str(exc).startswith("RC_") else "RC_CONDITIONAL_PREDICTION_EVIDENCE_INVALID"
+        )
+    return codes
+
+
+def metric_output_binding_codes(
+    claim: dict[str, Any], requirement: dict[str, Any], output: dict[str, Any], checked: Any
+) -> set[str]:
+    contracts = requirement.get("metric_contracts")
+    if contracts is None:
+        return set()
+    codes = set()
+    for metric in claim.get("metric_ids", []):
+        try:
+            definition = contracts[metric]
+            if (
+                output["metric_definitions"][metric] != definition
+                or checked["metric_definitions"][metric] != definition
+            ):
+                raise ValueError("RC_METRIC_DEFINITION_OUTPUT_MISMATCH")
+            if output.get("temporal_lineage") != checked.get("temporal_lineage"):
+                raise ValueError("RC_TEMPORAL_INDEPENDENT_LINEAGE_MISMATCH")
+            samples = output["metric_samples"][metric]
+            if checked["metric_samples"][metric] != samples:
+                raise ValueError("RC_METRIC_INDEPENDENT_SAMPLES_MISMATCH")
+            actual = recompute_metric(definition, samples)
+            value = {**output.get("validation_metrics", {}), **output.get("final_metrics", {})}[
+                metric
+            ]
+            if (
+                not math.isclose(actual["value"], value, rel_tol=1e-10, abs_tol=1e-9)
+                or output["metric_accounting"][metric] != actual
+            ):
+                raise ValueError("RC_METRIC_RECALCULATION_MISMATCH")
+        except (KeyError, TypeError, ValueError) as exc:
+            codes.add(
+                str(exc) if str(exc).startswith("RC_") else "RC_METRIC_DEFINITION_BINDING_MISSING"
+            )
+    return codes
+
+
 def development_only_evaluation(plan: dict[str, Any]) -> bool:
     return (plan.get("evaluation_design") or {}).get("mode") == "DEVELOPMENT_NO_FINAL_EVALUATION"
 
@@ -1567,7 +1981,13 @@ def validate_runtime_semantic_claims(
                         run_id=output["owner_run_id"],
                     )
                 )
-                if requirement.get("scientific_facts_required") is True:
+                codes.update(
+                    validate_conditional_prediction(claim, requirement, run_output, case_root)
+                )
+                if (
+                    requirement.get("scientific_facts_required") is True
+                    or requirement.get("metric_contracts") is not None
+                ):
                     checked = None
                     with suppress(OSError, ValueError, KeyError, TypeError):
                         checked = (
@@ -1576,6 +1996,9 @@ def validate_runtime_semantic_claims(
                             else None
                         )
                     codes.update(scientific_metric_binding_codes(claim, run_output, checked))
+                    codes.update(
+                        metric_output_binding_codes(claim, requirement, run_output, checked)
+                    )
         selection_metric = (selection_requirements.get(requirement_id) or {}).get(
             "selection_metric"
         )
@@ -2931,6 +3354,7 @@ def validate_comparison(
     nonpredictive = (comparison.get("test_access") or {}).get("mode") in {
         "NONPREDICTIVE_FINAL_VERIFICATION",
         "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+        "CONDITIONAL_DEVELOPMENT_COMPARISON",
     }
     if not isinstance(splits, dict) or set(splits) != {"train", "validation", "test"}:
         codes.add("RC_COMPARISON_SPLIT_INVALID")
@@ -2969,7 +3393,21 @@ def validate_comparison(
     if not isinstance(flags, dict):
         codes.add("RC_COMPARISON_LEAKAGE_CHECKS_MISSING")
     else:
+        temporal = (
+            None
+            if case_root is None
+            else read_artifact(case_root, "experiment_plan")["content"].get("temporal_design")
+        )
+        same_entity = isinstance(temporal, dict) and temporal.get("task") == "SAME_ENTITY_FUTURE"
+        if temporal is not None:
+            codes.update(
+                validate_temporal_design(
+                    case_root, read_artifact(case_root, "experiment_plan")["content"]
+                )
+            )
         for name in false_flags:
+            if name == "group_overlap" and same_entity and isinstance(flags.get(name), bool):
+                continue
             if flags.get(name) is not False:
                 codes.add(f"RC_COMPARISON_LEAKAGE:{name}")
         if flags.get("time_order_valid") is not True:
@@ -2992,6 +3430,23 @@ def validate_comparison(
             codes.add("RC_DEVELOPMENT_EVALUATOR_INVOCATION_INVALID")
         if access.get("ledger_status") != "NOT_ACCESSED":
             codes.add("RC_DEVELOPMENT_TEST_ACCESS_LEDGER_INVALID")
+    elif access.get("mode") == "CONDITIONAL_DEVELOPMENT_COMPARISON":
+        if (
+            access
+            != {
+                "mode": "CONDITIONAL_DEVELOPMENT_COMPARISON",
+                "authorized": False,
+                "count": 0,
+                "scientific_verification_count": 0,
+                "used_for_selection": False,
+            }
+            or case_root is None
+            or not conditional_prediction_evaluation(
+                read_artifact(case_root, "experiment_plan")["content"]
+            )
+            or splits.get("test") != []
+        ):
+            codes.add("RC_CONDITIONAL_DEVELOPMENT_COMPARISON_INVALID")
     elif access.get("mode") == "NONPREDICTIVE_DEVELOPMENT_COMPARISON":
         if (
             access
@@ -4706,7 +5161,10 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         and (
             items
             or nonpredictive_evaluation(plan)
-            or (development_only_evaluation(plan) and items is splits.get("test"))
+            or (
+                (development_only_evaluation(plan) or conditional_prediction_evaluation(plan))
+                and items is splits.get("test")
+            )
         )
         and all((isinstance(item, (str, int)) and not isinstance(item, bool)) for item in items)
         and len(set(items)) == len(items)
@@ -4811,16 +5269,12 @@ def trusted_freezes(case_root: Path) -> dict[str, str]:
         or not required_code_valid
     ):
         raise ValueError("RC_TRUSTED_FREEZE_REGISTRY_MISSING")
+    science_codes = validate_science_design(case_root, plan)
+    if science_codes:
+        raise ValueError(";".join(sorted(science_codes)))
     expected = {
         "candidate_set": canonical_hash(candidate_ids),
-        "metric": canonical_hash(
-            {
-                "name": metric,
-                "direction": direction,
-                "aggregation_rule": aggregation_rule,
-                "selection_rule": selection_rule,
-            }
-        ),
+        "metric": canonical_hash(metric_freeze_payload(plan)),
         "seed_schedule": canonical_hash(seeds),
         "split_assignment": canonical_hash(splits),
         "baseline": canonical_hash(baseline_id),
@@ -5515,6 +5969,50 @@ def final_protocol_event(case_root: Path, event: str, **facts: Any) -> None:
         os.close(fd)
 
 
+def revalidate_prefinal_gates(case_root: Path, decision_hash: str) -> None:
+    comparison = read_artifact(case_root, "model_comparison")["content"]
+    selection = read_artifact(case_root, "requirement_selection")["content"]
+    robustness = read_artifact(case_root, "robustness_analysis")["content"]
+    if comparison.get("test_access", {}).get("mode") not in {
+        "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+        "CONDITIONAL_DEVELOPMENT_COMPARISON",
+    }:
+        raise ValueError("RC_FINAL_DEVELOPMENT_COMPARISON_REQUIRED")
+    if comparison.get("selection_decision_hash") != decision_hash:
+        raise ValueError("RC_FINAL_SELECTION_FREEZE_INVALID")
+    result = validate_requirement_selection(selection)
+    if result["status"] != "PASS":
+        raise ValueError(";".join(result["reason_codes"]))
+    result = validate_comparison(comparison, trusted_freezes(case_root), case_root=case_root)
+    if not result.accepted:
+        raise ValueError(";".join(result.reason_codes))
+    result = validate_robustness(robustness, comparison, case_root=case_root)
+    if not result.accepted:
+        raise ValueError(";".join(result.reason_codes))
+    ids = _selected_runtime_run_ids(selection)
+    if not ids:
+        raise ValueError("RC_FINAL_SELECTED_RUNS_MISSING")
+    manifests = {r: load_json(case_root / "runs" / r / "manifest.json") for r in ids}
+    selected_candidates = {
+        m.get("configuration", {}).get("candidate_id") for m in manifests.values()
+    }
+    if comparison["selected_candidate_id"] not in selected_candidates:
+        raise ValueError("RC_FINAL_SELECTION_COMPARISON_MISMATCH")
+    semantic = read_artifact(case_root, "semantic_claim_support")["content"]
+    for result in (
+        validate_runtime_run_eligibility(selection, semantic, manifests),
+        validate_runtime_selection_compatibility(
+            selection,
+            manifests,
+            scenario_hash=read_artifact(case_root, "experiment_plan")["content"].get(
+                "scenario_hash"
+            ),
+        ),
+    ):
+        if result["status"] != "PASS":
+            raise ValueError(";".join(result["reason_codes"]))
+
+
 def verify_prefinal_selection(case_root: Path, decision_hash: str) -> dict[str, Any]:
     """Validate accepted predecessors before input hashing or a checker can execute."""
     path = case_root / PREFINAL_SELECTION
@@ -5541,6 +6039,7 @@ def verify_prefinal_selection(case_root: Path, decision_hash: str) -> dict[str, 
             "data_audit",
             "data_sufficiency",
             "assumptions_and_symbols",
+            "semantic_claim_support",
             "model_comparison",
             "requirement_selection",
             "robustness_analysis",
@@ -5566,6 +6065,7 @@ def verify_prefinal_selection(case_root: Path, decision_hash: str) -> dict[str, 
     selection = read_artifact(case_root, "requirement_selection")["content"]
     if _selected_runtime_run_ids(selection) != freeze["selected_run_ids"]:
         raise ValueError("RC_FINAL_SELECTION_STALE")
+    revalidate_prefinal_gates(case_root, decision_hash)
     for run_id in freeze["selected_run_ids"]:
         verify_current_capture_files(
             case_root, load_json(case_root / "runs" / run_id / "execution_capture.json")
@@ -5580,14 +6080,17 @@ def prepare_final_selection(case_root: Path, *, decision_hash: str) -> dict[str,
     if load_state(case_root)["state"] != "RUNNING":
         raise ValueError("RC_FINAL_PREPARATION_STATE_INVALID")
     plan = read_artifact(case_root, "experiment_plan")["content"]
-    if not nonpredictive_evaluation(plan):
+    if not scientific_final_evaluation(plan):
         raise ValueError("RC_FINAL_PREPARATION_DESIGN_INVALID")
     comparison = read_artifact(case_root, "model_comparison")["content"]
     selection = read_artifact(case_root, "requirement_selection")["content"]
     robustness = read_artifact(case_root, "robustness_analysis")["content"]
     if comparison.get("selection_decision_hash") != decision_hash:
         raise ValueError("RC_FINAL_SELECTION_FREEZE_INVALID")
-    if comparison.get("test_access", {}).get("mode") != "NONPREDICTIVE_DEVELOPMENT_COMPARISON":
+    if comparison.get("test_access", {}).get("mode") not in {
+        "NONPREDICTIVE_DEVELOPMENT_COMPARISON",
+        "CONDITIONAL_DEVELOPMENT_COMPARISON",
+    }:
         raise ValueError("RC_FINAL_DEVELOPMENT_COMPARISON_REQUIRED")
     checked = validate_comparison(comparison, trusted_freezes(case_root), case_root=case_root)
     if not checked.accepted:
@@ -5610,6 +6113,7 @@ def prepare_final_selection(case_root: Path, *, decision_hash: str) -> dict[str,
             "data_audit",
             "data_sufficiency",
             "assumptions_and_symbols",
+            "semantic_claim_support",
             "model_comparison",
             "requirement_selection",
             "robustness_analysis",
@@ -5727,7 +6231,7 @@ def evaluate_scientific_final(
         freeze = verify_prefinal_selection(case_root, decision_hash)
         if not 1 <= timeout_seconds <= 900:
             raise ValueError("RC_EXECUTION_TIMEOUT_INVALID")
-        if not nonpredictive_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
+        if not scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
             raise ValueError("RC_FINAL_PREPARATION_DESIGN_INVALID")
     except (OSError, ValueError, KeyError, TypeError):
         final_protocol_event(case_root, "FINAL_REQUEST_REJECTED", reason="PREREQUISITES_INVALID")
@@ -5847,7 +6351,7 @@ def evaluate_authorized_final_test(
     if not HEX64.fullmatch(decision_hash):
         raise ValueError("RC_RUN_DECISION_HASH_INVALID")
     plan = read_artifact(case_root, "experiment_plan")["content"]
-    if nonpredictive_evaluation(plan):
+    if scientific_final_evaluation(plan):
         return evaluate_scientific_final(
             case_root,
             decision_hash=decision_hash,
@@ -6378,7 +6882,7 @@ def advance_once(case_root: Path, *, check: bool = False) -> dict[str, Any]:
             check=check,
         )
     if current == "ROBUSTNESS_VALIDATED":
-        if nonpredictive_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
+        if scientific_final_evaluation(read_artifact(case_root, "experiment_plan")["content"]):
             decision = read_artifact(case_root, "model_comparison")["content"][
                 "selection_decision_hash"
             ]

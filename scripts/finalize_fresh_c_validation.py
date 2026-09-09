@@ -341,6 +341,19 @@ def _comparison_payload(
             "scientific_verification_count": 0,
             "used_for_selection": False,
         }
+    if (plan.get("evaluation_design") or {}).get(
+        "mode"
+    ) == "CONDITIONAL_PREDICTION_FINAL_VERIFICATION":
+        comparison["test_access"] = {
+            "mode": "CONDITIONAL_DEVELOPMENT_COMPARISON",
+            "authorized": False,
+            "count": 0,
+            "scientific_verification_count": 0,
+            "used_for_selection": False,
+        }
+        comparison["leakage_checks"]["group_overlap"] = (plan.get("temporal_design") or {}).get(
+            "task"
+        ) == "SAME_ENTITY_FUTURE"
     return comparison
 
 
@@ -676,9 +689,12 @@ def complete(case_root: Path, test_field: str, check_code: str | None = None) ->
         selected_manifest = manifests[selected_run_id]
         selected_output = output_registry[selected_run_id]
         core.reject_self_attested_development_test(selected_output, test_field=test_field)
-        if core.nonpredictive_evaluation(plan):
+        if core.scientific_final_evaluation(plan):
             for claim in semantic_record["claims"]:
-                if claim["claim_type"] in {"PREDICTIVE", "CAUSAL", "POLICY_EVALUATION"}:
+                if claim["claim_type"] in {"CAUSAL", "POLICY_EVALUATION"} or (
+                    claim["claim_type"] == "PREDICTIVE"
+                    and not core.conditional_prediction_evaluation(plan)
+                ):
                     raise ValueError("RC_NONPREDICTIVE_INFERENCE_NOT_AUTHORIZED")
             _persist_manifests(core, case_root, manifests)
             for key, value in (
@@ -758,9 +774,9 @@ def complete(case_root: Path, test_field: str, check_code: str | None = None) ->
         decision_hash,
         selected_payload["test_metrics"],
         selected_payload["decoded_hash"],
-        nonpredictive=core.nonpredictive_evaluation(plan),
+        nonpredictive=core.scientific_final_evaluation(plan),
     )
-    if not core.nonpredictive_evaluation(plan):
+    if not core.scientific_final_evaluation(plan):
         accepted("model_comparison", comparison)
         accepted(
             "robustness_analysis",
@@ -801,8 +817,10 @@ def complete(case_root: Path, test_field: str, check_code: str | None = None) ->
             "status": "PASS_NATIVE_CONTRACTS",
             "native_state": core.load_state(case_root)["state"],
             "attempts": attempts,
-            "test_access_count": 0 if core.nonpredictive_evaluation(plan) else 1,
-            "scientific_final_verification_count": 1 if core.nonpredictive_evaluation(plan) else 0,
+            "test_access_count": 0 if core.scientific_final_evaluation(plan) else 1,
+            "scientific_final_verification_count": 1
+            if core.scientific_final_evaluation(plan)
+            else 0,
             "selected_candidate_id": selected_candidate_id,
             "selected_run_ids": final_result["selected_run_ids"],
             "selection_decision_hash": decision_hash,
