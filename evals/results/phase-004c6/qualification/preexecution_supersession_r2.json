@@ -1,0 +1,50 @@
+{
+  "schema_version": "preexecution-supersession/v1",
+  "recorded_at": "2026-09-09T03:44:25.677838+00:00",
+  "previous_subject": "2d74ca82e2d52799e81bf5d95850570f14d93a58",
+  "subject_commit": "10e8b038d571b88ce2b7f2388da00a618c774f69",
+  "reason": "Actual full CI: three legacy/current-registry failures; uniformly correct before any real child model/checker/Final. Scientific model and core bytes unchanged.",
+  "ci_failure_receipt": {
+    "path": "evals/results/phase-004c6/qualification/receipts/candidate_full_ci_r1.json",
+    "sha256": "7f14c79ab2eac8dfea4cf14726fb0bad68cc453bd26c66a79955a3b9dc7848f4"
+  },
+  "functional_revision": 2,
+  "children": [
+    {
+      "case_id": "CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006",
+      "previous_root": ".cache/pr12-rc9/development/2016/case-r1",
+      "previous_preparation_sha256": "2811ab50570d8bbd3ec9fe09de7bdc2b307fa40fdd55e2041133d81532bf558a",
+      "previous_registration": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/registration/case_registration.json",
+        "sha256": "dbaa2f45aee2c525146b030da28f42792bae95902c6641ba114336e39ad21c68"
+      },
+      "new_registration": {
+        "path": "evals/results/phase-004c6/CUMCM-2016-C-POSTVALIDATION-DEVELOPMENT-006/registration/case_registration_r2.json",
+        "sha256": "4f5b45e0a88e7c8e2818840e78a0e3038eae70c39556c3adf7cab58e5b7e3ac4"
+      },
+      "new_root": ".cache/pr12-rc9/development/2016/case-r2",
+      "model_starts_before_supersession": 0,
+      "checker_starts_before_supersession": 0,
+      "final_starts_before_supersession": 0
+    },
+    {
+      "case_id": "CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007",
+      "previous_root": ".cache/pr12-rc9/development/2015/case-r1",
+      "previous_preparation_sha256": "b66878e2e487eb2de3e7f3191254f41b9d4d2d92773faff4441a0f91299d1e37",
+      "previous_registration": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/registration/case_registration.json",
+        "sha256": "577282e9afc1f463857eeccec2a5a4afa1b5eefc57c56f8e911f2ed02818116a"
+      },
+      "new_registration": {
+        "path": "evals/results/phase-004c6/CUMCM-2015-C-POSTVALIDATION-DEVELOPMENT-007/registration/case_registration_r2.json",
+        "sha256": "e916cbd482e7d294a36944fecc0a35bdf5ab4e0e1c8323cd74ef28287f6f8698"
+      },
+      "new_root": ".cache/pr12-rc9/development/2015/case-r2",
+      "model_starts_before_supersession": 0,
+      "checker_starts_before_supersession": 0,
+      "final_starts_before_supersession": 0
+    }
+  ],
+  "old_root_mutations": 0,
+  "historical_phase004c5_mutations": 0
+}
